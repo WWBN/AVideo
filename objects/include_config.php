@@ -11,6 +11,10 @@ if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
     return false;
 }
+
+if(!isset($global['skippPlugins'])){
+    $global['skippPlugins'] = array();
+}
 /*
 if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1'){
     $global["webSiteRootURL"] = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].$global["webSiteRootPath"];
@@ -88,6 +92,7 @@ if (empty($doNotConnectDatabaseIncludeConfig)) {
 } else {
     $mysql_connect_was_closed = 1;
 }
+$global['webSiteRootURL'] = fixTestURL($global['webSiteRootURL']);
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';

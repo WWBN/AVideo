@@ -5399,6 +5399,10 @@ function _dieAndLogObject($obj, $prefix = "")
 
 function isAVideoPlayer()
 {
+    global $global;
+    if (!empty($global['doNotLoadPlayer'])) {
+        return false;
+    }
     if (isVideo() || isSerie()) {
         return true;
     }
@@ -5677,7 +5681,8 @@ function getSelfURI()
     $phpselfWithoutIndex = preg_replace("/index.php/", "", @$_SERVER['PHP_SELF']);
     $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryString";
     $url = rtrim($url, '?');
-    return $url;
+    
+    return fixTestURL($url);
 }
 
 function isSameVideoAsSelfURI($url)
@@ -9293,6 +9298,7 @@ function getURL($relativePath, $ignoreCDN = false)
         $_SESSION['user']['sessionCache']['getURL'] = [];
     }
     if (!empty($_SESSION['user']['sessionCache']['getURL'][$relativePath])) {
+        $_SESSION['user']['sessionCache']['getURL'][$relativePath] = fixTestURL($_SESSION['user']['sessionCache']['getURL'][$relativePath]);
         return $_SESSION['user']['sessionCache']['getURL'][$relativePath];
     }
 
@@ -9302,6 +9308,7 @@ function getURL($relativePath, $ignoreCDN = false)
     } else {
         $url = $global['webSiteRootURL'] . $relativePath;
     }
+    $url = fixTestURL($url);
     if (file_exists($file)) {
         $cache = @filemtime($file) . '_' . @filectime($file);
         $url = addQueryStringParameter($url, 'cache', $cache);
@@ -9311,6 +9318,14 @@ function getURL($relativePath, $ignoreCDN = false)
     }
 
     return $url;
+}
+
+function fixTestURL($text){
+    if(isAVideoMobileApp() || !empty($_REQUEST['isAVideoMobileApp'])){
+        $text = str_replace(array('https://vlu.me', 'vlu.me'), array('http://192.168.0.2', '192.168.0.2'), $text);
+    }
+    $text = str_replace(array('https://192.168.0.2'), array('http://192.168.0.2'), $text);
+    return $text;
 }
 
 function getCDNOrURL($url, $type = 'CDN', $id = 0)
@@ -10080,17 +10095,22 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     //_ob_start();
     //$basename = basename($filePath);
     //$return = "<!-- {$basename} start -->";
+    $return = '';
     if (!empty($setCacheName)) {
         $name = $filePath . '_' . User::getId() .'_'.getLanguage();
         //var_dump($name);exit;
         $return = ObjectYPT::getSessionCache($name, 0);
     }
     if (empty($return)) {
-        include $filePath;
-        _ob_start();
-        $return = _ob_get_clean();
-        if (!empty($setCacheName)) {
-            ObjectYPT::setSessionCache($name, $return);
+        if(file_exists($filePath)){
+            include $filePath;
+            _ob_start();
+            $return = _ob_get_clean();
+            if (!empty($setCacheName)) {
+                ObjectYPT::setSessionCache($name, $return);
+            }
+        }else{
+            _error_log("getIncludeFileContent error $filePath");
         }
     }
     //$return .= "<!-- {$basename} end -->";

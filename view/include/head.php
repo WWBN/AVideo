@@ -10,7 +10,7 @@ if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
 TimeLogEnd($timeLogHead, __LINE__);
-if (is_object($video)) {
+if (!empty($video) && is_object($video)) {
     $video = Video::getVideoLight($video->getId());
 }
 TimeLogEnd($timeLogHead, __LINE__);
@@ -227,14 +227,14 @@ if (isRTL()) {
 </script>
 <?php
 if (!isOffline() && !$config->getDisable_analytics()) {
-    include_once $global['systemRootPath'] . 'view/include/ga.php';
+    //include_once $global['systemRootPath'] . 'view/include/ga.php';
 }
 TimeLogEnd($timeLogHead, __LINE__);
 if (!isBot()) {
-    echo $config->getHead();
+    echo fixTestURL($config->getHead());
 }
 TimeLogEnd($timeLogHead, __LINE__);
-echo $head;
+echo fixTestURL($head);
 if (!empty($video)) {
     if (!empty($video['users_id'])) {
         $userAnalytics = new User($video['users_id']);

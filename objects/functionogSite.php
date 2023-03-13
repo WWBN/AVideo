@@ -15,10 +15,12 @@ if ($users_id = isChannel()) {
         $imgw = 200;
         $imgh = 200;
         $category = Category::getCategoryByName($_GET['catName']);
-        $img = Category::getOGImage($category['id']);
-        $title = html2plainText($category['name']);
-        $url = Category::getCategoryLinkFromName($_GET['catName']);
-        $description = html2plainText($category['description']);
+        if(!empty($category)){
+            $img = Category::getOGImage($category['id']);
+            $title = html2plainText($category['name']);
+            $url = Category::getCategoryLinkFromName($_GET['catName']);
+            $description = html2plainText($category['description']);
+        }
         echo PHP_EOL."<!-- OpenGraph not video 1 -->".PHP_EOL; ?>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="<?php echo $title; ?>">

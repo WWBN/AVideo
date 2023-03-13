@@ -35,6 +35,7 @@ $objMM->logo = getURL($config->getLogo());
 $objMM->favicon = $config->getFavicon(true);
 $objMM->title = $config->getWebSiteTitle();
 $objMM->version = $config->getVersion();
+$objMM->encoder = $config->getEncoderURL(true);
 $objMM->EULA_original = $objMM->EULA->value;
 $objMM->EULA = nl2br($objMM->EULA->value);
 $objMM->YPTSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');

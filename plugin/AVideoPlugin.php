@@ -31,8 +31,12 @@ class AVideoPlugin
 
     public static function addRoutes()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -45,8 +49,12 @@ class AVideoPlugin
 
     public static function addView($videos_id, $total)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -58,12 +66,16 @@ class AVideoPlugin
     }
 
     public static function getHeadCode(){
+        global $global;
         if(self::isDebuging(__FUNCTION__)){
             return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -78,9 +90,13 @@ class AVideoPlugin
     }
 
     public static function getChartTabs(){
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -100,9 +116,13 @@ class AVideoPlugin
 
     public static function getChartContent()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -118,9 +138,13 @@ class AVideoPlugin
 
     public static function getGallerySection()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -133,9 +157,13 @@ class AVideoPlugin
 
     public static function getHelpToc()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $str = "<h4>" . __("Table of content") . "</h4><ul>";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -151,9 +179,13 @@ class AVideoPlugin
 
     public static function getHelp()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -169,12 +201,16 @@ class AVideoPlugin
     }
 
     public static function getFooterCode(){
+        global $global;
         if(self::isDebuging(__FUNCTION__)){
             return '<!-- AVideoPlugin::'.__FUNCTION__.' disabled -->';
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -189,9 +225,13 @@ class AVideoPlugin
 
     public static function getJSFiles()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $allFiles = [];
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -324,10 +364,15 @@ class AVideoPlugin
     }
 
     public static function loadPluginIfEnabled($name){
-        global $_loadPluginIfEnabled;
+        global $_loadPluginIfEnabled, $global;
         if(!isset($_loadPluginIfEnabled)){
             $_loadPluginIfEnabled = array();
         }
+        
+        if(in_array($name, $global['skippPlugins'])){
+            return false;
+        }
+        
         if(isset($_loadPluginIfEnabled[$name])){
             return $_loadPluginIfEnabled[$name];
         }
@@ -1897,9 +1942,13 @@ class AVideoPlugin
 
     public static function dataSetup()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         $r = [];
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1917,8 +1966,12 @@ class AVideoPlugin
 
     public static function onVideoSetLive_transmitions_history_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1931,8 +1984,12 @@ class AVideoPlugin
 
     public static function onVideoSetEncoderURL($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1945,8 +2002,12 @@ class AVideoPlugin
 
     public static function onVideoSetFilepath($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1959,8 +2020,12 @@ class AVideoPlugin
 
     public static function onVideoSetFilesize($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1973,8 +2038,12 @@ class AVideoPlugin
 
     public static function onVideoSetUsers_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -1987,8 +2056,12 @@ class AVideoPlugin
 
     public static function onVideoSetSites_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2001,8 +2074,12 @@ class AVideoPlugin
 
     public static function onVideoSetVideo_password($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2015,8 +2092,12 @@ class AVideoPlugin
 
     public static function onVideoSetClean_title($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2029,8 +2110,12 @@ class AVideoPlugin
 
     public static function onVideoSetDuration($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2043,8 +2128,12 @@ class AVideoPlugin
 
     public static function onVideoSetIsSuggested($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2057,8 +2146,12 @@ class AVideoPlugin
 
     public static function onVideoSetStatus($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2071,8 +2164,12 @@ class AVideoPlugin
 
     public static function onVideoSetType($video_id, $oldValue, $newValue, $force)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2085,8 +2182,12 @@ class AVideoPlugin
 
     public static function onVideoSetRotation($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2099,8 +2200,12 @@ class AVideoPlugin
 
     public static function onVideoSetZoom($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2113,8 +2218,12 @@ class AVideoPlugin
 
     public static function onVideoSetDescription($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2127,8 +2236,12 @@ class AVideoPlugin
 
     public static function onVideoSetCategories_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2141,8 +2254,12 @@ class AVideoPlugin
 
     public static function onVideoSetVideoDownloadedLink($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2155,8 +2272,12 @@ class AVideoPlugin
 
     public static function onVideoSetVideoGroups($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2169,8 +2290,12 @@ class AVideoPlugin
 
     public static function onVideoSetTrailer1($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2183,8 +2308,12 @@ class AVideoPlugin
 
     public static function onVideoSetTrailer2($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2197,8 +2326,12 @@ class AVideoPlugin
 
     public static function onVideoSetTrailer3($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2211,8 +2344,12 @@ class AVideoPlugin
 
     public static function onVideoSetRate($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2225,8 +2362,12 @@ class AVideoPlugin
 
     public static function onVideoSetYoutubeId($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2239,8 +2380,12 @@ class AVideoPlugin
 
     public static function onVideoSetTitle($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2256,8 +2401,12 @@ class AVideoPlugin
 
     public static function onVideoSetFilename($video_id, $oldValue, $newValue, $force)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2270,8 +2419,12 @@ class AVideoPlugin
 
     public static function onVideoSetNext_videos_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2284,8 +2437,12 @@ class AVideoPlugin
 
     public static function onVideoSetVideoLink($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2298,8 +2455,12 @@ class AVideoPlugin
 
     public static function onVideoSetCan_download($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2312,8 +2473,12 @@ class AVideoPlugin
 
     public static function onVideoSetCan_share($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2326,8 +2491,12 @@ class AVideoPlugin
 
     public static function getWalletConfigurationHTML($users_id, $wallet, $walletDataObject)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2340,8 +2509,12 @@ class AVideoPlugin
 
     public static function onVideoSetOnly_for_paid($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2354,8 +2527,12 @@ class AVideoPlugin
 
     public static function onVideoSetRrating($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2378,8 +2555,12 @@ class AVideoPlugin
      * @return $file
      */
     public static function modifyURL($file){
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2392,8 +2573,12 @@ class AVideoPlugin
 
     public static function onVideoSetExternalOptions($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2406,8 +2591,12 @@ class AVideoPlugin
 
     public static function onVideoSetVideoStartSeconds($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2420,8 +2609,12 @@ class AVideoPlugin
 
     public static function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue)
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
@@ -2434,8 +2627,12 @@ class AVideoPlugin
     
     public static function getMobileHomePageURL()
     {
+        global $global;
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
+            if(in_array($value['dirName'], $global['skippPlugins'])){
+                continue;
+            }
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {

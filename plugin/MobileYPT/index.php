@@ -10,14 +10,16 @@ if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     require_once $configFile;
 }
+$global['skippPlugins'][] = 'VideoResolutionSwitcher';
+$global['skippPlugins'][] = 'PlayerSkins';
+$global['skippPlugins'][] = 'TheaterButton';
 
-
+//$global['doNotLoadPlayer'] = 1;
 $bodyClass = '';
 $key = '';
 $live_servers_id = '';
 $live_index = '';
 $users_id = User::getId();
-
 if (!empty($_REQUEST['logoff'])) {
     User::logoff();
 }
@@ -34,7 +36,7 @@ if (User::isLogged()) {
         $lth = LiveTransmitionHistory::getLatestFromUser($users_id);
         $key = $lth['key'];
         $live_servers_id = $lth['live_servers_id'];
-        $live_index = $lth['live_index'];
+        $live_index = @$lth['live_index'];
     }
 
     if (!empty($key)) {
@@ -48,6 +50,7 @@ if (User::isLogged()) {
         //var_dump($livet, $getLiveKey, isLive());exit;
         if (AVideoPlugin::isEnabledByName('Chat2')) {
 
+            $latest = LiveTransmitionHistory::getLatestFromUser($users_id);
             $chat = new ChatIframeOptions();
             $chat->set_room_users_id($users_id);
             $chat->set_live_transmitions_history_id($latest['id']);
@@ -104,13 +107,19 @@ if (User::isLogged()) {
         }
     }
 } else {
-    header("Location: {$global['webSiteRootURL']}plugin/MobileYPT/loginPage.php");
+    //header("Location: {$global['webSiteRootURL']}plugin/MobileYPT/loginPage.php");
+    header("Location: loginPage.php"); // make sure you keep the same URL
     exit;
 }
 ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
+    <style>
+            body {
+                padding: 100px 0;
+            }
+        </style>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
@@ -149,7 +158,7 @@ if (User::isLogged()) {
         </style>
     </head>
 
-    <body style="background-color: transparent; <?php echo $bodyClass; ?>">
+    <body style="background-color: transparent; <?php echo @$bodyClass; ?>">
         <?php
         echo $html;
         ?>

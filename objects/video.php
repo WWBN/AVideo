@@ -2962,19 +2962,21 @@ if (!class_exists('Video')) {
             TimeLogStart("video::getTags_ source $video_id, $type");
             if (empty($type) || $type === "source") {
                 $url = $video->getVideoDownloadedLink();
-                $parse = parse_url($url);
-                $objTag = new stdClass();
-                $objTag->label = __("Source");
-                if (!empty($parse['host'])) {
-                    $objTag->type = "danger";
-                    $objTag->text = $parse['host'];
-                    $tags[] = $objTag;
+                if(!empty($url)){
+                    $parse = parse_url($url);
                     $objTag = new stdClass();
-                } else {
-                    $objTag->type = "info";
-                    $objTag->text = __("Local File");
-                    $tags[] = $objTag;
-                    $objTag = new stdClass();
+                    $objTag->label = __("Source");
+                    if (!empty($parse['host'])) {
+                        $objTag->type = "danger";
+                        $objTag->text = $parse['host'];
+                        $tags[] = $objTag;
+                        $objTag = new stdClass();
+                    } else {
+                        $objTag->type = "info";
+                        $objTag->text = __("Local File");
+                        $tags[] = $objTag;
+                        $objTag = new stdClass();
+                    }
                 }
             }
             TimeLogEnd("video::getTags_ source $video_id, $type", __LINE__, $tolerance);

@@ -28,6 +28,10 @@ class API extends PluginAbstract {
         if (!isset($obj->current)) {
             $obj->current = getCurrentPage();
         }
+        if (!isset($obj->rowCount)) {
+            $obj->rowCount = getRowCount();
+        }
+        
         $obj->hasMore = true;
         if(!empty($obj->rows) && is_array($obj->rows)){
             if (count($obj->rows) < $obj->rowCount) {
@@ -934,7 +938,7 @@ class API extends PluginAbstract {
         unset($obj->user['externalOptions']);
         unset($obj->user['extra_info']);
         $obj->user['canStream'] = $obj->user['canStream'] || $obj->user['isAdmin'];
-        $obj->user['DonationButtons'] = _json_decode($obj->user['DonationButtons']);
+        $obj->user['DonationButtons'] = _json_decode(@$obj->user['DonationButtons']);
 
         $obj->livestream = LiveTransmition::createTransmitionIfNeed($user->getBdId());
         $obj->livestream["users_id"] = $user->getBdId();
