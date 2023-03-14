@@ -726,15 +726,25 @@ if (!class_exists('Video')) {
             return $status;
         }
 
+        public function isScheduledForRelease() {
+            $datetime = $this->getPublish_datetime();
+            if(empty($datetime)){
+                return false;
+            }
+            return strtotime($datetime)>time();
+        }
+
         public function setAutoStatus($default = 'a') {
             global $advancedCustom;
             if (empty($advancedCustom)) {
                 $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
             }
-
             if (!empty($_POST['fail'])) {
                 return $this->setStatus(Video::$statusEncodingError);
-            } else {
+            } else {      
+                if($this->isScheduledForRelease()){
+                    return $this->setStatus(Video::$statusScheduledReleaseDate);
+                }else 
                 if (!empty($_REQUEST['overrideStatus'])) {
                     return $this->setStatus($_REQUEST['overrideStatus']);
                 } else if (!empty($_REQUEST['releaseDate']) && $_REQUEST['releaseDate'] !== 'now') {
