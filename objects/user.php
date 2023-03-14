@@ -340,6 +340,8 @@ if (typeof gtag !== \"function\") {
     }
 
     public static function _recommendChannelName($name = "", $try = 0, $unknown = "", $users_id = 0) {
+        
+        $name = preg_replace('/\s+/', '', $name);
         if (empty($users_id)) {
             if (!empty(User::getId())) {
                 $users_id = User::getId();
@@ -361,6 +363,7 @@ if (typeof gtag !== \"function\") {
             if ($name == __("Unknown User") && !empty($unknown)) {
                 $name = $unknown;
             }
+            $name = preg_replace('/\s+/', '', $name);
             $name = cleanString($name);
         }
         // in case is a email get only the username
