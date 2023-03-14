@@ -511,11 +511,7 @@ if (!class_exists('Video')) {
                 _error_log("Video::save ({$this->title}) Saved id = {$insert_row} {$this->duration} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 Category::clearCacheCount();
                 if (empty($this->id)) {
-                    $id = $global['mysqli']->insert_id;
-                    if (empty($id)) {
-                        $id = $insert_row;
-                    }
-                    $this->id = $id;
+                    $this->id = $insert_row;
 
                     // check if needs to add the video in a user group
                     $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
