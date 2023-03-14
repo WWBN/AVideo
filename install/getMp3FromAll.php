@@ -15,7 +15,7 @@ foreach ($videos as $value) {
         continue;
     }
     $updated = convertVideoToMP3FileIfNotExists($value['id']);
-    echo "{$count}/{$total} (".($updated ? "success" : "fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
+    echo "getMP3: {$count}/{$total} (".($updated ? "success" : "fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
 }
 
 die();
