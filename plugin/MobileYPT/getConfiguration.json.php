@@ -13,6 +13,11 @@ if(AVideoPlugin::isEnabled('YouPHPFlix2')){
     $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
 }
 
+if(User::isLogged()){
+    $firstPage = addQueryStringParameter($firstPage, 'user', User::getUserName());
+    $firstPage = addQueryStringParameter($firstPage, 'pass', User::getUserPass());
+    $firstPage = addQueryStringParameter($firstPage, 'webSiteRootURL', $global['webSiteRootURL']);
+}
 $objMM->firstPageEndpoint = $firstPage;
 $objMM->firstPage = json_decode(url_get_contents($firstPage));
 

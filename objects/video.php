@@ -3125,7 +3125,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            $video = self::getVideoLight($videos_id);
+            $video = self::getVideoLight($videos_id, true);
             if ($video) {
                 if ($video['users_id'] == $users_id || ($checkAffiliate && $video['users_id_company'] == $users_id)) {
                     return true;
