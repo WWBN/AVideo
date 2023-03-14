@@ -1826,6 +1826,7 @@ class SectionFirstPage {
     public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
         global $global;
         $endpoint = addQueryStringParameter($endpoint, 'current', 1);
+        $endpoint = addQueryStringParameter($endpoint, 'videoType', 'audio_and_video');
         $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;
