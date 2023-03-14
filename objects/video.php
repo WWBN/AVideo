@@ -545,7 +545,7 @@ if (!class_exists('Video')) {
                     //Video::autosetCategoryType($this->old_categories_id);
                 }
                 self::clearCache($this->id);
-                return $id;
+                return $this->id;
             }
             /**
              *
