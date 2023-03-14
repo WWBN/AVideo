@@ -461,7 +461,7 @@ class API extends PluginAbstract {
      * ['catName' the clean_APIName of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
      * ['playlist' use playlist=1 to get a response compatible with the playlist endpoint]
-     * ['videoType' the type of the video, the valid options are 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
+     * ['videoType' the type of the video, the valid options are 'audio_and_video', 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
      * ['is_serie' if is 0 return only videos, if is 1 return only series, if is not set, return all]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&catName=default&rowCount=10
      * @example Suggested ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[suggested]=1
