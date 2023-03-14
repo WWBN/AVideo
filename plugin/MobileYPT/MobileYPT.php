@@ -49,7 +49,7 @@ class MobileYPT extends PluginAbstract {
         $obj->EULA = $o;
 
         $obj->enableLivePublisher = true;
-        $obj->enablePlayLists = true;
+        $obj->enableAudioPlayer = true;
 
         return $obj;
     }
