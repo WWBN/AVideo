@@ -11,6 +11,9 @@ $videos = Video::getAllVideosLight("", false, true, false);
 $count = 0;
 foreach ($videos as $value) {
     $count++;
+    if($value['type'] !== 'video'){
+        continue;
+    }
     $updated = convertVideoToMP3FileIfNotExists($value['id']);
     echo "{$count}/{$total} (".($updated ? "success" : "fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
     ob_flush();
