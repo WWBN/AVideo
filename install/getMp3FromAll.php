@@ -1,7 +1,7 @@
 <?php
 //streamer config
 require_once '../videos/configuration.php';
-
+ob_end_flush();
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
@@ -16,7 +16,6 @@ foreach ($videos as $value) {
     }
     $updated = convertVideoToMP3FileIfNotExists($value['id']);
     echo "{$count}/{$total} (".($updated ? "success" : "fail").") [{$value['id']}] {$value['title']}".PHP_EOL;
-    ob_flush();
 }
 
 die();
