@@ -2261,6 +2261,7 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
     }
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
+    make_path($outputImage);
     $imagetype = 0;
 
     if (!empty($useExif) && function_exists('exif_imagetype')) {
@@ -2487,7 +2488,7 @@ function make_path($path)
     }
     if (!is_dir($path)) {
         //if(preg_match('/getvideoinfo/i', $path)){var_dump(debug_backtrace());}
-        $created = mkdir($path, 0777, true);
+        $created = @mkdir($path, 0777, true);
         /*
           if (!$created) {
           _error_log('make_path: could not create the dir ' . json_encode($path) . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -2502,7 +2503,7 @@ function make_path($path)
     } else {
         $mode = 0755;
     }
-    chmod($path, $mode);
+    @chmod($path, $mode);
     return $created;
 }
 
@@ -4226,7 +4227,7 @@ function convertImageToOG($source, $destination)
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             im_resize($fileConverted, $destination, $w, $h, 100);
-            unlink($fileConverted);
+            @unlink($fileConverted);
         }
     }
     return $destination;
