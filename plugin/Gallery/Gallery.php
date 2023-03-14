@@ -380,7 +380,7 @@ class Gallery extends PluginAbstract
                 if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
                     $title = !empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added");
                     $rowCount = intval($obj->DateAddedRowCount);
-                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[created]=asc";
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[created]=desc";
                     $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
