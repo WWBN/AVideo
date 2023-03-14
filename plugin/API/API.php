@@ -1824,6 +1824,7 @@ class SectionFirstPage {
 
     // Add constructor, getter, and setter here
     public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
+        global $global;
         $endpoint = addQueryStringParameter($endpoint, 'current', 1);
         $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
@@ -1832,6 +1833,11 @@ class SectionFirstPage {
         $this->nextEndpoint = addQueryStringParameter($endpoint, 'current', 2);
         $this->rowCount = $rowCount;
         $endpointURL = addQueryStringParameter($endpoint, 'rowCount', $rowCount);
+        if(User::isLogged()){
+            $endpointURL = addQueryStringParameter($endpointURL, 'user', User::getUserName());
+            $endpointURL = addQueryStringParameter($endpointURL, 'pass', User::getUserPass());
+            $endpointURL = addQueryStringParameter($endpointURL, 'webSiteRootURL', $global['webSiteRootURL']);
+        }
         $response = json_decode(url_get_contents($endpointURL));
         $this->endpointResponse = $response->response;
         $this->totalRows = $this->endpointResponse->totalRows;
