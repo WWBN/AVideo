@@ -89,7 +89,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setType($_POST['videoLinkType']);
     }
     if (empty($_POST['id'])) {
-        $obj->setStatus('a');
+        $obj->setAutoStatus(Video::$statusActive);
     }
 } elseif (!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')) {
     $obj->setVideoLink("");
@@ -99,7 +99,7 @@ TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
     if (empty($_POST['id'])) {
-        $obj->setStatus('a');
+        $obj->setAutoStatus(Video::$statusActive);
     }
     $paths = Video::getNewVideoFilename();
     $filename = $paths['filename'];

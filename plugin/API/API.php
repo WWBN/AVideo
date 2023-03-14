@@ -448,6 +448,8 @@ class API extends PluginAbstract {
 
     /**
      * @param string $parameters
+     * Obs: in the Trending sort also pass the current=1, otherwise it will return a random order
+     * 
      * ['APISecret' to list all videos]
      * ['sort' database sort column]
      * ['videos_id' the video id (will return only 1 or 0 video)]
@@ -1822,6 +1824,7 @@ class SectionFirstPage {
 
     // Add constructor, getter, and setter here
     public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
+        $endpoint = addQueryStringParameter($endpoint, 'current', 1);
         $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;

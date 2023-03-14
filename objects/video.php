@@ -1466,6 +1466,7 @@ if (!class_exists('Video')) {
                 if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
                     $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
                 }
+                //var_dump($_REQUEST['current'], $rows); 
                 $ids = [];
                 foreach ($rows as $row) {
                     $ids[] = $row['id'];
@@ -1500,7 +1501,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //echo $sql;//exit;
+            //echo $sql;exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
