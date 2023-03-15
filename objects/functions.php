@@ -9438,6 +9438,9 @@ function strip_render_blocking_resources($string)
 {
     $tags_to_strip = ['link', 'style'];
     $head = preg_match('/<head>(.*)<\/head>/s', $string, $matches);
+    if(empty($matches[0])){
+        $matches[0] = '';
+    }
     $string = str_replace($matches[0], '{_head_}', $string);
     foreach ($tags_to_strip as $tag) {
         $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '', $string);

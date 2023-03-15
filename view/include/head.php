@@ -37,10 +37,12 @@ if (!empty($poster)) {
 TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($_GET['catName'])) {
     $category = Category::getCategoryByName($_GET['catName']);
-    $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
-    $custom = [];
-    $custom[] = $description;
-    $custom[] = $category['name'];
+    if(!empty($category)){
+        $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
+        $custom = [];
+        $custom[] = $description;
+        $custom[] = $category['name'];
+    }
 }
 
 TimeLogEnd($timeLogHead, __LINE__);

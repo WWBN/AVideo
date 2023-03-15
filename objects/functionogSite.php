@@ -1,5 +1,13 @@
 <?php
 global $videos_id;
+// assign a default value to $img if it is empty
+$img = !empty($img) ? $img : 'default_image.jpg';
+
+// assign a default value to $title if it is empty
+$title = !empty($title) ? $title : 'Default Title';
+
+// assign a default value to $url if it is empty
+$url = !empty($url) ? $url : 'https://example.com';
 echo PHP_EOL."<!-- OpenGraph for the Site -->".PHP_EOL;
 if ($users_id = isChannel()) {
     echo PHP_EOL."<!-- OpenGraph channel -->".PHP_EOL;

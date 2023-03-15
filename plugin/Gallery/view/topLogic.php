@@ -25,7 +25,9 @@ require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
 if (!empty($_GET['catName'])) {
     $currentCat = Category::getCategoryByName($_GET['catName']);
-    array_push($siteTitle, $currentCat['name']);
+    if(!empty($currentCat)){
+        array_push($siteTitle, $currentCat['name']);
+    }
 }
 
 require_once $global['systemRootPath'] . 'objects/video.php';
