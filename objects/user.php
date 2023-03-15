@@ -1881,7 +1881,7 @@ if (typeof gtag !== \"function\") {
         $row['photo'] = self::getPhoto($row['id']);
         $row['background'] = self::getBackground($row['id']);
         $row['tags'] = self::getTags($row['id']);
-        $row['name'] = preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
+        $row['name'] = @preg_replace('/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F-\x9F]/u', '', $row['name']);
         $row['isEmailVerified'] = $row['emailVerified'];
         if (!is_null($row['externalOptions'])) {
             $externalOptions = self::decodeExternalOption($row['externalOptions']);
