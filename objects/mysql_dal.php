@@ -68,8 +68,12 @@ class sqlDAL
                  * @var array $global
                  * @var object $global['mysqli']
                  */
-                if (!$global['mysqli']->query($templine)) {
-                    _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
+                try {
+                    if (!$global['mysqli']->query($templine)) {
+                        _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />', AVideoLog::$ERROR);
+                    }
+                } catch (\Throwable $th) {
+                    _error_log('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br /> '.$th->getMessage(), AVideoLog::$ERROR);
                 }
                 // Reset temp variable to empty
                 $templine = '';
