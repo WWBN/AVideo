@@ -15,7 +15,7 @@ $files = [];
 foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     $base = basename($filename);
     if (is_dir($filename)) {
-        if (strpos($base, "_YPTuniqid_") !== false) {
+        if (strpos($base, "_YPTuniqid_") !== false || strpos($base, "video_2") !== false || strpos($base, "v_2") !== false) {
             $files[$base] = [$base, $filename];
         }
     } else {
