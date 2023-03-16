@@ -2187,6 +2187,9 @@ if (!class_exists('Video')) {
                     $viewable[] = Video::$statusUnlistedButSearchable;
                 }
             }
+            if(User::isAdmin()){
+               $viewable[] = Video::$statusScheduledReleaseDate;
+            }
             /*
              * Cannot do that otherwise it will list videos on the list videos menu
               $videos_id = getVideos_id();
