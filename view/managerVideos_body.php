@@ -549,6 +549,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             var videos_id = <?php echo intval(@$_GET['video_id']); ?>;
                             var isArticle = 0;
                             var checkProgressTimeout = [];
+
+
                             function saveVideoOnPlaylist(videos_id, add, playlists_id) {
                                 modal.showPleaseWait();
                                 $.ajax({
@@ -813,9 +815,9 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     $('#inputNextVideo-id').val(row.next_id);
                                 }
                                 if (row.next_video && row.next_video.id) {
-                                    $('#inputNextVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>videos/" + row.next_video.filename + ".jpg");
+                                    $('#inputNextVideo-poster').attr('src', webSiteRootURL+"videos/" + row.next_video.filename + ".jpg");
                                     $('#inputNextVideo').val(row.next_video.title);
-                                    $('#inputNextVideoClean').val("<?php echo $global['webSiteRootURL']; ?>video/" + row.next_video.clean_title);
+                                    $('#inputNextVideoClean').val(webSiteRootURL+"video/" + row.next_video.clean_title);
                                     $('#inputNextVideo-id').val(row.next_video.id);
                                 } else {
                                     try {
@@ -825,9 +827,9 @@ echo AVideoPlugin::getManagerVideosEdit();
                                 }
 
 
-                                var photoURL = '<?php echo $global['webSiteRootURL']; ?>img/userSilhouette.jpg'
+                                var photoURL = webSiteRootURL+'img/userSilhouette.jpg'
                                 if (row.photoURL) {
-                                    photoURL = '<?php echo $global['webSiteRootURL']; ?>' + row.photoURL + '?rand=' + Math.random();
+                                    photoURL = webSiteRootURL+ row.photoURL + '?rand=' + Math.random();
                                 }
                                 $("#inputUserOwner-img").attr("src", photoURL);
                                 $('#inputUserOwner').val(row.user);
@@ -914,7 +916,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     showUploadedThumbs: false,
                                     maxFileCount: 1,
                                     initialPreview: [
-                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".jpg'>",
+                                        "<img style='height:160px' src='"+webSiteRootURL+"videos/" + row.filename + "/" + row.filename + ".jpg'>",
                                     ],
                                     initialCaption: row.clean_title + '.jpg',
                                     initialPreviewShowDelete: false,
@@ -932,7 +934,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     showUploadedThumbs: false,
                                     maxFileCount: 1,
                                     initialPreview: [
-                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + "_portrait.jpg'>",
+                                        "<img style='height:160px' src='"+webSiteRootURL+"videos/" + row.filename + "/" + row.filename + "_portrait.jpg'>",
                                     ],
                                     initialCaption: row.clean_title + '_portrait.jpg',
                                     initialPreviewShowDelete: false,
@@ -950,7 +952,7 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     showUploadedThumbs: false,
                                     maxFileCount: 1,
                                     initialPreview: [
-                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".gif'>",
+                                        "<img style='height:160px' src='"+webSiteRootURL+"videos/" + row.filename + "/" + row.filename + ".gif'>",
                                     ],
                                     initialCaption: row.clean_title + '.gif',
                                     initialPreviewShowDelete: false,
@@ -962,13 +964,13 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     pasteZone: null
                                 });
                                 $("#input-pgif").fileinput({
-                                    uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
+                                    uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=pgif",
                                     autoReplace: true,
                                     overwriteInitial: true,
                                     showUploadedThumbs: false,
                                     maxFileCount: 1,
                                     initialPreview: [
-                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + "_portrait.gif'>",
+                                        "<img style='height:160px' src='"+webSiteRootURL+"videos/" + row.filename + "/" + row.filename + "_portrait.gif'>",
                                     ],
                                     initialCaption: row.clean_title + '_portrait.gif',
                                     initialPreviewShowDelete: false,
@@ -980,13 +982,13 @@ echo AVideoPlugin::getManagerVideosEdit();
                                     pasteZone: null
                                 });
                                 $("#input-webp").fileinput({
-                                    uploadUrl: "<?php echo $global['webSiteRootURL']; ?>objects/uploadPoster.php?video_id=" + row.id + "&type=webp",
+                                    uploadUrl: webSiteRootURL+"objects/uploadPoster.php?video_id=" + row.id + "&type=webp",
                                     autoReplace: true,
                                     overwriteInitial: true,
                                     showUploadedThumbs: false,
                                     maxFileCount: 1,
                                     initialPreview: [
-                                        "<img style='height:160px' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".webp'>",
+                                        "<img style='height:160px' src='"+webSiteRootURL+"videos/" + row.filename + "/" + row.filename + ".webp'>",
                                     ],
                                     initialCaption: row.clean_title + '.webp',
                                     initialPreviewShowDelete: false,
@@ -1853,30 +1855,26 @@ if (Permissions::canAdminVideos()) {
                                                 tags += '<div class="progress progress-striped active" style="margin:5px;"><div id="downloadProgress' + row.id + '" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0px;"></div></div>';
                                             }
                                             var type, img, is_portrait;
+                                            
+
+                            function getVManagerImageTag(url, className){
+                                return "<img class='img img-responsive img-thumbnail pull-left "+className+"' src='" + addGetParam(url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
+                            }
                                             if (row.type === "audio") {
                                                 type = "<i class='fa fa-headphones hidden-xs' style='font-size:14px;'></i> ";
-                                                img = "<img class='img img-responsive img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".jpg?cache=" + Math.random() + "' style='max-height:80px; margin-right: 5px;'> ";
-                                                if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url) {
-                                                    img = "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(row.videosURL.pjpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                } else if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url) {
-                                                    img = "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(row.videosURL.jpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                } else {
-                                                    is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
-                                                    img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + "' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + "/" + row.filename + ".jpg?cache=" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                }
                                             } else {
                                                 type = "<i class='fa fa-film hidden-xs' style='font-size:14px;'></i> ";
-                                                if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.filename == 'notfound_portrait.jpg' && row.videosURL.jpg.filename == 'notfound.jpg') {
-                                                    img = "<img class='img img-responsive img-thumbnail pull-left imgt1' src='" + addGetParam(row.videosURL.pjpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                } else if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.pjpg !== 'undefined' && row.videosURL.pjpg.url && row.videosURL.pjpg.filename !== 'notfound_portrait.jpg' && row.videosURL.pjpg.filename !== 'notfound_portrait.jpg') {
-                                                    img = "<img class='img img-responsive img-thumbnail pull-left imgt2' src='" + addGetParam(row.videosURL.pjpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
-                                                } else if (row.videosURL && typeof row.videosURL !== 'undefined' && typeof row.videosURL.jpg !== 'undefined' && row.videosURL.jpg.url && row.videosURL.jpg.filename !== 'notfound.jpg') {
-                                                    img = "<img class='img img-responsive img-thumbnail pull-left imgt3' src='" + addGetParam(row.videosURL.jpg.url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                            }
+                                                if(typeof row.videosURL !== 'undefined'){
+                                                    if (typeof row.videosURL.pjpg !== 'undefined' && !/notfound/i.test(row.videosURL.pjpg.filename)) {
+                                                        img = getVManagerImageTag(row.videosURL.pjpg.url, 'imgt1');
+                                                    } else if (typeof row.videosURL.jpg !== 'undefined'&& !/notfound/i.test(row.videosURL.jpg.filename)) {                                                        
+                                                        img = getVManagerImageTag(row.videosURL.jpg.url, 'imgt2');
+                                                    } 
                                                 } else {
                                                     is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
-                                                    img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + " imgt4' src='<?php echo $global['webSiteRootURL']; ?>videos/" + row.filename + ".jpg?cache=" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
+                                                    img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + " imgt4' src='"+webSiteRootURL+"videos/" + row.filename + ".jpg?cache=" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
                                                 }
-                                            }
 <?php
 if (AVideoPlugin::isEnabledByName('PlayLists')) {
     ?>

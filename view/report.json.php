@@ -55,7 +55,7 @@ if (!empty($cache)) {
     }
     $cache->performance->cache->time = time();
     $cache->performance->cache->date = date('Y-m-d H:i:s');
-    $cache->performance->cache->cache_duration = microtime(true) - $obj->start;
+    $cache->performance->cache->cache_duration = microtime(true) - $obj->performance->start;
     $cache->performance->cache->human = humanTimingAgo($cache->performance->time, 2);
     die(_json_encode($cache));
 }

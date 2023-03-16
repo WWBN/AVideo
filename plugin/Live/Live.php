@@ -2240,10 +2240,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $title = "{$Char}{$title}";
         //var_dump($title);
-        if (self::isPrivate($row['key'])) {
+        if (self::isPrivate(@$row['key'])) {
             $title = " <i class=\"fas fa-eye-slash\"></i> {$title}";
         }
-        if (self::isPasswordProtected($row['key'])) {
+        if (self::isPasswordProtected(@$row['key'])) {
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
         }
 
