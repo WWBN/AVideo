@@ -1,5 +1,6 @@
 <?php
 
+require_once $global['systemRootPath'] . 'locale/function.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
