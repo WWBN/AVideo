@@ -1250,21 +1250,24 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         return "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
     }
     
+    function isVManagerGoodImage(filename) {
+        var goodImageRexp = /_[0-9]{12}_[a-z0-9]{5}/;
+        return goodImageRexp.test(filename) && !/notfound/i.test(filename);
+    }
+
     function getVManagerBestImage(videosURL) {
         var image1 = '';
         var image2 = '';
-
-        var goodImageRexp = /_[0-9]{12}_[a-z0-9]{5}/;
         console.log('videosURL', videosURL);
         if(typeof videosURL.pjpg != 'undefined'){
             image1 = videosURL.pjpg.url;
-            if(goodImageRexp.test(image1)){
+            if(isVManagerGoodImage(videosURL.pjpg.filename)){
                 return image1;
             }
         }
         if(typeof videosURL.jpg != 'undefined'){
             image2 = videosURL.jpg.url;
-            if(goodImageRexp.test(image2)){
+            if(isVManagerGoodImage(videosURL.jpg.filename)){
                 return image2;
             }
         }
