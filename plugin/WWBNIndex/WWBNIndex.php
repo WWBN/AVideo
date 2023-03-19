@@ -58,19 +58,21 @@ class WWBNIndex extends PluginAbstract
     {
         global $global;
         // HAS ACCOUNT
-        $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
-        $authenticated_btn .= '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block" id="wwbnIndexRefreshTokenBtn"><i class="fa fa-coins"></i>&nbsp; Refresh Token</button>';
+        
+        $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
 
         $WWBNIndexModel = new WWBNIndexModel();
         $object_data = $WWBNIndexModel->getPluginData()[0]['object_data'];
         if ($object_data != "" && $object_data != null) {
             $object_data = json_decode($object_data);  // convert string to object
-            $has_account = $object_data->username;
-            $email = $object_data->email;
-            $engine_name = $object_data->engine_name;
-            $verified = $object_data->verified;
-            $organic = $object_data->organic;
+            $has_account = @$object_data->username;
+            $email = @$object_data->email;
+            $engine_name = @$object_data->engine_name;
+            $verified = @$object_data->verified;
+            $organic = @$object_data->organic;
         }
+
+        $reset_keys_btn = '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexRequestResetBtn"><i class="fas fa-key"></i>&nbsp; Request Reset</button>';
 
         if (isset($has_account)) {
             if (isset($engine_name)) {
@@ -88,7 +90,7 @@ class WWBNIndex extends PluginAbstract
                         $plugin_menu = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>'; 
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAcctStatusBtn" style="display:none;"><i class="fas fa-user"></i>&nbsp; Pending Account</button>';
                     }
-                    return $plugin_menu;
+                    return $reset_keys_btn.$plugin_menu;
                 }
                 // CHECK INDEX STATUS
                 $getFeedStatus = $this->getFeedStatus(parse_url($global['webSiteRootURL'])['host']);
@@ -97,9 +99,9 @@ class WWBNIndex extends PluginAbstract
                         $plugin_menu = $authenticated_btn;
                         $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexInReviewBtn" style="display: none;"><i class="fas fa-video"></i>&nbsp; In Review</button>';
                         $plugin_menu .= '<button type="button" class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexIndexActiveBtn"><i class="fas fa-video"></i>&nbsp; Index Inactive </button>';
-                        return $plugin_menu;
+                        return $reset_keys_btn.$plugin_menu;
                     }
-                    return '<button class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexErrorBtn" data-title="'.$getFeedStatus->title.'" data-message="'.$getFeedStatus->message.'">Error</button>';
+                    return $reset_keys_btn.'<button class="btn btn-danger btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexErrorBtn" data-title="'.$getFeedStatus->title.'" data-message="'.$getFeedStatus->message.'">Error</button>';
                 }
                 if ($getFeedStatus->indexed) { // INDEX - ALREADY ADDED IN PUBLISHER
                     if ($getFeedStatus->status == "active") {
@@ -144,11 +146,15 @@ class WWBNIndex extends PluginAbstract
                 }
             }
         } else {
-            $plugin_menu = '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthBtn"><i class="fas fa-user-unlock"></i>&nbsp; Authenticate</button>';
+            $plugin_menu = '';
+            if (isset($organic)) {
+                $plugin_menu .= '<button type="button" class="btn btn-info btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexOrganicIndexedBtn"><i class="fa fa-check"></i>&nbsp; Organic Indexed</button>';                
+            }
+            $plugin_menu .= '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthBtn"><i class="fa fa-user"></i>&nbsp; Authenticate</button>';
             $plugin_menu .= '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexVerifyBtn" style="display:none;"><i class="fas fa-envelope"></i>&nbsp; Verify Email</button>';
             $plugin_menu .= '<button type="button" class="btn btn-warning btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAcctStatusBtn" style="display:none;"><i class="fas fa-user"></i>&nbsp; Pending Account</button>';
         }
-        return $plugin_menu;
+        return $reset_keys_btn.$plugin_menu;
     }
 
     public function getFooterCode() 
@@ -163,19 +169,12 @@ class WWBNIndex extends PluginAbstract
     public function getYouPortalUser($email = "")
     {
         $configuration = new Configuration();
-        $model = new WWBNIndexModel();
-
-        $plugin_data = $model->getPluginData();
-        $object_data = json_decode($plugin_data[0]['object_data']);
 
         $data = array(
             "apiName"   => "getUser",
             "email"     => ($email != "") ? $email : $configuration->getContactEmail(),
             "avideo_id" => getPlatformId(),
         );
-        if (isset($object_data->yp_token) && $object_data->yp_token != "") {
-            $data['yp_token'] = $object_data->yp_token;
-        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");
@@ -192,10 +191,6 @@ class WWBNIndex extends PluginAbstract
     private function getFeedStatus($host) 
     {
         $configuration = new Configuration();
-        $model = new WWBNIndexModel();
-        
-        $plugin_data = $model->getPluginData();
-        $object_data = json_decode($plugin_data[0]['object_data']);
 
         $data = array(
             "apiName"       => "getFeedStatus",
@@ -203,9 +198,6 @@ class WWBNIndex extends PluginAbstract
             "engine_name"   => $configuration->getWebSiteTitle(),
             "host"          => $host,
         );
-        if (isset($object_data->yp_token) && $object_data->yp_token != "") {
-            $data['yp_token'] = $object_data->yp_token;
-        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");

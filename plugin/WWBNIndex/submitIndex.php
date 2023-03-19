@@ -2,8 +2,8 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-require_once ($_POST['systemRootPath'] . "plugin/WWBNIndex/Objects/WWBNIndexModel.php");
-$wwbnIndexModel = new WWBNIndexModel();
+// require_once ($_POST['systemRootPath'] . "plugin/WWBNIndex/Objects/WWBNIndexModel.php");
+// $wwbnIndexModel = new WWBNIndexModel();
 
 $platform_unqid = base_convert(md5(encryptString($_POST['salt'] . 'AVideo')), 16, 36);
 
@@ -41,7 +41,7 @@ function encrypt_decrypt($string, $action)
 {
     $output = false;
     $encrypt_method = "AES-256-CBC";
-    $secret_key = 'This is my secret key';
+    // $secret_key = 'This is my secret key';
     $secret_iv = $_POST['systemRootPath'];
     while (strlen($secret_iv) < 16) {
         $secret_iv .= $_POST['systemRootPath'];
@@ -103,16 +103,16 @@ curl_close ($ch);
 if (isset($response->error) && $response->error == false) {
     $object_data = array(
         "engine_name"   => $response->engine_name,
-        "organic"       => true,
-        "yp_token"      => $response->token
+        "organic"       => true
     );
     error_log("Installation: ".__LINE__);
     $sql = "INSERT INTO `plugins` VALUES (NULL, 'WWBNIndex', 'active', now(), now(), '".json_encode($object_data)."', 'WWBNIndex', 'WWBNIndex', '1.0');";
     try {
         $mysqli->query($sql);
     } catch (Exception $exc) {
-        $obj->error = "Error creating WWBNIndex plugin data: " . $mysqli->error;
-        echo json_encode($obj);
+        // $obj->error = "Error creating WWBNIndex plugin data: " . $mysqli->error;
+        // echo json_encode($obj);
+        error_log("Installation: ".__LINE__." Error creating WWBNIndex plugin data: " . $mysqli->error);
     }
     $mysqli->close();
 }

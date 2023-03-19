@@ -45,8 +45,8 @@ $(document).on("submit", "#verifyEmailForm", function (e) {
                     swal("Error", "Ops! Something went wrong", "error");
                 }
             }, 
-            error: function(err) {
-                console.log(err)
+            error: function(error) {
+                console.log(error)
             }
         });
     }
@@ -138,14 +138,13 @@ function resendCodeAjax(resend = false) {
                 swal("Error", "Ops! Something went wrong", "error");
             }
         }, 
-        error: function(err) {
-            console.log(err)
+        error: function(error) {
+            console.log(error)
         }
     });
 }
 
 grid.find("#wwbnIndexAuthBtn").on("click", function (e) {
-// function wwbnIndexAuth() {
     $.ajax({
         url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
         type: "POST",
@@ -164,6 +163,9 @@ grid.find("#wwbnIndexAuthBtn").on("click", function (e) {
                 } else {
                     $("#wwbnIndexVerifyBtn").css("display", "block");
                     $("#wwbnIndexAuthBtn").css("display", "none");
+                    if ($("#wwbnIndexOrganicIndexedBtn").length > 0) {
+                        $("#wwbnIndexOrganicIndexedBtn").css("display", "none");
+                    }
                     var expireTime = $("#verifyEmailForm").find("input[name=expireTime]");
                     var resendTime = $("#verifyEmailForm").find("input[name=resendTime]");
                     expireTime.val(300); // 5mins
@@ -185,8 +187,8 @@ grid.find("#wwbnIndexAuthBtn").on("click", function (e) {
                 swal("Error", "Ops! Something went wrong", "error");
             }
         }, 
-        error: function(err) {
-            console.log(err)
+        error: function(error) {
+            console.log(error)
         }
     });
 });
@@ -281,8 +283,8 @@ function wwbnIndexSubmit(engine_name = "") {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
                 }, 
-                error: function(err) {
-                    console.log(err)
+                error: function(error) {
+                    console.log(error)
                 }
             });
         }
@@ -346,6 +348,9 @@ grid.find("#wwbnIndexIndexActiveBtn").on("click", function (e) {
             } else {
                 swal("Error", "Ops! Something went wrong - getIndexTermsAndConditions", "error");
             }
+        },
+        error: function (error) {
+            console.log(error)
         }
     });
 });
@@ -409,6 +414,9 @@ $(document).on("click", "#wwbnIndexReIndexBtn", function (e) {
                     } else {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
+                },
+                error: function (error) {
+                    console.log(error)
                 }
             });
         } 
@@ -452,6 +460,9 @@ grid.find("#wwbnIndexIndexUnindexBtn").on("click", function (e) {
                     } else {
                         swal("Error", "Ops! Something went wrong", "error");
                     }
+                },
+                error: function (error) {
+                    console.log(error)
                 }
             });
         }
@@ -471,42 +482,35 @@ grid.find("#wwbnIndexErrorBtn").on("click", function (e) {
     swal(title, message, "error");
 });
 
-
-grid.find("#wwbnIndexRefreshTokenBtn").on("click", function (e) {
+grid.find("#wwbnIndexOrganicIndexedBtn").on("click", function (e) {
     e.preventDefault();
-    swal({
-        title: "Refresh Token",
-        text: "This will change the current token",
-        icon: "warning",
-        buttons: {
-            cancel : "Cancel",
-            confirm : {text: 'Confirm'}
+    swal("Organic Indexed", "Platform was indexed by default. Please authenticate and submit index to update platform changes.", "info");
+});
+
+grid.find("#wwbnIndexRequestResetBtn").on("click", function() {
+    $.ajax({
+        url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
+        type: "POST",
+        data: {action: "requestResetKeys"},
+        dataType : 'json',
+        beforeSend: function() {
+            modal.showPleaseWait();
         },
-        dangerMode: true
-    })
-    .then((submit) => {
-        if (submit) {
-            $.ajax({
-                url: "<?= $global['webSiteRootURL'] ?>plugin/WWBNIndex/ajax.php",
-                type: "POST",
-                data: {action: "refreshToken"},
-                dataType : 'json',
-                beforeSend: function() {
-                    modal.showPleaseWait();
-                },
-                success: function (response) {
-                    modal.hidePleaseWait();
-                    if (response) {
-                        if (response.error) {
-                            swal(response.title, response.message, "error");
-                        } else {
-                            swal(response.title, response.message, "success");
-                        }
-                    } else {
-                        swal("Error", "Ops! Something went wrong", "error");
-                    }
+        success: function (response) {
+            modal.hidePleaseWait();
+            // console.log(response)
+            if (response) {
+                if (response.error) {
+                    swal(response.title, response.message, response.type ? response.type : "error");
+                } else {
+                    swal(response.title, response.message, "success");
                 }
-            });
+            } else {
+                swal("Error", "Ops! Something went wrong", "error");
+            }
+        },
+        error: function (error) {
+            console.log(error)
         }
     });
 });
