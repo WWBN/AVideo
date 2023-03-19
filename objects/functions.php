@@ -2830,11 +2830,11 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
+        $wh = '';
         $image_info = getimagesize($file);
-        if(empty($image_info)){
-            return '<!-- invalid IMAGE ' . $relativePathOriginal . ' -->';
+        if(!empty($image_info)){
+            $wh = $image_info[3];
         }
-        $wh = $image_info[3];
     } elseif (isValidURL($relativePathOriginal)) {
         $url = $relativePathOriginal;
     } else {
@@ -2987,7 +2987,7 @@ function try_get_contents_from_local($url)
     return false;
 }
 
-function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
+function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession=false)
 {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!isValidURLOrPath($url)) {
@@ -3005,18 +3005,25 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
 
     $agent = getSelfUserAgent();
 
+    if (isSameDomainAsMyAVideo($url) || $mantainSession) {
+        $session_cookie = session_name().'=' . session_id();
+        session_write_close();
+    }
     if (empty($ctx)) {
         $opts = [
             'http' => ['header' => "User-Agent: {$agent}\r\n"],
-            "ssl" => [
-                "verify_peer" => false,
-                "verify_peer_name" => false,
-                "allow_self_signed" => true,
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true,
             ],
         ];
         if (!empty($timeout)) {
             ini_set('default_socket_timeout', $timeout);
-            $opts['http'] = ['timeout' => $timeout];
+            $opts['http']['timeout'] = $timeout;
+        }
+        if (!empty($session_cookie)) {
+            $opts['http']['header'] .= "Cookie: {$session_cookie}\r\n";
         }
         $context = stream_context_create($opts);
     } else {
@@ -3055,6 +3062,10 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false)
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        
+        if (!empty($session_cookie)) {
+            curl_setopt($ch, CURLOPT_COOKIE, $session_cookie);
+        }
         if (!empty($timeout)) {
             curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
             curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout + 10);
