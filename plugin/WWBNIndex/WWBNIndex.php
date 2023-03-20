@@ -62,14 +62,16 @@ class WWBNIndex extends PluginAbstract
         $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
 
         $WWBNIndexModel = new WWBNIndexModel();
-        $object_data = $WWBNIndexModel->getPluginData()[0]['object_data'];
-        if ($object_data != "" && $object_data != null) {
-            $object_data = json_decode($object_data);  // convert string to object
-            $has_account = @$object_data->username;
-            $email = @$object_data->email;
-            $engine_name = @$object_data->engine_name;
-            $verified = @$object_data->verified;
-            $organic = @$object_data->organic;
+        if(!empty($WWBNIndexModel->getPluginData()[0])){
+            $object_data = $WWBNIndexModel->getPluginData()[0]['object_data'];
+            if (!empty($object_data)) {
+                $object_data = json_decode($object_data);  // convert string to object
+                $has_account = @$object_data->username;
+                $email = @$object_data->email;
+                $engine_name = @$object_data->engine_name;
+                $verified = @$object_data->verified;
+                $organic = @$object_data->organic;
+            }
         }
 
         $reset_keys_btn = '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexRequestResetBtn"><i class="fas fa-key"></i>&nbsp; Request Reset</button>';
