@@ -31,13 +31,13 @@ class API extends PluginAbstract {
         if (!isset($obj->rowCount)) {
             $obj->rowCount = getRowCount();
         }
-        
+
         $obj->hasMore = true;
-        if(!empty($obj->rows) && is_array($obj->rows)){
+        if (!empty($obj->rows) && is_array($obj->rows)) {
             if (count($obj->rows) < $obj->rowCount) {
                 $obj->hasMore = false;
             }
-        }else if(!empty($obj->videos) && is_array($obj->videos)){
+        } else if (!empty($obj->videos) && is_array($obj->videos)) {
             if (count($obj->videos) < $obj->rowCount) {
                 $obj->hasMore = false;
             }
@@ -473,9 +473,9 @@ class API extends PluginAbstract {
     public function get_api_video($parameters) {
         $start = microtime(true);
 
-        $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
+        $cacheParameters = array('noRelated', 'APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
 
-        $cacheVars = array('users_id'=>User::getId());
+        $cacheVars = array('users_id' => User::getId());
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
         }
@@ -515,14 +515,14 @@ class API extends PluginAbstract {
         }
 
         if (!empty($_REQUEST['catName']) && empty($parameters['videos_id'])) {
-            $currentCat = Category::getCategoryByName($_REQUEST['catName']); 
+            $currentCat = Category::getCategoryByName($_REQUEST['catName']);
             if (!empty($currentCat)) {
                 $liveVideos = getLiveVideosFromCategory($currentCat['id']);
                 if (!empty($liveVideos)) {
                     $rows = array_merge($liveVideos, $rows);
                     $totalRows += count($liveVideos);
                 }
-                
+
                 $fullTotals = Category::getTotalFromCategory($currentCat['id'], false, true, true);
                 $totals = Category::getTotalFromCategory($currentCat['id']);
                 $currentCat['total'] = $totals['total'];
@@ -531,18 +531,18 @@ class API extends PluginAbstract {
                 $currentCat['fullTotal_lives'] = $fullTotals['lives'];
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
                 $currentCat['fullTotal_livelinks'] = $fullTotals['livelinks'];
-                
+
                 $currentCat['totalVideosOnChilds'] = Category::getTotalFromChildCategory($currentCat['id']);
                 $currentCat['childs'] = Category::getChildCategories($currentCat['id']);
                 $currentCat['photo'] = Category::getCategoryPhotoPath($currentCat['id']);
                 $currentCat['photoBg'] = Category::getCategoryBackgroundPath($currentCat['id']);
-                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];   
-            
+                $currentCat['link'] = $global['webSiteRootURL'] . 'cat/' . $currentCat['clean_name'];
+
                 foreach ($currentCat['childs'] as $key => $child) {
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$child['clean_name']}";
                     $currentCat['childs'][$key]['section'] = new SectionFirstPage('SubCategroy', $child['name'], $endpoint, getRowCount());
                 }
-                $obj->category = $currentCat; 
+                $obj->category = $currentCat;
             }
         }
 
@@ -600,11 +600,12 @@ class API extends PluginAbstract {
             $rows[$key]['isSubscribed'] = false;
 
             //make playlist compatible
-            if(!empty($parameters['playlist'])){
+            if (!empty($parameters['playlist'])) {
                 $rows[$key]['mp3'] = convertVideoToMP3FileIfNotExists($value['id']);
                 $rows[$key]['category_name'] = $value['category'];
-                $rows[$key]['category'] = array('name'=>$rows[$key]['category_name']);
-                $rows[$key]['channel_name'] = User::_getChannelName($rows[$key]['users_id']);;
+                $rows[$key]['category'] = array('name' => $rows[$key]['category_name']);
+                $rows[$key]['channel_name'] = User::_getChannelName($rows[$key]['users_id']);
+                ;
             }
 
             if (User::isLogged()) {
@@ -662,10 +663,10 @@ class API extends PluginAbstract {
             }
         }
         $obj->totalRows = $totalRows;
-        
-        if(!empty($parameters['playlist'])){            
+
+        if (!empty($parameters['playlist'])) {
             $obj->videos = $rows;
-        }else{
+        } else {
             $obj->rows = $rows;
         }
         $obj = self::addRowInfo($obj);
@@ -806,6 +807,130 @@ class API extends PluginAbstract {
         } else {
             return new ApiObject("Video ID is required");
         }
+    }
+
+    /**
+     * @param string $parameters
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * ['live_schedule_id' if you pass it will return a specific live_schedule record]
+     * 'user' username of the user that will like the video
+     * 'pass' password  of the user that will like the video
+     * @return \ApiObject
+     */
+    public function get_api_live_schedule($parameters) {
+        if (!User::canStream()) {
+            return new ApiObject("You cannot stream");
+        } else {
+            $users_id = User::getId();
+            $_POST['sort'] = array('scheduled_time'=>'DESC');
+            if (empty($parameters['live_schedule_id'])) {
+                $obj = Live_schedule::getAll($users_id);
+            } else {
+                $row = Live_schedule::getFromDb($parameters['live_schedule_id']);
+                if ($row['users_id'] != $users_id) {
+                    return new ApiObject("This live schedule does not belong to you");
+                } else {
+                    $obj = $row;
+                }
+            }
+        }
+        return new ApiObject("", false, $obj);
+    }
+
+    /**
+     * @param string $parameters
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * ['live_schedule_id' if you pass it will return a specific live_schedule record]
+     * 'user' username of the user that will like the video
+     * 'pass' password  of the user that will like the video
+     * @return \ApiObject
+     */
+    public function set_api_live_schedule_delete($parameters) {
+        if (!User::canStream()) {
+            return new ApiObject("You cannot stream");
+        } else {
+            $users_id = User::getId();
+            if (empty($parameters['live_schedule_id'])) {
+                $obj = false;
+            } else {
+                $row = new Live_schedule($parameters['live_schedule_id']);
+                if ($row->getUsers_id() != $users_id) {
+                    return new ApiObject("This live schedule does not belong to you");
+                } else {
+                    $obj = $row->delete();
+                }
+            }
+        }
+        return new ApiObject("", false, $obj);
+    }
+
+    /**
+     * @param string $parameters
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * ['live_servers_id' by default it is 0]
+     * ['live_schedule_id' if you pass it want to edit a specific record]
+     * ['base64PNGImageRegular' a png image base64 encoded]
+     * ['base64PNGImagePreRoll' a png image base64 encoded]
+     * ['base64PNGImagePostRoll' a png image base64 encoded]
+     * 'title' 
+     * 'description' 
+     * 'scheduled_time' pass it in the YYYY-mm-dd HH:ii:ss format
+     * 'status' a for active or i for inactive
+     * 'scheduled_password' 
+     * 'user' username of the user that will like the video
+     * 'pass' password  of the user that will like the video
+     * @return \ApiObject
+     */
+    public function set_api_live_schedule($parameters) {
+        $id = 0;
+        if (!User::canStream()) {
+            return new ApiObject("You cannot stream");
+        } else {
+            $users_id = User::getId();
+            if (empty($parameters['live_schedule_id'])) {
+                $o = new Live_schedule(0);
+            } else {
+                $row = Live_schedule::getFromDb($parameters['live_schedule_id']);
+                if ($row['users_id'] != $users_id) {
+                    return new ApiObject("This live schedule does not belong to you");
+                } else {
+                    $o = new Live_schedule($parameters['live_schedule_id']);
+                }
+            }
+            if(empty($parameters['title'])){
+                return new ApiObject("Title cannot be empty");
+            }
+            if(empty($parameters['scheduled_time'])){
+                return new ApiObject("scheduled_time cannot be empty");
+            }
+            if(empty($parameters['status']) || $parameters['status'] !== 'i'){
+                  $parameters['status'] = 'a';
+            }
+
+            $o->setTitle($parameters['title']);
+            $o->setDescription($parameters['description']);
+            $o->setUsers_id($users_id);
+            $o->setLive_servers_id(@$parameters['live_servers_id']);
+            $o->setScheduled_time($parameters['scheduled_time']);
+            $o->setStatus($parameters['status']);
+            $o->setScheduled_password($parameters['scheduled_password']);
+            $live_schedule_id = $o->save();
+            if($live_schedule_id){
+                if(!empty($parameters['base64PNGImageRegular'])){
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_regular);
+                    saveBase64DataToPNGImage($parameters['base64PNGImageRegular'], $image['path']);
+                }
+                if(!empty($parameters['base64PNGImagePreRoll'])){
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_preroll);
+                    saveBase64DataToPNGImage($parameters['base64PNGImagePreRoll'], $image['path']);
+                }
+                if(!empty($parameters['base64PNGImagePostRoll'])){
+                    $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_postroll);
+                    saveBase64DataToPNGImage($parameters['base64PNGImagePostRoll'], $image['path']);
+                }
+            }
+        }
+        return new ApiObject("", empty($live_schedule_id), $live_schedule_id);
     }
 
     /**
@@ -1836,20 +1961,20 @@ class SectionFirstPage {
         $this->nextEndpoint = addQueryStringParameter($endpoint, 'current', 2);
         $this->rowCount = $rowCount;
         $endpointURL = addQueryStringParameter($endpoint, 'rowCount', $rowCount);
-        if(User::isLogged()){
-            
+        if (User::isLogged()) {
+
             $endpointURL = addQueryStringParameter($endpointURL, 'user', User::getUserName());
             $endpointURL = addQueryStringParameter($endpointURL, 'pass', User::getUserPass());
             $endpointURL = addQueryStringParameter($endpointURL, 'webSiteRootURL', $global['webSiteRootURL']);
-            
+
             //$endpointURL = addQueryStringParameter($endpointURL, 'PHPSESSID', session_id());
         }
         $response = json_decode(url_get_contents($endpointURL, '', 2, false, true));
         /*
-        if(User::isLogged()){
-            session_id($response->session_id);
-        }
-        */
+          if(User::isLogged()){
+          session_id($response->session_id);
+          }
+         */
         $this->endpointResponse = $response->response;
         $this->totalRows = $this->endpointResponse->totalRows;
         $this->childs = $childs;

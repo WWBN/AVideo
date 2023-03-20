@@ -356,6 +356,11 @@ function base64DataToImage($imgBase64)
     return base64_decode($img);
 }
 
+function saveBase64DataToPNGImage($imgBase64, $filePath){    
+    $fileData = base64DataToImage($imgBase64);
+    return _file_put_contents($filePath, $fileData);
+}
+
 function getRealIpAddr()
 {
     if (isCommandLineInterface()) {
@@ -9046,6 +9051,9 @@ function listAllWordsToTranslate()
 
 function secondsInterval($time1, $time2)
 {
+    if(!isset($time1) || !isset($time2)){
+        return 0;
+    }
     if (!is_numeric($time1)) {
         $time1 = strtotime($time1);
     }

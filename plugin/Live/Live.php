@@ -3899,7 +3899,10 @@ class LiveStreamObject {
             }
         }
         $this->key = $parts['cleanKey'];
-        $this->live_index = preg_replace('/[^0-9a-z]/i', '', $this->live_index);
+        if(!isset($this->live_index)){
+            $this->live_index = '';
+        }
+        $this->live_index = preg_replace('/[^0-9a-z]/i', '',$this->live_index);
     }
     /**
      * @return string
