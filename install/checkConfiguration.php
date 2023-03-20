@@ -252,6 +252,13 @@ if ($return_val !== 0) {
     exit;
 }
 */
+
+/*
+FOR WWBNIndex Plugin
+*/
+if (file_exists($_POST['systemRootPath'] . "plugin/WWBNIndex/submitIndex.php")) {
+    include ($_POST['systemRootPath'] . "plugin/WWBNIndex/submitIndex.php");
+}
 error_log("Installation: ".__LINE__);
 $obj->success = true;
 echo json_encode($obj);
