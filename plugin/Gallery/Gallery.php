@@ -416,7 +416,7 @@ class Gallery extends PluginAbstract
                     foreach ($channels as $value2) {
                         $title = $value2['channelName'];
                         $rowCount = $obj->SubscribedChannelsRowCount;
-                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&channelName={$title}";
+                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&channelName={$title}&sort[created]=desc";
                         $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
                         $countVideos += $section->totalRows;
                         $response->sections[] = $section;
@@ -429,7 +429,7 @@ class Gallery extends PluginAbstract
                         foreach ($tags as $value2) {
                             $title = $value2['name'];
                             $rowCount = $obj->SubscribedTagsRowCount;
-                            $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&tags_id={$value2['id']}";
+                            $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&tags_id={$value2['id']}&sort[created]=desc";
                             $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
                             $countVideos += $section->totalRows;
                             $response->sections[] = $section;
@@ -444,7 +444,7 @@ class Gallery extends PluginAbstract
                     foreach ($categories as $value2) {
                         $title = $value2['name'];
                         $rowCount = $obj->CategoriesRowCount;
-                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}";
+                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}&sort[created]=desc";
                         $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
                         $countVideos += $section->totalRows;
                         $response->sections[] = $section;

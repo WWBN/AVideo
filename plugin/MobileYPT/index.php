@@ -24,9 +24,7 @@ if (!empty($_REQUEST['logoff'])) {
     User::logoff();
 }
 $html = '';
-if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
-    User::loginFromRequest();
-} 
+User::loginFromRequestIfNotLogged();
 if (User::isLogged()) {
     if (!empty($_REQUEST['key'])) {
         $key = $_REQUEST['key'];

@@ -475,7 +475,7 @@ class API extends PluginAbstract {
 
         $cacheParameters = array('noRelated','APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
 
-        $cacheVars = array();
+        $cacheVars = array('users_id'=>User::getId());
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
         }
@@ -1798,6 +1798,7 @@ class ApiObject {
     public $response;
     public $msg;
     public $users_id;
+    public $session_id;
 
     public function __construct($message = "api not started or not found", $error = true, $response = []) {
         $response = cleanUpRowFromDatabase($response);
@@ -1807,6 +1808,7 @@ class ApiObject {
         $this->message = $message;
         $this->response = $response;
         $this->users_id = User::getId();
+        $this->session_id = session_id();
     }
 
 }
@@ -1835,11 +1837,19 @@ class SectionFirstPage {
         $this->rowCount = $rowCount;
         $endpointURL = addQueryStringParameter($endpoint, 'rowCount', $rowCount);
         if(User::isLogged()){
+            
             $endpointURL = addQueryStringParameter($endpointURL, 'user', User::getUserName());
             $endpointURL = addQueryStringParameter($endpointURL, 'pass', User::getUserPass());
             $endpointURL = addQueryStringParameter($endpointURL, 'webSiteRootURL', $global['webSiteRootURL']);
+            
+            //$endpointURL = addQueryStringParameter($endpointURL, 'PHPSESSID', session_id());
         }
-        $response = json_decode(url_get_contents($endpointURL));
+        $response = json_decode(url_get_contents($endpointURL, '', 2, false, true));
+        /*
+        if(User::isLogged()){
+            session_id($response->session_id);
+        }
+        */
         $this->endpointResponse = $response->response;
         $this->totalRows = $this->endpointResponse->totalRows;
         $this->childs = $childs;

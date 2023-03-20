@@ -2830,7 +2830,6 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
-        $wh = '';
         $image_info = getimagesize($file);
         if(!empty($image_info)){
             $wh = $image_info[3];

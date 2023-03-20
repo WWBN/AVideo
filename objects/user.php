@@ -1039,7 +1039,7 @@ if (typeof gtag !== \"function\") {
             _session_regenerate_id();
             session_write_close();
 
-            _error_log('User:login finish ' . json_encode($_SESSION['user']['id']));
+            _error_log('User:login finish users_id=' . json_encode($_SESSION['user']['id']) );
             return self::USER_LOGGED;
         } else {
             unset($_SESSION['user']);
@@ -2638,6 +2638,13 @@ if (typeof gtag !== \"function\") {
         } else {
             return false;
         }
+    }
+
+    public static function loginFromRequestIfNotLogged() {
+        if(User::isLogged()){
+            return self::USER_LOGGED;
+        }
+        return self::loginFromRequest();
     }
 
     public static function loginFromRequest() {

@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php'
 $getStatsObject = [];
 $_getStats = [];
 
-User::loginFromRequest();
+User::loginFromRequestIfNotLogged();
 
 class Live extends PluginAbstract {
 

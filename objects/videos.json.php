@@ -3,7 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-User::loginFromRequest();
+User::loginFromRequestIfNotLogged();
 session_write_close();
 header('Content-Type: application/json');
 $start = microtime(true);

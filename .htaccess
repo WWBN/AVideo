@@ -86,6 +86,7 @@ Options All -Indexes
     #VideoHLS for DRM
 
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]
+    RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
 
     RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
     RedirectMatch 404 /\.git    

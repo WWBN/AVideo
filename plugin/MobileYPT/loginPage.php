@@ -15,9 +15,7 @@ if (!empty($_REQUEST['logoff'])) {
     User::logoff();
 }
 $html = '';
-if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
-    User::loginFromRequest();
-}
+User::loginFromRequestIfNotLogged();
 if (User::isLogged()) {
     //$html .= getIncludeFileContent($global['systemRootPath'] . 'plugin/MobileYPT/userButtons.php');
 } else {
