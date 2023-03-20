@@ -353,6 +353,10 @@ class Live_schedule extends ObjectYPT
         if (empty($this->users_id_company)) {
             $this->users_id_company = 'NULL';
         }
+        
+        if ($this->status != 'i') {
+            $this->status = 'a';
+        }
 
         if (empty($this->key)) {
             $this->key = uniqid();

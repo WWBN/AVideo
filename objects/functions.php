@@ -358,6 +358,9 @@ function base64DataToImage($imgBase64)
 
 function saveBase64DataToPNGImage($imgBase64, $filePath){    
     $fileData = base64DataToImage($imgBase64);
+    if(empty($fileData)){
+        return false;
+    }
     return _file_put_contents($filePath, $fileData);
 }
 

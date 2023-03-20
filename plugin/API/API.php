@@ -822,7 +822,7 @@ class API extends PluginAbstract {
             return new ApiObject("You cannot stream");
         } else {
             $users_id = User::getId();
-            $_POST['sort'] = array('scheduled_time'=>'DESC');
+            $_POST['sort'] = array('scheduled_time' => 'DESC');
             if (empty($parameters['live_schedule_id'])) {
                 $obj = Live_schedule::getAll($users_id);
             } else {
@@ -851,7 +851,7 @@ class API extends PluginAbstract {
         } else {
             $users_id = User::getId();
             if (empty($parameters['live_schedule_id'])) {
-                $obj = false;
+                return new ApiObject("live_schedule_id cannot be empty");
             } else {
                 $row = new Live_schedule($parameters['live_schedule_id']);
                 if ($row->getUsers_id() != $users_id) {
@@ -882,55 +882,73 @@ class API extends PluginAbstract {
      * @return \ApiObject
      */
     public function set_api_live_schedule($parameters) {
-        $id = 0;
+        $live_schedule_id = 0;
+        $obj = new stdClass();
         if (!User::canStream()) {
             return new ApiObject("You cannot stream");
         } else {
             $users_id = User::getId();
             if (empty($parameters['live_schedule_id'])) {
+                if (empty($parameters['title'])) {
+                    return new ApiObject("Title cannot be empty");
+                }
+                if (empty($parameters['scheduled_time'])) {
+                    return new ApiObject("scheduled_time cannot be empty");
+                }
+                if (empty($parameters['status']) || $parameters['status'] !== 'i') {
+                    $parameters['status'] = 'a';
+                }
                 $o = new Live_schedule(0);
             } else {
-                $row = Live_schedule::getFromDb($parameters['live_schedule_id']);
-                if ($row['users_id'] != $users_id) {
+                $o = new Live_schedule($parameters['live_schedule_id']);
+                if ($o->getUsers_id() != $users_id) {
                     return new ApiObject("This live schedule does not belong to you");
                 } else {
                     $o = new Live_schedule($parameters['live_schedule_id']);
                 }
             }
-            if(empty($parameters['title'])){
-                return new ApiObject("Title cannot be empty");
+            //var_dump($parameters);exit;
+            if (isset($parameters['title'])) {
+                $o->setTitle($parameters['title']);
             }
-            if(empty($parameters['scheduled_time'])){
-                return new ApiObject("scheduled_time cannot be empty");
+            if (isset($parameters['description'])) {
+                $o->setDescription($parameters['description']);
             }
-            if(empty($parameters['status']) || $parameters['status'] !== 'i'){
-                  $parameters['status'] = 'a';
+            if (isset($parameters['live_servers_id'])) {
+                $o->setLive_servers_id($parameters['live_servers_id']);
+            }
+            if (isset($parameters['scheduled_time'])) {
+                $o->setScheduled_time($parameters['scheduled_time']);
+            }
+            if (isset($parameters['status'])) {
+                $o->setStatus($parameters['status']);
+            }
+            if (isset($parameters['scheduled_password'])) {
+                $o->setScheduled_password($parameters['scheduled_password']);
             }
 
-            $o->setTitle($parameters['title']);
-            $o->setDescription($parameters['description']);
             $o->setUsers_id($users_id);
-            $o->setLive_servers_id(@$parameters['live_servers_id']);
-            $o->setScheduled_time($parameters['scheduled_time']);
-            $o->setStatus($parameters['status']);
-            $o->setScheduled_password($parameters['scheduled_password']);
             $live_schedule_id = $o->save();
-            if($live_schedule_id){
-                if(!empty($parameters['base64PNGImageRegular'])){
+            if ($live_schedule_id) {
+                if (!empty($parameters['base64PNGImageRegular'])) {
                     $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_regular);
                     saveBase64DataToPNGImage($parameters['base64PNGImageRegular'], $image['path']);
                 }
-                if(!empty($parameters['base64PNGImagePreRoll'])){
+                if (!empty($parameters['base64PNGImagePreRoll'])) {
                     $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_preroll);
                     saveBase64DataToPNGImage($parameters['base64PNGImagePreRoll'], $image['path']);
                 }
-                if(!empty($parameters['base64PNGImagePostRoll'])){
+                if (!empty($parameters['base64PNGImagePostRoll'])) {
                     $image = Live_schedule::getPosterPaths($live_schedule_id, Live::$posterType_postroll);
                     saveBase64DataToPNGImage($parameters['base64PNGImagePostRoll'], $image['path']);
                 }
+
+
+                $o = new Live_schedule($live_schedule_id);
+                $obj->live_schedule_id = $live_schedule_id;
             }
         }
-        return new ApiObject("", empty($live_schedule_id), $live_schedule_id);
+        return new ApiObject("", empty($live_schedule_id), $obj);
     }
 
     /**
