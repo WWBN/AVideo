@@ -175,7 +175,7 @@ class Comment {
             $sql .= ", 0 as myVote ";
         }
 
-        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 AND u.name = 'a' ";
+        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 AND u.status = 'a' ";
 
         if (!empty($videoId)) {
             $sql .= " AND videos_id = ? ";
