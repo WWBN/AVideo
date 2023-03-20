@@ -936,16 +936,16 @@
         },
         {
             "name": "google/apiclient",
-            "version": "v2.13.0",
+            "version": "v2.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client.git",
-                "reference": "b653a338c5a658adf6df4bb2f44c2cc02fe7eb1d"
+                "reference": "895749dd4f14c349ca0b4aad020ff973f961e519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/b653a338c5a658adf6df4bb2f44c2cc02fe7eb1d",
-                "reference": "b653a338c5a658adf6df4bb2f44c2cc02fe7eb1d",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client/zipball/895749dd4f14c349ca0b4aad020ff973f961e519",
+                "reference": "895749dd4f14c349ca0b4aad020ff973f961e519",
                 "shasum": ""
             },
             "require": {
@@ -1000,22 +1000,22 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client/issues",
-                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.13.0"
+                "source": "https://github.com/googleapis/google-api-php-client/tree/v2.13.1"
             },
-            "time": "2022-12-19T22:17:11+00:00"
+            "time": "2023-03-13T20:38:21+00:00"
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.290.0",
+            "version": "v0.291.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "df7e6cbab08f60509b3f360d8286c194ad2930e2"
+                "reference": "6f79073f022686461af2d1a95b4fe91caaf947ec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/df7e6cbab08f60509b3f360d8286c194ad2930e2",
-                "reference": "df7e6cbab08f60509b3f360d8286c194ad2930e2",
+                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/6f79073f022686461af2d1a95b4fe91caaf947ec",
+                "reference": "6f79073f022686461af2d1a95b4fe91caaf947ec",
                 "shasum": ""
             },
             "require": {
@@ -1044,9 +1044,9 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.290.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.291.0"
             },
-            "time": "2023-03-01T17:20:18+00:00"
+            "time": "2023-03-13T21:05:11+00:00"
         },
         {
             "name": "google/auth",
