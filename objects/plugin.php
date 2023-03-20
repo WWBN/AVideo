@@ -102,7 +102,7 @@ class Plugin extends ObjectYPT
     public static function setCurrentVersionByUuid($uuid, $currentVersion)
     {
         _error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
-        $p = static::getPluginByUUID($uuid);
+        $p = static::getPluginByUUID($uuid, true);
         if (!$p) {
             _error_log("plugin::setCurrentVersionByUuid error on get plugin");
             return false;
@@ -152,7 +152,7 @@ class Plugin extends ObjectYPT
         return $getPluginByName[$name];
     }
 
-    public static function getPluginByUUID($uuid)
+    public static function getPluginByUUID($uuid, $refreshCache=false)
     {
         global $global, $getPluginByUUID, $pluginJustInstalled;
         $name = "plugin$uuid";
@@ -164,7 +164,7 @@ class Plugin extends ObjectYPT
         }
         if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, "s", [$uuid]);
+            $res = sqlDAL::readSql($sql, "s", [$uuid], $refreshCache);
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
