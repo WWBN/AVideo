@@ -20,8 +20,8 @@ if(empty($_REQUEST['id'])){
        //$_POST['sort']['comments_id_pai'] = 'DESC';
        $_POST['sort']['id'] = 'DESC';
     }
-    $comments = Comment::getAllComments($_REQUEST['video_id'], @$_REQUEST['comments_id']);
-    $total = Comment::getTotalComments($_REQUEST['video_id'], @$_REQUEST['comments_id']);
+    $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
+    $total = Comment::getTotalComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
 }else{
     $comment = Comment::getComment($_REQUEST['id']);
     if(!empty($comment)){
