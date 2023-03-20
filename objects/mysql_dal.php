@@ -418,7 +418,12 @@ class sqlDAL
         // here, a cache is more/too difficult, because fetch gives always a next. with this kind of cache, we would give always the same.
         if ((function_exists('mysqli_fetch_all')) && ($disableMysqlNdMethods == false)) {
             if ($result !== false) {
-                return $result->fetch_assoc();
+                try {
+                    return $result->fetch_assoc();
+                } catch (\Throwable $th) {
+                    _error_log('fetchAssoc: '.$th->getMessage(), AVideoLog::$ERROR);
+                    return false;
+                }
             }
         } else {
             return self::iimysqli_result_fetch_assoc($result);
