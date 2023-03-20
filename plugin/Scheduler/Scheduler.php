@@ -482,7 +482,7 @@ class Scheduler extends PluginAbstract
     {
         $lastVisitFile = self::getLastVisitFile();
         if(_file_put_contents($lastVisitFile, time())){
-            chmod($lastVisitFile, 777);
+            chmod($lastVisitFile, 0777);
             return $lastVisitFile;
         }else{
             return false;
