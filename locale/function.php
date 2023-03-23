@@ -132,7 +132,7 @@ function setSiteLang() {
     } else if ($userLocation) {
         User_Location::changeLang();
     }
-    if (empty($_SESSION['language'])) {
+    if (empty($_SESSION['language']) && !empty($config)) {
         setLanguage($config->getLanguage());
     }
     if (empty($_SESSION['language'])) {
