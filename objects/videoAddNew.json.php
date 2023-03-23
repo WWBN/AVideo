@@ -57,7 +57,9 @@ if (!empty($_POST['videoLink'])) {
             $obj->setClean_title($infoObj->title);
             $obj->setDuration($infoObj->duration);
             $obj->setDescription($infoObj->description);
-            _file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+            $imgFile = $global['systemRootPath'] . "videos/{$filename}.jpg";
+            _error_log('videoAddNew save image: '.$imgFile);
+            _file_put_contents($imgFile, base64_decode($infoObj->thumbs64));
         }
         $_POST['videoLinkType'] = "embed";
     } elseif (empty($_POST['id'])) {
