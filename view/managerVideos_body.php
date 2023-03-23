@@ -1,3 +1,6 @@
+<?php
+require_once $global['systemRootPath'] . 'objects/video.php';
+?>
 <style>
     <?php
     if (!empty($advancedCustom->hideEditAdvancedFromVideosManager) && !User::isAdmin()) {
