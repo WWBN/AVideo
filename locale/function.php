@@ -128,9 +128,9 @@ function setSiteLang()
         if(!class_exists('Configuration')){
             require $global['systemRootPath'] . 'objects/configuration.php';
         }
-        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         $config = new Configuration();
     }
+    require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
     $userLocation = false;
     $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
     $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
