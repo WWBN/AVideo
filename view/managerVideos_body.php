@@ -363,6 +363,9 @@
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Statuses'); ?></a></li>
                         <?php
+                        if(!isset($statusSearchFilter)){
+                            $statusSearchFilter = array();
+                        }
                         if (AVideoPlugin::isEnabled('FansSubscriptions')) {
                             $statusSearchFilter[] = Video::$statusFansOnly;
                         }
@@ -1255,7 +1258,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         return goodImageRexp.test(filename) && !/notfound/i.test(filename);
     }
 
-    function getVManagerBestImage(videosURL) {
+    function getVManagerBestImage(row) {
+        var videosURL = row.videosURL;
         var image1 = '';
         var image2 = '';
         console.log('videosURL', videosURL);
@@ -1933,7 +1937,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         type = "<i class='fa fa-film hidden-xs' style='font-size:14px;'></i> ";
                     }
                     if (typeof row.videosURL !== 'undefined') {
-                        img = getVManagerImageTag(getVManagerBestImage(row.videosURL));
+                        img = getVManagerImageTag(getVManagerBestImage(row));
                     } else {
                         is_portrait = (row.rotation === "90" || row.rotation === "270") ? "img-portrait" : "";
                         img = "<img class='img img-responsive " + is_portrait + " img-thumbnail pull-left rotate" + row.rotation + " imgt4' src='" + webSiteRootURL + "videos/" + row.filename + ".jpg?cache=" + Math.random() + "'  style='max-height:80px; margin-right: 5px;'> ";
