@@ -57,7 +57,7 @@ if (!empty($_POST['videoLink'])) {
             $obj->setClean_title($infoObj->title);
             $obj->setDuration($infoObj->duration);
             $obj->setDescription($infoObj->description);
-            $imgFile = $global['systemRootPath'] . "videos/{$filename}.jpg";
+            $imgFile = $global['systemRootPath'] . "videos/{$filename}/{$filename}.jpg";
             _error_log('videoAddNew save image: '.$imgFile);
             _file_put_contents($imgFile, base64_decode($infoObj->thumbs64));
         }
