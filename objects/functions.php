@@ -7259,6 +7259,7 @@ function uniqidV4()
 
 function _setcookie($cookieName, $value, $expires = 0)
 {
+    global $config;
     if (empty($expires)) {
         if (empty($config) || !is_object($config)) {
             $config = new Configuration();
