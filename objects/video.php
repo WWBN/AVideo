@@ -5979,7 +5979,7 @@ if (!class_exists('Video')) {
 if (!empty($_GET['v']) && empty($_GET['videoName'])) {
     $_GET['videoName'] = Video::get_clean_title($_GET['v']);
 }
-
+global $statusThatShowTheCompleteMenu, $statusSearchFilter, $statusThatTheUserCanUpdate;
 $statusThatShowTheCompleteMenu = [
     Video::$statusActive,
     Video::$statusInactive,
