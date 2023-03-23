@@ -125,9 +125,7 @@ function setSiteLang()
     global $config, $global;
 
     if(empty($config)){
-        if(!class_exists('Configuration')){
-            require $global['systemRootPath'] . 'objects/configuration.php';
-        }
+        require_once $global['systemRootPath'] . 'objects/configuration.php';
         $config = new Configuration();
     }
     require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
