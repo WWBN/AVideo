@@ -42,6 +42,8 @@ $videoFileName = $video->getFilename();
 $paths = Video::getPaths($videoFileName, true);
 $destination_local = "{$paths['path']}{$videoFileName}";
 
+make_path($destination_local);
+
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
