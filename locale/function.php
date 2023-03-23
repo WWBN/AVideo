@@ -1,15 +1,17 @@
 <?php
 
-if (empty($config)) {
-    return true;
-}
-
 // filter some security here
 if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
 }
 
-@include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+includeLangFile();
+
+function includeLangFile(){
+    global $t;
+    setSiteLang();
+    @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
+}
 
 function __($str, $allowHTML = false)
 {
@@ -120,8 +122,15 @@ function flag2Lang($flagCode)
 
 function setSiteLang()
 {
-    global $config;
+    global $config, $global;
 
+    if(empty($config)){
+        if(!class_exists('Configuration')){
+            require $global['systemRootPath'] . 'objects/configuration.php';
+        }
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        $config = new Configuration();
+    }
     $userLocation = false;
     $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
     $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);

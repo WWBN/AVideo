@@ -4660,7 +4660,7 @@ if (!class_exists('Video')) {
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
                 }
-                $clean_title = urlencode($clean_title);
+                $clean_title = @urlencode($clean_title);
                 $subDir = "video";
                 $subEmbedDir = "videoEmbed";
                 if ($video->getType() == 'article') {

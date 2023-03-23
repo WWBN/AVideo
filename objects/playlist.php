@@ -85,10 +85,19 @@ class PlayList extends ObjectYPT {
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         $videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
+            if(empty($videosP[$key]['type'])){
+                unset($videosP[$key]);
+                continue;
+            }
             if (!empty($value2['serie_playlists_id'])) {
                 $videosP[$key]['icon'] = '<i class=\'fas fa-layer-group\'></i>';
             } else {
                 $videosP[$key]['icon'] = '<i class=\'fas fa-film\'></i>';
+            }
+            $images = Video::getImageFromFilename($videosP[$key]['filename'], $videosP[$key]['type']);
+            $videosP[$key]['images'] = $images;
+            if ($videosP[$key]['type'] !== 'linkVideo') {
+                $videosP[$key]['videos'] = Video::getVideosPaths($videosP[$key]['filename'], true);
             }
         }
 
@@ -262,9 +271,8 @@ class PlayList extends ObjectYPT {
         if ($res !== false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
-                $row['videos'] = [];
+                $row['videos'] = self::getVideosIDFromPlaylistLight($row['id']);
                 if ($onlyWithVideos) {
-                    $row['videos'] = self::getVideosIDFromPlaylistLight($row['id']);
                     if (empty($row['videos'])) {
                         continue;
                     }

@@ -1359,6 +1359,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
         $parts = self::getLiveParametersFromKey($uuid);
+        $allowOnlineIndex= false;
         if (!empty($parts['live_index'])) {
             $allowOnlineIndex = $parts['live_index'];
         } elseif (!empty($_REQUEST['live_index'])) {
