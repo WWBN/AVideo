@@ -7259,9 +7259,10 @@ function uniqidV4()
 
 function _setcookie($cookieName, $value, $expires = 0)
 {
-    global $config;
+    global $config, $global;
     if (empty($expires)) {
         if (empty($config) || !is_object($config)) {
+            require_once $global['systemRootPath'] . 'objects/configuration.php';
             $config = new Configuration();
         }
         $expires = time() + $config->getSession_timeout();
