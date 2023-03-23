@@ -7,6 +7,7 @@ $url = addQueryStringParameter($url, 'user', User::getUserName());
 $url = addQueryStringParameter($url, 'pass', User::getUserPass());
 $url = addQueryStringParameter($url, 'users_id', User::getId());
 $url = addQueryStringParameter($url, 'isMobile', isMobile()?1:0);
+$url = addQueryStringParameter($url, 'qrcode', 1);
 
 ?>
 <li>
