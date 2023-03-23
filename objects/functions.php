@@ -2986,7 +2986,7 @@ function try_get_contents_from_local($url)
             $encoder = 'Encoder/';
         }
         $tryFile = "{$global['systemRootPath']}{$encoder}videos/{$parts[1]}";
-        _error_log("try_get_contents_from_local {$url} => {$tryFile}");
+        //_error_log("try_get_contents_from_local {$url} => {$tryFile}");
         if (file_exists($tryFile)) {
             return file_get_contents($tryFile);
         }
