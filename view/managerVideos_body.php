@@ -1,4 +1,5 @@
 <?php
+global $statusThatShowTheCompleteMenu;
 require_once $global['systemRootPath'] . 'objects/video.php';
 ?>
 <style>
