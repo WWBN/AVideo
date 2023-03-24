@@ -80,11 +80,11 @@ $videosCounter = 0;
             $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
-            $oldCatName = @$_GET['catName'];
-            if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
+            $oldCatName = @$_REQUEST['catName'];
+            if (!empty($_REQUEST['catName']) && $value['clean_name'] !== $_REQUEST['catName']) {
                 continue;
             } else {
-                $_GET['catName'] = $value['clean_name'];
+                $_REQUEST['catName'] = $value['clean_name'];
             }
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
@@ -96,7 +96,7 @@ $videosCounter = 0;
 
             TimeLogEnd($timeLog2, __LINE__);
             if (empty($videos)) {
-                $_GET['catName'] = $oldCatName;
+                $_REQUEST['catName'] = $oldCatName;
                 continue;
             }
             if (!empty($ads2)) {
@@ -126,7 +126,7 @@ $videosCounter = 0;
                 ?>
             </div>
             <?php
-            $_GET['catName'] = $oldCatName;
+            $_REQUEST['catName'] = $oldCatName;
             TimeLogEnd($timeLog2, __LINE__);
         }
     }
@@ -143,8 +143,8 @@ $videosCounter = 0;
 <p class="pagination">
     <?php
     $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
-    if (!empty($_GET['catName'])) {
-        $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
+    if (!empty($_REQUEST['catName'])) {
+        $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
     }
     $search = getSearchVar();
     if (!empty($search)) {

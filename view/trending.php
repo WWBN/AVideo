@@ -81,7 +81,7 @@ $metaDescription = __("Trending");
 
                                     <div class="galeryDetails col-lg-12" style="overflow: hidden;">
                                         <div>
-                                            <?php if (empty($_GET['catName'])) { ?>
+                                            <?php if (empty($_REQUEST['catName'])) { ?>
                                                 <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $value['clean_category']; ?>/">
                                                     <?php
                                                     if (!empty($value['iconClass'])) {

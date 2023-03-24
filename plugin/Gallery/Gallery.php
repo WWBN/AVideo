@@ -125,6 +125,7 @@ class Gallery extends PluginAbstract
 
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
+        self::addDataObjectHelper('SubCategorys', 'Show Subcategories', 'When you are in the categories page, show the subcategories link at the top');
         $obj->showTags = true;
         $obj->showCategoryTag = true;
         $obj->showCategoryLiveRow = false;
@@ -377,7 +378,7 @@ class Gallery extends PluginAbstract
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
                 } else
-                if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
+                if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
                     $title = !empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added");
                     $rowCount = intval($obj->DateAddedRowCount);
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[created]=desc";

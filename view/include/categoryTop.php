@@ -2,8 +2,8 @@
 if (empty($advancedCustom->showCategoryTopImages)) {
     return false;
 }
-if (!empty($_GET['catName'])) {
-    $currentCat = Category::getCategoryByName($_GET['catName']);
+if (!empty($_REQUEST['catName'])) {
+    $currentCat = Category::getCategoryByName($_REQUEST['catName']);
     if(!empty($currentCat)){
         $categories_id = $currentCat['id'];
         if (!Category::isAssetsValids($categories_id)) {

@@ -3225,8 +3225,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $sql .= " AND v.`public` = '{$status}'";
         }
 
-        if (!empty($_GET['catName'])) {
-            $catName = ($_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $catName = ($_REQUEST['catName']);
             $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 

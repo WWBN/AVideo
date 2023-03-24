@@ -36,7 +36,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
     <?php
     $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
-        $_GET['catName'] = $_cat['clean_name'];
+        $_REQUEST['catName'] = $_cat['clean_name'];
         if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
             $currentCat = $_cat;
             echo '<!-- '.basename(__FILE__).' -->';

@@ -148,9 +148,9 @@ class ADs extends PluginAbstract
                 }
             }
         }
-        if (!empty($_GET['catName'])) {
+        if (!empty($_REQUEST['catName'])) {
             if (!empty($obj->tags3rdParty)) {
-                $v = Category::getCategoryByName($_GET['catName']);
+                $v = Category::getCategoryByName($_REQUEST['catName']);
                 if (!empty($v)) {
                     $head .= str_replace([',', '{ChannelName}', '{Category}'], ['', '', addcslashes($v["name"], "'")], $obj->tags3rdParty);
                     return $head;

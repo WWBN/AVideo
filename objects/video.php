@@ -963,9 +963,13 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
-            if (!empty($_GET['catName'])) {
-                $catName = ($_GET['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
+            if (!empty($_REQUEST['catName'])) {
+                $catName = ($_REQUEST['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' ";
+                if(empty($_REQUEST['doNotShowCatChilds'])){
+                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
+                }
+                $sql .= " )";
             }
 
             if (empty($id) && !empty($_GET['channelName'])) {
@@ -1318,7 +1322,8 @@ if (!class_exists('Video')) {
                 $suggestedOnly = true;
                 $status = '';
             }
-            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description,"
+            $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass, 
+                    c.name as category, c.order as category_order, c.clean_name as clean_category,c.description as category_description,"
                     . " v.created as videoCreation, v.modified as videoModified "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                     //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
@@ -1420,9 +1425,13 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
-            if (!empty($_GET['catName'])) {
-                $catName = ($_GET['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
+            if (!empty($_REQUEST['catName'])) {
+                $catName = ($_REQUEST['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' ";
+                if(empty($_REQUEST['doNotShowCatChilds'])){
+                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
+                }
+                $sql .= " )";
             }
 
             if (!empty($_GET['search'])) {
@@ -1883,7 +1892,11 @@ if (!class_exists('Video')) {
             }
             if (!empty($_REQUEST['catName'])) {
                 $catName = ($_REQUEST['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
+                $sql .= " AND (c.clean_name = '{$catName}' ";
+                if(empty($_REQUEST['doNotShowCatChilds'])){
+                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
+                }
+                $sql .= " )";
             }
             $sql .= AVideoPlugin::getVideoWhereClause();
             if (!empty($type)) {
@@ -1951,7 +1964,7 @@ if (!class_exists('Video')) {
             }
             /*
               $cn = '';
-              if (!empty($_GET['catName'])) {
+              if (!empty($_REQUEST['catName'])) {
               $cn .= ", c.clean_name as cn";
               }
              *
@@ -2017,9 +2030,13 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if (!empty($_GET['catName'])) {
-                $catName = ($_GET['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' ))";
+            if (!empty($_REQUEST['catName'])) {
+                $catName = ($_REQUEST['catName']);
+                $sql .= " AND (c.clean_name = '{$catName}' ";
+                if(empty($_REQUEST['doNotShowCatChilds'])){
+                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
+                }
+                $sql .= " )";
             }
 
             if (!empty($_SESSION['type'])) {
@@ -4653,8 +4670,8 @@ if (!class_exists('Video')) {
 
             if ($type == "URLFriendly") {
                 $cat = '';
-                if (!empty($_GET['catName'])) {
-                    $cat = "cat/{$_GET['catName']}/";
+                if (!empty($_REQUEST['catName'])) {
+                    $cat = "cat/{$_REQUEST['catName']}/";
                 }
 
                 if (empty($clean_title)) {
@@ -5469,7 +5486,7 @@ if (!class_exists('Video')) {
         public static function getVideosListItem($videos_id, $divID = '', $style = '') {
             global $global, $advancedCustom;
             $get = [];
-            $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
+            $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_REQUEST['catName']];
 
             if (empty($divID)) {
                 $divID = "divVideo-{$videos_id}";
@@ -5971,7 +5988,7 @@ if (!class_exists('Video')) {
             }
             return $url;
         }
-
+        
     }
 
 }

@@ -94,16 +94,16 @@ if (!empty($evideo)) {
         }
     } else {
         $catLink = '';
-        if (!empty($_GET['catName'])) {
-            $catLink = "cat/{$_GET['catName']}/";
+        if (!empty($_REQUEST['catName'])) {
+            $catLink = "cat/{$_REQUEST['catName']}/";
         }
 
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         // add this because if you change the video category the video was not loading anymore
-        $catName = @$_GET['catName'];
+        $catName = @$_REQUEST['catName'];
 
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
-            $_GET['catName'] = '';
+            $_REQUEST['catName'] = '';
         }
 
         if (empty($video) && !empty($_REQUEST['v'])) {
@@ -135,13 +135,13 @@ if (!empty($evideo)) {
             Video::unsetAddView($video['id']);
 
             // add this because if you change the video category the video was not loading anymore
-            $_GET['catName'] = $catName;
+            $_REQUEST['catName'] = $catName;
 
             $_GET['isMediaPlaySite'] = $video['id'];
             $obj = new Video("", "", $video['id']);
         }
 
-        $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
+        $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_REQUEST['catName']];
 
         $modeYouTubeTimeLog['Code part 1.1'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);

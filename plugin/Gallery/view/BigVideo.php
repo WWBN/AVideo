@@ -125,7 +125,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         <div class="galeryDetails">
                                             <div class="galleryTags">
                                                 <?php
-                                                if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
+                                                if (empty($_REQUEST['catName']) && !empty($obj->showCategoryTag)) {
                                                     ?>
                                                     <a class="label label-default" href="<?php echo "{$global['webSiteRootURL']}cat/{$videoRow['clean_category']}"; ?>"  data-toggle="tooltip" title="<?php echo $videoRow['category']; ?>">
                                                         <?php

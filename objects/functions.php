@@ -5835,8 +5835,8 @@ function getSEOComplement($parameters = []) {
         array_push($parts, __("Error"));
     }
 
-    if ($addCategory && !empty($_GET['catName'])) {
-        array_push($parts, $_GET['catName']);
+    if ($addCategory && !empty($_REQUEST['catName'])) {
+        array_push($parts, $_REQUEST['catName']);
     }
 
     if (!empty($_GET['channelName'])) {
@@ -10328,4 +10328,35 @@ function set_error_reporting() {
         error_reporting(E_ERROR);
         ini_set('display_errors', 0);
     }
+}
+
+/**
+ * Check whether an image is fully transparent.
+ *
+ * @param string $filename The path to the image file.
+ * @return bool True if the image is fully transparent, false otherwise.
+ */
+function is_image_fully_transparent($filename)
+{
+    // Load the image
+    $image = imagecreatefrompng($filename);
+
+    // Get the number of colors in the image
+    $num_colors = imagecolorstotal($image);
+
+    // Loop through each color and check if it's fully transparent
+    $is_transparent = true;
+    for ($i = 0; $i < $num_colors; $i++) {
+        $color = imagecolorsforindex($image, $i);
+        if ($color['alpha'] != 127) { // 127 is the maximum value for a fully transparent color
+            $is_transparent = false;
+            break;
+        }
+    }
+
+    // Free up memory
+    imagedestroy($image);
+
+    // Return the result
+    return $is_transparent;
 }

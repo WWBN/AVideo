@@ -35,8 +35,8 @@ if (!empty($poster)) {
 }
 
 TimeLogEnd($timeLogHead, __LINE__);
-if (!empty($_GET['catName'])) {
-    $category = Category::getCategoryByName($_GET['catName']);
+if (!empty($_REQUEST['catName'])) {
+    $category = Category::getCategoryByName($_REQUEST['catName']);
     if(!empty($category)){
         $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
         $custom = [];

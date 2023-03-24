@@ -39,7 +39,7 @@
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
-        if (empty($_GET['catName'])) {
+        if (empty($_REQUEST['catName'])) {
             $objLive = AVideoPlugin::getDataObject('Live');
             if (empty($objLive->doNotShowLiveOnVideosList)) {
                 ?>
@@ -61,8 +61,8 @@
 
         $sections = Gallery::getSectionsOrder();
         $countSections = 0;
-        if (!empty($_GET['catName'])) {
-            $currentCat = Category::getCategoryByName($_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $currentCat = Category::getCategoryByName($_REQUEST['catName']);
             //createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
 
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
@@ -85,7 +85,7 @@
                 if ($value['name'] == 'SortByName') {
                     createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
                 } else
-                if ($value['name'] == 'DateAdded' && empty($_GET['catName'])) {
+                if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
                     createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
                 } else
                 if ($value['name'] == 'PrivateContent') {
@@ -118,8 +118,8 @@
                     }
                 }
             }
-            if (empty($countSections) && !empty($_GET['catName'])) {
-                $category = Category::getCategoryByName($_GET['catName']);
+            if (empty($countSections) && !empty($_REQUEST['catName'])) {
+                $category = Category::getCategoryByName($_REQUEST['catName']);
                 createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
             }
         }

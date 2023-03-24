@@ -228,7 +228,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
 function getLabelTags($video) {
     global $global;
     $obj = AVideoPlugin::getObjectData("Gallery");
-    if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
+    if (empty($_REQUEST['catName']) && !empty($obj->showCategoryTag)) {
         $iconClass = 'fas fa-folder';
         if (!empty($video['iconClass'])) {
             $iconClass = $video['iconClass'];
@@ -277,17 +277,7 @@ function getGalleryColsCSSClass($screenColsLarge = 0, $screenColsMedium = 0, $sc
 }
 
 function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex = 1000) {
-    global $global, $config, $advancedCustom, $advancedCustomUser, $_lastCanDownloadVideosFromVideoReason;
-    $countCols = 0;
-    $objGallery = AVideoPlugin::getObjectData("Gallery");
-    // that meas auto generate the channelName
-    if (empty($get) && !empty($objGallery->filterUserChannel)) {
-        $getCN = array('channelName' => $video['channelName'], 'catName' => @$_GET['catName']);
-    } else {
-        $getCN = $get;
-    }
-
-    $img_portrait = (@$video['rotation'] === "90" || @$video['rotation'] === "270") ? "img-portrait" : "";
+    global $global, $advancedCustom, $_lastCanDownloadVideosFromVideoReason;
     $nameId = User::getNameIdentificationById($video['users_id']);
     $name = $nameId . " " . User::getEmailVerifiedIcon($video['users_id']);
     
@@ -382,8 +372,6 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
             } else {
                 echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
             }
-            //getLdJson($video['id']);
-            //getItemprop($video['id']);
         }
         ?>
     </div>
@@ -480,7 +468,7 @@ function createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge = 0, $s
 
         <div class="galeryDetails">
             <div class="galleryTags">
-                <?php if (empty($_GET['catName']) && !empty($objGallery->showCategoryTag)) { ?>
+                <?php if (empty($_REQUEST['catName']) && !empty($objGallery->showCategoryTag)) { ?>
                     <a class="label label-default" href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>">
                         <?php
                         if (!empty($video['iconClass'])) {

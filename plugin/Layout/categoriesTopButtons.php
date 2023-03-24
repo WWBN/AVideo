@@ -41,7 +41,7 @@ if(empty($obj) || !isset($obj->categoriesTopButtonsFluid)){
                 ?>
                 <li data-toggle="tooltip" title="<?php echo __($value['name']); ?>" data-placement="bottom">
                     <a href="<?php echo Category::getCategoryLinkFromName($value['clean_name']); ?>" 
-                       class="<?php echo ($value['clean_name'] == @$_GET['catName'] ? "active" : ""); ?>">
+                       class="<?php echo ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : ""); ?>">
                            <?php
                            echo '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  '
                            . '<span class="">' . __($value['name']) . '</span>';

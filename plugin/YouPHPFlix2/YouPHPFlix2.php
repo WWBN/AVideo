@@ -90,7 +90,7 @@ class YouPHPFlix2 extends PluginAbstract
     {
         global $global;
 
-        if (!empty($_GET['catName'])) {
+        if (!empty($_REQUEST['catName'])) {
             $obj = $this->getDataObject();
             if ($obj->useGalleryModeOnCategory) {
                 return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';

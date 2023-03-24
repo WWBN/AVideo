@@ -307,8 +307,8 @@ $percent = 90;
     }
     if ($obj->Categories) {
         $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
-        if (!empty($_GET['catName'])) {
-            $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
         }
         $search = getSearchVar();
         if (!empty($search)) {

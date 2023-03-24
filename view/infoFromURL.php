@@ -57,11 +57,11 @@ if (!empty($video['next_videos_id'])) {
     $obj->nextURL = Video::getURLFriendly($video['next_videos_id']);
     $obj->nextURLEmbed = Video::getURLFriendly($video['next_videos_id'], true);
 } else {
-    $catName = @$_GET['catName'];
+    $catName = @$_REQUEST['catName'];
     $cat = new Category($video['categories_id']);
-    $_GET['catName'] = $cat->getClean_name();
+    $_REQUEST['catName'] = $cat->getClean_name();
     $next_video = Video::getVideo('', 'viewable', false, true);
-    $_GET['catName'] = $catName;
+    $_REQUEST['catName'] = $catName;
     if (!empty($next_video['id'])) {
         $obj->nextURL = Video::getURLFriendly($next_video['id']);
         $obj->nextURLEmbed = Video::getURLFriendly($next_video['id'], true);

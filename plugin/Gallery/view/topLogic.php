@@ -23,8 +23,8 @@ if (!empty($_GET['type'])) {
 }
 require_once $global['systemRootPath'] . 'objects/category.php';
 $currentCat;
-if (!empty($_GET['catName'])) {
-    $currentCat = Category::getCategoryByName($_GET['catName']);
+if (!empty($_REQUEST['catName'])) {
+    $currentCat = Category::getCategoryByName($_REQUEST['catName']);
     if(!empty($currentCat)){
         array_push($siteTitle, $currentCat['name']);
     }

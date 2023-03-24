@@ -619,11 +619,11 @@ class PlayerSkins extends PluginAbstract {
                     $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
                 }
             } else {
-                $catName = @$_GET['catName'];
+                $catName = @$_REQUEST['catName'];
                 $cat = new Category($video->getCategories_id());
-                $_GET['catName'] = $cat->getClean_name();
+                $_REQUEST['catName'] = $cat->getClean_name();
                 $next_video = Video::getVideo('', 'viewable', false, true);
-                $_GET['catName'] = $catName;
+                $_REQUEST['catName'] = $catName;
                 if (!empty($next_video['id'])) {
                     $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
                 }
