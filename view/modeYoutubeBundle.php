@@ -1,5 +1,5 @@
 <?php
-$TimeLogLimitMYB = 0.2;
+$TimeLogLimitMYB = 1;
 $timeLogNameMYB = TimeLogStart("modeYoutubeBundle.php");
 $isCompressed = AVideoPlugin::loadPluginIfEnabled('TheaterButton') && TheaterButton::isCompressed();
 
