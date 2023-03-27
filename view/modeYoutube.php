@@ -244,7 +244,9 @@ if (!empty($evideo)) {
     if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
     }
-    if (!empty($_GET['videoName']) && empty($video)) {
+    if(!empty($video)){
+        $v = Video::getVideo($video['id'], "", true, false, false, true);
+    }else if (!empty($_GET['videoName'])) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
