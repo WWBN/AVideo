@@ -10241,6 +10241,9 @@ function isSafari() {
 }
 
 function fixQuotes($str) {
+    if(!is_string($str)){
+        return $str;
+    }
     $chr_map = [
         // Windows codepage 1252
         "\xC2\x82" => "'", // U+0082⇒U+201A single low-9 quotation mark
