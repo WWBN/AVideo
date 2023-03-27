@@ -84,7 +84,7 @@ if (!empty($evideo)) {
             $playlist_index = $plp->getIndex();
     
             if (empty($playListData)) {
-                videoNotFound('');
+                videoNotFound("Line code ".__LINE__);
             }
     
             $videosPlayList = $plp->getVideos();
@@ -248,7 +248,7 @@ if (!empty($evideo)) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        videoNotFound("");
+        videoNotFound("Line code ".__LINE__);
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
