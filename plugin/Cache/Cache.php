@@ -100,7 +100,7 @@ class Cache extends PluginAbstract
         if($this->isFirstPage()){
             $dir .= (isMobile()?'mobile':'desktop').DIRECTORY_SEPARATOR;
         }
-        return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . $_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
+        return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . @$_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage()
@@ -363,7 +363,7 @@ class Cache extends PluginAbstract
             $row = CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
             if (!empty($row)) {
                 $time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
-                if (!empty($lifetime) && ($time + $lifetime) < time()) {
+                if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {
                     $c = new CachesInDB($row['id']);
                     $c->delete();
                 } else {
