@@ -217,7 +217,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-broadcast-tower"></i> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
+                                    <span class="glow-flash-icon live-icon"></span> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
                                     </a>
                                 </li>
                                 <?php
