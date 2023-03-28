@@ -2210,14 +2210,22 @@ class SectionFirstPage
 
             //$endpointURL = addQueryStringParameter($endpointURL, 'PHPSESSID', session_id());
         }
-        $response = json_decode(url_get_contents($endpointURL, '', 2, false, true));
+
+        $endPointResponse = url_get_contents_with_cache($endpointURL, 300, '', 5, false, true);
+
+        $response = json_decode($endPointResponse);
         /*
           if(User::isLogged()){
           session_id($response->session_id);
           }
          */
-        $this->endpointResponse = $response->response;
-        $this->totalRows = $this->endpointResponse->totalRows;
+        if(!empty($response)){
+            $this->endpointResponse = $response->response;
+            $this->totalRows = $this->endpointResponse->totalRows;
+        }else{
+            $this->endpointResponse = new stdClass();
+            $this->totalRows = 0;
+        }
         $this->childs = $childs;
     }
 }

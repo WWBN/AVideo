@@ -2892,6 +2892,17 @@ function try_get_contents_from_local($url) {
     return false;
 }
 
+function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false) {
+    
+    $cache = ObjectYPT::getCache($url, $lifeTime); // 24 hours
+    if(!empty($cache)){
+        return $cache;
+    }
+    $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
+    ObjectYPT::setCache($url, $return);
+    return $return;
+}
+
 function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false) {
     global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort;
     if (!isValidURLOrPath($url)) {
