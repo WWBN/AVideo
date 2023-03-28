@@ -2967,7 +2967,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             }
             return "url_get_contents: " . $e->getMessage();
         }
-    } elseif (function_exists('curl_init')) {
+    } 
+    if (function_exists('curl_init')) {
         if ($debug) {
             _error_log("url_get_contents: CURL  {$url} ");
         }
@@ -6227,6 +6228,7 @@ function getTmpDir($subdir = "") {
     } else {
         $tmpDir = $_SESSION['getTmpDir'][$subdir . "_"];
     }
+    make_path($tmpDir);
     return $tmpDir;
 }
 
