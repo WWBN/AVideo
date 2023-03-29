@@ -2358,53 +2358,45 @@ function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video") {
 }
 
 function unzipDirectory($filename, $destination) {
-    global $global;
-    // Wait a couple of seconds to make sure the file has completed transfer
-    sleep(2);
+    // Set memory limit and execution time to avoid issues with large files
     ini_set('memory_limit', '-1');
-    ini_set('max_execution_time', 7200); // 2 hours
-    $filename = escapeshellarg(safeString($filename, true));
+    set_time_limit(0);
+
+    // Escape the input parameters to prevent command injection attacks
+    $filename = escapeshellarg($filename);
     $destination = escapeshellarg($destination);
-    $cmd = "unzip -: {$filename} -d {$destination}" . "  2>&1";
+
+    // Build the command for unzipping the file
+    $cmd = "unzip -q -o {$filename} -d {$destination} 2>&1";
+
+    // Log the command for debugging purposes
     _error_log("unzipDirectory: {$cmd}");
+
+    // Execute the command and check the return value
     exec($cmd, $output, $return_val);
-    if ($return_val !== 0 && function_exists("zip_open")) {
-        // try to unzip using PHP
-        _error_log("unzipDirectory: TRY to use PHP {$filename}");
-        $zip = zip_open($filename);
-        if ($zip && is_resource($zip)) {
-            while ($zip_entry = zip_read($zip)) {
-                $path = "{$destination}/" . zip_entry_name($zip_entry);
-                $path = str_replace('//', '/', $path);
-                //_error_log("unzipDirectory: fopen $path");
-                if (substr(zip_entry_name($zip_entry), -1) == '/') {
-                    make_path($path);
-                } else {
-                    make_path($path);
-                    try {
-                        $fp = fopen($path, "w");
-                        if (is_resource($fp) && zip_entry_open($zip, $zip_entry, "r")) {
-                            $buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
-                            fwrite($fp, "$buf");
-                            zip_entry_close($zip_entry);
-                            fclose($fp);
-                        } else {
-                            _error_log('unzipDirectory could not open ' . $path);
-                        }
-                    } catch (Exception $exc) {
-                        _error_log($exc->getMessage());
-                    }
-                }
+
+    if ($return_val !== 0) {
+        // If the unzip command fails, try using PHP's ZipArchive class as a fallback
+        if (class_exists('ZipArchive')) {
+            $zip = new ZipArchive();
+            if ($zip->open($filename) === true) {
+                $zip->extractTo($destination);
+                $zip->close();
+                _error_log("unzipDirectory: Success {$destination}");
+            } else {
+                _error_log("unzipDirectory: Error opening zip archive: {$filename}");
             }
-            zip_close($zip);
         } else {
-            _error_log("unzipDirectory: ERROR php zip does not work");
+            _error_log("unzipDirectory: Error: ZipArchive class is not available");
         }
     } else {
         _error_log("unzipDirectory: Success {$destination}");
     }
+
+    // Delete the original zip file
     @unlink($filename);
 }
+
 
 function make_path($path) {
     $created = false;
@@ -3095,26 +3087,24 @@ function UTF8encode($data) {
     if (emptyHTML($data)) {
         return $data;
     }
-    global $advancedCustom, $global;
 
-    if (!empty($advancedCustom->utf8Encode)) {
-        $newData = utf8_encode($data);
-        if (!empty($newData)) {
-            return $newData;
-        } else {
-            return $data;
+    global $advancedCustom;
+
+    if (function_exists('mb_convert_encoding')) {
+        if (!empty($advancedCustom->utf8Encode)) {
+            return mb_convert_encoding($data, 'UTF-8', mb_detect_encoding($data));
         }
-    }
-    if (!empty($advancedCustom->utf8Decode)) {
-        $newData = utf8_decode($data);
-        if (!empty($newData)) {
-            return $newData;
-        } else {
-            return $data;
+
+        if (!empty($advancedCustom->utf8Decode)) {
+            return mb_convert_encoding($data, mb_detect_encoding($data), 'UTF-8');
         }
+    } else {
+        _error_log('UTF8encode: mbstring extension is not installed');
     }
+
     return $data;
 }
+
 
 //detect search engine bots
 function isBot() {
@@ -6407,7 +6397,7 @@ function examineJSONError($object) {
 
     array_walk_recursive($objectEncoded, function (&$item) {
         if (is_string($item)) {
-            $item = utf8_encode($item);
+            $item = mb_convert_encoding($item, 'UTF-8', mb_detect_encoding($item, 'UTF-8, ISO-8859-1', true));
         }
     });
     $json = json_encode($objectEncoded);
@@ -6428,7 +6418,7 @@ function examineJSONError($object) {
 
     array_walk_recursive($objectDecoded, function (&$item) {
         if (is_string($item)) {
-            $item = utf8_decode($item);
+            $item = mb_convert_encoding($item, mb_detect_encoding($item, 'UTF-8, ISO-8859-1', true), 'UTF-8');
         }
     });
     $json = json_encode($objectDecoded);
@@ -6448,20 +6438,30 @@ function examineJSONError($object) {
     return false;
 }
 
+
 function _json_encode_utf8($object) {
     $object = object_to_array($object);
     if (!is_array($object)) {
         return false;
     }
     $objectEncoded = $object;
-    array_walk_recursive($objectEncoded, function (&$item) {
-        if (is_string($item)) {
-            $item = utf8_encode($item);
-        }
-    });
+    if (function_exists('mb_convert_encoding')) {
+        array_walk_recursive($objectEncoded, function (&$item) {
+            if (is_string($item)) {
+                $item = mb_convert_encoding($item, 'UTF-8', 'auto');
+            }
+        });
+    } else {
+        array_walk_recursive($objectEncoded, function (&$item) {
+            if (is_string($item)) {
+                $item = utf8_encode($item);
+            }
+        });
+    }
     $json = json_encode($objectEncoded);
     return $json;
 }
+
 
 function _json_encode($object) {
     global $_json_encode_force_utf8;
@@ -9922,21 +9922,24 @@ function getUserOnlineLabel($users_id, $class = '', $style = '') {
 }
 
 function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) {
-    global $config;
+    global $global, $config;
     _error_log("sendToEncoder($videos_id, $downloadURL) start");
+
+    // Get the video information
     $video = Video::getVideoLight($videos_id);
-
-    $user = new User($video['users_id']);
-
-    if ($checkIfUserCanUpload && !$user->getCanUpload()) {
-        _error_log("sendToEncoder:  user cannot upload users_id={$video['users_id']}=" . $user->getBdId());
+    if (!$video) {
+        _error_log("sendToEncoder: video with ID $videos_id not found");
         return false;
     }
-    global $global;
-    $obj = new stdClass();
-    $obj->error = true;
 
-    $target = $config->getEncoderURL() . "queue";
+    // Get the user information
+    $user = new User($video['users_id']);
+    if ($checkIfUserCanUpload && !$user->getCanUpload()) {
+        _error_log("sendToEncoder: user cannot upload users_id={$video['users_id']}=" . $user->getBdId());
+        return false;
+    }
+
+    // Prepare the data to be sent to the encoder
     $postFields = [
         'user' => $user->getUser(),
         'pass' => $user->getPassword(),
@@ -9947,28 +9950,30 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
         'notifyURL' => $global['webSiteRootURL'],
     ];
 
-    if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
+    // Check if auto HLS conversion is enabled
+    if (AVideoPlugin::isEnabledByName("VideoHLS")) {
         $postFields['inputAutoHLS'] = 1;
-    } elseif (!empty($types)) {
-        foreach ($types as $key => $value) {
-            $postFields[$key] = $value;
-        }
-    }
+    } 
 
+    // Send the data to the encoder
+    $encoderURL = $config->getEncoderURL();
+    $target = "{$encoderURL}queue";
     _error_log("sendToEncoder: SEND To QUEUE: ($target) " . json_encode($postFields));
     $curl = curl_init();
-    curl_setopt($curl, CURLOPT_URL, $target);
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_POST, 1);
-    curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
-    curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+    curl_setopt_array($curl, [
+        CURLOPT_URL => $target,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_SSL_VERIFYHOST => false,
+    ]);
     $r = curl_exec($curl);
+    $obj = new stdClass();
+    $obj->error = true;
     $obj->response = $r;
     if ($errno = curl_errno($curl)) {
         $error_message = curl_strerror($errno);
-        //echo "cURL error ({$errno}):\n {$error_message}";
         $obj->msg = "cURL error ({$errno}):\n {$error_message}";
     } else {
         $obj->error = false;
@@ -9978,6 +9983,7 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
     Configuration::deleteEncoderURLCache();
     return $obj;
 }
+
 
 function parseFFMPEGProgress($progressFilename) {
     //get duration of source

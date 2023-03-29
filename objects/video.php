@@ -3365,14 +3365,15 @@ if (!class_exists('Video')) {
         }
 
         public function queue($types = []) {
-            global $config;
+            global $config, $global;
+            
             if (!User::canUpload()) {
                 return false;
             }
-            global $global;
+            
             $obj = new stdClass();
             $obj->error = true;
-
+        
             $target = $config->getEncoderURL() . "queue";
             $postFields = [
                 'user' => User::getUserName(),
@@ -3382,38 +3383,41 @@ if (!class_exists('Video')) {
                 'videos_id' => $this->getId(),
                 "notifyURL" => "{$global['webSiteRootURL']}",
             ];
-
+        
             if (empty($types) && AVideoPlugin::isEnabledByName("VideoHLS")) {
                 $postFields['inputAutoHLS'] = 1;
             } elseif (!empty($types)) {
-                foreach ($types as $key => $value) {
-                    $postFields[$key] = $value;
-                }
+                $postFields = array_merge($postFields, $types);
             }
-
+        
             _error_log("SEND To QUEUE: ($target) " . json_encode($postFields));
+            
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $target);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_SAFE_UPLOAD, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $target,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST => 1,
+                CURLOPT_POSTFIELDS => $postFields,
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false
+            ));
+            
             $r = curl_exec($curl);
             $obj->response = $r;
+            
             if ($errno = curl_errno($curl)) {
                 $error_message = curl_strerror($errno);
-                //echo "cURL error ({$errno}):\n {$error_message}";
                 $obj->msg = "cURL error ({$errno}):\n {$error_message}";
             } else {
                 $obj->error = false;
             }
+            
             _error_log("QUEUE CURL: ($target) " . json_encode($obj));
             curl_close($curl);
             Configuration::deleteEncoderURLCache();
             return $obj;
         }
+        
 
         public function getVideoLink() {
             return $this->videoLink;
