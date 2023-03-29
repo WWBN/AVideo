@@ -4309,7 +4309,7 @@ function getOS($user_agent = "") {
     ];
 
     foreach ($os_array as $regex => $value) {
-        if (preg_match($regex, $user_agent)) {
+        if (preg_match($value, $user_agent)) {
             $os_platform = $value;
         }
     }
