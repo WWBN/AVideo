@@ -134,7 +134,7 @@ function setSiteLang() {
                 if(class_exists('Configuration')){
                     $config = new Configuration();
                 }else{
-                    _error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
+                    //_error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
                 }
             }
         } catch (Exception $exc) {
