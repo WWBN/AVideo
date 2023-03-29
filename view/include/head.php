@@ -86,6 +86,7 @@ if(!isCommandLineInterface()){
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
+<meta name="robots" content="index, follow" />
 
 <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
