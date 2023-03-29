@@ -426,8 +426,8 @@ function safeString($text, $strict = false, $try = 0) {
 
     $text = trim($text);
 
-    if (empty($try) && empty($text)) {
-        return safeString(utf8_encode($originalText), $strict, 1);
+    if (empty($try) && empty($text) && function_exists('mb_convert_encoding')) {
+        return safeString(mb_convert_encoding($originalText, 'UTF-8'), $strict, 1);
     }
 
     return $text;
