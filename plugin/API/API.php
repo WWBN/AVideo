@@ -2212,19 +2212,25 @@ class SectionFirstPage
         }
 
         $endPointResponse = url_get_contents_with_cache($endpointURL, 300, '', 5, false, true);
-
-        $response = json_decode($endPointResponse);
-        /*
-          if(User::isLogged()){
-          session_id($response->session_id);
-          }
-         */
-        if(!empty($response)){
-            $this->endpointResponse = $response->response;
-            $this->totalRows = $this->endpointResponse->totalRows;
-        }else{
-            $this->endpointResponse = new stdClass();
-            $this->totalRows = 0;
+        //_error_log(gettype($endPointResponse).' '.json_encode($endPointResponse));
+        if(!empty($endPointResponse)){
+            if(is_string($endPointResponse)){
+                $response = json_decode($endPointResponse);
+            }else{
+                $response = $endPointResponse;
+            }
+            /*
+              if(User::isLogged()){
+              session_id($response->session_id);
+              }
+             */
+            if(!empty($response)){
+                $this->endpointResponse = $response->response;
+                $this->totalRows = $this->endpointResponse->totalRows;
+            }else{
+                $this->endpointResponse = new stdClass();
+                $this->totalRows = 0;
+            }
         }
         $this->childs = $childs;
     }

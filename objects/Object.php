@@ -72,7 +72,7 @@ abstract class ObjectYPT implements ObjectInterface
         date_default_timezone_set($timezone);
     }
 
-    protected static function getFromDb($id, $refreshCache=false)
+    static function getFromDb($id, $refreshCache=false)
     {
         global $global;
         $id = intval($id);
