@@ -127,12 +127,6 @@ function setSiteLang()
     if (empty($global['systemRootPath'])) {
         setLanguage('en_US');
     } else {
-        if (empty($config) || !is_object($config)) {
-            require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (class_exists('Configuration')) {
-                $config = new Configuration();
-            }
-        }
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         $userLocation = false;
         $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
@@ -143,6 +137,12 @@ function setSiteLang()
             setLanguage($_GET['lang']);
         } else if ($userLocation) {
             User_Location::changeLang();
+        }
+        if (empty($config) || !is_object($config)) {
+            require_once $global['systemRootPath'] . 'objects/configuration.php';
+            if (class_exists('Configuration')) {
+                $config = new Configuration();
+            }
         }
         if (empty($_SESSION['language']) && !empty($config)) {
             setLanguage($config->getLanguage());
