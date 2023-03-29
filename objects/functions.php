@@ -1462,7 +1462,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         //$filesInDir = glob($globQuery, GLOB_BRACE);
         $timeName = "getVideosURL_V2::globVideosDir($cleanfilename)";
         TimeLogStart($timeName);
-        $filesInDir = globVideosDir($cleanfilename, true);
+        $filesInDir = globVideosDir($cleanfilename, true, $recreateCache);
         TimeLogEnd($timeName, __LINE__);
 
         $timeName = "getVideosURL_V2::foreach";
@@ -1470,7 +1470,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $isAVideo = false;
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-
+            _error_log("getVideosURL_V2($fileName) {$file}");
             if ($parts['extension'] == 'log') {
                 continue;
             }
@@ -7240,7 +7240,7 @@ function getResolutionTextRoku($res) {
 }
 
 // just realize the readdir is a lot faster then glob
-function _glob($dir, $pattern) {
+function _glob($dir, $pattern, $recreateCache = false) {
     global $_glob;
     if (empty($dir)) {
         return [];
@@ -7249,7 +7249,8 @@ function _glob($dir, $pattern) {
         $_glob = [];
     }
     $name = md5($dir . $pattern);
-    if (isset($_glob[$name])) {
+    if (!$recreateCache && isset($_glob[$name])) {
+        _error_log("_glob cache found: {$dir}[$pattern]");
         return $_glob[$name];
     }
     $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
@@ -7263,6 +7264,7 @@ function _glob($dir, $pattern) {
             //_error_log("_glob: {$dir}{$file_name} [$pattern]");
             //var_dump($pattern, $file_name, preg_match($pattern, $file_name));
             if (preg_match($pattern, $file_name)) {
+                //_error_log("_glob Success: {$dir}{$file_name} [$pattern]");
                 $array[] = "{$dir}{$file_name}";
             }
         }
@@ -7272,7 +7274,7 @@ function _glob($dir, $pattern) {
     return $array;
 }
 
-function globVideosDir($filename, $filesOnly = false) {
+function globVideosDir($filename, $filesOnly = false, $recreateCache = false) {
     global $global;
     if (empty($filename)) {
         return [];
@@ -7293,8 +7295,9 @@ function globVideosDir($filename, $filesOnly = false) {
         $pattern .= ".(" . implode("|", $formats) . ")";
     }
     $pattern .= "/";
+    //_error_log("_glob($dir, $pattern)");
     //var_dump($dir, $pattern);
-    return _glob($dir, $pattern);
+    return _glob($dir, $pattern, $recreateCache);
 }
 
 function getValidFormats() {
