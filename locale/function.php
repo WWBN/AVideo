@@ -147,7 +147,7 @@ function setSiteLang()
             $config = new Configuration();
         }
         } catch (Exception $exc) {
-            _error_log('setSiteLang '.$exc->getMessage());
+            _error_log('setSiteLang '.$exc->getMessage().' '. json_encode(debug_backtrace()));
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
