@@ -140,9 +140,10 @@ function setSiteLang()
         }
         if (empty($config) || !is_object($config)) {
             require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (class_exists('Configuration')) {
-                $config = new Configuration();
+            if (!class_exists('Configuration')) {
+                require $global['systemRootPath'] . 'objects/configuration.php';                
             }
+            $config = new Configuration();
         }
         if (empty($_SESSION['language']) && !empty($config)) {
             setLanguage($config->getLanguage());
