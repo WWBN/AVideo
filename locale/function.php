@@ -141,13 +141,10 @@ function setSiteLang()
         try {
         if (empty($config) || !is_object($config)) {
             require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (!class_exists('Configuration')) {
-                require $global['systemRootPath'] . 'objects/configuration.php';                
-            }
             $config = new Configuration();
         }
         } catch (Exception $exc) {
-            _error_log('setSiteLang '.$exc->getMessage().' '. json_encode(debug_backtrace()));
+            _error_log("setSiteLang systemRootPath=[{$global['systemRootPath']}] ".$exc->getMessage().' '. json_encode(debug_backtrace()));
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
