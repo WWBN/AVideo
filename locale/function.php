@@ -138,6 +138,7 @@ function setSiteLang()
         } else if ($userLocation) {
             User_Location::changeLang();
         }
+        try {
         if (empty($config) || !is_object($config)) {
             require_once $global['systemRootPath'] . 'objects/configuration.php';
             if (!class_exists('Configuration')) {
@@ -145,7 +146,11 @@ function setSiteLang()
             }
             $config = new Configuration();
         }
-        if (empty($_SESSION['language']) && !empty($config)) {
+        } catch (Exception $exc) {
+            _error_log('setSiteLang '.$exc->getMessage());
+        }
+
+        if (empty($_SESSION['language']) && is_object($config)) {
             setLanguage($config->getLanguage());
         }
         if (empty($_SESSION['language'])) {
