@@ -1740,6 +1740,9 @@ if (!class_exists('Video')) {
         }
 
         public static function htmlDescription($description) {
+            if(empty($description)){
+                return '';
+            }
             if (strip_tags($description) !== $description) {
                 return $description;
             } else {

@@ -87,6 +87,7 @@ if (empty($global['mysqli_charset'])) {
 }
 
 require_once $global['systemRootPath'] . 'objects/functions.php';
+set_error_reporting();
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();
 } else {
@@ -169,7 +170,7 @@ $url2 = parse_url($global['webSiteRootURL']);
 if (!empty($url1['host']) && !empty($url2['host']) && $url1['host'] !== $url2['host']) {
     $global['HTTP_REFERER'] = $global['webSiteRootURL'];
 }
-$_SESSION['LAST_HTTP_REFERER'] = $global['HTTP_REFERER'];
+$_SESSION['LAST_HTTP_REFERER'] = @$global['HTTP_REFERER'];
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
 _ob_end_clean();
@@ -185,7 +186,6 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-set_error_reporting();
 setSiteLang();
 
 adminSecurityCheck();

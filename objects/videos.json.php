@@ -50,9 +50,9 @@ foreach ($videos as $key => $value) {
     $name = empty($value['name']) ? $value['user'] : $value['name'];
     $videos[$key]['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($value['users_id']) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong>' . $name . '</strong>' . User::getEmailVerifiedIcon($value['users_id']) . ' <small>' . humanTiming(strtotime($value['videoCreation'])) . '</small></div></div>';
     $videos[$key]['next_video'] = [];
-    $videos[$key]['description'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);
-    $videos[$key]['title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
-    $videos[$key]['clean_title'] = preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
+    $videos[$key]['description'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['description']);
+    $videos[$key]['title'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['title']);
+    $videos[$key]['clean_title'] = @preg_replace('/[\x00-\x1F\x7F]/u', '', $videos[$key]['clean_title']);
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
     $videos[$key]['typeLabels'] = Video::getVideoTypeLabels($videos[$key]['filename']);
     TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);

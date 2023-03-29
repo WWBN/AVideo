@@ -2748,9 +2748,11 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
-        $image_info = getimagesize($file);
-        if (!empty($image_info)) {
-            $wh = $image_info[3];
+        if (file_exists($file)) {
+            $image_info = getimagesize($file);
+            if (!empty($image_info)) {
+                $wh = $image_info[3];
+            }
         }
     } elseif (isValidURL($relativePathOriginal)) {
         $url = $relativePathOriginal;
@@ -10380,6 +10382,8 @@ function set_error_reporting() {
         error_reporting(E_ALL);
         ini_set('display_errors', 1);
     } else {
+        ini_set('error_reporting', E_ERROR);
+        ini_set('log_errors', 1);
         error_reporting(E_ERROR);
         ini_set('display_errors', 0);
     }
