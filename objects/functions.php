@@ -1372,6 +1372,9 @@ function getAudioURLOnly($fileName) {
 
 function getAudioOrVideoURLOnly($fileName, $recreateCache = false) {
     $allFiles = getVideosURL_V2($fileName, $recreateCache); // disable this function soon
+    if($recreateCache){
+        _error_log("getAudioOrVideoURLOnly($fileName) ". json_encode($allFiles));
+    }
     foreach ($allFiles as $key => $value) {
         if ($value['type'] !== 'video' && $value['type'] !== 'audio') {
             unset($allFiles[$key]);
