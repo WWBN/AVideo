@@ -7771,9 +7771,9 @@ function url_exists($url) {
             return true;
         }
     } else {
-        $exists = file_exists($filename);
+        $exists = file_exists($url);
         if($exists == false){
-            _error_log("url_exists($url) local file do not exists $filename");
+            _error_log("url_exists($url) local file do not exists");
         }
         return $exists;
     }
