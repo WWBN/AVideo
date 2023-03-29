@@ -2893,9 +2893,9 @@ function try_get_contents_from_local($url) {
 }
 
 function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false) {
-    
+
     $cache = ObjectYPT::getCache($url, $lifeTime); // 24 hours
-    if(!empty($cache)){
+    if (!empty($cache)) {
         return $cache;
     }
     $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
@@ -2967,7 +2967,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             }
             return "url_get_contents: " . $e->getMessage();
         }
-    } 
+    }
     if (function_exists('curl_init')) {
         if ($debug) {
             _error_log("url_get_contents: CURL  {$url} ");
@@ -7738,6 +7738,33 @@ function isHTMLPage($url) {
     return false;
 }
 
+function url_exists($url) {
+    global $global;
+    if (preg_match('/^https?:\/\//i', $url)) {
+        $parts = explode('/videos/', $url);
+        if (!empty($parts[1])) {
+            $tryFile = "{$global['systemRootPath']}videos/{$parts[1]}";
+            //_error_log("try_get_contents_from_local {$url} => {$tryFile}");
+            if (file_exists($tryFile)) {
+                return $tryFile;
+            }
+        }
+        $file_headers = get_headers($url);
+        if (empty($file_headers)) {
+            return false;
+        }else{
+            foreach ($file_headers as $value) {
+                if(preg_match('/404 Not Found/i', $value)){
+                    return false;
+                }
+            }
+            return true;
+        }
+    } else {
+        return file_exists($filename);
+    }
+}
+
 function getHeaderContentTypeFromURL($url) {
     if (isValidURL($url) && $type = get_headers($url, 1)["Content-Type"]) {
         return $type;
@@ -9071,6 +9098,9 @@ function useVideoHashOrLogin() {
 }
 
 function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link']) {
+    if (empty($string)) {
+        return '';
+    }
     foreach ($tags_to_strip as $tag) {
         $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '$1', $string);
     }
@@ -10254,7 +10284,7 @@ function isSafari() {
 }
 
 function fixQuotes($str) {
-    if(!is_string($str)){
+    if (!is_string($str)) {
         return $str;
     }
     $chr_map = [
@@ -10352,8 +10382,7 @@ function set_error_reporting() {
  * @param string $filename The path to the image file.
  * @return bool True if the image is fully transparent, false otherwise.
  */
-function is_image_fully_transparent($filename)
-{
+function is_image_fully_transparent($filename) {
     // Load the image
     $image = imagecreatefrompng($filename);
 
