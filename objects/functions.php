@@ -420,7 +420,7 @@ function safeString($text, $strict = false, $try = 0) {
     $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');
 
     if ($strict) {
-        $text = filter_var($text, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_ENCODE_HIGH | FILTER_FLAG_ENCODE_AMP);
+        $text = filter_var($text, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         //$text = cleanURLName($text);
     }
 
