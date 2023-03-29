@@ -138,7 +138,7 @@ function setSiteLang() {
                 }
             }
         } catch (Exception $exc) {
-            _error_log("setSiteLang ERROR 2 systemRootPath=[{$global['systemRootPath']}] " . $exc->getMessage() . ' ' . json_encode(debug_backtrace()));
+            _error_log("setSiteLang ERROR 2 systemRootPath=[{$global['systemRootPath']}] " . ' ' . json_encode(debug_backtrace()));
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
