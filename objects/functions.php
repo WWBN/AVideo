@@ -1470,7 +1470,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $isAVideo = false;
         foreach ($filesInDir as $file) {
             $parts = pathinfo($file);
-            _error_log("getVideosURL_V2($fileName) {$file}");
+            //_error_log("getVideosURL_V2($fileName) {$file}");
             if ($parts['extension'] == 'log') {
                 continue;
             }
