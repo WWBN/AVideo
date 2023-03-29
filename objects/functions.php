@@ -7254,7 +7254,7 @@ function _glob($dir, $pattern, $recreateCache = false) {
     }
     $name = md5($dir . $pattern);
     if (!$recreateCache && isset($_glob[$name])) {
-        _error_log("_glob cache found: {$dir}[$pattern]");
+        //_error_log("_glob cache found: {$dir}[$pattern]");
         return $_glob[$name];
     }
     $dir = rtrim($dir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
