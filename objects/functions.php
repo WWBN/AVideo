@@ -7751,17 +7751,23 @@ function url_exists($url) {
         }
         $file_headers = get_headers($url);
         if (empty($file_headers)) {
+            _error_log("url_exists($url) empty headers");
             return false;
         }else{
             foreach ($file_headers as $value) {
                 if(preg_match('/404 Not Found/i', $value)){
+                    _error_log("url_exists($url) 404 {$value}");
                     return false;
                 }
             }
             return true;
         }
     } else {
-        return file_exists($filename);
+        $exists = file_exists($filename);
+        if($exists == false){
+            _error_log("url_exists($url) local file do not exists $filename");
+        }
+        return $exists;
     }
 }
 
