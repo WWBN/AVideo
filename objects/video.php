@@ -536,7 +536,7 @@ if (!class_exists('Video')) {
                 if ($updateVideoGroups) {
                     require_once $global['systemRootPath'] . 'objects/userGroups.php';
                     // update the user groups
-                    UserGroups::updateVideoGroups($id, $this->videoGroups);
+                    UserGroups::updateVideoGroups($this->id, $this->videoGroups);
                 }
 
                 // I am not sure what is it for
