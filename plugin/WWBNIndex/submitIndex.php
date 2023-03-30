@@ -5,7 +5,7 @@ error_reporting(E_ALL);
 // require_once ($_POST['systemRootPath'] . "plugin/WWBNIndex/Objects/WWBNIndexModel.php");
 // $wwbnIndexModel = new WWBNIndexModel();
 
-$platform_unqid = base_convert(md5(encryptString($_POST['salt'] . 'AVideo')), 16, 36);
+$platform_unqid = base_convert(md5(encryptStringWWBN($_POST['salt'] . 'AVideo')), 16, 36);
 
 function getAvailablePluginsBasic()
 {
@@ -26,7 +26,44 @@ function getWWBNToken()
     $obj->plugin = "WWBN";
     $obj->webSiteRootURL = $_POST['webSiteRootURL'];
     $obj->time = time();
-    return encryptString($obj);
+    return encryptStringWWBN($obj);
+}
+
+function encryptStringWWBN($string) 
+{
+    if (is_object($string) || is_array($string)) {
+        $string = json_encode($string);
+    }
+    return encrypt_decryptWWBN($string, 'encrypt');
+}
+
+function encrypt_decryptWWBN($string, $action) 
+{
+    $output = false;
+    $encrypt_method = "AES-256-CBC";
+    // $secret_key = 'This is my secret key';
+    $secret_iv = $_POST['systemRootPath'];
+    while (strlen($secret_iv) < 16) {
+        $secret_iv .= $_POST['systemRootPath'];
+    }
+    if (empty($secret_iv)) {
+        $secret_iv = '1234567890abcdef';
+    }
+
+    // hash
+    $key = hash('sha256', $_POST['salt']);
+
+    // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
+    $iv = substr(hash('sha256', $secret_iv), 0, 16);
+
+    if ($action == 'encrypt') {
+        $output = openssl_encrypt($string, $encrypt_method, $key, 0, $iv);
+        $output = base64_encode($output);
+    } elseif ($action == 'decrypt') {
+        $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+    }
+
+    return $output;
 }
 
 $data = array(
