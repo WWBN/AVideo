@@ -17,7 +17,8 @@ class WWBNIndex extends PluginAbstract
     public function getDescription() 
     {
         // global $global;
-        $desc = "Index platform into <a href='https://searchtube.com/'>Searchtube</a><br>";
+        $desc = "<span class=\"badge badge-danger\">Beta version</span> Index platform into "
+                . "<a href='https://searchtube.com/'>Searchtube</a><br>";
         $desc .= "<b>Note:</b> Please refresh the page if buttons seems not working.";
         return $desc;
     }
@@ -162,10 +163,7 @@ class WWBNIndex extends PluginAbstract
     public function getFooterCode() 
     {
         global $global;
-        ob_start();
-        include $global['systemRootPath'] . 'plugin/WWBNIndex/modal.php';
-        $content = ob_get_clean();
-        return $content;
+        return getIncludeFileContent($global['systemRootPath'] . 'plugin/WWBNIndex/modal.php');
     }
 
     public function getYouPortalUser($email = "")
@@ -177,17 +175,7 @@ class WWBNIndex extends PluginAbstract
             "email"     => ($email != "") ? $email : $configuration->getContactEmail(),
             "avideo_id" => getPlatformId(),
         );
-
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        $response = json_decode(curl_exec($ch));
-        if (curl_errno($ch)) {
-            return (object) array("error" => true, "title" => "CURL Error", "message" => "Ops! Something wrong with get user api.");
-        }
-        curl_close($ch);
-        return $response;
+        return postVariables("https://wwbn.com/api/function.php", $data);
     }
 
     private function getFeedStatus($host) 
@@ -201,15 +189,6 @@ class WWBNIndex extends PluginAbstract
             "host"          => $host,
         );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "https://wwbn.com/api/function.php");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        $response = json_decode(curl_exec($ch));
-        if (curl_errno($ch)) {
-            return (object) array("error" => true, "title" => "CURL Error", "message" => "Ops! Something wrong with get feed api.");
-        }
-        curl_close($ch);
-        return $response;
+        return postVariables("https://wwbn.com/api/function.php", $data);
     }
 }
