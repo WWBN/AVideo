@@ -4,7 +4,9 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 // require_once ($_POST['systemRootPath'] . "plugin/WWBNIndex/Objects/WWBNIndexModel.php");
 // $wwbnIndexModel = new WWBNIndexModel();
-
+if(!_mysql_is_open()){
+    return false;
+}
 $platform_unqid = base_convert(md5(encryptStringWWBN($_POST['salt'] . 'AVideo')), 16, 36);
 
 function getAvailablePluginsBasic()
