@@ -6571,7 +6571,7 @@ function getSEODescription($text, $maxChars = 320) {
     }
 }
 
-function getSEOTitle($text, $maxChars = 60) {
+function getSEOTitle($text, $maxChars = 120) {
     $removeChars = ['|', '"'];
     $replaceChars = ['-', ''];
     $newText = trim(str_replace($removeChars, $replaceChars, safeString($text)));
