@@ -5282,7 +5282,7 @@ function isVideoTypeEmbed() {
 
 function isAudio() {
     global $isAudio;
-    return !empty($isAudio);
+    return !empty($isAudio) || Video::forceAudio();
 }
 
 function isSerie() {

@@ -358,6 +358,13 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             $video = Video::getVideoLight($videos_id);
             $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
+            if(empty($spectrumSource["path"])){
+                if(AVideoPlugin::isEnabledByName('MP4ThumbsAndGif') && method_exists('MP4ThumbsAndGif', 'getSpectrum')){
+                    if(MP4ThumbsAndGif::getSpectrum($videos_id)){
+                        $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
+                    }
+                }
+            }
             if (!empty($spectrumSource["path"])) {
                 $onPlayerReady = "startAudioSpectrumProgress('{$spectrumSource["url"]}');";
                 self::prepareStartPlayerJS($onPlayerReady);
