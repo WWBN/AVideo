@@ -1191,6 +1191,14 @@ if (!class_exists('Video')) {
             if ($res !== false) {
                 $video = sqlDAL::fetchAssoc($res);
                 sqlDAL::close($res);
+                if(!empty($video)){
+                    if(self::forceAudio()){
+                        $video['type'] = 'audio';
+                    }else if(self::forceArticle()){
+                        $video['type'] = 'article';
+                    }
+                }
+
                 return $video;
             }
             return false;
@@ -1632,6 +1640,12 @@ if (!class_exists('Video')) {
                     $obj['userExternalOptions'] = User::decodeExternalOption($obj['userExternalOptions']);
                 }
                 $obj = cleanUpRowFromDatabase($obj);
+                
+                if(self::forceAudio()){
+                    $obj['type'] = 'audio';
+                }else if(self::forceArticle()){
+                    $obj['type'] = 'article';
+                }
                 return $obj;
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
@@ -1711,6 +1725,12 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             ObjectYPT::setCache($name, $row);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
+            
+            if(self::forceAudio()){
+                $video['type'] = 'audio';
+            }else if(self::forceArticle()){
+                $video['type'] = 'article';
+            }
             return $row;
         }
 
@@ -4344,6 +4364,11 @@ if (!class_exists('Video')) {
             if (empty($imagePath) || !file_exists($imagePath)) {
                 $imagePath = $images->poster;
             }
+            if(empty($imagePath) || empty(@filesize($imagePath))){
+                if(AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')){
+                    MP4ThumbsAndGif::getImageInDuration($videos_id, 'jpg');
+                }
+            }
 
             return getMediaSessionPosters($imagePath);
         }
@@ -5319,7 +5344,31 @@ if (!class_exists('Video')) {
             return ReportVideo::getAllReportedUsersIdFromUser($users_id);
         }
 
+        public static function forceAudio(){
+            if(!empty($_REQUEST['includeType'])){
+                if($_REQUEST['includeType'] === 'audio'){
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public static function forceArticle(){
+            if(!empty($_REQUEST['includeType'])){
+                if($_REQUEST['includeType'] === 'article'){
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public static function getIncludeType($video) {
+            if(self::forceAudio()){
+                return 'audio';
+            }
+            if(self::forceArticle()){
+                return 'article';
+            }
             $vType = $video['type'];
             if ($vType == 'linkVideo') {
                 if (!preg_match('/m3u8/', $video['videoLink'])) {

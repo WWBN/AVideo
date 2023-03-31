@@ -130,7 +130,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag = '<audio '.self::getPlaysinline().'
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
-                if ($video['type'] == "audio") {
+                if ($video['type'] == "audio" || Video::forceAudio()) {
                     $htmlMediaTag .= "<!-- Audio {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
                 } else { // audio link
                     if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {

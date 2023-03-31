@@ -1617,7 +1617,7 @@ function getSources($fileName, $returnArray = false, $try = 0) {
     }
 
     $video = Video::getVideoFromFileNameLight($fileName);
-
+    
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
@@ -1626,6 +1626,9 @@ function getSources($fileName, $returnArray = false, $try = 0) {
         $sourcesArray = [];
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
+            if(Video::forceAudio() && $path_parts['extension'] !== "mp3"){
+                continue;
+            }
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
                 $obj = new stdClass();
                 $obj->type = mime_content_type_per_filename($value['path']);
@@ -2156,7 +2159,7 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height) {
 }
 
 function detect_image_type($file_path) {
-    $image_info = getimagesize($file_path);
+    $image_info = @getimagesize($file_path);
 
     if ($image_info !== false) {
         $mime_type = $image_info['mime'];
@@ -2184,9 +2187,11 @@ function detect_image_type($file_path) {
 
 function convertImage($originalImage, $outputImage, $quality, $useExif = false) {
     ini_set('memory_limit', '512M');
-    if (!file_exists($originalImage)) {
+    if (!file_exists($originalImage) || empty(filesize($originalImage))) {
+        var_dump(debug_backtrace());exit;
         return false;
     }
+    
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
     make_path($outputImage);
@@ -4115,6 +4120,10 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
     $source = str_replace(['_thumbsSmallV2'], [''], $source);
     if (!file_exists($source)) {
         _error_log("convertImageIfNotExists: source does not exists {$source}");
+        return false;
+    }
+    if (empty(filesize($source))) {
+        _error_log("convertImageIfNotExists: source has filesize 0");
         return false;
     }
     if (file_exists($destination) && filesize($destination) > 1024) {
