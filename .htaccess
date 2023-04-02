@@ -186,7 +186,7 @@ Options All -Indexes
     RewriteRule ^cat/([^!#$&'()*,\/:;=?@[\]]+)/videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2 [QSA]
     RewriteRule ^evideoEmbed/([a-zA-z0-9=]+)/?$ view/videoEmbeded.php?evideo=$1 [QSA]
     RewriteRule ^vEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
-    RewriteRule ^videoEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^videoEmbed/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^videoEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
     RewriteRule ^videoEmbeded/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
     
