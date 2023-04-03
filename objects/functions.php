@@ -6530,7 +6530,7 @@ function _json_encode($object) {
 function _json_decode($object) {
     global $global;
     if (empty($object)) {
-        return false;
+        return $object;
     }
     if (!is_string($object)) {
         return $object;
