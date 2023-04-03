@@ -36,8 +36,8 @@ if(!empty($chat2)){
 
 $notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
 if(!empty($notifications)){
-    $objMM->oneSignalEnabled = !_empty($chat2->oneSignalEnabled);
-    $objMM->oneSignalAPPID = $chat2->oneSignalAPPID;
+    $objMM->oneSignalEnabled = !_empty($notifications->oneSignalEnabled);
+    $objMM->oneSignalAPPID = $notifications->oneSignalAPPID;
 }else{
     $objMM->oneSignalEnabled = false;
     $objMM->oneSignalAPPID = '';
