@@ -18,7 +18,7 @@ $objData = AVideoPlugin::getObjectDataIfEnabled("API");
 
 if (empty($plugin)) {
     $obj = new ApiObject("API Plugin disabled");
-    die(json_encode($obj));
+    die(_json_encode($obj));
 }
 
 // gettig the mobile submited value
