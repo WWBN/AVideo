@@ -456,6 +456,9 @@ abstract class ObjectYPT implements ObjectInterface
         }
         if (empty($advancedCustom->doNotSaveCacheOnFilesystem) && class_exists('Cache') && self::isTableInstalled('CachesInDB')) {
             $json = _json_encode($content);
+            if(empty($json)){
+                return false;
+            }
             $len = strlen($json);
             if ($len > $maxLen / 2) {
                 return false;

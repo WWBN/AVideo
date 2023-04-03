@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'objects/video.php';
 
 class CustomizeAdvanced extends PluginAbstract {
 
