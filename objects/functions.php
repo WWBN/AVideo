@@ -6447,10 +6447,13 @@ function examineJSONError($object) {
     return false;
 }
 
-
+function is_utf8($string) {
+    return preg_match('//u', $string);
+}
+        
 function _utf8_encode_recursive($object) {
     if (is_string($object)) {
-        return utf8_encode($object);
+        return is_utf8($object) ? $object : utf8_encode($object);
     }
 
     if (is_array($object)) {
@@ -6465,6 +6468,7 @@ function _utf8_encode_recursive($object) {
 
     return $object;
 }
+
 
 function _json_encode($object) {
     if (empty($object)) {
