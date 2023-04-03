@@ -6475,7 +6475,7 @@ function _json_encode_utf8($object) {
 function _json_encode($object) {
     global $_json_encode_force_utf8;
     if (empty($object)) {
-        return false;
+        return $object;
     }
     if (is_string($object)) {
         return $object;
