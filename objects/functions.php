@@ -6505,7 +6505,7 @@ function _json_decode($object) {
     if (!is_string($object)) {
         return $object;
     }
-    if ($getURL && isValidURLOrPath($object)) {
+    if (isValidURLOrPath($object)) {
         $content = file_get_contents($object);
         if (!empty($content)) {
             $object = $content;
