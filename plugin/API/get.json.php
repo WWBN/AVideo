@@ -32,5 +32,7 @@ if (empty($input)) {
 $parameters = array_merge($_GET, $_POST, $input);
 
 $obj = $plugin->get($parameters);
-
-die(_json_encode($obj));
+if(is_object($obj)){
+    $obj = json_encode($obj);
+}
+die($obj);
