@@ -6448,32 +6448,25 @@ function examineJSONError($object) {
 }
 
 
-function _json_encode_utf8($object) {
-    $object = object_to_array($object);
-    if (!is_array($object)) {
-        return false;
+function _utf8_encode_recursive($object) {
+    if (is_string($object)) {
+        return utf8_encode($object);
     }
-    $objectEncoded = $object;
-    if (function_exists('mb_convert_encoding')) {
-        array_walk_recursive($objectEncoded, function (&$item) {
-            if (is_string($item)) {
-                $item = mb_convert_encoding($item, 'UTF-8', 'auto');
-            }
-        });
-    } else {
-        array_walk_recursive($objectEncoded, function (&$item) {
-            if (is_string($item)) {
-                $item = utf8_encode($item);
-            }
-        });
+
+    if (is_array($object)) {
+        foreach ($object as $key => $value) {
+            $object[$key] = _utf8_encode_recursive($value);
+        }
+    } elseif (is_object($object)) {
+        foreach ($object as $key => $value) {
+            $object->$key = _utf8_encode_recursive($value);
+        }
     }
-    $json = json_encode($objectEncoded);
-    return $json;
+
+    return $object;
 }
 
-
 function _json_encode($object) {
-    global $_json_encode_force_utf8;
     if (empty($object)) {
         return $object;
     }
@@ -6481,51 +6474,24 @@ function _json_encode($object) {
         return $object;
     }
 
-    if (!empty($_json_encode_force_utf8)) {
-        $json = _json_encode_utf8($object);
-        if (!empty($json)) {
-            return $json;
-        }
-    }
+    // Ensure that all strings within the object are UTF-8 encoded
+    $utf8_encoded_object = _utf8_encode_recursive($object);
 
-    $json = json_encode($object);
-    $errors = [];
+    // Encode the object as JSON
+    $json = json_encode($utf8_encoded_object);
+
+    // If there's a JSON encoding error, log the error message and debug backtrace
     if (empty($json) && json_last_error()) {
-        if (preg_match('/Malformed UTF-8 characters/i', json_last_error_msg())) {
-            $json = _json_encode_utf8($object);
-            if (!empty($json)) {
-                $_json_encode_force_utf8 = 1;
-                return $json;
-            }
-        }
-
-        $errors[] = "_json_encode: Error 1 Found: " . json_last_error_msg();
-        //_error_log("_json_encode: Error 1 Found: " . json_last_error_msg());
-        $object = object_to_array($object);
-        $json = json_encode($object);
-        if (empty($json) && json_last_error()) {
-            $errors[] = "_json_encode: Error 2 Found: " . json_last_error_msg();
-            //_error_log("_json_encode: Error 2 Found: " . json_last_error_msg());
-            $json = json_encode($object, JSON_UNESCAPED_UNICODE);
-            if (json_last_error()) {
-                $errors[] = "_json_encode: Error 3 Found: {$object} " . json_last_error_msg();
-                $json = _json_encode_utf8($object);
-                if (empty($json) && json_last_error()) {
-                    $errors[] = "_json_encode: Error 4 Found: " . json_last_error_msg();
-                } else {
-                    $_json_encode_force_utf8 = 1;
-                }
-            }
-        }
-    }
-    if (empty($json) && !empty($errors)) {
+        $errors[] = "_json_encode: Error Found: " . json_last_error_msg();
         foreach ($errors as $value) {
             _error_log($value);
         }
         _error_log(json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
+
     return $json;
 }
+
 
 function _json_decode($object) {
     global $global;
