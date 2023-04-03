@@ -33,6 +33,6 @@ $parameters = array_merge($_GET, $_POST, $input);
 
 $obj = $plugin->get($parameters);
 if(is_object($obj)){
-    $obj = json_encode($obj);
+    $obj = _json_encode($obj);
 }
 die($obj);
