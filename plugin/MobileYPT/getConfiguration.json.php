@@ -34,6 +34,15 @@ if(!empty($chat2)){
     $objMM->chat2ShowOnUserVideos = false;
 }
 
+$notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
+if(!empty($notifications)){
+    $objMM->oneSignalEnabled = !_empty($chat2->oneSignalEnabled);
+    $objMM->oneSignalAPPID = $chat2->oneSignalAPPID;
+}else{
+    $objMM->oneSignalEnabled = false;
+    $objMM->oneSignalAPPID = '';
+}
+
 $objMM->homePageURL = AVideoPlugin::getMobileHomePageURL();
 
 $objMM->logo = getURL($config->getLogo());
