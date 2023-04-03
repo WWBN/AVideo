@@ -6527,7 +6527,7 @@ function _json_encode($object) {
     return $json;
 }
 
-function _json_decode($object) {
+function _json_decode($object, $getURL = true) {
     global $global;
     if (empty($object)) {
         return $object;
@@ -6535,7 +6535,7 @@ function _json_decode($object) {
     if (!is_string($object)) {
         return $object;
     }
-    if (isValidURLOrPath($object)) {
+    if ($getURL && isValidURLOrPath($object)) {
         $content = file_get_contents($object);
         if (!empty($content)) {
             $object = $content;
