@@ -2394,7 +2394,10 @@ if (typeof gtag !== \"function\") {
             return true;
         }
         try {
-            $config = new Configuration();
+            require_once $global['systemRootPath'] . 'objects/configuration.php';
+            if (class_exists('Configuration')) {
+                $config = new Configuration();
+            }
             $code = urlencode(static::createVerificationCode($users_id));
             //Create a new PHPMailer instance
             if (!is_object($config)) {
