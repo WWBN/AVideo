@@ -1372,8 +1372,8 @@ function getAudioURLOnly($fileName) {
 
 function getAudioOrVideoURLOnly($fileName, $recreateCache = false) {
     $allFiles = getVideosURL_V2($fileName, $recreateCache); // disable this function soon
-    if($recreateCache){
-        _error_log("getAudioOrVideoURLOnly($fileName) ". json_encode($allFiles));
+    if ($recreateCache) {
+        _error_log("getAudioOrVideoURLOnly($fileName) " . json_encode($allFiles));
     }
     foreach ($allFiles as $key => $value) {
         if ($value['type'] !== 'video' && $value['type'] !== 'audio') {
@@ -1617,7 +1617,7 @@ function getSources($fileName, $returnArray = false, $try = 0) {
     }
 
     $video = Video::getVideoFromFileNameLight($fileName);
-    
+
     if ($video['type'] !== 'audio' && function_exists('getVRSSources')) {
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
@@ -1626,7 +1626,7 @@ function getSources($fileName, $returnArray = false, $try = 0) {
         $sourcesArray = [];
         foreach ($files as $key => $value) {
             $path_parts = pathinfo($value['path']);
-            if(Video::forceAudio() && $path_parts['extension'] !== "mp3"){
+            if (Video::forceAudio() && $path_parts['extension'] !== "mp3") {
                 continue;
             }
             if ($path_parts['extension'] == "webm" || $path_parts['extension'] == "mp4" || $path_parts['extension'] == "m3u8" || $path_parts['extension'] == "mp3" || $path_parts['extension'] == "ogg") {
@@ -2188,10 +2188,11 @@ function detect_image_type($file_path) {
 function convertImage($originalImage, $outputImage, $quality, $useExif = false) {
     ini_set('memory_limit', '512M');
     if (!file_exists($originalImage) || empty(filesize($originalImage))) {
-        var_dump(debug_backtrace());exit;
+        var_dump(debug_backtrace());
+        exit;
         return false;
     }
-    
+
     $originalImage = str_replace('&quot;', '', $originalImage);
     $outputImage = str_replace('&quot;', '', $outputImage);
     make_path($outputImage);
@@ -2401,7 +2402,6 @@ function unzipDirectory($filename, $destination) {
     // Delete the original zip file
     @unlink($filename);
 }
-
 
 function make_path($path) {
     $created = false;
@@ -3109,7 +3109,6 @@ function UTF8encode($data) {
 
     return $data;
 }
-
 
 //detect search engine bots
 function isBot() {
@@ -4307,16 +4306,15 @@ function getOS($user_agent = "") {
             '/blackberry/i' => 'BlackBerry',
             '/webos/i' => 'Mobile',
         ];
-    
+
         foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
                 $os_platform = $value;
                 break;
             }
         }
-    
     }
-    
+
     return $os_platform;
 }
 
@@ -6450,7 +6448,7 @@ function examineJSONError($object) {
 function is_utf8($string) {
     return preg_match('//u', $string);
 }
-        
+
 function _utf8_encode_recursive($object) {
     if (is_string($object)) {
         return is_utf8($object) ? $object : utf8_encode($object);
@@ -6468,7 +6466,6 @@ function _utf8_encode_recursive($object) {
 
     return $object;
 }
-
 
 function _json_encode($object) {
     if (empty($object)) {
@@ -6495,7 +6492,6 @@ function _json_encode($object) {
 
     return $json;
 }
-
 
 function _json_decode($object) {
     global $global;
@@ -7744,9 +7740,9 @@ function url_exists($url) {
         if (empty($file_headers)) {
             _error_log("url_exists($url) empty headers");
             return false;
-        }else{
+        } else {
             foreach ($file_headers as $value) {
-                if(preg_match('/404 Not Found/i', $value)){
+                if (preg_match('/404 Not Found/i', $value)) {
                     _error_log("url_exists($url) 404 {$value}");
                     return false;
                 }
@@ -7755,7 +7751,7 @@ function url_exists($url) {
         }
     } else {
         $exists = file_exists($url);
-        if($exists == false){
+        if ($exists == false) {
             _error_log("url_exists($url) local file do not exists");
         }
         return $exists;
@@ -9932,7 +9928,7 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
     // Check if auto HLS conversion is enabled
     if (AVideoPlugin::isEnabledByName("VideoHLS")) {
         $postFields['inputAutoHLS'] = 1;
-    } 
+    }
 
     // Send the data to the encoder
     $encoderURL = $config->getEncoderURL();
@@ -9962,7 +9958,6 @@ function sendToEncoder($videos_id, $downloadURL, $checkIfUserCanUpload = false) 
     Configuration::deleteEncoderURLCache();
     return $obj;
 }
-
 
 function parseFFMPEGProgress($progressFilename) {
     //get duration of source
@@ -10409,4 +10404,12 @@ function is_image_fully_transparent($filename) {
 
     // Return the result
     return $is_transparent;
+}
+
+function getLanguageFromBrowser() {
+    if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+        return false;
+    }
+    $parts = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+    return str_replace('-', '_', $parts[0]);
 }

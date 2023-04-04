@@ -78,14 +78,6 @@ class User_Location extends PluginAbstract {
         return IP2Location::getLocation($ip);
     }
 
-    static function getLanguageFromBrowser() {
-        if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            return false;
-        }
-        $parts = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        return str_replace('-', '_', $parts[0]);
-    }
-
     static function changeLang($force=false) {
         global $global;
         if(!empty($force) || empty($_SESSION['language'])){
@@ -105,7 +97,7 @@ class User_Location extends PluginAbstract {
         if(empty($global['User_Location_lang'])){
             $obj = AVideoPlugin::getDataObject('User_Location');
             if ($obj->useLanguageFrom->value == 'browser') {
-                $global['User_Location_lang'] = self::getLanguageFromBrowser();
+                $global['User_Location_lang'] = getLanguageFromBrowser();
             } else {
                 $User_Location = self::getThisUserLocation();
                 $global['User_Location_lang'] = $User_Location['country_code'];

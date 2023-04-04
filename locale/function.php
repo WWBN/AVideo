@@ -145,7 +145,11 @@ function setSiteLang() {
             setLanguage($config->getLanguage());
         }
         if (empty($_SESSION['language'])) {
-            setLanguage('en_US');
+            if(function_exists('getLanguageFromBrowser')){
+                setLanguage(getLanguageFromBrowser());
+            }else{
+                setLanguage('en_US');
+            }
         }
     }
 }
