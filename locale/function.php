@@ -11,9 +11,6 @@ includeLangFile();
 function includeLangFile() {
     global $t, $global;
     setSiteLang();
-    if (!empty($_REQUEST['debug'])) {
-        _error_log("includeLangFile {$_SESSION['language']} " . json_encode(debug_backtrace()));
-    }
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 }
 
@@ -119,9 +116,6 @@ function flag2Lang($flagCode) {
 function setSiteLang() {
     global $config, $global;
     if (empty($global['systemRootPath'])) {
-        if (!empty($_REQUEST['debug'])) {
-            _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
-        }
         if (function_exists('getLanguageFromBrowser')) {
             setLanguage(getLanguageFromBrowser());
         } else {
@@ -137,9 +131,6 @@ function setSiteLang() {
             _session_start();
             setLanguage($_GET['lang']);
         } else if ($userLocation) {
-            if (!empty($_REQUEST['debug'])) {
-                _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
-            }
             User_Location::changeLang();
         }
         try {
@@ -156,21 +147,12 @@ function setSiteLang() {
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
-            if (!empty($_REQUEST['debug'])) {
-                _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
-            }
             setLanguage($config->getLanguage());
         }
         if (empty($_SESSION['language'])) {
             if (function_exists('getLanguageFromBrowser')) {
-                if (!empty($_REQUEST['debug'])) {
-                    _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
-                }
                 setLanguage(getLanguageFromBrowser());
             } else {
-                if (!empty($_REQUEST['debug'])) {
-                    _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
-                }
                 setLanguage('en_US');
             }
         }
@@ -178,9 +160,6 @@ function setSiteLang() {
 }
 
 function setLanguage($lang) {
-    if (!empty($_REQUEST['debug'])) {
-        _error_log("setLanguage {$lang}" . json_encode(debug_backtrace()));
-    }
     $lang = strip_tags($lang);
     if (empty($lang)) {
         return false;
