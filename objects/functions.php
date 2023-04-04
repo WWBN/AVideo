@@ -9693,7 +9693,7 @@ function _ob_get_clean() {
 }
 
 function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false) {
-    global $global, $config, $advancedCustom, $advancedCustomUser;
+    global $global, $config, $advancedCustom, $advancedCustomUser, $t;
 
     if (empty($advancedCustom)) {
         $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
