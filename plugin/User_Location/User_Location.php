@@ -101,7 +101,7 @@ class User_Location extends PluginAbstract {
             }
         } else {
             if (!empty($_REQUEST['debug'])) {
-                _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                _error_log("changeLang [{$_SESSION['language']}] line=" . __LINE__ . " " . json_encode(debug_backtrace()));
             }
         }
     }
