@@ -1,5 +1,5 @@
 <?php
-
+global $t;
 // filter some security here
 if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
