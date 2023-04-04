@@ -155,6 +155,9 @@ function setSiteLang() {
 }
 
 function setLanguage($lang) {
+    if(!empty($_REQUEST['debug'])){
+        _error_log("setLanguage {$lang}" . json_encode(debug_backtrace()));
+    }
     $lang = strip_tags($lang);
     if (empty($lang)) {
         return false;
