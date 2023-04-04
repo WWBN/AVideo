@@ -78,23 +78,38 @@ class User_Location extends PluginAbstract {
         return IP2Location::getLocation($ip);
     }
 
-    static function changeLang($force=false) {
+    static function changeLang($force = false) {
         global $global;
-        if(!empty($force) || empty($_SESSION['language'])){
+        if (!empty($force) || empty($_SESSION['language'])) {
             $obj = AVideoPlugin::getDataObject('User_Location');
             if ($obj->autoChangeLanguage) {
                 $lang = self::getLanguage();
-                if(!empty($lang)){
+                if (!empty($lang)) {
+                    if (!empty($_REQUEST['debug'])) {
+                        _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                    }
                     setLanguage($lang);
+                } else {
+                    if (!empty($_REQUEST['debug'])) {
+                        _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                    }
                 }
+            } else {
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                }
+            }
+        } else {
+            if (!empty($_REQUEST['debug'])) {
+                _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
             }
         }
     }
-    
+
     static function getLanguage() {
         global $global;
         $global['User_Location_lang'] = false;
-        if(empty($global['User_Location_lang'])){
+        if (empty($global['User_Location_lang'])) {
             $obj = AVideoPlugin::getDataObject('User_Location');
             if ($obj->useLanguageFrom->value == 'browser') {
                 $global['User_Location_lang'] = getLanguageFromBrowser();
@@ -102,7 +117,7 @@ class User_Location extends PluginAbstract {
                 $User_Location = self::getThisUserLocation();
                 $global['User_Location_lang'] = $User_Location['country_code'];
             }
-        }        
+        }
         return $global['User_Location_lang'];
     }
 
