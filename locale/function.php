@@ -1,4 +1,5 @@
 <?php
+
 global $t;
 // filter some security here
 if (!empty($_GET['lang'])) {
@@ -10,8 +11,8 @@ includeLangFile();
 function includeLangFile() {
     global $t;
     setSiteLang();
-    if(!empty($_REQUEST['debug'])){
-        _error_log("includeLangFile {$_SESSION['language']}" . json_encode(debug_backtrace()));
+    if (!empty($_REQUEST['debug'])) {
+        _error_log("includeLangFile {$_SESSION['language']} " . json_encode(debug_backtrace()));
     }
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 }
@@ -118,7 +119,14 @@ function flag2Lang($flagCode) {
 function setSiteLang() {
     global $config, $global;
     if (empty($global['systemRootPath'])) {
-        setLanguage('en_US');
+        if (!empty($_REQUEST['debug'])) {
+            _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+        }
+        if (function_exists('getLanguageFromBrowser')) {
+            setLanguage(getLanguageFromBrowser());
+        } else {
+            setLanguage('en_US');
+        }
     } else {
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         $userLocation = false;
@@ -129,14 +137,17 @@ function setSiteLang() {
             _session_start();
             setLanguage($_GET['lang']);
         } else if ($userLocation) {
+            if (!empty($_REQUEST['debug'])) {
+                _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+            }
             User_Location::changeLang();
         }
         try {
             if (empty($config) || !is_object($config)) {
                 require_once $global['systemRootPath'] . 'objects/configuration.php';
-                if(class_exists('Configuration')){
+                if (class_exists('Configuration')) {
                     $config = new Configuration();
-                }else{
+                } else {
                     //_error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
                 }
             }
@@ -145,12 +156,21 @@ function setSiteLang() {
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
+            if (!empty($_REQUEST['debug'])) {
+                _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+            }
             setLanguage($config->getLanguage());
         }
         if (empty($_SESSION['language'])) {
-            if(function_exists('getLanguageFromBrowser')){
+            if (function_exists('getLanguageFromBrowser')) {
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                }
                 setLanguage(getLanguageFromBrowser());
-            }else{
+            } else {
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("setSiteLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                }
                 setLanguage('en_US');
             }
         }
@@ -158,7 +178,7 @@ function setSiteLang() {
 }
 
 function setLanguage($lang) {
-    if(!empty($_REQUEST['debug'])){
+    if (!empty($_REQUEST['debug'])) {
         _error_log("setLanguage {$lang}" . json_encode(debug_backtrace()));
     }
     $lang = strip_tags($lang);
