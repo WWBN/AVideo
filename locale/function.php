@@ -10,6 +10,9 @@ includeLangFile();
 function includeLangFile() {
     global $t;
     setSiteLang();
+    if(!empty($_REQUEST['debug'])){
+        _error_log("includeLangFile {$_SESSION['language']}" . json_encode(debug_backtrace()));
+    }
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 }
 
