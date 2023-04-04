@@ -9,7 +9,7 @@ if (!empty($_GET['lang'])) {
 includeLangFile();
 
 function includeLangFile() {
-    global $t;
+    global $t, $global;
     setSiteLang();
     if (!empty($_REQUEST['debug'])) {
         _error_log("includeLangFile {$_SESSION['language']} " . json_encode(debug_backtrace()));
