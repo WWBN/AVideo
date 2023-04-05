@@ -365,7 +365,9 @@ class Cache extends PluginAbstract
                 $time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {
                     $c = new CachesInDB($row['id']);
-                    $c->delete();
+                    if(!empty($c->getId())){
+                        $c->delete();
+                    }
                 } else {
                     $_getCacheDB[$index] = _json_decode($row['content']);
                 }
