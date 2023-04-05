@@ -1,6 +1,9 @@
 <?php
 
 global $global;
+if(empty($global)){
+    $global = [];
+}
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/YPTWallet/Objects/Wallet.php';
@@ -250,6 +253,9 @@ class YPTWallet extends PluginAbstract
     public function getAllUsers($activeOnly = true)
     {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $sql = "SELECT w.*, u.*, u.id as user_id, IFNULL(balance, 0) as balance FROM users u "
                 . " LEFT JOIN wallet w ON u.id = w.users_id WHERE 1=1 ";
 
@@ -285,6 +291,9 @@ class YPTWallet extends PluginAbstract
     public static function getTotalBalance()
     {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $sql = "SELECT sum(balance) as total FROM wallet ";
 
         $res = $global['mysqli']->query($sql);
@@ -798,5 +807,12 @@ class YPTWallet extends PluginAbstract
             $w->setDescription($description);
             $w->save();
         }
+    }
+
+    
+    public function getPluginMenu() {
+        global $global;
+        $filename = $global['systemRootPath'] . 'plugin/YPTWallet/pluginMenu.html';
+        return file_get_contents($filename);
     }
 }

@@ -17,10 +17,9 @@ $stripeObject = AVideoPlugin::getObjectData("StripeYPT");
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
-$obj->client_secret = "";
 
-if (!User::isLogged()) {
-    $obj->msg = "Please login first";
+if (!User::isAdmin()) {
+    $obj->msg = "Admin only";
     die(json_encode($obj));
 }
 
@@ -33,26 +32,10 @@ if (empty($plugin)) {
     die(json_encode($obj));
 }
 
-$value = floatval($_REQUEST['value']);
 
-if (empty($value)) {
-    $obj->msg = "Value is empty";
-    die(json_encode($obj));
-}
+StripeYPT::_start();
+$obj->webhook = StripeYPT::getWebhook();
+$obj->error = empty($obj->webhook);
 
-$currency = $walletObject->currency;
-$metadata = array(
-    "users_id" => User::getId(),
-    "plans_id" => @$_REQUEST['plans_id'],
-    "plugin" => @$_REQUEST['plugin'],
-    "json" => @$_REQUEST['json'],
-    "recurrent" => @$_REQUEST['recurrent'],
-    "singlePayment" => @$_REQUEST['singlePayment'],
-);
-
-$intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata, @$_REQUEST['customer'], @$_REQUEST['future_usage']);
-
-$obj->client_secret = $intent->client_secret;
-$obj->error = empty($obj->client_secret);
 die(json_encode($obj));
 ?>

@@ -139,8 +139,12 @@ $uid = uniqid();
                             updateYPTWallet();
                             setTimeout(function(){
                                 <?php
-                                $url = YPTWallet::getAddFundsSuccessRedirectURL();
-                                echo empty($url)?'location.reload();':"window.top.location.href='{$url}'";
+                                if (empty($global['paymentsTest'])) {
+                                    $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                                    echo empty($url) ? 'location.reload();' : "window.top.location.href='{$url}'";
+                                }else{
+                                    echo 'modal.hidePleaseWait();';
+                                }
                                 ?>
                             }, 3000);
                         }

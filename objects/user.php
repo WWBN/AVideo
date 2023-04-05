@@ -469,7 +469,7 @@ if (typeof gtag !== \"function\") {
     public static function getUserPass() {
         if (self::isLogged()) {
             //return $_SESSION['user']['password'];
-            return $_SESSION['user']['passhash'];
+            return @$_SESSION['user']['passhash'];
         } else {
             return false;
         }
