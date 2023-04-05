@@ -51,7 +51,7 @@ time.duration {
 	position: relative;
 }
 
-.thumbsImageContainer .thumbsImage {
+.thumbsImageContainer .thumbsImage, #channelLive .thumbsImage {
 	border: none;
     position: absolute;
     top: 0;
