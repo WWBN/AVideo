@@ -26,7 +26,7 @@ body, .panel-default>.panel-heading,
 .alert, .row,
 .bootgrid-table td.loading, 
 .bootgrid-table td.no-results, 
-.modal-content {
+.modal-content, .list-group-item, .dropdown-menu {
   background-color: #<?php echo $bgColor; ?> !important;
 }
 <?php endif; ?>
@@ -71,7 +71,7 @@ body, .panel-default>.panel-heading,
 .panel-default>.panel-heading,
 .table>thead>tr>th,
 .btn-default,
-.alert {
+.alert, .list-group-item, .dropdown-menu  {
   color: #<?php echo $textColor; ?> !important;
 }
 <?php endif; ?>
