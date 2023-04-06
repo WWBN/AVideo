@@ -77,5 +77,10 @@ class MobileYPT extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/MobileYPT/HTMLMenuLeft.php';
     }
+    
+    public function getHeadCode() {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/MobileYPT/head.php';
+    }
 
 }
