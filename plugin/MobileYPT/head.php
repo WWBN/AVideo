@@ -62,7 +62,7 @@ body, .panel-default>.panel-heading,
 <?php if ($bgColorAppBarDarker): ?>
 .panel-warning,
 .btn-warning,
-.alert-warning,.img-thumbnail, .navbar-default {
+.alert-warning,.img-thumbnail, .navbar-default, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
   background-color: #<?php echo $bgColorAppBarDarker; ?> !important;
 }
 <?php endif; ?>
@@ -71,7 +71,7 @@ body, .panel-default>.panel-heading,
 .panel-default>.panel-heading,
 .table>thead>tr>th,
 .btn-default,
-.alert, .list-group-item, .dropdown-menu  {
+.alert, .list-group-item, .dropdown-menu, .dropdown-menu>li>a  {
   color: #<?php echo $textColor; ?> !important;
 }
 <?php endif; ?>
@@ -89,7 +89,7 @@ body, .panel-default>.panel-heading,
 .panel-footer,
 .table>tfoot>tr>th,
 .btn-success,
-.alert-success {
+.alert-success, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
   color: #<?php echo $textColorHigh; ?> !important;
 }
 <?php endif; ?>
