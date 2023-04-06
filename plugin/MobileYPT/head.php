@@ -54,7 +54,7 @@ body, .panel-default>.panel-heading,
 <?php if ($bgColorAppBar): ?>
 .panel-danger,
 .btn-danger,
-.alert-danger {
+.alert-danger, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
   background-color: #<?php echo $bgColorAppBar; ?> !important;
 }
 <?php endif; ?>
@@ -62,7 +62,7 @@ body, .panel-default>.panel-heading,
 <?php if ($bgColorAppBarDarker): ?>
 .panel-warning,
 .btn-warning,
-.alert-warning,.img-thumbnail, .navbar-default, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+.alert-warning,.img-thumbnail, .navbar-default, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .nav-tabs>li>a:hover {
   background-color: #<?php echo $bgColorAppBarDarker; ?> !important;
 }
 <?php endif; ?>
@@ -80,7 +80,7 @@ body, .panel-default>.panel-heading,
 .panel,
 .table,
 .btn-primary,
-.alert-info {
+.alert-info, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover, .nav-tabs>li>a:hover {
   color: #<?php echo $textColorDark; ?> !important;
 }
 <?php endif; ?>
