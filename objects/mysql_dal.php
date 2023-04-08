@@ -142,7 +142,9 @@ class sqlDAL
                 log_error('Error in writeSql values: ' . json_encode($values));
             }else if(preg_match('/Conversion from collation/i', $global['mysqli']->error)){
                 foreach ($values as $key => $value) {
-                    $values[$key] = "CONVERT('{$value}' USING latin1)";
+                    if(!is_numeric($value)){
+                        $values[$key] = "CONVERT('{$value}' USING latin1)";
+                    }
                 }
                 sqlDAL::eval_mysql_bind($stmt, $formats, $values);
                 try {
