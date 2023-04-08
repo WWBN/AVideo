@@ -149,8 +149,21 @@ class sqlDAL
                     log_error('try again');
                     $stmt->execute();
                 } catch (Exception $exc) {
-                    log_error($exc->getTraceAsString());
-                    log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+                    foreach ($values as $key => $value) {
+                        if(strlen($value)>100){
+                            $values[$key] = '';
+                        }
+                    }
+                    sqlDAL::eval_mysql_bind($stmt, $formats, $values);
+                    try {
+
+                        log_error('try again 2');
+                        $stmt->execute();
+                    } catch (Exception $exc) {
+    
+                        log_error($exc->getTraceAsString());
+                        log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+                    }
                 }
             }
         }
