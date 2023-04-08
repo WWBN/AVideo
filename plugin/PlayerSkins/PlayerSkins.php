@@ -641,6 +641,23 @@ class PlayerSkins extends PluginAbstract {
         player.on('play', function () {
             addView({$videos_id}, this.currentTime());
             _addViewBeaconAdded = false;
+            sendAVideoMobileMessage('play', this.currentTime());
+        });
+        player.on('ended', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+            sendAVideoMobileMessage('ended', time);
+        });
+        player.on('pause', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+            sendAVideoMobileMessage('pause', time);
+        });
+        player.on('volumechange', function () {
+            sendAVideoMobileMessage('volumechange', player.volume());
+        });
+        player.on('ratechange', function () {
+            sendAVideoMobileMessage('ratechange', player.playbackRate);
         });
         player.on('timeupdate', function () {
             var time = Math.round(this.currentTime());
@@ -658,10 +675,7 @@ class PlayerSkins extends PluginAbstract {
                 addViewFromCookie();
                 addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
-        });
-        player.on('ended', function () {
-            var time = Math.round(this.currentTime());
-            addView({$videos_id}, time);
+            sendAVideoMobileMessage('timeupdate', time);
         });";
 
         if (!empty($nextURL)) {

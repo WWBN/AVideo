@@ -318,7 +318,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                             url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
                         }
                         console.log('Login success', url);
-                        await sendAVideoMobileLiveStreamerMessage('saveSessionUser', {site:webSiteRootURL, user:$('#inputUser').val(), pass:$('#inputPassword').val()});
+                        await sendAVideoMobileMessage('saveSessionUser', {site:webSiteRootURL, user:$('#inputUser').val(), pass:$('#inputPassword').val()});
                         document.location = url;
                     }
                 }

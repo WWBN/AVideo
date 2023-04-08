@@ -192,7 +192,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
         if (!empty($redirectUri)) {
             if (isAVideoMobileApp()) {
                 ?>
-                <button onclick="sendAVideoMobileLiveStreamerMessage('pop', {title:'', description:''});" class="btn btn-default btn-block btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>" ><i class="fas fa-times"></i> <?php echo __("Cancel"); ?></button>
+                <button onclick="sendAVideoMobileMessage('pop', {title:'', description:''});" class="btn btn-default btn-block btn-xs <?php echo getCSSAnimationClassAndStyle(); ?>" ><i class="fas fa-times"></i> <?php echo __("Cancel"); ?></button>
                 <?php
             } else {
                 ?>
@@ -310,7 +310,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                         if (!response.error) {
 <?php
 if (isAVideoMobileApp()) {
-    echo "sendAVideoMobileLiveStreamerMessage('pop',  {title:'Success', description:''});";
+    echo "sendAVideoMobileMessage('pop',  {title:'Success', description:''});";
 } else {
     echo "window.location.href = '{$siteRedirectUri}';";
 }
