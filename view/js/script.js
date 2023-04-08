@@ -3839,7 +3839,7 @@ async function sendAVideoMobileMessage(type, value){
 async function sendAVideoMobileMessage(type, value) {
     if (typeof window.flutter_inappwebview !== 'undefined') {
         if (typeof window.flutter_inappwebview.callHandler == 'function') {
-            for (i = 0; i < 10; i++) {
+            for (var i = 0; i < 10; i++) {
                 response = await window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer' + i, {type: type, value: value, instanceIndex: i});
                 if (response !== null) {
                     console.log('sendAVideoMobileMessage executed', i, response, type, value);
