@@ -154,7 +154,7 @@ class sqlDAL
                 } catch (Exception $exc) {
                     foreach ($values as $key => $value) {
                         if(strlen($value)>100){
-                            $values[$key] = '';
+                            $values[$key] = preg_replace("/[^A-Za-z0-9 .]+/", ' ', $value);
                         }
                     }
                     sqlDAL::eval_mysql_bind($stmt, $formats, $values);
