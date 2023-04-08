@@ -3841,12 +3841,13 @@ async function sendAVideoMobileMessage(type, value) {
         //console.log('sendAVideoMobileMessage flutter_inappwebview', typeof window.flutter_inappwebview, window.flutter_inappwebview);
         if (typeof window.flutter_inappwebview.callHandler == 'function') {
             for (var i = 0; i < 10; i++) {
-                response = await window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer' + i, {type: type, value: value, instanceIndex: i});
+                var name = 'AVideoMobileLiveStreamer' + i;
+                response = await window.flutter_inappwebview.callHandler(name, {type: type, value: value, instanceIndex: i});
                 if (response !== null) {
-                    console.log('sendAVideoMobileMessage executed', i, response, type, value);
+                    console.log('sendAVideoMobileMessage executed', name, response, type, value);
                     break;
                 } else {
-                    console.log('sendAVideoMobileMessage not found', i, type, value);
+                    console.log('sendAVideoMobileMessage not found', name, type, value);
                 }
             }
         } else {
@@ -3861,7 +3862,9 @@ async function sendAVideoMobileMessage(type, value) {
     }
 }
 window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
-    sendAVideoMobileMessage('APPIsReady', 1);
+    setTimeout(function() {
+        sendAVideoMobileMessage('APPIsReady', 1);
+    }, 1000);
 });
 
 function getUser() {
