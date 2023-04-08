@@ -11,6 +11,11 @@ function getColorValue($requestKey) {
   return null;
 }
 
+if(isAVideoMobileApp()){
+  $_GET['noNavbar'] = 1;
+  $_GET['iframe'] = 1;
+}
+
 $bgColor = getColorValue('bgColor');
 $bgColor1 = getColorValue('bgColor1');
 $bgColor2 = getColorValue('bgColor2');
