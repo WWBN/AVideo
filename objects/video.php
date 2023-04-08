@@ -3716,6 +3716,9 @@ if (!class_exists('Video')) {
             if (!isset($__getPaths)) {
                 $__getPaths = [];
             }
+            if(empty($videoFilename)){
+                return array();
+            }
             if (!empty($__getPaths[$videoFilename])) {
                 return $__getPaths[$videoFilename];
             }
@@ -4580,24 +4583,31 @@ if (!class_exists('Video')) {
             return $return;
         }
 
-        public static function getImageFromID($videos_id, $type = "video") {
+        public static function getImageFromID($videos_id) {
+            global $global;
             $video = new Video("", "", $videos_id);
             $return = (object) self::getImageFromFilename($video->getFilename());
             if (empty($return->posterLandscapePath)) {
                 $path = Video::getPaths($video->getFilename());
-                $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
-                $return->posterLandscape = "{$path['url']}{$path['filename']}.jpg";
+                if(!empty($path['path'])){
+                    $return->posterLandscapePath = "{$path['path']}{$path['filename']}.jpg";
+                    $return->posterLandscape = "{$path['url']}{$path['filename']}.jpg";
+                }
             }
             if (empty($return->posterPortraitPath)) {
                 $path = Video::getPaths($video->getFilename());
-                $return->posterPortraitPath = "{$path['path']}{$path['filename']}_portrait.jpg";
-                $return->posterPortrait = "{$path['url']}{$path['filename']}_portrait.jpg";
+                if(!empty($path['path'])){
+                    $return->posterPortraitPath = "{$path['path']}{$path['filename']}_portrait.jpg";
+                    $return->posterPortrait = "{$path['url']}{$path['filename']}_portrait.jpg";
+                }
             }
 
-            if (defaultIsLandscape()) {
+            if (defaultIsLandscape() && !empty($return->posterLandscape)) {
                 $return->default = ['url' => $return->posterLandscape, 'path' => $return->posterLandscapePath];
-            } else {
+            } else if(!empty($return->posterPortrait)){
                 $return->default = ['url' => $return->posterPortrait, 'path' => $return->posterPortraitPath];
+            } else{
+                $return->default = ['url' => getCDN() . "view/img/notfoundThumbs.jpg", 'path' => "{$global['systemRootPath']}view/img/notfoundThumbs.jpg"];
             }
 
             return $return;

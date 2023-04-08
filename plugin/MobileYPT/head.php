@@ -94,7 +94,8 @@ body,
 .panel,
 .table,
 .btn-primary,
-.alert-info, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover, .nav-tabs>li>a:hover {
+.alert-info, .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover, 
+.nav-tabs>li>a:hover, .swal-title, .swal-text, .swal-footer {
   color: #<?php echo $textColorDark; ?> !important;
 }
 <?php endif; ?>
@@ -103,7 +104,7 @@ body,
 .panel-footer,
 .table>tfoot>tr>th,
 .btn-success,
-.alert-success, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .swal-title, .swal-text, .swal-footer {
+.alert-success, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
   color: #<?php echo $textColorHigh; ?> !important;
 }
 <?php endif; ?>
