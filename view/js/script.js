@@ -3862,9 +3862,8 @@ async function sendAVideoMobileMessage(type, value) {
     }
 }
 window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
-    setTimeout(function() {
-        sendAVideoMobileMessage('APPIsReady', 1);
-    }, 1000);
+    console.log('flutterInAppWebViewPlatformReady Platform ready, sending APPIsReady message');
+    sendAVideoMobileMessage('APPIsReady', 1);
 });
 
 function getUser() {
