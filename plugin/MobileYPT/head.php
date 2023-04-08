@@ -1,8 +1,13 @@
 <?php
+
+_session_start();
 function getColorValue($requestKey) {
   if (!empty($_REQUEST[$requestKey])) {
+    $_SESSION[$requestKey] = $_REQUEST[$requestKey];
     return substr($_REQUEST[$requestKey], 10, 6);
-  }
+  } else if (!empty($_SESSION[$requestKey])) {
+    return substr($_SESSION[$requestKey], 10, 6);
+  } 
   return null;
 }
 
