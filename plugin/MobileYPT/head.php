@@ -103,7 +103,7 @@ body,
 .panel-footer,
 .table>tfoot>tr>th,
 .btn-success,
-.alert-success, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover {
+.alert-success, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .swal-title, .swal-text, .swal-footer {
   color: #<?php echo $textColorHigh; ?> !important;
 }
 <?php endif; ?>
