@@ -3838,7 +3838,7 @@ async function sendAVideoMobileMessage(type, value){
 
 async function sendAVideoMobileMessage(type, value) {
     if (typeof window.flutter_inappwebview !== 'undefined') {
-        console.log('sendAVideoMobileMessage flutter_inappwebview', typeof window.flutter_inappwebview, window.flutter_inappwebview);
+        //console.log('sendAVideoMobileMessage flutter_inappwebview', typeof window.flutter_inappwebview, window.flutter_inappwebview);
         if (typeof window.flutter_inappwebview.callHandler == 'function') {
             for (var i = 0; i < 10; i++) {
                 response = await window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer' + i, {type: type, value: value, instanceIndex: i});
