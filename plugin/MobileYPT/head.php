@@ -1,14 +1,16 @@
 <?php
 
 _session_start();
-function getColorValue($requestKey) {
-  if (!empty($_REQUEST[$requestKey])) {
-    $_SESSION[$requestKey] = $_REQUEST[$requestKey];
-    return substr($_REQUEST[$requestKey], 10, 6);
-  } else if (!empty($_SESSION[$requestKey])) {
-    return substr($_SESSION[$requestKey], 10, 6);
-  } 
-  return null;
+if(!function_exists('getColorValue')){
+  function getColorValue($requestKey) {
+    if (!empty($_REQUEST[$requestKey])) {
+      $_SESSION[$requestKey] = $_REQUEST[$requestKey];
+      return substr($_REQUEST[$requestKey], 10, 6);
+    } else if (!empty($_SESSION[$requestKey])) {
+      return substr($_SESSION[$requestKey], 10, 6);
+    } 
+    return null;
+  }
 }
 
 if(isAVideoMobileApp()){
@@ -30,20 +32,20 @@ $textColorHigh = getColorValue('textColorHigh');
 <style>
 /* Overwrite Bootstrap styles */
 <?php if ($bgColor): ?>
-body, .panel-default>.panel-heading,
+body,
 .table>thead>tr>td,
 .table>thead>tr>th,
 .btn-default,
 .alert, .row,
 .bootgrid-table td.loading, 
 .bootgrid-table td.no-results, 
-.modal-content, .list-group-item, .dropdown-menu {
+.modal-content, .list-group-item, .dropdown-menu, .well, .panel-default  {
   background-color: #<?php echo $bgColor; ?> !important;
 }
 <?php endif; ?>
 
 <?php if ($bgColor1): ?>
-.panel,
+.panel, .panel-default>.panel-heading,
 .table,
 .btn-primary,
 .alert-info,
@@ -73,7 +75,8 @@ body, .panel-default>.panel-heading,
 <?php if ($bgColorAppBarDarker): ?>
 .panel-warning,
 .btn-warning,
-.alert-warning,.img-thumbnail, .navbar-default, .dropdown-menu>li>a:focus, .dropdown-menu>li>a:hover, .nav-tabs>li>a:hover {
+.alert-warning,.img-thumbnail, .navbar-default, .dropdown-menu>li>a:focus, 
+.dropdown-menu>li>a:hover, .nav-tabs>li>a:hover, .panel-heading, .swal-modal, .popover-title {
   background-color: #<?php echo $bgColorAppBarDarker; ?> !important;
 }
 <?php endif; ?>
