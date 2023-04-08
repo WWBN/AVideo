@@ -138,17 +138,18 @@ class sqlDAL
         try {
             $stmt->execute();
         } catch (Exception $exc) {
-            log_error($exc->getTraceAsString());
             if (preg_match('/playlists_has_videos/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
-            }else if(preg_match('Conversion from collation', $global['mysqli']->error)){
+            }else if(preg_match('/Conversion from collation/i', $global['mysqli']->error)){
                 foreach ($values as $key => $value) {
                     $values[$key] = "CONVERT('{$value}' USING latin1)";
                 }
                 sqlDAL::eval_mysql_bind($stmt, $formats, $values);
                 try {
+                    log_error('try again');
                     $stmt->execute();
                 } catch (Exception $exc) {
+                    log_error($exc->getTraceAsString());
                     log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
                 }
             }
