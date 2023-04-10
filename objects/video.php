@@ -169,15 +169,18 @@ if (!class_exists('Video')) {
 
         public function addView($currentTime = 0) {
             if (isBot()) {
+                //_error_log("addView isBot");
                 return false;
             }
             global $global;
             if (empty($this->id)) {
+                //_error_log("addView empty(\$this->id))");
                 return false;
             }
 
             $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId());
             if (!empty($lastStatistic)) {
+                //_error_log("addView !empty(\$lastStatistic) ");
                 return false;
             }
 

@@ -4,6 +4,9 @@ error_log("avideoencoder REQUEST 1: " . json_encode($_REQUEST));
 error_log("avideoencoder POST 1: " . json_encode($_REQUEST));
 error_log("avideoencoder GET 1: " . json_encode($_GET));
 */
+if(empty($global)){
+    $global = [];
+}
 $obj = new stdClass();
 $obj->error = true;
 

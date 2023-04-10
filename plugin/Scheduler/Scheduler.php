@@ -412,13 +412,21 @@ class Scheduler extends PluginAbstract
         return true;
     }
 
-    public static function saveVideosAddNew($post, $videos_id)
-    {
+    private static function convertIfTimezoneIsPassed($releaseDate){
+        if(empty($releaseDate)){
+            return $releaseDate;
+        }
+        if(empty($_REQUEST['timezone'])){
+            return $releaseDate;
+        }
+        return convertDateFromToTimezone($releaseDate, $_REQUEST['timezone'], date_default_timezone_get());
+    }
+
+    public static function saveVideosAddNew($post, $videos_id){
         return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime']);
     }
 
-    public function afterNewVideo($videos_id)
-    {
+    public function afterNewVideo($videos_id){
         return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime']);
     }
 
@@ -429,8 +437,10 @@ class Scheduler extends PluginAbstract
                 if ($releaseDate == 'in-1-hour') {
                     $releaseTime = strtotime('+1 hour');
                 } else if (!empty($releaseDateTime)) {
+                    $releaseDateTime = self::convertIfTimezoneIsPassed($releaseDateTime);
                     $releaseTime = _strtotime($releaseDateTime);
                 } else {
+                    $releaseDate = self::convertIfTimezoneIsPassed($releaseDate);
                     $releaseTime = _strtotime($releaseDate);
                 }
                 $video = new Video('', '', $videos_id);
