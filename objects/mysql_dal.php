@@ -185,8 +185,8 @@ class sqlDAL
              *
              */
 
+             _error_log("writeSql [{$stmt->errno}] {$stmt->error}");
             $stmt->close();
-            _error_log("writeSql [{$stmt->errno}] {$stmt->error}");
             return false;
         }
         $iid = @$global['mysqli']->insert_id;
