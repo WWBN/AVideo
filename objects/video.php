@@ -368,7 +368,7 @@ if (!class_exists('Video')) {
             }
             $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
 
-            if (empty($this->status)) {
+            if (empty($this->status) || empty(self::$statusDesc[$this->status])) {
                 $this->status = Video::$statusEncoding;
             }
 

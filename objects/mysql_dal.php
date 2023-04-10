@@ -157,7 +157,7 @@ class sqlDAL
                 } catch (Exception $exc) {
                     foreach ($values as $key => $value) {
                         if(strlen($value)){
-                            $values[$key] = preg_replace("/[^A-Za-z0-9 ._]+/", ' ', $value);
+                            $values[$key] = preg_replace("/[^A-Za-z0-9 ._:-]+/", ' ', $value);
                         }
                     }
                     sqlDAL::eval_mysql_bind($stmt, $formats, $values);
@@ -188,6 +188,9 @@ class sqlDAL
              */
 
              _error_log("writeSql [{$stmt->errno}] {$stmt->error} ".' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+             if(preg_match('/Data truncated for column/i', $stmt->error)){
+                _error_log("writeSql values = ".' '.json_encode($values));
+             }
             $stmt->close();
             return false;
         }
