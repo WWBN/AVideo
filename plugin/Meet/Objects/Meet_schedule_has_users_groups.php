@@ -1,7 +1,9 @@
 <?php
-
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
+if(empty($global)){
+    $global = [];
+}
 class Meet_schedule_has_users_groups extends ObjectYPT
 {
     protected $id;
@@ -21,6 +23,9 @@ class Meet_schedule_has_users_groups extends ObjectYPT
     public static function getAllFromSchedule($meet_schedule_id)
     {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
@@ -52,6 +57,9 @@ class Meet_schedule_has_users_groups extends ObjectYPT
     public static function getAllMeet_schedule()
     {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $table = "meet_schedule";
         $sql = "SELECT * FROM {$table} WHERE 1=1 ";
 
@@ -73,6 +81,9 @@ class Meet_schedule_has_users_groups extends ObjectYPT
     public static function getAllUsers_groups()
     {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $table = "users_groups";
         $sql = "SELECT * FROM {$table} WHERE 1=1 ";
 

@@ -27,6 +27,9 @@ class Meet_schedule extends ObjectYPT {
 
     public static function getAllUsers() {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $table = "users";
         $sql = "SELECT * FROM {$table} WHERE (canCreateMeet = 1 OR isAdmin = 1) AND status = 'a' ";
 
@@ -161,6 +164,9 @@ class Meet_schedule extends ObjectYPT {
 
     public static function getAllFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
@@ -191,16 +197,18 @@ class Meet_schedule extends ObjectYPT {
         $identification = User::getNameIdentificationById($users_id);
         if (!empty($time)) {
             unset($_POST['sort']);
+            //$dateStarts = 'date(starts)';
+            $dateStarts = 'CONVERT_TZ(starts, timezone,  @@session.time_zone)';
             if ($time == "today") {
-                $sql .= " AND date(starts) = CURDATE() ";
+                $sql .= " AND {$dateStarts} = CURDATE() ";
                 $_POST['sort']['starts'] = "ASC";
                 $sql .= self::getSqlFromPost();
             } elseif ($time == "upcoming") {
-                $sql .= " AND date(starts) > CURDATE() ";
+                $sql .= " AND {$dateStarts} > CURDATE() ";
                 $_POST['sort']['starts'] = "ASC";
                 $sql .= self::getSqlFromPost();
             } elseif ($time == "past") {
-                $sql .= " AND date(starts) < CURDATE() ";
+                $sql .= " AND {$dateStarts} < CURDATE() ";
                 $_POST['sort']['starts'] = "DESC";
                 $sql .= self::getSqlFromPost();
             }
@@ -358,8 +366,6 @@ class Meet_schedule extends ObjectYPT {
                 $row['starts_in'] = humanTimingAfterwards($row['starts'], 2, $row['timezone']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
