@@ -1960,8 +1960,8 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
       }
      *
      */
-    $thumb_w = $sizes['w'];
-    $thumb_h = $sizes['h'];
+    $thumb_w = intval($sizes['w']);
+    $thumb_h = intval($sizes['h']);
 
     $dst_img = ImageCreateTrueColor($thumb_w, $thumb_h);
 

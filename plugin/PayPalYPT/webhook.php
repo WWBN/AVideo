@@ -43,7 +43,7 @@ if (!empty($output) && !empty($output->webhook_event->resource->billing_agreemen
             }
             $plugin->addBalance($users_id, $payment_amount, $description, json_encode($output));
             Subscription::renew($users_id, $row['subscriptions_plans_id']);
-            $obj->error = false;
+            //$obj->error = false;
 
             $pp = new PayPalYPT_log(0);
             $pp->setUsers_id($users_id);
