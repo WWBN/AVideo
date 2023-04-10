@@ -238,20 +238,28 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                     <?php
                 }
                 if ($advancedCustom->videosManegerBulkActionButtons) {
-                    if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
+                    if (!empty($categories)) {
+                        if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
                     ?>
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                <i class="far fa-object-group"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Categories'); ?></span> <span class="caret"></span></button>
-                            <ul class="dropdown-menu" role="menu">
-                                <?php
-                                foreach ($categories as $value) {
-                                    echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
-                                }
-                                ?>
-                            </ul>
-                        </div>
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                    <i class="far fa-object-group"></i> 
+                                    <span class="hidden-md hidden-sm hidden-xs">
+                                        <?php echo __('Categories'); ?>
+                                    </span> 
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <?php
+                                    foreach ($categories as $value) {
+                                        echo "<li><a href=\"#\"  onclick=\"changeCategory({$value['id']});return false;\" ><i class=\"{$value['iconClass']}\"></i> {$value['hierarchyAndName']}</a></li>";
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
                     <?php }
+                    }
+
                     ?>
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -367,7 +375,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Statuses'); ?></a></li>
                         <?php
-                        if(!isset($statusSearchFilter)){
+                        if (!isset($statusSearchFilter)) {
                             $statusSearchFilter = array();
                         }
                         if (AVideoPlugin::isEnabled('FansSubscriptions')) {
@@ -1256,7 +1264,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     function getVManagerImageTag(url) {
         return "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
     }
-    
+
     function isVManagerGoodImage(filename) {
         var goodImageRexp = /_[0-9]{12}_[a-z0-9]{5}/;
         return goodImageRexp.test(filename) && !/notfound/i.test(filename);
@@ -1267,20 +1275,20 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         var image1 = '';
         var image2 = '';
         console.log('videosURL', videosURL);
-        if(typeof videosURL.pjpg != 'undefined'){
+        if (typeof videosURL.pjpg != 'undefined') {
             image1 = videosURL.pjpg.url;
-            if(isVManagerGoodImage(videosURL.pjpg.filename)){
+            if (isVManagerGoodImage(videosURL.pjpg.filename)) {
                 return image1;
             }
         }
-        if(typeof videosURL.jpg != 'undefined'){
+        if (typeof videosURL.jpg != 'undefined') {
             image2 = videosURL.jpg.url;
-            if(isVManagerGoodImage(videosURL.jpg.filename)){
+            if (isVManagerGoodImage(videosURL.jpg.filename)) {
                 return image2;
             }
         }
 
-        return empty(image1)?image2:image1;
+        return empty(image1) ? image2 : image1;
     }
 
     function newArticle() {
@@ -1779,7 +1787,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         download += '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download disabled")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
                     <?php
                     }
-                    if(!isset($statusThatShowTheCompleteMenu)){
+                    if (!isset($statusThatShowTheCompleteMenu)) {
                         $statusThatShowTheCompleteMenu = array();
                     }
                     $ifCondition = 'row.status == "' . implode('" || row.status == "', $statusThatShowTheCompleteMenu) . '"';
