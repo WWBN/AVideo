@@ -138,10 +138,36 @@ class sqlDAL
         try {
             $stmt->execute();
         } catch (Exception $exc) {
-            log_error($exc->getTraceAsString());
-            log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
             if (preg_match('/playlists_has_videos/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
+            }else if(preg_match('/Conversion from collation/i', $global['mysqli']->error)){
+                $values2 = $values;
+                foreach ($values2 as $key => $value) {
+                    if(!is_numeric($value) && strlen($value)>20){
+                        $values2[$key] = "CONVERT('{$value}' USING latin1)";
+                    }
+                }
+                sqlDAL::eval_mysql_bind($stmt, $formats, $values2);
+                try {
+                    log_error('try again');
+                    $stmt->execute();
+                } catch (Exception $exc) {
+                    foreach ($values as $key => $value) {
+                        if(strlen($value)>100){
+                            $values[$key] = preg_replace("/[^A-Za-z0-9 .]+/", ' ', $value);
+                        }
+                    }
+                    sqlDAL::eval_mysql_bind($stmt, $formats, $values);
+                    try {
+
+                        log_error('try again 2');
+                        $stmt->execute();
+                    } catch (Exception $exc) {
+    
+                        log_error($exc->getTraceAsString());
+                        log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+                    }
+                }
             }
         }
 
