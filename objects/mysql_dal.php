@@ -151,8 +151,9 @@ class sqlDAL
                 }
                 sqlDAL::eval_mysql_bind($stmt, $formats, $values2);
                 try {
-                    log_error('try again');
+                    log_error('try again 1');
                     $stmt->execute();
+                    log_error('try again 1 SUCCESS');
                 } catch (Exception $exc) {
                     foreach ($values as $key => $value) {
                         if(strlen($value)){
@@ -164,6 +165,7 @@ class sqlDAL
 
                         log_error('try again 2');
                         $stmt->execute();
+                        log_error('try again 2 SUCCESS');
                     } catch (Exception $exc) {
     
                         log_error($exc->getTraceAsString());
