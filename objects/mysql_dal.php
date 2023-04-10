@@ -93,6 +93,7 @@ class sqlDAL
     {
         global $global, $disableMysqlNdMethods;
         if (empty($preparedStatement)) {
+            _error_log("writeSql empty(preparedStatement)");
             return false;
         }
         // make sure it does not store autid transactions
@@ -111,6 +112,7 @@ class sqlDAL
         if (preg_match('/^update plugins/i', $preparedStatement) || preg_match('/^insert into plugins/i', $preparedStatement) || preg_match('/^delete from plugins/i', $preparedStatement)) {
             _error_log("Plugin updated {$preparedStatement}:" . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             if (!empty($global['lockPlugins'])) {
+                _error_log("writeSql lockPlugins");
                 return false;
             }
         }
@@ -184,6 +186,7 @@ class sqlDAL
              */
 
             $stmt->close();
+            _error_log("writeSql [{$stmt->errno}] {$stmt->error}");
             return false;
         }
         $iid = @$global['mysqli']->insert_id;
