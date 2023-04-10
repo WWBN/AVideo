@@ -187,7 +187,7 @@ class sqlDAL
              *
              */
 
-             _error_log("writeSql [{$stmt->errno}] {$stmt->error}");
+             _error_log("writeSql [{$stmt->errno}] {$stmt->error} ".' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $stmt->close();
             return false;
         }
