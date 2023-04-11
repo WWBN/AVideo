@@ -504,6 +504,8 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function cleanCacheName($name)
     {
+        return sha1($name);
+        /*
         $name = str_replace(['/', '\\'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $name);
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
         $name = preg_replace('/\/{2,}/', '/', trim(strtolower(cleanString($name))));
@@ -513,6 +515,7 @@ abstract class ObjectYPT implements ObjectInterface
             $name = mb_ereg_replace("([\.]{2,})", '', $name);
         }
         return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
+        */
     }
 
     /**
@@ -743,7 +746,6 @@ abstract class ObjectYPT implements ObjectInterface
                 $protocol = isset($_SERVER["HTTPS"]) ? 'https' : 'http';
 
                 $tmpDir .= "{$protocol}_{$domain}" . DIRECTORY_SEPARATOR;
-
                 if (class_exists("User_Location")) {
                     $loc = User_Location::getThisUserLocation();
                     if (!empty($loc) && !empty($loc['country_code']) && $loc['country_code'] !== '-') {
@@ -778,7 +780,7 @@ abstract class ObjectYPT implements ObjectInterface
     {
         global $global;
         $tmpDir = self::getCacheDir($name, $createDir, $addSubDirs);
-        $uniqueHash = md5($name . $global['salt']); // add salt for security reasons 
+        $uniqueHash = sha1($name . $global['salt']); // add salt for security reasons 
         return $tmpDir . $uniqueHash . '.cache';
     }
 

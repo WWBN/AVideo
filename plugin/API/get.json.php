@@ -29,6 +29,9 @@ if (empty($input)) {
 } else {
     $input = object_to_array($input);
 }
+
+$_REQUEST['rowCount'] = $_GET['rowCount'] = getRowCount();
+
 $parameters = array_merge($_GET, $_POST, $input);
 
 $obj = $plugin->get($parameters);

@@ -2895,13 +2895,16 @@ function try_get_contents_from_local($url) {
 }
 
 function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false) {
-
-    $cache = ObjectYPT::getCache($url, $lifeTime); // 24 hours
+    $cacheName = str_replace('/', '-', $url);
+    $cache = ObjectYPT::getCache($cacheName, $lifeTime); // 24 hours
     if (!empty($cache)) {
+        _error_log('url_get_contents_with_cache cache');
         return $cache;
     }
+    _error_log('url_get_contents_with_cache no cache');
     $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
-    ObjectYPT::setCache($url, $return);
+    $response = ObjectYPT::setCache($cacheName, $return);
+    _error_log("url_get_contents_with_cache setCache {$url} ".json_encode($response));
     return $return;
 }
 

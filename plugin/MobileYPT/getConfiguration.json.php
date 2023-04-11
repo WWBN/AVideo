@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 allowOrigin();
+ob_end_flush();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
@@ -12,15 +13,18 @@ if(AVideoPlugin::isEnabled('YouPHPFlix2')){
 }else{
     $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
 }
-
+_error_log('getConfiguration line '.__LINE__);
 if(User::isLogged()){
     $firstPage = addQueryStringParameter($firstPage, 'user', User::getUserName());
     $firstPage = addQueryStringParameter($firstPage, 'pass', User::getUserPass());
     $firstPage = addQueryStringParameter($firstPage, 'webSiteRootURL', $global['webSiteRootURL']);
 }
+_error_log('getConfiguration line '.__LINE__);
 $objMM->firstPageEndpoint = $firstPage;
-$objMM->firstPage = json_decode(url_get_contents($firstPage));
 
+$objMM->firstPage = json_decode(url_get_contents_with_cache($objMM->firstPageEndpoint, 300, "", 0, true, true));
+
+_error_log('getConfiguration line '.__LINE__);
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
@@ -43,8 +47,10 @@ if(!empty($notifications)){
     $objMM->oneSignalAPPID = '';
 }
 
+_error_log('getConfiguration line '.__LINE__);
 $objMM->homePageURL = AVideoPlugin::getMobileHomePageURL();
 
+_error_log('getConfiguration line '.__LINE__);
 $objMM->logo = getURL($config->getLogo());
 $objMM->favicon = $config->getFavicon(true);
 $objMM->title = $config->getWebSiteTitle();
@@ -61,6 +67,7 @@ if (!empty($objMM->YPTSocket)) {
     $objMM->webSocketTypes = json_encode($refl->getConstants());
     $objMM->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(true), 'page_title', 'Mobile APP');
 }
+_error_log('getConfiguration line '.__LINE__);
 $objMM->tabMenuItems = [];
 $objMM->leftMenuItems = [];
 $objMM->tabMenuItemsInABrowser = [];
@@ -69,6 +76,7 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
     if (empty($_POST['sort'])) {
         $_POST['sort'] = ['item_order'=>"ASC"];
     }
+    _error_log('getConfiguration line '.__LINE__);
     $tabMenu = Menu::getAllActive(Menu::$typeMobileTabMenu);
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
@@ -76,6 +84,7 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
             $objMM->tabMenuItems[] = $value2;
         }
     }
+    _error_log('getConfiguration line '.__LINE__);
     $tabMenu = Menu::getAllActive(Menu::$typeMobileLeftMenu);
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
@@ -83,6 +92,7 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
             $objMM->leftMenuItems[] = $value2;
         }
     }
+    _error_log('getConfiguration line '.__LINE__);
     $tabMenu = Menu::getAllActive(Menu::$typeMobileTabMenuInABrowser);
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
@@ -91,6 +101,7 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
             $objMM->tabMenuItems[] = $value2;
         }
     }
+    _error_log('getConfiguration line '.__LINE__);
     $tabMenu = Menu::getAllActive(Menu::$typeMobileLeftMenuInABrowser);
     foreach ($tabMenu as $key => $value) {
         $menuItems = MenuItem::getAllFromMenu($value['id'], true);
@@ -99,5 +110,10 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
             $objMM->leftMenuItems[] = $value2;
         }
     }
+    _error_log('getConfiguration line '.__LINE__);
 }
-echo json_encode($objMM);
+_error_log('getConfiguration line '.__LINE__);
+$str = _json_encode($objMM);
+_error_log('getConfiguration line strlen='.strlen($str));
+echo $str;
+exit;
