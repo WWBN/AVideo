@@ -7,7 +7,7 @@ allowOrigin();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
-if(AVideoPlugin::isEnabled('YouPHPFlix2')){
+if(AVideoPlugin::isEnabledByName('YouPHPFlix2')){
     $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
 }else{
     $firstPage = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
