@@ -4,7 +4,6 @@ header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 
 allowOrigin();
-ob_end_flush();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
 $customizeUser = AVideoPlugin::getDataObject('CustomizeUser');
