@@ -4138,7 +4138,6 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
     }
     if (!file_exists($destination)) {
         try {
-            _error_log("convertImageIfNotExists: [$source] [$destination]");
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
@@ -4146,6 +4145,9 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
                 scaleUpImage($fileConverted, $fileConverted, $width, $height);
             }
             im_resize($fileConverted, $destination, $width, $height, 100);
+            if(!file_exists($destination)){
+                _error_log("convertImageIfNotExists: [$fileConverted] [$source] [$destination]");
+            }
             @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageIfNotExists: " . $exc->getMessage());
