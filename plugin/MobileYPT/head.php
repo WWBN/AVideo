@@ -1,5 +1,5 @@
 <?php
-if(!empty($_REQUEST['room_users_id'])){
+if(preg_match('/plugin.Chat2/', getSelfURI())){
   return ;
 }
 _session_start();
