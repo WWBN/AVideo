@@ -1,5 +1,7 @@
 <?php
-
+if(!empty($_REQUEST['room_users_id'])){
+  return ;
+}
 _session_start();
 if(!function_exists('getColorValue')){
   function getColorValue($requestKey) {
