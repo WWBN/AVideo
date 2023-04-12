@@ -331,7 +331,7 @@ class Gallery extends PluginAbstract
         global $global;
         $start = microtime(true);
         $cacheName = 'Gallery_API_get_firstPage_'.md5(json_encode($parameters)).'_'.User::getId();
-        $object = ObjectYPT::getCacheGlobal($cacheName, 3600); // 1 hour
+        $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
         if(empty($object)){
             $obj = AVideoPlugin::getObjectData("Gallery");
             $sections = Gallery::getSectionsOrder();
@@ -412,6 +412,7 @@ class Gallery extends PluginAbstract
                     $response->sections[] = $section;
                 } else
                 if ($value['name'] == 'SubscribedChannels' && User::isLogged() && AVideoPlugin::isEnabledByName('VideoTags')) {
+                    require_once $global['systemRootPath'] . 'objects/subscribe.php';
                     $users_id = User::getId();
                     $channels = Subscribe::getSubscribedChannels($users_id, $obj->SubscribedChannelsRowCount, 1);
                     foreach ($channels as $value2) {

@@ -5117,7 +5117,9 @@ function unsetSearch() {
 function encrypt_decrypt($string, $action) {
     global $global;
     $output = false;
-
+    if(empty($string)){
+        return false;
+    }
     $encrypt_method = "AES-256-CBC";
     $secret_key = 'This is my secret key';
     $secret_iv = $global['systemRootPath'];
