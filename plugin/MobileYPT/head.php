@@ -1,6 +1,6 @@
 <?php
 $uri = getSelfURI();
-if(preg_match('/plugin.Chat2/', $uri)){
+if(!empty($_REQUEST['Chat']) || preg_match('/plugin.Chat2/', $uri)){
   return ;
 }
 _session_start();
