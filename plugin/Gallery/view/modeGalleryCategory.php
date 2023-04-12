@@ -40,7 +40,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
         $contents = ObjectYPT::getCache($setCacheName, 300);
         if(empty($contents)){
             $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
-            ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);
+            ['_cat'=>$_cat, 'obj'=>$obj]);
             ObjectYPT::setCache($setCacheName, $contents);
         }
         echo $contents;
