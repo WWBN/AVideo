@@ -1,5 +1,6 @@
 <?php
-if(preg_match('/plugin.Chat2/', getSelfURI())){
+$uri = getSelfURI();
+if(preg_match('/plugin.Chat2/', $uri)){
   return ;
 }
 _session_start();
@@ -32,7 +33,7 @@ $textColorDark = getColorValue('textColorDark');
 $textColorHigh = getColorValue('textColorHigh');
 ?>
 <style>
-/* Overwrite Bootstrap styles */
+/* Overwrite Bootstrap styles <?php echo $uri; ?> */
 <?php if ($bgColor): ?>
 body,
 .table>thead>tr>td,
