@@ -200,7 +200,9 @@ class Meet_schedule extends ObjectYPT {
             //$dateStarts = 'date(starts)';
             $dateStarts = 'CONVERT_TZ(starts, timezone,  @@session.time_zone)';
             if ($time == "today") {
-                $sql .= " AND {$dateStarts} = CURDATE() ";
+                //$sql .= " AND {$dateStarts} = CURDATE() ";
+                //select records where the datetime is from today until 12 AM the next day
+                $sql .= " AND {$dateStarts} BETWEEN NOW() AND DATE_ADD(DATE(NOW()), INTERVAL 36 HOUR) ";
                 $_POST['sort']['starts'] = "ASC";
                 $sql .= self::getSqlFromPost();
             } elseif ($time == "upcoming") {
