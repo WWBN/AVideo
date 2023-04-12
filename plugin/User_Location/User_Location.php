@@ -80,6 +80,7 @@ class User_Location extends PluginAbstract {
 
     static function changeLang($force = false) {
         global $global;
+        _session_start();
         if (!empty($force) || empty($_SESSION['language'])) {
             $obj = AVideoPlugin::getDataObject('User_Location');
             if ($obj->autoChangeLanguage) {
