@@ -177,7 +177,7 @@ class API extends PluginAbstract
     {
         global $global;
         $name = "get_api_plugin_parameters" . json_encode($parameters);
-        $obj = ObjectYPT::getCache($name, 3600);
+        $obj = ObjectYPT::getCacheGlobal($name, 3600);
         if (empty($obj)) {
             $obj = $this->startResponseObject($parameters);
             if (!empty($parameters['plugin_name'])) {
@@ -509,7 +509,7 @@ class API extends PluginAbstract
         // use 1 hour cache
         $cacheName = 'get_api_video' . md5(json_encode($cacheVars));
         if (empty($parameters['videos_id'])) {
-            $obj = ObjectYPT::getCache($cacheName, 3600);
+            $obj = ObjectYPT::getCacheGlobal($cacheName, 3600);
             if (!empty($obj)) {
                 $end = microtime(true) - $start;
                 return new ApiObject("Cached response in {$end} seconds", false, $obj);
@@ -1473,7 +1473,7 @@ class API extends PluginAbstract
         global $global;
 
         $name = "get_api_subscribers" . json_encode($parameters);
-        $subscribers = ObjectYPT::getCache($name, 3600);
+        $subscribers = ObjectYPT::getCacheGlobal($name, 3600);
         if (empty($subscribers)) {
             $obj = $this->startResponseObject($parameters);
             if (self::isAPISecretValid()) {
@@ -2188,6 +2188,7 @@ class SectionFirstPage
     public $endpointResponse;
     public $totalRows;
     public $childs;
+    public $executionTime;
 
     // Add constructor, getter, and setter here
     public function __construct($type, $title, $endpoint, $rowCount, $childs = array())
@@ -2210,8 +2211,10 @@ class SectionFirstPage
 
             //$endpointURL = addQueryStringParameter($endpointURL, 'PHPSESSID', session_id());
         }
-
+        $start = microtime(true);
+        //$endPointResponse = url_get_contents($endpointURL, '', 5, false, true);
         $endPointResponse = url_get_contents_with_cache($endpointURL, 300, '', 5, false, true);
+        $this->executionTime =  microtime(true)-$start;
         //_error_log(gettype($endPointResponse).' '.json_encode($endPointResponse));
         if(!empty($endPointResponse)){
             if(is_string($endPointResponse)){

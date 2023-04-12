@@ -120,12 +120,29 @@ class CachesInDB extends ObjectYPT
         return $this->name;
     }
 
-    public static function _getCache($name, $domain, $ishttps, $user_location, $loggedType)
+    static function hashName($name){
+        if(preg_match('/^hashName_/', $name)){
+            return $name;
+        }
+        return 'hashName_'.preg_replace('/[^0-9a-z]/i', '_', $name);
+    }
+
+    public static function _getCache($name, $domain, $ishttps, $user_location, $loggedType, $ignoreMetadata=false)
     {
         global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  ishttps = ? AND loggedType = ? AND name = ? AND domain = ? AND user_location = ? LIMIT 1";
+        $name = self::hashName($name);
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? ";
+        $formats = 's';
+        $values = [$name];
+        if(empty($ignoreMetadata)){
+            $sql .= "  AND ishttps = ? AND loggedType = ? AND domain = ? AND user_location = ? ";
+            $formats = 'sisss';
+            $values = [$name, $ishttps, $loggedType, $domain, $user_location];
+        }
+        $sql .= " ORDER BY id DESC LIMIT 1";
+        //_error_log(json_encode(array($sql, $values )));
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "issss", [$ishttps, $loggedType, $name, $domain, $user_location]);
+        $res = sqlDAL::readSql($sql, $formats, $values);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -154,6 +171,8 @@ class CachesInDB extends ObjectYPT
         } else {
             $c = new CachesInDB(0);
         }
+        
+        $name = self::hashName($name);
         $c->setContent($value);
         $c->setName($name);
         $c->setDomain($domain);
@@ -174,6 +193,7 @@ class CachesInDB extends ObjectYPT
         if (!static::isTableInstalled()) {
             return false;
         }
+        $name = self::hashName($name);
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name = ?";
         $global['lastQuery'] = $sql;
@@ -190,6 +210,7 @@ class CachesInDB extends ObjectYPT
         if (!static::isTableInstalled()) {
             return false;
         }
+        $name = self::hashName($name);
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name LIKE '{$name}%'";
         $global['lastQuery'] = $sql;

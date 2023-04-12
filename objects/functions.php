@@ -49,6 +49,9 @@ if (!function_exists('xss_esc')) {
 }
 
 function xss_esc_back($text) {
+    if(!isset($text)){
+        return '';
+    }
     $text = htmlspecialchars_decode($text, ENT_QUOTES);
     $text = str_replace(['&amp;', '&#039;', "#039;"], [" ", "`", "`"], $text);
     return $text;
@@ -1410,7 +1413,7 @@ function getVideosURL_V2($fileName, $recreateCache = false) {
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
         TimeLogStart($TimeLog1);
         //var_dump($cacheName, $lifetime);exit;
-        $cache = ObjectYPT::getCache($cacheName, $lifetime, true);
+        $cache = ObjectYPT::getCacheGlobal($cacheName, $lifetime, true);
         $files = object_to_array($cache);
         if (is_array($files)) {
             //_error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
@@ -1697,7 +1700,7 @@ function getimgsize($file_src) {
     if (!empty($_getimagesize[$name])) {
         $size = $_getimagesize[$name];
     } else {
-        $cached = ObjectYPT::getCache($name, 86400); //one day
+        $cached = ObjectYPT::getCacheGlobal($name, 86400); //one day
         if (!empty($cached)) {
             $c = (array) $cached;
             $size = [];
@@ -2895,13 +2898,14 @@ function try_get_contents_from_local($url) {
 }
 
 function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout = 0, $debug = false, $mantainSession = false) {
+    $url = removeQueryStringParameter($url, 'pass');
     $cacheName = str_replace('/', '-', $url);
-    $cache = ObjectYPT::getCache($cacheName, $lifeTime); // 24 hours
+    $cache = ObjectYPT::getCacheGlobal($cacheName, $lifeTime); // 24 hours
     if (!empty($cache)) {
-        _error_log('url_get_contents_with_cache cache');
+        //_error_log('url_get_contents_with_cache cache');
         return $cache;
     }
-    _error_log('url_get_contents_with_cache no cache');
+    _error_log("url_get_contents_with_cache no cache [$url] ".json_encode(debug_backtrace()));
     $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
     $response = ObjectYPT::setCache($cacheName, $return);
     _error_log("url_get_contents_with_cache setCache {$url} ".json_encode($response));
@@ -3066,7 +3070,7 @@ function thereIsAnyRemoteUpdate() {
     global $config;
 
     $cacheName = '_thereIsAnyRemoteUpdate';
-    $cache = ObjectYPT::getCache($cacheName, 86400); // 24 hours
+    $cache = ObjectYPT::getCacheGlobal($cacheName, 86400); // 24 hours
     if (!empty($cache)) {
         return $cache;
     }
@@ -4168,7 +4172,7 @@ function getOpenGraph($videos_id) {
 }
 
 function getLdJson($videos_id) {
-    $cache = ObjectYPT::getCache("getLdJson{$videos_id}", 0);
+    $cache = ObjectYPT::getCacheGlobal("getLdJson{$videos_id}", 0);
     if (empty($cache)) {
         echo $cache;
     }
@@ -4238,7 +4242,7 @@ function getLdJson($videos_id) {
 }
 
 function getItemprop($videos_id) {
-    $cache = ObjectYPT::getCache("getItemprop{$videos_id}", 0);
+    $cache = ObjectYPT::getCacheGlobal("getItemprop{$videos_id}", 0);
     if (empty($cache)) {
         echo $cache;
     }
@@ -8054,7 +8058,7 @@ function isURL200($url, $forceRecheck = false) {
     global $_isURL200;
     $name = "isURL200" . DIRECTORY_SEPARATOR . md5($url);
     if (empty($forceRecheck)) {
-        $result = ObjectYPT::getCache($name, 30);
+        $result = ObjectYPT::getCacheGlobal($name, 30);
         if (!empty($result)) {
             $object = _json_decode($result);
             return $object->result;

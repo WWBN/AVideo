@@ -429,7 +429,7 @@ class Category {
         $cacheName = 'category/' . md5($sql);
 
         //_error_log('getAllCategories getCache');
-        $category = object_to_array(ObjectYPT::getCache($cacheName, 36000));
+        $category = object_to_array(ObjectYPT::getCacheGlobal($cacheName, 36000));
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
 

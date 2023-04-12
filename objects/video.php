@@ -4415,7 +4415,7 @@ if (!class_exists('Video')) {
             if (!empty($_getImageFromFilename_[$cacheFileName])) {
                 $obj = $_getImageFromFilename_[$cacheFileName];
             } else {
-                $cache = ObjectYPT::getCache($cacheFileName, 0);
+                $cache = ObjectYPT::getCache($cacheFileName, 0, false, true, true);
                 if (!empty($cache)) {
                     return $cache;
                 }
@@ -4553,6 +4553,8 @@ if (!class_exists('Video')) {
                 }
 
                 ObjectYPT::setCache($cacheFileName, $obj);
+                //$cache = ObjectYPT::getCache($cacheFileName, 0);
+                //_error_log("getImageFromFilename_($filename, $type) [$cacheFileName] ".!empty($cache).' ' .json_encode($response));
                 $_getImageFromFilename_[$cacheFileName] = $obj;
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             }

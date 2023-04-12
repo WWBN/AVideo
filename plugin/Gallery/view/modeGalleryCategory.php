@@ -36,43 +36,14 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
     <?php
     $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
-        $_REQUEST['catName'] = $_cat['clean_name'];
-        if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
-            $currentCat = $_cat;
-            echo '<!-- '.basename(__FILE__).' -->';
-            include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
+        $setCacheName = "include{$_cat['clean_name']}";
+        $contents = ObjectYPT::getCache($setCacheName, 300);
+        if(empty($contents)){
+            $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
+            ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);
+            ObjectYPT::setCache($setCacheName, $contents);
         }
-        unset($_POST['sort']);
-        $_POST['sort']['v.created'] = "DESC";
-        $_POST['sort']['likes'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
-        if (empty($videos)) {
-            continue;
-        }
-        if (empty($_cat['clean_name'])) {
-            continue;
-        }
-        global $contentSearchFound;
-        if(empty($contentSearchFound)){
-            $contentSearchFound = !empty($videos);
-        }
-        ?>
-        <div class="clear clearfix">
-            <?php
-            if (canPrintCategoryTitle($_cat['name'])) {
-                ?>
-                <h3 class="galleryTitle">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $_cat['clean_name']; ?>">
-                        <i class="<?php echo $_cat['iconClass']; ?>"></i> <?php echo $_cat['name']; ?>
-                    </a>
-                </h3>
-                <?php
-            }
-            createGallerySection($videos, "", array(), true);
-            ?>
-        </div>
-
-        <?php
+        echo $contents;
     }
     TimeLogEnd($timeLogName, __LINE__, 1);
     ?>

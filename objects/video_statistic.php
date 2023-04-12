@@ -327,11 +327,10 @@ class VideoStatistic extends ObjectYPT {
         }
 
         //$dateDaysLimit = getTrendingLimitDate();
-
         $cacheName3 = "getChannelsWithMoreViews{$daysLimit}" . DIRECTORY_SEPARATOR . md5(json_encode([$_GET, $_POST]));
-        $cache = ObjectYPT::getCache($cacheName3, 3600); // 1 hour cache
+        $cache = ObjectYPT::getCacheGlobal($cacheName3, 3600); // 1 hour cache
         if (!empty($cache)) {
-            _error_log('getChannelsWithMoreViews cache found ' . $cacheName3);
+            //_error_log('getChannelsWithMoreViews cache found ' . $cacheName3);
             return object_to_array($cache);
         } else {
             _error_log('getChannelsWithMoreViews no cache found ' . $cacheName3);
