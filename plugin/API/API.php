@@ -2140,6 +2140,33 @@ class API extends PluginAbstract
         exit;
     }
 
+    
+    /**
+     *
+     * @param string $parameters
+     * 'user' username of the user
+     * 'pass' password  of the user
+     * ['encodedPass' tell the script id the password submitted  is raw or encrypted]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b&encodedPass=true
+     * @return string
+     */
+    public function get_api_notifications($parameters)
+    {
+        global $global;
+        $plugin = AVideoPlugin::loadPluginIfEnabled('UserNotifications');
+        if ($plugin) {
+            $url = "{$global['webSiteRootURL']}plugin/UserNotifications/getNotifications.json.php";
+            $rows = json_decode(url_get_contents($url, "", 0, false, true));
+            $url = "{$global['webSiteRootURL']}plugin/Live/stats.json.php";
+            $live = json_decode(url_get_contents($url, "", 0, false, true));
+            $rows->live = $live;
+            return new ApiObject('', false, $rows);
+        } else {
+            return new ApiObject("UserNotifications Plugin disabled");
+        }
+        exit;
+    }
+
     public static function isAPISecretValid()
     {
         global $global;

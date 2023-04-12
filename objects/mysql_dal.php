@@ -142,6 +142,17 @@ class sqlDAL
         } catch (Exception $exc) {
             if (preg_match('/playlists_has_videos/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
+            }else if (preg_match('/Illegal mix of collations.*and \(utf8mb4/i', $global['mysqli']->error)) {
+                try {
+                    // Set the MySQL connection character set to UTF-8
+                    $global['mysqli']->query("SET NAMES 'utf8mb4'");
+                    $global['mysqli']->query("SET CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+                    $stmt = $global['mysqli']->prepare($preparedStatement);
+                    sqlDAL::eval_mysql_bind($stmt, $formats, $values);
+                    $stmt->execute();
+                } catch (Exception $exc) {
+                    log_error($exc->getTraceAsString());
+                }
             }else if(preg_match('/Conversion from collation/i', $global['mysqli']->error)){
                 $values2 = $values;
                 foreach ($values2 as $key => $value) {

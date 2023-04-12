@@ -368,6 +368,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 $users[] = $user;
             }
         }
+        return $users;
     }
 
     static function getLabels($videos_id, $showType = true) {
