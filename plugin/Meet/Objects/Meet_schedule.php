@@ -170,7 +170,7 @@ class Meet_schedule extends ObjectYPT {
         if ($time == "today") {
             //$sql .= " AND {$dateStarts} = CURDATE() ";
             //select records where the datetime is from today until 12 AM the next day
-            $sql .= " AND {$dateStarts} BETWEEN NOW() AND DATE_ADD(DATE(NOW()), INTERVAL 48 HOUR) ";
+            $sql .= " AND {$dateStarts} BETWEEN DATE_SUB(NOW(), INTERVAL 4 HOUR) AND DATE_ADD(DATE(NOW()), INTERVAL 24 HOUR) ";
             $_POST['sort']['starts'] = "ASC";
         } elseif ($time == "upcoming") {
             $sql .= " AND {$dateStarts} > CURDATE() ";
