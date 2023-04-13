@@ -7557,6 +7557,10 @@ function removeUserAgentIfNotURL($cmd) {
 }
 
 function convertVideoToMP3FileIfNotExists($videos_id) {
+    global $global;
+    if(!empty($global['disableMP3'])){
+        return false;
+    }
     $video = Video::getVideoLight($videos_id);
     if (empty($video)) {
         return false;
