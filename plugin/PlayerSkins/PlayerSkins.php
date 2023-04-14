@@ -281,6 +281,7 @@ class PlayerSkins extends PluginAbstract {
                         . "</style>";
             }
 
+            $css .= "<link href=\"" . getURL('plugin/PlayerSkins/pipButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/shareButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
@@ -319,10 +320,10 @@ class PlayerSkins extends PluginAbstract {
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
             }
 
+            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
-                //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
