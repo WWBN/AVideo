@@ -23,7 +23,7 @@ foreach ($videos as $value) {
     }
     $videoFileName = $value['filename'];
     echo "createStprits start: {$count}/{$total} [{$value['id']}]" . PHP_EOL;
-    $this->createStprits($videoFileName);
+    VideoThumbnails::createStpritsFileName($videoFileName);
     echo "createStprits done: {$count}/{$total} (" . ($updated ? "success" : "fail") . ") [{$value['id']}] {$value['title']}" . PHP_EOL;
 }
 
