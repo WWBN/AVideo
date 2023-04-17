@@ -184,6 +184,16 @@ class CustomizeUser extends PluginAbstract
         return $obj;
     }
 
+    function onUserSocketConnect() {
+        global $global;
+        echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketConnect.js');
+    }
+
+    function onUserSocketDisconnect() {
+        global $global;
+        echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketDisconnect.js');
+    }
+    
     static function getCallerButton($users_id, $class = '')
     {
         global $global;

@@ -3026,21 +3026,21 @@ if (typeof gtag !== \"function\") {
                 <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-thumbnail img-responsive pull-left" style="max-height: 100px; margin: 0 10px;" alt="User Photo" />
                 <a href="<?php echo User::getChannelLink($users_id); ?>" class="btn btn-default">
                     <i class="fas fa-play-circle"></i>
-        <?php echo User::getNameIdentificationById($users_id); ?>
+                    <?php echo User::getNameIdentificationById($users_id); ?>
                 </a>
                 <div class="pull-right">
-        <?php echo User::getAddChannelToGalleryButton($users_id); ?>
-        <?php echo User::getBlockUserButton($users_id); ?>
-        <?php echo Subscribe::getButton($users_id); ?>
-        <?php echo CustomizeUser::getCallerButton($users_id, 'btn-xs'); ?>
+                    <?php echo User::getAddChannelToGalleryButton($users_id); ?>
+                    <?php echo User::getBlockUserButton($users_id); ?>
+                    <?php echo Subscribe::getButton($users_id); ?>
+                    <?php echo CustomizeUser::getCallerButton($users_id, 'btn-xs'); ?>
                 </div>
             </div>
             <div class="panel-body gallery ">
                 <div class="clearfix" style="margin-bottom: 10px;"></div>
                 <div class="clear clearfix galeryRowElement">
-        <?php
-        createGallerySection($uploadedVideos, dechex(crc32($users_id)));
-        ?>
+                    <?php
+                    createGallerySection($uploadedVideos, dechex(crc32($users_id)));
+                    ?>
                 </div>
             </div>
             <div class="panel-footer " style="font-size: 0.8em">
