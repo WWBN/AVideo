@@ -3,7 +3,8 @@ class BootGrid
 {
     public static function getSqlFromPost($searchFieldsNames = [], $keyPrefix = "", $alternativeOrderBy = "", $doNotSearch=false, $FIND_IN_SET = "")
     {
-        if (empty($doNotSearch)) {
+        global $global;
+        if (empty($doNotSearch) && empty($global['doNotSearch']) ) {
             $sql = self::getSqlSearchFromPost($searchFieldsNames);
         } else {
             $sql = '';

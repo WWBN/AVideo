@@ -23,18 +23,31 @@
 }
 #searchForm {
     width: 100%;
-    margin-left: 5px;
+    margin: 0 5px;
     white-space: nowrap;
 }
-#searchForm .btn {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+#searchForm > span.input-group-prepend > button{
+
+    border-right-width: 0;
+}
+#searchForm > span.input-group-append > button{
+
     border-left-width: 0;
 }
-#searchForm input {
+
+#searchForm input[name="search"] {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-right-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+    float: unset;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+#filterDropdown.show .dropdown-menu {
+    display: block;
 }
 
 #rightProfileButton{
@@ -91,7 +104,10 @@
 }
 @media (max-width : 767px) {
     #searchForm {
-        padding-left: 10px;
+        margin: 0;
+        display: flex;
+        justify-content: center; /* center horizontally */
+        align-items: center; /* center vertically */
     }
     #rightLoginButton, #rightProfileButton{
         margin-right: 5px;
@@ -113,7 +129,7 @@
     }
 
     #mysearch{
-        /* width: 100%; */
+        width: 100%;
         display: none;
         position: absolute;
         right: 0;
@@ -122,6 +138,10 @@
         padding-right: 0px;
         background-color: #FFF;
 
+    }
+
+    #searchFormInput {
+        flex: 1;
     }
 
     #myNavbar{
@@ -162,10 +182,6 @@
     #navbarRegularButtons span.hidden-mdx {
         max-width: 100vw;
     }
-    .globalsearchfield {
-        width: 90% !important;
-    }
-
     .searchli {
         width: 100%;
         margin-right: 0;

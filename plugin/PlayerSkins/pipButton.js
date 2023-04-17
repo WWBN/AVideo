@@ -5,7 +5,7 @@ if (document.pictureInPictureEnabled) {
         console.log('Picture-in-Picture visibilitychange', document.visibilityState);
         try {
             if (document.visibilityState === 'hidden') {
-                if (!player.paused()) {
+                if (!player.paused() && !document.pictureInPictureElement) {
                     player.requestPictureInPicture();
                 }
             } else {

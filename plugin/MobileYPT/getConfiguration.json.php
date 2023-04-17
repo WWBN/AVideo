@@ -2,7 +2,12 @@
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-
+/*
+AVideoPlugin::getObjectData("Cache");
+ObjectYPT::deleteALLCache();
+ObjectYPT::deleteAllSessionCache();
+Cache::deleteAllCache();
+*/
 allowOrigin();
 $objMM = AVideoPlugin::getObjectData("MobileYPT");
 
@@ -113,6 +118,6 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
     }
 }
 $str = _json_encode($objMM);
-_error_log('getConfiguration line strlen='.strlen($str));
+_error_log('getConfiguration strlen='.strlen($str));
 echo $str;
 exit;
