@@ -9,8 +9,8 @@
         <div class="input-group"  id="mysearch">
             <form class="navbar-form form-inline input-group" role="search" id="searchForm"  action="<?php echo $global['webSiteRootURL']; ?>" style="padding: 0;">
                 <span class="input-group-prepend">
-                    <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit"  id="buttonSearch" data-toggle="collapse" data-target="#mysearch" >
-                        <i class="fas fa-search faa-shake"></i>
+                    <button type="button" id="filterButton" class="btn btn-default navbar-btn dropdown-toggle faa-parent animated-hover animate__animated animate__bounceIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-sort-down"></i>
                     </button>
                 </span>
                 <input class="form-control globalsearchfield" type="text" value="<?php
@@ -19,11 +19,9 @@
                 }
                 ?>" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
                 <span class="input-group-append">
-
-                    <button type="button" id="filterButton" class="btn btn-default navbar-btn dropdown-toggle faa-parent animated-hover animate__animated animate__bounceIn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-sort-down"></i>
+                    <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit"  id="buttonSearch" data-toggle="collapse" data-target="#mysearch" >
+                        <i class="fas fa-search faa-shake"></i>
                     </button>
-
                 </span>
                 <div class="dropdown" id="filterDropdown">
                     <div class="panel panel-default dropdown-menu" aria-labelledby="filterButton" style="margin: 0;">
