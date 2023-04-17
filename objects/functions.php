@@ -2790,7 +2790,7 @@ function createWebPIfNotExists($path) {
     $nextGenPath = str_replace('.jpg', '_jpg.webp', $path);
 
     if (!file_exists($nextGenPath)) {
-        convertImage($path, $nextGenPath, 70);
+        convertImage($path, $nextGenPath, 90);
     }
     return $nextGenPath;
 }
