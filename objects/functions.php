@@ -2191,8 +2191,6 @@ function detect_image_type($file_path) {
 function convertImage($originalImage, $outputImage, $quality, $useExif = false) {
     ini_set('memory_limit', '512M');
     if (!file_exists($originalImage) || empty(filesize($originalImage))) {
-        var_dump(debug_backtrace());
-        exit;
         return false;
     }
 
