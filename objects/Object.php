@@ -506,7 +506,13 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function cleanCacheName($name)
     {
-        return sha1($name);
+        //return sha1($name);
+        $parts = explode(DIRECTORY_SEPARATOR, $name);
+        
+        $lastPart = sha1(array_pop($parts));
+        $parts[] = $lastPart;
+        $name = implode(DIRECTORY_SEPARATOR,$parts);
+        return $name;
         /*
         $name = str_replace(['/', '\\'], [DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR], $name);
         $name = preg_replace('/[!#$&\'()*+,:;=?@[\\]% -]+/', '_', trim(strtolower(cleanString($name))));
@@ -517,7 +523,7 @@ abstract class ObjectYPT implements ObjectInterface
             $name = mb_ereg_replace("([\.]{2,})", '', $name);
         }
         return preg_replace('/[\x00-\x1F\x7F]/u', '', $name);
-        */
+         * */
     }
 
     public static function getCacheGlobal($name, $lifetime = 60, $ignoreSessionCache = false, $addSubDirs = true){
@@ -780,7 +786,7 @@ abstract class ObjectYPT implements ObjectInterface
             _file_put_contents($tmpDir . "index.html", time());
         }
 
-        $_getCacheDir[$filename] = $tmpDir;
+        $_getCacheDir[$filename] = $tmpDir;        
         return $tmpDir;
     }
 
