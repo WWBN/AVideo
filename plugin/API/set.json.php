@@ -9,7 +9,6 @@ $global['bypassSameDomainCheck'] = 1;
 
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
-header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 
@@ -36,4 +35,11 @@ $obj = $plugin->set($parameters);
 if(is_object($obj)){
     $obj = _json_encode($obj);
 }
+header('Content-Type: application/json');
+if (!empty($_REQUEST['gzip'])) {
+    $obj = gzencode($obj, 9);
+    header('Content-Encoding: gzip');
+}
+
+header('Content-Length: ' . strlen($obj));
 die($obj);

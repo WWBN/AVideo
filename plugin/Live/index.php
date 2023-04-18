@@ -22,7 +22,7 @@ if (!empty($_GET['c'])) {
 if (!empty($_GET['u']) && isAVideoMobileApp()) {
     $_GET['embed'] = 1;
 }
-
+useVideoHashOrLogin();
 if (!empty($_GET['u'])) {
     $livet = LiveTransmition::getFromRequest();
     //var_dump($livet);exit;
