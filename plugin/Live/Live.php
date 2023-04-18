@@ -2989,7 +2989,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function deleteStatsCache($clearFirstPage = false) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache, $_isLiveFromKey, $_isLiveAndIsReadyFromKey;
-
+        $live_servers_id = Live::getLiveServersIdRequest();
         _error_log_debug("Live::deleteStatsCache");
         $tmpDir = ObjectYPT::getCacheDir();
         $cacheDir = $tmpDir . "getstats" . DIRECTORY_SEPARATOR;
