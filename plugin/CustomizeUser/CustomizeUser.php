@@ -536,6 +536,7 @@ class CustomizeUser extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
+        useVideoHashOrLogin();
         if (
             empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
             ((!isEmbed() && isVideo()) ||
