@@ -25,7 +25,15 @@ if (empty($pobj)) {
 $live_servers_id = Live::getLiveServersIdRequest();
 $cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "_statsCache_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
 
+/*
+$cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
+$cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
+$c = @url_get_contents($cachefile);
+var_dump($cachefile, $cache, $c);exit;
+*/
+
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
+
 if (empty($json)) {
     $json = getStatsNotifications();
     ObjectYPT::setCache($cacheName, $json);
