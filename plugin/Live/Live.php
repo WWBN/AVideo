@@ -2028,6 +2028,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
             $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
+            /*
+            $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
+            $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
+            $c = @url_get_contents($cachefile);
+            var_dump($cachefile, $cache, $c);exit;
+            */
             if (!empty($result)) {
                 //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
