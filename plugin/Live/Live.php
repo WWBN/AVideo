@@ -2995,22 +2995,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function deleteStatsCache($clearFirstPage = false) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache, $_isLiveFromKey, $_isLiveAndIsReadyFromKey;
-        $live_servers_id = Live::getLiveServersIdRequest();
-        _error_log_debug("Live::deleteStatsCache");
-        $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir . "getstats" . DIRECTORY_SEPARATOR;
-        if (isset($live_servers_id)) {
-            $cacheDir .= "live_servers_id_{$live_servers_id}";
-            $pattern = "/.getStats.{$live_servers_id}.*/i";
-            ObjectYPT::deleteCachePattern($pattern);
-        }
+        $cacheDir = getTmpDir().'YPTObjectCache/getStats/';
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if ($clearFirstPage) {
             clearCache(true);
         }
         // temporary solution to when you go online
-        ObjectYPT::deleteALLCache();
+        //ObjectYPT::deleteALLCache();
         //isURL200Clear();
         unset($__getAVideoCache);
         unset($getStatsLive);
