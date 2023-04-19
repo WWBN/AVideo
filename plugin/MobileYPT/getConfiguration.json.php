@@ -36,9 +36,11 @@ $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
 $chat2 = AVideoPlugin::getDataObjectIfEnabled('Chat2');
 if(!empty($chat2)){
+    $objMM->chat2IsEnabled = true;
     $objMM->chat2ShowOnLive = $chat2->showOnLive;
     $objMM->chat2ShowOnUserVideos = $chat2->showOnUserVideos;
 }else{
+    $objMM->chat2IsEnabled = false;
     $objMM->chat2ShowOnLive = false;
     $objMM->chat2ShowOnUserVideos = false;
 }
