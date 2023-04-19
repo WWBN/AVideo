@@ -8313,6 +8313,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             return $__getStatsNotifications__;
         }
         $json = ObjectYPT::getCache($cacheName, 0, true);
+        /*
+        $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
+        $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
+        $c = @url_get_contents($cachefile);
+        var_dump($cachefile, $cache, $c);exit;
+        */
     }
     if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
