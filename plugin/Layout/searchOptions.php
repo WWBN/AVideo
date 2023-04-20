@@ -47,7 +47,7 @@
                         border-bottom-left-radius: 0;">Radio Buttons
                     <span class="caret"></span></button>
                 <div class="panel panel-default dropdown-menu dropdown-menu-right" style="margin: 0;">
-                    <div class="panel-body">
+                    <div class="panel-body" style="max-height: 60vh; overflow: auto;">
                         <div class="form-check" style="white-space: nowrap;">
                             <input class="form-check-input" type="radio" value="" id="catNameBelowNavbar" name="catNameBelowNavbar">
                             <label class="form-check-label" for="catNameBelowNavbar">
