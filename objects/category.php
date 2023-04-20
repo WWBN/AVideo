@@ -592,6 +592,7 @@ class Category {
         unset($_POST['sort']['likes']);
 
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
+        //var_dump($sql, [$parentId, $parentId]);exit;
         $res = sqlDAL::readSql($sql, "ii", [$parentId, $parentId]);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

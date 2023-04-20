@@ -822,6 +822,14 @@ class Layout extends PluginAbstract
         $filePath = $global['systemRootPath'] . 'plugin/Layout/suggestedButton.php';
         return getIncludeFileContent($filePath, $varsArray);
     }
+
+    static function getCategoriesToSearch(){
+        global $global;
+        $global['doNotSearch'] = 1;
+        $categories = Category::getAllCategories(false, true);
+        $global['doNotSearch'] = 0;
+        return $categories;
+    }
 }
 
 function _sortJS($a, $b)

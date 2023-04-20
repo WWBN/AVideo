@@ -72,7 +72,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-default btn-outline-secondary border-right-0 faa-parent animated-hover" type="button" id="searchOptionsButton" onclick="$('#searchForm').submit();" style="
+            <button class="btn btn-default btn-outline-secondary border-right-0 faa-parent animated-hover" type="button" id="searchOptionsButton" onclick="searchOptionsButton();" style="
                     border-left-width: 0;
                     border-top-left-radius: 0;
                     border-bottom-left-radius: 0;">
@@ -113,4 +113,17 @@
         filterCheckboxes.trigger('change');
         categoryRadios.trigger('change');
     });
+
+    function searchOptionsButton() {
+        var keyword = $('#searchFormInput').val();
+        if (keyword === '') {
+            var userInput = prompt('Please enter a search keyword:');
+            if (userInput !== null) {
+                $('#searchFormInput').val(userInput);
+                $('#searchForm').submit();
+            }
+        } else {
+            $('#searchForm').submit();
+        }
+    }
 </script>

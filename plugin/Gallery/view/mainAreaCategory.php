@@ -31,8 +31,10 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     }
 
     createCategorySection($videos);
-
+    $global['doNotSearch'] = 1;
     $rows = Category::getChildCategories($currentCat['id']);
+    $global['doNotSearch'] = 0;
+    //var_dump($currentCat['id'], $rows);exit;
     foreach ($rows as $key => $value) {
         $_REQUEST['catName'] = $value['clean_name'];
         $_REQUEST['doNotShowCatChilds'] = 0;
@@ -46,6 +48,9 @@ function createCategorySection($videos)
 {
     global $global, $args;
     $obj = AVideoPlugin::getObjectData("Gallery");
+    if(empty($videos[0])){
+        return;
+    }
 ?>
     <div class="clear clearfix" id="Div<?php echo $videos[0]['clean_category']; ?>">
         <?php

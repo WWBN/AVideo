@@ -1531,7 +1531,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //echo $sql;exit;
+            //echo $sql;var_dump($_REQUEST['doNotShowCatChilds']);exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
