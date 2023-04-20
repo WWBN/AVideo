@@ -15,7 +15,7 @@ $onlySuggested = $obj->CategoriesShowOnlySuggested;
 if(!empty(getSearchVar())){
     $onlySuggested = false;
 }
-$sort = $_POST['sort'];
+$sort = @$_POST['sort'];
 unset($_POST['sort']);
 $categories = Category::getAllCategories(false, true, $onlySuggested);
 $total = Category::getTotalCategories(false, true, $onlySuggested);
