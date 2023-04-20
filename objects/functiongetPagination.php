@@ -36,7 +36,6 @@
             let infScroll = $container$uid.data('infiniteScroll');
             $container$uid.on('load.infiniteScroll', function(event, body, path, response) {
                 //console.log(`infiniteScroll Loaded: ${path}`, `Status: ${response.status}`, `Current page: ${infScroll.pageIndex}`, `${infScroll.loadCount} pages loaded`);
-                // Remove document.write statements
                 var $response = $(response);
                 var items = $response.find('$infinityScrollGetFromSelector').get();
                 $container$uid.infiniteScroll('appendItems', items, $response);
