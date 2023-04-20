@@ -562,13 +562,12 @@ class Layout extends PluginAbstract
         $obj = $this->getDataObject();
         $content = '';
         if (!AVideoPlugin::isEnabledByName('YouPHPFlix2') && !empty($obj->categoriesTopButtons)) {
-            if (!empty($obj->categoriesTopButtonsShowOnlyOnFirstPage)) {
-            } else {
-                $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
+            if (empty($obj->categoriesTopButtonsShowOnlyOnFirstPage) || isFirstPage()) {
+                $content .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/categoriesTopButtons.php');
             }
         }
-        if (!empty($obj->showSearchOptionsBelowNavbar) ) {
-            $content = getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/searchOptions.php');
+        if (!empty($obj->showSearchOptionsBelowNavbar) && isFirstPage() ) {
+            $content .= getIncludeFileContent($global['systemRootPath'] . 'plugin/Layout/searchOptions.php');
         }
         return $content;
     }
