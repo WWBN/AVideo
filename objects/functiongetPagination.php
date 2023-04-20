@@ -24,7 +24,10 @@
                 prefill: true,
                 history: false,
                 checkLastPage: false,
-                button: '#loadInfiniteScrollButton$uid'
+                button: '#loadInfiniteScrollButton$uid',
+                scrollThreshold: false,
+                loadOnScroll: false,
+                responseType: 'document',
             });
             $container$uid.on('scrollThreshold.infiniteScroll', function (event) {
                 //console.log('infiniteScroll Scroll at bottom');
