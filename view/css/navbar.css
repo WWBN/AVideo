@@ -97,17 +97,18 @@
     padding: 0;
 }
 
-@media (max-width : 992px) {
-    #searchForm input{
-        width: 100px;
-    }
-}
 @media (max-width : 767px) {
+    #filterDropdown{
+        position: absolute;
+        top: 50px;
+        left: 10px;
+    }
     #searchForm {
         margin: 0;
         display: flex;
         justify-content: center; /* center horizontally */
         align-items: center; /* center vertically */
+        padding: 0 5px;
     }
     #rightLoginButton, #rightProfileButton{
         margin-right: 5px;
@@ -141,7 +142,8 @@
     }
 
     #searchFormInput {
-        flex: 1;
+        flex-grow: 1;
+        min-width: 75vw;
     }
 
     #myNavbar{
@@ -186,9 +188,6 @@
         width: 100%;
         margin-right: 0;
         margin-left: 0;
-
-    }
-    .searchdiv {
 
     }
     .navbar-toggle {

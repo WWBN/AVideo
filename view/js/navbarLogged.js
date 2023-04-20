@@ -39,7 +39,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#searchForm').submit(function (event) {
+    $('#searchForm').on('submit', function(event) {
         if (seachFormIsRunning) {
             event.preventDefault();
             return false;
@@ -53,9 +53,10 @@ $(document).ready(function () {
             return false;
         } else {
             console.log("searchForm submit " + str);
-            document.location = webSiteRootURL + "?search=" + str;
+            this.submit();
+            //document.location = webSiteRootURL + "?search=" + str;
         }
-    });
+    });    
 
     $('#buttonMenu').on("click.sidebar", function (event) {
         event.stopPropagation();
