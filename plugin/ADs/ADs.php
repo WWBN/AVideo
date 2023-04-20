@@ -186,7 +186,7 @@ class ADs extends PluginAbstract
 
     public static function addLabel($adCode, $label)
     {
-        if (!empty($label) && User::isAdmin() && !empty($adCode)) {
+        if (!empty($label) && !empty($adCode) && User::isAdmin()) {
             $adCode = "<span data-toggle=\"tooltip\" title=\"{$label}\">{$adCode}</span>";
         }
         return $adCode;
