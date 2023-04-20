@@ -82,28 +82,32 @@
     </div>
 </div>
 <script>
+    var searchFieldsNamesBelowNavbarChecked = 'input[name="searchFieldsNamesBelowNavbar[]"]:checked';
+    var searchFieldsNamesBelowNavbarSearchFieldsNames = 'input[name="searchFieldsNamesBelowNavbar[]"], input[name="searchFieldsNames[]"]';
+    var catNameBelowNavbarChecked = 'input[name="catNameBelowNavbar"]:checked';
+    var catNameBelowNavbarCatName = 'input[name="catNameBelowNavbar"], input.form-check-input[type="radio"][name="catName"]';
     $(document).ready(function() {
         // Show the default button label for the searchFieldsNamesBelowNavbar dropdown
         var defaultText = $('#searchFieldsNamesBelowNavbar-dropdown').text().trim();
 
-        $('input[name="searchFieldsNamesBelowNavbar[]"], input[name="searchFieldsNames[]"]').on('change', function() {
+        $(searchFieldsNamesBelowNavbarSearchFieldsNames).on('change', function() {
             var val = $(this).val();
             var $otherCheckbox = $('input[value="' + val + '"]').not($(this));
             $otherCheckbox.prop('checked', $(this).prop('checked'));
-            $('#searchFieldsNamesBelowNavbar-dropdown .badge').text($('input[name="searchFieldsNamesBelowNavbar[]"]:checked').length);
+            $('#searchFieldsNamesBelowNavbar-dropdown .badge').text($(searchFieldsNamesBelowNavbarChecked).length);
             saveSearchFiltersToCookie();
         });
 
-        $('input[name="catNameBelowNavbar"], input.form-check-input[type="radio"][name="catName"]').on('change', function() {
+        $(catNameBelowNavbarCatName).on('change', function() {
             var val = $(this).val();
             var $otherRadio = $('input[value="' + val + '"]').not($(this));
             $otherRadio.prop('checked', $(this).prop('checked'));
-            var selectedText = $('input[name="catNameBelowNavbar"]:checked').parent().find('span.content').html();
+            var selectedText = $(catNameBelowNavbarChecked).parent().find('span.content').html();
             $('#catNameBelowNavbar-dropdown').html(selectedText);
             saveSearchCategoryToCookie();
         });
 
-        $('input[name="searchFieldsNamesBelowNavbar[]"], input[name="searchFieldsNames[]"]').on('click', function() {
+        $(searchFieldsNamesBelowNavbarSearchFieldsNames).on('click', function() {
             $(this).trigger('change');
         });
         $('#searchOptionsMenu label').click(function(e) {
@@ -116,14 +120,17 @@
 
     function searchOptionsButton() {
         var keyword = $('#searchFormInput').val();
-        if (keyword === '') {
+        if ($(searchFieldsNamesBelowNavbarChecked).length != 0 && empty(keyword)) {
             var userInput = prompt('Please enter a search keyword:');
             if (userInput !== null) {
                 $('#searchFormInput').val(userInput);
                 $('#searchForm').submit();
             }
-        } else {
-            $('#searchForm').submit();
+
+            avideoToastInfo('Keyword required');
+            return;
         }
+
+        $('#searchForm').submit();
     }
 </script>
