@@ -12,19 +12,6 @@
     $(function() {
         loadInfiniteScrool$uid();
     });
-    /*
-     *
-
-    document.addEventListener('scroll', function (e) {
-        var scrollPosition = window.pageYOffset;
-        var windowSize = window.innerHeight;
-        var bodyHeight = document.body.offsetHeight;
-        var distance = bodyHeight - (scrollPosition + windowSize);
-        //console.log('infiniteScroll ', distance, windowSize, distance < windowSize);
-        if (distance < windowSize) {
-            $container$uid.infiniteScroll('loadNextPage');
-        }
-    });*/
     var append_infiniteScroll_timout;
 
     function loadInfiniteScrool$uid() {
@@ -39,7 +26,6 @@
                 history: false,
                 checkLastPage: false,
                 button: '#loadInfiniteScrollButton$uid',
-                // Remove document.write statements
                 scrollThreshold: false,
                 loadOnScroll: false,
                 responseType: 'document',
