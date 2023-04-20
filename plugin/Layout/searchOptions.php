@@ -14,7 +14,7 @@
                         text-overflow: ellipsis;
                         border-right-width: 0;
                         border-top-right-radius: 0;
-                        border-bottom-right-radius: 0;">Field Type <span class="badge">0</span>
+                        border-bottom-right-radius: 0;"><?php echo __('Search in'); ?>: <span class="badge">0</span>
                     <span class="caret"></span></button>
                 <div class="panel panel-default dropdown-menu dropdown-menu-right" style="margin: 0;">
                     <div class="panel-body">
@@ -44,8 +44,10 @@
                         border-bottom-right-radius: 0;
                         border-left-width: 0;
                         border-top-left-radius: 0;
-                        border-bottom-left-radius: 0;">Radio Buttons
-                    <span class="caret"></span></button>
+                        border-bottom-left-radius: 0;">
+                        <i class="fas fa-list"></i> <?php echo __('All Categories'); ?>
+                    <span class="caret"></span>
+                </button>
                 <div class="panel panel-default dropdown-menu dropdown-menu-right" style="margin: 0;">
                     <div class="panel-body" style="max-height: 60vh; overflow: auto;">
                         <div class="form-check" style="white-space: nowrap;">
@@ -103,7 +105,7 @@
             var $otherRadio = $('input[value="' + val + '"]').not($(this));
             $otherRadio.prop('checked', $(this).prop('checked'));
             var selectedText = $(catNameBelowNavbarChecked).parent().find('span.content').html();
-            $('#catNameBelowNavbar-dropdown').html(selectedText);
+            $('#catNameBelowNavbar-dropdown').html(selectedText+' <span class="caret"></span>');
             saveSearchCategoryToCookie();
         });
 
