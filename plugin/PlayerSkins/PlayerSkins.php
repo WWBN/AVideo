@@ -281,7 +281,6 @@ class PlayerSkins extends PluginAbstract {
                         . "</style>";
             }
 
-            $css .= "<link href=\"" . getURL('plugin/PlayerSkins/pipButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/shareButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
