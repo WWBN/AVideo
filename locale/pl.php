@@ -648,7 +648,6 @@ $t['Meeting'] = 'Spotkanie';
 $t['Meetings you can attend'] = 'Spotkania, w których możesz uczestniczyć';
 $t['Meetings'] = 'Spotkania';
 $t['Message could not be sent'] = 'Wiadomość nie mogła zostać wysłana :-(';
-$t['Message From Site '] = 'Wiadomość ze strony ';
 $t['Message sent'] = 'Wiadomość wysłana :-)';
 $t['Message'] = 'Wiadomość';
 $t['Meta Data'] = 'Meta Dane';
@@ -1162,7 +1161,7 @@ $t['Transhumanism'] = 'Transhumanizm';
 $t['Translated Array'] = 'Tablica tłumaczeń';
 $t['Transmission not found'] = 'Nie znaleziono transmisji';
 $t['Trending'] = 'Trendy';
-$t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, aboutpage and Meta Description with your own.'] = 'Spersonalizuj swój AVideo i stwórz bardziej profesjonalną witrynę do udostępniania wideo dla swoich gości, usuwając lub zastępując stopkę, stronę o nas, stronie i opis Meta dane własnymi.';
+$t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.'] = 'Spersonalizuj swój AVideo i stwórz bardziej profesjonalną witrynę do udostępniania wideo dla swoich gości, usuwając lub zastępując stopkę, stronę o nas, stronie i opis Meta dane własnymi.';
 $t['Trying to establish a chat server connection'] = 'Próbuję ustanowić połączenie z serwerem czatu';
 $t['Two-Factor Challenge'] = 'Dwuskładnikowe wyzwanie';
 $t['Two-Factor Response'] = 'Dwuskładnikowa owpowiedź';
@@ -1647,6 +1646,7 @@ $t['mvideos'] = 'mvideos';
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
+$t['Message From Site '] = 'Wiadomość ze strony ';
 $t['Add Comment'] = 'Dodaj komentarz';
 $t['lack of'] = 'brak';
 $t['The regular form to signin will not exist, if you check this will only havesocial login or LDAP option'] = 'Zwykły formularz logowania nie będzie istniał, jeśli zaznaczysz tę opcję, będzie dostępna tylko opcja logowania społecznościowego dla LDAP';
@@ -1733,7 +1733,6 @@ $t['This page works only with an MP4 File, if you have or need any other format,
 $t['To install it right away for all UNIX users (Linux, OS X, etc.)'] = 'Aby zainstalować go od razu dla wszystkich użytkowników UNIX (Linux, OS X itp.) ';
 $t['Toogle view'] = 'Przełącz widok';
 $t['Translate AVideo'] = 'Przetłumacz AVideo';
-$t['Truly customize your AVideo and create a more professional video sharing site experience for your visitors by removing or replacing the footer, about page and Meta Description with your own.'] = 'Dostosuj swój AVideo i stwórz bardziej profesjonalną witrynę do udostępniania wideo dla odwiedzających, usuwając lub zastępując stopkę, opis strony i Meta opis własnymi';
 $t['Tutorials Site'] = 'Strona z samouczkami';
 $t['Use one of the recommended resolutions'] = 'Użyj jednej z zalecanych rozdzielczości';
 $t['Use your webcam'] = 'Użyj kamery internetowej';
