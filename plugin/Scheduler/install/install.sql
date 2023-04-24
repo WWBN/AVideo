@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `scheduler_commands` (
   `videos_id` INT(11) NULL,
   `type` VARCHAR(45)  DEFAULT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_scheduler_commands_videos1_idx` (`videos_id` ASC) VISIBLE,
+  INDEX `fk_scheduler_commands_videos1_idx` (`videos_id` ASC),
   CONSTRAINT `fk_scheduler_commands_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
