@@ -973,7 +973,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
         if (!empty($matches[1])) {
             $site = $matches[1];
             $id = $matches[2];
-            return $site . '/videoEmbeded/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
+            return $site . '/videoEmbed/' . $id . "?autoplay={$autoplay}&controls=$controls&loop=$loop&mute=$mute&t=$time";
         } else {
             return $link;
         }
@@ -7718,14 +7718,23 @@ function convertVideoToDownlaodProgress($toFileLocation) {
     $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
     return parseFFMPEGProgress($progressFile);
 }
+function getPHP() {
+    global $global;
+    if (!empty($global['php'])) {
+        $php = $global['php'];
+        if (file_exists($php)) {
+            return $php;
+        }
+    }
+    $php = PHP_BINDIR . "/php";
+    if (file_exists($php)) {
+        return $php;
+    }
+    return get_php();
+}
 
 function get_php() {
-    global $global;
-    $php = 'php  ';
-    if (!empty($global['php'])) {
-        $php = "{$global['php']} ";
-    }
-    return $php;
+    return getPHP();
 }
 
 function isHTMLPage($url) {
