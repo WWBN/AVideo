@@ -17,11 +17,7 @@
     function loadInfiniteScrool$uid() {
         if (typeof $('$infinityScrollAppendIntoSelector').infiniteScroll == 'function') {
             $container$uid = $('$infinityScrollAppendIntoSelector').infiniteScroll({
-                path: function() {
-                    var url = $('.pagination__next$uid').attr('href');
-                    url = addQueryStringParameter(url, 'infiniteScroll', 1);
-                    return url;
-                },
+                path: '.pagination__next$uid',
                 append: '$infinityScrollGetFromSelector',
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
