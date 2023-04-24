@@ -2278,6 +2278,7 @@ function isMediaSiteURL(url) {
                 url.match(/streamable/i) ||
                 url.match(/twitch/i) ||
                 url.match(/evideoEmbed/i) ||
+                url.match(/videoEmbed/i) ||
                 url.match(/videoEmbeded/i)) {
             return true;
         }
