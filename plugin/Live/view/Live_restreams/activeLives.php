@@ -14,7 +14,7 @@ if (!Live::canRestream()) {
         <title><?php echo __("Live") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
-        include $global['systemRootPath'] . 'plugin/Live/view/{$classname}/index_head.php';
+        //include $global['systemRootPath'] . 'plugin/Live/view/{$classname}/index_head.php';
         ?>
         <style>
             #livesRestreamList .livesRestreamStatus.inactive .hideWhenInactive,
