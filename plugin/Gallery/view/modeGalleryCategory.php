@@ -10,7 +10,9 @@ $obj = AVideoPlugin::getObjectData("Gallery");
 $liveobj = AVideoPlugin::getObjectDataIfEnabled("Live");
 $_REQUEST['rowCount'] = 2;
 $_REQUEST['current'] = getCurrentPage();
-
+if(empty($_GET['tagsid']) && !empty($_REQUEST['tags_id'])){
+    $_GET['tagsid'] = $_REQUEST['tags_id'];
+}
 $onlySuggested = $obj->CategoriesShowOnlySuggested;
 if(!empty(getSearchVar())){
     $onlySuggested = false;
