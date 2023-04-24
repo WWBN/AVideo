@@ -1267,7 +1267,7 @@ echo AVideoPlugin::getManagerVideosReset();
 
                             function isVManagerGoodImage(filename) {
                                 var defaultAudio = /audio_wave/;
-                                var goodImageRexp = /_[0-9]{12}_[a-z0-9]{5}/;
+                                var goodImageRexp = /_[0-9]{12}_[a-z0-9]{4,5}/;
                                 return goodImageRexp.test(filename) && !/notfound/i.test(filename) && !defaultAudio.test(filename);
                             }
 
