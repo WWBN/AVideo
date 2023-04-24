@@ -18,7 +18,7 @@
     "jquery-ui": "^1.13.2",
     "jquery-ui-dist": "^1.13.2",
     "js-circle-progress": "^0.2.4",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.5",
     "keycode": "^2.2.1",
     "moment-timezone": "^0.5.41",
     "nosleep.js": "^0.12.0",
