@@ -1,3 +1,8 @@
+<?php
+$global['doNotSearch'] = 1;
+$tags = TagsHasVideos::getAllWithVideo();
+$global['doNotSearch'] = 0;
+?>
 <li class="nav-item" style="margin-right: 0px; " id="searchNavItem">
     <div class="navbar-header">
 
@@ -14,10 +19,10 @@
                     </button>
                 </span>
                 <input class="form-control globalsearchfield" type="text" value="<?php
-                                                                                    if (!empty($_GET['search'])) {
-                                                                                        echo htmlentities($_GET['search']);
-                                                                                    }
-                                                                                    ?>" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
+if (!empty($_GET['search'])) {
+    echo htmlentities($_GET['search']);
+}
+?>" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
                 <span class="input-group-append">
                     <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearch" data-toggle="collapse" data-target="#mysearch">
                         <i class="fas fa-search faa-shake"></i>
@@ -25,50 +30,71 @@
                 </span>
                 <div class="dropdown" id="filterDropdown">
                     <div class="panel panel-default dropdown-menu" aria-labelledby="filterButton" style="margin: 0;">
-                        <div class="panel-heading">
-                            Search in:
+                        <div class="panel-heading  tabbable-line">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#search-tab"><?php echo __('Search in'); ?></a></li>
+                                <li><a data-toggle="tab" href="#filter-tab"><?php echo __('Categories'); ?></a></li>
+                                <li><a data-toggle="tab" href="#filter-tags-tab"><?php echo __('Tags'); ?></a></li>
+                            </ul>
                         </div>
                         <div class="panel-body">
-                            <?php
-                            AVideoPlugin::loadPlugin('Layout');
-                            foreach (Layout::$searchOptions as $key => $value) {
-                            ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="<?php echo $value['value']; ?>" id="filterCheck<?php echo $key; ?>" name="searchFieldsNames[]">
-                                    <label class="form-check-label" for="filterCheckTitle">
-                                        <?php echo $value['text']; ?>
-                                    </label>
+                            <div class="tab-content">
+                                <div id="search-tab" class="tab-pane fade in active">
+                                    <?php
+                                    AVideoPlugin::loadPlugin('Layout');
+                                    foreach (Layout::$searchOptions as $key => $value) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="<?php echo $value['value']; ?>" id="filterCheck<?php echo $key; ?>" name="searchFieldsNames[]">
+                                            <label class="form-check-label" for="filterCheckTitle">
+                                                <?php echo $value['text']; ?>
+                                            </label>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
-                            <?php
-                            }
-                            ?>
-                        </div>
-                        <div class="panel-heading">
-                            Filter by category:
-                        </div>
-                        <div class="panel-body">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="search_category0" name="catName" checked value="">
-                                <label class="form-check-label" for="search_category0">
-                                    <i class="fas fa-list"></i> All Categories
-                                </label>
+                                <div id="filter-tab" class="tab-pane fade">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="search_category0" name="catName" checked value="">
+                                        <label class="form-check-label" for="search_category0">
+                                            <i class="fas fa-list"></i> <?php echo __('All Categories'); ?>
+                                        </label>
+                                    </div>
+                                    <?php
+                                    $global['doNotSearch'] = 1;
+                                    $categories_edit = Category::getAllCategories(false, true);
+                                    $global['doNotSearch'] = 0;
+                                    foreach ($categories_edit as $key => $value) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="<?php echo $value['clean_name']; ?>" id="search_category<?php echo $value['id']; ?>" name="catName">
+                                            <label class="form-check-label" for="search_category<?php echo $value['id']; ?>">
+                                                <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo __($value['hierarchyAndName']); ?>
+                                            </label>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                                <div id="filter-tags-tab" class="tab-pane fade">
+                                    <?php
+                                    foreach ($tags as $key => $value) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="<?php echo $value['id']; ?>" id="search_tag<?php echo $value['id']; ?>" name="tags_id">
+                                            <label class="form-check-label" for="search_tag<?php echo $value['id']; ?>">
+                                                <i class="fas fa-tag"></i> <?php echo __($value['name']); ?>
+                                            </label>
+                                        </div>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
                             </div>
-                            <?php
-                            $global['doNotSearch'] = 1;
-                            $categories_edit = Category::getAllCategories(false, true);
-                            $global['doNotSearch'] = 0;
-                            foreach ($categories_edit as $key => $value) {
-                            ?>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" value="<?php echo $value['clean_name']; ?>" id="search_category<?php echo $value['id']; ?>" name="catName">
-                                    <label class="form-check-label" for="search_category<?php echo $value['id']; ?>">
-                                        <i class="<?php echo $value['iconClass']; ?>"></i> <?php echo __($value['hierarchyAndName']); ?>
-                                    </label>
-                                </div>
-                            <?php
-                            }
-                            ?>
+
                         </div>
+
                     </div>
                 </div>
             </form>
@@ -81,13 +107,13 @@
     var filterCheckboxes;
     var categoryRadios;
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         // get references to the checkboxes and radio buttons
         filterCheckboxes = $('input[name="searchFieldsNames[]"]');
         categoryRadios = $('input.form-check-input[type="radio"][name="catName"]');
 
         // add event listeners to the checkboxes and radio buttons
-        filterCheckboxes.on('change', function() {
+        filterCheckboxes.on('change', function () {
             console.log('filterCheckboxes.filter change');
             // save the checked values to the cookie
             saveSearchFiltersToCookie();
@@ -95,7 +121,7 @@
             setSearchFilterIcon();
         });
 
-        categoryRadios.on('change', function() {
+        categoryRadios.on('change', function () {
             // save the checked value to the cookie
             saveSearchCategoryToCookie();
 
@@ -110,7 +136,7 @@
             // parse the saved filters from JSON and check the corresponding checkboxes
             const checkedValues = JSON.parse(savedFilters);
 
-            filterCheckboxes.each(function() {
+            filterCheckboxes.each(function () {
                 this.checked = checkedValues.includes(this.value);
             });
         }
@@ -124,13 +150,13 @@
         }
         setSearchFilterIcon();
 
-        $('#filterButton').click(function() {
+        $('#filterButton').click(function () {
             $('#filterDropdown').toggleClass('show');
         });
     });
 
     function saveSearchFiltersToCookie() {
-        const checkedValues = filterCheckboxes.filter(':checked').map(function() {
+        const checkedValues = filterCheckboxes.filter(':checked').map(function () {
             return this.value;
         }).get();
         Cookies.set('searchFilters', JSON.stringify(checkedValues), {

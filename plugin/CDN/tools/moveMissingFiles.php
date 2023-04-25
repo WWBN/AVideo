@@ -31,11 +31,13 @@ $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
+
+$videos_dir = getVideosDir();
 $rows = [];
 if ($res != false) {
     foreach ($fullData as $row) {
         if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly)) || $alsoMoveUnlisted == 2) {
-            exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
+            exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {

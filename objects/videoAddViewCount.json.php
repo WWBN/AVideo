@@ -86,6 +86,7 @@ $count = $obj->getViews_count();
 
 $obj2->status = !empty($resp);
 $obj2->count = $count;
+$obj2->videos_id = $obj->getId();
 $obj2->countHTML = number_format_short($count);
 $obj2->resp = $resp;
 $obj2->users_id = User::getId();

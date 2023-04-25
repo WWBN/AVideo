@@ -59,7 +59,7 @@ TimeLogStart($timeLog3);
                      poster="<?php echo $poster; ?>" 
                      href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  
                      video="<?php echo $value['clean_title']; ?>" 
-                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>"
+                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbed/<?php echo $value['clean_title']; ?>"
                      ajaxLoad="<?php echo $ajaxLoad; ?>">
                     <div class="tile__media ">
                         <img alt="<?php echo $value['title']; ?>" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png" class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
