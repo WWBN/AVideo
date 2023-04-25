@@ -660,6 +660,16 @@ class API extends PluginAbstract {
 
             if (empty($parameters['noRelated'])) {
                 $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
+                foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
+                    $rows[$key]['relatedVideos'][$key2]['tags'] = Video::getTags($value2['id']);
+                    if (AVideoPlugin::isEnabledByName("VideoTags")) {
+                        $rows[$key]['relatedVideos'][$key2]['videoTags'] = Tags::getAllFromVideosId($value2['id']);
+                        $rows[$key]['relatedVideos'][$key2]['videoTagsObject'] = Tags::getObjectFromVideosId($value2['id']);
+                    }
+                    if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
+                        $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
+                    }
+                }
             }
             $rows[$key]['adsImages'] = array();
             if (!empty($objAds)) {
