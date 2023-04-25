@@ -1,7 +1,7 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
-$securityFilter = ['jump','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
+$securityFilter = ['jump','videoLink','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
 $securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
@@ -132,7 +132,7 @@ foreach ($scanVars as $value) {
 
     foreach ($securityFilter as $value) {
         if (!empty($scanThis[$value])) {
-            $scanThis[$value] = str_ireplace(['\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"], ['', '', '', '', '', '', '', '', ''], xss_esc($scanThis[$value]));
+            $scanThis[$value] = str_ireplace(['\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#", "`"], ['', '', '', '', '', '', '', '', '', ''], xss_esc($scanThis[$value]));
         }
     }
 
