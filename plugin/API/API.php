@@ -698,9 +698,10 @@ class API extends PluginAbstract {
      * 'videos_id' the video id what you will update
      * ['user' username of the user]
      * ['pass' password  of the user]
-     * ['APISecret' to update the video ]
-     * 
+     * ['APISecret' to update the video ]     * 
      * ['next_videos_id' id for the next suggested video]
+     * ['title' String]
+     * ['status' String]
      * ['description' String]
      * ['categories_id' int]
      * ['can_download' 0 or 1]
@@ -714,7 +715,7 @@ class API extends PluginAbstract {
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
      * @return \ApiObject
      */
-    public function set_api_video($parameters) {
+    public function set_api_video_save($parameters) {
         global $advancedCustomUser;
 
         // Check if parameters array is not empty
@@ -781,7 +782,15 @@ class API extends PluginAbstract {
             }
         }
 
-        return new ApiObject("", false, $obj->save(false, true));
+        if (!empty($parameters['title'])) {
+            $obj->setTitle($parameters['title']);
+        }
+        $id = $obj->save(false, true);
+        // set status must be after save videos parameters
+        if (!empty($parameters['status'])) {
+            $obj->setStatus($parameters['status']);
+        }
+        return new ApiObject("", false, $id);
     }
 
     /**
@@ -1058,46 +1067,6 @@ class API extends PluginAbstract {
             }
         }
         return new ApiObject("", empty($live_schedule_id), $obj);
-    }
-
-    /**
-     * @param string $parameters
-     * 'videos_id' the video id that will be deleted
-     * 'title' the video title
-     * 'status' the video status
-     * ['APISecret' if passed will not require user and pass]
-     * ['user' username of the user that will like the video]
-     * ['pass' password  of the user that will like the video]
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=1&user=admin&pass=123&APISecret={APISecret}
-     * @return \ApiObject
-     */
-    public function set_api_video_save($parameters) {
-        global $global;
-        require_once $global['systemRootPath'] . 'objects/video.php';
-        $obj = $this->startResponseObject($parameters);
-        if (!empty($parameters['videos_id'])) {
-            if (!User::canUpload()) {
-                return new ApiObject("Access denied");
-            }
-            if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
-                return new ApiObject("Secret does not match");
-            }
-            $obj = new Video("", "", $parameters['videos_id']);
-            if (!$obj->userCanManageVideo()) {
-                return new ApiObject("User cannot manage the video");
-            }
-            if (!empty($parameters['title'])) {
-                $obj->setTitle($parameters['title']);
-            }
-            $id = $obj->save();
-            // set status must be after save videos parameters
-            if (!empty($parameters['status'])) {
-                $obj->setStatus($parameters['status']);
-            }
-            return new ApiObject("", !$id, $id);
-        } else {
-            return new ApiObject("Video ID is required");
-        }
     }
 
     /**
