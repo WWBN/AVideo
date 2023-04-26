@@ -118,7 +118,7 @@ $global['doNotSearch'] = 0;
 <script>
     function searchOptionsButton() {
         var keyword = $('#searchFormInput').val();
-        if ($(searchFieldsNamesBelowNavbarChecked).length != 0 && empty(keyword)) {
+        if (searchTotalSelectedSearchIn != 0 && empty(keyword)) {
             var userInput = prompt('Please enter a search keyword:');
             if (userInput !== null) {
                 $('#searchFormInput').val(userInput);
