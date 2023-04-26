@@ -191,16 +191,20 @@ class TagsHasVideos extends ObjectYPT {
     
     public static function getAllWithVideo()
     {
-        global $global;
+        global $global, $_getAllTagsWithVideo;
+        if(isset($_getAllTagsWithVideo)){
+            return $_getAllTagsWithVideo;
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT DISTINCT tv.tags_id, t.* FROM " . static::getTableName() . " tv LEFT JOIN tags t ON tv.tags_id = t.id ";
+        $sql = "SELECT DISTINCT tv.tags_id, t.* FROM " . static::getTableName() . " tv LEFT JOIN tags t ON tv.tags_id = t.id ORDER BY name ASC ";
         //echo $sql;exit;
         $res = sqlDAL::readSql($sql, "", array());
         $fullData = sqlDAL::fetchAllAssoc($res);
 
         sqlDAL::close($res);
+        $_getAllTagsWithVideo = $fullData;
         return $fullData;
         
     }
