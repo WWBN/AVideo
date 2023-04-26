@@ -79,7 +79,7 @@ $global['doNotSearch'] = 0;
                                 </div>
                                 <div id="filter-tags-tab" class="tab-pane fade">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" value="" id="search_tag0" name="tags_id">
+                                        <input class="form-check-input" type="radio" value="" id="search_tag0" checked name="tags_id">
                                         <label class="form-check-label" for="search_tag0">
                                             <i class="fas fa-tags"></i> <?php echo __('All'); ?>
                                         </label>
