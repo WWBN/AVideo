@@ -199,11 +199,13 @@ $global['doNotSearch'] = 0;
     function saveSearchTagToCookie() {
         const searchTagValue = $('input[name="tags_id"]:checked').val();
         var selectedText = $('input[name="tags_id"]:checked').parent().find('label').html();
-        $('#tagNameBelowNavbar-dropdown').html(selectedText + ' <span class="caret"></span>');
-        Cookies.set('searchTag', searchTagValue, {
-            expires: 365,
-            path: '/'
-        });
+        if(typeof selectedText !== 'undefined'){
+            $('#tagNameBelowNavbar-dropdown').html(selectedText + ' <span class="caret"></span>');
+            Cookies.set('searchTag', searchTagValue, {
+                expires: 365,
+                path: '/'
+            });
+        }
     }
 
     function setSearchFilterIcon() {
