@@ -138,7 +138,7 @@ $global['doNotSearch'] = 0;
                 <div class="panel panel-default dropdown-menu dropdown-menu-right">
                     <div class="panel-body">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" value="" id="filterTag0" name="tags_idBelowNavbar">
+                            <input class="form-check-input" type="radio" value="" id="filterTag0" checked name="tags_idBelowNavbar">
                             <label class="form-check-label" for="filterTag0">
                                 <i class="fas fa-tags"></i> <?php echo __('All'); ?>
                             </label>
