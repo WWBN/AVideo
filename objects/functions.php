@@ -6228,7 +6228,11 @@ function getTmpDir($subdir = "") {
         if (empty($global['tmpDir'])) {
             $tmpDir = sys_get_temp_dir();
             if (empty($tmpDir) || !_isWritable($tmpDir)) {
-                $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
+                $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
+                $tmpDir = $obj->cacheDir;
+                if (empty($tmpDir) || !_isWritable($tmpDir)) {
+                    $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
+                }
             }
             $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
             $tmpDir = "{$tmpDir}{$subdir}";
