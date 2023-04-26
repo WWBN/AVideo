@@ -6234,7 +6234,7 @@ function getTmpDir($subdir = "") {
                     $tmpDir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
                 }
             }
-            $tmpDir = rtrim($tmpDir, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            $tmpDir = addLastSlash($tmpDir);
             $tmpDir = "{$tmpDir}{$subdir}";
         } else {
             $tmpDir = $global['tmpDir'];
