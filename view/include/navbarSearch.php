@@ -189,11 +189,13 @@ $global['doNotSearch'] = 0;
     function saveSearchCategoryToCookie() {
         const checkedValue = categoryRadios.filter(':checked').val();
         var selectedText = categoryRadios.filter(':checked').parent().find('label').html();
-        $('#catNameBelowNavbar-dropdown').html(selectedText + ' <span class="caret"></span>');
-        Cookies.set('searchCategory', checkedValue, {
-            expires: 365,
-            path: '/'
-        });
+        if(typeof selectedText !== 'undefined'){
+            $('#catNameBelowNavbar-dropdown').html(selectedText + ' <span class="caret"></span>');
+            Cookies.set('searchCategory', checkedValue, {
+                expires: 365,
+                path: '/'
+            });
+        }
     }
 
     function saveSearchTagToCookie() {
