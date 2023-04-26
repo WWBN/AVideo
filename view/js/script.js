@@ -469,7 +469,7 @@ var _mouseEffectTimeout;
 async function mouseEffect() {
     //return false;
     clearTimeout(_mouseEffectTimeout);
-    _mouseEffectTimeout = setTimeout(function(){
+    _mouseEffectTimeout = setTimeout(function () {
         $(".thumbsImage").off("mouseenter");
         $(".thumbsImage").off("mouseleave");
         $(".thumbsImage").on("mouseenter", function () {
@@ -2123,6 +2123,20 @@ function checkMoment() {
      */
 }
 
+function searchInList(inputSelector, filterElementSelector) {
+    $(inputSelector).on('keyup', function () {
+        var searchText = $(this).val().toLowerCase();
+        $(filterElementSelector).each(function () {
+            var categoryText = $(this).text().toLowerCase();
+            if (categoryText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+}
+
 function addGetParam(_url, _key, _value) {
     if (typeof _url !== 'string') {
         return false;
@@ -2415,7 +2429,7 @@ function goToURLOrAlertError(jsonURL, data) {
 
 var downloadModal = getPleaseWait();
 function downloadURL(url, filename) {
-    
+
     downloadModal.showPleaseWait();
     filename = clean_name(filename) + '.' + clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
     console.log('downloadURL start ', url, filename);
@@ -2511,7 +2525,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                         isMobile()
                         //|| /cdn.ypt.me/.test(response.url)
                         ) {
-                            console.log('downloadURLOrAlertError 2', response.url);
+                    console.log('downloadURLOrAlertError 2', response.url);
                     window.open(response.url, '_blank');
                     avideoToastInfo('Opening file');
                     //document.location = response.url
@@ -2523,7 +2537,7 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
                 console.log('downloadURLOrAlertError 4', response);
                 avideoResponse(response);
             }
-            
+
             downloadURLOrAlertModal.hidePleaseWait();
         }
     });
@@ -2651,7 +2665,7 @@ function empty(data) {
     } else if (type === 'boolean') {
         return !data;
     } else if (type === 'string') {
-        if(data==0){
+        if (data == 0) {
             return true;
         }
         return /^[\s]*$/.test(data);
@@ -2726,7 +2740,7 @@ function isUserOnline(users_id) {
         console.log('isUserOnline', users_id);
         return false;
     }
-    
+
     return users_id_online.find((u) => u.users_id == users_id);
 }
 
@@ -3833,7 +3847,7 @@ function avideoLogoff(redirect) {
     }
 }
 
-async function sendAVideoMobileMessage(type, value){
+async function sendAVideoMobileMessage(type, value) {
     return sendAVideoMobileMessage(type, value);
 }
 
