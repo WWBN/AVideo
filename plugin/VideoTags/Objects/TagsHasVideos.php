@@ -195,7 +195,8 @@ class TagsHasVideos extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT unique(tags_id), t.*, tv.* FROM  " . static::getTableName() . " tv LEFT JOIN tags as t ON tags_id = t.id ";
+        $sql = "SELECT DISTINCT tv.tags_id, t.* FROM " . static::getTableName() . " tv LEFT JOIN tags t ON tv.tags_id = t.id ";
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql, "", array());
         $fullData = sqlDAL::fetchAllAssoc($res);
 
