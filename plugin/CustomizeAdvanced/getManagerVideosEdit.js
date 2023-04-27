@@ -6,7 +6,7 @@ $("#inputMetaDescription").val('');
 $("#inputShortSummary").val('');
 if (typeof row.externalOptions !== 'undefined' && row.externalOptions) {
     
-    var json = JSON.parse(row.externalOptions);
+    var json = typeof row.externalOptions == 'string' ? JSON.parse(row.externalOptions):row.externalOptions;
     
     if(json.doNotShowAdsOnThisVideo){
         $("#doNotShowAdsOnThisVideo").prop("checked", true);

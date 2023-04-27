@@ -452,6 +452,68 @@ class API extends PluginAbstract {
 
     /**
      * @param string $parameters
+     * 'videos_id' the video id 
+     * 'users_id' the user id 
+     * Returns if the user can watch the video
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_user_can_watch_video($parameters) {
+
+        $obj = new stdClass();
+        $obj->users_id = intval($parameters['users_id']);
+        $obj->videos_id = intval($parameters['videos_id']);
+        $obj->userCanWatchVideo = false;
+        $obj->userCanWatchVideoWithAds = false;
+        $error = true;
+        $msg = '';
+
+        if (!empty($obj->videos_id)) {
+            $error = false;
+            $obj->userCanWatchVideo = AVideoPlugin::userCanWatchVideo($obj->users_id, $obj->videos_id);
+            $obj->userCanWatchVideoWithAds = AVideoPlugin::userCanWatchVideoWithAds($obj->users_id, $obj->videos_id);
+        }else{
+            $msg = 'Videos id is required';
+        }
+
+
+        return new ApiObject($msg, $error, $obj);
+    }
+
+    
+    /**
+     * @param string $parameters
+     * 'videos_id' the video id 
+     * 'password' a string with the user password
+     * Returns if the password is correct or not, if there is no password it will return true
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_video_password_is_correct($parameters) {
+
+        $obj = new stdClass();
+        $obj->videos_id = intval($parameters['videos_id']);
+        $obj->passwordIsCorrect = true;
+        $error = true;
+        $msg = '';
+
+        if (!empty($obj->videos_id)) {
+            $error = false;
+            $video = new Video('', '', $obj->videos_id);
+            $password = $video->getVideo_password();
+            if (!empty($password)) {
+                $obj->passwordIsCorrect = $password == $parameters['video_password'];
+            }
+        }else{
+            $msg = 'Videos id is required';
+        }
+
+
+        return new ApiObject($msg, $error, $obj);
+    }
+
+    /**
+     * @param string $parameters
      * Obs: in the Trending sort also pass the current=1, otherwise it will return a random order
      * 
      * ['APISecret' to list all videos]

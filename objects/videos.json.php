@@ -38,6 +38,7 @@ if (!empty($_REQUEST['status'])) {
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 
 $videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, [], false, $showUnlisted, $activeUsersOnly);
+//var_dump($videos);exit;
 $total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 foreach ($videos as $key => $value) {

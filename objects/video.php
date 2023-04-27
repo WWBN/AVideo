@@ -1604,6 +1604,7 @@ if (!class_exists('Video')) {
             $timeLogName = TimeLogStart("video::getAllVideos");
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
+            //var_dump($sql, $fullData);exit;
             TimeLogEnd($timeLogName, __LINE__, 0.2);
 
             // if there is a search, and there is no data and is inside a channel try again without a channel
@@ -1659,6 +1660,11 @@ if (!class_exists('Video')) {
                     self::startTransaction();
                     $row = self::getInfo($row, $getStatistcs);
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
+                    $row['externalOptions'] = _json_decode($row['externalOptions']);
+                    if(empty($row['externalOptions']->privacyInfo)){
+                        $row['externalOptions']->privacyInfo = self::updatePrivacyInfo($row['id']);
+                    }
+
                     $videos[] = $row;
                 }
                 TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
@@ -1673,10 +1679,7 @@ if (!class_exists('Video')) {
                 }
                 TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
-            } else {
-                $videos = false;
-                die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            }
+            } 
             return $videos;
         }
 
@@ -1685,6 +1688,7 @@ if (!class_exists('Video')) {
             if (empty($row)) {
                 return array();
             }
+            $rowOriginal = $row;
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
@@ -1712,6 +1716,15 @@ if (!class_exists('Video')) {
                 }
                 $obj = cleanUpRowFromDatabase($obj);
 
+                if (!self::canEdit($obj['id'])) {
+                    if (!empty($rowOriginal['video_password'])) {
+                        $obj['video_password'] = '1';
+                    } else {
+                        $obj['video_password'] = '0';
+                    }
+                }else{
+                    $obj['video_password'] = empty($rowOriginal['video_password'])?'':$rowOriginal['video_password'];
+                }
                 if (self::forceAudio()) {
                     $obj['type'] = 'audio';
                 } else if (self::forceArticle()) {
@@ -1722,12 +1735,15 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row = cleanUpRowFromDatabase($row);
             if (!self::canEdit($row['id'])) {
-                if (!empty($row['video_password'])) {
-                    $row['video_password'] = 1;
+                if (!empty($rowOriginal['video_password'])) {
+                    $row['video_password'] = '1';
                 } else {
-                    $row['video_password'] = 0;
+                    $row['video_password'] = '0';
                 }
+            }else{
+                $row['video_password'] = empty($rowOriginal['video_password'])?'':$rowOriginal['video_password'];
             }
+            $row['externalOptions'] = _json_decode($row['externalOptions']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if ($getStatistcs) {
                 $previewsMonth = date("Y-m-d 00:00:00", strtotime("-30 days"));
@@ -2942,6 +2958,55 @@ if (!class_exists('Video')) {
                 $_getTagsHTMLLabelArray[$video_id][] = '<span class="label label-' . $value2->type . ' videoLabel' . $class . '" ' . $tooltip . '>' . $value2->text . '</span>';
             }
             return $_getTagsHTMLLabelArray[$video_id];
+        }
+        static function updatePrivacyInfo($videos_id){
+            $v = new Video('', '', $videos_id);
+            $privacyInfo = self::_getPrivacyInfo($videos_id);
+            return $v->setPrivacyInfo($privacyInfo);
+        }
+        static function _getPrivacyInfo($videos_id){
+            global $advancedCustomUser, $_getPrivacyInfo;
+            if(!isset($_getPrivacyInfo)){
+                $_getPrivacyInfo = array();
+            }else{
+                if(!empty($_getPrivacyInfo[$videos_id])){
+                    return $_getPrivacyInfo[$videos_id];
+                }
+            }
+            $responseFields = array(
+                'fans_only',
+                'password_protectd',
+                'only_for_paid',
+                'pay_per_view',
+                'user_groups',
+            );
+            $response = array('videos_id'=>$videos_id);
+            $video = new Video("", "", $videos_id);
+            $ppv = AVideoPlugin::getObjectDataIfEnabled("PayPerView");
+            $response['fans_only'] = $video->getStatus() === self::$statusFansOnly;
+            if($response['fans_only'] && AVideoPlugin::isEnabled("FansSubscriptions")){
+                $response['fans_only_info'] = FansSubscriptions::getPlansFromUsersID($video->getUsers_id());
+            }
+            $response['password_protectd'] = $advancedCustomUser->userCanProtectVideosWithPassword && !empty($video->getVideo_password());
+            $response['only_for_paid'] = !empty($video->getOnly_for_paid());
+            $response['pay_per_view'] = $ppv && PayPerView::isVideoPayPerView($videos_id);
+            if($response['pay_per_view'] && AVideoPlugin::isEnabled("PayPerView")){
+                $response['pay_per_view_info'] = PayPerView::getAllPlansFromVideo($videos_id);
+            }
+            $response['user_groups'] = !Video::isPublic($videos_id);
+            if($response['user_groups']){
+                $response['user_groups_info'] = Video::getUserGroups($videos_id);
+            }
+            $response['isPrivate'] = false;
+            foreach ($responseFields as $value) {
+                if($response[$value]){
+                    $response['isPrivate'] = true;
+                    break;
+                }
+            }
+
+            $_getPrivacyInfo[$videos_id] = $response;
+            return $response;
         }
 
         public static function getTags_($video_id, $type = "")
@@ -5465,6 +5530,29 @@ if (!class_exists('Video')) {
             $externalOptions->videoStartSeconds = intval($videoStartSeconds);
             $this->setExternalOptions(json_encode($externalOptions));
         }
+
+        
+        public function setPrivacyInfo($object)
+        {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if(empty($externalOptions)){
+                $externalOptions = new stdClass();
+            }
+            $externalOptions->privacyInfo = $object;
+            $this->setExternalOptions(json_encode($externalOptions));
+            return $externalOptions->privacyInfo;
+        }
+
+        public function getPrivacyInfo()
+        {
+            $externalOptions = _json_decode($this->getExternalOptions());
+            if (empty($externalOptions->privacyInfo)) {
+                $externalOptions->privacyInfo = self::_getPrivacyInfo($this->id);
+                $this->setPrivacyInfo($externalOptions->privacyInfo);
+            }
+            return $externalOptions->privacyInfo;
+        }
+
 
         public function setVideoEmbedWhitelist($embedWhitelist)
         {
