@@ -4794,6 +4794,12 @@ function clearCache($firstPageOnly = false) {
     //_error_log('clearCache 1: '.$dir);
     rrmdir($dir);
     rrmdir($tmpDir);
+
+    $obj = AVideoPlugin::getDataObjectIfEnabled('Cache');
+    if($obj){
+        $tmpDir = $obj->cacheDir;
+        rrmdir($tmpDir);
+    }
     ObjectYPT::deleteCache("getEncoderURL");
     ObjectYPT::deleteAllSessionCache();
     unlink($lockFile);
