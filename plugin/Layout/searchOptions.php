@@ -86,8 +86,10 @@ $global['doNotSearch'] = 0;
         }
 
         #searchOptionsMenu .dropdown-menu-right {
-            right: auto;
+            right: 0;
             left: 0;
+            width: 100vw;
+            position: fixed;
         }
     }
 </style>
