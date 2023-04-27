@@ -1174,29 +1174,40 @@ class API extends PluginAbstract {
         $obj->livestream["activeLives"] = array();
         $obj->livestream["latestLives"] = array();
         $obj->livestream["scheduledLives"] = array();
+        $obj->wallet = array('isEnabled'=>false, 'balance'=>0, 'balance_formated'=>'');
 
-        $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '', '', 100);
+        if(AVideoPlugin::isEnabledByName('Live')){
+            $rows = LiveTransmitionHistory::getActiveLiveFromUser($parameters['users_id'], '', '', 100);
 
-        foreach ($rows as $value) {
-            $value['live_transmitions_history_id'] = $value['id'];
-            $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
-            $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
-            $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
-            $obj->livestream["activeLives"][] = $value;
+            foreach ($rows as $value) {
+                $value['live_transmitions_history_id'] = $value['id'];
+                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
+                $value['isPrivate'] = LiveTransmitionHistory::isPrivate($value['id']);
+                $value['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($value['id']);
+                $obj->livestream["activeLives"][] = $value;
+            }
+
+            $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 5, true);
+
+            foreach ($rows as $value) {
+                $value['live_transmitions_history_id'] = $value['id'];
+                $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
+                $obj->livestream["latestLives"][] = $value;
+            }
+
+            $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
+
+            foreach ($rows as $value) {
+                $obj->livestream["scheduledLives"][] = $value;
+            }
         }
-
-        $rows = LiveTransmitionHistory::getLastsLiveHistoriesFromUser($parameters['users_id'], 5, true);
-
-        foreach ($rows as $value) {
-            $value['live_transmitions_history_id'] = $value['id'];
-            $value['joinURL'] = LiveTransmitionHistory::getLinkToLive($value['id']);
-            $obj->livestream["latestLives"][] = $value;
-        }
-
-        $rows = Live_schedule::getAllActiveLimit($parameters['users_id']);
-
-        foreach ($rows as $value) {
-            $obj->livestream["scheduledLives"][] = $value;
+        
+        if($walletObj = AVideoPlugin::loadPluginIfEnabled('YPTWallet')){
+            $wallet = $walletObj->getOrCreateWallet($parameters['users_id']);
+            
+            $obj->wallet['isEnabled'] = true;
+            $obj->wallet['balance'] = $walletObj->getBalance($parameters['users_id']);
+            $obj->wallet['balance_formated'] = YPTWallet::formatCurrency($obj->wallet['balance'], false);
         }
 
         return new ApiObject("", false, $obj);

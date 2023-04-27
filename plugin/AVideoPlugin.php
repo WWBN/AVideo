@@ -374,7 +374,7 @@ class AVideoPlugin
         $name = trim(preg_replace('/[^0-9a-z_]/i', '', $name));
         $loadPluginFile = "{$global['systemRootPath']}plugin/{$name}/{$name}.php";
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
-        if (!isset($pluginIsLoaded[$name]) && empty($forceReload)) {
+        if (!isset($pluginIsLoaded[$name]) || !empty($forceReload)) {
             $pluginIsLoaded[$name] = false;
             $fexists = file_exists($loadPluginFile);
             if ($fexists) {
@@ -1360,7 +1360,7 @@ class AVideoPlugin
 
     public static function getCurrentVersion($name)
     {
-        $p = static::loadPlugin($name);
+        $p = static::loadPlugin($name, true);
         $uuid = $p->getUUID();
         return Plugin::getCurrentVersionByUuid($uuid);
     }
@@ -1377,6 +1377,9 @@ class AVideoPlugin
     public static function compareVersion($name, $version)
     {
         $currentVersion = self::getCurrentVersion($name);
+        if(empty($currentVersion)){
+            return -1;
+        }
         return version_compare($currentVersion, $version);
     }
 

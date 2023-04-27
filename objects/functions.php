@@ -7064,7 +7064,7 @@ function getCredentialsURL() {
     return "webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&user=" . urlencode(User::getUserName()) . "&pass=" . urlencode(User::getUserPass()) . "&encodedPass=1";
 }
 
-function gotToLoginAndComeBackHere($msg) {
+function gotToLoginAndComeBackHere($msg='') {
     global $global;
     if (User::isLogged()) {
         forbiddenPage($msg);
