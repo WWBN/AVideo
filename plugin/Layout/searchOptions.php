@@ -4,6 +4,10 @@ $tags = TagsHasVideos::getAllWithVideo();
 $global['doNotSearch'] = 0;
 ?>
 <style>
+    #searchOptionsMenu .btn-group-justified {
+        width: auto;
+    }
+
     #searchOptionsMenu {
         position: relative;
         height: 50px;
@@ -90,6 +94,10 @@ $global['doNotSearch'] = 0;
             left: 0;
             width: 100vw;
             position: fixed;
+        }
+
+        #searchOptionsMenu .btn-group-justified {
+            width: 100%;
         }
     }
 </style>
