@@ -74,7 +74,7 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
                                 <center>
                                     <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>">
                                         <?php
-                                        if (!empty($_POST['video_password'])) {
+                                        if (!empty($_REQUEST['video_password'])) {
                                             ?>
                                             <div class="alert alert-danger"><?php echo __("Your password does not match!"); ?></div>    
                                             <?php

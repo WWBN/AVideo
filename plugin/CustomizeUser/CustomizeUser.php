@@ -515,10 +515,11 @@ class CustomizeUser extends PluginAbstract
         if (empty($videoPassword)) {
             return true;
         }
+        //var_dump($_REQUEST['video_password'], $videoPassword);exit;
         if (empty($_SESSION['video_password'][$videos_id]) || $videoPassword !== $_SESSION['video_password'][$videos_id]) {
-            if (!empty($_POST['video_password']) && $_POST['video_password'] == $videoPassword) {
+            if (!empty($_REQUEST['video_password']) && $_REQUEST['video_password'] == $videoPassword) {
                 _session_start();
-                $_SESSION['video_password'][$videos_id] = $_POST['video_password'];
+                $_SESSION['video_password'][$videos_id] = $_REQUEST['video_password'];
                 return true;
             }
             return false;
