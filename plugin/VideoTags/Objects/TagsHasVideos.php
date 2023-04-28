@@ -189,7 +189,7 @@ class TagsHasVideos extends ObjectYPT {
     }
     
     
-    public static function getAllWithVideo()
+    public static function getAllWithVideo($limit=100)
     {
         global $global, $_getAllTagsWithVideo;
         if(isset($_getAllTagsWithVideo)){
@@ -198,7 +198,13 @@ class TagsHasVideos extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT DISTINCT tv.tags_id, t.* FROM " . static::getTableName() . " tv LEFT JOIN tags t ON tv.tags_id = t.id ORDER BY name ASC ";
+        $sql = "SELECT DISTINCT tv.tags_id, t.*
+        FROM tags_has_videos tv
+        LEFT JOIN tags t ON tv.tags_id = t.id
+        GROUP BY tv.tags_id
+        ORDER BY COUNT(tv.videos_id) DESC, t.name ASC
+        LIMIT {$limit};
+        ";
         //echo $sql;exit;
         $res = sqlDAL::readSql($sql, "", array());
         $fullData = sqlDAL::fetchAllAssoc($res);
