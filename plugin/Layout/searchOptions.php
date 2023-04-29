@@ -1,4 +1,7 @@
 <?php
+if(!class_exists('TagsHasVideos')){
+    return;
+}
 $global['doNotSearch'] = 1;
 $tags = TagsHasVideos::getAllWithVideo();
 $global['doNotSearch'] = 0;
