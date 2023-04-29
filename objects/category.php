@@ -465,8 +465,10 @@ class Category {
                 //$category = $res->fetch_all(MYSQLI_ASSOC);
                 $cache = ObjectYPT::setCache($cacheName, $category);
                 //$cachefile = ObjectYPT::getCacheFileName($cacheName, false);
+                //$cacheObj = ObjectYPT::getCacheGlobal($cacheName, 36000);
+                //$category = object_to_array($cacheObj);
                 //_error_log('getAllCategories respond '.json_encode(array($cachefile, $cacheName, $cache)));
-                //var_dump(array($cachefile, $cacheName, $cache));exit;
+                //var_dump(array($cache, $cacheObj, $category));exit;
             
             } else {
                 $category = false;
