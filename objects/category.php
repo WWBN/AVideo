@@ -419,11 +419,13 @@ class Category {
         $cacheName = 'category/' . md5($sql);
 
         //_error_log('getAllCategories getCache');
-        $category = object_to_array(ObjectYPT::getCacheGlobal($cacheName, 36000));
+        $cacheObj = ObjectYPT::getCacheGlobal($cacheName, 36000);
+        $category = object_to_array($cacheObj);
+        //var_dump(!empty($cacheObj), !empty($category), debug_backtrace());
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
-
-            //_error_log('getAllCategories respond');
+            
+            _error_log('getAllCategories respond '.json_encode(array(!empty($cacheObj), !empty($category), $cacheName)));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $category = [];
