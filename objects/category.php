@@ -424,8 +424,8 @@ class Category {
         //var_dump(!empty($cacheObj), !empty($category), debug_backtrace());
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
-            
-            _error_log('getAllCategories respond '.json_encode(array(!empty($cacheObj), !empty($category), $cacheName)));
+            $cachefile = ObjectYPT::getCacheFileName($cacheName, false);
+            _error_log('getAllCategories respond '.json_encode(array(!empty($cacheObj), !empty($category), $cachefile, $cacheName)));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $category = [];
