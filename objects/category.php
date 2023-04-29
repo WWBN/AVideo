@@ -424,8 +424,6 @@ class Category {
         //var_dump(!empty($cacheObj), !empty($category), debug_backtrace());
         if (empty($category)) {
             $res = sqlDAL::readSql($sql);
-            //$cachefile = ObjectYPT::getCacheFileName($cacheName, false);
-            //_error_log('getAllCategories respond '.json_encode(array(!empty($cacheObj), !empty($category), $cachefile, $cacheName)));
             $fullResult = sqlDAL::fetchAllAssoc($res);
             sqlDAL::close($res);
             $category = [];
@@ -465,7 +463,10 @@ class Category {
 
                 //_error_log('getAllCategories setCache');
                 //$category = $res->fetch_all(MYSQLI_ASSOC);
-                ObjectYPT::setCache($cacheName, $category);
+                $cache = ObjectYPT::setCache($cacheName, $category);
+                $cachefile = ObjectYPT::getCacheFileName($cacheName, false);
+                _error_log('getAllCategories respond '.json_encode(array($cachefile, $cacheName, $cache)));
+            
             } else {
                 $category = false;
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
