@@ -825,6 +825,9 @@ class Layout extends PluginAbstract {
 
     static function getSearchTags($name) {
         global $global;
+        if(!class_exists('TagsHasVideos')){
+            return array();
+        }
         $global['doNotSearch'] = 1;
         $tags = TagsHasVideos::getAllWithVideo();
         $global['doNotSearch'] = 0;
