@@ -10,8 +10,8 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 class Category {
-    protected $properties = [];
 
+    protected $properties = [];
     private $id;
     private $name;
     private $clean_name;
@@ -25,7 +25,6 @@ class Category {
     private $allow_download;
     private $order;
     private $suggested;
-
 
     public function getSuggested() {
         return empty($this->suggested) ? 0 : 1;
@@ -183,6 +182,7 @@ class Category {
             return false;
         }
     }
+
     /**
      *
      * @param string $clean_title
@@ -382,26 +382,16 @@ class Category {
             }
         }
         if ($onlyWithVideos) {
-            $sql .= " AND ((SELECT count(*) FROM videos v where v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
+            $sql .= " AND (EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id OR v.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
             if (AVideoPlugin::isEnabledByName("Live")) {
-                $sql .= " OR "
-                        . " ("
-                        . " SELECT count(*) FROM live_transmitions lt where "
-                        . " (lt.categories_id = c.id OR lt.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
-                        //. " AND lt.id = (select id FROM live_transmitions lt2 WHERE lt.users_id = lt2.users_id ORDER BY CREATED DESC LIMIT 1 )"
-                        . " ) > 0  ";
+                $sql .= " OR EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id OR lt.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
             }
             if (AVideoPlugin::isEnabledByName("LiveLinks")) {
-                $sql .= " OR "
-                        . " ("
-                        . " SELECT count(*) FROM LiveLinks ll where "
-                        . " (ll.categories_id = c.id OR ll.categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id))"
-                        . " ) > 0  ";
+                $sql .= " OR EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id OR ll.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
             }
             $sql .= ")";
         }
         if ($sameUserGroupAsMe) {
-            //_error_log('getAllCategories getUserGroups');
             $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
 
             $users_groups_id = [0];
@@ -409,12 +399,12 @@ class Category {
                 $users_groups_id[] = $value['id'];
             }
 
-
             $sql .= " AND ("
-                    . "(SELECT count(*) FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) = 0 OR "
-                    . "(SELECT count(*) FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) >= 1 "
+                    . " NOT EXISTS (SELECT 1 FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) OR "
+                    . " EXISTS (SELECT 1 FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) "
                     . ")";
         }
+
         $sortWhitelist = ['id', 'name', 'clean_name', 'description', 'iconClass', 'nextVideoOrder', 'parentId', 'type', 'users_id', 'private', 'allow_download', 'order', 'suggested'];
 
         if (!empty($_POST['sort']) && is_array($_POST['sort'])) {
@@ -443,7 +433,7 @@ class Category {
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
 
-                    if($onlyWithVideos && empty($totals['total'])){
+                    if ($onlyWithVideos && empty($totals['total'])) {
                         continue;
                     }
 
@@ -493,7 +483,7 @@ class Category {
         sqlDAL::close($res);
         if ($result) {
             $hierarchyArray[] = $result;
-            if($result['parentId'] != $categories_id){
+            if ($result['parentId'] != $categories_id) {
                 return self::getHierarchyArray($result['parentId'], $hierarchyArray);
             }
         }
@@ -521,7 +511,7 @@ class Category {
         if (empty($categories_id)) {
             return false;
         }
-        if(isCommandLineInterface()){
+        if (isCommandLineInterface()) {
             return true;
         }
         if (empty($users_id)) {
@@ -587,7 +577,7 @@ class Category {
                 $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
-        
+
         unset($_POST['sort']['v.created']);
         unset($_POST['sort']['likes']);
 
@@ -603,7 +593,7 @@ class Category {
                 $row['name'] = xss_esc_back($row['name']);
                 $row['total'] = $totals['total'];
                 $row['total_array'] = $totals;
-                
+
                 $category[] = $row;
             }
         } else {
@@ -906,7 +896,7 @@ class Category {
         if (filesize($background['path']) <= 980 || filesize($background['path']) == 4480) { // transparent image
             return false;
         }
-        return !is_image_fully_transparent($photo['path']) &&  !is_image_fully_transparent($background['path']) ;
+        return !is_image_fully_transparent($photo['path']) && !is_image_fully_transparent($background['path']);
     }
 
     public static function getOGImagePaths($categories_id) {
@@ -996,4 +986,5 @@ class Category {
         }
         return $return;
     }
+
 }
