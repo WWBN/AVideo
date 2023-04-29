@@ -501,7 +501,7 @@ abstract class ObjectYPT implements ObjectInterface
         //_error_log("YPTObject::setCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         $bytes = @file_put_contents($cachefile, $content);
         self::setSessionCache($name, $value);
-        return ['bytes' => $bytes, 'cachefile' => $cachefile];
+        return ['bytes' => $bytes, 'cachefile' => $cachefile, 'type'=>'file'];
     }
 
     public static function cleanCacheName($name)
