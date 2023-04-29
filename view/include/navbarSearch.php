@@ -1,7 +1,9 @@
 <?php
-$global['doNotSearch'] = 1;
-$tags = TagsHasVideos::getAllWithVideo();
-$global['doNotSearch'] = 0;
+if (class_exists('TagsHasVideos')) {
+    $global['doNotSearch'] = 1;
+    $tags = TagsHasVideos::getAllWithVideo();
+    $global['doNotSearch'] = 0;
+}
 ?>
 <li class="nav-item" style="margin-right: 0px; " id="searchNavItem">
     <div class="navbar-header">
@@ -79,7 +81,7 @@ $global['doNotSearch'] = 0;
     var searchSelectedCategory = '';
     var searchSelectedTag = '';
     
-    function updateSearchSelectedValues(){
+    function updateSearchSelectedValues() {
         searchTotalSelectedSearchIn = $('#search-tab .form-check-input:checked').length;
         searchSelectedCategoryVal = $('#filter-tab .form-check-input:checked').val();
         searchSelectedTagVal = $('#filter-tags-tab .form-check-input:checked').val();
@@ -99,7 +101,7 @@ $global['doNotSearch'] = 0;
         $('#catNameBelowNavbar-dropdown').html(searchSelectedCategory);
         $('#tagNameBelowNavbar-dropdown').html(searchSelectedTag);
         // check if no filter checkboxes are checked and search_category0 is checked and search_tag0 is checked
-        if (searchTotalSelectedSearchIn === 0 && empty(searchSelectedCategoryVal) &&  empty(searchSelectedTagVal)) {
+        if (searchTotalSelectedSearchIn === 0 && empty(searchSelectedCategoryVal) && empty(searchSelectedTagVal)) {
             // add the text-muted icon to the filterButton
             $('#filterButton i').removeClass('fa-filter');
             $('#filterButton i').addClass('fa-sort-down');
@@ -109,5 +111,5 @@ $global['doNotSearch'] = 0;
             $('#filterButton i').addClass('fa-filter');
         }
     }
-
+    
 </script>
