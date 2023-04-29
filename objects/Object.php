@@ -588,7 +588,7 @@ abstract class ObjectYPT implements ObjectInterface
             }
         }
 
-        if (self::shouldUseDatabase('')) {
+        if (class_exists('Cache')) {
             $cache = Cache::getCache($name, $lifetime, $ignoreMetadata);
             if (!empty($cache)) {
                 return $cache;
