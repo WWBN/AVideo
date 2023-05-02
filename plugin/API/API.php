@@ -516,7 +516,7 @@ class API extends PluginAbstract {
      * @param array $parameters
      * videos_id 
      * Returns the payperview plans
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2
      * @return \ApiObject
      */
     public function get_api_ppv_plans($parameters) {
@@ -558,7 +558,7 @@ class API extends PluginAbstract {
      * videos_id 
      * 'user' username of the user
      * 'pass' password  of the user
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2&plans_id=4
      * @return \ApiObject
      */
     public function set_api_ppv_buy($parameters) {
@@ -611,7 +611,7 @@ class API extends PluginAbstract {
      * @param array $parameters
      * videos_id 
      * Returns the payperview plans
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&videos_id=2
      * @return \ApiObject
      */
     public function get_api_subscription_plans($parameters) {
@@ -650,7 +650,7 @@ class API extends PluginAbstract {
      * videos_id 
      * 'user' username of the user
      * 'pass' password  of the user
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&plans_id=2
      * @return \ApiObject
      */
     public function set_api_subscription_buy($parameters) {
@@ -663,9 +663,9 @@ class API extends PluginAbstract {
             return new ApiObject('You must login');
         }
 
-        $objPPV = AVideoPlugin::getObjectDataIfEnabled('PayPerView');
+        $objPPV = AVideoPlugin::getObjectDataIfEnabled('Subscription');
         if(empty($objPPV)){
-            return new ApiObject('PayPerView is disabled');
+            return new ApiObject('Subscription is disabled');
         }
 
         $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
@@ -683,17 +683,16 @@ class API extends PluginAbstract {
             return new ApiObject('plans_id is empty');
         }
         
-        $obj->plan = PPV_Plans::getFromDb($obj->plans_id);
+        $obj->plans = SubscriptionPlansTable::getFromDb($obj->plans_id);
         if(empty($obj->plan)){
-            return new ApiObject('PPV plan does not exists');
+            return new ApiObject('Plan does not exists');
         }
 
         // check if the user has a valid plan for this video
-        $obj->ppv = PayPerView::getActivePlan($obj->users_id, $obj->videos_id);
-        if(empty($obj->ppv)){
-            $obj->ppv = PayPerView::buyPPV(User::getId(), $obj->plans_id, $obj->videos_id);
-            $error = $obj->ppv->error;
-            $msg = $obj->ppv->msg;
+        $obj->activePlan = SubscriptionTable::getSubscription($obj->users_id, $obj->plans_id);
+        if(empty($obj->activePlan)){
+            $obj->activePlan = Subscription::renew($obj->users_id, $obj->plans_id);
+            $error = empty($obj->activePlan);
         }else{
             $error = false;
         }
