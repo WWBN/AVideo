@@ -714,7 +714,7 @@ class API extends PluginAbstract {
      * ['catName' the clean_APIName of the category you want to filter]
      * ['channelName' the channelName of the videos you want to filter]
      * ['playlist' use playlist=1 to get a response compatible with the playlist endpoint]
-     * ['videoType' the type of the video, the valid options are 'audio_and_video', 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
+     * ['videoType' the type of the video, the valid options are 'audio_and_video_and_serie', 'audio_and_video', 'audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser']
      * ['is_serie' if is 0 return only videos, if is 1 return only series, if is not set, return all]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&catName=default&rowCount=10
      * @example Suggested ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[suggested]=1
@@ -1566,12 +1566,18 @@ class API extends PluginAbstract {
     /**
      * @param array $parameters
      * Return a single Program (Playlists) on this site
-     * 'playlists_id' 
+     * 'playlists_id' or 'videos_id' if it is a serie
+     * If you pass the playlists_id it will only return if the program belongs to you
+     * if you pass videos_id it will return only if you have rights to watch the video
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&playlists_id=12
      * @return \ApiObject
      */
     public function get_api_program($parameters) {
         global $global;
+        if (!empty($parameters['videos_id'])) {
+            $v = new Video('', '', $parameters['videos_id']);
+            $parameters['playlists_id'] = $v->getSerie_playlists_id();
+        }
         if (empty($parameters['playlists_id'])) {
             return new ApiObject("playlists_id is required");
         }
@@ -1580,8 +1586,15 @@ class API extends PluginAbstract {
         if (empty($obj)) {
             forbiddenPage();
         }
-        if (!empty($obj->getUsers_id())) {
-            forbidIfItIsNotMyUsersId($obj->getUsers_id());
+        if(empty($parameters['videos_id'])){
+            if (!empty($obj->getUsers_id())) {
+                forbidIfItIsNotMyUsersId($obj->getUsers_id());
+            }
+        }else{
+            $cansee = User::canWatchVideoWithAds($parameters['videos_id']);
+            if(!$cansee){
+                return new ApiObject("You cannot watch this video");
+            }
         }
         $obj = new stdClass();
         $obj->videos = PlayList::getAllFromPlaylistsID($parameters['playlists_id']);
@@ -2480,7 +2493,7 @@ class SectionFirstPage {
     public function __construct($type, $title, $endpoint, $rowCount, $childs = array()) {
         global $global;
         $endpoint = addQueryStringParameter($endpoint, 'current', 1);
-        $endpoint = addQueryStringParameter($endpoint, 'videoType', 'audio_and_video');
+        $endpoint = addQueryStringParameter($endpoint, 'videoType', 'audio_and_video_and_serie');
         $endpoint = addQueryStringParameter($endpoint, 'noRelated', 1);
         $this->type = $type;
         $this->title = $title;

@@ -1,5 +1,5 @@
 <?php
-if(!class_exists('TagsHasVideos')){
+if (!class_exists('TagsHasVideos')) {
     return;
 }
 $global['doNotSearch'] = 1;
@@ -108,7 +108,10 @@ $global['doNotSearch'] = 0;
     <div class="btn-group-justified">
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="searchFieldsNamesBelowNavbar-dropdown">
-                <?php echo __('Search in'); ?>:</span> <span class="badge">0
+                <span class="hidden-sm hidden-xs">
+                    <?php echo __('Search in'); ?>:</span> 
+                </span>
+                <span class="badge">0
                     <span class="caret"></span></button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
@@ -118,8 +121,11 @@ $global['doNotSearch'] = 0;
         </div>
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="catNameBelowNavbar-dropdown">
-                <i class="fas fa-list"></i> <?php echo __('All Categories'); ?>
-                <span class="caret"></span>
+                <i class="fas fa-list"></i> 
+                <span class="hidden-sm hidden-xs">
+                    <?php echo __('All Categories'); ?>
+                    <span class="caret"></span>
+                </span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
@@ -129,12 +135,43 @@ $global['doNotSearch'] = 0;
         </div>
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
-                <i class="fas fa-tags"></i> <?php echo __('Tags'); ?>
-                <span class="caret"></span>
+                <i class="fas fa-tags"></i> 
+                <span class="hidden-sm hidden-xs">
+                    <?php echo __('Tags'); ?>
+                    <span class="caret"></span>
+                </span>
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
                 Layout::getSearchTagsHTML();
+                ?>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
+                <i class="far fa-calendar-alt"></i>
+                <span class="hidden-sm hidden-xs">
+                    <?php echo __('Date within'); ?>
+                    <span class="caret"></span>
+                </span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <?php
+                Layout::getSearchDateHTML();
+                ?>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
+                <i class="fas fa-eye"></i>
+                <span class="hidden-sm hidden-xs">
+                    <?php echo __('Views'); ?>
+                    <span class="caret"></span>
+                </span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+                <?php
+                Layout::getSearchViewsHTML();
                 ?>
             </div>
         </div>

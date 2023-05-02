@@ -45,6 +45,8 @@ if (class_exists('TagsHasVideos')) {
                                     <?php
                                 }
                                 ?>
+                                <li><a data-toggle="tab" href="#filter-datetime-tab"><?php echo __('Date within'); ?></a></li>
+                                <li><a data-toggle="tab" href="#filter-views-tab"><?php echo __('Views'); ?></a></li>
                             </ul>
                         </div>
                         <div class="panel-body">
@@ -62,6 +64,16 @@ if (class_exists('TagsHasVideos')) {
                                 <div id="filter-tags-tab" class="tab-pane fade">
                                     <?php
                                     Layout::getSearchTagsHTML();
+                                    ?>
+                                </div>
+                                <div id="filter-datetime-tab" class="tab-pane fade">
+                                    <?php
+                                    Layout::getSearchDateHTML();
+                                    ?>
+                                </div>
+                                <div id="filter-views-tab" class="tab-pane fade">
+                                    <?php
+                                    Layout::getSearchViewsHTML();
                                     ?>
                                 </div>
                             </div>
