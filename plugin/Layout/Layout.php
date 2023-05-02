@@ -1051,14 +1051,14 @@ class Layout extends PluginAbstract
 
     static function getSearchDateHTML()
     {
-        $name = 'searchDateTime';
+        $name = 'created';
         $elements = self::getSearchDateTime($name);
         self::getSearchHTML($elements, $name);
     }
 
     static function getSearchViewsHTML()
     {
-        $name = 'searchViews';
+        $name = 'minViews';
         $elements = self::getSearchViews($name);
         self::getSearchHTML($elements, $name);
     }

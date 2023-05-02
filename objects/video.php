@@ -1062,6 +1062,21 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.id NOT IN ( '" . implode("', '", $arrayNotIN) . "') ";
                 }
             }
+            if (!empty($_GET['created'])) {
+                $_GET['created'] = preg_replace('/[^0-9: -]/', '', $_GET['created']);
+                if(is_numeric($_GET['created']) && $_GET['created'] > 0){
+                    $_GET['created'] = intval($_GET['created']);
+                    $sql .= " AND v.created >= DATE_SUB(CURDATE(), INTERVAL {$_GET['created']} DAY)";
+                }else{
+                    $sql .= " AND v.created >= '{$_GET['created']}'";
+                }
+            }
+
+            if (!empty($_REQUEST['minViews'])) {
+                $minViews = intval($_REQUEST['minViews']);
+                $sql .= " AND v.views_count >= '{$minViews}'";
+            }
+
             // replace random based on this
             $firstClauseLimit = '';
             if (empty($id)) {
@@ -1521,8 +1536,23 @@ if (!class_exists('Video')) {
             }
 
             if (!empty($_GET['modified'])) {
-                $_GET['modified'] = str_replace("'", "", $_GET['modified']);
+                $_GET['modified'] = preg_replace('/[^0-9: -]/', '', $_GET['modified']);
                 $sql .= " AND v.modified >= '{$_GET['modified']}'";
+            }
+
+            if (!empty($_GET['created'])) {
+                $_GET['created'] = preg_replace('/[^0-9: -]/', '', $_GET['created']);
+                if(is_numeric($_GET['created']) && $_GET['created'] > 0){
+                    $_GET['created'] = intval($_GET['created']);
+                    $sql .= " AND v.created >= DATE_SUB(CURDATE(), INTERVAL {$_GET['created']} DAY)";
+                }else{
+                    $sql .= " AND v.created >= '{$_GET['created']}'";
+                }
+            }
+
+            if (!empty($_REQUEST['minViews'])) {
+                $minViews = intval($_REQUEST['minViews']);
+                $sql .= " AND v.views_count >= '{$minViews}'";
             }
 
             if (!empty($_POST['searchPhrase'])) {
@@ -2153,6 +2183,21 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.serie_playlists_id IS NOT NULL ";
                 }
+            }
+
+            if (!empty($_GET['created'])) {
+                $_GET['created'] = preg_replace('/[^0-9: -]/', '', $_GET['created']);
+                if(is_numeric($_GET['created']) && $_GET['created'] > 0){
+                    $_GET['created'] = intval($_GET['created']);
+                    $sql .= " AND v.created >= DATE_SUB(CURDATE(), INTERVAL {$_GET['created']} DAY)";
+                }else{
+                    $sql .= " AND v.created >= '{$_GET['created']}'";
+                }
+            }
+
+            if (!empty($_REQUEST['minViews'])) {
+                $minViews = intval($_REQUEST['minViews']);
+                $sql .= " AND v.views_count >= '{$minViews}'";
             }
 
             if (!empty($_REQUEST['catName'])) {
@@ -3328,17 +3373,17 @@ if (!class_exists('Video')) {
             if (empty($original_title)) {
                 $original_title = $clean_title;
             }
-
+            $values = array();
             $sql = "SELECT * FROM videos WHERE clean_title = ? ";
             $formats = "s";
-            $values = [$clean_title];
+            $values[] = $clean_title;
             if (!empty($videoId)) {
                 $sql .= " AND id != ? ";
                 $formats .= "i";
                 $values[] = $videoId;
             }
             $sql .= " LIMIT 1";
-            $res = sqlDAL::readSql($sql, "", [], true);
+            $res = sqlDAL::readSql($sql,$formats, $values, true);
             $cleanTitleExists = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if ($cleanTitleExists != false) {
