@@ -1002,6 +1002,8 @@ if (!class_exists('Video')) {
                 }
             } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
                 $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
+                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
             } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
                 $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
             }
@@ -1483,6 +1485,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.type = '{$type}' ";
             } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
                 $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
+                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
             } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
                 $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
             }
@@ -2180,6 +2184,8 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.type = '{$type}' ";
             } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
                 $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
+                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
             } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
                 $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
             }
@@ -3323,9 +3329,13 @@ if (!class_exists('Video')) {
                 $original_title = $clean_title;
             }
 
-            $sql = "SELECT * FROM videos WHERE clean_title = '{$clean_title}' ";
+            $sql = "SELECT * FROM videos WHERE clean_title = ? ";
+            $formats = "s";
+            $values = [$clean_title];
             if (!empty($videoId)) {
-                $sql .= " AND id != {$videoId} ";
+                $sql .= " AND id != ? ";
+                $formats .= "i";
+                $values[] = $videoId;
             }
             $sql .= " LIMIT 1";
             $res = sqlDAL::readSql($sql, "", [], true);
@@ -6407,6 +6417,17 @@ if (!class_exists('Video')) {
                 }
             }
             return $url;
+        }
+
+        static public function getVideoWithMoreViews(){
+            global $_getVideoWithMoreViews;
+            if(empty($_getVideoWithMoreView)){
+                $sql = 'SELECT * FROM `videos` ORDER BY `views_count` DESC LIMIT 1';
+                $res = sqlDAL::readSql($sql);
+                $_getVideoWithMoreViews = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+            }
+            return $_getVideoWithMoreViews;
         }
     }
 }
