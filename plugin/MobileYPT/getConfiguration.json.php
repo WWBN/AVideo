@@ -119,6 +119,9 @@ if (AVideoPlugin::isEnabledByName("TopMenu")) {
         }
     }
 }
+
+$objMM->defaultIsPortrait = defaultIsPortrait();
+
 $str = _json_encode($objMM);
 _error_log('getConfiguration strlen='.strlen($str));
 echo $str;
