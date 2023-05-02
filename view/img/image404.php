@@ -19,10 +19,10 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
     if (file_exists($jpg)) {
         $file = $jpg;
         if (preg_match('/_thumbsV2/', $imageURL)) {
-            _error_log("Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = ".($advancedCustom->thumbsWidthPortrait / 2).", Height=".($advancedCustom->thumbsHeightPortrait/2));
+            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = ".($advancedCustom->thumbsWidthPortrait / 2).", Height=".($advancedCustom->thumbsHeightPortrait/2));
             convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
         } else {
-            _error_log("Image not found for {$imageURL} we are using {$jpg} instead ");
+            _error_log("2 Image not found for {$imageURL} we are using {$jpg} instead ");
         }
         $type = 'image/jpg';
         //header("HTTP/1.0 404 Not Found");

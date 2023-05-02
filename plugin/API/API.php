@@ -514,6 +514,102 @@ class API extends PluginAbstract {
 
     /**
      * @param array $parameters
+     * videos_id 
+     * Returns the payperview plans
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function get_api_ppv_plans($parameters) {
+        global $global;
+        $obj = new stdClass();
+        $error = true;
+        $msg = '';
+
+        $objPPV = AVideoPlugin::getObjectDataIfEnabled('PayPerView');
+        if(empty($objPPV)){
+            return new ApiObject('PayPerView is disabled');
+        }
+
+        $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
+        if(empty($objWallet)){
+            return new ApiObject('YPTWallet is disabled');
+        }
+
+        $obj->videos_id = intval($parameters['videos_id']);
+        if(empty($obj->videos_id)){
+            return new ApiObject('videos_id is empty');
+        }
+
+        $obj->ppv = PayPerView::getAllPlansFromVideo($obj->videos_id);
+        //var_dump($obj->ppv);
+        foreach ($obj->ppv as $key => $value) {
+            $obj->ppv[$key]['valueString'] = YPTWallet::formatCurrency($value['value']);
+        }
+        if(!empty($obj->ppv)){
+            $error = false;
+        }
+        return new ApiObject($msg, $error, $obj);
+    }
+
+    /**
+     * @param array $parameters
+     * reduces the wallet balance of a user by the cost of a pay-per-view (PPV) video and returns the updated balance. It checks if the user has sufficient funds to make the purchase
+     * plans_id 
+     * videos_id 
+     * 'user' username of the user
+     * 'pass' password  of the user
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}
+     * @return \ApiObject
+     */
+    public function set_api_ppv_buy($parameters) {
+        global $global;
+        $obj = new stdClass();
+        $error = true;
+        $msg = '';
+        $obj->users_id = User::getId();
+        if(empty($obj->users_id)){
+            return new ApiObject('You must login');
+        }
+
+        $objPPV = AVideoPlugin::getObjectDataIfEnabled('PayPerView');
+        if(empty($objPPV)){
+            return new ApiObject('PayPerView is disabled');
+        }
+
+        $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
+        if(empty($objWallet)){
+            return new ApiObject('YPTWallet is disabled');
+        }
+
+        $obj->videos_id = intval($parameters['videos_id']);
+        if(empty($obj->videos_id)){
+            return new ApiObject('videos_id is empty');
+        }
+
+        $obj->plans_id = intval($parameters['plans_id']);
+        if(empty($obj->plans_id)){
+            return new ApiObject('plans_id is empty');
+        }
+        
+        $obj->plan = PPV_Plans::getFromDb($obj->plans_id);
+        if(empty($obj->plan)){
+            return new ApiObject('PPV plan does not exists');
+        }
+
+        // check if the user has a valid plan for this video
+        $obj->ppv = PayPerView::getActivePlan($obj->users_id, $obj->videos_id);
+        if(empty($obj->ppv)){
+            $obj->ppv = PayPerView::buyPPV(User::getId(), $obj->plans_id, $obj->videos_id);
+            $error = $obj->ppv->error;
+            $msg = $obj->ppv->msg;
+        }else{
+            $error = false;
+        }
+        return new ApiObject($msg, $error, $obj);
+    }
+
+    /**
+     * @param array $parameters
      * Obs: in the Trending sort also pass the current=1, otherwise it will return a random order
      * 
      * ['APISecret' to list all videos]
