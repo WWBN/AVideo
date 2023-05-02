@@ -22,10 +22,13 @@ class Imu extends \Google\Collection
   protected $collection_key = 'magUt';
   protected $accelMpspsType = Measurement3d::class;
   protected $accelMpspsDataType = 'array';
+  public $accelMpsps;
   protected $gyroRpsType = Measurement3d::class;
   protected $gyroRpsDataType = 'array';
+  public $gyroRps;
   protected $magUtType = Measurement3d::class;
   protected $magUtDataType = 'array';
+  public $magUt;
 
   /**
    * @param Measurement3d[]

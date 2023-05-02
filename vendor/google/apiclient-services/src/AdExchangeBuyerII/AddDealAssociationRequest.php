@@ -21,6 +21,7 @@ class AddDealAssociationRequest extends \Google\Model
 {
   protected $associationType = CreativeDealAssociation::class;
   protected $associationDataType = '';
+  public $association;
 
   /**
    * @param CreativeDealAssociation

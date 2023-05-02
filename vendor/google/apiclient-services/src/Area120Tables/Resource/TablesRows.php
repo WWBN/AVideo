@@ -31,7 +31,7 @@ use Google\Service\Area120Tables\Row;
  * Typical usage is:
  *  <code>
  *   $area120tablesService = new Google\Service\Area120Tables(...);
- *   $rows = $area120tablesService->rows;
+ *   $rows = $area120tablesService->tables_rows;
  *  </code>
  */
 class TablesRows extends \Google\Service\Resource

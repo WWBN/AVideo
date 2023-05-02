@@ -54,10 +54,15 @@ class AssistantApiSuggestionsSupport extends \Google\Collection
   public $executionContextSupported;
   protected $featureSpecificActionSupportType = AssistantApiFeatureSpecificActionSupport::class;
   protected $featureSpecificActionSupportDataType = '';
+  public $featureSpecificActionSupport;
   /**
    * @var bool
    */
   public $featureSpecificAppActionsNotificationSupported;
+  /**
+   * @var bool
+   */
+  public $multiStepTrySayingSupported;
   /**
    * @var bool
    */
@@ -72,6 +77,7 @@ class AssistantApiSuggestionsSupport extends \Google\Collection
   public $showTranslationSupported;
   protected $supportedDisplayTargetsType = AssistantApiSuggestionsSupportDisplayTargetSupport::class;
   protected $supportedDisplayTargetsDataType = 'array';
+  public $supportedDisplayTargets;
   /**
    * @var bool
    */
@@ -216,6 +222,20 @@ class AssistantApiSuggestionsSupport extends \Google\Collection
   public function getFeatureSpecificAppActionsNotificationSupported()
   {
     return $this->featureSpecificAppActionsNotificationSupported;
+  }
+  /**
+   * @param bool
+   */
+  public function setMultiStepTrySayingSupported($multiStepTrySayingSupported)
+  {
+    $this->multiStepTrySayingSupported = $multiStepTrySayingSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getMultiStepTrySayingSupported()
+  {
+    return $this->multiStepTrySayingSupported;
   }
   /**
    * @param bool

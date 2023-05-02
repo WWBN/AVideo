@@ -22,8 +22,10 @@ class AutoscalersScopedList extends \Google\Collection
   protected $collection_key = 'autoscalers';
   protected $autoscalersType = Autoscaler::class;
   protected $autoscalersDataType = 'array';
+  public $autoscalers;
   protected $warningType = AutoscalersScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param Autoscaler[]

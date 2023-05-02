@@ -22,14 +22,17 @@ class Product extends \Google\Collection
   protected $collection_key = 'issues';
   protected $attributesType = Attributes::class;
   protected $attributesDataType = '';
+  public $attributes;
   /**
    * @var string
    */
   public $contentLanguage;
   protected $destinationStatusesType = DestinationStatus::class;
   protected $destinationStatusesDataType = 'array';
+  public $destinationStatuses;
   protected $issuesType = Issue::class;
   protected $issuesDataType = 'array';
+  public $issues;
   /**
    * @var string
    */

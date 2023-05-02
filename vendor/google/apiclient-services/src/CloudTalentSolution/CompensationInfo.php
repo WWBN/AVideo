@@ -22,10 +22,13 @@ class CompensationInfo extends \Google\Collection
   protected $collection_key = 'entries';
   protected $annualizedBaseCompensationRangeType = CompensationRange::class;
   protected $annualizedBaseCompensationRangeDataType = '';
+  public $annualizedBaseCompensationRange;
   protected $annualizedTotalCompensationRangeType = CompensationRange::class;
   protected $annualizedTotalCompensationRangeDataType = '';
+  public $annualizedTotalCompensationRange;
   protected $entriesType = CompensationEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param CompensationRange

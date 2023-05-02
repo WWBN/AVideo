@@ -22,6 +22,7 @@ class Item extends \Google\Collection
   protected $collection_key = 'issues';
   protected $issuesType = RichResultsIssue::class;
   protected $issuesDataType = 'array';
+  public $issues;
   /**
    * @var string
    */

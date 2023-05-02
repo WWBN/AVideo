@@ -30,7 +30,7 @@ use Google\Service\Eventarc\Trigger;
  * Typical usage is:
  *  <code>
  *   $eventarcService = new Google\Service\Eventarc(...);
- *   $triggers = $eventarcService->triggers;
+ *   $triggers = $eventarcService->projects_locations_triggers;
  *  </code>
  */
 class ProjectsLocationsTriggers extends \Google\Service\Resource

@@ -22,12 +22,16 @@ class RouterStatus extends \Google\Collection
   protected $collection_key = 'natStatus';
   protected $bestRoutesType = Route::class;
   protected $bestRoutesDataType = 'array';
+  public $bestRoutes;
   protected $bestRoutesForRouterType = Route::class;
   protected $bestRoutesForRouterDataType = 'array';
+  public $bestRoutesForRouter;
   protected $bgpPeerStatusType = RouterStatusBgpPeerStatus::class;
   protected $bgpPeerStatusDataType = 'array';
+  public $bgpPeerStatus;
   protected $natStatusType = RouterStatusNatStatus::class;
   protected $natStatusDataType = 'array';
+  public $natStatus;
   /**
    * @var string
    */

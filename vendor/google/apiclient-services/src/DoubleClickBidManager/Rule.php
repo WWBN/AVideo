@@ -22,6 +22,7 @@ class Rule extends \Google\Collection
   protected $collection_key = 'disjunctiveMatchStatements';
   protected $disjunctiveMatchStatementsType = DisjunctiveMatchStatement::class;
   protected $disjunctiveMatchStatementsDataType = 'array';
+  public $disjunctiveMatchStatements;
   /**
    * @var string
    */

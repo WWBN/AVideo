@@ -22,8 +22,10 @@ class HttpCheck extends \Google\Collection
   protected $collection_key = 'acceptedResponseStatusCodes';
   protected $acceptedResponseStatusCodesType = ResponseStatusCode::class;
   protected $acceptedResponseStatusCodesDataType = 'array';
+  public $acceptedResponseStatusCodes;
   protected $authInfoType = BasicAuthentication::class;
   protected $authInfoDataType = '';
+  public $authInfo;
   /**
    * @var string
    */
@@ -32,6 +34,10 @@ class HttpCheck extends \Google\Collection
    * @var string
    */
   public $contentType;
+  /**
+   * @var string
+   */
+  public $customContentType;
   /**
    * @var string[]
    */
@@ -46,6 +52,7 @@ class HttpCheck extends \Google\Collection
   public $path;
   protected $pingConfigType = PingConfig::class;
   protected $pingConfigDataType = '';
+  public $pingConfig;
   /**
    * @var int
    */
@@ -118,6 +125,20 @@ class HttpCheck extends \Google\Collection
   public function getContentType()
   {
     return $this->contentType;
+  }
+  /**
+   * @param string
+   */
+  public function setCustomContentType($customContentType)
+  {
+    $this->customContentType = $customContentType;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomContentType()
+  {
+    return $this->customContentType;
   }
   /**
    * @param string[]

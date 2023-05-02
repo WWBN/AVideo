@@ -21,10 +21,13 @@ class GoogleCloudChannelV1ReportResultsMetadata extends \Google\Model
 {
   protected $dateRangeType = GoogleCloudChannelV1DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   protected $precedingDateRangeType = GoogleCloudChannelV1DateRange::class;
   protected $precedingDateRangeDataType = '';
+  public $precedingDateRange;
   protected $reportType = GoogleCloudChannelV1Report::class;
   protected $reportDataType = '';
+  public $report;
   /**
    * @var string
    */

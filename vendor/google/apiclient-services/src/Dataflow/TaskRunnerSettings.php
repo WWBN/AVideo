@@ -70,6 +70,7 @@ class TaskRunnerSettings extends \Google\Collection
   public $oauthScopes;
   protected $parallelWorkerSettingsType = WorkerSettings::class;
   protected $parallelWorkerSettingsDataType = '';
+  public $parallelWorkerSettings;
   /**
    * @var string
    */

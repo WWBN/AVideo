@@ -30,7 +30,7 @@ use Google\Service\RecommendationsAI\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $userEvents = $recommendationengineService->userEvents;
+ *   $userEvents = $recommendationengineService->projects_locations_catalogs_eventStores_userEvents;
  *  </code>
  */
 class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class GoogleAssistantAccessoryV1DeviceState extends \Google\Model
 {
   protected $alarmStateType = GoogleAssistantEmbeddedV1Alarms::class;
   protected $alarmStateDataType = '';
+  public $alarmState;
   /**
    * @var string
    */
@@ -31,14 +32,17 @@ class GoogleAssistantAccessoryV1DeviceState extends \Google\Model
   public $deviceTime;
   protected $deviceTimeZoneType = GoogleTypeTimeZone::class;
   protected $deviceTimeZoneDataType = '';
+  public $deviceTimeZone;
   /**
    * @var bool
    */
   public $doNotDisturb;
   protected $fitnessActivitiesStateType = GoogleAssistantEmbeddedV1FitnessActivities::class;
   protected $fitnessActivitiesStateDataType = '';
+  public $fitnessActivitiesState;
   protected $timerStateType = GoogleAssistantEmbeddedV1Timers::class;
   protected $timerStateDataType = '';
+  public $timerState;
 
   /**
    * @param GoogleAssistantEmbeddedV1Alarms

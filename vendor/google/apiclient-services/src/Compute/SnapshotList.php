@@ -26,6 +26,7 @@ class SnapshotList extends \Google\Collection
   public $id;
   protected $itemsType = Snapshot::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class SnapshotList extends \Google\Collection
   public $selfLink;
   protected $warningType = SnapshotListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

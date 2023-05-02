@@ -21,6 +21,7 @@ class EnterpriseCrmEventbusStats extends \Google\Model
 {
   protected $dimensionsType = EnterpriseCrmEventbusStatsDimensions::class;
   protected $dimensionsDataType = '';
+  public $dimensions;
   public $durationInSeconds;
   public $errorRate;
   public $qps;

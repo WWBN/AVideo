@@ -17,8 +17,9 @@
 
 namespace Google\Service\Apigee;
 
-class GoogleCloudApigeeV1DeploymentConfig extends \Google\Model
+class GoogleCloudApigeeV1DeploymentConfig extends \Google\Collection
 {
+  protected $collection_key = 'deploymentGroups';
   /**
    * @var string[]
    */
@@ -27,6 +28,14 @@ class GoogleCloudApigeeV1DeploymentConfig extends \Google\Model
    * @var string
    */
   public $basePath;
+  /**
+   * @var string[]
+   */
+  public $deploymentGroups;
+  /**
+   * @var string[]
+   */
+  public $endpoints;
   /**
    * @var string
    */
@@ -75,6 +84,34 @@ class GoogleCloudApigeeV1DeploymentConfig extends \Google\Model
   public function getBasePath()
   {
     return $this->basePath;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDeploymentGroups($deploymentGroups)
+  {
+    $this->deploymentGroups = $deploymentGroups;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDeploymentGroups()
+  {
+    return $this->deploymentGroups;
+  }
+  /**
+   * @param string[]
+   */
+  public function setEndpoints($endpoints)
+  {
+    $this->endpoints = $endpoints;
+  }
+  /**
+   * @return string[]
+   */
+  public function getEndpoints()
+  {
+    return $this->endpoints;
   }
   /**
    * @param string

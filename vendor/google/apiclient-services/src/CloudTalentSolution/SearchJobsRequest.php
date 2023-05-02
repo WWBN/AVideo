@@ -22,6 +22,7 @@ class SearchJobsRequest extends \Google\Collection
   protected $collection_key = 'histogramQueries';
   protected $customRankingInfoType = CustomRankingInfo::class;
   protected $customRankingInfoDataType = '';
+  public $customRankingInfo;
   /**
    * @var bool
    */
@@ -36,8 +37,10 @@ class SearchJobsRequest extends \Google\Collection
   public $enableBroadening;
   protected $histogramQueriesType = HistogramQuery::class;
   protected $histogramQueriesDataType = 'array';
+  public $histogramQueries;
   protected $jobQueryType = JobQuery::class;
   protected $jobQueryDataType = '';
+  public $jobQuery;
   /**
    * @var string
    */
@@ -64,6 +67,7 @@ class SearchJobsRequest extends \Google\Collection
   public $pageToken;
   protected $requestMetadataType = RequestMetadata::class;
   protected $requestMetadataDataType = '';
+  public $requestMetadata;
   /**
    * @var string
    */

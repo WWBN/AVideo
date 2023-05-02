@@ -21,6 +21,7 @@ class Subscription extends \Google\Model
 {
   protected $contentDetailsType = SubscriptionContentDetails::class;
   protected $contentDetailsDataType = '';
+  public $contentDetails;
   /**
    * @var string
    */
@@ -35,8 +36,10 @@ class Subscription extends \Google\Model
   public $kind;
   protected $snippetType = SubscriptionSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
   protected $subscriberSnippetType = SubscriptionSubscriberSnippet::class;
   protected $subscriberSnippetDataType = '';
+  public $subscriberSnippet;
 
   /**
    * @param SubscriptionContentDetails

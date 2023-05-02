@@ -26,7 +26,7 @@ use Google\Service\Appengine\ListAuthorizedCertificatesResponse;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $authorizedCertificates = $appengineService->authorizedCertificates;
+ *   $authorizedCertificates = $appengineService->apps_authorizedCertificates;
  *  </code>
  */
 class AppsAuthorizedCertificates extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class GoogleSecuritySafebrowsingV4ListThreatListsResponse extends \Google\Collec
   protected $collection_key = 'threatLists';
   protected $threatListsType = GoogleSecuritySafebrowsingV4ThreatListDescriptor::class;
   protected $threatListsDataType = 'array';
+  public $threatLists;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ThreatListDescriptor[]

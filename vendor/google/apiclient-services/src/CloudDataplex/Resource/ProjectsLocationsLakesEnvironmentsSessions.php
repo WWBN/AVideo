@@ -24,7 +24,7 @@ use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListSessionsResponse;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $sessions = $dataplexService->sessions;
+ *   $sessions = $dataplexService->projects_locations_lakes_environments_sessions;
  *  </code>
  */
 class ProjectsLocationsLakesEnvironmentsSessions extends \Google\Service\Resource

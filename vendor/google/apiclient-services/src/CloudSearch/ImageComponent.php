@@ -25,8 +25,10 @@ class ImageComponent extends \Google\Model
   public $altText;
   protected $borderStyleType = BorderStyle::class;
   protected $borderStyleDataType = '';
+  public $borderStyle;
   protected $cropStyleType = ImageCropStyle::class;
   protected $cropStyleDataType = '';
+  public $cropStyle;
   /**
    * @var string
    */

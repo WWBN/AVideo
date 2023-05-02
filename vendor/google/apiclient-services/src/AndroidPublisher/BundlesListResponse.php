@@ -22,6 +22,7 @@ class BundlesListResponse extends \Google\Collection
   protected $collection_key = 'bundles';
   protected $bundlesType = Bundle::class;
   protected $bundlesDataType = 'array';
+  public $bundles;
   /**
    * @var string
    */

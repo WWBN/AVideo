@@ -22,6 +22,7 @@ class BulkEditPartnerAssignedTargetingOptionsResponse extends \Google\Collection
   protected $collection_key = 'createdAssignedTargetingOptions';
   protected $createdAssignedTargetingOptionsType = AssignedTargetingOption::class;
   protected $createdAssignedTargetingOptionsDataType = 'array';
+  public $createdAssignedTargetingOptions;
 
   /**
    * @param AssignedTargetingOption[]

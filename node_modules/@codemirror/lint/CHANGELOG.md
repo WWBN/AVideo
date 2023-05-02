@@ -1,3 +1,9 @@
+## 6.1.0 (2022-11-15)
+
+### New features
+
+The new `forEachDiagnostic` function can be used to iterate over the diagnostics in an editor state.
+
 ## 6.0.0 (2022-06-08)
 
 ### Breaking changes

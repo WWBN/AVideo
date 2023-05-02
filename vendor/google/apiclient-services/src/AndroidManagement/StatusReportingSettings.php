@@ -21,6 +21,7 @@ class StatusReportingSettings extends \Google\Model
 {
   protected $applicationReportingSettingsType = ApplicationReportingSettings::class;
   protected $applicationReportingSettingsDataType = '';
+  public $applicationReportingSettings;
   /**
    * @var bool
    */

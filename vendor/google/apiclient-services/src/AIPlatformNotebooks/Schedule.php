@@ -38,12 +38,14 @@ class Schedule extends \Google\Collection
   public $displayName;
   protected $executionTemplateType = ExecutionTemplate::class;
   protected $executionTemplateDataType = '';
+  public $executionTemplate;
   /**
    * @var string
    */
   public $name;
   protected $recentExecutionsType = Execution::class;
   protected $recentExecutionsDataType = 'array';
+  public $recentExecutions;
   /**
    * @var string
    */

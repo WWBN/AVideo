@@ -22,6 +22,7 @@ class RepositoryWebrefEntityNameSource extends \Google\Collection
   protected $collection_key = 'entityScore';
   protected $entityScoreType = RepositoryWebrefEntityNameScore::class;
   protected $entityScoreDataType = 'array';
+  public $entityScore;
   /**
    * @var string
    */

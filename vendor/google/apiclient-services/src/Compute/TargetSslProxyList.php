@@ -26,6 +26,7 @@ class TargetSslProxyList extends \Google\Collection
   public $id;
   protected $itemsType = TargetSslProxy::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class TargetSslProxyList extends \Google\Collection
   public $selfLink;
   protected $warningType = TargetSslProxyListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

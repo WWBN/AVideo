@@ -26,7 +26,7 @@ use Google\Service\CloudDataplex\GoogleCloudDataplexV1Partition;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $partitions = $dataplexService->partitions;
+ *   $partitions = $dataplexService->projects_locations_lakes_zones_entities_partitions;
  *  </code>
  */
 class ProjectsLocationsLakesZonesEntitiesPartitions extends \Google\Service\Resource

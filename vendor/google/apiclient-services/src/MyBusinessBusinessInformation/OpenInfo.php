@@ -25,6 +25,7 @@ class OpenInfo extends \Google\Model
   public $canReopen;
   protected $openingDateType = Date::class;
   protected $openingDateDataType = '';
+  public $openingDate;
   /**
    * @var string
    */

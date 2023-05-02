@@ -22,52 +22,74 @@ class AssistantApiSoftwareCapabilities extends \Google\Collection
   protected $collection_key = 'supportedClientOp';
   protected $appCapabilitiesType = AssistantApiAppCapabilities::class;
   protected $appCapabilitiesDataType = 'array';
+  public $appCapabilities;
   protected $appCapabilitiesDeltaType = AssistantApiAppCapabilitiesDelta::class;
   protected $appCapabilitiesDeltaDataType = 'array';
+  public $appCapabilitiesDelta;
   protected $appIntegrationsSettingsType = AssistantApiAppIntegrationsSettings::class;
   protected $appIntegrationsSettingsDataType = 'map';
+  public $appIntegrationsSettings;
   protected $carAssistantCapabilitiesType = AssistantApiCarAssistantCapabilities::class;
   protected $carAssistantCapabilitiesDataType = '';
+  public $carAssistantCapabilities;
   protected $clockCapabilitiesType = AssistantApiClockCapabilities::class;
   protected $clockCapabilitiesDataType = '';
+  public $clockCapabilities;
   protected $conversationVersionType = AssistantApiSupportedConversationVersion::class;
   protected $conversationVersionDataType = '';
+  public $conversationVersion;
   protected $crossDeviceExecutionCapabilitiesType = AssistantApiCrossDeviceExecutionCapability::class;
   protected $crossDeviceExecutionCapabilitiesDataType = '';
+  public $crossDeviceExecutionCapabilities;
   protected $gacsCapabilitiesType = AssistantApiGacsCapabilities::class;
   protected $gacsCapabilitiesDataType = '';
+  public $gacsCapabilities;
   protected $gcmCapabilitiesType = AssistantApiGcmCapabilities::class;
   protected $gcmCapabilitiesDataType = '';
+  public $gcmCapabilities;
   protected $liveTvChannelCapabilitiesType = AssistantApiLiveTvChannelCapabilities::class;
   protected $liveTvChannelCapabilitiesDataType = '';
+  public $liveTvChannelCapabilities;
   protected $oemCapabilitiesType = AssistantApiOemCapabilities::class;
   protected $oemCapabilitiesDataType = '';
+  public $oemCapabilities;
   protected $onDeviceAssistantCapabilitiesType = AssistantApiOnDeviceAssistantCapabilities::class;
   protected $onDeviceAssistantCapabilitiesDataType = '';
+  public $onDeviceAssistantCapabilities;
   protected $onDeviceSmartHomeCapabilitiesType = AssistantApiOnDeviceSmartHomeCapabilities::class;
   protected $onDeviceSmartHomeCapabilitiesDataType = '';
+  public $onDeviceSmartHomeCapabilities;
   protected $onDeviceStorageCapabilitiesType = AssistantApiOnDeviceStorageCapabilities::class;
   protected $onDeviceStorageCapabilitiesDataType = '';
+  public $onDeviceStorageCapabilities;
   /**
    * @var string
    */
   public $operatingSystem;
   protected $orderedLiveTvProvidersType = AssistantApiLiveTvProvider::class;
   protected $orderedLiveTvProvidersDataType = 'array';
+  public $orderedLiveTvProviders;
   protected $selinaCapabilitiesType = AssistantApiSelinaCapabilites::class;
   protected $selinaCapabilitiesDataType = '';
+  public $selinaCapabilities;
   protected $settingsAppCapabilitiesType = AssistantApiSettingsAppCapabilities::class;
   protected $settingsAppCapabilitiesDataType = '';
+  public $settingsAppCapabilities;
   protected $supportedClientOpType = AssistantApiSupportedClientOp::class;
   protected $supportedClientOpDataType = 'array';
+  public $supportedClientOp;
   protected $supportedFeaturesType = AssistantApiSupportedFeatures::class;
   protected $supportedFeaturesDataType = '';
+  public $supportedFeatures;
   protected $supportedMsgVersionType = AssistantApiSupportedProtocolVersion::class;
   protected $supportedMsgVersionDataType = '';
+  public $supportedMsgVersion;
   protected $supportedProviderTypesType = AssistantApiSupportedProviderTypes::class;
   protected $supportedProviderTypesDataType = '';
+  public $supportedProviderTypes;
   protected $surfacePropertiesType = AssistantApiSurfaceProperties::class;
   protected $surfacePropertiesDataType = '';
+  public $surfaceProperties;
 
   /**
    * @param AssistantApiAppCapabilities[]

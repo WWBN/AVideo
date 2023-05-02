@@ -22,6 +22,7 @@ class GoogleCloudApigeeV1ListOrganizationsResponse extends \Google\Collection
   protected $collection_key = 'organizations';
   protected $organizationsType = GoogleCloudApigeeV1OrganizationProjectMapping::class;
   protected $organizationsDataType = 'array';
+  public $organizations;
 
   /**
    * @param GoogleCloudApigeeV1OrganizationProjectMapping[]

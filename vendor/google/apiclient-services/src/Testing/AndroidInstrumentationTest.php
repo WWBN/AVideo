@@ -22,8 +22,10 @@ class AndroidInstrumentationTest extends \Google\Collection
   protected $collection_key = 'testTargets';
   protected $appApkType = FileReference::class;
   protected $appApkDataType = '';
+  public $appApk;
   protected $appBundleType = AppBundle::class;
   protected $appBundleDataType = '';
+  public $appBundle;
   /**
    * @var string
    */
@@ -34,8 +36,10 @@ class AndroidInstrumentationTest extends \Google\Collection
   public $orchestratorOption;
   protected $shardingOptionType = ShardingOption::class;
   protected $shardingOptionDataType = '';
+  public $shardingOption;
   protected $testApkType = FileReference::class;
   protected $testApkDataType = '';
+  public $testApk;
   /**
    * @var string
    */

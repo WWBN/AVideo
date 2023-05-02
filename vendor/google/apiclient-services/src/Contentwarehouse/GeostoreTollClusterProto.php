@@ -22,6 +22,7 @@ class GeostoreTollClusterProto extends \Google\Collection
   protected $collection_key = 'intersection';
   protected $intersectionType = GeostoreFeatureIdProto::class;
   protected $intersectionDataType = 'array';
+  public $intersection;
 
   /**
    * @param GeostoreFeatureIdProto[]

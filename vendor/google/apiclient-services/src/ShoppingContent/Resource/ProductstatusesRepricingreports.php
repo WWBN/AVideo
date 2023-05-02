@@ -24,7 +24,7 @@ use Google\Service\ShoppingContent\ListRepricingProductReportsResponse;
  * Typical usage is:
  *  <code>
  *   $contentService = new Google\Service\ShoppingContent(...);
- *   $repricingreports = $contentService->repricingreports;
+ *   $repricingreports = $contentService->productstatuses_repricingreports;
  *  </code>
  */
 class ProductstatusesRepricingreports extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class BatchCreatePrintersRequest extends \Google\Collection
   protected $collection_key = 'requests';
   protected $requestsType = CreatePrinterRequest::class;
   protected $requestsDataType = 'array';
+  public $requests;
 
   /**
    * @param CreatePrinterRequest[]

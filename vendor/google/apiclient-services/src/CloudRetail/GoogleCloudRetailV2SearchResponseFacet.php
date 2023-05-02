@@ -30,6 +30,7 @@ class GoogleCloudRetailV2SearchResponseFacet extends \Google\Collection
   public $key;
   protected $valuesType = GoogleCloudRetailV2SearchResponseFacetFacetValue::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param bool

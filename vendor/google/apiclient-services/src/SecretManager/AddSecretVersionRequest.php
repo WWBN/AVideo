@@ -21,6 +21,7 @@ class AddSecretVersionRequest extends \Google\Model
 {
   protected $payloadType = SecretPayload::class;
   protected $payloadDataType = '';
+  public $payload;
 
   /**
    * @param SecretPayload

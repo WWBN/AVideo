@@ -26,12 +26,14 @@ class VRF extends \Google\Collection
   public $name;
   protected $qosPolicyType = QosPolicy::class;
   protected $qosPolicyDataType = '';
+  public $qosPolicy;
   /**
    * @var string
    */
   public $state;
   protected $vlanAttachmentsType = VlanAttachment::class;
   protected $vlanAttachmentsDataType = 'array';
+  public $vlanAttachments;
 
   /**
    * @param string

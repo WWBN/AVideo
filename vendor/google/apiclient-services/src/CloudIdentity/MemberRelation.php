@@ -26,12 +26,14 @@ class MemberRelation extends \Google\Collection
   public $member;
   protected $preferredMemberKeyType = EntityKey::class;
   protected $preferredMemberKeyDataType = 'array';
+  public $preferredMemberKey;
   /**
    * @var string
    */
   public $relationType;
   protected $rolesType = TransitiveMembershipRole::class;
   protected $rolesDataType = 'array';
+  public $roles;
 
   /**
    * @param string

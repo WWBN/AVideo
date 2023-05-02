@@ -22,6 +22,7 @@ class SearchStatistics extends \Google\Collection
   protected $collection_key = 'indexUnusedReason';
   protected $indexUnusedReasonType = IndexUnusedReason::class;
   protected $indexUnusedReasonDataType = 'array';
+  public $indexUnusedReason;
   /**
    * @var string
    */

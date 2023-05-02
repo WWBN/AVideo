@@ -30,12 +30,17 @@ class Release extends \Google\Collection
   public $annotations;
   protected $buildArtifactsType = BuildArtifact::class;
   protected $buildArtifactsDataType = 'array';
+  public $buildArtifacts;
+  protected $conditionType = ReleaseCondition::class;
+  protected $conditionDataType = '';
+  public $condition;
   /**
    * @var string
    */
   public $createTime;
   protected $deliveryPipelineSnapshotType = DeliveryPipeline::class;
   protected $deliveryPipelineSnapshotDataType = '';
+  public $deliveryPipelineSnapshot;
   /**
    * @var string
    */
@@ -78,10 +83,13 @@ class Release extends \Google\Collection
   public $skaffoldVersion;
   protected $targetArtifactsType = TargetArtifact::class;
   protected $targetArtifactsDataType = 'map';
+  public $targetArtifacts;
   protected $targetRendersType = TargetRender::class;
   protected $targetRendersDataType = 'map';
+  public $targetRenders;
   protected $targetSnapshotsType = Target::class;
   protected $targetSnapshotsDataType = 'array';
+  public $targetSnapshots;
   /**
    * @var string
    */
@@ -128,6 +136,20 @@ class Release extends \Google\Collection
   public function getBuildArtifacts()
   {
     return $this->buildArtifacts;
+  }
+  /**
+   * @param ReleaseCondition
+   */
+  public function setCondition(ReleaseCondition $condition)
+  {
+    $this->condition = $condition;
+  }
+  /**
+   * @return ReleaseCondition
+   */
+  public function getCondition()
+  {
+    return $this->condition;
   }
   /**
    * @param string

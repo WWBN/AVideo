@@ -22,6 +22,7 @@ class ApiDimensionFilterGroup extends \Google\Collection
   protected $collection_key = 'filters';
   protected $filtersType = ApiDimensionFilter::class;
   protected $filtersDataType = 'array';
+  public $filters;
   /**
    * @var string
    */

@@ -29,6 +29,7 @@ class Member extends \Google\Model
   public $kind;
   protected $snippetType = MemberSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param string

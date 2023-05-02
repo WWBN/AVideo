@@ -26,6 +26,7 @@ class GoogleCloudRunV2Job extends \Google\Collection
   public $annotations;
   protected $binaryAuthorizationType = GoogleCloudRunV2BinaryAuthorization::class;
   protected $binaryAuthorizationDataType = '';
+  public $binaryAuthorization;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class GoogleCloudRunV2Job extends \Google\Collection
   public $clientVersion;
   protected $conditionsType = GoogleCloudRunV2Condition::class;
   protected $conditionsDataType = 'array';
+  public $conditions;
   /**
    * @var string
    */
@@ -74,6 +76,7 @@ class GoogleCloudRunV2Job extends \Google\Collection
   public $lastModifier;
   protected $latestCreatedExecutionType = GoogleCloudRunV2ExecutionReference::class;
   protected $latestCreatedExecutionDataType = '';
+  public $latestCreatedExecution;
   /**
    * @var string
    */
@@ -92,8 +95,10 @@ class GoogleCloudRunV2Job extends \Google\Collection
   public $reconciling;
   protected $templateType = GoogleCloudRunV2ExecutionTemplate::class;
   protected $templateDataType = '';
+  public $template;
   protected $terminalConditionType = GoogleCloudRunV2Condition::class;
   protected $terminalConditionDataType = '';
+  public $terminalCondition;
   /**
    * @var string
    */

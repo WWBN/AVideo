@@ -21,6 +21,7 @@ class GoogleCloudContentwarehouseV1UpdateDocumentSchemaRequest extends \Google\M
 {
   protected $documentSchemaType = GoogleCloudContentwarehouseV1DocumentSchema::class;
   protected $documentSchemaDataType = '';
+  public $documentSchema;
 
   /**
    * @param GoogleCloudContentwarehouseV1DocumentSchema

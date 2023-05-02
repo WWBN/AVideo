@@ -30,7 +30,7 @@ use Google\Service\Eventarc\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $eventarcService = new Google\Service\Eventarc(...);
- *   $channelConnections = $eventarcService->channelConnections;
+ *   $channelConnections = $eventarcService->projects_locations_channelConnections;
  *  </code>
  */
 class ProjectsLocationsChannelConnections extends \Google\Service\Resource

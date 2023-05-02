@@ -33,6 +33,7 @@ class GoogleCloudDialogflowCxV3Deployment extends \Google\Model
   public $name;
   protected $resultType = GoogleCloudDialogflowCxV3DeploymentResult::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */

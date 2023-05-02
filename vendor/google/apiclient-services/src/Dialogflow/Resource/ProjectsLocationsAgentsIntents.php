@@ -26,7 +26,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $intents = $dialogflowService->intents;
+ *   $intents = $dialogflowService->projects_locations_agents_intents;
  *  </code>
  */
 class ProjectsLocationsAgentsIntents extends \Google\Service\Resource

@@ -27,7 +27,7 @@ use Google\Service\PubsubLite\TopicPartitions;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $topics = $pubsubliteService->topics;
+ *   $topics = $pubsubliteService->admin_projects_locations_topics;
  *  </code>
  */
 class AdminProjectsLocationsTopics extends \Google\Service\Resource

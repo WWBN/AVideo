@@ -25,6 +25,7 @@ class AssistantApiCoreTypesGovernedRingtoneTaskMetadata extends \Google\Model
   public $category;
   protected $characterAlarmMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataCharacterAlarmMetadata::class;
   protected $characterAlarmMetadataDataType = '';
+  public $characterAlarmMetadata;
   /**
    * @var string
    */
@@ -35,18 +36,23 @@ class AssistantApiCoreTypesGovernedRingtoneTaskMetadata extends \Google\Model
   public $entityMid;
   protected $funtimeMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataFuntimeMetadata::class;
   protected $funtimeMetadataDataType = '';
+  public $funtimeMetadata;
   protected $genMlAlarmMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataGenMlAlarmMetadata::class;
   protected $genMlAlarmMetadataDataType = '';
+  public $genMlAlarmMetadata;
   protected $gentleWakeInfoType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataGentleWakeInfo::class;
   protected $gentleWakeInfoDataType = '';
+  public $gentleWakeInfo;
   protected $onDeviceAlarmMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataOnDeviceAlarmMetadata::class;
   protected $onDeviceAlarmMetadataDataType = '';
+  public $onDeviceAlarmMetadata;
   /**
    * @var string
    */
   public $onDeviceAlarmSound;
   protected $routineAlarmMetadataType = AssistantApiCoreTypesGovernedRingtoneTaskMetadataRoutineAlarmMetadata::class;
   protected $routineAlarmMetadataDataType = '';
+  public $routineAlarmMetadata;
 
   /**
    * @param string

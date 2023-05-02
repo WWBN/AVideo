@@ -22,6 +22,7 @@ class DeploymentmanagerResource extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $accessControlType = ResourceAccessControl::class;
   protected $accessControlDataType = '';
+  public $accessControl;
   /**
    * @var string
    */
@@ -52,6 +53,7 @@ class DeploymentmanagerResource extends \Google\Collection
   public $type;
   protected $updateType = ResourceUpdate::class;
   protected $updateDataType = '';
+  public $update;
   /**
    * @var string
    */
@@ -62,6 +64,7 @@ class DeploymentmanagerResource extends \Google\Collection
   public $url;
   protected $warningsType = DeploymentmanagerResourceWarnings::class;
   protected $warningsDataType = 'array';
+  public $warnings;
 
   /**
    * @param ResourceAccessControl

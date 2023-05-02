@@ -22,6 +22,7 @@ class CustomMetrics extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = CustomMetric::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var int
    */

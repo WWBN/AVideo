@@ -24,7 +24,7 @@ use Google\Service\CloudBuild\ListGitLabRepositoriesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $repos = $cloudbuildService->repos;
+ *   $repos = $cloudbuildService->projects_locations_gitLabConfigs_repos;
  *  </code>
  */
 class ProjectsLocationsGitLabConfigsRepos extends \Google\Service\Resource

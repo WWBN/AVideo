@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2InfoTypeDescription extends \Google\Collection
   protected $collection_key = 'versions';
   protected $categoriesType = GooglePrivacyDlpV2InfoTypeCategory::class;
   protected $categoriesDataType = 'array';
+  public $categories;
   /**
    * @var string
    */
@@ -36,12 +37,14 @@ class GooglePrivacyDlpV2InfoTypeDescription extends \Google\Collection
   public $name;
   protected $sensitivityScoreType = GooglePrivacyDlpV2SensitivityScore::class;
   protected $sensitivityScoreDataType = '';
+  public $sensitivityScore;
   /**
    * @var string[]
    */
   public $supportedBy;
   protected $versionsType = GooglePrivacyDlpV2VersionDescription::class;
   protected $versionsDataType = 'array';
+  public $versions;
 
   /**
    * @param GooglePrivacyDlpV2InfoTypeCategory[]

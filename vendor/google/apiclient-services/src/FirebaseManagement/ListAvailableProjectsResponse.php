@@ -26,6 +26,7 @@ class ListAvailableProjectsResponse extends \Google\Collection
   public $nextPageToken;
   protected $projectInfoType = ProjectInfo::class;
   protected $projectInfoDataType = 'array';
+  public $projectInfo;
 
   /**
    * @param string

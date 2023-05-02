@@ -27,7 +27,7 @@ use Google\Service\BigQueryDataTransfer\Location;
  * Typical usage is:
  *  <code>
  *   $bigquerydatatransferService = new Google\Service\BigQueryDataTransfer(...);
- *   $locations = $bigquerydatatransferService->locations;
+ *   $locations = $bigquerydatatransferService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

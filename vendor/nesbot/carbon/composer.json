@@ -47,7 +47,7 @@
         "symfony/translation": "^3.4 || ^4.0 || ^5.0 || ^6.0"
     },
     "require-dev": {
-        "doctrine/dbal": "^2.0 || ^3.0",
+        "doctrine/dbal": "^2.0 || ^3.1.4",
         "doctrine/orm": "^2.7",
         "friendsofphp/php-cs-fixer": "^3.0",
         "kylekatarnls/multi-tester": "^2.0",
@@ -105,6 +105,7 @@
         "phpcs": "php-cs-fixer fix -v --diff --dry-run",
         "phpdoc": "php phpdoc.php",
         "phpmd": "phpmd src text /phpmd.xml",
+        "phpmd-test": "phpmd tests text /tests/phpmd-test.xml",
         "phpstan": "phpstan analyse --configuration phpstan.neon",
         "phpunit": "phpunit --verbose",
         "style-check": [

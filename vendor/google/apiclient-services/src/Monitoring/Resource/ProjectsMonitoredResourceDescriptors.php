@@ -25,7 +25,7 @@ use Google\Service\Monitoring\MonitoredResourceDescriptor;
  * Typical usage is:
  *  <code>
  *   $monitoringService = new Google\Service\Monitoring(...);
- *   $monitoredResourceDescriptors = $monitoringService->monitoredResourceDescriptors;
+ *   $monitoredResourceDescriptors = $monitoringService->projects_monitoredResourceDescriptors;
  *  </code>
  */
 class ProjectsMonitoredResourceDescriptors extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class SuggestedParagraphStyle extends \Google\Model
 {
   protected $paragraphStyleType = ParagraphStyle::class;
   protected $paragraphStyleDataType = '';
+  public $paragraphStyle;
   protected $paragraphStyleSuggestionStateType = ParagraphStyleSuggestionState::class;
   protected $paragraphStyleSuggestionStateDataType = '';
+  public $paragraphStyleSuggestionState;
 
   /**
    * @param ParagraphStyle

@@ -153,7 +153,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$users_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -178,7 +178,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? ORDER BY modified DESC LIMIT 1, 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$users_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -201,7 +201,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ?  AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1, 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$users_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -224,7 +224,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "i", [$users_id], true);
+        $res = sqlDAL::readSql($sql, "i", [$users_id]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -247,7 +247,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND uniqidV4 = ? AND status = '".logincontrol_history_status::$CONFIRMED."' ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4], true);
+        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
@@ -264,7 +264,7 @@ class logincontrol_history extends ObjectYPT
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? AND uniqidV4 = ? ORDER BY modified DESC LIMIT 1";
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
-        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4], true);
+        $res = sqlDAL::readSql($sql, "is", [$users_id, $uniqidV4]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

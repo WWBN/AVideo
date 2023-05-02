@@ -26,6 +26,7 @@ class ForwardingRulesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = ForwardingRulesScopedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

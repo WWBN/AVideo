@@ -30,16 +30,20 @@ class RestoreConfig extends \Google\Collection
   public $clusterResourceConflictPolicy;
   protected $clusterResourceRestoreScopeType = ClusterResourceRestoreScope::class;
   protected $clusterResourceRestoreScopeDataType = '';
+  public $clusterResourceRestoreScope;
   /**
    * @var string
    */
   public $namespacedResourceRestoreMode;
   protected $selectedApplicationsType = NamespacedNames::class;
   protected $selectedApplicationsDataType = '';
+  public $selectedApplications;
   protected $selectedNamespacesType = Namespaces::class;
   protected $selectedNamespacesDataType = '';
+  public $selectedNamespaces;
   protected $substitutionRulesType = SubstitutionRule::class;
   protected $substitutionRulesDataType = 'array';
+  public $substitutionRules;
   /**
    * @var string
    */

@@ -22,24 +22,30 @@ class GooglePrivacyDlpV2CustomInfoType extends \Google\Collection
   protected $collection_key = 'detectionRules';
   protected $detectionRulesType = GooglePrivacyDlpV2DetectionRule::class;
   protected $detectionRulesDataType = 'array';
+  public $detectionRules;
   protected $dictionaryType = GooglePrivacyDlpV2Dictionary::class;
   protected $dictionaryDataType = '';
+  public $dictionary;
   /**
    * @var string
    */
   public $exclusionType;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
   /**
    * @var string
    */
   public $likelihood;
   protected $regexType = GooglePrivacyDlpV2Regex::class;
   protected $regexDataType = '';
+  public $regex;
   protected $storedTypeType = GooglePrivacyDlpV2StoredType::class;
   protected $storedTypeDataType = '';
+  public $storedType;
   protected $surrogateTypeType = GooglePrivacyDlpV2SurrogateType::class;
   protected $surrogateTypeDataType = '';
+  public $surrogateType;
 
   /**
    * @param GooglePrivacyDlpV2DetectionRule[]

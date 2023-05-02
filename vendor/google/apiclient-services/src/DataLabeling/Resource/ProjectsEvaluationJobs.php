@@ -29,7 +29,7 @@ use Google\Service\DataLabeling\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $evaluationJobs = $datalabelingService->evaluationJobs;
+ *   $evaluationJobs = $datalabelingService->projects_evaluationJobs;
  *  </code>
  */
 class ProjectsEvaluationJobs extends \Google\Service\Resource

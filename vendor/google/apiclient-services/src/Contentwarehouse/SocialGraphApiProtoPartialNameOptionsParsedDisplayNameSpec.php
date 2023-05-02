@@ -26,6 +26,10 @@ class SocialGraphApiProtoPartialNameOptionsParsedDisplayNameSpec extends \Google
   /**
    * @var bool
    */
+  public $firstInitialAndFirstLastName;
+  /**
+   * @var bool
+   */
   public $firstInitialAndVeryLastName;
   /**
    * @var bool
@@ -57,6 +61,20 @@ class SocialGraphApiProtoPartialNameOptionsParsedDisplayNameSpec extends \Google
   public function getAllInitialsFromParsedName()
   {
     return $this->allInitialsFromParsedName;
+  }
+  /**
+   * @param bool
+   */
+  public function setFirstInitialAndFirstLastName($firstInitialAndFirstLastName)
+  {
+    $this->firstInitialAndFirstLastName = $firstInitialAndFirstLastName;
+  }
+  /**
+   * @return bool
+   */
+  public function getFirstInitialAndFirstLastName()
+  {
+    return $this->firstInitialAndFirstLastName;
   }
   /**
    * @param bool

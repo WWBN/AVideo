@@ -25,7 +25,7 @@ use Google\Service\Contactcenterinsights\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $insightsdata = $contactcenterinsightsService->insightsdata;
+ *   $insightsdata = $contactcenterinsightsService->projects_locations_insightsdata;
  *  </code>
  */
 class ProjectsLocationsInsightsdata extends \Google\Service\Resource

@@ -22,16 +22,20 @@ class GeostoreParkingProto extends \Google\Collection
   protected $collection_key = 'restriction';
   protected $allowanceType = GeostoreParkingAllowanceProto::class;
   protected $allowanceDataType = 'array';
+  public $allowance;
   protected $openingHoursType = GeostoreOpeningHoursProto::class;
   protected $openingHoursDataType = '';
+  public $openingHours;
   /**
    * @var bool
    */
   public $parkingAvailable;
   protected $parkingProviderFeatureType = GeostoreFeatureIdProto::class;
   protected $parkingProviderFeatureDataType = 'array';
+  public $parkingProviderFeature;
   protected $restrictionType = GeostoreParkingRestrictionProto::class;
   protected $restrictionDataType = 'array';
+  public $restriction;
 
   /**
    * @param GeostoreParkingAllowanceProto[]

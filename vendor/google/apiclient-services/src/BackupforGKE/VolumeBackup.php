@@ -45,6 +45,7 @@ class VolumeBackup extends \Google\Model
   public $name;
   protected $sourcePvcType = NamespacedName::class;
   protected $sourcePvcDataType = '';
+  public $sourcePvc;
   /**
    * @var string
    */

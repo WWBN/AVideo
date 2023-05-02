@@ -22,6 +22,7 @@ class PosCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = PosCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
   /**
    * @var string
    */

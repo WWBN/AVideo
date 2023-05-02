@@ -21,6 +21,7 @@ class ExecuteSqlRequest extends \Google\Model
 {
   protected $paramTypesType = Type::class;
   protected $paramTypesDataType = 'map';
+  public $paramTypes;
   /**
    * @var array[]
    */
@@ -35,8 +36,10 @@ class ExecuteSqlRequest extends \Google\Model
   public $queryMode;
   protected $queryOptionsType = QueryOptions::class;
   protected $queryOptionsDataType = '';
+  public $queryOptions;
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
+  public $requestOptions;
   /**
    * @var string
    */
@@ -51,6 +54,7 @@ class ExecuteSqlRequest extends \Google\Model
   public $sql;
   protected $transactionType = TransactionSelector::class;
   protected $transactionDataType = '';
+  public $transaction;
 
   /**
    * @param Type[]

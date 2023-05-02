@@ -26,6 +26,7 @@ class Resources extends \Google\Collection
   public $regions;
   protected $virtualMachineType = VirtualMachine::class;
   protected $virtualMachineDataType = '';
+  public $virtualMachine;
   /**
    * @var string[]
    */

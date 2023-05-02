@@ -22,8 +22,10 @@ class RoutesConfigDump extends \Google\Collection
   protected $collection_key = 'staticRouteConfigs';
   protected $dynamicRouteConfigsType = DynamicRouteConfig::class;
   protected $dynamicRouteConfigsDataType = 'array';
+  public $dynamicRouteConfigs;
   protected $staticRouteConfigsType = StaticRouteConfig::class;
   protected $staticRouteConfigsDataType = 'array';
+  public $staticRouteConfigs;
 
   /**
    * @param DynamicRouteConfig[]

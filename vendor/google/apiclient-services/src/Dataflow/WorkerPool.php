@@ -22,8 +22,10 @@ class WorkerPool extends \Google\Collection
   protected $collection_key = 'sdkHarnessContainerImages';
   protected $autoscalingSettingsType = AutoscalingSettings::class;
   protected $autoscalingSettingsDataType = '';
+  public $autoscalingSettings;
   protected $dataDisksType = Disk::class;
   protected $dataDisksDataType = 'array';
+  public $dataDisks;
   /**
    * @var string
    */
@@ -74,18 +76,21 @@ class WorkerPool extends \Google\Collection
   public $onHostMaintenance;
   protected $packagesType = Package::class;
   protected $packagesDataType = 'array';
+  public $packages;
   /**
    * @var array[]
    */
   public $poolArgs;
   protected $sdkHarnessContainerImagesType = SdkHarnessContainerImage::class;
   protected $sdkHarnessContainerImagesDataType = 'array';
+  public $sdkHarnessContainerImages;
   /**
    * @var string
    */
   public $subnetwork;
   protected $taskrunnerSettingsType = TaskRunnerSettings::class;
   protected $taskrunnerSettingsDataType = '';
+  public $taskrunnerSettings;
   /**
    * @var string
    */

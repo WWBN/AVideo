@@ -21,8 +21,10 @@ class KeyValueFormat extends \Google\Model
 {
   protected $positionType = TextPosition::class;
   protected $positionDataType = '';
+  public $position;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
 
   /**
    * @param TextPosition

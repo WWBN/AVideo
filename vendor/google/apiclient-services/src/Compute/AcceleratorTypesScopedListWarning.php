@@ -26,6 +26,7 @@ class AcceleratorTypesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = AcceleratorTypesScopedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

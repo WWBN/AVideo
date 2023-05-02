@@ -25,10 +25,13 @@ class GoogleCloudDialogflowCxV3CalculateCoverageResponse extends \Google\Model
   public $agent;
   protected $intentCoverageType = GoogleCloudDialogflowCxV3IntentCoverage::class;
   protected $intentCoverageDataType = '';
+  public $intentCoverage;
   protected $routeGroupCoverageType = GoogleCloudDialogflowCxV3TransitionRouteGroupCoverage::class;
   protected $routeGroupCoverageDataType = '';
+  public $routeGroupCoverage;
   protected $transitionCoverageType = GoogleCloudDialogflowCxV3TransitionCoverage::class;
   protected $transitionCoverageDataType = '';
+  public $transitionCoverage;
 
   /**
    * @param string

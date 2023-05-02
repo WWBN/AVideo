@@ -25,12 +25,14 @@ class GenerateSshScriptRequest extends \Google\Model
   public $vm;
   protected $vmCreationConfigType = VmCreationConfig::class;
   protected $vmCreationConfigDataType = '';
+  public $vmCreationConfig;
   /**
    * @var int
    */
   public $vmPort;
   protected $vmSelectionConfigType = VmSelectionConfig::class;
   protected $vmSelectionConfigDataType = '';
+  public $vmSelectionConfig;
 
   /**
    * @param string

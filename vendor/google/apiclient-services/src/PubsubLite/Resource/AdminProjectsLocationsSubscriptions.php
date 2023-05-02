@@ -28,7 +28,7 @@ use Google\Service\PubsubLite\Subscription;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $subscriptions = $pubsubliteService->subscriptions;
+ *   $subscriptions = $pubsubliteService->admin_projects_locations_subscriptions;
  *  </code>
  */
 class AdminProjectsLocationsSubscriptions extends \Google\Service\Resource

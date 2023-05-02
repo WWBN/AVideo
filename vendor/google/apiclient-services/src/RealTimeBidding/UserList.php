@@ -41,6 +41,7 @@ class UserList extends \Google\Model
   public $status;
   protected $urlRestrictionType = UrlRestriction::class;
   protected $urlRestrictionDataType = '';
+  public $urlRestriction;
 
   /**
    * @param string

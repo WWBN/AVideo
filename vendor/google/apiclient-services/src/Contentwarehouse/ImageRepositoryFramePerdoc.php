@@ -21,8 +21,10 @@ class ImageRepositoryFramePerdoc extends \Google\Model
 {
   protected $frameIdentifierType = ImageRepositoryFrameIdentifier::class;
   protected $frameIdentifierDataType = '';
+  public $frameIdentifier;
   protected $perdocType = ImageData::class;
   protected $perdocDataType = '';
+  public $perdoc;
   /**
    * @var int
    */

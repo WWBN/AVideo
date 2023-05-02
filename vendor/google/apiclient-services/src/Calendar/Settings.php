@@ -26,6 +26,7 @@ class Settings extends \Google\Collection
   public $etag;
   protected $itemsType = Setting::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

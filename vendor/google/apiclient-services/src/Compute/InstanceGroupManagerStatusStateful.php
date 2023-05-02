@@ -25,6 +25,7 @@ class InstanceGroupManagerStatusStateful extends \Google\Model
   public $hasStatefulConfig;
   protected $perInstanceConfigsType = InstanceGroupManagerStatusStatefulPerInstanceConfigs::class;
   protected $perInstanceConfigsDataType = '';
+  public $perInstanceConfigs;
 
   /**
    * @param bool

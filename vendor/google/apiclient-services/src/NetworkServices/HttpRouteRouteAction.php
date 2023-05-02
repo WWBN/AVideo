@@ -22,26 +22,35 @@ class HttpRouteRouteAction extends \Google\Collection
   protected $collection_key = 'destinations';
   protected $corsPolicyType = HttpRouteCorsPolicy::class;
   protected $corsPolicyDataType = '';
+  public $corsPolicy;
   protected $destinationsType = HttpRouteDestination::class;
   protected $destinationsDataType = 'array';
+  public $destinations;
   protected $faultInjectionPolicyType = HttpRouteFaultInjectionPolicy::class;
   protected $faultInjectionPolicyDataType = '';
+  public $faultInjectionPolicy;
   protected $redirectType = HttpRouteRedirect::class;
   protected $redirectDataType = '';
+  public $redirect;
   protected $requestHeaderModifierType = HttpRouteHeaderModifier::class;
   protected $requestHeaderModifierDataType = '';
+  public $requestHeaderModifier;
   protected $requestMirrorPolicyType = HttpRouteRequestMirrorPolicy::class;
   protected $requestMirrorPolicyDataType = '';
+  public $requestMirrorPolicy;
   protected $responseHeaderModifierType = HttpRouteHeaderModifier::class;
   protected $responseHeaderModifierDataType = '';
+  public $responseHeaderModifier;
   protected $retryPolicyType = HttpRouteRetryPolicy::class;
   protected $retryPolicyDataType = '';
+  public $retryPolicy;
   /**
    * @var string
    */
   public $timeout;
   protected $urlRewriteType = HttpRouteURLRewrite::class;
   protected $urlRewriteDataType = '';
+  public $urlRewrite;
 
   /**
    * @param HttpRouteCorsPolicy

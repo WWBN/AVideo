@@ -22,7 +22,7 @@ namespace Google\Service\OSConfig\Resource;
  * Typical usage is:
  *  <code>
  *   $osconfigService = new Google\Service\OSConfig(...);
- *   $osPolicyAssignments = $osconfigService->osPolicyAssignments;
+ *   $osPolicyAssignments = $osconfigService->projects_locations_instances_osPolicyAssignments;
  *  </code>
  */
 class ProjectsLocationsInstancesOsPolicyAssignments extends \Google\Service\Resource

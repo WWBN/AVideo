@@ -34,6 +34,7 @@ class GoogleCloudDialogflowV2beta1EntityType extends \Google\Collection
   public $enableFuzzyExtraction;
   protected $entitiesType = GoogleCloudDialogflowV2beta1EntityTypeEntity::class;
   protected $entitiesDataType = 'array';
+  public $entities;
   /**
    * @var string
    */

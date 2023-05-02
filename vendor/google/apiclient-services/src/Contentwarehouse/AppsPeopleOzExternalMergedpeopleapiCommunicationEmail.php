@@ -21,6 +21,7 @@ class AppsPeopleOzExternalMergedpeopleapiCommunicationEmail extends \Google\Mode
 {
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */

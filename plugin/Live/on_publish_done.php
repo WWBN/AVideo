@@ -58,7 +58,8 @@ if (strpos($_GET['p'], '/') !== false) {
 }
 
 Live::deleteStatsCache(true);
-$row = LiveTransmitionHistory::getLatest($_POST['name'], $row['live_servers_id'], true);
+$live_servers_id = Live::getLiveServersIdRequest();
+$row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, true);
 $insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 _error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} id={$row['id']} key={$row['key']} live_servers_id={$row['live_servers_id']} insert_row={$insert_row}");
 Live::killIfIsRunning($row['key']);
@@ -67,4 +68,8 @@ $parameters = Live::getLiveParametersFromKey($array['key']);
 $array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
-AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
+if(empty($row)){
+    _error_log("NGINX ON Publish Done error LiveTransmitionHistory::getLatest({$_POST['name']}, $live_servers_id, true);");
+}else{
+    AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
+}

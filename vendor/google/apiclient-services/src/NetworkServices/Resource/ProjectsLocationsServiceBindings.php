@@ -30,7 +30,7 @@ use Google\Service\NetworkServices\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $networkservicesService = new Google\Service\NetworkServices(...);
- *   $serviceBindings = $networkservicesService->serviceBindings;
+ *   $serviceBindings = $networkservicesService->projects_locations_serviceBindings;
  *  </code>
  */
 class ProjectsLocationsServiceBindings extends \Google\Service\Resource

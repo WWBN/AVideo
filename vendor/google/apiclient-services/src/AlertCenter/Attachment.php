@@ -21,6 +21,7 @@ class Attachment extends \Google\Model
 {
   protected $csvType = Csv::class;
   protected $csvDataType = '';
+  public $csv;
 
   /**
    * @param Csv

@@ -30,7 +30,7 @@ use Google\Service\CloudBuild\RunBuildTriggerRequest;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $triggers = $cloudbuildService->triggers;
+ *   $triggers = $cloudbuildService->projects_locations_triggers;
  *  </code>
  */
 class ProjectsLocationsTriggers extends \Google\Service\Resource
@@ -137,8 +137,10 @@ class ProjectsLocationsTriggers extends \Google\Service\Resource
   /**
    * Runs a `BuildTrigger` at a particular source revision. To run a regional or
    * global trigger, use the POST request that includes the location endpoint in
-   * the path. The POST request that does not include the location endpoint in the
-   * path can only be used when running global triggers. (triggers.run)
+   * the path (ex.
+   * v1/projects/{projectId}/locations/{region}/triggers/{triggerId}:run). The
+   * POST request that does not include the location endpoint in the path can only
+   * be used when running global triggers. (triggers.run)
    *
    * @param string $name The name of the `Trigger` to run. Format:
    * `projects/{project}/locations/{location}/triggers/{trigger}`

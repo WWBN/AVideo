@@ -1,3 +1,8 @@
+<?php
+if(empty($obj) || !isset($obj->categoriesTopButtonsFluid)){
+    $obj = AVideoPlugin::loadPlugin('Layout');
+}
+?>
 <style>
     .categoriesTobButtons{
         border: none;
@@ -8,7 +13,7 @@
 </style>
 <div class="container-fluid">
     <div class="row">
-        <div class="<?php echo $obj->categoriesTopButtonsFluid ? '' : 'col-lg-10 col-lg-offset-1'; ?>">
+        <div class="<?php echo empty($obj->categoriesTopButtonsFluid) ? '' : 'col-lg-10 col-lg-offset-1'; ?>">
             
     <center>
         <ul class="nav nav-tabs nav-tabs-horizontal categoriesTobButtons" >
@@ -34,9 +39,9 @@
                     continue;
                 }
                 ?>
-                <li data-toggle="tooltip" title="<?php echo __($value['name']); ?>" data-placement="bottom">
-                    <a href="<?php echo Category::getCategoryLinkFromName($value['clean_name']); ?>" 
-                       class="<?php echo ($value['clean_name'] == @$_GET['catName'] ? "active" : ""); ?>">
+                <li data-toggle="tooltip" title="<?php echo __($value['name']); ?>" data-placement="bottom"
+                       class="<?php echo ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : ""); ?>">
+                    <a href="<?php echo Category::getCategoryLinkFromName($value['clean_name']); ?>" >
                            <?php
                            echo '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  '
                            . '<span class="">' . __($value['name']) . '</span>';

@@ -33,7 +33,7 @@ use Google\Service\Cloudchannel\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $cloudchannelService = new Google\Service\Cloudchannel(...);
- *   $customers = $cloudchannelService->customers;
+ *   $customers = $cloudchannelService->accounts_customers;
  *  </code>
  */
 class AccountsCustomers extends \Google\Service\Resource

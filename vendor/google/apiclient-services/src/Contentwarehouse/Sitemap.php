@@ -30,8 +30,13 @@ class Sitemap extends \Google\Collection
   public $dEPRECATEDSourceTitle;
   protected $targetGroupsType = QualitySitemapTargetGroup::class;
   protected $targetGroupsDataType = 'array';
+  public $targetGroups;
   protected $deprecatedTargetType = SitemapDEPRECATEDTarget::class;
   protected $deprecatedTargetDataType = 'array';
+  public $deprecatedTarget;
+  protected $pageAnchorsDocInfoType = SdrPageAnchorsDocInfo::class;
+  protected $pageAnchorsDocInfoDataType = '';
+  public $pageAnchorsDocInfo;
   /**
    * @var bool
    */
@@ -50,6 +55,7 @@ class Sitemap extends \Google\Collection
   public $sourceUrl;
   protected $subresultListType = QualitySitemapSubresultList::class;
   protected $subresultListDataType = '';
+  public $subresultList;
 
   /**
    * @param string
@@ -92,6 +98,20 @@ class Sitemap extends \Google\Collection
   public function getDeprecatedTarget()
   {
     return $this->deprecatedTarget;
+  }
+  /**
+   * @param SdrPageAnchorsDocInfo
+   */
+  public function setPageAnchorsDocInfo(SdrPageAnchorsDocInfo $pageAnchorsDocInfo)
+  {
+    $this->pageAnchorsDocInfo = $pageAnchorsDocInfo;
+  }
+  /**
+   * @return SdrPageAnchorsDocInfo
+   */
+  public function getPageAnchorsDocInfo()
+  {
+    return $this->pageAnchorsDocInfo;
   }
   /**
    * @param bool

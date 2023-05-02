@@ -20,19 +20,41 @@ namespace Google\Service\Contentwarehouse;
 class GeostorePriceListProto extends \Google\Collection
 {
   protected $collection_key = 'section';
+  /**
+   * @var string
+   */
+  public $aggregatorId;
   protected $availableTimeType = GeostoreTimeScheduleProto::class;
   protected $availableTimeDataType = '';
+  public $availableTime;
   /**
    * @var string[]
    */
   public $cuisines;
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
+  public $nameInfo;
   protected $sectionType = GeostorePriceListSectionProto::class;
   protected $sectionDataType = 'array';
+  public $section;
   protected $sourceUrlType = GeostoreUrlListProto::class;
   protected $sourceUrlDataType = '';
+  public $sourceUrl;
 
+  /**
+   * @param string
+   */
+  public function setAggregatorId($aggregatorId)
+  {
+    $this->aggregatorId = $aggregatorId;
+  }
+  /**
+   * @return string
+   */
+  public function getAggregatorId()
+  {
+    return $this->aggregatorId;
+  }
   /**
    * @param GeostoreTimeScheduleProto
    */

@@ -21,6 +21,7 @@ class CampaignFlight extends \Google\Model
 {
   protected $plannedDatesType = DateRange::class;
   protected $plannedDatesDataType = '';
+  public $plannedDates;
   /**
    * @var string
    */

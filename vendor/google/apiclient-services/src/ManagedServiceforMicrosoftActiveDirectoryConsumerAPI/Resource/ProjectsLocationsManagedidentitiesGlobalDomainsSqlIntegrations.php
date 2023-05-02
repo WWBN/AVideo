@@ -25,7 +25,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\SqlInteg
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $sqlIntegrations = $managedidentitiesService->sqlIntegrations;
+ *   $sqlIntegrations = $managedidentitiesService->projects_locations_global_domains_sqlIntegrations;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobalDomainsSqlIntegrations extends \Google\Service\Resource

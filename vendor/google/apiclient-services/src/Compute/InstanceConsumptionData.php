@@ -21,6 +21,7 @@ class InstanceConsumptionData extends \Google\Model
 {
   protected $consumptionInfoType = InstanceConsumptionInfo::class;
   protected $consumptionInfoDataType = '';
+  public $consumptionInfo;
   /**
    * @var string
    */

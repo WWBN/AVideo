@@ -22,12 +22,14 @@ class UserPermission extends \Google\Collection
   protected $collection_key = 'containerAccess';
   protected $accountAccessType = AccountAccess::class;
   protected $accountAccessDataType = '';
+  public $accountAccess;
   /**
    * @var string
    */
   public $accountId;
   protected $containerAccessType = ContainerAccess::class;
   protected $containerAccessDataType = 'array';
+  public $containerAccess;
   /**
    * @var string
    */

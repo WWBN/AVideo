@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2DateShiftConfig extends \Google\Model
 {
   protected $contextType = GooglePrivacyDlpV2FieldId::class;
   protected $contextDataType = '';
+  public $context;
   protected $cryptoKeyType = GooglePrivacyDlpV2CryptoKey::class;
   protected $cryptoKeyDataType = '';
+  public $cryptoKey;
   /**
    * @var int
    */

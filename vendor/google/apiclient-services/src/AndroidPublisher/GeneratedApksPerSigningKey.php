@@ -26,12 +26,16 @@ class GeneratedApksPerSigningKey extends \Google\Collection
   public $certificateSha256Hash;
   protected $generatedAssetPackSlicesType = GeneratedAssetPackSlice::class;
   protected $generatedAssetPackSlicesDataType = 'array';
+  public $generatedAssetPackSlices;
   protected $generatedSplitApksType = GeneratedSplitApk::class;
   protected $generatedSplitApksDataType = 'array';
+  public $generatedSplitApks;
   protected $generatedStandaloneApksType = GeneratedStandaloneApk::class;
   protected $generatedStandaloneApksDataType = 'array';
+  public $generatedStandaloneApks;
   protected $generatedUniversalApkType = GeneratedUniversalApk::class;
   protected $generatedUniversalApkDataType = '';
+  public $generatedUniversalApk;
 
   /**
    * @param string

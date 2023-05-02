@@ -26,6 +26,7 @@ class MysqlDatabase extends \Google\Collection
   public $database;
   protected $mysqlTablesType = MysqlTable::class;
   protected $mysqlTablesDataType = 'array';
+  public $mysqlTables;
 
   /**
    * @param string

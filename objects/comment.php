@@ -10,6 +10,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 class Comment {
+    protected $properties = [];
 
     protected $id;
     protected $comment;
@@ -29,7 +30,7 @@ class Comment {
             $this->load($id);
         }
     }
-    
+
     public function getPin() {
         return $this->pin;
     }
@@ -37,7 +38,7 @@ class Comment {
     public function setPin($pin): void {
         $this->pin = intval($pin);
     }
-    
+
     public function getId() {
         return $this->id;
     }
@@ -68,7 +69,8 @@ class Comment {
             return false;
         }
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
@@ -87,7 +89,7 @@ class Comment {
         if (empty($this->comments_id_pai)) {
             $this->comments_id_pai = 'NULL';
         }
-        
+
         $this->pin = intval($this->pin);
 
         if (empty($this->videos_id) && !empty($this->comments_id_pai)) {
@@ -151,7 +153,7 @@ class Comment {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$id], true);
+        $res = sqlDAL::readSql($sql, "i", [$id]);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res != false) ? $result : false;
@@ -173,7 +175,7 @@ class Comment {
             $sql .= ", 0 as myVote ";
         }
 
-        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 ";
+        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 AND u.status = 'a' ";
 
         if (!empty($videoId)) {
             $sql .= " AND videos_id = ? ";
@@ -375,13 +377,13 @@ class Comment {
         return $commentsArray;
     }
 
-    static function addExtraInfo2($row) {        
+    static function addExtraInfo2($row) {
         if(empty($row['commentHTML'])){
             $row['comment'] = str_replace('\n', "\n", $row['comment']);
             $row['commentPlain'] = xss_esc_back($row['comment']);
             $row['commentHTML'] = nl2br($row['commentPlain']);
         }
-                
+
         $row['identification'] = User::getNameIdentificationById($row['users_id']);
         $row['commentWithLinks'] = self::fixCommentText(textToLink($row['commentHTML']));
         $row['humanTiming'] = humanTiming(strtotime($row['created']));
@@ -408,5 +410,4 @@ class Comment {
         $replace = ["<br/>"];
         return stripslashes(str_replace($search, $replace, $subject));
     }
-
 }

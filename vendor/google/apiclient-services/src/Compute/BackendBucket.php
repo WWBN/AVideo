@@ -26,6 +26,7 @@ class BackendBucket extends \Google\Collection
   public $bucketName;
   protected $cdnPolicyType = BackendBucketCdnPolicy::class;
   protected $cdnPolicyDataType = '';
+  public $cdnPolicy;
   /**
    * @var string
    */

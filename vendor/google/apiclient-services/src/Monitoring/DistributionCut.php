@@ -25,6 +25,7 @@ class DistributionCut extends \Google\Model
   public $distributionFilter;
   protected $rangeType = GoogleMonitoringV3Range::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param string

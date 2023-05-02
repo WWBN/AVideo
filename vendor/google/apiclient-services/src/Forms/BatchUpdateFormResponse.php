@@ -22,10 +22,13 @@ class BatchUpdateFormResponse extends \Google\Collection
   protected $collection_key = 'replies';
   protected $formType = Form::class;
   protected $formDataType = '';
+  public $form;
   protected $repliesType = Response::class;
   protected $repliesDataType = 'array';
+  public $replies;
   protected $writeControlType = WriteControl::class;
   protected $writeControlDataType = '';
+  public $writeControl;
 
   /**
    * @param Form

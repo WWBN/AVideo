@@ -20,10 +20,17 @@ namespace Google\Service\Apigee;
 class GoogleCloudApigeeV1EnvironmentGroupConfig extends \Google\Collection
 {
   protected $collection_key = 'routingRules';
+  protected $endpointChainingRulesType = GoogleCloudApigeeV1EndpointChainingRule::class;
+  protected $endpointChainingRulesDataType = 'array';
+  public $endpointChainingRules;
   /**
    * @var string[]
    */
   public $hostnames;
+  /**
+   * @var string
+   */
+  public $location;
   /**
    * @var string
    */
@@ -34,11 +41,26 @@ class GoogleCloudApigeeV1EnvironmentGroupConfig extends \Google\Collection
   public $revisionId;
   protected $routingRulesType = GoogleCloudApigeeV1RoutingRule::class;
   protected $routingRulesDataType = 'array';
+  public $routingRules;
   /**
    * @var string
    */
   public $uid;
 
+  /**
+   * @param GoogleCloudApigeeV1EndpointChainingRule[]
+   */
+  public function setEndpointChainingRules($endpointChainingRules)
+  {
+    $this->endpointChainingRules = $endpointChainingRules;
+  }
+  /**
+   * @return GoogleCloudApigeeV1EndpointChainingRule[]
+   */
+  public function getEndpointChainingRules()
+  {
+    return $this->endpointChainingRules;
+  }
   /**
    * @param string[]
    */
@@ -52,6 +74,20 @@ class GoogleCloudApigeeV1EnvironmentGroupConfig extends \Google\Collection
   public function getHostnames()
   {
     return $this->hostnames;
+  }
+  /**
+   * @param string
+   */
+  public function setLocation($location)
+  {
+    $this->location = $location;
+  }
+  /**
+   * @return string
+   */
+  public function getLocation()
+  {
+    return $this->location;
   }
   /**
    * @param string

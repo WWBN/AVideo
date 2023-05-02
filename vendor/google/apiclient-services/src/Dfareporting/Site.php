@@ -34,12 +34,14 @@ class Site extends \Google\Collection
   public $directorySiteId;
   protected $directorySiteIdDimensionValueType = DimensionValue::class;
   protected $directorySiteIdDimensionValueDataType = '';
+  public $directorySiteIdDimensionValue;
   /**
    * @var string
    */
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
+  public $idDimensionValue;
   /**
    * @var string
    */
@@ -54,14 +56,17 @@ class Site extends \Google\Collection
   public $name;
   protected $siteContactsType = SiteContact::class;
   protected $siteContactsDataType = 'array';
+  public $siteContacts;
   protected $siteSettingsType = SiteSettings::class;
   protected $siteSettingsDataType = '';
+  public $siteSettings;
   /**
    * @var string
    */
   public $subaccountId;
   protected $videoSettingsType = SiteVideoSettings::class;
   protected $videoSettingsDataType = '';
+  public $videoSettings;
 
   /**
    * @param string

@@ -51,10 +51,17 @@ C:\php-sdk\php-<version>\vc15\x64\php-src
 $ nmake test-awscrt
 ```
 
+Note: for VS2017, Cmake will default to build for Win32, refer to [here](https://cmake.org/cmake/help/latest/generator/Visual%20Studio%2015%202017.html). If you are building for x64 php, you can set environment variable as follow to let cmake pick x64 compiler.
+
+```bat
+set CMAKE_GENERATOR=Visual Studio 15 2017
+set CMAKE_GENERATOR_PLATFORM=x64
+```
+
 ## Debugging
 Using [PHPBrew](https://github.com/phpbrew/phpbrew) to build/manage multiple versions of PHP is helpful.
 
-Note: You must use a debug build of PHP to debug native extensions. 
+Note: You must use a debug build of PHP to debug native extensions.
 See the [PHP Internals Book](https://www.phpinternalsbook.com/php7/build_system/building_php.html) for more info
 
 ```shell

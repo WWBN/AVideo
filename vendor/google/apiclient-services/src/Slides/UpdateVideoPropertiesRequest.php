@@ -29,6 +29,7 @@ class UpdateVideoPropertiesRequest extends \Google\Model
   public $objectId;
   protected $videoPropertiesType = VideoProperties::class;
   protected $videoPropertiesDataType = '';
+  public $videoProperties;
 
   /**
    * @param string

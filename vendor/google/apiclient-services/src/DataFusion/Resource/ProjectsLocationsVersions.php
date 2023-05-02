@@ -24,7 +24,7 @@ use Google\Service\DataFusion\ListAvailableVersionsResponse;
  * Typical usage is:
  *  <code>
  *   $datafusionService = new Google\Service\DataFusion(...);
- *   $versions = $datafusionService->versions;
+ *   $versions = $datafusionService->projects_locations_versions;
  *  </code>
  */
 class ProjectsLocationsVersions extends \Google\Service\Resource

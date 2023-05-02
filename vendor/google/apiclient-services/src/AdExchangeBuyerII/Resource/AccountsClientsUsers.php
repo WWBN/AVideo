@@ -25,7 +25,7 @@ use Google\Service\AdExchangeBuyerII\ListClientUsersResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $users = $adexchangebuyer2Service->users;
+ *   $users = $adexchangebuyer2Service->accounts_clients_users;
  *  </code>
  */
 class AccountsClientsUsers extends \Google\Service\Resource

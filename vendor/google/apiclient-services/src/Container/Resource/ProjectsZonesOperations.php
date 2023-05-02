@@ -27,7 +27,7 @@ use Google\Service\Container\Operation;
  * Typical usage is:
  *  <code>
  *   $containerService = new Google\Service\Container(...);
- *   $operations = $containerService->operations;
+ *   $operations = $containerService->projects_zones_operations;
  *  </code>
  */
 class ProjectsZonesOperations extends \Google\Service\Resource

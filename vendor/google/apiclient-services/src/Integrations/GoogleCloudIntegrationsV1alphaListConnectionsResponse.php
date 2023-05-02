@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListConnectionsResponse extends \Google\Coll
   protected $collection_key = 'connections';
   protected $connectionsType = GoogleCloudConnectorsV1Connection::class;
   protected $connectionsDataType = 'array';
+  public $connections;
   /**
    * @var string
    */

@@ -22,14 +22,17 @@ class ArimaForecastingMetrics extends \Google\Collection
   protected $collection_key = 'timeSeriesId';
   protected $arimaFittingMetricsType = ArimaFittingMetrics::class;
   protected $arimaFittingMetricsDataType = 'array';
+  public $arimaFittingMetrics;
   protected $arimaSingleModelForecastingMetricsType = ArimaSingleModelForecastingMetrics::class;
   protected $arimaSingleModelForecastingMetricsDataType = 'array';
+  public $arimaSingleModelForecastingMetrics;
   /**
    * @var bool[]
    */
   public $hasDrift;
   protected $nonSeasonalOrderType = ArimaOrder::class;
   protected $nonSeasonalOrderDataType = 'array';
+  public $nonSeasonalOrder;
   /**
    * @var string[]
    */

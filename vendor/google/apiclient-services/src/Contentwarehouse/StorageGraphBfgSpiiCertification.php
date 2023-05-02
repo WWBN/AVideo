@@ -21,10 +21,13 @@ class StorageGraphBfgSpiiCertification extends \Google\Model
 {
   protected $authorityFeedbackType = StorageGraphBfgAuthorityFeedbackMetadata::class;
   protected $authorityFeedbackDataType = '';
+  public $authorityFeedback;
   protected $legalRequestType = StorageGraphBfgLegalRequestMetadata::class;
   protected $legalRequestDataType = '';
+  public $legalRequest;
   protected $publicInformationType = StorageGraphBfgPublicInformationMetadata::class;
   protected $publicInformationDataType = '';
+  public $publicInformation;
 
   /**
    * @param StorageGraphBfgAuthorityFeedbackMetadata

@@ -22,8 +22,10 @@ class BatchGetAmpUrlsResponse extends \Google\Collection
   protected $collection_key = 'urlErrors';
   protected $ampUrlsType = AmpUrl::class;
   protected $ampUrlsDataType = 'array';
+  public $ampUrls;
   protected $urlErrorsType = AmpUrlError::class;
   protected $urlErrorsDataType = 'array';
+  public $urlErrors;
 
   /**
    * @param AmpUrl[]

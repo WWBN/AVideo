@@ -4,7 +4,12 @@ $obj = AVideoPlugin::getDataObject("Live");
 $buttonTitle = $this->getButtonTitle();
 $obj = $this->getDataObject();
 $isLive = isLive();
-$liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
+if(empty($isLive)){
+    $liveInfo = array();
+    $liveInfo['isLive'] = false;
+}else{
+    $liveInfo = Live::getInfo($isLive['key'], $isLive['live_servers_id']);
+}
 if (User::canStream()) {
     if (empty($obj->doNotShowGoLiveButton)) {
         ?>
@@ -111,7 +116,7 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         }, 200);
     }
 
-    function getStatsMenu(recurrentCall) {
+    async function getStatsMenu(recurrentCall) {
         if (avideoSocketIsActive()) {
             return false;
         }
@@ -195,18 +200,18 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         $('#availableLiveStream').empty();
     }
     var hideWhenExpireClasses = [];
-    function hideWhenExpire(application){
+    function hideWhenExpire(application) {
         var className = application.className;
         // 604.800 = 1 WEEK
         if (!empty(application.expires) && application.expires < 604800 && !in_array(className, hideWhenExpireClasses)) {
             var expires_in_seconds = application.expires - _serverTime;
             console.log('hideWhenExpire', expires_in_seconds, className);
             hideWhenExpireClasses.push(className);
-            setTimeout(function(){
+            setTimeout(function () {
                 console.log('hideWhenExpire now', className);
-                $('.'+className).slideUp();
-                $('.onlineApplications').text($('.onlineApplications').text()-1);
-            },expires_in_seconds*1000);
+                $('.' + className).slideUp();
+                $('.onlineApplications').text($('.onlineApplications').text() - 1);
+            }, expires_in_seconds * 1000);
         }
     }
 
@@ -217,6 +222,10 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         name = application.name;
         user = application.user;
         photo = application.photo;
+
+        if(/Restream test/.test(title)){
+            return false;
+        }
 
         if (!empty(application.expires) && application.expires < _serverTime) {
             return false;
@@ -277,7 +286,7 @@ if (isVideo()) {
 <?php }
 ?>
             var id = $(html).attr('id').replace(/[&=]/g, '');
-            
+
             if ($('#' + id).length) {
                 //console.log('processApplication key found', id);
                 return false;
@@ -292,7 +301,7 @@ if (isVideo()) {
                 $('#liveVideos').slideDown();
             }
             processUserNotificationFromApplication(application);
-            
+
             setTimeout(function () {
                 lazyImage();
             }, 1000);
@@ -317,14 +326,14 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
             $('.views_on_total_on_live_' + application.users.transmition_key + '_' + application.users.live_servers_id).text(application.users.views);
         }
     }
-    
-    function processUserNotificationFromApplication(application){
-        <?php
-        if($obj->doNotProcessNotifications){
-            echo 'return false;';
-        }
-        ?>
-        if(typeof addTemplateFromArray !== 'function'){
+
+    function processUserNotificationFromApplication(application) {
+<?php
+if ($obj->doNotProcessNotifications) {
+    echo 'return false;';
+}
+?>
+        if (typeof addTemplateFromArray !== 'function') {
             return false;
         }
         var itemsArray = {};
@@ -337,75 +346,12 @@ if (!empty($obj->playLiveInFullScreenOnIframe)) {
         itemsArray.icon = 'fas fa-video';
         itemsArray.type = 'info';
         itemsArray.html = '<span class="label label-danger liveNow faa-flash faa-slow animated" style="display:inline-block; float:right;">LIVE NOW</span>';
-        addTemplateFromArray(itemsArray);
+        addTemplateFromArray(itemsArray, false);
     }
 
-    function socketLiveONCallback(json) {
-        //console.log('socketLiveONCallback processLiveStats', json);
-        processLiveStats(json.stats);
-        var selector = '.live_' + json.live_servers_id + "_" + json.key;
-        $(selector).slideDown();
-
-        if (typeof onlineLabelOnline == 'function') {
-            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-            onlineLabelOnline(selector);
-            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-            onlineLabelOnline(selector);
-            selector = '.liveViewStatusClass_' + json.cleanKey;
-            ////console.log('socketLiveOFFCallback 3', selector);
-            onlineLabelOnline(selector);
-        }
-
-        // update the chat if the history changes
-        var IframeClass = ".yptchat2IframeClass_" + json.key + "_" + json.live_servers_id;
-        if ($(IframeClass).length) {
-            var src = $(IframeClass).attr('src');
-            if (src) {
-                avideoToast('Loading new chat');
-                var newSRC = addGetParam(src, 'live_transmitions_history_id', json.live_transmitions_history_id);
-                $(IframeClass).attr('src', newSRC);
-            }
-        }
-        if (isInLive(json)) {
-            playerPlay();
-            showImage('prerollPoster', json.cleanKey);
-        }
-    }
-    function socketLiveOFFCallback(json) {
-        //console.log('socketLiveOFFCallback', json);
-        var selector = '.live_' + json.live_servers_id + "_" + json.key;
-        selector += ', .liveVideo_live_' + json.live_servers_id + "_" + json.key;
-        selector += ', .live_' + json.key;
-        ////console.log('socketLiveOFFCallback 1', selector);
-        $(selector).slideUp("fast", function () {
-            $(this).remove();
-        });
-        if (typeof onlineLabelOffline == 'function') {
-            selector = '#liveViewStatusID_' + json.key + '_' + json.live_servers_id;
-            ////console.log('socketLiveOFFCallback 2', selector);
-            onlineLabelOffline(selector);
-            selector = '.liveViewStatusClass_' + json.key + '_' + json.live_servers_id;
-            ////console.log('socketLiveOFFCallback 3', selector);
-            onlineLabelOffline(selector);
-            selector = '.liveViewStatusClass_' + json.cleanKey;
-            ////console.log('socketLiveOFFCallback 3', selector);
-            onlineLabelOffline(selector);
-        }
-        setTimeout(function () {
-            //console.log('socketLiveOFFCallback processLiveStats');
-            processLiveStats(json.stats);
-            setTimeout(function () {
-                hideExtraVideosIfEmpty();
-            }, 500);
-        }, 500);
-
-        if (isInLive(json)) {
-            showImage('postrollPoster', json.cleanKey);
-        }
-        if(typeof updateUserNotificationCount == 'function'){
-            updateUserNotificationCount();    
-        }
-    }
+<?php
+include_once("{$global['systemRootPath']}plugin/Live/view/socket.js");
+?>
 
     async function hideExtraVideosIfEmpty() {
         $('#liveScheduleVideos .extraVideos').each(function (index, currentElement) {

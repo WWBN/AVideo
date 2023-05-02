@@ -26,6 +26,7 @@ class TextStream extends \Google\Collection
   public $codec;
   protected $mappingType = TextMapping::class;
   protected $mappingDataType = 'array';
+  public $mapping;
 
   /**
    * @param string

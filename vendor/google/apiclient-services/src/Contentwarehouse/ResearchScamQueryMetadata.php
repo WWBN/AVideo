@@ -21,6 +21,7 @@ class ResearchScamQueryMetadata extends \Google\Model
 {
   protected $neighborSelectionOverrideType = ResearchScamNeighborSelectionOverride::class;
   protected $neighborSelectionOverrideDataType = '';
+  public $neighborSelectionOverride;
 
   /**
    * @param ResearchScamNeighborSelectionOverride

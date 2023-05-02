@@ -21,12 +21,16 @@ class HtmlrenderWebkitHeadlessProtoRenderEvent extends \Google\Model
 {
   protected $frameResizeType = HtmlrenderWebkitHeadlessProtoFrameResizeEvent::class;
   protected $frameResizeDataType = '';
+  public $frameResize;
   protected $initialLoadType = HtmlrenderWebkitHeadlessProtoInitialLoadEvent::class;
   protected $initialLoadDataType = '';
+  public $initialLoad;
   protected $modalDialogType = HtmlrenderWebkitHeadlessProtoModalDialogEvent::class;
   protected $modalDialogDataType = '';
+  public $modalDialog;
   protected $redirectType = HtmlrenderWebkitHeadlessProtoRedirectEvent::class;
   protected $redirectDataType = '';
+  public $redirect;
   /**
    * @var string
    */
@@ -34,6 +38,7 @@ class HtmlrenderWebkitHeadlessProtoRenderEvent extends \Google\Model
   public $virtualTimeOffset;
   protected $windowOpenType = HtmlrenderWebkitHeadlessProtoWindowOpenEvent::class;
   protected $windowOpenDataType = '';
+  public $windowOpen;
 
   /**
    * @param HtmlrenderWebkitHeadlessProtoFrameResizeEvent

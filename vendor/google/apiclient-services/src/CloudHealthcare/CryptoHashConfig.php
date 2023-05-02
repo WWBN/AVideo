@@ -25,6 +25,7 @@ class CryptoHashConfig extends \Google\Model
   public $cryptoKey;
   protected $kmsWrappedType = KmsWrappedCryptoKey::class;
   protected $kmsWrappedDataType = '';
+  public $kmsWrapped;
 
   /**
    * @param string

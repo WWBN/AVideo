@@ -21,14 +21,17 @@ class CloneStep extends \Google\Model
 {
   protected $adaptingOsType = AdaptingOSStep::class;
   protected $adaptingOsDataType = '';
+  public $adaptingOs;
   /**
    * @var string
    */
   public $endTime;
   protected $instantiatingMigratedVmType = InstantiatingMigratedVMStep::class;
   protected $instantiatingMigratedVmDataType = '';
+  public $instantiatingMigratedVm;
   protected $preparingVmDisksType = PreparingVMDisksStep::class;
   protected $preparingVmDisksDataType = '';
+  public $preparingVmDisks;
   /**
    * @var string
    */

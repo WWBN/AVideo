@@ -46,16 +46,20 @@ class ResearchScienceSearchSourceUrlDocjoinInfo extends \Google\Collection
   public $latestPageUpdateDate;
   protected $navboostQueryType = ResearchScienceSearchNavboostQueryInfo::class;
   protected $navboostQueryDataType = 'array';
+  public $navboostQuery;
   /**
    * @var int
    */
   public $pagerank;
   protected $petacatInfoType = FatcatCompactDocClassification::class;
   protected $petacatInfoDataType = '';
+  public $petacatInfo;
   protected $salientTermsType = QualitySalientTermsSalientTermSet::class;
   protected $salientTermsDataType = '';
+  public $salientTerms;
   protected $scholarInfoType = ScienceIndexSignal::class;
   protected $scholarInfoDataType = '';
+  public $scholarInfo;
   /**
    * @var string[]
    */
@@ -66,12 +70,14 @@ class ResearchScienceSearchSourceUrlDocjoinInfo extends \Google\Collection
   public $title;
   protected $topEntityType = RepositoryWebrefWebrefEntity::class;
   protected $topEntityDataType = 'array';
+  public $topEntity;
   /**
    * @var string
    */
   public $url;
   protected $webrefEntityType = ResearchScienceSearchSourceUrlDocjoinInfoWebrefEntityInfo::class;
   protected $webrefEntityDataType = 'array';
+  public $webrefEntity;
 
   /**
    * @param string

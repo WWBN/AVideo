@@ -24,7 +24,7 @@ use Google\Service\Pubsub\ListTopicSubscriptionsResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubService = new Google\Service\Pubsub(...);
- *   $subscriptions = $pubsubService->subscriptions;
+ *   $subscriptions = $pubsubService->projects_topics_subscriptions;
  *  </code>
  */
 class ProjectsTopicsSubscriptions extends \Google\Service\Resource

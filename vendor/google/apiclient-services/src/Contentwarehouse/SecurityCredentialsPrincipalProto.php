@@ -21,60 +21,86 @@ class SecurityCredentialsPrincipalProto extends \Google\Model
 {
   protected $allAuthenticatedUsersType = SecurityCredentialsAllAuthenticatedUsersProto::class;
   protected $allAuthenticatedUsersDataType = '';
+  public $allAuthenticatedUsers;
   protected $capTokenHolderType = SecurityCredentialsCapTokenHolderProto::class;
   protected $capTokenHolderDataType = '';
+  public $capTokenHolder;
   protected $chatType = SecurityCredentialsChatProto::class;
   protected $chatDataType = '';
+  public $chat;
   protected $circleType = SecurityCredentialsCircleProto::class;
   protected $circleDataType = '';
+  public $circle;
   protected $cloudPrincipalType = SecurityCredentialsCloudPrincipalProto::class;
   protected $cloudPrincipalDataType = '';
+  public $cloudPrincipal;
   protected $contactGroupType = SecurityCredentialsContactGroupProto::class;
   protected $contactGroupDataType = '';
+  public $contactGroup;
   protected $emailOwnerType = SecurityCredentialsEmailOwnerProto::class;
   protected $emailOwnerDataType = '';
+  public $emailOwner;
   protected $eventType = SecurityCredentialsEventProto::class;
   protected $eventDataType = '';
+  public $event;
   protected $gaiaGroupType = SecurityCredentialsGaiaGroupProto::class;
   protected $gaiaGroupDataType = '';
+  public $gaiaGroup;
   protected $gaiaUserType = SecurityCredentialsGaiaUserProto::class;
   protected $gaiaUserDataType = '';
+  public $gaiaUser;
   protected $hostType = SecurityCredentialsHostProto::class;
   protected $hostDataType = '';
+  public $host;
   protected $ldapGroupType = SecurityCredentialsLdapGroupProto::class;
   protected $ldapGroupDataType = '';
+  public $ldapGroup;
   protected $ldapUserType = SecurityCredentialsLdapUserProto::class;
   protected $ldapUserDataType = '';
+  public $ldapUser;
   protected $mdbGroupType = SecurityCredentialsMdbGroupProto::class;
   protected $mdbGroupDataType = '';
+  public $mdbGroup;
   protected $mdbUserType = SecurityCredentialsMdbUserProto::class;
   protected $mdbUserDataType = '';
+  public $mdbUser;
   protected $oauthConsumerType = SecurityCredentialsOAuthConsumerProto::class;
   protected $oauthConsumerDataType = '';
+  public $oauthConsumer;
   protected $postiniUserType = SecurityCredentialsPostiniUserProto::class;
   protected $postiniUserDataType = '';
+  public $postiniUser;
   protected $rbacRoleType = SecurityCredentialsRbacRoleProto::class;
   protected $rbacRoleDataType = '';
+  public $rbacRole;
   protected $rbacSubjectType = SecurityCredentialsRbacSubjectProto::class;
   protected $rbacSubjectDataType = '';
+  public $rbacSubject;
   protected $resourceRoleType = SecurityCredentialsResourceRoleProto::class;
   protected $resourceRoleDataType = '';
+  public $resourceRole;
   /**
    * @var string
    */
   public $scope;
   protected $signingKeyPossessorType = SecurityCredentialsSigningKeyPossessorProto::class;
   protected $signingKeyPossessorDataType = '';
+  public $signingKeyPossessor;
   protected $simpleSecretHolderType = SecurityCredentialsSimpleSecretHolderProto::class;
   protected $simpleSecretHolderDataType = '';
+  public $simpleSecretHolder;
   protected $socialGraphNodeType = SecurityCredentialsSocialGraphNodeProto::class;
   protected $socialGraphNodeDataType = '';
+  public $socialGraphNode;
   protected $squareType = SecurityCredentialsSquareProto::class;
   protected $squareDataType = '';
+  public $square;
   protected $youtubeUserType = SecurityCredentialsYoutubeUserProto::class;
   protected $youtubeUserDataType = '';
+  public $youtubeUser;
   protected $zwiebackSessionType = SecurityCredentialsZwiebackSessionProto::class;
   protected $zwiebackSessionDataType = '';
+  public $zwiebackSession;
 
   /**
    * @param SecurityCredentialsAllAuthenticatedUsersProto

@@ -30,7 +30,7 @@ use Google\Service\BackupforGKE\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $gkebackupService = new Google\Service\BackupforGKE(...);
- *   $backups = $gkebackupService->backups;
+ *   $backups = $gkebackupService->projects_locations_backupPlans_backups;
  *  </code>
  */
 class ProjectsLocationsBackupPlansBackups extends \Google\Service\Resource

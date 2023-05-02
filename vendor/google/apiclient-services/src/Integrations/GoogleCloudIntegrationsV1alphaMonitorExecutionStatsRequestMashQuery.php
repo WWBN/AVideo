@@ -21,10 +21,13 @@ class GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQuery extend
 {
   protected $firstQueryType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryComponent::class;
   protected $firstQueryDataType = '';
+  public $firstQuery;
   protected $operationModeType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryOperationMode::class;
   protected $operationModeDataType = '';
+  public $operationMode;
   protected $secondQueryType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryComponent::class;
   protected $secondQueryDataType = '';
+  public $secondQuery;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryComponent

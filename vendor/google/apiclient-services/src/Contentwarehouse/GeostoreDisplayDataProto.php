@@ -21,6 +21,7 @@ class GeostoreDisplayDataProto extends \Google\Model
 {
   protected $displayLocationType = GeostorePointProto::class;
   protected $displayLocationDataType = '';
+  public $displayLocation;
 
   /**
    * @param GeostorePointProto

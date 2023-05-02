@@ -37,14 +37,17 @@ class NestingLevel extends \Google\Model
   public $glyphType;
   protected $indentFirstLineType = Dimension::class;
   protected $indentFirstLineDataType = '';
+  public $indentFirstLine;
   protected $indentStartType = Dimension::class;
   protected $indentStartDataType = '';
+  public $indentStart;
   /**
    * @var int
    */
   public $startNumber;
   protected $textStyleType = TextStyle::class;
   protected $textStyleDataType = '';
+  public $textStyle;
 
   /**
    * @param string

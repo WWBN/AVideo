@@ -21,8 +21,10 @@ class ApprovalRequest extends \Google\Model
 {
   protected $approveType = ApproveDecision::class;
   protected $approveDataType = '';
+  public $approve;
   protected $dismissType = DismissDecision::class;
   protected $dismissDataType = '';
+  public $dismiss;
   /**
    * @var string
    */
@@ -37,14 +39,17 @@ class ApprovalRequest extends \Google\Model
   public $requestedExpiration;
   protected $requestedLocationsType = AccessLocations::class;
   protected $requestedLocationsDataType = '';
+  public $requestedLocations;
   protected $requestedReasonType = AccessReason::class;
   protected $requestedReasonDataType = '';
+  public $requestedReason;
   /**
    * @var string
    */
   public $requestedResourceName;
   protected $requestedResourcePropertiesType = ResourceProperties::class;
   protected $requestedResourcePropertiesDataType = '';
+  public $requestedResourceProperties;
 
   /**
    * @param ApproveDecision

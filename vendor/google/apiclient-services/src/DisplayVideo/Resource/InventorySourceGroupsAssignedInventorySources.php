@@ -28,7 +28,7 @@ use Google\Service\DisplayVideo\ListAssignedInventorySourcesResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $assignedInventorySources = $displayvideoService->assignedInventorySources;
+ *   $assignedInventorySources = $displayvideoService->inventorySourceGroups_assignedInventorySources;
  *  </code>
  */
 class InventorySourceGroupsAssignedInventorySources extends \Google\Service\Resource

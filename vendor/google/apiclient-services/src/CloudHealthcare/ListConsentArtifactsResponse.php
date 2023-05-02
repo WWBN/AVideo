@@ -22,6 +22,7 @@ class ListConsentArtifactsResponse extends \Google\Collection
   protected $collection_key = 'consentArtifacts';
   protected $consentArtifactsType = ConsentArtifact::class;
   protected $consentArtifactsDataType = 'array';
+  public $consentArtifacts;
   /**
    * @var string
    */

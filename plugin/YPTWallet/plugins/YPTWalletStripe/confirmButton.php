@@ -108,12 +108,14 @@ $uid = uniqid();
         event.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
+            url: webSiteRootURL+'plugin/StripeYPT/getIntent.json.php',
             data: {
                 "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
                 "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>",
                 "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                "user": "<?php echo User::getUserName() ?>",
+                "pass": "<?php echo User::getUserPass(); ?>",
                 "singlePayment": 1
             },
             type: 'post',
@@ -139,8 +141,12 @@ $uid = uniqid();
                             updateYPTWallet();
                             setTimeout(function(){
                                 <?php
-                                $url = YPTWallet::getAddFundsSuccessRedirectURL();
-                                echo empty($url)?'location.reload();':"window.top.location.href='{$url}'";
+                                if (empty($global['paymentsTest'])) {
+                                    $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                                    echo empty($url) ? 'location.reload();' : "window.top.location.href='{$url}'";
+                                }else{
+                                    echo 'modal.hidePleaseWait();';
+                                }
                                 ?>
                             }, 3000);
                         }

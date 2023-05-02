@@ -21,6 +21,7 @@ class RepositoryWebrefRefconRefconDocumentMetadata extends \Google\Model
 {
   protected $queryStatsType = RepositoryWebrefRefconQueryStats::class;
   protected $queryStatsDataType = '';
+  public $queryStats;
 
   /**
    * @param RepositoryWebrefRefconQueryStats

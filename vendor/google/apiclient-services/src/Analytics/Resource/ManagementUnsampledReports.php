@@ -25,7 +25,7 @@ use Google\Service\Analytics\UnsampledReports;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $unsampledReports = $analyticsService->unsampledReports;
+ *   $unsampledReports = $analyticsService->management_unsampledReports;
  *  </code>
  */
 class ManagementUnsampledReports extends \Google\Service\Resource

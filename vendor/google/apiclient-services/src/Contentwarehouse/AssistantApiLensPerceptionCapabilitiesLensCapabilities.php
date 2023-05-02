@@ -21,16 +21,22 @@ class AssistantApiLensPerceptionCapabilitiesLensCapabilities extends \Google\Mod
 {
   protected $diningType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesDining::class;
   protected $diningDataType = '';
+  public $dining;
   protected $educationType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesEducation::class;
   protected $educationDataType = '';
+  public $education;
   protected $outdoorType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesOutdoor::class;
   protected $outdoorDataType = '';
+  public $outdoor;
   protected $shoppingType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesShopping::class;
   protected $shoppingDataType = '';
+  public $shopping;
   protected $textType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesText::class;
   protected $textDataType = '';
+  public $text;
   protected $translateType = AssistantApiLensPerceptionCapabilitiesLensCapabilitiesTranslate::class;
   protected $translateDataType = '';
+  public $translate;
 
   /**
    * @param AssistantApiLensPerceptionCapabilitiesLensCapabilitiesDining

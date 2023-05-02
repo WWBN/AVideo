@@ -29,6 +29,7 @@ class NlpSaftSemanticNodeArc extends \Google\Model
   public $implicit;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var int
    */

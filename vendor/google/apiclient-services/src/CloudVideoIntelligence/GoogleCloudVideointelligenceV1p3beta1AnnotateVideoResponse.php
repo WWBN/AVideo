@@ -22,6 +22,7 @@ class GoogleCloudVideointelligenceV1p3beta1AnnotateVideoResponse extends \Google
   protected $collection_key = 'annotationResults';
   protected $annotationResultsType = GoogleCloudVideointelligenceV1p3beta1VideoAnnotationResults::class;
   protected $annotationResultsDataType = 'array';
+  public $annotationResults;
 
   /**
    * @param GoogleCloudVideointelligenceV1p3beta1VideoAnnotationResults[]

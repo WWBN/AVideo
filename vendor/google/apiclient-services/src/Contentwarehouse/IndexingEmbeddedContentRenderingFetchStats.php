@@ -22,6 +22,7 @@ class IndexingEmbeddedContentRenderingFetchStats extends \Google\Collection
   protected $collection_key = 'fetchHostCount';
   protected $fetchHostCountType = IndexingEmbeddedContentFetchHostCount::class;
   protected $fetchHostCountDataType = 'array';
+  public $fetchHostCount;
 
   /**
    * @param IndexingEmbeddedContentFetchHostCount[]

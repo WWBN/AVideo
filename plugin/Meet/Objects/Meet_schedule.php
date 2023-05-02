@@ -27,6 +27,9 @@ class Meet_schedule extends ObjectYPT {
 
     public static function getAllUsers() {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $table = "users";
         $sql = "SELECT * FROM {$table} WHERE (canCreateMeet = 1 OR isAdmin = 1) AND status = 'a' ";
 
@@ -76,7 +79,7 @@ class Meet_schedule extends ObjectYPT {
     }
 
     public function setTopic($topic) {
-        $this->topic = $topic;
+        $this->topic = xss_esc($topic);
     }
 
     public function setStarts($starts) {
@@ -159,8 +162,38 @@ class Meet_schedule extends ObjectYPT {
         return $global['webSiteRootURL'] . 'meet/' . $this->getId();
     }
 
+    static public function getSQLTime($time, $sort=true){
+        $sort = @$_POST['sort'];
+        unset($_POST['sort']);
+        $sql = '';
+        $dateStarts = ' COALESCE(CONVERT_TZ(starts, timezone, @@session.time_zone), starts) ';
+        if ($time == "today") {
+            //$sql .= " AND {$dateStarts} = CURDATE() ";
+            //select records where the datetime is from today until 12 AM the next day
+            $sql .= " AND {$dateStarts} BETWEEN DATE_SUB(NOW(), INTERVAL 4 HOUR) AND DATE_ADD(DATE(NOW()), INTERVAL 24 HOUR) ";
+            $_POST['sort']['starts'] = "ASC";
+        } elseif ($time == "upcoming") {
+            $sql .= " AND {$dateStarts} > CURDATE() ";
+            $_POST['sort']['starts'] = "ASC";
+        } elseif ($time == "past") {
+            $sql .= " AND {$dateStarts} < CURDATE() ";
+            $_POST['sort']['starts'] = "DESC";
+        }
+        if($sort){
+            $sql .= self::getSqlFromPost();
+        }else{
+            $sql .= self::getSqlSearchFromPost();
+        }
+        $_POST['sort'] = $sort;
+        //var_dump($sql, debug_backtrace());
+        return $sql;
+    }
+
     public static function getAllFromUsersId($users_id, $time = "", $canAttend = false, $hideIfHasPassword = false) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         if (!static::isTableInstalled()) {
             return false;
         }
@@ -190,21 +223,7 @@ class Meet_schedule extends ObjectYPT {
 
         $identification = User::getNameIdentificationById($users_id);
         if (!empty($time)) {
-            unset($_POST['sort']);
-            if ($time == "today") {
-                $sql .= " AND date(starts) = CURDATE() ";
-                $_POST['sort']['starts'] = "ASC";
-                $sql .= self::getSqlFromPost();
-            } elseif ($time == "upcoming") {
-                $sql .= " AND date(starts) > CURDATE() ";
-                $_POST['sort']['starts'] = "ASC";
-                $sql .= self::getSqlFromPost();
-            } elseif ($time == "past") {
-                $sql .= " AND date(starts) < CURDATE() ";
-                $_POST['sort']['starts'] = "DESC";
-                $sql .= self::getSqlFromPost();
-            }
-            unset($_POST['sort']);
+            $sql .= self::getSQLTime($time);
         } else {
             $sql .= self::getSqlFromPost();
         }
@@ -287,19 +306,10 @@ class Meet_schedule extends ObjectYPT {
         }
         $sql .= " )  ";
         if (!empty($time)) {
-            unset($_POST['sort']);
-            if ($time == "today") {
-                $sql .= " AND date(starts) = CURDATE() ";
-                $sql .= " ORDER BY starts ASC ";
-            } elseif ($time == "upcoming") {
-                $sql .= " AND date(starts) > CURDATE() ";
-                $sql .= " ORDER BY starts ASC ";
-            } elseif ($time == "past") {
-                $sql .= " AND date(starts) < CURDATE() ";
-                $sql .= " ORDER BY starts DESC ";
-            }
+            $sql .= self::getSQLTime($time, false);
+        }else{
+            $sql .= self::getSqlSearchFromPost();
         }
-        $sql .= self::getSqlSearchFromPost();
         $res = sqlDAL::readSql($sql);
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);
@@ -314,24 +324,11 @@ class Meet_schedule extends ObjectYPT {
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
 
         if (!empty($time)) {
-            unset($_POST['sort']);
-            if ($time == "today") {
-                $sql .= " AND date(starts) = CURDATE() ";
-                $_POST['sort']['starts'] = "ASC";
-                $sql .= self::getSqlFromPost();
-            } elseif ($time == "upcoming") {
-                $sql .= " AND date(starts) > CURDATE() ";
-                $_POST['sort']['starts'] = "ASC";
-                $sql .= self::getSqlFromPost();
-            } elseif ($time == "past") {
-                $sql .= " AND date(starts) < CURDATE() ";
-                $_POST['sort']['starts'] = "DESC";
-                $sql .= self::getSqlFromPost();
-            }
-            unset($_POST['sort']);
+            $sql .= self::getSQLTime($time);
         } else {
             $sql .= self::getSqlFromPost();
         }
+        //echo $sql;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -358,8 +355,6 @@ class Meet_schedule extends ObjectYPT {
                 $row['starts_in'] = humanTimingAfterwards($row['starts'], 2, $row['timezone']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -373,19 +368,10 @@ class Meet_schedule extends ObjectYPT {
         }
         $sql = "SELECT id FROM  " . static::getTableName() . " WHERE 1=1  ";
         if (!empty($time)) {
-            unset($_POST['sort']);
-            if ($time == "today") {
-                $sql .= " AND date(starts) = CURDATE() ";
-                $sql .= " ORDER BY starts ASC ";
-            } elseif ($time == "upcoming") {
-                $sql .= " AND date(starts) > CURDATE() ";
-                $sql .= " ORDER BY starts ASC ";
-            } elseif ($time == "past") {
-                $sql .= " AND date(starts) < CURDATE() ";
-                $sql .= " ORDER BY starts DESC ";
-            }
+            $sql .= self::getSQLTime($time, false);
+        }else{
+            $sql .= self::getSqlSearchFromPost();
         }
-        $sql .= self::getSqlSearchFromPost();
         $res = sqlDAL::readSql($sql);
         $countRow = sqlDAL::num_rows($res);
         sqlDAL::close($res);

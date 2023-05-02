@@ -1,4 +1,4 @@
-require('babel-register');
+require('@babel/register');
 
 module.exports = function(grunt) {
   require('time-grunt')(grunt);

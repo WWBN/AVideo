@@ -30,6 +30,10 @@ class GoogleCloudContentwarehouseV1InitializeProjectRequest extends \Google\Mode
   /**
    * @var string
    */
+  public $documentCreatorDefaultRole;
+  /**
+   * @var string
+   */
   public $kmsKey;
 
   /**
@@ -59,6 +63,20 @@ class GoogleCloudContentwarehouseV1InitializeProjectRequest extends \Google\Mode
   public function getDatabaseType()
   {
     return $this->databaseType;
+  }
+  /**
+   * @param string
+   */
+  public function setDocumentCreatorDefaultRole($documentCreatorDefaultRole)
+  {
+    $this->documentCreatorDefaultRole = $documentCreatorDefaultRole;
+  }
+  /**
+   * @return string
+   */
+  public function getDocumentCreatorDefaultRole()
+  {
+    return $this->documentCreatorDefaultRole;
   }
   /**
    * @param string

@@ -21,8 +21,10 @@ class CreateItemRequest extends \Google\Model
 {
   protected $itemType = Item::class;
   protected $itemDataType = '';
+  public $item;
   protected $locationType = Location::class;
   protected $locationDataType = '';
+  public $location;
 
   /**
    * @param Item

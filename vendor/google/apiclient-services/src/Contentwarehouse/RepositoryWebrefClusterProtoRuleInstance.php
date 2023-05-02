@@ -22,8 +22,10 @@ class RepositoryWebrefClusterProtoRuleInstance extends \Google\Collection
   protected $collection_key = 'relation';
   protected $midListType = RepositoryWebrefClusterProtoMidListRuleInstance::class;
   protected $midListDataType = '';
+  public $midList;
   protected $relationType = RepositoryWebrefClusterProtoRelationRuleInstance::class;
   protected $relationDataType = 'array';
+  public $relation;
 
   /**
    * @param RepositoryWebrefClusterProtoMidListRuleInstance

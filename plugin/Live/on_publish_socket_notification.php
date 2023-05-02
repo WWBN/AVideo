@@ -48,8 +48,11 @@ if (AVideoPlugin::isEnabledByName('YPTSocket')) {
     $array['isPrivate'] = LiveTransmitionHistory::isPrivate($liveTransmitionHistory_id);
     $array['isPasswordProtected'] = LiveTransmitionHistory::isPasswordProtected($liveTransmitionHistory_id);
     $array['users_id'] = $users_id;
-    
-    $array['title'] = Live::getTitleFromKey($array['key'], $array['title']);
+    if(!empty($array['key'])){
+        $array['title'] = Live::getTitleFromKey($array['key'], $array['title']);
+    }else{
+        $array['title'] = '';
+    }
 
     if ($isLive) {
         _error_log("NGINX Live::on_publish_socket_notification is200");

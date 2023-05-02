@@ -38,6 +38,7 @@ class Dataset extends \Google\Collection
   public $nextPageToken;
   protected $pointType = DataPoint::class;
   protected $pointDataType = 'array';
+  public $point;
 
   /**
    * @param string

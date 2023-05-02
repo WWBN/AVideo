@@ -21,12 +21,14 @@ class AdStyle extends \Google\Model
 {
   protected $colorsType = AdStyleColors::class;
   protected $colorsDataType = '';
+  public $colors;
   /**
    * @var string
    */
   public $corners;
   protected $fontType = AdStyleFont::class;
   protected $fontDataType = '';
+  public $font;
   /**
    * @var string
    */

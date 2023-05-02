@@ -22,6 +22,7 @@ class ListHistoryResponse extends \Google\Collection
   protected $collection_key = 'history';
   protected $historyType = History::class;
   protected $historyDataType = 'array';
+  public $history;
   /**
    * @var string
    */

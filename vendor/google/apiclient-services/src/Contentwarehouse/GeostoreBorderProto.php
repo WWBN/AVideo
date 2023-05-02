@@ -22,12 +22,16 @@ class GeostoreBorderProto extends \Google\Collection
   protected $collection_key = 'overrideStatus';
   protected $featureIdLeftType = GeostoreFeatureIdProto::class;
   protected $featureIdLeftDataType = '';
+  public $featureIdLeft;
   protected $featureIdRightType = GeostoreFeatureIdProto::class;
   protected $featureIdRightDataType = '';
+  public $featureIdRight;
   protected $logicalBorderType = GeostoreFeatureIdProto::class;
   protected $logicalBorderDataType = 'array';
+  public $logicalBorder;
   protected $overrideStatusType = GeostoreOverrideBorderStatusProto::class;
   protected $overrideStatusDataType = 'array';
+  public $overrideStatus;
   /**
    * @var string
    */

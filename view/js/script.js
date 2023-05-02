@@ -44,7 +44,15 @@ try {
             if (!height) {
                 height = $('body').height();
             }
-            parent.postMessage({ height: height }, '*');
+            parent.postMessage({height: height}, '*');
+        } else if (e.data.play) {
+            var currentTime = e.data.play.currentTime;
+            var muted = !empty(e.data.play.muted);
+            if (!muted) {
+                playerPlay(currentTime);
+            } else {
+                tryToPlayMuted(currentTime);
+            }
         }
     }, false);
 
@@ -71,12 +79,12 @@ if (urlParams.has('debug')) {
 }
 
 function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-if(typeof String.prototype.replaceAll === "undefined") {
+if (typeof String.prototype.replaceAll === "undefined") {
     console.log('replaceAll is undefined');
-    String.prototype.replaceAll = function(match, _replace) {
-       return this.replace(new RegExp(escapeRegExp(match), 'g'), _replace);
+    String.prototype.replaceAll = function (match, _replace) {
+        return this.replace(new RegExp(escapeRegExp(match), 'g'), _replace);
     }
 }
 
@@ -107,20 +115,20 @@ $(document).mousemove(function (e) {
     mouseY = e.pageY;
 });
 String.prototype.stripAccents = function () {
-    var returnvar = this.replace(/[áàâãªä]/g, 'a');
-    returnvar = returnvar.replace(/[ÁÀÂÃÄ]/g, 'A');
+    var returnvar = this.replace(/[áàâãªäą]/g, 'a');
+    returnvar = returnvar.replace(/[ÁÀÂÃÄĄ]/g, 'A');
     returnvar = returnvar.replace(/[ÍÌÎÏ]/g, 'I');
     returnvar = returnvar.replace(/[íìîï]/g, 'i');
-    returnvar = returnvar.replace(/[éèêë]/g, 'e');
-    returnvar = returnvar.replace(/[ÉÈÊË]/g, 'E');
+    returnvar = returnvar.replace(/[éèêëę]/g, 'e');
+    returnvar = returnvar.replace(/[ÉÈÊËĘ]/g, 'E');
     returnvar = returnvar.replace(/[óòôõºö]/g, 'o');
     returnvar = returnvar.replace(/[ÓÒÔÕÖ]/g, 'O');
     returnvar = returnvar.replace(/[úùûü]/g, 'u');
     returnvar = returnvar.replace(/[ÚÙÛÜ]/g, 'U');
-    returnvar = returnvar.replace(/ç/g, 'c');
-    returnvar = returnvar.replace(/Ç/g, 'C');
-    returnvar = returnvar.replace(/ñ/g, 'n');
-    returnvar = returnvar.replace(/Ñ/g, 'N');
+    returnvar = returnvar.replace(/[çć]/g, 'c');
+    returnvar = returnvar.replace(/[ÇĆ]/g, 'C');
+    returnvar = returnvar.replace(/[ñń]/g, 'n');
+    returnvar = returnvar.replace(/[ÑŃ]/g, 'N');
     returnvar = returnvar.replace(/–/g, '-');
     returnvar = returnvar.replace(/[’‘‹›‚]/g, ' ');
     returnvar = returnvar.replace(/[“”«»„]/g, ' ');
@@ -139,17 +147,17 @@ String.prototype.stripAccents = function () {
     returnvar = returnvar.replace(/Е/g, 'E');
     returnvar = returnvar.replace(/Ё/g, 'YO');
     returnvar = returnvar.replace(/Ж/g, 'ZH');
-    returnvar = returnvar.replace(/З/g, 'Z');
+    returnvar = returnvar.replace(/[ЗŻŹ]/g, 'Z');
     returnvar = returnvar.replace(/И/g, 'I');
     returnvar = returnvar.replace(/Й/g, 'J');
     returnvar = returnvar.replace(/К/g, 'K');
-    returnvar = returnvar.replace(/Л/g, 'L');
+    returnvar = returnvar.replace(/[ЛŁ]/g, 'L');
     returnvar = returnvar.replace(/М/g, 'M');
     returnvar = returnvar.replace(/Н/g, 'N');
     returnvar = returnvar.replace(/О/g, 'O');
     returnvar = returnvar.replace(/П/g, 'P');
     returnvar = returnvar.replace(/Р/g, 'R');
-    returnvar = returnvar.replace(/С/g, 'S');
+    returnvar = returnvar.replace(/[СŚ]/g, 'S');
     returnvar = returnvar.replace(/Т/g, 'T');
     returnvar = returnvar.replace(/У/g, 'U');
     returnvar = returnvar.replace(/Ф/g, 'F');
@@ -172,17 +180,17 @@ String.prototype.stripAccents = function () {
     returnvar = returnvar.replace(/е/g, 'e');
     returnvar = returnvar.replace(/ё/g, 'yo');
     returnvar = returnvar.replace(/ж/g, 'zh');
-    returnvar = returnvar.replace(/з/g, 'z');
+    returnvar = returnvar.replace(/[зżź]/g, 'z');
     returnvar = returnvar.replace(/и/g, 'i');
     returnvar = returnvar.replace(/й/g, 'j');
     returnvar = returnvar.replace(/к/g, 'k');
-    returnvar = returnvar.replace(/л/g, 'l');
+    returnvar = returnvar.replace(/[лł]/g, 'l');
     returnvar = returnvar.replace(/м/g, 'm');
     returnvar = returnvar.replace(/н/g, 'n');
     returnvar = returnvar.replace(/о/g, 'o');
     returnvar = returnvar.replace(/п/g, 'p');
     returnvar = returnvar.replace(/р/g, 'r');
-    returnvar = returnvar.replace(/с/g, 's');
+    returnvar = returnvar.replace(/[сś]/g, 's');
     returnvar = returnvar.replace(/т/g, 't');
     returnvar = returnvar.replace(/у/g, 'u');
     returnvar = returnvar.replace(/ф/g, 'f');
@@ -456,25 +464,34 @@ function subscribeNotify(email, user_id) {
         }
     });
 }
+
+var _mouseEffectTimeout;
 async function mouseEffect() {
-    $(".thumbsImage").on("mouseenter", function () {
-        var gif = $(this).find(".thumbsGIF");
-        var jpg = $(this).find(".thumbsJPG");
-        try {
-            gif.lazy({ effect: 'fadeIn' });
-            setTimeout(function () {
-                gif.height(jpg.height());
-                gif.width(jpg.width());
-            }, 100);
-        } catch (e) {
-        }
-        gif.height(jpg.height());
-        gif.width(jpg.width());
-        gif.stop(true, true).fadeIn();
-    });
-    $(".thumbsImage").on("mouseleave", function () {
-        $(this).find(".thumbsGIF").stop(true, true).fadeOut();
-    });
+    //return false;
+    clearTimeout(_mouseEffectTimeout);
+    _mouseEffectTimeout = setTimeout(function () {
+        $(".thumbsImage").off("mouseenter");
+        $(".thumbsImage").off("mouseleave");
+        $(".thumbsImage").on("mouseenter", function () {
+            //console.log('mouseEffect()');
+            var gif = $(this).find(".thumbsGIF");
+            var jpg = $(this).find(".thumbsJPG");
+            try {
+                gif.lazy({effect: 'fadeIn'});
+                setTimeout(function () {
+                    gif.height(jpg.height());
+                    gif.width(jpg.width());
+                }, 100);
+            } catch (e) {
+            }
+            gif.height(jpg.height());
+            gif.width(jpg.width());
+            gif.stop(true, true).fadeIn();
+        });
+        $(".thumbsImage").on("mouseleave", function () {
+            $(this).find(".thumbsGIF").stop(true, true).fadeOut();
+        });
+    }, 100);
 }
 
 function isMobile() {
@@ -512,7 +529,12 @@ function addView(videos_id, currentTime) {
     return true;
 }
 
+var isVideoAddViewCount = false;
 function _addView(videos_id, currentTime, seconds_watching_video) {
+    if (isVideoAddViewCount) {
+        return false;
+    }
+    isVideoAddViewCount = true;
     if (typeof PHPSESSID == 'undefined') {
         PHPSESSID = '';
     }
@@ -531,6 +553,7 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
             seconds_watching_video: seconds_watching_video
         },
         success: function (response) {
+            isVideoAddViewCount = false;
             $('.view-count' + videos_id).text(response.countHTML);
         }
     });
@@ -568,9 +591,9 @@ async function addViewFromCookie() {
     var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
     var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
     if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
-        !addView_videos_id || addView_videos_id === 'false' ||
-        !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
-        !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
+            !addView_videos_id || addView_videos_id === 'false' ||
+            !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
+            !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
         return false;
     }
     //console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
@@ -621,7 +644,7 @@ function getPlayerButtonIndex(name) {
 
 async function copyToClipboard(text) {
     $('body').append('<textarea id="elementToCopyAvideo" style="filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0;position: absolute;z-index: -9999;top: 0;left: 0;pointer-events: none;"></textarea>');
-    $('#elementToCopyAvideo').css({ 'top': mouseY, 'left': 0 }).fadeIn('slow');
+    $('#elementToCopyAvideo').css({'top': mouseY, 'left': 0}).fadeIn('slow');
     $('#elementToCopyAvideo').val(text);
     $('#elementToCopyAvideo').focus();
     $('#elementToCopyAvideo').select();
@@ -870,7 +893,7 @@ async function showMuteTooltip() {
         $("#mainVideo .vjs-volume-panel").attr("data-toggle", "tooltip");
         $("#mainVideo .vjs-volume-panel").attr("data-placement", "top");
         $("#mainVideo .vjs-volume-panel").attr("title", "Click to activate the sound");
-        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({ container: '.vjs-control-bar', html: true });
+        $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip({container: '.vjs-control-bar', html: true});
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('show');
         $("#mainVideo .vjs-volume-panel").click(function () {
             //console.log("remove unmute tooltip");
@@ -1019,9 +1042,9 @@ function formatBytes(bytes, decimals) {
     if (bytes == 0)
         return '0 Bytes';
     var k = 1024,
-        dm = decimals <= 0 ? 0 : decimals || 2,
-        sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-        i = Math.floor(Math.log(bytes) / Math.log(k));
+            dm = decimals <= 0 ? 0 : decimals || 2,
+            sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+            i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
 
@@ -1175,31 +1198,31 @@ function isAutoplayEnabled() {
         consoleLog("isAutoplayEnabled always autoplay live contents");
         return true;
     } else
-        if ($("#autoplay").length) {
-            autoplay = $("#autoplay").is(":checked");
-            consoleLog("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
-            setAutoplay(autoplay);
-            return autoplay;
-        } else if (
+    if ($("#autoplay").length) {
+        autoplay = $("#autoplay").is(":checked");
+        consoleLog("isAutoplayEnabled #autoplay said " + ((autoplay) ? "Yes" : "No"));
+        setAutoplay(autoplay);
+        return autoplay;
+    } else if (
             typeof Cookies !== 'undefined' &&
             typeof Cookies.get('autoplay') !== 'undefined'
-        ) {
-            if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
-                consoleLog("isAutoplayEnabled Cookie said Yes ");
-                setAutoplay(true);
-                return true;
-            } else {
-                consoleLog("isAutoplayEnabled Cookie said No ");
-                setAutoplay(false);
-                return false;
-            }
+            ) {
+        if (Cookies.get('autoplay') === 'true' || Cookies.get('autoplay') == true) {
+            consoleLog("isAutoplayEnabled Cookie said Yes ");
+            setAutoplay(true);
+            return true;
         } else {
-            if (typeof autoplay !== 'undefined') {
-                consoleLog("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
-                setAutoplay(autoplay);
-                return autoplay;
-            }
+            consoleLog("isAutoplayEnabled Cookie said No ");
+            setAutoplay(false);
+            return false;
         }
+    } else {
+        if (typeof autoplay !== 'undefined') {
+            consoleLog("isAutoplayEnabled autoplay said " + ((autoplay) ? "Yes" : "No"));
+            setAutoplay(autoplay);
+            return autoplay;
+        }
+    }
     setAutoplay(false);
     consoleLog("isAutoplayEnabled Default is No ");
     return false;
@@ -1222,11 +1245,15 @@ async function showAutoPlayVideoDiv() {
 }
 
 function enableAutoPlay() {
+    forceNotautoplay = false;
+    forceautoplay = true;
     setAutoplay(true);
     checkAutoPlay();
 }
 
 function disableAutoPlay() {
+    forceautoplay = false;
+    forceNotautoplay = true;
     setAutoplay(false);
     checkAutoPlay();
 }
@@ -1318,7 +1345,7 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
-    var options = { text: msg, hideAfter: 7000 };
+    var options = {text: msg, hideAfter: 7000};
     if (icon) {
         options.icon = icon;
     }
@@ -1512,7 +1539,7 @@ function avideoWindowIframe(url) {
     html += '</div>';
     html += '</div>';
     $('body').append(html);
-    $("#draggable").draggable({ handle: ".panel-heading", containment: "parent" });
+    $("#draggable").draggable({handle: ".panel-heading", containment: "parent"});
     //$( "div, p" ).disableSelection();
     $("#draggable").resizable();
 }
@@ -1740,7 +1767,7 @@ function avideoTooltip(selector, text) {
     $(selector).attr('title', text);
     $(selector).attr('data-toggle', 'tooltip');
     $(selector).attr('data-original-title', text);
-    $(selector).tooltip({ html: true });
+    $(selector).tooltip({html: true});
 }
 
 function fixAdSize() {
@@ -1748,8 +1775,8 @@ function fixAdSize() {
     if (ad_container.length) {
         height = ad_container.css('height');
         width = ad_container.css('width');
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'height': height });
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'width': width });
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
     }
 }
 
@@ -1871,11 +1898,11 @@ function clearCache(showPleaseWait, FirstPage, sessionOnly) {
 
 function validURL(str) {
     var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+:]*)*' + // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+            '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
 }
 
@@ -2096,9 +2123,26 @@ function checkMoment() {
      */
 }
 
+function searchInList(inputSelector, filterElementSelector) {
+    $(inputSelector).on('keyup', function () {
+        var searchText = $(this).val().toLowerCase();
+        $(filterElementSelector).each(function () {
+            var categoryText = $(this).text().toLowerCase();
+            if (categoryText.indexOf(searchText) === -1) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        });
+    });
+}
+
 function addGetParam(_url, _key, _value) {
     if (typeof _url !== 'string') {
         return false;
+    }
+    if (typeof _value == 'undefined' || _value == 'undefined' || _value == '') {
+        return _url;
     }
     var param = _key + '=' + escape(_value);
     var sep = '&';
@@ -2126,11 +2170,11 @@ function removeDuplicatedGetParam(_url) {
         return _url;
     }
     var params = queryParam.split('&'),
-        results = {};
+            results = {};
     for (var i = 0; i < params.length; i++) {
         var temp = params[i].split('='),
-            key = temp[0],
-            val = temp[1];
+                key = temp[0],
+                val = temp[1];
         results[key] = val;
     }
 
@@ -2148,11 +2192,11 @@ function removeGetParam(_url, parameter) {
         return _url;
     }
     var params = queryParam.split('&'),
-        results = {};
+            results = {};
     for (var i = 0; i < params.length; i++) {
         var temp = params[i].split('='),
-            key = temp[0],
-            val = temp[1];
+                key = temp[0],
+                val = temp[1];
         if (key !== parameter) {
             results[key] = val;
         }
@@ -2190,7 +2234,7 @@ function readFileCroppie(input, crop) {
 
 function getCroppie(uploadCropObject, callback, width, height) {
     //console.log('getCroppie 1', uploadCropObject);
-    var ret = uploadCropObject.croppie('result', { type: 'base64', size: { width: width, height: height }, format: 'png' }).then(function (resp) {
+    var ret = uploadCropObject.croppie('result', {type: 'base64', size: {width: width, height: height}, format: 'png'}).then(function (resp) {
         ////console.log('getCroppie 2 ' + callback, resp);
         eval(callback + "(resp);");
     }).catch(function (err) {
@@ -2206,7 +2250,7 @@ async function setToolTips() {
         return false;
     }
     try {
-        $(selector).not('.alreadyTooltip').tooltip({ container: 'body', html: true });
+        $(selector).not('.alreadyTooltip').tooltip({container: 'body', html: true});
         $(selector).not('.alreadyTooltip').on('click', function () {
             var t = this;
             setTimeout(function () {
@@ -2238,17 +2282,18 @@ function avideoSocketIsActive() {
 function isMediaSiteURL(url) {
     if (validURL(url)) {
         if (url.match(/youtube/i) ||
-            url.match(/youtu\.be/i) ||
-            url.match(/vimeo/i) ||
-            url.match(/dailymotion/i) ||
-            url.match(/metacafe/i) ||
-            url.match(/vid\.me/i) ||
-            url.match(/rutube\.ru/i) ||
-            url.match(/ok\.ru/i) ||
-            url.match(/streamable/i) ||
-            url.match(/twitch/i) ||
-            url.match(/evideoEmbed/i) ||
-            url.match(/videoEmbeded/i)) {
+                url.match(/youtu\.be/i) ||
+                url.match(/vimeo/i) ||
+                url.match(/dailymotion/i) ||
+                url.match(/metacafe/i) ||
+                url.match(/vid\.me/i) ||
+                url.match(/rutube\.ru/i) ||
+                url.match(/ok\.ru/i) ||
+                url.match(/streamable/i) ||
+                url.match(/twitch/i) ||
+                url.match(/evideoEmbed/i) ||
+                url.match(/videoEmbed/i) ||
+                url.match(/videoEmbeded/i)) {
             return true;
         }
     }
@@ -2265,7 +2310,7 @@ function changeVideoStatus(videos_id, status) {
     modal.showPleaseWait();
     $.ajax({
         url: webSiteRootURL + 'objects/videoStatus.json.php',
-        data: { "id": [videos_id], "status": status },
+        data: {"id": [videos_id], "status": status},
         type: 'post',
         success: function (response) {
             modal.hidePleaseWait();
@@ -2278,6 +2323,7 @@ function changeVideoStatus(videos_id, status) {
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_a');
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_u');
                     $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_i');
+                    $(".getChangeVideoStatusButton_" + videos_id).removeClass('status_s');
                     $(".getChangeVideoStatusButton_" + videos_id).addClass('status_' + response.status[item].status);
                 }
 
@@ -2288,13 +2334,18 @@ function changeVideoStatus(videos_id, status) {
 }
 
 function avideoAjax(url, data) {
-    modal.showPleaseWait();
+    avideoAjax2(url, data, true);
+}
+
+function avideoAjax2(url, data, pleaseWait) {
+    if (pleaseWait) {
+        modal.showPleaseWait();
+    }
     $.ajax({
         url: url,
         data: data,
         type: 'post',
         success: function (response) {
-            modal.hidePleaseWait();
             if (response.error) {
                 avideoAlertError(response.msg);
             } else {
@@ -2302,6 +2353,19 @@ function avideoAjax(url, data) {
                 if (typeof response.eval !== 'undefined') {
                     eval(response.eval);
                 }
+            }
+        },
+        error: function (response) {
+            //console.error('avideoAjax2', url, data, pleaseWait, response.responseJSON);
+            if (response.responseJSON.error) {
+                avideoAlertError(response.responseJSON.msg);
+            } else {
+                avideoToastError(response.responseJSON.msg);
+            }
+        },
+        complete: function (response) {
+            if (pleaseWait) {
+                modal.hidePleaseWait();
             }
         }
     });
@@ -2363,80 +2427,84 @@ function goToURLOrAlertError(jsonURL, data) {
     });
 }
 
+var downloadModal = getPleaseWait();
 function downloadURL(url, filename) {
+
+    downloadModal.showPleaseWait();
     filename = clean_name(filename) + '.' + clean_name(url.split(/[#?]/)[0].split('.').pop().trim());
     console.log('downloadURL start ', url, filename);
     var loaded = 0;
     var contentLength = 0;
     fetch(url)
-        .then(response => {
-            avideoToastSuccess('Download Start');
-            const contentEncoding = response.headers.get('content-encoding');
-            const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
-            if (contentLength === null) {
-                throw Error('Response size header unavailable');
-            }
+            .then(response => {
+                avideoToastSuccess('Download Start');
+                const contentEncoding = response.headers.get('content-encoding');
+                const contentLength = response.headers.get(contentEncoding ? 'x-file-size' : 'content-length');
+                if (contentLength === null) {
+                    throw Error('Response size header unavailable');
+                }
 
-            const total = parseInt(contentLength, 10);
-            let loaded = 0;
-            return new Response(
-                new ReadableStream({
-                    start(controller) {
-                        const reader = response.body.getReader();
-                        read();
-                        function read() {
-                            reader.read().then(({ done, value }) => {
-                                if (done) {
-                                    controller.close();
-                                    return;
-                                }
-                                loaded += value.byteLength;
-                                var percentageLoaded = Math.round(loaded / total * 100);
-                                ////console.log(percentageLoaded);
-                                modal.setProgress(percentageLoaded);
-                                modal.setText('Downloading ... ' + percentageLoaded + '%');
-                                controller.enqueue(value);
+                const total = parseInt(contentLength, 10);
+                let loaded = 0;
+                return new Response(
+                        new ReadableStream({
+                            start(controller) {
+                                const reader = response.body.getReader();
                                 read();
-                            }).catch(error => {
-                                console.error(error);
-                                controller.error(error)
-                            })
-                        }
-                    }
-                })
-            );
-        })
-        .then(response => response.blob())
-        .then(blob => {
-            const urlFromBlob = window.URL.createObjectURL(blob);
-            console.log('downloadURL', url, filename, blob);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = urlFromBlob;
-            // the filename you want
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            modal.hidePleaseWait();
-            avideoToastSuccess('Download complete ' + filename);
-        })
-        .catch(function (err) {
-            //avideoAlertError('Error on download ');
-            console.log(err);
-            addQueryStringParameter(url, 'download', 1);
-            addQueryStringParameter(url, 'title', filename);
-            document.location = url;
-        });
+                                function read() {
+                                    reader.read().then(({ done, value }) => {
+                                        if (done) {
+                                            controller.close();
+                                            return;
+                                        }
+                                        loaded += value.byteLength;
+                                        var percentageLoaded = Math.round(loaded / total * 100);
+                                        ////console.log(percentageLoaded);
+                                        downloadModal.setProgress(percentageLoaded);
+                                        downloadModal.setText('Downloading ... ' + percentageLoaded + '%');
+                                        controller.enqueue(value);
+                                        read();
+                                    }).catch(error => {
+                                        console.error(error);
+                                        controller.error(error)
+                                    })
+                                }
+                            }
+                        })
+                        );
+            })
+            .then(response => response.blob())
+            .then(blob => {
+                const urlFromBlob = window.URL.createObjectURL(blob);
+                console.log('downloadURL', url, filename, blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = urlFromBlob;
+                // the filename you want
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                downloadModal.hidePleaseWait();
+                avideoToastSuccess('Download complete ' + filename);
+            })
+            .catch(function (err) {
+                //avideoAlertError('Error on download ');
+                console.log(err);
+                addQueryStringParameter(url, 'download', 1);
+                addQueryStringParameter(url, 'title', filename);
+                document.location = url;
+            });
 }
 
 var downloadURLOrAlertErrorInterval;
+var downloadURLOrAlertModal = getPleaseWait();
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
     if (empty(jsonURL)) {
         console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
         return false;
     }
-    modal.showPleaseWait();
+    downloadURLOrAlertModal.showPleaseWait();
     avideoToastInfo('Converting');
     console.log('downloadURLOrAlertError 1', jsonURL, FFMpegProgress);
     checkFFMPEGProgress(FFMpegProgress);
@@ -2448,25 +2516,29 @@ function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
             clearInterval(downloadURLOrAlertErrorInterval);
             if (response.error) {
                 avideoAlertError(response.msg);
-                modal.hidePleaseWait();
+                downloadURLOrAlertModal.hidePleaseWait();
             } else if (response.url) {
                 if (response.msg) {
                     avideoAlertInfo(response.msg);
                 }
                 if (
-                    isMobile()
-                    //|| /cdn.ypt.me/.test(response.url)
-                ) {
+                        isMobile()
+                        //|| /cdn.ypt.me/.test(response.url)
+                        ) {
+                    console.log('downloadURLOrAlertError 2', response.url);
                     window.open(response.url, '_blank');
                     avideoToastInfo('Opening file');
                     //document.location = response.url
                 } else {
+                    console.log('downloadURLOrAlertError 3', response.url, filename);
                     downloadURL(response.url, filename);
                 }
             } else {
+                console.log('downloadURLOrAlertError 4', response);
                 avideoResponse(response);
-                modal.hidePleaseWait();
             }
+
+            downloadURLOrAlertModal.hidePleaseWait();
         }
     });
 }
@@ -2593,6 +2665,9 @@ function empty(data) {
     } else if (type === 'boolean') {
         return !data;
     } else if (type === 'string') {
+        if (data == 0) {
+            return true;
+        }
         return /^[\s]*$/.test(data);
     } else if (type !== 'undefined') {
         return Object.keys(data).length == 0;
@@ -2643,7 +2718,7 @@ function getCursorPos(input) {
                 len++;
             }
             rng.setEndPoint("StartToStart", input.createTextRange());
-            for (var pos = { start: 0, end: len }; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
+            for (var pos = {start: 0, end: len}; rng.compareEndPoints("EndToStart", rng) > 0; rng.moveEnd("character", -1)) {
                 pos.start++;
                 pos.end++;
             }
@@ -2661,16 +2736,12 @@ function getCursorPos(input) {
 
 function isUserOnline(users_id) {
     users_id = parseInt(users_id);
-    if (typeof users_id_online === 'undefined' || empty(users_id_online)) {
+    if (typeof users_id_online === 'undefined' || empty(users_id_online) || !Array.isArray(users_id_online)) {
+        console.log('isUserOnline', users_id);
         return false;
     }
-    if (typeof users_id_online[users_id] === 'undefined' || empty(users_id_online[users_id])) {
-        return false;
-    }
-    if (empty(users_id_online[users_id].resourceId)) {
-        return false;
-    }
-    return users_id_online[users_id];
+
+    return users_id_online.find((u) => u.users_id == users_id);
 }
 
 function isReadyToCheckIfIsOnline() {
@@ -2690,10 +2761,10 @@ function addAtMention(selector) {
     $(selector).on("keydown", function (event) {
         if (!$(this).autocomplete("instance").menu.active) {
             if (
-                event.keyCode === SpaceKeyCode ||
-                event.keyCode === $.ui.keyCode.TAB ||
-                event.keyCode === $.ui.keyCode.ENTER ||
-                event.keyCode === $.ui.keyCode.ESCAPE) {
+                    event.keyCode === SpaceKeyCode ||
+                    event.keyCode === $.ui.keyCode.TAB ||
+                    event.keyCode === $.ui.keyCode.ENTER ||
+                    event.keyCode === $.ui.keyCode.ESCAPE) {
                 $(this).autocomplete("close");
             }
         } else {
@@ -2702,77 +2773,77 @@ function addAtMention(selector) {
             }
         }
     })
-        .autocomplete({
-            minLength: 2,
-            source: function (request, response) {
+            .autocomplete({
+                minLength: 2,
+                source: function (request, response) {
 
-                var pos = getCursorPos($(selector)[0]);
-                stringStart = request.term.substring(0, pos.end);
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = request.term.substring(0, pos.end);
 
-                var term = stringStart.split(/\s+/).pop();
-                //console.log('autocomplete', request.term, term, AtMatcher.test(term));
-                if (AtMatcher.test(term)) {
-                    $.ajax({
-                        url: webSiteRootURL + "objects/mention.json.php",
-                        data: {
-                            term: term
-                        },
-                        success: function (data) {
-                            response(data);
-                        }
-                    });
-                } else {
+                    var term = stringStart.split(/\s+/).pop();
+                    //console.log('autocomplete', request.term, term, AtMatcher.test(term));
+                    if (AtMatcher.test(term)) {
+                        $.ajax({
+                            url: webSiteRootURL + "objects/mention.json.php",
+                            data: {
+                                term: term
+                            },
+                            success: function (data) {
+                                response(data);
+                            }
+                        });
+                    } else {
+                        return false;
+                    }
+                },
+                focus: function () {
+                    // prevent value inserted on focus
                     return false;
-                }
-            },
-            focus: function () {
-                // prevent value inserted on focus
-                return false;
-            },
-            select: function (event, ui) {
-                addAtMentionActive = true;
-                setTimeout(function () {
-                    addAtMentionActive = false;
-                }, 200);
-                if (emojioneArea) {
-                    this.value = $(emojioneArea).data("emojioneArea").getText();
-                }
-                //console.log('addAtMention', this, this.value);
-                var pos = getCursorPos($(selector)[0]);
-                stringStart = this.value.substring(0, pos.end);
-                stringEnd = this.value.substring(pos.end);
-
-                var terms = stringStart.split(/\s+/);
-                // remove the current input
-                var word = terms.pop();
-                // add the selected item
-                //terms.push('@' + ui.item.value);
-                // add placeholder to get the comma-and-space at the end
-                //terms.push("");
-                replace = '@' + ui.item.value;
-
-                this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
-                if (emojioneArea) {
-                    $(emojioneArea).data("emojioneArea").setText(this.value);
+                },
+                select: function (event, ui) {
+                    addAtMentionActive = true;
                     setTimeout(function () {
-                        contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
-                        range = document.createRange();//Create a range (a range is a like the selection but invisible)
-                        range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
-                        range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
-                        selection = window.getSelection();//get the selection object (allows you to change selection)
-                        selection.removeAllRanges();//remove any selections already made
-                        selection.addRange(range);//make the range you have just created the visible selection
-                    }, 50);
-                }
-                return false;
-            },
-            create: function () {
-                $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
-                    return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
-                };
-            },
-            position: { collision: "flip" }
-        });
+                        addAtMentionActive = false;
+                    }, 200);
+                    if (emojioneArea) {
+                        this.value = $(emojioneArea).data("emojioneArea").getText();
+                    }
+                    //console.log('addAtMention', this, this.value);
+                    var pos = getCursorPos($(selector)[0]);
+                    stringStart = this.value.substring(0, pos.end);
+                    stringEnd = this.value.substring(pos.end);
+
+                    var terms = stringStart.split(/\s+/);
+                    // remove the current input
+                    var word = terms.pop();
+                    // add the selected item
+                    //terms.push('@' + ui.item.value);
+                    // add placeholder to get the comma-and-space at the end
+                    //terms.push("");
+                    replace = '@' + ui.item.value;
+
+                    this.value = replaceLast(word, '@' + ui.item.value, stringStart) + stringEnd;
+                    if (emojioneArea) {
+                        $(emojioneArea).data("emojioneArea").setText(this.value);
+                        setTimeout(function () {
+                            contentEditableElement = document.getElementsByClassName("emojionearea-editor")[0];
+                            range = document.createRange();//Create a range (a range is a like the selection but invisible)
+                            range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+                            range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+                            selection = window.getSelection();//get the selection object (allows you to change selection)
+                            selection.removeAllRanges();//remove any selections already made
+                            selection.addRange(range);//make the range you have just created the visible selection
+                        }, 50);
+                    }
+                    return false;
+                },
+                create: function () {
+                    $(this).data('ui-autocomplete')._renderItem = function (ul, item) {
+                        return $('<li>' + item.label + '</li>').appendTo(ul); // customize your HTML
+                    };
+                },
+                position: {collision: "flip"}
+            });
 }
 /*
  async function selectAElements() {
@@ -2945,11 +3016,99 @@ $(document).ready(function () {
 
 });
 
+/*!
+ * Sanitize an HTML string
+ * (c) 2021 Chris Ferdinandi, MIT License, https://gomakethings.com
+ * @param  {String}          str   The HTML string to sanitize
+ * @param  {Boolean}         nodes If true, returns HTML nodes instead of a string
+ * @return {String|NodeList}       The sanitized string or nodes
+ */
+function cleanHTML(str, nodes) {
+
+    /**
+     * Convert the string to an HTML document
+     * @return {Node} An HTML document
+     */
+    function stringToHTML() {
+        let parser = new DOMParser();
+        let doc = parser.parseFromString(str, 'text/html');
+        return doc.body || document.createElement('body');
+    }
+
+    /**
+     * Remove <script> elements
+     * @param  {Node} html The HTML
+     */
+    function removeScripts(html) {
+        let scripts = html.querySelectorAll('script');
+        for (let script of scripts) {
+            script.remove();
+        }
+    }
+
+    /**
+     * Check if the attribute is potentially dangerous
+     * @param  {String}  name  The attribute name
+     * @param  {String}  value The attribute value
+     * @return {Boolean}       If true, the attribute is potentially dangerous
+     */
+    function isPossiblyDangerous(name, value) {
+        let val = value.replace(/\s+/g, '').toLowerCase();
+        if (['src', 'href', 'xlink:href'].includes(name)) {
+            if (val.includes('javascript:') || val.includes('data:text/html'))
+                return true;
+        }
+        if (name.startsWith('on'))
+            return true;
+    }
+
+    /**
+     * Remove potentially dangerous attributes from an element
+     * @param  {Node} elem The element
+     */
+    function removeAttributes(elem) {
+
+        // Loop through each attribute
+        // If it's dangerous, remove it
+        let atts = elem.attributes;
+        for (let {name, value} of atts) {
+            if (!isPossiblyDangerous(name, value))
+                continue;
+            elem.removeAttribute(name);
+        }
+
+    }
+
+    /**
+     * Remove dangerous stuff from the HTML document's nodes
+     * @param  {Node} html The HTML document
+     */
+    function clean(html) {
+        let nodes = html.children;
+        for (let node of nodes) {
+            removeAttributes(node);
+            clean(node);
+        }
+    }
+
+    // Convert the string to HTML
+    let html = stringToHTML();
+
+    // Sanitize it
+    removeScripts(html);
+    clean(html);
+
+    // If the user wants HTML nodes back, return them
+    // Otherwise, pass a sanitized string back
+    return nodes ? html.childNodes : html.innerHTML;
+
+}
+
 async function _alertFromGet(type) {
     if (urlParams.has(type)) {
         var msg = urlParams.get(type);
         var div = document.createElement("div");
-        div.innerHTML = msg;
+        div.innerHTML = cleanHTML(msg, false);
         var text = div.textContent || div.innerText || "";
         if (!empty(text)) {
             switch (type) {
@@ -3033,8 +3192,8 @@ function fixAdSize() {
     if (ad_container.length) {
         height = ad_container.css('height');
         width = ad_container.css('width');
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'height': height });
-        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({ 'width': width });
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'height': height});
+        $($('#mainVideo_ima-ad-container div:first-child')[0]).css({'width': width});
     }
 }
 
@@ -3319,7 +3478,7 @@ function passStrengthCheck(selector) {
     } else {
         strengthMsg.push('Special chars');
     }
-    return { strength: strength, strengthMsg: strengthMsg };
+    return {strength: strength, strengthMsg: strengthMsg};
 }
 
 function passStrengthCheckInput(selector) {
@@ -3464,7 +3623,7 @@ async function setVideoSuggested(videos_id, isSuggested) {
     return new Promise((resolve, reject) => {
         $.ajax({
             url: webSiteRootURL + 'objects/videoSuggest.php',
-            data: { "id": videos_id, "isSuggested": isSuggested },
+            data: {"id": videos_id, "isSuggested": isSuggested},
             type: 'post',
             success: function (data) {
                 modal.hidePleaseWait();
@@ -3681,16 +3840,48 @@ function addScript(src) {
     }
 }
 
-function avideoLogoff() {
-    sendAVideoMobileLiveStreamerMessage('logoff', '');
-    document.location = webSiteRootURL + 'logoff';
-}
-
-function sendAVideoMobileLiveStreamerMessage(type, value) {
-    if (typeof window.AVideoMobileLiveStreamer !== 'undefined') {
-        window.AVideoMobileLiveStreamer.postMessage({ type: type, value: value });
+function avideoLogoff(redirect) {
+    sendAVideoMobileMessage('logoff', '');
+    if (redirect) {
+        document.location = webSiteRootURL + 'logoff';
     }
 }
+
+async function sendAVideoMobileMessage(type, value) {
+    return sendAVideoMobileMessage(type, value);
+}
+
+async function sendAVideoMobileMessage(type, value) {
+    if (typeof window.flutter_inappwebview !== 'undefined') {
+        //console.log('sendAVideoMobileMessage flutter_inappwebview', typeof window.flutter_inappwebview, window.flutter_inappwebview);
+        if (typeof window.flutter_inappwebview.callHandler == 'function') {
+            response = await window.flutter_inappwebview.callHandler('AVideoMobileLiveStreamer3', {type: type, value: value, instanceIndex: 3});
+            console.log('sendAVideoMobileMessage test', response);
+            for (var i = 0; i < 10; i++) {
+                var name = 'AVideoMobileLiveStreamer' + i;
+                response = await window.flutter_inappwebview.callHandler(name, {type: type, value: value, instanceIndex: i});
+                if (response !== null) {
+                    console.log('sendAVideoMobileMessage executed', name, response, type, value);
+                    break;
+                } else {
+                    console.log('sendAVideoMobileMessage not found', name, type, value);
+                }
+            }
+        } else {
+            console.log('sendAVideoMobileMessage will try again', type, value);
+            setTimeout(function () {
+                sendAVideoMobileMessage(type, value);
+            }, 1000);
+        }
+    } else {
+        //window.parent.postMessage({type: type, value: value}, '*');
+        window.top.postMessage({type: type, value: value}, '*');
+    }
+}
+window.addEventListener("flutterInAppWebViewPlatformReady", function (event) {
+    console.log('flutterInAppWebViewPlatformReady Platform ready, sending APPIsReady message');
+    sendAVideoMobileMessage('APPIsReady', 1);
+});
 
 function getUser() {
     var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=user';
@@ -3698,4 +3889,8 @@ function getUser() {
         url: url,
         async: false
     }).responseText;
+}
+
+function getUniqueValuesFromArray(items) {
+    return [...new Set(items)];
 }

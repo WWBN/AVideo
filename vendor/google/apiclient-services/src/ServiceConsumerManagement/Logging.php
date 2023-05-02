@@ -22,8 +22,10 @@ class Logging extends \Google\Collection
   protected $collection_key = 'producerDestinations';
   protected $consumerDestinationsType = LoggingDestination::class;
   protected $consumerDestinationsDataType = 'array';
+  public $consumerDestinations;
   protected $producerDestinationsType = LoggingDestination::class;
   protected $producerDestinationsDataType = 'array';
+  public $producerDestinations;
 
   /**
    * @param LoggingDestination[]

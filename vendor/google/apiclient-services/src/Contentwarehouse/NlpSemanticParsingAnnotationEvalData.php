@@ -22,6 +22,7 @@ class NlpSemanticParsingAnnotationEvalData extends \Google\Collection
   protected $collection_key = 'additionalSpans';
   protected $additionalSpansType = NlpSemanticParsingAnnotationEvalData::class;
   protected $additionalSpansDataType = 'array';
+  public $additionalSpans;
   /**
    * @var int
    */

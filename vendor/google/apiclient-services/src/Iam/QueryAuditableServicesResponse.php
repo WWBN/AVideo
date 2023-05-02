@@ -22,6 +22,7 @@ class QueryAuditableServicesResponse extends \Google\Collection
   protected $collection_key = 'services';
   protected $servicesType = AuditableService::class;
   protected $servicesDataType = 'array';
+  public $services;
 
   /**
    * @param AuditableService[]

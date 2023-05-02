@@ -22,6 +22,7 @@ class ListCssesResponse extends \Google\Collection
   protected $collection_key = 'csses';
   protected $cssesType = Css::class;
   protected $cssesDataType = 'array';
+  public $csses;
   /**
    * @var string
    */

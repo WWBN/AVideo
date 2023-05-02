@@ -32,6 +32,7 @@ class OceanVolumeViewabilityLocale extends \Google\Model
   public $locale;
   protected $viewabilityType = OceanLocaleViewability::class;
   protected $viewabilityDataType = '';
+  public $viewability;
 
   /**
    * @param int

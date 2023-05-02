@@ -21,6 +21,7 @@ class MessageParentId extends \Google\Model
 {
   protected $topicIdType = TopicId::class;
   protected $topicIdDataType = '';
+  public $topicId;
 
   /**
    * @param TopicId

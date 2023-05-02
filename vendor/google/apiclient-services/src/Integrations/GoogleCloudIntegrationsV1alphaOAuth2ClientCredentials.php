@@ -21,6 +21,7 @@ class GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials extends \Google\Mode
 {
   protected $accessTokenType = GoogleCloudIntegrationsV1alphaAccessToken::class;
   protected $accessTokenDataType = '';
+  public $accessToken;
   /**
    * @var string
    */
@@ -43,6 +44,7 @@ class GoogleCloudIntegrationsV1alphaOAuth2ClientCredentials extends \Google\Mode
   public $tokenEndpoint;
   protected $tokenParamsType = GoogleCloudIntegrationsV1alphaParameterMap::class;
   protected $tokenParamsDataType = '';
+  public $tokenParams;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaAccessToken

@@ -26,6 +26,7 @@ class ListPlatformsResponse extends \Google\Collection
   public $nextPageToken;
   protected $platformsType = Platform::class;
   protected $platformsDataType = 'array';
+  public $platforms;
 
   /**
    * @param string

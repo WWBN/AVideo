@@ -26,7 +26,7 @@ use Google\Service\CloudIdentity\Operation;
  * Typical usage is:
  *  <code>
  *   $cloudidentityService = new Google\Service\CloudIdentity(...);
- *   $clientStates = $cloudidentityService->clientStates;
+ *   $clientStates = $cloudidentityService->devices_deviceUsers_clientStates;
  *  </code>
  */
 class DevicesDeviceUsersClientStates extends \Google\Service\Resource

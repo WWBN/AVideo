@@ -24,7 +24,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListRuntimeEntityS
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $runtimeEntitySchemas = $integrationsService->runtimeEntitySchemas;
+ *   $runtimeEntitySchemas = $integrationsService->projects_locations_connections_runtimeEntitySchemas;
  *  </code>
  */
 class ProjectsLocationsConnectionsRuntimeEntitySchemas extends \Google\Service\Resource

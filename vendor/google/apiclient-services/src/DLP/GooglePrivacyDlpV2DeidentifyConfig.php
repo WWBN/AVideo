@@ -21,12 +21,16 @@ class GooglePrivacyDlpV2DeidentifyConfig extends \Google\Model
 {
   protected $imageTransformationsType = GooglePrivacyDlpV2ImageTransformations::class;
   protected $imageTransformationsDataType = '';
+  public $imageTransformations;
   protected $infoTypeTransformationsType = GooglePrivacyDlpV2InfoTypeTransformations::class;
   protected $infoTypeTransformationsDataType = '';
+  public $infoTypeTransformations;
   protected $recordTransformationsType = GooglePrivacyDlpV2RecordTransformations::class;
   protected $recordTransformationsDataType = '';
+  public $recordTransformations;
   protected $transformationErrorHandlingType = GooglePrivacyDlpV2TransformationErrorHandling::class;
   protected $transformationErrorHandlingDataType = '';
+  public $transformationErrorHandling;
 
   /**
    * @param GooglePrivacyDlpV2ImageTransformations

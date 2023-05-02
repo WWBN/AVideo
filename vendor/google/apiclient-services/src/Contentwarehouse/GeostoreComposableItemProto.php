@@ -22,18 +22,31 @@ class GeostoreComposableItemProto extends \Google\Collection
   protected $collection_key = 'nameInfo';
   protected $callToActionType = GeostoreCallToActionProto::class;
   protected $callToActionDataType = '';
+  public $callToAction;
   protected $jobMetadataType = GeostoreJobMetadata::class;
   protected $jobMetadataDataType = '';
+  public $jobMetadata;
   protected $mediaType = GeostoreMediaItemProto::class;
   protected $mediaDataType = 'array';
+  public $media;
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
+  public $nameInfo;
   /**
    * @var string
    */
   public $offered;
   protected $priceType = GeostorePriceRangeProto::class;
   protected $priceDataType = '';
+  public $price;
+  /**
+   * @var string
+   */
+  public $priceFormat;
+  /**
+   * @var float
+   */
+  public $rankingHint;
 
   /**
    * @param GeostoreCallToActionProto
@@ -118,6 +131,34 @@ class GeostoreComposableItemProto extends \Google\Collection
   public function getPrice()
   {
     return $this->price;
+  }
+  /**
+   * @param string
+   */
+  public function setPriceFormat($priceFormat)
+  {
+    $this->priceFormat = $priceFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getPriceFormat()
+  {
+    return $this->priceFormat;
+  }
+  /**
+   * @param float
+   */
+  public function setRankingHint($rankingHint)
+  {
+    $this->rankingHint = $rankingHint;
+  }
+  /**
+   * @return float
+   */
+  public function getRankingHint()
+  {
+    return $this->rankingHint;
   }
 }
 

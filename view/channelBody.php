@@ -40,14 +40,14 @@ $type = '';
 if($advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')){
     $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'article');
     if(!empty($uploadedTotalArticles)){
-        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, 'article');
+        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'article');
     }
     $type = 'notArticle';
 }
 if($advancedCustomUser->showAudioTab){
     $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'audio');
     if(!empty($uploadedTotalAudio)){
-        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, 'audio');
+        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'audio');
     }
     //var_dump($uploadedAudio);exit;
     if(empty($type)){
@@ -57,10 +57,10 @@ if($advancedCustomUser->showAudioTab){
     }
 }
 //var_dump($uploadedArticles);exit;
-$uploadedVideos = array();
+$uploadedVideos = [];
 $uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, $type);
 if(!empty($uploadedTotalVideos)){
-    $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), array(), false, $showUnlisted, true, false, null, $type);
+    $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
 }
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
@@ -217,7 +217,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-broadcast-tower"></i> <?php echo strtoupper(__("Live Now")); ?>
+                                    <span class="glow-flash-icon live-icon"></span> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -230,7 +230,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-home"></i> <?php echo strtoupper(__("Home")); ?>
+                                        <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -243,7 +243,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelVideos" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-file-video"></i> <?php echo strtoupper(__("Videos")); ?> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
+                                        <i class="fas fa-file-video"></i> <span class="labelUpperCase"><?php echo __('Videos'); ?></span> <span class="badge"><?php echo $uploadedTotalVideos; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -256,7 +256,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelArticles" data-toggle="tab" aria-expanded="false">
-                                        <i class="far fa-file-alt"></i> <?php echo strtoupper(__("Articles")); ?> <span class="badge"><?php echo $uploadedTotalArticles; ?></span>
+                                        <i class="far fa-file-alt"></i> <span class="labelUpperCase"><?php echo __('Articles'); ?></span> <span class="badge"><?php echo $uploadedTotalArticles; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -269,7 +269,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelAudio" data-toggle="tab" aria-expanded="false">
-                                        <i class="fas fa-file-audio"></i> <?php echo strtoupper(__("Audio")); ?> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
+                                        <i class="fas fa-file-audio"></i> <span class="labelUpperCase"><?php echo __('Audio'); ?></span> <span class="badge"><?php echo $uploadedTotalAudio; ?></span>
                                     </a>
                                 </li>
                                 <?php
@@ -281,7 +281,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                     ?>
                                     <li class="nav-item <?php echo $active; ?>" id="channelPlayListsLi">
                                         <a class="nav-link " href="#channelPlayLists" data-toggle="tab" aria-expanded="true">
-                                            <i class="fas fa-list"></i> <?php echo strtoupper(__($palyListsObj->name)); ?> <span class="badge"><?php echo count($totalPrograms); ?></span>
+                                            <i class="fas fa-list"></i> <span class="labelUpperCase"><?php echo __($palyListsObj->name); ?></span> <span class="badge"><?php echo count($totalPrograms); ?></span>
                                         </a>
                                     </li>
                                     <?php
@@ -309,7 +309,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            
+
                             if ($advancedCustomUser->showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
@@ -442,7 +442,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            
+
                             if (!empty($uploadedTotalAudio)) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = "";

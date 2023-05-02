@@ -21,18 +21,23 @@ class GoogleCloudDialogflowCxV3beta1QueryInput extends \Google\Model
 {
   protected $audioType = GoogleCloudDialogflowCxV3beta1AudioInput::class;
   protected $audioDataType = '';
+  public $audio;
   protected $dtmfType = GoogleCloudDialogflowCxV3beta1DtmfInput::class;
   protected $dtmfDataType = '';
+  public $dtmf;
   protected $eventType = GoogleCloudDialogflowCxV3beta1EventInput::class;
   protected $eventDataType = '';
+  public $event;
   protected $intentType = GoogleCloudDialogflowCxV3beta1IntentInput::class;
   protected $intentDataType = '';
+  public $intent;
   /**
    * @var string
    */
   public $languageCode;
   protected $textType = GoogleCloudDialogflowCxV3beta1TextInput::class;
   protected $textDataType = '';
+  public $text;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1AudioInput

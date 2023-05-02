@@ -29,8 +29,10 @@ class StreamingSetupTask extends \Google\Model
   public $receiveWorkPort;
   protected $snapshotConfigType = StreamingApplianceSnapshotConfig::class;
   protected $snapshotConfigDataType = '';
+  public $snapshotConfig;
   protected $streamingComputationTopologyType = TopologyConfig::class;
   protected $streamingComputationTopologyDataType = '';
+  public $streamingComputationTopology;
   /**
    * @var int
    */

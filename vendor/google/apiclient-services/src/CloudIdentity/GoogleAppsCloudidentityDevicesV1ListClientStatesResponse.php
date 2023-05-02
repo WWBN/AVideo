@@ -22,6 +22,7 @@ class GoogleAppsCloudidentityDevicesV1ListClientStatesResponse extends \Google\C
   protected $collection_key = 'clientStates';
   protected $clientStatesType = GoogleAppsCloudidentityDevicesV1ClientState::class;
   protected $clientStatesDataType = 'array';
+  public $clientStates;
   /**
    * @var string
    */

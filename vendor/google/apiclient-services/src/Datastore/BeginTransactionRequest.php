@@ -25,6 +25,7 @@ class BeginTransactionRequest extends \Google\Model
   public $databaseId;
   protected $transactionOptionsType = TransactionOptions::class;
   protected $transactionOptionsDataType = '';
+  public $transactionOptions;
 
   /**
    * @param string

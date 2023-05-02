@@ -1,7 +1,7 @@
 # Video.js Icon Font
 
 This project contains all of the tooling necessary to generate a new icon font for Video.js. The icons themselves are from
-Google's [Material Design Icons](https://github.com/google/material-design-icons).
+Google's [Material Design Icons](https://github.com/google/material-design-icons) (from the commonly available version 3 of the set, with version 4 symbols supplemented as custom SVGs) and [Font Awesome](https://fontawesome.com/).
 
 You can see an overview of the icons used in the default Video.js font here: https://videojs.github.io/font/
 
@@ -91,3 +91,57 @@ Example:
 ```sh
 $ grunt --custom-json=MyPluginFont.json --exclude-default
 ```
+
+## Icon unicode strings
+
+Videojs-font generates unicode strings for default and custom icons which are used as css pseudo-element content values by the videojs-icons.css file.
+
+### Version 4 default unicode values
+| Icon Name  | Unicode |
+| ---------- | ------- |
+| play | 'f101' |
+| play-circle | 'f102' |
+| pause | 'f103' |
+| volume-mute | 'f104' |
+| volume-low | 'f105' |
+| volume-mid | 'f106' |
+| volume-high | 'f107' |
+| fullscreen-enter | 'f108' |
+| fullscreen-exit | 'f109' |
+| spinner | 'f10a' |
+| subtitles | 'f10b' |
+| captions | 'f10c' |
+| hd | 'f10d' |
+| chapters | 'f10e' |
+| downloading | 'f10f' |
+| file-download | 'f110' |
+| file-download-done | 'f111' |
+| file-download-off | 'f112' |
+| share | 'f113' |
+| cog | 'f114' |
+| square | 'f115' |
+| circle | 'f116' |
+| circle-outline | 'f117' |
+| circle-inner-circle | 'f118' |
+| cancel | 'f119' |
+| repeat | 'f11a' |
+| replay | 'f11b' |
+| replay-5 | 'f11c' |
+| replay-10 | 'f11d' |
+| replay-30 | 'f11e' |
+| forward-5 | 'f11f' |
+| forward-10 | 'f120' |
+| forward-30 | 'f121' |
+| audio | 'f122' |
+| next-item | 'f123' |
+| previous-item | 'f124' |
+| shuffle | 'f125' |
+| cast | 'f126' |
+| picture-in-picture-enter | 'f127' |
+| picture-in-picture-exit | 'f128' |
+| facebook | 'f129' |
+| linkedin | 'f12a' |
+| twitter | 'f12b' |
+| tumblr | 'f12c' |
+| pinterest | 'f12d' |
+| audio-description | 'f12e' |

@@ -26,6 +26,7 @@ class CustomApp extends \Google\Collection
   public $languageCode;
   protected $organizationsType = Organization::class;
   protected $organizationsDataType = 'array';
+  public $organizations;
   /**
    * @var string
    */

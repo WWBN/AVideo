@@ -25,7 +25,7 @@ use Google\Service\Adsense\Site;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $sites = $adsenseService->sites;
+ *   $sites = $adsenseService->accounts_sites;
  *  </code>
  */
 class AccountsSites extends \Google\Service\Resource

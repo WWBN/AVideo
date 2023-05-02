@@ -25,6 +25,7 @@ class TextKeyValue extends \Google\Model
   public $key;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   /**
    * @var string
    */

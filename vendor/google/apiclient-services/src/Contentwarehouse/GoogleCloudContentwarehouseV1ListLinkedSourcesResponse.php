@@ -22,6 +22,7 @@ class GoogleCloudContentwarehouseV1ListLinkedSourcesResponse extends \Google\Col
   protected $collection_key = 'documentLinks';
   protected $documentLinksType = GoogleCloudContentwarehouseV1DocumentLink::class;
   protected $documentLinksDataType = 'array';
+  public $documentLinks;
   /**
    * @var string
    */

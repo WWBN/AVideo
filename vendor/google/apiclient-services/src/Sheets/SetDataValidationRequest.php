@@ -21,8 +21,10 @@ class SetDataValidationRequest extends \Google\Model
 {
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
+  public $range;
   protected $ruleType = DataValidationRule::class;
   protected $ruleDataType = '';
+  public $rule;
 
   /**
    * @param GridRange

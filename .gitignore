@@ -83,3 +83,7 @@ objects/ezyang/
 view/videoComments_bkp.php
 /.compose/
 test.php
+/plugin/JosephZ/
+/Encoder/
+/.env
+/plugin/User_Location/install/install.sql

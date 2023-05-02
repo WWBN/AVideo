@@ -22,6 +22,7 @@ class ApplicationsListResponse extends \Google\Collection
   protected $collection_key = 'applications';
   protected $applicationsType = Application::class;
   protected $applicationsDataType = 'array';
+  public $applications;
   /**
    * @var string
    */

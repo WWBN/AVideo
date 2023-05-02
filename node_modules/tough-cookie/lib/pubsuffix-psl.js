@@ -31,7 +31,42 @@
 "use strict";
 const psl = require("psl");
 
-function getPublicSuffix(domain) {
+// RFC 6761
+const SPECIAL_USE_DOMAINS = [
+  "local",
+  "example",
+  "invalid",
+  "localhost",
+  "test"
+];
+
+const SPECIAL_TREATMENT_DOMAINS = ["localhost", "invalid"];
+
+function getPublicSuffix(domain, options = {}) {
+  const domainParts = domain.split(".");
+  const topLevelDomain = domainParts[domainParts.length - 1];
+  const allowSpecialUseDomain = !!options.allowSpecialUseDomain;
+  const ignoreError = !!options.ignoreError;
+
+  if (allowSpecialUseDomain && SPECIAL_USE_DOMAINS.includes(topLevelDomain)) {
+    if (domainParts.length > 1) {
+      const secondLevelDomain = domainParts[domainParts.length - 2];
+      // In aforementioned example, the eTLD/pubSuf will be apple.localhost
+      return `${secondLevelDomain}.${topLevelDomain}`;
+    } else if (SPECIAL_TREATMENT_DOMAINS.includes(topLevelDomain)) {
+      // For a single word special use domain, e.g. 'localhost' or 'invalid', per RFC 6761,
+      // "Application software MAY recognize {localhost/invalid} names as special, or
+      // MAY pass them to name resolution APIs as they would for other domain names."
+      return `${topLevelDomain}`;
+    }
+  }
+
+  if (!ignoreError && SPECIAL_USE_DOMAINS.includes(topLevelDomain)) {
+    throw new Error(
+      `Cookie has domain set to the public suffix "${topLevelDomain}" which is a special use domain. To allow this, configure your CookieJar with {allowSpecialUseDomain:true, rejectPublicSuffixes: false}.`
+    );
+  }
+
   return psl.get(domain);
 }
 

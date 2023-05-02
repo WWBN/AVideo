@@ -30,6 +30,7 @@ class UpdateDatabaseDdlMetadata extends \Google\Collection
   public $database;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = 'array';
+  public $progress;
   /**
    * @var string[]
    */

@@ -22,6 +22,7 @@ class SocialCommonSegments extends \Google\Collection
   protected $collection_key = 'segments';
   protected $segmentsType = SocialCommonSegment::class;
   protected $segmentsDataType = 'array';
+  public $segments;
 
   /**
    * @param SocialCommonSegment[]

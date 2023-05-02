@@ -251,7 +251,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
 ?>
 
 
-            
+
             $('#updateUserForm').submit(function (evt) {
                 evt.preventDefault();
                 if (!isAnalytics()) {

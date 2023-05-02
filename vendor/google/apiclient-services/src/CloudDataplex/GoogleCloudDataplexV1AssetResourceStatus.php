@@ -22,6 +22,10 @@ class GoogleCloudDataplexV1AssetResourceStatus extends \Google\Model
   /**
    * @var string
    */
+  public $managedAccessIdentity;
+  /**
+   * @var string
+   */
   public $message;
   /**
    * @var string
@@ -32,6 +36,20 @@ class GoogleCloudDataplexV1AssetResourceStatus extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setManagedAccessIdentity($managedAccessIdentity)
+  {
+    $this->managedAccessIdentity = $managedAccessIdentity;
+  }
+  /**
+   * @return string
+   */
+  public function getManagedAccessIdentity()
+  {
+    return $this->managedAccessIdentity;
+  }
   /**
    * @param string
    */

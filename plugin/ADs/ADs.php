@@ -148,9 +148,9 @@ class ADs extends PluginAbstract
                 }
             }
         }
-        if (!empty($_GET['catName'])) {
+        if (!empty($_REQUEST['catName'])) {
             if (!empty($obj->tags3rdParty)) {
-                $v = Category::getCategoryByName($_GET['catName']);
+                $v = Category::getCategoryByName($_REQUEST['catName']);
                 if (!empty($v)) {
                     $head .= str_replace([',', '{ChannelName}', '{Category}'], ['', '', addcslashes($v["name"], "'")], $obj->tags3rdParty);
                     return $head;
@@ -186,7 +186,7 @@ class ADs extends PluginAbstract
 
     public static function addLabel($adCode, $label)
     {
-        if (!empty($label) && User::isAdmin()) {
+        if (!empty($label) && !empty($adCode) && User::isAdmin()) {
             $adCode = "<span data-toggle=\"tooltip\" title=\"{$label}\">{$adCode}</span>";
         }
         return $adCode;
@@ -279,8 +279,11 @@ class ADs extends PluginAbstract
     public static function getAdsFromVideosId($type, $videos_id = 0)
     {
         global $global;
+        
+        $emptyAd = ['adCode' => '', 'label' => '', 'paths' => array()];
+        
         if (isBot()) {
-            return false;
+            return $emptyAd;
         }
 
         if (empty($videos_id)) {
@@ -296,19 +299,27 @@ class ADs extends PluginAbstract
         }
         
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        if(empty($ad->$type)){
+            return $emptyAd;
+        }
         $label = '';
         eval("\$label = \$ad->{$type}Label;");
         $label = "{$label} [$users_id] [{$type}]";
 
         $array = self::getAdsHTML($type, $users_id);
-        $adCode = $array['html'];
-
-        if (empty($adCode)) {
+        if(empty($array)){
             eval("\$adCode = \$ad->{$type}->value;");
-        }
-        if (empty($adCode)) {
-            $array = self::getAdsHTML($type);
+            $array=array('paths'=>array());
+        }else{
             $adCode = $array['html'];
+    
+            if (empty($adCode)) {
+                eval("\$adCode = \$ad->{$type}->value;");
+            }
+            if (empty($adCode)) {
+                $array = self::getAdsHTML($type);
+                $adCode = $array['html'];
+            }
         }
 
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];
@@ -381,7 +392,8 @@ class ADs extends PluginAbstract
         if ($size['isSquare']) {
             $width = $size['width'];
             $height = $size['height'];
-            $style = "width: {$width}px; height: {$height}px;";
+            //Removed because it bugged in the mobile top
+            //$style = "width: {$width}px; height: {$height}px;";
         }
 
 

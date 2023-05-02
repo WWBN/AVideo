@@ -8,8 +8,8 @@ if (!isset($global['systemRootPath'])) {
 $obj = new stdClass();
 $obj->msg = '';
 $obj->error = true;
-$obj->idsToSave = array();
-$obj->idSaved = array();
+$obj->idsToSave = [];
+$obj->idSaved = [];
 
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!Permissions::canModerateVideos()) {

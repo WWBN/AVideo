@@ -19,6 +19,9 @@ namespace Google\Service\Contactcenterinsights;
 
 class GoogleCloudContactcenterinsightsV1alpha1CreateAnalysisOperationMetadata extends \Google\Model
 {
+  protected $annotatorSelectorType = GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector::class;
+  protected $annotatorSelectorDataType = '';
+  public $annotatorSelector;
   /**
    * @var string
    */
@@ -32,6 +35,20 @@ class GoogleCloudContactcenterinsightsV1alpha1CreateAnalysisOperationMetadata ex
    */
   public $endTime;
 
+  /**
+   * @param GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector
+   */
+  public function setAnnotatorSelector(GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector $annotatorSelector)
+  {
+    $this->annotatorSelector = $annotatorSelector;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1alpha1AnnotatorSelector
+   */
+  public function getAnnotatorSelector()
+  {
+    return $this->annotatorSelector;
+  }
   /**
    * @param string
    */

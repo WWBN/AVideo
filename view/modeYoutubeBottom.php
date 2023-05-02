@@ -5,7 +5,8 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
     $video = Video::getVideo(intval($_GET['videos_id']), "viewable", true, false, true, true);
-    $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
+    $created = !empty($video['videoCreation'])?$video['videoCreation']:$video['created'];
+    $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(_strtotime($created)) . '</small>');
     $source = Video::getSourceFile($video['filename']);
     if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
         $img = $source['url'];
@@ -120,7 +121,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             <?php
                         }
                         $filesToDownload = [];
-                        $files = array();
+                        $files = [];
                         $canDownloadFiles = CustomizeUser::canDownloadVideosFromVideo($video['id']);
                         if ($video['type'] == "zip") {
                             $files = getVideosURLZIP($video['filename']);
@@ -131,8 +132,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             $files = getVideosURL($video['filename']);
                         }
                         if (!empty($files)) {
-                            $downloadMP3Link = array();
-                            $downloadMP4Link = array();
+                            $downloadMP3Link = [];
+                            $downloadMP4Link = [];
                             foreach ($files as $key => $theLink) {
                                 //$notAllowedKeys = array('m3u8');
                                 $notAllowedKeys = ['log'];
@@ -259,7 +260,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                             }
                             if (preg_match('/\.json/i', $theLink['url'])) {
                                 ?>
-                                <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>', '<?php echo $theLink['progress']; ?>');" 
+                                <button type="button" onclick="downloadURLOrAlertError('<?php echo $theLink['url']; ?>', {}, '<?php echo $video['clean_title']; ?>.<?php echo strtolower($theLink['name']); ?>', '<?php echo $theLink['progress']; ?>');"
                                         class="btn btn-default" target="_blank">
                                     <i class="fas fa-download"></i> <?php echo $theLink['name']; ?>
                                 </button>
@@ -303,7 +304,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-lg-12">
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Category"); ?>:</strong></div>
-                <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default"  href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo $video['clean_category']; ?>"><span class="<?php echo $video['iconClass']; ?>"></span> <?php echo $video['category']; ?></a></div>
+                <div class="col-xs-8 col-sm-10 col-lg-10"><a class="btn btn-xs btn-default"  href="<?php echo $global['webSiteRootURL']; ?>cat/<?php echo @$video['clean_category']; ?>"><span class="<?php echo @$video['iconClass']; ?>"></span> <?php echo @$video['category']; ?></a></div>
 
                 <?php
                 if (!empty($video['rrating'])) {
@@ -311,8 +312,8 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 
                     <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                     <div class="col-xs-8 col-sm-10 col-lg-10">
-                        <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>" 
-                             class="img img-responsive zoom" 
+                        <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>"
+                             class="img img-responsive zoom"
                              style="width:30px;"/>
                     </div>
 

@@ -22,6 +22,7 @@ class DriveFileLabelInfo extends \Google\Collection
   protected $collection_key = 'labels';
   protected $labelsType = Label::class;
   protected $labelsDataType = 'array';
+  public $labels;
 
   /**
    * @param Label[]

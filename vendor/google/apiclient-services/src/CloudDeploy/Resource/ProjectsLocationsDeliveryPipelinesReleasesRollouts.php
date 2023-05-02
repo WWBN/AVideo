@@ -30,7 +30,7 @@ use Google\Service\CloudDeploy\Rollout;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $rollouts = $clouddeployService->rollouts;
+ *   $rollouts = $clouddeployService->projects_locations_deliveryPipelines_releases_rollouts;
  *  </code>
  */
 class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service\Resource
@@ -72,6 +72,8 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string rolloutId Required. ID of the `Rollout`.
+   * @opt_param string startingPhaseId Optional. The starting phase ID for the
+   * `Rollout`. If empty the `Rollout` will start at the first phase.
    * @opt_param bool validateOnly Optional. If set to true, the request is
    * validated and the user is provided with an expected result, but no actual
    * change is made.

@@ -26,7 +26,7 @@ use Google\Service\Classroom\Student;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $students = $classroomService->students;
+ *   $students = $classroomService->courses_students;
  *  </code>
  */
 class CoursesStudents extends \Google\Service\Resource

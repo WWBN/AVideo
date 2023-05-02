@@ -21,8 +21,10 @@ class IngressPolicy extends \Google\Model
 {
   protected $ingressFromType = IngressFrom::class;
   protected $ingressFromDataType = '';
+  public $ingressFrom;
   protected $ingressToType = IngressTo::class;
   protected $ingressToDataType = '';
+  public $ingressTo;
 
   /**
    * @param IngressFrom

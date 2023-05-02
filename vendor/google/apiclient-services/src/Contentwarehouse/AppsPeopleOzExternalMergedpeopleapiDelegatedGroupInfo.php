@@ -21,6 +21,7 @@ class AppsPeopleOzExternalMergedpeopleapiDelegatedGroupInfo extends \Google\Mode
 {
   protected $delegatedGroupIdType = SocialGraphApiProtoDelegatedGroupId::class;
   protected $delegatedGroupIdDataType = '';
+  public $delegatedGroupId;
 
   /**
    * @param SocialGraphApiProtoDelegatedGroupId

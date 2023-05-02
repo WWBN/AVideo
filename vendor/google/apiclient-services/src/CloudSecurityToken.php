@@ -65,6 +65,10 @@ class CloudSecurityToken extends \Google\Service
               'path' => 'v1/introspect',
               'httpMethod' => 'POST',
               'parameters' => [],
+            ],'oauthtoken' => [
+              'path' => 'v1/oauthtoken',
+              'httpMethod' => 'POST',
+              'parameters' => [],
             ],'token' => [
               'path' => 'v1/token',
               'httpMethod' => 'POST',

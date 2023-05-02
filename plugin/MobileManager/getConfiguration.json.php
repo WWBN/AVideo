@@ -18,6 +18,8 @@ if(!empty($chat2)){
     $objMM->chat2ShowOnUserVideos = false;
 }
 
+$objMM->homePageURL = AVideoPlugin::getMobileHomePageURL();
+
 $objMM->logo = getURL($config->getLogo());
 $objMM->favicon = $config->getFavicon(true);
 $objMM->title = $config->getWebSiteTitle();

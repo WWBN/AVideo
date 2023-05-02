@@ -33,6 +33,7 @@ class GoogleCloudDiscoveryengineV1betaBigQuerySource extends \Google\Model
   public $gcsStagingDir;
   protected $partitionDateType = GoogleTypeDate::class;
   protected $partitionDateDataType = '';
+  public $partitionDate;
   /**
    * @var string
    */

@@ -23,6 +23,10 @@ class NlpSemanticParsingExpressionStatus extends \Google\Model
    * @var string
    */
   public $status;
+  /**
+   * @var float
+   */
+  public $textCompletenessProbability;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class NlpSemanticParsingExpressionStatus extends \Google\Model
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param float
+   */
+  public function setTextCompletenessProbability($textCompletenessProbability)
+  {
+    $this->textCompletenessProbability = $textCompletenessProbability;
+  }
+  /**
+   * @return float
+   */
+  public function getTextCompletenessProbability()
+  {
+    return $this->textCompletenessProbability;
   }
 }
 

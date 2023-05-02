@@ -26,7 +26,7 @@ use Google\Service\AndroidManagement\WebApp;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $webApps = $androidmanagementService->webApps;
+ *   $webApps = $androidmanagementService->enterprises_webApps;
  *  </code>
  */
 class EnterprisesWebApps extends \Google\Service\Resource

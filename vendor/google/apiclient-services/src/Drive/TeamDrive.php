@@ -21,12 +21,14 @@ class TeamDrive extends \Google\Model
 {
   protected $backgroundImageFileType = TeamDriveBackgroundImageFile::class;
   protected $backgroundImageFileDataType = '';
+  public $backgroundImageFile;
   /**
    * @var string
    */
   public $backgroundImageLink;
   protected $capabilitiesType = TeamDriveCapabilities::class;
   protected $capabilitiesDataType = '';
+  public $capabilities;
   /**
    * @var string
    */
@@ -53,6 +55,7 @@ class TeamDrive extends \Google\Model
   public $orgUnitId;
   protected $restrictionsType = TeamDriveRestrictions::class;
   protected $restrictionsDataType = '';
+  public $restrictions;
   /**
    * @var string
    */

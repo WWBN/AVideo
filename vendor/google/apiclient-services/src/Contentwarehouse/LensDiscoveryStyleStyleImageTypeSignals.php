@@ -22,6 +22,7 @@ class LensDiscoveryStyleStyleImageTypeSignals extends \Google\Collection
   protected $collection_key = 'styleImageTypePredictions';
   protected $styleImageTypePredictionsType = LensDiscoveryStyleStyleImageTypeSignalsStyleImageTypePrediction::class;
   protected $styleImageTypePredictionsDataType = 'array';
+  public $styleImageTypePredictions;
   /**
    * @var string
    */

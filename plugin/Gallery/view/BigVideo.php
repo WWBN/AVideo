@@ -107,7 +107,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                            href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
                                            embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
                                            title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 200)); ?>">
-                                            <h2><?php echo getSEOTitle($videoRow['title']); ?></h2>
+                                            <h2 style="margin: 5px 0; padding: 5px 0;"><?php echo getSEOTitle($videoRow['title']); ?></h2>
                                         </a>
                                         <div class="descriptionArea">
                                             <div class="descriptionAreaPreContent">
@@ -125,7 +125,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                         <div class="galeryDetails">
                                             <div class="galleryTags">
                                                 <?php
-                                                if (empty($_GET['catName']) && !empty($obj->showCategoryTag)) {
+                                                if (empty($_REQUEST['catName']) && !empty($obj->showCategoryTag)) {
                                                     ?>
                                                     <a class="label label-default" href="<?php echo "{$global['webSiteRootURL']}cat/{$videoRow['clean_category']}"; ?>"  data-toggle="tooltip" title="<?php echo $videoRow['category']; ?>">
                                                         <?php

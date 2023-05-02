@@ -22,12 +22,14 @@ class CreateManagedShortLinkResponse extends \Google\Collection
   protected $collection_key = 'warning';
   protected $managedShortLinkType = ManagedShortLink::class;
   protected $managedShortLinkDataType = '';
+  public $managedShortLink;
   /**
    * @var string
    */
   public $previewLink;
   protected $warningType = DynamicLinkWarning::class;
   protected $warningDataType = 'array';
+  public $warning;
 
   /**
    * @param ManagedShortLink

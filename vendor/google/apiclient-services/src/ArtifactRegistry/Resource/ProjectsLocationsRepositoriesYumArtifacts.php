@@ -27,7 +27,7 @@ use Google\Service\ArtifactRegistry\UploadYumArtifactRequest;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $yumArtifacts = $artifactregistryService->yumArtifacts;
+ *   $yumArtifacts = $artifactregistryService->projects_locations_repositories_yumArtifacts;
  *  </code>
  */
 class ProjectsLocationsRepositoriesYumArtifacts extends \Google\Service\Resource

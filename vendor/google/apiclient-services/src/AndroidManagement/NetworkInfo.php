@@ -34,6 +34,7 @@ class NetworkInfo extends \Google\Collection
   public $networkOperatorName;
   protected $telephonyInfosType = TelephonyInfo::class;
   protected $telephonyInfosDataType = 'array';
+  public $telephonyInfos;
   /**
    * @var string
    */

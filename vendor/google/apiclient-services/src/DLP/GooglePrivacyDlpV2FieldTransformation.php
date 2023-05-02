@@ -22,12 +22,16 @@ class GooglePrivacyDlpV2FieldTransformation extends \Google\Collection
   protected $collection_key = 'fields';
   protected $conditionType = GooglePrivacyDlpV2RecordCondition::class;
   protected $conditionDataType = '';
+  public $condition;
   protected $fieldsType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   protected $infoTypeTransformationsType = GooglePrivacyDlpV2InfoTypeTransformations::class;
   protected $infoTypeTransformationsDataType = '';
+  public $infoTypeTransformations;
   protected $primitiveTransformationType = GooglePrivacyDlpV2PrimitiveTransformation::class;
   protected $primitiveTransformationDataType = '';
+  public $primitiveTransformation;
 
   /**
    * @param GooglePrivacyDlpV2RecordCondition

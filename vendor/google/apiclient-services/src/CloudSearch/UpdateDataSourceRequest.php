@@ -21,8 +21,10 @@ class UpdateDataSourceRequest extends \Google\Model
 {
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
+  public $debugOptions;
   protected $sourceType = DataSource::class;
   protected $sourceDataType = '';
+  public $source;
   /**
    * @var string
    */

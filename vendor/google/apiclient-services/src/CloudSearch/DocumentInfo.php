@@ -21,6 +21,7 @@ class DocumentInfo extends \Google\Model
 {
   protected $whiteboardInfoType = WhiteboardInfo::class;
   protected $whiteboardInfoDataType = '';
+  public $whiteboardInfo;
 
   /**
    * @param WhiteboardInfo

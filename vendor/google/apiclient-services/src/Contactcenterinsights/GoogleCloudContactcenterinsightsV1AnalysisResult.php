@@ -21,6 +21,7 @@ class GoogleCloudContactcenterinsightsV1AnalysisResult extends \Google\Model
 {
   protected $callAnalysisMetadataType = GoogleCloudContactcenterinsightsV1AnalysisResultCallAnalysisMetadata::class;
   protected $callAnalysisMetadataDataType = '';
+  public $callAnalysisMetadata;
   /**
    * @var string
    */

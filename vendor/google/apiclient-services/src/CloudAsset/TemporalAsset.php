@@ -21,18 +21,21 @@ class TemporalAsset extends \Google\Model
 {
   protected $assetType = Asset::class;
   protected $assetDataType = '';
+  public $asset;
   /**
    * @var bool
    */
   public $deleted;
   protected $priorAssetType = Asset::class;
   protected $priorAssetDataType = '';
+  public $priorAsset;
   /**
    * @var string
    */
   public $priorAssetState;
   protected $windowType = TimeWindow::class;
   protected $windowDataType = '';
+  public $window;
 
   /**
    * @param Asset

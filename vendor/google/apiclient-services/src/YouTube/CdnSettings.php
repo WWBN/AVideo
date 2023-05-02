@@ -29,6 +29,7 @@ class CdnSettings extends \Google\Model
   public $frameRate;
   protected $ingestionInfoType = IngestionInfo::class;
   protected $ingestionInfoDataType = '';
+  public $ingestionInfo;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class WorkerDetails extends \Google\Collection
   protected $collection_key = 'workItems';
   protected $workItemsType = WorkItemDetails::class;
   protected $workItemsDataType = 'array';
+  public $workItems;
   /**
    * @var string
    */

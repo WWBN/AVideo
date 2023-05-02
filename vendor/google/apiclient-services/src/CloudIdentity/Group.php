@@ -33,8 +33,10 @@ class Group extends \Google\Model
   public $displayName;
   protected $dynamicGroupMetadataType = DynamicGroupMetadata::class;
   protected $dynamicGroupMetadataDataType = '';
+  public $dynamicGroupMetadata;
   protected $groupKeyType = EntityKey::class;
   protected $groupKeyDataType = '';
+  public $groupKey;
   /**
    * @var string[]
    */

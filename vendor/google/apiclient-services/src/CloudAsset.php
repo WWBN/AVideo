@@ -23,7 +23,8 @@ use Google\Client;
  * Service definition for CloudAsset (v1).
  *
  * <p>
- * The cloud asset API manages the history and inventory of cloud resources.</p>
+ * The Cloud Asset API manages the history and inventory of Google Cloud
+ * resources.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -390,6 +391,84 @@ class CloudAsset extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'analyzeOrgPolicies' => [
+              'path' => 'v1/{+scope}:analyzeOrgPolicies',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'scope' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'constraint' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'analyzeOrgPolicyGovernedAssets' => [
+              'path' => 'v1/{+scope}:analyzeOrgPolicyGovernedAssets',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'scope' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'constraint' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'analyzeOrgPolicyGovernedContainers' => [
+              'path' => 'v1/{+scope}:analyzeOrgPolicyGovernedContainers',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'scope' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'constraint' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'batchGetAssetsHistory' => [
               'path' => 'v1/{+parent}:batchGetAssetsHistory',
               'httpMethod' => 'GET',
@@ -424,6 +503,16 @@ class CloudAsset extends \Google\Service
               ],
             ],'exportAssets' => [
               'path' => 'v1/{+parent}:exportAssets',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'queryAssets' => [
+              'path' => 'v1/{+parent}:queryAssets',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [

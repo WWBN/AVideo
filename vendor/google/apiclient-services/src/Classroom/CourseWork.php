@@ -30,6 +30,7 @@ class CourseWork extends \Google\Collection
   public $assigneeMode;
   protected $assignmentType = Assignment::class;
   protected $assignmentDataType = '';
+  public $assignment;
   /**
    * @var bool
    */
@@ -52,21 +53,27 @@ class CourseWork extends \Google\Collection
   public $description;
   protected $dueDateType = Date::class;
   protected $dueDateDataType = '';
+  public $dueDate;
   protected $dueTimeType = TimeOfDay::class;
   protected $dueTimeDataType = '';
+  public $dueTime;
   protected $gradeCategoryType = GradeCategory::class;
   protected $gradeCategoryDataType = '';
+  public $gradeCategory;
   /**
    * @var string
    */
   public $id;
   protected $individualStudentsOptionsType = IndividualStudentsOptions::class;
   protected $individualStudentsOptionsDataType = '';
+  public $individualStudentsOptions;
   protected $materialsType = Material::class;
   protected $materialsDataType = 'array';
+  public $materials;
   public $maxPoints;
   protected $multipleChoiceQuestionType = MultipleChoiceQuestion::class;
   protected $multipleChoiceQuestionDataType = '';
+  public $multipleChoiceQuestion;
   /**
    * @var string
    */

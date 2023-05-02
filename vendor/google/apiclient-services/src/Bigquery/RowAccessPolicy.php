@@ -37,6 +37,7 @@ class RowAccessPolicy extends \Google\Model
   public $lastModifiedTime;
   protected $rowAccessPolicyReferenceType = RowAccessPolicyReference::class;
   protected $rowAccessPolicyReferenceDataType = '';
+  public $rowAccessPolicyReference;
 
   /**
    * @param string

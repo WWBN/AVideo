@@ -1,5 +1,6 @@
 <?php
 
+require_once $global['systemRootPath'] . 'locale/function.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 abstract class PluginAbstract {
@@ -96,54 +97,32 @@ abstract class PluginAbstract {
         return "";
     }
 
+    static function getObjectDataFromDatabase($uuid) {
+        $obj = Plugin::getPluginByUUID($uuid);
+        //echo $obj['object_data'];
+        $o = array();
+        if (!empty($obj['object_data'])) {
+            $o = _json_decode(stripslashes($obj['object_data']));
+            if(empty($o)){
+                $o = _json_decode($obj['object_data']);
+            }
+        }
+        return $o;
+    }
+
     public function getDataObject() {
         $uuid = $this->getUUID();
         if (empty(PluginAbstract::$dataObject[$uuid])) {
             $obj = Plugin::getPluginByUUID($uuid);
             //echo $obj['object_data'];
-            $o = array();
-            if (!empty($obj['object_data'])) {
-                $o = _json_decode(stripslashes($obj['object_data']));
-                $json_last_error = json_last_error();
-                if ($json_last_error !== JSON_ERROR_NONE) {
-                    //var_dump($this->getName(), $json_last_error, $o, $obj['object_data']);
-                    //_error_log('getDataObject - JSON error (' . $json_last_error . ') ' . $this->getName()." ".$this->getUUID());
-                    $o = _json_decode($obj['object_data']);
-                    $json_last_error = json_last_error();
-                }
-                switch ($json_last_error) {
-                    case JSON_ERROR_NONE:
-                        //echo ' - No errors';
-                        break;
-                    default:
-                        _error_log('getDataObject - JSON error ' . $this->getName());
-                        _error_log($obj['object_data']);
-                        _error_log('striped slashes');
-                        _error_log(stripslashes($obj['object_data']));
-                    case JSON_ERROR_DEPTH:
-                        _error_log(' - Maximum stack depth exceeded');
-                        break;
-                    case JSON_ERROR_STATE_MISMATCH:
-                        _error_log(' - Underflow or the modes mismatch');
-                        break;
-                    case JSON_ERROR_CTRL_CHAR:
-                        _error_log(' - Unexpected control character found');
-                        break;
-                    case JSON_ERROR_SYNTAX:
-                        _error_log(' - Syntax error, malformed JSON');
-                        _error_log($obj['object_data']);
-                        _error_log('striped slashes');
-                        _error_log(stripslashes($obj['object_data']));
-                        break;
-                    case JSON_ERROR_UTF8:
-                        _error_log(' - Malformed UTF-8 characters, possibly incorrectly encoded');
-                        break;
-                }
-            }
+            $o = self::getObjectDataFromDatabase($uuid);
             $eo = $this->getEmptyDataObject();
+            if(empty($eo)){
+                $eo = array();
+            }
             // check if the plugin define any array for the select option, if does, overwrite it
             foreach ($eo as $key => $value) {
-                if (empty($o->$key)) {
+                if (!isset($o->$key)) {
                     continue;
                 }
                 $teo = gettype($value);
@@ -152,6 +131,8 @@ abstract class PluginAbstract {
                     if (!is_numeric($value) || !is_numeric($o->$key)) {
                         if (!(is_int($value) && is_bool($o->$key)) && !(is_bool($value) && is_int($o->$key))) {
                             //_error_log("getDataObject - type is different $teo !== $to uuid = $uuid");
+                            $o->$key = $value;
+                        }else if(empty($o->$key) && $teo == 'object' && $to='string'){
                             $o->$key = $value;
                         }
                     }
@@ -185,6 +166,9 @@ abstract class PluginAbstract {
 
     public function getDataObjectInfo() {
         $eo = $this->getEmptyDataObject();
+        if(empty($eo)){
+            $eo = array();
+        }
         $return = array();
         foreach ($eo as $key => $value) {
             $return[$key] = array(
@@ -215,18 +199,18 @@ abstract class PluginAbstract {
     public static function getDataObjectAdvanced() {
         return array();
     }
-    
+
     public static function getDataObjectDeprecated() {
         return array();
     }
 
     public static function getDataObjectExperimental() {
         return array();
-    }    
+    }
 
-    public function isSomething($parameter_name, $type) {        
+    public function isSomething($parameter_name, $type) {
         $name = $this->getName();
-        if(empty($name) || !class_exists($name)){
+        if (empty($name) || !class_exists($name)) {
             return false;
         }
         eval("\$array = {$name}::getDataObject{$type}();");
@@ -236,7 +220,7 @@ abstract class PluginAbstract {
         return in_array($parameter_name, $array);
     }
 
-    public function isAdvanced($parameter_name) {        
+    public function isAdvanced($parameter_name) {
         return $this->isSomething($parameter_name, 'Advanced');
     }
 
@@ -461,11 +445,15 @@ abstract class PluginAbstract {
         $return = array('ready' => array(), 'missing' => array());
         foreach ($pluginsList as $name) {
             $plugin = AVideoPlugin::loadPlugin($name);
-            $uuid = $plugin->getUUID();
-            if (!AVideoPlugin::isEnabled($uuid)) {
-                $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
-            } else {
-                $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
+            if(!empty($plugin)){
+                $uuid = $plugin->getUUID();
+                if (!AVideoPlugin::isEnabled($uuid)) {
+                    $return['missing'][] = array('name' => $name, 'uuid' => $uuid);
+                } else {
+                    $return['ready'][] = array('name' => $name, 'uuid' => $uuid);
+                }
+            }else{
+                _error_log("isReady Error on load plugin {$name}");
             }
         }
         return $return;
@@ -766,16 +754,16 @@ abstract class PluginAbstract {
     function onVideoSetRrating($video_id, $oldValue, $newValue) {
         
     }
-    
+
     /**
      * @param type $file = [
-                'filename' => "{$parts['filename']}.{$parts['extension']}",
-                'path' => $file,
-                'url' => $source['url'],
-                'url_noCDN' => @$source['url_noCDN'],
-                'type' => $type,
-                'format' => strtolower($parts['extension']),
-            ]
+      'filename' => "{$parts['filename']}.{$parts['extension']}",
+      'path' => $file,
+      'url' => $source['url'],
+      'url_noCDN' => @$source['url_noCDN'],
+      'type' => $type,
+      'format' => strtolower($parts['extension']),
+      ]
      * @return $file
      */
     function modifyURL($file) {
@@ -792,6 +780,10 @@ abstract class PluginAbstract {
 
     function onVideoSetSerie_playlists_id($video_id, $oldValue, $newValue) {
         
+    }
+
+    function getMobileHomePageURL() {
+        return false;
     }
 
     function updateParameter($parameterName, $newValue) {

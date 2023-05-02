@@ -21,18 +21,23 @@ class VideoContentSearchVideoScoreInfo extends \Google\Model
 {
   protected $commonFeaturesType = VideoContentSearchVideoCommonFeatures::class;
   protected $commonFeaturesDataType = '';
+  public $commonFeatures;
   protected $ocrVideoFeatureType = VideoContentSearchOcrVideoFeature::class;
   protected $ocrVideoFeatureDataType = '';
+  public $ocrVideoFeature;
   protected $safeSearchClassifierOutputType = ClassifierPornQueryMultiLabelClassifierOutput::class;
   protected $safeSearchClassifierOutputDataType = '';
+  public $safeSearchClassifierOutput;
   /**
    * @var string
    */
   public $version;
   protected $videoGeneratedQueryFeaturesType = VideoContentSearchVideoGeneratedQueryFeatures::class;
   protected $videoGeneratedQueryFeaturesDataType = '';
+  public $videoGeneratedQueryFeatures;
   protected $videoMultimodalTopicFeaturesType = VideoContentSearchVideoMultimodalTopicFeatures::class;
   protected $videoMultimodalTopicFeaturesDataType = '';
+  public $videoMultimodalTopicFeatures;
 
   /**
    * @param VideoContentSearchVideoCommonFeatures

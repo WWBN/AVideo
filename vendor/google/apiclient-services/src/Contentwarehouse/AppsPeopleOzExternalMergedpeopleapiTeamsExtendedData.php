@@ -22,20 +22,26 @@ class AppsPeopleOzExternalMergedpeopleapiTeamsExtendedData extends \Google\Colle
   protected $collection_key = 'managementChain';
   protected $adminToType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $adminToDataType = 'array';
+  public $adminTo;
   protected $adminsType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $adminsDataType = 'array';
+  public $admins;
   protected $dottedLineManagersType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $dottedLineManagersDataType = 'array';
+  public $dottedLineManagers;
   protected $dottedLineReportsType = AppsPeopleOzExternalMergedpeopleapiPersonListWithTotalNumber::class;
   protected $dottedLineReportsDataType = '';
+  public $dottedLineReports;
   /**
    * @var string[]
    */
   public $failures;
   protected $managementChainType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $managementChainDataType = 'array';
+  public $managementChain;
   protected $reportsType = AppsPeopleOzExternalMergedpeopleapiPersonListWithTotalNumber::class;
   protected $reportsDataType = '';
+  public $reports;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiPerson[]

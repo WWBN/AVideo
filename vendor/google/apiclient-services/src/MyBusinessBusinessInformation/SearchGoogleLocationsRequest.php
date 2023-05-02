@@ -21,6 +21,7 @@ class SearchGoogleLocationsRequest extends \Google\Model
 {
   protected $locationType = Location::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var int
    */

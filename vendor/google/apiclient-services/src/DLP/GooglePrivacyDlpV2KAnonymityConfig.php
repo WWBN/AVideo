@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2KAnonymityConfig extends \Google\Collection
   protected $collection_key = 'quasiIds';
   protected $entityIdType = GooglePrivacyDlpV2EntityId::class;
   protected $entityIdDataType = '';
+  public $entityId;
   protected $quasiIdsType = GooglePrivacyDlpV2FieldId::class;
   protected $quasiIdsDataType = 'array';
+  public $quasiIds;
 
   /**
    * @param GooglePrivacyDlpV2EntityId

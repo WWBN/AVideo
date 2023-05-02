@@ -20,7 +20,7 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
-        <title><?php  if(!empty($_GET['catName'])){echo $_GET['catName'].' - ';}; echo $config->getWebSiteTitle(); ?></title>
+        <title><?php  if(!empty($_REQUEST['catName'])){echo $_REQUEST['catName'].' - ';}; echo $config->getWebSiteTitle(); ?></title>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>" style="overflow-x: hidden;">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>

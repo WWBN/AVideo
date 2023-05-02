@@ -39,7 +39,7 @@ use Google\Service\Pubsub\UpdateSubscriptionRequest;
  * Typical usage is:
  *  <code>
  *   $pubsubService = new Google\Service\Pubsub(...);
- *   $subscriptions = $pubsubService->subscriptions;
+ *   $subscriptions = $pubsubService->projects_subscriptions;
  *  </code>
  */
 class ProjectsSubscriptions extends \Google\Service\Resource

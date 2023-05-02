@@ -22,6 +22,10 @@ class SnippetExtraInfoSnippetsBrainModelInfo extends \Google\Model
   /**
    * @var string
    */
+  public $ng3ModelName;
+  /**
+   * @var string
+   */
   public $snippetsbrainModelName;
   /**
    * @var string
@@ -32,6 +36,20 @@ class SnippetExtraInfoSnippetsBrainModelInfo extends \Google\Model
    */
   public $snippetsbrainTokenizerType;
 
+  /**
+   * @param string
+   */
+  public function setNg3ModelName($ng3ModelName)
+  {
+    $this->ng3ModelName = $ng3ModelName;
+  }
+  /**
+   * @return string
+   */
+  public function getNg3ModelName()
+  {
+    return $this->ng3ModelName;
+  }
   /**
    * @param string
    */

@@ -29,7 +29,7 @@ use Google\Service\CloudScheduler\RunJobRequest;
  * Typical usage is:
  *  <code>
  *   $cloudschedulerService = new Google\Service\CloudScheduler(...);
- *   $jobs = $cloudschedulerService->jobs;
+ *   $jobs = $cloudschedulerService->projects_locations_jobs;
  *  </code>
  */
 class ProjectsLocationsJobs extends \Google\Service\Resource

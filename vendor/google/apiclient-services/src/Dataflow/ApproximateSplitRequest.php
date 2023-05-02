@@ -23,6 +23,7 @@ class ApproximateSplitRequest extends \Google\Model
   public $fractionOfRemainder;
   protected $positionType = Position::class;
   protected $positionDataType = '';
+  public $position;
 
   public function setFractionConsumed($fractionConsumed)
   {

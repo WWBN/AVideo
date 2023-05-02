@@ -29,7 +29,7 @@ use Google\Service\AndroidProvisioningPartner\Device;
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $devices = $androiddeviceprovisioningService->devices;
+ *   $devices = $androiddeviceprovisioningService->customers_devices;
  *  </code>
  */
 class CustomersDevices extends \Google\Service\Resource

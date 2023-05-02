@@ -22,8 +22,10 @@ class ApigatewayApiConfigGrpcServiceDefinition extends \Google\Collection
   protected $collection_key = 'source';
   protected $fileDescriptorSetType = ApigatewayApiConfigFile::class;
   protected $fileDescriptorSetDataType = '';
+  public $fileDescriptorSet;
   protected $sourceType = ApigatewayApiConfigFile::class;
   protected $sourceDataType = 'array';
+  public $source;
 
   /**
    * @param ApigatewayApiConfigFile

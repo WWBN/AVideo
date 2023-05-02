@@ -22,6 +22,7 @@ class ListCryptoKeysResponse extends \Google\Collection
   protected $collection_key = 'cryptoKeys';
   protected $cryptoKeysType = CryptoKey::class;
   protected $cryptoKeysDataType = 'array';
+  public $cryptoKeys;
   /**
    * @var string
    */

@@ -25,7 +25,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1PlayIntegrityConfig;
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $playIntegrityConfig = $firebaseappcheckService->playIntegrityConfig;
+ *   $playIntegrityConfig = $firebaseappcheckService->projects_apps_playIntegrityConfig;
  *  </code>
  */
 class ProjectsAppsPlayIntegrityConfig extends \Google\Service\Resource

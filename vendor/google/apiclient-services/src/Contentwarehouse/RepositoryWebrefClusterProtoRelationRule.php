@@ -20,50 +20,10 @@ namespace Google\Service\Contentwarehouse;
 class RepositoryWebrefClusterProtoRelationRule extends \Google\Model
 {
   /**
-   * @var bool
-   */
-  public $isCollapsible;
-  /**
-   * @var bool
-   */
-  public $isCvtRule;
-  /**
    * @var string
    */
   public $relation;
-  /**
-   * @var int
-   */
-  public $sequenceId;
 
-  /**
-   * @param bool
-   */
-  public function setIsCollapsible($isCollapsible)
-  {
-    $this->isCollapsible = $isCollapsible;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsCollapsible()
-  {
-    return $this->isCollapsible;
-  }
-  /**
-   * @param bool
-   */
-  public function setIsCvtRule($isCvtRule)
-  {
-    $this->isCvtRule = $isCvtRule;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsCvtRule()
-  {
-    return $this->isCvtRule;
-  }
   /**
    * @param string
    */
@@ -77,20 +37,6 @@ class RepositoryWebrefClusterProtoRelationRule extends \Google\Model
   public function getRelation()
   {
     return $this->relation;
-  }
-  /**
-   * @param int
-   */
-  public function setSequenceId($sequenceId)
-  {
-    $this->sequenceId = $sequenceId;
-  }
-  /**
-   * @return int
-   */
-  public function getSequenceId()
-  {
-    return $this->sequenceId;
   }
 }
 

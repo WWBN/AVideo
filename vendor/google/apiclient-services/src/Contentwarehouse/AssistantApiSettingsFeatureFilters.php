@@ -21,20 +21,28 @@ class AssistantApiSettingsFeatureFilters extends \Google\Model
 {
   protected $communicationsFilterType = AssistantApiSettingsCommunicationsFilter::class;
   protected $communicationsFilterDataType = '';
+  public $communicationsFilter;
   protected $musicFilterType = AssistantApiSettingsMusicFilter::class;
   protected $musicFilterDataType = '';
+  public $musicFilter;
   protected $newsFilterType = AssistantApiSettingsNewsFilter::class;
   protected $newsFilterDataType = '';
+  public $newsFilter;
   protected $podcastFilterType = AssistantApiSettingsPodcastFilter::class;
   protected $podcastFilterDataType = '';
+  public $podcastFilter;
   protected $searchFilterType = AssistantApiSettingsSearchFilter::class;
   protected $searchFilterDataType = '';
+  public $searchFilter;
   protected $thirdPartyAppsFilterType = AssistantApiSettingsThirdPartyAppsFilter::class;
   protected $thirdPartyAppsFilterDataType = '';
+  public $thirdPartyAppsFilter;
   protected $videoFilterType = AssistantApiSettingsVideoFilter::class;
   protected $videoFilterDataType = '';
+  public $videoFilter;
   protected $webviewFilterType = AssistantApiSettingsWebviewFilter::class;
   protected $webviewFilterDataType = '';
+  public $webviewFilter;
 
   /**
    * @param AssistantApiSettingsCommunicationsFilter

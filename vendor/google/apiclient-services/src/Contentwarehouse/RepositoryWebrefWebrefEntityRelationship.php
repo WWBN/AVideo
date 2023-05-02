@@ -25,6 +25,7 @@ class RepositoryWebrefWebrefEntityRelationship extends \Google\Model
   public $entityIndex;
   protected $linkMetadataType = RepositoryWebrefEntityLinkMetadata::class;
   protected $linkMetadataDataType = '';
+  public $linkMetadata;
   /**
    * @var float
    */

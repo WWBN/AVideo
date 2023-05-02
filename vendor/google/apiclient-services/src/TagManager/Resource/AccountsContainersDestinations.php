@@ -25,7 +25,7 @@ use Google\Service\TagManager\ListDestinationsResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $destinations = $tagmanagerService->destinations;
+ *   $destinations = $tagmanagerService->accounts_containers_destinations;
  *  </code>
  */
 class AccountsContainersDestinations extends \Google\Service\Resource

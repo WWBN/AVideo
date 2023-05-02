@@ -21,12 +21,14 @@ class AppsDynamiteSharedTextInput extends \Google\Model
 {
   protected $autoCompleteActionType = AppsDynamiteSharedAction::class;
   protected $autoCompleteActionDataType = '';
+  public $autoCompleteAction;
   /**
    * @var string
    */
   public $hintText;
   protected $initialSuggestionsType = AppsDynamiteSharedSuggestions::class;
   protected $initialSuggestionsDataType = '';
+  public $initialSuggestions;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class AppsDynamiteSharedTextInput extends \Google\Model
   public $name;
   protected $onChangeActionType = AppsDynamiteSharedAction::class;
   protected $onChangeActionDataType = '';
+  public $onChangeAction;
   /**
    * @var string
    */

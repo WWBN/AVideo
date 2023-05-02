@@ -26,6 +26,7 @@ class GeostoreThreeDimensionalModelProto extends \Google\Collection
   public $pointIndices;
   protected $pointsType = GeostorePointWithHeightProto::class;
   protected $pointsDataType = 'array';
+  public $points;
 
   /**
    * @param int[]

@@ -30,7 +30,7 @@ use Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\TestIamP
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $peerings = $managedidentitiesService->peerings;
+ *   $peerings = $managedidentitiesService->projects_locations_global_peerings;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\Resource

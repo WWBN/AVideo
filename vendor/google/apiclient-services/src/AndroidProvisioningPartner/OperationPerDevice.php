@@ -21,12 +21,16 @@ class OperationPerDevice extends \Google\Model
 {
   protected $claimType = PartnerClaim::class;
   protected $claimDataType = '';
+  public $claim;
   protected $resultType = PerDeviceStatusInBatch::class;
   protected $resultDataType = '';
+  public $result;
   protected $unclaimType = PartnerUnclaim::class;
   protected $unclaimDataType = '';
+  public $unclaim;
   protected $updateMetadataType = UpdateMetadataArguments::class;
   protected $updateMetadataDataType = '';
+  public $updateMetadata;
 
   /**
    * @param PartnerClaim

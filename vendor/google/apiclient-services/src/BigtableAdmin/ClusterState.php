@@ -22,6 +22,7 @@ class ClusterState extends \Google\Collection
   protected $collection_key = 'encryptionInfo';
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = 'array';
+  public $encryptionInfo;
   /**
    * @var string
    */

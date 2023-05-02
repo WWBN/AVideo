@@ -20,21 +20,33 @@ namespace Google\Service\Integrations\Resource;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
+use Google\Service\Integrations\GoogleProtobufEmpty;
 
 /**
  * The "integrations" collection of methods.
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $integrations = $integrationsService->integrations;
+ *   $integrations = $integrationsService->projects_locations_integrations;
  *  </code>
  */
 class ProjectsLocationsIntegrations extends \Google\Service\Resource
 {
+  /**
+   * Delete the selected integration and all versions inside (integrations.delete)
+   *
+   * @param string $name Required. The location resource of the request.
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
   /**
    * Executes integrations synchronously by passing the trigger id in the request
    * body. The request is not returned until the requested executions are either
@@ -83,21 +95,6 @@ class ProjectsLocationsIntegrations extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListIntegrationsResponse::class);
-  }
-  /**
-   * Get execution stats (integrations.monitorexecutionstats)
-   *
-   * @param string $parent Required. The parent resource name:
-   * {parent=projects/locations}.
-   * @param GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse
-   */
-  public function monitorexecutionstats($parent, GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest $postBody, $optParams = [])
-  {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('monitorexecutionstats', [$params], GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse::class);
   }
   /**
    * Schedules an integration for execution by passing the trigger id and the

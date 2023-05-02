@@ -42,14 +42,14 @@ class EpgParser {
     }
 
     /**
-     * @param mixed $url - url 
+     * @param mixed $url - url
      */
     public function setUrl($url): void {
         $this->url = $url;
     }
 
     /**
-     * @param mixed $content = xml parsed string. 
+     * @param mixed $content = xml parsed string.
      */
     public function setContent($content): void {
         $this->content = $content;
@@ -78,7 +78,7 @@ class EpgParser {
 
     /**
      * Set group by for channels must be channels atribute.
-     * @param $group - channel will be grouped with. must be @id or pgram attribute. 
+     * @param $group - channel will be grouped with. must be @id or pgram attribute.
      */
     public function setChannelGroup($group) {
         $this->channels_groupby = $group;
@@ -103,9 +103,9 @@ class EpgParser {
             $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
             return $dt->format('Y-m-d H:i:s');
         } catch (\Exception $e) {
-            
+
         } catch (\Error $e) {
-            
+
         }
 
         try {
@@ -113,9 +113,9 @@ class EpgParser {
             $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
             return $dt->format('Y-m-d H:i:s');
         } catch (\Exception $e) {
-            
+
         } catch (\Error $e) {
-            
+
         }
 
 
@@ -134,9 +134,9 @@ class EpgParser {
             $dt->setTimezone(new DateTimeZone($this->targetTimeZone));
             return $dt->format('Y-m-d H:i:s');
         } catch (\Exception $e) {
-            
+
         } catch (\Error $e) {
-            
+
         }
 
 
@@ -170,14 +170,14 @@ class EpgParser {
     }
 
     /**
-     * 
+     *
      */
     public function resetChannelfilter(): void {
         $this->channelfilter = [];
     }
 
     /**
-     * 
+     *
      */
     private function channelMatchFilter(string $channel): bool {
         return array_key_exists($channel, $this->channelfilter);
@@ -197,7 +197,7 @@ class EpgParser {
             throw new \RuntimeException('file does not exists: ' . $this->file);
         }
 
-        //	
+        //
         $xml = new XMLReader();
 
         //	compress.zlib://'
@@ -207,7 +207,7 @@ class EpgParser {
         /** @noinspection LoopWhichDoesNotLoopInspection */
         /** @noinspection MissingOrEmptyGroupStatementInspection */
         while ($xml->read() && $xml->name !== 'channel') {
-            
+
         }
 
         $i = 0;
@@ -261,7 +261,7 @@ class EpgParser {
         /** @noinspection LoopWhichDoesNotLoopInspection */
         /** @noinspection MissingOrEmptyGroupStatementInspection */
         while ($xml->read() && $xml->name !== 'programme') {
-            
+
         }
 
         while ($xml->name === 'programme') {
@@ -388,5 +388,4 @@ class EpgParser {
             throw new \RuntimeException("Content of this request its not XML: $errors");
         }
     }
-
 }

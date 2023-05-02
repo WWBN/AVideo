@@ -21,8 +21,10 @@ class Asset extends \Google\Model
 {
   protected $androidAppType = AndroidAppAsset::class;
   protected $androidAppDataType = '';
+  public $androidApp;
   protected $webType = WebAsset::class;
   protected $webDataType = '';
+  public $web;
 
   /**
    * @param AndroidAppAsset

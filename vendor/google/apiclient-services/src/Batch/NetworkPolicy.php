@@ -22,6 +22,7 @@ class NetworkPolicy extends \Google\Collection
   protected $collection_key = 'networkInterfaces';
   protected $networkInterfacesType = NetworkInterface::class;
   protected $networkInterfacesDataType = 'array';
+  public $networkInterfaces;
 
   /**
    * @param NetworkInterface[]

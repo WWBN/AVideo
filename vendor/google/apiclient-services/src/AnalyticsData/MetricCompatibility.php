@@ -25,6 +25,7 @@ class MetricCompatibility extends \Google\Model
   public $compatibility;
   protected $metricMetadataType = MetricMetadata::class;
   protected $metricMetadataDataType = '';
+  public $metricMetadata;
 
   /**
    * @param string

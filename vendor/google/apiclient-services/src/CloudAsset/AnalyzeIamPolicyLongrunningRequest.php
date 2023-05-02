@@ -21,8 +21,10 @@ class AnalyzeIamPolicyLongrunningRequest extends \Google\Model
 {
   protected $analysisQueryType = IamPolicyAnalysisQuery::class;
   protected $analysisQueryDataType = '';
+  public $analysisQuery;
   protected $outputConfigType = IamPolicyAnalysisOutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
   /**
    * @var string
    */

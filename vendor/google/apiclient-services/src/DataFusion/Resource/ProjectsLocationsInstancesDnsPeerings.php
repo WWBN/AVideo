@@ -26,7 +26,7 @@ use Google\Service\DataFusion\ListDnsPeeringsResponse;
  * Typical usage is:
  *  <code>
  *   $datafusionService = new Google\Service\DataFusion(...);
- *   $dnsPeerings = $datafusionService->dnsPeerings;
+ *   $dnsPeerings = $datafusionService->projects_locations_instances_dnsPeerings;
  *  </code>
  */
 class ProjectsLocationsInstancesDnsPeerings extends \Google\Service\Resource

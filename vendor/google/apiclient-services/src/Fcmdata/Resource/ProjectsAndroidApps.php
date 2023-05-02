@@ -22,7 +22,7 @@ namespace Google\Service\Fcmdata\Resource;
  * Typical usage is:
  *  <code>
  *   $fcmdataService = new Google\Service\Fcmdata(...);
- *   $androidApps = $fcmdataService->androidApps;
+ *   $androidApps = $fcmdataService->projects_androidApps;
  *  </code>
  */
 class ProjectsAndroidApps extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class RealtimeData extends \Google\Collection
   protected $collection_key = 'rows';
   protected $columnHeadersType = RealtimeDataColumnHeaders::class;
   protected $columnHeadersDataType = 'array';
+  public $columnHeaders;
   /**
    * @var string
    */
@@ -32,8 +33,10 @@ class RealtimeData extends \Google\Collection
   public $kind;
   protected $profileInfoType = RealtimeDataProfileInfo::class;
   protected $profileInfoDataType = '';
+  public $profileInfo;
   protected $queryType = RealtimeDataQuery::class;
   protected $queryDataType = '';
+  public $query;
   /**
    * @var string[]
    */

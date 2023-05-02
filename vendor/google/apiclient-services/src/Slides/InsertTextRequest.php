@@ -21,6 +21,7 @@ class InsertTextRequest extends \Google\Model
 {
   protected $cellLocationType = TableCellLocation::class;
   protected $cellLocationDataType = '';
+  public $cellLocation;
   /**
    * @var int
    */

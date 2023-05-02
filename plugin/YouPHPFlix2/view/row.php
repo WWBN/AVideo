@@ -22,9 +22,14 @@ TimeLogStart($timeLog3);
         $videosCounter = 0;
     }
     foreach ($videos as $_index => $value) {
+        
+        $timeLog4Limit = 0.1;
+        $timeLog4 = "{$timeLog3} loop {$value['clean_title']}";
+        TimeLogStart($timeLog4);
         $uid = "{$uidOriginal}_{$value['id']}";
         $videosCounter++;
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
             if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
@@ -35,6 +40,7 @@ TimeLogStart($timeLog3);
             $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
         }
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
@@ -53,7 +59,7 @@ TimeLogStart($timeLog3);
                      poster="<?php echo $poster; ?>" 
                      href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  
                      video="<?php echo $value['clean_title']; ?>" 
-                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>"
+                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbed/<?php echo $value['clean_title']; ?>"
                      ajaxLoad="<?php echo $ajaxLoad; ?>">
                     <div class="tile__media ">
                         <img alt="<?php echo $value['title']; ?>" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png" class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
@@ -92,7 +98,7 @@ TimeLogStart($timeLog3);
             </div>
         </div>
         <?php
-        TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
     }
     TimeLogEnd($timeLog3, __LINE__);
     ?>

@@ -22,8 +22,10 @@ class GoogleCloudWebriskV1ThreatEntryAdditions extends \Google\Collection
   protected $collection_key = 'rawHashes';
   protected $rawHashesType = GoogleCloudWebriskV1RawHashes::class;
   protected $rawHashesDataType = 'array';
+  public $rawHashes;
   protected $riceHashesType = GoogleCloudWebriskV1RiceDeltaEncoding::class;
   protected $riceHashesDataType = '';
+  public $riceHashes;
 
   /**
    * @param GoogleCloudWebriskV1RawHashes[]

@@ -27,7 +27,7 @@ use Google\Service\CloudIAP\ResetIdentityAwareProxyClientSecretRequest;
  * Typical usage is:
  *  <code>
  *   $iapService = new Google\Service\CloudIAP(...);
- *   $identityAwareProxyClients = $iapService->identityAwareProxyClients;
+ *   $identityAwareProxyClients = $iapService->projects_brands_identityAwareProxyClients;
  *  </code>
  */
 class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource

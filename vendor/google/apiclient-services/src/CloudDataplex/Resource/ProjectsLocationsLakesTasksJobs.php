@@ -27,7 +27,7 @@ use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListJobsResponse;
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $jobs = $dataplexService->jobs;
+ *   $jobs = $dataplexService->projects_locations_lakes_tasks_jobs;
  *  </code>
  */
 class ProjectsLocationsLakesTasksJobs extends \Google\Service\Resource

@@ -24,7 +24,7 @@ use Google\Service\AndroidManagement\WebToken;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $webTokens = $androidmanagementService->webTokens;
+ *   $webTokens = $androidmanagementService->enterprises_webTokens;
  *  </code>
  */
 class EnterprisesWebTokens extends \Google\Service\Resource

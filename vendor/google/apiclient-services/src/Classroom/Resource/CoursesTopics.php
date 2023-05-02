@@ -26,7 +26,7 @@ use Google\Service\Classroom\Topic;
  * Typical usage is:
  *  <code>
  *   $classroomService = new Google\Service\Classroom(...);
- *   $topics = $classroomService->topics;
+ *   $topics = $classroomService->courses_topics;
  *  </code>
  */
 class CoursesTopics extends \Google\Service\Resource

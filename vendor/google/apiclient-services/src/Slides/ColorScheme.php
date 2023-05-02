@@ -22,6 +22,7 @@ class ColorScheme extends \Google\Collection
   protected $collection_key = 'colors';
   protected $colorsType = ThemeColorPair::class;
   protected $colorsDataType = 'array';
+  public $colors;
 
   /**
    * @param ThemeColorPair[]

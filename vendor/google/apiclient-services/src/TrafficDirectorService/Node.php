@@ -34,20 +34,24 @@ class Node extends \Google\Collection
   public $cluster;
   protected $extensionsType = Extension::class;
   protected $extensionsDataType = 'array';
+  public $extensions;
   /**
    * @var string
    */
   public $id;
   protected $listeningAddressesType = Address::class;
   protected $listeningAddressesDataType = 'array';
+  public $listeningAddresses;
   protected $localityType = Locality::class;
   protected $localityDataType = '';
+  public $locality;
   /**
    * @var array[]
    */
   public $metadata;
   protected $userAgentBuildVersionType = BuildVersion::class;
   protected $userAgentBuildVersionDataType = '';
+  public $userAgentBuildVersion;
   /**
    * @var string
    */

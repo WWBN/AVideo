@@ -21,6 +21,7 @@ class OutlierDetection extends \Google\Model
 {
   protected $baseEjectionTimeType = Duration::class;
   protected $baseEjectionTimeDataType = '';
+  public $baseEjectionTime;
   /**
    * @var int
    */
@@ -43,6 +44,7 @@ class OutlierDetection extends \Google\Model
   public $enforcingSuccessRate;
   protected $intervalType = Duration::class;
   protected $intervalDataType = '';
+  public $interval;
   /**
    * @var int
    */

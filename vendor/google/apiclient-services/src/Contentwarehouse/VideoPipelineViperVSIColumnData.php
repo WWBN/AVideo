@@ -22,6 +22,7 @@ class VideoPipelineViperVSIColumnData extends \Google\Collection
   protected $collection_key = 'vsiStats';
   protected $infoType = VideoVideoStreamInfo::class;
   protected $infoDataType = '';
+  public $info;
   public $inputReadTime;
   /**
    * @var bool
@@ -30,6 +31,7 @@ class VideoPipelineViperVSIColumnData extends \Google\Collection
   public $totalVsiTime;
   protected $vsiStatsType = VideoPipelineViperVSIColumnDataVsiStats::class;
   protected $vsiStatsDataType = 'array';
+  public $vsiStats;
 
   /**
    * @param VideoVideoStreamInfo

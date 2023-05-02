@@ -21,6 +21,7 @@ class VoiceSelectionParams extends \Google\Model
 {
   protected $customVoiceType = CustomVoiceParams::class;
   protected $customVoiceDataType = '';
+  public $customVoice;
   /**
    * @var string
    */

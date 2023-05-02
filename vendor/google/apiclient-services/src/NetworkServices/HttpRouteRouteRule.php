@@ -22,8 +22,10 @@ class HttpRouteRouteRule extends \Google\Collection
   protected $collection_key = 'matches';
   protected $actionType = HttpRouteRouteAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $matchesType = HttpRouteRouteMatch::class;
   protected $matchesDataType = 'array';
+  public $matches;
 
   /**
    * @param HttpRouteRouteAction

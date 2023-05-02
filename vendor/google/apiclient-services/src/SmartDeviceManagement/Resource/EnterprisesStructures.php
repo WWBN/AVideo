@@ -25,7 +25,7 @@ use Google\Service\SmartDeviceManagement\GoogleHomeEnterpriseSdmV1Structure;
  * Typical usage is:
  *  <code>
  *   $smartdevicemanagementService = new Google\Service\SmartDeviceManagement(...);
- *   $structures = $smartdevicemanagementService->structures;
+ *   $structures = $smartdevicemanagementService->enterprises_structures;
  *  </code>
  */
 class EnterprisesStructures extends \Google\Service\Resource

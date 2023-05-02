@@ -22,6 +22,7 @@ class ListDeviceRegistriesResponse extends \Google\Collection
   protected $collection_key = 'deviceRegistries';
   protected $deviceRegistriesType = DeviceRegistry::class;
   protected $deviceRegistriesDataType = 'array';
+  public $deviceRegistries;
   /**
    * @var string
    */

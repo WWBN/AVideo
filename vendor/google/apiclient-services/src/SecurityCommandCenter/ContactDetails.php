@@ -22,6 +22,7 @@ class ContactDetails extends \Google\Collection
   protected $collection_key = 'contacts';
   protected $contactsType = Contact::class;
   protected $contactsDataType = 'array';
+  public $contacts;
 
   /**
    * @param Contact[]

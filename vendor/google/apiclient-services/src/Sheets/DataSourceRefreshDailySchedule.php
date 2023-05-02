@@ -21,6 +21,7 @@ class DataSourceRefreshDailySchedule extends \Google\Model
 {
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
+  public $startTime;
 
   /**
    * @param TimeOfDay

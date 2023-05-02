@@ -22,6 +22,7 @@ class ChromeOsDeviceCpuInfoLogicalCpus extends \Google\Collection
   protected $collection_key = 'cStates';
   protected $cStatesType = ChromeOsDeviceCpuInfoLogicalCpusCStates::class;
   protected $cStatesDataType = 'array';
+  public $cStates;
   /**
    * @var int
    */

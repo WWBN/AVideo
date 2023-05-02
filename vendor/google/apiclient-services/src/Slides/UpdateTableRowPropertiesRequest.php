@@ -34,6 +34,7 @@ class UpdateTableRowPropertiesRequest extends \Google\Collection
   public $rowIndices;
   protected $tableRowPropertiesType = TableRowProperties::class;
   protected $tableRowPropertiesDataType = '';
+  public $tableRowProperties;
 
   /**
    * @param string

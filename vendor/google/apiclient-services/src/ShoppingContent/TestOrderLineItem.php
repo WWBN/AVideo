@@ -21,14 +21,17 @@ class TestOrderLineItem extends \Google\Model
 {
   protected $productType = TestOrderLineItemProduct::class;
   protected $productDataType = '';
+  public $product;
   /**
    * @var string
    */
   public $quantityOrdered;
   protected $returnInfoType = OrderLineItemReturnInfo::class;
   protected $returnInfoDataType = '';
+  public $returnInfo;
   protected $shippingDetailsType = OrderLineItemShippingDetails::class;
   protected $shippingDetailsDataType = '';
+  public $shippingDetails;
 
   /**
    * @param TestOrderLineItemProduct

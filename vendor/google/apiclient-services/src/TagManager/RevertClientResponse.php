@@ -21,6 +21,7 @@ class RevertClientResponse extends \Google\Model
 {
   protected $clientType = Client::class;
   protected $clientDataType = '';
+  public $client;
 
   /**
    * @param Client

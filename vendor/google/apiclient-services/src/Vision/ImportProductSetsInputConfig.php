@@ -21,6 +21,7 @@ class ImportProductSetsInputConfig extends \Google\Model
 {
   protected $gcsSourceType = ImportProductSetsGcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
 
   /**
    * @param ImportProductSetsGcsSource

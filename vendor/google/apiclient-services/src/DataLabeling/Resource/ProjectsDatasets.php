@@ -30,7 +30,7 @@ use Google\Service\DataLabeling\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $datalabelingService = new Google\Service\DataLabeling(...);
- *   $datasets = $datalabelingService->datasets;
+ *   $datasets = $datalabelingService->projects_datasets;
  *  </code>
  */
 class ProjectsDatasets extends \Google\Service\Resource

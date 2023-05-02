@@ -22,20 +22,28 @@ class HttpRouteAction extends \Google\Collection
   protected $collection_key = 'weightedBackendServices';
   protected $corsPolicyType = CorsPolicy::class;
   protected $corsPolicyDataType = '';
+  public $corsPolicy;
   protected $faultInjectionPolicyType = HttpFaultInjection::class;
   protected $faultInjectionPolicyDataType = '';
+  public $faultInjectionPolicy;
   protected $maxStreamDurationType = Duration::class;
   protected $maxStreamDurationDataType = '';
+  public $maxStreamDuration;
   protected $requestMirrorPolicyType = RequestMirrorPolicy::class;
   protected $requestMirrorPolicyDataType = '';
+  public $requestMirrorPolicy;
   protected $retryPolicyType = HttpRetryPolicy::class;
   protected $retryPolicyDataType = '';
+  public $retryPolicy;
   protected $timeoutType = Duration::class;
   protected $timeoutDataType = '';
+  public $timeout;
   protected $urlRewriteType = UrlRewrite::class;
   protected $urlRewriteDataType = '';
+  public $urlRewrite;
   protected $weightedBackendServicesType = WeightedBackendService::class;
   protected $weightedBackendServicesDataType = 'array';
+  public $weightedBackendServices;
 
   /**
    * @param CorsPolicy

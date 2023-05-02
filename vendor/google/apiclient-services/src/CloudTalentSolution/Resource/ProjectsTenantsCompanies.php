@@ -26,7 +26,7 @@ use Google\Service\CloudTalentSolution\ListCompaniesResponse;
  * Typical usage is:
  *  <code>
  *   $jobsService = new Google\Service\CloudTalentSolution(...);
- *   $companies = $jobsService->companies;
+ *   $companies = $jobsService->projects_tenants_companies;
  *  </code>
  */
 class ProjectsTenantsCompanies extends \Google\Service\Resource

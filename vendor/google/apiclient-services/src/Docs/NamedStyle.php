@@ -25,8 +25,10 @@ class NamedStyle extends \Google\Model
   public $namedStyleType;
   protected $paragraphStyleType = ParagraphStyle::class;
   protected $paragraphStyleDataType = '';
+  public $paragraphStyle;
   protected $textStyleType = TextStyle::class;
   protected $textStyleDataType = '';
+  public $textStyle;
 
   /**
    * @param string

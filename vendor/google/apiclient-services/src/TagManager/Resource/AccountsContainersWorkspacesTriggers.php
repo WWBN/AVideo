@@ -26,7 +26,7 @@ use Google\Service\TagManager\Trigger;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $triggers = $tagmanagerService->triggers;
+ *   $triggers = $tagmanagerService->accounts_containers_workspaces_triggers;
  *  </code>
  */
 class AccountsContainersWorkspacesTriggers extends \Google\Service\Resource

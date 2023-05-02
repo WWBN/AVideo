@@ -34,8 +34,10 @@ class Disk extends \Google\Collection
   public $description;
   protected $diskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $diskEncryptionKeyDataType = '';
+  public $diskEncryptionKey;
   protected $guestOsFeaturesType = GuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
+  public $guestOsFeatures;
   /**
    * @var string
    */
@@ -82,6 +84,7 @@ class Disk extends \Google\Collection
   public $options;
   protected $paramsType = DiskParams::class;
   protected $paramsDataType = '';
+  public $params;
   /**
    * @var string
    */
@@ -128,6 +131,7 @@ class Disk extends \Google\Collection
   public $sourceImage;
   protected $sourceImageEncryptionKeyType = CustomerEncryptionKey::class;
   protected $sourceImageEncryptionKeyDataType = '';
+  public $sourceImageEncryptionKey;
   /**
    * @var string
    */
@@ -138,6 +142,7 @@ class Disk extends \Google\Collection
   public $sourceSnapshot;
   protected $sourceSnapshotEncryptionKeyType = CustomerEncryptionKey::class;
   protected $sourceSnapshotEncryptionKeyDataType = '';
+  public $sourceSnapshotEncryptionKey;
   /**
    * @var string
    */

@@ -29,16 +29,20 @@ class Runnable extends \Google\Model
   public $background;
   protected $barrierType = Barrier::class;
   protected $barrierDataType = '';
+  public $barrier;
   protected $containerType = Container::class;
   protected $containerDataType = '';
+  public $container;
   protected $environmentType = Environment::class;
   protected $environmentDataType = '';
+  public $environment;
   /**
    * @var bool
    */
   public $ignoreExitStatus;
   protected $scriptType = Script::class;
   protected $scriptDataType = '';
+  public $script;
   /**
    * @var string
    */

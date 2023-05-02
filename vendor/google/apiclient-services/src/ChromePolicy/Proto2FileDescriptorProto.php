@@ -22,8 +22,10 @@ class Proto2FileDescriptorProto extends \Google\Collection
   protected $collection_key = 'messageType';
   protected $enumTypeType = Proto2EnumDescriptorProto::class;
   protected $enumTypeDataType = 'array';
+  public $enumType;
   protected $messageTypeType = Proto2DescriptorProto::class;
   protected $messageTypeDataType = 'array';
+  public $messageType;
   /**
    * @var string
    */

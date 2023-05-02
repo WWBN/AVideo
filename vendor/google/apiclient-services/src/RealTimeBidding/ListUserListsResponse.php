@@ -26,6 +26,7 @@ class ListUserListsResponse extends \Google\Collection
   public $nextPageToken;
   protected $userListsType = UserList::class;
   protected $userListsDataType = 'array';
+  public $userLists;
 
   /**
    * @param string

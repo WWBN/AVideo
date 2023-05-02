@@ -22,8 +22,10 @@ class Trace extends \Google\Collection
   protected $collection_key = 'steps';
   protected $endpointInfoType = EndpointInfo::class;
   protected $endpointInfoDataType = '';
+  public $endpointInfo;
   protected $stepsType = Step::class;
   protected $stepsDataType = 'array';
+  public $steps;
 
   /**
    * @param EndpointInfo

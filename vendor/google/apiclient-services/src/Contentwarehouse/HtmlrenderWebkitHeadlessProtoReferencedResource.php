@@ -38,18 +38,21 @@ class HtmlrenderWebkitHeadlessProtoReferencedResource extends \Google\Collection
   public $failedHttpAccessControlCheck;
   protected $fetchSourceInfoType = WirelessTranscoderFetchFetchSourceInfo::class;
   protected $fetchSourceInfoDataType = 'array';
+  public $fetchSourceInfo;
   /**
    * @var string
    */
   public $fetchStatus;
   protected $httpHeaderType = HtmlrenderWebkitHeadlessProtoReferencedResourceHttpHeader::class;
   protected $httpHeaderDataType = 'array';
+  public $httpHeader;
   /**
    * @var int
    */
   public $httpResponseCode;
   protected $metadataType = WirelessTranscoderFetchFetchMetadata::class;
   protected $metadataDataType = 'array';
+  public $metadata;
   /**
    * @var string
    */
@@ -64,6 +67,7 @@ class HtmlrenderWebkitHeadlessProtoReferencedResource extends \Google\Collection
   public $referencedResourceContentIndex;
   protected $requestHeaderType = HtmlrenderWebkitHeadlessProtoReferencedResourceHttpHeader::class;
   protected $requestHeaderDataType = 'array';
+  public $requestHeader;
   /**
    * @var int
    */
@@ -78,12 +82,14 @@ class HtmlrenderWebkitHeadlessProtoReferencedResource extends \Google\Collection
   public $synchronouslyFetched;
   protected $timingType = HtmlrenderWebkitHeadlessProtoReferencedResourceFetchTiming::class;
   protected $timingDataType = 'array';
+  public $timing;
   /**
    * @var string
    */
   public $url;
   protected $webkitMetadataType = HtmlrenderWebkitHeadlessProtoWebKitFetchMetadata::class;
   protected $webkitMetadataDataType = '';
+  public $webkitMetadata;
 
   /**
    * @param bool

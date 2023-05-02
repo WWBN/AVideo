@@ -21,6 +21,7 @@ class ConsistentHashLoadBalancerSettings extends \Google\Model
 {
   protected $httpCookieType = ConsistentHashLoadBalancerSettingsHttpCookie::class;
   protected $httpCookieDataType = '';
+  public $httpCookie;
   /**
    * @var string
    */

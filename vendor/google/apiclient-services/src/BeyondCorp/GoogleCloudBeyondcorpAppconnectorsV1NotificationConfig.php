@@ -21,6 +21,7 @@ class GoogleCloudBeyondcorpAppconnectorsV1NotificationConfig extends \Google\Mod
 {
   protected $pubsubNotificationType = GoogleCloudBeyondcorpAppconnectorsV1NotificationConfigCloudPubSubNotificationConfig::class;
   protected $pubsubNotificationDataType = '';
+  public $pubsubNotification;
 
   /**
    * @param GoogleCloudBeyondcorpAppconnectorsV1NotificationConfigCloudPubSubNotificationConfig

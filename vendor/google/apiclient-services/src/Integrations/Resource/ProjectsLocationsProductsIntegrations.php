@@ -17,13 +17,9 @@
 
 namespace Google\Service\Integrations\Resource;
 
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaArchiveBundleRequest;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaArchiveBundleResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest;
-use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
 
@@ -32,27 +28,11 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegratio
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $integrations = $integrationsService->integrations;
+ *   $integrations = $integrationsService->projects_locations_products_integrations;
  *  </code>
  */
 class ProjectsLocationsProductsIntegrations extends \Google\Service\Resource
 {
-  /**
-   * PROTECT WITH A VISIBILITY LABEL. THIS METHOD WILL BE MOVED TO A SEPARATE
-   * SERVICE. Soft-deletes the bundle. (integrations.archiveBundle)
-   *
-   * @param string $name Required. The bundle to archive. Format:
-   * projects/{project}/locations/{location}/integrations/{integration}
-   * @param GoogleCloudIntegrationsV1alphaArchiveBundleRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudIntegrationsV1alphaArchiveBundleResponse
-   */
-  public function archiveBundle($name, GoogleCloudIntegrationsV1alphaArchiveBundleRequest $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('archiveBundle', [$params], GoogleCloudIntegrationsV1alphaArchiveBundleResponse::class);
-  }
   /**
    * Executes integrations synchronously by passing the trigger id in the request
    * body. The request is not returned until the requested executions are either
@@ -101,21 +81,6 @@ class ProjectsLocationsProductsIntegrations extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudIntegrationsV1alphaListIntegrationsResponse::class);
-  }
-  /**
-   * Get execution stats (integrations.monitorexecutionstats)
-   *
-   * @param string $parent Required. The parent resource name:
-   * {parent=projects/locations}.
-   * @param GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse
-   */
-  public function monitorexecutionstats($parent, GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequest $postBody, $optParams = [])
-  {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('monitorexecutionstats', [$params], GoogleCloudIntegrationsV1alphaMonitorExecutionStatsResponse::class);
   }
   /**
    * Schedules an integration for execution by passing the trigger id and the

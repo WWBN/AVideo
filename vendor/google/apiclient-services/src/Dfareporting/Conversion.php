@@ -26,6 +26,7 @@ class Conversion extends \Google\Collection
   public $childDirectedTreatment;
   protected $customVariablesType = CustomFloodlightVariable::class;
   protected $customVariablesDataType = 'array';
+  public $customVariables;
   /**
    * @var string
    */

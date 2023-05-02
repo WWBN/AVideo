@@ -26,6 +26,7 @@ class MoreHours extends \Google\Collection
   public $hoursTypeId;
   protected $periodsType = TimePeriod::class;
   protected $periodsDataType = 'array';
+  public $periods;
 
   /**
    * @param string

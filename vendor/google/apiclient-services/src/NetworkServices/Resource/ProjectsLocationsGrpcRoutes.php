@@ -26,7 +26,7 @@ use Google\Service\NetworkServices\Operation;
  * Typical usage is:
  *  <code>
  *   $networkservicesService = new Google\Service\NetworkServices(...);
- *   $grpcRoutes = $networkservicesService->grpcRoutes;
+ *   $grpcRoutes = $networkservicesService->projects_locations_grpcRoutes;
  *  </code>
  */
 class ProjectsLocationsGrpcRoutes extends \Google\Service\Resource

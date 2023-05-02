@@ -25,6 +25,7 @@ class ApigatewayOperation extends \Google\Model
   public $done;
   protected $errorType = ApigatewayStatus::class;
   protected $errorDataType = '';
+  public $error;
   /**
    * @var array[]
    */

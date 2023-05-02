@@ -21,10 +21,13 @@ class DataSplitResult extends \Google\Model
 {
   protected $evaluationTableType = TableReference::class;
   protected $evaluationTableDataType = '';
+  public $evaluationTable;
   protected $testTableType = TableReference::class;
   protected $testTableDataType = '';
+  public $testTable;
   protected $trainingTableType = TableReference::class;
   protected $trainingTableDataType = '';
+  public $trainingTable;
 
   /**
    * @param TableReference

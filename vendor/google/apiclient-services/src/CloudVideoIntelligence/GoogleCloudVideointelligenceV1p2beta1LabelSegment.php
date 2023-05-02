@@ -25,6 +25,7 @@ class GoogleCloudVideointelligenceV1p2beta1LabelSegment extends \Google\Model
   public $confidence;
   protected $segmentType = GoogleCloudVideointelligenceV1p2beta1VideoSegment::class;
   protected $segmentDataType = '';
+  public $segment;
 
   /**
    * @param float

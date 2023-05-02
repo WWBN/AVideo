@@ -410,8 +410,8 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
             $(t).find('i').removeClass('fa-minus');
         }
     }
-    
-    
+
+
     function tooglePluginForceShow(t) {
         var id = $(t).attr('id');
         var selector = '#jsonElements .'+id;
@@ -427,7 +427,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
         modal.showPleaseWait();
         $("#pluginsPermissionModalContent").html('');
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
+            url: webSiteRootURL+'plugin/Permissions/getPermissionsFromPlugin.html.php?plugins_id=' + plugins_id,
             success: function (response) {
                 modal.hidePleaseWait();
                 $("#pluginsPermissionModalContent").html(response);
@@ -492,7 +492,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     } else {
                         if (!row.enabled) {
                             $.ajax({
-                                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                                url: webSiteRootURL+'objects/pluginSwitch.json.php',
                                 data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": true},
                                 type: 'post',
                                 success: function (response) {}
@@ -571,7 +571,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 var this_ = $(this);
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginSwitch.json.php',
+                    url: webSiteRootURL+'objects/pluginSwitch.json.php',
                     data: {"uuid": row.uuid, "name": row.name, "dir": row.dir, "enable": $('#enable' + row.uuid).is(":checked")},
                     type: 'post',
                     success: function (response) {
@@ -609,7 +609,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 $('#inputData').val(JSON.stringify(row.data_object));
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunDatabaseScript.json.php',
+                    url: webSiteRootURL+'objects/pluginRunDatabaseScript.json.php',
                     data: {"name": row.name},
                     type: 'post',
                     success: function (response) {
@@ -629,7 +629,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 $('#inputData').val(JSON.stringify(row.data_object));
                 modal.showPleaseWait();
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginRunUpdateScript.json.php',
+                    url: webSiteRootURL+'objects/pluginRunUpdateScript.json.php',
                     data: {"name": row.name},
                     type: 'post',
                     success: function (response) {
@@ -646,14 +646,14 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
             if ($wwbnIndexPlugin) {
             ?>
             <?php    
-                include("{$global['systemRootPath']}plugin/WWBNIndex/script.php");
+                include("{$global['systemRootPath']}plugin/WWBNIndex/script.js");
             }
             ?>
         });
         $('#savePluginBtn').click(function (evt) {
             modal.showPleaseWait();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/pluginAddDataObject.json.php',
+                url: webSiteRootURL+'objects/pluginAddDataObject.json.php',
                 data: {"id": $('#inputPluginId').val(), "object_data": $('#inputData').val()},
                 type: 'post',
                 success: function (response) {

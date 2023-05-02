@@ -26,16 +26,20 @@ class LiasettingsCustomBatchResponseEntry extends \Google\Collection
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
   protected $gmbAccountsType = GmbAccounts::class;
   protected $gmbAccountsDataType = '';
+  public $gmbAccounts;
   /**
    * @var string
    */
   public $kind;
   protected $liaSettingsType = LiaSettings::class;
   protected $liaSettingsDataType = '';
+  public $liaSettings;
   protected $posDataProvidersType = PosDataProviders::class;
   protected $posDataProvidersDataType = 'array';
+  public $posDataProviders;
 
   /**
    * @param string

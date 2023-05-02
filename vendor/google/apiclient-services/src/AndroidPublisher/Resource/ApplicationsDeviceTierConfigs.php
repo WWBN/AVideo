@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\ListDeviceTierConfigsResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $deviceTierConfigs = $androidpublisherService->deviceTierConfigs;
+ *   $deviceTierConfigs = $androidpublisherService->applications_deviceTierConfigs;
  *  </code>
  */
 class ApplicationsDeviceTierConfigs extends \Google\Service\Resource

@@ -24,7 +24,7 @@ use Google\Service\PeopleService\ListConnectionsResponse;
  * Typical usage is:
  *  <code>
  *   $peopleService = new Google\Service\PeopleService(...);
- *   $connections = $peopleService->connections;
+ *   $connections = $peopleService->people_connections;
  *  </code>
  */
 class PeopleConnections extends \Google\Service\Resource

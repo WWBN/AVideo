@@ -25,6 +25,7 @@ class GoogleCloudContentwarehouseV1AccessControlAction extends \Google\Model
   public $operationType;
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param string

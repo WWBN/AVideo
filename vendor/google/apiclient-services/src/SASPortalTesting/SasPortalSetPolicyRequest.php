@@ -25,6 +25,7 @@ class SasPortalSetPolicyRequest extends \Google\Model
   public $disableNotification;
   protected $policyType = SasPortalPolicy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string
    */

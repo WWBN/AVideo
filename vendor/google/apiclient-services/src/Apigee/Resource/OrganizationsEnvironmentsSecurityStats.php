@@ -27,7 +27,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1QueryTimeSeriesStatsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $securityStats = $apigeeService->securityStats;
+ *   $securityStats = $apigeeService->organizations_environments_securityStats;
  *  </code>
  */
 class OrganizationsEnvironmentsSecurityStats extends \Google\Service\Resource

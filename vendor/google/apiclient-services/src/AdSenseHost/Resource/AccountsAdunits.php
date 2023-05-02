@@ -26,7 +26,7 @@ use Google\Service\AdSenseHost\AdUnits;
  * Typical usage is:
  *  <code>
  *   $adsensehostService = new Google\Service\AdSenseHost(...);
- *   $adunits = $adsensehostService->adunits;
+ *   $adunits = $adsensehostService->accounts_adunits;
  *  </code>
  */
 class AccountsAdunits extends \Google\Service\Resource

@@ -34,6 +34,7 @@ class GoodocWordAlternatesAlternate extends \Google\Model
   public $ocrEngineVersion;
   protected $wordType = GoodocWord::class;
   protected $wordDataType = '';
+  public $word;
 
   /**
    * @param string

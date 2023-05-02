@@ -26,7 +26,7 @@ use Google\Service\AccessContextManager\Operation;
  * Typical usage is:
  *  <code>
  *   $accesscontextmanagerService = new Google\Service\AccessContextManager(...);
- *   $gcpUserAccessBindings = $accesscontextmanagerService->gcpUserAccessBindings;
+ *   $gcpUserAccessBindings = $accesscontextmanagerService->organizations_gcpUserAccessBindings;
  *  </code>
  */
 class OrganizationsGcpUserAccessBindings extends \Google\Service\Resource

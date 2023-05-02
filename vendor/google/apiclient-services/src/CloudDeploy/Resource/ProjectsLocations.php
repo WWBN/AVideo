@@ -26,7 +26,7 @@ use Google\Service\CloudDeploy\Location;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $locations = $clouddeployService->locations;
+ *   $locations = $clouddeployService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

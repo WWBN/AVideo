@@ -34,14 +34,17 @@ class VolumeSaleInfo extends \Google\Collection
   public $isEbook;
   protected $listPriceType = VolumeSaleInfoListPrice::class;
   protected $listPriceDataType = '';
+  public $listPrice;
   protected $offersType = VolumeSaleInfoOffers::class;
   protected $offersDataType = 'array';
+  public $offers;
   /**
    * @var string
    */
   public $onSaleDate;
   protected $retailPriceType = VolumeSaleInfoRetailPrice::class;
   protected $retailPriceDataType = '';
+  public $retailPrice;
   /**
    * @var string
    */

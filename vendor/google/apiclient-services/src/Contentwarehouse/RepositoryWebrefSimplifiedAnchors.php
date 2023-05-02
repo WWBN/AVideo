@@ -22,6 +22,7 @@ class RepositoryWebrefSimplifiedAnchors extends \Google\Collection
   protected $collection_key = 'anchor';
   protected $anchorType = RepositoryWebrefSimplifiedAnchor::class;
   protected $anchorDataType = 'array';
+  public $anchor;
 
   /**
    * @param RepositoryWebrefSimplifiedAnchor[]

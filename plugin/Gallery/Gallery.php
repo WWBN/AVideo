@@ -4,9 +4,11 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/Channel.php';
 
-class Gallery extends PluginAbstract {
+class Gallery extends PluginAbstract
+{
 
-    public function getTags() {
+    public function getTags()
+    {
         return array(
             PluginTags::$RECOMMENDED,
             PluginTags::$FREE,
@@ -15,27 +17,32 @@ class Gallery extends PluginAbstract {
         );
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         return "Make the first page works as a gallery";
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "Gallery";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "a06505bf-3570-4b1f-977a-fd0e5cab205d";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "1.0";
     }
 
-    public function getHeadCode() {
+    public function getHeadCode()
+    {
         global $global;
         $obj = $this->getDataObject();
         // preload image
-        $js = "<script>var img1 = new Image();img1.src=\"".getCDN()."view/img/video-placeholder-gray.png\";</script>";
+        $js = "<script>var img1 = new Image();img1.src=\"" . getCDN() . "view/img/video-placeholder-gray.png\";</script>";
         $css = '<link href="' . getCDN() . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
@@ -55,7 +62,8 @@ class Gallery extends PluginAbstract {
         return $js . $css;
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         global $global;
         $obj = new stdClass();
         $obj->MainContainerFluid = true;
@@ -80,39 +88,44 @@ class Gallery extends PluginAbstract {
         $obj->DateAddedCustomTitle = "";
         $obj->DateAddedRowCount = 12;
         $obj->DateAddedOrder = 3;
-        
+
         $obj->PrivateContent = true;
         $obj->PrivateContentCustomTitle = "";
         $obj->PrivateContentRowCount = 12;
         $obj->PrivateContentOrder = 4;
-        
+
         $obj->MostWatched = true;
         $obj->MostWatchedCustomTitle = "";
         $obj->MostWatchedRowCount = 12;
         $obj->MostWatchedOrder = 4;
-        
+
         $obj->MostPopular = true;
         $obj->MostPopularCustomTitle = "";
         $obj->MostPopularRowCount = 12;
         $obj->MostPopularOrder = 5;
-        
+
         $obj->SortByName = false;
         $obj->SortByNameCustomTitle = "";
         $obj->SortByNameRowCount = 12;
         $obj->SortByNameOrder = 6;
-        
+
         $obj->SubscribedChannels = true;
         $obj->SubscribedChannelsRowCount = 12;
         $obj->SubscribedChannelsOrder = 7;
-        
+
+        $obj->SubscribedTags = true;
+        $obj->SubscribedTagsRowCount = 12;
+        $obj->SubscribedTagsOrder = 7;
+
         $obj->Categories = true;
         $obj->CategoriesCustomTitle = "";
         $obj->CategoriesRowCount = 12;
         $obj->CategoriesOrder = 7;
         $obj->CategoriesShowOnlySuggested = false;
-        
+
         $obj->sortReverseable = false;
         $obj->SubCategorys = false;
+        self::addDataObjectHelper('SubCategorys', 'Show Subcategories', 'When you are in the categories page, show the subcategories link at the top');
         $obj->showTags = true;
         $obj->showCategoryTag = true;
         $obj->showCategoryLiveRow = false;
@@ -131,16 +144,17 @@ class Gallery extends PluginAbstract {
         $themes = getThemes();
         foreach ($themes as $value) {
             $name = ucfirst($value);
-            eval('$obj->SwitchThemeShow'.$name.' = true;');
-            self::addDataObjectHelper('SwitchThemeShow'.$name, 'Show '.$name.' Option', 'Uncheck this button to not show the '.$name.' in your themes list');
-            eval('$obj->SwitchThemeLabel'.$name.' = "'.$name.'";');
-            self::addDataObjectHelper('SwitchThemeLabel'.$name, $name.' Theme Label', 'Change the label name to the theme '.$name.' in your themes list');
+            eval('$obj->SwitchThemeShow' . $name . ' = true;');
+            self::addDataObjectHelper('SwitchThemeShow' . $name, 'Show ' . $name . ' Option', 'Uncheck this button to not show the ' . $name . ' in your themes list');
+            eval('$obj->SwitchThemeLabel' . $name . ' = "' . $name . '";');
+            self::addDataObjectHelper('SwitchThemeLabel' . $name, $name . ' Theme Label', 'Change the label name to the theme ' . $name . ' in your themes list');
         }
 
         return $obj;
     }
 
-    public function navBarProfileButtons() {
+    public function navBarProfileButtons()
+    {
         global $global;
         $navBarButtons = 0;
         $obj = $this->getDataObject();
@@ -148,8 +162,9 @@ class Gallery extends PluginAbstract {
             include $global['systemRootPath'] . 'plugin/Gallery/view/themeSwitcher.php';
         }
     }
-    
-    public function navBarButtons() {
+
+    public function navBarButtons()
+    {
         global $global;
         $navBarButtons = 1;
         $obj = $this->getDataObject();
@@ -158,21 +173,24 @@ class Gallery extends PluginAbstract {
         }
     }
 
-    public function getHelp() {
+    public function getHelp()
+    {
         if (User::isAdmin()) {
             return "<h2 id='Gallery help'>" . __('Gallery options (admin)') . "</h2><table class='table'><thead><th>" . __('Option-name') . "</th><th>" . __('Default') . "</th><th>" . __('Description') . "</th></thead><tbody><tr><td>BigVideo</td><td>" . __('checked') . "</td><td>" . __('Create a big preview with a direct description on top') . "</td></tr><tr><td>DateAdded,MostPopular,MostWatched,SortByName</td><td>" . __('checked') . "," . __('checked') . "," . __('checked') . "," . __('unchecked') . "</td><td>" . __('Metacategories') . "</td></tr><tr><td>SubCategorys</td><td>" . __('unchecked') . "</td> <td>" . __('Enable a view for subcategories on top') . "</td></tr><tr><td>Description</td><td>" . __('unchecked') . "</td><td>" . __('Enable a small button for show the description') . "</td></tr></tbody></table>";
         }
         return "";
     }
 
-    public function getFirstPage() {
+    public function getFirstPage()
+    {
         global $global;
         if (!AVideoPlugin::isEnabledByName("YouPHPFlix2")) {
             return $global['systemRootPath'] . 'plugin/Gallery/view/modeGallery.php';
         }
     }
 
-    public function getFooterCode() {
+    public function getFooterCode()
+    {
         $obj = $this->getDataObject();
         global $global;
 
@@ -191,73 +209,78 @@ class Gallery extends PluginAbstract {
             $js .= '<script src="' . getURL('plugin/Gallery/fullscreen.js') . '"></script>';
             $js .= '<script>var playVideoOnBrowserFullscreen = 1;</script>';
         }
-        $js .= '<script src="'.getURL('plugin/Gallery/script.js').'" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('plugin/Gallery/script.js') . '" type="text/javascript"></script>';
         return $js;
     }
-    
-    static function getThemes(){
+
+    static function getThemes()
+    {
         $obj = AVideoPlugin::getDataObject("Gallery");
-        if(empty($obj->allowSwitchTheme)){
-           return false; 
+        if (empty($obj->allowSwitchTheme)) {
+            return false;
         }
         $themes = getThemes();
         $selectedThemes = array();
         foreach ($themes as $value) {
             $name = ucfirst($value);
-            eval('$t = $obj->SwitchThemeShow'.$name.';');
-            if(!empty($t)){
-                eval('$l = $obj->SwitchThemeLabel'.$name.';');
-                $selectedThemes[] = array('name'=>$value,'label'=>$l);
+            eval('$t = $obj->SwitchThemeShow' . $name . ';');
+            if (!empty($t)) {
+                $l = '';
+                eval('$l = $obj->SwitchThemeLabel' . $name . ';');
+                $selectedThemes[] = array('name' => $value, 'label' => $l);
             }
         }
         return $selectedThemes;
     }
-    
-    static function getSectionsOrder(){
+
+    static function getSectionsOrder()
+    {
         $obj = AVideoPlugin::getObjectData('Gallery');
         $sections = array();
         foreach ($obj as $key => $value) {
-            if(preg_match('/(.*)Order$/', $key, $matches)){
+            if (preg_match('/(.*)Order$/', $key, $matches)) {
                 $index = $value;
-                while(isset($sections[$index])){
+                while (isset($sections[$index])) {
                     $index++;
                 }
-                $sections[$index] = array('name'=>$matches[1], 'active'=>$obj->{$matches[1]});
+                $sections[$index] = array('name' => $matches[1], 'active' => $obj->{$matches[1]});
             }
         }
         ksort($sections);
         return $sections;
-        
     }
-    
-    public function getPluginMenu() {
+
+    public function getPluginMenu()
+    {
         global $global;
         return '<button onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/Gallery/view/sections.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-sort-numeric-down"></i> ' . __('Sort Sections') . '</button>';
     }
-    
-    public static function getAddChannelToGalleryButton($users_id){
+
+    public static function getAddChannelToGalleryButton($users_id)
+    {
         global $global, $config;
         $filePath = $global['systemRootPath'] . 'plugin/Gallery/buttonChannelToGallery.php';
-        $varsArray=array('users_id'=>$users_id);
+        $varsArray = array('users_id' => $users_id);
         $button = getIncludeFileContent($filePath, $varsArray);
         return $button;
     }
-    
-    public static function setAddChannelToGallery($users_id, $add){
+
+    public static function setAddChannelToGallery($users_id, $add)
+    {
         global $global, $config;
         $users_id = intval($users_id);
         $add = intval($add);
-        
+
         $obj = AVideoPlugin::getObjectData('Gallery');
-        
+
         $parameterName = "Channel_{$users_id}_";
-        
-        if(!empty($add)){
+
+        if (!empty($add)) {
             $obj->{$parameterName} = true;
             $obj->{"{$parameterName}CustomTitle"} = User::getNameIdentificationById($users_id);
             $obj->{"{$parameterName}RowCount"} = 12;
             $obj->{"{$parameterName}Order"} = 1;
-        }else{
+        } else {
             unset($obj->{$parameterName});
             unset($obj->{"{$parameterName}CustomTitle"});
             unset($obj->{"{$parameterName}RowCount"});
@@ -265,34 +288,187 @@ class Gallery extends PluginAbstract {
         }
         return AVideoPlugin::setObjectData('Gallery', $obj);
     }
-    
-    public static function isChannelToGallery($users_id){
+
+    public static function isChannelToGallery($users_id)
+    {
         $obj = AVideoPlugin::getObjectData('Gallery');
-        
+
         $parameterName = "Channel_{$users_id}_";
-        
+
         return !empty($obj->{$parameterName});
     }
 
-    static function getVideoDropdownMenu($videos_id) {
+    static function getVideoDropdownMenu($videos_id)
+    {
         global $global;
         $varsArray = array('videos_id' => $videos_id);
         $filePath = $global['systemRootPath'] . 'plugin/Gallery/view/videoDropDownMenu.php';
         return getIncludeFileContent($filePath, $varsArray);
     }
 
-    static function getContaierClass($addClass='') {
+    static function getContaierClass($addClass = '')
+    {
         global $global, $objGallery;
-        if(!isset($objGallery)){
+        if (!isset($objGallery)) {
             $objGallery = AVideoPlugin::getObjectData('Gallery');
         }
-        
+
         $class = 'container gallery';
-        if($objGallery->MainContainerFluid){
+        if ($objGallery->MainContainerFluid) {
             $class = 'container-fluid gallery';
         }
-        
-        return $class." {$addClass}";
+
+        return $class . " {$addClass}";
     }
 
+    /**
+     * @param string $parameters
+     * This will return the configuration of the first page, also the URL to retreive the videos list from each section
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIPlugin={APIPlugin}&APIName={APIName}
+     * @return \ApiObject
+     */
+    static function API_get_firstPage($parameters){
+        global $global;
+        $start = microtime(true);
+        $cacheName = 'Gallery_API_get_firstPage_'.md5(json_encode($parameters)).'_'.User::getId();
+        $object = ObjectYPT::getCache($cacheName, 3600); // 1 hour
+        if(empty($object)){
+            $obj = AVideoPlugin::getObjectData("Gallery");
+            $sections = Gallery::getSectionsOrder();
+            $response = new stdClass();
+            $response->sections = array();
+            $countSections = 0;
+            $countVideos = 0;
+            foreach ($sections as $value) {
+                if (empty($value['active'])) {
+                    continue;
+                }
+                $countSections++;
+                if (preg_match('/Channel_([0-9]+)_/', $value['name'], $matches)) {
+                    $users_id = intval($matches[1]);
+                    $title = User::_getUserChannelName($users_id);
+                    $rowCount = getRowCount();
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&channelName={$title}";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'Suggested') {
+    
+                    $title = !empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested");
+                    $rowCount = intval($obj->SuggestedRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[suggested]=1";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'Trending') {
+                    $title = !empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending");
+                    $rowCount = intval($obj->TrendingRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[trending]=1";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'SortByName') {
+                    $title = !empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name");
+                    $rowCount = intval($obj->SortByNameRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[name]=asc";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
+                    $title = !empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added");
+                    $rowCount = intval($obj->DateAddedRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[created]=desc";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'PrivateContent') {
+                    /*
+                    $title = !empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content");
+                    $rowCount = intval($obj->PrivateContentRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[created]=asc";
+                    $response->sections[] = new Section($title,$endpoint,$rowCount);
+                    createGallery(!empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content"), 'created', $obj->PrivateContentRowCount, 'privateContentOrder', __("Most"), __("Fewest"), $orderString, "DESC", true, "fas fa-lock");
+                    */
+                } else
+                if ($value['name'] == 'MostWatched') {
+                    $title = !empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched");
+                    $rowCount = intval($obj->MostWatchedRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[views_count]=desc";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'MostPopular') {
+                    $title = !empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular");
+                    $rowCount = intval($obj->MostPopularRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[likes]=desc";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'SubscribedChannels' && User::isLogged() && AVideoPlugin::isEnabledByName('VideoTags')) {
+                    require_once $global['systemRootPath'] . 'objects/subscribe.php';
+                    $users_id = User::getId();
+                    $channels = Subscribe::getSubscribedChannels($users_id, $obj->SubscribedChannelsRowCount, 1);
+                    foreach ($channels as $value2) {
+                        $title = $value2['channelName'];
+                        $rowCount = $obj->SubscribedChannelsRowCount;
+                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&channelName={$title}&sort[created]=desc";
+                        $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                        $countVideos += $section->totalRows;
+                        $response->sections[] = $section;
+                    }
+                } else
+                if ($value['name'] == 'SubscribedTags' && User::isLogged()) {
+                    $users_id = User::getId();
+                    $tags = Tags_subscriptions::getAllFromUsers_id($users_id);
+                    if (!empty($tags)) {
+                        foreach ($tags as $value2) {
+                            $title = $value2['name'];
+                            $rowCount = $obj->SubscribedTagsRowCount;
+                            $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&tags_id={$value2['id']}&sort[created]=desc";
+                            $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                            $countVideos += $section->totalRows;
+                            $response->sections[] = $section;
+                        }
+                    }
+                } else
+                if ($value['name'] == 'Categories') {
+                    $onlySuggested = $obj->CategoriesShowOnlySuggested;
+                    cleanSearchVar();
+                    $categories = Category::getAllCategories(false, true, $onlySuggested);
+                    reloadSearchVar();
+                    foreach ($categories as $value2) {
+                        $title = $value2['name'];
+                        $rowCount = $obj->CategoriesRowCount;
+                        $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&catName={$value2['clean_name']}&sort[created]=desc";
+                        $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                        $countVideos += $section->totalRows;
+                        $response->sections[] = $section;
+                    }
+                }
+            }
+            $response->countVideos = $countVideos;
+            $response->countSections = $countSections;
+            
+
+            $finish = microtime(true)-$start;
+            $response->responseTime = $finish;
+
+            $object = new ApiObject("", false, $response);
+            
+            ObjectYPT::setCache($cacheName, $object);
+        }else{
+            $finish = microtime(true)-$start;
+            $object->response->responseCacheTime = $finish;
+        }
+        
+        return $object;
+    }
 }
+

@@ -39,7 +39,7 @@ class Courses extends \Google\Service\Resource
    * codes: * `PERMISSION_DENIED` if the requesting user is not permitted to
    * create courses or for access errors. * `NOT_FOUND` if the primary teacher is
    * not a valid user. * `FAILED_PRECONDITION` if the course owner's account is
-   * disabled or for the following request errors: *
+   * disabled or for the following request errors: * UserCannotOwnCourse *
    * UserGroupsMembershipLimitReached * `ALREADY_EXISTS` if an alias was specified
    * in the `id` and already exists. (courses.create)
    *
@@ -130,7 +130,7 @@ class Courses extends \Google\Service\Resource
    * exists with the requested ID. * `INVALID_ARGUMENT` if invalid fields are
    * specified in the update mask or if no update mask is supplied. *
    * `FAILED_PRECONDITION` for the following request errors: * CourseNotModifiable
-   * * InactiveCourseOwner (courses.patch)
+   * * InactiveCourseOwner * IneligibleOwner (courses.patch)
    *
    * @param string $id Identifier of the course to update. This identifier can be
    * either the Classroom-assigned identifier or an alias.

@@ -22,6 +22,7 @@ class GoogleCloudDialogflowCxV3ListEnvironmentsResponse extends \Google\Collecti
   protected $collection_key = 'environments';
   protected $environmentsType = GoogleCloudDialogflowCxV3Environment::class;
   protected $environmentsDataType = 'array';
+  public $environments;
   /**
    * @var string
    */

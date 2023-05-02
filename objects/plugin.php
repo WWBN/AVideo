@@ -3,6 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+require_once $global['systemRootPath'] . 'objects/Object.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Plugin extends ObjectYPT
@@ -13,7 +14,7 @@ class Plugin extends ObjectYPT
     protected $name;
     protected $uuid;
     protected $dirName;
-    protected $pluginversion;
+    protected $pluginVersion;
 
     public static function getSearchFieldsNames()
     {
@@ -93,15 +94,15 @@ class Plugin extends ObjectYPT
         $this->dirName = $dirName;
     }
 
-    public function setPluginversion($pluginversion)
+    public function setPluginversion($pluginVersion)
     {
-        $this->pluginversion = $pluginversion;
+        $this->pluginVersion = $pluginVersion;
     }
 
     public static function setCurrentVersionByUuid($uuid, $currentVersion)
     {
         _error_log("plugin::setCurrentVersionByUuid $uuid, $currentVersion");
-        $p = static::getPluginByUUID($uuid);
+        $p = static::getPluginByUUID($uuid, true);
         if (!$p) {
             _error_log("plugin::setCurrentVersionByUuid error on get plugin");
             return false;
@@ -139,7 +140,7 @@ class Plugin extends ObjectYPT
         }
         if (empty($getPluginByName[$name])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, "s", [$name], true);
+            $res = sqlDAL::readSql($sql, "s", [$name]);
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
@@ -151,7 +152,7 @@ class Plugin extends ObjectYPT
         return $getPluginByName[$name];
     }
 
-    public static function getPluginByUUID($uuid)
+    public static function getPluginByUUID($uuid, $refreshCache=false)
     {
         global $global, $getPluginByUUID, $pluginJustInstalled;
         $name = "plugin$uuid";
@@ -163,7 +164,7 @@ class Plugin extends ObjectYPT
         }
         if (empty($getPluginByUUID[$uuid])) {
             $sql = "SELECT * FROM " . static::getTableName() . " WHERE uuid = ? LIMIT 1";
-            $res = sqlDAL::readSql($sql, "s", [$uuid]);
+            $res = sqlDAL::readSql($sql, "s", [$uuid], $refreshCache);
             $data = sqlDAL::fetchAssoc($res);
             sqlDAL::close($res);
             if (!empty($data)) {
@@ -176,7 +177,7 @@ class Plugin extends ObjectYPT
                 $getPluginByUUID[$uuid] = $data;
             } else {
                 $name = AVideoPlugin::getPluginsNameOnByDefaultFromUUID($uuid);
-                if ($name !== false && empty($pluginJustInstalled[$uuid])) {
+                if (!sqlDAL::wasSTMTError() && $name !== false && empty($pluginJustInstalled[$uuid])) {
                     $pluginJustInstalled[$uuid] = 1;
                     _error_log("plugin::getPluginByUUID {$name} {$uuid} this plugin is On By Default we will install it ($sql)");
                     self::deleteByUUID($uuid);
@@ -242,7 +243,11 @@ class Plugin extends ObjectYPT
                         $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
                             if ($value !== "Statistics") { // avoid error while this plugin is not ready
-                                _error_log("Plugin Not Found: {$value}");
+                                if (!is_object($p)) {
+                                    _error_log("Plugin Not Found 1: {$value}");
+                                }else{
+                                    _error_log("Plugin Not Found 1 hide: {$value}");
+                                }
                             }
                             continue;
                         }
@@ -291,11 +296,14 @@ class Plugin extends ObjectYPT
                         $p = AVideoPlugin::loadPlugin($value);
                         if (!is_object($p) || $p->hidePlugin()) {
                             if ($value !== "Statistics") { // avoid error while this plugin is not ready
-                                _error_log("Plugin Not Found: {$value}");
+                                _error_log("Plugin Not Found 2: {$value}");
                             }
                             continue;
                         }
                         $row = self::getPluginByUUID($p->getUUID());
+                        if(empty($row)){
+                            continue;
+                        }
                         $obj = new stdClass();
                         $obj->name = $p->getName();
                         $obj->pluginversion = $p->getPluginVersion();

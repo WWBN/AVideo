@@ -30,7 +30,7 @@ use Google\Service\ArtifactRegistry\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $repositories = $artifactregistryService->repositories;
+ *   $repositories = $artifactregistryService->projects_locations_repositories;
  *  </code>
  */
 class ProjectsLocationsRepositories extends \Google\Service\Resource

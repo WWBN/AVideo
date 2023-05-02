@@ -31,6 +31,10 @@ class CrossProfilePolicies extends \Google\Model
    * @var string
    */
   public $showWorkContactsInPersonalProfile;
+  /**
+   * @var string
+   */
+  public $workProfileWidgetsDefault;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class CrossProfilePolicies extends \Google\Model
   public function getShowWorkContactsInPersonalProfile()
   {
     return $this->showWorkContactsInPersonalProfile;
+  }
+  /**
+   * @param string
+   */
+  public function setWorkProfileWidgetsDefault($workProfileWidgetsDefault)
+  {
+    $this->workProfileWidgetsDefault = $workProfileWidgetsDefault;
+  }
+  /**
+   * @return string
+   */
+  public function getWorkProfileWidgetsDefault()
+  {
+    return $this->workProfileWidgetsDefault;
   }
 }
 

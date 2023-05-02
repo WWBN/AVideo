@@ -22,10 +22,13 @@ class PivotGroup extends \Google\Collection
   protected $collection_key = 'valueMetadata';
   protected $dataSourceColumnReferenceType = DataSourceColumnReference::class;
   protected $dataSourceColumnReferenceDataType = '';
+  public $dataSourceColumnReference;
   protected $groupLimitType = PivotGroupLimit::class;
   protected $groupLimitDataType = '';
+  public $groupLimit;
   protected $groupRuleType = PivotGroupRule::class;
   protected $groupRuleDataType = '';
+  public $groupRule;
   /**
    * @var string
    */
@@ -48,8 +51,10 @@ class PivotGroup extends \Google\Collection
   public $sourceColumnOffset;
   protected $valueBucketType = PivotGroupSortValueBucket::class;
   protected $valueBucketDataType = '';
+  public $valueBucket;
   protected $valueMetadataType = PivotGroupValueMetadata::class;
   protected $valueMetadataDataType = 'array';
+  public $valueMetadata;
 
   /**
    * @param DataSourceColumnReference

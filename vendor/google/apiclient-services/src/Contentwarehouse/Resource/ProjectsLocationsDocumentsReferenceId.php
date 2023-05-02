@@ -29,7 +29,7 @@ use Google\Service\Contentwarehouse\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contentwarehouseService = new Google\Service\Contentwarehouse(...);
- *   $referenceId = $contentwarehouseService->referenceId;
+ *   $referenceId = $contentwarehouseService->projects_locations_documents_referenceId;
  *  </code>
  */
 class ProjectsLocationsDocumentsReferenceId extends \Google\Service\Resource

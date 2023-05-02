@@ -5,6 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 class Sites extends ObjectYPT
 {
+    protected $id;
     protected $name;
     protected $url;
     protected $status;
@@ -105,7 +106,7 @@ class Sites extends ObjectYPT
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } 
+        }
         return $rows;
     }
 }

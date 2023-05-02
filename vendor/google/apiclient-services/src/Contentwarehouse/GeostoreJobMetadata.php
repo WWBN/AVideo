@@ -26,6 +26,7 @@ class GeostoreJobMetadata extends \Google\Collection
   public $duration;
   protected $jobRelatedCategoriesType = GeostoreJobRelatedCategory::class;
   protected $jobRelatedCategoriesDataType = 'array';
+  public $jobRelatedCategories;
   /**
    * @var string
    */

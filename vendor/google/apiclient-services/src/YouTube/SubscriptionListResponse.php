@@ -30,6 +30,7 @@ class SubscriptionListResponse extends \Google\Collection
   public $eventId;
   protected $itemsType = Subscription::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,12 +41,14 @@ class SubscriptionListResponse extends \Google\Collection
   public $nextPageToken;
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   /**
    * @var string
    */
   public $prevPageToken;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
+  public $tokenPagination;
   /**
    * @var string
    */

@@ -21,6 +21,7 @@ class AssistantDevicesPlatformProtoProviderOpenCapability extends \Google\Model
 {
   protected $clientOpPropertyType = AssistantApiClientOpPropertiesProviderOpenClientOpProperty::class;
   protected $clientOpPropertyDataType = '';
+  public $clientOpProperty;
 
   /**
    * @param AssistantApiClientOpPropertiesProviderOpenClientOpProperty

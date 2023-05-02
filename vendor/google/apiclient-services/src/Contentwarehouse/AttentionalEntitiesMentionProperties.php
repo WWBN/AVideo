@@ -21,30 +21,37 @@ class AttentionalEntitiesMentionProperties extends \Google\Model
 {
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
+  public $deviceId;
   protected $eventIdType = EventIdMessage::class;
   protected $eventIdDataType = '';
+  public $eventId;
   /**
    * @var float
    */
   public $factoidScore;
   protected $listEntryInfoType = AttentionalEntitiesMentionPropertiesListEntryInfo::class;
   protected $listEntryInfoDataType = '';
+  public $listEntryInfo;
   /**
    * @var string
    */
   public $recency;
   protected $roleType = AttentionalEntitiesSemanticRoleId::class;
   protected $roleDataType = '';
+  public $role;
   /**
    * @var string
    */
   public $salience;
   protected $sourceType = AttentionalEntitiesMentionPropertiesSource::class;
   protected $sourceDataType = '';
+  public $source;
   protected $spatialPropertiesType = AttentionalEntitiesSpatialProperties::class;
   protected $spatialPropertiesDataType = '';
+  public $spatialProperties;
   protected $surfaceFormType = AttentionalEntitiesSurfaceForm::class;
   protected $surfaceFormDataType = '';
+  public $surfaceForm;
   /**
    * @var string
    */

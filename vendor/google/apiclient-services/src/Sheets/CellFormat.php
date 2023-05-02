@@ -21,10 +21,13 @@ class CellFormat extends \Google\Model
 {
   protected $backgroundColorType = Color::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   protected $backgroundColorStyleType = ColorStyle::class;
   protected $backgroundColorStyleDataType = '';
+  public $backgroundColorStyle;
   protected $bordersType = Borders::class;
   protected $bordersDataType = '';
+  public $borders;
   /**
    * @var string
    */
@@ -35,16 +38,20 @@ class CellFormat extends \Google\Model
   public $hyperlinkDisplayType;
   protected $numberFormatType = NumberFormat::class;
   protected $numberFormatDataType = '';
+  public $numberFormat;
   protected $paddingType = Padding::class;
   protected $paddingDataType = '';
+  public $padding;
   /**
    * @var string
    */
   public $textDirection;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
   protected $textRotationType = TextRotation::class;
   protected $textRotationDataType = '';
+  public $textRotation;
   /**
    * @var string
    */

@@ -35,7 +35,7 @@ use Google\Service\Translate\TranslateTextResponse;
  * Typical usage is:
  *  <code>
  *   $translateService = new Google\Service\Translate(...);
- *   $locations = $translateService->locations;
+ *   $locations = $translateService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

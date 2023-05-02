@@ -7,6 +7,7 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class UserGroups{
+    protected $properties = [];
     private $id;
     private $group_name;
 
@@ -29,7 +30,8 @@ class UserGroups{
             return false;
         }
         foreach ($user as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
     }
 
@@ -69,9 +71,9 @@ class UserGroups{
         }
         if (sqlDAL::writeSql($sql, $formats, $values)) {
             /**
-             * 
+             *
              * @var array $global
-             * @var object $global['mysqli'] 
+             * @var object $global['mysqli']
              */
             if (empty($this->id)) {
                 $id = $global['mysqli']->insert_id;
@@ -278,8 +280,8 @@ class UserGroups{
         }
 
         if(!isset($__getUserGroups)){
-            $__getUserGroups = array();
-        } 
+            $__getUserGroups = [];
+        }
 
         if(isset($__getUserGroups[$users_id])){
             return $__getUserGroups[$users_id];
@@ -403,7 +405,7 @@ class UserGroups{
             return false;
         }
         if (!is_array($array_groups_id)) {
-            $array_groups_id = array($array_groups_id);
+            $array_groups_id = [$array_groups_id];
         }
 
         if ($mergeWithCurrentUserGroups) {
@@ -451,15 +453,15 @@ class UserGroups{
         }
         return $arr;
     }
-    
+
     public static function getCategoriesGroups($videos_id){
         if (empty($videos_id)) {
             return [];
         }
         global $global;
-        
+
         $v = Video::getVideoLight($videos_id);
-        
+
         $sql = "SELECT chug.*, ug.* FROM categories_has_users_groups as chug "
                 . " LEFT JOIN users_groups as ug ON users_groups_id = ug.id WHERE categories_id = ? ";
         $res = sqlDAL::readSql($sql, "i", [$v['categories_id']]);
@@ -477,17 +479,17 @@ class UserGroups{
         }
         return $arr;
     }
-    
+
     public static function getVideosAndCategoriesUserGroups($videos_id, $force = false){
         global $_getVideosAndCategoriesUserGroups;
-        
+
         if(!isset($_getVideosAndCategoriesUserGroups)){
-            $_getVideosAndCategoriesUserGroups = array();
+            $_getVideosAndCategoriesUserGroups = [];
         }
         if(!empty($force) || !isset($_getVideosAndCategoriesUserGroups[$videos_id])){
             $videosug = self::getVideoGroups($videos_id);
             $categoriessug = self::getCategoriesGroups($videos_id);
-            $response = array();
+            $response = [];
             foreach ($videosug as $value) {
                 $value['isVideoUserGroup'] = 1;
                 $value['isCategoryUserGroup'] = 0;
@@ -518,7 +520,7 @@ class UserGroups{
         } else {
             return false;
         }
-        
+
         unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         return sqlDAL::writeSql($sql, "i", [$videos_id]);
     }

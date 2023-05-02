@@ -24,7 +24,7 @@ use Google\Service\Fitness\ListDataPointChangesResponse;
  * Typical usage is:
  *  <code>
  *   $fitnessService = new Google\Service\Fitness(...);
- *   $dataPointChanges = $fitnessService->dataPointChanges;
+ *   $dataPointChanges = $fitnessService->users_dataSources_dataPointChanges;
  *  </code>
  */
 class UsersDataSourcesDataPointChanges extends \Google\Service\Resource

@@ -26,7 +26,7 @@ use Google\Service\AndroidManagement\ListEnrollmentTokensResponse;
  * Typical usage is:
  *  <code>
  *   $androidmanagementService = new Google\Service\AndroidManagement(...);
- *   $enrollmentTokens = $androidmanagementService->enrollmentTokens;
+ *   $enrollmentTokens = $androidmanagementService->enterprises_enrollmentTokens;
  *  </code>
  */
 class EnterprisesEnrollmentTokens extends \Google\Service\Resource

@@ -35,16 +35,20 @@ class NlpSaftEntity extends \Google\Collection
   public $gender;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   protected $mentionType = NlpSaftMention::class;
   protected $mentionDataType = 'array';
+  public $mention;
   /**
    * @var string
    */
   public $name;
   protected $profileType = NlpSaftEntityProfile::class;
   protected $profileDataType = '';
+  public $profile;
   protected $referentType = NlpSaftReferent::class;
   protected $referentDataType = '';
+  public $referent;
   /**
    * @var int
    */
@@ -52,6 +56,7 @@ class NlpSaftEntity extends \Google\Collection
   public $salience;
   protected $typeType = NlpSaftEntityType::class;
   protected $typeDataType = 'array';
+  public $type;
 
   /**
    * @param int

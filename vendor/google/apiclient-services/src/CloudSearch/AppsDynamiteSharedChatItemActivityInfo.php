@@ -21,12 +21,16 @@ class AppsDynamiteSharedChatItemActivityInfo extends \Google\Model
 {
   protected $feedItemNudgeType = AppsDynamiteSharedChatItemActivityInfoFeedItemNudge::class;
   protected $feedItemNudgeDataType = '';
+  public $feedItemNudge;
   protected $feedItemReactionsType = AppsDynamiteSharedChatItemActivityInfoFeedItemReactions::class;
   protected $feedItemReactionsDataType = '';
+  public $feedItemReactions;
   protected $feedItemThreadReplyType = AppsDynamiteSharedChatItemActivityInfoFeedItemThreadReply::class;
   protected $feedItemThreadReplyDataType = '';
+  public $feedItemThreadReply;
   protected $feedItemUserMentionType = AppsDynamiteSharedChatItemActivityInfoFeedItemUserMention::class;
   protected $feedItemUserMentionDataType = '';
+  public $feedItemUserMention;
 
   /**
    * @param AppsDynamiteSharedChatItemActivityInfoFeedItemNudge

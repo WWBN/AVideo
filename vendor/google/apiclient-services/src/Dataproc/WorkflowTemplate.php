@@ -34,6 +34,7 @@ class WorkflowTemplate extends \Google\Collection
   public $id;
   protected $jobsType = OrderedJob::class;
   protected $jobsDataType = 'array';
+  public $jobs;
   /**
    * @var string[]
    */
@@ -44,8 +45,10 @@ class WorkflowTemplate extends \Google\Collection
   public $name;
   protected $parametersType = TemplateParameter::class;
   protected $parametersDataType = 'array';
+  public $parameters;
   protected $placementType = WorkflowTemplatePlacement::class;
   protected $placementDataType = '';
+  public $placement;
   /**
    * @var string
    */

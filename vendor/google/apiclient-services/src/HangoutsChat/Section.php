@@ -26,6 +26,7 @@ class Section extends \Google\Collection
   public $header;
   protected $widgetsType = WidgetMarkup::class;
   protected $widgetsDataType = 'array';
+  public $widgets;
 
   /**
    * @param string

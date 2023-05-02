@@ -21,8 +21,10 @@ class SecurityConfig extends \Google\Model
 {
   protected $identityConfigType = IdentityConfig::class;
   protected $identityConfigDataType = '';
+  public $identityConfig;
   protected $kerberosConfigType = KerberosConfig::class;
   protected $kerberosConfigDataType = '';
+  public $kerberosConfig;
 
   /**
    * @param IdentityConfig

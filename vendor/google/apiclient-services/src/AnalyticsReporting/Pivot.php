@@ -22,14 +22,17 @@ class Pivot extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $dimensionFilterClausesType = DimensionFilterClause::class;
   protected $dimensionFilterClausesDataType = 'array';
+  public $dimensionFilterClauses;
   protected $dimensionsType = Dimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var int
    */
   public $maxGroupCount;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   /**
    * @var int
    */

@@ -77,8 +77,10 @@ class Network extends \Google\Collection
   public $networkFirewallPolicyEnforcementOrder;
   protected $peeringsType = NetworkPeering::class;
   protected $peeringsDataType = 'array';
+  public $peerings;
   protected $routingConfigType = NetworkRoutingConfig::class;
   protected $routingConfigDataType = '';
+  public $routingConfig;
   /**
    * @var string
    */

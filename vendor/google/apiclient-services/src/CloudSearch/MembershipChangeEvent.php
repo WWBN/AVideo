@@ -26,6 +26,7 @@ class MembershipChangeEvent extends \Google\Collection
   public $leaveReason;
   protected $participantIdType = StoredParticipantId::class;
   protected $participantIdDataType = 'array';
+  public $participantId;
   /**
    * @var string
    */

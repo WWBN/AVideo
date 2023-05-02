@@ -25,7 +25,7 @@ use Google\Service\ChromeManagement\GoogleChromeManagementV1TelemetryDevice;
  * Typical usage is:
  *  <code>
  *   $chromemanagementService = new Google\Service\ChromeManagement(...);
- *   $devices = $chromemanagementService->devices;
+ *   $devices = $chromemanagementService->customers_telemetry_devices;
  *  </code>
  */
 class CustomersTelemetryDevices extends \Google\Service\Resource

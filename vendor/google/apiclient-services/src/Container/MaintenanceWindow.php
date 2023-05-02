@@ -21,10 +21,13 @@ class MaintenanceWindow extends \Google\Model
 {
   protected $dailyMaintenanceWindowType = DailyMaintenanceWindow::class;
   protected $dailyMaintenanceWindowDataType = '';
+  public $dailyMaintenanceWindow;
   protected $maintenanceExclusionsType = TimeWindow::class;
   protected $maintenanceExclusionsDataType = 'map';
+  public $maintenanceExclusions;
   protected $recurringWindowType = RecurringTimeWindow::class;
   protected $recurringWindowDataType = '';
+  public $recurringWindow;
 
   /**
    * @param DailyMaintenanceWindow

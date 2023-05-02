@@ -22,8 +22,10 @@ class ServiceAttachmentsScopedList extends \Google\Collection
   protected $collection_key = 'serviceAttachments';
   protected $serviceAttachmentsType = ServiceAttachment::class;
   protected $serviceAttachmentsDataType = 'array';
+  public $serviceAttachments;
   protected $warningType = ServiceAttachmentsScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param ServiceAttachment[]

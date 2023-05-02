@@ -32,7 +32,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $flows = $dialogflowService->flows;
+ *   $flows = $dialogflowService->projects_locations_agents_flows;
  *  </code>
  */
 class ProjectsLocationsAgentsFlows extends \Google\Service\Resource

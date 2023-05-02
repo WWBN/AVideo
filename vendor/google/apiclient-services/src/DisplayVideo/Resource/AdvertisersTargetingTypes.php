@@ -22,7 +22,7 @@ namespace Google\Service\DisplayVideo\Resource;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $targetingTypes = $displayvideoService->targetingTypes;
+ *   $targetingTypes = $displayvideoService->advertisers_targetingTypes;
  *  </code>
  */
 class AdvertisersTargetingTypes extends \Google\Service\Resource

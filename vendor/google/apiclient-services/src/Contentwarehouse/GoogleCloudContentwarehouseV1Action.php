@@ -21,22 +21,29 @@ class GoogleCloudContentwarehouseV1Action extends \Google\Model
 {
   protected $accessControlType = GoogleCloudContentwarehouseV1AccessControlAction::class;
   protected $accessControlDataType = '';
+  public $accessControl;
   /**
    * @var string
    */
   public $actionId;
   protected $addToFolderType = GoogleCloudContentwarehouseV1AddToFolderAction::class;
   protected $addToFolderDataType = '';
+  public $addToFolder;
   protected $dataUpdateType = GoogleCloudContentwarehouseV1DataUpdateAction::class;
   protected $dataUpdateDataType = '';
+  public $dataUpdate;
   protected $dataValidationType = GoogleCloudContentwarehouseV1DataValidationAction::class;
   protected $dataValidationDataType = '';
+  public $dataValidation;
   protected $deleteDocumentActionType = GoogleCloudContentwarehouseV1DeleteDocumentAction::class;
   protected $deleteDocumentActionDataType = '';
+  public $deleteDocumentAction;
   protected $publishToPubSubType = GoogleCloudContentwarehouseV1PublishAction::class;
   protected $publishToPubSubDataType = '';
+  public $publishToPubSub;
   protected $removeFromFolderActionType = GoogleCloudContentwarehouseV1RemoveFromFolderAction::class;
   protected $removeFromFolderActionDataType = '';
+  public $removeFromFolderAction;
 
   /**
    * @param GoogleCloudContentwarehouseV1AccessControlAction

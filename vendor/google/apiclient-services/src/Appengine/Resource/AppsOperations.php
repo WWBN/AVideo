@@ -25,7 +25,7 @@ use Google\Service\Appengine\Operation;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $operations = $appengineService->operations;
+ *   $operations = $appengineService->apps_operations;
  *  </code>
  */
 class AppsOperations extends \Google\Service\Resource

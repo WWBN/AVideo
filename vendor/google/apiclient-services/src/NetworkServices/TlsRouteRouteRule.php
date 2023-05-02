@@ -22,8 +22,10 @@ class TlsRouteRouteRule extends \Google\Collection
   protected $collection_key = 'matches';
   protected $actionType = TlsRouteRouteAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $matchesType = TlsRouteRouteMatch::class;
   protected $matchesDataType = 'array';
+  public $matches;
 
   /**
    * @param TlsRouteRouteAction

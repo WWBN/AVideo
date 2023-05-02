@@ -24,7 +24,7 @@ use Google\Service\Dataflow\ListJobMessagesResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $messages = $dataflowService->messages;
+ *   $messages = $dataflowService->projects_jobs_messages;
  *  </code>
  */
 class ProjectsJobsMessages extends \Google\Service\Resource

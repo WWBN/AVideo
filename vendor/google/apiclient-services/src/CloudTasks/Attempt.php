@@ -25,6 +25,7 @@ class Attempt extends \Google\Model
   public $dispatchTime;
   protected $responseStatusType = Status::class;
   protected $responseStatusDataType = '';
+  public $responseStatus;
   /**
    * @var string
    */

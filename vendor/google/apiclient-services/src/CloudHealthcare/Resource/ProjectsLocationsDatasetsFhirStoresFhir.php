@@ -26,7 +26,7 @@ use Google\Service\CloudHealthcare\SearchResourcesRequest;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $fhir = $healthcareService->fhir;
+ *   $fhir = $healthcareService->projects_locations_datasets_fhirStores_fhir;
  *  </code>
  */
 class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
@@ -422,19 +422,19 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * /searchparameter-registry.html)). FHIR search parameters for DSTU2 can be
    * found on each resource's definition page. Supported search modifiers:
    * `:missing`, `:exact`, `:contains`, `:text`, `:in`, `:not-in`, `:above`,
-   * `:below`, `:[type]`, `:not`, and `:recurse`. Supported search result
-   * parameters: `_sort`, `_count`, `_include`, `_revinclude`, `_summary=text`,
-   * `_summary=data`, and `_elements`. The maximum number of search results
-   * returned defaults to 100, which can be overridden by the `_count` parameter
-   * up to a maximum limit of 1000. If there are additional results, the returned
-   * `Bundle` contains a link of `relation` "next", which has a `_page_token`
-   * parameter for an opaque pagination token that can be used to retrieve the
-   * next page. Resources with a total size larger than 5MB or a field count
-   * larger than 50,000 might not be fully searchable as the server might trim its
-   * generated search index in those cases. Note: FHIR resources are indexed
-   * asynchronously, so there might be a slight delay between the time a resource
-   * is created or changes and when the change is reflected in search results. For
-   * samples and detailed information, see [Searching for FHIR
+   * `:below`, `:[type]`, `:not`, and `recurse` (DSTU2 and STU3) or `:iterate`
+   * (R4). Supported search result parameters: `_sort`, `_count`, `_include`,
+   * `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum
+   * number of search results returned defaults to 100, which can be overridden by
+   * the `_count` parameter up to a maximum limit of 1000. If there are additional
+   * results, the returned `Bundle` contains a link of `relation` "next", which
+   * has a `_page_token` parameter for an opaque pagination token that can be used
+   * to retrieve the next page. Resources with a total size larger than 5MB or a
+   * field count larger than 50,000 might not be fully searchable as the server
+   * might trim its generated search index in those cases. Note: FHIR resources
+   * are indexed asynchronously, so there might be a slight delay between the time
+   * a resource is created or changes and when the change is reflected in search
+   * results. For samples and detailed information, see [Searching for FHIR
    * resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and
    * [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-
    * tos/fhir-advanced-search). (fhir.search)
@@ -483,19 +483,19 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * /searchparameter-registry.html)). FHIR search parameters for DSTU2 can be
    * found on each resource's definition page. Supported search modifiers:
    * `:missing`, `:exact`, `:contains`, `:text`, `:in`, `:not-in`, `:above`,
-   * `:below`, `:[type]`, `:not`, and `:recurse`. Supported search result
-   * parameters: `_sort`, `_count`, `_include`, `_revinclude`, `_summary=text`,
-   * `_summary=data`, and `_elements`. The maximum number of search results
-   * returned defaults to 100, which can be overridden by the `_count` parameter
-   * up to a maximum limit of 1000. If there are additional results, the returned
-   * `Bundle` contains a link of `relation` "next", which has a `_page_token`
-   * parameter for an opaque pagination token that can be used to retrieve the
-   * next page. Resources with a total size larger than 5MB or a field count
-   * larger than 50,000 might not be fully searchable as the server might trim its
-   * generated search index in those cases. Note: FHIR resources are indexed
-   * asynchronously, so there might be a slight delay between the time a resource
-   * is created or changes and when the change is reflected in search results. For
-   * samples and detailed information, see [Searching for FHIR
+   * `:below`, `:[type]`, `:not`, and `recurse` (DSTU2 and STU3) or `:iterate`
+   * (R4). Supported search result parameters: `_sort`, `_count`, `_include`,
+   * `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum
+   * number of search results returned defaults to 100, which can be overridden by
+   * the `_count` parameter up to a maximum limit of 1000. If there are additional
+   * results, the returned `Bundle` contains a link of `relation` "next", which
+   * has a `_page_token` parameter for an opaque pagination token that can be used
+   * to retrieve the next page. Resources with a total size larger than 5MB or a
+   * field count larger than 50,000 might not be fully searchable as the server
+   * might trim its generated search index in those cases. Note: FHIR resources
+   * are indexed asynchronously, so there might be a slight delay between the time
+   * a resource is created or changes and when the change is reflected in search
+   * results. For samples and detailed information, see [Searching for FHIR
    * resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and
    * [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-
    * tos/fhir-advanced-search). (fhir.searchType)

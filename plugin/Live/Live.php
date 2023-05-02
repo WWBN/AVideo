@@ -12,7 +12,7 @@ require_once $global['systemRootPath'] . 'plugin/Live/Objects/Live_schedule.php'
 $getStatsObject = [];
 $_getStats = [];
 
-User::loginFromRequest();
+User::loginFromRequestIfNotLogged();
 
 class Live extends PluginAbstract {
 
@@ -1195,6 +1195,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function getAllControlls($key, $live_servers_id = 0, $iconsOnly = false, $btnClass = '') {
+        global $global;
         if (!Live::canManageLiveFromLiveKey($key, User::getId())) {
             return '';
         }
@@ -1208,18 +1209,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $btn .= self::getButton("record_start", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= self::getButton("record_stop", $key, $live_servers_id, $iconsOnly, '', $btnClass);
         $btn .= "</div>";
-        $btn .= "<script>
-                $(document).ready(function () {
-                    setInterval(function () {
-                        if (isOnlineLabel || $('.liveOnlineLabel.label-success').length) {
-                            $('#liveControls').slideDown();
-                        } else {
-                            $('#liveControls').slideUp();
-                        }
-                    }, 1000);
-
-                });
-            </script>";
+        $btn .= "<script src=\"{$global['webSiteRootURL']}plugin/Live/view/isOnlineLabel.js\"></script>";
 
         return $btn;
     }
@@ -1369,6 +1359,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $live_servers_id = self::getLiveServersIdRequest();
         $lso = new LiveStreamObject($uuid, $live_servers_id, false, false);
         $parts = self::getLiveParametersFromKey($uuid);
+        $allowOnlineIndex= false;
         if (!empty($parts['live_index'])) {
             $allowOnlineIndex = $parts['live_index'];
         } elseif (!empty($_REQUEST['live_index'])) {
@@ -1448,7 +1439,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $o->requestStatsTimout = 2;
         }
         ini_set('allow_url_fopen ', 'ON');
-        $url = $this->getStatsURL($live_servers_id);
+        if(isDocker()){
+            $url = getDockerStatsURL();
+        }else{
+            $url = $this->getStatsURL($live_servers_id);
+        }
         if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
             _error_log("Live::getStatsObject[$live_servers_id] RTMP Server ($url) is NOT responding we will wait less from now on => live_servers_id = ($live_servers_id) ");
             // if the server already fail, do not wait mutch for it next time, just wait 0.5 seconds
@@ -2033,6 +2028,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
             $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
+            /*
+            $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
+            $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
+            $c = @url_get_contents($cachefile);
+            var_dump($cachefile, $cache, $c);exit;
+            */
             if (!empty($result)) {
                 //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
@@ -2246,16 +2247,19 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $title = "{$Char}{$title}";
         //var_dump($title);
-        if (self::isPrivate($row['key'])) {
+        if (self::isPrivate(@$row['key'])) {
             $title = " <i class=\"fas fa-eye-slash\"></i> {$title}";
         }
-        if (self::isPasswordProtected($row['key'])) {
+        if (self::isPasswordProtected(@$row['key'])) {
             $title = " <i class=\"fas fa-lock\"></i> {$title}";
         }
 
-        $u = new User($row['users_id']);
-        if ($u->getStatus() !== 'a') {
-            $title = " <i class=\"fas fa-user-alt-slash\"></i> {$title}";
+        if(!empty($row['users_id'])){
+            $u = new User($row['users_id']);
+            $status = $u->getStatus();
+            if ($status !== 'a') {
+                $title = " <i class=\"fas fa-user-alt-slash\"></i><!-- user status={$status} users_id={$row['users_id']}  --> {$title}";
+            }
         }
 
         $parameters = self::getLiveParametersFromKey($key);
@@ -2281,7 +2285,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         if (!isset($_isApplicationListed[$key])) {
             $row = LiveTransmition::keyExists($key);
-            if (empty($row)) {
+            if (empty($row) || empty($row['users_id'])) {
                 $_isApplicationListed[$key] = __LINE__;
             } else if (!empty($row['scheduled'])) {
                 $_isApplicationListed[$key] = __LINE__;
@@ -2408,6 +2412,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return false;
         }
         return $latest['key'];
+    }
+    
+    public static function getLatest($active=false) {
+        $latest = LiveTransmitionHistory::getLatest('', null, $active);
+        if (empty($latest)) {
+            return false;
+        }
+        return $latest;
     }
 
     public static function isLive($users_id, $live_servers_id = 0, $live_index = '', $force_recreate = false) {
@@ -2577,6 +2589,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $ls = @$_REQUEST['live_servers_id'];
                 $_REQUEST['live_servers_id'] = $live_servers_id;
                 $m3u8 = self::getM3U8File($key, false, true);
+                if(isDocker()){
+                    $parts = explode('/live/', $m3u8);
+                    $m3u8 = getDockerInternalURL().'live/'.$parts[1];
+                }
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);
@@ -2979,22 +2995,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function deleteStatsCache($clearFirstPage = false) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache, $_isLiveFromKey, $_isLiveAndIsReadyFromKey;
-
-        _error_log_debug("Live::deleteStatsCache");
-        $tmpDir = ObjectYPT::getCacheDir();
-        $cacheDir = $tmpDir . "getstats" . DIRECTORY_SEPARATOR;
-        if (isset($live_servers_id)) {
-            $cacheDir .= "live_servers_id_{$live_servers_id}";
-            $pattern = "/.getStats.{$live_servers_id}.*/i";
-            ObjectYPT::deleteCachePattern($pattern);
-        }
+        $cacheDir = getTmpDir().'YPTObjectCache/getStats/';
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if ($clearFirstPage) {
             clearCache(true);
         }
         // temporary solution to when you go online
-        ObjectYPT::deleteALLCache();
+        //ObjectYPT::deleteALLCache();
         //isURL200Clear();
         unset($__getAVideoCache);
         unset($getStatsLive);
@@ -3215,8 +3223,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $sql .= " AND v.`public` = '{$status}'";
         }
 
-        if (!empty($_GET['catName'])) {
-            $catName = ($_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $catName = ($_REQUEST['catName']);
             $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 
@@ -3457,7 +3465,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function passwordIsGood($key) {
         $row = LiveTransmition::getFromKey($key, true);
         if (empty($row) || empty($row['id']) || empty($row['users_id'])) {
-            return false;
+            return true;
         }
 
         $password = @$row['live_password'];
@@ -3494,6 +3502,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getMediaSession($key, $live_servers_id, $live_schedule_id = 0) {
         $lt = LiveTransmition::getFromKey($key);
         $posters = self::getMediaSessionPosters($lt['users_id'], $lt['live_servers_id'], $lt['live_schedule_id']);
+        if(empty($posters)){
+            $posters = array();
+        }
         //var_dump($posters);exit;
         $category = Category::getCategory($lt['categories_id']);
         $MediaMetadata = new stdClass();
@@ -3887,7 +3898,10 @@ class LiveStreamObject {
             }
         }
         $this->key = $parts['cleanKey'];
-        $this->live_index = preg_replace('/[^0-9a-z]/i', '', $this->live_index);
+        if(!isset($this->live_index)){
+            $this->live_index = '';
+        }
+        $this->live_index = preg_replace('/[^0-9a-z]/i', '',$this->live_index);
     }
     /**
      * @return string
@@ -3965,13 +3979,17 @@ class LiveStreamObject {
     public function getM3U8($doNotProtect = false, $allowOnlineIndex = false, $ignoreCDN = false) {
         global $global;
         $o = AVideoPlugin::getObjectData("Live");
-
         $uuid = $this->getKeyWithIndex($allowOnlineIndex, $allowOnlineIndex);
         //_error_log("Live:getM3U8($doNotProtect , $allowOnlineIndex e, $ignoreCDN) $uuid ($allowOnlineIndex");
         if (empty($o->server_type->value)) {
             $row = LiveTransmitionHistory::getLatest($this->key, $this->live_servers_id);
             if (!empty($row['domain'])) {
-                return "{$row['domain']}live/{$uuid}.m3u8";
+                if($row['domain'] == 'http://avideo:8080/'){
+                    $row['domain'] = $o->playerServer;
+                }
+                $url = "{$row['domain']}live/{$uuid}.m3u8";
+                //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+                return $url;
             }
         }
 
@@ -3985,13 +4003,22 @@ class LiveStreamObject {
         }
 
         $playerServer = addLastSlash($playerServer);
-        if ($o->protectLive && empty($doNotProtect)) {
-            return "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
-        } elseif ($o->useAadaptiveMode) {
-            return $playerServer . "{$uuid}.m3u8";
-        } else {
-            return $playerServer . "{$uuid}/index.m3u8";
+        if($playerServer == 'http://avideo:8080/live/'){
+            $dockerVars = getDockerVars();
+            $playerServer = "https://{$dockerVars->SERVER_NAME}:{$dockerVars->NGINX_HTTPS_PORT}/live/";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) {$playerServer} ".__LINE__);
         }
+        if ($o->protectLive && empty($doNotProtect)) {
+            $url = "{$global['webSiteRootURL']}plugin/Live/m3u8.php?live_servers_id={$this->live_servers_id}&uuid=" . encryptString($uuid);
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+        } elseif ($o->useAadaptiveMode) {
+            $url = $playerServer . "{$uuid}.m3u8";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) ".__LINE__." {$url}");
+        } else {
+            $url = $playerServer . "{$uuid}/index.m3u8";
+            //_error_log("getM3U8($doNotProtect, $allowOnlineIndex, $ignoreCDN) {$playerServer} ".__LINE__." {$url}");
+        }
+        return $url;
     }
 
     public function getOnlineM3U8($users_id, $doNotProtect = false) {

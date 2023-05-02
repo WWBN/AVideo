@@ -34,7 +34,7 @@ use Google\Service\Spanner\UpdateInstanceRequest;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $instances = $spannerService->instances;
+ *   $instances = $spannerService->projects_instances;
  *  </code>
  */
 class ProjectsInstances extends \Google\Service\Resource

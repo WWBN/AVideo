@@ -21,12 +21,16 @@ class CanceledStateContext extends \Google\Model
 {
   protected $developerInitiatedCancellationType = DeveloperInitiatedCancellation::class;
   protected $developerInitiatedCancellationDataType = '';
+  public $developerInitiatedCancellation;
   protected $replacementCancellationType = ReplacementCancellation::class;
   protected $replacementCancellationDataType = '';
+  public $replacementCancellation;
   protected $systemInitiatedCancellationType = SystemInitiatedCancellation::class;
   protected $systemInitiatedCancellationDataType = '';
+  public $systemInitiatedCancellation;
   protected $userInitiatedCancellationType = UserInitiatedCancellation::class;
   protected $userInitiatedCancellationDataType = '';
+  public $userInitiatedCancellation;
 
   /**
    * @param DeveloperInitiatedCancellation

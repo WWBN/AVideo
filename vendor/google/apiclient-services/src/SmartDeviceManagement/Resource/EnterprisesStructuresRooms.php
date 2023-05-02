@@ -25,7 +25,7 @@ use Google\Service\SmartDeviceManagement\GoogleHomeEnterpriseSdmV1Room;
  * Typical usage is:
  *  <code>
  *   $smartdevicemanagementService = new Google\Service\SmartDeviceManagement(...);
- *   $rooms = $smartdevicemanagementService->rooms;
+ *   $rooms = $smartdevicemanagementService->enterprises_structures_rooms;
  *  </code>
  */
 class EnterprisesStructuresRooms extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class GoogleCloudPaymentsResellerSubscriptionV1SubscriptionPromotionSpec extends
 {
   protected $freeTrialDurationType = GoogleCloudPaymentsResellerSubscriptionV1Duration::class;
   protected $freeTrialDurationDataType = '';
+  public $freeTrialDuration;
   protected $introductoryPricingDetailsType = GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetails::class;
   protected $introductoryPricingDetailsDataType = '';
+  public $introductoryPricingDetails;
   /**
    * @var string
    */

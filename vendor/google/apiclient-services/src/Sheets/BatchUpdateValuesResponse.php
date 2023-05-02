@@ -22,6 +22,7 @@ class BatchUpdateValuesResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = UpdateValuesResponse::class;
   protected $responsesDataType = 'array';
+  public $responses;
   /**
    * @var string
    */

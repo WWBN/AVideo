@@ -22,6 +22,7 @@ class LiveStreamHealthStatus extends \Google\Collection
   protected $collection_key = 'configurationIssues';
   protected $configurationIssuesType = LiveStreamConfigurationIssue::class;
   protected $configurationIssuesDataType = 'array';
+  public $configurationIssues;
   /**
    * @var string
    */

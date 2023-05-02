@@ -21,18 +21,23 @@ $_2hours = $_1hour*2;
 ob_end_flush();
 set_time_limit($_2hours);
 ini_set('max_execution_time', $_2hours);
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
 
-$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id DESC ";
+$sort = @$argv[1];
+if(strtolower($sort) !== 'asc'){
+    $sort = 'DESC';
+}
+
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
+
+$videos_dir = getVideosDir();
 $rows = [];
 if ($res != false) {
     foreach ($fullData as $row) {
         if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly)) || $alsoMoveUnlisted == 2) {
-            exec("rm /var/www/html/AVideo/videos/{$row['filename']}/*.tgz");
+            exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {

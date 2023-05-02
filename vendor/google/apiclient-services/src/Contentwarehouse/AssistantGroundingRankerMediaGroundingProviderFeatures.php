@@ -20,10 +20,65 @@ namespace Google\Service\Contentwarehouse;
 class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $isCastVideo;
+  /**
+   * @var bool
+   */
+  public $isSeedRadio;
+  /**
+   * @var bool
+   */
+  public $isSeedRadioRequest;
+  /**
    * @var float
    */
   public $mscRate;
+  public $scubedPSaiMusic;
 
+  /**
+   * @param bool
+   */
+  public function setIsCastVideo($isCastVideo)
+  {
+    $this->isCastVideo = $isCastVideo;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsCastVideo()
+  {
+    return $this->isCastVideo;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsSeedRadio($isSeedRadio)
+  {
+    $this->isSeedRadio = $isSeedRadio;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsSeedRadio()
+  {
+    return $this->isSeedRadio;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsSeedRadioRequest($isSeedRadioRequest)
+  {
+    $this->isSeedRadioRequest = $isSeedRadioRequest;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsSeedRadioRequest()
+  {
+    return $this->isSeedRadioRequest;
+  }
   /**
    * @param float
    */
@@ -37,6 +92,14 @@ class AssistantGroundingRankerMediaGroundingProviderFeatures extends \Google\Mod
   public function getMscRate()
   {
     return $this->mscRate;
+  }
+  public function setScubedPSaiMusic($scubedPSaiMusic)
+  {
+    $this->scubedPSaiMusic = $scubedPSaiMusic;
+  }
+  public function getScubedPSaiMusic()
+  {
+    return $this->scubedPSaiMusic;
   }
 }
 

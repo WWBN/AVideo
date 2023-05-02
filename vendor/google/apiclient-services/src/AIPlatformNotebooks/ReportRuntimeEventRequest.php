@@ -21,6 +21,7 @@ class ReportRuntimeEventRequest extends \Google\Model
 {
   protected $eventType = Event::class;
   protected $eventDataType = '';
+  public $event;
   /**
    * @var string
    */

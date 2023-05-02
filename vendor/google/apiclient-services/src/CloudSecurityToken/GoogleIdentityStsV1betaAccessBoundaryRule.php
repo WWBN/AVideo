@@ -22,6 +22,7 @@ class GoogleIdentityStsV1betaAccessBoundaryRule extends \Google\Collection
   protected $collection_key = 'availablePermissions';
   protected $availabilityConditionType = GoogleTypeExpr::class;
   protected $availabilityConditionDataType = '';
+  public $availabilityCondition;
   /**
    * @var string[]
    */

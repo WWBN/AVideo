@@ -27,7 +27,7 @@ use Google\Service\CertificateAuthorityService\PrivatecaEmpty;
  * Typical usage is:
  *  <code>
  *   $privatecaService = new Google\Service\CertificateAuthorityService(...);
- *   $operations = $privatecaService->operations;
+ *   $operations = $privatecaService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

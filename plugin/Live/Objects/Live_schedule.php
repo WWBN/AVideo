@@ -140,6 +140,11 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
         }
         $sql .= self::getSqlFromPost();
+        
+        if(!preg_match('/order by/i', $sql)){
+            $sql .= ' ORDER BY scheduled_time ASC';
+        }
+        //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -158,7 +163,7 @@ class Live_schedule extends ObjectYPT
         return $rows;
     }
 
-    public static function getAllActiveLimit($users_id=0,$limit = 10)
+    public static function getAllActiveLimit($users_id=0,$limit = 100)
     {
         global $global;
         if (!static::isTableInstalled()) {
@@ -348,6 +353,10 @@ class Live_schedule extends ObjectYPT
         if (empty($this->users_id_company)) {
             $this->users_id_company = 'NULL';
         }
+        
+        if ($this->status != 'i') {
+            $this->status = 'a';
+        }
 
         if (empty($this->key)) {
             $this->key = uniqid();
@@ -415,7 +424,7 @@ class Live_schedule extends ObjectYPT
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res) {
+        if (!empty($data)) {
             $row = $data;
             $row = cleanUpRowFromDatabase($row);
             $row['scheduled_password'] = $data['scheduled_password'];

@@ -26,7 +26,7 @@ use Google\Service\AndroidProvisioningPartner\ListCustomersResponse;
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $customers = $androiddeviceprovisioningService->customers;
+ *   $customers = $androiddeviceprovisioningService->partners_customers;
  *  </code>
  */
 class PartnersCustomers extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\Adsense\UrlChannel;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $urlchannels = $adsenseService->urlchannels;
+ *   $urlchannels = $adsenseService->accounts_adclients_urlchannels;
  *  </code>
  */
 class AccountsAdclientsUrlchannels extends \Google\Service\Resource

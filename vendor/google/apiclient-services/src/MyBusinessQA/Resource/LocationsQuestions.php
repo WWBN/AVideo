@@ -26,7 +26,7 @@ use Google\Service\MyBusinessQA\Question;
  * Typical usage is:
  *  <code>
  *   $mybusinessqandaService = new Google\Service\MyBusinessQA(...);
- *   $questions = $mybusinessqandaService->questions;
+ *   $questions = $mybusinessqandaService->locations_questions;
  *  </code>
  */
 class LocationsQuestions extends \Google\Service\Resource

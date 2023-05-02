@@ -27,7 +27,7 @@ use Google\Service\AdExchangeBuyerII\ResumeProposalDealsRequest;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $finalizedProposals = $adexchangebuyer2Service->finalizedProposals;
+ *   $finalizedProposals = $adexchangebuyer2Service->accounts_finalizedProposals;
  *  </code>
  */
 class AccountsFinalizedProposals extends \Google\Service\Resource

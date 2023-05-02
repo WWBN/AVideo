@@ -17,8 +17,9 @@
 
 namespace Google\Service\IDS;
 
-class Endpoint extends \Google\Model
+class Endpoint extends \Google\Collection
 {
+  protected $collection_key = 'threatExceptions';
   /**
    * @var string
    */
@@ -55,6 +56,10 @@ class Endpoint extends \Google\Model
    * @var string
    */
   public $state;
+  /**
+   * @var string[]
+   */
+  public $threatExceptions;
   /**
    * @var bool
    */
@@ -189,6 +194,20 @@ class Endpoint extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string[]
+   */
+  public function setThreatExceptions($threatExceptions)
+  {
+    $this->threatExceptions = $threatExceptions;
+  }
+  /**
+   * @return string[]
+   */
+  public function getThreatExceptions()
+  {
+    return $this->threatExceptions;
   }
   /**
    * @param bool

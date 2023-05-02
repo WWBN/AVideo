@@ -495,9 +495,12 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
                 error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
                 continue;
             }
+            
+            $audioConfig = getAudioConfiguration($value);
+            
             $value = clearCommandURL($value);
             $command .= ' -max_muxing_queue_size 1024 '
-                    . '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k '
+                    . $audioConfig
                     . '-vcodec libx264 '
                     . '-pix_fmt yuv420p '
                     . '-vf scale=-1:1080 '
@@ -509,9 +512,10 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $restreamsDestinations[0])) {
             error_log("Restreamer.json.php startRestream ERROR #2 FFMPEG openssl is not enabled, ignoring {$restreamsDestinations[0]} ");
         } else {
+            $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
             $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
-            . "-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k "
+            . $audioConfig
             . "-vcodec libx264 "
             . "-pix_fmt yuv420p "
             . "-vf scale=-1:1080 "
@@ -534,6 +538,18 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $robj->logFile = $logFile;
     notifyStreamer($robj);
     return true;
+}
+
+function getAudioConfiguration($source){
+    if(preg_match("/facebook.com/i", $source)){
+        $audioConfig = '-c:a copy -bsf:a aac_adtstoasc -ac 1 -ar 44100 -b:a 128k ';
+    }else if(preg_match("/youtube.com/i", $source)){
+        $audioConfig = '-c:a aac -b:a 128k ';
+    }else{
+        $audioConfig = '-c:a copy ';
+    }
+    
+    return $audioConfig;
 }
 
 $isOpenSSLEnabled = null;

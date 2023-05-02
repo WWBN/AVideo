@@ -24,7 +24,7 @@ use Google\Service\AdMob\ListAdUnitsResponse;
  * Typical usage is:
  *  <code>
  *   $admobService = new Google\Service\AdMob(...);
- *   $adUnits = $admobService->adUnits;
+ *   $adUnits = $admobService->accounts_adUnits;
  *  </code>
  */
 class AccountsAdUnits extends \Google\Service\Resource

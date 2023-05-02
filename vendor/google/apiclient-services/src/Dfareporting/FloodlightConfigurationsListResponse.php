@@ -22,6 +22,7 @@ class FloodlightConfigurationsListResponse extends \Google\Collection
   protected $collection_key = 'floodlightConfigurations';
   protected $floodlightConfigurationsType = FloodlightConfiguration::class;
   protected $floodlightConfigurationsDataType = 'array';
+  public $floodlightConfigurations;
   /**
    * @var string
    */

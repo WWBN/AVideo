@@ -26,10 +26,13 @@ class GoogleCloudApigeeV1OperationConfig extends \Google\Collection
   public $apiSource;
   protected $attributesType = GoogleCloudApigeeV1Attribute::class;
   protected $attributesDataType = 'array';
+  public $attributes;
   protected $operationsType = GoogleCloudApigeeV1Operation::class;
   protected $operationsDataType = 'array';
+  public $operations;
   protected $quotaType = GoogleCloudApigeeV1Quota::class;
   protected $quotaDataType = '';
+  public $quota;
 
   /**
    * @param string

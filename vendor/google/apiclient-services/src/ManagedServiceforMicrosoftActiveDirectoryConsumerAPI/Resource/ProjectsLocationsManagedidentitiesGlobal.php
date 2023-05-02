@@ -22,7 +22,7 @@ namespace Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI\Re
  * Typical usage is:
  *  <code>
  *   $managedidentitiesService = new Google\Service\ManagedServiceforMicrosoftActiveDirectoryConsumerAPI(...);
- *   $global = $managedidentitiesService->global;
+ *   $global = $managedidentitiesService->projects_locations_global;
  *  </code>
  */
 class ProjectsLocationsManagedidentitiesGlobal extends \Google\Service\Resource

@@ -33,6 +33,7 @@ class GoogleCloudPolicyanalyzerV1Activity extends \Google\Model
   public $fullResourceName;
   protected $observationPeriodType = GoogleCloudPolicyanalyzerV1ObservationPeriod::class;
   protected $observationPeriodDataType = '';
+  public $observationPeriod;
 
   /**
    * @param array[]

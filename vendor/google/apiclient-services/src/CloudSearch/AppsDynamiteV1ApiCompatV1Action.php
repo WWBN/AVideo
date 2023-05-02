@@ -21,6 +21,7 @@ class AppsDynamiteV1ApiCompatV1Action extends \Google\Model
 {
   protected $confirmType = AppsDynamiteV1ApiCompatV1ActionConfirm::class;
   protected $confirmDataType = '';
+  public $confirm;
   /**
    * @var string
    */

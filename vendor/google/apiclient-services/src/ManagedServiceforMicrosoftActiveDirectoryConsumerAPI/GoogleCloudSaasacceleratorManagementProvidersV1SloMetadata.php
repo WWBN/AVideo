@@ -22,8 +22,10 @@ class GoogleCloudSaasacceleratorManagementProvidersV1SloMetadata extends \Google
   protected $collection_key = 'nodes';
   protected $nodesType = GoogleCloudSaasacceleratorManagementProvidersV1NodeSloMetadata::class;
   protected $nodesDataType = 'array';
+  public $nodes;
   protected $perSliEligibilityType = GoogleCloudSaasacceleratorManagementProvidersV1PerSliSloEligibility::class;
   protected $perSliEligibilityDataType = '';
+  public $perSliEligibility;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class GetSpreadsheetByDataFilterRequest extends \Google\Collection
   protected $collection_key = 'dataFilters';
   protected $dataFiltersType = DataFilter::class;
   protected $dataFiltersDataType = 'array';
+  public $dataFilters;
   /**
    * @var bool
    */

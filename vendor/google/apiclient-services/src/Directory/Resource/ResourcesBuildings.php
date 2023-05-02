@@ -25,7 +25,7 @@ use Google\Service\Directory\Buildings;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $buildings = $adminService->buildings;
+ *   $buildings = $adminService->resources_buildings;
  *  </code>
  */
 class ResourcesBuildings extends \Google\Service\Resource

@@ -30,8 +30,10 @@ class RepositoryWebrefProcessorTiming extends \Google\Collection
   public $name;
   protected $processorCountersType = RepositoryWebrefProcessorCounter::class;
   protected $processorCountersDataType = 'array';
+  public $processorCounters;
   protected $processorTimingsType = RepositoryWebrefProcessorTiming::class;
   protected $processorTimingsDataType = 'array';
+  public $processorTimings;
   /**
    * @var string
    */

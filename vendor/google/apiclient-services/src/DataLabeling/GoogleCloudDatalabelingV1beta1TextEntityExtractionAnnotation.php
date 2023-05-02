@@ -21,8 +21,10 @@ class GoogleCloudDatalabelingV1beta1TextEntityExtractionAnnotation extends \Goog
 {
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   protected $sequentialSegmentType = GoogleCloudDatalabelingV1beta1SequentialSegment::class;
   protected $sequentialSegmentDataType = '';
+  public $sequentialSegment;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpec

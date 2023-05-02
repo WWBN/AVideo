@@ -25,7 +25,7 @@ use Google\Service\Gmail\ListLabelsResponse;
  * Typical usage is:
  *  <code>
  *   $gmailService = new Google\Service\Gmail(...);
- *   $labels = $gmailService->labels;
+ *   $labels = $gmailService->users_labels;
  *  </code>
  */
 class UsersLabels extends \Google\Service\Resource

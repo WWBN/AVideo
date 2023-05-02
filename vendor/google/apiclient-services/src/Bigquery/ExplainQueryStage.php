@@ -94,6 +94,7 @@ class ExplainQueryStage extends \Google\Collection
   public $status;
   protected $stepsType = ExplainQueryStep::class;
   protected $stepsDataType = 'array';
+  public $steps;
   /**
    * @var string
    */

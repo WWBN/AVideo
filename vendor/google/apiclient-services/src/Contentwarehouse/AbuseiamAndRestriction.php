@@ -22,6 +22,7 @@ class AbuseiamAndRestriction extends \Google\Collection
   protected $collection_key = 'child';
   protected $childType = AbuseiamUserRestriction::class;
   protected $childDataType = 'array';
+  public $child;
 
   /**
    * @param AbuseiamUserRestriction[]

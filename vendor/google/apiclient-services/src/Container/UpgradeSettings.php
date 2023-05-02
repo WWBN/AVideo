@@ -21,6 +21,7 @@ class UpgradeSettings extends \Google\Model
 {
   protected $blueGreenSettingsType = BlueGreenSettings::class;
   protected $blueGreenSettingsDataType = '';
+  public $blueGreenSettings;
   /**
    * @var int
    */

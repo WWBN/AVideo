@@ -24,7 +24,7 @@ use Google\Service\Clouderrorreporting\ErrorGroup;
  * Typical usage is:
  *  <code>
  *   $clouderrorreportingService = new Google\Service\Clouderrorreporting(...);
- *   $groups = $clouderrorreportingService->groups;
+ *   $groups = $clouderrorreportingService->projects_groups;
  *  </code>
  */
 class ProjectsGroups extends \Google\Service\Resource

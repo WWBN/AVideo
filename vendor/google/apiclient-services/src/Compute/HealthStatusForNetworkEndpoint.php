@@ -21,12 +21,16 @@ class HealthStatusForNetworkEndpoint extends \Google\Model
 {
   protected $backendServiceType = BackendServiceReference::class;
   protected $backendServiceDataType = '';
+  public $backendService;
   protected $forwardingRuleType = ForwardingRuleReference::class;
   protected $forwardingRuleDataType = '';
+  public $forwardingRule;
   protected $healthCheckType = HealthCheckReference::class;
   protected $healthCheckDataType = '';
+  public $healthCheck;
   protected $healthCheckServiceType = HealthCheckServiceReference::class;
   protected $healthCheckServiceDataType = '';
+  public $healthCheckService;
   /**
    * @var string
    */

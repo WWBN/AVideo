@@ -22,8 +22,10 @@ class QueryResponse extends \Google\Collection
   protected $collection_key = 'rows';
   protected $columnHeadersType = ResultTableColumnHeader::class;
   protected $columnHeadersDataType = 'array';
+  public $columnHeaders;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
+  public $errors;
   /**
    * @var string
    */

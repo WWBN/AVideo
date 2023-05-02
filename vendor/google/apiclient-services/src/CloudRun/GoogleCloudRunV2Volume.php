@@ -21,12 +21,14 @@ class GoogleCloudRunV2Volume extends \Google\Model
 {
   protected $cloudSqlInstanceType = GoogleCloudRunV2CloudSqlInstance::class;
   protected $cloudSqlInstanceDataType = '';
+  public $cloudSqlInstance;
   /**
    * @var string
    */
   public $name;
   protected $secretType = GoogleCloudRunV2SecretVolumeSource::class;
   protected $secretDataType = '';
+  public $secret;
 
   /**
    * @param GoogleCloudRunV2CloudSqlInstance

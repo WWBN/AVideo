@@ -25,6 +25,7 @@ class GooglePrivacyDlpV2InfoTypeStats extends \Google\Model
   public $count;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
 
   /**
    * @param string

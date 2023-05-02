@@ -78,12 +78,14 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $badSSLCertificate;
   protected $clientServiceInfoType = TrawlerClientServiceInfo::class;
   protected $clientServiceInfoDataType = '';
+  public $clientServiceInfo;
   /**
    * @var bool
    */
   public $compressedBody;
   protected $crawlTimesType = TrawlerCrawlTimes::class;
   protected $crawlTimesDataType = '';
+  public $crawlTimes;
   /**
    * @var string
    */
@@ -102,8 +104,10 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $eligibleGeoCrawlEgressRegion;
   protected $endpointsType = TrawlerTCPIPInfo::class;
   protected $endpointsDataType = '';
+  public $endpoints;
   protected $eventsType = TrawlerEvent::class;
   protected $eventsDataType = 'array';
+  public $events;
   /**
    * @var string
    */
@@ -130,6 +134,7 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $hSTSInfo;
   protected $hTTPTrailersType = TrawlerFetchReplyDataHTTPHeader::class;
   protected $hTTPTrailersDataType = 'array';
+  public $hTTPTrailers;
   /**
    * @var string
    */
@@ -148,6 +153,7 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $hopRobotsInfo;
   protected $hostBucketDataType = TrawlerHostBucketData::class;
   protected $hostBucketDataDataType = '';
+  public $hostBucketData;
   /**
    * @var string
    */
@@ -174,8 +180,10 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $iD;
   protected $lastUrlStatusType = TrawlerFetchStatus::class;
   protected $lastUrlStatusDataType = '';
+  public $lastUrlStatus;
   protected $policyDataType = TrawlerPolicyData::class;
   protected $policyDataDataType = 'array';
+  public $policyData;
   /**
    * @var string
    */
@@ -210,14 +218,17 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $robotsInfo;
   protected $robotsStatusType = TrawlerFetchStatus::class;
   protected $robotsStatusDataType = '';
+  public $robotsStatus;
   /**
    * @var string
    */
   public $robotsTxt;
   protected $statusType = TrawlerFetchStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $throttleClientType = TrawlerThrottleClientData::class;
   protected $throttleClientDataType = '';
+  public $throttleClient;
   /**
    * @var string
    */
@@ -236,6 +247,7 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $transparentRewrites;
   protected $trawlerPrivateType = TrawlerTrawlerPrivateFetchReplyData::class;
   protected $trawlerPrivateDataType = '';
+  public $trawlerPrivate;
   /**
    * @var string
    */
@@ -250,20 +262,26 @@ class TrawlerFetchReplyData extends \Google\Collection
   public $useHtmlCompressDictionary;
   protected $crawldatesType = TrawlerFetchReplyDataCrawlDates::class;
   protected $crawldatesDataType = '';
+  public $crawldates;
   protected $deliveryReportType = TrawlerFetchReplyDataDeliveryReport::class;
   protected $deliveryReportDataType = '';
+  public $deliveryReport;
   protected $fetchstatsType = TrawlerFetchReplyDataFetchStats::class;
   protected $fetchstatsDataType = '';
+  public $fetchstats;
   /**
    * @var string
    */
   public $originalProtocolUrl;
   protected $partialresponseType = TrawlerFetchReplyDataPartialResponse::class;
   protected $partialresponseDataType = '';
+  public $partialresponse;
   protected $protocolresponseType = TrawlerFetchReplyDataProtocolResponse::class;
   protected $protocolresponseDataType = '';
+  public $protocolresponse;
   protected $redirectsType = TrawlerFetchReplyDataRedirects::class;
   protected $redirectsDataType = 'array';
+  public $redirects;
   /**
    * @var string
    */

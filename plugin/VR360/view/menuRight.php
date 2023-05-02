@@ -1,3 +1,6 @@
+<?php
+$videos_id = getVideos_id();
+?>
 <li>
     <div class="material-switch navbar-text" style="width: 120px;">
         <i class="fa fa-cube"></i> VR360 &nbsp;&nbsp;
@@ -9,10 +12,10 @@
     $('#vr360').change(function () {
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/VR360/toogleVR360.php',
+            url: webSiteRootURL+'plugin/VR360/toogleVR360.php',
             method: 'POST',
             data: {
-                'videos_id': <?php echo $videos_id; ?>,
+                'videos_id': <?php echo intval($videos_id); ?>,
                 'vr360': $(this).is(":checked")
             },
             success: function (response) {

@@ -22,16 +22,22 @@ class IndexingSignalAggregatorUrlPatternSignals extends \Google\Collection
   protected $collection_key = 'priorSignal';
   protected $coverageType = IndexingSignalAggregatorAgeWeightedCoverageData::class;
   protected $coverageDataType = '';
+  public $coverage;
   protected $pagerankScoreType = IndexingSignalAggregatorAggregatedScore::class;
   protected $pagerankScoreDataType = '';
+  public $pagerankScore;
   protected $patternScoreType = IndexingSignalAggregatorAggregatedScore::class;
   protected $patternScoreDataType = '';
+  public $patternScore;
   protected $priorSignalType = IndexingSignalAggregatorUrlPatternSignalsPriorSignal::class;
   protected $priorSignalDataType = 'array';
+  public $priorSignal;
   protected $regexpPatternScoreType = IndexingSignalAggregatorAggregatedScore::class;
   protected $regexpPatternScoreDataType = '';
+  public $regexpPatternScore;
   protected $sccDataType = IndexingSignalAggregatorSccData::class;
   protected $sccDataDataType = '';
+  public $sccData;
 
   /**
    * @param IndexingSignalAggregatorAgeWeightedCoverageData

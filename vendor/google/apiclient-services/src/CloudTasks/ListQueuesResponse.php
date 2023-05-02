@@ -26,6 +26,7 @@ class ListQueuesResponse extends \Google\Collection
   public $nextPageToken;
   protected $queuesType = Queue::class;
   protected $queuesDataType = 'array';
+  public $queues;
 
   /**
    * @param string

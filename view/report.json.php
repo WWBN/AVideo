@@ -55,7 +55,7 @@ if (!empty($cache)) {
     }
     $cache->performance->cache->time = time();
     $cache->performance->cache->date = date('Y-m-d H:i:s');
-    $cache->performance->cache->cache_duration = microtime(true) - $obj->start;
+    $cache->performance->cache->cache_duration = microtime(true) - $obj->performance->start;
     $cache->performance->cache->human = humanTimingAgo($cache->performance->time, 2);
     die(_json_encode($cache));
 }
@@ -93,7 +93,7 @@ $obj->last90Days = VideosStatistics::getMostViewedVideosFromLastDays($obj->users
 $obj->performance->end = microtime(true);
 $obj->performance->time = time();
 $obj->performance->date = date('Y-m-d H:i:s');
-$obj->performance->duration = $obj->end - $obj->start;
+$obj->performance->duration = $obj->performance->end - $obj->performance->start;
 
 
 ObjectYPT::setCache($cacheName, $obj);

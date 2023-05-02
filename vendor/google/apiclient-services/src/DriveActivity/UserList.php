@@ -22,6 +22,7 @@ class UserList extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = SingleUser::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param SingleUser[]

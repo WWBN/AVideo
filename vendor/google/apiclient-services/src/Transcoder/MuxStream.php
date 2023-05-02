@@ -38,6 +38,7 @@ class MuxStream extends \Google\Collection
   public $key;
   protected $segmentSettingsType = SegmentSettings::class;
   protected $segmentSettingsDataType = '';
+  public $segmentSettings;
 
   /**
    * @param string

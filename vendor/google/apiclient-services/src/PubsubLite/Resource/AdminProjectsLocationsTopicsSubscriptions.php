@@ -24,7 +24,7 @@ use Google\Service\PubsubLite\ListTopicSubscriptionsResponse;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $subscriptions = $pubsubliteService->subscriptions;
+ *   $subscriptions = $pubsubliteService->admin_projects_locations_topics_subscriptions;
  *  </code>
  */
 class AdminProjectsLocationsTopicsSubscriptions extends \Google\Service\Resource

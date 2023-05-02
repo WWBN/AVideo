@@ -22,12 +22,16 @@ class ReportRequest extends \Google\Collection
   protected $collection_key = 'segments';
   protected $cohortGroupType = CohortGroup::class;
   protected $cohortGroupDataType = '';
+  public $cohortGroup;
   protected $dateRangesType = DateRange::class;
   protected $dateRangesDataType = 'array';
+  public $dateRanges;
   protected $dimensionFilterClausesType = DimensionFilterClause::class;
   protected $dimensionFilterClausesDataType = 'array';
+  public $dimensionFilterClauses;
   protected $dimensionsType = Dimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var string
    */
@@ -46,10 +50,13 @@ class ReportRequest extends \Google\Collection
   public $includeEmptyRows;
   protected $metricFilterClausesType = MetricFilterClause::class;
   protected $metricFilterClausesDataType = 'array';
+  public $metricFilterClauses;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   protected $orderBysType = OrderBy::class;
   protected $orderBysDataType = 'array';
+  public $orderBys;
   /**
    * @var int
    */
@@ -60,12 +67,14 @@ class ReportRequest extends \Google\Collection
   public $pageToken;
   protected $pivotsType = Pivot::class;
   protected $pivotsDataType = 'array';
+  public $pivots;
   /**
    * @var string
    */
   public $samplingLevel;
   protected $segmentsType = Segment::class;
   protected $segmentsDataType = 'array';
+  public $segments;
   /**
    * @var string
    */

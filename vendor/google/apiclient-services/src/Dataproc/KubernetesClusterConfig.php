@@ -21,12 +21,14 @@ class KubernetesClusterConfig extends \Google\Model
 {
   protected $gkeClusterConfigType = GkeClusterConfig::class;
   protected $gkeClusterConfigDataType = '';
+  public $gkeClusterConfig;
   /**
    * @var string
    */
   public $kubernetesNamespace;
   protected $kubernetesSoftwareConfigType = KubernetesSoftwareConfig::class;
   protected $kubernetesSoftwareConfigDataType = '';
+  public $kubernetesSoftwareConfig;
 
   /**
    * @param GkeClusterConfig

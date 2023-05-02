@@ -26,7 +26,7 @@ use Google\Service\NetworkServices\TcpRoute;
  * Typical usage is:
  *  <code>
  *   $networkservicesService = new Google\Service\NetworkServices(...);
- *   $tcpRoutes = $networkservicesService->tcpRoutes;
+ *   $tcpRoutes = $networkservicesService->projects_locations_tcpRoutes;
  *  </code>
  */
 class ProjectsLocationsTcpRoutes extends \Google\Service\Resource

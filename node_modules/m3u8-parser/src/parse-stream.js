@@ -305,6 +305,9 @@ export default class ParseStream extends Stream {
           if (event.attributes.BANDWIDTH) {
             event.attributes.BANDWIDTH = parseInt(event.attributes.BANDWIDTH, 10);
           }
+          if (event.attributes['FRAME-RATE']) {
+            event.attributes['FRAME-RATE'] = parseFloat(event.attributes['FRAME-RATE']);
+          }
           if (event.attributes['PROGRAM-ID']) {
             event.attributes['PROGRAM-ID'] = parseInt(event.attributes['PROGRAM-ID'], 10);
           }

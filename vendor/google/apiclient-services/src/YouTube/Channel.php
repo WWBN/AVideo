@@ -21,14 +21,19 @@ class Channel extends \Google\Model
 {
   protected $auditDetailsType = ChannelAuditDetails::class;
   protected $auditDetailsDataType = '';
+  public $auditDetails;
   protected $brandingSettingsType = ChannelBrandingSettings::class;
   protected $brandingSettingsDataType = '';
+  public $brandingSettings;
   protected $contentDetailsType = ChannelContentDetails::class;
   protected $contentDetailsDataType = '';
+  public $contentDetails;
   protected $contentOwnerDetailsType = ChannelContentOwnerDetails::class;
   protected $contentOwnerDetailsDataType = '';
+  public $contentOwnerDetails;
   protected $conversionPingsType = ChannelConversionPings::class;
   protected $conversionPingsDataType = '';
+  public $conversionPings;
   /**
    * @var string
    */
@@ -43,14 +48,19 @@ class Channel extends \Google\Model
   public $kind;
   protected $localizationsType = ChannelLocalization::class;
   protected $localizationsDataType = 'map';
+  public $localizations;
   protected $snippetType = ChannelSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
   protected $statisticsType = ChannelStatistics::class;
   protected $statisticsDataType = '';
+  public $statistics;
   protected $statusType = ChannelStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $topicDetailsType = ChannelTopicDetails::class;
   protected $topicDetailsDataType = '';
+  public $topicDetails;
 
   /**
    * @param ChannelAuditDetails

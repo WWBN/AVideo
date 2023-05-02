@@ -21,10 +21,13 @@ class Create extends \Google\Model
 {
   protected $copyType = Copy::class;
   protected $copyDataType = '';
+  public $copy;
   protected $newType = DriveactivityNew::class;
   protected $newDataType = '';
+  public $new;
   protected $uploadType = Upload::class;
   protected $uploadDataType = '';
+  public $upload;
 
   /**
    * @param Copy

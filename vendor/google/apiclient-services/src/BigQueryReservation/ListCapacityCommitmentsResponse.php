@@ -22,6 +22,7 @@ class ListCapacityCommitmentsResponse extends \Google\Collection
   protected $collection_key = 'capacityCommitments';
   protected $capacityCommitmentsType = CapacityCommitment::class;
   protected $capacityCommitmentsDataType = 'array';
+  public $capacityCommitments;
   /**
    * @var string
    */

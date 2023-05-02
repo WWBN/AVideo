@@ -22,18 +22,25 @@ class RepositoryWebrefCategoryInfo extends \Google\Collection
   protected $collection_key = 'wpCategory';
   protected $allTypesType = RepositoryWebrefFreebaseType::class;
   protected $allTypesDataType = 'array';
+  public $allTypes;
   protected $freebaseTypeType = RepositoryWebrefFreebaseType::class;
   protected $freebaseTypeDataType = 'array';
+  public $freebaseType;
   protected $kgCollectionType = RepositoryWebrefKGCollection::class;
   protected $kgCollectionDataType = 'array';
+  public $kgCollection;
   protected $oysterTypeType = RepositoryWebrefOysterType::class;
   protected $oysterTypeDataType = '';
+  public $oysterType;
   protected $salientCategoryType = RepositoryWebrefFatcatCategory::class;
   protected $salientCategoryDataType = 'array';
+  public $salientCategory;
   protected $wikipediaCategoryType = RepositoryWebrefWikipediaCategory::class;
   protected $wikipediaCategoryDataType = 'array';
+  public $wikipediaCategory;
   protected $wpCategoryType = RepositoryWebrefFreebaseType::class;
   protected $wpCategoryDataType = 'array';
+  public $wpCategory;
 
   /**
    * @param RepositoryWebrefFreebaseType[]

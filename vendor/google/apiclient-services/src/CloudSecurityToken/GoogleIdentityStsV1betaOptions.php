@@ -22,6 +22,7 @@ class GoogleIdentityStsV1betaOptions extends \Google\Collection
   protected $collection_key = 'audiences';
   protected $accessBoundaryType = GoogleIdentityStsV1betaAccessBoundary::class;
   protected $accessBoundaryDataType = '';
+  public $accessBoundary;
   /**
    * @var string[]
    */

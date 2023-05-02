@@ -22,6 +22,7 @@ class Report extends \Google\Collection
   protected $collection_key = 'rows';
   protected $filesType = ReportFiles::class;
   protected $filesDataType = 'array';
+  public $files;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class Report extends \Google\Collection
   public $kind;
   protected $requestType = ReportRequest::class;
   protected $requestDataType = '';
+  public $request;
   /**
    * @var int
    */

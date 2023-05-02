@@ -11,6 +11,6 @@ jobs:
         with:
           # You should create a personal access token and store it in your repository
           token: ${{ secrets.DISPATCH_AUTH }}
-          repo: codemirror.next
+          repo: dev
           owner: codemirror
           event_type: push

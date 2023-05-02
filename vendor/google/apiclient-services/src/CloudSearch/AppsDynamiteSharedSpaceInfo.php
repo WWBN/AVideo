@@ -21,6 +21,7 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
 {
   protected $avatarInfoType = AppsDynamiteSharedAvatarInfo::class;
   protected $avatarInfoDataType = '';
+  public $avatarInfo;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
   public $description;
   protected $groupIdType = GroupId::class;
   protected $groupIdDataType = '';
+  public $groupId;
   /**
    * @var string
    */
@@ -47,6 +49,9 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
    * @var int
    */
   public $numMembers;
+  protected $segmentedMembershipCountsType = AppsDynamiteSharedSegmentedMembershipCounts::class;
+  protected $segmentedMembershipCountsDataType = '';
+  public $segmentedMembershipCounts;
   /**
    * @var string
    */
@@ -163,6 +168,20 @@ class AppsDynamiteSharedSpaceInfo extends \Google\Model
   public function getNumMembers()
   {
     return $this->numMembers;
+  }
+  /**
+   * @param AppsDynamiteSharedSegmentedMembershipCounts
+   */
+  public function setSegmentedMembershipCounts(AppsDynamiteSharedSegmentedMembershipCounts $segmentedMembershipCounts)
+  {
+    $this->segmentedMembershipCounts = $segmentedMembershipCounts;
+  }
+  /**
+   * @return AppsDynamiteSharedSegmentedMembershipCounts
+   */
+  public function getSegmentedMembershipCounts()
+  {
+    return $this->segmentedMembershipCounts;
   }
   /**
    * @param string

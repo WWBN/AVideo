@@ -21,6 +21,7 @@ class ExecuteStreamResponse extends \Google\Model
 {
   protected $resultType = ScriptExecutionResult::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param ScriptExecutionResult

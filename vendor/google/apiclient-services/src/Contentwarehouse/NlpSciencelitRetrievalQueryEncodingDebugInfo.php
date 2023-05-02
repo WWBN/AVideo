@@ -21,6 +21,7 @@ class NlpSciencelitRetrievalQueryEncodingDebugInfo extends \Google\Model
 {
   protected $scamQueryEncodingType = ResearchScamGenericFeatureVector::class;
   protected $scamQueryEncodingDataType = '';
+  public $scamQueryEncoding;
 
   /**
    * @param ResearchScamGenericFeatureVector

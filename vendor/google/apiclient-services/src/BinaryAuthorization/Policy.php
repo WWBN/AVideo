@@ -22,10 +22,13 @@ class Policy extends \Google\Collection
   protected $collection_key = 'admissionWhitelistPatterns';
   protected $admissionWhitelistPatternsType = AdmissionWhitelistPattern::class;
   protected $admissionWhitelistPatternsDataType = 'array';
+  public $admissionWhitelistPatterns;
   protected $clusterAdmissionRulesType = AdmissionRule::class;
   protected $clusterAdmissionRulesDataType = 'map';
+  public $clusterAdmissionRules;
   protected $defaultAdmissionRuleType = AdmissionRule::class;
   protected $defaultAdmissionRuleDataType = '';
+  public $defaultAdmissionRule;
   /**
    * @var string
    */
@@ -40,10 +43,13 @@ class Policy extends \Google\Collection
   public $globalPolicyEvaluationMode;
   protected $istioServiceIdentityAdmissionRulesType = AdmissionRule::class;
   protected $istioServiceIdentityAdmissionRulesDataType = 'map';
+  public $istioServiceIdentityAdmissionRules;
   protected $kubernetesNamespaceAdmissionRulesType = AdmissionRule::class;
   protected $kubernetesNamespaceAdmissionRulesDataType = 'map';
+  public $kubernetesNamespaceAdmissionRules;
   protected $kubernetesServiceAccountAdmissionRulesType = AdmissionRule::class;
   protected $kubernetesServiceAccountAdmissionRulesDataType = 'map';
+  public $kubernetesServiceAccountAdmissionRules;
   /**
    * @var string
    */

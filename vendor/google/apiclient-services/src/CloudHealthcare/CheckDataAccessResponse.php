@@ -21,6 +21,7 @@ class CheckDataAccessResponse extends \Google\Model
 {
   protected $consentDetailsType = ConsentEvaluation::class;
   protected $consentDetailsDataType = 'map';
+  public $consentDetails;
   /**
    * @var bool
    */

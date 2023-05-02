@@ -25,7 +25,7 @@ use Google\Service\Logging\Location;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $locations = $loggingService->locations;
+ *   $locations = $loggingService->billingAccounts_locations;
  *  </code>
  */
 class BillingAccountsLocations extends \Google\Service\Resource

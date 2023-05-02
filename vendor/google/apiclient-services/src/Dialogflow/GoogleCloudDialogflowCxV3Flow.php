@@ -30,18 +30,21 @@ class GoogleCloudDialogflowCxV3Flow extends \Google\Collection
   public $displayName;
   protected $eventHandlersType = GoogleCloudDialogflowCxV3EventHandler::class;
   protected $eventHandlersDataType = 'array';
+  public $eventHandlers;
   /**
    * @var string
    */
   public $name;
   protected $nluSettingsType = GoogleCloudDialogflowCxV3NluSettings::class;
   protected $nluSettingsDataType = '';
+  public $nluSettings;
   /**
    * @var string[]
    */
   public $transitionRouteGroups;
   protected $transitionRoutesType = GoogleCloudDialogflowCxV3TransitionRoute::class;
   protected $transitionRoutesDataType = 'array';
+  public $transitionRoutes;
 
   /**
    * @param string

@@ -21,6 +21,7 @@ class GoogleIamV1SetIamPolicyRequest extends \Google\Model
 {
   protected $policyType = GoogleIamV1Policy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string
    */

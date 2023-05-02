@@ -97,14 +97,4 @@ class MobileManager extends PluginAbstract
 
         return $obj;
     }
-
-    public function upload()
-    {
-    }
-    
-    
-    public function getHTMLMenuLeft() {
-        global $global;
-        include $global['systemRootPath'] . 'plugin/MobileManager/HTMLMenuLeft.php';
-    }
 }

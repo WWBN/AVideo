@@ -25,6 +25,7 @@ class JobRun extends \Google\Model
   public $createTime;
   protected $deployJobRunType = DeployJobRun::class;
   protected $deployJobRunDataType = '';
+  public $deployJobRun;
   /**
    * @var string
    */
@@ -59,6 +60,7 @@ class JobRun extends \Google\Model
   public $uid;
   protected $verifyJobRunType = VerifyJobRun::class;
   protected $verifyJobRunDataType = '';
+  public $verifyJobRun;
 
   /**
    * @param string

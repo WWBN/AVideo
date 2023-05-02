@@ -26,7 +26,7 @@ use Google\Service\TagManager\RevertTemplateResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $templates = $tagmanagerService->templates;
+ *   $templates = $tagmanagerService->accounts_containers_workspaces_templates;
  *  </code>
  */
 class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource

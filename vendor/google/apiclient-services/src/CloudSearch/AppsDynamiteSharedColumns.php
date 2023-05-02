@@ -22,6 +22,7 @@ class AppsDynamiteSharedColumns extends \Google\Collection
   protected $collection_key = 'columnItems';
   protected $columnItemsType = AppsDynamiteSharedColumnsColumn::class;
   protected $columnItemsDataType = 'array';
+  public $columnItems;
   /**
    * @var string
    */

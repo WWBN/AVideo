@@ -22,6 +22,7 @@ class GenerateConnectManifestResponse extends \Google\Collection
   protected $collection_key = 'manifest';
   protected $manifestType = ConnectAgentResource::class;
   protected $manifestDataType = 'array';
+  public $manifest;
 
   /**
    * @param ConnectAgentResource[]

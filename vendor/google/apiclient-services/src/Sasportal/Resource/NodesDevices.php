@@ -31,7 +31,7 @@ use Google\Service\Sasportal\SasPortalUpdateSignedDeviceRequest;
  * Typical usage is:
  *  <code>
  *   $sasportalService = new Google\Service\Sasportal(...);
- *   $devices = $sasportalService->devices;
+ *   $devices = $sasportalService->nodes_devices;
  *  </code>
  */
 class NodesDevices extends \Google\Service\Resource

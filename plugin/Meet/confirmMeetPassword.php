@@ -2,6 +2,7 @@
 require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/validateMeet.php';
 
+setIsConfirmationPage();
 if (Meet::validatePassword($meet_schedule_id, @$_POST['meet_password'])) {
     $url = Meet::getMeetLink($meet_schedule_id);
     header("Location: {$url}");

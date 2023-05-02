@@ -21,12 +21,14 @@ class MoveAnalysis extends \Google\Model
 {
   protected $analysisType = MoveAnalysisResult::class;
   protected $analysisDataType = '';
+  public $analysis;
   /**
    * @var string
    */
   public $displayName;
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
 
   /**
    * @param MoveAnalysisResult

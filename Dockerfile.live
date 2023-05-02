@@ -1,0 +1,102 @@
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ARG NGINX_RTMP_PORT
+ARG NGINX_HTTP_PORT
+ARG NGINX_HTTPS_PORT
+ARG SERVER_NAME
+ARG CREATE_TLS_CERTIFICATE
+ARG TLS_CERTIFICATE_FILE
+ARG TLS_CERTIFICATE_KEY
+
+# Update and upgrade packages
+RUN apt-get update -y && apt-get upgrade -y
+
+# Install basic packages
+RUN apt-get install -y --no-install-recommends \
+        dos2unix \
+        bash-completion \
+        lsof \
+        rsyslog \
+        cron \
+        rsync \
+        ca-certificates \
+        apt-transport-https \
+        software-properties-common \
+        curl \
+        build-essential \
+        libssl-dev \
+        ffmpeg \
+        zlib1g-dev \
+        wget
+
+# Install PHP packages
+RUN apt-get install -y --no-install-recommends \
+        php-fpm \
+        php-cli \
+        php-curl
+
+# Install NGINX dependencies
+RUN apt-get install -y --no-install-recommends \
+        libpcre3 \
+        libpcre3-dev
+
+# Install Git and Certbot
+RUN apt-get install -y --no-install-recommends \
+        git \
+        python3-certbot-nginx
+
+# Build NGINX with RTMP module
+RUN mkdir ~/build && \
+      cd ~/build && \
+      git clone https://github.com/arut/nginx-rtmp-module.git && \
+      git clone https://github.com/nginx/nginx.git && \
+      cd nginx && \
+      ./auto/configure --with-http_ssl_module --with-http_stub_status_module --add-module=../nginx-rtmp-module --with-cc-opt="-Wimplicit-fallthrough=0" && \
+      make && \
+      make install
+
+# Download and configure NGINX
+RUN cd /usr/local/nginx/html && \
+      wget https://youphp.tube/docs/stat.xsl  --no-check-certificate && \
+      mv /usr/local/nginx/conf/nginx.conf /usr/local/nginx/conf/nginx.conf.old && \
+      cd /usr/local/nginx/conf/ && \
+      wget https://raw.githubusercontent.com/WWBN/AVideo/master/plugin/Live/install/nginx.conf  --no-check-certificate && \
+      mkdir /HLS && \
+      mkdir /HLS/live && \
+      mkdir /HLS/low  && \
+      mkdir /var/www/tmp/ && \
+      chmod 777 /var/www/tmp
+
+# Copy configuration files
+COPY deploy/nginx/docker-entrypoint-live /usr/local/bin/docker-entrypoint-live
+COPY deploy/nginx/nginx.conf /usr/local/nginx/conf/nginx.conf
+COPY deploy/nginx/crontab /etc/cron.d/crontab
+
+# Set permissions for crontab
+RUN dos2unix /etc/cron.d/crontab && \
+    chmod 0644 /etc/cron.d/crontab && \
+    chmod +x /etc/cron.d/crontab && \
+    service cron start && \
+    crontab /etc/cron.d/crontab
+
+# Set permissions for docker-entrypoint-live
+RUN dos2unix /usr/local/bin/docker-entrypoint-live && \
+    chmod 755 /usr/local/bin/docker-entrypoint-live && \
+    chmod +x /usr/local/bin/docker-entrypoint-live
+
+# Create directory and set permissions
+VOLUME /var/www/tmp
+RUN mkdir -p /var/www/tmp && \
+    chmod 777 /var/www/tmp
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Expose ports
+EXPOSE $NGINX_RTMP_PORT
+EXPOSE $NGINX_HTTP_PORT
+EXPOSE $NGINX_HTTPS_PORT
+
+# Set the entrypoint and command
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint-live"]

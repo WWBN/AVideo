@@ -26,7 +26,7 @@ use Google\Service\ServiceDirectory\ServicedirectoryEmpty;
  * Typical usage is:
  *  <code>
  *   $servicedirectoryService = new Google\Service\ServiceDirectory(...);
- *   $endpoints = $servicedirectoryService->endpoints;
+ *   $endpoints = $servicedirectoryService->projects_locations_namespaces_services_endpoints;
  *  </code>
  */
 class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resource

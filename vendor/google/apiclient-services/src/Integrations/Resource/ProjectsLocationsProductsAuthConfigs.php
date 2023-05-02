@@ -26,7 +26,7 @@ use Google\Service\Integrations\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $integrationsService = new Google\Service\Integrations(...);
- *   $authConfigs = $integrationsService->authConfigs;
+ *   $authConfigs = $integrationsService->projects_locations_products_authConfigs;
  *  </code>
  */
 class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource

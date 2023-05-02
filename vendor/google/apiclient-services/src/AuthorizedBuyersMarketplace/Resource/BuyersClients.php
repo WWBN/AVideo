@@ -27,7 +27,7 @@ use Google\Service\AuthorizedBuyersMarketplace\ListClientsResponse;
  * Typical usage is:
  *  <code>
  *   $authorizedbuyersmarketplaceService = new Google\Service\AuthorizedBuyersMarketplace(...);
- *   $clients = $authorizedbuyersmarketplaceService->clients;
+ *   $clients = $authorizedbuyersmarketplaceService->buyers_clients;
  *  </code>
  */
 class BuyersClients extends \Google\Service\Resource

@@ -26,6 +26,7 @@ class VideoContentSearchVideoAnchors extends \Google\Collection
   public $anchorType;
   protected $entityGroupInfoType = VideoContentSearchEntityGroupInfo::class;
   protected $entityGroupInfoDataType = '';
+  public $entityGroupInfo;
   /**
    * @var float
    */
@@ -52,6 +53,7 @@ class VideoContentSearchVideoAnchors extends \Google\Collection
   public $score;
   protected $scoreInfoType = VideoContentSearchVideoAnchorsScoreInfo::class;
   protected $scoreInfoDataType = '';
+  public $scoreInfo;
   /**
    * @var bool
    */
@@ -62,10 +64,13 @@ class VideoContentSearchVideoAnchors extends \Google\Collection
   public $thumbnailForced;
   protected $thumbnailSetInfoType = VideoContentSearchAnchorsThumbnailInfo::class;
   protected $thumbnailSetInfoDataType = '';
+  public $thumbnailSetInfo;
   protected $videoAnchorType = VideoContentSearchVideoAnchor::class;
   protected $videoAnchorDataType = 'array';
+  public $videoAnchor;
   protected $videoIntroductionType = VideoContentSearchVideoIntroduction::class;
   protected $videoIntroductionDataType = '';
+  public $videoIntroduction;
 
   /**
    * @param string

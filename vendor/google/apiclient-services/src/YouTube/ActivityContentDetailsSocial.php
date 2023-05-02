@@ -33,6 +33,7 @@ class ActivityContentDetailsSocial extends \Google\Model
   public $referenceUrl;
   protected $resourceIdType = ResourceId::class;
   protected $resourceIdDataType = '';
+  public $resourceId;
   /**
    * @var string
    */

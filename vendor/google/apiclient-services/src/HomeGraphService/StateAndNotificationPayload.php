@@ -21,6 +21,7 @@ class StateAndNotificationPayload extends \Google\Model
 {
   protected $devicesType = ReportStateAndNotificationDevice::class;
   protected $devicesDataType = '';
+  public $devices;
 
   /**
    * @param ReportStateAndNotificationDevice

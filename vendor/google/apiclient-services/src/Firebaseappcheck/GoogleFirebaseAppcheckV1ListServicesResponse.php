@@ -26,6 +26,7 @@ class GoogleFirebaseAppcheckV1ListServicesResponse extends \Google\Collection
   public $nextPageToken;
   protected $servicesType = GoogleFirebaseAppcheckV1Service::class;
   protected $servicesDataType = 'array';
+  public $services;
 
   /**
    * @param string

@@ -12,6 +12,7 @@ if (!User::isAdmin()) {
     exit;
 }
 
+setRowCount(10000);
 header('Content-Type: application/json');
 if (empty($_POST['email'])) {
     if (!empty($_REQUEST['users_groups_id'])) {

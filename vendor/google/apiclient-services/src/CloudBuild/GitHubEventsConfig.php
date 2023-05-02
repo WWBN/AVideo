@@ -37,8 +37,10 @@ class GitHubEventsConfig extends \Google\Model
   public $owner;
   protected $pullRequestType = PullRequestFilter::class;
   protected $pullRequestDataType = '';
+  public $pullRequest;
   protected $pushType = PushFilter::class;
   protected $pushDataType = '';
+  public $push;
 
   /**
    * @param string

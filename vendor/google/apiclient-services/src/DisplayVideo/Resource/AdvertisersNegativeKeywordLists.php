@@ -26,7 +26,7 @@ use Google\Service\DisplayVideo\NegativeKeywordList;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $negativeKeywordLists = $displayvideoService->negativeKeywordLists;
+ *   $negativeKeywordLists = $displayvideoService->advertisers_negativeKeywordLists;
  *  </code>
  */
 class AdvertisersNegativeKeywordLists extends \Google\Service\Resource

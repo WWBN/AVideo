@@ -21,6 +21,7 @@ class ScriptExecutionResult extends \Google\Model
 {
   protected $returnValueType = Value::class;
   protected $returnValueDataType = '';
+  public $returnValue;
 
   /**
    * @param Value

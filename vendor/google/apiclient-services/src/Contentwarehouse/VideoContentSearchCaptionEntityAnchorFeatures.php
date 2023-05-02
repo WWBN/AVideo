@@ -58,6 +58,7 @@ class VideoContentSearchCaptionEntityAnchorFeatures extends \Google\Collection
   public $entityDescription;
   protected $entityInfoType = VideoContentSearchCaptionEntityDocInfo::class;
   protected $entityInfoDataType = '';
+  public $entityInfo;
   /**
    * @var bool
    */

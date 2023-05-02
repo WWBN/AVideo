@@ -22,6 +22,7 @@ class HtmlrenderWebkitHeadlessProtoRenderTreeNode extends \Google\Collection
   protected $collection_key = 'inlineTextBox';
   protected $boxType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $boxDataType = '';
+  public $box;
   /**
    * @var int[]
    */
@@ -32,6 +33,7 @@ class HtmlrenderWebkitHeadlessProtoRenderTreeNode extends \Google\Collection
   public $domTreeNodeIndex;
   protected $inlineTextBoxType = HtmlrenderWebkitHeadlessProtoRenderTreeNodeInlineTextBox::class;
   protected $inlineTextBoxDataType = 'array';
+  public $inlineTextBox;
   /**
    * @var string
    */

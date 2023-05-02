@@ -24,7 +24,7 @@ use Google\Service\CloudFunctions\ListRuntimesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudfunctionsService = new Google\Service\CloudFunctions(...);
- *   $runtimes = $cloudfunctionsService->runtimes;
+ *   $runtimes = $cloudfunctionsService->projects_locations_runtimes;
  *  </code>
  */
 class ProjectsLocationsRuntimes extends \Google\Service\Resource

@@ -26,7 +26,7 @@ use Google\Service\AndroidProvisioningPartner\CustomerListConfigurationsResponse
  * Typical usage is:
  *  <code>
  *   $androiddeviceprovisioningService = new Google\Service\AndroidProvisioningPartner(...);
- *   $configurations = $androiddeviceprovisioningService->configurations;
+ *   $configurations = $androiddeviceprovisioningService->customers_configurations;
  *  </code>
  */
 class CustomersConfigurations extends \Google\Service\Resource

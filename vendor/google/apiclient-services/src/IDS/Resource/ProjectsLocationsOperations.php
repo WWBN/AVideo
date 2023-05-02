@@ -27,7 +27,7 @@ use Google\Service\IDS\Operation;
  * Typical usage is:
  *  <code>
  *   $idsService = new Google\Service\IDS(...);
- *   $operations = $idsService->operations;
+ *   $operations = $idsService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

@@ -22,6 +22,7 @@ class InterconnectDiagnosticsLinkStatus extends \Google\Collection
   protected $collection_key = 'arpCaches';
   protected $arpCachesType = InterconnectDiagnosticsARPEntry::class;
   protected $arpCachesDataType = 'array';
+  public $arpCaches;
   /**
    * @var string
    */
@@ -32,10 +33,17 @@ class InterconnectDiagnosticsLinkStatus extends \Google\Collection
   public $googleDemarc;
   protected $lacpStatusType = InterconnectDiagnosticsLinkLACPStatus::class;
   protected $lacpStatusDataType = '';
+  public $lacpStatus;
+  /**
+   * @var string
+   */
+  public $operationalStatus;
   protected $receivingOpticalPowerType = InterconnectDiagnosticsLinkOpticalPower::class;
   protected $receivingOpticalPowerDataType = '';
+  public $receivingOpticalPower;
   protected $transmittingOpticalPowerType = InterconnectDiagnosticsLinkOpticalPower::class;
   protected $transmittingOpticalPowerDataType = '';
+  public $transmittingOpticalPower;
 
   /**
    * @param InterconnectDiagnosticsARPEntry[]
@@ -92,6 +100,20 @@ class InterconnectDiagnosticsLinkStatus extends \Google\Collection
   public function getLacpStatus()
   {
     return $this->lacpStatus;
+  }
+  /**
+   * @param string
+   */
+  public function setOperationalStatus($operationalStatus)
+  {
+    $this->operationalStatus = $operationalStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getOperationalStatus()
+  {
+    return $this->operationalStatus;
   }
   /**
    * @param InterconnectDiagnosticsLinkOpticalPower

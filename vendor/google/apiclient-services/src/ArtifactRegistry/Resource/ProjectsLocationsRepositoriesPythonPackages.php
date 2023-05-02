@@ -25,7 +25,7 @@ use Google\Service\ArtifactRegistry\PythonPackage;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $pythonPackages = $artifactregistryService->pythonPackages;
+ *   $pythonPackages = $artifactregistryService->projects_locations_repositories_pythonPackages;
  *  </code>
  */
 class ProjectsLocationsRepositoriesPythonPackages extends \Google\Service\Resource

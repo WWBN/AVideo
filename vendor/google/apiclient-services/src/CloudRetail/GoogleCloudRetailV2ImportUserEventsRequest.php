@@ -21,8 +21,10 @@ class GoogleCloudRetailV2ImportUserEventsRequest extends \Google\Model
 {
   protected $errorsConfigType = GoogleCloudRetailV2ImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
+  public $errorsConfig;
   protected $inputConfigType = GoogleCloudRetailV2UserEventInputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
 
   /**
    * @param GoogleCloudRetailV2ImportErrorsConfig

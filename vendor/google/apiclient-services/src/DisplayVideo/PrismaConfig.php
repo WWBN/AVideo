@@ -21,6 +21,7 @@ class PrismaConfig extends \Google\Model
 {
   protected $prismaCpeCodeType = PrismaCpeCode::class;
   protected $prismaCpeCodeDataType = '';
+  public $prismaCpeCode;
   /**
    * @var string
    */

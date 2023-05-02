@@ -40,10 +40,13 @@ class GoodocDocument extends \Google\Collection
   public $logicalEntityMessageName;
   protected $subDocumentsType = GoodocDocument::class;
   protected $subDocumentsDataType = 'array';
+  public $subDocuments;
   protected $headerType = GoodocDocumentHeader::class;
   protected $headerDataType = '';
+  public $header;
   protected $pageType = GoodocDocumentPage::class;
   protected $pageDataType = 'array';
+  public $page;
 
   /**
    * @param string[]

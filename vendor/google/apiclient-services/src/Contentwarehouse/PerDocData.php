@@ -44,7 +44,6 @@ class PerDocData extends \Google\Collection
         "scaledLinkAgeSpamScore" => "ScaledLinkAgeSpamScore",
         "scaledSpamScoreEric" => "ScaledSpamScoreEric",
         "scaledSpamScoreYoram" => "ScaledSpamScoreYoram",
-        "scienceData" => "ScienceData",
         "spamWordScore" => "SpamWordScore",
         "tagPageScore" => "TagPageScore",
         "toolBarData" => "ToolBarData",
@@ -52,8 +51,10 @@ class PerDocData extends \Google\Collection
   ];
   protected $blogDataType = BlogPerDocData::class;
   protected $blogDataDataType = '';
+  public $blogData;
   protected $bookCitationDataType = BookCitationPerDocData::class;
   protected $bookCitationDataDataType = '';
+  public $bookCitationData;
   /**
    * @var string[]
    */
@@ -68,12 +69,14 @@ class PerDocData extends \Google\Collection
   public $docLevelSpamScore;
   protected $eventType = PerDocDebugEvent::class;
   protected $eventDataType = 'array';
+  public $event;
   /**
    * @var int
    */
   public $gibberishScore;
   protected $groupsDataType = GroupsPerDocData::class;
   protected $groupsDataDataType = '';
+  public $groupsData;
   /**
    * @var bool
    */
@@ -84,12 +87,14 @@ class PerDocData extends \Google\Collection
   public $keywordStuffingScore;
   protected $mobileDataType = MobilePerDocData::class;
   protected $mobileDataDataType = '';
+  public $mobileData;
   /**
    * @var int
    */
   public $originalContentScore;
   protected $premiumDataType = PremiumPerDocData::class;
   protected $premiumDataDataType = '';
+  public $premiumData;
   /**
    * @var int
    */
@@ -130,8 +135,6 @@ class PerDocData extends \Google\Collection
    * @var int
    */
   public $scaledSpamScoreYoram;
-  protected $scienceDataType = SciencePerDocData::class;
-  protected $scienceDataDataType = '';
   /**
    * @var int
    */
@@ -142,22 +145,27 @@ class PerDocData extends \Google\Collection
   public $tagPageScore;
   protected $toolBarDataType = ToolBarPerDocData::class;
   protected $toolBarDataDataType = '';
+  public $toolBarData;
   /**
    * @var float
    */
   public $whirlpoolDiscount;
   protected $appsLinkType = QualityCalypsoAppsLink::class;
   protected $appsLinkDataType = '';
+  public $appsLink;
   protected $asteroidBeltIntentsType = QualityOrbitAsteroidBeltDocumentIntentScores::class;
   protected $asteroidBeltIntentsDataType = '';
+  public $asteroidBeltIntents;
   /**
    * @var string[]
    */
   public $authorObfuscatedGaiaStr;
   protected $biasingdataType = BiasingPerDocData::class;
   protected $biasingdataDataType = '';
+  public $biasingdata;
   protected $biasingdata2Type = BiasingPerDocData2::class;
   protected $biasingdata2DataType = '';
+  public $biasingdata2;
   /**
    * @var float
    */
@@ -168,34 +176,41 @@ class PerDocData extends \Google\Collection
   public $bodyWordsToTokensRatioTotal;
   protected $brainlocType = QualityGeoBrainlocBrainlocAttachment::class;
   protected $brainlocDataType = '';
+  public $brainloc;
   /**
    * @var float
    */
   public $commercialScore;
   protected $compressedQualitySignalsType = CompressedQualitySignals::class;
   protected $compressedQualitySignalsDataType = '';
+  public $compressedQualitySignals;
   /**
    * @var string
    */
   public $compressedUrl;
   protected $contentAttributionsType = ContentAttributions::class;
   protected $contentAttributionsDataType = '';
+  public $contentAttributions;
   protected $countryInfoType = CountryCountryAttachment::class;
   protected $countryInfoDataType = '';
+  public $countryInfo;
   /**
    * @var int
    */
   public $crawlPagerank;
   protected $crawlerIdProtoType = LogsProtoIndexingCrawlerIdCrawlerIdProto::class;
   protected $crawlerIdProtoDataType = '';
+  public $crawlerIdProto;
   protected $crowdingdataType = CrowdingPerDocData::class;
   protected $crowdingdataDataType = '';
+  public $crowdingdata;
   /**
    * @var string
    */
   public $datesInfo;
   protected $desktopInterstitialsType = IndexingMobileInterstitialsProtoDesktopInterstitials::class;
   protected $desktopInterstitialsDataType = '';
+  public $desktopInterstitials;
   /**
    * @var int
    */
@@ -206,8 +221,10 @@ class PerDocData extends \Google\Collection
   public $eventsDate;
   protected $extraDataType = Proto2BridgeMessageSet::class;
   protected $extraDataDataType = '';
+  public $extraData;
   protected $fireflySiteSignalType = QualityCopiaFireflySiteSignal::class;
   protected $fireflySiteSignalDataType = '';
+  public $fireflySiteSignal;
   /**
    * @var string
    */
@@ -218,6 +235,7 @@ class PerDocData extends \Google\Collection
   public $freshnessEncodedSignals;
   protected $fringeQueryPriorType = QualityFringeFringeQueryPriorPerDocData::class;
   protected $fringeQueryPriorDataType = '';
+  public $fringeQueryPrior;
   /**
    * @var string
    */
@@ -240,6 +258,7 @@ class PerDocData extends \Google\Collection
   public $hostNsr;
   protected $imagedataType = ImagePerDocData::class;
   protected $imagedataDataType = '';
+  public $imagedata;
   /**
    * @var bool
    */
@@ -250,8 +269,10 @@ class PerDocData extends \Google\Collection
   public $isHotdoc;
   protected $kaltixdataType = KaltixPerDocData::class;
   protected $kaltixdataDataType = '';
+  public $kaltixdata;
   protected $knexAnnotationType = SocialPersonalizationKnexAnnotation::class;
   protected $knexAnnotationDataType = '';
+  public $knexAnnotation;
   /**
    * @var int[]
    */
@@ -266,16 +287,20 @@ class PerDocData extends \Google\Collection
   public $lastSignificantUpdateInfo;
   protected $launchAppInfoType = QualityRichsnippetsAppsProtosLaunchAppInfoPerDocData::class;
   protected $launchAppInfoDataType = '';
+  public $launchAppInfo;
   protected $liveResultsDataType = WeboftrustLiveResultsDocAttachments::class;
   protected $liveResultsDataDataType = '';
+  public $liveResultsData;
   protected $localizedClusterType = IndexingDupsLocalizedLocalizedCluster::class;
   protected $localizedClusterDataType = '';
+  public $localizedCluster;
   /**
    * @var int
    */
   public $noimageframeoverlayreason;
   protected $nsrDataProtoType = QualityNsrNsrData::class;
   protected $nsrDataProtoDataType = '';
+  public $nsrDataProto;
   /**
    * @var bool
    */
@@ -298,6 +323,7 @@ class PerDocData extends \Google\Collection
   public $numUrls;
   protected $oceandataType = OceanPerDocData::class;
   protected $oceandataDataType = '';
+  public $oceandata;
   /**
    * @var string
    */
@@ -336,16 +362,20 @@ class PerDocData extends \Google\Collection
   public $pageregions;
   protected $phildataType = PhilPerDocData::class;
   protected $phildataDataType = '';
+  public $phildata;
   protected $productSitesInfoType = QualityProductProductSiteData::class;
   protected $productSitesInfoDataType = '';
+  public $productSitesInfo;
   protected $queriesForWhichOfficialType = OfficialPagesQuerySet::class;
   protected $queriesForWhichOfficialDataType = '';
+  public $queriesForWhichOfficial;
   /**
    * @var string[]
    */
   public $rosettaLanguages;
   protected $rsApplicationType = RepositoryAnnotationsRdfaRdfaRichSnippetsApplication::class;
   protected $rsApplicationDataType = '';
+  public $rsApplication;
   /**
    * @var int[]
    */
@@ -376,10 +406,13 @@ class PerDocData extends \Google\Collection
   public $semanticDateInfo;
   protected $servingTimeClusterIdsType = IndexingDocjoinerServingTimeClusterIds::class;
   protected $servingTimeClusterIdsDataType = '';
+  public $servingTimeClusterIds;
   protected $shingleInfoType = ShingleInfoPerDocData::class;
   protected $shingleInfoDataType = '';
+  public $shingleInfo;
   protected $smartphoneDataType = SmartphonePerDocData::class;
   protected $smartphoneDataDataType = '';
+  public $smartphoneData;
   /**
    * @var int
    */
@@ -390,8 +423,13 @@ class PerDocData extends \Google\Collection
   public $socialgraphNodeNameFp;
   protected $spamCookbookActionType = SpamCookbookAction::class;
   protected $spamCookbookActionDataType = '';
+  public $spamCookbookAction;
   protected $spamMuppetSignalsType = SpamMuppetjoinsMuppetSignals::class;
   protected $spamMuppetSignalsDataType = '';
+  public $spamMuppetSignals;
+  protected $spambrainDataType = SpamBrainData::class;
+  protected $spambrainDataDataType = '';
+  public $spambrainData;
   /**
    * @var float
    */
@@ -426,6 +464,7 @@ class PerDocData extends \Google\Collection
   public $topPetacatWeight;
   protected $travelGoodSitesInfoType = QualityTravelGoodSitesData::class;
   protected $travelGoodSitesInfoDataType = '';
+  public $travelGoodSitesInfo;
   /**
    * @var int
    */
@@ -444,26 +483,33 @@ class PerDocData extends \Google\Collection
   public $urlAfterRedirectsFp;
   protected $urlPoisoningDataType = UrlPoisoningData::class;
   protected $urlPoisoningDataDataType = '';
+  public $urlPoisoningData;
   protected $v2KnexAnnotationType = QualitySherlockKnexAnnotation::class;
   protected $v2KnexAnnotationDataType = '';
+  public $v2KnexAnnotation;
   /**
    * @var string
    */
   public $videoCorpusDocid;
   protected $videoLanguageType = QualityVidyaVideoLanguageVideoLanguage::class;
   protected $videoLanguageDataType = '';
+  public $videoLanguage;
   protected $videodataType = VideoPerDocData::class;
   protected $videodataDataType = '';
+  public $videodata;
   protected $voltDataType = IndexingMobileVoltVoltPerDocData::class;
   protected $voltDataDataType = '';
+  public $voltData;
   protected $watchpageLanguageResultType = WatchpageLanguageWatchPageLanguageResult::class;
   protected $watchpageLanguageResultDataType = '';
+  public $watchpageLanguageResult;
   /**
    * @var string
    */
   public $webmirrorEcnFp;
   protected $webrefEntitiesType = RepositoryWebrefWebrefMustangAttachment::class;
   protected $webrefEntitiesDataType = '';
+  public $webrefEntities;
   /**
    * @var string
    */
@@ -794,20 +840,6 @@ class PerDocData extends \Google\Collection
   public function getScaledSpamScoreYoram()
   {
     return $this->scaledSpamScoreYoram;
-  }
-  /**
-   * @param SciencePerDocData
-   */
-  public function setScienceData(SciencePerDocData $scienceData)
-  {
-    $this->scienceData = $scienceData;
-  }
-  /**
-   * @return SciencePerDocData
-   */
-  public function getScienceData()
-  {
-    return $this->scienceData;
   }
   /**
    * @param int
@@ -1942,6 +1974,20 @@ class PerDocData extends \Google\Collection
   public function getSpamMuppetSignals()
   {
     return $this->spamMuppetSignals;
+  }
+  /**
+   * @param SpamBrainData
+   */
+  public function setSpambrainData(SpamBrainData $spambrainData)
+  {
+    $this->spambrainData = $spambrainData;
+  }
+  /**
+   * @return SpamBrainData
+   */
+  public function getSpambrainData()
+  {
+    return $this->spambrainData;
   }
   /**
    * @param float

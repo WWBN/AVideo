@@ -22,6 +22,7 @@ class ListCourseWorkResponse extends \Google\Collection
   protected $collection_key = 'courseWork';
   protected $courseWorkType = CourseWork::class;
   protected $courseWorkDataType = 'array';
+  public $courseWork;
   /**
    * @var string
    */

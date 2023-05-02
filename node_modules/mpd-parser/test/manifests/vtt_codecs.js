@@ -425,16 +425,17 @@ export const parsedManifest = {
   playlists: [
     {
       attributes: {
-        'NAME': '482',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
-        'RESOLUTION': {
-          width: 482,
-          height: 270
-        },
-        'CODECS': 'avc1.420015',
         'BANDWIDTH': 449000,
-        'PROGRAM-ID': 1
+        'CODECS': 'avc1.420015',
+        'FRAME-RATE': 23.976,
+        'NAME': '482',
+        'PROGRAM-ID': 1,
+        'RESOLUTION': {
+          height: 270,
+          width: 482
+        },
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,
@@ -509,16 +510,17 @@ export const parsedManifest = {
     },
     {
       attributes: {
-        'NAME': '720',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
-        'RESOLUTION': {
-          width: 720,
-          height: 404
-        },
-        'CODECS': 'avc1.64001e',
         'BANDWIDTH': 3971000,
-        'PROGRAM-ID': 1
+        'CODECS': 'avc1.64001e',
+        'FRAME-RATE': 23.976,
+        'NAME': '720',
+        'PROGRAM-ID': 1,
+        'RESOLUTION': {
+          height: 404,
+          width: 720
+        },
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,

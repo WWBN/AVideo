@@ -24,7 +24,7 @@ use Google\Service\AdExchangeBuyerII\ListCreativeStatusBreakdownByCreativeRespon
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $creatives = $adexchangebuyer2Service->creatives;
+ *   $creatives = $adexchangebuyer2Service->bidders_filterSets_filteredBids_creatives;
  *  </code>
  */
 class BiddersFilterSetsFilteredBidsCreatives extends \Google\Service\Resource

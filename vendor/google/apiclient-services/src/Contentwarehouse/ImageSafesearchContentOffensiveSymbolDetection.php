@@ -22,6 +22,7 @@ class ImageSafesearchContentOffensiveSymbolDetection extends \Google\Collection
   protected $collection_key = 'matches';
   protected $matchesType = ImageSafesearchContentOffensiveSymbolMatch::class;
   protected $matchesDataType = 'array';
+  public $matches;
 
   /**
    * @param ImageSafesearchContentOffensiveSymbolMatch[]

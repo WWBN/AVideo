@@ -21,6 +21,7 @@ class UpdateRowRequest extends \Google\Model
 {
   protected $rowType = Row::class;
   protected $rowDataType = '';
+  public $row;
   /**
    * @var string
    */

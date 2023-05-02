@@ -25,7 +25,7 @@ use Google\Service\CloudHealthcare\Location;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $locations = $healthcareService->locations;
+ *   $locations = $healthcareService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

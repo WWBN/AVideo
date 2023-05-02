@@ -25,7 +25,7 @@ use Google\Service\SASPortalTesting\SasPortalNode;
  * Typical usage is:
  *  <code>
  *   $prod_tt_sasportalService = new Google\Service\SASPortalTesting(...);
- *   $nodes = $prod_tt_sasportalService->nodes;
+ *   $nodes = $prod_tt_sasportalService->customers_nodes_nodes;
  *  </code>
  */
 class CustomersNodesNodes extends \Google\Service\Resource

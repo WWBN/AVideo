@@ -21,12 +21,16 @@ class IntegrationConfigMutation extends \Google\Model
 {
   protected $addAppType = AppId::class;
   protected $addAppDataType = '';
+  public $addApp;
   protected $addPinnedItemType = PinnedItemId::class;
   protected $addPinnedItemDataType = '';
+  public $addPinnedItem;
   protected $removeAppType = AppId::class;
   protected $removeAppDataType = '';
+  public $removeApp;
   protected $removePinnedItemType = PinnedItemId::class;
   protected $removePinnedItemDataType = '';
+  public $removePinnedItem;
 
   /**
    * @param AppId

@@ -26,7 +26,7 @@ use Google\Service\Recommender\GoogleCloudRecommenderV1MarkInsightAcceptedReques
  * Typical usage is:
  *  <code>
  *   $recommenderService = new Google\Service\Recommender(...);
- *   $insights = $recommenderService->insights;
+ *   $insights = $recommenderService->organizations_locations_insightTypes_insights;
  *  </code>
  */
 class OrganizationsLocationsInsightTypesInsights extends \Google\Service\Resource

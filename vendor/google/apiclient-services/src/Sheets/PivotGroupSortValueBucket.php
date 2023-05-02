@@ -22,6 +22,7 @@ class PivotGroupSortValueBucket extends \Google\Collection
   protected $collection_key = 'buckets';
   protected $bucketsType = ExtendedValue::class;
   protected $bucketsDataType = 'array';
+  public $buckets;
   /**
    * @var int
    */

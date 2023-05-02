@@ -21,6 +21,7 @@ class Activity extends \Google\Model
 {
   protected $contentDetailsType = ActivityContentDetails::class;
   protected $contentDetailsDataType = '';
+  public $contentDetails;
   /**
    * @var string
    */
@@ -35,6 +36,7 @@ class Activity extends \Google\Model
   public $kind;
   protected $snippetType = ActivitySnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param ActivityContentDetails

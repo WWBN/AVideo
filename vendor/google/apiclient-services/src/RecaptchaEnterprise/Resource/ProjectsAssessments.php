@@ -26,7 +26,7 @@ use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1Assessmen
  * Typical usage is:
  *  <code>
  *   $recaptchaenterpriseService = new Google\Service\RecaptchaEnterprise(...);
- *   $assessments = $recaptchaenterpriseService->assessments;
+ *   $assessments = $recaptchaenterpriseService->projects_assessments;
  *  </code>
  */
 class ProjectsAssessments extends \Google\Service\Resource

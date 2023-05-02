@@ -22,12 +22,14 @@ class Cve extends \Google\Collection
   protected $collection_key = 'references';
   protected $cvssv3Type = Cvssv3::class;
   protected $cvssv3DataType = '';
+  public $cvssv3;
   /**
    * @var string
    */
   public $id;
   protected $referencesType = Reference::class;
   protected $referencesDataType = 'array';
+  public $references;
   /**
    * @var bool
    */

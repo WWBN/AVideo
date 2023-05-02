@@ -24,7 +24,7 @@ use Google\Service\CloudTalentSolution\ClientEvent;
  * Typical usage is:
  *  <code>
  *   $jobsService = new Google\Service\CloudTalentSolution(...);
- *   $clientEvents = $jobsService->clientEvents;
+ *   $clientEvents = $jobsService->projects_tenants_clientEvents;
  *  </code>
  */
 class ProjectsTenantsClientEvents extends \Google\Service\Resource

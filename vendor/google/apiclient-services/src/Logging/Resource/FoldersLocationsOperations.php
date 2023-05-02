@@ -27,7 +27,7 @@ use Google\Service\Logging\Operation;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $operations = $loggingService->operations;
+ *   $operations = $loggingService->folders_locations_operations;
  *  </code>
  */
 class FoldersLocationsOperations extends \Google\Service\Resource

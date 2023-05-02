@@ -22,7 +22,7 @@ namespace Google\Service\WorkflowExecutions\Resource;
  * Typical usage is:
  *  <code>
  *   $workflowexecutionsService = new Google\Service\WorkflowExecutions(...);
- *   $locations = $workflowexecutionsService->locations;
+ *   $locations = $workflowexecutionsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

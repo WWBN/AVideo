@@ -22,6 +22,7 @@ class ListServiceAccountsResponse extends \Google\Collection
   protected $collection_key = 'accounts';
   protected $accountsType = ServiceAccount::class;
   protected $accountsDataType = 'array';
+  public $accounts;
   /**
    * @var string
    */

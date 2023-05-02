@@ -25,6 +25,7 @@ class MaliciousEntity extends \Google\Model
   public $displayName;
   protected $entityType = User::class;
   protected $entityDataType = '';
+  public $entity;
   /**
    * @var string
    */

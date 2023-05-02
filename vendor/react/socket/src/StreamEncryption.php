@@ -115,7 +115,7 @@ class StreamEncryption
         \restore_error_handler();
 
         if (true === $result) {
-            $deferred->resolve();
+            $deferred->resolve(null);
         } else if (false === $result) {
             // overwrite callback arguments for PHP7+ only, so they do not show
             // up in the Exception trace and do not cause a possible cyclic reference.

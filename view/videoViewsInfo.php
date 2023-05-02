@@ -112,10 +112,6 @@ $v = new Video('', '', $_videos_id);
                         echo seconds2human($v->getTotal_seconds_watching());
                         ?>
                     </h3>
-                    <?php
-                    $pag = getPagination($totalPages);
-                    echo $pag;
-                    ?>
                     <table class="table table-hover" id="VideoViewsInfo">
                         <thead>
                             <tr>
@@ -134,9 +130,6 @@ $v = new Video('', '', $_videos_id);
                             </tr>
                         </tfoot>
                     </table>
-                    <?php
-                    echo $pag;
-                    ?>
                 </div>
             </div>
         </div>

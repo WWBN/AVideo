@@ -25,6 +25,7 @@ class GooglePrivacyDlpV2BigQueryKey extends \Google\Model
   public $rowNumber;
   protected $tableReferenceType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $tableReferenceDataType = '';
+  public $tableReference;
 
   /**
    * @param string

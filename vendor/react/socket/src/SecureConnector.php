@@ -43,6 +43,7 @@ final class SecureConnector implements ConnectorInterface
         $context = $this->context;
         $encryption = $this->streamEncryption;
         $connected = false;
+        /** @var \React\Promise\PromiseInterface $promise */
         $promise = $this->connector->connect(
             \str_replace('tls://', '', $uri)
         )->then(function (ConnectionInterface $connection) use ($context, $encryption, $uri, &$promise, &$connected) {
@@ -86,11 +87,11 @@ final class SecureConnector implements ConnectorInterface
 
                 // Exception trace arguments are not available on some PHP 7.4 installs
                 // @codeCoverageIgnoreStart
-                foreach ($trace as &$one) {
+                foreach ($trace as $ti => $one) {
                     if (isset($one['args'])) {
-                        foreach ($one['args'] as &$arg) {
+                        foreach ($one['args'] as $ai => $arg) {
                             if ($arg instanceof \Closure) {
-                                $arg = 'Object(' . \get_class($arg) . ')';
+                                $trace[$ti]['args'][$ai] = 'Object(' . \get_class($arg) . ')';
                             }
                         }
                     }

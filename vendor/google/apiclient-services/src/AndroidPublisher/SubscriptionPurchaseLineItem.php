@@ -21,14 +21,17 @@ class SubscriptionPurchaseLineItem extends \Google\Model
 {
   protected $autoRenewingPlanType = AutoRenewingPlan::class;
   protected $autoRenewingPlanDataType = '';
+  public $autoRenewingPlan;
   /**
    * @var string
    */
   public $expiryTime;
   protected $offerDetailsType = OfferDetails::class;
   protected $offerDetailsDataType = '';
+  public $offerDetails;
   protected $prepaidPlanType = PrepaidPlan::class;
   protected $prepaidPlanDataType = '';
+  public $prepaidPlan;
   /**
    * @var string
    */

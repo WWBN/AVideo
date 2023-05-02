@@ -23,7 +23,7 @@ function getTemplateFromArray(itemsArray) {
     return template;
 }
 
-function addTemplateFromArray(itemsArray) {
+function addTemplateFromArray(itemsArray, prepend) {
     if (typeof itemsArray === 'function') {
         return false;
     }
@@ -43,7 +43,11 @@ function addTemplateFromArray(itemsArray) {
     var selector = '#topMenuUserNotifications ul .list-group .priority' + priority;
     //console.log('addTemplateFromArray prepend', selector);
     try {
-        $(selector).prepend(template);
+        if(prepend){
+            $(selector).prepend(template);
+        }else{
+            $(selector).append(template);
+        }
         updateUserNotificationCount();
     } catch (e) {
         //console.log('addTemplateFromArray prepend error', selector, e);
@@ -66,7 +70,7 @@ function cleanUpTemplate(template) {
 
 function userNotification(itemsArray, toast, customTitle) {
     console.log('UserNotification::userNotification', itemsArray, toast, customTitle);
-    addTemplateFromArray(itemsArray);
+    addTemplateFromArray(itemsArray, true);
 
     var title = itemsArray.title;
     if (!empty(customTitle)) {
@@ -155,7 +159,7 @@ async function getUserNotification() {
                     if (typeof itemsArray === 'function') {
                         continue;
                     }
-                    addTemplateFromArray(itemsArray);
+                    addTemplateFromArray(itemsArray, true);
                 }
                 updateUserNotificationCount();
             }

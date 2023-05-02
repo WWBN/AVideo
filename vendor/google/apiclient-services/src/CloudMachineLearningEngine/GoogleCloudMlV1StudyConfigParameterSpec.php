@@ -22,24 +22,32 @@ class GoogleCloudMlV1StudyConfigParameterSpec extends \Google\Collection
   protected $collection_key = 'childParameterSpecs';
   protected $categoricalValueSpecType = GoogleCloudMlV1StudyConfigParameterSpecCategoricalValueSpec::class;
   protected $categoricalValueSpecDataType = '';
+  public $categoricalValueSpec;
   protected $childParameterSpecsType = GoogleCloudMlV1StudyConfigParameterSpec::class;
   protected $childParameterSpecsDataType = 'array';
+  public $childParameterSpecs;
   protected $discreteValueSpecType = GoogleCloudMlV1StudyConfigParameterSpecDiscreteValueSpec::class;
   protected $discreteValueSpecDataType = '';
+  public $discreteValueSpec;
   protected $doubleValueSpecType = GoogleCloudMlV1StudyConfigParameterSpecDoubleValueSpec::class;
   protected $doubleValueSpecDataType = '';
+  public $doubleValueSpec;
   protected $integerValueSpecType = GoogleCloudMlV1StudyConfigParameterSpecIntegerValueSpec::class;
   protected $integerValueSpecDataType = '';
+  public $integerValueSpec;
   /**
    * @var string
    */
   public $parameter;
   protected $parentCategoricalValuesType = GoogleCloudMlV1StudyConfigParameterSpecMatchingParentCategoricalValueSpec::class;
   protected $parentCategoricalValuesDataType = '';
+  public $parentCategoricalValues;
   protected $parentDiscreteValuesType = GoogleCloudMlV1StudyConfigParameterSpecMatchingParentDiscreteValueSpec::class;
   protected $parentDiscreteValuesDataType = '';
+  public $parentDiscreteValues;
   protected $parentIntValuesType = GoogleCloudMlV1StudyConfigParameterSpecMatchingParentIntValueSpec::class;
   protected $parentIntValuesDataType = '';
+  public $parentIntValues;
   /**
    * @var string
    */

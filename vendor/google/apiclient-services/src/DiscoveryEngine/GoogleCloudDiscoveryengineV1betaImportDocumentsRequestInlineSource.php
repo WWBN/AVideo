@@ -22,6 +22,7 @@ class GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource extends
   protected $collection_key = 'documents';
   protected $documentsType = GoogleCloudDiscoveryengineV1betaDocument::class;
   protected $documentsDataType = 'array';
+  public $documents;
 
   /**
    * @param GoogleCloudDiscoveryengineV1betaDocument[]

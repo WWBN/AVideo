@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1TargetServer;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $targetservers = $apigeeService->targetservers;
+ *   $targetservers = $apigeeService->organizations_environments_targetservers;
  *  </code>
  */
 class OrganizationsEnvironmentsTargetservers extends \Google\Service\Resource

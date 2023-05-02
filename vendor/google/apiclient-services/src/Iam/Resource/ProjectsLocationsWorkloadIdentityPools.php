@@ -27,7 +27,7 @@ use Google\Service\Iam\WorkloadIdentityPool;
  * Typical usage is:
  *  <code>
  *   $iamService = new Google\Service\Iam(...);
- *   $workloadIdentityPools = $iamService->workloadIdentityPools;
+ *   $workloadIdentityPools = $iamService->projects_locations_workloadIdentityPools;
  *  </code>
  */
 class ProjectsLocationsWorkloadIdentityPools extends \Google\Service\Resource

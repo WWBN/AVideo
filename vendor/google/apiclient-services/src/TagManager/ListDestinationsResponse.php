@@ -22,6 +22,7 @@ class ListDestinationsResponse extends \Google\Collection
   protected $collection_key = 'destination';
   protected $destinationType = Destination::class;
   protected $destinationDataType = 'array';
+  public $destination;
   /**
    * @var string
    */

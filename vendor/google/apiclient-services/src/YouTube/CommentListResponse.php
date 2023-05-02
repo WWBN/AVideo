@@ -30,6 +30,7 @@ class CommentListResponse extends \Google\Collection
   public $eventId;
   protected $itemsType = Comment::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,8 +41,10 @@ class CommentListResponse extends \Google\Collection
   public $nextPageToken;
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
+  public $tokenPagination;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class LintPolicyResponse extends \Google\Collection
   protected $collection_key = 'lintResults';
   protected $lintResultsType = LintResult::class;
   protected $lintResultsDataType = 'array';
+  public $lintResults;
 
   /**
    * @param LintResult[]

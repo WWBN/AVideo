@@ -21,10 +21,13 @@ class LongRunningRecognizeRequest extends \Google\Model
 {
   protected $audioType = RecognitionAudio::class;
   protected $audioDataType = '';
+  public $audio;
   protected $configType = RecognitionConfig::class;
   protected $configDataType = '';
+  public $config;
   protected $outputConfigType = TranscriptOutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
 
   /**
    * @param RecognitionAudio

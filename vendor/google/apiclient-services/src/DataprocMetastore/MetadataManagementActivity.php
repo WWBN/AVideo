@@ -22,8 +22,10 @@ class MetadataManagementActivity extends \Google\Collection
   protected $collection_key = 'restores';
   protected $metadataExportsType = MetadataExport::class;
   protected $metadataExportsDataType = 'array';
+  public $metadataExports;
   protected $restoresType = Restore::class;
   protected $restoresDataType = 'array';
+  public $restores;
 
   /**
    * @param MetadataExport[]

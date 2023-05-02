@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Reference;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $references = $apigeeService->references;
+ *   $references = $apigeeService->organizations_environments_references;
  *  </code>
  */
 class OrganizationsEnvironmentsReferences extends \Google\Service\Resource

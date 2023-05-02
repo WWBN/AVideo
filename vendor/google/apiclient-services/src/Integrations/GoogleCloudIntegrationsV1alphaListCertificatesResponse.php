@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListCertificatesResponse extends \Google\Col
   protected $collection_key = 'certificates';
   protected $certificatesType = GoogleCloudIntegrationsV1alphaCertificate::class;
   protected $certificatesDataType = 'array';
+  public $certificates;
   /**
    * @var string
    */

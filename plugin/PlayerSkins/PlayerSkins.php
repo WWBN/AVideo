@@ -130,7 +130,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag = '<audio '.self::getPlaysinline().'
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
-                if ($video['type'] == "audio") {
+                if ($video['type'] == "audio" || Video::forceAudio()) {
                     $htmlMediaTag .= "<!-- Audio {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
                 } else { // audio link
                     if (file_exists($global['systemRootPath'] . "videos/" . $video['filename'] . ".ogg")) {
@@ -167,7 +167,7 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                     $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
-                    $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
+                    $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
                     $htmlMediaTag .= '</div>';
                 } else {
                     // youtube!
@@ -192,7 +192,7 @@ class PlayerSkins extends PluginAbstract {
                 $htmlMediaTag = "<!-- Serie {$video['title']} {$video['filename']} -->";
                 $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                 $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $link . '"></iframe>';
-                $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . $video['id'] . ', 0);});</script>';
+                $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
             }
 
             $html .= "<script>mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
@@ -319,17 +319,20 @@ class PlayerSkins extends PluginAbstract {
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
             }
 
+            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
-                //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/shareButton.js\"></script>";
                 $js .= $social['html'];
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
 
-            if ($obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
+            if (!isLive() && $obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             } else {
+                if (isLive()) {
+                    $js .= "<!-- PlayerSkins is live, do not show autoplay -->";
+                }
                 if ($obj->showShareAutoplay) {
                     $js .= "<!-- PlayerSkins showShareAutoplay -->";
                 }
@@ -355,6 +358,13 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             $video = Video::getVideoLight($videos_id);
             $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
+            if(empty($spectrumSource["path"])){
+                if(AVideoPlugin::isEnabledByName('MP4ThumbsAndGif') && method_exists('MP4ThumbsAndGif', 'getSpectrum')){
+                    if(MP4ThumbsAndGif::getSpectrum($videos_id)){
+                        $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
+                    }
+                }
+            }
             if (!empty($spectrumSource["path"])) {
                 $onPlayerReady = "startAudioSpectrumProgress('{$spectrumSource["url"]}');";
                 self::prepareStartPlayerJS($onPlayerReady);
@@ -573,20 +583,24 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                $progress = Video::getVideoPogressPercent($videos_id);
-                if (!empty($progress) && !empty($progress['lastVideoTime'])) {
-                    $currentTime = intval($progress['lastVideoTime']);
-                } else if (!empty($video['externalOptions'])) {
-                    $json = _json_decode($video['externalOptions']);
-                    if (!empty($json->videoStartSeconds)) {
-                        $currentTime = intval(parseDurationToSeconds($json->videoStartSeconds));
-                    } else {
+                if(!empty($video)){
+                    $progress = Video::getVideoPogressPercent($videos_id);
+                    if (!empty($progress) && !empty($progress['lastVideoTime'])) {
+                        $currentTime = intval($progress['lastVideoTime']);
+                    } else if (!empty($video['externalOptions'])) {
+                        $json = _json_decode($video['externalOptions']);
+                        if (!empty($json->videoStartSeconds)) {
+                            $currentTime = intval(parseDurationToSeconds($json->videoStartSeconds));
+                        } else {
+                            $currentTime = 0;
+                        }
+                    }
+                    $maxCurrentTime = parseDurationToSeconds($video['duration']);
+                    if ($maxCurrentTime <= $currentTime + 5) {
                         $currentTime = 0;
                     }
-                }
-                $maxCurrentTime = parseDurationToSeconds($video['duration']);
-                if ($maxCurrentTime <= $currentTime + 5) {
-                    $currentTime = 0;
+                }else{
+                    return 0;
                 }
             }
         }
@@ -612,11 +626,11 @@ class PlayerSkins extends PluginAbstract {
                     $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
                 }
             } else {
-                $catName = @$_GET['catName'];
+                $catName = @$_REQUEST['catName'];
                 $cat = new Category($video->getCategories_id());
-                $_GET['catName'] = $cat->getClean_name();
+                $_REQUEST['catName'] = $cat->getClean_name();
                 $next_video = Video::getVideo('', 'viewable', false, true);
-                $_GET['catName'] = $catName;
+                $_REQUEST['catName'] = $catName;
                 if (!empty($next_video['id'])) {
                     $nextURL = Video::getURLFriendly($next_video['id'], isEmbed());
                 }
@@ -627,6 +641,23 @@ class PlayerSkins extends PluginAbstract {
         player.on('play', function () {
             addView({$videos_id}, this.currentTime());
             _addViewBeaconAdded = false;
+            sendAVideoMobileMessage('play', this.currentTime());
+        });
+        player.on('ended', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+            sendAVideoMobileMessage('ended', time);
+        });
+        player.on('pause', function () {
+            var time = Math.round(this.currentTime());
+            addView({$videos_id}, time);
+            sendAVideoMobileMessage('pause', time);
+        });
+        player.on('volumechange', function () {
+            sendAVideoMobileMessage('volumechange', player.volume());
+        });
+        player.on('ratechange', function () {
+            sendAVideoMobileMessage('ratechange', player.playbackRate);
         });
         player.on('timeupdate', function () {
             var time = Math.round(this.currentTime());
@@ -644,10 +675,7 @@ class PlayerSkins extends PluginAbstract {
                 addViewFromCookie();
                 addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
-        });
-        player.on('ended', function () {
-            var time = Math.round(this.currentTime());
-            addView({$videos_id}, time);
+            sendAVideoMobileMessage('timeupdate', time);
         });";
 
         if (!empty($nextURL)) {
@@ -701,6 +729,7 @@ class PlayerSkins extends PluginAbstract {
             //_error_log("Cache not found $name");
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();
+            //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
             $resolution = Video::getHigestResolution($fileName);
             $obj = new stdClass();
             if (empty($resolution) || empty($resolution['resolution_text'])) {

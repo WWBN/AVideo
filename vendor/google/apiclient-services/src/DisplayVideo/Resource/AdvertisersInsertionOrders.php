@@ -27,7 +27,7 @@ use Google\Service\DisplayVideo\ListInsertionOrdersResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $insertionOrders = $displayvideoService->insertionOrders;
+ *   $insertionOrders = $displayvideoService->advertisers_insertionOrders;
  *  </code>
  */
 class AdvertisersInsertionOrders extends \Google\Service\Resource

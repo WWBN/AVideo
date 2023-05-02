@@ -129,6 +129,8 @@ final class UdpTransportExecutor implements ExecutorInterface
         }
 
         // UDP connections are instant, so try connection without a loop or timeout
+        $errno = 0;
+        $errstr = '';
         $socket = @\stream_socket_client($this->nameserver, $errno, $errstr, 0);
         if ($socket === false) {
             return \React\Promise\reject(new \RuntimeException(
@@ -139,18 +141,25 @@ final class UdpTransportExecutor implements ExecutorInterface
 
         // set socket to non-blocking and immediately try to send (fill write buffer)
         \stream_set_blocking($socket, false);
-        $written = @\fwrite($socket, $queryData);
 
-        if ($written !== \strlen($queryData)) {
+        \set_error_handler(function ($_, $error) use (&$errno, &$errstr) {
             // Write may potentially fail, but most common errors are already caught by connection check above.
             // Among others, macOS is known to report here when trying to send to broadcast address.
             // This can also be reproduced by writing data exceeding `stream_set_chunk_size()` to a server refusing UDP data.
             // fwrite(): send of 8192 bytes failed with errno=111 Connection refused
-            $error = \error_get_last();
-            \preg_match('/errno=(\d+) (.+)/', $error['message'], $m);
+            \preg_match('/errno=(\d+) (.+)/', $error, $m);
+            $errno = isset($m[1]) ? (int) $m[1] : 0;
+            $errstr = isset($m[2]) ? $m[2] : $error;
+        });
+
+        $written = \fwrite($socket, $queryData);
+
+        \restore_error_handler();
+
+        if ($written !== \strlen($queryData)) {
             return \React\Promise\reject(new \RuntimeException(
-                'DNS query for ' . $query->describe() . ' failed: Unable to send query to DNS server ' . $this->nameserver . ' ('  . (isset($m[2]) ? $m[2] : $error['message']) . ')',
-                isset($m[1]) ? (int) $m[1] : 0
+                'DNS query for ' . $query->describe() . ' failed: Unable to send query to DNS server ' . $this->nameserver . ' ('  . $errstr . ')',
+                $errno
             ));
         }
 

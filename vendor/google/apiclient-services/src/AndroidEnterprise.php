@@ -228,6 +228,20 @@ class AndroidEnterprise extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createEnrollmentToken' => [
+              'path' => 'androidenterprise/v1/enterprises/{enterpriseId}/createEnrollmentToken',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'enterpriseId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'deviceType' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'createWebToken' => [
               'path' => 'androidenterprise/v1/enterprises/{enterpriseId}/createWebToken',
               'httpMethod' => 'POST',

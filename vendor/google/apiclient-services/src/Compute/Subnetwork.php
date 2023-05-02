@@ -70,6 +70,7 @@ class Subnetwork extends \Google\Collection
   public $kind;
   protected $logConfigType = SubnetworkLogConfig::class;
   protected $logConfigDataType = '';
+  public $logConfig;
   /**
    * @var string
    */
@@ -100,6 +101,7 @@ class Subnetwork extends \Google\Collection
   public $role;
   protected $secondaryIpRangesType = SubnetworkSecondaryRange::class;
   protected $secondaryIpRangesDataType = 'array';
+  public $secondaryIpRanges;
   /**
    * @var string
    */

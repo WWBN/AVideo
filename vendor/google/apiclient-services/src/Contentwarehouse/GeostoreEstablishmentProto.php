@@ -22,16 +22,22 @@ class GeostoreEstablishmentProto extends \Google\Collection
   protected $collection_key = 'telephone';
   protected $bizbuilderReferenceType = GeostoreBizBuilderReferenceProto::class;
   protected $bizbuilderReferenceDataType = '';
+  public $bizbuilderReference;
   protected $hoursType = GeostoreTimeScheduleProto::class;
   protected $hoursDataType = '';
+  public $hours;
   protected $openingHoursType = GeostoreOpeningHoursProto::class;
   protected $openingHoursDataType = '';
+  public $openingHours;
   protected $priceInfoType = GeostorePriceInfoProto::class;
   protected $priceInfoDataType = '';
+  public $priceInfo;
   protected $serviceAreaType = GeostoreServiceAreaProto::class;
   protected $serviceAreaDataType = '';
+  public $serviceArea;
   protected $telephoneType = GeostoreTelephoneProto::class;
   protected $telephoneDataType = 'array';
+  public $telephone;
   /**
    * @var string
    */

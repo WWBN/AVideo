@@ -26,7 +26,7 @@ use Google\Service\CloudMachineLearningEngine\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $mlService = new Google\Service\CloudMachineLearningEngine(...);
- *   $operations = $mlService->operations;
+ *   $operations = $mlService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

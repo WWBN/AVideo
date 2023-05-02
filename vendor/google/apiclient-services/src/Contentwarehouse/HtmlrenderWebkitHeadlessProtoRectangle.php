@@ -21,12 +21,16 @@ class HtmlrenderWebkitHeadlessProtoRectangle extends \Google\Model
 {
   protected $bottomType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $bottomDataType = '';
+  public $bottom;
   protected $leftType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $leftDataType = '';
+  public $left;
   protected $rightType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $rightDataType = '';
+  public $right;
   protected $topType = HtmlrenderWebkitHeadlessProtoOffset::class;
   protected $topDataType = '';
+  public $top;
 
   /**
    * @param HtmlrenderWebkitHeadlessProtoOffset

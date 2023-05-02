@@ -24,7 +24,7 @@ use Google\Service\CloudSearch\ListUnmappedIdentitiesResponse;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $unmappedids = $cloudsearchService->unmappedids;
+ *   $unmappedids = $cloudsearchService->debug_identitysources_unmappedids;
  *  </code>
  */
 class DebugIdentitysourcesUnmappedids extends \Google\Service\Resource

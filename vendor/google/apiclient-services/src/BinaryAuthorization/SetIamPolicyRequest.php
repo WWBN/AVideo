@@ -21,6 +21,7 @@ class SetIamPolicyRequest extends \Google\Model
 {
   protected $policyType = IamPolicy::class;
   protected $policyDataType = '';
+  public $policy;
 
   /**
    * @param IamPolicy

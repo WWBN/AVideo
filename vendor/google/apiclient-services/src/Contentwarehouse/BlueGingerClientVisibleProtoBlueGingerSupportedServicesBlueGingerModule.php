@@ -28,6 +28,10 @@ class BlueGingerClientVisibleProtoBlueGingerSupportedServicesBlueGingerModule ex
    * @var string[]
    */
   public $services;
+  /**
+   * @var string
+   */
+  public $useCase;
 
   /**
    * @param string
@@ -56,6 +60,20 @@ class BlueGingerClientVisibleProtoBlueGingerSupportedServicesBlueGingerModule ex
   public function getServices()
   {
     return $this->services;
+  }
+  /**
+   * @param string
+   */
+  public function setUseCase($useCase)
+  {
+    $this->useCase = $useCase;
+  }
+  /**
+   * @return string
+   */
+  public function getUseCase()
+  {
+    return $this->useCase;
   }
 }
 

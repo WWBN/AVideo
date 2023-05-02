@@ -21,12 +21,14 @@ class EventFilter extends \Google\Model
 {
   protected $dimensionFilterType = PathReportDimensionValue::class;
   protected $dimensionFilterDataType = '';
+  public $dimensionFilter;
   /**
    * @var string
    */
   public $kind;
   protected $uvarFilterType = UvarFilter::class;
   protected $uvarFilterDataType = '';
+  public $uvarFilter;
 
   /**
    * @param PathReportDimensionValue

@@ -22,6 +22,7 @@ class PlayerLeaderboardScoreListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = PlayerLeaderboardScore::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class PlayerLeaderboardScoreListResponse extends \Google\Collection
   public $nextPageToken;
   protected $playerType = Player::class;
   protected $playerDataType = '';
+  public $player;
 
   /**
    * @param PlayerLeaderboardScore[]

@@ -7,13 +7,14 @@ require_once $global['systemRootPath'] . 'objects/bootGrid.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Subscribe extends ObjectYPT{
-    private $id;
-    private $email;
-    private $status;
-    private $ip;
-    private $users_id;
-    private $notify;
-    private $subscriber_users_id;
+    protected $properties = [];
+    protected $id;
+    protected $email;
+    protected $status;
+    protected $ip;
+    protected $users_id;
+    protected $notify;
+    protected $subscriber_users_id;
 
     public function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "")
     {
@@ -37,31 +38,34 @@ class Subscribe extends ObjectYPT{
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
-    private function loadFromEmail($email, $user_id, $status = "a")
+    protected function loadFromEmail($email, $user_id, $status = "a")
     {
         $obj = self::getSubscribeFromEmail($email, $user_id, $status);
         if (empty($obj)) {
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
-    private function loadFromId($subscriber_users_id, $user_id, $status = "a")
+    protected function loadFromId($subscriber_users_id, $user_id, $status = "a")
     {
         $obj = self::getSubscribeFromID($subscriber_users_id, $user_id, $status);
         if (empty($obj)) {
             return false;
         }
         foreach ($obj as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
@@ -82,7 +86,7 @@ class Subscribe extends ObjectYPT{
                 AVideoPlugin::onNewSubscription($this->users_id, $this->subscriber_users_id);
             }
         }
-        
+
         return $saved;
     }
 
@@ -135,7 +139,7 @@ class Subscribe extends ObjectYPT{
             $sql .= " AND status = '{$status}' ";
         }
         $sql .= " LIMIT 1";
-        $res = sqlDAL::readSql($sql, "", [], true);
+        $res = sqlDAL::readSql($sql, "", []);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res !== false) {
@@ -205,7 +209,7 @@ class Subscribe extends ObjectYPT{
                     if (in_array($row['email'], $emails)) {
                         //continue;
                     }
-                    //$value['notify'] = 
+                    //$value['notify'] =
                     $emails[] = $row['email'];
                     $row['identification'] = User::getNameIdentificationById($row['subscriber_id']);
                     if ($row['identification'] === __("Unknown User")) {
@@ -231,7 +235,7 @@ class Subscribe extends ObjectYPT{
      * return all channels that a user has subscribed
      * @global array $global
      * @param string $user_id
-     * @return boolean
+     * @return array
      */
     public static function getSubscribedChannels($user_id, $limit = 0, $page = 0)
     {
@@ -289,7 +293,7 @@ class Subscribe extends ObjectYPT{
                 $subscribe[] = $row;
             }
             //$subscribe = $res->fetch_all(MYSQLI_ASSOC);
-        } 
+        }
         return $subscribe;
     }
 

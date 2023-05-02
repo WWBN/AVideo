@@ -6,12 +6,20 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
-if (empty($_POST['user'])) {
-    $_POST['user'] = $_GET['user'];
-}
-$user = new User(0, $_POST['user'], false);
-if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
+
+$user = new User(0, $_REQUEST['user'], false);
+if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     $obj = new stdClass();
+    $obj->user = $_REQUEST['user'];
+    $obj->captcha = $_REQUEST['captcha'];
+    $obj->reloadCaptcha = false;
+    $obj->session_id = session_id();
+    /*
+    $obj->post = $_POST;
+    $obj->get = $_GET;
+    $obj->input = file_get_contents("php://input");
+    $obj->request = $_REQUEST;
+    */
     header('Content-Type: application/json');
     if($user->getStatus() !== 'a'){
         $obj->error = __("The user is not active");
@@ -19,12 +27,12 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
     }
     if (!empty($user->getEmail())) {
         $recoverPass = $user->setRecoverPass();
-        if (empty($_POST['captcha'])) {
+        if (empty($_REQUEST['captcha'])) {
             $obj->error = __("Captcha is empty");
         } else {
             if ($user->save()) {
                 require_once 'captcha.php';
-                $valid = Captcha::validation($_POST['captcha']);
+                $valid = Captcha::validation($_REQUEST['captcha']);
                 if ($valid) {
                     //Create a new PHPMailer instance
                     $mail = new \PHPMailer\PHPMailer\PHPMailer();
@@ -36,7 +44,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                     //Set the subject line
                     $mail->Subject = 'Recover Pass from ' . $config->getWebSiteTitle();
 
-                    $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_POST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
+                    $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_REQUEST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
 
                     $mail->msgHTML($msg);
 
@@ -48,6 +56,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
                     }
                 } else {
                     $obj->error = __("Your code is not valid");
+                    $obj->reloadCaptcha = true;
                 }
             } else {
                 $obj->error = __("Recover password could not be saved!");
@@ -71,7 +80,7 @@ if (!(!empty($_GET['user']) && !empty($_GET['recoverpass']))) {
 
             <div class="container">
                 <?php
-                if ($user->getRecoverPass() !== $_GET['recoverpass']) {
+                if ($user->getRecoverPass() !== $_REQUEST['recoverpass']) {
                     ?>
                     <div class="alert alert-danger"><?php echo __("The recover pass does not match!"); ?></div>
                     <?php

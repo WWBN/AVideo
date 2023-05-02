@@ -21,10 +21,13 @@ class ProductAmount extends \Google\Model
 {
   protected $priceAmountType = Price::class;
   protected $priceAmountDataType = '';
+  public $priceAmount;
   protected $remittedTaxAmountType = Price::class;
   protected $remittedTaxAmountDataType = '';
+  public $remittedTaxAmount;
   protected $taxAmountType = Price::class;
   protected $taxAmountDataType = '';
+  public $taxAmount;
 
   /**
    * @param Price

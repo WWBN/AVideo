@@ -30,14 +30,17 @@ class BulkCheckRequest extends \Google\Collection
   public $defaultRelation;
   protected $defaultSourceType = Asset::class;
   protected $defaultSourceDataType = '';
+  public $defaultSource;
   protected $defaultTargetType = Asset::class;
   protected $defaultTargetDataType = '';
+  public $defaultTarget;
   /**
    * @var bool
    */
   public $skipCacheLookup;
   protected $statementsType = StatementTemplate::class;
   protected $statementsDataType = 'array';
+  public $statements;
 
   /**
    * @param bool

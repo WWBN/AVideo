@@ -21,6 +21,7 @@ class VisitedExpression extends \Google\Model
 {
   protected $sourcePositionType = SourcePosition::class;
   protected $sourcePositionDataType = '';
+  public $sourcePosition;
   /**
    * @var array
    */

@@ -20,6 +20,10 @@ namespace Google\Service\Contentwarehouse;
 class MustangSnippetsRenderedToken extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $bolded;
+  /**
    * @var int
    */
   public $byteOffsetBegin;
@@ -36,6 +40,20 @@ class MustangSnippetsRenderedToken extends \Google\Model
    */
   public $tokenPos;
 
+  /**
+   * @param bool
+   */
+  public function setBolded($bolded)
+  {
+    $this->bolded = $bolded;
+  }
+  /**
+   * @return bool
+   */
+  public function getBolded()
+  {
+    return $this->bolded;
+  }
   /**
    * @param int
    */

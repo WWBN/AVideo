@@ -13,7 +13,7 @@
                     <tr>
                         <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="5%"><?php echo __("ID"); ?></th>
                         <th data-column-id="iconHtml" data-sortable="false" data-width="5%"><?php echo __("Icon"); ?></th>
-                        <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="40%"><?php echo __("Name"); ?></th>
+                        <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="20%"><?php echo __("Name"); ?></th>
                         <th data-column-id="private" data-formatter="private"><?php echo __("Type"); ?></th>
                         <th data-column-id="total_users_groups" data-sortable="false"><?php echo __("Groups"); ?></th>
                         <th data-column-id="owner"><?php echo __("Owner"); ?></th>

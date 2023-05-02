@@ -103,7 +103,7 @@ require_once '../locale/function.php';
                                             <br>
                                             Then you can set the permissions (www-data means apache user).
                                             <br>
-                                            <pre><code>sudo chown www-data:www-data <?php echo $dir; ?> && sudo chmod 755 <?php echo $dir; ?> </code></pre>
+                                            <pre><code>sudo chown www-data:www-data <?php echo $dir; ?> && sudo chmod 777 <?php echo $dir; ?> </code></pre>
                                         </details>
                                     </div>
                                     <?php

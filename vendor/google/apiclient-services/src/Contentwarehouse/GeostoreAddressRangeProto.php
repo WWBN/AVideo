@@ -42,6 +42,7 @@ class GeostoreAddressRangeProto extends \Google\Collection
   public $suffix;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
 
   /**
    * @param int[]

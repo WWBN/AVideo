@@ -22,6 +22,7 @@ class PollItemsResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Item::class;
   protected $itemsDataType = 'array';
+  public $items;
 
   /**
    * @param Item[]

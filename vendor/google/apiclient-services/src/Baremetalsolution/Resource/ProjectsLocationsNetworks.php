@@ -27,7 +27,7 @@ use Google\Service\Baremetalsolution\Operation;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $networks = $baremetalsolutionService->networks;
+ *   $networks = $baremetalsolutionService->projects_locations_networks;
  *  </code>
  */
 class ProjectsLocationsNetworks extends \Google\Service\Resource

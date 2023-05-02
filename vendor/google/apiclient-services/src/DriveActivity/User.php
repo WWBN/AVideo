@@ -21,10 +21,13 @@ class User extends \Google\Model
 {
   protected $deletedUserType = DeletedUser::class;
   protected $deletedUserDataType = '';
+  public $deletedUser;
   protected $knownUserType = KnownUser::class;
   protected $knownUserDataType = '';
+  public $knownUser;
   protected $unknownUserType = UnknownUser::class;
   protected $unknownUserDataType = '';
+  public $unknownUser;
 
   /**
    * @param DeletedUser

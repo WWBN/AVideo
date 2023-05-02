@@ -27,7 +27,7 @@ use Google\Service\CloudRetail\GoogleCloudRetailV2ReplaceCatalogAttributeRequest
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $attributesConfig = $retailService->attributesConfig;
+ *   $attributesConfig = $retailService->projects_locations_catalogs_attributesConfig;
  *  </code>
  */
 class ProjectsLocationsCatalogsAttributesConfig extends \Google\Service\Resource

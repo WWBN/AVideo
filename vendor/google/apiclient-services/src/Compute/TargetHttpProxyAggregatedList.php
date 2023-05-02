@@ -26,6 +26,7 @@ class TargetHttpProxyAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = TargetHttpProxiesScopedList::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */

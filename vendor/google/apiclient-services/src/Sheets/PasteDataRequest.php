@@ -21,6 +21,7 @@ class PasteDataRequest extends \Google\Model
 {
   protected $coordinateType = GridCoordinate::class;
   protected $coordinateDataType = '';
+  public $coordinate;
   /**
    * @var string
    */

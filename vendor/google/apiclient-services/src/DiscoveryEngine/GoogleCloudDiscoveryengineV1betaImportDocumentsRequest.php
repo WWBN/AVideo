@@ -21,12 +21,16 @@ class GoogleCloudDiscoveryengineV1betaImportDocumentsRequest extends \Google\Mod
 {
   protected $bigquerySourceType = GoogleCloudDiscoveryengineV1betaBigQuerySource::class;
   protected $bigquerySourceDataType = '';
+  public $bigquerySource;
   protected $errorConfigType = GoogleCloudDiscoveryengineV1betaImportErrorConfig::class;
   protected $errorConfigDataType = '';
+  public $errorConfig;
   protected $gcsSourceType = GoogleCloudDiscoveryengineV1betaGcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
   protected $inlineSourceType = GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource::class;
   protected $inlineSourceDataType = '';
+  public $inlineSource;
   /**
    * @var string
    */

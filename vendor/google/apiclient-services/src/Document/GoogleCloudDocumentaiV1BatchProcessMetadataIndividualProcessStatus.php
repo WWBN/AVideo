@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1BatchProcessMetadataIndividualProcessStatus extends
 {
   protected $humanReviewStatusType = GoogleCloudDocumentaiV1HumanReviewStatus::class;
   protected $humanReviewStatusDataType = '';
+  public $humanReviewStatus;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class GoogleCloudDocumentaiV1BatchProcessMetadataIndividualProcessStatus extends
   public $outputGcsDestination;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param GoogleCloudDocumentaiV1HumanReviewStatus

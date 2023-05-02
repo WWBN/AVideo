@@ -26,7 +26,7 @@ use Google\Service\MyBusinessVerifications\ListVerificationsResponse;
  * Typical usage is:
  *  <code>
  *   $mybusinessverificationsService = new Google\Service\MyBusinessVerifications(...);
- *   $verifications = $mybusinessverificationsService->verifications;
+ *   $verifications = $mybusinessverificationsService->locations_verifications;
  *  </code>
  */
 class LocationsVerifications extends \Google\Service\Resource

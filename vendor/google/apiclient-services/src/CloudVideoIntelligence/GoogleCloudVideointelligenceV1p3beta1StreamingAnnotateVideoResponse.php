@@ -21,12 +21,14 @@ class GoogleCloudVideointelligenceV1p3beta1StreamingAnnotateVideoResponse extend
 {
   protected $annotationResultsType = GoogleCloudVideointelligenceV1p3beta1StreamingVideoAnnotationResults::class;
   protected $annotationResultsDataType = '';
+  public $annotationResults;
   /**
    * @var string
    */
   public $annotationResultsUri;
   protected $errorType = GoogleRpcStatus::class;
   protected $errorDataType = '';
+  public $error;
 
   /**
    * @param GoogleCloudVideointelligenceV1p3beta1StreamingVideoAnnotationResults

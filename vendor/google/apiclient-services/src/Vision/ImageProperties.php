@@ -21,6 +21,7 @@ class ImageProperties extends \Google\Model
 {
   protected $dominantColorsType = DominantColorsAnnotation::class;
   protected $dominantColorsDataType = '';
+  public $dominantColors;
 
   /**
    * @param DominantColorsAnnotation

@@ -26,6 +26,7 @@ class QueryGrantableRolesResponse extends \Google\Collection
   public $nextPageToken;
   protected $rolesType = Role::class;
   protected $rolesDataType = 'array';
+  public $roles;
 
   /**
    * @param string

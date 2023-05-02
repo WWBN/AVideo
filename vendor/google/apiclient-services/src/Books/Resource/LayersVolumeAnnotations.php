@@ -25,7 +25,7 @@ use Google\Service\Books\Volumeannotations;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $volumeAnnotations = $booksService->volumeAnnotations;
+ *   $volumeAnnotations = $booksService->layers_volumeAnnotations;
  *  </code>
  */
 class LayersVolumeAnnotations extends \Google\Service\Resource

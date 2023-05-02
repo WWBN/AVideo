@@ -22,8 +22,10 @@ class NlpSemanticParsingModelsMediaMovie extends \Google\Collection
   protected $collection_key = 'providerMetadata';
   protected $annotationListType = NlpSemanticParsingModelsMediaMediaAnnotationList::class;
   protected $annotationListDataType = '';
+  public $annotationList;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var bool
    */
@@ -34,8 +36,10 @@ class NlpSemanticParsingModelsMediaMovie extends \Google\Collection
   public $isFromFastPath;
   protected $providerMetadataType = NlpSemanticParsingModelsMediaProviderMetadata::class;
   protected $providerMetadataDataType = 'array';
+  public $providerMetadata;
   protected $qrefType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefDataType = '';
+  public $qref;
   /**
    * @var string
    */

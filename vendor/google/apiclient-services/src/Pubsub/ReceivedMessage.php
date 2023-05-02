@@ -29,6 +29,7 @@ class ReceivedMessage extends \Google\Model
   public $deliveryAttempt;
   protected $messageType = PubsubMessage::class;
   protected $messageDataType = '';
+  public $message;
 
   /**
    * @param string

@@ -22,10 +22,13 @@ class HtmlrenderWebkitHeadlessProtoRenderResponse extends \Google\Collection
   protected $collection_key = 'sessionStorage';
   protected $chromiumTraceType = HtmlrenderWebkitHeadlessProtoChromiumTrace::class;
   protected $chromiumTraceDataType = '';
+  public $chromiumTrace;
   protected $cookieType = HtmlrenderWebkitHeadlessProtoCookie::class;
   protected $cookieDataType = 'array';
+  public $cookie;
   protected $documentType = HtmlrenderWebkitHeadlessProtoDocument::class;
   protected $documentDataType = '';
+  public $document;
   /**
    * @var string
    */
@@ -36,24 +39,32 @@ class HtmlrenderWebkitHeadlessProtoRenderResponse extends \Google\Collection
   public $exceptions;
   protected $extensionResultType = HtmlrenderWebkitHeadlessProtoRenderExtensionResult::class;
   protected $extensionResultDataType = '';
+  public $extensionResult;
   /**
    * @var string
    */
   public $finalClientUrl;
   protected $imageType = HtmlrenderWebkitHeadlessProtoImage::class;
   protected $imageDataType = 'array';
+  public $image;
   protected $localStorageType = HtmlrenderWebkitHeadlessProtoDOMStorageItem::class;
   protected $localStorageDataType = 'array';
+  public $localStorage;
   protected $partialRenderType = HtmlrenderWebkitHeadlessProtoPartialRender::class;
   protected $partialRenderDataType = 'array';
+  public $partialRender;
   protected $pdfType = HtmlrenderWebkitHeadlessProtoPdf::class;
   protected $pdfDataType = '';
+  public $pdf;
   protected $referencedResourceContentType = HtmlrenderWebkitHeadlessProtoResource::class;
   protected $referencedResourceContentDataType = 'array';
+  public $referencedResourceContent;
   protected $renderStatsType = HtmlrenderWebkitHeadlessProtoRenderStats::class;
   protected $renderStatsDataType = '';
+  public $renderStats;
   protected $sessionStorageType = HtmlrenderWebkitHeadlessProtoDOMStorageItem::class;
   protected $sessionStorageDataType = 'array';
+  public $sessionStorage;
   /**
    * @var string
    */

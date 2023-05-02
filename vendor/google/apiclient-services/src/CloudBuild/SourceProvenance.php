@@ -21,12 +21,16 @@ class SourceProvenance extends \Google\Model
 {
   protected $fileHashesType = FileHashes::class;
   protected $fileHashesDataType = 'map';
+  public $fileHashes;
   protected $resolvedRepoSourceType = RepoSource::class;
   protected $resolvedRepoSourceDataType = '';
+  public $resolvedRepoSource;
   protected $resolvedStorageSourceType = StorageSource::class;
   protected $resolvedStorageSourceDataType = '';
+  public $resolvedStorageSource;
   protected $resolvedStorageSourceManifestType = StorageSourceManifest::class;
   protected $resolvedStorageSourceManifestDataType = '';
+  public $resolvedStorageSourceManifest;
 
   /**
    * @param FileHashes[]

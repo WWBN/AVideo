@@ -26,6 +26,7 @@ class QueryTestablePermissionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $permissionsType = Permission::class;
   protected $permissionsDataType = 'array';
+  public $permissions;
 
   /**
    * @param string

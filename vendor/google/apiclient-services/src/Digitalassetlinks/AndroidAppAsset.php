@@ -21,6 +21,7 @@ class AndroidAppAsset extends \Google\Model
 {
   protected $certificateType = CertificateInfo::class;
   protected $certificateDataType = '';
+  public $certificate;
   /**
    * @var string
    */

@@ -21,12 +21,14 @@ class DeidentifyDicomStoreRequest extends \Google\Model
 {
   protected $configType = DeidentifyConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */
   public $destinationStore;
   protected $filterConfigType = DicomFilterConfig::class;
   protected $filterConfigDataType = '';
+  public $filterConfig;
   /**
    * @var string
    */

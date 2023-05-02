@@ -30,6 +30,7 @@ class QualitySalientCountriesSalientCountrySet extends \Google\Collection
   public $packedSalience;
   protected $salientCountryType = QualitySalientCountriesSalientCountry::class;
   protected $salientCountryDataType = 'array';
+  public $salientCountry;
 
   /**
    * @param int[]

@@ -34,6 +34,7 @@ class AppsDynamiteSharedCardSection extends \Google\Collection
   public $uncollapsibleWidgetsCount;
   protected $widgetsType = AppsDynamiteSharedWidget::class;
   protected $widgetsDataType = 'array';
+  public $widgets;
 
   /**
    * @param bool

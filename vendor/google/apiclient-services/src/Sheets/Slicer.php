@@ -21,12 +21,14 @@ class Slicer extends \Google\Model
 {
   protected $positionType = EmbeddedObjectPosition::class;
   protected $positionDataType = '';
+  public $position;
   /**
    * @var int
    */
   public $slicerId;
   protected $specType = SlicerSpec::class;
   protected $specDataType = '';
+  public $spec;
 
   /**
    * @param EmbeddedObjectPosition

@@ -30,22 +30,27 @@ class Cluster extends \Google\Collection
   public $clusterUuid;
   protected $configType = ClusterConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string[]
    */
   public $labels;
   protected $metricsType = ClusterMetrics::class;
   protected $metricsDataType = '';
+  public $metrics;
   /**
    * @var string
    */
   public $projectId;
   protected $statusType = ClusterStatus::class;
   protected $statusDataType = '';
+  public $status;
   protected $statusHistoryType = ClusterStatus::class;
   protected $statusHistoryDataType = 'array';
+  public $statusHistory;
   protected $virtualClusterConfigType = VirtualClusterConfig::class;
   protected $virtualClusterConfigDataType = '';
+  public $virtualClusterConfig;
 
   /**
    * @param string

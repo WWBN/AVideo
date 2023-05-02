@@ -22,16 +22,20 @@ class SearchResponse extends \Google\Collection
   protected $collection_key = 'structuredResults';
   protected $debugInfoType = ResponseDebugInfo::class;
   protected $debugInfoDataType = '';
+  public $debugInfo;
   protected $errorInfoType = ErrorInfo::class;
   protected $errorInfoDataType = '';
+  public $errorInfo;
   protected $facetResultsType = FacetResult::class;
   protected $facetResultsDataType = 'array';
+  public $facetResults;
   /**
    * @var bool
    */
   public $hasMoreResults;
   protected $queryInterpretationType = QueryInterpretation::class;
   protected $queryInterpretationDataType = '';
+  public $queryInterpretation;
   /**
    * @var string
    */
@@ -42,12 +46,16 @@ class SearchResponse extends \Google\Collection
   public $resultCountExact;
   protected $resultCountsType = ResultCounts::class;
   protected $resultCountsDataType = '';
+  public $resultCounts;
   protected $resultsType = SearchResult::class;
   protected $resultsDataType = 'array';
+  public $results;
   protected $spellResultsType = SpellResult::class;
   protected $spellResultsDataType = 'array';
+  public $spellResults;
   protected $structuredResultsType = StructuredResult::class;
   protected $structuredResultsDataType = 'array';
+  public $structuredResults;
 
   /**
    * @param ResponseDebugInfo

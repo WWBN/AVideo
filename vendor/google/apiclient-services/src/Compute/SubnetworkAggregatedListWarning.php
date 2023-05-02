@@ -26,6 +26,7 @@ class SubnetworkAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = SubnetworkAggregatedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

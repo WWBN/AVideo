@@ -27,7 +27,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListApiProxiesResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $apis = $apigeeService->apis;
+ *   $apis = $apigeeService->organizations_apis;
  *  </code>
  */
 class OrganizationsApis extends \Google\Service\Resource

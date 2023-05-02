@@ -22,6 +22,7 @@ class GoogleCloudMlV1ListStudiesResponse extends \Google\Collection
   protected $collection_key = 'studies';
   protected $studiesType = GoogleCloudMlV1Study::class;
   protected $studiesDataType = 'array';
+  public $studies;
 
   /**
    * @param GoogleCloudMlV1Study[]

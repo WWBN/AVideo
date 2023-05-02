@@ -22,6 +22,7 @@ class ScheduleTransferRunsResponse extends \Google\Collection
   protected $collection_key = 'runs';
   protected $runsType = TransferRun::class;
   protected $runsDataType = 'array';
+  public $runs;
 
   /**
    * @param TransferRun[]

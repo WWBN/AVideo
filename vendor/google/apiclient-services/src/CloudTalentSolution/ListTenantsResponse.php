@@ -22,12 +22,14 @@ class ListTenantsResponse extends \Google\Collection
   protected $collection_key = 'tenants';
   protected $metadataType = ResponseMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $nextPageToken;
   protected $tenantsType = Tenant::class;
   protected $tenantsDataType = 'array';
+  public $tenants;
 
   /**
    * @param ResponseMetadata

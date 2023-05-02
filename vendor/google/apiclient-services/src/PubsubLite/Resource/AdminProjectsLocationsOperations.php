@@ -27,7 +27,7 @@ use Google\Service\PubsubLite\PubsubliteEmpty;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $operations = $pubsubliteService->operations;
+ *   $operations = $pubsubliteService->admin_projects_locations_operations;
  *  </code>
  */
 class AdminProjectsLocationsOperations extends \Google\Service\Resource

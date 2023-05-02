@@ -21,14 +21,19 @@ class GoogleCloudApigeeV1AddonsConfig extends \Google\Model
 {
   protected $advancedApiOpsConfigType = GoogleCloudApigeeV1AdvancedApiOpsConfig::class;
   protected $advancedApiOpsConfigDataType = '';
+  public $advancedApiOpsConfig;
   protected $apiSecurityConfigType = GoogleCloudApigeeV1ApiSecurityConfig::class;
   protected $apiSecurityConfigDataType = '';
+  public $apiSecurityConfig;
   protected $connectorsPlatformConfigType = GoogleCloudApigeeV1ConnectorsPlatformConfig::class;
   protected $connectorsPlatformConfigDataType = '';
+  public $connectorsPlatformConfig;
   protected $integrationConfigType = GoogleCloudApigeeV1IntegrationConfig::class;
   protected $integrationConfigDataType = '';
+  public $integrationConfig;
   protected $monetizationConfigType = GoogleCloudApigeeV1MonetizationConfig::class;
   protected $monetizationConfigDataType = '';
+  public $monetizationConfig;
 
   /**
    * @param GoogleCloudApigeeV1AdvancedApiOpsConfig

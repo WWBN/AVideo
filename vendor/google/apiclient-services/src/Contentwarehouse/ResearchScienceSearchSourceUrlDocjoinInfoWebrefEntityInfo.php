@@ -17,21 +17,44 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class ResearchScienceSearchSourceUrlDocjoinInfoWebrefEntityInfo extends \Google\Model
+class ResearchScienceSearchSourceUrlDocjoinInfoWebrefEntityInfo extends \Google\Collection
 {
+  protected $collection_key = 'kgCollection';
+  /**
+   * @var string
+   */
+  public $deprecatedEntityType;
   /**
    * @var string
    */
   public $description;
   /**
-   * @var string
+   * @var string[]
    */
-  public $entityType;
+  public $entityCollectionType;
+  /**
+   * @var string[]
+   */
+  public $kgCollection;
   /**
    * @var string
    */
   public $mid;
 
+  /**
+   * @param string
+   */
+  public function setDeprecatedEntityType($deprecatedEntityType)
+  {
+    $this->deprecatedEntityType = $deprecatedEntityType;
+  }
+  /**
+   * @return string
+   */
+  public function getDeprecatedEntityType()
+  {
+    return $this->deprecatedEntityType;
+  }
   /**
    * @param string
    */
@@ -47,18 +70,32 @@ class ResearchScienceSearchSourceUrlDocjoinInfoWebrefEntityInfo extends \Google\
     return $this->description;
   }
   /**
-   * @param string
+   * @param string[]
    */
-  public function setEntityType($entityType)
+  public function setEntityCollectionType($entityCollectionType)
   {
-    $this->entityType = $entityType;
+    $this->entityCollectionType = $entityCollectionType;
   }
   /**
-   * @return string
+   * @return string[]
    */
-  public function getEntityType()
+  public function getEntityCollectionType()
   {
-    return $this->entityType;
+    return $this->entityCollectionType;
+  }
+  /**
+   * @param string[]
+   */
+  public function setKgCollection($kgCollection)
+  {
+    $this->kgCollection = $kgCollection;
+  }
+  /**
+   * @return string[]
+   */
+  public function getKgCollection()
+  {
+    return $this->kgCollection;
   }
   /**
    * @param string

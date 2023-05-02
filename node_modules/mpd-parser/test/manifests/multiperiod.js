@@ -613,16 +613,17 @@ export const parsedManifest = {
   playlists: [
     {
       attributes: {
-        'NAME': 'default_video2000_0_1280x720',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
-        'RESOLUTION': {
-          width: 1280,
-          height: 720
-        },
-        'CODECS': 'avc1.4d001f',
         'BANDWIDTH': 2008000,
-        'PROGRAM-ID': 1
+        'CODECS': 'avc1.4d001f',
+        'FRAME-RATE': 29.97,
+        'NAME': 'default_video2000_0_1280x720',
+        'PROGRAM-ID': 1,
+        'RESOLUTION': {
+          height: 720,
+          width: 1280
+        },
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,
@@ -905,16 +906,17 @@ export const parsedManifest = {
     },
     {
       attributes: {
-        'NAME': 'default_video1200_1_960x540',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
-        'RESOLUTION': {
-          width: 960,
-          height: 540
-        },
-        'CODECS': 'avc1.4d001f',
         'BANDWIDTH': 1195000,
-        'PROGRAM-ID': 1
+        'CODECS': 'avc1.4d001f',
+        'FRAME-RATE': 29.97,
+        'NAME': 'default_video1200_1_960x540',
+        'PROGRAM-ID': 1,
+        'RESOLUTION': {
+          height: 540,
+          width: 960
+        },
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,
@@ -1197,16 +1199,17 @@ export const parsedManifest = {
     },
     {
       attributes: {
-        'NAME': 'default_video900_1_640x360',
         'AUDIO': 'audio',
-        'SUBTITLES': 'subs',
-        'RESOLUTION': {
-          width: 640,
-          height: 360
-        },
-        'CODECS': 'avc1.4d001e',
         'BANDWIDTH': 884000,
-        'PROGRAM-ID': 1
+        'CODECS': 'avc1.4d001e',
+        'FRAME-RATE': 29.97,
+        'NAME': 'default_video900_1_640x360',
+        'PROGRAM-ID': 1,
+        'RESOLUTION': {
+          height: 360,
+          width: 640
+        },
+        'SUBTITLES': 'subs'
       },
       uri: '',
       endList: true,

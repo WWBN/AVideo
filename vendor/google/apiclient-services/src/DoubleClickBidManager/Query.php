@@ -21,14 +21,17 @@ class Query extends \Google\Model
 {
   protected $metadataType = QueryMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $paramsType = Parameters::class;
   protected $paramsDataType = '';
+  public $params;
   /**
    * @var string
    */
   public $queryId;
   protected $scheduleType = QuerySchedule::class;
   protected $scheduleDataType = '';
+  public $schedule;
 
   /**
    * @param QueryMetadata

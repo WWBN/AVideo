@@ -33,6 +33,7 @@ class GooglePrivacyDlpV2TimespanConfig extends \Google\Model
   public $startTime;
   protected $timestampFieldType = GooglePrivacyDlpV2FieldId::class;
   protected $timestampFieldDataType = '';
+  public $timestampField;
 
   /**
    * @param bool

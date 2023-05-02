@@ -21,14 +21,19 @@ class ListenResponse extends \Google\Model
 {
   protected $documentChangeType = DocumentChange::class;
   protected $documentChangeDataType = '';
+  public $documentChange;
   protected $documentDeleteType = DocumentDelete::class;
   protected $documentDeleteDataType = '';
+  public $documentDelete;
   protected $documentRemoveType = DocumentRemove::class;
   protected $documentRemoveDataType = '';
+  public $documentRemove;
   protected $filterType = ExistenceFilter::class;
   protected $filterDataType = '';
+  public $filter;
   protected $targetChangeType = TargetChange::class;
   protected $targetChangeDataType = '';
+  public $targetChange;
 
   /**
    * @param DocumentChange

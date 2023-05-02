@@ -25,7 +25,7 @@ use Google\Service\CloudDeploy\ListJobRunsResponse;
  * Typical usage is:
  *  <code>
  *   $clouddeployService = new Google\Service\CloudDeploy(...);
- *   $jobRuns = $clouddeployService->jobRuns;
+ *   $jobRuns = $clouddeployService->projects_locations_deliveryPipelines_releases_rollouts_jobRuns;
  *  </code>
  */
 class ProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns extends \Google\Service\Resource

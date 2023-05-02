@@ -50,6 +50,7 @@ class GoogleCloudApigeeV1SecurityReportQuery extends \Google\Collection
   public $limit;
   protected $metricsType = GoogleCloudApigeeV1SecurityReportQueryMetric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   /**
    * @var string
    */

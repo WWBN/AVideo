@@ -22,8 +22,10 @@ class RuntimeMetadata extends \Google\Collection
   protected $collection_key = 'parameters';
   protected $parametersType = ParameterMetadata::class;
   protected $parametersDataType = 'array';
+  public $parameters;
   protected $sdkInfoType = SDKInfo::class;
   protected $sdkInfoDataType = '';
+  public $sdkInfo;
 
   /**
    * @param ParameterMetadata[]

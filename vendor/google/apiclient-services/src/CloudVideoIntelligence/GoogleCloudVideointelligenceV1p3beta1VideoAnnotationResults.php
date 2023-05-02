@@ -22,42 +22,59 @@ class GoogleCloudVideointelligenceV1p3beta1VideoAnnotationResults extends \Googl
   protected $collection_key = 'textAnnotations';
   protected $celebrityRecognitionAnnotationsType = GoogleCloudVideointelligenceV1p3beta1CelebrityRecognitionAnnotation::class;
   protected $celebrityRecognitionAnnotationsDataType = '';
+  public $celebrityRecognitionAnnotations;
   protected $errorType = GoogleRpcStatus::class;
   protected $errorDataType = '';
+  public $error;
   protected $explicitAnnotationType = GoogleCloudVideointelligenceV1p3beta1ExplicitContentAnnotation::class;
   protected $explicitAnnotationDataType = '';
+  public $explicitAnnotation;
   protected $faceAnnotationsType = GoogleCloudVideointelligenceV1p3beta1FaceAnnotation::class;
   protected $faceAnnotationsDataType = 'array';
+  public $faceAnnotations;
   protected $faceDetectionAnnotationsType = GoogleCloudVideointelligenceV1p3beta1FaceDetectionAnnotation::class;
   protected $faceDetectionAnnotationsDataType = 'array';
+  public $faceDetectionAnnotations;
   protected $frameLabelAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LabelAnnotation::class;
   protected $frameLabelAnnotationsDataType = 'array';
+  public $frameLabelAnnotations;
   /**
    * @var string
    */
   public $inputUri;
   protected $logoRecognitionAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LogoRecognitionAnnotation::class;
   protected $logoRecognitionAnnotationsDataType = 'array';
+  public $logoRecognitionAnnotations;
   protected $objectAnnotationsType = GoogleCloudVideointelligenceV1p3beta1ObjectTrackingAnnotation::class;
   protected $objectAnnotationsDataType = 'array';
+  public $objectAnnotations;
   protected $personDetectionAnnotationsType = GoogleCloudVideointelligenceV1p3beta1PersonDetectionAnnotation::class;
   protected $personDetectionAnnotationsDataType = 'array';
+  public $personDetectionAnnotations;
   protected $segmentType = GoogleCloudVideointelligenceV1p3beta1VideoSegment::class;
   protected $segmentDataType = '';
+  public $segment;
   protected $segmentLabelAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LabelAnnotation::class;
   protected $segmentLabelAnnotationsDataType = 'array';
+  public $segmentLabelAnnotations;
   protected $segmentPresenceLabelAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LabelAnnotation::class;
   protected $segmentPresenceLabelAnnotationsDataType = 'array';
+  public $segmentPresenceLabelAnnotations;
   protected $shotAnnotationsType = GoogleCloudVideointelligenceV1p3beta1VideoSegment::class;
   protected $shotAnnotationsDataType = 'array';
+  public $shotAnnotations;
   protected $shotLabelAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LabelAnnotation::class;
   protected $shotLabelAnnotationsDataType = 'array';
+  public $shotLabelAnnotations;
   protected $shotPresenceLabelAnnotationsType = GoogleCloudVideointelligenceV1p3beta1LabelAnnotation::class;
   protected $shotPresenceLabelAnnotationsDataType = 'array';
+  public $shotPresenceLabelAnnotations;
   protected $speechTranscriptionsType = GoogleCloudVideointelligenceV1p3beta1SpeechTranscription::class;
   protected $speechTranscriptionsDataType = 'array';
+  public $speechTranscriptions;
   protected $textAnnotationsType = GoogleCloudVideointelligenceV1p3beta1TextAnnotation::class;
   protected $textAnnotationsDataType = 'array';
+  public $textAnnotations;
 
   /**
    * @param GoogleCloudVideointelligenceV1p3beta1CelebrityRecognitionAnnotation

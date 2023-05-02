@@ -21,20 +21,28 @@ class FieldValue extends \Google\Model
 {
   protected $dateType = Date::class;
   protected $dateDataType = '';
+  public $date;
   protected $integerType = DriveactivityInteger::class;
   protected $integerDataType = '';
+  public $integer;
   protected $selectionType = Selection::class;
   protected $selectionDataType = '';
+  public $selection;
   protected $selectionListType = SelectionList::class;
   protected $selectionListDataType = '';
+  public $selectionList;
   protected $textType = Text::class;
   protected $textDataType = '';
+  public $text;
   protected $textListType = TextList::class;
   protected $textListDataType = '';
+  public $textList;
   protected $userType = SingleUser::class;
   protected $userDataType = '';
+  public $user;
   protected $userListType = UserList::class;
   protected $userListDataType = '';
+  public $userList;
 
   /**
    * @param Date

@@ -21,8 +21,10 @@ class LatLongRect extends \Google\Model
 {
   protected $maxLatLngType = LatLng::class;
   protected $maxLatLngDataType = '';
+  public $maxLatLng;
   protected $minLatLngType = LatLng::class;
   protected $minLatLngDataType = '';
+  public $minLatLng;
 
   /**
    * @param LatLng

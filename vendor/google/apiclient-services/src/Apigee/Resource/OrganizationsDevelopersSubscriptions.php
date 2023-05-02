@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListDeveloperSubscriptionsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $subscriptions = $apigeeService->subscriptions;
+ *   $subscriptions = $apigeeService->organizations_developers_subscriptions;
  *  </code>
  */
 class OrganizationsDevelopersSubscriptions extends \Google\Service\Resource

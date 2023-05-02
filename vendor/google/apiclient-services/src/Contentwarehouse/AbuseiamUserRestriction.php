@@ -21,18 +21,25 @@ class AbuseiamUserRestriction extends \Google\Model
 {
   protected $ageRestrictionType = AbuseiamAgeRestriction::class;
   protected $ageRestrictionDataType = '';
+  public $ageRestriction;
   protected $andRestrictionType = AbuseiamAndRestriction::class;
   protected $andRestrictionDataType = '';
+  public $andRestriction;
   protected $constantRestrictionType = AbuseiamConstantRestriction::class;
   protected $constantRestrictionDataType = '';
+  public $constantRestriction;
   protected $geoRestrictionType = AbuseiamGeoRestriction::class;
   protected $geoRestrictionDataType = '';
+  public $geoRestriction;
   protected $notRestrictionType = AbuseiamNotRestriction::class;
   protected $notRestrictionDataType = '';
+  public $notRestriction;
   protected $orRestrictionType = AbuseiamOrRestriction::class;
   protected $orRestrictionDataType = '';
+  public $orRestriction;
   protected $specialRestrictionType = AbuseiamSpecialRestriction::class;
   protected $specialRestrictionDataType = '';
+  public $specialRestriction;
 
   /**
    * @param AbuseiamAgeRestriction

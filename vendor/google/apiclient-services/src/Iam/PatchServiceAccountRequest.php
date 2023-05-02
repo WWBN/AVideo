@@ -21,6 +21,7 @@ class PatchServiceAccountRequest extends \Google\Model
 {
   protected $serviceAccountType = ServiceAccount::class;
   protected $serviceAccountDataType = '';
+  public $serviceAccount;
   /**
    * @var string
    */

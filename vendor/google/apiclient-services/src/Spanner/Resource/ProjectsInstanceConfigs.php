@@ -29,7 +29,7 @@ use Google\Service\Spanner\UpdateInstanceConfigRequest;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $instanceConfigs = $spannerService->instanceConfigs;
+ *   $instanceConfigs = $spannerService->projects_instanceConfigs;
  *  </code>
  */
 class ProjectsInstanceConfigs extends \Google\Service\Resource

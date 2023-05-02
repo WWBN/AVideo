@@ -21,6 +21,7 @@ class UpdateSettingsRequest extends \Google\Model
 {
   protected $settingsType = FormSettings::class;
   protected $settingsDataType = '';
+  public $settings;
   /**
    * @var string
    */

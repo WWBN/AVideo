@@ -28,7 +28,7 @@ use Google\Service\AdExchangeBuyerII\WatchCreativeRequest;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $creatives = $adexchangebuyer2Service->creatives;
+ *   $creatives = $adexchangebuyer2Service->accounts_creatives;
  *  </code>
  */
 class AccountsCreatives extends \Google\Service\Resource

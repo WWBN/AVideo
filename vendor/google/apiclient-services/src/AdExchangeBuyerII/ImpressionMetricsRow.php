@@ -21,16 +21,22 @@ class ImpressionMetricsRow extends \Google\Model
 {
   protected $availableImpressionsType = MetricValue::class;
   protected $availableImpressionsDataType = '';
+  public $availableImpressions;
   protected $bidRequestsType = MetricValue::class;
   protected $bidRequestsDataType = '';
+  public $bidRequests;
   protected $inventoryMatchesType = MetricValue::class;
   protected $inventoryMatchesDataType = '';
+  public $inventoryMatches;
   protected $responsesWithBidsType = MetricValue::class;
   protected $responsesWithBidsDataType = '';
+  public $responsesWithBids;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
+  public $rowDimensions;
   protected $successfulResponsesType = MetricValue::class;
   protected $successfulResponsesDataType = '';
+  public $successfulResponses;
 
   /**
    * @param MetricValue

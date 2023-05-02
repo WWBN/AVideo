@@ -21,6 +21,10 @@ class GoogleCloudContactcenterinsightsV1Analysis extends \Google\Model
 {
   protected $analysisResultType = GoogleCloudContactcenterinsightsV1AnalysisResult::class;
   protected $analysisResultDataType = '';
+  public $analysisResult;
+  protected $annotatorSelectorType = GoogleCloudContactcenterinsightsV1AnnotatorSelector::class;
+  protected $annotatorSelectorDataType = '';
+  public $annotatorSelector;
   /**
    * @var string
    */
@@ -47,6 +51,20 @@ class GoogleCloudContactcenterinsightsV1Analysis extends \Google\Model
   public function getAnalysisResult()
   {
     return $this->analysisResult;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1AnnotatorSelector
+   */
+  public function setAnnotatorSelector(GoogleCloudContactcenterinsightsV1AnnotatorSelector $annotatorSelector)
+  {
+    $this->annotatorSelector = $annotatorSelector;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1AnnotatorSelector
+   */
+  public function getAnnotatorSelector()
+  {
+    return $this->annotatorSelector;
   }
   /**
    * @param string

@@ -25,7 +25,7 @@ use Google\Service\AdExchangeBuyerII\ListClientUserInvitationsResponse;
  * Typical usage is:
  *  <code>
  *   $adexchangebuyer2Service = new Google\Service\AdExchangeBuyerII(...);
- *   $invitations = $adexchangebuyer2Service->invitations;
+ *   $invitations = $adexchangebuyer2Service->accounts_clients_invitations;
  *  </code>
  */
 class AccountsClientsInvitations extends \Google\Service\Resource

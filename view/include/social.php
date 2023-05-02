@@ -1,7 +1,7 @@
 <?php
 global $socialAdded, $global;
 $titleSocial = @$title;
-$urlShort = $url;
+$urlShort = @$url;
 if (empty($video['id']) && !empty(getVideos_id())) {
     $video['id'] = getVideos_id();
 }
@@ -44,7 +44,7 @@ if (empty($socialAdded)) { // do not add the CSS more then once
 $socialAdded = 1;
 
 $social_medias = [
-    new SocialMedias($href, $class, $title, $iclass, $img, $onclick),
+    new SocialMedias(@$href, @$class, @$title, @$iclass, @$img, @$onclick),
 ];
 ?>
 <ul class="social-network social-circle">

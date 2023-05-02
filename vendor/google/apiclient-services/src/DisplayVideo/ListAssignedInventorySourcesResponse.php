@@ -22,6 +22,7 @@ class ListAssignedInventorySourcesResponse extends \Google\Collection
   protected $collection_key = 'assignedInventorySources';
   protected $assignedInventorySourcesType = AssignedInventorySource::class;
   protected $assignedInventorySourcesDataType = 'array';
+  public $assignedInventorySources;
   /**
    * @var string
    */

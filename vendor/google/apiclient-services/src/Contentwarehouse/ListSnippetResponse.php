@@ -22,12 +22,14 @@ class ListSnippetResponse extends \Google\Collection
   protected $collection_key = 'row';
   protected $headerType = ListSnippetResponseRow::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var bool
    */
   public $isTable;
   protected $rowType = ListSnippetResponseRow::class;
   protected $rowDataType = 'array';
+  public $row;
   /**
    * @var int
    */

@@ -22,7 +22,7 @@ namespace Google\Service\CloudComposer\Resource;
  * Typical usage is:
  *  <code>
  *   $composerService = new Google\Service\CloudComposer(...);
- *   $locations = $composerService->locations;
+ *   $locations = $composerService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

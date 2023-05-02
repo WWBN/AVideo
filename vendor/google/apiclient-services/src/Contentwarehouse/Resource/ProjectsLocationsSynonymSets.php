@@ -26,7 +26,7 @@ use Google\Service\Contentwarehouse\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contentwarehouseService = new Google\Service\Contentwarehouse(...);
- *   $synonymSets = $contentwarehouseService->synonymSets;
+ *   $synonymSets = $contentwarehouseService->projects_locations_synonymSets;
  *  </code>
  */
 class ProjectsLocationsSynonymSets extends \Google\Service\Resource

@@ -34,6 +34,7 @@ class GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestMashQueryCompone
   public $fetchFilters;
   protected $groupByType = GoogleCloudIntegrationsV1alphaMonitorExecutionStatsRequestGroupBy::class;
   protected $groupByDataType = '';
+  public $groupBy;
   /**
    * @var string
    */

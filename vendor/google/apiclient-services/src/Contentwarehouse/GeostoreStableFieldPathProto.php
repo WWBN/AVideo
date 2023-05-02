@@ -22,6 +22,7 @@ class GeostoreStableFieldPathProto extends \Google\Collection
   protected $collection_key = 'fieldPath';
   protected $fieldPathType = GeostoreStableFieldPathProtoStableFieldSelector::class;
   protected $fieldPathDataType = 'array';
+  public $fieldPath;
 
   /**
    * @param GeostoreStableFieldPathProtoStableFieldSelector[]

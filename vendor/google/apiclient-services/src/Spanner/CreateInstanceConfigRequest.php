@@ -21,6 +21,7 @@ class CreateInstanceConfigRequest extends \Google\Model
 {
   protected $instanceConfigType = InstanceConfig::class;
   protected $instanceConfigDataType = '';
+  public $instanceConfig;
   /**
    * @var string
    */

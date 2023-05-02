@@ -25,7 +25,7 @@ use Google\Service\Fitness\Session;
  * Typical usage is:
  *  <code>
  *   $fitnessService = new Google\Service\Fitness(...);
- *   $sessions = $fitnessService->sessions;
+ *   $sessions = $fitnessService->users_sessions;
  *  </code>
  */
 class UsersSessions extends \Google\Service\Resource

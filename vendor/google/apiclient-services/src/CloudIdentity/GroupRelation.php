@@ -30,6 +30,7 @@ class GroupRelation extends \Google\Collection
   public $group;
   protected $groupKeyType = EntityKey::class;
   protected $groupKeyDataType = '';
+  public $groupKey;
   /**
    * @var string[]
    */
@@ -40,6 +41,7 @@ class GroupRelation extends \Google\Collection
   public $relationType;
   protected $rolesType = TransitiveMembershipRole::class;
   protected $rolesDataType = 'array';
+  public $roles;
 
   /**
    * @param string

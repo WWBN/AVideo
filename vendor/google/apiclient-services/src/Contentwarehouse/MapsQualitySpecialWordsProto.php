@@ -34,6 +34,7 @@ class MapsQualitySpecialWordsProto extends \Google\Collection
   public $country;
   protected $flagsType = MapsQualitySpecialWordsFlags::class;
   protected $flagsDataType = '';
+  public $flags;
   /**
    * @var string[]
    */

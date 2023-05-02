@@ -21,6 +21,7 @@ class RevertFolderResponse extends \Google\Model
 {
   protected $folderType = Folder::class;
   protected $folderDataType = '';
+  public $folder;
 
   /**
    * @param Folder

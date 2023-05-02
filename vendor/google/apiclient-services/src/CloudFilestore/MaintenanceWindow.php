@@ -21,8 +21,10 @@ class MaintenanceWindow extends \Google\Model
 {
   protected $dailyCycleType = DailyCycle::class;
   protected $dailyCycleDataType = '';
+  public $dailyCycle;
   protected $weeklyCycleType = WeeklyCycle::class;
   protected $weeklyCycleDataType = '';
+  public $weeklyCycle;
 
   /**
    * @param DailyCycle

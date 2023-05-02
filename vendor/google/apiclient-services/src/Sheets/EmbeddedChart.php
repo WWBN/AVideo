@@ -21,14 +21,17 @@ class EmbeddedChart extends \Google\Model
 {
   protected $borderType = EmbeddedObjectBorder::class;
   protected $borderDataType = '';
+  public $border;
   /**
    * @var int
    */
   public $chartId;
   protected $positionType = EmbeddedObjectPosition::class;
   protected $positionDataType = '';
+  public $position;
   protected $specType = ChartSpec::class;
   protected $specDataType = '';
+  public $spec;
 
   /**
    * @param EmbeddedObjectBorder

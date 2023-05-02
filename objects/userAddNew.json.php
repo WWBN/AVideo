@@ -86,7 +86,7 @@ _error_log("userAddNew.json.php: saving");
 $obj->users_id = $user->save(true);
 
 if (!empty($obj->users_id) && !empty($_POST['usersExtraInfo'])) {
-    
+
     $obj->status = $obj->users_id;
     if (!empty($_POST['usersExtraInfo'])) {
         User::saveExtraInfo(json_encode($_POST['usersExtraInfo']), $obj->users_id);

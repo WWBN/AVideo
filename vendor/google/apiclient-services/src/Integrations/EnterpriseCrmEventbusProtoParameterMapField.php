@@ -21,6 +21,7 @@ class EnterpriseCrmEventbusProtoParameterMapField extends \Google\Model
 {
   protected $literalValueType = EnterpriseCrmEventbusProtoParameterValueType::class;
   protected $literalValueDataType = '';
+  public $literalValue;
   /**
    * @var string
    */

@@ -34,14 +34,17 @@ class ReportData extends \Google\Collection
   public $isDataGolden;
   protected $maximumsType = DateRangeValues::class;
   protected $maximumsDataType = 'array';
+  public $maximums;
   protected $minimumsType = DateRangeValues::class;
   protected $minimumsDataType = 'array';
+  public $minimums;
   /**
    * @var int
    */
   public $rowCount;
   protected $rowsType = ReportRow::class;
   protected $rowsDataType = 'array';
+  public $rows;
   /**
    * @var string[]
    */
@@ -52,6 +55,7 @@ class ReportData extends \Google\Collection
   public $samplingSpaceSizes;
   protected $totalsType = DateRangeValues::class;
   protected $totalsDataType = 'array';
+  public $totals;
 
   /**
    * @param string

@@ -2,20 +2,25 @@
 if (empty($advancedCustom->showCategoryTopImages)) {
     return false;
 }
-if (!empty($_GET['catName'])) {
-    $currentCat = Category::getCategoryByName($_GET['catName']);
-    $categories_id = $currentCat['id'];
-    if (!Category::isAssetsValids($categories_id)) {
-        return false;
+if (!empty($_REQUEST['catName'])) {
+    $currentCat = Category::getCategoryByName($_REQUEST['catName']);
+    if(!empty($currentCat)){
+        $categories_id = $currentCat['id'];
+        if (!Category::isAssetsValids($categories_id)) {
+            return false;
+        }
     }
 } else {
+    return false;
+}
+if(empty($categories_id)){
     return false;
 }
 
 $photo = Category::getCategoryPhotoPath($categories_id);
 $background = Category::getCategoryBackgroundPath($categories_id);
 
-$data = array('id'=>$categories_id);
+$data = ['id'=>$categories_id];
 
 ?>
 <div class="row" style="position: relative; z-index: 1; margin-top: -15px;">

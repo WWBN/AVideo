@@ -25,7 +25,7 @@ use Google\Service\Assuredworkloads\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $assuredworkloadsService = new Google\Service\Assuredworkloads(...);
- *   $operations = $assuredworkloadsService->operations;
+ *   $operations = $assuredworkloadsService->organizations_locations_operations;
  *  </code>
  */
 class OrganizationsLocationsOperations extends \Google\Service\Resource

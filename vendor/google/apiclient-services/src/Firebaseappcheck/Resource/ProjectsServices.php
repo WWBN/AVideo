@@ -27,7 +27,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1Service;
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $services = $firebaseappcheckService->services;
+ *   $services = $firebaseappcheckService->projects_services;
  *  </code>
  */
 class ProjectsServices extends \Google\Service\Resource

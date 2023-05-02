@@ -37,6 +37,7 @@ class GoogleCloudRunV2ExecutionTemplate extends \Google\Model
   public $taskCount;
   protected $templateType = GoogleCloudRunV2TaskTemplate::class;
   protected $templateDataType = '';
+  public $template;
 
   /**
    * @param string[]

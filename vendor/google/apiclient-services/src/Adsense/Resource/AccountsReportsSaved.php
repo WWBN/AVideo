@@ -26,7 +26,7 @@ use Google\Service\Adsense\ReportResult;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $saved = $adsenseService->saved;
+ *   $saved = $adsenseService->accounts_reports_saved;
  *  </code>
  */
 class AccountsReportsSaved extends \Google\Service\Resource

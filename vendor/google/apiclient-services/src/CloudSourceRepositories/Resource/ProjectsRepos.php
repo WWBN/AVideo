@@ -33,7 +33,7 @@ use Google\Service\CloudSourceRepositories\UpdateRepoRequest;
  * Typical usage is:
  *  <code>
  *   $sourcerepoService = new Google\Service\CloudSourceRepositories(...);
- *   $repos = $sourcerepoService->repos;
+ *   $repos = $sourcerepoService->projects_repos;
  *  </code>
  */
 class ProjectsRepos extends \Google\Service\Resource

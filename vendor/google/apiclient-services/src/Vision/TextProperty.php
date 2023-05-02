@@ -22,8 +22,10 @@ class TextProperty extends \Google\Collection
   protected $collection_key = 'detectedLanguages';
   protected $detectedBreakType = DetectedBreak::class;
   protected $detectedBreakDataType = '';
+  public $detectedBreak;
   protected $detectedLanguagesType = DetectedLanguage::class;
   protected $detectedLanguagesDataType = 'array';
+  public $detectedLanguages;
 
   /**
    * @param DetectedBreak

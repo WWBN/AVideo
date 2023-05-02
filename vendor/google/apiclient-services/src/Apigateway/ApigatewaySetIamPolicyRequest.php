@@ -21,6 +21,7 @@ class ApigatewaySetIamPolicyRequest extends \Google\Model
 {
   protected $policyType = ApigatewayPolicy::class;
   protected $policyDataType = '';
+  public $policy;
   /**
    * @var string
    */

@@ -21,6 +21,7 @@ class ImportDicomDataRequest extends \Google\Model
 {
   protected $gcsSourceType = GoogleCloudHealthcareV1DicomGcsSource::class;
   protected $gcsSourceDataType = '';
+  public $gcsSource;
 
   /**
    * @param GoogleCloudHealthcareV1DicomGcsSource

@@ -25,7 +25,7 @@ use Google\Service\Forms\ListFormResponsesResponse;
  * Typical usage is:
  *  <code>
  *   $formsService = new Google\Service\Forms(...);
- *   $responses = $formsService->responses;
+ *   $responses = $formsService->forms_responses;
  *  </code>
  */
 class FormsResponses extends \Google\Service\Resource

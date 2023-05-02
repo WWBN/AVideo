@@ -122,6 +122,15 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $object->error = false;
         $object->msg = "We sent your video to the encoder";
     }
+    
+    if(!empty($object->videos_id) && !empty($_REQUEST['base64PNG'])){
+        $filePng = "{$paths['path']}{$paths['filename']}.png";
+        $fileJpg = "{$paths['path']}{$paths['filename']}.jpg";
+        saveBase64DataToPNGImage($_REQUEST['base64PNG'], $filePng);
+        convertImage($filePng, $fileJpg, 90);
+        Video::clearImageCache($paths['filename']);
+    }
+    
     _error_log("MOBILE SUCCESS UPLOAD: ".  json_encode($object));
     die(json_encode($object));
 } else {

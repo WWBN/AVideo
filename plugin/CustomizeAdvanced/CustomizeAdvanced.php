@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'objects/video.php';
 
 class CustomizeAdvanced extends PluginAbstract {
 
@@ -34,13 +35,15 @@ class CustomizeAdvanced extends PluginAbstract {
         return array(
             'EnableMinifyJS',
             'usePreloadLowResolutionImages',
+            'useFFMPEGToGenerateThumbs',
+            'makeVideosInactiveAfterEncode',
+            'makeVideosUnlistedAfterEncode',
             );
     }
     
     public static function getDataObjectExperimental() {
         return array(
             'autoPlayAjax',
-            'useFFMPEGToGenerateThumbs',
         );
     }
     
@@ -141,6 +144,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'siteMapRowsLimit',
             'siteMapUTF8Fix',
             'showPrivateVideosOnSitemap',
+            'disableSiteMapVideoDescription',
             'enableOldPassHashCheck',
             'disableShowMOreLessDescription',
             'disableVideoSwap',
@@ -164,7 +168,7 @@ class CustomizeAdvanced extends PluginAbstract {
     }
     
     public function getEmptyDataObject() {
-        global $global;
+        global $global, $statusThatTheUserCanUpdate, $advancedCustom;
         $obj = new stdClass();
         $obj->logoMenuBarURL = "";
         $obj->encoderNetwork = "https://network.wwbn.net/";
@@ -222,6 +226,30 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotUseXsendFile = false;
         $obj->makeVideosInactiveAfterEncode = false;
         $obj->makeVideosUnlistedAfterEncode = false;
+        
+        $o = new stdClass();
+        $o->type = array();
+        if(empty($statusThatTheUserCanUpdate)){
+            $statusThatTheUserCanUpdate = array();
+        }
+        foreach ($statusThatTheUserCanUpdate as $value) {
+            $statusIndex = $value[0];
+            $statusColor = $value[1];
+            $o->type[$statusIndex] = Video::$statusDesc[$statusIndex];
+        }
+        
+        $dbObject = PluginAbstract::getObjectDataFromDatabase($this->getUUID());
+        
+        if (!empty($dbObject->makeVideosInactiveAfterEncode)) {
+            $o->value = Video::$statusInactive;
+        } elseif (!empty($dbObject->makeVideosUnlistedAfterEncode)) {
+            $o->value = Video::$statusUnlisted;
+        }else{
+            $o->value = Video::$statusActive;
+        }
+        $obj->defaultVideoStatus = $o;
+        self::addDataObjectHelper('defaultVideoStatus', 'Default video status', 'When you submit a video that will be the default status');
+        
         $obj->usePermalinks = false;
         self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
         $obj->useVideoIDOnSEOLinks = true;
@@ -293,7 +321,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
         $obj->showShareMenuOpenByDefault = false;
-
+        /**
+         * @var mixed[] $global
+         */
         foreach ($global['social_medias'] as $key => $value) {
             eval("\$obj->showShareButton_{$key} = true;");
         }
@@ -331,6 +361,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->siteMapRowsLimit = 100;
         $obj->siteMapUTF8Fix = false;
         $obj->showPrivateVideosOnSitemap = false;
+        $obj->disableSiteMapVideoDescription = false;
         $obj->enableOldPassHashCheck = true;
         $obj->disableHTMLDescription = false;
         $obj->disableShowMOreLessDescription = false;
@@ -706,7 +737,7 @@ Allow: .css";
         if (!Permissions::canAdminVideos()) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->doNotShowAdsOnThisVideo = $doNotShowAdsOnThisVideo;
         $video->setExternalOptions(json_encode($externalOptions));
@@ -720,10 +751,7 @@ Allow: .css";
         $video = new Video('', '', $videos_id);
         $users_id = $video->getUsers_id();
         $user = new User($users_id);
-        $externalOptions = object_to_array(_json_decode(User::decodeExternalOption($user->_getExternalOptions())));
-        $externalOptions['doNotShowAdsOnThisChannel'] = $doNotShowAdsOnThisChannel;
-        $user->setExternalOptions(json_encode($externalOptions));
-        return $user->save();
+        return $user->addExternalOptions('doNotShowAdsOnThisChannel', $doNotShowAdsOnThisChannel);
     }
 
     public static function getDoNotShowAds($videos_id): bool {
@@ -744,7 +772,7 @@ Allow: .css";
         if (!Permissions::canAdminVideos()) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->redirectVideo = array('code'=>$code, 'url'=>$url);
         $video->setExternalOptions(json_encode($externalOptions));
@@ -761,7 +789,7 @@ Allow: .css";
         if (!Video::canEdit($videos_id)) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         $externalOptions->SEO = array('ShortSummary'=>$ShortSummary, 'MetaDescription'=>$MetaDescription);
         $video->setExternalOptions(json_encode($externalOptions));

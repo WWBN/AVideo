@@ -27,7 +27,7 @@ use Google\Service\BigtableAdmin\Operation;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $clusters = $bigtableadminService->clusters;
+ *   $clusters = $bigtableadminService->projects_instances_clusters;
  *  </code>
  */
 class ProjectsInstancesClusters extends \Google\Service\Resource

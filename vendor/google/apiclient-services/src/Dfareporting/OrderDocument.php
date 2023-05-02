@@ -42,6 +42,7 @@ class OrderDocument extends \Google\Collection
   public $cancelled;
   protected $createdInfoType = LastModifiedInfo::class;
   protected $createdInfoDataType = '';
+  public $createdInfo;
   /**
    * @var string
    */

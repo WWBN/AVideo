@@ -22,22 +22,27 @@ class DoubleVerify extends \Google\Collection
   protected $collection_key = 'avoidedAgeRatings';
   protected $appStarRatingType = DoubleVerifyAppStarRating::class;
   protected $appStarRatingDataType = '';
+  public $appStarRating;
   /**
    * @var string[]
    */
   public $avoidedAgeRatings;
   protected $brandSafetyCategoriesType = DoubleVerifyBrandSafetyCategories::class;
   protected $brandSafetyCategoriesDataType = '';
+  public $brandSafetyCategories;
   /**
    * @var string
    */
   public $customSegmentId;
   protected $displayViewabilityType = DoubleVerifyDisplayViewability::class;
   protected $displayViewabilityDataType = '';
+  public $displayViewability;
   protected $fraudInvalidTrafficType = DoubleVerifyFraudInvalidTraffic::class;
   protected $fraudInvalidTrafficDataType = '';
+  public $fraudInvalidTraffic;
   protected $videoViewabilityType = DoubleVerifyVideoViewability::class;
   protected $videoViewabilityDataType = '';
+  public $videoViewability;
 
   /**
    * @param DoubleVerifyAppStarRating

@@ -21,6 +21,7 @@ class EventFilter extends \Google\Model
 {
   protected $dimensionFilterType = PathQueryOptionsFilter::class;
   protected $dimensionFilterDataType = '';
+  public $dimensionFilter;
 
   /**
    * @param PathQueryOptionsFilter

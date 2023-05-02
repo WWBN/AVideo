@@ -22,6 +22,7 @@ class ListMetadataImportsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $metadataImportsType = MetadataImport::class;
   protected $metadataImportsDataType = 'array';
+  public $metadataImports;
   /**
    * @var string
    */

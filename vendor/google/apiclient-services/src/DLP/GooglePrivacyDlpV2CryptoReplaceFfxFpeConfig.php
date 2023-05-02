@@ -25,8 +25,10 @@ class GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig extends \Google\Model
   public $commonAlphabet;
   protected $contextType = GooglePrivacyDlpV2FieldId::class;
   protected $contextDataType = '';
+  public $context;
   protected $cryptoKeyType = GooglePrivacyDlpV2CryptoKey::class;
   protected $cryptoKeyDataType = '';
+  public $cryptoKey;
   /**
    * @var string
    */
@@ -37,6 +39,7 @@ class GooglePrivacyDlpV2CryptoReplaceFfxFpeConfig extends \Google\Model
   public $radix;
   protected $surrogateInfoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $surrogateInfoTypeDataType = '';
+  public $surrogateInfoType;
 
   /**
    * @param string

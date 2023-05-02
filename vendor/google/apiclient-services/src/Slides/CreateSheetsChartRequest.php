@@ -25,6 +25,7 @@ class CreateSheetsChartRequest extends \Google\Model
   public $chartId;
   protected $elementPropertiesType = PageElementProperties::class;
   protected $elementPropertiesDataType = '';
+  public $elementProperties;
   /**
    * @var string
    */

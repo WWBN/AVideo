@@ -21,14 +21,17 @@ class GooglePrivacyDlpV2DateTime extends \Google\Model
 {
   protected $dateType = GoogleTypeDate::class;
   protected $dateDataType = '';
+  public $date;
   /**
    * @var string
    */
   public $dayOfWeek;
   protected $timeType = GoogleTypeTimeOfDay::class;
   protected $timeDataType = '';
+  public $time;
   protected $timeZoneType = GooglePrivacyDlpV2TimeZone::class;
   protected $timeZoneDataType = '';
+  public $timeZone;
 
   /**
    * @param GoogleTypeDate

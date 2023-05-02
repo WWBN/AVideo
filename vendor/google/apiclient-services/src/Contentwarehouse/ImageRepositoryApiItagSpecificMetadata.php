@@ -37,8 +37,10 @@ class ImageRepositoryApiItagSpecificMetadata extends \Google\Model
   public $transcodeItag;
   protected $videoIdType = VideoAssetsVenomVideoId::class;
   protected $videoIdDataType = '';
+  public $videoId;
   protected $xtagsListType = ImageRepositoryApiXtagList::class;
   protected $xtagsListDataType = '';
+  public $xtagsList;
 
   /**
    * @param string

@@ -28,7 +28,7 @@ use Google\Service\DiscoveryEngine\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $discoveryengineService = new Google\Service\DiscoveryEngine(...);
- *   $documents = $discoveryengineService->documents;
+ *   $documents = $discoveryengineService->projects_locations_dataStores_branches_documents;
  *  </code>
  */
 class ProjectsLocationsDataStoresBranchesDocuments extends \Google\Service\Resource

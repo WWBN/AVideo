@@ -25,6 +25,7 @@ class Collaboration extends \Google\Model
   public $attachmentId;
   protected $initiatorType = UserDisplayInfo::class;
   protected $initiatorDataType = '';
+  public $initiator;
   /**
    * @var string
    */

@@ -22,6 +22,7 @@ class GraphicsStats extends \Google\Collection
   protected $collection_key = 'buckets';
   protected $bucketsType = GraphicsStatsBucket::class;
   protected $bucketsDataType = 'array';
+  public $buckets;
   /**
    * @var string
    */

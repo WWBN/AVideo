@@ -22,12 +22,14 @@ class GoogleInternalAppsWaldoV1alphaUserAvailabilities extends \Google\Collectio
   protected $collection_key = 'availabilities';
   protected $availabilitiesType = GoogleInternalAppsWaldoV1alphaUserAvailability::class;
   protected $availabilitiesDataType = 'array';
+  public $availabilities;
   /**
    * @var string
    */
   public $nextPollTime;
   protected $workingHoursType = GoogleInternalAppsWaldoV1alphaWorkingHours::class;
   protected $workingHoursDataType = '';
+  public $workingHours;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaUserAvailability[]

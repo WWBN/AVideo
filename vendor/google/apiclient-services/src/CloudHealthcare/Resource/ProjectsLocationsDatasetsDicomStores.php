@@ -35,7 +35,7 @@ use Google\Service\CloudHealthcare\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $dicomStores = $healthcareService->dicomStores;
+ *   $dicomStores = $healthcareService->projects_locations_datasets_dicomStores;
  *  </code>
  */
 class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource

@@ -22,14 +22,17 @@ class GoogleCloudVisionV1p4beta1Paragraph extends \Google\Collection
   protected $collection_key = 'words';
   protected $boundingBoxType = GoogleCloudVisionV1p4beta1BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $propertyType = GoogleCloudVisionV1p4beta1TextAnnotationTextProperty::class;
   protected $propertyDataType = '';
+  public $property;
   protected $wordsType = GoogleCloudVisionV1p4beta1Word::class;
   protected $wordsDataType = 'array';
+  public $words;
 
   /**
    * @param GoogleCloudVisionV1p4beta1BoundingPoly

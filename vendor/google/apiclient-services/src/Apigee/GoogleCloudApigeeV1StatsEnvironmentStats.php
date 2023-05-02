@@ -22,8 +22,10 @@ class GoogleCloudApigeeV1StatsEnvironmentStats extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $dimensionsType = GoogleCloudApigeeV1DimensionMetric::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   protected $metricsType = GoogleCloudApigeeV1Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   /**
    * @var string
    */

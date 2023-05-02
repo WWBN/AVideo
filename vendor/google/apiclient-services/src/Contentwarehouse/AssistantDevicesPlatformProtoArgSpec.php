@@ -21,8 +21,10 @@ class AssistantDevicesPlatformProtoArgSpec extends \Google\Model
 {
   protected $intValueSpecType = AssistantDevicesPlatformProtoIntValueSpec::class;
   protected $intValueSpecDataType = '';
+  public $intValueSpec;
   protected $optionValueSpecType = AssistantDevicesPlatformProtoOptionValueSpec::class;
   protected $optionValueSpecDataType = '';
+  public $optionValueSpec;
   /**
    * @var string
    */

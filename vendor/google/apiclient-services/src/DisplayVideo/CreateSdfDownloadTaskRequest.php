@@ -25,10 +25,13 @@ class CreateSdfDownloadTaskRequest extends \Google\Model
   public $advertiserId;
   protected $idFilterType = IdFilter::class;
   protected $idFilterDataType = '';
+  public $idFilter;
   protected $inventorySourceFilterType = InventorySourceFilter::class;
   protected $inventorySourceFilterDataType = '';
+  public $inventorySourceFilter;
   protected $parentEntityFilterType = ParentEntityFilter::class;
   protected $parentEntityFilterDataType = '';
+  public $parentEntityFilter;
   /**
    * @var string
    */

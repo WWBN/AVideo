@@ -26,6 +26,7 @@ class RichLink extends \Google\Collection
   public $richLinkId;
   protected $richLinkPropertiesType = RichLinkProperties::class;
   protected $richLinkPropertiesDataType = '';
+  public $richLinkProperties;
   /**
    * @var string[]
    */
@@ -36,8 +37,10 @@ class RichLink extends \Google\Collection
   public $suggestedInsertionIds;
   protected $suggestedTextStyleChangesType = SuggestedTextStyle::class;
   protected $suggestedTextStyleChangesDataType = 'map';
+  public $suggestedTextStyleChanges;
   protected $textStyleType = TextStyle::class;
   protected $textStyleDataType = '';
+  public $textStyle;
 
   /**
    * @param string

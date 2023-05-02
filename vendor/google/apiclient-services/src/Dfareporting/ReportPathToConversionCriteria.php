@@ -22,24 +22,32 @@ class ReportPathToConversionCriteria extends \Google\Collection
   protected $collection_key = 'perInteractionDimensions';
   protected $activityFiltersType = DimensionValue::class;
   protected $activityFiltersDataType = 'array';
+  public $activityFilters;
   protected $conversionDimensionsType = SortedDimension::class;
   protected $conversionDimensionsDataType = 'array';
+  public $conversionDimensions;
   protected $customFloodlightVariablesType = SortedDimension::class;
   protected $customFloodlightVariablesDataType = 'array';
+  public $customFloodlightVariables;
   protected $customRichMediaEventsType = DimensionValue::class;
   protected $customRichMediaEventsDataType = 'array';
+  public $customRichMediaEvents;
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   protected $floodlightConfigIdType = DimensionValue::class;
   protected $floodlightConfigIdDataType = '';
+  public $floodlightConfigId;
   /**
    * @var string[]
    */
   public $metricNames;
   protected $perInteractionDimensionsType = SortedDimension::class;
   protected $perInteractionDimensionsDataType = 'array';
+  public $perInteractionDimensions;
   protected $reportPropertiesType = ReportPathToConversionCriteriaReportProperties::class;
   protected $reportPropertiesDataType = '';
+  public $reportProperties;
 
   /**
    * @param DimensionValue[]

@@ -22,8 +22,10 @@ class RunRealtimeReportRequest extends \Google\Collection
   protected $collection_key = 'orderBys';
   protected $dimensionFilterType = FilterExpression::class;
   protected $dimensionFilterDataType = '';
+  public $dimensionFilter;
   protected $dimensionsType = Dimension::class;
   protected $dimensionsDataType = 'array';
+  public $dimensions;
   /**
    * @var string
    */
@@ -34,12 +36,16 @@ class RunRealtimeReportRequest extends \Google\Collection
   public $metricAggregations;
   protected $metricFilterType = FilterExpression::class;
   protected $metricFilterDataType = '';
+  public $metricFilter;
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
+  public $metrics;
   protected $minuteRangesType = MinuteRange::class;
   protected $minuteRangesDataType = 'array';
+  public $minuteRanges;
   protected $orderBysType = OrderBy::class;
   protected $orderBysDataType = 'array';
+  public $orderBys;
   /**
    * @var bool
    */

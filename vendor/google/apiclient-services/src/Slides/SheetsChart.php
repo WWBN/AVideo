@@ -29,6 +29,7 @@ class SheetsChart extends \Google\Model
   public $contentUrl;
   protected $sheetsChartPropertiesType = SheetsChartProperties::class;
   protected $sheetsChartPropertiesDataType = '';
+  public $sheetsChartProperties;
   /**
    * @var string
    */

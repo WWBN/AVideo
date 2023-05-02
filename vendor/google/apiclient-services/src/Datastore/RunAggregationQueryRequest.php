@@ -21,16 +21,20 @@ class RunAggregationQueryRequest extends \Google\Model
 {
   protected $aggregationQueryType = AggregationQuery::class;
   protected $aggregationQueryDataType = '';
+  public $aggregationQuery;
   /**
    * @var string
    */
   public $databaseId;
   protected $gqlQueryType = GqlQuery::class;
   protected $gqlQueryDataType = '';
+  public $gqlQuery;
   protected $partitionIdType = PartitionId::class;
   protected $partitionIdDataType = '';
+  public $partitionId;
   protected $readOptionsType = ReadOptions::class;
   protected $readOptionsDataType = '';
+  public $readOptions;
 
   /**
    * @param AggregationQuery

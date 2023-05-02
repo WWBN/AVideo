@@ -22,6 +22,7 @@ class IndexingMobileInterstitialsProtoDesktopInterstitials extends \Google\Colle
   protected $collection_key = 'details';
   protected $detailsType = IndexingMobileInterstitialsProtoDesktopInterstitialsDetails::class;
   protected $detailsDataType = 'array';
+  public $details;
   /**
    * @var string
    */
@@ -32,6 +33,7 @@ class IndexingMobileInterstitialsProtoDesktopInterstitials extends \Google\Colle
   public $pipelinePattern;
   protected $urlTreeType = IndexingUrlPatternUrlTreeUrlTree::class;
   protected $urlTreeDataType = '';
+  public $urlTree;
   /**
    * @var bool
    */

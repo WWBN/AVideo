@@ -49,10 +49,16 @@ $metadata = array(
     "recurrent" => @$_REQUEST['recurrent'],
     "singlePayment" => @$_REQUEST['singlePayment'],
 );
+$obj->value = $value;
+$obj->currency = $currency;
+$obj->description = @$_REQUEST['description'];
+$obj->metadata = $metadata;
+$obj->customer = @$_REQUEST['customer'];
+$obj->future_usage = @$_REQUEST['future_usage'];
 
 $intent = $stripe->getIntent($value, $currency, @$_REQUEST['description'], $metadata, @$_REQUEST['customer'], @$_REQUEST['future_usage']);
-
-$obj->client_secret = $intent->client_secret;
+$obj->intent = $intent;
+$obj->client_secret = @$intent->client_secret;
 $obj->error = empty($obj->client_secret);
 die(json_encode($obj));
 ?>

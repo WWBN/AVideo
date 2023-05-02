@@ -22,8 +22,10 @@ class StreamingComputationTask extends \Google\Collection
   protected $collection_key = 'dataDisks';
   protected $computationRangesType = StreamingComputationRanges::class;
   protected $computationRangesDataType = 'array';
+  public $computationRanges;
   protected $dataDisksType = MountedDataDisk::class;
   protected $dataDisksDataType = 'array';
+  public $dataDisks;
   /**
    * @var string
    */

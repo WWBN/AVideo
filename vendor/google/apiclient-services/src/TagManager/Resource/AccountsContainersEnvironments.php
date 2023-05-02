@@ -25,7 +25,7 @@ use Google\Service\TagManager\ListEnvironmentsResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $environments = $tagmanagerService->environments;
+ *   $environments = $tagmanagerService->accounts_containers_environments;
  *  </code>
  */
 class AccountsContainersEnvironments extends \Google\Service\Resource

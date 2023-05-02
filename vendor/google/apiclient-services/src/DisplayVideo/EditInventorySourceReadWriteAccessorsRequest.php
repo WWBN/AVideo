@@ -21,6 +21,7 @@ class EditInventorySourceReadWriteAccessorsRequest extends \Google\Model
 {
   protected $advertisersUpdateType = EditInventorySourceReadWriteAccessorsRequestAdvertisersUpdate::class;
   protected $advertisersUpdateDataType = '';
+  public $advertisersUpdate;
   /**
    * @var bool
    */

@@ -31,7 +31,7 @@ $obj->save = $objC->save();
 if (!empty($obj->save)) {
     $obj->error = false;
     $obj->comment = Comment::getComment($obj->comments_id);
-    $obj->comment = Comment::addExtraInfo2($obj->comment);    
+    $obj->comment = Comment::addExtraInfo2($obj->comment);
     if($obj->new_pin_value){
         $obj->msg = __("Your comment is pinned");
     }else{

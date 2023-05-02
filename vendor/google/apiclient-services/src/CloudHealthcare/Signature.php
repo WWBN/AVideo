@@ -21,6 +21,7 @@ class Signature extends \Google\Model
 {
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   /**
    * @var string[]
    */

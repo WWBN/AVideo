@@ -22,6 +22,7 @@ class GoogleCloudChannelV1alpha1Report extends \Google\Collection
   protected $collection_key = 'columns';
   protected $columnsType = GoogleCloudChannelV1alpha1Column::class;
   protected $columnsDataType = 'array';
+  public $columns;
   /**
    * @var string
    */

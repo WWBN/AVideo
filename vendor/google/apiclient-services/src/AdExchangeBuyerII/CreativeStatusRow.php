@@ -21,12 +21,14 @@ class CreativeStatusRow extends \Google\Model
 {
   protected $bidCountType = MetricValue::class;
   protected $bidCountDataType = '';
+  public $bidCount;
   /**
    * @var int
    */
   public $creativeStatusId;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
+  public $rowDimensions;
 
   /**
    * @param MetricValue

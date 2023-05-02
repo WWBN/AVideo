@@ -22,6 +22,7 @@ class NlpSemanticParsingProtoActionsOnGoogleSlotList extends \Google\Collection
   protected $collection_key = 'slots';
   protected $slotsType = NlpSemanticParsingProtoActionsOnGoogleAogSlot::class;
   protected $slotsDataType = 'array';
+  public $slots;
 
   /**
    * @param NlpSemanticParsingProtoActionsOnGoogleAogSlot[]

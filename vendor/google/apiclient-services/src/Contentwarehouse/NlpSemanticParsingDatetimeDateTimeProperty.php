@@ -42,18 +42,21 @@ class NlpSemanticParsingDatetimeDateTimeProperty extends \Google\Collection
   public $metadata;
   protected $personalReferenceMetadataType = CopleyPersonalReferenceMetadata::class;
   protected $personalReferenceMetadataDataType = '';
+  public $personalReferenceMetadata;
   /**
    * @var string
    */
   public $relationToReference;
   protected $relativeType = NlpSemanticParsingDatetimeRelativeDateTime::class;
   protected $relativeDataType = '';
+  public $relative;
   /**
    * @var string
    */
   public $sourceCalendar;
   protected $sourceTypeListType = CopleySourceTypeList::class;
   protected $sourceTypeListDataType = '';
+  public $sourceTypeList;
   /**
    * @var string[]
    */

@@ -24,7 +24,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Schema;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $admin = $apigeeService->admin;
+ *   $admin = $apigeeService->organizations_environments_analytics_admin;
  *  </code>
  */
 class OrganizationsEnvironmentsAnalyticsAdmin extends \Google\Service\Resource

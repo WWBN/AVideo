@@ -21,22 +21,31 @@ class GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails extends \Google\Model
 {
   protected $categoricalStatsResultType = GooglePrivacyDlpV2CategoricalStatsResult::class;
   protected $categoricalStatsResultDataType = '';
+  public $categoricalStatsResult;
   protected $deltaPresenceEstimationResultType = GooglePrivacyDlpV2DeltaPresenceEstimationResult::class;
   protected $deltaPresenceEstimationResultDataType = '';
+  public $deltaPresenceEstimationResult;
   protected $kAnonymityResultType = GooglePrivacyDlpV2KAnonymityResult::class;
   protected $kAnonymityResultDataType = '';
+  public $kAnonymityResult;
   protected $kMapEstimationResultType = GooglePrivacyDlpV2KMapEstimationResult::class;
   protected $kMapEstimationResultDataType = '';
+  public $kMapEstimationResult;
   protected $lDiversityResultType = GooglePrivacyDlpV2LDiversityResult::class;
   protected $lDiversityResultDataType = '';
+  public $lDiversityResult;
   protected $numericalStatsResultType = GooglePrivacyDlpV2NumericalStatsResult::class;
   protected $numericalStatsResultDataType = '';
+  public $numericalStatsResult;
   protected $requestedOptionsType = GooglePrivacyDlpV2RequestedRiskAnalysisOptions::class;
   protected $requestedOptionsDataType = '';
+  public $requestedOptions;
   protected $requestedPrivacyMetricType = GooglePrivacyDlpV2PrivacyMetric::class;
   protected $requestedPrivacyMetricDataType = '';
+  public $requestedPrivacyMetric;
   protected $requestedSourceTableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $requestedSourceTableDataType = '';
+  public $requestedSourceTable;
 
   /**
    * @param GooglePrivacyDlpV2CategoricalStatsResult

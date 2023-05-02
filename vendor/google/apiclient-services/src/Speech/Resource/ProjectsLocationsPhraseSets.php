@@ -27,7 +27,7 @@ use Google\Service\Speech\SpeechEmpty;
  * Typical usage is:
  *  <code>
  *   $speechService = new Google\Service\Speech(...);
- *   $phraseSets = $speechService->phraseSets;
+ *   $phraseSets = $speechService->projects_locations_phraseSets;
  *  </code>
  */
 class ProjectsLocationsPhraseSets extends \Google\Service\Resource

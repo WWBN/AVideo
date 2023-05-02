@@ -23,6 +23,7 @@ use Google\Service\Baremetalsolution\EnableInteractiveSerialConsoleRequest;
 use Google\Service\Baremetalsolution\Instance;
 use Google\Service\Baremetalsolution\ListInstancesResponse;
 use Google\Service\Baremetalsolution\Operation;
+use Google\Service\Baremetalsolution\RenameInstanceRequest;
 use Google\Service\Baremetalsolution\ResetInstanceRequest;
 use Google\Service\Baremetalsolution\StartInstanceRequest;
 use Google\Service\Baremetalsolution\StopInstanceRequest;
@@ -32,7 +33,7 @@ use Google\Service\Baremetalsolution\StopInstanceRequest;
  * Typical usage is:
  *  <code>
  *   $baremetalsolutionService = new Google\Service\Baremetalsolution(...);
- *   $instances = $baremetalsolutionService->instances;
+ *   $instances = $baremetalsolutionService->projects_locations_instances;
  *  </code>
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource
@@ -147,6 +148,22 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * RenameInstance sets a new name for an instance. (instances.rename)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * instance. Format:
+   * projects/{project}/locations/{location}/instances/{instance}
+   * @param RenameInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Instance
+   */
+  public function rename($name, RenameInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rename', [$params], Instance::class);
   }
   /**
    * Perform an ungraceful, hard reset on a server. Equivalent to shutting the

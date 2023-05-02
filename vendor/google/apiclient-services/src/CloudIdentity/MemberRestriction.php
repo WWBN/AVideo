@@ -21,6 +21,7 @@ class MemberRestriction extends \Google\Model
 {
   protected $evaluationType = RestrictionEvaluation::class;
   protected $evaluationDataType = '';
+  public $evaluation;
   /**
    * @var string
    */

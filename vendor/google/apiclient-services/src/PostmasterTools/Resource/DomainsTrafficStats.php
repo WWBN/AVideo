@@ -25,7 +25,7 @@ use Google\Service\PostmasterTools\TrafficStats;
  * Typical usage is:
  *  <code>
  *   $gmailpostmastertoolsService = new Google\Service\PostmasterTools(...);
- *   $trafficStats = $gmailpostmastertoolsService->trafficStats;
+ *   $trafficStats = $gmailpostmastertoolsService->domains_trafficStats;
  *  </code>
  */
 class DomainsTrafficStats extends \Google\Service\Resource

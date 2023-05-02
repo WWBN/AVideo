@@ -13,13 +13,21 @@ header('Content-Type: application/json');
 
 $_REQUEST['rowCount'] = getRowCount(1000);
 $_REQUEST['current'] = getCurrentPage();
-$categories = Category::getAllCategories(true);
-$total = Category::getTotalCategories(true);
+
+$onlyWithVideos = false;
+$sameUserGroupAsMe = false;
+if(!empty($_GET['user'])){
+    $onlyWithVideos = true;
+    $sameUserGroupAsMe = true;
+}
+
+$categories = Category::getAllCategories(true, $onlyWithVideos, false, $sameUserGroupAsMe);
+$total = Category::getTotalCategories(true, $onlyWithVideos);
 //$breaks = array('<br />', '<br>', '<br/>');
 foreach ($categories as $key => $value) {
     $categories[$key]['iconHtml'] = "<span class='$value[iconClass]'></span>";
     $categories[$key]['users_groups_ids_array'] = Categories_has_users_groups::getUserGroupsIdsFromCategory($value['id']);
-    
+
     if(empty($categories[$key]['users_groups_ids_array'])){
         $categories[$key]['total_users_groups'] = 0;
     }else{
@@ -47,4 +55,14 @@ if (empty($_POST['sort']) && empty($_GET['sort'])) {
     $array_column = array_column($categories, 'hierarchyAndName');
     array_multisort($array_column, SORT_ASC, $categories);
 }
-echo '{  "current": '.getCurrentPage().',"rowCount": '.getRowCount().', "total": '.$total.', "rows":'. _json_encode($categories).'}';
+
+$json = [
+    'current'=>getCurrentPage(),
+    'rowCount'=>getRowCount(),
+    'total'=>$total,
+    'rows'=>$categories,
+    'onlyWithVideos'=>$onlyWithVideos,
+    'sameUserGroupAsMe'=>$sameUserGroupAsMe
+];
+
+echo _json_encode($json);

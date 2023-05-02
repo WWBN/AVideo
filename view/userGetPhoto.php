@@ -1,7 +1,28 @@
 <?php
-require_once '../videos/configuration.php';
+//$doNotConnectDatabaseIncludeConfig =
+//require_once '../videos/configuration.php';
 
-$photo = User::getPhoto($_REQUEST['users_id']);
+//$photo = User::getPhotoRelativePath($_REQUEST['users_id']);
 
-header("Location: {$photo}");
+if (empty($_REQUEST['users_id'])) {
+    header('Content-Type: image/jpeg');
+    $img = 'img/userSilhouette.jpg';
+} else {
+    header('Content-Type: image/png');
+    $img = "../videos/userPhoto/photo{$_REQUEST['users_id']}.png";
+}
+
+if (!file_exists($img)) {
+    header('Content-Type: image/jpeg');
+    $img = 'img/userSilhouette.jpg';
+}
+
+header('Content-Length: ' . filesize($img));
+//header("X-Sendfile: ../{$img}");
+//exit;
+
+//echo $img;
+readfile($img);
+
+//header("Location: {$photo}");
 exit;

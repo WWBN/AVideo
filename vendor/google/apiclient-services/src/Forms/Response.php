@@ -21,6 +21,7 @@ class Response extends \Google\Model
 {
   protected $createItemType = CreateItemResponse::class;
   protected $createItemDataType = '';
+  public $createItem;
 
   /**
    * @param CreateItemResponse

@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2Conditions extends \Google\Collection
   protected $collection_key = 'conditions';
   protected $conditionsType = GooglePrivacyDlpV2Condition::class;
   protected $conditionsDataType = 'array';
+  public $conditions;
 
   /**
    * @param GooglePrivacyDlpV2Condition[]

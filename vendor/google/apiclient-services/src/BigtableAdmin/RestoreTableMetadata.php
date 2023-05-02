@@ -21,6 +21,7 @@ class RestoreTableMetadata extends \Google\Model
 {
   protected $backupInfoType = BackupInfo::class;
   protected $backupInfoDataType = '';
+  public $backupInfo;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class RestoreTableMetadata extends \Google\Model
   public $optimizeTableOperationName;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = '';
+  public $progress;
   /**
    * @var string
    */

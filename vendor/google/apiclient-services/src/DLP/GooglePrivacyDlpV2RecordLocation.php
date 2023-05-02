@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2RecordLocation extends \Google\Model
 {
   protected $fieldIdType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldIdDataType = '';
+  public $fieldId;
   protected $recordKeyType = GooglePrivacyDlpV2RecordKey::class;
   protected $recordKeyDataType = '';
+  public $recordKey;
   protected $tableLocationType = GooglePrivacyDlpV2TableLocation::class;
   protected $tableLocationDataType = '';
+  public $tableLocation;
 
   /**
    * @param GooglePrivacyDlpV2FieldId

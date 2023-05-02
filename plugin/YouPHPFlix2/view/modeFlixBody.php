@@ -7,8 +7,7 @@ $percent = 90;
      background: -webkit-linear-gradient(bottom, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
      background: -o-linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
      background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-     background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-     ">
+     background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
          <?php
          $_REQUEST['current'] = 1;
          $_REQUEST['rowCount'] = $obj->maxVideos;
@@ -308,8 +307,8 @@ $percent = 90;
     }
     if ($obj->Categories) {
         $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
-        if (!empty($_GET['catName'])) {
-            $url = addQueryStringParameter($url, 'catName', $_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
         }
         $search = getSearchVar();
         if (!empty($search)) {
@@ -317,6 +316,9 @@ $percent = 90;
         }
         $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
         $url = addQueryStringParameter($url, 'current', 1);
+        if(!empty($_REQUEST['search'])){
+            $url = addQueryStringParameter($url, 'search', $_REQUEST['search']);
+        }
         ?>
         <div id="categoriesContainer"></div>
         <p class="pagination infiniteScrollPagination">

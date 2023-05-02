@@ -476,7 +476,7 @@ class CDNStorage {
 
         return ['filesCopied' => $filesCopied, 'totalBytesTransferred' => $totalBytesTransferred];
     }
-
+    
     public static function put($videos_id, $totalSameTime, $onlyExtension = '') {
         global $_uploadInfo;
         if (empty($videos_id)) {
@@ -542,7 +542,12 @@ class CDNStorage {
                     }
                     if ($r == FTP_MOREDATA) {
                         // Continue uploading...
-                        $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                        try {
+                            $ret[$key] = ftp_nb_continue($conn_id[$key]);
+                        } catch (Exception $exc) {
+                            _error_log("CDNStorage::put:upload ftp_nb_continue error ".$exc->getMessage());
+                        }
+
                         $continue = true;
                     }
                     if ($r == FTP_FINISHED) {
@@ -800,8 +805,10 @@ class CDNStorage {
 
     private static function getConnID($index, &$conn_id) {
         if (empty($conn_id[$index])) {
+            $timeout = 180;
             $obj = AVideoPlugin::getDataObject('CDN');
-            $conn_id[$index] = ftp_connect($obj->storage_hostname);
+            $conn_id[$index] = ftp_connect($obj->storage_hostname, 21, $timeout);
+            ftp_set_option($conn_id[$index], FTP_TIMEOUT_SEC, $timeout);
             if (empty($conn_id[$index])) {
                 sleep(1);
                 return self::getConnID($index, $conn_id);

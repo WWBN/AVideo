@@ -25,7 +25,7 @@ use Google\Service\ShoppingContent\ListAccountReturnCarrierResponse;
  * Typical usage is:
  *  <code>
  *   $contentService = new Google\Service\ShoppingContent(...);
- *   $returncarrier = $contentService->returncarrier;
+ *   $returncarrier = $contentService->accounts_returncarrier;
  *  </code>
  */
 class AccountsReturncarrier extends \Google\Service\Resource

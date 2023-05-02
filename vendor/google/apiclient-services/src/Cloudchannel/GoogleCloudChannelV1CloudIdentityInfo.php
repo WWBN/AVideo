@@ -33,6 +33,7 @@ class GoogleCloudChannelV1CloudIdentityInfo extends \Google\Model
   public $customerType;
   protected $eduDataType = GoogleCloudChannelV1EduData::class;
   protected $eduDataDataType = '';
+  public $eduData;
   /**
    * @var bool
    */

@@ -21,12 +21,14 @@ class Target extends \Google\Model
 {
   protected $documentsType = DocumentsTarget::class;
   protected $documentsDataType = '';
+  public $documents;
   /**
    * @var bool
    */
   public $once;
   protected $queryType = QueryTarget::class;
   protected $queryDataType = '';
+  public $query;
   /**
    * @var string
    */

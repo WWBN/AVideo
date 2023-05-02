@@ -22,8 +22,10 @@ class GrpcRouteRouteRule extends \Google\Collection
   protected $collection_key = 'matches';
   protected $actionType = GrpcRouteRouteAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $matchesType = GrpcRouteRouteMatch::class;
   protected $matchesDataType = 'array';
+  public $matches;
 
   /**
    * @param GrpcRouteRouteAction

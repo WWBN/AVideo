@@ -84,15 +84,15 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea .isAResponse{
             margin-left: 20px;
         }
-        
+
         #commentsArea > .media .media .isAResponse{
             margin-left: 10px;
         }
-        
+
         #commentsArea > .media .media .media .isAResponse{
             margin-left: 5px;
         }
-        
+
     </style>
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
     <center>
@@ -201,10 +201,10 @@ if (User::canSeeCommentTextarea()) {
             }else{
                 itemsArray.isAResponse = 'isNotAResponse';
             }
-            
+
             itemsArray.videoLink = itemsArray.video.link;
             itemsArray.videoTitle = itemsArray.video.title;
-            
+
             var template = getCommentTemplate(itemsArray);
 
             var selector = '#commentsArea ';
@@ -224,7 +224,7 @@ if (User::canSeeCommentTextarea()) {
                 }else{
                     $(selector).prepend(template);
                 }
-                
+
             }
             return true;
         }
@@ -235,7 +235,7 @@ if (User::canSeeCommentTextarea()) {
             if ($(selector).is(':empty')) {
                 getComments(comments_id, 1);
             }
-            
+
             if ($(t).hasClass('isOpen')) {
                 $(t).removeClass('isOpen');
                 $(t).addClass('isNotOpen');
@@ -271,7 +271,7 @@ if (User::canSeeCommentTextarea()) {
                                 if(page>1){
                                     avideoToastInfo('Finished');
                                 }
-                                $('#commentLoadMoreBtn').fadeOut();    
+                                $('#commentLoadMoreBtn').fadeOut();
                             }
                         }
                         if(page<=1){

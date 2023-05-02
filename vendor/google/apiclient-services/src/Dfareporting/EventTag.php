@@ -30,12 +30,14 @@ class EventTag extends \Google\Collection
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
+  public $advertiserIdDimensionValue;
   /**
    * @var string
    */
   public $campaignId;
   protected $campaignIdDimensionValueType = DimensionValue::class;
   protected $campaignIdDimensionValueDataType = '';
+  public $campaignIdDimensionValue;
   /**
    * @var bool
    */

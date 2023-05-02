@@ -24,7 +24,7 @@ use Google\Service\Datapipelines\GoogleCloudDatapipelinesV1ListJobsResponse;
  * Typical usage is:
  *  <code>
  *   $datapipelinesService = new Google\Service\Datapipelines(...);
- *   $jobs = $datapipelinesService->jobs;
+ *   $jobs = $datapipelinesService->projects_locations_pipelines_jobs;
  *  </code>
  */
 class ProjectsLocationsPipelinesJobs extends \Google\Service\Resource

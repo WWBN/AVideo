@@ -22,6 +22,7 @@ class ListAlertPoliciesResponse extends \Google\Collection
   protected $collection_key = 'alertPolicies';
   protected $alertPoliciesType = AlertPolicy::class;
   protected $alertPoliciesDataType = 'array';
+  public $alertPolicies;
   /**
    * @var string
    */

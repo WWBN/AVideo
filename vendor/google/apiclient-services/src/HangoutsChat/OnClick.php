@@ -21,8 +21,10 @@ class OnClick extends \Google\Model
 {
   protected $actionType = FormAction::class;
   protected $actionDataType = '';
+  public $action;
   protected $openLinkType = OpenLink::class;
   protected $openLinkDataType = '';
+  public $openLink;
 
   /**
    * @param FormAction

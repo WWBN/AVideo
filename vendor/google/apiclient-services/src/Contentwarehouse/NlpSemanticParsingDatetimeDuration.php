@@ -21,14 +21,17 @@ class NlpSemanticParsingDatetimeDuration extends \Google\Model
 {
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
+  public $evalData;
   /**
    * @var string
    */
   public $modifier;
   protected $quantityType = NlpSemanticParsingDatetimeQuantity::class;
   protected $quantityDataType = '';
+  public $quantity;
   protected $spanType = NlpSemanticParsingDatetimeSpan::class;
   protected $spanDataType = '';
+  public $span;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData

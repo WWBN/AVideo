@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1ListSecurityReportsResponse extends \Google\Collection
   public $nextPageToken;
   protected $securityReportsType = GoogleCloudApigeeV1SecurityReport::class;
   protected $securityReportsDataType = 'array';
+  public $securityReports;
 
   /**
    * @param string

@@ -53,6 +53,7 @@ class ProductShipping extends \Google\Model
   public $postalCode;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */

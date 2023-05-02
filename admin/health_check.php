@@ -1,6 +1,7 @@
 <?php
 
-function _isAPPInstalled($appName) {
+function _isAPPInstalled($appName)
+{
     $appName = preg_replace('/[^a-z0-9_-]/i', '', $appName);
     return trim(shell_exec("which {$appName}"));
 }
@@ -26,7 +27,9 @@ $apacheModules[] = ['mod_expires', 'sudo a2enmod expires'];
 $apacheModules[] = ['mod_headers', 'sudo a2enmod headers'];
 
 $linuxApps = [];
-$linuxApps[] = ['mysql'];
+if (!isDocker()) {
+    $linuxApps[] = ['mysql'];
+}
 $linuxApps[] = ['ffmpeg'];
 $linuxApps[] = ['git'];
 $linuxApps[] = ['exiftool'];
@@ -54,6 +57,11 @@ foreach ($phpExtensions as $value) {
     }
 }
 
+if (function_exists('imagewebp')) {
+    $messages['PHP'][] = "WebP is supported";
+} else {
+    $messages['PHP'][] = ["WebP is not supported", 'sudo apt-get install -y libwebp-dev libjpeg-dev libpng-dev libxpm-dev libfreetype6-dev php-gd'];
+}
 
 if (isset($_SERVER["HTTPS"])) {
     $messages['Apache'][] = "HTTPS is enabled";
@@ -110,7 +118,7 @@ if(_isSchedulerPresentOnCrontab()){
 }else{
     $messages['Server'][] = ["Scheduler plugin is NOT installed on your crontab, open your terminal and type 'crontab -e', than add the code: ", "* * * * * php {$global['systemRootPath']}plugin/Scheduler/run.php"];
 }
- * 
+ *
  */
 
 foreach ($linuxApps as $value) {
@@ -128,7 +136,9 @@ if (is_writable($videosDir)) {
     $messages['Server'][] = ["{$videosDir} is NOT writable", 'sudo chmod -R 777 ' . $videosDir];
 }
 
-if (is_writable($global['logfile'])) {
+if (isDocker()) {
+    $messages['Server'][] = "Log is in the docker output";
+} else if (is_writable($global['logfile'])) {
     $messages['Server'][] = "Log file is writable";
 } else {
     $messages['Server'][] = ["{$global['logfile']} is NOT writable", 'sudo chmod -R 777 ' . $global['logfile']];
@@ -174,19 +184,31 @@ if (empty($verified)) {
      *
      */
 }
+
+if (Scheduler::isActive()) {
+    $messages['Server'][] = "Scheduler plugin crontab is runing";
+} else {
+    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp()];
+}
 ?>
 <style>
-    #healthCheck .alert{
+    #healthCheck .alert {
         overflow: auto;
     }
 </style>
 <div class="panel panel-default" id="healthCheck">
     <div class="panel-heading">
-<?php echo '<h1>' . PHP_OS . '</h1>'; ?>
+        <?php
+        echo '<h1>' . PHP_OS ;
+        if (isDocker()) {
+            echo ' <small>(Docker)</small>';
+        }
+        echo '</h1>';
+        ?>
     </div>
     <div class="panel-body">
 
-        <div class="row">    
+        <div class="row">
 
             <div class="col-lg-8 col-md-6">
                 <div class="panel panel-default">
@@ -194,49 +216,49 @@ if (empty($verified)) {
                         Server
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
-<?php
-$count = 0;
-foreach ($messages['Server'] as $value) {
-    $count++;
-    if (is_array($value)) {
-        ?>
+                        <div class="row">
+                            <?php
+                            $count = 0;
+                            foreach ($messages['Server'] as $value) {
+                                $count++;
+                                if (is_array($value)) {
+                            ?>
                                     <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                    echo $value[0];
-                                    if (!empty($value[1])) {
-                                        if (preg_match('/^http/i', $value[1])) {
-                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </div>    
-                                    </div>
+                                                                            echo $value[0];
+                                                                            if (!empty($value[1])) {
+                                                                                if (preg_match('/^http/i', $value[1])) {
+                                                                            ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
+                                                <?php
+                                                                                } else {
+                                                ?>
+                                                    <br><code><?php echo $value[1]; ?></code>
                                             <?php
-                                        } else {
+                                                                                }
+                                                                            }
                                             ?>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
                                     <div class="col-lg-4 col-md-6 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
-                                            <?php
-                                        }
-                                        if ($count % 2 === 0) {
-                                            echo '<div class="clearfix visible-md"></div>';
-                                        }
-                                        if ($count % 3 === 0) {
-                                            echo '<div class="clearfix visible-lg"></div>';
-                                        }
-                                    }
-                                    ?>
+                                        </div>
+                                    </div>
+                            <?php
+                                }
+                                if ($count % 2 === 0) {
+                                    echo '<div class="clearfix visible-md"></div>';
+                                }
+                                if ($count % 3 === 0) {
+                                    echo '<div class="clearfix visible-lg"></div>';
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -248,41 +270,41 @@ foreach ($messages['Server'] as $value) {
                         PHP
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
-<?php
-foreach ($messages['PHP'] as $value) {
-    if (is_array($value)) {
-        ?>
+                        <div class="row">
+                            <?php
+                            foreach ($messages['PHP'] as $value) {
+                                if (is_array($value)) {
+                            ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                    echo $value[0];
-                                    if (!empty($value[1])) {
-                                        if (preg_match('/^http/i', $value[1])) {
-                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </div>    
-                                    </div>
+                                                                            echo $value[0];
+                                                                            if (!empty($value[1])) {
+                                                                                if (preg_match('/^http/i', $value[1])) {
+                                                                            ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
+                                                <?php
+                                                                                } else {
+                                                ?>
+                                                    <br><code><?php echo $value[1]; ?></code>
                                             <?php
-                                        } else {
+                                                                                }
+                                                                            }
                                             ?>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
-                                            <?php
-                                        }
-                                    }
-                                    ?>
+                                        </div>
+                                    </div>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
@@ -294,41 +316,41 @@ foreach ($messages['PHP'] as $value) {
                         Apache
                     </div>
                     <div class="panel-body">
-                        <div class="row">    
-<?php
-foreach ($messages['Apache'] as $value) {
-    if (is_array($value)) {
-        ?>
+                        <div class="row">
+                            <?php
+                            foreach ($messages['Apache'] as $value) {
+                                if (is_array($value)) {
+                            ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-danger">
                                             <i class="fas fa-times"></i> <?php
-                                    echo $value[0];
-                                    if (!empty($value[1])) {
-                                        if (preg_match('/^http/i', $value[1])) {
-                                            ?>
-                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a> 
-                                                    <?php
-                                                } else {
-                                                    ?>
-                                                    <br><code><?php echo $value[1]; ?></code> 
-                                                    <?php
-                                                }
-                                            }
-                                            ?>
-                                        </div>    
-                                    </div>
+                                                                            echo $value[0];
+                                                                            if (!empty($value[1])) {
+                                                                                if (preg_match('/^http/i', $value[1])) {
+                                                                            ?>
+                                                    <a href="<?php echo $value[1]; ?>" class="btn btn-danger btn-xs btn-block" target="_blank"><i class="fas fa-hand-holding-medical"></i> </a>
+                                                <?php
+                                                                                } else {
+                                                ?>
+                                                    <br><code><?php echo $value[1]; ?></code>
                                             <?php
-                                        } else {
+                                                                                }
+                                                                            }
                                             ?>
+                                        </div>
+                                    </div>
+                                <?php
+                                } else {
+                                ?>
                                     <div class="col-sm-12 <?php echo getCSSAnimationClassAndStyle('animate__flipInX'); ?>">
                                         <div class="alert alert-success">
                                             <i class="fas fa-check"></i> <?php echo $value; ?>
-                                        </div>  
-                                    </div>    
-                                            <?php
-                                        }
-                                    }
-                                    ?>
+                                        </div>
+                                    </div>
+                            <?php
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

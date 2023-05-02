@@ -30,6 +30,7 @@ class Environment extends \Google\Collection
   public $dataset;
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
+  public $debugOptions;
   /**
    * @var string[]
    */
@@ -76,6 +77,7 @@ class Environment extends \Google\Collection
   public $version;
   protected $workerPoolsType = WorkerPool::class;
   protected $workerPoolsDataType = 'array';
+  public $workerPools;
   /**
    * @var string
    */

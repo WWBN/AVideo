@@ -26,6 +26,7 @@ class LiaSettings extends \Google\Collection
   public $accountId;
   protected $countrySettingsType = LiaCountrySettings::class;
   protected $countrySettingsDataType = 'array';
+  public $countrySettings;
   /**
    * @var string
    */

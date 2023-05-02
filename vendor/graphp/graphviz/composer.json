@@ -1,0 +1,18 @@
+{
+    "name": "graphp/graphviz",
+    "type": "library",
+    "description": "GraphViz graph drawing for the mathematical graph/network library GraPHP.",
+    "keywords": ["GraphViz", "graph drawing", "graph image", "dot output", "GraPHP"],
+    "homepage": "https://github.com/graphp/graphviz",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {"Graphp\\GraphViz\\": "src/"}
+    },
+    "require": {
+        "php": ">=5.3.0",
+        "clue/graph": "~0.9.0|~0.8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.4 || ^5.7 || ^4.8.35"
+    }
+}

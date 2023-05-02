@@ -21,6 +21,7 @@ class VpnGatewaysGetStatusResponse extends \Google\Model
 {
   protected $resultType = VpnGatewayStatus::class;
   protected $resultDataType = '';
+  public $result;
 
   /**
    * @param VpnGatewayStatus

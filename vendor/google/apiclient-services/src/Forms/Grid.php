@@ -21,6 +21,7 @@ class Grid extends \Google\Model
 {
   protected $columnsType = ChoiceQuestion::class;
   protected $columnsDataType = '';
+  public $columns;
   /**
    * @var bool
    */

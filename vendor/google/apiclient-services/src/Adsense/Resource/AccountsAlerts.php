@@ -24,7 +24,7 @@ use Google\Service\Adsense\ListAlertsResponse;
  * Typical usage is:
  *  <code>
  *   $adsenseService = new Google\Service\Adsense(...);
- *   $alerts = $adsenseService->alerts;
+ *   $alerts = $adsenseService->accounts_alerts;
  *  </code>
  */
 class AccountsAlerts extends \Google\Service\Resource

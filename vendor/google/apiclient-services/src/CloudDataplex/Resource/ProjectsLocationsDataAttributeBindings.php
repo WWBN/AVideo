@@ -17,21 +17,83 @@
 
 namespace Google\Service\CloudDataplex\Resource;
 
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1DataAttributeBinding;
+use Google\Service\CloudDataplex\GoogleCloudDataplexV1ListDataAttributeBindingsResponse;
 use Google\Service\CloudDataplex\GoogleIamV1Policy;
 use Google\Service\CloudDataplex\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\CloudDataplex\GoogleIamV1TestIamPermissionsResponse;
+use Google\Service\CloudDataplex\GoogleLongrunningOperation;
 
 /**
  * The "dataAttributeBindings" collection of methods.
  * Typical usage is:
  *  <code>
  *   $dataplexService = new Google\Service\CloudDataplex(...);
- *   $dataAttributeBindings = $dataplexService->dataAttributeBindings;
+ *   $dataAttributeBindings = $dataplexService->projects_locations_dataAttributeBindings;
  *  </code>
  */
 class ProjectsLocationsDataAttributeBindings extends \Google\Service\Resource
 {
+  /**
+   * Create a DataAttributeBinding resource. (dataAttributeBindings.create)
+   *
+   * @param string $parent Required. The resource name of the parent data taxonomy
+   * projects/{project_number}/locations/{location_id}
+   * @param GoogleCloudDataplexV1DataAttributeBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string dataAttributeBindingId Required. DataAttributeBinding
+   * identifier. * Must contain only lowercase letters, numbers and hyphens. *
+   * Must start with a letter. * Must be between 1-63 characters. * Must end with
+   * a number or a letter. * Must be unique within the Location.
+   * @opt_param bool validateOnly Optional. Only validate the request, but do not
+   * perform mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   */
+  public function create($parent, GoogleCloudDataplexV1DataAttributeBinding $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes a DataAttributeBinding resource. All attributes within the
+   * DataAttributeBinding must be deleted before the DataAttributeBinding can be
+   * deleted. (dataAttributeBindings.delete)
+   *
+   * @param string $name Required. The resource name of the DataAttributeBinding:
+   * projects/{project_number}/locations/{location_id}/dataAttributeBindings/{data
+   * _attribute_binding_id}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Required. If the client provided etag value does not
+   * match the current etag value, the DeleteDataAttributeBindingRequest method
+   * returns an ABORTED error response. Etags must be used when calling the
+   * DeleteDataAttributeBinding.
+   * @return GoogleLongrunningOperation
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Retrieves a DataAttributeBinding resource. (dataAttributeBindings.get)
+   *
+   * @param string $name Required. The resource name of the DataAttributeBinding:
+   * projects/{project_number}/locations/{location_id}/dataAttributeBindings/{data
+   * _attribute_binding_id}
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudDataplexV1DataAttributeBinding
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudDataplexV1DataAttributeBinding::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set.
@@ -61,6 +123,55 @@ class ProjectsLocationsDataAttributeBindings extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
+  }
+  /**
+   * Lists DataAttributeBinding resources in a project and location.
+   * (dataAttributeBindings.listProjectsLocationsDataAttributeBindings)
+   *
+   * @param string $parent Required. The resource name of the Location:
+   * projects/{project_number}/locations/{location_id}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filter request. Filter using resource:
+   * filter=resource:"resource-name" Filter using attribute: filter=attributes
+   * :"attribute-name" Filter using attribute in paths list:
+   * filter=paths.attributes:"attribute-name"
+   * @opt_param string orderBy Optional. Order by fields for the result.
+   * @opt_param int pageSize Optional. Maximum number of DataAttributeBindings to
+   * return. The service may return fewer than this value. If unspecified, at most
+   * 10 DataAttributeBindings will be returned. The maximum value is 1000; values
+   * above 1000 will be coerced to 1000.
+   * @opt_param string pageToken Optional. Page token received from a previous
+   * ListDataAttributeBindings call. Provide this to retrieve the subsequent page.
+   * When paginating, all other parameters provided to ListDataAttributeBindings
+   * must match the call that provided the page token.
+   * @return GoogleCloudDataplexV1ListDataAttributeBindingsResponse
+   */
+  public function listProjectsLocationsDataAttributeBindings($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], GoogleCloudDataplexV1ListDataAttributeBindingsResponse::class);
+  }
+  /**
+   * Updates a DataAttributeBinding resource. (dataAttributeBindings.patch)
+   *
+   * @param string $name Output only. The relative resource name of the Data
+   * Attribute Binding, of the form: projects/{project_number}/locations/{location
+   * }/dataAttributeBindings/{data_attribute_binding_id}
+   * @param GoogleCloudDataplexV1DataAttributeBinding $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Mask of fields to update.
+   * @opt_param bool validateOnly Optional. Only validate the request, but do not
+   * perform mutations. The default is false.
+   * @return GoogleLongrunningOperation
+   */
+  public function patch($name, GoogleCloudDataplexV1DataAttributeBinding $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

@@ -26,6 +26,7 @@ class GoogleCloudChannelV1ListOffersResponse extends \Google\Collection
   public $nextPageToken;
   protected $offersType = GoogleCloudChannelV1Offer::class;
   protected $offersDataType = 'array';
+  public $offers;
 
   /**
    * @param string

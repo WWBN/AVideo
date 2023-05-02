@@ -29,6 +29,7 @@ class GoodocWordAlternates extends \Google\Collection
   public $errorProbability;
   protected $alternateType = GoodocWordAlternatesAlternate::class;
   protected $alternateDataType = 'array';
+  public $alternate;
 
   /**
    * @param int

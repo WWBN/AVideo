@@ -21,6 +21,7 @@ class GoogleCloudIntegrationsV1alphaCreateBundleResponse extends \Google\Model
 {
   protected $configType = GoogleCloudIntegrationsV1alphaIntegrationBundleConfig::class;
   protected $configDataType = '';
+  public $config;
   /**
    * @var string
    */

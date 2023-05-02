@@ -30,16 +30,20 @@ class WWWSnippetResponse extends \Google\Collection
   public $chosenBodyTidbits;
   protected $docInfoType = WWWDocInfo::class;
   protected $docInfoDataType = '';
+  public $docInfo;
   protected $docPreviewRestrictionsType = QualityDniDocPreviewRestrictions::class;
   protected $docPreviewRestrictionsDataType = '';
+  public $docPreviewRestrictions;
   protected $docPreviewRestrictionsForAmpType = QualityDniDocPreviewRestrictions::class;
   protected $docPreviewRestrictionsForAmpDataType = '';
+  public $docPreviewRestrictionsForAmp;
   /**
    * @var string
    */
   public $events;
   protected $extraInfoType = ExtraSnippetInfoResponse::class;
   protected $extraInfoDataType = '';
+  public $extraInfo;
   /**
    * @var int
    */
@@ -50,6 +54,7 @@ class WWWSnippetResponse extends \Google\Collection
   public $hasMessageType;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
+  public $info;
   /**
    * @var bool
    */
@@ -64,12 +69,14 @@ class WWWSnippetResponse extends \Google\Collection
   public $keyword;
   protected $listSnippetType = ListSnippetResponse::class;
   protected $listSnippetDataType = '';
+  public $listSnippet;
   /**
    * @var string
    */
   public $listSummary;
   protected $longStructuredSnippetType = LongStructuredSnippet::class;
   protected $longStructuredSnippetDataType = '';
+  public $longStructuredSnippet;
   /**
    * @var string
    */
@@ -80,6 +87,7 @@ class WWWSnippetResponse extends \Google\Collection
   public $matchesBitmapSize;
   protected $metaTagsType = WWWMetaTag::class;
   protected $metaTagsDataType = 'array';
+  public $metaTags;
   /**
    * @var int
    */
@@ -110,8 +118,10 @@ class WWWSnippetResponse extends \Google\Collection
   public $odp;
   protected $orionEntitiesType = OrionDocEntitiesProto::class;
   protected $orionEntitiesDataType = '';
+  public $orionEntities;
   protected $scienceInfoType = ScienceIndexSignal::class;
   protected $scienceInfoDataType = '';
+  public $scienceInfo;
   /**
    * @var string
    */
@@ -126,6 +136,7 @@ class WWWSnippetResponse extends \Google\Collection
   public $seenNotTerm;
   protected $sentimentSnippetsType = RepositoryAnnotationsMustangSentimentSnippetAnnotations::class;
   protected $sentimentSnippetsDataType = 'array';
+  public $sentimentSnippets;
   /**
    * @var string
    */
@@ -136,8 +147,10 @@ class WWWSnippetResponse extends \Google\Collection
   public $snippetBylineDate;
   protected $snippetExtraInfoType = SnippetExtraInfo::class;
   protected $snippetExtraInfoDataType = '';
+  public $snippetExtraInfo;
   protected $snippetHighlightMatchesBitmapType = WWWSnippetResponseBitmapPB::class;
   protected $snippetHighlightMatchesBitmapDataType = 'array';
+  public $snippetHighlightMatchesBitmap;
   /**
    * @var int
    */
@@ -148,12 +161,14 @@ class WWWSnippetResponse extends \Google\Collection
   public $snippetPrefixCharCount;
   protected $snippetRenderedTokenType = MustangSnippetsRenderedToken::class;
   protected $snippetRenderedTokenDataType = 'array';
+  public $snippetRenderedToken;
   /**
    * @var string
    */
   public $snippethash;
   protected $snippetsRanklabFeaturesType = MustangReposWwwSnippetsSnippetsRanklabFeatures::class;
   protected $snippetsRanklabFeaturesDataType = '';
+  public $snippetsRanklabFeatures;
   /**
    * @var string
    */
@@ -164,8 +179,10 @@ class WWWSnippetResponse extends \Google\Collection
   public $titleLengthAdjustedForBrowserWidth;
   protected $titleRenderedTokenType = MustangSnippetsRenderedToken::class;
   protected $titleRenderedTokenDataType = 'array';
+  public $titleRenderedToken;
   protected $titleSizeParamsType = TitleSizeParams::class;
   protected $titleSizeParamsDataType = '';
+  public $titleSizeParams;
   /**
    * @var string
    */

@@ -25,7 +25,7 @@ use Google\Service\Dfareporting\Report;
  * Typical usage is:
  *  <code>
  *   $dfareportingService = new Google\Service\Dfareporting(...);
- *   $compatibleFields = $dfareportingService->compatibleFields;
+ *   $compatibleFields = $dfareportingService->reports_compatibleFields;
  *  </code>
  */
 class ReportsCompatibleFields extends \Google\Service\Resource

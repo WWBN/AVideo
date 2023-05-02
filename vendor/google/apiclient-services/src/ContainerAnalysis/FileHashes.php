@@ -22,6 +22,7 @@ class FileHashes extends \Google\Collection
   protected $collection_key = 'fileHash';
   protected $fileHashType = Hash::class;
   protected $fileHashDataType = 'array';
+  public $fileHash;
 
   /**
    * @param Hash[]

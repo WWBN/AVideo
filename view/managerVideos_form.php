@@ -12,7 +12,7 @@
                     <button type="button" class="btn btn-success btn-block saveVideoBtn"><i class="far fa-save"></i> <?php echo __("Save"); ?></button>
                 </div>
                 <div class="col-xs-3 col-sm-2">
-                    <button type="button" class="btn btn-danger btn-block" onclick="confirmDeleteVideo($('#inputVideoId').val());"><i class="fas fa-trash"></i> 
+                    <button type="button" class="btn btn-danger btn-block" onclick="confirmDeleteVideo($('#inputVideoId').val());"><i class="fas fa-trash"></i>
                         <span class="hidden-xs"><?php echo __("Delete"); ?></span>
                     </button>
                 </div>
@@ -109,6 +109,7 @@
                                         <div class="<?php echo $divCol2; ?>">
                                             <?php
                                             if ($showCategory) {
+                                                $categories = Category::getAllCategories(true, false);
                                                 ?>
                                                 <label class="control-label" for="inputCategory" ><?php echo __("Category"); ?></label>
                                                 <select class="form-control last" id="inputCategory" required>
@@ -254,7 +255,7 @@
                                         <?php
                                         $myAffiliates = CustomizeUser::getCompanyAffiliates(User::getId());
                                         if (!empty($myAffiliates)) {
-                                            $users_id_list = array();
+                                            $users_id_list = [];
                                             $users_id_list[] = User::getId();
                                             foreach ($myAffiliates as $value) {
                                                 $users_id_list[] = $value['users_id_affiliate'];
@@ -267,7 +268,7 @@
                                             <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !Permissions::canAdminVideos()) { ?> style="display: none;" <?php } ?>>
                                                 <label class="control-label" for="inputUserOwner_id" ><?php echo __("Media Owner"); ?></label>
                                                 <?php
-                                                $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'inputUserOwner_id', array());
+                                                $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'inputUserOwner_id', []);
                                                 ?>
                                             </div>
                                             <?php
@@ -276,7 +277,7 @@
                                         <?php
                                         $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
                                         if (!empty($myAffiliation)) {
-                                            $users_id_list = array();
+                                            $users_id_list = [];
                                             foreach ($myAffiliation as $value) {
                                                 $users_id_list[] = $value['users_id_company'];
                                             }
@@ -407,7 +408,7 @@
                     <button type="button" class="btn btn-success btn-block saveVideoBtn"><i class="far fa-save"></i> <?php echo __("Save"); ?></button>
                 </div>
                 <div class="col-xs-3 col-sm-2">
-                    <button type="button" class="btn btn-danger btn-block" onclick="confirmDeleteVideo($('#inputVideoId').val());"><i class="fas fa-trash"></i> 
+                    <button type="button" class="btn btn-danger btn-block" onclick="confirmDeleteVideo($('#inputVideoId').val());"><i class="fas fa-trash"></i>
                         <span class="hidden-xs"><?php echo __("Delete"); ?></span>
                     </button>
                 </div>

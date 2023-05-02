@@ -21,16 +21,22 @@ class AccessSettings extends \Google\Model
 {
   protected $allowedDomainsSettingsType = AllowedDomainsSettings::class;
   protected $allowedDomainsSettingsDataType = '';
+  public $allowedDomainsSettings;
   protected $corsSettingsType = CorsSettings::class;
   protected $corsSettingsDataType = '';
+  public $corsSettings;
   protected $gcipSettingsType = GcipSettings::class;
   protected $gcipSettingsDataType = '';
+  public $gcipSettings;
   protected $oauthSettingsType = OAuthSettings::class;
   protected $oauthSettingsDataType = '';
+  public $oauthSettings;
   protected $policyDelegationSettingsType = PolicyDelegationSettings::class;
   protected $policyDelegationSettingsDataType = '';
+  public $policyDelegationSettings;
   protected $reauthSettingsType = ReauthSettings::class;
   protected $reauthSettingsDataType = '';
+  public $reauthSettings;
 
   /**
    * @param AllowedDomainsSettings

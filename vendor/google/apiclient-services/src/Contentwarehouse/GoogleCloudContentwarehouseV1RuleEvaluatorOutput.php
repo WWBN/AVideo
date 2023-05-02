@@ -22,10 +22,13 @@ class GoogleCloudContentwarehouseV1RuleEvaluatorOutput extends \Google\Collectio
   protected $collection_key = 'triggeredRules';
   protected $invalidRulesType = GoogleCloudContentwarehouseV1InvalidRule::class;
   protected $invalidRulesDataType = 'array';
+  public $invalidRules;
   protected $matchedRulesType = GoogleCloudContentwarehouseV1Rule::class;
   protected $matchedRulesDataType = 'array';
+  public $matchedRules;
   protected $triggeredRulesType = GoogleCloudContentwarehouseV1Rule::class;
   protected $triggeredRulesDataType = 'array';
+  public $triggeredRules;
 
   /**
    * @param GoogleCloudContentwarehouseV1InvalidRule[]

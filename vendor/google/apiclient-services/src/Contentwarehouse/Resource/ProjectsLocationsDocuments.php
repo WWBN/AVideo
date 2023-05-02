@@ -41,7 +41,7 @@ use Google\Service\Contentwarehouse\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contentwarehouseService = new Google\Service\Contentwarehouse(...);
- *   $documents = $contentwarehouseService->documents;
+ *   $documents = $contentwarehouseService->projects_locations_documents;
  *  </code>
  */
 class ProjectsLocationsDocuments extends \Google\Service\Resource

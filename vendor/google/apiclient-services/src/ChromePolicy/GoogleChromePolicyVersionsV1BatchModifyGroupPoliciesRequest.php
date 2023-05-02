@@ -22,6 +22,7 @@ class GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest extends \Googl
   protected $collection_key = 'requests';
   protected $requestsType = GoogleChromePolicyVersionsV1ModifyGroupPolicyRequest::class;
   protected $requestsDataType = 'array';
+  public $requests;
 
   /**
    * @param GoogleChromePolicyVersionsV1ModifyGroupPolicyRequest[]

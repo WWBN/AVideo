@@ -22,6 +22,7 @@ class AppsDynamiteSharedButtonList extends \Google\Collection
   protected $collection_key = 'buttons';
   protected $buttonsType = AppsDynamiteSharedButton::class;
   protected $buttonsDataType = 'array';
+  public $buttons;
 
   /**
    * @param AppsDynamiteSharedButton[]

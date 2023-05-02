@@ -22,7 +22,7 @@ namespace Google\Service\CloudSearch\Resource;
  * Typical usage is:
  *  <code>
  *   $cloudsearchService = new Google\Service\CloudSearch(...);
- *   $datasources = $cloudsearchService->datasources;
+ *   $datasources = $cloudsearchService->debug_datasources;
  *  </code>
  */
 class DebugDatasources extends \Google\Service\Resource

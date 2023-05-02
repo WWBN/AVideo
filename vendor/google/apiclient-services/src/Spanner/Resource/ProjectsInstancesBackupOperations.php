@@ -24,7 +24,7 @@ use Google\Service\Spanner\ListBackupOperationsResponse;
  * Typical usage is:
  *  <code>
  *   $spannerService = new Google\Service\Spanner(...);
- *   $backupOperations = $spannerService->backupOperations;
+ *   $backupOperations = $spannerService->projects_instances_backupOperations;
  *  </code>
  */
 class ProjectsInstancesBackupOperations extends \Google\Service\Resource

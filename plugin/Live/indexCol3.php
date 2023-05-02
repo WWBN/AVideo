@@ -27,6 +27,13 @@ if (!empty($obj->experimentalWebcam)) {
             <?php
             $active = '';
         }
+        if (User::isAdmin()) {
+            ?>
+            <li class="<?php echo $active; ?>" data-toggle="tooltip" data-placement="bottom" title="<?php echo __("Active Lives"); ?>"><a data-toggle="tab" href="#tabLiveAdmin"><i class="fa fa-user"></i> <?php echo __("Active Lives"); ?></a></li>
+            <?php
+            $active = '';
+        }
+        
         ?>
     </ul>
     <div class="tab-content">
@@ -57,6 +64,16 @@ if (!empty($obj->experimentalWebcam)) {
             <div id="tabShare" class="tab-pane fade <?php echo $active; ?>"> 
                 <?php
                 include $global['systemRootPath'] . 'plugin/Live/tabs/tabShare.php';
+                $active = '';
+                ?>
+            </div>
+            <?php
+        }
+        if (User::isAdmin()) {
+            ?>
+            <div id="tabLiveAdmin" class="tab-pane fade <?php echo $active; ?>"> 
+                <?php
+                include $global['systemRootPath'] . 'plugin/Live/tabs/tabAdmin.php';
                 $active = '';
                 ?>
             </div>

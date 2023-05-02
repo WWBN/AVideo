@@ -21,6 +21,7 @@ class AssistantApiOemCapabilities extends \Google\Model
 {
   protected $cloudCapabilityType = AssistantDevicesPlatformProtoCloudCapability::class;
   protected $cloudCapabilityDataType = '';
+  public $cloudCapability;
   /**
    * @var array[]
    */
@@ -39,8 +40,10 @@ class AssistantApiOemCapabilities extends \Google\Model
   public $deviceSpecificData;
   protected $internalCapabilityType = AssistantDevicesPlatformProtoInternalCapability::class;
   protected $internalCapabilityDataType = '';
+  public $internalCapability;
   protected $thirdPartyActionConfigType = AssistantApiThirdPartyActionConfig::class;
   protected $thirdPartyActionConfigDataType = '';
+  public $thirdPartyActionConfig;
 
   /**
    * @param AssistantDevicesPlatformProtoCloudCapability

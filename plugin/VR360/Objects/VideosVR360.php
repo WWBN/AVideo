@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/video.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
+require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
 
 class VideosVR360 extends ObjectYPT {
 
@@ -36,7 +37,8 @@ class VideosVR360 extends ObjectYPT {
             if(in_array($key, $this->intVal)){
                 $value = intval($value);
             }
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }

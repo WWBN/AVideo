@@ -89,6 +89,12 @@ if (!empty($json->error)) {
 
 $log->add("Clone: Good start! the server has answered");
 
+
+
+$json->sqlFile = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile));
+$json->videoFiles = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->videoFiles));
+$json->photoFiles = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->photoFiles));
+
 // get dump file
 $cmd = "wget -O {$clonesDir}{$json->sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
 $log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file");

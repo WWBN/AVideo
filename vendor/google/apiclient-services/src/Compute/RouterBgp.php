@@ -30,6 +30,7 @@ class RouterBgp extends \Google\Collection
   public $advertisedGroups;
   protected $advertisedIpRangesType = RouterAdvertisedIpRange::class;
   protected $advertisedIpRangesDataType = 'array';
+  public $advertisedIpRanges;
   /**
    * @var string
    */

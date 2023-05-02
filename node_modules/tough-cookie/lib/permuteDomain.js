@@ -33,27 +33,22 @@ const pubsuffix = require("./pubsuffix-psl");
 
 // Gives the permutation of all possible domainMatch()es of a given domain. The
 // array is in shortest-to-longest order.  Handy for indexing.
-const SPECIAL_USE_DOMAINS = ["local"]; // RFC 6761
+
 function permuteDomain(domain, allowSpecialUseDomain) {
-  let pubSuf = null;
-  if (allowSpecialUseDomain) {
-    const domainParts = domain.split(".");
-    if (SPECIAL_USE_DOMAINS.includes(domainParts[domainParts.length - 1])) {
-      pubSuf = `${domainParts[domainParts.length - 2]}.${
-        domainParts[domainParts.length - 1]
-      }`;
-    } else {
-      pubSuf = pubsuffix.getPublicSuffix(domain);
-    }
-  } else {
-    pubSuf = pubsuffix.getPublicSuffix(domain);
-  }
+  const pubSuf = pubsuffix.getPublicSuffix(domain, {
+    allowSpecialUseDomain: allowSpecialUseDomain
+  });
 
   if (!pubSuf) {
     return null;
   }
   if (pubSuf == domain) {
     return [domain];
+  }
+
+  // Nuke trailing dot
+  if (domain.slice(-1) == ".") {
+    domain = domain.slice(0, -1);
   }
 
   const prefix = domain.slice(0, -(pubSuf.length + 1)); // ".example.com"

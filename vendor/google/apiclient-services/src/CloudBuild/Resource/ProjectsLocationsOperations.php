@@ -26,7 +26,7 @@ use Google\Service\CloudBuild\Operation;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $operations = $cloudbuildService->operations;
+ *   $operations = $cloudbuildService->projects_locations_operations;
  *  </code>
  */
 class ProjectsLocationsOperations extends \Google\Service\Resource

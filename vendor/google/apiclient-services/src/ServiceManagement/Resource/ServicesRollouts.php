@@ -26,7 +26,7 @@ use Google\Service\ServiceManagement\Rollout;
  * Typical usage is:
  *  <code>
  *   $servicemanagementService = new Google\Service\ServiceManagement(...);
- *   $rollouts = $servicemanagementService->rollouts;
+ *   $rollouts = $servicemanagementService->services_rollouts;
  *  </code>
  */
 class ServicesRollouts extends \Google\Service\Resource

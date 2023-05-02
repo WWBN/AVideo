@@ -22,16 +22,22 @@ class RepositoryWebrefWebrefEntity extends \Google\Collection
   protected $collection_key = 'mrf';
   protected $annotatedRelationshipType = RepositoryWebrefWebrefEntityRelationship::class;
   protected $annotatedRelationshipDataType = 'array';
+  public $annotatedRelationship;
   protected $annotationsType = RepositoryWebrefEntityAnnotations::class;
   protected $annotationsDataType = '';
+  public $annotations;
   protected $collectionsType = RepositoryWebrefWebrefEntityCollections::class;
   protected $collectionsDataType = '';
+  public $collections;
   protected $entityJoinType = RepositoryWebrefEntityJoin::class;
   protected $entityJoinDataType = '';
+  public $entityJoin;
   protected $idType = RepositoryWebrefWebrefEntityId::class;
   protected $idDataType = '';
+  public $id;
   protected $mrfType = KnowledgeAnswersIntentQueryArgument::class;
   protected $mrfDataType = 'array';
+  public $mrf;
 
   /**
    * @param RepositoryWebrefWebrefEntityRelationship[]

@@ -22,6 +22,7 @@ class BulkListCampaignAssignedTargetingOptionsResponse extends \Google\Collectio
   protected $collection_key = 'assignedTargetingOptions';
   protected $assignedTargetingOptionsType = AssignedTargetingOption::class;
   protected $assignedTargetingOptionsDataType = 'array';
+  public $assignedTargetingOptions;
   /**
    * @var string
    */

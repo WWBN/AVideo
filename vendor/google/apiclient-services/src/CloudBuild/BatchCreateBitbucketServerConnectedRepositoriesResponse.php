@@ -22,6 +22,7 @@ class BatchCreateBitbucketServerConnectedRepositoriesResponse extends \Google\Co
   protected $collection_key = 'bitbucketServerConnectedRepositories';
   protected $bitbucketServerConnectedRepositoriesType = BitbucketServerConnectedRepository::class;
   protected $bitbucketServerConnectedRepositoriesDataType = 'array';
+  public $bitbucketServerConnectedRepositories;
 
   /**
    * @param BitbucketServerConnectedRepository[]

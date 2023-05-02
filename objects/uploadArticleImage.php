@@ -31,7 +31,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
     if ($obj->videos_id > 0) {
         $video = new Video("", "", $obj->videos_id);
         if (!empty($video)) {
-            $relativeDestinationDir = "articleImages" . DIRECTORY_SEPARATOR . $video->getFilename() . DIRECTORY_SEPARATOR;
+            //$relativeDestinationDir = "articleImages" . DIRECTORY_SEPARATOR . $video->getFilename() . DIRECTORY_SEPARATOR;
+            $relativeDestinationDir = "videos" . DIRECTORY_SEPARATOR . "articleImages" . DIRECTORY_SEPARATOR . date('Ymd') . DIRECTORY_SEPARATOR . 'users_id_' . User::getId() . DIRECTORY_SEPARATOR. $video->getFilename() . DIRECTORY_SEPARATOR;
         }
     }
     if (empty($relativeDestinationDir) && User::isLogged()) {

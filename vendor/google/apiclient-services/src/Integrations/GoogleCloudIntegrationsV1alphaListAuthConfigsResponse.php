@@ -22,6 +22,7 @@ class GoogleCloudIntegrationsV1alphaListAuthConfigsResponse extends \Google\Coll
   protected $collection_key = 'authConfigs';
   protected $authConfigsType = GoogleCloudIntegrationsV1alphaAuthConfig::class;
   protected $authConfigsDataType = 'array';
+  public $authConfigs;
   /**
    * @var string
    */

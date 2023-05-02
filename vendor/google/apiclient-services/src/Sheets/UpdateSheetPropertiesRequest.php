@@ -25,6 +25,7 @@ class UpdateSheetPropertiesRequest extends \Google\Model
   public $fields;
   protected $propertiesType = SheetProperties::class;
   protected $propertiesDataType = '';
+  public $properties;
 
   /**
    * @param string

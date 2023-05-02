@@ -25,6 +25,7 @@ class CreateNamedRangeRequest extends \Google\Model
   public $name;
   protected $rangeType = Range::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param string

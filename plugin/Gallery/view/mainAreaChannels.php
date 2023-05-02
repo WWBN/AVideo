@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
-if (empty($obj)) {
+if (empty($obj) || empty($obj->SubscribedChannelsRowCount)) {
     $obj = AVideoPlugin::getDataObject('Gallery');
 }
 

@@ -23,6 +23,7 @@ class AppsPeopleOzExternalMergedpeopleapiPersonMetadataScoringInfo extends \Goog
   public $rawMatchQualityScore;
   protected $stExpressionResultsType = AppsPeopleOzExternalMergedpeopleapiPersonMetadataScoringInfoStExpressionResult::class;
   protected $stExpressionResultsDataType = 'array';
+  public $stExpressionResults;
 
   public function setRawMatchQualityScore($rawMatchQualityScore)
   {

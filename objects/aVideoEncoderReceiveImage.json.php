@@ -10,38 +10,39 @@ if (!isset($global['systemRootPath'])) {
 }
 
 $global['bypassSameDomainCheck'] = 1;
-/*
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
- */
+inputToRequest();
+_error_log("REQUEST: " . json_encode($_REQUEST));
+_error_log("POST: " . json_encode($_REQUEST));
+_error_log("GET: " . json_encode($_GET));
 
-if (empty($_POST)) {
-    $obj->msg = __("Your POST data is empty, maybe your video file is too big for the host");
+if (empty($_REQUEST)) {
+    $obj->msg = ("Your REQUEST data is empty, maybe your video file is too big for the host");
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
 
 useVideoHashOrLogin();
 if (!User::canUpload()) {
-    $obj->msg = __("Permission denied to receive a image: " . json_encode($_POST));
+    $obj->msg = __("Permission denied to receive a image: " . json_encode($_REQUEST));
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
 
-if (!Video::canEdit($_POST['videos_id'])) {
-    $obj->msg = __("Permission denied to edit a video: " . json_encode($_POST));
+if (!Video::canEdit($_REQUEST['videos_id'])) {
+    $obj->msg = __("Permission denied to edit a video: " . json_encode($_REQUEST));
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
-_error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_POST));
+_error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_POST['videos_id']);
-$obj->video_id = $_POST['videos_id'];
+$video = new Video("", "", $_REQUEST['videos_id']);
+$obj->video_id = $_REQUEST['videos_id'];
 
 $videoFileName = $video->getFilename();
 $paths = Video::getPaths($videoFileName, true);
 $destination_local = "{$paths['path']}{$videoFileName}";
+
+make_path($destination_local);
 
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
@@ -155,18 +156,31 @@ if (!empty($_REQUEST['downloadURL_webpimage'])) {
     }
 }
 
-$obj->jpgDest_deleteInvalidImage = deleteInvalidImage($obj->jpgDest);
-$obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage($obj->jpgSpectrumDest);
-$obj->gifDest_deleteInvalidImage = deleteInvalidImage($obj->gifDest);
-$obj->webpDest_deleteInvalidImage = deleteInvalidImage($obj->webpDest);
+if(!empty($obj->jpgDest)){
+    $obj->jpgDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgDest);
+}
+if(!empty($obj->jpgSpectrumDest)){
+    $obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpectrumDest);
+}
+if(!empty($obj->gifDest)){
+    $obj->gifDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpegifDestctrumDest);
+}
+if(!empty($obj->webpDest)){
+    $obj->webpDest_deleteInvalidImage = deleteInvalidImage(@$obj->webpDest);
+}
 
 if (!empty($_REQUEST['duration'])) {
+    _error_log("ReceiveImage: duration NOT empty {$_REQUEST['duration']}");
     $duration = $video->getDuration();
     if (empty($duration) || $duration === 'EE:EE:EE') {
+        _error_log("ReceiveImage: duration Line ".__LINE__);
         $video->setDuration($_REQUEST['duration']);
     }else if($_REQUEST['duration']!=='EE:EE:EE'){
+        _error_log("ReceiveImage: duration Line ".__LINE__);
         $video->setDuration($_REQUEST['duration']);
     }
+}else{
+    _error_log("ReceiveImage: duration was empty {$_REQUEST['duration']}");
 }
 
 $videos_id = $video->save();
@@ -177,13 +191,14 @@ $obj->error = false;
 $obj->video_id = $videos_id;
 $v = new Video('', '', $videos_id);
 $obj->video_id_hash = $v->getVideoIdHash();
+$obj->releaseDate = @$_REQUEST['releaseDate'];
 
 $json = json_encode($obj);
 _error_log("ReceiveImage: Files Received for video {$videos_id}: " . $video->getTitle() . " {$json}");
 die($json);
 
 /*
-_error_log(json_encode($_POST));
+_error_log(json_encode($_REQUEST));
 _error_log(json_encode($_FILES));
-var_dump($_POST, $_FILES);
+var_dump($_REQUEST, $_FILES);
 */

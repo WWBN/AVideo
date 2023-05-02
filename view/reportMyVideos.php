@@ -136,7 +136,7 @@
             "footerCallback": function (row, data, start, end, display) {
                 var api = this.api(), data;
 
-                // Update footer by showing the total with the reference of the column index 
+                // Update footer by showing the total with the reference of the column index
                 var totalViewsAllVideos = 0;
                 var totalWatchingTimeAllVideosHuman = '';
                 if (data[0]) {

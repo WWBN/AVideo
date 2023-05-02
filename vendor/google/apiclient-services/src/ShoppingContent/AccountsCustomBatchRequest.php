@@ -22,6 +22,7 @@ class AccountsCustomBatchRequest extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = AccountsCustomBatchRequestEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
 
   /**
    * @param AccountsCustomBatchRequestEntry[]

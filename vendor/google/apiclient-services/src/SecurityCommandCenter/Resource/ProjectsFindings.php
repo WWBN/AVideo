@@ -25,7 +25,7 @@ use Google\Service\SecurityCommandCenter\Operation;
  * Typical usage is:
  *  <code>
  *   $securitycenterService = new Google\Service\SecurityCommandCenter(...);
- *   $findings = $securitycenterService->findings;
+ *   $findings = $securitycenterService->projects_findings;
  *  </code>
  */
 class ProjectsFindings extends \Google\Service\Resource

@@ -21,8 +21,10 @@ class GoogleCloudDatalabelingV1beta1VideoEventAnnotation extends \Google\Model
 {
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   protected $timeSegmentType = GoogleCloudDatalabelingV1beta1TimeSegment::class;
   protected $timeSegmentDataType = '';
+  public $timeSegment;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpec

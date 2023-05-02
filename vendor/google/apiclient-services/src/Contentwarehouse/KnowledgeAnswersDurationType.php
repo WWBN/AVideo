@@ -21,8 +21,10 @@ class KnowledgeAnswersDurationType extends \Google\Model
 {
   protected $rangeConstraintType = KnowledgeAnswersRangeConstraint::class;
   protected $rangeConstraintDataType = '';
+  public $rangeConstraint;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
+  public $remodelings;
 
   /**
    * @param KnowledgeAnswersRangeConstraint

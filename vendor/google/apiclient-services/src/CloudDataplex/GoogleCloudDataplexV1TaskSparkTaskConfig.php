@@ -30,6 +30,7 @@ class GoogleCloudDataplexV1TaskSparkTaskConfig extends \Google\Collection
   public $fileUris;
   protected $infrastructureSpecType = GoogleCloudDataplexV1TaskInfrastructureSpec::class;
   protected $infrastructureSpecDataType = '';
+  public $infrastructureSpec;
   /**
    * @var string
    */

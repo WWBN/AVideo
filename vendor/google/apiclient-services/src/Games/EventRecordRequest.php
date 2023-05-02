@@ -34,6 +34,7 @@ class EventRecordRequest extends \Google\Collection
   public $requestId;
   protected $timePeriodsType = EventPeriodUpdate::class;
   protected $timePeriodsDataType = 'array';
+  public $timePeriods;
 
   /**
    * @param string

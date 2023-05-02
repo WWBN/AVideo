@@ -21,10 +21,13 @@ class SourceObjectIdentifier extends \Google\Model
 {
   protected $mysqlIdentifierType = MysqlObjectIdentifier::class;
   protected $mysqlIdentifierDataType = '';
+  public $mysqlIdentifier;
   protected $oracleIdentifierType = OracleObjectIdentifier::class;
   protected $oracleIdentifierDataType = '';
+  public $oracleIdentifier;
   protected $postgresqlIdentifierType = PostgresqlObjectIdentifier::class;
   protected $postgresqlIdentifierDataType = '';
+  public $postgresqlIdentifier;
 
   /**
    * @param MysqlObjectIdentifier

@@ -22,6 +22,7 @@ class LiasettingsCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = LiasettingsCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
+  public $entries;
   /**
    * @var string
    */

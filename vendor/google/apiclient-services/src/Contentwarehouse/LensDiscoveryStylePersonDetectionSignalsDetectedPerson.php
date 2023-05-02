@@ -21,8 +21,7 @@ class LensDiscoveryStylePersonDetectionSignalsDetectedPerson extends \Google\Mod
 {
   protected $boundingBoxType = LensDiscoveryStyleBoundingBox::class;
   protected $boundingBoxDataType = '';
-  protected $normalizedBoundingBoxType = PhotosVisionGroundtruthdbNormalizedBoundingBox::class;
-  protected $normalizedBoundingBoxDataType = '';
+  public $boundingBox;
 
   /**
    * @param LensDiscoveryStyleBoundingBox
@@ -37,20 +36,6 @@ class LensDiscoveryStylePersonDetectionSignalsDetectedPerson extends \Google\Mod
   public function getBoundingBox()
   {
     return $this->boundingBox;
-  }
-  /**
-   * @param PhotosVisionGroundtruthdbNormalizedBoundingBox
-   */
-  public function setNormalizedBoundingBox(PhotosVisionGroundtruthdbNormalizedBoundingBox $normalizedBoundingBox)
-  {
-    $this->normalizedBoundingBox = $normalizedBoundingBox;
-  }
-  /**
-   * @return PhotosVisionGroundtruthdbNormalizedBoundingBox
-   */
-  public function getNormalizedBoundingBox()
-  {
-    return $this->normalizedBoundingBox;
   }
 }
 

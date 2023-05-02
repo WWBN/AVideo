@@ -30,12 +30,14 @@ class DocProperties extends \Google\Collection
   public $badTitle;
   protected $badtitleinfoType = DocPropertiesBadTitleInfo::class;
   protected $badtitleinfoDataType = 'array';
+  public $badtitleinfo;
   /**
    * @var int[]
    */
   public $languages;
   protected $leadingtextType = SnippetsLeadingtextLeadingTextInfo::class;
   protected $leadingtextDataType = '';
+  public $leadingtext;
   /**
    * @var int
    */

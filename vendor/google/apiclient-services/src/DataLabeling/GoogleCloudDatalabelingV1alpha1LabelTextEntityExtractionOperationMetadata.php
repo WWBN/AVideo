@@ -21,6 +21,7 @@ class GoogleCloudDatalabelingV1alpha1LabelTextEntityExtractionOperationMetadata 
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
+  public $basicConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig

@@ -22,6 +22,7 @@ class ListGithubEnterpriseConfigsResponse extends \Google\Collection
   protected $collection_key = 'configs';
   protected $configsType = GitHubEnterpriseConfig::class;
   protected $configsDataType = 'array';
+  public $configs;
 
   /**
    * @param GitHubEnterpriseConfig[]

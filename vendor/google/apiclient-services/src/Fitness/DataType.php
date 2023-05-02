@@ -22,6 +22,7 @@ class DataType extends \Google\Collection
   protected $collection_key = 'field';
   protected $fieldType = DataTypeField::class;
   protected $fieldDataType = 'array';
+  public $field;
   /**
    * @var string
    */

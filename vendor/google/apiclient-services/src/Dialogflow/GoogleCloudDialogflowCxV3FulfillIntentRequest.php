@@ -21,10 +21,13 @@ class GoogleCloudDialogflowCxV3FulfillIntentRequest extends \Google\Model
 {
   protected $matchType = GoogleCloudDialogflowCxV3Match::class;
   protected $matchDataType = '';
+  public $match;
   protected $matchIntentRequestType = GoogleCloudDialogflowCxV3MatchIntentRequest::class;
   protected $matchIntentRequestDataType = '';
+  public $matchIntentRequest;
   protected $outputAudioConfigType = GoogleCloudDialogflowCxV3OutputAudioConfig::class;
   protected $outputAudioConfigDataType = '';
+  public $outputAudioConfig;
 
   /**
    * @param GoogleCloudDialogflowCxV3Match

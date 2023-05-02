@@ -21,8 +21,10 @@ class SuggestedListProperties extends \Google\Model
 {
   protected $listPropertiesType = ListProperties::class;
   protected $listPropertiesDataType = '';
+  public $listProperties;
   protected $listPropertiesSuggestionStateType = ListPropertiesSuggestionState::class;
   protected $listPropertiesSuggestionStateDataType = '';
+  public $listPropertiesSuggestionState;
 
   /**
    * @param ListProperties

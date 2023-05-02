@@ -34,6 +34,7 @@ class ReportWorkItemStatusRequest extends \Google\Collection
   public $unifiedWorkerRequest;
   protected $workItemStatusesType = WorkItemStatus::class;
   protected $workItemStatusesDataType = 'array';
+  public $workItemStatuses;
   /**
    * @var string
    */

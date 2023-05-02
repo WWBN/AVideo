@@ -27,7 +27,7 @@ use Google\Service\Firestore\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $firestoreService = new Google\Service\Firestore(...);
- *   $operations = $firestoreService->operations;
+ *   $operations = $firestoreService->projects_databases_operations;
  *  </code>
  */
 class ProjectsDatabasesOperations extends \Google\Service\Resource

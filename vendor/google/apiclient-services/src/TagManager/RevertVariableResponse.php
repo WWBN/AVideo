@@ -21,6 +21,7 @@ class RevertVariableResponse extends \Google\Model
 {
   protected $variableType = Variable::class;
   protected $variableDataType = '';
+  public $variable;
 
   /**
    * @param Variable

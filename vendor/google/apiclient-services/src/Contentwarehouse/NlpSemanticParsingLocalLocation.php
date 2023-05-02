@@ -22,22 +22,27 @@ class NlpSemanticParsingLocalLocation extends \Google\Collection
   protected $collection_key = 'locationConstraint';
   protected $basicLocationType = NlpSemanticParsingLocalBasicLocation::class;
   protected $basicLocationDataType = '';
+  public $basicLocation;
   protected $compoundLocationType = NlpSemanticParsingLocalCompoundLocation::class;
   protected $compoundLocationDataType = '';
+  public $compoundLocation;
   protected $contactLocationType = NlpSemanticParsingLocalContactLocation::class;
   protected $contactLocationDataType = '';
+  public $contactLocation;
   /**
    * @var bool
    */
   public $isMerged;
   protected $locationConstraintType = NlpSemanticParsingLocalLocationConstraint::class;
   protected $locationConstraintDataType = 'array';
+  public $locationConstraint;
   /**
    * @var int
    */
   public $numBytes;
   protected $resolvedLocalResultType = QualityDialogManagerLocalResult::class;
   protected $resolvedLocalResultDataType = '';
+  public $resolvedLocalResult;
   /**
    * @var int
    */
@@ -48,8 +53,10 @@ class NlpSemanticParsingLocalLocation extends \Google\Collection
   public $text;
   protected $userSpecifiedLocationType = KnowledgeVerticalsWeatherProtoUserSpecifiedLocation::class;
   protected $userSpecifiedLocationDataType = '';
+  public $userSpecifiedLocation;
   protected $vicinityLocationType = NlpSemanticParsingLocalVicinityLocation::class;
   protected $vicinityLocationDataType = '';
+  public $vicinityLocation;
 
   /**
    * @param NlpSemanticParsingLocalBasicLocation

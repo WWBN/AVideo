@@ -26,7 +26,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1ListCustomReportsResponse;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $reports = $apigeeService->reports;
+ *   $reports = $apigeeService->organizations_reports;
  *  </code>
  */
 class OrganizationsReports extends \Google\Service\Resource

@@ -25,12 +25,14 @@ class TimePeriod extends \Google\Model
   public $closeDay;
   protected $closeTimeType = TimeOfDay::class;
   protected $closeTimeDataType = '';
+  public $closeTime;
   /**
    * @var string
    */
   public $openDay;
   protected $openTimeType = TimeOfDay::class;
   protected $openTimeDataType = '';
+  public $openTime;
 
   /**
    * @param string

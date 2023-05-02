@@ -2,6 +2,7 @@
 function createTable($pluginName, $filter = [])
 {
     $plugin = AVideoPlugin::getObjectData($pluginName);
+    //var_dump($plugin->userMustBeLoggedIn, '---<br>');exit;
     if (empty($filter)) {
         foreach ($plugin as $keyJson => $valueJson) {
             $filter[$keyJson] = "&nbsp;";
@@ -63,6 +64,7 @@ function jsonToFormElements($json, $filter = [])
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {
+            //var_dump($keyJson, $valueJson, '---<br>');
             $id = uniqid();
             $input = '<div class="material-switch">
                                 <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >

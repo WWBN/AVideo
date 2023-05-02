@@ -26,6 +26,7 @@ class RouterList extends \Google\Collection
   public $id;
   protected $itemsType = Router::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class RouterList extends \Google\Collection
   public $selfLink;
   protected $warningType = RouterListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

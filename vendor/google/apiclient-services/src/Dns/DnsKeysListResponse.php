@@ -22,8 +22,10 @@ class DnsKeysListResponse extends \Google\Collection
   protected $collection_key = 'dnsKeys';
   protected $dnsKeysType = DnsKey::class;
   protected $dnsKeysDataType = 'array';
+  public $dnsKeys;
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
+  public $header;
   /**
    * @var string
    */

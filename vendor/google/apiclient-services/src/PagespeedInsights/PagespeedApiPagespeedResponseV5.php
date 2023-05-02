@@ -37,12 +37,16 @@ class PagespeedApiPagespeedResponseV5 extends \Google\Model
   public $kind;
   protected $lighthouseResultType = LighthouseResultV5::class;
   protected $lighthouseResultDataType = '';
+  public $lighthouseResult;
   protected $loadingExperienceType = PagespeedApiLoadingExperienceV5::class;
   protected $loadingExperienceDataType = '';
+  public $loadingExperience;
   protected $originLoadingExperienceType = PagespeedApiLoadingExperienceV5::class;
   protected $originLoadingExperienceDataType = '';
+  public $originLoadingExperience;
   protected $versionType = PagespeedVersion::class;
   protected $versionDataType = '';
+  public $version;
 
   /**
    * @param string

@@ -22,6 +22,7 @@ class GoogleCloudRetailV2ImportCompletionDataResponse extends \Google\Collection
   protected $collection_key = 'errorSamples';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
+  public $errorSamples;
 
   /**
    * @param GoogleRpcStatus[]

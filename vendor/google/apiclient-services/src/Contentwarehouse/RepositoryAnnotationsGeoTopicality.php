@@ -22,6 +22,7 @@ class RepositoryAnnotationsGeoTopicality extends \Google\Collection
   protected $collection_key = 'geotopics';
   protected $geotopicsType = RepositoryAnnotationsGeoTopic::class;
   protected $geotopicsDataType = 'array';
+  public $geotopics;
 
   /**
    * @param RepositoryAnnotationsGeoTopic[]

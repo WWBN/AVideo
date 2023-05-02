@@ -30,6 +30,7 @@ class GoogleCloudRetailV2SearchRequestFacetSpecFacetKey extends \Google\Collecti
   public $contains;
   protected $intervalsType = GoogleCloudRetailV2Interval::class;
   protected $intervalsDataType = 'array';
+  public $intervals;
   /**
    * @var string
    */

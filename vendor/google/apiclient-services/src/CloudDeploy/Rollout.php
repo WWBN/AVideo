@@ -74,12 +74,14 @@ class Rollout extends \Google\Collection
   public $labels;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $name;
   protected $phasesType = Phase::class;
   protected $phasesDataType = 'array';
+  public $phases;
   /**
    * @var string
    */

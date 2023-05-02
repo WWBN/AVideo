@@ -25,12 +25,14 @@ class CreateContainerVersionResponse extends \Google\Model
   public $compilerError;
   protected $containerVersionType = ContainerVersion::class;
   protected $containerVersionDataType = '';
+  public $containerVersion;
   /**
    * @var string
    */
   public $newWorkspacePath;
   protected $syncStatusType = SyncStatus::class;
   protected $syncStatusDataType = '';
+  public $syncStatus;
 
   /**
    * @param bool

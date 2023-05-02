@@ -21,8 +21,10 @@ class QuestionItem extends \Google\Model
 {
   protected $imageType = Image::class;
   protected $imageDataType = '';
+  public $image;
   protected $questionType = Question::class;
   protected $questionDataType = '';
+  public $question;
 
   /**
    * @param Image

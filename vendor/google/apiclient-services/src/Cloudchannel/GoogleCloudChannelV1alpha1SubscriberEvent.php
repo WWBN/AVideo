@@ -21,10 +21,13 @@ class GoogleCloudChannelV1alpha1SubscriberEvent extends \Google\Model
 {
   protected $channelPartnerEventType = GoogleCloudChannelV1alpha1ChannelPartnerEvent::class;
   protected $channelPartnerEventDataType = '';
+  public $channelPartnerEvent;
   protected $customerEventType = GoogleCloudChannelV1alpha1CustomerEvent::class;
   protected $customerEventDataType = '';
+  public $customerEvent;
   protected $entitlementEventType = GoogleCloudChannelV1alpha1EntitlementEvent::class;
   protected $entitlementEventDataType = '';
+  public $entitlementEvent;
 
   /**
    * @param GoogleCloudChannelV1alpha1ChannelPartnerEvent

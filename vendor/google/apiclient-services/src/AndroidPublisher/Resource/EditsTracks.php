@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\TracksListResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $tracks = $androidpublisherService->tracks;
+ *   $tracks = $androidpublisherService->edits_tracks;
  *  </code>
  */
 class EditsTracks extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1SharedFlowRevision;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $revisions = $apigeeService->revisions;
+ *   $revisions = $apigeeService->organizations_sharedflows_revisions;
  *  </code>
  */
 class OrganizationsSharedflowsRevisions extends \Google\Service\Resource

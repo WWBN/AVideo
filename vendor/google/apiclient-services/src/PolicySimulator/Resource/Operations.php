@@ -56,17 +56,17 @@ class Operations extends \Google\Service\Resource
    * the name binding is the parent resource, without the operations collection
    * id. (operations.listOperations)
    *
+   * @param string $name The name of the operation's parent resource.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter The standard list filter.
-   * @opt_param string name The name of the operation's parent resource.
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return GoogleLongrunningListOperationsResponse
    */
-  public function listOperations($optParams = [])
+  public function listOperations($name, $optParams = [])
   {
-    $params = [];
+    $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleLongrunningListOperationsResponse::class);
   }

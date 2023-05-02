@@ -21,6 +21,7 @@ class FeatureInstance extends \Google\Model
 {
   protected $featureType = Feature::class;
   protected $featureDataType = '';
+  public $feature;
 
   /**
    * @param Feature

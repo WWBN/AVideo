@@ -21,6 +21,7 @@ class AppsDynamiteSharedOpenLink extends \Google\Model
 {
   protected $appUriType = AppsDynamiteSharedOpenLinkAppUri::class;
   protected $appUriDataType = '';
+  public $appUri;
   /**
    * @var string
    */

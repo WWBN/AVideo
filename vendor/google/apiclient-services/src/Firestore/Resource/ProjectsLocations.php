@@ -25,7 +25,7 @@ use Google\Service\Firestore\Location;
  * Typical usage is:
  *  <code>
  *   $firestoreService = new Google\Service\Firestore(...);
- *   $locations = $firestoreService->locations;
+ *   $locations = $firestoreService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

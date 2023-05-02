@@ -26,6 +26,7 @@ class GoogleCloudApigeeV1SharedFlow extends \Google\Collection
   public $latestRevisionId;
   protected $metaDataType = GoogleCloudApigeeV1EntityMetadata::class;
   protected $metaDataDataType = '';
+  public $metaData;
   /**
    * @var string
    */

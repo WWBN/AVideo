@@ -35,7 +35,7 @@ use Google\Service\CloudIot\UnbindDeviceFromGatewayResponse;
  * Typical usage is:
  *  <code>
  *   $cloudiotService = new Google\Service\CloudIot(...);
- *   $registries = $cloudiotService->registries;
+ *   $registries = $cloudiotService->projects_locations_registries;
  *  </code>
  */
 class ProjectsLocationsRegistries extends \Google\Service\Resource

@@ -21,18 +21,25 @@ class PolicyTopicEvidence extends \Google\Model
 {
   protected $destinationNotCrawlableType = DestinationNotCrawlableEvidence::class;
   protected $destinationNotCrawlableDataType = '';
+  public $destinationNotCrawlable;
   protected $destinationNotWorkingType = DestinationNotWorkingEvidence::class;
   protected $destinationNotWorkingDataType = '';
+  public $destinationNotWorking;
   protected $destinationUrlType = DestinationUrlEvidence::class;
   protected $destinationUrlDataType = '';
+  public $destinationUrl;
   protected $domainCallType = DomainCallEvidence::class;
   protected $domainCallDataType = '';
+  public $domainCall;
   protected $downloadSizeType = DownloadSizeEvidence::class;
   protected $downloadSizeDataType = '';
+  public $downloadSize;
   protected $httpCallType = HttpCallEvidence::class;
   protected $httpCallDataType = '';
+  public $httpCall;
   protected $httpCookieType = HttpCookieEvidence::class;
   protected $httpCookieDataType = '';
+  public $httpCookie;
 
   /**
    * @param DestinationNotCrawlableEvidence

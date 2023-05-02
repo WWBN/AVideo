@@ -74,7 +74,7 @@
                         if (!$advancedCustomUser->disableSignOutButton) {
                             ?>
                             <div>
-                                <a href="#" onclick="avideoLogoff();" class="btn btn-default btn-block" >
+                                <a href="#" onclick="avideoLogoff(true);" class="btn btn-default btn-block" >
                                     <?php
                                     if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                                         ?>
@@ -389,13 +389,13 @@
                         <?php echo __("Audio and Video"); ?>
                     </a>
                 </li>
-                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_GET['catName'])) ? "active" : ""; ?>">
+                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                         <span class="glyphicon glyphicon-facetime-video"></span>
                         <?php echo __("Videos"); ?>
                     </a>
                 </li>
-                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_GET['catName'])) ? "active" : ""; ?>">
+                <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
                         <span class="glyphicon glyphicon-headphones"></span>
                         <?php echo __("Audio"); ?>
@@ -459,7 +459,7 @@
                                 continue;
                             }
                             //$parsed_cats[] = $subcat['id'];
-                            echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                            echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
                             . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
                             . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
                             echo '</a>';
@@ -503,7 +503,7 @@
                         continue;
                     }
                     //$parsed_cats[] = $value['id'];
-                    echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_GET['catName'] ? "active" : "") . '">'
+                    echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
                     . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
                     echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
                     if (empty($advancedCustom->hideCategoryVideosCount)) {

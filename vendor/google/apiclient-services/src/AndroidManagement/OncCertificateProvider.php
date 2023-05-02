@@ -26,6 +26,7 @@ class OncCertificateProvider extends \Google\Collection
   public $certificateReferences;
   protected $contentProviderEndpointType = ContentProviderEndpoint::class;
   protected $contentProviderEndpointDataType = '';
+  public $contentProviderEndpoint;
 
   /**
    * @param string[]

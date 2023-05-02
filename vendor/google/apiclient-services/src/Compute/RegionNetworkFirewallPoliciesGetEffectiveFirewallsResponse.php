@@ -22,8 +22,10 @@ class RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponse extends \Google
   protected $collection_key = 'firewalls';
   protected $firewallPolicysType = RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponseEffectiveFirewallPolicy::class;
   protected $firewallPolicysDataType = 'array';
+  public $firewallPolicys;
   protected $firewallsType = Firewall::class;
   protected $firewallsDataType = 'array';
+  public $firewalls;
 
   /**
    * @param RegionNetworkFirewallPoliciesGetEffectiveFirewallsResponseEffectiveFirewallPolicy[]

@@ -22,6 +22,7 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   protected $collection_key = 'features';
   protected $agingCountsType = QualityNavboostCrapsAgingData::class;
   protected $agingCountsDataType = '';
+  public $agingCounts;
   public $badClicks;
   public $clicks;
   /**
@@ -30,8 +31,10 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   public $country;
   protected $deviceType = QualityNavboostCrapsCrapsDevice::class;
   protected $deviceDataType = '';
+  public $device;
   protected $featuresType = QualityNavboostCrapsFeatureCrapsData::class;
   protected $featuresDataType = 'array';
+  public $features;
   public $goodClicks;
   public $impressions;
   /**
@@ -41,8 +44,10 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   public $lastLongestClicks;
   protected $mobileDataType = QualityNavboostCrapsCrapsData::class;
   protected $mobileDataDataType = '';
+  public $mobileData;
   protected $mobileSignalsType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $mobileSignalsDataType = '';
+  public $mobileSignals;
   /**
    * @var string
    */
@@ -53,6 +58,7 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   public $patternLevel;
   protected $patternSccStatsType = QualityNavboostCrapsStatsWithWeightsProto::class;
   protected $patternSccStatsDataType = '';
+  public $patternSccStats;
   /**
    * @var string
    */
@@ -63,11 +69,14 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   public $sliceTag;
   protected $squashedType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $squashedDataType = '';
+  public $squashed;
   public $unscaledIpPriorBadFraction;
   protected $unsquashedType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $unsquashedDataType = '';
+  public $unsquashed;
   protected $unsquashedMobileSignalsType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $unsquashedMobileSignalsDataType = '';
+  public $unsquashedMobileSignals;
   /**
    * @var string
    */

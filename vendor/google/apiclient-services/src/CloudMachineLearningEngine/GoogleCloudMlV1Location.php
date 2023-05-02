@@ -22,6 +22,7 @@ class GoogleCloudMlV1Location extends \Google\Collection
   protected $collection_key = 'capabilities';
   protected $capabilitiesType = GoogleCloudMlV1Capability::class;
   protected $capabilitiesDataType = 'array';
+  public $capabilities;
   /**
    * @var string
    */

@@ -22,8 +22,10 @@ class GooglePrivacyDlpV2FixedSizeBucketingConfig extends \Google\Model
   public $bucketSize;
   protected $lowerBoundType = GooglePrivacyDlpV2Value::class;
   protected $lowerBoundDataType = '';
+  public $lowerBound;
   protected $upperBoundType = GooglePrivacyDlpV2Value::class;
   protected $upperBoundDataType = '';
+  public $upperBound;
 
   public function setBucketSize($bucketSize)
   {

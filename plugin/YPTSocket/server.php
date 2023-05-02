@@ -1,11 +1,14 @@
 <?php
-
+$global['debugMemmory'] = 1;
 use React\EventLoop\Loop;
 use React\Async\async;
 use Ratchet\Server\IoServer;
 use Ratchet\Http\HttpServer;
 use Ratchet\WebSocket\WsServer;
 use Socket\Message;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL & ~E_DEPRECATED);
 //use React\Socket\Server as Reactor;
 if(empty($_SERVER['HTTP_HOST'])){
     $_SERVER['HTTP_HOST'] = 'localhost';
@@ -14,7 +17,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 _ob_end_clean();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 function riseSQLiteError(){
     _error_log("Socket server For better performance install PDO SQLite in your PHP", AVideoLog::$ERROR);
@@ -53,7 +56,9 @@ _error_log("Starting Socket server at port {$SocketDataObj->port}");
 $scheme = parse_url($global['webSiteRootURL'], PHP_URL_SCHEME);
 echo "Starting AVideo Socket server version {$SocketDataObj->serverVersion} on port {$SocketDataObj->port}" . PHP_EOL;
 
-if (strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) {
+$sslFound = file_exists($SocketDataObj->server_crt_file) && is_readable($SocketDataObj->server_crt_file) && file_exists($SocketDataObj->server_key_file) && is_readable($SocketDataObj->server_key_file);
+
+if ((strtolower($scheme) !== 'https' || !empty($SocketDataObj->forceNonSecure)) && !$sslFound) {
     echo "Your socket server does NOT use a secure connection" . PHP_EOL;
     $server = IoServer::factory(
                     new HttpServer(

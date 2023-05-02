@@ -26,6 +26,7 @@ class ListServicesResponse extends \Google\Collection
   public $nextPageToken;
   protected $servicesType = ManagedService::class;
   protected $servicesDataType = 'array';
+  public $services;
 
   /**
    * @param string

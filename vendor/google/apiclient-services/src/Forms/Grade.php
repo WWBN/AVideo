@@ -25,6 +25,7 @@ class Grade extends \Google\Model
   public $correct;
   protected $feedbackType = Feedback::class;
   protected $feedbackDataType = '';
+  public $feedback;
   public $score;
 
   /**

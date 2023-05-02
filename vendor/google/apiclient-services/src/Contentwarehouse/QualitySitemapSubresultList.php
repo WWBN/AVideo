@@ -22,6 +22,7 @@ class QualitySitemapSubresultList extends \Google\Collection
   protected $collection_key = 'subresult';
   protected $subresultType = QualitySitemapSubresult::class;
   protected $subresultDataType = 'array';
+  public $subresult;
 
   /**
    * @param QualitySitemapSubresult[]

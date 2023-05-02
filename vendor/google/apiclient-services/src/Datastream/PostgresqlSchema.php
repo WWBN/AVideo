@@ -22,6 +22,7 @@ class PostgresqlSchema extends \Google\Collection
   protected $collection_key = 'postgresqlTables';
   protected $postgresqlTablesType = PostgresqlTable::class;
   protected $postgresqlTablesDataType = 'array';
+  public $postgresqlTables;
   /**
    * @var string
    */

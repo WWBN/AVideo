@@ -25,7 +25,7 @@ use Google\Service\Libraryagent\GoogleExampleLibraryagentV1ListBooksResponse;
  * Typical usage is:
  *  <code>
  *   $libraryagentService = new Google\Service\Libraryagent(...);
- *   $books = $libraryagentService->books;
+ *   $books = $libraryagentService->shelves_books;
  *  </code>
  */
 class ShelvesBooks extends \Google\Service\Resource

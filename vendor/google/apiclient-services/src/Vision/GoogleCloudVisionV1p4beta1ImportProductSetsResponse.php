@@ -22,8 +22,10 @@ class GoogleCloudVisionV1p4beta1ImportProductSetsResponse extends \Google\Collec
   protected $collection_key = 'statuses';
   protected $referenceImagesType = GoogleCloudVisionV1p4beta1ReferenceImage::class;
   protected $referenceImagesDataType = 'array';
+  public $referenceImages;
   protected $statusesType = Status::class;
   protected $statusesDataType = 'array';
+  public $statuses;
 
   /**
    * @param GoogleCloudVisionV1p4beta1ReferenceImage[]

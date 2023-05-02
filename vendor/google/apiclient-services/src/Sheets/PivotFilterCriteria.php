@@ -22,6 +22,7 @@ class PivotFilterCriteria extends \Google\Collection
   protected $collection_key = 'visibleValues';
   protected $conditionType = BooleanCondition::class;
   protected $conditionDataType = '';
+  public $condition;
   /**
    * @var bool
    */

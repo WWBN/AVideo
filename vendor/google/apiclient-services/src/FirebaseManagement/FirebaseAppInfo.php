@@ -34,6 +34,10 @@ class FirebaseAppInfo extends \Google\Model
   /**
    * @var string
    */
+  public $expireTime;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -89,6 +93,20 @@ class FirebaseAppInfo extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setExpireTime($expireTime)
+  {
+    $this->expireTime = $expireTime;
+  }
+  /**
+   * @return string
+   */
+  public function getExpireTime()
+  {
+    return $this->expireTime;
   }
   /**
    * @param string

@@ -21,6 +21,7 @@ class CompositeDocRobotsInfoList extends \Google\Model
 {
   protected $newsRobotsInfoType = IndexingConverterRobotsInfo::class;
   protected $newsRobotsInfoDataType = '';
+  public $newsRobotsInfo;
 
   /**
    * @param IndexingConverterRobotsInfo

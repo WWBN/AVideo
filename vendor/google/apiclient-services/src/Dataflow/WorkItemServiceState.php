@@ -22,18 +22,21 @@ class WorkItemServiceState extends \Google\Collection
   protected $collection_key = 'metricShortId';
   protected $completeWorkStatusType = Status::class;
   protected $completeWorkStatusDataType = '';
+  public $completeWorkStatus;
   /**
    * @var array[]
    */
   public $harnessData;
   protected $hotKeyDetectionType = HotKeyDetection::class;
   protected $hotKeyDetectionDataType = '';
+  public $hotKeyDetection;
   /**
    * @var string
    */
   public $leaseExpireTime;
   protected $metricShortIdType = MetricShortId::class;
   protected $metricShortIdDataType = 'array';
+  public $metricShortId;
   /**
    * @var string
    */
@@ -44,10 +47,13 @@ class WorkItemServiceState extends \Google\Collection
   public $reportStatusInterval;
   protected $splitRequestType = ApproximateSplitRequest::class;
   protected $splitRequestDataType = '';
+  public $splitRequest;
   protected $suggestedStopPointType = ApproximateProgress::class;
   protected $suggestedStopPointDataType = '';
+  public $suggestedStopPoint;
   protected $suggestedStopPositionType = Position::class;
   protected $suggestedStopPositionDataType = '';
+  public $suggestedStopPosition;
 
   /**
    * @param Status

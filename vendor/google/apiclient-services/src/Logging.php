@@ -278,6 +278,20 @@ class Logging extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createAsync' => [
+              'path' => 'v2/{+parent}/buckets:createAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'bucketId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
@@ -338,6 +352,20 @@ class Logging extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'updateAsync' => [
+              'path' => 'v2/{+name}:updateAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -922,6 +950,20 @@ class Logging extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createAsync' => [
+              'path' => 'v2/{+parent}/buckets:createAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'bucketId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
@@ -982,6 +1024,20 @@ class Logging extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'updateAsync' => [
+              'path' => 'v2/{+name}:updateAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -1352,6 +1408,20 @@ class Logging extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createAsync' => [
+              'path' => 'v2/{+parent}/buckets:createAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'bucketId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
@@ -1412,6 +1482,20 @@ class Logging extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'updateAsync' => [
+              'path' => 'v2/{+name}:updateAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -1804,6 +1888,20 @@ class Logging extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createAsync' => [
+              'path' => 'v2/{+parent}/buckets:createAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'bucketId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
@@ -1864,6 +1962,20 @@ class Logging extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'updateAsync' => [
+              'path' => 'v2/{+name}:updateAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -2336,6 +2448,20 @@ class Logging extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'createAsync' => [
+              'path' => 'v2/{+parent}/buckets:createAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'bucketId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'delete' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'DELETE',
@@ -2396,6 +2522,20 @@ class Logging extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'updateAsync' => [
+              'path' => 'v2/{+name}:updateAsync',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

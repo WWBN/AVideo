@@ -29,7 +29,7 @@ if (!is_writable("{$global['systemRootPath']}vendor/ezyang/htmlpurifier/library/
 
 TimeLogStart(__FILE__);
 
-$obj = new Video($_POST['title'], "", @$_POST['id']);
+$obj = new Video($_POST['title'], "", @$_POST['id'], true);
 
 TimeLogEnd(__FILE__, __LINE__);
 
@@ -46,7 +46,7 @@ if (!empty($_POST['videoLink'])) {
     //var_dump($path_parts, $extension);exit;
     if (empty($_POST['id']) && !(in_array($extension, $audioLinks) || in_array($extension, $videoLinks))) {
         $getLinkInfo = $config->getEncoderURL() . "getLinkInfo/" . base64_encode($_POST['videoLink']);
-        _error_log('videoAddNew: '.$getLinkInfo);
+        _error_log('videoAddNew: ' . $getLinkInfo);
         $info = url_get_contents($getLinkInfo, '', 180, true);
         $infoObj = _json_decode($info);
         $paths = Video::getNewVideoFilename();
@@ -57,7 +57,9 @@ if (!empty($_POST['videoLink'])) {
             $obj->setClean_title($infoObj->title);
             $obj->setDuration($infoObj->duration);
             $obj->setDescription($infoObj->description);
-            file_put_contents($global['systemRootPath'] . "videos/{$filename}.jpg", base64_decode($infoObj->thumbs64));
+            $imgFile = $global['systemRootPath'] . "videos/{$filename}/{$filename}.jpg";
+            _error_log('videoAddNew save image: ' . $imgFile);
+            _file_put_contents($imgFile, base64_decode($infoObj->thumbs64));
         }
         $_POST['videoLinkType'] = "embed";
     } elseif (empty($_POST['id'])) {
@@ -71,7 +73,7 @@ if (!empty($_POST['videoLink'])) {
         $_POST['videoLinkType'] = "linkVideo";
     }
     $obj->setVideoLink($_POST['videoLink']);
-    if(empty($_POST['epg_link']) || isValidURL($_POST['epg_link'])){
+    if (empty($_POST['epg_link']) || isValidURL($_POST['epg_link'])) {
         $obj->setEpg_link($_POST['epg_link']);
     }
 
@@ -89,7 +91,7 @@ if (!empty($_POST['videoLink'])) {
         $obj->setType($_POST['videoLinkType']);
     }
     if (empty($_POST['id'])) {
-        $obj->setStatus('a');
+        $obj->setAutoStatus(Video::$statusActive);
     }
 } elseif (!empty($obj->getType()) && ($obj->getType() == 'video' || $obj->getType() == 'serie' || $obj->getType() == 'audio')) {
     $obj->setVideoLink("");
@@ -99,7 +101,7 @@ TimeLogEnd(__FILE__, __LINE__);
 if (!empty($_POST['isArticle'])) {
     $obj->setType("article");
     if (empty($_POST['id'])) {
-        $obj->setStatus('a');
+        $obj->setAutoStatus(Video::$statusActive);
     }
     $paths = Video::getNewVideoFilename();
     $filename = $paths['filename'];
@@ -115,9 +117,9 @@ if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canMode
 }
 
 if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canModerateVideos()) {
-    if(_empty($_REQUEST['public'])){
+    if (_empty($_REQUEST['public'])) {
         $obj->setVideoGroups(empty($_POST['videoGroups']) ? [] : $_POST['videoGroups']);
-    }else if(!empty($obj->getId())){
+    } else if (!empty($obj->getId())) {
         UserGroups::deleteGroupsFromVideo($obj->getId());
         $obj->setVideoGroups([]);
         //var_dump($obj->getId(), Video::getUserGroups($obj->getId()));exit;
@@ -126,10 +128,13 @@ if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canMod
 
 $externalOptions = new stdClass();
 
-$externalOptionsOriginal = json_decode($obj->getExternalOptions());
-if (!empty($externalOptionsOriginal) && is_object($externalOptionsOriginal)) {
-    foreach ($externalOptionsOriginal as $key => $value) {
-        $externalOptions->$key = $value;
+$externalOptionsOriginal = [];
+if (!empty($obj->getExternalOptions())) {
+    $externalOptionsOriginal = json_decode($obj->getExternalOptions());
+    if (!empty($externalOptionsOriginal) && is_object($externalOptionsOriginal)) {
+        foreach ($externalOptionsOriginal as $key => $value) {
+            $externalOptions->$key = $value;
+        }
     }
 }
 
@@ -149,7 +154,7 @@ $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
 $obj->setExternalOptions($externalOptions);
 
-if(!empty($_REQUEST['users_id_company'])){
+if (!empty($_REQUEST['users_id_company'])) {
     $obj->setUsers_id_company(@$_REQUEST['users_id_company']);
 }
 
@@ -157,7 +162,7 @@ if ($advancedCustomUser->userCanChangeVideoOwner || Permissions::canModerateVide
     $obj->setUsers_id($_POST['users_id']);
 }
 if (Permissions::canAdminVideos()) {
-    if(!empty($_REQUEST['created'])){
+    if (!empty($_REQUEST['created'])) {
         $obj->setCreated($_REQUEST['created']);
     }
 }
@@ -182,7 +187,7 @@ $obj->msg = $msg;
 $obj->info = json_encode($info);
 $obj->infoObj = json_encode($infoObj);
 $obj->videos_id = intval($resp);
-$obj->video = Video::getVideoLight($obj->videos_id);
+$obj->video = Video::getVideoLight($obj->videos_id, true);
 if ($obj->video['status'] == Video::$statusActive) {
     $obj->clearFirstPageCache = clearFirstPageCache();
     //clearAllUsersSessionCache();

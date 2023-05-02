@@ -21,6 +21,7 @@ class Label extends \Google\Model
 {
   protected $colorType = LabelColor::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var string
    */

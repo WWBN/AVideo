@@ -25,6 +25,7 @@ class CreateInstanceMetadata extends \Google\Model
   public $finishTime;
   protected $originalRequestType = CreateInstanceRequest::class;
   protected $originalRequestDataType = '';
+  public $originalRequest;
   /**
    * @var string
    */

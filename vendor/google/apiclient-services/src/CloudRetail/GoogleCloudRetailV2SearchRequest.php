@@ -22,6 +22,7 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   protected $collection_key = 'variantRollupKeys';
   protected $boostSpecType = GoogleCloudRetailV2SearchRequestBoostSpec::class;
   protected $boostSpecDataType = '';
+  public $boostSpec;
   /**
    * @var string
    */
@@ -32,8 +33,10 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public $canonicalFilter;
   protected $dynamicFacetSpecType = GoogleCloudRetailV2SearchRequestDynamicFacetSpec::class;
   protected $dynamicFacetSpecDataType = '';
+  public $dynamicFacetSpec;
   protected $facetSpecsType = GoogleCloudRetailV2SearchRequestFacetSpec::class;
   protected $facetSpecsDataType = 'array';
+  public $facetSpecs;
   /**
    * @var string
    */
@@ -64,20 +67,24 @@ class GoogleCloudRetailV2SearchRequest extends \Google\Collection
   public $pageToken;
   protected $personalizationSpecType = GoogleCloudRetailV2SearchRequestPersonalizationSpec::class;
   protected $personalizationSpecDataType = '';
+  public $personalizationSpec;
   /**
    * @var string
    */
   public $query;
   protected $queryExpansionSpecType = GoogleCloudRetailV2SearchRequestQueryExpansionSpec::class;
   protected $queryExpansionSpecDataType = '';
+  public $queryExpansionSpec;
   /**
    * @var string
    */
   public $searchMode;
   protected $spellCorrectionSpecType = GoogleCloudRetailV2SearchRequestSpellCorrectionSpec::class;
   protected $spellCorrectionSpecDataType = '';
+  public $spellCorrectionSpec;
   protected $userInfoType = GoogleCloudRetailV2UserInfo::class;
   protected $userInfoDataType = '';
+  public $userInfo;
   /**
    * @var string[]
    */

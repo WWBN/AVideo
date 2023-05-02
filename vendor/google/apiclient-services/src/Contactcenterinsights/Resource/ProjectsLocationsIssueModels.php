@@ -29,7 +29,7 @@ use Google\Service\Contactcenterinsights\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $issueModels = $contactcenterinsightsService->issueModels;
+ *   $issueModels = $contactcenterinsightsService->projects_locations_issueModels;
  *  </code>
  */
 class ProjectsLocationsIssueModels extends \Google\Service\Resource

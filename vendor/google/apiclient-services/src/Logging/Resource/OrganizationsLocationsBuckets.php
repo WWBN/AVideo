@@ -20,6 +20,7 @@ namespace Google\Service\Logging\Resource;
 use Google\Service\Logging\ListBucketsResponse;
 use Google\Service\Logging\LogBucket;
 use Google\Service\Logging\LoggingEmpty;
+use Google\Service\Logging\Operation;
 use Google\Service\Logging\UndeleteBucketRequest;
 
 /**
@@ -27,7 +28,7 @@ use Google\Service\Logging\UndeleteBucketRequest;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $buckets = $loggingService->buckets;
+ *   $buckets = $loggingService->organizations_locations_buckets;
  *  </code>
  */
 class OrganizationsLocationsBuckets extends \Google\Service\Resource
@@ -52,6 +53,28 @@ class OrganizationsLocationsBuckets extends \Google\Service\Resource
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('create', [$params], LogBucket::class);
+  }
+  /**
+   * Creates a log bucket asynchronously that can be used to store log
+   * entries.After a bucket has been created, the bucket's location cannot be
+   * changed. (buckets.createAsync)
+   *
+   * @param string $parent Required. The resource in which to create the log
+   * bucket: "projects/[PROJECT_ID]/locations/[LOCATION_ID]" For example:"projects
+   * /my-project/locations/global"
+   * @param LogBucket $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string bucketId Required. A client-assigned identifier such as
+   * "my-bucket". Identifiers are limited to 100 characters and can include only
+   * letters, digits, underscores, hyphens, and periods.
+   * @return Operation
+   */
+  public function createAsync($parent, LogBucket $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('createAsync', [$params], Operation::class);
   }
   /**
    * Deletes a log bucket.Changes the bucket's lifecycle_state to the
@@ -119,10 +142,7 @@ class OrganizationsLocationsBuckets extends \Google\Service\Resource
     return $this->call('list', [$params], ListBucketsResponse::class);
   }
   /**
-   * Updates a log bucket. This method replaces the following fields in the
-   * existing bucket with values from the new bucket: retention_periodIf the
-   * retention period is decreased and the bucket is locked, FAILED_PRECONDITION
-   * will be returned.If the bucket has a lifecycle_state of DELETE_REQUESTED,
+   * Updates a log bucket.If the bucket has a lifecycle_state of DELETE_REQUESTED,
    * then FAILED_PRECONDITION will be returned.After a bucket has been created,
    * the bucket's location cannot be changed. (buckets.patch)
    *
@@ -169,6 +189,36 @@ class OrganizationsLocationsBuckets extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('undelete', [$params], LoggingEmpty::class);
+  }
+  /**
+   * Updates a log bucket asynchronously.If the bucket has a lifecycle_state of
+   * DELETE_REQUESTED, then FAILED_PRECONDITION will be returned.After a bucket
+   * has been created, the bucket's location cannot be changed.
+   * (buckets.updateAsync)
+   *
+   * @param string $name Required. The full resource name of the bucket to update.
+   * "projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
+   * "organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]"
+   * "billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET
+   * _ID]" "folders/[FOLDER_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]" For
+   * example:"projects/my-project/locations/global/buckets/my-bucket"
+   * @param LogBucket $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. Field mask that specifies the fields
+   * in bucket that need an update. A bucket field will be overwritten if, and
+   * only if, it is in the update mask. name and output only fields cannot be
+   * updated.For a detailed FieldMask definition, see:
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example:
+   * updateMask=retention_days
+   * @return Operation
+   */
+  public function updateAsync($name, LogBucket $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateAsync', [$params], Operation::class);
   }
 }
 

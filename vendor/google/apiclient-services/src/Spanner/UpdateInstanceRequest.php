@@ -25,6 +25,7 @@ class UpdateInstanceRequest extends \Google\Model
   public $fieldMask;
   protected $instanceType = Instance::class;
   protected $instanceDataType = '';
+  public $instance;
 
   /**
    * @param string

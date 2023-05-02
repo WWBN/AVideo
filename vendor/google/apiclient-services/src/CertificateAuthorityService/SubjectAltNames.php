@@ -22,6 +22,7 @@ class SubjectAltNames extends \Google\Collection
   protected $collection_key = 'uris';
   protected $customSansType = X509Extension::class;
   protected $customSansDataType = 'array';
+  public $customSans;
   /**
    * @var string[]
    */

@@ -22,10 +22,13 @@ class GoogleCloudVisionV1p3beta1ProductSearchResultsGroupedResult extends \Googl
   protected $collection_key = 'results';
   protected $boundingPolyType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   protected $objectAnnotationsType = GoogleCloudVisionV1p3beta1ProductSearchResultsObjectAnnotation::class;
   protected $objectAnnotationsDataType = 'array';
+  public $objectAnnotations;
   protected $resultsType = GoogleCloudVisionV1p3beta1ProductSearchResultsResult::class;
   protected $resultsDataType = 'array';
+  public $results;
 
   /**
    * @param GoogleCloudVisionV1p3beta1BoundingPoly

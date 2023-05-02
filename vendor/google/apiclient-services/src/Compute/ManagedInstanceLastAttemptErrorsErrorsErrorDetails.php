@@ -21,12 +21,16 @@ class ManagedInstanceLastAttemptErrorsErrorsErrorDetails extends \Google\Model
 {
   protected $errorInfoType = ErrorInfo::class;
   protected $errorInfoDataType = '';
+  public $errorInfo;
   protected $helpType = Help::class;
   protected $helpDataType = '';
+  public $help;
   protected $localizedMessageType = LocalizedMessage::class;
   protected $localizedMessageDataType = '';
+  public $localizedMessage;
   protected $quotaInfoType = QuotaExceededInfo::class;
   protected $quotaInfoDataType = '';
+  public $quotaInfo;
 
   /**
    * @param ErrorInfo

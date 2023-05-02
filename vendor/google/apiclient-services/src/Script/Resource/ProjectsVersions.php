@@ -25,7 +25,7 @@ use Google\Service\Script\Version;
  * Typical usage is:
  *  <code>
  *   $scriptService = new Google\Service\Script(...);
- *   $versions = $scriptService->versions;
+ *   $versions = $scriptService->projects_versions;
  *  </code>
  */
 class ProjectsVersions extends \Google\Service\Resource

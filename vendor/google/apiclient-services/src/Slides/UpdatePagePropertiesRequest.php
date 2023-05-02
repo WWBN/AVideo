@@ -29,6 +29,7 @@ class UpdatePagePropertiesRequest extends \Google\Model
   public $objectId;
   protected $pagePropertiesType = PageProperties::class;
   protected $pagePropertiesDataType = '';
+  public $pageProperties;
 
   /**
    * @param string

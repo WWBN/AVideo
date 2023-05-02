@@ -22,6 +22,7 @@ class CountryCountryAttachment extends \Google\Collection
   protected $collection_key = 'salientCountries';
   protected $clickDistributionType = CountryClickDistribution::class;
   protected $clickDistributionDataType = '';
+  public $clickDistribution;
   /**
    * @var bool
    */
@@ -72,6 +73,7 @@ class CountryCountryAttachment extends \Google\Collection
   public $fromWmx;
   protected $geoLocationsType = CountryGeoLocations::class;
   protected $geoLocationsDataType = '';
+  public $geoLocations;
   /**
    * @var bool
    */
@@ -90,14 +92,17 @@ class CountryCountryAttachment extends \Google\Collection
   public $localCountryCodes;
   protected $metroIdListType = CountryMetroNBFeature::class;
   protected $metroIdListDataType = 'array';
+  public $metroIdList;
   /**
    * @var string[]
    */
   public $metroLocationId;
   protected $metroNavboostType = CountryMetroNBFeature::class;
   protected $metroNavboostDataType = 'array';
+  public $metroNavboost;
   protected $provinceGeotokenListType = CountryProvinceGeotoken::class;
   protected $provinceGeotokenListDataType = 'array';
+  public $provinceGeotokenList;
   /**
    * @var string[]
    */
@@ -112,8 +117,10 @@ class CountryCountryAttachment extends \Google\Collection
   public $restrictCountries;
   protected $salientCountriesType = CountrySalientCountry::class;
   protected $salientCountriesDataType = 'array';
+  public $salientCountries;
   protected $salientCountrySetType = QualitySalientCountriesSalientCountrySet::class;
   protected $salientCountrySetDataType = '';
+  public $salientCountrySet;
   /**
    * @var string
    */

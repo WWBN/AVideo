@@ -17,9 +17,12 @@
 
 namespace Google\Service\Contactcenterinsights\Resource;
 
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Conversation;
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1IngestConversationsRequest;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1ListConversationsResponse;
+use Google\Service\Contactcenterinsights\GoogleLongrunningOperation;
 use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
 
 /**
@@ -27,11 +30,26 @@ use Google\Service\Contactcenterinsights\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $contactcenterinsightsService = new Google\Service\Contactcenterinsights(...);
- *   $conversations = $contactcenterinsightsService->conversations;
+ *   $conversations = $contactcenterinsightsService->projects_locations_conversations;
  *  </code>
  */
 class ProjectsLocationsConversations extends \Google\Service\Resource
 {
+  /**
+   * Analyzes multiple conversations in a single request.
+   * (conversations.bulkAnalyze)
+   *
+   * @param string $parent Required. The parent resource to create analyses in.
+   * @param GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   */
+  public function bulkAnalyze($parent, GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('bulkAnalyze', [$params], GoogleLongrunningOperation::class);
+  }
   /**
    * Gets conversation statistics. (conversations.calculateStats)
    *
@@ -101,6 +119,21 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudContactcenterinsightsV1Conversation::class);
+  }
+  /**
+   * Imports conversations and processes them according to the user's
+   * configuration. (conversations.ingest)
+   *
+   * @param string $parent Required. The parent resource for new conversations.
+   * @param GoogleCloudContactcenterinsightsV1IngestConversationsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   */
+  public function ingest($parent, GoogleCloudContactcenterinsightsV1IngestConversationsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('ingest', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Lists conversations. (conversations.listProjectsLocationsConversations)

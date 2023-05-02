@@ -26,18 +26,21 @@ class RegionalInventory extends \Google\Collection
   public $availability;
   protected $customAttributesType = CustomAttribute::class;
   protected $customAttributesDataType = 'array';
+  public $customAttributes;
   /**
    * @var string
    */
   public $kind;
   protected $priceType = Price::class;
   protected $priceDataType = '';
+  public $price;
   /**
    * @var string
    */
   public $regionId;
   protected $salePriceType = Price::class;
   protected $salePriceDataType = '';
+  public $salePrice;
   /**
    * @var string
    */

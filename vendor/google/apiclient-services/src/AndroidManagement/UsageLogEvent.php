@@ -21,22 +21,31 @@ class UsageLogEvent extends \Google\Model
 {
   protected $adbShellCommandEventType = AdbShellCommandEvent::class;
   protected $adbShellCommandEventDataType = '';
+  public $adbShellCommandEvent;
   protected $adbShellInteractiveEventType = AdbShellInteractiveEvent::class;
   protected $adbShellInteractiveEventDataType = '';
+  public $adbShellInteractiveEvent;
   protected $appProcessStartEventType = AppProcessStartEvent::class;
   protected $appProcessStartEventDataType = '';
+  public $appProcessStartEvent;
   protected $certAuthorityInstalledEventType = CertAuthorityInstalledEvent::class;
   protected $certAuthorityInstalledEventDataType = '';
+  public $certAuthorityInstalledEvent;
   protected $certAuthorityRemovedEventType = CertAuthorityRemovedEvent::class;
   protected $certAuthorityRemovedEventDataType = '';
+  public $certAuthorityRemovedEvent;
   protected $certValidationFailureEventType = CertValidationFailureEvent::class;
   protected $certValidationFailureEventDataType = '';
+  public $certValidationFailureEvent;
   protected $connectEventType = ConnectEvent::class;
   protected $connectEventDataType = '';
+  public $connectEvent;
   protected $cryptoSelfTestCompletedEventType = CryptoSelfTestCompletedEvent::class;
   protected $cryptoSelfTestCompletedEventDataType = '';
+  public $cryptoSelfTestCompletedEvent;
   protected $dnsEventType = DnsEvent::class;
   protected $dnsEventDataType = '';
+  public $dnsEvent;
   /**
    * @var string
    */
@@ -51,40 +60,58 @@ class UsageLogEvent extends \Google\Model
   public $eventType;
   protected $filePulledEventType = FilePulledEvent::class;
   protected $filePulledEventDataType = '';
+  public $filePulledEvent;
   protected $filePushedEventType = FilePushedEvent::class;
   protected $filePushedEventDataType = '';
+  public $filePushedEvent;
   protected $keyDestructionEventType = KeyDestructionEvent::class;
   protected $keyDestructionEventDataType = '';
+  public $keyDestructionEvent;
   protected $keyGeneratedEventType = KeyGeneratedEvent::class;
   protected $keyGeneratedEventDataType = '';
+  public $keyGeneratedEvent;
   protected $keyImportEventType = KeyImportEvent::class;
   protected $keyImportEventDataType = '';
+  public $keyImportEvent;
   protected $keyIntegrityViolationEventType = KeyIntegrityViolationEvent::class;
   protected $keyIntegrityViolationEventDataType = '';
+  public $keyIntegrityViolationEvent;
   protected $keyguardDismissAuthAttemptEventType = KeyguardDismissAuthAttemptEvent::class;
   protected $keyguardDismissAuthAttemptEventDataType = '';
+  public $keyguardDismissAuthAttemptEvent;
   protected $keyguardDismissedEventType = KeyguardDismissedEvent::class;
   protected $keyguardDismissedEventDataType = '';
+  public $keyguardDismissedEvent;
   protected $keyguardSecuredEventType = KeyguardSecuredEvent::class;
   protected $keyguardSecuredEventDataType = '';
+  public $keyguardSecuredEvent;
   protected $logBufferSizeCriticalEventType = LogBufferSizeCriticalEvent::class;
   protected $logBufferSizeCriticalEventDataType = '';
+  public $logBufferSizeCriticalEvent;
   protected $loggingStartedEventType = LoggingStartedEvent::class;
   protected $loggingStartedEventDataType = '';
+  public $loggingStartedEvent;
   protected $loggingStoppedEventType = LoggingStoppedEvent::class;
   protected $loggingStoppedEventDataType = '';
+  public $loggingStoppedEvent;
   protected $mediaMountEventType = MediaMountEvent::class;
   protected $mediaMountEventDataType = '';
+  public $mediaMountEvent;
   protected $mediaUnmountEventType = MediaUnmountEvent::class;
   protected $mediaUnmountEventDataType = '';
+  public $mediaUnmountEvent;
   protected $osShutdownEventType = OsShutdownEvent::class;
   protected $osShutdownEventDataType = '';
+  public $osShutdownEvent;
   protected $osStartupEventType = OsStartupEvent::class;
   protected $osStartupEventDataType = '';
+  public $osStartupEvent;
   protected $remoteLockEventType = RemoteLockEvent::class;
   protected $remoteLockEventDataType = '';
+  public $remoteLockEvent;
   protected $wipeFailureEventType = WipeFailureEvent::class;
   protected $wipeFailureEventDataType = '';
+  public $wipeFailureEvent;
 
   /**
    * @param AdbShellCommandEvent

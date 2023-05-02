@@ -21,28 +21,36 @@ class Notification extends \Google\Model
 {
   protected $appRestrictionsSchemaChangeEventType = AppRestrictionsSchemaChangeEvent::class;
   protected $appRestrictionsSchemaChangeEventDataType = '';
+  public $appRestrictionsSchemaChangeEvent;
   protected $appUpdateEventType = AppUpdateEvent::class;
   protected $appUpdateEventDataType = '';
+  public $appUpdateEvent;
   protected $deviceReportUpdateEventType = DeviceReportUpdateEvent::class;
   protected $deviceReportUpdateEventDataType = '';
+  public $deviceReportUpdateEvent;
   /**
    * @var string
    */
   public $enterpriseId;
   protected $installFailureEventType = InstallFailureEvent::class;
   protected $installFailureEventDataType = '';
+  public $installFailureEvent;
   protected $newDeviceEventType = NewDeviceEvent::class;
   protected $newDeviceEventDataType = '';
+  public $newDeviceEvent;
   protected $newPermissionsEventType = NewPermissionsEvent::class;
   protected $newPermissionsEventDataType = '';
+  public $newPermissionsEvent;
   /**
    * @var string
    */
   public $notificationType;
   protected $productApprovalEventType = ProductApprovalEvent::class;
   protected $productApprovalEventDataType = '';
+  public $productApprovalEvent;
   protected $productAvailabilityChangeEventType = ProductAvailabilityChangeEvent::class;
   protected $productAvailabilityChangeEventDataType = '';
+  public $productAvailabilityChangeEvent;
   /**
    * @var string
    */

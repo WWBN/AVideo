@@ -30,6 +30,7 @@ class DatafeedstatusesListResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = DatafeedStatus::class;
   protected $resourcesDataType = 'array';
+  public $resources;
 
   /**
    * @param string

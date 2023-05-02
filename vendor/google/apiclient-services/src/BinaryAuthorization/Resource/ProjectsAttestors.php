@@ -32,7 +32,7 @@ use Google\Service\BinaryAuthorization\ValidateAttestationOccurrenceResponse;
  * Typical usage is:
  *  <code>
  *   $binaryauthorizationService = new Google\Service\BinaryAuthorization(...);
- *   $attestors = $binaryauthorizationService->attestors;
+ *   $attestors = $binaryauthorizationService->projects_attestors;
  *  </code>
  */
 class ProjectsAttestors extends \Google\Service\Resource

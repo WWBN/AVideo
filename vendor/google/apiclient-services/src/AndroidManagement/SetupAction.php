@@ -21,10 +21,13 @@ class SetupAction extends \Google\Model
 {
   protected $descriptionType = UserFacingMessage::class;
   protected $descriptionDataType = '';
+  public $description;
   protected $launchAppType = LaunchAppAction::class;
   protected $launchAppDataType = '';
+  public $launchApp;
   protected $titleType = UserFacingMessage::class;
   protected $titleDataType = '';
+  public $title;
 
   /**
    * @param UserFacingMessage

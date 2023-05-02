@@ -30,6 +30,7 @@ class ImageRepositorySpeechRecognitionAlternative extends \Google\Collection
   public $transcript;
   protected $wordsType = ImageRepositoryWordInfo::class;
   protected $wordsDataType = 'array';
+  public $words;
 
   /**
    * @param float

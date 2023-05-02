@@ -22,8 +22,10 @@ class GoogleAppsDriveLabelsV2FieldSelectionOptions extends \Google\Collection
   protected $collection_key = 'choices';
   protected $choicesType = GoogleAppsDriveLabelsV2FieldSelectionOptionsChoice::class;
   protected $choicesDataType = 'array';
+  public $choices;
   protected $listOptionsType = GoogleAppsDriveLabelsV2FieldListOptions::class;
   protected $listOptionsDataType = '';
+  public $listOptions;
 
   /**
    * @param GoogleAppsDriveLabelsV2FieldSelectionOptionsChoice[]

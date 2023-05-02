@@ -21,10 +21,13 @@ class SynthesizeSpeechRequest extends \Google\Model
 {
   protected $audioConfigType = AudioConfig::class;
   protected $audioConfigDataType = '';
+  public $audioConfig;
   protected $inputType = SynthesisInput::class;
   protected $inputDataType = '';
+  public $input;
   protected $voiceType = VoiceSelectionParams::class;
   protected $voiceDataType = '';
+  public $voice;
 
   /**
    * @param AudioConfig

@@ -22,10 +22,13 @@ class ExpressionReport extends \Google\Collection
   protected $collection_key = 'values';
   protected $childrenType = ExpressionReport::class;
   protected $childrenDataType = 'array';
+  public $children;
   protected $sourcePositionType = SourcePosition::class;
   protected $sourcePositionDataType = '';
+  public $sourcePosition;
   protected $valuesType = ValueCount::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param ExpressionReport[]

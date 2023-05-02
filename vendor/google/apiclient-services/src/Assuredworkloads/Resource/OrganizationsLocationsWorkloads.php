@@ -18,6 +18,7 @@
 namespace Google\Service\Assuredworkloads\Resource;
 
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1ListWorkloadsResponse;
+use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesRequest;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1RestrictAllowedResourcesResponse;
 use Google\Service\Assuredworkloads\GoogleCloudAssuredworkloadsV1Workload;
@@ -29,7 +30,7 @@ use Google\Service\Assuredworkloads\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $assuredworkloadsService = new Google\Service\Assuredworkloads(...);
- *   $workloads = $assuredworkloadsService->workloads;
+ *   $workloads = $assuredworkloadsService->organizations_locations_workloads;
  *  </code>
  */
 class OrganizationsLocationsWorkloads extends \Google\Service\Resource
@@ -111,6 +112,24 @@ class OrganizationsLocationsWorkloads extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudAssuredworkloadsV1ListWorkloadsResponse::class);
+  }
+  /**
+   * Update the permissions settings for an existing partner workload. For force
+   * updates don't set etag field in the Workload. Only one update operation per
+   * workload can be in progress. (workloads.mutatePartnerPermissions)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * workload. Format:
+   * organizations/{org_id}/locations/{location_id}/workloads/{workload_id}
+   * @param GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAssuredworkloadsV1Workload
+   */
+  public function mutatePartnerPermissions($name, GoogleCloudAssuredworkloadsV1MutatePartnerPermissionsRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('mutatePartnerPermissions', [$params], GoogleCloudAssuredworkloadsV1Workload::class);
   }
   /**
    * Updates an existing workload. Currently allows updating of workload

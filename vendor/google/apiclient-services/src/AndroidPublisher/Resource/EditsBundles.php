@@ -25,7 +25,7 @@ use Google\Service\AndroidPublisher\BundlesListResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $bundles = $androidpublisherService->bundles;
+ *   $bundles = $androidpublisherService->edits_bundles;
  *  </code>
  */
 class EditsBundles extends \Google\Service\Resource

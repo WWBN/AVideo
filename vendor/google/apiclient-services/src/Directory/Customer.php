@@ -53,6 +53,7 @@ class Customer extends \Google\Model
   public $phoneNumber;
   protected $postalAddressType = CustomerPostalAddress::class;
   protected $postalAddressDataType = '';
+  public $postalAddress;
 
   /**
    * @param string

@@ -25,7 +25,7 @@ use Google\Service\Sheets\SheetProperties;
  * Typical usage is:
  *  <code>
  *   $sheetsService = new Google\Service\Sheets(...);
- *   $sheets = $sheetsService->sheets;
+ *   $sheets = $sheetsService->spreadsheets_sheets;
  *  </code>
  */
 class SpreadsheetsSheets extends \Google\Service\Resource

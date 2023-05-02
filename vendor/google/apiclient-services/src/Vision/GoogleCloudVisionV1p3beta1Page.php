@@ -22,6 +22,7 @@ class GoogleCloudVisionV1p3beta1Page extends \Google\Collection
   protected $collection_key = 'blocks';
   protected $blocksType = GoogleCloudVisionV1p3beta1Block::class;
   protected $blocksDataType = 'array';
+  public $blocks;
   /**
    * @var float
    */
@@ -32,6 +33,7 @@ class GoogleCloudVisionV1p3beta1Page extends \Google\Collection
   public $height;
   protected $propertyType = GoogleCloudVisionV1p3beta1TextAnnotationTextProperty::class;
   protected $propertyDataType = '';
+  public $property;
   /**
    * @var int
    */

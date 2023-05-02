@@ -42,7 +42,7 @@ if (empty($_GET['current'])) {
 }
 $_REQUEST['rowCount'] = 4;
 $sort = @$_POST['sort'];
-$_POST['sort'] = array();
+$_POST['sort'] = [];
 $_POST['sort']['created'] = 'DESC';
 $playlists = PlayList::getAllFromUser($user_id, $publicOnly, false, 0, 0, true);
 $_POST['sort'] = $sort;
@@ -91,10 +91,11 @@ unset($_POST['current']);
             $videosP = [];
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+            //var_dump($videosArrayId);exit;
         }//var_dump($videosArrayId, $videosP); exit;
-
         $totalDuration = 0;
         foreach ($videosP as $value) {
+            //var_dump($value['id'], $value['title'], $value['duration']);echo '<br>';
             $totalDuration += durationToSeconds($value['duration']);
         }
 
@@ -113,10 +114,10 @@ unset($_POST['current']);
         ?>
 
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
-            <div class="panel-heading">
+            <div class="panel-heading clearfix">
 
                 <strong style="font-size: 1.1em;" class="playlistName">
-                    <?php echo __($playlist['name']); ?> (<?php echo secondsToDuration($totalDuration); ?>)
+                    <?php echo __($playlist['name']); ?> (<?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($playlist['id'])); ?>)
                 </strong>
                 <?php
                 PlayLists::getPLButtons($playlist['id']);
@@ -131,17 +132,16 @@ unset($_POST['current']);
                     <?php
                     $serie = PlayLists::isPlayListASerie($playlist['id']);
                     if (!empty($serie)) {
-                        $images = Video::getImageFromFilename($serie['filename'], $serie['type'], true);
-                        $imgGif = $images->thumbsGif;
-                        $poster = $images->thumbsJpg;
                         $category = new Category($serie['categories_id']);
                         ?>
                         <div style="overflow: hidden;">
-                            <div style="display: flex; margin-bottom: 10px;">
-                                <div style="margin-right: 5px; min-width: 30%;" >
-                                    <img src="<?php echo $poster; ?>" alt="<?php echo $serie['title']; ?>" class="img img-responsive" style="max-height: 200px;" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <?php
+                                        echo Video::getVideoImagewithHoverAnimationFromVideosId($serie['id'], true, true, true);
+                                    ?>
                                 </div>
-                                <div>
+                                <div class="col-md-8">
                                     <a class="h6 galleryLink hrefLink" href="<?php echo Video::getLink($serie['id'], $serie['clean_title']); ?>" title="<?php echo getSEOTitle($serie['title']); ?>">
                                         <strong class="title"><?php echo getSEOTitle($serie['title']); ?></strong>
                                     </a>
@@ -204,7 +204,7 @@ unset($_POST['current']);
                         $class = '';
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
-                            <?php                            
+                            <?php
                                 echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
                             ?>
                             <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">

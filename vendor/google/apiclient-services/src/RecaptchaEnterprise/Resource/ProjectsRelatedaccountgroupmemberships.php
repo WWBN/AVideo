@@ -25,7 +25,7 @@ use Google\Service\RecaptchaEnterprise\GoogleCloudRecaptchaenterpriseV1SearchRel
  * Typical usage is:
  *  <code>
  *   $recaptchaenterpriseService = new Google\Service\RecaptchaEnterprise(...);
- *   $relatedaccountgroupmemberships = $recaptchaenterpriseService->relatedaccountgroupmemberships;
+ *   $relatedaccountgroupmemberships = $recaptchaenterpriseService->projects_relatedaccountgroupmemberships;
  *  </code>
  */
 class ProjectsRelatedaccountgroupmemberships extends \Google\Service\Resource

@@ -25,7 +25,7 @@ use Google\Service\ArtifactRegistry\MavenArtifact;
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $mavenArtifacts = $artifactregistryService->mavenArtifacts;
+ *   $mavenArtifacts = $artifactregistryService->projects_locations_repositories_mavenArtifacts;
  *  </code>
  */
 class ProjectsLocationsRepositoriesMavenArtifacts extends \Google\Service\Resource

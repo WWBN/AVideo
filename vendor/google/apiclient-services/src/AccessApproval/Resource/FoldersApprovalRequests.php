@@ -28,7 +28,7 @@ use Google\Service\AccessApproval\ListApprovalRequestsResponse;
  * Typical usage is:
  *  <code>
  *   $accessapprovalService = new Google\Service\AccessApproval(...);
- *   $approvalRequests = $accessapprovalService->approvalRequests;
+ *   $approvalRequests = $accessapprovalService->folders_approvalRequests;
  *  </code>
  */
 class FoldersApprovalRequests extends \Google\Service\Resource

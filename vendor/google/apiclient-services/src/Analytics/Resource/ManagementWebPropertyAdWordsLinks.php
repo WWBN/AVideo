@@ -25,7 +25,7 @@ use Google\Service\Analytics\EntityAdWordsLinks;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $webPropertyAdWordsLinks = $analyticsService->webPropertyAdWordsLinks;
+ *   $webPropertyAdWordsLinks = $analyticsService->management_webPropertyAdWordsLinks;
  *  </code>
  */
 class ManagementWebPropertyAdWordsLinks extends \Google\Service\Resource

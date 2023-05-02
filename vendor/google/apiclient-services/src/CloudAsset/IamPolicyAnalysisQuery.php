@@ -21,14 +21,19 @@ class IamPolicyAnalysisQuery extends \Google\Model
 {
   protected $accessSelectorType = AccessSelector::class;
   protected $accessSelectorDataType = '';
+  public $accessSelector;
   protected $conditionContextType = ConditionContext::class;
   protected $conditionContextDataType = '';
+  public $conditionContext;
   protected $identitySelectorType = IdentitySelector::class;
   protected $identitySelectorDataType = '';
+  public $identitySelector;
   protected $optionsType = Options::class;
   protected $optionsDataType = '';
+  public $options;
   protected $resourceSelectorType = ResourceSelector::class;
   protected $resourceSelectorDataType = '';
+  public $resourceSelector;
   /**
    * @var string
    */

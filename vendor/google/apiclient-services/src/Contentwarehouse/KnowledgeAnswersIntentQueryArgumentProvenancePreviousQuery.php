@@ -22,12 +22,19 @@ class KnowledgeAnswersIntentQueryArgumentProvenancePreviousQuery extends \Google
   protected $collection_key = 'evalData';
   protected $currentQueryEvalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $currentQueryEvalDataDataType = 'array';
+  public $currentQueryEvalData;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = 'array';
+  public $evalData;
   protected $eventIdType = EventIdMessage::class;
   protected $eventIdDataType = '';
+  public $eventId;
+  protected $neuralLocationAnnotatorType = KnowledgeAnswersIntentQueryArgumentProvenanceNeuralLocationAnnotator::class;
+  protected $neuralLocationAnnotatorDataType = '';
+  public $neuralLocationAnnotator;
   protected $roleType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousQueryRole::class;
   protected $roleDataType = '';
+  public $role;
   /**
    * @var string
    */
@@ -74,6 +81,20 @@ class KnowledgeAnswersIntentQueryArgumentProvenancePreviousQuery extends \Google
   public function getEventId()
   {
     return $this->eventId;
+  }
+  /**
+   * @param KnowledgeAnswersIntentQueryArgumentProvenanceNeuralLocationAnnotator
+   */
+  public function setNeuralLocationAnnotator(KnowledgeAnswersIntentQueryArgumentProvenanceNeuralLocationAnnotator $neuralLocationAnnotator)
+  {
+    $this->neuralLocationAnnotator = $neuralLocationAnnotator;
+  }
+  /**
+   * @return KnowledgeAnswersIntentQueryArgumentProvenanceNeuralLocationAnnotator
+   */
+  public function getNeuralLocationAnnotator()
+  {
+    return $this->neuralLocationAnnotator;
   }
   /**
    * @param KnowledgeAnswersIntentQueryArgumentProvenancePreviousQueryRole

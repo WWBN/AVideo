@@ -22,18 +22,23 @@ class ImageContext extends \Google\Collection
   protected $collection_key = 'languageHints';
   protected $cropHintsParamsType = CropHintsParams::class;
   protected $cropHintsParamsDataType = '';
+  public $cropHintsParams;
   /**
    * @var string[]
    */
   public $languageHints;
   protected $latLongRectType = LatLongRect::class;
   protected $latLongRectDataType = '';
+  public $latLongRect;
   protected $productSearchParamsType = ProductSearchParams::class;
   protected $productSearchParamsDataType = '';
+  public $productSearchParams;
   protected $textDetectionParamsType = TextDetectionParams::class;
   protected $textDetectionParamsDataType = '';
+  public $textDetectionParams;
   protected $webDetectionParamsType = WebDetectionParams::class;
   protected $webDetectionParamsDataType = '';
+  public $webDetectionParams;
 
   /**
    * @param CropHintsParams

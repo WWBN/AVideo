@@ -22,10 +22,13 @@ class GooglePrivacyDlpV2StatisticalTable extends \Google\Collection
   protected $collection_key = 'quasiIds';
   protected $quasiIdsType = GooglePrivacyDlpV2QuasiIdentifierField::class;
   protected $quasiIdsDataType = 'array';
+  public $quasiIds;
   protected $relativeFrequencyType = GooglePrivacyDlpV2FieldId::class;
   protected $relativeFrequencyDataType = '';
+  public $relativeFrequency;
   protected $tableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $tableDataType = '';
+  public $table;
 
   /**
    * @param GooglePrivacyDlpV2QuasiIdentifierField[]

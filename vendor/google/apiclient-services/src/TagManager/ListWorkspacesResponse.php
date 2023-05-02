@@ -26,6 +26,7 @@ class ListWorkspacesResponse extends \Google\Collection
   public $nextPageToken;
   protected $workspaceType = Workspace::class;
   protected $workspaceDataType = 'array';
+  public $workspace;
 
   /**
    * @param string

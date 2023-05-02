@@ -21,6 +21,7 @@ class SourceDiskEncryptionKey extends \Google\Model
 {
   protected $diskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $diskEncryptionKeyDataType = '';
+  public $diskEncryptionKey;
   /**
    * @var string
    */

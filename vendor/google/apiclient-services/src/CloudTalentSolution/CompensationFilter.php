@@ -26,6 +26,7 @@ class CompensationFilter extends \Google\Collection
   public $includeJobsWithUnspecifiedCompensationRange;
   protected $rangeType = CompensationRange::class;
   protected $rangeDataType = '';
+  public $range;
   /**
    * @var string
    */

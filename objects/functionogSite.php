@@ -1,5 +1,13 @@
 <?php
 global $videos_id;
+// assign a default value to $img if it is empty
+$img = !empty($img) ? $img : 'default_image.jpg';
+
+// assign a default value to $title if it is empty
+$title = !empty($title) ? $title : 'Default Title';
+
+// assign a default value to $url if it is empty
+$url = !empty($url) ? $url : 'https://example.com';
 echo PHP_EOL."<!-- OpenGraph for the Site -->".PHP_EOL;
 if ($users_id = isChannel()) {
     echo PHP_EOL."<!-- OpenGraph channel -->".PHP_EOL;
@@ -11,14 +19,16 @@ if ($users_id = isChannel()) {
     <meta property="og:type" content="profile" />
     <meta property="profile:username" content="<?php echo $title; ?>" />
     <?php
-} elseif (!empty($_GET['catName'])) {
+} elseif (!empty($_REQUEST['catName'])) {
         $imgw = 200;
         $imgh = 200;
-        $category = Category::getCategoryByName($_GET['catName']);
-        $img = Category::getOGImage($category['id']);
-        $title = html2plainText($category['name']);
-        $url = Category::getCategoryLinkFromName($_GET['catName']);
-        $description = html2plainText($category['description']);  
+        $category = Category::getCategoryByName($_REQUEST['catName']);
+        if(!empty($category)){
+            $img = Category::getOGImage($category['id']);
+            $title = html2plainText($category['name']);
+            $url = Category::getCategoryLinkFromName($_REQUEST['catName']);
+            $description = html2plainText($category['description']);
+        }
         echo PHP_EOL."<!-- OpenGraph not video 1 -->".PHP_EOL; ?>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="<?php echo $title; ?>">

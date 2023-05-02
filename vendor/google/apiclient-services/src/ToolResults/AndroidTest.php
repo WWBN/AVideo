@@ -21,14 +21,19 @@ class AndroidTest extends \Google\Model
 {
   protected $androidAppInfoType = AndroidAppInfo::class;
   protected $androidAppInfoDataType = '';
+  public $androidAppInfo;
   protected $androidInstrumentationTestType = AndroidInstrumentationTest::class;
   protected $androidInstrumentationTestDataType = '';
+  public $androidInstrumentationTest;
   protected $androidRoboTestType = AndroidRoboTest::class;
   protected $androidRoboTestDataType = '';
+  public $androidRoboTest;
   protected $androidTestLoopType = AndroidTestLoop::class;
   protected $androidTestLoopDataType = '';
+  public $androidTestLoop;
   protected $testTimeoutType = Duration::class;
   protected $testTimeoutDataType = '';
+  public $testTimeout;
 
   /**
    * @param AndroidAppInfo

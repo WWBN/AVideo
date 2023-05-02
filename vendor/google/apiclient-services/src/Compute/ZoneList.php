@@ -26,6 +26,7 @@ class ZoneList extends \Google\Collection
   public $id;
   protected $itemsType = Zone::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class ZoneList extends \Google\Collection
   public $selfLink;
   protected $warningType = ZoneListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

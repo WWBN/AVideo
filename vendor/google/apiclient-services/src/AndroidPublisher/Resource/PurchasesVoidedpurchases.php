@@ -24,7 +24,7 @@ use Google\Service\AndroidPublisher\VoidedPurchasesListResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $voidedpurchases = $androidpublisherService->voidedpurchases;
+ *   $voidedpurchases = $androidpublisherService->purchases_voidedpurchases;
  *  </code>
  */
 class PurchasesVoidedpurchases extends \Google\Service\Resource

@@ -28,7 +28,7 @@ use Google\Service\Appengine\ListIngressRulesResponse;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $ingressRules = $appengineService->ingressRules;
+ *   $ingressRules = $appengineService->apps_firewall_ingressRules;
  *  </code>
  */
 class AppsFirewallIngressRules extends \Google\Service\Resource

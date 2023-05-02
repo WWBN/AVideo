@@ -22,7 +22,7 @@ namespace Google\Service\Apigee\Resource;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $traceConfig = $apigeeService->traceConfig;
+ *   $traceConfig = $apigeeService->organizations_environments_traceConfig;
  *  </code>
  */
 class OrganizationsEnvironmentsTraceConfig extends \Google\Service\Resource

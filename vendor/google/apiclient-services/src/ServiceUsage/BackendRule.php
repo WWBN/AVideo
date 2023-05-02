@@ -32,7 +32,11 @@ class BackendRule extends \Google\Model
    * @var string
    */
   public $jwtAudience;
+  public $minDeadline;
   public $operationDeadline;
+  protected $overridesByRequestProtocolType = BackendRule::class;
+  protected $overridesByRequestProtocolDataType = 'map';
+  public $overridesByRequestProtocol;
   /**
    * @var string
    */
@@ -96,6 +100,14 @@ class BackendRule extends \Google\Model
   {
     return $this->jwtAudience;
   }
+  public function setMinDeadline($minDeadline)
+  {
+    $this->minDeadline = $minDeadline;
+  }
+  public function getMinDeadline()
+  {
+    return $this->minDeadline;
+  }
   public function setOperationDeadline($operationDeadline)
   {
     $this->operationDeadline = $operationDeadline;
@@ -103,6 +115,20 @@ class BackendRule extends \Google\Model
   public function getOperationDeadline()
   {
     return $this->operationDeadline;
+  }
+  /**
+   * @param BackendRule[]
+   */
+  public function setOverridesByRequestProtocol($overridesByRequestProtocol)
+  {
+    $this->overridesByRequestProtocol = $overridesByRequestProtocol;
+  }
+  /**
+   * @return BackendRule[]
+   */
+  public function getOverridesByRequestProtocol()
+  {
+    return $this->overridesByRequestProtocol;
   }
   /**
    * @param string

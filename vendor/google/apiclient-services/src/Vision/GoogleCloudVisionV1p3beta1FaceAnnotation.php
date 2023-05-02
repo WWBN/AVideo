@@ -30,12 +30,14 @@ class GoogleCloudVisionV1p3beta1FaceAnnotation extends \Google\Collection
   public $blurredLikelihood;
   protected $boundingPolyType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $boundingPolyDataType = '';
+  public $boundingPoly;
   /**
    * @var float
    */
   public $detectionConfidence;
   protected $fdBoundingPolyType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $fdBoundingPolyDataType = '';
+  public $fdBoundingPoly;
   /**
    * @var string
    */
@@ -50,6 +52,7 @@ class GoogleCloudVisionV1p3beta1FaceAnnotation extends \Google\Collection
   public $landmarkingConfidence;
   protected $landmarksType = GoogleCloudVisionV1p3beta1FaceAnnotationLandmark::class;
   protected $landmarksDataType = 'array';
+  public $landmarks;
   /**
    * @var float
    */

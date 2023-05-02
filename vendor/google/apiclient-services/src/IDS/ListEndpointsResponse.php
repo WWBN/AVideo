@@ -22,6 +22,7 @@ class ListEndpointsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $endpointsType = Endpoint::class;
   protected $endpointsDataType = 'array';
+  public $endpoints;
   /**
    * @var string
    */

@@ -21,8 +21,14 @@ class VerificationOption extends \Google\Model
 {
   protected $addressDataType = AddressVerificationData::class;
   protected $addressDataDataType = '';
+  public $addressData;
+  /**
+   * @var string
+   */
+  public $announcement;
   protected $emailDataType = EmailVerificationData::class;
   protected $emailDataDataType = '';
+  public $emailData;
   /**
    * @var string
    */
@@ -45,6 +51,20 @@ class VerificationOption extends \Google\Model
   public function getAddressData()
   {
     return $this->addressData;
+  }
+  /**
+   * @param string
+   */
+  public function setAnnouncement($announcement)
+  {
+    $this->announcement = $announcement;
+  }
+  /**
+   * @return string
+   */
+  public function getAnnouncement()
+  {
+    return $this->announcement;
   }
   /**
    * @param EmailVerificationData

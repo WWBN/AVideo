@@ -22,6 +22,7 @@ class AppsDynamiteSharedSuggestions extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = AppsDynamiteSharedSuggestionsSuggestionItem::class;
   protected $itemsDataType = 'array';
+  public $items;
 
   /**
    * @param AppsDynamiteSharedSuggestionsSuggestionItem[]

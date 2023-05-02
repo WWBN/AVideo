@@ -29,16 +29,22 @@ class BaselineValueFormat extends \Google\Model
   public $description;
   protected $negativeColorType = Color::class;
   protected $negativeColorDataType = '';
+  public $negativeColor;
   protected $negativeColorStyleType = ColorStyle::class;
   protected $negativeColorStyleDataType = '';
+  public $negativeColorStyle;
   protected $positionType = TextPosition::class;
   protected $positionDataType = '';
+  public $position;
   protected $positiveColorType = Color::class;
   protected $positiveColorDataType = '';
+  public $positiveColor;
   protected $positiveColorStyleType = ColorStyle::class;
   protected $positiveColorStyleDataType = '';
+  public $positiveColorStyle;
   protected $textFormatType = TextFormat::class;
   protected $textFormatDataType = '';
+  public $textFormat;
 
   /**
    * @param string

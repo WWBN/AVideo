@@ -22,6 +22,7 @@ class ListGitLabRepositoriesResponse extends \Google\Collection
   protected $collection_key = 'gitlabRepositories';
   protected $gitlabRepositoriesType = GitLabRepository::class;
   protected $gitlabRepositoriesDataType = 'array';
+  public $gitlabRepositories;
   /**
    * @var string
    */

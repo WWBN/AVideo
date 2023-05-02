@@ -22,8 +22,10 @@ class IntegrationConfigUpdatedMetadata extends \Google\Collection
   protected $collection_key = 'mutations';
   protected $initiatorIdType = UserId::class;
   protected $initiatorIdDataType = '';
+  public $initiatorId;
   protected $mutationsType = IntegrationConfigMutation::class;
   protected $mutationsDataType = 'array';
+  public $mutations;
 
   /**
    * @param UserId

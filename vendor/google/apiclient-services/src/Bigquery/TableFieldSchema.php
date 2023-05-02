@@ -22,6 +22,7 @@ class TableFieldSchema extends \Google\Collection
   protected $collection_key = 'fields';
   protected $categoriesType = TableFieldSchemaCategories::class;
   protected $categoriesDataType = '';
+  public $categories;
   /**
    * @var string
    */
@@ -36,6 +37,7 @@ class TableFieldSchema extends \Google\Collection
   public $description;
   protected $fieldsType = TableFieldSchema::class;
   protected $fieldsDataType = 'array';
+  public $fields;
   /**
    * @var string
    */
@@ -50,10 +52,15 @@ class TableFieldSchema extends \Google\Collection
   public $name;
   protected $policyTagsType = TableFieldSchemaPolicyTags::class;
   protected $policyTagsDataType = '';
+  public $policyTags;
   /**
    * @var string
    */
   public $precision;
+  /**
+   * @var string
+   */
+  public $roundingMode;
   /**
    * @var string
    */
@@ -202,6 +209,20 @@ class TableFieldSchema extends \Google\Collection
   public function getPrecision()
   {
     return $this->precision;
+  }
+  /**
+   * @param string
+   */
+  public function setRoundingMode($roundingMode)
+  {
+    $this->roundingMode = $roundingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getRoundingMode()
+  {
+    return $this->roundingMode;
   }
   /**
    * @param string

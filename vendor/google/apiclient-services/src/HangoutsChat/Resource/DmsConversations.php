@@ -24,7 +24,7 @@ use Google\Service\HangoutsChat\Message;
  * Typical usage is:
  *  <code>
  *   $chatService = new Google\Service\HangoutsChat(...);
- *   $conversations = $chatService->conversations;
+ *   $conversations = $chatService->dms_conversations;
  *  </code>
  */
 class DmsConversations extends \Google\Service\Resource

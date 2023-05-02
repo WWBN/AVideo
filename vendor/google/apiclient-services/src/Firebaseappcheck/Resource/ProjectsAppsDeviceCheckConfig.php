@@ -25,7 +25,7 @@ use Google\Service\Firebaseappcheck\GoogleFirebaseAppcheckV1DeviceCheckConfig;
  * Typical usage is:
  *  <code>
  *   $firebaseappcheckService = new Google\Service\Firebaseappcheck(...);
- *   $deviceCheckConfig = $firebaseappcheckService->deviceCheckConfig;
+ *   $deviceCheckConfig = $firebaseappcheckService->projects_apps_deviceCheckConfig;
  *  </code>
  */
 class ProjectsAppsDeviceCheckConfig extends \Google\Service\Resource

@@ -33,6 +33,7 @@ class GoogleCloudContactcenterinsightsV1Entity extends \Google\Model
   public $salience;
   protected $sentimentType = GoogleCloudContactcenterinsightsV1SentimentData::class;
   protected $sentimentDataType = '';
+  public $sentiment;
   /**
    * @var string
    */

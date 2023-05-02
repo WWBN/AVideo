@@ -1,19 +1,18 @@
 <?php
 
-if (empty($config)) {
-    return true;
-}
-
+global $t;
 // filter some security here
 if (!empty($_GET['lang'])) {
-    $_GET['lang'] = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($_GET['lang']));
+    $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
 }
 
-if (!empty($_GET['lang'])) {
-    $_GET['lang'] = strip_tags($_GET['lang']);
-    $_SESSION['language'] = $_GET['lang'];
+includeLangFile();
+
+function includeLangFile() {
+    global $t, $global;
+    setSiteLang();
+    @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 }
-@include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";
 
 function __($str, $allowHTML = false) {
     global $t, $t_insensitive;
@@ -21,28 +20,28 @@ function __($str, $allowHTML = false) {
         if (is_array($t) && function_exists('array_change_key_case') && !isCommandLineInterface()) {
             $t_insensitive = array_change_key_case($t, CASE_LOWER);
         } else {
-            $t_insensitive = array();
+            $t_insensitive = [];
         }
     }
     $return = $str;
 
     if (!empty($t[$str])) {
         $return = $t[$str];
-    } else if (!empty($t_insensitive) && !empty($t_insensitive[strtolower($str)])) {
+    } elseif (!empty($t_insensitive) && !empty($t_insensitive[strtolower($str)])) {
         $return = $t_insensitive[strtolower($str)];
     }
 
     if ($allowHTML) {
         return $return;
     }
-    return str_replace(array("'", '"', "<", '>'), array('&apos;', '&quot;', '&lt;', '&gt;'), $return);
+    return str_replace(["'", '"', "<", '>'], ['&apos;', '&quot;', '&lt;', '&gt;'], $return);
 }
 
 function printJSString($str, $return = false) {
     $text = json_encode(__($str), JSON_UNESCAPED_UNICODE);
-    if($return){
+    if ($return) {
         return $text;
-    }else{
+    } else {
         echo $text;
     }
 }
@@ -55,7 +54,7 @@ function isRTL() {
 function getAllFlags() {
     global $global;
     $dir = "{$global['systemRootPath']}view/css/flag-icon-css-master/flags/4x3";
-    $flags = array();
+    $flags = [];
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
             if ($entry != "." && $entry != "..") {
@@ -76,7 +75,7 @@ function getAllFlags() {
 function getEnabledLangs() {
     global $global;
     $dir = "{$global['systemRootPath']}locale";
-    $flags = array();
+    $flags = [];
     if (empty($global['dont_show_us_flag'])) {
         $flags[] = 'us';
     }
@@ -101,7 +100,7 @@ function textToLink($string, $targetBlank = false) {
 }
 
 function br2nl($html) {
-    $nl = preg_replace(array('#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'), array("\n", "\n", ''), $html);
+    $nl = preg_replace(['#<br\s*/?>#i', '#<p\s*/?>#i', '#</p\s*>#i'], ["\n", "\n", ''], $html);
     return $nl;
 }
 
@@ -115,23 +114,53 @@ function flag2Lang($flagCode) {
 }
 
 function setSiteLang() {
-    global $config;
+    global $config, $global;
+    if (empty($global['systemRootPath'])) {
+        if (function_exists('getLanguageFromBrowser')) {
+            setLanguage(getLanguageFromBrowser());
+        } else {
+            setLanguage('en_US');
+        }
+    } else {
+        require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+        $userLocation = false;
+        $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
+        $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
 
-    $userLocation = false;
-    $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
-    $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
+        if (!empty($_GET['lang'])) {
+            _session_start();
+            setLanguage($_GET['lang']);
+        } else if ($userLocation) {
+            User_Location::changeLang();
+        }
+        try {
+            if (empty($config) || !is_object($config)) {
+                require_once $global['systemRootPath'] . 'objects/configuration.php';
+                if (class_exists('Configuration')) {
+                    $config = new Configuration();
+                } else {
+                    //_error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
+                }
+            }
+        } catch (Exception $exc) {
+            _error_log("setSiteLang ERROR 2 systemRootPath=[{$global['systemRootPath']}] " . $exc->getMessage() . ' ' . json_encode(debug_backtrace()));
+        }
 
-    if (!empty($_GET['lang'])) {
-        _session_start();
-        $_SESSION['language'] = $_GET['lang'];
-    } else if (empty($_SESSION['language']) && !$userLocation) {
-        _session_start();
-        $_SESSION['language'] = $config->getLanguage();
+        if (empty($_SESSION['language']) && is_object($config)) {
+            setLanguage($config->getLanguage());
+        }
+        if (empty($_SESSION['language'])) {
+            if (function_exists('getLanguageFromBrowser')) {
+                setLanguage(getLanguageFromBrowser());
+            } else {
+                setLanguage('en_US');
+            }
+        }
     }
-    return setLanguage($_SESSION['language']);
 }
 
 function setLanguage($lang) {
+    $lang = strip_tags($lang);
     if (empty($lang)) {
         return false;
     }
@@ -156,12 +185,38 @@ function setLanguage($lang) {
             include_once $file;
             return true;
         } else {
-            //_error_log('setLanguage: File does not exists 2 ' . $file);
+            $parts = explode('_', $lang);
+            $lang = $parts[0];
+            $file = "{$global['systemRootPath']}locale/{$lang}.php";
+            if (file_exists($file)) {
+                $_SESSION['language'] = $lang;
+                include_once $file;
+                return true;
+            } else {
+                //_error_log('setLanguage: File does not exists 2 ' . $file);
+            }
         }
     }
     return false;
 }
 
-function getLanguage(){
-    return strtolower(str_replace('_', '-', $_SESSION['language']));exit;
+function getLanguage() {
+    if (empty($_SESSION['language'])) {
+        return 'en_US';
+    }
+    return fixLangString($_SESSION['language']);
+}
+
+function fixLangString($lang) {
+    return strtolower(str_replace('_', '-', $lang));
+}
+
+function revertLangString($lang) {
+    $parts = explode('-', $lang);
+
+    $lang = strtolower($parts[0]);
+    if (!empty($parts[1])) {
+        $lang .= '_' . strtoupper($parts[1]);
+    }
+    return $lang;
 }

@@ -25,6 +25,7 @@ class StartManualTransferRunsRequest extends \Google\Model
   public $requestedRunTime;
   protected $requestedTimeRangeType = TimeRange::class;
   protected $requestedTimeRangeDataType = '';
+  public $requestedTimeRange;
 
   /**
    * @param string

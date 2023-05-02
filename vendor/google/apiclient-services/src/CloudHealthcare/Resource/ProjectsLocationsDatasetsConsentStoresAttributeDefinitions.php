@@ -26,7 +26,7 @@ use Google\Service\CloudHealthcare\ListAttributeDefinitionsResponse;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $attributeDefinitions = $healthcareService->attributeDefinitions;
+ *   $attributeDefinitions = $healthcareService->projects_locations_datasets_consentStores_attributeDefinitions;
  *  </code>
  */
 class ProjectsLocationsDatasetsConsentStoresAttributeDefinitions extends \Google\Service\Resource

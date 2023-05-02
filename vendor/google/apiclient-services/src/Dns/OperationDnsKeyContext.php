@@ -21,8 +21,10 @@ class OperationDnsKeyContext extends \Google\Model
 {
   protected $newValueType = DnsKey::class;
   protected $newValueDataType = '';
+  public $newValue;
   protected $oldValueType = DnsKey::class;
   protected $oldValueDataType = '';
+  public $oldValue;
 
   /**
    * @param DnsKey

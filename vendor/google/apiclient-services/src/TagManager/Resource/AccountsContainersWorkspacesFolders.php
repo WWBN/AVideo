@@ -27,7 +27,7 @@ use Google\Service\TagManager\RevertFolderResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $folders = $tagmanagerService->folders;
+ *   $folders = $tagmanagerService->accounts_containers_workspaces_folders;
  *  </code>
  */
 class AccountsContainersWorkspacesFolders extends \Google\Service\Resource

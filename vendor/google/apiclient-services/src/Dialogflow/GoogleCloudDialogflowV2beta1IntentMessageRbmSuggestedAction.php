@@ -21,14 +21,17 @@ class GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedAction extends \Googl
 {
   protected $dialType = GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionDial::class;
   protected $dialDataType = '';
+  public $dial;
   protected $openUrlType = GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionOpenUri::class;
   protected $openUrlDataType = '';
+  public $openUrl;
   /**
    * @var string
    */
   public $postbackData;
   protected $shareLocationType = GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionShareLocation::class;
   protected $shareLocationDataType = '';
+  public $shareLocation;
   /**
    * @var string
    */

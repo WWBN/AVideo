@@ -30,6 +30,10 @@ class SupportUrls extends \Google\Model
   /**
    * @var string
    */
+  public $gwmUrl;
+  /**
+   * @var string
+   */
   public $privacyPolicyUrl;
   /**
    * @var string
@@ -71,6 +75,20 @@ class SupportUrls extends \Google\Model
   public function getDeletionPolicyUrl()
   {
     return $this->deletionPolicyUrl;
+  }
+  /**
+   * @param string
+   */
+  public function setGwmUrl($gwmUrl)
+  {
+    $this->gwmUrl = $gwmUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getGwmUrl()
+  {
+    return $this->gwmUrl;
   }
   /**
    * @param string

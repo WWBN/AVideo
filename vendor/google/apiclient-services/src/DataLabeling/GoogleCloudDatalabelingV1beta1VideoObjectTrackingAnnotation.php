@@ -22,10 +22,13 @@ class GoogleCloudDatalabelingV1beta1VideoObjectTrackingAnnotation extends \Googl
   protected $collection_key = 'objectTrackingFrames';
   protected $annotationSpecType = GoogleCloudDatalabelingV1beta1AnnotationSpec::class;
   protected $annotationSpecDataType = '';
+  public $annotationSpec;
   protected $objectTrackingFramesType = GoogleCloudDatalabelingV1beta1ObjectTrackingFrame::class;
   protected $objectTrackingFramesDataType = 'array';
+  public $objectTrackingFrames;
   protected $timeSegmentType = GoogleCloudDatalabelingV1beta1TimeSegment::class;
   protected $timeSegmentDataType = '';
+  public $timeSegment;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpec

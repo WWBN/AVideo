@@ -30,6 +30,7 @@ class GoogleCloudContentwarehouseV1RuleSet extends \Google\Collection
   public $name;
   protected $rulesType = GoogleCloudContentwarehouseV1Rule::class;
   protected $rulesDataType = 'array';
+  public $rules;
   /**
    * @var string
    */

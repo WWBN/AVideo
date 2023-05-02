@@ -24,7 +24,7 @@ use Google\Service\Dataflow\ValidateResponse;
  * Typical usage is:
  *  <code>
  *   $dataflowService = new Google\Service\Dataflow(...);
- *   $sql = $dataflowService->sql;
+ *   $sql = $dataflowService->projects_locations_sql;
  *  </code>
  */
 class ProjectsLocationsSql extends \Google\Service\Resource

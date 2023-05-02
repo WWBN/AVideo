@@ -24,7 +24,7 @@ use Google\Service\BigtableAdmin\ListOperationsResponse;
  * Typical usage is:
  *  <code>
  *   $bigtableadminService = new Google\Service\BigtableAdmin(...);
- *   $operations = $bigtableadminService->operations;
+ *   $operations = $bigtableadminService->operations_projects_operations;
  *  </code>
  */
 class OperationsProjectsOperations extends \Google\Service\Resource

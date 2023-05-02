@@ -12,7 +12,7 @@ class Scheduler_commands extends ObjectYPT {
     protected $id, $callbackURL, $parameters, $date_to_execute, $executed_in,
             $status, $callbackResponse, $timezone,
             $repeat_minute, $repeat_hour, $repeat_day_of_month, $repeat_month,
-            $repeat_day_of_week, $type;
+            $repeat_day_of_week, $type, $videos_id;
 
     static function getSearchFieldsNames() {
         return array('callbackURL', 'parameters');
@@ -20,6 +20,34 @@ class Scheduler_commands extends ObjectYPT {
 
     static function getTableName() {
         return 'scheduler_commands';
+    }
+    
+    static function isActiveFromVideosId($videos_id){
+        $row = self::getFromVideosId($videos_id);
+        
+        if(!empty($row) && $row['status'] == self::$statusActive ){
+            return true;
+        }
+        return false;
+    }
+    
+    static function getFromVideosId($videos_id){
+        global $global;
+        $videos_id = intval($videos_id);
+        if(empty($videos_id)){
+            return false;
+        }
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  videos_id = ? LIMIT 1";
+        // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
+        $res = sqlDAL::readSql($sql, "i", [$videos_id]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
     }
     
     public static function getTimesNow() {
@@ -62,8 +90,6 @@ class Scheduler_commands extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -84,8 +110,6 @@ class Scheduler_commands extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -176,7 +200,16 @@ class Scheduler_commands extends ObjectYPT {
     private function _setTimezone($timezone) {
         $this->timezone = $timezone;
     }
+    
+    public function getVideos_id() {
+        return $this->videos_id;
+    }
 
+    public function setVideos_id($videos_id): void {
+        $this->videos_id = $videos_id;
+    }
+
+        
     public function save() {
         if (empty($this->date_to_execute)) {
             $this->date_to_execute = 'NULL';
@@ -207,6 +240,9 @@ class Scheduler_commands extends ObjectYPT {
         }
         if (empty($this->callbackURL)) {
             $this->callbackURL = '';
+        }
+        if (empty($this->videos_id)) {
+            $this->videos_id = 'NULL';
         }
 
         $this->_setTimeZone(date_default_timezone_get());
@@ -289,8 +325,6 @@ class Scheduler_commands extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -315,8 +349,6 @@ class Scheduler_commands extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }

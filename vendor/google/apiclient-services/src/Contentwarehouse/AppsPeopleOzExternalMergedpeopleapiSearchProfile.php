@@ -21,8 +21,10 @@ class AppsPeopleOzExternalMergedpeopleapiSearchProfile extends \Google\Model
 {
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $searchProfileDataType = SocialGraphApiProtoSearchProfileData::class;
   protected $searchProfileDataDataType = '';
+  public $searchProfileData;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata

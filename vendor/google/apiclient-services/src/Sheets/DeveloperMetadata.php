@@ -21,6 +21,7 @@ class DeveloperMetadata extends \Google\Model
 {
   protected $locationType = DeveloperMetadataLocation::class;
   protected $locationDataType = '';
+  public $location;
   /**
    * @var int
    */

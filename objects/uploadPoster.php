@@ -62,7 +62,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         /**
          * This is when is using in a non file_dataoaded movie
          */
-        $paths = Video::getPaths($video->getFilename());
+        $paths = Video::getPaths($video->getFilename(), true);
         $destination = $paths['path'] . $video->getFilename() . $ext;
         _error_log("Try to move " . $destination . " \n " . print_r($video, true));
         if (!move_uploaded_file($_FILES['file_data']['tmp_name'], $destination)) {
@@ -70,7 +70,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             die(json_encode($obj));
         } else {
             if (preg_match('/_convertToJPG/', $ext)) {
-                $new_destination = str_replace('_convertToJPG.'.$extension, '.jpg', $destination);
+                $new_destination = str_replace('_convertToJPG.' . $extension, '.jpg', $destination);
                 if (convertImage($destination, $new_destination, 100)) {
                     unlink($destination);
                 }
@@ -78,6 +78,7 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
             // delete thumbs from poster
             Video::deleteThumbs($video->getFilename());
         }
+        Video::clearCache($obj->videos_id);
         $obj->clearFirstPageCache = clearFirstPageCache();
         $obj->error = false;
         echo "{}";

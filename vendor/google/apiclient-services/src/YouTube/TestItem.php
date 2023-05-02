@@ -33,6 +33,7 @@ class TestItem extends \Google\Model
   public $id;
   protected $snippetType = TestItemTestItemSnippet::class;
   protected $snippetDataType = '';
+  public $snippet;
 
   /**
    * @param bool

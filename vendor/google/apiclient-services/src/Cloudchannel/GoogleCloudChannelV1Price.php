@@ -21,9 +21,11 @@ class GoogleCloudChannelV1Price extends \Google\Model
 {
   protected $basePriceType = GoogleTypeMoney::class;
   protected $basePriceDataType = '';
+  public $basePrice;
   public $discount;
   protected $effectivePriceType = GoogleTypeMoney::class;
   protected $effectivePriceDataType = '';
+  public $effectivePrice;
   /**
    * @var string
    */

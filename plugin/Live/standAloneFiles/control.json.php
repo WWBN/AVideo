@@ -18,7 +18,7 @@
  * For more information please check this https://github.com/WWBN/AVideo/wiki/Live-Plugin#control
  */
 
-$streamerURL = "http://192.168.1.4/YouPHPTube/"; // change it to your streamer URL
+$streamerURL = "http://192.168.0.2/YouPHPTube/"; // change it to your streamer URL
 $record_path = "/var/www/tmp/"; //update this URL
 $controlServer = "http://localhost:8080/";
 

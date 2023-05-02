@@ -22,10 +22,13 @@ class GoogleCloudDocumentaiUiv1beta3ResyncDatasetMetadata extends \Google\Collec
   protected $collection_key = 'individualDocumentResyncStatuses';
   protected $commonMetadataType = GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
+  public $commonMetadata;
   protected $datasetResyncStatusesType = GoogleCloudDocumentaiUiv1beta3ResyncDatasetMetadataDatasetResyncStatus::class;
   protected $datasetResyncStatusesDataType = 'array';
+  public $datasetResyncStatuses;
   protected $individualDocumentResyncStatusesType = GoogleCloudDocumentaiUiv1beta3ResyncDatasetMetadataIndividualDocumentResyncStatus::class;
   protected $individualDocumentResyncStatusesDataType = 'array';
+  public $individualDocumentResyncStatuses;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata

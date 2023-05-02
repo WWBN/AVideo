@@ -21,6 +21,7 @@ class Statement extends \Google\Model
 {
   protected $paramTypesType = Type::class;
   protected $paramTypesDataType = 'map';
+  public $paramTypes;
   /**
    * @var array[]
    */

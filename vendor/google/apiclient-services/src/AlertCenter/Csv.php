@@ -22,6 +22,7 @@ class Csv extends \Google\Collection
   protected $collection_key = 'headers';
   protected $dataRowsType = CsvRow::class;
   protected $dataRowsDataType = 'array';
+  public $dataRows;
   /**
    * @var string[]
    */

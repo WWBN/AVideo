@@ -17,7 +17,7 @@ if (useIframe() && !isIframe() && empty($_REQUEST['inMainIframe'])) {
     header('Location: '.$paths['url']);
     exit;
 }
- * 
+ *
  */
 //var_dump(__LINE__, __FILE__);exit;
 if (!empty($_GET['evideo'])) {
@@ -73,78 +73,37 @@ if (!empty($evideo)) {
     }
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
-        if (preg_match("/^[0-9]+$/", $_GET['playlist_id'])) {
-            $playlist_id = $_GET['playlist_id'];
-        } elseif (User::isLogged()) {
-            if ($_GET['playlist_id'] == "favorite") {
-                $playlist_id = PlayList::getFavoriteIdFromUser(User::getId());
-            } else {
-                $playlist_id = PlayList::getWatchLaterIdFromUser(User::getId());
+
+        $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
+
+        $playListData = $plp->getPlayListData();
+
+        $video = $plp->getCurrentVideo();
+        if(!empty($video)){
+            $_getVideos_id = intval($video['id']);
+            $playlist_index = $plp->getIndex();
+    
+            if (empty($playListData)) {
+                videoNotFound("Line code ".__LINE__);
             }
-        }
-
-        if (!empty($_GET['playlist_index'])) {
-            $playlist_index = $_GET['playlist_index'];
-        }
-
-        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlist_id);
-                
-        if (empty($videosArrayId)) {
-            videoNotFound(__('Playlist is empty or does not exist'));
-        }
-        $videosPlayList = Video::getAllVideos("viewable", false, false, $videosArrayId, false, true);
-        $videosPlayList = PlayList::sortVideos($videosPlayList, $videosArrayId);
-
-        $videoSerie = Video::getVideoFromSeriePlayListsId($playlist_id);
-        //var_dump($videoSerie, $videosArrayId);exit;
-        unset($_GET['playlist_id']);
-        $isPlayListTrailer = false;
-
-        $playListObject = AVideoPlugin::getObjectData("PlayLists");
-
-        if (!empty($videoSerie)) {
-            $videoSerie = Video::getVideo($videoSerie["id"], "", true);
-            if (!empty($playListObject->showTrailerInThePlayList) && !empty($videoSerie["trailer1"]) && filter_var($videoSerie["trailer1"], FILTER_VALIDATE_URL) !== false) {
-                $videoSerie["type"] = "embed";
-                $videoSerie["videoLink"] = $videoSerie["trailer1"];
-                array_unshift($videosPlayList, $videoSerie);
-                array_unshift($videosArrayId, $videoSerie['id']);
-                $isPlayListTrailer = true;
-            }
-        }
-        if (empty($playlist_index) && $isPlayListTrailer && !empty($videoSerie)) {
-            $video = $videoSerie;
-        } else {
-            $vid = new Video("", "", $videosPlayList[$playlist_index]['id']);
-            $_GET['videoName'] = $vid->getClean_title();
-            $video = Video::getVideo($videosPlayList[$playlist_index]['id'], "viewable", false, false, false, true);
-        }
-
-        if (!empty($videosPlayList[$playlist_index + 1])) {
-            $autoPlayVideo = Video::getVideo($videosPlayList[$playlist_index + 1]['id'], "viewableNotUnlisted", false, false, false, true);
-            $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/" . ($playlist_index + 1);
-        } elseif (!empty($videosPlayList[0])) {
-            $autoPlayVideo = Video::getVideo($videosPlayList[0]['id'], "viewableNotUnlisted", false, false, false, true);
-            $autoPlayVideo['url'] = $global['webSiteRootURL'] . "playlist/{$playlist_id}/0";
-        }
-
-        if ($serie = PlayLists::isPlayListASerie($playlist_id)) {
-            setVideos_id($serie['id']);
-        } elseif (!empty($videosPlayList[$playlist_index])) {
-            setVideos_id($videosPlayList[$playlist_index]['id']);
+    
+            $videosPlayList = $plp->getVideos();
+            $autoPlayVideo = $plp->getNextVideo();
+            $playlist_id = $plp->getPlaylists_id();
+            //var_dump($video);exit;
         }
     } else {
         $catLink = '';
-        if (!empty($_GET['catName'])) {
-            $catLink = "cat/{$_GET['catName']}/";
+        if (!empty($_REQUEST['catName'])) {
+            $catLink = "cat/{$_REQUEST['catName']}/";
         }
 
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         // add this because if you change the video category the video was not loading anymore
-        $catName = @$_GET['catName'];
+        $catName = @$_REQUEST['catName'];
 
         if (empty($_GET['clean_title']) && (isset($advancedCustom->forceCategory) && $advancedCustom->forceCategory === false)) {
-            $_GET['catName'] = '';
+            $_REQUEST['catName'] = '';
         }
 
         if (empty($video) && !empty($_REQUEST['v'])) {
@@ -153,13 +112,16 @@ if (!empty($evideo)) {
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
         }
 
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, false, true);
         }
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = AVideoPlugin::getVideo();
         }
@@ -173,13 +135,13 @@ if (!empty($evideo)) {
             Video::unsetAddView($video['id']);
 
             // add this because if you change the video category the video was not loading anymore
-            $_GET['catName'] = $catName;
+            $_REQUEST['catName'] = $catName;
 
             $_GET['isMediaPlaySite'] = $video['id'];
             $obj = new Video("", "", $video['id']);
         }
 
-        $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_GET['catName']];
+        $get = ['channelName' => @$_GET['channelName'], 'catName' => @$_REQUEST['catName']];
 
         $modeYouTubeTimeLog['Code part 1.1'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
@@ -212,14 +174,14 @@ if (!empty($evideo)) {
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     }
-    
+
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($video)) {
         $name = User::getNameIdentificationById($video['users_id']);
         $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
         $subscribe = Subscribe::getButton($video['users_id']);
-        $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime($video['videoCreation'])) . '</small>');
+        $video['creator'] = Video::getCreatorHTML($video['users_id'], '<div class="clearfix"></div><small>' . humanTiming(strtotime(@$video['videoCreation'])) . '</small>');
 
         $obj = new Video("", "", $video['id']);
     }
@@ -282,11 +244,13 @@ if (!empty($evideo)) {
     if (empty($_GET['videoName']) && !empty($video)) {
         $_GET['videoName'] = $video['clean_title'];
     }
-    if (!empty($_GET['videoName'])) {
+    if(!empty($video)){
+        $v = Video::getVideo($video['id'], "", true, false, false, true);
+    }else if (!empty($_GET['videoName'])) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        videoNotFound("");
+        videoNotFound("Line code ".__LINE__);
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
@@ -387,7 +351,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 <br>
                 <br>
                 <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> 
+                    <span class="glyphicon glyphicon-facetime-video"></span>
                     <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
                 <?php }

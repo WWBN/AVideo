@@ -26,6 +26,7 @@ class RegionDiskTypeList extends \Google\Collection
   public $id;
   protected $itemsType = DiskType::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */
@@ -40,6 +41,7 @@ class RegionDiskTypeList extends \Google\Collection
   public $selfLink;
   protected $warningType = RegionDiskTypeListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

@@ -21,8 +21,10 @@ class DiffUploadRequest extends \Google\Model
 {
   protected $checksumsInfoType = CompositeMedia::class;
   protected $checksumsInfoDataType = '';
+  public $checksumsInfo;
   protected $objectInfoType = CompositeMedia::class;
   protected $objectInfoDataType = '';
+  public $objectInfo;
   /**
    * @var string
    */

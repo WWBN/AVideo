@@ -29,6 +29,7 @@ class OrdersInStoreRefundLineItemRequest extends \Google\Model
   public $operationId;
   protected $priceAmountType = Price::class;
   protected $priceAmountDataType = '';
+  public $priceAmount;
   /**
    * @var string
    */
@@ -47,6 +48,7 @@ class OrdersInStoreRefundLineItemRequest extends \Google\Model
   public $reasonText;
   protected $taxAmountType = Price::class;
   protected $taxAmountDataType = '';
+  public $taxAmount;
 
   /**
    * @param string

@@ -26,6 +26,7 @@ class VpnTunnelAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = VpnTunnelAggregatedListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

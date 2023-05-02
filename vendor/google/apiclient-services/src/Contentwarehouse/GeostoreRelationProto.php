@@ -22,14 +22,17 @@ class GeostoreRelationProto extends \Google\Collection
   protected $collection_key = 'otherFeatureName';
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
   public $otherFeatureCountryCode;
   protected $otherFeatureIdType = GeostoreFeatureIdProto::class;
   protected $otherFeatureIdDataType = '';
+  public $otherFeatureId;
   protected $otherFeatureNameType = GeostoreNameProto::class;
   protected $otherFeatureNameDataType = 'array';
+  public $otherFeatureName;
   /**
    * @var string
    */
@@ -52,6 +55,7 @@ class GeostoreRelationProto extends \Google\Collection
   public $relationIsReversed;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
+  public $temporaryData;
 
   /**
    * @param GeostoreFieldMetadataProto

@@ -110,6 +110,7 @@ class WWWDocInfo extends \Google\Collection
   public $imageHeight;
   protected $imageLicenseInfoType = ImageSearchImageLicenseInfo::class;
   protected $imageLicenseInfoDataType = '';
+  public $imageLicenseInfo;
   /**
    * @var string
    */
@@ -191,6 +192,10 @@ class WWWDocInfo extends \Google\Collection
    */
   public $noimageframeoverlayreason;
   /**
+   * @var string
+   */
+  public $nsrSitechunk;
+  /**
    * @var bool
    */
   public $partialBoilerplateMetadescription;
@@ -208,6 +213,7 @@ class WWWDocInfo extends \Google\Collection
   public $referrerUrl;
   protected $relatedimagesType = WWWDocInfoRelatedImages::class;
   protected $relatedimagesDataType = 'array';
+  public $relatedimages;
   /**
    * @var bool
    */
@@ -238,8 +244,10 @@ class WWWDocInfo extends \Google\Collection
   public $seenNotranslate;
   protected $shoppingAttachmentType = QualityShoppingShoppingAttachment::class;
   protected $shoppingAttachmentDataType = '';
+  public $shoppingAttachment;
   protected $shoppingOffersType = ImageMustangShoppingOffer::class;
   protected $shoppingOffersDataType = 'array';
+  public $shoppingOffers;
   /**
    * @var int
    */
@@ -254,6 +262,7 @@ class WWWDocInfo extends \Google\Collection
   public $thumbWidth;
   protected $thumbnailType = WWWDocInfoThumbnail::class;
   protected $thumbnailDataType = 'array';
+  public $thumbnail;
   /**
    * @var string
    */
@@ -884,6 +893,20 @@ class WWWDocInfo extends \Google\Collection
   public function getNoimageframeoverlayreason()
   {
     return $this->noimageframeoverlayreason;
+  }
+  /**
+   * @param string
+   */
+  public function setNsrSitechunk($nsrSitechunk)
+  {
+    $this->nsrSitechunk = $nsrSitechunk;
+  }
+  /**
+   * @return string
+   */
+  public function getNsrSitechunk()
+  {
+    return $this->nsrSitechunk;
   }
   /**
    * @param bool

@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule_has_users_groups.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_join_log.php';
-User::loginFromRequest();
+User::loginFromRequestIfNotLogged();
 
 //require_once $global['systemRootPath'] . 'objects/firebase/php-jwt/src/JWT.php';
 //use \Firebase\JWT\JWT;

@@ -21,8 +21,10 @@ class GoogleCloudRecommendationengineV1beta1FeatureMap extends \Google\Model
 {
   protected $categoricalFeaturesType = GoogleCloudRecommendationengineV1beta1FeatureMapStringList::class;
   protected $categoricalFeaturesDataType = 'map';
+  public $categoricalFeatures;
   protected $numericalFeaturesType = GoogleCloudRecommendationengineV1beta1FeatureMapFloatList::class;
   protected $numericalFeaturesDataType = 'map';
+  public $numericalFeatures;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1FeatureMapStringList[]

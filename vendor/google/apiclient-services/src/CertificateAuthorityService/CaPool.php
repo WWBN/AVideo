@@ -21,6 +21,7 @@ class CaPool extends \Google\Model
 {
   protected $issuancePolicyType = IssuancePolicy::class;
   protected $issuancePolicyDataType = '';
+  public $issuancePolicy;
   /**
    * @var string[]
    */
@@ -31,6 +32,7 @@ class CaPool extends \Google\Model
   public $name;
   protected $publishingOptionsType = PublishingOptions::class;
   protected $publishingOptionsDataType = '';
+  public $publishingOptions;
   /**
    * @var string
    */

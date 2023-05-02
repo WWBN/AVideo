@@ -21,6 +21,7 @@ class AssistantApiNotificationOutputRestrictions extends \Google\Model
 {
   protected $optOutStateType = AssistantApiNotificationOutputRestrictionsOptOutState::class;
   protected $optOutStateDataType = '';
+  public $optOutState;
 
   /**
    * @param AssistantApiNotificationOutputRestrictionsOptOutState

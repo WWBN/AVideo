@@ -26,6 +26,7 @@ class Features extends \Google\Collection
   public $etag;
   protected $featuresType = Feature::class;
   protected $featuresDataType = 'array';
+  public $features;
   /**
    * @var string
    */

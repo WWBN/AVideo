@@ -22,6 +22,7 @@ class BulkEditNegativeKeywordsRequest extends \Google\Collection
   protected $collection_key = 'deletedNegativeKeywords';
   protected $createdNegativeKeywordsType = NegativeKeyword::class;
   protected $createdNegativeKeywordsDataType = 'array';
+  public $createdNegativeKeywords;
   /**
    * @var string[]
    */

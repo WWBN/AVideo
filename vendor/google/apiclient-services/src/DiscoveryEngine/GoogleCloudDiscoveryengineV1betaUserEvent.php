@@ -22,18 +22,21 @@ class GoogleCloudDiscoveryengineV1betaUserEvent extends \Google\Collection
   protected $collection_key = 'tagIds';
   protected $attributesType = GoogleCloudDiscoveryengineV1betaCustomAttribute::class;
   protected $attributesDataType = 'map';
+  public $attributes;
   /**
    * @var string
    */
   public $attributionToken;
   protected $completionInfoType = GoogleCloudDiscoveryengineV1betaCompletionInfo::class;
   protected $completionInfoDataType = '';
+  public $completionInfo;
   /**
    * @var bool
    */
   public $directUserRequest;
   protected $documentsType = GoogleCloudDiscoveryengineV1betaDocumentInfo::class;
   protected $documentsDataType = 'array';
+  public $documents;
   /**
    * @var string
    */
@@ -48,16 +51,20 @@ class GoogleCloudDiscoveryengineV1betaUserEvent extends \Google\Collection
   public $filter;
   protected $mediaInfoType = GoogleCloudDiscoveryengineV1betaMediaInfo::class;
   protected $mediaInfoDataType = '';
+  public $mediaInfo;
   protected $pageInfoType = GoogleCloudDiscoveryengineV1betaPageInfo::class;
   protected $pageInfoDataType = '';
+  public $pageInfo;
   protected $panelType = GoogleCloudDiscoveryengineV1betaPanelInfo::class;
   protected $panelDataType = '';
+  public $panel;
   /**
    * @var string[]
    */
   public $promotionIds;
   protected $searchInfoType = GoogleCloudDiscoveryengineV1betaSearchInfo::class;
   protected $searchInfoDataType = '';
+  public $searchInfo;
   /**
    * @var string
    */
@@ -68,8 +75,10 @@ class GoogleCloudDiscoveryengineV1betaUserEvent extends \Google\Collection
   public $tagIds;
   protected $transactionInfoType = GoogleCloudDiscoveryengineV1betaTransactionInfo::class;
   protected $transactionInfoDataType = '';
+  public $transactionInfo;
   protected $userInfoType = GoogleCloudDiscoveryengineV1betaUserInfo::class;
   protected $userInfoDataType = '';
+  public $userInfo;
   /**
    * @var string
    */

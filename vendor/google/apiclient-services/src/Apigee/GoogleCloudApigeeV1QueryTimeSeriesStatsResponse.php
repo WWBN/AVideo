@@ -30,6 +30,7 @@ class GoogleCloudApigeeV1QueryTimeSeriesStatsResponse extends \Google\Collection
   public $nextPageToken;
   protected $valuesType = GoogleCloudApigeeV1QueryTimeSeriesStatsResponseSequence::class;
   protected $valuesDataType = 'array';
+  public $values;
 
   /**
    * @param string[]

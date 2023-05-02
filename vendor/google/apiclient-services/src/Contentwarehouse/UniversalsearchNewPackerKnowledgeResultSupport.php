@@ -34,6 +34,7 @@ class UniversalsearchNewPackerKnowledgeResultSupport extends \Google\Collection
   public $estimatedNaviness;
   protected $provenanceType = UniversalsearchNewPackerKnowledgeResultSupportProvenance::class;
   protected $provenanceDataType = 'array';
+  public $provenance;
   /**
    * @var int
    */

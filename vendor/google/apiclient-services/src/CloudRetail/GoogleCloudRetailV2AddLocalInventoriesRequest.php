@@ -34,6 +34,7 @@ class GoogleCloudRetailV2AddLocalInventoriesRequest extends \Google\Collection
   public $allowMissing;
   protected $localInventoriesType = GoogleCloudRetailV2LocalInventory::class;
   protected $localInventoriesDataType = 'array';
+  public $localInventories;
 
   /**
    * @param string

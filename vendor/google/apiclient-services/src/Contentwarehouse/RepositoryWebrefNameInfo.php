@@ -22,24 +22,32 @@ class RepositoryWebrefNameInfo extends \Google\Collection
   protected $collection_key = 'source';
   protected $aggregatedScoresType = RepositoryWebrefAggregatedEntityNameScores::class;
   protected $aggregatedScoresDataType = '';
+  public $aggregatedScores;
   protected $annotatedCategoryType = RepositoryWebrefAnnotatedCategoryInfo::class;
   protected $annotatedCategoryDataType = 'array';
+  public $annotatedCategory;
   protected $debugDetailsType = RepositoryWebrefNameDebugInfo::class;
   protected $debugDetailsDataType = 'array';
+  public $debugDetails;
   /**
    * @var bool
    */
   public $includeInModel;
   protected $nameType = RepositoryWebrefLocalizedString::class;
   protected $nameDataType = '';
+  public $name;
   protected $ngramDataType = RepositoryWebrefUniversalNgramData::class;
   protected $ngramDataDataType = '';
+  public $ngramData;
   protected $perNameLightweightTokenType = RepositoryWebrefLightweightTokensPerNameLightweightToken::class;
   protected $perNameLightweightTokenDataType = '';
+  public $perNameLightweightToken;
   protected $scoresType = RepositoryWebrefNameScores::class;
   protected $scoresDataType = '';
+  public $scores;
   protected $sourceType = RepositoryWebrefEntityNameSource::class;
   protected $sourceDataType = 'array';
+  public $source;
 
   /**
    * @param RepositoryWebrefAggregatedEntityNameScores

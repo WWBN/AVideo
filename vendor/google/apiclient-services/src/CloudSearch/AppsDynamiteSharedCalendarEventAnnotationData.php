@@ -21,8 +21,10 @@ class AppsDynamiteSharedCalendarEventAnnotationData extends \Google\Model
 {
   protected $calendarEventType = AppsDynamiteSharedCalendarEventAnnotationDataCalendarEvent::class;
   protected $calendarEventDataType = '';
+  public $calendarEvent;
   protected $eventCreationType = AppsDynamiteSharedCalendarEventAnnotationDataEventCreation::class;
   protected $eventCreationDataType = '';
+  public $eventCreation;
 
   /**
    * @param AppsDynamiteSharedCalendarEventAnnotationDataCalendarEvent

@@ -22,16 +22,22 @@ class GooglePrivacyDlpV2TransformationSummary extends \Google\Collection
   protected $collection_key = 'results';
   protected $fieldType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldDataType = '';
+  public $field;
   protected $fieldTransformationsType = GooglePrivacyDlpV2FieldTransformation::class;
   protected $fieldTransformationsDataType = 'array';
+  public $fieldTransformations;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
+  public $infoType;
   protected $recordSuppressType = GooglePrivacyDlpV2RecordSuppression::class;
   protected $recordSuppressDataType = '';
+  public $recordSuppress;
   protected $resultsType = GooglePrivacyDlpV2SummaryResult::class;
   protected $resultsDataType = 'array';
+  public $results;
   protected $transformationType = GooglePrivacyDlpV2PrimitiveTransformation::class;
   protected $transformationDataType = '';
+  public $transformation;
   /**
    * @var string
    */

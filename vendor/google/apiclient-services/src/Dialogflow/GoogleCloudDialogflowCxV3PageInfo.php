@@ -29,6 +29,7 @@ class GoogleCloudDialogflowCxV3PageInfo extends \Google\Model
   public $displayName;
   protected $formInfoType = GoogleCloudDialogflowCxV3PageInfoFormInfo::class;
   protected $formInfoDataType = '';
+  public $formInfo;
 
   /**
    * @param string

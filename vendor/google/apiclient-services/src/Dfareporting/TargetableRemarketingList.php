@@ -33,6 +33,7 @@ class TargetableRemarketingList extends \Google\Model
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
+  public $advertiserIdDimensionValue;
   /**
    * @var string
    */

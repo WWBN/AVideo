@@ -26,7 +26,7 @@ use Google\Service\Dialogflow\GoogleProtobufEmpty;
  * Typical usage is:
  *  <code>
  *   $dialogflowService = new Google\Service\Dialogflow(...);
- *   $securitySettings = $dialogflowService->securitySettings;
+ *   $securitySettings = $dialogflowService->projects_locations_securitySettings;
  *  </code>
  */
 class ProjectsLocationsSecuritySettings extends \Google\Service\Resource

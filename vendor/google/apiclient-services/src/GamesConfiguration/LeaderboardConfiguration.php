@@ -21,6 +21,7 @@ class LeaderboardConfiguration extends \Google\Model
 {
   protected $draftType = LeaderboardConfigurationDetail::class;
   protected $draftDataType = '';
+  public $draft;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class LeaderboardConfiguration extends \Google\Model
   public $kind;
   protected $publishedType = LeaderboardConfigurationDetail::class;
   protected $publishedDataType = '';
+  public $published;
   /**
    * @var string
    */

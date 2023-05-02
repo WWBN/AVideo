@@ -21,6 +21,7 @@ class AccountTicket extends \Google\Model
 {
   protected $accountType = Account::class;
   protected $accountDataType = '';
+  public $account;
   /**
    * @var string
    */
@@ -31,12 +32,14 @@ class AccountTicket extends \Google\Model
   public $kind;
   protected $profileType = Profile::class;
   protected $profileDataType = '';
+  public $profile;
   /**
    * @var string
    */
   public $redirectUri;
   protected $webpropertyType = Webproperty::class;
   protected $webpropertyDataType = '';
+  public $webproperty;
 
   /**
    * @param Account

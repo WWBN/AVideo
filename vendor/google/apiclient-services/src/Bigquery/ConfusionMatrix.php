@@ -23,6 +23,7 @@ class ConfusionMatrix extends \Google\Collection
   public $confidenceThreshold;
   protected $rowsType = Row::class;
   protected $rowsDataType = 'array';
+  public $rows;
 
   public function setConfidenceThreshold($confidenceThreshold)
   {

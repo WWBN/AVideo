@@ -25,7 +25,7 @@ use Google\Service\DisplayVideo\CreateAssetResponse;
  * Typical usage is:
  *  <code>
  *   $displayvideoService = new Google\Service\DisplayVideo(...);
- *   $assets = $displayvideoService->assets;
+ *   $assets = $displayvideoService->advertisers_assets;
  *  </code>
  */
 class AdvertisersAssets extends \Google\Service\Resource

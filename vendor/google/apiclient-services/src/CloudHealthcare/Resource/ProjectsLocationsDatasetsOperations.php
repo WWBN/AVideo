@@ -27,7 +27,7 @@ use Google\Service\CloudHealthcare\Operation;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $operations = $healthcareService->operations;
+ *   $operations = $healthcareService->projects_locations_datasets_operations;
  *  </code>
  */
 class ProjectsLocationsDatasetsOperations extends \Google\Service\Resource

@@ -30,20 +30,26 @@ class GeostoreAccessPointProto extends \Google\Collection
   public $canExit;
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
+  public $featureId;
   /**
    * @var int
    */
   public $featureType;
   protected $levelFeatureIdType = GeostoreFeatureIdProto::class;
   protected $levelFeatureIdDataType = '';
+  public $levelFeatureId;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $pointType = GeostorePointProto::class;
   protected $pointDataType = '';
+  public $point;
   protected $pointOffSegmentType = GeostorePointProto::class;
   protected $pointOffSegmentDataType = '';
+  public $pointOffSegment;
   protected $pointOnSegmentType = GeostorePointProto::class;
   protected $pointOnSegmentDataType = '';
+  public $pointOnSegment;
   /**
    * @var string
    */

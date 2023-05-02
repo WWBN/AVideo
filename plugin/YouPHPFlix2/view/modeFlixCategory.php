@@ -56,7 +56,12 @@ $videosCounter = 0;
             unset($_POST['searchPhrase']);
         }
         unset($_POST['sort']);
-        $_REQUEST['rowCount'] = 2;
+
+        if (!empty($_REQUEST['search'])) {
+            $_REQUEST['rowCount'] = 1000;
+        } else {
+            $_REQUEST['rowCount'] = 2;
+        }
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
@@ -75,11 +80,11 @@ $videosCounter = 0;
             $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
-            $oldCatName = @$_GET['catName'];
-            if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
+            $oldCatName = @$_REQUEST['catName'];
+            if (!empty($_REQUEST['catName']) && $value['clean_name'] !== $_REQUEST['catName']) {
                 continue;
             } else {
-                $_GET['catName'] = $value['clean_name'];
+                $_REQUEST['catName'] = $value['clean_name'];
             }
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
@@ -91,7 +96,7 @@ $videosCounter = 0;
 
             TimeLogEnd($timeLog2, __LINE__);
             if (empty($videos)) {
-                $_GET['catName'] = $oldCatName;
+                $_REQUEST['catName'] = $oldCatName;
                 continue;
             }
             if (!empty($ads2)) {
@@ -121,12 +126,12 @@ $videosCounter = 0;
                 ?>
             </div>
             <?php
-            $_GET['catName'] = $oldCatName;
+            $_REQUEST['catName'] = $oldCatName;
             TimeLogEnd($timeLog2, __LINE__);
         }
     }
     TimeLogEnd($timeLog, __LINE__);
-    if(empty($videosCounter)){
+    if (empty($videosCounter)) {
         echo "</div>";
         return false;
     }
@@ -136,7 +141,20 @@ $videosCounter = 0;
     </script>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
+    <?php
+    $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
+    if (!empty($_REQUEST['catName'])) {
+        $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
+    }
+    $search = getSearchVar();
+    if (!empty($search)) {
+        $url = addQueryStringParameter($url, 'search', $search);
+    }
+    $url = addQueryStringParameter($url, 'rrating', @$_GET['rrating']);
+    $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
+    $url = addQueryStringParameter($url, 'current', count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']);
+    ?>
+    <a class="pagination__next" href="<?php echo $url; ?>"></a>
 </p>
 <?php
 $cache = _ob_get_clean();

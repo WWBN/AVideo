@@ -22,8 +22,10 @@ class GoogleCloudAssetV1p7beta1Asset extends \Google\Collection
   protected $collection_key = 'orgPolicy';
   protected $accessLevelType = GoogleIdentityAccesscontextmanagerV1AccessLevel::class;
   protected $accessLevelDataType = '';
+  public $accessLevel;
   protected $accessPolicyType = GoogleIdentityAccesscontextmanagerV1AccessPolicy::class;
   protected $accessPolicyDataType = '';
+  public $accessPolicy;
   /**
    * @var string[]
    */
@@ -34,18 +36,23 @@ class GoogleCloudAssetV1p7beta1Asset extends \Google\Collection
   public $assetType;
   protected $iamPolicyType = Policy::class;
   protected $iamPolicyDataType = '';
+  public $iamPolicy;
   /**
    * @var string
    */
   public $name;
   protected $orgPolicyType = GoogleCloudOrgpolicyV1Policy::class;
   protected $orgPolicyDataType = 'array';
+  public $orgPolicy;
   protected $relatedAssetsType = GoogleCloudAssetV1p7beta1RelatedAssets::class;
   protected $relatedAssetsDataType = '';
+  public $relatedAssets;
   protected $resourceType = GoogleCloudAssetV1p7beta1Resource::class;
   protected $resourceDataType = '';
+  public $resource;
   protected $servicePerimeterType = GoogleIdentityAccesscontextmanagerV1ServicePerimeter::class;
   protected $servicePerimeterDataType = '';
+  public $servicePerimeter;
   /**
    * @var string
    */

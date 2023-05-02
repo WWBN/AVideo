@@ -28,7 +28,7 @@ use Google\Service\Gmail\ModifyMessageRequest;
  * Typical usage is:
  *  <code>
  *   $gmailService = new Google\Service\Gmail(...);
- *   $messages = $gmailService->messages;
+ *   $messages = $gmailService->users_messages;
  *  </code>
  */
 class UsersMessages extends \Google\Service\Resource
@@ -112,8 +112,8 @@ class UsersMessages extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool deleted Mark the email as permanently deleted (not TRASH) and
-   * only visible in Google Vault to a Vault administrator. Only used for G Suite
-   * accounts.
+   * only visible in Google Vault to a Vault administrator. Only used for Google
+   * Workspace accounts.
    * @opt_param string internalDateSource Source for Gmail's internal date of the
    * message.
    * @opt_param bool neverMarkSpam Ignore the Gmail spam classifier decision and
@@ -139,8 +139,8 @@ class UsersMessages extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool deleted Mark the email as permanently deleted (not TRASH) and
-   * only visible in Google Vault to a Vault administrator. Only used for G Suite
-   * accounts.
+   * only visible in Google Vault to a Vault administrator. Only used for Google
+   * Workspace accounts.
    * @opt_param string internalDateSource Source for Gmail's internal date of the
    * message.
    * @return Message
@@ -196,7 +196,9 @@ class UsersMessages extends \Google\Service\Resource
   }
   /**
    * Sends the specified message to the recipients in the `To`, `Cc`, and `Bcc`
-   * headers. (messages.send)
+   * headers. For example usage, see [Sending
+   * email](https://developers.google.com/gmail/api/guides/sending).
+   * (messages.send)
    *
    * @param string $userId The user's email address. The special value `me` can be
    * used to indicate the authenticated user.

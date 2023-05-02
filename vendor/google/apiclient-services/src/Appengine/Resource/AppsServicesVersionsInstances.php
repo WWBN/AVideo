@@ -27,7 +27,7 @@ use Google\Service\Appengine\Operation;
  * Typical usage is:
  *  <code>
  *   $appengineService = new Google\Service\Appengine(...);
- *   $instances = $appengineService->instances;
+ *   $instances = $appengineService->apps_services_versions_instances;
  *  </code>
  */
 class AppsServicesVersionsInstances extends \Google\Service\Resource

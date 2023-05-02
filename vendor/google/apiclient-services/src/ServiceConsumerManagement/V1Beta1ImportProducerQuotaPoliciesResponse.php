@@ -22,6 +22,7 @@ class V1Beta1ImportProducerQuotaPoliciesResponse extends \Google\Collection
   protected $collection_key = 'policies';
   protected $policiesType = V1Beta1ProducerQuotaPolicy::class;
   protected $policiesDataType = 'array';
+  public $policies;
 
   /**
    * @param V1Beta1ProducerQuotaPolicy[]

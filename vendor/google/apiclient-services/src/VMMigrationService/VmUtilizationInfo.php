@@ -21,12 +21,14 @@ class VmUtilizationInfo extends \Google\Model
 {
   protected $utilizationType = VmUtilizationMetrics::class;
   protected $utilizationDataType = '';
+  public $utilization;
   /**
    * @var string
    */
   public $vmId;
   protected $vmwareVmDetailsType = VmwareVmDetails::class;
   protected $vmwareVmDetailsDataType = '';
+  public $vmwareVmDetails;
 
   /**
    * @param VmUtilizationMetrics

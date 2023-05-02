@@ -26,6 +26,7 @@ class RouterAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = RoutersScopedList::class;
   protected $itemsDataType = 'map';
+  public $items;
   /**
    * @var string
    */
@@ -44,6 +45,7 @@ class RouterAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = RouterAggregatedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

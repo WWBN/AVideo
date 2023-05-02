@@ -26,7 +26,7 @@ use Google\Service\Vision\VisionEmpty;
  * Typical usage is:
  *  <code>
  *   $visionService = new Google\Service\Vision(...);
- *   $referenceImages = $visionService->referenceImages;
+ *   $referenceImages = $visionService->projects_locations_products_referenceImages;
  *  </code>
  */
 class ProjectsLocationsProductsReferenceImages extends \Google\Service\Resource

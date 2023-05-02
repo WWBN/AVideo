@@ -9,7 +9,6 @@ $global['bypassSameDomainCheck'] = 1;
 
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
-header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 
@@ -18,7 +17,7 @@ $objData = AVideoPlugin::getObjectDataIfEnabled("API");
 
 if (empty($plugin)) {
     $obj = new ApiObject("API Plugin disabled");
-    die(json_encode($obj));
+    die(_json_encode($obj));
 }
 
 // gettig the mobile submited value
@@ -33,4 +32,14 @@ $parameters = array_merge($_GET, $_POST, $input);
 
 $obj = $plugin->set($parameters);
 
-die(json_encode($obj));
+if(is_object($obj)){
+    $obj = _json_encode($obj);
+}
+header('Content-Type: application/json');
+if (!empty($_REQUEST['gzip'])) {
+    $obj = gzencode($obj, 9);
+    header('Content-Encoding: gzip');
+}
+
+header('Content-Length: ' . strlen($obj));
+die($obj);

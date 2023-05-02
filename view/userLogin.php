@@ -1,15 +1,5 @@
 <?php
 CustomizeUser::autoIncludeBGAnimationFile();
-?>
-<br>
-<style>
-    .loginPage{
-    }
-</style>
-<?php
-if (empty($_COOKIE) && empty($_GET['cookieLogin'])) {
-    // TODO implement a popup login for cross domain cookie block
-}
 if (empty($_GET['redirectUri'])) {
     if (!empty($_SERVER["HTTP_REFERER"])) {
         // if comes from the streamer domain
@@ -18,6 +8,15 @@ if (empty($_GET['redirectUri'])) {
         }
     }
 }
+if (empty($signUpURL)) {
+    $signUpURL = "{$global['webSiteRootURL']}signUp";
+    if (isValidURL(@$_GET['redirectUri'])) {
+        $signUpURL = addQueryStringParameter($signUpURL, 'redirectUri', $_GET['redirectUri']);
+    }
+}
+?>
+<br>
+<?php
 if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
     ?>
     <div style="padding: 10px;">
@@ -65,6 +64,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             ?>">
                 <div class="panel-heading">
                     <?php
+                    //var_dump($_GET['redirectUri'], getRedirectUri());
                     if (emptyHTML($advancedCustomUser->messageReplaceWelcomeBackLoginBox->value)) {
                         ?>
                         <h2 class="<?php echo getCSSAnimationClassAndStyle(); ?>">
@@ -84,7 +84,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                             ?>
                         </div>
                         <?php
-                    }else{
+                    } else {
                         echo $advancedCustomUser->messageReplaceWelcomeBackLoginBox->value;
                     }
                     ?>
@@ -114,17 +114,23 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         <div class="form-group captcha" style="<?php echo User::isCaptchaNeed() ? "" : "display: none;" ?>" id="captchaForm">
                             <?php echo $captcha['content']; ?>
                         </div>
-                        <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
-                            <div class="col-xs-4 text-right">
-                                <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
-                            </div>
-                            <div class="col-xs-8" >
-                                <div class="material-switch" data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>">
-                                    <input  id="inputRememberMe" class="form-control"  type="checkbox">
-                                    <label for="inputRememberMe" class="label-success" ></label>
+                        <?php
+                        if (empty($hideRememberMe)) {
+                            ?>
+                            <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
+                                <div class="col-xs-4 text-right">
+                                    <label for="inputRememberMe" ><?php echo __("Remember me"); ?></label>
+                                </div>
+                                <div class="col-xs-8" >
+                                    <div class="material-switch" data-toggle="tooltip" title="<?php echo __("Check this to stay signed in"); ?>">
+                                        <input  id="inputRememberMe" class="form-control"  type="checkbox">
+                                        <label for="inputRememberMe" class="label-success" ></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <?php
+                        }
+                        ?>
                         <!-- Button -->
                         <div class="form-group <?php echo getCSSAnimationClassAndStyle(); ?>" >
                             <div class="col-md-12">
@@ -145,7 +151,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                         ?>
                         <div class="row <?php echo getCSSAnimationClassAndStyle(); ?>" data-toggle="tooltip" title="<?php echo __("Are you new here?"); ?>">
                             <div class="col-md-12">
-                                <a href="<?php echo $global['webSiteRootURL']; ?>signUp?redirectUri=<?php print $_GET['redirectUri'] ?? ""; ?>"
+                                <a href="<?php echo $signUpURL; ?>"
                                    class="btn btn-primary btn-block"><i class="fas fa-plus"></i> <?php echo __("Sign up"); ?></a>
                             </div>
                         </div>
@@ -167,8 +173,6 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
             <?php
         }
         ?>
-
-
         <?php
         $login = AVideoPlugin::getLogin();
         $totalLogins = 0;
@@ -292,10 +296,10 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             modal.showPleaseWait();
             loginFormActive();
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/login.json.php',
+                url: webSiteRootURL+'objects/login.json.php',
                 data: {"user": $('#inputUser').val(), "pass": $('#inputPassword').val(), "rememberme": $('#inputRememberMe').is(":checked"), "captcha": <?php echo $captcha['captchaText']; ?>, "redirectUri": "<?php print $_GET['redirectUri'] ?? ""; ?>"},
                 type: 'post',
-                success: function (response) {
+                success: async function (response) {
                     if (!response.isLogged) {
                         modal.hidePleaseWait();
                         if (response.error) {
@@ -314,6 +318,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
                             url = addGetParam(url, 'PHPSESSID', response.PHPSESSID);
                         }
                         console.log('Login success', url);
+                        await sendAVideoMobileMessage('saveSessionUser', {site:webSiteRootURL, user:$('#inputUser').val(), pass:$('#inputPassword').val()});
                         document.location = url;
                     }
                 }
@@ -323,7 +328,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
             _forgotPass();
         });
     });
-    <?php $captcha2 = User::getCaptchaForm(); ?>
+<?php $captcha2 = User::getCaptchaForm(); ?>
     function _forgotPass() {
         var user = $('#inputUser').val();
         if (!user) {

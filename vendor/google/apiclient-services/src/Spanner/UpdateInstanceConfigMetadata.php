@@ -25,8 +25,10 @@ class UpdateInstanceConfigMetadata extends \Google\Model
   public $cancelTime;
   protected $instanceConfigType = InstanceConfig::class;
   protected $instanceConfigDataType = '';
+  public $instanceConfig;
   protected $progressType = InstanceOperationProgress::class;
   protected $progressDataType = '';
+  public $progress;
 
   /**
    * @param string

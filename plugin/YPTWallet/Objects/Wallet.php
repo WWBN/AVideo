@@ -60,13 +60,17 @@ class Wallet extends ObjectYPT {
         if (empty($row))
             return false;
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
     static function getFromUser($users_id) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $users_id = intval($users_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = $users_id LIMIT 1";
         $res = $global['mysqli']->query($sql);
@@ -81,6 +85,9 @@ class Wallet extends ObjectYPT {
 
     static function getFromWalletId($wallet_id) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $wallet_id = intval($wallet_id);
         $sql = "SELECT u.*, w.* FROM " . static::getTableName() . " w "
                 . " LEFT JOIN users u ON u.id = users_id WHERE  w.id = $wallet_id LIMIT 1";

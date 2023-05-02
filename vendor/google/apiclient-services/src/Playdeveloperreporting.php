@@ -34,7 +34,9 @@ use Google\Client;
  */
 class Playdeveloperreporting extends \Google\Service
 {
-
+  /** See metrics and data about the apps in your Google Play Developer account. */
+  const PLAYDEVELOPERREPORTING =
+      "https://www.googleapis.com/auth/playdeveloperreporting";
 
   public $anomalies;
   public $vitals_anrrate;

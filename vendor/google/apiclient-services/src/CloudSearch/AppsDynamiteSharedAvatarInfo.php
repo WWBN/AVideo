@@ -21,6 +21,7 @@ class AppsDynamiteSharedAvatarInfo extends \Google\Model
 {
   protected $emojiType = AppsDynamiteSharedEmoji::class;
   protected $emojiDataType = '';
+  public $emoji;
 
   /**
    * @param AppsDynamiteSharedEmoji

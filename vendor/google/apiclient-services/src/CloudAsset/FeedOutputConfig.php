@@ -21,6 +21,7 @@ class FeedOutputConfig extends \Google\Model
 {
   protected $pubsubDestinationType = PubsubDestination::class;
   protected $pubsubDestinationDataType = '';
+  public $pubsubDestination;
 
   /**
    * @param PubsubDestination

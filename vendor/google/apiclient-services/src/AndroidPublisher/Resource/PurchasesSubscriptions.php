@@ -27,7 +27,7 @@ use Google\Service\AndroidPublisher\SubscriptionPurchasesDeferResponse;
  * Typical usage is:
  *  <code>
  *   $androidpublisherService = new Google\Service\AndroidPublisher(...);
- *   $subscriptions = $androidpublisherService->subscriptions;
+ *   $subscriptions = $androidpublisherService->purchases_subscriptions;
  *  </code>
  */
 class PurchasesSubscriptions extends \Google\Service\Resource

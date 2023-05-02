@@ -21,8 +21,10 @@ class AssistantApiSettingsMasqueradeMode extends \Google\Model
 {
   protected $lastEnterGuestModeTimestampType = AssistantApiTimestamp::class;
   protected $lastEnterGuestModeTimestampDataType = '';
+  public $lastEnterGuestModeTimestamp;
   protected $lastExitGuestModeTimestampType = AssistantApiTimestamp::class;
   protected $lastExitGuestModeTimestampDataType = '';
+  public $lastExitGuestModeTimestamp;
   /**
    * @var bool
    */

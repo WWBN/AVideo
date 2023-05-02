@@ -21,6 +21,7 @@ class DatePropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = DateOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
 
   /**
    * @param DateOperatorOptions

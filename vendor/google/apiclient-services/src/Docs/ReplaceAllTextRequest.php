@@ -21,6 +21,7 @@ class ReplaceAllTextRequest extends \Google\Model
 {
   protected $containsTextType = SubstringMatchCriteria::class;
   protected $containsTextDataType = '';
+  public $containsText;
   /**
    * @var string
    */

@@ -19,13 +19,59 @@ namespace Google\Service\ShoppingContent;
 
 class ReportRow extends \Google\Model
 {
+  protected $bestSellersType = BestSellers::class;
+  protected $bestSellersDataType = '';
+  public $bestSellers;
+  protected $brandType = Brand::class;
+  protected $brandDataType = '';
+  public $brand;
   protected $metricsType = Metrics::class;
   protected $metricsDataType = '';
+  public $metrics;
+  protected $priceCompetitivenessType = PriceCompetitiveness::class;
+  protected $priceCompetitivenessDataType = '';
+  public $priceCompetitiveness;
+  protected $priceInsightsType = PriceInsights::class;
+  protected $priceInsightsDataType = '';
+  public $priceInsights;
+  protected $productClusterType = ProductCluster::class;
+  protected $productClusterDataType = '';
+  public $productCluster;
   protected $productViewType = ProductView::class;
   protected $productViewDataType = '';
+  public $productView;
   protected $segmentsType = Segments::class;
   protected $segmentsDataType = '';
+  public $segments;
 
+  /**
+   * @param BestSellers
+   */
+  public function setBestSellers(BestSellers $bestSellers)
+  {
+    $this->bestSellers = $bestSellers;
+  }
+  /**
+   * @return BestSellers
+   */
+  public function getBestSellers()
+  {
+    return $this->bestSellers;
+  }
+  /**
+   * @param Brand
+   */
+  public function setBrand(Brand $brand)
+  {
+    $this->brand = $brand;
+  }
+  /**
+   * @return Brand
+   */
+  public function getBrand()
+  {
+    return $this->brand;
+  }
   /**
    * @param Metrics
    */
@@ -39,6 +85,48 @@ class ReportRow extends \Google\Model
   public function getMetrics()
   {
     return $this->metrics;
+  }
+  /**
+   * @param PriceCompetitiveness
+   */
+  public function setPriceCompetitiveness(PriceCompetitiveness $priceCompetitiveness)
+  {
+    $this->priceCompetitiveness = $priceCompetitiveness;
+  }
+  /**
+   * @return PriceCompetitiveness
+   */
+  public function getPriceCompetitiveness()
+  {
+    return $this->priceCompetitiveness;
+  }
+  /**
+   * @param PriceInsights
+   */
+  public function setPriceInsights(PriceInsights $priceInsights)
+  {
+    $this->priceInsights = $priceInsights;
+  }
+  /**
+   * @return PriceInsights
+   */
+  public function getPriceInsights()
+  {
+    return $this->priceInsights;
+  }
+  /**
+   * @param ProductCluster
+   */
+  public function setProductCluster(ProductCluster $productCluster)
+  {
+    $this->productCluster = $productCluster;
+  }
+  /**
+   * @return ProductCluster
+   */
+  public function getProductCluster()
+  {
+    return $this->productCluster;
   }
   /**
    * @param ProductView

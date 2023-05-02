@@ -341,7 +341,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "SELECT *, "
                 . " (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id ) as total_viewers_from_history "
                 . " FROM  " . static::getTableName() . " lth "
-                . " WHERE 1=1 ";
+                . " WHERE 1=1 AND title NOT LIKE 'Restream test%'";
         
         if(!empty($users_id)){
             $sql .= " AND (users_id = $users_id OR users_id_company = $users_id)  ";
@@ -388,14 +388,13 @@ class LiveTransmitionHistory extends ObjectYPT {
         return self::getApplicationObject($row['id']);
     }
 
-    public static function getLatest($key, $live_servers_id = null, $active=false) {
+    public static function getLatest($key='', $live_servers_id = null, $active=false) {
         global $global;
 
-        if (empty($key)) {
-            return false;
+        $sql = "SELECT *, (select id from live_transmitions lt WHERE lt.users_id = lth.users_id ) as live_transmitions_id FROM " . static::getTableName() . " lth WHERE 1=1 ";
+        if (!empty($key)) {
+            $sql .= " AND `key` LIKE '{$key}%' ";
         }
-
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` LIKE '{$key}%' ";
         if (isset($live_servers_id)) {
             $sql .= " AND (live_servers_id = " . intval($live_servers_id);
 
@@ -412,7 +411,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        //_error_log($sql);
+        //var_dump($sql, $data);exit;
         //_error_log($data);
         if (!empty($data)) {
             $row = $data;
@@ -722,7 +721,8 @@ class LiveTransmitionHistory extends ObjectYPT {
             _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {
                 if(empty($this->$key)){
-                    $this->$key = $value;
+                    @$this->$key = $value;
+                    //$this->properties[$key] = $value;
                 }
             }
         }else{

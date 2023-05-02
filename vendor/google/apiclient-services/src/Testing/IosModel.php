@@ -36,6 +36,9 @@ class IosModel extends \Google\Collection
    * @var string
    */
   public $name;
+  protected $perVersionInfoType = PerIosVersionInfo::class;
+  protected $perVersionInfoDataType = 'array';
+  public $perVersionInfo;
   /**
    * @var int
    */
@@ -112,6 +115,20 @@ class IosModel extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param PerIosVersionInfo[]
+   */
+  public function setPerVersionInfo($perVersionInfo)
+  {
+    $this->perVersionInfo = $perVersionInfo;
+  }
+  /**
+   * @return PerIosVersionInfo[]
+   */
+  public function getPerVersionInfo()
+  {
+    return $this->perVersionInfo;
   }
   /**
    * @param int

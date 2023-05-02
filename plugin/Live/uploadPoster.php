@@ -57,7 +57,8 @@ if (isset($_FILES['file_data']) && $_FILES['file_data']['error'] == 0) {
         die(json_encode($obj));
     }
     if (file_exists($global['systemRootPath'].$obj->file)) {
-        im_resizeV2($global['systemRootPath'].$obj->file, $global['systemRootPath'].$obj->fileThumbs, $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+        //im_resizeV2($global['systemRootPath'].$obj->file, $global['systemRootPath'].$obj->fileThumbs, $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape);
+        convertImageIfNotExists($global['systemRootPath'].$obj->file, $global['systemRootPath'].$obj->fileThumbs, $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, true);
     } else {
         $obj->msg = "Image not created {$tmpDestination} {$global['systemRootPath']}{$obj->file}" ;
         die(json_encode($obj));

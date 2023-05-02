@@ -30,7 +30,7 @@ use Google\Service\DataprocMetastore\TestIamPermissionsResponse;
  * Typical usage is:
  *  <code>
  *   $metastoreService = new Google\Service\DataprocMetastore(...);
- *   $federations = $metastoreService->federations;
+ *   $federations = $metastoreService->projects_locations_federations;
  *  </code>
  */
 class ProjectsLocationsFederations extends \Google\Service\Resource

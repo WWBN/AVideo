@@ -22,6 +22,7 @@ class ImageUnderstandingIndexingAnnotationGroup extends \Google\Collection
   protected $collection_key = 'annotation';
   protected $annotationType = ImageUnderstandingIndexingAnnotation::class;
   protected $annotationDataType = 'array';
+  public $annotation;
 
   /**
    * @param ImageUnderstandingIndexingAnnotation[]

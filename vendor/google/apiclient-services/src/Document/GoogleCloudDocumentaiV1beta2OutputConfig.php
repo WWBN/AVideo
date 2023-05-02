@@ -21,6 +21,7 @@ class GoogleCloudDocumentaiV1beta2OutputConfig extends \Google\Model
 {
   protected $gcsDestinationType = GoogleCloudDocumentaiV1beta2GcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
   /**
    * @var int
    */

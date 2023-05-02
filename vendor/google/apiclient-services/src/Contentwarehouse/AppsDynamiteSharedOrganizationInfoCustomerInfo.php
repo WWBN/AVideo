@@ -21,6 +21,7 @@ class AppsDynamiteSharedOrganizationInfoCustomerInfo extends \Google\Model
 {
   protected $customerIdType = AppsDynamiteCustomerId::class;
   protected $customerIdDataType = '';
+  public $customerId;
 
   /**
    * @param AppsDynamiteCustomerId

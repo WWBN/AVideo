@@ -192,6 +192,10 @@ class Workflows extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'revisionId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'list' => [
               'path' => 'v1/{+parent}/workflows',

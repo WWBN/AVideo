@@ -21,18 +21,25 @@ class PreprocessingConfig extends \Google\Model
 {
   protected $audioType = Audio::class;
   protected $audioDataType = '';
+  public $audio;
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   protected $cropType = Crop::class;
   protected $cropDataType = '';
+  public $crop;
   protected $deblockType = Deblock::class;
   protected $deblockDataType = '';
+  public $deblock;
   protected $deinterlaceType = Deinterlace::class;
   protected $deinterlaceDataType = '';
+  public $deinterlace;
   protected $denoiseType = Denoise::class;
   protected $denoiseDataType = '';
+  public $denoise;
   protected $padType = Pad::class;
   protected $padDataType = '';
+  public $pad;
 
   /**
    * @param Audio

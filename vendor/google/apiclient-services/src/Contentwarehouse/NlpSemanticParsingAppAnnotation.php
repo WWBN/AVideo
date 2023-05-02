@@ -22,6 +22,7 @@ class NlpSemanticParsingAppAnnotation extends \Google\Collection
   protected $collection_key = 'appInfo';
   protected $appInfoType = QualityActionsAppInfo::class;
   protected $appInfoDataType = 'array';
+  public $appInfo;
 
   /**
    * @param QualityActionsAppInfo[]

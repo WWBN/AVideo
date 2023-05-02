@@ -27,7 +27,7 @@ use Google\Service\Books\BooksEmpty;
  * Typical usage is:
  *  <code>
  *   $booksService = new Google\Service\Books(...);
- *   $annotations = $booksService->annotations;
+ *   $annotations = $booksService->mylibrary_annotations;
  *  </code>
  */
 class MylibraryAnnotations extends \Google\Service\Resource

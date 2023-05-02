@@ -21,10 +21,13 @@ class GooglePrivacyDlpV2CryptoDeterministicConfig extends \Google\Model
 {
   protected $contextType = GooglePrivacyDlpV2FieldId::class;
   protected $contextDataType = '';
+  public $context;
   protected $cryptoKeyType = GooglePrivacyDlpV2CryptoKey::class;
   protected $cryptoKeyDataType = '';
+  public $cryptoKey;
   protected $surrogateInfoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $surrogateInfoTypeDataType = '';
+  public $surrogateInfoType;
 
   /**
    * @param GooglePrivacyDlpV2FieldId

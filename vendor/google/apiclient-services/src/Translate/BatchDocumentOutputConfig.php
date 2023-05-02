@@ -21,6 +21,7 @@ class BatchDocumentOutputConfig extends \Google\Model
 {
   protected $gcsDestinationType = GcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
 
   /**
    * @param GcsDestination

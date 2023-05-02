@@ -26,7 +26,7 @@ use Google\Service\PubsubLite\Reservation;
  * Typical usage is:
  *  <code>
  *   $pubsubliteService = new Google\Service\PubsubLite(...);
- *   $reservations = $pubsubliteService->reservations;
+ *   $reservations = $pubsubliteService->admin_projects_locations_reservations;
  *  </code>
  */
 class AdminProjectsLocationsReservations extends \Google\Service\Resource

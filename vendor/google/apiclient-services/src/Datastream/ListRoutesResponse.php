@@ -26,6 +26,7 @@ class ListRoutesResponse extends \Google\Collection
   public $nextPageToken;
   protected $routesType = Route::class;
   protected $routesDataType = 'array';
+  public $routes;
   /**
    * @var string[]
    */

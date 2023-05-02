@@ -22,6 +22,7 @@ class IntArrayHparamSearchSpace extends \Google\Collection
   protected $collection_key = 'candidates';
   protected $candidatesType = IntArray::class;
   protected $candidatesDataType = 'array';
+  public $candidates;
 
   /**
    * @param IntArray[]

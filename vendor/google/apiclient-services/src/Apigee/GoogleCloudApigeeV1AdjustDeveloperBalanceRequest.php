@@ -21,6 +21,7 @@ class GoogleCloudApigeeV1AdjustDeveloperBalanceRequest extends \Google\Model
 {
   protected $adjustmentType = GoogleTypeMoney::class;
   protected $adjustmentDataType = '';
+  public $adjustment;
 
   /**
    * @param GoogleTypeMoney

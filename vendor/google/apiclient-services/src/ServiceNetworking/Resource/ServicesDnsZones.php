@@ -26,7 +26,7 @@ use Google\Service\ServiceNetworking\RemoveDnsZoneRequest;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $dnsZones = $servicenetworkingService->dnsZones;
+ *   $dnsZones = $servicenetworkingService->services_dnsZones;
  *  </code>
  */
 class ServicesDnsZones extends \Google\Service\Resource

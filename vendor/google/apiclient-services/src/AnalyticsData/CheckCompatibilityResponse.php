@@ -22,8 +22,10 @@ class CheckCompatibilityResponse extends \Google\Collection
   protected $collection_key = 'metricCompatibilities';
   protected $dimensionCompatibilitiesType = DimensionCompatibility::class;
   protected $dimensionCompatibilitiesDataType = 'array';
+  public $dimensionCompatibilities;
   protected $metricCompatibilitiesType = MetricCompatibility::class;
   protected $metricCompatibilitiesDataType = 'array';
+  public $metricCompatibilities;
 
   /**
    * @param DimensionCompatibility[]

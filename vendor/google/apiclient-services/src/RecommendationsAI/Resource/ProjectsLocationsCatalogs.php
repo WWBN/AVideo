@@ -25,7 +25,7 @@ use Google\Service\RecommendationsAI\GoogleCloudRecommendationengineV1beta1ListC
  * Typical usage is:
  *  <code>
  *   $recommendationengineService = new Google\Service\RecommendationsAI(...);
- *   $catalogs = $recommendationengineService->catalogs;
+ *   $catalogs = $recommendationengineService->projects_locations_catalogs;
  *  </code>
  */
 class ProjectsLocationsCatalogs extends \Google\Service\Resource

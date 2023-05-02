@@ -26,6 +26,7 @@ class HealthCheckServicesListWarning extends \Google\Collection
   public $code;
   protected $dataType = HealthCheckServicesListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

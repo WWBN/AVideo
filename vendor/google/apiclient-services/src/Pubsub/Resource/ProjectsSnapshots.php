@@ -32,7 +32,7 @@ use Google\Service\Pubsub\UpdateSnapshotRequest;
  * Typical usage is:
  *  <code>
  *   $pubsubService = new Google\Service\Pubsub(...);
- *   $snapshots = $pubsubService->snapshots;
+ *   $snapshots = $pubsubService->projects_snapshots;
  *  </code>
  */
 class ProjectsSnapshots extends \Google\Service\Resource

@@ -30,10 +30,13 @@ class GooglePrivacyDlpV2TransformationDetails extends \Google\Collection
   public $resourceName;
   protected $statusDetailsType = GooglePrivacyDlpV2TransformationResultStatus::class;
   protected $statusDetailsDataType = '';
+  public $statusDetails;
   protected $transformationType = GooglePrivacyDlpV2TransformationDescription::class;
   protected $transformationDataType = 'array';
+  public $transformation;
   protected $transformationLocationType = GooglePrivacyDlpV2TransformationLocation::class;
   protected $transformationLocationDataType = '';
+  public $transformationLocation;
   /**
    * @var string
    */

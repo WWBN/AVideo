@@ -180,6 +180,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 2942295,
         'CODECS': 'avc1.4d001f',
+        'FRAME-RATE': 30,
         'NAME': 'D',
         'PROGRAM-ID': 1,
         'RESOLUTION': {
@@ -333,6 +334,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 4267536,
         'CODECS': 'avc1.640020',
+        'FRAME-RATE': 60,
         'NAME': 'E',
         'PROGRAM-ID': 1,
         'RESOLUTION': {
@@ -486,6 +488,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 5256859,
         'CODECS': 'avc1.640020',
+        'FRAME-RATE': 60,
         'NAME': 'F',
         'PROGRAM-ID': 1,
         'RESOLUTION': {
@@ -639,6 +642,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 240781,
         'CODECS': 'avc1.4d000d',
+        'FRAME-RATE': 30,
         'NAME': 'A',
         'PROGRAM-ID': 1,
         'RESOLUTION': {
@@ -792,6 +796,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 494354,
         'CODECS': 'avc1.4d001e',
+        'FRAME-RATE': 30,
         'NAME': 'B',
         'PROGRAM-ID': 1,
         'RESOLUTION': {
@@ -945,6 +950,7 @@ export const parsedManifest = {
         'AUDIO': 'audio',
         'BANDWIDTH': 1277155,
         'CODECS': 'avc1.4d001e',
+        'FRAME-RATE': 30,
         'NAME': 'C',
         'PROGRAM-ID': 1,
         'RESOLUTION': {

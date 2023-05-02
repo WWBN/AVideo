@@ -21,6 +21,7 @@ class TimestampPropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = TimestampOperatorOptions::class;
   protected $operatorOptionsDataType = '';
+  public $operatorOptions;
 
   /**
    * @param TimestampOperatorOptions

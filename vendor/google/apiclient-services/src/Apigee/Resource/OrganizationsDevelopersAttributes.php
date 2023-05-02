@@ -25,7 +25,7 @@ use Google\Service\Apigee\GoogleCloudApigeeV1Attributes;
  * Typical usage is:
  *  <code>
  *   $apigeeService = new Google\Service\Apigee(...);
- *   $attributes = $apigeeService->attributes;
+ *   $attributes = $apigeeService->organizations_developers_attributes;
  *  </code>
  */
 class OrganizationsDevelopersAttributes extends \Google\Service\Resource

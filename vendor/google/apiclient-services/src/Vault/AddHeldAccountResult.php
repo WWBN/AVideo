@@ -21,8 +21,10 @@ class AddHeldAccountResult extends \Google\Model
 {
   protected $accountType = HeldAccount::class;
   protected $accountDataType = '';
+  public $account;
   protected $statusType = Status::class;
   protected $statusDataType = '';
+  public $status;
 
   /**
    * @param HeldAccount

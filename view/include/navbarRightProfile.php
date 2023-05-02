@@ -57,7 +57,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                             if (!$advancedCustomUser->disableSignOutButton) {
                                 ?>
                                 <li>
-                                    <a href="#" onclick="avideoLogoff();" >
+                                    <a href="#" onclick="avideoLogoff(true);" >
                                         <?php
                                         if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
                                             ?>

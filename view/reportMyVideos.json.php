@@ -21,7 +21,7 @@ if ($config->getAuthCanViewChart() == 0) {
         }
     } elseif (User::isLogged()) {
         $users_id = User::getId();
-    } 
+    }
 } elseif ($config->getAuthCanViewChart() == 1) {
     if ((!empty($_SESSION['user']['canViewChart']))||(User::isAdmin())) {
         if(empty($_REQUEST['users_id'])){
@@ -35,7 +35,7 @@ if ($config->getAuthCanViewChart() == 0) {
 $obj = new stdClass();
 
 
-$obj->data = array();
+$obj->data = [];
 
 
 if(empty($users_id)){

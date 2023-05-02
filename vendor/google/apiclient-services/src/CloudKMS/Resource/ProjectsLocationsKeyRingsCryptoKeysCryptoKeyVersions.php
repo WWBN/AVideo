@@ -37,7 +37,7 @@ use Google\Service\CloudKMS\RestoreCryptoKeyVersionRequest;
  * Typical usage is:
  *  <code>
  *   $cloudkmsService = new Google\Service\CloudKMS(...);
- *   $cryptoKeyVersions = $cloudkmsService->cryptoKeyVersions;
+ *   $cryptoKeyVersions = $cloudkmsService->projects_locations_keyRings_cryptoKeys_cryptoKeyVersions;
  *  </code>
  */
 class ProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions extends \Google\Service\Resource

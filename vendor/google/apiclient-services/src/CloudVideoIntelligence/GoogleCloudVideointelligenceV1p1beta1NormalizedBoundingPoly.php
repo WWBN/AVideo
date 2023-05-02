@@ -22,6 +22,7 @@ class GoogleCloudVideointelligenceV1p1beta1NormalizedBoundingPoly extends \Googl
   protected $collection_key = 'vertices';
   protected $verticesType = GoogleCloudVideointelligenceV1p1beta1NormalizedVertex::class;
   protected $verticesDataType = 'array';
+  public $vertices;
 
   /**
    * @param GoogleCloudVideointelligenceV1p1beta1NormalizedVertex[]

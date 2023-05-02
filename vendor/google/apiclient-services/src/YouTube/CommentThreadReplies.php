@@ -22,6 +22,7 @@ class CommentThreadReplies extends \Google\Collection
   protected $collection_key = 'comments';
   protected $commentsType = Comment::class;
   protected $commentsDataType = 'array';
+  public $comments;
 
   /**
    * @param Comment[]

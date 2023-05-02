@@ -22,6 +22,7 @@ class GoogleCloudMlV1ListLocationsResponse extends \Google\Collection
   protected $collection_key = 'locations';
   protected $locationsType = GoogleCloudMlV1Location::class;
   protected $locationsDataType = 'array';
+  public $locations;
   /**
    * @var string
    */

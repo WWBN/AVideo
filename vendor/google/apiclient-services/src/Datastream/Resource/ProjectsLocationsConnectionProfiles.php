@@ -28,7 +28,7 @@ use Google\Service\Datastream\Operation;
  * Typical usage is:
  *  <code>
  *   $datastreamService = new Google\Service\Datastream(...);
- *   $connectionProfiles = $datastreamService->connectionProfiles;
+ *   $connectionProfiles = $datastreamService->projects_locations_connectionProfiles;
  *  </code>
  */
 class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource

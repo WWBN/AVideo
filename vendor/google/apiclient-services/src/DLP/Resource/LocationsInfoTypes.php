@@ -24,7 +24,7 @@ use Google\Service\DLP\GooglePrivacyDlpV2ListInfoTypesResponse;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $infoTypes = $dlpService->infoTypes;
+ *   $infoTypes = $dlpService->locations_infoTypes;
  *  </code>
  */
 class LocationsInfoTypes extends \Google\Service\Resource

@@ -21,10 +21,13 @@ class VideoContentSearchListTrainingDataSetFeatures extends \Google\Model
 {
   protected $editDistanceRatioStatsType = VideoContentSearchMetricStats::class;
   protected $editDistanceRatioStatsDataType = '';
+  public $editDistanceRatioStats;
   protected $editDistanceStatsType = VideoContentSearchMetricStats::class;
   protected $editDistanceStatsDataType = '';
+  public $editDistanceStats;
   protected $matchedDescriptionAnchorsTimegapStatsType = VideoContentSearchMetricStats::class;
   protected $matchedDescriptionAnchorsTimegapStatsDataType = '';
+  public $matchedDescriptionAnchorsTimegapStats;
   /**
    * @var int
    */

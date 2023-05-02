@@ -26,6 +26,7 @@ class ServiceAttachmentListWarning extends \Google\Collection
   public $code;
   protected $dataType = ServiceAttachmentListWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

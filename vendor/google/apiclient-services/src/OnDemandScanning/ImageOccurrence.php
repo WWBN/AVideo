@@ -30,8 +30,10 @@ class ImageOccurrence extends \Google\Collection
   public $distance;
   protected $fingerprintType = Fingerprint::class;
   protected $fingerprintDataType = '';
+  public $fingerprint;
   protected $layerInfoType = Layer::class;
   protected $layerInfoDataType = 'array';
+  public $layerInfo;
 
   /**
    * @param string

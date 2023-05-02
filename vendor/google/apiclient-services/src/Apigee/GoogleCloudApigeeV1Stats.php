@@ -22,10 +22,13 @@ class GoogleCloudApigeeV1Stats extends \Google\Collection
   protected $collection_key = 'hosts';
   protected $environmentsType = GoogleCloudApigeeV1StatsEnvironmentStats::class;
   protected $environmentsDataType = 'array';
+  public $environments;
   protected $hostsType = GoogleCloudApigeeV1StatsHostStats::class;
   protected $hostsDataType = 'array';
+  public $hosts;
   protected $metaDataType = GoogleCloudApigeeV1Metadata::class;
   protected $metaDataDataType = '';
+  public $metaData;
 
   /**
    * @param GoogleCloudApigeeV1StatsEnvironmentStats[]

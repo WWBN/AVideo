@@ -21,18 +21,25 @@ class Response extends \Google\Model
 {
   protected $createFooterType = CreateFooterResponse::class;
   protected $createFooterDataType = '';
+  public $createFooter;
   protected $createFootnoteType = CreateFootnoteResponse::class;
   protected $createFootnoteDataType = '';
+  public $createFootnote;
   protected $createHeaderType = CreateHeaderResponse::class;
   protected $createHeaderDataType = '';
+  public $createHeader;
   protected $createNamedRangeType = CreateNamedRangeResponse::class;
   protected $createNamedRangeDataType = '';
+  public $createNamedRange;
   protected $insertInlineImageType = InsertInlineImageResponse::class;
   protected $insertInlineImageDataType = '';
+  public $insertInlineImage;
   protected $insertInlineSheetsChartType = InsertInlineSheetsChartResponse::class;
   protected $insertInlineSheetsChartDataType = '';
+  public $insertInlineSheetsChart;
   protected $replaceAllTextType = ReplaceAllTextResponse::class;
   protected $replaceAllTextDataType = '';
+  public $replaceAllText;
 
   /**
    * @param CreateFooterResponse

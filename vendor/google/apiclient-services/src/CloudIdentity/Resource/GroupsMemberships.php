@@ -32,7 +32,7 @@ use Google\Service\CloudIdentity\SearchTransitiveMembershipsResponse;
  * Typical usage is:
  *  <code>
  *   $cloudidentityService = new Google\Service\CloudIdentity(...);
- *   $memberships = $cloudidentityService->memberships;
+ *   $memberships = $cloudidentityService->groups_memberships;
  *  </code>
  */
 class GroupsMemberships extends \Google\Service\Resource

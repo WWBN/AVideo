@@ -21,8 +21,10 @@ class SuggestedBullet extends \Google\Model
 {
   protected $bulletType = Bullet::class;
   protected $bulletDataType = '';
+  public $bullet;
   protected $bulletSuggestionStateType = BulletSuggestionState::class;
   protected $bulletSuggestionStateDataType = '';
+  public $bulletSuggestionState;
 
   /**
    * @param Bullet

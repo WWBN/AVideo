@@ -21,18 +21,23 @@ class GoogleCloudDatalabelingV1beta1LabelImageRequest extends \Google\Model
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1beta1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
+  public $basicConfig;
   protected $boundingPolyConfigType = GoogleCloudDatalabelingV1beta1BoundingPolyConfig::class;
   protected $boundingPolyConfigDataType = '';
+  public $boundingPolyConfig;
   /**
    * @var string
    */
   public $feature;
   protected $imageClassificationConfigType = GoogleCloudDatalabelingV1beta1ImageClassificationConfig::class;
   protected $imageClassificationConfigDataType = '';
+  public $imageClassificationConfig;
   protected $polylineConfigType = GoogleCloudDatalabelingV1beta1PolylineConfig::class;
   protected $polylineConfigDataType = '';
+  public $polylineConfig;
   protected $segmentationConfigType = GoogleCloudDatalabelingV1beta1SegmentationConfig::class;
   protected $segmentationConfigDataType = '';
+  public $segmentationConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1HumanAnnotationConfig

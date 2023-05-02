@@ -25,16 +25,22 @@ class AppsDynamiteSharedDecoratedText extends \Google\Model
   public $bottomLabel;
   protected $buttonType = AppsDynamiteSharedButton::class;
   protected $buttonDataType = '';
+  public $button;
   protected $endIconType = AppsDynamiteSharedIcon::class;
   protected $endIconDataType = '';
+  public $endIcon;
   protected $iconType = AppsDynamiteSharedIcon::class;
   protected $iconDataType = '';
+  public $icon;
   protected $onClickType = AppsDynamiteSharedOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   protected $startIconType = AppsDynamiteSharedIcon::class;
   protected $startIconDataType = '';
+  public $startIcon;
   protected $switchControlType = AppsDynamiteSharedDecoratedTextSwitchControl::class;
   protected $switchControlDataType = '';
+  public $switchControl;
   /**
    * @var string
    */

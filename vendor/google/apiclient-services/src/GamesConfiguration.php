@@ -40,7 +40,6 @@ class GamesConfiguration extends \Google\Service
       "https://www.googleapis.com/auth/androidpublisher";
 
   public $achievementConfigurations;
-  public $imageConfigurations;
   public $leaderboardConfigurations;
 
   /**
@@ -118,31 +117,6 @@ class GamesConfiguration extends \Google\Service
               'httpMethod' => 'PUT',
               'parameters' => [
                 'achievementId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->imageConfigurations = new GamesConfiguration\Resource\ImageConfigurations(
-        $this,
-        $this->serviceName,
-        'imageConfigurations',
-        [
-          'methods' => [
-            'upload' => [
-              'path' => 'games/v1configuration/images/{resourceId}/imageType/{imageType}',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'resourceId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'imageType' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

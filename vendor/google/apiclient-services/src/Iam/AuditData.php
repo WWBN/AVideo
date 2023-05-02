@@ -21,6 +21,7 @@ class AuditData extends \Google\Model
 {
   protected $policyDeltaType = PolicyDelta::class;
   protected $policyDeltaDataType = '';
+  public $policyDelta;
 
   /**
    * @param PolicyDelta

@@ -25,7 +25,7 @@ use Google\Service\TagManager\ListContainerVersionsResponse;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $version_headers = $tagmanagerService->version_headers;
+ *   $version_headers = $tagmanagerService->accounts_containers_version_headers;
  *  </code>
  */
 class AccountsContainersVersionHeaders extends \Google\Service\Resource

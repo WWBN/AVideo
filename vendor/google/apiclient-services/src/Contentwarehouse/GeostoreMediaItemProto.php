@@ -33,6 +33,7 @@ class GeostoreMediaItemProto extends \Google\Model
   public $mediaKey;
   protected $mediaSizeType = GeostoreMediaItemProtoMediaSize::class;
   protected $mediaSizeDataType = '';
+  public $mediaSize;
 
   /**
    * @param string

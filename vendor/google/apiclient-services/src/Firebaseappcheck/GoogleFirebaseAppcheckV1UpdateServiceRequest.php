@@ -21,6 +21,7 @@ class GoogleFirebaseAppcheckV1UpdateServiceRequest extends \Google\Model
 {
   protected $serviceType = GoogleFirebaseAppcheckV1Service::class;
   protected $serviceDataType = '';
+  public $service;
   /**
    * @var string
    */

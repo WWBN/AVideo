@@ -25,7 +25,7 @@ use Google\Service\Workflows\Location;
  * Typical usage is:
  *  <code>
  *   $workflowsService = new Google\Service\Workflows(...);
- *   $locations = $workflowsService->locations;
+ *   $locations = $workflowsService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -22,14 +22,17 @@ class Grid extends \Google\Collection
   protected $collection_key = 'items';
   protected $borderStyleType = BorderStyle::class;
   protected $borderStyleDataType = '';
+  public $borderStyle;
   protected $itemsType = GridItem::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var int
    */
   public $numColumns;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   /**
    * @var string
    */

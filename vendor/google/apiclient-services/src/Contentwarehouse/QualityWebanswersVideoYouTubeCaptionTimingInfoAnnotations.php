@@ -26,6 +26,7 @@ class QualityWebanswersVideoYouTubeCaptionTimingInfoAnnotations extends \Google\
   public $durationMs;
   protected $instancesType = QualityWebanswersVideoYouTubeCaptionTimingInfoAnnotationsInstance::class;
   protected $instancesDataType = 'array';
+  public $instances;
   /**
    * @var string
    */

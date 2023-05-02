@@ -22,6 +22,7 @@ class GooglePrivacyDlpV2LDiversityResult extends \Google\Collection
   protected $collection_key = 'sensitiveValueFrequencyHistogramBuckets';
   protected $sensitiveValueFrequencyHistogramBucketsType = GooglePrivacyDlpV2LDiversityHistogramBucket::class;
   protected $sensitiveValueFrequencyHistogramBucketsDataType = 'array';
+  public $sensitiveValueFrequencyHistogramBuckets;
 
   /**
    * @param GooglePrivacyDlpV2LDiversityHistogramBucket[]

@@ -22,6 +22,7 @@ class ImageRepositoryVideoIndexingInfo extends \Google\Collection
   protected $collection_key = 'notIndexedVideoLink';
   protected $notIndexedVideoLinkType = ImageRepositoryVideoLinkIndexingInfo::class;
   protected $notIndexedVideoLinkDataType = 'array';
+  public $notIndexedVideoLink;
 
   /**
    * @param ImageRepositoryVideoLinkIndexingInfo[]

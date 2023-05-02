@@ -22,12 +22,16 @@ class ChannelBrandingSettings extends \Google\Collection
   protected $collection_key = 'hints';
   protected $channelType = ChannelSettings::class;
   protected $channelDataType = '';
+  public $channel;
   protected $hintsType = PropertyValue::class;
   protected $hintsDataType = 'array';
+  public $hints;
   protected $imageType = ImageSettings::class;
   protected $imageDataType = '';
+  public $image;
   protected $watchType = WatchSettings::class;
   protected $watchDataType = '';
+  public $watch;
 
   /**
    * @param ChannelSettings

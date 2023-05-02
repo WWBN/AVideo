@@ -25,8 +25,10 @@ class AppsDynamiteSharedImageComponent extends \Google\Model
   public $altText;
   protected $borderStyleType = AppsDynamiteSharedBorderStyle::class;
   protected $borderStyleDataType = '';
+  public $borderStyle;
   protected $cropStyleType = AppsDynamiteSharedImageCropStyle::class;
   protected $cropStyleDataType = '';
+  public $cropStyle;
   /**
    * @var string
    */

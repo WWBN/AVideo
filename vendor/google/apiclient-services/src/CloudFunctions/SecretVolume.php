@@ -34,6 +34,7 @@ class SecretVolume extends \Google\Collection
   public $secret;
   protected $versionsType = SecretVersion::class;
   protected $versionsDataType = 'array';
+  public $versions;
 
   /**
    * @param string

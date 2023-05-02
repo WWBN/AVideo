@@ -7,7 +7,7 @@ use React\Dns\Resolver\ResolverInterface;
 use React\EventLoop\LoopInterface;
 use React\EventLoop\TimerInterface;
 use React\Promise;
-use React\Promise\CancellablePromiseInterface;
+use React\Promise\PromiseInterface;
 
 /**
  * @internal
@@ -248,13 +248,13 @@ final class HappyEyeBallsConnectionBuilder
         $this->connectQueue = array();
 
         foreach ($this->connectionPromises as $connectionPromise) {
-            if ($connectionPromise instanceof CancellablePromiseInterface) {
+            if ($connectionPromise instanceof PromiseInterface && \method_exists($connectionPromise, 'cancel')) {
                 $connectionPromise->cancel();
             }
         }
 
         foreach ($this->resolverPromises as $resolverPromise) {
-            if ($resolverPromise instanceof CancellablePromiseInterface) {
+            if ($resolverPromise instanceof PromiseInterface && \method_exists($resolverPromise, 'cancel')) {
                 $resolverPromise->cancel();
             }
         }

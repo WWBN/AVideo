@@ -61,6 +61,7 @@ class TheaterButton extends PluginAbstract {
         $obj = $this->getDataObject();
         
         if (!empty($obj->show_switch_button)) {
+            //var_dump(debug_backtrace());exit;
             return array("plugin/TheaterButton/script.js", "plugin/TheaterButton/addButton.js");
         }
         return array("plugin/TheaterButton/script.js");
@@ -83,6 +84,9 @@ class TheaterButton extends PluginAbstract {
     }
 
     private function showButton() {
+        if(!isAVideoPlayer()){
+            return false;
+        }
         if (isMobile() || isEmbed()) {
             return false;
         }

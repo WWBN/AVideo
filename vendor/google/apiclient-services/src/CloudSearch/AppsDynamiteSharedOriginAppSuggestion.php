@@ -21,8 +21,10 @@ class AppsDynamiteSharedOriginAppSuggestion extends \Google\Model
 {
   protected $appIdType = AppId::class;
   protected $appIdDataType = '';
+  public $appId;
   protected $cardClickSuggestionType = AppsDynamiteSharedCardClickSuggestion::class;
   protected $cardClickSuggestionDataType = '';
+  public $cardClickSuggestion;
 
   /**
    * @param AppId

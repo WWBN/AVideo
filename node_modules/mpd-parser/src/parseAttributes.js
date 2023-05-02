@@ -1,3 +1,4 @@
+import { parseDivisionValue } from './utils/string';
 import { from } from './utils/list';
 import { parseDuration, parseDate } from './utils/time';
 
@@ -129,6 +130,18 @@ export const parsers = {
    */
   bandwidth(value) {
     return parseInt(value, 10);
+  },
+
+  /**
+   * Specifies the frame rate of the representation
+   *
+   * @param {string} value
+   *        value of attribute as a string
+   * @return {number}
+   *         The parsed frame rate
+   */
+  frameRate(value) {
+    return parseDivisionValue(value);
   },
 
   /**

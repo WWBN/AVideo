@@ -22,12 +22,14 @@ class ComposeRequest extends \Google\Collection
   protected $collection_key = 'sourceObjects';
   protected $destinationType = StorageObject::class;
   protected $destinationDataType = '';
+  public $destination;
   /**
    * @var string
    */
   public $kind;
   protected $sourceObjectsType = ComposeRequestSourceObjects::class;
   protected $sourceObjectsDataType = 'array';
+  public $sourceObjects;
 
   /**
    * @param StorageObject

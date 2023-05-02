@@ -16,10 +16,10 @@ $icon-font-family: {{fontName}};
   font-style: normal;
 }
 
-// http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps
+// https://sass-lang.com/documentation/values/maps
 $icons: (
   {{#each codepoints}}
-          {{@key}}: '{{this}}',
+    {{@key}}: '{{this}}',
   {{/each}}
 );
 
@@ -33,7 +33,7 @@ $icons: (
 //   font-weight: normal;
 //   font-style: normal;
 // }
-// .vjs-icon-play:before { content: "\25b6"; }
+// .vjs-icon-play:before { content: "\f101"; }
 //
 // We can then use @extend in the codebase when we need to add an icon to a class. @extend builds up
 // the selectors for you so you can avoid duplication. This is generally a bad idea, but since each

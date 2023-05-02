@@ -24,7 +24,7 @@ use Google\Service\ToolResults\ListStepThumbnailsResponse;
  * Typical usage is:
  *  <code>
  *   $toolresultsService = new Google\Service\ToolResults(...);
- *   $thumbnails = $toolresultsService->thumbnails;
+ *   $thumbnails = $toolresultsService->projects_histories_executions_steps_thumbnails;
  *  </code>
  */
 class ProjectsHistoriesExecutionsStepsThumbnails extends \Google\Service\Resource

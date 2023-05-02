@@ -26,8 +26,10 @@ class MediaIndexVideoFrame extends \Google\Collection
   public $docid;
   protected $frameIdentifierType = MediaIndexFrameIdentifier::class;
   protected $frameIdentifierDataType = '';
+  public $frameIdentifier;
   protected $regionsType = MediaIndexRegion::class;
   protected $regionsDataType = 'array';
+  public $regions;
   /**
    * @var string
    */

@@ -245,6 +245,16 @@ class Recommender extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'markDismissed' => [
+              'path' => 'v1/{+name}:markDismissed',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'markFailed' => [
               'path' => 'v1/{+name}:markFailed',
               'httpMethod' => 'POST',
@@ -361,6 +371,16 @@ class Recommender extends \Google\Service
               ],
             ],'markClaimed' => [
               'path' => 'v1/{+name}:markClaimed',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'markDismissed' => [
+              'path' => 'v1/{+name}:markDismissed',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -569,6 +589,16 @@ class Recommender extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'markDismissed' => [
+              'path' => 'v1/{+name}:markDismissed',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'markFailed' => [
               'path' => 'v1/{+name}:markFailed',
               'httpMethod' => 'POST',
@@ -761,6 +791,16 @@ class Recommender extends \Google\Service
               ],
             ],'markClaimed' => [
               'path' => 'v1/{+name}:markClaimed',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'markDismissed' => [
+              'path' => 'v1/{+name}:markDismissed',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [

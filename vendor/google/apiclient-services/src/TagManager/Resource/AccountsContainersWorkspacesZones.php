@@ -26,7 +26,7 @@ use Google\Service\TagManager\Zone;
  * Typical usage is:
  *  <code>
  *   $tagmanagerService = new Google\Service\TagManager(...);
- *   $zones = $tagmanagerService->zones;
+ *   $zones = $tagmanagerService->accounts_containers_workspaces_zones;
  *  </code>
  */
 class AccountsContainersWorkspacesZones extends \Google\Service\Resource

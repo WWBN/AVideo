@@ -22,16 +22,20 @@ class NlpSemanticParsingLocalLocationElement extends \Google\Collection
   protected $collection_key = 'dialogReferents';
   protected $aliasIconType = PersonalizationMapsAliasIcon::class;
   protected $aliasIconDataType = 'array';
+  public $aliasIcon;
   /**
    * @var string
    */
   public $aliasLocation;
   protected $businessTypeType = NlpSemanticParsingLocalBusinessType::class;
   protected $businessTypeDataType = '';
+  public $businessType;
   protected $contactLocationType = NlpSemanticParsingLocalContactLocation::class;
   protected $contactLocationDataType = '';
+  public $contactLocation;
   protected $dialogReferentsType = NlpSemanticParsingModelsDialogReferentsDialogReferents::class;
   protected $dialogReferentsDataType = 'array';
+  public $dialogReferents;
   /**
    * @var string
    */
@@ -42,12 +46,16 @@ class NlpSemanticParsingLocalLocationElement extends \Google\Collection
   public $genericLocation;
   protected $hotelTypeType = NlpSemanticParsingLocalHotelType::class;
   protected $hotelTypeDataType = '';
+  public $hotelType;
   protected $hyperReliableDataType = NlpSemanticParsingLocalHyperReliableData::class;
   protected $hyperReliableDataDataType = '';
+  public $hyperReliableData;
   protected $implicitLocalCategoryType = NlpSemanticParsingLocalImplicitLocalCategory::class;
   protected $implicitLocalCategoryDataType = '';
+  public $implicitLocalCategory;
   protected $localResultIdType = NlpSemanticParsingLocalLocalResultId::class;
   protected $localResultIdDataType = '';
+  public $localResultId;
   /**
    * @var int
    */
@@ -58,10 +66,13 @@ class NlpSemanticParsingLocalLocationElement extends \Google\Collection
   public $number;
   protected $personalReferenceLocationType = NlpSemanticParsingPersonalReferenceAnnotation::class;
   protected $personalReferenceLocationDataType = '';
+  public $personalReferenceLocation;
   protected $qrefLocationType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefLocationDataType = '';
+  public $qrefLocation;
   protected $saftLocationType = NlpSemanticParsingSaftMentionAnnotation::class;
   protected $saftLocationDataType = '';
+  public $saftLocation;
   /**
    * @var string
    */

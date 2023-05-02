@@ -21,8 +21,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildApproval extends \Google\M
 {
   protected $configType = ContaineranalysisGoogleDevtoolsCloudbuildV1ApprovalConfig::class;
   protected $configDataType = '';
+  public $config;
   protected $resultType = ContaineranalysisGoogleDevtoolsCloudbuildV1ApprovalResult::class;
   protected $resultDataType = '';
+  public $result;
   /**
    * @var string
    */

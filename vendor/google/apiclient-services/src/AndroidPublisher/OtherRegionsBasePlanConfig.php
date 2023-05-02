@@ -21,12 +21,14 @@ class OtherRegionsBasePlanConfig extends \Google\Model
 {
   protected $eurPriceType = Money::class;
   protected $eurPriceDataType = '';
+  public $eurPrice;
   /**
    * @var bool
    */
   public $newSubscriberAvailability;
   protected $usdPriceType = Money::class;
   protected $usdPriceDataType = '';
+  public $usdPrice;
 
   /**
    * @param Money

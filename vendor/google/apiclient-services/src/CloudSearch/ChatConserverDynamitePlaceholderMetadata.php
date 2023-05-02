@@ -21,22 +21,29 @@ class ChatConserverDynamitePlaceholderMetadata extends \Google\Model
 {
   protected $attachmentMetadataType = ChatConserverDynamitePlaceholderMetadataAttachmentMetadata::class;
   protected $attachmentMetadataDataType = '';
+  public $attachmentMetadata;
   protected $botMessageMetadataType = ChatConserverDynamitePlaceholderMetadataBotMessageMetadata::class;
   protected $botMessageMetadataDataType = '';
+  public $botMessageMetadata;
   protected $calendarEventMetadataType = ChatConserverDynamitePlaceholderMetadataCalendarEventMetadata::class;
   protected $calendarEventMetadataDataType = '';
+  public $calendarEventMetadata;
   protected $deleteMetadataType = ChatConserverDynamitePlaceholderMetadataDeleteMetadata::class;
   protected $deleteMetadataDataType = '';
+  public $deleteMetadata;
   protected $editMetadataType = ChatConserverDynamitePlaceholderMetadataEditMetadata::class;
   protected $editMetadataDataType = '';
+  public $editMetadata;
   /**
    * @var string
    */
   public $spaceUrl;
   protected $tasksMetadataType = ChatConserverDynamitePlaceholderMetadataTasksMetadata::class;
   protected $tasksMetadataDataType = '';
+  public $tasksMetadata;
   protected $videoCallMetadataType = ChatConserverDynamitePlaceholderMetadataVideoCallMetadata::class;
   protected $videoCallMetadataDataType = '';
+  public $videoCallMetadata;
 
   /**
    * @param ChatConserverDynamitePlaceholderMetadataAttachmentMetadata

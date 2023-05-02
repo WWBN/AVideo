@@ -22,12 +22,14 @@ class Instance extends \Google\Collection
   protected $collection_key = 'serviceAccounts';
   protected $advancedMachineFeaturesType = AdvancedMachineFeatures::class;
   protected $advancedMachineFeaturesDataType = '';
+  public $advancedMachineFeatures;
   /**
    * @var bool
    */
   public $canIpForward;
   protected $confidentialInstanceConfigType = ConfidentialInstanceConfig::class;
   protected $confidentialInstanceConfigDataType = '';
+  public $confidentialInstanceConfig;
   /**
    * @var string
    */
@@ -46,14 +48,17 @@ class Instance extends \Google\Collection
   public $description;
   protected $disksType = AttachedDisk::class;
   protected $disksDataType = 'array';
+  public $disks;
   protected $displayDeviceType = DisplayDevice::class;
   protected $displayDeviceDataType = '';
+  public $displayDevice;
   /**
    * @var string
    */
   public $fingerprint;
   protected $guestAcceleratorsType = AcceleratorConfig::class;
   protected $guestAcceleratorsDataType = 'array';
+  public $guestAccelerators;
   /**
    * @var string
    */
@@ -96,6 +101,7 @@ class Instance extends \Google\Collection
   public $machineType;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
+  public $metadata;
   /**
    * @var string
    */
@@ -106,44 +112,54 @@ class Instance extends \Google\Collection
   public $name;
   protected $networkInterfacesType = NetworkInterface::class;
   protected $networkInterfacesDataType = 'array';
+  public $networkInterfaces;
   protected $networkPerformanceConfigType = NetworkPerformanceConfig::class;
   protected $networkPerformanceConfigDataType = '';
+  public $networkPerformanceConfig;
   protected $paramsType = InstanceParams::class;
   protected $paramsDataType = '';
+  public $params;
   /**
    * @var string
    */
   public $privateIpv6GoogleAccess;
   protected $reservationAffinityType = ReservationAffinity::class;
   protected $reservationAffinityDataType = '';
+  public $reservationAffinity;
   /**
    * @var string[]
    */
   public $resourcePolicies;
   protected $resourceStatusType = ResourceStatus::class;
   protected $resourceStatusDataType = '';
+  public $resourceStatus;
   /**
    * @var bool
    */
   public $satisfiesPzs;
   protected $schedulingType = Scheduling::class;
   protected $schedulingDataType = '';
+  public $scheduling;
   /**
    * @var string
    */
   public $selfLink;
   protected $serviceAccountsType = ServiceAccount::class;
   protected $serviceAccountsDataType = 'array';
+  public $serviceAccounts;
   protected $shieldedInstanceConfigType = ShieldedInstanceConfig::class;
   protected $shieldedInstanceConfigDataType = '';
+  public $shieldedInstanceConfig;
   protected $shieldedInstanceIntegrityPolicyType = ShieldedInstanceIntegrityPolicy::class;
   protected $shieldedInstanceIntegrityPolicyDataType = '';
+  public $shieldedInstanceIntegrityPolicy;
   /**
    * @var string
    */
   public $sourceMachineImage;
   protected $sourceMachineImageEncryptionKeyType = CustomerEncryptionKey::class;
   protected $sourceMachineImageEncryptionKeyDataType = '';
+  public $sourceMachineImageEncryptionKey;
   /**
    * @var bool
    */
@@ -158,6 +174,7 @@ class Instance extends \Google\Collection
   public $statusMessage;
   protected $tagsType = Tags::class;
   protected $tagsDataType = '';
+  public $tags;
   /**
    * @var string
    */

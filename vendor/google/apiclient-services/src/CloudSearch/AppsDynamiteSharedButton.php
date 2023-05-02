@@ -25,14 +25,17 @@ class AppsDynamiteSharedButton extends \Google\Model
   public $altText;
   protected $colorType = Color::class;
   protected $colorDataType = '';
+  public $color;
   /**
    * @var bool
    */
   public $disabled;
   protected $iconType = AppsDynamiteSharedIcon::class;
   protected $iconDataType = '';
+  public $icon;
   protected $onClickType = AppsDynamiteSharedOnClick::class;
   protected $onClickDataType = '';
+  public $onClick;
   /**
    * @var string
    */

@@ -21,8 +21,10 @@ class CreateInstanceRequest extends \Google\Model
 {
   protected $clustersType = Cluster::class;
   protected $clustersDataType = 'map';
+  public $clusters;
   protected $instanceType = Instance::class;
   protected $instanceDataType = '';
+  public $instance;
   /**
    * @var string
    */

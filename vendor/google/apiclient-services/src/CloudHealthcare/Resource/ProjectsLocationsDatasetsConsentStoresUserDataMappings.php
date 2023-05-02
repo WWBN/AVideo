@@ -28,7 +28,7 @@ use Google\Service\CloudHealthcare\UserDataMapping;
  * Typical usage is:
  *  <code>
  *   $healthcareService = new Google\Service\CloudHealthcare(...);
- *   $userDataMappings = $healthcareService->userDataMappings;
+ *   $userDataMappings = $healthcareService->projects_locations_datasets_consentStores_userDataMappings;
  *  </code>
  */
 class ProjectsLocationsDatasetsConsentStoresUserDataMappings extends \Google\Service\Resource

@@ -21,6 +21,7 @@ class Explanation extends \Google\Model
 {
   protected $matchedPermissionsType = Permissions::class;
   protected $matchedPermissionsDataType = 'map';
+  public $matchedPermissions;
 
   /**
    * @param Permissions[]

@@ -74,6 +74,7 @@ class Experiment extends \Google\Collection
   public $optimizationType;
   protected $parentLinkType = ExperimentParentLink::class;
   protected $parentLinkDataType = '';
+  public $parentLink;
   /**
    * @var string
    */
@@ -113,6 +114,7 @@ class Experiment extends \Google\Collection
   public $updated;
   protected $variationsType = ExperimentVariations::class;
   protected $variationsDataType = 'array';
+  public $variations;
   /**
    * @var string
    */

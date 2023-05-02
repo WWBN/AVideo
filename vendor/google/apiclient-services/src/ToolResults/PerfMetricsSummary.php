@@ -22,18 +22,21 @@ class PerfMetricsSummary extends \Google\Collection
   protected $collection_key = 'perfMetrics';
   protected $appStartTimeType = AppStartTime::class;
   protected $appStartTimeDataType = '';
+  public $appStartTime;
   /**
    * @var string
    */
   public $executionId;
   protected $graphicsStatsType = GraphicsStats::class;
   protected $graphicsStatsDataType = '';
+  public $graphicsStats;
   /**
    * @var string
    */
   public $historyId;
   protected $perfEnvironmentType = PerfEnvironment::class;
   protected $perfEnvironmentDataType = '';
+  public $perfEnvironment;
   /**
    * @var string[]
    */

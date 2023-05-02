@@ -21,6 +21,7 @@ class DrishtiLabelSetElement extends \Google\Model
 {
   protected $labelType = DrishtiLabelSetData::class;
   protected $labelDataType = '';
+  public $label;
   /**
    * @var string
    */

@@ -19,6 +19,25 @@ namespace Google\Service\RecaptchaEnterprise;
 
 class GoogleCloudRecaptchaenterpriseV1MigrateKeyRequest extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $skipBillingCheck;
+
+  /**
+   * @param bool
+   */
+  public function setSkipBillingCheck($skipBillingCheck)
+  {
+    $this->skipBillingCheck = $skipBillingCheck;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipBillingCheck()
+  {
+    return $this->skipBillingCheck;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

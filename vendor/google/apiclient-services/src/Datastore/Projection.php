@@ -21,6 +21,7 @@ class Projection extends \Google\Model
 {
   protected $propertyType = PropertyReference::class;
   protected $propertyDataType = '';
+  public $property;
 
   /**
    * @param PropertyReference

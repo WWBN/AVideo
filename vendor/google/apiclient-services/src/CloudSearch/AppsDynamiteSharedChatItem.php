@@ -22,10 +22,13 @@ class AppsDynamiteSharedChatItem extends \Google\Collection
   protected $collection_key = 'activityInfo';
   protected $activityInfoType = AppsDynamiteSharedChatItemActivityInfo::class;
   protected $activityInfoDataType = 'array';
+  public $activityInfo;
   protected $groupInfoType = AppsDynamiteSharedChatItemGroupInfo::class;
   protected $groupInfoDataType = '';
+  public $groupInfo;
   protected $messageInfoType = AppsDynamiteSharedMessageInfo::class;
   protected $messageInfoDataType = '';
+  public $messageInfo;
 
   /**
    * @param AppsDynamiteSharedChatItemActivityInfo[]

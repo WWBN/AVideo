@@ -30,7 +30,7 @@ use Google\Service\CloudMachineLearningEngine\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $mlService = new Google\Service\CloudMachineLearningEngine(...);
- *   $models = $mlService->models;
+ *   $models = $mlService->projects_models;
  *  </code>
  */
 class ProjectsModels extends \Google\Service\Resource

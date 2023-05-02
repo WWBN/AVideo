@@ -22,18 +22,23 @@ class RepositoryWebrefEntityNameScore extends \Google\Collection
   protected $collection_key = 'rangeMetadata';
   protected $bootstrappingPreviousIterationType = RepositoryWebrefBootstrappingScore::class;
   protected $bootstrappingPreviousIterationDataType = '';
+  public $bootstrappingPreviousIteration;
   /**
    * @var float
    */
   public $confidence;
   protected $debugInfoType = RepositoryWebrefEntityDebugInfo::class;
   protected $debugInfoDataType = 'array';
+  public $debugInfo;
   protected $debugVariantSignalsType = RepositoryWebrefPreprocessingNameVariantSignals::class;
   protected $debugVariantSignalsDataType = 'array';
+  public $debugVariantSignals;
   protected $entityType = RepositoryWebrefEntityJoin::class;
   protected $entityDataType = '';
+  public $entity;
   protected $extendedScoreRatioType = RepositoryWebrefExtendedEntityNameScore::class;
   protected $extendedScoreRatioDataType = 'array';
+  public $extendedScoreRatio;
   /**
    * @var bool
    */
@@ -68,8 +73,10 @@ class RepositoryWebrefEntityNameScore extends \Google\Collection
   public $mid;
   protected $nameMetadataType = RepositoryWebrefPreprocessingNameEntityMetadata::class;
   protected $nameMetadataDataType = '';
+  public $nameMetadata;
   protected $rangeMetadataType = RepositoryWebrefRangeMetadata::class;
   protected $rangeMetadataDataType = 'array';
+  public $rangeMetadata;
   /**
    * @var float
    */

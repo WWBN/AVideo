@@ -21,8 +21,10 @@ class UploadedMavenArtifact extends \Google\Model
 {
   protected $fileHashesType = FileHashes::class;
   protected $fileHashesDataType = '';
+  public $fileHashes;
   protected $pushTimingType = TimeSpan::class;
   protected $pushTimingDataType = '';
+  public $pushTiming;
   /**
    * @var string
    */

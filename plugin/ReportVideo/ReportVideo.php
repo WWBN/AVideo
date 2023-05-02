@@ -176,9 +176,9 @@ class ReportVideo extends PluginAbstract
                 $siteOwnerSent = $this->send($siteOwnerEmail, $subject, $body);
 
                 if (!$videoOwnerSent && !$siteOwnerSent) {
-                    $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
+                    $resp->msg = ("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
                 } elseif (!$videoOwnerSent) {
-                    $resp->msg = __("We could not notify the video owner {$email}, but we marked it as a inapropriated");
+                    $resp->msg = ("We could not notify the video owner {$email}, but we marked it as a inapropriated");
                 } elseif (!$siteOwnerSent) {
                     $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated");
                 } else {

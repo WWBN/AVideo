@@ -27,7 +27,7 @@ use Google\Service\BigQueryDataTransfer\ListDataSourcesResponse;
  * Typical usage is:
  *  <code>
  *   $bigquerydatatransferService = new Google\Service\BigQueryDataTransfer(...);
- *   $dataSources = $bigquerydatatransferService->dataSources;
+ *   $dataSources = $bigquerydatatransferService->projects_dataSources;
  *  </code>
  */
 class ProjectsDataSources extends \Google\Service\Resource

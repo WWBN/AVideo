@@ -22,6 +22,7 @@ class V2AndroidKeyRestrictions extends \Google\Collection
   protected $collection_key = 'allowedApplications';
   protected $allowedApplicationsType = V2AndroidApplication::class;
   protected $allowedApplicationsDataType = 'array';
+  public $allowedApplications;
 
   /**
    * @param V2AndroidApplication[]

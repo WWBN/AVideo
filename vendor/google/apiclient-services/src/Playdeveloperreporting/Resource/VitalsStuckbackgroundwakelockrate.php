@@ -26,7 +26,7 @@ use Google\Service\Playdeveloperreporting\GooglePlayDeveloperReportingV1beta1Stu
  * Typical usage is:
  *  <code>
  *   $playdeveloperreportingService = new Google\Service\Playdeveloperreporting(...);
- *   $stuckbackgroundwakelockrate = $playdeveloperreportingService->stuckbackgroundwakelockrate;
+ *   $stuckbackgroundwakelockrate = $playdeveloperreportingService->vitals_stuckbackgroundwakelockrate;
  *  </code>
  */
 class VitalsStuckbackgroundwakelockrate extends \Google\Service\Resource

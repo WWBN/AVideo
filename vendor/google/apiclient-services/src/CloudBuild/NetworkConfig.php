@@ -27,6 +27,10 @@ class NetworkConfig extends \Google\Model
    * @var string
    */
   public $peeredNetwork;
+  /**
+   * @var string
+   */
+  public $peeredNetworkIpRange;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class NetworkConfig extends \Google\Model
   public function getPeeredNetwork()
   {
     return $this->peeredNetwork;
+  }
+  /**
+   * @param string
+   */
+  public function setPeeredNetworkIpRange($peeredNetworkIpRange)
+  {
+    $this->peeredNetworkIpRange = $peeredNetworkIpRange;
+  }
+  /**
+   * @return string
+   */
+  public function getPeeredNetworkIpRange()
+  {
+    return $this->peeredNetworkIpRange;
   }
 }
 

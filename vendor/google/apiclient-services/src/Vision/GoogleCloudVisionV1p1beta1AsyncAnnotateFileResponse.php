@@ -21,6 +21,7 @@ class GoogleCloudVisionV1p1beta1AsyncAnnotateFileResponse extends \Google\Model
 {
   protected $outputConfigType = GoogleCloudVisionV1p1beta1OutputConfig::class;
   protected $outputConfigDataType = '';
+  public $outputConfig;
 
   /**
    * @param GoogleCloudVisionV1p1beta1OutputConfig

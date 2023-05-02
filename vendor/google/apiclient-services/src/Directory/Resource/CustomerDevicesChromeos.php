@@ -25,7 +25,7 @@ use Google\Service\Directory\DirectoryChromeosdevicesIssueCommandResponse;
  * Typical usage is:
  *  <code>
  *   $adminService = new Google\Service\Directory(...);
- *   $chromeos = $adminService->chromeos;
+ *   $chromeos = $adminService->customer_devices_chromeos;
  *  </code>
  */
 class CustomerDevicesChromeos extends \Google\Service\Resource

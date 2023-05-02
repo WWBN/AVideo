@@ -22,7 +22,7 @@ namespace Google\Service\CloudBuild\Resource;
  * Typical usage is:
  *  <code>
  *   $cloudbuildService = new Google\Service\CloudBuild(...);
- *   $locations = $cloudbuildService->locations;
+ *   $locations = $cloudbuildService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

@@ -34,12 +34,14 @@ class VmEndpointNatMappingsList extends \Google\Collection
   public $nextPageToken;
   protected $resultType = VmEndpointNatMappings::class;
   protected $resultDataType = 'array';
+  public $result;
   /**
    * @var string
    */
   public $selfLink;
   protected $warningType = VmEndpointNatMappingsListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param string

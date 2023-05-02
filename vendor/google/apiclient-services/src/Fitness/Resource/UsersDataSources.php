@@ -25,7 +25,7 @@ use Google\Service\Fitness\ListDataSourcesResponse;
  * Typical usage is:
  *  <code>
  *   $fitnessService = new Google\Service\Fitness(...);
- *   $dataSources = $fitnessService->dataSources;
+ *   $dataSources = $fitnessService->users_dataSources;
  *  </code>
  */
 class UsersDataSources extends \Google\Service\Resource

@@ -29,6 +29,7 @@ class VirtualMachine extends \Google\Model
   public $instanceName;
   protected $virtualMachineConfigType = VirtualMachineConfig::class;
   protected $virtualMachineConfigDataType = '';
+  public $virtualMachineConfig;
 
   /**
    * @param string

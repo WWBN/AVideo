@@ -21,8 +21,10 @@ class CollectionPeriod extends \Google\Model
 {
   protected $firstDateType = Date::class;
   protected $firstDateDataType = '';
+  public $firstDate;
   protected $lastDateType = Date::class;
   protected $lastDateDataType = '';
+  public $lastDate;
 
   /**
    * @param Date

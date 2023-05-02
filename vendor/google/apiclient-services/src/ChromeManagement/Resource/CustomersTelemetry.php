@@ -22,7 +22,7 @@ namespace Google\Service\ChromeManagement\Resource;
  * Typical usage is:
  *  <code>
  *   $chromemanagementService = new Google\Service\ChromeManagement(...);
- *   $telemetry = $chromemanagementService->telemetry;
+ *   $telemetry = $chromemanagementService->customers_telemetry;
  *  </code>
  */
 class CustomersTelemetry extends \Google\Service\Resource

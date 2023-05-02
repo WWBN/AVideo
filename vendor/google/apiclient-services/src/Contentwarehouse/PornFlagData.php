@@ -22,12 +22,14 @@ class PornFlagData extends \Google\Collection
   protected $collection_key = 'debugInfo';
   protected $coclickBrainScoresType = ImageSafesearchContentBrainPornAnnotation::class;
   protected $coclickBrainScoresDataType = '';
+  public $coclickBrainScores;
   /**
    * @var float
    */
   public $csaiScore;
   protected $debugInfoType = ImagePornDebugInfo::class;
   protected $debugInfoDataType = 'array';
+  public $debugInfo;
   /**
    * @var float
    */
@@ -42,18 +44,21 @@ class PornFlagData extends \Google\Collection
   public $finalViolenceScoreVersion;
   protected $internalSignalsType = SafesearchInternalImageSignals::class;
   protected $internalSignalsDataType = '';
+  public $internalSignals;
   /**
    * @var int
    */
   public $numberFaces;
   protected $ocrAnnotationType = ImageSafesearchContentOCRAnnotation::class;
   protected $ocrAnnotationDataType = '';
+  public $ocrAnnotation;
   /**
    * @var float
    */
   public $ocrVulgarScore;
   protected $offensiveSymbolDetectionType = ImageSafesearchContentOffensiveSymbolDetection::class;
   protected $offensiveSymbolDetectionDataType = '';
+  public $offensiveSymbolDetection;
   /**
    * @var string
    */
@@ -72,6 +77,7 @@ class PornFlagData extends \Google\Collection
   public $qbstSpoofScore;
   protected $queryStatsType = ClassifierPornQueryStats::class;
   protected $queryStatsDataType = '';
+  public $queryStats;
   /**
    * @var float
    */
@@ -82,6 +88,7 @@ class PornFlagData extends \Google\Collection
   public $referer;
   protected $referrerCountsType = ClassifierPornReferrerCounts::class;
   protected $referrerCountsDataType = '';
+  public $referrerCounts;
   /**
    * @var float
    */
@@ -92,6 +99,7 @@ class PornFlagData extends \Google\Collection
   public $url;
   protected $urlPornScoresType = ClassifierPornAggregatedUrlPornScores::class;
   protected $urlPornScoresDataType = '';
+  public $urlPornScores;
 
   /**
    * @param ImageSafesearchContentBrainPornAnnotation

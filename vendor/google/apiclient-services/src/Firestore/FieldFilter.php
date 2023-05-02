@@ -21,12 +21,14 @@ class FieldFilter extends \Google\Model
 {
   protected $fieldType = FieldReference::class;
   protected $fieldDataType = '';
+  public $field;
   /**
    * @var string
    */
   public $op;
   protected $valueType = Value::class;
   protected $valueDataType = '';
+  public $value;
 
   /**
    * @param FieldReference

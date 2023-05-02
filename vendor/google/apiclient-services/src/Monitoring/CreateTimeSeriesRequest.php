@@ -22,6 +22,7 @@ class CreateTimeSeriesRequest extends \Google\Collection
   protected $collection_key = 'timeSeries';
   protected $timeSeriesType = TimeSeries::class;
   protected $timeSeriesDataType = 'array';
+  public $timeSeries;
 
   /**
    * @param TimeSeries[]

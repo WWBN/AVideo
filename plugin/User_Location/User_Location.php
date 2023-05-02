@@ -78,47 +78,48 @@ class User_Location extends PluginAbstract {
         return IP2Location::getLocation($ip);
     }
 
-    static function getLanguageFromBrowser() {
-        if (empty($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            return false;
-        }
-        $parts = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
-        return str_replace('-', '_', $parts[0]);
-    }
-
-    static function setLanguageFromBrowser() {
-        return setLanguage(self::getLanguageFromBrowser());
-    }
-
-    static function setLanguageFromIP() {
-        $User_Location = self::getThisUserLocation();
-        return setLanguage($User_Location['country_code']);
-    }
-
-    public function getStart() {
-        global $global, $config;
-        $obj = $this->getDataObject();
-        $User_Location = self::getThisUserLocation();
-        if ($obj->autoChangeLanguage && empty($_SESSION['language'])) {
-            if ($obj->useLanguageFrom->value == 'browser') {
-                $changed = self::setLanguageFromBrowser();
-                if (!$changed) {
-                    $changed = self::setLanguageFromIP();
+    static function changeLang($force = false) {
+        global $global;
+        _session_start();
+        if (!empty($force) || empty($_SESSION['language'])) {
+            $obj = AVideoPlugin::getDataObject('User_Location');
+            if ($obj->autoChangeLanguage) {
+                $lang = self::getLanguage();
+                if (!empty($lang)) {
+                    if (!empty($_REQUEST['debug'])) {
+                        _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                    }
+                    setLanguage($lang);
+                } else {
+                    if (!empty($_REQUEST['debug'])) {
+                        _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
+                    }
                 }
             } else {
-                $changed = self::setLanguageFromIP();
-                if (!$changed) {
-                    $changed = self::setLanguageFromBrowser();
+                if (!empty($_REQUEST['debug'])) {
+                    _error_log("changeLang line=" . __LINE__ . " " . json_encode(debug_backtrace()));
                 }
             }
-            if (!$changed) {
-                //_error_log('getStart language: got from config ' . $file);
-                $_SESSION['language'] = $config->getLanguage();
+        } else {
+            if (!empty($_REQUEST['debug'])) {
+                _error_log("changeLang [{$_SESSION['language']}] line=" . __LINE__ . " " . json_encode(debug_backtrace()));
             }
         }
-        $global['User_Location'] = $User_Location;
-        self::setSessionLocation($global['User_Location']);
-        return false;
+    }
+
+    static function getLanguage() {
+        global $global;
+        $global['User_Location_lang'] = false;
+        if (empty($global['User_Location_lang'])) {
+            $obj = AVideoPlugin::getDataObject('User_Location');
+            if ($obj->useLanguageFrom->value == 'browser') {
+                $global['User_Location_lang'] = getLanguageFromBrowser();
+            } else {
+                $User_Location = self::getThisUserLocation();
+                $global['User_Location_lang'] = $User_Location['country_code'];
+            }
+        }
+        return $global['User_Location_lang'];
     }
 
     public function getPluginMenu() {

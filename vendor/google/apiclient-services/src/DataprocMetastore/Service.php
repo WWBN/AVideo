@@ -33,22 +33,24 @@ class Service extends \Google\Model
   public $databaseType;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
+  public $encryptionConfig;
   /**
    * @var string
    */
   public $endpointUri;
   protected $hiveMetastoreConfigType = HiveMetastoreConfig::class;
   protected $hiveMetastoreConfigDataType = '';
+  public $hiveMetastoreConfig;
   /**
    * @var string[]
    */
   public $labels;
   protected $maintenanceWindowType = MaintenanceWindow::class;
   protected $maintenanceWindowDataType = '';
-  protected $metadataIntegrationType = MetadataIntegration::class;
-  protected $metadataIntegrationDataType = '';
+  public $maintenanceWindow;
   protected $metadataManagementActivityType = MetadataManagementActivity::class;
   protected $metadataManagementActivityDataType = '';
+  public $metadataManagementActivity;
   /**
    * @var string
    */
@@ -59,6 +61,7 @@ class Service extends \Google\Model
   public $network;
   protected $networkConfigType = NetworkConfig::class;
   protected $networkConfigDataType = '';
+  public $networkConfig;
   /**
    * @var int
    */
@@ -77,6 +80,7 @@ class Service extends \Google\Model
   public $stateMessage;
   protected $telemetryConfigType = TelemetryConfig::class;
   protected $telemetryConfigDataType = '';
+  public $telemetryConfig;
   /**
    * @var string
    */
@@ -201,20 +205,6 @@ class Service extends \Google\Model
   public function getMaintenanceWindow()
   {
     return $this->maintenanceWindow;
-  }
-  /**
-   * @param MetadataIntegration
-   */
-  public function setMetadataIntegration(MetadataIntegration $metadataIntegration)
-  {
-    $this->metadataIntegration = $metadataIntegration;
-  }
-  /**
-   * @return MetadataIntegration
-   */
-  public function getMetadataIntegration()
-  {
-    return $this->metadataIntegration;
   }
   /**
    * @param MetadataManagementActivity

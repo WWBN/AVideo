@@ -26,7 +26,7 @@ use Google\Service\ServiceNetworking\PeeredDnsDomain;
  * Typical usage is:
  *  <code>
  *   $servicenetworkingService = new Google\Service\ServiceNetworking(...);
- *   $peeredDnsDomains = $servicenetworkingService->peeredDnsDomains;
+ *   $peeredDnsDomains = $servicenetworkingService->services_projects_global_networks_peeredDnsDomains;
  *  </code>
  */
 class ServicesProjectsServicenetworkingGlobalNetworksPeeredDnsDomains extends \Google\Service\Resource

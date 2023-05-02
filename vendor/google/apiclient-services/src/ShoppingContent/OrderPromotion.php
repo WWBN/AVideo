@@ -22,8 +22,10 @@ class OrderPromotion extends \Google\Collection
   protected $collection_key = 'appliedItems';
   protected $applicableItemsType = OrderPromotionItem::class;
   protected $applicableItemsDataType = 'array';
+  public $applicableItems;
   protected $appliedItemsType = OrderPromotionItem::class;
   protected $appliedItemsDataType = 'array';
+  public $appliedItems;
   /**
    * @var string
    */
@@ -38,6 +40,7 @@ class OrderPromotion extends \Google\Collection
   public $merchantPromotionId;
   protected $priceValueType = Price::class;
   protected $priceValueDataType = '';
+  public $priceValue;
   /**
    * @var string
    */
@@ -52,6 +55,7 @@ class OrderPromotion extends \Google\Collection
   public $subtype;
   protected $taxValueType = Price::class;
   protected $taxValueDataType = '';
+  public $taxValue;
   /**
    * @var string
    */

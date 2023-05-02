@@ -29,6 +29,7 @@ class GoogleCloudApigeeV1ExportRequest extends \Google\Model
   public $datastoreName;
   protected $dateRangeType = GoogleCloudApigeeV1DateRange::class;
   protected $dateRangeDataType = '';
+  public $dateRange;
   /**
    * @var string
    */

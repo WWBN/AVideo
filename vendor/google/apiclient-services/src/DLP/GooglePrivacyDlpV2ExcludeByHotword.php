@@ -21,8 +21,10 @@ class GooglePrivacyDlpV2ExcludeByHotword extends \Google\Model
 {
   protected $hotwordRegexType = GooglePrivacyDlpV2Regex::class;
   protected $hotwordRegexDataType = '';
+  public $hotwordRegex;
   protected $proximityType = GooglePrivacyDlpV2Proximity::class;
   protected $proximityDataType = '';
+  public $proximity;
 
   /**
    * @param GooglePrivacyDlpV2Regex

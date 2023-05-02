@@ -26,6 +26,7 @@ class Accounts extends \Google\Collection
   public $etag;
   protected $itemsType = Account::class;
   protected $itemsDataType = 'array';
+  public $items;
   /**
    * @var string
    */

@@ -32,7 +32,9 @@ class Freelistingsprogram extends \Google\Service\Resource
 {
   /**
    * Retrieves the status and review eligibility for the free listing program.
-   * (freelistingsprogram.get)
+   * Returns errors and warnings if they require action to resolve, will become
+   * disapprovals, or impact impressions. Use `accountstatuses` to view all issues
+   * for an account. (freelistingsprogram.get)
    *
    * @param string $merchantId Required. The ID of the account.
    * @param array $optParams Optional parameters.

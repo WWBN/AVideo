@@ -22,6 +22,7 @@ class GoogleAudienceGroup extends \Google\Collection
   protected $collection_key = 'settings';
   protected $settingsType = GoogleAudienceTargetingSetting::class;
   protected $settingsDataType = 'array';
+  public $settings;
 
   /**
    * @param GoogleAudienceTargetingSetting[]

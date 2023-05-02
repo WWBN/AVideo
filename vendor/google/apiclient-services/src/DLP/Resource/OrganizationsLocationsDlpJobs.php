@@ -24,7 +24,7 @@ use Google\Service\DLP\GooglePrivacyDlpV2ListDlpJobsResponse;
  * Typical usage is:
  *  <code>
  *   $dlpService = new Google\Service\DLP(...);
- *   $dlpJobs = $dlpService->dlpJobs;
+ *   $dlpJobs = $dlpService->organizations_locations_dlpJobs;
  *  </code>
  */
 class OrganizationsLocationsDlpJobs extends \Google\Service\Resource

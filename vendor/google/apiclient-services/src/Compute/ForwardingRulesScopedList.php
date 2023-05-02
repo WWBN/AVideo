@@ -22,8 +22,10 @@ class ForwardingRulesScopedList extends \Google\Collection
   protected $collection_key = 'forwardingRules';
   protected $forwardingRulesType = ForwardingRule::class;
   protected $forwardingRulesDataType = 'array';
+  public $forwardingRules;
   protected $warningType = ForwardingRulesScopedListWarning::class;
   protected $warningDataType = '';
+  public $warning;
 
   /**
    * @param ForwardingRule[]

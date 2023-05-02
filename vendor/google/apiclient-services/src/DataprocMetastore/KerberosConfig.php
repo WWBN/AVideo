@@ -21,6 +21,7 @@ class KerberosConfig extends \Google\Model
 {
   protected $keytabType = Secret::class;
   protected $keytabDataType = '';
+  public $keytab;
   /**
    * @var string
    */

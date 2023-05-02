@@ -26,6 +26,7 @@ class PlayerScoreListResponse extends \Google\Collection
   public $kind;
   protected $submittedScoresType = PlayerScoreResponse::class;
   protected $submittedScoresDataType = 'array';
+  public $submittedScores;
 
   /**
    * @param string

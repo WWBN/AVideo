@@ -25,7 +25,7 @@ use Google\Service\FirebaseManagement\Operation;
  * Typical usage is:
  *  <code>
  *   $firebaseService = new Google\Service\FirebaseManagement(...);
- *   $defaultLocation = $firebaseService->defaultLocation;
+ *   $defaultLocation = $firebaseService->projects_defaultLocation;
  *  </code>
  */
 class ProjectsDefaultLocation extends \Google\Service\Resource

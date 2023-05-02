@@ -21,6 +21,7 @@ class AnalyzeSyntaxRequest extends \Google\Model
 {
   protected $documentType = Document::class;
   protected $documentDataType = '';
+  public $document;
   /**
    * @var string
    */

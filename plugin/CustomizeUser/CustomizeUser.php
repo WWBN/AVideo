@@ -10,33 +10,40 @@ require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Categorie
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_affiliations.php';
 
-class CustomizeUser extends PluginAbstract {
+class CustomizeUser extends PluginAbstract
+{
 
-    public function getTags() {
+    public function getTags()
+    {
         return [
             PluginTags::$RECOMMENDED,
             PluginTags::$FREE,
         ];
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         $txt = "Fine Tuning User Profile";
         return $txt;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "CustomizeUser";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "55a4fa56-8a30-48d4-a0fb-8aa6b3fuser3";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "3.0";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
         $obj->nonAdminCannotDownload = false;
@@ -53,7 +60,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->userCanNotChangeUserGroup = false;
 
         $o = new stdClass();
-        $o->type = array_merge([0 => __("Default")], UserGroups::getAllUsersGroupsArray());
+        $o->type = array_merge(array('Default'), UserGroups::getAllUsersGroupsArray());
         $o->value = 0;
         $obj->userDefaultUserGroup = $o;
         $obj->userMustBeLoggedIn = !isset($advancedCustom->userMustBeLoggedIn) ? false : $advancedCustom->userMustBeLoggedIn;
@@ -68,6 +75,7 @@ class CustomizeUser extends PluginAbstract {
 
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;
+        $obj->unverifiedEmailsCanNOTLiveStream = true;
         $obj->newUsersCanStream = !isset($advancedCustom->newUsersCanStream) ? false : $advancedCustom->newUsersCanStream;
         $obj->doNotIdentifyByName = !isset($advancedCustomUser->doNotIndentifyByName) ? false : $advancedCustomUser->doNotIndentifyByName;
         self::addDataObjectHelper('doNotIdentifyByName', 'Do NOT identify user by Name', 'The identification order will be: <br>1. Name<br>2. email<br>3. Username<br>4. Channel Name');
@@ -94,7 +102,7 @@ class CustomizeUser extends PluginAbstract {
         $obj->disablePersonalInfo = !isset($advancedCustom->disablePersonalInfo) ? true : $advancedCustom->disablePersonalInfo;
 
         $o = new stdClass();
-        $o->type = [0 => '-- ' . __("None"), 1 => '-- ' . __("Random")] + self::getBGAnimationArray();
+        $o->type = [0 => '--  None', 1 => '-- Random'] + self::getBGAnimationArray();
         $o->value = 1;
         $obj->loginBackgroundAnimation = $o;
 
@@ -142,10 +150,10 @@ class CustomizeUser extends PluginAbstract {
         $obj->signupWelcomeAlert = "You are welcome and an even bigger thank you for registering";
 
         $obj->allowDonationLink = false;
-        $obj->donationButtonLabel = __('Donation');
+        $obj->donationButtonLabel = ('Donation');
         $obj->allowWalletDirectTransferDonation = false;
         $obj->UsersCanCustomizeWalletDirectTransferDonation = false;
-        $obj->donationWalletButtonLabel = __('Donate from your wallet');
+        $obj->donationWalletButtonLabel = ('Donate from your wallet');
         $obj->disableCaptchaOnWalletDirectTransferDonation = false;
 
         $obj->showEmailVerifiedMark = true;
@@ -175,8 +183,19 @@ class CustomizeUser extends PluginAbstract {
 
         return $obj;
     }
+
+    function onUserSocketConnect() {
+        global $global;
+        echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketConnect.js');
+    }
+
+    function onUserSocketDisconnect() {
+        global $global;
+        echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketDisconnect.js');
+    }
     
-    static function getCallerButton($users_id, $class = '') {
+    static function getCallerButton($users_id, $class = '')
+    {
         global $global;
         $users_id = intval($users_id);
         $varsArray = array('users_id' => $users_id, 'class' => $class);
@@ -184,7 +203,8 @@ class CustomizeUser extends PluginAbstract {
         return getIncludeFileContent($filePath, $varsArray);
     }
 
-    public static function isChannelCallEnabled() {
+    public static function isChannelCallEnabled()
+    {
         $obj = AVideoPlugin::getDataObjectIfEnabled('CustomizeUser');
         if (!empty($obj->enableChannelCalls)) {
             $objSocket = AVideoPlugin::getDataObjectIfEnabled('YPTSocket');
@@ -193,14 +213,16 @@ class CustomizeUser extends PluginAbstract {
         return false;
     }
 
-    public static function autoIncludeBGAnimationFile() {
+    public static function autoIncludeBGAnimationFile()
+    {
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         Layout::includeBGAnimationFile($obj->loginBackgroundAnimation->value);
         //Layout::includeBGAnimationFile('Animated3');
     }
 
-    public function getUserOptions() {
+    public function getUserOptions()
+    {
         $obj = $this->getDataObject();
         $userOptions = [];
 
@@ -216,7 +238,8 @@ class CustomizeUser extends PluginAbstract {
         return $userOptions;
     }
 
-    public static function getBGAnimationArray() {
+    public static function getBGAnimationArray()
+    {
         if (!class_exists('Layout')) {
             $avideoLayout = AVideoPlugin::getObjectData('Layout');
         }
@@ -228,7 +251,8 @@ class CustomizeUser extends PluginAbstract {
         return $response;
     }
 
-    public static function canDownloadVideosFromUser($users_id) {
+    public static function canDownloadVideosFromUser($users_id)
+    {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->nonAdminCannotDownload) && !User::isAdmin()) {
@@ -241,7 +265,8 @@ class CustomizeUser extends PluginAbstract {
         return !empty($user->getExternalOption('userCanAllowFilesDownload'));
     }
 
-    public static function canDownloadVideos() {
+    public static function canDownloadVideos()
+    {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (!empty($obj->nonAdminCannotDownload) && !User::isAdmin()) {
@@ -250,7 +275,8 @@ class CustomizeUser extends PluginAbstract {
         return !empty($config->getAllow_download());
     }
 
-    public static function setCanDownloadVideosFromUser($users_id, $value = true) {
+    public static function setCanDownloadVideosFromUser($users_id, $value = true)
+    {
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj) || empty($obj->userCanAllowFilesDownload)) {
             return false;
@@ -259,7 +285,8 @@ class CustomizeUser extends PluginAbstract {
         return $user->addExternalOptions('userCanAllowFilesDownload', $value);
     }
 
-    public static function canShareVideosFromUser($users_id) {
+    public static function canShareVideosFromUser($users_id)
+    {
         global $advancedCustom;
 
         if (!empty($advancedCustom->disableShareOnly)) {
@@ -280,7 +307,8 @@ class CustomizeUser extends PluginAbstract {
         return !empty($user->getExternalOption('userCanAllowFilesShare'));
     }
 
-    public static function setCanShareVideosFromUser($users_id, $value = true) {
+    public static function setCanShareVideosFromUser($users_id, $value = true)
+    {
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj) || empty($obj->userCanAllowFilesShare)) {
             return false;
@@ -289,17 +317,20 @@ class CustomizeUser extends PluginAbstract {
         return $user->addExternalOptions('userCanAllowFilesShare', $value);
     }
 
-    public static function getSwitchUserCanAllowFilesDownload($users_id) {
+    public static function getSwitchUserCanAllowFilesDownload($users_id)
+    {
         global $global;
         include $global['systemRootPath'] . 'plugin/CustomizeUser/switchUserCanAllowFilesDownload.php';
     }
 
-    public static function getSwitchUserCanAllowFilesShare($users_id) {
+    public static function getSwitchUserCanAllowFilesShare($users_id)
+    {
         global $global;
         include $global['systemRootPath'] . 'plugin/CustomizeUser/switchUserCanAllowFilesShare.php';
     }
 
-    public function getMyAccount($users_id) {
+    public function getMyAccount($users_id)
+    {
         global $global;
         $objcu = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
 
@@ -317,11 +348,12 @@ class CustomizeUser extends PluginAbstract {
             self::getSwitchUserCanAllowFilesShare($users_id);
             echo '</div></div>';
         }
-        
+
         include $global['systemRootPath'] . 'plugin/CustomizeUser/getMyAccount.php';
     }
 
-    public function getChannelButton() {
+    public function getChannelButton()
+    {
         global $global, $isMyChannel;
         if (!$isMyChannel) {
             return "";
@@ -345,13 +377,15 @@ class CustomizeUser extends PluginAbstract {
         echo "</div>";
     }
 
-    public function getVideoManagerButton() {
+    public function getVideoManagerButton()
+    {
         global $isMyChannel;
         $isMyChannel = true;
         return self::getChannelButton();
     }
 
-    public static function canDownloadVideosFromVideo($videos_id) {
+    public static function canDownloadVideosFromVideo($videos_id)
+    {
         global $_lastCanDownloadVideosFromVideoReason;
         $_lastCanDownloadVideosFromVideoReason = '';
         if (!CustomizeUser::canDownloadVideos()) {
@@ -383,7 +417,8 @@ class CustomizeUser extends PluginAbstract {
         return true;
     }
 
-    public static function canShareVideosFromVideo($videos_id) {
+    public static function canShareVideosFromVideo($videos_id)
+    {
         $video = new Video("", "", $videos_id);
         if (empty($video)) {
             _error_log("CustomizeUser::canShareVideosFromVideo video not found");
@@ -404,12 +439,14 @@ class CustomizeUser extends PluginAbstract {
         return true;
     }
 
-    public function onUserSignup($users_id) {
+    public function onUserSignup($users_id)
+    {
         global $global;
         $obj = $this->getDataObject();
     }
 
-    public function getWatchActionButton($videos_id) {
+    public function getWatchActionButton($videos_id)
+    {
         global $global, $video;
         if (!empty($videos_id) && empty($video)) {
             $video = Video::getVideo($videos_id);
@@ -418,7 +455,8 @@ class CustomizeUser extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/CustomizeUser/actionButton.php';
     }
 
-    public function getHTMLMenuRight() {
+    public function getHTMLMenuRight()
+    {
         global $global;
         $obj = $this->getDataObject();
         if ($obj->keepViewerOnChannel) {
@@ -426,7 +464,8 @@ class CustomizeUser extends PluginAbstract {
         }
     }
 
-    public function getModeYouTube($videos_id) {
+    public function getModeYouTube($videos_id)
+    {
         global $global, $config;
         if (empty($videos_id)) {
             return false;
@@ -435,7 +474,7 @@ class CustomizeUser extends PluginAbstract {
         $svd = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
         if (!empty($svd)) {
             if ($svd->isWhiteListed()) {
-                _error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
+                //_error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
                 return true;
             } else {
                 _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [{$_SERVER['HTTP_REFERER']}]");
@@ -469,16 +508,18 @@ class CustomizeUser extends PluginAbstract {
         }
     }
 
-    public static function videoPasswordIsGood($videos_id) {
+    public static function videoPasswordIsGood($videos_id)
+    {
         $video = new Video("", "", $videos_id);
         $videoPassword = $video->getVideo_password();
         if (empty($videoPassword)) {
             return true;
         }
+        //var_dump($_REQUEST['video_password'], $videoPassword);exit;
         if (empty($_SESSION['video_password'][$videos_id]) || $videoPassword !== $_SESSION['video_password'][$videos_id]) {
-            if (!empty($_POST['video_password']) && $_POST['video_password'] == $videoPassword) {
+            if (!empty($_REQUEST['video_password']) && $_REQUEST['video_password'] == $videoPassword) {
                 _session_start();
-                $_SESSION['video_password'][$videos_id] = $_POST['video_password'];
+                $_SESSION['video_password'][$videos_id] = $_REQUEST['video_password'];
                 return true;
             }
             return false;
@@ -486,22 +527,27 @@ class CustomizeUser extends PluginAbstract {
         return true;
     }
 
-    public function getEmbed($videos_id) {
+    public function getEmbed($videos_id)
+    {
         $this->getModeYouTube($videos_id);
     }
 
-    public function getStart() {
+    public function getStart()
+    {
         global $global;
         $obj = $this->getDataObject();
         $thisScriptFile = pathinfo($_SERVER["SCRIPT_FILENAME"]);
-        if (empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
-                ((!isEmbed() && isVideo()) ||
+        useVideoHashOrLogin();
+        if (
+            empty($global['ignoreUserMustBeLoggedIn']) && !isBot() && !empty($obj->userMustBeLoggedIn) &&
+            ((!isEmbed() && isVideo()) ||
                 $thisScriptFile["basename"] === 'index.php' ||
                 $thisScriptFile["basename"] === "channel.php" ||
                 $thisScriptFile["basename"] === "channels.php" ||
                 $thisScriptFile["basename"] === "trending.php" ||
                 $thisScriptFile["basename"] === "player.php") &&
-                !User::isLogged()) {
+            !User::isLogged()
+        ) {
             _error_log("CustomizeUser::userMustBeLoggedIn basename: {$thisScriptFile["basename"]}");
             gotToLoginAndComeBackHere('');
             //$actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -510,19 +556,22 @@ class CustomizeUser extends PluginAbstract {
         }
     }
 
-    public function getPluginMenu() {
+    public function getPluginMenu()
+    {
         global $global;
         $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/pluginMenu.php';
         return getIncludeFileContent($filePath);
     }
 
-    public function getVideosManagerListButton() {
+    public function getVideosManagerListButton()
+    {
         global $global;
         $filePath = $global['systemRootPath'] . 'plugin/CustomizeUser/videosManagerListButton.php';
         return trim(preg_replace('/\s+/', ' ', getIncludeFileContent($filePath)));
     }
 
-    public static function profileTabName($users_id) {
+    public static function profileTabName($users_id)
+    {
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
         $btn = '';
@@ -544,11 +593,13 @@ class CustomizeUser extends PluginAbstract {
 
             $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' ' . $totalNotifications . '</a></li>';
         }
+        $btn .= '<li><a data-toggle="tab" href="#tabSubscriptions">' . __('Subscriptions') . '</a></li>';
         $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id=' . $users_id . '\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete my account') . '</a></li>';
         return $btn;
     }
 
-    public static function showExtraInfo() {
+    public static function showExtraInfo()
+    {
         global $_showExtraInfo;
         if (!isset($_showExtraInfo)) {
             $p = AVideoPlugin::loadPlugin("CustomizeUser");
@@ -568,7 +619,8 @@ class CustomizeUser extends PluginAbstract {
         return $_showExtraInfo;
     }
 
-    public static function profileTabContent($users_id) {
+    public static function profileTabContent($users_id)
+    {
         global $global;
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
@@ -587,10 +639,13 @@ class CustomizeUser extends PluginAbstract {
             include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabAffiliation.php';
         }
 
+        $tabId = 'tabSubscriptions';
+        include $global['systemRootPath'] . 'plugin/CustomizeUser/View/tabSubscriptions.php';
         return $btn;
     }
 
-    public function getUsersManagerListButton() {
+    public function getUsersManagerListButton()
+    {
         global $global;
         $p = AVideoPlugin::loadPlugin("CustomizeUser");
         $obj = $p->getDataObject();
@@ -611,7 +666,8 @@ class CustomizeUser extends PluginAbstract {
         return $btn;
     }
 
-    public function afterNewVideo($videos_id) {
+    public function afterNewVideo($videos_id)
+    {
         $obj = $this->getDataObject();
         if (!empty($obj->autoSaveUsersOnCategorySelectedGroups)) {
             $video = new Video("", "", $videos_id);
@@ -633,7 +689,8 @@ class CustomizeUser extends PluginAbstract {
         return false;
     }
 
-    static function getAffiliateCompanies($users_id_affiliate, $activeOnly = true) {
+    static function getAffiliateCompanies($users_id_affiliate, $activeOnly = true)
+    {
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         if ($obj->enableAffiliation) {
             return Users_affiliations::getAll(0, $users_id_affiliate, $activeOnly);
@@ -641,7 +698,8 @@ class CustomizeUser extends PluginAbstract {
         return array();
     }
 
-    static function getCompanyAffiliates($users_id_company, $activeOnly = true) {
+    static function getCompanyAffiliates($users_id_company, $activeOnly = true)
+    {
         $obj = AVideoPlugin::getObjectData('CustomizeUser');
         if ($obj->enableAffiliation) {
             return Users_affiliations::getAll($users_id_company, 0, $activeOnly);
@@ -662,7 +720,8 @@ class CustomizeUser extends PluginAbstract {
      * 
      */
 
-    static function getAffiliationNotifications() {
+    static function getAffiliationNotifications()
+    {
         global $global, $customUser_getAffiliationNotifications;
         $return = array();
         if (User::isLogged()) {
@@ -686,8 +745,8 @@ class CustomizeUser extends PluginAbstract {
                             $value['users_id'] = $users_id;
 
                             $value['js'] = 'avideoAlertOnce('
-                                    . '"' . __('You have a new affiliation request') . '",'
-                                    . "\"<a href='{$global['webSiteRootURL']}user?tab=tabAffiliation'>" . __('Please click here') . '</a>", "info", "' . $value['id'] . $value['modified'] . '");';
+                                . '"' . __('You have a new affiliation request') . '",'
+                                . "\"<a href='{$global['webSiteRootURL']}user?tab=tabAffiliation'>" . __('Please click here') . '</a>", "info", "' . $value['id'] . $value['modified'] . '");';
 
                             $return[] = $value;
                         }
@@ -701,10 +760,10 @@ class CustomizeUser extends PluginAbstract {
         return $return;
     }
 
-    public function getFooterCode(): string {
+    public function getFooterCode(): string
+    {
         global $global;
         include $global['systemRootPath'] . 'plugin/CustomizeUser/View/footer.php';
         return '';
     }
-
 }

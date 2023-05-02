@@ -34,8 +34,10 @@ class CopleySourceTypeMetadata extends \Google\Collection
   public $emailIdentifier;
   protected $eventIdType = EventIdMessage::class;
   protected $eventIdDataType = '';
+  public $eventId;
   protected $localDiscoverySettingsMetadataType = PersonalizationSettingsApiProtoLocalDiscoveryLocalDiscoverySettingsMetadata::class;
   protected $localDiscoverySettingsMetadataDataType = '';
+  public $localDiscoverySettingsMetadata;
   /**
    * @var string
    */
@@ -50,6 +52,7 @@ class CopleySourceTypeMetadata extends \Google\Collection
   public $provenanceCategory;
   protected $sensitivityType = KnowledgeAnswersSensitivitySensitivity::class;
   protected $sensitivityDataType = '';
+  public $sensitivity;
 
   /**
    * @param string

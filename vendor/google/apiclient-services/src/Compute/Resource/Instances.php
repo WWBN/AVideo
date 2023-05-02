@@ -33,6 +33,7 @@ use Google\Service\Compute\InstancesSetLabelsRequest;
 use Google\Service\Compute\InstancesSetMachineResourcesRequest;
 use Google\Service\Compute\InstancesSetMachineTypeRequest;
 use Google\Service\Compute\InstancesSetMinCpuPlatformRequest;
+use Google\Service\Compute\InstancesSetNameRequest;
 use Google\Service\Compute\InstancesSetServiceAccountRequest;
 use Google\Service\Compute\InstancesStartWithEncryptionKeyRequest;
 use Google\Service\Compute\Metadata;
@@ -965,6 +966,33 @@ class Instances extends \Google\Service\Resource
     return $this->call('setMinCpuPlatform', [$params], Operation::class);
   }
   /**
+   * Sets name of an instance. (instances.setName)
+   *
+   * @param string $project Project ID for this request.
+   * @param string $zone The name of the zone for this request.
+   * @param string $instance The instance name for this request.
+   * @param InstancesSetNameRequest $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId An optional request ID to identify requests.
+   * Specify a unique request ID so that if you must retry your request, the
+   * server will know to ignore the request if it has already been completed. For
+   * example, consider a situation where you make an initial request and the
+   * request times out. If you make the request again with the same request ID,
+   * the server can check if original operation with the same request ID was
+   * received, and if so, will ignore the second request. This prevents clients
+   * from accidentally creating duplicate commitments. The request ID must be a
+   * valid UUID with the exception that zero UUID is not supported (
+   * 00000000-0000-0000-0000-000000000000).
+   * @return Operation
+   */
+  public function setName($project, $zone, $instance, InstancesSetNameRequest $postBody, $optParams = [])
+  {
+    $params = ['project' => $project, 'zone' => $zone, 'instance' => $instance, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setName', [$params], Operation::class);
+  }
+  /**
    * Sets an instance's scheduling options. You can only call this method on a
    * stopped instance, that is, a VM instance that is in a `TERMINATED` state. See
    * Instance Life Cycle for more information on the possible instance states. For
@@ -1166,6 +1194,8 @@ class Instances extends \Google\Service\Resource
    * @param string $instance Name of the instance resource to stop.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool discardLocalSsd If true, discard the contents of any attached
+   * localSSD partitions. Default value is false.
    * @opt_param string requestId An optional request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
    * server will know to ignore the request if it has already been completed. For
@@ -1198,6 +1228,8 @@ class Instances extends \Google\Service\Resource
    * @param string $instance Name of the instance resource to suspend.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool discardLocalSsd If true, discard the contents of any attached
+   * localSSD partitions. Default value is false.
    * @opt_param string requestId An optional request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
    * server will know to ignore the request if it has already been completed. For

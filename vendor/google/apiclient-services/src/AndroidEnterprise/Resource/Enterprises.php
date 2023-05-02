@@ -19,6 +19,7 @@ namespace Google\Service\AndroidEnterprise\Resource;
 
 use Google\Service\AndroidEnterprise\AdministratorWebToken;
 use Google\Service\AndroidEnterprise\AdministratorWebTokenSpec;
+use Google\Service\AndroidEnterprise\CreateEnrollmentTokenResponse;
 use Google\Service\AndroidEnterprise\Enterprise;
 use Google\Service\AndroidEnterprise\EnterpriseAccount;
 use Google\Service\AndroidEnterprise\EnterprisesListResponse;
@@ -72,6 +73,25 @@ class Enterprises extends \Google\Service\Resource
     $params = [];
     $params = array_merge($params, $optParams);
     return $this->call('completeSignup', [$params], Enterprise::class);
+  }
+  /**
+   * Returns a token for device enrollment. The DPC can encode this token within
+   * the QR/NFC/zero-touch enrollment payload or fetch it before calling the on-
+   * device API to authenticate the user. The token can be generated for each
+   * device or reused across multiple devices. (enterprises.createEnrollmentToken)
+   *
+   * @param string $enterpriseId The ID of the enterprise.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string deviceType Whether it’s a dedicated device or a knowledge
+   * worker device.
+   * @return CreateEnrollmentTokenResponse
+   */
+  public function createEnrollmentToken($enterpriseId, $optParams = [])
+  {
+    $params = ['enterpriseId' => $enterpriseId];
+    $params = array_merge($params, $optParams);
+    return $this->call('createEnrollmentToken', [$params], CreateEnrollmentTokenResponse::class);
   }
   /**
    * Returns a unique token to access an embeddable UI. To generate a web UI, pass
@@ -219,7 +239,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string requestMode The request mode for pulling notifications.
    * Specifying waitForNotifications will cause the request to block and wait
    * until one or more notifications are present, or return an empty notification
-   * list if no notifications are present after some time. Speciying
+   * list if no notifications are present after some time. Specifying
    * returnImmediately will cause the request to immediately return the pending
    * notifications, or an empty list if no notifications are present. If omitted,
    * defaults to waitForNotifications.

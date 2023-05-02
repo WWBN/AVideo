@@ -26,6 +26,7 @@ class InstanceGroupManagersListPerInstanceConfigsRespWarning extends \Google\Col
   public $code;
   protected $dataType = InstanceGroupManagersListPerInstanceConfigsRespWarningData::class;
   protected $dataDataType = 'array';
+  public $data;
   /**
    * @var string
    */

@@ -21,10 +21,13 @@ class GeostoreExceptionalHoursProto extends \Google\Model
 {
   protected $hoursType = GeostoreBusinessHoursProto::class;
   protected $hoursDataType = '';
+  public $hours;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $rangeType = GeostoreTimeIntervalProto::class;
   protected $rangeDataType = '';
+  public $range;
 
   /**
    * @param GeostoreBusinessHoursProto

@@ -26,6 +26,7 @@ class AssistantApiCameraReceiverCapabilities extends \Google\Collection
   public $hasLimitedCameraStreamCapability;
   protected $supportedCameraReceiversType = AssistantApiCoreTypesCastAppInfo::class;
   protected $supportedCameraReceiversDataType = 'array';
+  public $supportedCameraReceivers;
 
   /**
    * @param bool

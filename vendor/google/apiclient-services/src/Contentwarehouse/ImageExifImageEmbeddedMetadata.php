@@ -158,6 +158,7 @@ class ImageExifImageEmbeddedMetadata extends \Google\Model
   public $imgDirectionRef;
   protected $iptcType = ImageExifIPTCMetadata::class;
   protected $iptcDataType = '';
+  public $iptc;
   /**
    * @var int
    */

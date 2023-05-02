@@ -21,6 +21,7 @@ class TextStyle extends \Google\Model
 {
   protected $backgroundColorType = OptionalColor::class;
   protected $backgroundColorDataType = '';
+  public $backgroundColor;
   /**
    * @var string
    */
@@ -31,14 +32,17 @@ class TextStyle extends \Google\Model
   public $bold;
   protected $fontSizeType = Dimension::class;
   protected $fontSizeDataType = '';
+  public $fontSize;
   protected $foregroundColorType = OptionalColor::class;
   protected $foregroundColorDataType = '';
+  public $foregroundColor;
   /**
    * @var bool
    */
   public $italic;
   protected $linkType = Link::class;
   protected $linkDataType = '';
+  public $link;
   /**
    * @var bool
    */
@@ -53,6 +57,7 @@ class TextStyle extends \Google\Model
   public $underline;
   protected $weightedFontFamilyType = WeightedFontFamily::class;
   protected $weightedFontFamilyDataType = '';
+  public $weightedFontFamily;
 
   /**
    * @param OptionalColor

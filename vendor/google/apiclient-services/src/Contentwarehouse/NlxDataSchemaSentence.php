@@ -21,18 +21,23 @@ class NlxDataSchemaSentence extends \Google\Model
 {
   protected $bytesType = MultiscalePointerSpan::class;
   protected $bytesDataType = '';
+  public $bytes;
   protected $charactersType = MultiscalePointerSpan::class;
   protected $charactersDataType = '';
+  public $characters;
   protected $documentType = MultiscalePointerIndex::class;
   protected $documentDataType = '';
+  public $document;
   protected $paragraphType = MultiscalePointerIndex::class;
   protected $paragraphDataType = '';
+  public $paragraph;
   /**
    * @var string
    */
   public $text;
   protected $tokensType = MultiscalePointerSpan::class;
   protected $tokensDataType = '';
+  public $tokens;
 
   /**
    * @param MultiscalePointerSpan

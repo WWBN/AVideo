@@ -25,20 +25,24 @@ class InAppProduct extends \Google\Model
   public $defaultLanguage;
   protected $defaultPriceType = Price::class;
   protected $defaultPriceDataType = '';
+  public $defaultPrice;
   /**
    * @var string
    */
   public $gracePeriod;
   protected $listingsType = InAppProductListing::class;
   protected $listingsDataType = 'map';
+  public $listings;
   protected $managedProductTaxesAndComplianceSettingsType = ManagedProductTaxAndComplianceSettings::class;
   protected $managedProductTaxesAndComplianceSettingsDataType = '';
+  public $managedProductTaxesAndComplianceSettings;
   /**
    * @var string
    */
   public $packageName;
   protected $pricesType = Price::class;
   protected $pricesDataType = 'map';
+  public $prices;
   /**
    * @var string
    */
@@ -57,6 +61,7 @@ class InAppProduct extends \Google\Model
   public $subscriptionPeriod;
   protected $subscriptionTaxesAndComplianceSettingsType = SubscriptionTaxAndComplianceSettings::class;
   protected $subscriptionTaxesAndComplianceSettingsDataType = '';
+  public $subscriptionTaxesAndComplianceSettings;
   /**
    * @var string
    */

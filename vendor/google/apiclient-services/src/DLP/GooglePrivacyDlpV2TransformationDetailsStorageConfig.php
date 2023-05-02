@@ -21,6 +21,7 @@ class GooglePrivacyDlpV2TransformationDetailsStorageConfig extends \Google\Model
 {
   protected $tableType = GooglePrivacyDlpV2BigQueryTable::class;
   protected $tableDataType = '';
+  public $table;
 
   /**
    * @param GooglePrivacyDlpV2BigQueryTable

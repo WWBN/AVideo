@@ -1,6 +1,7 @@
 <?php
 require_once '../../videos/configuration.php';
 
+setIsConfirmationPage();
 $key = @$_REQUEST['key'];
 
 if (empty($key)) {
@@ -27,7 +28,6 @@ if (!empty($_REQUEST['live_schedule'])) {
 }
 $imgw = 640;
 $imgh = 360;
-$global['ignoreChat2'] = 1;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">

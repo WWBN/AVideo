@@ -33,6 +33,7 @@ class PatchDeployment extends \Google\Model
   public $duration;
   protected $instanceFilterType = PatchInstanceFilter::class;
   protected $instanceFilterDataType = '';
+  public $instanceFilter;
   /**
    * @var string
    */
@@ -43,12 +44,16 @@ class PatchDeployment extends \Google\Model
   public $name;
   protected $oneTimeScheduleType = OneTimeSchedule::class;
   protected $oneTimeScheduleDataType = '';
+  public $oneTimeSchedule;
   protected $patchConfigType = PatchConfig::class;
   protected $patchConfigDataType = '';
+  public $patchConfig;
   protected $recurringScheduleType = RecurringSchedule::class;
   protected $recurringScheduleDataType = '';
+  public $recurringSchedule;
   protected $rolloutType = PatchRollout::class;
   protected $rolloutDataType = '';
+  public $rollout;
   /**
    * @var string
    */

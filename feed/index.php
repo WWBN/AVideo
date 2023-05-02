@@ -41,7 +41,7 @@ if (!empty($_GET['channelName'])) {
 $cacheName = "feedCache" . md5(json_encode($_REQUEST));
 $rows = ObjectYPT::getCache($cacheName, 0);
 if (empty($rows)) {
-    // send $_GET['catName'] to be able to filter by category
+    // send $_REQUEST['catName'] to be able to filter by category
     $sort = @$_POST['sort'];
     if (empty($_REQUEST['program_id'])) {
         if (empty($_POST['sort'])) {

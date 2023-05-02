@@ -26,7 +26,7 @@ use Google\Service\Storagetransfer\StoragetransferEmpty;
  * Typical usage is:
  *  <code>
  *   $storagetransferService = new Google\Service\Storagetransfer(...);
- *   $agentPools = $storagetransferService->agentPools;
+ *   $agentPools = $storagetransferService->projects_agentPools;
  *  </code>
  */
 class ProjectsAgentPools extends \Google\Service\Resource

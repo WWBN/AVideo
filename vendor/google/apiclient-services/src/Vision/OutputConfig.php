@@ -25,6 +25,7 @@ class OutputConfig extends \Google\Model
   public $batchSize;
   protected $gcsDestinationType = GcsDestination::class;
   protected $gcsDestinationDataType = '';
+  public $gcsDestination;
 
   /**
    * @param int

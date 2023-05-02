@@ -25,7 +25,7 @@ use Google\Service\CloudTasks\Location;
  * Typical usage is:
  *  <code>
  *   $cloudtasksService = new Google\Service\CloudTasks(...);
- *   $locations = $cloudtasksService->locations;
+ *   $locations = $cloudtasksService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

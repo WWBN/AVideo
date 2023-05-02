@@ -1,0 +1,33 @@
+sudo: required
+
+language: php
+php:
+  - '7.4'
+
+services:
+  - docker
+addons:
+  apt:
+    packages:
+      - docker-ce
+
+cache:
+  directories:
+    - $HOME/.php-cs-fixer
+
+install:
+  - composer install --ignore-platform-reqs
+env:
+  - CHECK_LINKS=false
+  - CHECK_LINKS=true
+jobs:
+  exclude:
+    - env: CHECK_LINKS=true
+
+script:
+  - docker-compose -f docker-compose.yml build >/dev/null
+  - docker-compose -f docker-compose.yml run -e CHECK_LINKS=$CHECK_LINKS php /opt/project/phpstorm-stubs/vendor/bin/phpunit /opt/project/phpstorm-stubs/tests/
+  - ./tests/check-stub-map
+
+# uncomment when attributes and union types will be supported
+#  - composer cs

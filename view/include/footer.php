@@ -134,14 +134,17 @@ if (isFirstPage()) {
     });
     function checkFooter() {
         $("#mainFooter").fadeIn();
-        if (getPageHeight() <= $(window).height()) {
+        var height = $("#mainFooter").height();
+        if (height < 150 && getPageHeight() <= $(window).height()) {
             clearTimeout(checkFooterTimout);
             checkFooterTimout = setTimeout(function () {
                 checkFooter();
             }, 1000);
             $("#mainFooter").css("position", "fixed");
+            $('body').css('padding-bottom', height+'px');
         } else {
             $("#mainFooter").css("position", "relative");
+            $('body').css('padding-bottom', '');
         }
     }
 

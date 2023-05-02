@@ -25,8 +25,10 @@ class DynamicSegment extends \Google\Model
   public $name;
   protected $sessionSegmentType = SegmentDefinition::class;
   protected $sessionSegmentDataType = '';
+  public $sessionSegment;
   protected $userSegmentType = SegmentDefinition::class;
   protected $userSegmentDataType = '';
+  public $userSegment;
 
   /**
    * @param string

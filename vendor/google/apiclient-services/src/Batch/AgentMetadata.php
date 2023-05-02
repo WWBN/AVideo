@@ -30,11 +30,19 @@ class AgentMetadata extends \Google\Model
   /**
    * @var string
    */
+  public $imageVersion;
+  /**
+   * @var string
+   */
   public $instance;
   /**
    * @var string
    */
   public $instanceId;
+  /**
+   * @var bool
+   */
+  public $instancePreemptionNoticeReceived;
   /**
    * @var string[]
    */
@@ -79,6 +87,20 @@ class AgentMetadata extends \Google\Model
   /**
    * @param string
    */
+  public function setImageVersion($imageVersion)
+  {
+    $this->imageVersion = $imageVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getImageVersion()
+  {
+    return $this->imageVersion;
+  }
+  /**
+   * @param string
+   */
   public function setInstance($instance)
   {
     $this->instance = $instance;
@@ -103,6 +125,20 @@ class AgentMetadata extends \Google\Model
   public function getInstanceId()
   {
     return $this->instanceId;
+  }
+  /**
+   * @param bool
+   */
+  public function setInstancePreemptionNoticeReceived($instancePreemptionNoticeReceived)
+  {
+    $this->instancePreemptionNoticeReceived = $instancePreemptionNoticeReceived;
+  }
+  /**
+   * @return bool
+   */
+  public function getInstancePreemptionNoticeReceived()
+  {
+    return $this->instancePreemptionNoticeReceived;
   }
   /**
    * @param string[]

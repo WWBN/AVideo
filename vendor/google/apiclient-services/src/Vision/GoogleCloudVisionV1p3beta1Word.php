@@ -22,14 +22,17 @@ class GoogleCloudVisionV1p3beta1Word extends \Google\Collection
   protected $collection_key = 'symbols';
   protected $boundingBoxType = GoogleCloudVisionV1p3beta1BoundingPoly::class;
   protected $boundingBoxDataType = '';
+  public $boundingBox;
   /**
    * @var float
    */
   public $confidence;
   protected $propertyType = GoogleCloudVisionV1p3beta1TextAnnotationTextProperty::class;
   protected $propertyDataType = '';
+  public $property;
   protected $symbolsType = GoogleCloudVisionV1p3beta1Symbol::class;
   protected $symbolsDataType = 'array';
+  public $symbols;
 
   /**
    * @param GoogleCloudVisionV1p3beta1BoundingPoly

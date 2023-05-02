@@ -26,24 +26,30 @@ class GoogleChromePolicyVersionsV1PolicySchema extends \Google\Collection
   public $accessRestrictions;
   protected $additionalTargetKeyNamesType = GoogleChromePolicyVersionsV1AdditionalTargetKeyName::class;
   protected $additionalTargetKeyNamesDataType = 'array';
+  public $additionalTargetKeyNames;
   /**
    * @var string
    */
   public $categoryTitle;
   protected $definitionType = Proto2FileDescriptorProto::class;
   protected $definitionDataType = '';
+  public $definition;
   protected $fieldDescriptionsType = GoogleChromePolicyVersionsV1PolicySchemaFieldDescription::class;
   protected $fieldDescriptionsDataType = 'array';
+  public $fieldDescriptions;
   /**
    * @var string
    */
   public $name;
   protected $noticesType = GoogleChromePolicyVersionsV1PolicySchemaNoticeDescription::class;
   protected $noticesDataType = 'array';
+  public $notices;
   protected $policyApiLifecycleType = ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle::class;
   protected $policyApiLifecycleDataType = '';
+  public $policyApiLifecycle;
   protected $policyApiLifeycleType = ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle::class;
   protected $policyApiLifeycleDataType = '';
+  public $policyApiLifeycle;
   /**
    * @var string
    */

@@ -26,6 +26,7 @@ class SearchTargetingOptionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $targetingOptionsType = TargetingOption::class;
   protected $targetingOptionsDataType = 'array';
+  public $targetingOptions;
 
   /**
    * @param string

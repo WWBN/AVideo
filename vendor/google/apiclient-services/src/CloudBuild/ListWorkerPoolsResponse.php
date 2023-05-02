@@ -26,6 +26,7 @@ class ListWorkerPoolsResponse extends \Google\Collection
   public $nextPageToken;
   protected $workerPoolsType = WorkerPool::class;
   protected $workerPoolsDataType = 'array';
+  public $workerPools;
 
   /**
    * @param string

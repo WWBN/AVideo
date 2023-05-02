@@ -69,14 +69,14 @@ function pwaIconsArray()
     $icon = [];
 
     $favicon = Configuration::_getFavicon(true);
-    $faviconICO = Configuration::_getFavicon(false);
+    //$faviconICO = Configuration::_getFavicon(false);
 
     $sizes = [72, 96, 120, 128, 144, 152, 180, 192, 384, 512];
 
     foreach ($sizes as $value) {
         $pwaIcon = "faviconPWA{$value}.png";
         if (!file_exists(getVideosDir() . $pwaIcon)) {
-            im_resizePNG($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
+            im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
         }
         $icon[] = pwaIcon(getCDN() . 'videos/' . $pwaIcon, 'image/png', "{$value}x{$value}");
     }

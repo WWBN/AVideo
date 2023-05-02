@@ -5,5 +5,4 @@ function _skipFirstGeneratorNext(fn) {
     return it;
   };
 }
-
 module.exports = _skipFirstGeneratorNext, module.exports.__esModule = true, module.exports["default"] = module.exports;

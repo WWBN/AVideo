@@ -22,12 +22,14 @@ class Deployment extends \Google\Collection
   protected $collection_key = 'entryPoints';
   protected $deploymentConfigType = DeploymentConfig::class;
   protected $deploymentConfigDataType = '';
+  public $deploymentConfig;
   /**
    * @var string
    */
   public $deploymentId;
   protected $entryPointsType = EntryPoint::class;
   protected $entryPointsDataType = 'array';
+  public $entryPoints;
   /**
    * @var string
    */

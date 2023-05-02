@@ -25,7 +25,7 @@ use Google\Service\CloudRedis\Location;
  * Typical usage is:
  *  <code>
  *   $redisService = new Google\Service\CloudRedis(...);
- *   $locations = $redisService->locations;
+ *   $locations = $redisService->projects_locations;
  *  </code>
  */
 class ProjectsLocations extends \Google\Service\Resource

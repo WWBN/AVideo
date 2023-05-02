@@ -21,6 +21,7 @@ class V1GenerateServiceAccountResponse extends \Google\Model
 {
   protected $accountType = V1ServiceAccount::class;
   protected $accountDataType = '';
+  public $account;
 
   /**
    * @param V1ServiceAccount

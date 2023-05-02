@@ -61,6 +61,7 @@ class ObjectAccessControl extends \Google\Model
   public $object;
   protected $projectTeamType = ObjectAccessControlProjectTeam::class;
   protected $projectTeamDataType = '';
+  public $projectTeam;
   /**
    * @var string
    */

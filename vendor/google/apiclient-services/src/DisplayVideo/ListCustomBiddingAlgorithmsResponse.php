@@ -22,6 +22,7 @@ class ListCustomBiddingAlgorithmsResponse extends \Google\Collection
   protected $collection_key = 'customBiddingAlgorithms';
   protected $customBiddingAlgorithmsType = CustomBiddingAlgorithm::class;
   protected $customBiddingAlgorithmsDataType = 'array';
+  public $customBiddingAlgorithms;
   /**
    * @var string
    */

@@ -2,6 +2,7 @@
 
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
 
 class VR360 extends PluginAbstract {
 
@@ -26,13 +27,12 @@ class VR360 extends PluginAbstract {
 
     public function getHTMLMenuRight() {
         global $global;
-        if (empty($_GET['videoName']) || !User::canUpload()) {
-            return "";
+        $videos_id = getVideos_id();
+        Video::canEdit($videos_id);
+        if (Video::canEdit($videos_id)) {
+            $is_enabled = VideosVR360::isVR360Enabled($videos_id);
+            include $global['systemRootPath'] . 'plugin/VR360/view/menuRight.php';
         }
-        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
-        $videos_id = $video['id'];
-        $is_enabled = VideosVR360::isVR360Enabled($videos_id);
-        include $global['systemRootPath'] . 'plugin/VR360/view/menuRight.php';
     }
 
     public function getHeadCode() {

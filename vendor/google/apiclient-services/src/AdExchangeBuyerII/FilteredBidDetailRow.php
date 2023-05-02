@@ -21,6 +21,7 @@ class FilteredBidDetailRow extends \Google\Model
 {
   protected $bidCountType = MetricValue::class;
   protected $bidCountDataType = '';
+  public $bidCount;
   /**
    * @var string
    */
@@ -31,6 +32,7 @@ class FilteredBidDetailRow extends \Google\Model
   public $detailId;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
+  public $rowDimensions;
 
   /**
    * @param MetricValue

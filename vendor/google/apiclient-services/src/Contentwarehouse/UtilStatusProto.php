@@ -33,6 +33,7 @@ class UtilStatusProto extends \Google\Model
   public $message;
   protected $messageSetType = Proto2BridgeMessageSet::class;
   protected $messageSetDataType = '';
+  public $messageSet;
   /**
    * @var string
    */

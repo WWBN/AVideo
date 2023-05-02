@@ -29,6 +29,7 @@ class DicomStore extends \Google\Model
   public $name;
   protected $notificationConfigType = NotificationConfig::class;
   protected $notificationConfigDataType = '';
+  public $notificationConfig;
 
   /**
    * @param string[]

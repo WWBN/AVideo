@@ -21,6 +21,7 @@ class LoggingConfig extends \Google\Model
 {
   protected $componentConfigType = LoggingComponentConfig::class;
   protected $componentConfigDataType = '';
+  public $componentConfig;
 
   /**
    * @param LoggingComponentConfig

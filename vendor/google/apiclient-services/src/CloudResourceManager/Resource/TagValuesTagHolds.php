@@ -26,7 +26,7 @@ use Google\Service\CloudResourceManager\TagHold;
  * Typical usage is:
  *  <code>
  *   $cloudresourcemanagerService = new Google\Service\CloudResourceManager(...);
- *   $tagHolds = $cloudresourcemanagerService->tagHolds;
+ *   $tagHolds = $cloudresourcemanagerService->tagValues_tagHolds;
  *  </code>
  */
 class TagValuesTagHolds extends \Google\Service\Resource

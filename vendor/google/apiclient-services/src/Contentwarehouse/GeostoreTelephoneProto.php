@@ -22,6 +22,7 @@ class GeostoreTelephoneProto extends \Google\Collection
   protected $collection_key = 'serviceLocationFeature';
   protected $callRateType = GeostorePriceRangeProto::class;
   protected $callRateDataType = 'array';
+  public $callRate;
   /**
    * @var string
    */
@@ -36,18 +37,23 @@ class GeostoreTelephoneProto extends \Google\Collection
   public $isSharedNumber;
   protected $labelType = GeostoreNameProto::class;
   protected $labelDataType = 'array';
+  public $label;
   /**
    * @var string[]
    */
   public $language;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
+  public $metadata;
   protected $numberType = TelephoneNumber::class;
   protected $numberDataType = '';
+  public $number;
   protected $phoneNumberType = I18nPhonenumbersPhoneNumber::class;
   protected $phoneNumberDataType = '';
+  public $phoneNumber;
   protected $serviceLocationFeatureType = GeostoreFeatureIdProto::class;
   protected $serviceLocationFeatureDataType = 'array';
+  public $serviceLocationFeature;
   /**
    * @var string
    */

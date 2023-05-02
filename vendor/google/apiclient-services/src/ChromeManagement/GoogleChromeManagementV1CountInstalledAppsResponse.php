@@ -22,6 +22,7 @@ class GoogleChromeManagementV1CountInstalledAppsResponse extends \Google\Collect
   protected $collection_key = 'installedApps';
   protected $installedAppsType = GoogleChromeManagementV1InstalledApp::class;
   protected $installedAppsDataType = 'array';
+  public $installedApps;
   /**
    * @var string
    */

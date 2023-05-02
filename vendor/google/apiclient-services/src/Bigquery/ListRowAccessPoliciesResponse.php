@@ -26,6 +26,7 @@ class ListRowAccessPoliciesResponse extends \Google\Collection
   public $nextPageToken;
   protected $rowAccessPoliciesType = RowAccessPolicy::class;
   protected $rowAccessPoliciesDataType = 'array';
+  public $rowAccessPolicies;
 
   /**
    * @param string

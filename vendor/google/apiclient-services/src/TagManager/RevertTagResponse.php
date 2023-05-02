@@ -21,6 +21,7 @@ class RevertTagResponse extends \Google\Model
 {
   protected $tagType = Tag::class;
   protected $tagDataType = '';
+  public $tag;
 
   /**
    * @param Tag

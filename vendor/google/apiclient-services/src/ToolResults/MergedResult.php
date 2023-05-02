@@ -22,12 +22,14 @@ class MergedResult extends \Google\Collection
   protected $collection_key = 'testSuiteOverviews';
   protected $outcomeType = Outcome::class;
   protected $outcomeDataType = '';
+  public $outcome;
   /**
    * @var string
    */
   public $state;
   protected $testSuiteOverviewsType = TestSuiteOverview::class;
   protected $testSuiteOverviewsDataType = 'array';
+  public $testSuiteOverviews;
 
   /**
    * @param Outcome

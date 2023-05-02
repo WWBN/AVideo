@@ -25,7 +25,7 @@ use Google\Service\Analytics\CustomMetrics;
  * Typical usage is:
  *  <code>
  *   $analyticsService = new Google\Service\Analytics(...);
- *   $customMetrics = $analyticsService->customMetrics;
+ *   $customMetrics = $analyticsService->management_customMetrics;
  *  </code>
  */
 class ManagementCustomMetrics extends \Google\Service\Resource

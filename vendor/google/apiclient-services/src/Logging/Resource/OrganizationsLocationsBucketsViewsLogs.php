@@ -24,7 +24,7 @@ use Google\Service\Logging\ListLogsResponse;
  * Typical usage is:
  *  <code>
  *   $loggingService = new Google\Service\Logging(...);
- *   $logs = $loggingService->logs;
+ *   $logs = $loggingService->organizations_locations_buckets_views_logs;
  *  </code>
  */
 class OrganizationsLocationsBucketsViewsLogs extends \Google\Service\Resource

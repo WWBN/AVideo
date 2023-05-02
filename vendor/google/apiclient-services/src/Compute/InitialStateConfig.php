@@ -22,12 +22,16 @@ class InitialStateConfig extends \Google\Collection
   protected $collection_key = 'keks';
   protected $dbsType = FileContentBuffer::class;
   protected $dbsDataType = 'array';
+  public $dbs;
   protected $dbxsType = FileContentBuffer::class;
   protected $dbxsDataType = 'array';
+  public $dbxs;
   protected $keksType = FileContentBuffer::class;
   protected $keksDataType = 'array';
+  public $keks;
   protected $pkType = FileContentBuffer::class;
   protected $pkDataType = '';
+  public $pk;
 
   /**
    * @param FileContentBuffer[]

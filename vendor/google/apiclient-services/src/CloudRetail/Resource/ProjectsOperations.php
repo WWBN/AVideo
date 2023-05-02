@@ -25,7 +25,7 @@ use Google\Service\CloudRetail\GoogleLongrunningOperation;
  * Typical usage is:
  *  <code>
  *   $retailService = new Google\Service\CloudRetail(...);
- *   $operations = $retailService->operations;
+ *   $operations = $retailService->projects_operations;
  *  </code>
  */
 class ProjectsOperations extends \Google\Service\Resource

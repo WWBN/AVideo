@@ -26,7 +26,7 @@ use Google\Service\BigQueryReservation\Reservation;
  * Typical usage is:
  *  <code>
  *   $bigqueryreservationService = new Google\Service\BigQueryReservation(...);
- *   $reservations = $bigqueryreservationService->reservations;
+ *   $reservations = $bigqueryreservationService->projects_locations_reservations;
  *  </code>
  */
 class ProjectsLocationsReservations extends \Google\Service\Resource

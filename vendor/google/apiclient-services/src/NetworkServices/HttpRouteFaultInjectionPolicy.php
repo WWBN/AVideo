@@ -21,8 +21,10 @@ class HttpRouteFaultInjectionPolicy extends \Google\Model
 {
   protected $abortType = HttpRouteFaultInjectionPolicyAbort::class;
   protected $abortDataType = '';
+  public $abort;
   protected $delayType = HttpRouteFaultInjectionPolicyDelay::class;
   protected $delayDataType = '';
+  public $delay;
 
   /**
    * @param HttpRouteFaultInjectionPolicyAbort

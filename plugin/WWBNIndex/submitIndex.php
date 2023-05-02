@@ -56,4 +56,5 @@ if ($wwbnIndex->check_site_availability($_SERVER['HTTP_HOST']) == 200) {
         $mysqli->close();
     }
 
+
 }

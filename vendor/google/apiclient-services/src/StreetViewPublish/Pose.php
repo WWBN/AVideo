@@ -31,8 +31,10 @@ class Pose extends \Google\Model
   public $heading;
   protected $latLngPairType = LatLng::class;
   protected $latLngPairDataType = '';
+  public $latLngPair;
   protected $levelType = Level::class;
   protected $levelDataType = '';
+  public $level;
   public $pitch;
   public $roll;
 

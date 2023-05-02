@@ -22,10 +22,13 @@ class AnnotateFileResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $errorType = Status::class;
   protected $errorDataType = '';
+  public $error;
   protected $inputConfigType = InputConfig::class;
   protected $inputConfigDataType = '';
+  public $inputConfig;
   protected $responsesType = AnnotateImageResponse::class;
   protected $responsesDataType = 'array';
+  public $responses;
   /**
    * @var int
    */

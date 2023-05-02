@@ -25,6 +25,7 @@ class UpdateFilterViewRequest extends \Google\Model
   public $fields;
   protected $filterType = FilterView::class;
   protected $filterDataType = '';
+  public $filter;
 
   /**
    * @param string

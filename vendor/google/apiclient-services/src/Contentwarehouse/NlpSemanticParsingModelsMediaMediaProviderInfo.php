@@ -22,6 +22,7 @@ class NlpSemanticParsingModelsMediaMediaProviderInfo extends \Google\Collection
   protected $collection_key = 'deeplinkInfo';
   protected $deeplinkInfoType = NlpSemanticParsingModelsMediaDeeplinkInfo::class;
   protected $deeplinkInfoDataType = 'array';
+  public $deeplinkInfo;
   /**
    * @var string
    */

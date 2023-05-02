@@ -31,8 +31,10 @@ class Table extends \Google\Model
   ];
   protected $cloneDefinitionType = CloneDefinition::class;
   protected $cloneDefinitionDataType = '';
+  public $cloneDefinition;
   protected $clusteringType = Clustering::class;
   protected $clusteringDataType = '';
+  public $clustering;
   /**
    * @var string
    */
@@ -44,9 +46,14 @@ class Table extends \Google\Model
   /**
    * @var string
    */
+  public $defaultRoundingMode;
+  /**
+   * @var string
+   */
   public $description;
   protected $encryptionConfigurationType = EncryptionConfiguration::class;
   protected $encryptionConfigurationDataType = '';
+  public $encryptionConfiguration;
   /**
    * @var string
    */
@@ -57,6 +64,7 @@ class Table extends \Google\Model
   public $expirationTime;
   protected $externalDataConfigurationType = ExternalDataConfiguration::class;
   protected $externalDataConfigurationDataType = '';
+  public $externalDataConfiguration;
   /**
    * @var string
    */
@@ -83,12 +91,14 @@ class Table extends \Google\Model
   public $location;
   protected $materializedViewType = MaterializedViewDefinition::class;
   protected $materializedViewDataType = '';
+  public $materializedView;
   /**
    * @var string
    */
   public $maxStaleness;
   protected $modelType = ModelDefinition::class;
   protected $modelDataType = '';
+  public $model;
   /**
    * @var string
    */
@@ -139,30 +149,37 @@ class Table extends \Google\Model
   public $numTotalPhysicalBytes;
   protected $rangePartitioningType = RangePartitioning::class;
   protected $rangePartitioningDataType = '';
+  public $rangePartitioning;
   /**
    * @var bool
    */
   public $requirePartitionFilter;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
+  public $schema;
   /**
    * @var string
    */
   public $selfLink;
   protected $snapshotDefinitionType = SnapshotDefinition::class;
   protected $snapshotDefinitionDataType = '';
+  public $snapshotDefinition;
   protected $streamingBufferType = Streamingbuffer::class;
   protected $streamingBufferDataType = '';
+  public $streamingBuffer;
   protected $tableReferenceType = TableReference::class;
   protected $tableReferenceDataType = '';
+  public $tableReference;
   protected $timePartitioningType = TimePartitioning::class;
   protected $timePartitioningDataType = '';
+  public $timePartitioning;
   /**
    * @var string
    */
   public $type;
   protected $viewType = ViewDefinition::class;
   protected $viewDataType = '';
+  public $view;
 
   /**
    * @param CloneDefinition
@@ -219,6 +236,20 @@ class Table extends \Google\Model
   public function getDefaultCollation()
   {
     return $this->defaultCollation;
+  }
+  /**
+   * @param string
+   */
+  public function setDefaultRoundingMode($defaultRoundingMode)
+  {
+    $this->defaultRoundingMode = $defaultRoundingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultRoundingMode()
+  {
+    return $this->defaultRoundingMode;
   }
   /**
    * @param string

@@ -22,8 +22,10 @@ class AndroidTestLoop extends \Google\Collection
   protected $collection_key = 'scenarios';
   protected $appApkType = FileReference::class;
   protected $appApkDataType = '';
+  public $appApk;
   protected $appBundleType = AppBundle::class;
   protected $appBundleDataType = '';
+  public $appBundle;
   /**
    * @var string
    */

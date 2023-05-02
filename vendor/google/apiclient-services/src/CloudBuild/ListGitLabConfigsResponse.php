@@ -22,6 +22,7 @@ class ListGitLabConfigsResponse extends \Google\Collection
   protected $collection_key = 'gitlabConfigs';
   protected $gitlabConfigsType = GitLabConfig::class;
   protected $gitlabConfigsDataType = 'array';
+  public $gitlabConfigs;
   /**
    * @var string
    */
