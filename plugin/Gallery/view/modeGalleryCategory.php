@@ -26,7 +26,7 @@ $page = getCurrentPage();
 if ($totalPages < $page) {
     $page = $totalPages;
 }
-$link = "{$global['webSiteRootURL']}plugin/Gallery/view/modeGalleryCategory.php?tags_id=" . intval(@$_GET['tagsid']) . "&search=" . htmlentities(urlencode(getSearchVar())) . "&current={page}";
+$link = addSearchOptions("{$global['webSiteRootURL']}plugin/Gallery/view/modeGalleryCategory.php") . "&current={page}";
 
 if (empty($categories)) {
     return false;

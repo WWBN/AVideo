@@ -10452,3 +10452,11 @@ function getLanguageFromBrowser() {
     $parts = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
     return str_replace('-', '_', $parts[0]);
 }
+
+function addSearchOptions($url) {
+    $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tagsid']));
+    $url = addQueryStringParameter($url, 'search', getSearchVar());
+    $url = addQueryStringParameter($url, 'created', intval(@$_GET['created']));
+    $url = addQueryStringParameter($url, 'minViews', intval(@$_GET['minViews']));
+    return $url;
+}
