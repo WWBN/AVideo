@@ -118,6 +118,9 @@ RUN a2enmod xsendfile rewrite expires headers ssl
 # Install and upgrade youtube-dl using pip
 RUN pip3 install youtube-dl --upgrade youtube-dl
 
+# Video Transcription for the SubtitleSwitcher Plugin
+RUN pip3 vosk
+
 # Copy configuration files
 COPY deploy/apache/avideo.conf /etc/apache2/sites-available/avideo.conf
 COPY deploy/apache/localhost.conf /etc/apache2/sites-available/localhost.conf

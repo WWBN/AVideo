@@ -806,6 +806,9 @@ function sendEmailToSiteOwner($subject, $message) {
 
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
     global $global;
+    if(!empty($videoString)){
+        $videoString = str_replace(array('&amp%3B'), array('&'), $videoString);
+    }
     //_error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {
         return $videoString . (parse_url($videoString, PHP_URL_QUERY) ? '&' : '?') . 'modestbranding=1&showinfo='
