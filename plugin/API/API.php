@@ -2441,6 +2441,29 @@ class API extends PluginAbstract {
         exit;
     }
 
+    
+    /**
+     * @param array $parameters
+     * get the roku json
+     * 'APISecret' to list all videos
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&APISecret={APISecret}
+     * @return \ApiObject
+     */
+    public function get_api_roku($parameters) {
+        global $global;
+        $name = "get_api_roku" . json_encode($parameters);
+        $obj = ObjectYPT::getCacheGlobal($name, 3600);
+        if (empty($obj)) {
+            if(AVideoPlugin::isEnabledByName("YouPHPFlix2")){
+
+            }else{
+                
+            }
+            ObjectYPT::setCache($name, $obj);
+        }
+        return new ApiObject("", false, $obj);
+    }
+
     public static function isAPISecretValid() {
         global $global;
         if (!empty($_REQUEST['APISecret'])) {
