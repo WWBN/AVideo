@@ -19,7 +19,7 @@ if (class_exists('TagsHasVideos')) {
                     <button type="button" id="filterButton" 
                             class="btn btn-default navbar-btn dropdown-toggle faa-parent animated-hover animate__animated animate__bounceIn" 
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fas fa-sort-down"></i>
+                        <i class="fas fa-sliders-h"></i>
                     </button>
                 </span>
                 <input class="form-control globalsearchfield" type="text" value="<?php
@@ -115,12 +115,10 @@ if (class_exists('TagsHasVideos')) {
         // check if no filter checkboxes are checked and search_category0 is checked and search_tag0 is checked
         if (searchTotalSelectedSearchIn === 0 && empty(searchSelectedCategoryVal) && empty(searchSelectedTagVal)) {
             // add the text-muted icon to the filterButton
-            $('#filterButton i').removeClass('fa-filter');
-            $('#filterButton i').addClass('fa-sort-down');
+            $('#filterButton').removeClass('active');
         } else {
             // remove the text-muted icon from the filterButton
-            $('#filterButton i').removeClass('fa-sort-down');
-            $('#filterButton i').addClass('fa-filter');
+            $('#filterButton').addClass('active');
         }
     }
     
