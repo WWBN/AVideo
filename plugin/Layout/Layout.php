@@ -925,6 +925,14 @@ class Layout extends PluginAbstract
         }else{
             $step = 1;
         }
+
+        if ($step >= 10000) {
+            $step = round($step / 10000) * 10000;
+        }else if ($step >= 1000) {
+            $step = round($step / 1000) * 1000;
+        }else if ($step >= 100) {
+            $step = round($step / 100) * 100;
+        }
         
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();

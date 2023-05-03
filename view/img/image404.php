@@ -13,13 +13,14 @@ $imageURL = $_SERVER["REQUEST_URI"];
 if (!empty($_GET['image'])) {
     $imageURL = $_GET['image'];
 }
+
 // if the thumb is not ready yet, try to find the default image
 if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && !empty($matches[2])) {
     $jpg = Video::getPathToFile("{$matches[2]}.jpg");
     if (file_exists($jpg)) {
         $file = $jpg;
         if (preg_match('/_thumbsV2/', $imageURL)) {
-            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = ".($advancedCustom->thumbsWidthPortrait / 2).", Height=".($advancedCustom->thumbsHeightPortrait/2));
+            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = " . ($advancedCustom->thumbsWidthPortrait / 2) . ", Height=" . ($advancedCustom->thumbsHeightPortrait / 2));
             convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
         } else {
             _error_log("2 Image not found for {$imageURL} we are using {$jpg} instead ");
@@ -31,12 +32,12 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
         readfile($file);
         exit;
     }
-}else if (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches) && !empty($matches[2])) {
+} else if (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches) && !empty($matches[2])) {
     $jpg = Video::getPathToFile("{$matches[2]}.jpg");
     if (file_exists($jpg)) {
         $file = $jpg;
         if (preg_match('/_roku/', $imageURL)) {
-            _error_log("3 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = ".($advancedCustom->thumbsWidthPortrait / 2).", Height=".($advancedCustom->thumbsHeightPortrait/2));
+            _error_log("3 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = " . ($advancedCustom->thumbsWidthPortrait / 2) . ", Height=" . ($advancedCustom->thumbsHeightPortrait / 2));
             convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
         } else {
             _error_log("4 Image not found for {$imageURL} we are using {$jpg} instead ");

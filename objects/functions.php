@@ -1931,6 +1931,12 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd) {
     $mime = getimagesize($path);
 
     if (empty($mime)) {
+        $mime = mime_content_type($path);
+        if($mime == 'text/plain'){
+            _error_log("scaleUpImage error, image in wrong format/mime type {$path} ".file_get_contents($path));
+            unlink($path);
+            return false;
+        }
         _error_log("scaleUpImage error, undefined mime");
         return false;
     }
@@ -4137,6 +4143,12 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         _error_log("convertImageIfNotExists: source has filesize 0");
         return false;
     }
+    $mime = mime_content_type($source);
+    if($mime == 'text/plain'){
+        _error_log("convertImageIfNotExists error, image in wrong format/mime type {$source} ".file_get_contents($source));
+        unlink($source);
+        return false;
+    }
     if (file_exists($destination) && filesize($destination) > 1024) {
         $sizes = getimagesize($destination);
         if ($sizes[0] < $width || $sizes[1] < $height) {
@@ -4150,12 +4162,20 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
-            if ($scaleUp) {
-                scaleUpImage($fileConverted, $fileConverted, $width, $height);
-            }
-            im_resize($fileConverted, $destination, $width, $height, 100);
-            if(!file_exists($destination)){
-                _error_log("convertImageIfNotExists: [$fileConverted] [$source] [$destination]");
+            if(file_exists($fileConverted)){
+                if ($scaleUp) {
+                    scaleUpImage($fileConverted, $fileConverted, $width, $height);
+                }
+                if(file_exists($fileConverted)){
+                    im_resize($fileConverted, $destination, $width, $height, 100);
+                    if(!file_exists($destination)){
+                        _error_log("convertImageIfNotExists: [$fileConverted] [$source] [$destination]");
+                    }
+                }else{
+                    _error_log("convertImageIfNotExists: convertImage error 1 $source, $fileConverted");
+                }
+            }else{
+                _error_log("convertImageIfNotExists: convertImage error 2 $source, $fileConverted");
             }
             @unlink($fileConverted);
         } catch (Exception $exc) {
