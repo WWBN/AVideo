@@ -894,6 +894,21 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $port;
     }
 
+    public static function getPlayerDestinationHost() {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('Live');
+        $host = parse_url($obj->playerServer, PHP_URL_HOST);
+        return $host;
+    }
+
+    public static function getPlayerDestinationPort() {
+        $obj = AVideoPlugin::getDataObjectIfEnabled('Live');
+        $port = parse_url($obj->playerServer, PHP_URL_PORT);
+        if (empty($port)) {
+            $port = 1935;
+        }
+        return $port;
+    }
+
     public static function getServer($live_servers_id = -1) {
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->server_type->value)) {

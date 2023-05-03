@@ -10467,3 +10467,52 @@ function addSearchOptions($url) {
     $url = addQueryStringParameter($url, 'minViews', intval(@$_GET['minViews']));
     return $url;
 }
+
+function is_port_open($port, $address = '127.0.0.1', $timeout = 5) {
+    // Use localhost or 127.0.0.1 as the target address
+    $address = '127.0.0.1';
+
+    // Attempt to open a socket connection to the specified port
+    $socket = @fsockopen($address, $port, $errno, $errstr, $timeout);
+
+    // If the socket connection was successful, the port is open
+    if ($socket) {
+        fclose($socket);
+        return true;
+    }
+    _error_log("is_port_open($port, $address) error {$errstr}");
+    // If the socket connection failed, the port is closed
+    return false;
+}
+
+function is_ssl_certificate_valid($port = 443, $domain = '127.0.0.1', $timeout = 5) {
+    // Create a stream context with SSL options
+    $stream_context = stream_context_create([
+        'ssl' => [
+            'verify_peer' => true,
+            'verify_peer_name' => true,
+            'allow_self_signed' => false,
+            'capture_peer_cert' => true,
+        ],
+    ]);
+
+    // Attempt to establish an SSL/TLS connection to the specified domain and port
+    $socket = @stream_socket_client(
+        "ssl://{$domain}:{$port}",
+        $errno,
+        $errstr,
+        $timeout,
+        STREAM_CLIENT_CONNECT,
+        $stream_context
+    );
+
+    // If the socket connection was successful, the SSL certificate is valid
+    if ($socket) {
+        fclose($socket);
+        return true;
+    }
+
+    _error_log("is_ssl_certificate_valid($domain, $port) error ");
+    // If the socket connection failed, the SSL certificate is not valid
+    return false;
+}

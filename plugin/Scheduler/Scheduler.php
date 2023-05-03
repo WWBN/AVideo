@@ -90,6 +90,10 @@ class Scheduler extends PluginAbstract
     public function getEmptyDataObject()
     {
         $obj = new stdClass();
+        
+        $obj->watchDogSocket = true;
+        $obj->watchDogLiveServer = true;
+        $obj->watchDogLiveServerSSL = true;
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
