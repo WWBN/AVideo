@@ -804,10 +804,14 @@ function sendEmailToSiteOwner($subject, $message) {
     }
 }
 
+function fixURL($url){
+    return str_replace(array('&amp%3B', '&amp;'), array('&', '&'), $url);
+}
+
 function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $showinfo = 0, $controls = 1, $time = 0, $objectFit = "") {
     global $global;
     if(!empty($videoString)){
-        $videoString = str_replace(array('&amp%3B'), array('&'), $videoString);
+        $videoString = fixURL($videoString);
     }
     //_error_log("parseVideos: $videoString");
     if (strpos($videoString, 'youtube.com/embed') !== false) {

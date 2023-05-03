@@ -3716,7 +3716,7 @@ if (!class_exists('Video')) {
         public function setVideoLink($videoLink)
         {
             AVideoPlugin::onVideoSetVideoLink($this->id, $this->videoLink, $videoLink);
-            $this->videoLink = $videoLink;
+            $this->videoLink = fixURL($videoLink);
         }
 
         public function getCan_download()
