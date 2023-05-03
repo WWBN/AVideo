@@ -1,5 +1,10 @@
 <?php
 
+global $global;
+if (!isset($global['systemRootPath'])) {
+    require_once $_SERVER['DOCUMENT_ROOT'].'videos/configuration.php';
+}
+
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/WWBNIndex/Objects/WWBNIndexModel.php';
 
@@ -16,7 +21,6 @@ class WWBNIndex extends PluginAbstract
 
     public function getDescription() 
     {
-        // global $global;
         $desc = "<span class=\"badge badge-danger\">Beta version</span> Index platform into "
                 . "<a href='https://searchtube.com/'>Searchtube</a><br>";
         $desc .= "<b>Note:</b> Please refresh the page if buttons seems not working.";
@@ -58,12 +62,12 @@ class WWBNIndex extends PluginAbstract
     public function getPluginMenu() 
     {
         global $global;
-        // HAS ACCOUNT
         
+        // HAS ACCOUNT
         $authenticated_btn = '<button type="button" class="btn btn-success btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexAuthenticatedBtn"><i class="fas fa-user-check"></i>&nbsp; Authenticated</button>';
 
         $WWBNIndexModel = new WWBNIndexModel();
-        if(!empty($WWBNIndexModel->getPluginData()[0])){
+        if (!empty($WWBNIndexModel->getPluginData()[0])) {
             $object_data = $WWBNIndexModel->getPluginData()[0]['object_data'];
             if (!empty($object_data)) {
                 $object_data = json_decode($object_data);  // convert string to object
@@ -72,10 +76,11 @@ class WWBNIndex extends PluginAbstract
                 $engine_name = @$object_data->engine_name;
                 $verified = @$object_data->verified;
                 $organic = @$object_data->organic;
+                $keys = @$object_data->keys;
             }
         }
 
-        $reset_keys_btn = '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexRequestResetBtn"><i class="fas fa-key"></i>&nbsp; Request Reset</button>';
+        $reset_keys_btn = '<button type="button" class="btn btn-primary btn-sm btn-xs btn-block wwbn-index-btn" id="wwbnIndexRequestResetBtn" style="'.(!isset($keys) ? "display: none;" : "").'"><i class="fas fa-key"></i>&nbsp; Request Reset</button>';
 
         if (isset($has_account)) {
             if (isset($engine_name)) {
@@ -175,7 +180,8 @@ class WWBNIndex extends PluginAbstract
             "email"     => ($email != "") ? $email : $configuration->getContactEmail(),
             "avideo_id" => getPlatformId(),
         );
-        return postVariables("https://wwbn.com/api/function.php", $data);
+
+        return json_decode(postVariables("https://dev4.youportal.com/api/function.php", $data, false));
     }
 
     private function getFeedStatus($host) 
@@ -189,6 +195,30 @@ class WWBNIndex extends PluginAbstract
             "host"          => $host,
         );
 
-        return postVariables("https://wwbn.com/api/function.php", $data);
+        return json_decode(postVariables("https://dev4.youportal.com/api/function.php", $data, false));
+    }
+
+    public function check_site_availability($url) 
+    {
+        $options = array(
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => false,
+            CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_USERAGENT      => $useragent,
+            CURLOPT_AUTOREFERER    => true,
+            CURLOPT_CONNECTTIMEOUT => 30,
+            CURLOPT_TIMEOUT        => 30,
+            CURLOPT_MAXREDIRS      => 10,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => false,
+        );
+        
+        $ch = curl_init($url);
+        curl_setopt_array($ch, $options);
+        curl_exec($ch);
+        $get_info = curl_getinfo($ch);
+        $httpcode = $get_info['http_code'];
+        curl_close($ch);
+        return $httpcode;
     }
 }
