@@ -10998,7 +10998,6 @@ function is_port_open($port, $address = '127.0.0.1', $timeout = 5)
 
 function is_ssl_certificate_valid($port = 443, $domain = '127.0.0.1', $timeout = 5)
 {
-    return true;
     // Create a stream context with SSL options
     $stream_context = stream_context_create([
         'ssl' => [
