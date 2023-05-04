@@ -4299,7 +4299,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
     }
     $source = str_replace(['_thumbsSmallV2'], [''], $source);
     if (!file_exists($source)) {
-        _error_log("convertImageIfNotExists: source does not exists {$source}");
+        //_error_log("convertImageIfNotExists: source does not exists {$source}");
         return false;
     }
     if (empty(filesize($source))) {
@@ -11091,6 +11091,21 @@ function rowToRoku($row)
     $video->quality = getResolutionTextRoku($videoResolution);
     $video->videoType = Video::getVideoTypeText($row['filename']);
     $content->videos = [$video];
+
+    if(function_exists('getVTTTracks') || AVideoPlugin::isEnabled('SubtitleSwitcher')){
+        $captions = getVTTTracks($row['filename'], true);
+        if(!empty($captions)){
+            $content->captions = array();
+            foreach ($captions as $value) {
+                $value = object_to_array($value);
+                $content->captions[] = array(
+                    'language'=>$value['srclang'],
+                    'captionType'=>$value['label'],
+                    'url'=>$value['src']);
+            }
+        }
+        
+    }
 
     $movie->content = $content;
     return $movie;

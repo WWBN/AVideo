@@ -44,53 +44,10 @@ if (empty($output)) {
 
     if (empty($movies)) {
         foreach ($rows as $row) {
-            $videoSource = Video::getSourceFileURL($row['filename']);
-            $videoResolution = Video::getResolutionFromFilename($videoSource);
-            //var_dump($videoSource);
-            if (empty($videoSource)) {
-                _error_log("Roku Empty video source {$row['id']}, {$row['clean_title']}, {$row['filename']}");
-                continue;
+            $movie = rowToRoku($row);
+            if(!empty($movie)){
+                $obj->movies[] = $movie;
             }
-
-            $movie = new stdClass();
-            $movie->id = 'video_'.$row['id'];
-            $movie->title = UTF8encode($row['title']);
-            $movie->longDescription = _substr(strip_tags(br2nl(UTF8encode($row['description']))), 0, 490);
-            if(empty($movie->longDescription)){
-                $movie->longDescription = $movie->title;
-            }            
-            $movie->shortDescription = _substr($movie->longDescription, 0, 200);
-            $movie->thumbnail = Video::getRokuImage($row['id']);
-            $movie->tags = [_substr(UTF8encode($row['category']), 0, 20)];
-            $movie->genres = ["special"];
-            $movie->releaseDate = date('c', strtotime($row['created']));
-            $movie->categories_id = $row['categories_id'];
-            $rrating = $row['rrating'];
-            $movie->rating = new stdClass();
-            if (!empty($rrating)) {
-                $movie->rating->rating = rokuRating($rrating);
-                $movie->rating->ratingSource = 'MPAA';
-            }else{
-                $movie->rating->rating = 'UNRATED';  // ROKU DIRECT PUBLISHER COMPLAINS IF NO RATING OR RATING SOURCE
-                $movie->rating->ratingSource = 'MPAA';
-            }
-
-            $content = new stdClass();
-            $content->dateAdded = date('c', strtotime($row['created']));
-            $content->captions = [];
-            $content->duration = durationToSeconds($row['duration']);
-            $content->language = "en";
-            $content->adBreaks = ["00:00:00"];
-
-            $video = new stdClass();
-            $video->url = $videoSource;
-            $video->quality = getResolutionTextRoku($videoResolution);
-            $video->videoType = Video::getVideoTypeText($row['filename']);
-            $content->videos = [$video];
-
-            $movie->content = $content;
-
-            $obj->movies[] = $movie;
         }
         ObjectYPT::setCache($cacheName, $obj->movies);
     } else {

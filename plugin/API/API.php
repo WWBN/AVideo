@@ -2446,22 +2446,49 @@ class API extends PluginAbstract {
      * @param array $parameters
      * get the roku json
      * 'APISecret' to list all videos
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&rowCount=3&APISecret={APISecret}
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}
      * @return \ApiObject
      */
-    public function get_api_roku($parameters) {
-        global $global;
+    public function get_api_app($parameters) {
+        global $global, $config;
         $name = "get_api_roku" . json_encode($parameters);
-        $obj = ObjectYPT::getCacheGlobal($name, 3600);
-        if (empty($obj)) {
+        $roku = ObjectYPT::getCacheGlobal($name, 3600);
+        if (empty($roku)) {
             if(AVideoPlugin::isEnabledByName("YouPHPFlix2")){
-
+                $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=YouPHPFlix2&APIName=firstPage";
             }else{
-                
+                $url = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIPlugin=Gallery&APIName=firstPage";
             }
-            ObjectYPT::setCache($name, $obj);
+            $content = url_get_contents_with_cache($url);
+            //$content = url_get_contents($url);
+            $json = _json_decode($content);
+            
+            $roku = new stdClass();
+            $roku->providerName = $config->getWebSiteTitle();
+            $roku->language = "en";
+            $roku->lastUpdated = date('c');
+            foreach ($json->response->sections as $section) {
+                $array = array();
+                //var_dump($section->endpointResponse);
+                if(!empty($section->endpointResponse->rows)){
+                    foreach ($section->endpointResponse->rows as $row) {
+                        $movie = rowToRoku($row);
+                        if(!empty($movie)){
+                            $array[] = $movie;
+                        }
+                    }
+                }
+                if(!empty($array)){
+                    $roku->{$section->title} = $array;
+                }
+            }
+            //var_dump($roku);exit;            
+            $roku->cache = ObjectYPT::setCache($name, $roku);
+            $roku->cached = false;
+        }else{
+            $roku->cached = true;
         }
-        return new ApiObject("", false, $obj);
+        return new ApiObject("", false, $roku);
     }
 
     public static function isAPISecretValid() {
