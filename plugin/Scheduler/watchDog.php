@@ -46,7 +46,7 @@ if ($objParam = AVideoPlugin::getDataObjectIfEnabled('Live')) {
             if (!is_ssl_certificate_valid($port, $address)) {
                 _error_log("WatchDog: Live SSL is invalid [port=$port, address=$address]");
                 exec("{$nginxFile} -s stop");
-                exec("{$nginxFile}");
+                execAsync("{$nginxFile}");
             }else{
                 //_error_log("WatchDog: Live SSL is valid [port=$port, address=$address]");
             }
