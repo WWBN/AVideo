@@ -276,7 +276,7 @@ class YPTSocket extends PluginAbstract {
         global $global;
         exec("php {$global['systemRootPath']}plugin/YPTSocket/stopServer.php");
         exec("sleep 1");
-        exec("nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &");
+        execAsync("nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &");
         return true;
     }
     
