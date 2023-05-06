@@ -484,7 +484,10 @@ abstract class ObjectYPT implements ObjectInterface
     public static function setCache($name, $value, $addSubDirs = true)
     {
         if (!self::isToSaveInASubDir($name) && $content = self::shouldUseDatabase($value)) {
-            return Cache::_setCache($name, $content);
+            $saved = Cache::_setCache($name, $content);
+            if(!empty($saved)){
+                return $saved;
+            }
         }
         
         $content = _json_encode($value);
