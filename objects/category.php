@@ -498,11 +498,11 @@ class Category {
 
                 //_error_log('getAllCategories setCache');
                 //$category = $res->fetch_all(MYSQLI_ASSOC);
-                $cache = ObjectYPT::setCache($cacheName, $category);
+                $cache = ObjectYPT::setCacheGlobal($cacheName, $category);
                 //$cacheObj = ObjectYPT::getCacheGlobal($cacheName, 36000);
                 //$category = object_to_array($cacheObj);
                 /**/
-                $cachefile = ObjectYPT::getCacheFileName($cacheName, false);
+                $cachefile = ObjectYPT::getCacheFileName($cacheName, false, true, true);
                 if(empty($cache)){
                     _error_log('getAllCategories empty($cache) '.json_encode(empty($category)));
                 }
