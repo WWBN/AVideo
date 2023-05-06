@@ -1723,6 +1723,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $btn = '<button onclick="avideoModalIframeLarge(\'' . $global['webSiteRootURL'] . 'plugin/Live/view/editor.php\');" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> ' . __('Edit Live Servers') . '</button>';
         $btn .= '<button onclick="avideoAjax(webSiteRootURL+\'plugin/Live/view/finishAll.json.php\', {});" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-ban"></i> ' . __('Mark all as finished') . '</button>';
+        $btn .= '<button onclick="avideoAjax(webSiteRootURL+\'plugin/Live/view/deleteHistory.json.php\', {});" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fas fa-trash"></i> ' . __('Delete History') . '</button>';
+        
         if ($obj->server_type->value) {
             if ($obj->useLiveServers) {
                 $servers = Live_servers::getAll();

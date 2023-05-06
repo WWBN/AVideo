@@ -489,6 +489,18 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $insert_row;
     }
 
+    public static function deleteALL() {
+        $sql = "DELETE FROM live_transmition_history_log WHERE id > 0 ";
+
+        $insert_row = sqlDAL::writeSql($sql);
+
+        $sql = "DELETE FROM live_transmitions_history WHERE id > 0 ";
+
+        $insert_row = sqlDAL::writeSql($sql);
+
+        return $insert_row;
+    }
+
     public static function finishALLOffline() {
         $rows = self::getActiveLives();
         $modified = array();
