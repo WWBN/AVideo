@@ -2464,10 +2464,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function isKeyLiveInStats($key, $live_servers_id = 0, $live_index = '', $force_recreate = false, $doNotCheckDatabase = true) {
-        global $_isLiveFromKey;
+        global $_isLiveFromKey, $global;
         if (empty($key) || $key == '-1') {
             _error_log('Live::isKeyLiveInStats key is empty');
             return false;
+        }
+        
+        if (!empty($global['disableIsKeyLiveInStats'])) {
+            _error_log('disableIsKeyLiveInStats');
+            return true;
         }
         $index = "$key, $live_servers_id,$live_index";
         if (!isset($_isLiveFromKey)) {
@@ -2522,12 +2527,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     if (preg_match("/{$key}.*/", $value['key'])) {
                         if (empty($live_servers_id)) {
                             $_isLiveFromKey[$index] = true;
-                            $_isLiveFromKey[$index] = $_isLiveFromKey[$index];
                             break 2;
                         } else {
                             if (intval(@$value['live_servers_id']) == $live_servers_id) {
                                 $_isLiveFromKey[$index] = true;
-                                $_isLiveFromKey[$index] = $_isLiveFromKey[$index];
                                 break 2;
                             }
                         }
@@ -2545,12 +2548,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
                         if (preg_match("/{$key}.*/", $value['key'])) {
                             if (empty($live_servers_id)) {
                                 $_isLiveFromKey[$index] = true;
-                                $_isLiveFromKey[$index] = $_isLiveFromKey[$index];
                                 break 2;
                             } else {
                                 if (intval(@$value['live_servers_id']) == $live_servers_id) {
                                     $_isLiveFromKey[$index] = true;
-                                    $_isLiveFromKey[$index] = $_isLiveFromKey[$index];
                                     break 2;
                                 }
                             }
