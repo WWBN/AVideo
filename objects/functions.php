@@ -4785,7 +4785,7 @@ function _session_start(array $options = [])
                         @session_write_close();
                     }
                     session_id($PHPSESSID);
-                    _error_log("captcha: session_id changed to {$PHPSESSID}");
+                    //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
                 $session = @session_start($options);
 
