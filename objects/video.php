@@ -1084,7 +1084,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 }
                 if (empty($random) && !empty($_GET['videoName'])) {
-                    $videoName = addslashes($_GET['videoName']);
+                    $videoName = addcslashes($_GET['videoName'], "'");
                     $sql .= " AND v.clean_title = '{$videoName}' ";
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
