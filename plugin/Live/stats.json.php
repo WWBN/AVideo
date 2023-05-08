@@ -41,7 +41,6 @@ if (empty($json)) {
 }
 $json = object_to_array($json);
 
-$json->lastUsedCacheInfo = ObjectYPT::getLastUsedCacheInfo();
 //var_dump($json);exit;
 // check if application is online
 if (!empty($_REQUEST['name'])) {
