@@ -524,7 +524,7 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
         }
         if(!empty($modified)){
-            Live::deleteStatsCache(true);
+            deleteStatsNotifications(true);
         }
         return $modified;
     }

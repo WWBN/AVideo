@@ -8512,9 +8512,9 @@ function isURL200Clear()
     rrmdir($cacheDir);
 }
 
-function deleteStatsNotifications()
+function deleteStatsNotifications($clearFirstPage = false)
 {
-    Live::deleteStatsCache();
+    Live::deleteStatsCache($clearFirstPage);
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
     ObjectYPT::deleteCache($cacheName);
 }
@@ -8717,7 +8717,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     unset($_POST['sort']);
     if ($force_recreate) {
         if ($isLiveEnabled) {
-            Live::deleteStatsCache();
+            deleteStatsNotifications();
         }
     } else {
         if (!empty($__getStatsNotifications__)) {

@@ -171,7 +171,7 @@ if (!empty($obj) && empty($obj->error)) {
     header("HTTP/1.1 {$code} OK");
 
     outputAndContinueInBackground();
-    Live::deleteStatsCache(true);
+    deleteStatsNotifications(true);
     _error_log("NGINX Live::on_publish start");
     Live::on_publish($obj->liveTransmitionHistory_id);
     _error_log("NGINX Live::on_publish end");

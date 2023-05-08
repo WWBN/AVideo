@@ -57,7 +57,7 @@ if (strpos($_GET['p'], '/') !== false) {
     }
 }
 
-Live::deleteStatsCache(true);
+deleteStatsNotifications(true);
 $live_servers_id = Live::getLiveServersIdRequest();
 $row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, true);
 $insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);

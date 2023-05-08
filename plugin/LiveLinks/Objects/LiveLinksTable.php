@@ -29,7 +29,7 @@ class LiveLinksTable extends ObjectYPT {
         Category::clearCacheCount();
         $id = parent::save();
         if(class_exists('Live') && $id){
-            Live::deleteStatsCache(true);
+            deleteStatsNotifications(true);
             if($this->status=='a'){
                 Live::notifySocketStats();
             }else{

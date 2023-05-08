@@ -49,7 +49,7 @@ if(isset($_REQUEST['liveImgCloseTimeInSeconds']) && isset($_REQUEST['liveImgTime
 }
 
 if(empty($obj->error)){
-    Live::deleteStatsCache(true);
+    deleteStatsNotifications(true);
 }
 
 die(json_encode($obj));
