@@ -64,4 +64,5 @@ if (!empty($_REQUEST['name'])) {
         }
     }
 }
+$json['cache'] = ObjectYPT::getLastUsedCacheInfo();
 echo json_encode($json);
