@@ -589,6 +589,7 @@ abstract class ObjectYPT implements ObjectInterface
         if (empty($ignoreSessionCache)) {
             $session = self::getSessionCache($name, $lifetime);
             if (!empty($session)) {
+                self::setLastUsedCacheMode("Session cache \$_SESSION['user']['sessionCache'][$name]");
                 $_getCache[$name] = $session;
                 //_error_log('getCache: '.__LINE__);
                 return $session;
@@ -598,6 +599,7 @@ abstract class ObjectYPT implements ObjectInterface
         if (class_exists('Cache')) {
             $cache = Cache::getCache($name, $lifetime, $ignoreMetadata);
             if (!empty($cache)) {
+                self::setLastUsedCacheMode("Cache::getCache($name, $lifetime, $ignoreMetadata)");
                 return $cache;
             }
         }
