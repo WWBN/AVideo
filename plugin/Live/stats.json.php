@@ -39,6 +39,8 @@ if (empty($json)) {
     ObjectYPT::setCache($cacheName, $json);
 }
 $json = object_to_array($json);
+
+$json->lastUsedCacheInfo = ObjectYPT::getLastUsedCacheInfo();
 // check if application is online
 if (!empty($_REQUEST['name'])) {
     $json['msg'] = 'OFFLINE';
@@ -60,5 +62,4 @@ if (!empty($_REQUEST['name'])) {
         }
     }
 }
-
 echo json_encode($json);
