@@ -36,6 +36,7 @@ $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
 //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 if (empty($json)) {
     $json = getStatsNotifications();
+    //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
     ObjectYPT::setCache($cacheName, $json);
 }
 $json = object_to_array($json);
