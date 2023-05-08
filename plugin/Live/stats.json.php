@@ -33,7 +33,7 @@ var_dump($cachefile, $cache, $c);exit;
 */
 
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
-
+//var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 if (empty($json)) {
     $json = getStatsNotifications();
     ObjectYPT::setCache($cacheName, $json);
@@ -41,6 +41,7 @@ if (empty($json)) {
 $json = object_to_array($json);
 
 $json->lastUsedCacheInfo = ObjectYPT::getLastUsedCacheInfo();
+//var_dump($json);exit;
 // check if application is online
 if (!empty($_REQUEST['name'])) {
     $json['msg'] = 'OFFLINE';
