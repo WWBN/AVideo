@@ -3016,6 +3016,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $cacheDir = getTmpDir().'YPTObjectCache/getStats/';
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
+        if(class_exists('CachesInDB')){
+            CachesInDB::_deleteCacheWith('getStats');
+        }
         if ($clearFirstPage) {
             clearCache(true);
         }
