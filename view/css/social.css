@@ -18,45 +18,53 @@ ul.social-network li {
 .social-network a.icoRss:hover {
     background-color: #F56505;
 }
+.social-network a.icoTelegram:hover {
+    background-color: #26A5E4;
+}
+.social-network a.icoWhatsapp:hover {
+    background-color: #25D366;
+}
+
 .social-network a.icoFacebook:hover {
     background-color: #3B5998;
 }
 .social-network a.icoTwitter:hover {
-    background-color: #33ccff;
+    background-color: #1DA1F2;
 }
 .social-network a.icoGoogle:hover {
-    background-color: #BD3518;
+    background-color: #DB4437;
 }
 .social-network a.icoVimeo:hover {
-    background-color: #0590B8;
+    background-color: #1AB7EA;
 }
 .social-network a.icoLinkedIn:hover {
-    background-color: #007bb7;
+    background-color: #0077B5;
 }
 .social-network a.icoTumblr:hover {
-    background-color: #35465c;
+    background-color: #36465D;
 }
 .social-network a.icoPinterest:hover {
-    background-color: red;
+    background-color: #BD081C;
 }
 .social-network a.icoReddit:hover {
-    background-color: #ff4301;
+    background-color: #FF4500;
 }
 .social-network a.icoWordpress:hover {
-    background-color: #21759b;
+    background-color: #21759B;
 }
 .social-network a.icoPinboard:hover {
-    background-color: red;
+    background-color: #0000FF;
 }
 .social-network a.icoCopy:hover {
     background-color: #333;
 }
 .social-network a.icoGab:hover {
-    background-color: #00d178;
+    background-color: #00D178;
 }
 .social-network a.icoCloutHub:hover {
-    background-color: #f16e28;
+    background-color: #F16E28;
 }
+
 .social-network a.icoRss:hover i,
 .social-network a.icoFacebook:hover i,
 .social-network a.icoTwitter:hover i,

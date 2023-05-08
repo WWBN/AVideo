@@ -883,6 +883,8 @@ class SocialMedias {
 }
 
 $global['social_medias'] = array(
+    'Whatsapp' => new SocialMedias('fab fa-whatsapp', ''),
+    'Telegram' => new SocialMedias('fab fa-telegram-plane', ''),
     'Facebook' => new SocialMedias('fab fa-facebook-square', ''),
     'Twitter' => new SocialMedias('fab fa-twitter', ''),
     'Tumblr' => new SocialMedias('fab fa-tumblr', ''),

@@ -25,6 +25,8 @@ $titleSocial = getSEOTitle($titleSocial);
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
 
+$global['social_medias_Whatsapp'] = "https://api.whatsapp.com/send?text={$titleSocial}%20{$urlSocial}";
+$global['social_medias_Telegram'] = "https://t.me/share/url?url={$urlSocial}&text={$titleSocial}";
 $global['social_medias_Facebook'] = "https://www.facebook.com/sharer.php?u={$urlSocial}&title={$titleSocial}";
 $global['social_medias_Twitter'] = "http://twitter.com/intent/tweet?text={$titleSocial}+{$urlSocial}";
 $global['social_medias_Tumblr'] = "http://www.tumblr.com/share?v=3&u=$urlSocial&quote=$titleSocial&s=";
