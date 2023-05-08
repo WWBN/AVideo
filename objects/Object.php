@@ -700,6 +700,9 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function deleteALLCache()
     {
+        if (!class_exists('Cache')) {
+            AVideoPlugin::loadPluginIfEnabled('Cache');
+        }
         if (class_exists('Cache')) {
             Cache::deleteAllCache();
         }
