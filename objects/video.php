@@ -1695,7 +1695,7 @@ if (!class_exists('Video')) {
                     self::startTransaction();
                     $row = self::getInfo($row, $getStatistcs);
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
-                    $row['externalOptions'] = _json_decode($row['externalOptions']);
+                    //$row['externalOptions'] = _json_decode($row['externalOptions']);
                     if(empty($row['externalOptions']->privacyInfo)){
                         $row['externalOptions']->privacyInfo = self::updatePrivacyInfo($row['id']);
                     }
