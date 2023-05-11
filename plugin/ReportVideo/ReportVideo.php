@@ -176,23 +176,23 @@ class ReportVideo extends PluginAbstract
                 $siteOwnerSent = $this->send($siteOwnerEmail, $subject, $body);
 
                 if (!$videoOwnerSent && !$siteOwnerSent) {
-                    $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as inappropriate");
+                    $resp->msg = sprintf(__('We could not notify anyone (%s), but we marked it as inappropriate'), $email . ', ' . $siteOwnerEmail);
                 } elseif (!$videoOwnerSent) {
-                    $resp->msg = __("We could not notify the video owner {$email}, but we marked it as inappropriate");
+                    $resp->msg = sprintf(__('We could not notify the video owner %s, but we marked it as inappropriate'), $email);
                 } elseif (!$siteOwnerSent) {
-                    $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as inappropriate");
+                    $resp->msg = sprintf(__('We could not notify the video owner %s, but we marked it as inappropriate'), $siteOwnerEmail);
                 } else {
                     $resp->error = false;
-                    $resp->msg = __("This video was reported to our team, we will review it soon");
+                    $resp->msg = __('This video was reported to our team, we will review it soon');
                 }
             } else {
-                $resp->msg = __("Error on report this video");
+                $resp->msg = __('Error on report this video');
             }
         } else {
-            $resp->msg = __("You already reported this video");
+            $resp->msg = __('You already reported this video');
         }
         if ($resp->error === true) {
-            _error_log("Report Video: " . $resp->msg);
+            _error_log('Report Video: ' . $resp->msg);
         }
         return $resp;
     }
@@ -204,7 +204,7 @@ class ReportVideo extends PluginAbstract
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
         $resp = new stdClass();
         $resp->error = true;
-        $resp->msg = "Block not made";
+        $resp->msg = 'Block not made';
         $resp->reported_users_id = intval($reported_users_id);
         $resp->users_id = intval($users_id);
 
@@ -235,7 +235,7 @@ class ReportVideo extends PluginAbstract
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
         $resp = new stdClass();
         $resp->error = true;
-        $resp->msg = "Block not made";
+        $resp->msg = 'Block not made';
 
         if (!empty($report)) {
             //save it on the database
