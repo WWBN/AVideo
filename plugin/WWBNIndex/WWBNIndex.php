@@ -181,7 +181,7 @@ class WWBNIndex extends PluginAbstract
             "avideo_id" => getPlatformId(),
         );
 
-        return json_decode(postVariables("https://dev4.youportal.com/api/function.php", $data, false));
+        return json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
     }
 
     private function getFeedStatus($host) 
@@ -195,7 +195,7 @@ class WWBNIndex extends PluginAbstract
             "host"          => $host,
         );
 
-        return json_decode(postVariables("https://dev4.youportal.com/api/function.php", $data, false));
+        return json_decode(postVariables("https://wwbn.com/api/function.php", $data, false));
     }
 
     public function check_site_availability($url) 
