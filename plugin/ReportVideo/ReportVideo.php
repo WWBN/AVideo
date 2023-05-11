@@ -16,7 +16,7 @@ class ReportVideo extends PluginAbstract
     }
     public function getDescription()
     {
-        return "Create a button to report videos with inapropriate content";
+        return "Create a button to report videos with inappropriate content";
     }
 
     public function getName()
@@ -164,8 +164,8 @@ class ReportVideo extends PluginAbstract
             $reportObj->setUsers_id($users_id);
             $reportObj->setVideos_id($videos_id);
             if ($reportObj->save()) {
-                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, __("The <a href='{videoLink}'>{videoName}</a> video was reported as inapropriate from {user} ")));
-                $subject = $this->replaceText($users_id, $videos_id, __("The {videoName} video was reported as inapropriate"));
+                $body = $this->getTemplateText($videos_id, $this->replaceText($users_id, $videos_id, __("The <a href='{videoLink}'>{videoName}</a> video was reported as inappropriate from {user} ")));
+                $subject = $this->replaceText($users_id, $videos_id, __("The {videoName} video was reported as inappropriate"));
                 // notify video owner from user id
                 $user = new User($users_id);
                 $email = $user->getEmail();
@@ -176,11 +176,11 @@ class ReportVideo extends PluginAbstract
                 $siteOwnerSent = $this->send($siteOwnerEmail, $subject, $body);
 
                 if (!$videoOwnerSent && !$siteOwnerSent) {
-                    $resp->msg = ("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as a inapropriated");
+                    $resp->msg = __("We could not notify anyone ({$email}, {$siteOwnerEmail}), but we marked it as inappropriate");
                 } elseif (!$videoOwnerSent) {
-                    $resp->msg = ("We could not notify the video owner {$email}, but we marked it as a inapropriated");
+                    $resp->msg = __("We could not notify the video owner {$email}, but we marked it as inappropriate");
                 } elseif (!$siteOwnerSent) {
-                    $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as a inapropriated");
+                    $resp->msg = __("We could not notify the video owner {$siteOwnerEmail}, but we marked it as inappropriate");
                 } else {
                     $resp->error = false;
                     $resp->msg = __("This video was reported to our team, we will review it soon");
@@ -189,7 +189,7 @@ class ReportVideo extends PluginAbstract
                 $resp->msg = __("Error on report this video");
             }
         } else {
-            $resp->msg = __("You already report this video");
+            $resp->msg = __("You already reported this video");
         }
         if ($resp->error === true) {
             _error_log("Report Video: " . $resp->msg);
@@ -200,7 +200,7 @@ class ReportVideo extends PluginAbstract
     public function block($users_id, $reported_users_id)
     {
         global $global, $config;
-        // check if this user already report this video
+        // Check whether this user already reported this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
         $resp = new stdClass();
         $resp->error = true;
@@ -220,7 +220,7 @@ class ReportVideo extends PluginAbstract
                 $resp->msg = __("Error on block this user");
             }
         } else {
-            $resp->msg = __("User Already blocked");
+            $resp->msg = __("User already blocked");
         }
         if ($resp->error === true) {
             _error_log("Block User: " . $resp->msg);
@@ -231,7 +231,7 @@ class ReportVideo extends PluginAbstract
     public function unBlock($users_id, $reported_users_id)
     {
         global $global, $config;
-        // check if this user already report this video
+        // Check whether this user already reported this video
         $report = VideosReported::getFromDbUserAndReportedUser($users_id, $reported_users_id);
         $resp = new stdClass();
         $resp->error = true;
@@ -247,7 +247,7 @@ class ReportVideo extends PluginAbstract
                 $resp->msg = __("Error on unblock this user");
             }
         } else {
-            $resp->msg = __("User Already unblocked");
+            $resp->msg = __("User already unblocked");
         }
         if ($resp->error === true) {
             _error_log("Block user: " . $resp->msg);
@@ -262,9 +262,8 @@ class ReportVideo extends PluginAbstract
             $users_id = User::getId();
         }
         $users_id = intval($users_id);
-        // check if this user already report this video
+        // Check whether this user already reported this video
         $reportedUsersId = VideosReported::getAllReportedUsersIdFromUser($users_id);
-//        /var_dump($reportedUsersId);exit;
         return in_array($reported_users_id, $reportedUsersId);
     }
 

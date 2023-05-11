@@ -70,7 +70,7 @@ class VideosReported extends ObjectYPT {
         if(!self::isTableInstalled()){
             return array();
         }
-        
+
         $sql = "SELECT reported_users_id FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1000";
 
         $res = sqlDAL::readSql($sql,"i",array($users_id));
@@ -148,9 +148,9 @@ class VideosReported extends ObjectYPT {
             Cache::deleteFirstPageCache();
         }
         return $saved;
-            
+
     }
-    
+
     public function delete() {
         $deleted = parent::delete();
         if($deleted){
