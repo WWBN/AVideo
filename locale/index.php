@@ -12,7 +12,7 @@ if (isset($_GET['getLanguage'])) {
             $t[$key] = $key;
         }
     }
-    
+
     if(!empty($_REQUEST['print'])){
         header('Content-Type: text/plain');
         foreach ($t as $key => $value) {
@@ -101,7 +101,7 @@ $vars = listAllWordsToTranslate();
                                             tb1.scroll(function () {
                                                 tb2.scrollTop(tb1.scrollTop());
                                             });
-                                            
+
                                             tb2.scroll(function () {
                                                 tb3.scrollTop(tb2.scrollTop());
                                             });

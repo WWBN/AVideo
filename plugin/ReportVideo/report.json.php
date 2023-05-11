@@ -47,8 +47,8 @@ if (!empty($_REQUEST['videos_id'])) {
     // fake report
     $resp = new stdClass();
     $resp->error = false;
-    $resp->msg = "Comment {$_REQUEST['comments_id']} was reported as inapropriate";
-    
+    $resp->msg = "Comment {$_REQUEST['comments_id']} was reported as inappropriate";
+
     $siteOwnerSent = sendEmailToSiteOwner($resp->msg, $resp->msg);
 }
 die(json_encode($resp));
