@@ -1957,30 +1957,15 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80)
     return true;
 }
 
-/*
-  function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h) {
-
-  if ($new_w < $new_h) {
-  $aspectRatio = $new_w / $old_w;
-  $aspectRatio2 = $new_h / $old_h;
-  } else {
-  $aspectRatio = $new_h / $old_h;
-  $aspectRatio2 = $new_w / $old_w;
-  }
-
-  $thumb_w = $old_w * $aspectRatio;
-  $thumb_h = $old_h * $aspectRatio;
-
-  if ($thumb_w > $new_w || $thumb_h > $new_h) {
-  //var_dump($thumb_w, $thumb_h);
-  $thumb_w = $old_w * $aspectRatio2;
-  $thumb_h = $old_h * $aspectRatio2;
-  }
-  return ['w' => $thumb_w, 'h' => $thumb_h];
-  } */
-
 function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h)
 {
+    
+    if ($old_h === 0) {
+        $old_h = $new_h;
+    }
+    if ($new_h === 0) {
+        $new_h = $old_h;
+    }
     $aspect_ratio_src = $old_w / $old_h;
     $aspect_ratio_new = $new_w / $new_h;
 
