@@ -2336,6 +2336,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     }
 
     public static function getLiveParametersFromKey($key) {
+        if(empty($key)){
+            return ['key' => '', 'cleanKey' => '', 'live_index' => '', 'playlists_id_live' => 0];
+        }
         $key = preg_replace('/[^a-z0-9_-]/i', '', $key);
         //$obj = AVideoPlugin::getObjectData('Live');
         $playlists_id_live = false;

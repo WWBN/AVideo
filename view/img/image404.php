@@ -13,7 +13,9 @@ $imageURL = $_SERVER["REQUEST_URI"];
 if (!empty($_GET['image'])) {
     $imageURL = $_GET['image'];
 }
-
+if (empty($advancedCustom)) {
+    $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
+}
 // if the thumb is not ready yet, try to find the default image
 if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && !empty($matches[2])) {
     $jpg = Video::getPathToFile("{$matches[2]}.jpg");

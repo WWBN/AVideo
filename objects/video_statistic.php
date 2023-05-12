@@ -361,7 +361,7 @@ class VideoStatistic extends ObjectYPT {
                     $channelsPerUser[$users_id][] = $row['videos_id'];
                 }
             }
-            $response = ObjectYPT::setCache($cacheName2, $channelsPerUser);
+            $response = ObjectYPT::setCacheGlobal($cacheName2, $channelsPerUser);
         }
 
         if (!empty($channelsPerUser)) {

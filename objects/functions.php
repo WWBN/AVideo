@@ -1634,7 +1634,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
         }
         $files = array_merge($extraFiles, $files);
 
-        ObjectYPT::setCache($cacheName, $files);
+        ObjectYPT::setCacheGlobal($cacheName, $files);
     }
     if (is_array($files)) {
         // sort by resolution
@@ -1803,7 +1803,7 @@ function getimgsize($file_src)
             $size = [1024, 768];
         }
 
-        ObjectYPT::setCache($name, $size);
+        ObjectYPT::setCacheGlobal($name, $size);
         $_getimagesize[$name] = $size;
     }
     return $size;
@@ -3026,7 +3026,7 @@ function url_get_contents_with_cache($url, $lifeTime = 60, $ctx = "", $timeout =
     }
     _error_log("url_get_contents_with_cache no cache [$url] " . json_encode(debug_backtrace()));
     $return = url_get_contents($url, $ctx, $timeout, $debug, $mantainSession);
-    $response = ObjectYPT::setCache($cacheName, $return);
+    $response = ObjectYPT::setCacheGlobal($cacheName, $return);
     _error_log("url_get_contents_with_cache setCache {$url} " . json_encode($response));
     return $return;
 }
@@ -3214,7 +3214,7 @@ function thereIsAnyRemoteUpdate()
             }
         }
     }
-    ObjectYPT::setCache($cacheName, $_SESSION['sessionCache'][$name]);
+    ObjectYPT::setCacheGlobal($cacheName, $_SESSION['sessionCache'][$name]);
     return $_SESSION['sessionCache'][$name];
 }
 
@@ -4321,6 +4321,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         }
     }
     if (!file_exists($destination)) {
+        _error_log("convertImageIfNotExists($source, $destination, $width, $height)");
         try {
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
@@ -4428,7 +4429,7 @@ function getLdJson($videos_id)
         ]
         }
     </script>';
-    ObjectYPT::setCache("getLdJson{$videos_id}", $output);
+    ObjectYPT::setCacheGlobal("getLdJson{$videos_id}", $output);
     echo $output;
 }
 
@@ -4471,7 +4472,7 @@ function getItemprop($videos_id)
     <span itemprop="embedUrl" content="' . parseVideos(Video::getLinkToVideo($videos_id)) . '"></span>
     <span itemprop="interactionCount" content="' . $video['views_count'] . '"></span>';
 
-    ObjectYPT::setCache("getItemprop{$videos_id}", $output);
+    ObjectYPT::setCacheGlobal("getItemprop{$videos_id}", $output);
     echo $output;
 }
 
@@ -8499,7 +8500,7 @@ function isURL200($url, $forceRecheck = false)
         }
     }
 
-    ObjectYPT::setCache($name, json_encode($object));
+    ObjectYPT::setCacheGlobal($name, json_encode($object));
 
     return $object->result;
 }

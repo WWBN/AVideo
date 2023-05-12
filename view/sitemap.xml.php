@@ -26,7 +26,7 @@ if (file_exists($lockFile) && filemtime($lockFile) > strtotime('-10 minutes')) {
 if (empty($sitemap)) {
     file_put_contents($lockFile, time());
     $sitemap = siteMap();
-    $result = ObjectYPT::setCache($name, $sitemap);
+    $result = ObjectYPT::setCacheGlobal($name, $sitemap);
     _error_log('sitemap cache created '. json_encode($result));
     unlink($lockFile);
 } else {

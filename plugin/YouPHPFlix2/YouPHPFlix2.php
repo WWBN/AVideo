@@ -282,7 +282,7 @@ class YouPHPFlix2 extends PluginAbstract
             $response->responseTime = $finish;
             $object = new ApiObject("", false, $response);
 
-            ObjectYPT::setCache($cacheName, $object);
+            ObjectYPT::setCacheGlobal($cacheName, $object);
         } else {
             $finish = microtime(true) - $start;
             $object->response->responseCacheTime = $finish;

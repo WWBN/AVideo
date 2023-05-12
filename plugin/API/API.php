@@ -176,7 +176,7 @@ class API extends PluginAbstract {
             } else {
                 return new ApiObject("Plugin name Not found");
             }
-            ObjectYPT::setCache($name, $obj);
+            ObjectYPT::setCacheGlobal($name, $obj);
         }
         return new ApiObject("", false, $obj);
     }
@@ -937,7 +937,7 @@ class API extends PluginAbstract {
         }
         $obj = self::addRowInfo($obj);
         //var_dump($obj->rows );exit;
-        ObjectYPT::setCache($cacheName, $obj);
+        ObjectYPT::setCacheGlobal($cacheName, $obj);
         return new ApiObject("", false, $obj);
     }
 
@@ -1788,7 +1788,7 @@ class API extends PluginAbstract {
             }
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             $subscribers = Subscribe::getAllSubscribes($parameters['users_id']);
-            ObjectYPT::setCache($name, $subscribers);
+            ObjectYPT::setCacheGlobal($name, $subscribers);
         }
         return new ApiObject("", false, $subscribers);
     }
@@ -2483,7 +2483,7 @@ class API extends PluginAbstract {
                 }
             }
             //var_dump($roku);exit;            
-            $roku->cache = ObjectYPT::setCache($name, $roku);
+            $roku->cache = ObjectYPT::setCacheGlobal($name, $roku);
             $roku->cached = false;
         }else{
             $roku->cached = true;
