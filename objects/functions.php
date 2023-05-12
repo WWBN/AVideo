@@ -1960,14 +1960,20 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80)
 function scaleUpAndMantainAspectRatioFinalSizes($new_w, $old_w, $new_h, $old_h)
 {
     
-    if ($old_h === 0) {
+    if (empty($old_h)) {
         $old_h = $new_h;
     }
-    if ($new_h === 0) {
+    if (empty($new_h)) {
         $new_h = $old_h;
     }
+    if (empty($old_w)) {
+        $old_w = $new_w;
+    }
+    if (empty($new_w)) {
+        $new_w = $old_w;
+    }
 
-    if ($old_h === 0 || $new_h === 0) {
+    if (empty($old_h) || empty($new_h)) {
         // Return an error or handle the case accordingly
         return ['w' => 0, 'h' => 0];
     }
