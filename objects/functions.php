@@ -1907,6 +1907,14 @@ function im_resize($file_src, $file_dest, $wd, $hd, $q = 80)
         $wd = $ws;
         $hd = $hs;
     }
+
+    if(empty($hd)){
+        $hd = $hs;
+    }
+    if(empty($wd)){
+        $wd = $wc;
+    }
+
     $wc = ($wd * $hs) / $hd;
 
     if ($wc <= $ws) {
