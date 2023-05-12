@@ -11117,6 +11117,7 @@ function rowToRoku($row)
 }
 
 function convertThumbsIfNotExists($source, $destination){
+    global $advancedCustom;
     if(file_exists($destination)){
         return true;
     }
