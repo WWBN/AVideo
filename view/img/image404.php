@@ -22,8 +22,8 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
     if (file_exists($jpg)) {
         $file = $jpg;
         if (preg_match('/_thumbsV2/', $imageURL)) {
-            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = " . ($advancedCustom->thumbsWidthPortrait / 2) . ", Height=" . ($advancedCustom->thumbsHeightPortrait / 2));
-            convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
+            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL}");
+            convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait, true);
         } else {
             _error_log("2 Image not found for {$imageURL} we are using {$jpg} instead ");
         }
@@ -39,8 +39,9 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
     if (file_exists($jpg)) {
         $file = $jpg;
         if (preg_match('/_roku/', $imageURL)) {
-            _error_log("3 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} => Width = " . ($advancedCustom->thumbsWidthPortrait / 2) . ", Height=" . ($advancedCustom->thumbsHeightPortrait / 2));
-            convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
+            _error_log("3 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} ");
+            convertImageToRoku($jpg, $global['systemRootPath'] . $imageURL);
+            //convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
         } else {
             _error_log("4 Image not found for {$imageURL} we are using {$jpg} instead ");
         }
