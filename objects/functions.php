@@ -11111,3 +11111,47 @@ function rowToRoku($row)
     $movie->content = $content;
     return $movie;
 }
+
+function convertThumbsIfNotExists($source, $destination){
+    if(file_exists($destination)){
+        return true;
+    }
+    if(!file_exists($source)){
+        return false;
+    }
+    if (empty($advancedCustom)) {
+        $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
+    }
+    $width = 300;
+    $height = 300;
+    $orientation = getImageOrientation($source);
+
+    if($orientation == "landscape"){
+        $width = $advancedCustom->thumbsWidthLandscape;
+        $height = $advancedCustom->thumbsHeightLandscape;
+    }else if($orientation == "portrait"){
+        $width = $advancedCustom->thumbsWidthPortrait;
+        $height = $advancedCustom->thumbsHeightPortrait;
+    }
+
+    return convertImageIfNotExists($source, $destination, $width, $height, true);
+}
+
+function getImageOrientation($imagePath) {
+    // Get the image dimensions
+    $imageSize = getimagesize($imagePath);
+    
+    // Check the width and height
+    $width = $imageSize[0];
+    $height = $imageSize[1];
+    
+    // Determine the orientation
+    if ($width > $height) {
+        return "landscape";
+    } else if ($width < $height) {
+        return "portrait";
+    } else {
+        return "square";
+    }
+}
+

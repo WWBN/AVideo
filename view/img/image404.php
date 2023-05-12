@@ -23,7 +23,7 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && 
         $file = $jpg;
         if (preg_match('/_thumbsV2/', $imageURL)) {
             _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL}");
-            convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait, $advancedCustom->thumbsHeightPortrait, true);
+            convertThumbsIfNotExists($jpg, $global['systemRootPath'] . $imageURL);
         } else {
             _error_log("2 Image not found for {$imageURL} we are using {$jpg} instead ");
         }
