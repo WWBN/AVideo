@@ -227,7 +227,7 @@ $total_imported = 0;
 // import videos
 while ($hasNewContent) {
 
-    $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=video&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}";
+    $APIURL = "{$siteURL}plugin/API/get.json.php?APIName=video&rowCount={$rowCount}&current={$current}&APISecret={$APISecret}&sort[created]=desc";
 
     $content = url_get_contents($APIURL, "", 30);
 
