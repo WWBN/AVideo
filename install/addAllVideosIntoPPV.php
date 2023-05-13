@@ -38,6 +38,8 @@ if (!empty($userGroup)) {
         $plan->loadFromPlanVideo($ppv_plans_id, $value['id']);
         $plan->setStatus('a');
         $plan->save();
+        
+        echo "Videos_id {$value['id']} saved".PHP_EOL;
     }
 }
 echo "Bye";
