@@ -31,7 +31,7 @@ if(count($plans) == 1){
 }
 
 echo "Will add in the PPV plan {$ppv_plans_id}".PHP_EOL;
-if (!empty($userGroup)) {
+if (!empty($ppv_plans_id)) {
     
     $videos = Video::getAllVideosLight('', false, true);
     
