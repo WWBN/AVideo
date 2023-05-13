@@ -5,7 +5,8 @@ ob_end_flush();
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $ppv = AVideoPlugin::loadPluginIfEnabled('PayPerView');
 
 if (empty($ppv)) {
@@ -29,6 +30,7 @@ if(count($plans) == 1){
     $ppv_plans_id = intval(readline(""));
 }
 
+echo "Will add in the PPV plan {$ppv_plans_id}".PHP_EOL;
 if (!empty($userGroup)) {
     
     $videos = Video::getAllVideosLight('', false, true);
