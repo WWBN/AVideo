@@ -6231,7 +6231,7 @@ function getCurrentPage()
     }
     
     if($current>1000){
-        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace()));
+        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
     }
     return $current;
 }
