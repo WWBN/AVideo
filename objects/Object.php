@@ -212,6 +212,7 @@ abstract class ObjectYPT implements ObjectInterface
             $current = ($_POST['current'] - 1) * $_POST['rowCount'];
             $current = $current < 0 ? 0 : $current;
             if($current>1000){
+                _error_log("Object current>1000 ERROR die [currentP={$current} current={$_POST['current']} rowCount={$_POST['rowCount']}] ".getSelfURI().' '.json_encode($_SERVER));
                 _error_log("Object current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             }
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
