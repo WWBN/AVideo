@@ -1719,10 +1719,22 @@ function avideoModalIframeRemove() {
     }
 }
 
+function json_decode(jsonString){
+    if (typeof jsonString === 'string') {
+        try {
+            return JSON.parse(jsonString);
+        } catch (error) {
+            console.error('Invalid JSON string:', error);
+        }
+    } 
+    return jsonString;
+
+}
+
 function avideoResponse(response) {
     //console.log('avideoResponse', response);
     if (typeof response === 'string') {
-        response = JSON.parse(response);
+        response = json_decode(response);
     }
     //console.log('avideoResponse', response);
     if (response.error) {
