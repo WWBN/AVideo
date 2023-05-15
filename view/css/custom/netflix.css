@@ -64,3 +64,6 @@ span.selection > span.select2-selection--single{
     border-color: transparent;
     border: none;
 }
+.is_advanced {
+    color: #FFF;
+}
