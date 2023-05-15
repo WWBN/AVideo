@@ -79,6 +79,9 @@ class Menu extends ObjectYPT {
     
     static function getAllActive($type=false) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE status = 'active' ";
         if(!empty($type)){
             $sql .= " AND type = $type ";

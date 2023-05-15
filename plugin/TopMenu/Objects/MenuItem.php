@@ -18,6 +18,9 @@ class MenuItem extends ObjectYPT {
 
     static function getAllFromMenu($menu_id, $activeOnly = false, $sort = true) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $menu_id = intval($menu_id);
         if (empty($menu_id)) {
             return false;
@@ -54,9 +57,7 @@ class MenuItem extends ObjectYPT {
                 }
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 

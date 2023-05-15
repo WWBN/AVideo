@@ -65,7 +65,7 @@ if (User::isLogged()) {
                 continue;
             }
             ?>
-            <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
+            <a href="<?php echo $url; ?>" target="_blank" class="btn btn-default no-outline">
                 <?php
                 if (!empty($value2['icon'])) {
                     ?>
