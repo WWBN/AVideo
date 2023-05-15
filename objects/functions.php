@@ -6202,38 +6202,18 @@ function getCurrentPage()
     $current = 1;
     if (!empty($_REQUEST['current'])) {
         $current = intval($_REQUEST['current']);
-        if(!empty($lastCurrent) && $lastCurrent != $current){
-            $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _REQUEST['current'] $lastCurrent != $current");
-        }
     } elseif (!empty($_POST['current'])) {
         $current = intval($_POST['current']);
-        if(!empty($lastCurrent) && $lastCurrent != $current){
-            $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _POST['current']) $lastCurrent != $current");
-        }
     } elseif (!empty($_GET['current'])) {
         $current = intval($_GET['current']);
-        if(!empty($lastCurrent) && $lastCurrent != $current){
-            $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['current'] $lastCurrent != $current");
-        }
     } elseif (isset($_GET['start']) && isset($_GET['length'])) { // for the bootgrid
         $start = intval($_GET['start']);
         $length = intval($_GET['length']);
         if (!empty($start) && !empty($length)) {
             $current = floor($start / $length) + 1;
         }
-        if(!empty($lastCurrent) && $lastCurrent != $current){
-            $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['start'] $lastCurrent != $current");
-        }
     } elseif (!empty($_GET['page'])) {
         $current = intval($_GET['page']);
-        if(!empty($lastCurrent) && $lastCurrent != $current){
-            $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['page'] $lastCurrent != $current");
-        }
     }
     if(isBot() && $current>10){
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -6246,11 +6226,6 @@ function getCurrentPage()
             _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
             exit;
         }
-    }
-    if(!empty($lastCurrent) && $lastCurrent != $current){
-        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
-        
     }
     $lastCurrent = $current;
     return $current;
