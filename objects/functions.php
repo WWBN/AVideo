@@ -6242,7 +6242,7 @@ function getCurrentPage()
         
     }
     if(isBot() && $current>10){
-        _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
+        _error_log("getCurrentPage current>1000 ERROR bot die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         exit;
     }
     if($current>1000){
