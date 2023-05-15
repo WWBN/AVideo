@@ -426,6 +426,7 @@ class Category {
                 }
             }
         }
+        
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
         //echo $sql;exit;
         $cacheName = 'category/' . md5($sql);
@@ -478,13 +479,13 @@ class Category {
                 $cache = ObjectYPT::setCacheGlobal($cacheName, $category);
                 //$cacheObj = ObjectYPT::getCacheGlobal($cacheName, 36000);
                 //$category = object_to_array($cacheObj);
-                /**/
+                /*
                 $cachefile = ObjectYPT::getCacheFileName($cacheName, false, true, true);
                 if(empty($cache)){
                     _error_log('getAllCategories empty($cache) '.json_encode(empty($category)));
                 }
                 _error_log('getAllCategories respond '.json_encode(array($cachefile, $cacheName, $cache)));
-                
+                */
                 //var_dump(array($cache, $cacheObj, $category));exit;
             
             } else {
