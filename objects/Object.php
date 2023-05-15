@@ -284,11 +284,6 @@ abstract class ObjectYPT implements ObjectInterface
 
     public function save()
     {
-        
-        if (isSearch()) {
-            _error_log("Do not save if it is searching", AVideoLog::$WARNING);
-            return false;
-        }
         if (!$this->tableExists()) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
