@@ -6202,19 +6202,19 @@ function getCurrentPage()
     $current = 1;
     if (!empty($_REQUEST['current'])) {
         $current = intval($_REQUEST['current']);
-        if(!empty($lastCurrent) && $lastCurrent > 1){
+        if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
             _error_log("getCurrentPage current>1000 ERROR _REQUEST['current'] ");
         }
     } elseif (!empty($_POST['current'])) {
         $current = intval($_POST['current']);
-        if(!empty($lastCurrent) && $lastCurrent > 1){
+        if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
             _error_log("getCurrentPage current>1000 ERROR _POST['current']) ");
         }
     } elseif (!empty($_GET['current'])) {
         $current = intval($_GET['current']);
-        if(!empty($lastCurrent) && $lastCurrent > 1){
+        if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
             _error_log("getCurrentPage current>1000 ERROR _GET['current'] ");
         }
@@ -6224,20 +6224,19 @@ function getCurrentPage()
         if (!empty($start) && !empty($length)) {
             $current = floor($start / $length) + 1;
         }
-        if(!empty($lastCurrent) && $lastCurrent > 1){
+        if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
             _error_log("getCurrentPage current>1000 ERROR _GET['start'] ");
         }
     } elseif (!empty($_GET['page'])) {
         $current = intval($_GET['page']);
-        if(!empty($lastCurrent) && $lastCurrent > 1){
+        if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
             _error_log("getCurrentPage current>1000 ERROR _GET['page'] ");
         }
     }
     
-    if(!empty($lastCurrent) && $lastCurrent > 1){
-        $lastCurrent = $current;
+    if(!empty($lastCurrent) && $lastCurrent != $current){
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         
@@ -6246,6 +6245,7 @@ function getCurrentPage()
             exit;
         }
     }
+    $lastCurrent = $current;
     return $current;
 }
 
