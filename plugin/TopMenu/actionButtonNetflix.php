@@ -14,6 +14,7 @@ foreach ($menu as $key => $value) {
     $menuItems = MenuItem::getAllFromMenu($value['id'], true);
     foreach ($menuItems as $key2 => $value2) {
         ?>
+        <!-- typeActionMenu -->
         <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
             <?php
             if (!empty($value2['icon'])) {
@@ -39,6 +40,7 @@ foreach ($menu as $key => $value) {
             continue;
         }
         ?>
+        <!-- typeActionMenuCustomURL -->
         <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
             <?php
             if (!empty($value2['icon'])) {
@@ -65,7 +67,8 @@ if (User::isLogged()) {
                 continue;
             }
             ?>
-            <a href="<?php echo $url; ?>" target="_blank" class="btn btn-default no-outline">
+            <!-- typeActionMenuCustomURLForLoggedUsers -->
+            <a href="<?php echo $url; ?>" class="btn btn-default no-outline">
                 <?php
                 if (!empty($value2['icon'])) {
                     ?>
@@ -90,6 +93,7 @@ if (User::isLogged()) {
                     continue;
                 }
                 ?>
+                <!-- typeActionMenuCustomURLForUsersThatCanWatchVideo -->
                 <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
                     <?php
                     if (!empty($value2['icon'])) {
@@ -118,6 +122,7 @@ if (!User::canWatchVideo($videos_id)) {
                 continue;
             }
             ?>
+            <!-- typeActionMenuCustomURLForUsersThatCanNotWatchVideo -->
             <a href="<?php echo $url; ?>" <?php echo $value2['target']; ?> class="btn btn-default no-outline">
                 <?php
                 if (!empty($value2['icon'])) {
