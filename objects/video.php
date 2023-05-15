@@ -4270,9 +4270,6 @@ if (!class_exists('Video')) {
                     }
                     if (!isset($return['resolution']) || $resolution == $desired_resolution) {
                         $return = $value;
-                        if (empty($resolution)) {
-                            $resolution = 480;
-                        }
                         $return['resolution'] = $resolution;
                         $return['resolution_text'] = getResolutionText($return['resolution']);
                         $return['resolution_label'] = getResolutionLabel($return['resolution']);
@@ -4354,6 +4351,9 @@ if (!class_exists('Video')) {
                         }
                         if (!isset($return['resolution']) || $resolution > $return['resolution']) {
                             $return = $value;
+                            if (empty($resolution)) {
+                                $resolution = 480;
+                            }
                             $return['resolution'] = $resolution;
                             $return['resolution_text'] = getResolutionText($return['resolution']);
                             $return['resolution_label'] = getResolutionLabel($return['resolution']);
@@ -4362,8 +4362,8 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . json_encode($return)); //exit;
-            _error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 4 FROM database " . json_encode($sources)); //exit;
+            //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 3 FROM database " . json_encode($return)); //exit;
+            //_error_log("Video:::getHigestResolution::getVideosURL_V2($filename) 4 FROM database " . json_encode($sources)); //exit;
             //if($filename=='video_210916143432_c426'){var_dump(1, $filename, $return);exit;}
             if (!empty($return)) {
                 $video->setVideoHigestResolution($return['resolution']);
