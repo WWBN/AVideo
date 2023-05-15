@@ -43,7 +43,7 @@ class BootGrid
         $currentP = $currentP < 0 ? 0 : $currentP;
 
         if($currentP>1000){
-            _error_log("currentP>1000 ERROR ".json_encode(debug_backtrace()));
+            _error_log("bootgrid currentP>1000 ERROR ".json_encode(debug_backtrace()));
         }
         if ($rowCount>0) {
             $sql .= " LIMIT $currentP, {$rowCount} ";

@@ -211,6 +211,9 @@ abstract class ObjectYPT implements ObjectInterface
             $_POST['current'] = intval($_POST['current']);
             $current = ($_POST['current'] - 1) * $_POST['rowCount'];
             $current = $current < 0 ? 0 : $current;
+            if($current>1000){
+                _error_log("Object current>1000 ERROR ".json_encode(debug_backtrace()));
+            }
             $sql .= " LIMIT $current, {$_POST['rowCount']} ";
         } else {
             $_POST['current'] = 0;
