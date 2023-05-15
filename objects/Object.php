@@ -285,7 +285,7 @@ abstract class ObjectYPT implements ObjectInterface
     public function save()
     {
         
-        if (!empty($_GET['search'])) {
+        if (!empty(getSearchVar())) {
             _error_log("Do not save if it is searching", AVideoLog::$WARNING);
             return false;
         }
