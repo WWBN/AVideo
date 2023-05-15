@@ -6204,19 +6204,19 @@ function getCurrentPage()
         $current = intval($_REQUEST['current']);
         if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _REQUEST['current'] ");
+            _error_log("getCurrentPage current>1000 ERROR _REQUEST['current'] $lastCurrent != $current");
         }
     } elseif (!empty($_POST['current'])) {
         $current = intval($_POST['current']);
         if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _POST['current']) ");
+            _error_log("getCurrentPage current>1000 ERROR _POST['current']) $lastCurrent != $current");
         }
     } elseif (!empty($_GET['current'])) {
         $current = intval($_GET['current']);
         if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['current'] ");
+            _error_log("getCurrentPage current>1000 ERROR _GET['current'] $lastCurrent != $current");
         }
     } elseif (isset($_GET['start']) && isset($_GET['length'])) { // for the bootgrid
         $start = intval($_GET['start']);
@@ -6226,13 +6226,13 @@ function getCurrentPage()
         }
         if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['start'] ");
+            _error_log("getCurrentPage current>1000 ERROR _GET['start'] $lastCurrent != $current");
         }
     } elseif (!empty($_GET['page'])) {
         $current = intval($_GET['page']);
         if(!empty($lastCurrent) && $lastCurrent != $current){
             $lastCurrent = $current;
-            _error_log("getCurrentPage current>1000 ERROR _GET['page'] ");
+            _error_log("getCurrentPage current>1000 ERROR _GET['page'] $lastCurrent != $current");
         }
     }
     
