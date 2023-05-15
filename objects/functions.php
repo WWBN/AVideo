@@ -6239,6 +6239,7 @@ function getCurrentPage()
     if(!empty($lastCurrent) && $lastCurrent > 1){
         $lastCurrent = $current;
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
     }
     return $current;
 }
