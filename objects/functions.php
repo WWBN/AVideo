@@ -4325,7 +4325,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
         }
     }
     if (!file_exists($destination)) {
-        _error_log("convertImageIfNotExists($source, $destination, $width, $height)");
+        //_error_log("convertImageIfNotExists($source, $destination, $width, $height)");
         try {
             $tmpDir = getTmpDir();
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
