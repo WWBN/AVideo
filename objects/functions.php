@@ -6198,22 +6198,42 @@ function doNOTOrganizeHTMLIfIsPagination()
 
 function getCurrentPage()
 {
+    $current = 1;
     if (!empty($_REQUEST['current'])) {
-        return intval($_REQUEST['current']);
+        if($current>1000){
+            _error_log("getCurrentPage currentP>1000 ERROR _REQUEST['current'] ");
+        }
+        $current = intval($_REQUEST['current']);
     } elseif (!empty($_POST['current'])) {
-        return intval($_POST['current']);
+        if($current>1000){
+            _error_log("getCurrentPage currentP>1000 ERROR _POST['current']) ");
+        }
+        $current = intval($_POST['current']);
     } elseif (!empty($_GET['current'])) {
-        return intval($_GET['current']);
+        if($current>1000){
+            _error_log("getCurrentPage currentP>1000 ERROR _GET['current'] ");
+        }
+        $current = intval($_GET['current']);
     } elseif (isset($_GET['start']) && isset($_GET['length'])) { // for the bootgrid
+        if($current>1000){
+            _error_log("getCurrentPage currentP>1000 ERROR _GET['start'] ");
+        }
         $start = intval($_GET['start']);
         $length = intval($_GET['length']);
         if (!empty($start) && !empty($length)) {
-            return floor($start / $length) + 1;
+            $current = floor($start / $length) + 1;
         }
     } elseif (!empty($_GET['page'])) {
-        return intval($_GET['page']);
+        if($current>1000){
+            _error_log("getCurrentPage currentP>1000 ERROR _GET['page'] ");
+        }
+        $current = intval($_GET['page']);
     }
-    return 1;
+    
+    if($current>1000){
+        _error_log("getCurrentPage currentP>1000 ERROR [{$current}] ".json_encode(debug_backtrace()));
+    }
+    return $current;
 }
 
 function getTrendingLimit()
