@@ -6241,6 +6241,10 @@ function getCurrentPage()
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         
     }
+    if(isBot() && $current>10){
+        _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
+        exit;
+    }
     if($current>1000){
         _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         exit;
