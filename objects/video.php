@@ -4270,6 +4270,9 @@ if (!class_exists('Video')) {
                     }
                     if (!isset($return['resolution']) || $resolution == $desired_resolution) {
                         $return = $value;
+                        if (empty($resolution)) {
+                            $resolution = 480;
+                        }
                         $return['resolution'] = $resolution;
                         $return['resolution_text'] = getResolutionText($return['resolution']);
                         $return['resolution_label'] = getResolutionLabel($return['resolution']);
