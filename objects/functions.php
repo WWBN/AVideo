@@ -6294,6 +6294,10 @@ function getSearchVar()
     return mb_strtolower($search);
 }
 
+function isSearch(){
+    return !empty(getSearchVar());
+}
+
 $cleanSearchHistory = '';
 
 function cleanSearchVar()
