@@ -457,8 +457,12 @@ class Layout extends PluginAbstract
 
     static function getCategorySelect($name, $selected = "", $id = "", $class = "")
     {
-        $rows = Category::getAllCategories(true, false);
-        array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
+        $parentsOnly = @$_GET['parentsOnly'];
+        unset($_GET['parentsOnly']);
+        $rows = Category::getAllCategories(true, false);        
+        $_GET['parentsOnly'] = $parentsOnly ;
+        //var_dump($rows);exit;
+        //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
         $cats = array();
         foreach ($rows as $value) {
             $cats[$value['id']] = htmlentities("<i class='{$value['iconClass']}'></i> " . $value['hierarchyAndName']);

@@ -109,7 +109,11 @@
                                         <div class="<?php echo $divCol2; ?>">
                                             <?php
                                             if ($showCategory) {
-                                                $categories = Category::getAllCategories(true, false);
+                                                $parentsOnly = @$_GET['parentsOnly'];
+                                                unset($_GET['parentsOnly']);
+                                                $categories = Category::getAllCategories(true, false);   
+                                                $_GET['parentsOnly'] = $parentsOnly ;
+                                                //var_dump($categories);exit;
                                                 ?>
                                                 <label class="control-label" for="inputCategory" ><?php echo __("Category"); ?></label>
                                                 <select class="form-control last" id="inputCategory" required>
