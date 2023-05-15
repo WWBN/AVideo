@@ -41,6 +41,10 @@ class BootGrid
         $current = getCurrentPage();
         $currentP = ($current-1)*$rowCount;
         $currentP = $currentP < 0 ? 0 : $currentP;
+
+        if($currentP>1000){
+            _error_log("currentP>1000 ".json_encode(debug_backtrace()));
+        }
         if ($rowCount>0) {
             $sql .= " LIMIT $currentP, {$rowCount} ";
         }

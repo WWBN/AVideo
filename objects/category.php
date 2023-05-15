@@ -381,30 +381,7 @@ class Category {
                 $sql .= " AND (private=0 OR users_id = '{$users_id}') ";
             }
         }
-        /*
-        if ($onlyWithVideos) {
-            $sql .= " AND (EXISTS (SELECT 1 FROM videos v WHERE v.categories_id = c.id OR v.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
-            if (AVideoPlugin::isEnabledByName("Live")) {
-                $sql .= " OR EXISTS (SELECT 1 FROM live_transmitions lt WHERE lt.categories_id = c.id OR lt.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
-            }
-            if (AVideoPlugin::isEnabledByName("LiveLinks")) {
-                $sql .= " OR EXISTS (SELECT 1 FROM LiveLinks ll WHERE ll.categories_id = c.id OR ll.categories_id IN (SELECT id FROM categories WHERE parentId = c.id AND id != c.id)) ";
-            }
-            $sql .= ")";
-        }
-        if ($sameUserGroupAsMe) {
-            $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
-
-            $users_groups_id = [0];
-            foreach ($users_groups as $value) {
-                $users_groups_id[] = $value['id'];
-            }
-
-            $sql .= " AND ("
-                    . " NOT EXISTS (SELECT 1 FROM categories_has_users_groups chug WHERE c.id = chug.categories_id) OR "
-                    . " EXISTS (SELECT 1 FROM categories_has_users_groups chug2 WHERE c.id = chug2.categories_id AND users_groups_id IN (" . implode(',', $users_groups_id) . ")) "
-                    . ")";
-        }*/
+        
         if ($onlyWithVideos) {
             $sql .= " AND ((SELECT count(*) FROM videos v where v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
             if (AVideoPlugin::isEnabledByName("Live")) {
