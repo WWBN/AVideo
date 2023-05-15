@@ -6240,10 +6240,12 @@ function getCurrentPage()
         _error_log("getCurrentPage current>1000 ERROR bot die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         exit;
     }
-    if($current>1000){
-        _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
-        exit;
+    if($current>100){
+        if(!User::isLogged() || $current>1000){
+            _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+            _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
+            exit;
+        }
     }
     if(!empty($lastCurrent) && $lastCurrent != $current){
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
