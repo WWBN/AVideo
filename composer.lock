@@ -1881,16 +1881,16 @@
         },
         {
             "name": "norkunas/onesignal-php-api",
-            "version": "v2.10.0",
+            "version": "v2.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/norkunas/onesignal-php-api.git",
-                "reference": "6d8539d472bd408e52cf8fd71a8e6f9c7f3b8f80"
+                "reference": "c8eb8f5c073c585ce3232333bfea0d0ec69cb12d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/norkunas/onesignal-php-api/zipball/6d8539d472bd408e52cf8fd71a8e6f9c7f3b8f80",
-                "reference": "6d8539d472bd408e52cf8fd71a8e6f9c7f3b8f80",
+                "url": "https://api.github.com/repos/norkunas/onesignal-php-api/zipball/c8eb8f5c073c585ce3232333bfea0d0ec69cb12d",
+                "reference": "c8eb8f5c073c585ce3232333bfea0d0ec69cb12d",
                 "shasum": ""
             },
             "require": {
@@ -1904,12 +1904,12 @@
                 "symfony/options-resolver": "^4.4|^5.0|^6.0"
             },
             "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.3",
-                "nyholm/psr7": "^1.2",
-                "phpstan/phpstan": "^1.0",
-                "phpstan/phpstan-phpunit": "^1.0",
-                "symfony/http-client": "^5.0|^6.0",
-                "symfony/phpunit-bridge": "^5.3|^6.0"
+                "nyholm/psr7": "^1.5.1",
+                "php-cs-fixer/shim": "^3.13.2",
+                "phpstan/phpstan": "^1.9.3",
+                "phpstan/phpstan-phpunit": "^1.3.2",
+                "symfony/http-client": "^5.0|^6.2",
+                "symfony/phpunit-bridge": "^5.3|^6.2"
             },
             "type": "library",
             "extra": {
@@ -1943,9 +1943,9 @@
             ],
             "support": {
                 "issues": "https://github.com/norkunas/onesignal-php-api/issues",
-                "source": "https://github.com/norkunas/onesignal-php-api/tree/v2.10.0"
+                "source": "https://github.com/norkunas/onesignal-php-api/tree/v2.11.0"
             },
-            "time": "2022-12-16T09:42:36+00:00"
+            "time": "2023-05-10T03:45:11+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -4714,16 +4714,16 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v5.4.19",
+            "version": "v5.4.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/options-resolver.git",
-                "reference": "b03c99236445492f20c61666e8f7e5d388b078e5"
+                "reference": "4fe5cf6ede71096839f0e4b4444d65dd3a7c1eb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/b03c99236445492f20c61666e8f7e5d388b078e5",
-                "reference": "b03c99236445492f20c61666e8f7e5d388b078e5",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/4fe5cf6ede71096839f0e4b4444d65dd3a7c1eb9",
+                "reference": "4fe5cf6ede71096839f0e4b4444d65dd3a7c1eb9",
                 "shasum": ""
             },
             "require": {
@@ -4763,7 +4763,7 @@
                 "options"
             ],
             "support": {
-                "source": "https://github.com/symfony/options-resolver/tree/v5.4.19"
+                "source": "https://github.com/symfony/options-resolver/tree/v5.4.21"
             },
             "funding": [
                 {
@@ -4779,7 +4779,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-01-01T08:32:19+00:00"
+            "time": "2023-02-14T08:03:56+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
