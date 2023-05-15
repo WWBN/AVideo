@@ -402,7 +402,7 @@ class Category {
             $sql .= ")";
         }
         if ($sameUserGroupAsMe) {
-            _error_log('getAllCategories getUserGroups');
+            //_error_log('getAllCategories getUserGroups');
             $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
 
             $users_groups_id = array(0);
