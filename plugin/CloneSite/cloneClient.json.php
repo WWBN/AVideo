@@ -93,7 +93,10 @@ $log->add("Clone: Good start! the server has answered");
 
 $json->sqlFile = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile)));
 foreach ($json->videoFiles as $key => $value) {
-    $json->videoFiles[$key] = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value)));
+    $json->videoFiles[$key]->filename = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->filename)));
+    $json->videoFiles[$key]->url = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->url)));
+    $json->videoFiles[$key]->filesize = intval($value->filesize);
+    $json->videoFiles[$key]->filemtime = intval($value->filemtime);
 }
 foreach ($json->photoFiles as $key => $value) {
     $json->photoFiles[$key] = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value)));
