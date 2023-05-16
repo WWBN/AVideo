@@ -91,7 +91,7 @@ $log->add("Clone: Good start! the server has answered");
 
 
 
-$json->sqlFile = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile));
+$json->sqlFile = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile)));
 foreach ($json->videoFiles as $key => $value) {
     $json->videoFiles[$key] = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value));
 }
@@ -111,9 +111,9 @@ $log->add("Clone: Nice! we got the MySQL Dump file");
 
 // remove the first warning line
 $file = "{$clonesDir}{$json->sqlFile}";
-$log->add("Clone: MySQL Dump $file");
+//$log->add("Clone: MySQL Dump $file");
 $contents = file($file, FILE_IGNORE_NEW_LINES);
-$log->add("Clone: MySQL Dump contents ". json_encode($contents));
+//$log->add("Clone: MySQL Dump contents ". json_encode($contents));
 $first_line = array_shift($contents);
 file_put_contents($file, implode("\r\n", $contents));
 
