@@ -99,7 +99,10 @@ foreach ($json->videoFiles as $key => $value) {
     $json->videoFiles[$key]->filemtime = intval($value->filemtime);
 }
 foreach ($json->photoFiles as $key => $value) {
-    $json->photoFiles[$key] = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value)));
+    $json->photoFiles[$key]->filename = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->filename)));
+    $json->photoFiles[$key]->url = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->url)));
+    $json->photoFiles[$key]->filesize = intval($value->filesize);
+    $json->photoFiles[$key]->filemtime = intval($value->filemtime);
 }
 $objClone->cloneSiteURL = str_replace("'", '', escapeshellarg($objClone->cloneSiteURL));
 
