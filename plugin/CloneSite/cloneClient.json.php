@@ -111,7 +111,9 @@ $log->add("Clone: Nice! we got the MySQL Dump file");
 
 // remove the first warning line
 $file = "{$clonesDir}{$json->sqlFile}";
+$log->add("Clone: MySQL Dump $file");
 $contents = file($file, FILE_IGNORE_NEW_LINES);
+$log->add("Clone: MySQL Dump contents ". json_encode($contents));
 $first_line = array_shift($contents);
 file_put_contents($file, implode("\r\n", $contents));
 
