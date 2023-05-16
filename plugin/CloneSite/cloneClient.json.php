@@ -113,7 +113,7 @@ exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error: " . print_r($output, true));
 }
-$log->add("Clone: Nice! we got the MySQL Dump file");
+$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}]");
 
 // remove the first warning line
 $file = "{$clonesDir}{$json->sqlFile}";
