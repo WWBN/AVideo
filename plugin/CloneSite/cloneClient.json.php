@@ -93,12 +93,12 @@ $log->add("Clone: Good start! the server has answered");
 
 $json->sqlFile = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile)));
 foreach ($json->videoFiles as $key => $value) {
-    $json->videoFiles[$key] = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value));
+    $json->videoFiles[$key] = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value)));
 }
 foreach ($json->photoFiles as $key => $value) {
-    $json->photoFiles[$key] = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value));
+    $json->photoFiles[$key] = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value)));
 }
-$objClone->cloneSiteURL = escapeshellarg($objClone->cloneSiteURL);
+$objClone->cloneSiteURL = str_replace("'", '', escapeshellarg($objClone->cloneSiteURL));
 
 // get dump file
 $cmd = "wget -O {$clonesDir}{$json->sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
