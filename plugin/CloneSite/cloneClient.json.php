@@ -95,7 +95,9 @@ $json->sqlFile = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFi
 foreach ($json->videoFiles as $key => $value) {
     $json->videoFiles[$key] = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value));
 }
-$json->photoFiles = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->photoFiles));
+foreach ($json->photoFiles as $key => $value) {
+    $json->photoFiles[$key] = escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value));
+}
 $objClone->cloneSiteURL = escapeshellarg($objClone->cloneSiteURL);
 
 // get dump file
