@@ -1,4 +1,3 @@
-
 var avideoNotifications = [];
 
 $(document).ready(function () {
@@ -17,13 +16,13 @@ function processNotifications() {
         if (typeof avideoNotifications[item] == 'function') {
             continue;
         }
-        
+
         var html = '<li>';
         html += '<a href="'+avideoNotifications[item].link+'" class="notificationLink">';
         html += '<img src="'+avideoNotifications[item].image+'" class="img img-circle img-responsive">';
         html += '<div>'+avideoNotifications[item].text+'</div>';
         html += '</a></li>';
-        
+
         $('#LayoutNotificationItems').prepend(html);
         console.log('processNotifications item', item);
         console.log('processNotifications', avideoNotifications[item]);
@@ -41,7 +40,6 @@ function addNotification(title, text, image, link) {
         path: '/',
         expires: 365
     });
-     * 
      */
 }
 
@@ -52,6 +50,5 @@ function removeNotification(index) {
         path: '/',
         expires: 365
     });
-     * 
      */
 }

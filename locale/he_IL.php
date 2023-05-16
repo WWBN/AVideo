@@ -1572,6 +1572,7 @@ $t['subscribes'] = 'מנויים';
 $t['the files. Only the videos-folder should stay untouched.'] = 'הקבצים. רק תיקיית הווידאו צריכה להישאר ללא שינוי.';
 $t['the user is inactive'] = 'המשתמש אינו פעיל';
 $t['this help'] = 'העזרה הזאת';
+$t['tls OR ssl'] = 'tls או ssl';
 $t['user'] = 'משתמש';
 $t['users'] = 'משתמשים';
 $t['usersGroups'] = 'שמשתמשים';
@@ -1588,6 +1589,7 @@ $t['youtube-dl uses Python and some servers does not came with python as default
 $t['API'] = 'API';
 $t['AVideo URL'] = 'AVideo URL';
 $t['Add To Serie'] = 'Add To Serie';
+$t['All Categories'] = 'All Categories';
 $t['Articles'] = 'Articles';
 $t['Attention'] = 'Attention';
 $t['Audio-Gallery by Date'] = 'Audio-Gallery by Date';
@@ -1597,6 +1599,7 @@ $t['CallbackURL'] = 'CallbackURL';
 $t['Can Download'] = 'Can Download';
 $t['Challenge Decryptor'] = 'Challenge Decryptor';
 $t['Comments Admin'] = 'Comments Admin';
+$t['Date within'] = 'Date within';
 $t['EPG'] = 'EPG';
 $t['Favicon'] = 'Favicon';
 $t['IP'] = 'IP';
@@ -1612,12 +1615,15 @@ $t['PGP 2FA'] = 'PGP 2FA';
 $t['PGP Challenge'] = 'PGP Challenge';
 $t['PGP Keys'] = 'PGP Keys';
 $t['PayPalYPT'] = 'PayPalYPT';
+$t['Please enter a search keyword:'] = 'Please enter a search keyword:';
 $t['Plugin not enabled'] = 'Plugin not enabled';
 $t['Populare'] = 'Populare';
 $t['RSS Feed'] = 'RSS Feed';
 $t['Recover password!'] = 'Recover password!';
 $t['Roku Json'] = 'Roku Json';
+$t['Search in'] = 'Search in';
 $t['Sitemap'] = 'Sitemap';
+$t['Suggest it'] = 'Suggest it';
 $t['The comment is empty'] = 'The comment is empty';
 $t['The video is empty'] = 'The video is empty';
 $t['This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)'] = 'This is a level below the (Videos Admin), this type of user can change the video publicity (Active, Inactive, Unlisted)';
@@ -1625,6 +1631,7 @@ $t['This is where you can create groups and associate them with your videos and 
 $t['This will give the option to can clear cache (Site and first page)'] = 'This will give the option to can clear cache (Site and first page)';
 $t['Title (A-Z)'] = 'Title (A-Z)';
 $t['Title (Z-A)'] = 'Title (Z-A)';
+$t['Unsuggest it'] = 'Unsuggest it';
 $t['Upload a File'] = 'Upload a File';
 $t['User not logged'] = 'User not logged';
 $t['Users Groups Admin'] = 'Users Groups Admin';
@@ -1646,7 +1653,6 @@ $t['min'] = 'min';
 $t['mvideos'] = 'mvideos';
 $t['showOnTV is OFF'] = 'showOnTV is OFF';
 $t['showOnTV is ON'] = 'showOnTV is ON';
-$t['tls OR ssl'] = 'tls OR ssl';
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).

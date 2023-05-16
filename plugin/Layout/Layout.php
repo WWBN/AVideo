@@ -4,7 +4,6 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Layout extends PluginAbstract
 {
-
     static private $tags = array();
     static $searchOptions = array(
         array(
@@ -73,7 +72,7 @@ class Layout extends PluginAbstract
           $o->value = $subject;
           $obj->colorsVariables = $o;
           $obj->showCustomCSS = true;
-         * 
+         *
          */
         //$obj->showButtonNotification = false;
         $obj->showSearchOptionsBelowNavbar = false;
@@ -459,7 +458,7 @@ class Layout extends PluginAbstract
     {
         $parentsOnly = @$_GET['parentsOnly'];
         unset($_GET['parentsOnly']);
-        $rows = Category::getAllCategories(true, false);        
+        $rows = Category::getAllCategories(true, false);
         $_GET['parentsOnly'] = $parentsOnly ;
         //var_dump($rows);exit;
         //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
@@ -842,7 +841,7 @@ class Layout extends PluginAbstract
             $divs[] = '<div class="form-check">
                             <input class="form-check-input" type="checkbox" value="' . $value['value'] . '" id="' . $id . '_' . $key . '" name="' . $name . '">
                             <label class="form-check-label" for="' . $id . '_' . $key . '">
-                            ' . $value['text'] . ' 
+                            ' . $value['text'] . '
                             </label>
                        </div>';
         }
@@ -937,7 +936,7 @@ class Layout extends PluginAbstract
         }else if ($step >= 100) {
             $step = round($step / 100) * 100;
         }
-        
+
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
         $divs[] = '<div class="form-check">
