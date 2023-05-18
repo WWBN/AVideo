@@ -306,8 +306,14 @@ abstract class ObjectYPT implements ObjectInterface
                 //$escapedValue = $global['mysqli']->real_escape_string($this->$value);
                 if (strtolower($value) == 'created') {
                     //var_dump($this->created);exit;
-                    if (!empty($this->created) && (User::isAdmin() || isCommandLineInterface())) {
+                    if (
+                        !empty($this->created) && (
+                        User::isAdmin() || 
+                        isCommandLineInterface() || 
+                        (class_exists('API') && API::isAPISecretValid())
+                    )) {
                         $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);
+                        _error_log("created changed in table=".static::getTableName()." id={$this->id} created={$this->created}");
                         $formats .= 's';
                         $values[] = $this->created;
                         $fields[] = " `{$value}` = ? ";
