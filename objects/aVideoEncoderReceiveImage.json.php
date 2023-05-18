@@ -47,34 +47,37 @@ make_path($destination_local);
 _error_log("ReceiveImage: videoFilename = [$videoFileName] destination_local = {$destination_local} Encoder receiving post " . json_encode($_FILES));
 
 $obj->jpgDest = "{$destination_local}.jpg";
-if (isValidURL($_REQUEST['downloadURL_image'])) {
-    $content = url_get_contents($_REQUEST['downloadURL_image']);
-    $obj->jpgDestSize = _file_put_contents($obj->jpgDest, $content);
-    _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} to {$obj->jpgDest} ". humanFileSize($obj->jpgDestSize));
-} elseif (!empty($_FILES['image']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgDest) || filesize($obj->jpgDest) === 42342)) {
-    if (!move_uploaded_file($_FILES['image']['tmp_name'], $obj->jpgDest)) {
-        if (!rename($_FILES['image']['tmp_name'], $obj->jpgDest)) {
-            if (!copy($_FILES['image']['tmp_name'], $obj->jpgDest)) {
-                if (!file_exists($_FILES['image']['tmp_name'])) {
-                    $obj->msg = print_r(sprintf(__("Could not move image file because it does not exits %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
-                } else {
-                    $obj->msg = print_r(sprintf(__("Could not move image file %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
+if (!file_exists($obj->jpgDest) || !fileIsAnValidImage($obj->jpgDest)) {
+
+    if (isValidURL($_REQUEST['downloadURL_image'])) {
+        $content = url_get_contents($_REQUEST['downloadURL_image']);
+        $obj->jpgDestSize = _file_put_contents($obj->jpgDest, $content);
+        _error_log("ReceiveImage: download {$_REQUEST['downloadURL_image']} to {$obj->jpgDest} " . humanFileSize($obj->jpgDestSize));
+    } elseif (!empty($_FILES['image']['tmp_name']) && (!empty($_REQUEST['update_video_id']) || !fileIsAnValidImage($obj->jpgDest))) {
+        if (!move_uploaded_file($_FILES['image']['tmp_name'], $obj->jpgDest)) {
+            if (!rename($_FILES['image']['tmp_name'], $obj->jpgDest)) {
+                if (!copy($_FILES['image']['tmp_name'], $obj->jpgDest)) {
+                    if (!file_exists($_FILES['image']['tmp_name'])) {
+                        $obj->msg = print_r(sprintf(__("Could not move image file because it does not exits %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
+                    } else {
+                        $obj->msg = print_r(sprintf(__("Could not move image file %s => [%s]"), $_FILES['image']['tmp_name'], $obj->jpgDest), true);
+                    }
+                    _error_log("ReceiveImage: " . $obj->msg);
+                    die(json_encode($obj));
                 }
-                _error_log("ReceiveImage: " . $obj->msg);
-                die(json_encode($obj));
             }
+        } else {
+            $obj->jpgDestSize = humanFileSize(filesize($obj->jpgDest));
         }
     } else {
-        $obj->jpgDestSize = humanFileSize(filesize($obj->jpgDest));
-    }
-} else {
-    if (empty($_FILES['image']['tmp_name'])) {
-        _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
-    }
-    if (file_exists($obj->jpgDest)) {
-        _error_log("ReceiveImage: File already exists " . $obj->jpgDest);
-        if (filesize($obj->jpgDest) !== 42342) {
-            _error_log("ReceiveImage: file is not an error image " . filesize($obj->jpgDest));
+        if (empty($_FILES['image']['tmp_name'])) {
+            _error_log("ReceiveImage: empty \$_FILES['image']['tmp_name'] " . json_encode($_FILES));
+        }
+        if (file_exists($obj->jpgDest)) {
+            _error_log("ReceiveImage: File already exists " . $obj->jpgDest);
+            if (fileIsAnValidImage($obj->jpgDest)) {
+                _error_log("ReceiveImage: file is not an error image " . filesize($obj->jpgDest));
+            }
         }
     }
 }
@@ -85,7 +88,7 @@ if (!empty($_REQUEST['downloadURL_spectrumimage'])) {
     _error_log("ReceiveImage: download {$_REQUEST['downloadURL_spectrumimage']} {$obj->jpgDestSize}");
 } elseif (!empty($_FILES['spectrumimage']['tmp_name'])) {
     $obj->jpgSpectrumDest = "{$destination_local}_spectrum.jpg";
-    if ((!empty($_REQUEST['update_video_id']) || !file_exists($obj->jpgSpectrumDest) || filesize($obj->jpgSpectrumDest) === 42342)) {
+    if ((!empty($_REQUEST['update_video_id']) || !fileIsAnValidImage($obj->jpgSpectrumDest))) {
         if (!move_uploaded_file($_FILES['spectrumimage']['tmp_name'], $obj->jpgSpectrumDest)) {
             $obj->msg = print_r(sprintf(__("Could not move image file [%s.jpg]"), $destination_local), true);
             _error_log("ReceiveImage: " . $obj->msg);
@@ -99,7 +102,7 @@ if (!empty($_REQUEST['downloadURL_spectrumimage'])) {
         }
         if (file_exists($obj->jpgSpectrumDest)) {
             _error_log("ReceiveImage: File already exists " . $obj->jpgDest);
-            if (filesize($obj->jpgSpectrumDestSize) !== 42342) {
+            if (fileIsAnValidImage($obj->jpgSpectrumDestSize)) {
                 _error_log("ReceiveImage: file is not an error image " . filesize($obj->jpgDest));
             }
         }
@@ -125,7 +128,7 @@ if (!empty($_REQUEST['downloadURL_gifimage'])) {
     }
     if (file_exists($obj->gifDest)) {
         _error_log("ReceiveImage: File already exists " . $obj->gifDest);
-        if (filesize($obj->gifDest) !== 42342) {
+        if (fileIsAnValidImage($obj->gifDest)) {
             _error_log("ReceiveImage: file is not an error image " . filesize($obj->gifDest));
         }
     }
@@ -150,22 +153,22 @@ if (!empty($_REQUEST['downloadURL_webpimage'])) {
     }
     if (file_exists($obj->webpDest)) {
         _error_log("ReceiveImage: File already exists " . $obj->webpDest);
-        if (filesize($obj->webpDest) !== 42342) {
+        if (fileIsAnValidImage($obj->webpDest)) {
             _error_log("ReceiveImage: file is not an error image " . filesize($obj->webpDest));
         }
     }
 }
 
-if(!empty($obj->jpgDest)){
+if (!empty($obj->jpgDest)) {
     $obj->jpgDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgDest);
 }
-if(!empty($obj->jpgSpectrumDest)){
+if (!empty($obj->jpgSpectrumDest)) {
     $obj->jpgSpectrumDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpectrumDest);
 }
-if(!empty($obj->gifDest)){
+if (!empty($obj->gifDest)) {
     $obj->gifDest_deleteInvalidImage = deleteInvalidImage(@$obj->jpgSpegifDestctrumDest);
 }
-if(!empty($obj->webpDest)){
+if (!empty($obj->webpDest)) {
     $obj->webpDest_deleteInvalidImage = deleteInvalidImage(@$obj->webpDest);
 }
 
@@ -173,13 +176,13 @@ if (!empty($_REQUEST['duration'])) {
     _error_log("ReceiveImage: duration NOT empty {$_REQUEST['duration']}");
     $duration = $video->getDuration();
     if (empty($duration) || $duration === 'EE:EE:EE') {
-        _error_log("ReceiveImage: duration Line ".__LINE__);
+        _error_log("ReceiveImage: duration Line " . __LINE__);
         $video->setDuration($_REQUEST['duration']);
-    }else if($_REQUEST['duration']!=='EE:EE:EE'){
-        _error_log("ReceiveImage: duration Line ".__LINE__);
+    } else if ($_REQUEST['duration'] !== 'EE:EE:EE') {
+        _error_log("ReceiveImage: duration Line " . __LINE__);
         $video->setDuration($_REQUEST['duration']);
     }
-}else{
+} else {
     _error_log("ReceiveImage: duration was empty {$_REQUEST['duration']}");
 }
 

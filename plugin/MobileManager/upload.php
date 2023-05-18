@@ -7,19 +7,19 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 $object = new stdClass();
 $object->error = true;
 $object->videos_id = 0;
-if (!User::canUpload() && (empty($_GET['user']) || empty($_GET['pass']))) {
+if (!User::canUpload() && (empty($_REQUEST['user']) || empty($_REQUEST['pass']))) {
     $object->msg = "You need a user";
     die(json_encode($object));
 }
 
-$user = $_GET['user'];
-$password = $_GET['pass'];
+$user = $_REQUEST['user'];
+$password = $_REQUEST['pass'];
 
 $userObj = new User(0, $user, $password);
 $userObj->login(false, true);
 
 if (!User::canUpload()) {
-    $object->msg = "You can not upload";
+    $object->msg = "You can not upload [".User::getId()."] ".(User::getUserName());
     die(json_encode($object));
 }
 
@@ -122,11 +122,12 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $object->error = false;
         $object->msg = "We sent your video to the encoder";
     }
+    $object->posterSent = false;
     
     if(!empty($object->videos_id) && !empty($_REQUEST['base64PNG'])){
         $filePng = "{$paths['path']}{$paths['filename']}.png";
         $fileJpg = "{$paths['path']}{$paths['filename']}.jpg";
-        saveBase64DataToPNGImage($_REQUEST['base64PNG'], $filePng);
+        $object->posterSent = saveBase64DataToPNGImage($_REQUEST['base64PNG'], $filePng);
         convertImage($filePng, $fileJpg, 90);
         Video::clearImageCache($paths['filename']);
     }

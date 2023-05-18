@@ -10664,7 +10664,9 @@ function getHtaccessForVideoVersion($videosHtaccessFile)
 function fileIsAnValidImage($filepath)
 {
     if (file_exists($filepath)) {
-        if (!function_exists('exif_imagetype')) {
+        if(filesize($filepath) === 42342){
+            return false;
+        }else if (!function_exists('exif_imagetype')) {
             if ((list($width, $height, $type, $attr) = getimagesize($filepath)) !== false) {
                 return $type;
             }
