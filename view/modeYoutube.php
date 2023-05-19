@@ -283,6 +283,12 @@ if (empty($video)) {
         videoNotFound('ERROR 3: The video is not available video ID is empty');
     }
 }
+
+if (empty($video)) {
+    videoNotFound('Please try again');
+    exit;
+}
+
 $metaDescription = " {$video['id']}";
 
 // make sure the title tag does not have more then 70 chars
