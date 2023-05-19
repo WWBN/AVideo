@@ -313,7 +313,7 @@ abstract class ObjectYPT implements ObjectInterface
                         (class_exists('API') && API::isAPISecretValid())
                     )) {
                         $this->created = preg_replace('/[^0-9: \/-]/', '', $this->created);
-                        _error_log("created changed in table=".static::getTableName()." id={$this->id} created={$this->created}");
+                        //_error_log("created changed in table=".static::getTableName()." id={$this->id} created={$this->created}");
                         $formats .= 's';
                         $values[] = $this->created;
                         $fields[] = " `{$value}` = ? ";
