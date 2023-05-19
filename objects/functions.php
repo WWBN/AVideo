@@ -6215,17 +6215,14 @@ function getCurrentPage()
     } elseif (!empty($_GET['page'])) {
         $current = intval($_GET['page']);
     }
-    if(isBot() && $current>10){
+    if($current>1000 && !User::isLogged()){
         _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        _error_log("getCurrentPage current>1000 ERROR bot die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
+        _error_log("getCurrentPage current>1000 ERROR NOT LOGGED die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
         exit;
-    }
-    if($current>100){
-        if(!User::isLogged() || $current>1000){
-            _error_log("getCurrentPage current>1000 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-            _error_log("getCurrentPage current>1000 ERROR die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
-            exit;
-        }
+    }else if($current>100 && isBot()){
+        _error_log("getCurrentPage current>100 ERROR [{$current}] ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("getCurrentPage current>100 ERROR bot die [{$current}] ".getSelfURI().' '.json_encode($_SERVER));
+        exit;
     }
     $lastCurrent = $current;
     return $current;
