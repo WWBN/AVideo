@@ -6290,6 +6290,8 @@ if (!class_exists('Video')) {
 
         public static function isMediaFileMissing($filename, $cacheCleared = false)
         {
+            global $getVideosURL_V2Array;
+            unset($getVideosURL_V2Array[$filename]);
             $sources = getVideosURL_V2($filename, true);
             $search = ['mp3', 'mp4', 'm3u8', 'webm'];
             $found = false;
