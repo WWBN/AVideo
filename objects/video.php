@@ -6278,7 +6278,7 @@ if (!class_exists('Video')) {
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
                     if (self::isMediaFileMissing($video->getFilename())) {
-                        _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename(). ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS))));
+                        _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename(). ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                         $video->setStatus(Video::$statusBrokenMissingFiles);
                         Video::clearCache($videos_id);
                         return true;
