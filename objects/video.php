@@ -6290,7 +6290,7 @@ if (!class_exists('Video')) {
 
         public static function isMediaFileMissing($filename, $cacheCleared = false)
         {
-            $sources = getVideosURL_V2($filename);
+            $sources = getVideosURL_V2($filename, true);
             $search = ['mp3', 'mp4', 'm3u8', 'webm'];
             $found = false;
             foreach ($sources as $key => $value1) {
