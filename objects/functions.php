@@ -4978,7 +4978,7 @@ function getCacheDir()
 {
     $p = AVideoPlugin::loadPlugin("Cache");
     if (empty($p)) {
-        return addLastSlash(_sys_get_temp_dir());
+        return addLastSlash(sys_get_temp_dir());
     }
     return $p->getCacheDir();
 }
