@@ -1479,7 +1479,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
     //$recreateCache = true;
     $cleanfilename = Video::getCleanFilenameFromFile($fileName);
 
-    if (!empty($getVideosURL_V2Array[$cleanfilename])) {
+    if (empty($recreateCache) && !empty($getVideosURL_V2Array[$cleanfilename])) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
 
