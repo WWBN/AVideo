@@ -91,7 +91,9 @@ class AVideoPlugin
             if (is_object($p)) {
                 //echo $value['dirName'].PHP_EOL;
                 //_error_log('getHeadCode start 1'.$value['dirName']);
+                $str .= '<!-- AVideoPlugin::' . __FUNCTION__ . ' '.$value['dirName'].' start -->';
                 $str .= $p->getHeadCode();
+                $str .= '<!-- AVideoPlugin::' . __FUNCTION__ . ' '.$value['dirName'].' end -->';
                 //_error_log('getHeadCode end '.$value['dirName']);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
