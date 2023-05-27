@@ -2,7 +2,7 @@
 
 global $global;
 if (!isset($global['systemRootPath'])) {
-    require_once $_SERVER['DOCUMENT_ROOT'].'videos/configuration.php';
+    require_once dirname(__FILE__) . '/../../videos/configuration.php';
 }
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
