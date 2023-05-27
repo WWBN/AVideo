@@ -289,6 +289,12 @@ if (empty($video)) {
     exit;
 }
 
+if (!User::canWatchVideoWithAds($video['id'])) {
+    forbiddenPage('This video is private');
+    exit;
+}
+
+
 $metaDescription = " {$video['id']}";
 
 // make sure the title tag does not have more then 70 chars
