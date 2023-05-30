@@ -8547,6 +8547,9 @@ function getLiveVideosFromUsers_id($users_id)
         $stats = getStatsNotifications();
         foreach ($stats["applications"] as $key => $value) {
             if (empty($value['users_id']) || $users_id != $value['users_id']) {
+                if(!empty($_REQUEST['debug'])){
+                    _error_log("getLiveVideosFromUsers_id($users_id) != {$value['users_id']}");
+                }
                 continue;
             }
             $videos[] = getLiveVideosObject($value);
