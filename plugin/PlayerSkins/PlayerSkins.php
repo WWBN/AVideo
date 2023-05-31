@@ -411,7 +411,7 @@ class PlayerSkins extends PluginAbstract {
             }
         }
         if(!$obj->showPictureInPicture){
-            $dataSetup[] = "pictureInPictureToggle: false";
+            $dataSetup[] = "controlBar: {pictureInPictureToggle: false}";
         }
 
         $pluginsDataSetup = AVideoPlugin::dataSetup();
