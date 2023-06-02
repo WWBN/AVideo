@@ -117,7 +117,7 @@ class PlayList extends ObjectYPT {
         $playlists_id = intval($playlists_id);
         $formats = '';
         $values = [];
-        $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl ";
+        $sql = "SELECT pl.* FROM  " . static::getTableName() . " pl ";
 
         if ($includeSeries) {
             $sql .= " LEFT JOIN videos v ON pl.id = serie_playlists_id  ";
