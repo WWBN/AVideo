@@ -23,11 +23,9 @@ if (is_array($_POST['videos_id'])) {
     foreach ($_POST['videos_id'] as $value) {
         $rows[] = ['videos_id' => $value, 'playlists' => PlayList::getAllFromUserVideo($_POST['users_id'], $value, false)];
     }
-    _error_log('playlistsFromUserVideos 1 getAllFromUserVideo ' . count($rows));
     echo json_encode($rows);
 } else {
     $row = PlayList::getAllFromUserVideo($_POST['users_id'], $_POST['videos_id'], false);
-    _error_log('playlistsFromUserVideos 2 getAllFromUserVideo ' . count($row));
     echo json_encode($row);
 }
 mysqlCommit();
