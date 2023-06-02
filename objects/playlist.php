@@ -166,7 +166,10 @@ class PlayList extends ObjectYPT {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
+        $TimeLog2 = "playList getAllFromUser($userId) foreach";
+        TimeLogStart($TimeLog2);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
+        TimeLogEnd($TimeLog2, __LINE__);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
                 if ($row['status'] === "favorite") {
