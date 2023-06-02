@@ -22,4 +22,5 @@ foreach ($row as $key => $value) {
         unset($row[$key]['videos'][$key2]['description']);
     }
 }
+_error_log('playlistsFromUserVideos getAllFromUser '.count($row));
 echo json_encode($row);
