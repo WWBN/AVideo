@@ -145,7 +145,9 @@ class PlayList extends ObjectYPT {
                 $values[] = $userId;
             }
         }
-        $sql .= self::getSqlFromPost("pl.");        
+        $sql .= self::getSqlFromPost("pl.");  
+        $TimeLog1 = "playList getAllFromUser($userId)";
+        TimeLogStart($TimeLog1);      
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -155,8 +157,7 @@ class PlayList extends ObjectYPT {
         $favoriteCount = 0;
         $watch_laterCount = 0;
         if ($res !== false) {
-        $TimeLog1 = "playList getAllFromUser($userId)";
-        TimeLogStart($TimeLog1);
+        TimeLogStart($TimeLog1);    
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
