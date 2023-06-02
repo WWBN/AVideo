@@ -14,5 +14,6 @@ if (empty($_GET['users_id'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
+_error_log('playlistsFromUserVideos getAllFromUser '.$_GET['users_id']);
 $row = PlayList::getAllFromUser($_GET['users_id'], false);
 echo json_encode($row);
