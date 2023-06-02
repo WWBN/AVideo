@@ -16,4 +16,9 @@ require_once './playlist.php';
 header('Content-Type: application/json');
 _error_log('playlistsFromUserVideos getAllFromUser '.$_GET['users_id']);
 $row = PlayList::getAllFromUser($_GET['users_id'], false);
+foreach ($row as $key => $value) {
+    foreach ($row[$key]['videos'] as $key2 => $value2) {
+        unset($row[$key]['videos'][$key2]['description']);
+    }
+}
 echo json_encode($row);
