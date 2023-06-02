@@ -352,7 +352,7 @@ class PlayList extends ObjectYPT {
         TimeLogStart($TimeLog1);
         $cacheName = "getAllFromUserVideo_{$videos_id}".DIRECTORY_SEPARATOR."getAllFromUserVideo($userId, $videos_id)".intval($publicOnly).$status;
         //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCacheGlobal($cacheName);
+        $rows = self::getCacheGlobal($cacheName, 0);
         if(empty($rows)){
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             TimeLogEnd($TimeLog1, __LINE__);
@@ -451,7 +451,7 @@ class PlayList extends ObjectYPT {
         $_POST['sort'] = $sort;
         $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
         //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCacheGlobal($cacheName);
+        $rows = self::getCacheGlobal($cacheName, 0);
         if (empty($rows)) {
             global $global;
 
@@ -660,7 +660,7 @@ class PlayList extends ObjectYPT {
     public static function getVideosIdFromPlaylist($playlists_id) {
         global $getVideosIdFromPlaylist;
         $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . "getVideosIdFromPlaylist";
-        $videosId = self::getCacheGlobal($cacheName);
+        $videosId = self::getCacheGlobal($cacheName, 0);
         if (empty($videosId)) {
             $videosId = [];
             $rows = static::getVideosIDFromPlaylistLight($playlists_id);
