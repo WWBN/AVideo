@@ -157,7 +157,7 @@ class PlayList extends ObjectYPT {
         $favoriteCount = 0;
         $watch_laterCount = 0;
         if ($res !== false) {
-        TimeLogStart($TimeLog1);    
+        TimeLogEnd($TimeLog1);    
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
