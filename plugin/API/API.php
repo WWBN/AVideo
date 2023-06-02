@@ -1811,6 +1811,7 @@ class API extends PluginAbstract {
             $obj->iconClass = $value['iconClass'];
             $obj->hierarchyAndName = $value['hierarchyAndName'];
             $obj->name = $value['name'];
+            $obj->clean_name = $value['clean_name'];
             $obj->fullTotal = $value['fullTotal'];
             $obj->total = $value['total'];
             $list[] = $obj;
