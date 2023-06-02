@@ -17,6 +17,7 @@ if (session_status() !== PHP_SESSION_NONE) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
+mysqlBeginTransaction();
 if (is_array($_POST['videos_id'])) {
     $rows = [];
     foreach ($_POST['videos_id'] as $value) {
@@ -29,3 +30,4 @@ if (is_array($_POST['videos_id'])) {
     _error_log('playlistsFromUserVideos 2 getAllFromUserVideo ' . count($row));
     echo json_encode($row);
 }
+mysqlCommit();
