@@ -184,6 +184,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
+            _error_log("playList getAllFromUser count=".count($fullData));
         TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
