@@ -351,8 +351,10 @@ class PlayList extends ObjectYPT {
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
         $TimeLog1 = "playList getAllFromUser($userId, $videos_id)";
         TimeLogStart($TimeLog1);
-        if (empty($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
-
+        $cacheName = "getAllFromUserVideo_{$videos_id}".DIRECTORY_SEPARATOR."getAllFromUserVideo($userId, $videos_id)".intval($publicOnly).$status;
+        //var_dump($playlists_id, $sql);exit;
+        $rows = self::getCacheGlobal($cacheName);
+        if(empty($rows)){
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             TimeLogEnd($TimeLog1, __LINE__);
             foreach ($rows as $key => $value) {
@@ -361,21 +363,18 @@ class PlayList extends ObjectYPT {
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
             TimeLogEnd($TimeLog1, __LINE__);
-            _session_start();
-            $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
-        } else {
-            TimeLogEnd($TimeLog1, __LINE__);
-            $rows = $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
-            TimeLogEnd($TimeLog1, __LINE__);
+            self::setCacheGlobal($cacheName, $rows);
+        }else{
+            $rows = object_to_array($rows);
         }
+        TimeLogEnd($TimeLog1, __LINE__);
 
         return $rows;
     }
 
     private static function removeCache($videos_id) {
-        $close = false;
-        _session_start();
-        unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
+        $cacheName = "getAllFromUserVideo_{$videos_id}";
+        self::deleteCacheFromPattern($name);
     }
 
     public static function getSuggested() {
