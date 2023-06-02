@@ -151,7 +151,7 @@ class PlayList extends ObjectYPT {
         TimeLogStart($TimeLog1);      
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
-        TimeLogEnd($TimeLog1); 
+        TimeLogEnd($TimeLog1, __LINE__); 
         sqlDAL::close($res);
         $rows = [];
         $favorite = [];
