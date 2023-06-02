@@ -159,7 +159,7 @@ class PlayList extends ObjectYPT {
         if ($res !== false) {
             TimeLogEnd($TimeLog1, __LINE__);
             foreach ($fullData as $row) {
-                $row = cleanUpRowFromDatabase($row);
+                //$row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $row['isFavorite'] = false;
@@ -432,7 +432,11 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getVideosFromPlaylist($playlists_id) {
-        $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
+        $sql = "SELECT p.*,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions, v.externalOptions as externalOptions
+                    , v.filename
+                    , v.type as type
+                    , v.serie_playlists_id as serie_playlists_id
+                    , v.title as title "
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
