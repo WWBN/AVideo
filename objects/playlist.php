@@ -146,15 +146,23 @@ class PlayList extends ObjectYPT {
         }
         $sql .= self::getSqlFromPost("pl.");
         //echo $sql, $userId;exit;
+        _error_log('playlistsFromUserVideos sql '.$sql);
+        
+        $TimeLog1 = "playList getAllFromUser($userId)";
+        TimeLogStart($TimeLog1);
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
+        TimeLogEnd($TimeLog1, __LINE__);
         $fullData = sqlDAL::fetchAllAssoc($res);
+        TimeLogEnd($TimeLog1, __LINE__);
         sqlDAL::close($res);
         $rows = [];
         $favorite = [];
         $watch_later = [];
         $favoriteCount = 0;
         $watch_laterCount = 0;
+        TimeLogEnd($TimeLog1, __LINE__);
         if ($res !== false) {
+        TimeLogEnd($TimeLog1, __LINE__);
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
@@ -173,6 +181,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
+        TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
@@ -208,12 +217,15 @@ class PlayList extends ObjectYPT {
                     }
                 }
             }
+        TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($favorite)) {
                 array_unshift($rows, $favorite);
             }
+        TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($watch_later)) {
                 array_unshift($rows, $watch_later);
             }
+        TimeLogEnd($TimeLog1, __LINE__);
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             $rows = [];
