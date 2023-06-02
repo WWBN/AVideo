@@ -211,12 +211,16 @@ class PlayList extends ObjectYPT {
                     }
                 }
             }
+            
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($favorite)) {
                 array_unshift($rows, $favorite);
             }
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($watch_later)) {
                 array_unshift($rows, $watch_later);
             }
+            TimeLogEnd($TimeLog1, __LINE__);
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             $rows = [];
