@@ -3,13 +3,13 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-session_write_close();
 if (!User::isLogged()) {
     die();
 }
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 header('Content-Type: application/json');
 echo '[]';exit;
+session_write_close();
 mysqlBeginTransaction();
 $row = PlayList::getAllFromUser(User::getId(), false);
 foreach ($row as $key => $value) {
