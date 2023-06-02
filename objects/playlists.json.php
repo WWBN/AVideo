@@ -9,6 +9,7 @@ if (!User::isLogged()) {
 }
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 header('Content-Type: application/json');
+session_write_close();
 $row = PlayList::getAllFromUser(User::getId(), false);
 foreach ($row as $key => $value) {
     foreach ($row[$key]['videos'] as $key2 => $value2) {
