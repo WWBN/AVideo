@@ -9,8 +9,8 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class PlayList extends ObjectYPT {
-    protected $properties = [];
 
+    protected $properties = [];
     protected $id;
     protected $name;
     protected $users_id;
@@ -85,7 +85,7 @@ class PlayList extends ObjectYPT {
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         $videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
-            if(empty($videosP[$key]['type'])){
+            if (empty($videosP[$key]['type'])) {
                 unset($videosP[$key]);
                 continue;
             }
@@ -104,7 +104,6 @@ class PlayList extends ObjectYPT {
         return $videosP;
     }
 
-    
     /**
      *
      * @global array $global
@@ -145,20 +144,20 @@ class PlayList extends ObjectYPT {
                 $values[] = $userId;
             }
         }
-        $sql .= self::getSqlFromPost("pl.");  
-        _error_log("playList getAllFromUser($userId) ".json_encode(array($refreshCacheFromPlaylist, $sql, $formats, $values)));
+        $sql .= self::getSqlFromPost("pl.");
+        _error_log("playList getAllFromUser($userId) " . json_encode(array($refreshCacheFromPlaylist, $sql, $formats, $values)));
         $TimeLog1 = "playList getAllFromUser($userId)";
-        TimeLogStart($TimeLog1);      
+        TimeLogStart($TimeLog1);
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
-        TimeLogEnd($TimeLog1, __LINE__); 
+        TimeLogEnd($TimeLog1, __LINE__);
         sqlDAL::close($res);
         $rows = [];
         $favorite = [];
         $watch_later = [];
         $favoriteCount = 0;
         $watch_laterCount = 0;
-        if ($res !== false) {   
+        if ($res !== false) {
             TimeLogEnd($TimeLog1, __LINE__);
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
@@ -214,7 +213,7 @@ class PlayList extends ObjectYPT {
                     }
                 }
             }
-            
+
             TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($favorite)) {
                 array_unshift($rows, $favorite);
@@ -350,17 +349,24 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
+        $TimeLog1 = "playList getAllFromUser($userId, $videos_id)";
+        TimeLogStart($TimeLog1);
         if (empty($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
+
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
+            TimeLogEnd($TimeLog1, __LINE__);
             foreach ($rows as $key => $value) {
                 $rows[$key]['name_translated'] = __($rows[$key]['name']);
                 $videos = self::getVideosIdFromPlaylist($value['id']);
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
+            TimeLogEnd($TimeLog1, __LINE__);
             _session_start();
             $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
         } else {
+            TimeLogEnd($TimeLog1, __LINE__);
             $rows = $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
+            TimeLogEnd($TimeLog1, __LINE__);
         }
 
         return $rows;
@@ -376,19 +382,20 @@ class PlayList extends ObjectYPT {
         global $global;
 
         return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
-
     }
+
     public static function getVideosIndexFromPlaylistLight($playlists_id, $videos_id) {
-        if(!empty($videos_id)){
+        if (!empty($videos_id)) {
             $pl = self::getVideosIDFromPlaylistLight($playlists_id);
             foreach ($pl as $key => $value) {
-                if($value['videos_id']==$videos_id){
+                if ($value['videos_id'] == $videos_id) {
                     return $key;
                 }
             }
         }
         return 0;
     }
+
     public static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global, $getVideosIDFromPlaylistLight;
 
@@ -650,39 +657,36 @@ class PlayList extends ObjectYPT {
 
     public static function getVideosIdFromPlaylist($playlists_id) {
         global $getVideosIdFromPlaylist;
-        if (empty($getVideosIdFromPlaylist)) {
-            $getVideosIdFromPlaylist = [];
-        }
-        if (isset($getVideosIdFromPlaylist[$playlists_id])) {
-            return $getVideosIdFromPlaylist[$playlists_id];
-        }
-        $videosId = [];
-        $rows = static::getVideosIDFromPlaylistLight($playlists_id);
-        foreach ($rows as $value) {
-            $videosId[] = $value['videos_id'];
-        }
+        $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . "getVideosIdFromPlaylist";
+        $videosId = self::getCacheGlobal($cacheName);
+        if (empty($videosId)) {
+            $videosId = [];
+            $rows = static::getVideosIDFromPlaylistLight($playlists_id);
+            foreach ($rows as $value) {
+                $videosId[] = $value['videos_id'];
+            }
 
-        $getVideosIdFromPlaylist[$playlists_id] = $videosId;
+            $cache = self::setCacheGlobal($cacheName, $videosId);
+        }
         return $videosId;
     }
 
-
-    public static function getTotalDurationFromPlaylistInSeconds($playlists_id) {  
+    public static function getTotalDurationFromPlaylistInSeconds($playlists_id) {
         global $getTotalDurationFromPlaylist;
         if (empty($getTotalDurationFromPlaylist)) {
             $getTotalDurationFromPlaylist = [];
         }
         if (isset($getTotalDurationFromPlaylist[$playlists_id])) {
             return $getTotalDurationFromPlaylist[$playlists_id];
-        }      
+        }
         $getTotalDurationFromPlaylist[$playlists_id] = 0;
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
-        if(!empty($videosArrayId)){
-            $sql = "SELECT sum(duration_in_seconds) as total FROM videos WHERE id IN ('".implode("', '", $videosArrayId)."') ";
+        if (!empty($videosArrayId)) {
+            $sql = "SELECT sum(duration_in_seconds) as total FROM videos WHERE id IN ('" . implode("', '", $videosArrayId) . "') ";
             //var_dump($sql);exit;
             $res = sqlDAL::readSql($sql);
             $data = sqlDAL::fetchAssoc($res);
-            if(!empty($data)){
+            if (!empty($data)) {
                 $getTotalDurationFromPlaylist[$playlists_id] = intval($data['total']);
             }
         }
@@ -919,4 +923,5 @@ class PlayList extends ObjectYPT {
         }
         return false;
     }
+
 }
