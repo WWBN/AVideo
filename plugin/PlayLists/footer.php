@@ -41,7 +41,6 @@
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
     async function loadPlayLists(videos_id, crc) {
-        return false;
         //console.log('loadPlayLists');
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
             loadPlayListsResponseObject.timestamp = Date.now();
