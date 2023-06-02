@@ -104,6 +104,7 @@ class PlayList extends ObjectYPT {
         return $videosP;
     }
 
+    
     /**
      *
      * @global array $global
@@ -144,32 +145,22 @@ class PlayList extends ObjectYPT {
                 $values[] = $userId;
             }
         }
-        $sql .= self::getSqlFromPost("pl.");
-        //echo $sql, $userId;exit;
-        _error_log("playlistsFromUserVideos sql ".$sql.json_encode(array($formats, $values)));
-        
-        $TimeLog1 = "playList getAllFromUser($userId)";
-        TimeLogStart($TimeLog1);
+        $sql .= self::getSqlFromPost("pl.");        
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
-        TimeLogEnd($TimeLog1, __LINE__);
         $fullData = sqlDAL::fetchAllAssoc($res);
-        TimeLogEnd($TimeLog1, __LINE__);
         sqlDAL::close($res);
         $rows = [];
         $favorite = [];
         $watch_later = [];
         $favoriteCount = 0;
         $watch_laterCount = 0;
-        TimeLogEnd($TimeLog1, __LINE__);
         if ($res !== false) {
-        TimeLogEnd($TimeLog1, __LINE__);
+        $TimeLog1 = "playList getAllFromUser($userId)";
+            TimeLogEnd($TimeLog1, __LINE__);
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
-        $TimeLog2 = "playList getAllFromUser($userId) foreach";
-        TimeLogStart($TimeLog2);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
-        TimeLogEnd($TimeLog2, __LINE__);
                 $row['isFavorite'] = false;
                 $row['isWatchLater'] = false;
                 if ($row['status'] === "favorite") {
@@ -184,8 +175,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
-            _error_log("playList getAllFromUser count=".count($fullData));
-        TimeLogEnd($TimeLog1, __LINE__);
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
@@ -221,15 +211,12 @@ class PlayList extends ObjectYPT {
                     }
                 }
             }
-        TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($favorite)) {
                 array_unshift($rows, $favorite);
             }
-        TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($watch_later)) {
                 array_unshift($rows, $watch_later);
             }
-        TimeLogEnd($TimeLog1, __LINE__);
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             $rows = [];
@@ -448,7 +435,7 @@ class PlayList extends ObjectYPT {
         $_POST['sort'] = $sort;
         $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
         //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCache($cacheName, 0, true);
+        $rows = self::getCacheGlobal($cacheName);
         if (empty($rows)) {
             global $global;
 
@@ -491,7 +478,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
 
-                $cache = self::setCache($cacheName, $rows);
+                $cache = self::setCacheGlobal($cacheName, $rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
