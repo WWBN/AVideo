@@ -1435,7 +1435,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $json = _json_decode($result);
                 return $json;
             }
-            _error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
+            //_error_log("Live::getStatsObject[$live_servers_id] 4: cache not found");
         } else {
             _error_log("Live::getStatsObject[$live_servers_id] 5: forced to be recreated");
         }
@@ -2485,20 +2485,20 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         if (empty($force_recreate) && isset($_isLiveFromKey[$index])) {
-            _error_log('Live::isKeyLiveInStats key is already set');
+            //_error_log('Live::isKeyLiveInStats key is already set');
             return $_isLiveFromKey[$index];
         }
 
-        _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
+        //_error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
         $o = AVideoPlugin::getObjectData("Live");
         if ($doNotCheckDatabase) {
             if (empty($o->server_type->value) || !empty($live_servers_id)) {
-                _error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key, $live_servers_id)");
+                //_error_log("Live::isLiveFromKey return LiveTransmitionHistory::isLive($key, $live_servers_id)");
                 return LiveTransmitionHistory::isLive($key, $live_servers_id);
             }
         }
 
-        _error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
+        //_error_log("Live::isLiveFromKey($key, $live_servers_id, $live_index, $force_recreate )");
         //_error_log('getStats execute getStats: ' . __LINE__ . ' ' . __FILE__);
         //$json = getStatsNotifications($force_recreate);
         //_error_log('getStats execute getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
@@ -2564,7 +2564,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     }
                 }
             }
-            _error_log("Live::isLiveFromKey namesFound " . json_encode($namesFound));
+            //_error_log("Live::isLiveFromKey namesFound " . json_encode($namesFound));
         } else {
             _error_log("Live::isLiveFromKey Stats respond empty");
         }
