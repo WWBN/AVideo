@@ -42,7 +42,7 @@ class MaintenanceMode extends PluginAbstract {
                 $resp->error = true;
                 $resp->msg = $obj->text;
                 $resp->MaintenanceMode = true;
-                die(json_encode($resp));
+                echo (json_encode($resp));
             } else if (isContentTypeXML()) {
                 echo '<?xml version="1.0" encoding="UTF-8"?>
 <response>
@@ -53,8 +53,8 @@ class MaintenanceMode extends PluginAbstract {
 ';
             } else {
                 include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
-                exit;
             }
+            exit;
         }
     }
 
