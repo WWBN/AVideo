@@ -33,7 +33,7 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getStart() {
-        global $global;
+        global $global, $config;
         if ($this->shouldEnterInMaintenencaMode()) {
             //header('HTTP/1.0 403 Forbidden');
             if (isContentTypeJson()) {
