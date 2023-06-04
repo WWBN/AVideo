@@ -33,7 +33,21 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getStart() {
+        if ($this->shouldEnterInMaintenencaMode()) {
+            include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
+            exit;
+        }
+    }
+    
+    
+    public function shouldEnterInMaintenencaMode() {
         global $global, $config;
+        $obj = $this->getDataObject();
+        if(!empty($obj->stopFeed)){
+            if(preg_match('/feed/i', $_SERVER["SCRIPT_FILENAME"])){
+                return true;
+            }
+        }
         $forbidden = array(
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'index.php',
             $global['systemRootPath'] . 'view' . DIRECTORY_SEPARATOR . 'channels.php',
@@ -42,10 +56,9 @@ class MaintenanceMode extends PluginAbstract {
         $SCRIPT_FILENAME = str_replace('/', DIRECTORY_SEPARATOR, $_SERVER["SCRIPT_FILENAME"]);
         //var_dump($SCRIPT_FILENAME, $forbidden);exit;
         if (empty($global['disableAdvancedConfigurations']) && !User::isAdmin() && in_array($SCRIPT_FILENAME, $forbidden)) {
-            $obj = $this->getDataObject();
-            include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
-            exit;
+            return true;
         }
+        return false;
     }
 
     public function getEmptyDataObject() {
@@ -56,6 +69,7 @@ class MaintenanceMode extends PluginAbstract {
         $obj->twitterLink = '';
         $obj->googleLink = '';
         $obj->discordLink = '';
+        $obj->stopFeed = true;
         $obj->endIn = date("Y-m-d H:i:s", strtotime("+1 week"));
         $obj->hideClock = false;
         $obj->backgroundImageURL = $global['webSiteRootURL'] . "plugin/MaintenanceMode/images/bg01.jpg";
@@ -64,7 +78,7 @@ class MaintenanceMode extends PluginAbstract {
 
     public function getFooterCode() {
         global $global, $config;
-        if(!isEmbed()){
+        if (!isEmbed()) {
             $obj = $this->getDataObject();
             include $global['systemRootPath'] . 'plugin/MaintenanceMode/footer.php';
         }
