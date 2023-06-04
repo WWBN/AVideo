@@ -35,17 +35,26 @@ class MaintenanceMode extends PluginAbstract {
     public function getStart() {
         if ($this->shouldEnterInMaintenencaMode()) {
             header('HTTP/1.0 403 Forbidden');
-            include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
-            exit;
+            if (empty($unlockPassword) && isContentTypeJson()) {
+                $obj = $this->getDataObject();
+                header("Content-Type: application/json");
+                $obj = new stdClass();
+                $obj->error = true;
+                $obj->msg = $obj->text ;
+                $obj->MaintenanceMode = true;
+                die(json_encode($obj));
+            } else {
+                include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
+                exit;
+            }
         }
     }
-    
-    
+
     public function shouldEnterInMaintenencaMode() {
         global $global, $config;
         $obj = $this->getDataObject();
-        if(!empty($obj->stopFeed)){
-            if(preg_match('/feed/i', $_SERVER["SCRIPT_FILENAME"])){
+        if (!empty($obj->stopFeed)) {
+            if (preg_match('/feed/i', $_SERVER["SCRIPT_FILENAME"])) {
                 return true;
             }
         }
