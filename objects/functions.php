@@ -7068,8 +7068,27 @@ function getSharePopupButton($videos_id, $url = "", $title = "")
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
-function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden')
-{
+
+function getContentType() {
+    $contentType = '';
+    $headers = headers_list(); // get list of headers
+    foreach ($headers as $header) { // iterate over that list of headers
+        if (stripos($header, 'Content-Type:') !== false) { // if the current header has the string "Content-Type" in it
+            $headerParts = explode(':', $header); // split the string, getting an array
+            $headerValue = trim($headerParts[1]); // take second part as value
+            $contentType = $headerValue;
+            break;
+        }
+    }
+    return $contentType;
+}
+
+function isContentTypeJson() {
+    $contentType = getContentType();
+    return preg_match('/json/i', $contentType);
+}
+
+function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden') {
     global $global;
     if (!empty($unlockPassword)) {
         if (empty($namespace)) {
@@ -7092,18 +7111,9 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
     if ($logMessage) {
         _error_log($message);
     }
-    $contentType = '';
-    $headers = headers_list(); // get list of headers
-    foreach ($headers as $header) { // iterate over that list of headers
-        if (stripos($header, 'Content-Type:') !== false) { // if the current header hasthe String "Content-Type" in it
-            $headerParts = explode(':', $header); // split the string, getting an array
-            $headerValue = trim($headerParts[1]); // take second part as value
-            $contentType = $headerValue;
-            break;
-        }
-    }
+
     header('HTTP/1.0 ' . $pageCode);
-    if (empty($unlockPassword) && preg_match('/json/i', $contentType)) {
+    if (empty($unlockPassword) && isContentTypeJson()) {
         header("Content-Type: application/json");
         $obj = new stdClass();
         $obj->error = true;
