@@ -33,9 +33,12 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getStart() {
+        _error_log('MaintenanceMode '.__LINE__);
         if ($this->shouldEnterInMaintenencaMode()) {
+        _error_log('MaintenanceMode '.__LINE__);
             //header('HTTP/1.0 403 Forbidden');
             if (isContentTypeJson()) {
+        _error_log('MaintenanceMode '.__LINE__);
                 $obj = $this->getDataObject();
                 header("Content-Type: application/json");
                 $resp = new stdClass();
@@ -44,6 +47,7 @@ class MaintenanceMode extends PluginAbstract {
                 $resp->MaintenanceMode = true;
                 echo (json_encode($resp));
             } else if (isContentTypeXML()) {
+        _error_log('MaintenanceMode '.__LINE__);
                 header("Content-Type: application/xml");
                 echo '<?xml version="1.0" encoding="UTF-8"?>
 <response>
@@ -53,8 +57,10 @@ class MaintenanceMode extends PluginAbstract {
 </response>
 ';
             } else {
+        _error_log('MaintenanceMode '.__LINE__);
                 include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
             }
+        _error_log('MaintenanceMode '.__LINE__);
             exit;
         }
     }
