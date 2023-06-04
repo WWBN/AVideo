@@ -38,11 +38,11 @@ class MaintenanceMode extends PluginAbstract {
             if (empty($unlockPassword) && isContentTypeJson()) {
                 $obj = $this->getDataObject();
                 header("Content-Type: application/json");
-                $obj = new stdClass();
-                $obj->error = true;
-                $obj->msg = $obj->text ;
-                $obj->MaintenanceMode = true;
-                die(json_encode($obj));
+                $resp = new stdClass();
+                $resp->error = true;
+                $resp->msg = $obj->text ;
+                $resp->MaintenanceMode = true;
+                die(json_encode($resp));
             } else {
                 include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
                 exit;
