@@ -44,6 +44,7 @@ class MaintenanceMode extends PluginAbstract {
                 $resp->MaintenanceMode = true;
                 echo (json_encode($resp));
             } else if (isContentTypeXML()) {
+                header("Content-Type: application/xml");
                 echo '<?xml version="1.0" encoding="UTF-8"?>
 <response>
     <error>true</error>
