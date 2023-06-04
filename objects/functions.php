@@ -7088,6 +7088,11 @@ function isContentTypeJson() {
     return preg_match('/json/i', $contentType);
 }
 
+function isContentTypeXML() {
+    $contentType = getContentType();
+    return preg_match('/xml/i', $contentType);
+}
+
 function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden') {
     global $global;
     if (!empty($unlockPassword)) {
