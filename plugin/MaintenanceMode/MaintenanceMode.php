@@ -40,9 +40,17 @@ class MaintenanceMode extends PluginAbstract {
                 header("Content-Type: application/json");
                 $resp = new stdClass();
                 $resp->error = true;
-                $resp->msg = $obj->text ;
+                $resp->msg = $obj->text;
                 $resp->MaintenanceMode = true;
                 die(json_encode($resp));
+            } else if (isContentTypeXML()) {
+                echo '<?xml version="1.0" encoding="UTF-8"?>
+<response>
+    <error>true</error>
+    <msg>' . $obj->text . '</msg>
+    <MaintenanceMode>true</MaintenanceMode>
+</response>
+';
             } else {
                 include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
                 exit;
