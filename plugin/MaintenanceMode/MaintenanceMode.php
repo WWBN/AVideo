@@ -33,7 +33,6 @@ class MaintenanceMode extends PluginAbstract {
     }
 
     public function getStart() {
-        _error_log('MaintenanceMode '.__LINE__);
         if ($this->shouldEnterInMaintenencaMode()) {
         _error_log('MaintenanceMode '.__LINE__);
             //header('HTTP/1.0 403 Forbidden');
