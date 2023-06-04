@@ -34,6 +34,7 @@ class MaintenanceMode extends PluginAbstract {
 
     public function getStart() {
         if ($this->shouldEnterInMaintenencaMode()) {
+            header('HTTP/1.0 403 Forbidden');
             include $global['systemRootPath'] . 'plugin/MaintenanceMode/index.php';
             exit;
         }
