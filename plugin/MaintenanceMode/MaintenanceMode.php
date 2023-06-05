@@ -35,7 +35,7 @@ class MaintenanceMode extends PluginAbstract {
     public function getStart() {
         global $global, $config;
         if ($this->shouldEnterInMaintenencaMode()) {
-            //header('HTTP/1.0 403 Forbidden');
+            header('HTTP/1.0 403 Forbidden');
             if (isContentTypeJson()) {
                 $obj = $this->getDataObject();
                 header("Content-Type: application/json");
