@@ -9,7 +9,7 @@
     "dexie": "^3.2.4",
     "dom-walk": "^0.1.2",
     "fontawesome-free": "^1.0.4",
-    "hls.js": "^1.4.3",
+    "hls.js": "^1.4.4",
     "infinite-scroll": "^4.0.1",
     "inputmask": "^5.0.8",
     "jquery": "^3.7.0",
