@@ -9861,6 +9861,9 @@ function listFolderFiles($dir)
     if (empty($dir)) {
         return [];
     }
+    if(!is_dir($dir)){
+        return [];
+    }
     $ffs = scandir($dir);
 
     unset($ffs[array_search('.', $ffs, true)]);
