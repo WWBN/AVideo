@@ -597,7 +597,7 @@ function parseDurationToSeconds($str)
     if (empty($durationParts[2])) {
         $durationParts[2] = 0;
     }
-    $minutes = intval(($durationParts[0]) * 60) + intval($durationParts[1]);
+    $minutes = (intval($durationParts[0]) * 60) + intval($durationParts[1]);
     return intval($durationParts[2]) + ($minutes * 60);
 }
 
