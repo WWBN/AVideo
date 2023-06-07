@@ -10132,7 +10132,7 @@ function forbiddenPageIfCannotEmbed($videos_id)
                     $reason[] = __('Admin block video sharing');
                 }
                 if (!CustomizeUser::canShareVideosFromVideo($videos_id)) {
-                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
+                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo({$video['id']})");
                     $reason[] = __('User block video sharing');
                 }
                 forbiddenPage("Embed is forbidden " . implode('<br>', $reason));
