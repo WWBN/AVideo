@@ -10121,7 +10121,7 @@ function forbiddenPageIfCannotEmbed($videos_id)
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }
     if (empty($advancedCustomUser)) {
-        $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+        $advancedCustomUser = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
     }
     if (!isAVideoMobileApp()) {
         if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
