@@ -6,16 +6,20 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
+_error_log("serverlabels line=".__LINE__);
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
     die("Plugin disabled");
 }
+_error_log("serverlabels line=".__LINE__);
 
 $serverStatus = Meet::getMeetServerStatus();
+_error_log("serverlabels line=".__LINE__);
 $moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
 $moreJibrisOnclick = "avideoAlert('Coming soon');return false;";
+_error_log("serverlabels line=".__LINE__);
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
     <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
