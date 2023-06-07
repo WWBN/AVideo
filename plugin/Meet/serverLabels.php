@@ -6,20 +6,20 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
-_error_log("serverlabels line=".__LINE__);
+_error_log("serverlabels line=" . __LINE__);
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
     die("Plugin disabled");
 }
-_error_log("serverlabels line=".__LINE__);
+_error_log("serverlabels line=" . __LINE__);
 
 $serverStatus = Meet::getMeetServerStatus();
-_error_log("serverlabels line=".__LINE__);
+_error_log("serverlabels line=" . __LINE__);
 $moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
 $moreJibrisOnclick = "avideoAlert('Coming soon');return false;";
-_error_log("serverlabels line=".__LINE__);
+_error_log("serverlabels line=" . __LINE__);
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
     <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
@@ -42,7 +42,8 @@ if (User::isAdmin() && empty($serverStatus->error)) {
                     <i class="fas fa-circle-notch" data-toggle="tooltip" data-placement="bottom" title="Instance <?php echo $jibriObj->instance; ?> is available"></i>
                     <?php
                 }
-            } ?>
+            }
+            ?>
             &nbsp; <a class="fas fa-plus" data-toggle="tooltip" data-placement="bottom" title="Get more streaming services" href="<?php echo $moreJibris; ?>" style="color: white;" onclick="<?php echo $moreJibrisOnclick; ?>"></a>
         </span>
         <?php
@@ -54,18 +55,20 @@ if (User::isAdmin() && empty($serverStatus->error)) {
         <?php
     }
 }
+_error_log("serverlabels line=" . __LINE__);
 ?>
 <span class="label label-<?php echo $serverStatus->error ? "danger" : ($serverStatus->isInstalled ? "success" : "warning") ?>" >
     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo User::isAdmin() ? $serverStatus->msg : "Meet Server Status"; ?>">
         <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?>
-        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?>
+            <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?>
         <span class="hidden-sm hidden-xs">(<?php
             echo Meet::getServer()['name'];
             ?>)</span></span> <a class="fas fa-random" data-toggle="tooltip" data-placement="bottom" title="Change Server" href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" style="color: white;"></a>
 </span>
 <?php
+_error_log("serverlabels line=" . __LINE__);
 if (!empty($serverStatus->nextUpdate)) {
-                ?>
+    ?>
     <script>
         $(document).ready(function () {
             setTimeout(function () {
@@ -87,12 +90,14 @@ if (!empty($serverStatus->nextUpdate)) {
         });
     </script>
     <?php
-            } else {
-                ?>
+} else {
+    _error_log("serverlabels line=" . __LINE__);
+    ?>
     <script>
         $(document).ready(function () {
         });
     </script>
     <?php
-            }
+}
+_error_log("serverlabels line=" . __LINE__);
 ?>
