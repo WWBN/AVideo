@@ -796,11 +796,11 @@ function sendSiteEmailAsync($to, $subject, $message)
     global $global;
     $content = ['to' => $to, 'subject' => $subject, 'message' => $message];
     $tmpFile = getTmpFile();
-    file_put_contents($tmpFile, _json_encode($content));
+    $bytes = file_put_contents($tmpFile, _json_encode($content));
     //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
     $totalEmails = count($to);
-    _error_log("sendSiteEmailAsync start [totalEmails={$totalEmails}] ($command)");
+    _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command)");
     $pid = execAsync($command);
     _error_log("sendSiteEmailAsync end {$pid}");
     return $pid;
