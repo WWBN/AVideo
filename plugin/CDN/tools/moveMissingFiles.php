@@ -31,7 +31,7 @@ if(strtolower($sort) !== 'asc'){
 }
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
-$res = sqlDAL::readSql($sql);
+$res = sqlDAL::readSql($sql, "", [], true);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
 
