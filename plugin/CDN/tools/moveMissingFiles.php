@@ -37,9 +37,19 @@ sqlDAL::close($res);
 
 $videos_dir = getVideosDir();
 $rows = [];
+
+$transferStatus = [];
+$transferStatus[] = Video::$statusActive;
+$transferStatus[] = Video::$statusFansOnly;
+$transferStatus[] = Video::$statusScheduledReleaseDate;
+if($alsoMoveUnlisted){
+    $transferStatus[] = Video::$statusUnlisted;
+    $transferStatus[] = Video::$statusUnlistedButSearchable;
+}
+
 if ($res != false) {
     foreach ($fullData as $row) {
-        if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly)) || $alsoMoveUnlisted == 2) {
+        if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
             exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
