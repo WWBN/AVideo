@@ -923,6 +923,9 @@ class CDNStorage {
         }
         $msg = "createDummyFiles  filesAffected=$filesAffected";
         self::addToLog($videos_id, $msg);
+        if($filesAffected){
+            Video::clearCache($videos_id);
+        }
         return $filesAffected;
     }
 
