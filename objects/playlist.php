@@ -9,8 +9,8 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 class PlayList extends ObjectYPT {
-    protected $properties = [];
 
+    protected $properties = [];
     protected $id;
     protected $name;
     protected $users_id;
@@ -85,7 +85,7 @@ class PlayList extends ObjectYPT {
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
         $videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
-            if(empty($videosP[$key]['type'])){
+            if (empty($videosP[$key]['type'])) {
                 unset($videosP[$key]);
                 continue;
             }
@@ -117,7 +117,7 @@ class PlayList extends ObjectYPT {
         $playlists_id = intval($playlists_id);
         $formats = '';
         $values = [];
-        $sql = "SELECT u.*, pl.* FROM  " . static::getTableName() . " pl ";
+        $sql = "SELECT pl.* FROM  " . static::getTableName() . " pl ";
 
         if ($includeSeries) {
             $sql .= " LEFT JOIN videos v ON pl.id = serie_playlists_id  ";
@@ -145,9 +145,11 @@ class PlayList extends ObjectYPT {
             }
         }
         $sql .= self::getSqlFromPost("pl.");
-        //echo $sql, $userId;exit;
+        $TimeLog1 = "playList getAllFromUser($userId)";
+        TimeLogStart($TimeLog1);
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
+        TimeLogEnd($TimeLog1, __LINE__);
         sqlDAL::close($res);
         $rows = [];
         $favorite = [];
@@ -155,8 +157,9 @@ class PlayList extends ObjectYPT {
         $favoriteCount = 0;
         $watch_laterCount = 0;
         if ($res !== false) {
+            TimeLogEnd($TimeLog1, __LINE__);
             foreach ($fullData as $row) {
-                $row = cleanUpRowFromDatabase($row);
+                //$row = cleanUpRowFromDatabase($row);
                 $row['name_translated'] = __($row['name']);
                 $row['videos'] = static::getVideosFromPlaylist($row['id']);
                 $row['isFavorite'] = false;
@@ -173,6 +176,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
             }
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($userId)) {
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
@@ -208,12 +212,16 @@ class PlayList extends ObjectYPT {
                     }
                 }
             }
+
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($favorite)) {
                 array_unshift($rows, $favorite);
             }
+            TimeLogEnd($TimeLog1, __LINE__);
             if (!empty($watch_later)) {
                 array_unshift($rows, $watch_later);
             }
+            TimeLogEnd($TimeLog1, __LINE__);
         } else {
             //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
             $rows = [];
@@ -340,45 +348,52 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
-        if (empty($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)])) {
+        $TimeLog1 = "playList getAllFromUser($userId, $videos_id)";
+        TimeLogStart($TimeLog1);
+        $cacheName = "getAllFromUserVideo_{$videos_id}".DIRECTORY_SEPARATOR."getAllFromUserVideo($userId, $videos_id)".intval($publicOnly).$status;
+        //var_dump($playlists_id, $sql);exit;
+        $rows = self::getCacheGlobal($cacheName, 0);
+        if(empty($rows)){
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
+            TimeLogEnd($TimeLog1, __LINE__);
             foreach ($rows as $key => $value) {
                 $rows[$key]['name_translated'] = __($rows[$key]['name']);
                 $videos = self::getVideosIdFromPlaylist($value['id']);
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
-            _session_start();
-            $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)] = $rows;
-        } else {
-            $rows = $_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id][$userId][intval($publicOnly)][intval($status)];
+            TimeLogEnd($TimeLog1, __LINE__);
+            self::setCacheGlobal($cacheName, $rows);
+        }else{
+            $rows = object_to_array($rows);
         }
+        TimeLogEnd($TimeLog1, __LINE__);
 
         return $rows;
     }
 
     private static function removeCache($videos_id) {
-        $close = false;
-        _session_start();
-        unset($_SESSION['user']['sessionCache']['getAllFromUserVideo'][$videos_id]);
+        $cacheName = "getAllFromUserVideo_{$videos_id}";
+        self::deleteCacheFromPattern($name);
     }
 
     public static function getSuggested() {
         global $global;
 
         return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
-
     }
+
     public static function getVideosIndexFromPlaylistLight($playlists_id, $videos_id) {
-        if(!empty($videos_id)){
+        if (!empty($videos_id)) {
             $pl = self::getVideosIDFromPlaylistLight($playlists_id);
             foreach ($pl as $key => $value) {
-                if($value['videos_id']==$videos_id){
+                if ($value['videos_id'] == $videos_id) {
                     return $key;
                 }
             }
         }
         return 0;
     }
+
     public static function getVideosIDFromPlaylistLight($playlists_id) {
         global $global, $getVideosIDFromPlaylistLight;
 
@@ -417,7 +432,11 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getVideosFromPlaylist($playlists_id) {
-        $sql = "SELECT *,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions "
+        $sql = "SELECT p.*,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions, v.externalOptions as externalOptions
+                    , v.filename
+                    , v.type as type
+                    , v.serie_playlists_id as serie_playlists_id
+                    , v.title as title "
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
@@ -432,7 +451,7 @@ class PlayList extends ObjectYPT {
         $_POST['sort'] = $sort;
         $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
         //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCache($cacheName, 0, true);
+        $rows = self::getCacheGlobal($cacheName, 0);
         if (empty($rows)) {
             global $global;
 
@@ -475,7 +494,7 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
 
-                $cache = self::setCache($cacheName, $rows);
+                $cache = self::setCacheGlobal($cacheName, $rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
@@ -640,39 +659,36 @@ class PlayList extends ObjectYPT {
 
     public static function getVideosIdFromPlaylist($playlists_id) {
         global $getVideosIdFromPlaylist;
-        if (empty($getVideosIdFromPlaylist)) {
-            $getVideosIdFromPlaylist = [];
-        }
-        if (isset($getVideosIdFromPlaylist[$playlists_id])) {
-            return $getVideosIdFromPlaylist[$playlists_id];
-        }
-        $videosId = [];
-        $rows = static::getVideosIDFromPlaylistLight($playlists_id);
-        foreach ($rows as $value) {
-            $videosId[] = $value['videos_id'];
-        }
+        $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . "getVideosIdFromPlaylist";
+        $videosId = self::getCacheGlobal($cacheName, 0);
+        if (empty($videosId)) {
+            $videosId = [];
+            $rows = static::getVideosIDFromPlaylistLight($playlists_id);
+            foreach ($rows as $value) {
+                $videosId[] = $value['videos_id'];
+            }
 
-        $getVideosIdFromPlaylist[$playlists_id] = $videosId;
+            $cache = self::setCacheGlobal($cacheName, $videosId);
+        }
         return $videosId;
     }
 
-
-    public static function getTotalDurationFromPlaylistInSeconds($playlists_id) {  
+    public static function getTotalDurationFromPlaylistInSeconds($playlists_id) {
         global $getTotalDurationFromPlaylist;
         if (empty($getTotalDurationFromPlaylist)) {
             $getTotalDurationFromPlaylist = [];
         }
         if (isset($getTotalDurationFromPlaylist[$playlists_id])) {
             return $getTotalDurationFromPlaylist[$playlists_id];
-        }      
+        }
         $getTotalDurationFromPlaylist[$playlists_id] = 0;
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
-        if(!empty($videosArrayId)){
-            $sql = "SELECT sum(duration_in_seconds) as total FROM videos WHERE id IN ('".implode("', '", $videosArrayId)."') ";
+        if (!empty($videosArrayId)) {
+            $sql = "SELECT sum(duration_in_seconds) as total FROM videos WHERE id IN ('" . implode("', '", $videosArrayId) . "') ";
             //var_dump($sql);exit;
             $res = sqlDAL::readSql($sql);
             $data = sqlDAL::fetchAssoc($res);
-            if(!empty($data)){
+            if (!empty($data)) {
                 $getTotalDurationFromPlaylist[$playlists_id] = intval($data['total']);
             }
         }
@@ -909,4 +925,5 @@ class PlayList extends ObjectYPT {
         }
         return false;
     }
+
 }

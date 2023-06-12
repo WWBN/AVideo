@@ -6,6 +6,9 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 $isCDNEnabled = AVideoPlugin::isEnabledByName('CDN');
 
 if (empty($isCDNEnabled)) {
@@ -28,15 +31,25 @@ if(strtolower($sort) !== 'asc'){
 }
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
-$res = sqlDAL::readSql($sql);
+$res = sqlDAL::readSql($sql, "", [], true);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
 
 $videos_dir = getVideosDir();
 $rows = [];
+
+$transferStatus = [];
+$transferStatus[] = Video::$statusActive;
+$transferStatus[] = Video::$statusFansOnly;
+$transferStatus[] = Video::$statusScheduledReleaseDate;
+if($alsoMoveUnlisted){
+    $transferStatus[] = Video::$statusUnlisted;
+    $transferStatus[] = Video::$statusUnlistedButSearchable;
+}
+
 if ($res != false) {
     foreach ($fullData as $row) {
-        if ($row['status'] === Video::$statusActive || ($alsoMoveUnlisted && ($row['status'] === Video::$statusUnlisted || $row['status'] === Video::$statusFansOnly)) || $alsoMoveUnlisted == 2) {
+        if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
             exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);

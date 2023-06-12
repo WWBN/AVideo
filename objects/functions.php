@@ -597,7 +597,7 @@ function parseDurationToSeconds($str)
     if (empty($durationParts[2])) {
         $durationParts[2] = 0;
     }
-    $minutes = intval(($durationParts[0]) * 60) + intval($durationParts[1]);
+    $minutes = (intval($durationParts[0]) * 60) + intval($durationParts[1]);
     return intval($durationParts[2]) + ($minutes * 60);
 }
 
@@ -796,11 +796,11 @@ function sendSiteEmailAsync($to, $subject, $message)
     global $global;
     $content = ['to' => $to, 'subject' => $subject, 'message' => $message];
     $tmpFile = getTmpFile();
-    file_put_contents($tmpFile, _json_encode($content));
+    $bytes = file_put_contents($tmpFile, _json_encode($content));
     //outputAndContinueInBackground();
     $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
     $totalEmails = count($to);
-    _error_log("sendSiteEmailAsync start [totalEmails={$totalEmails}] ($command)");
+    _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command) file_exists=". file_exists($tmpFile));
     $pid = execAsync($command);
     _error_log("sendSiteEmailAsync end {$pid}");
     return $pid;
@@ -7068,8 +7068,32 @@ function getSharePopupButton($videos_id, $url = "", $title = "")
     include $global['systemRootPath'] . 'view/include/socialModal.php';
 }
 
-function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden')
-{
+
+function getContentType() {
+    $contentType = '';
+    $headers = headers_list(); // get list of headers
+    foreach ($headers as $header) { // iterate over that list of headers
+        if (stripos($header, 'Content-Type:') !== false) { // if the current header has the string "Content-Type" in it
+            $headerParts = explode(':', $header); // split the string, getting an array
+            $headerValue = trim($headerParts[1]); // take second part as value
+            $contentType = $headerValue;
+            break;
+        }
+    }
+    return $contentType;
+}
+
+function isContentTypeJson() {
+    $contentType = getContentType();
+    return preg_match('/json/i', $contentType);
+}
+
+function isContentTypeXML() {
+    $contentType = getContentType();
+    return preg_match('/xml/i', $contentType);
+}
+
+function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '', $namespace = '', $pageCode = '403 Forbidden') {
     global $global;
     if (!empty($unlockPassword)) {
         if (empty($namespace)) {
@@ -7092,18 +7116,9 @@ function forbiddenPage($message = '', $logMessage = false, $unlockPassword = '',
     if ($logMessage) {
         _error_log($message);
     }
-    $contentType = '';
-    $headers = headers_list(); // get list of headers
-    foreach ($headers as $header) { // iterate over that list of headers
-        if (stripos($header, 'Content-Type:') !== false) { // if the current header hasthe String "Content-Type" in it
-            $headerParts = explode(':', $header); // split the string, getting an array
-            $headerValue = trim($headerParts[1]); // take second part as value
-            $contentType = $headerValue;
-            break;
-        }
-    }
+
     header('HTTP/1.0 ' . $pageCode);
-    if (empty($unlockPassword) && preg_match('/json/i', $contentType)) {
+    if (empty($unlockPassword) && isContentTypeJson()) {
         header("Content-Type: application/json");
         $obj = new stdClass();
         $obj->error = true;
@@ -8547,6 +8562,9 @@ function getLiveVideosFromUsers_id($users_id)
         $stats = getStatsNotifications();
         foreach ($stats["applications"] as $key => $value) {
             if (empty($value['users_id']) || $users_id != $value['users_id']) {
+                if(!empty($_REQUEST['debug'])){
+                    _error_log("getLiveVideosFromUsers_id($users_id) != {$value['users_id']}");
+                }
                 continue;
             }
             $videos[] = getLiveVideosObject($value);
@@ -9843,6 +9861,9 @@ function listFolderFiles($dir)
     if (empty($dir)) {
         return [];
     }
+    if(!is_dir($dir)){
+        return [];
+    }
     $ffs = scandir($dir);
 
     unset($ffs[array_search('.', $ffs, true)]);
@@ -10100,7 +10121,7 @@ function forbiddenPageIfCannotEmbed($videos_id)
         $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
     }
     if (empty($advancedCustomUser)) {
-        $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+        $advancedCustomUser = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
     }
     if (!isAVideoMobileApp()) {
         if (!isSameDomain(@$_SERVER['HTTP_REFERER'], $global['webSiteRootURL'])) {
@@ -10111,7 +10132,7 @@ function forbiddenPageIfCannotEmbed($videos_id)
                     $reason[] = __('Admin block video sharing');
                 }
                 if (!CustomizeUser::canShareVideosFromVideo($videos_id)) {
-                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo(\$video['id'])");
+                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo({$video['id']})");
                     $reason[] = __('User block video sharing');
                 }
                 forbiddenPage("Embed is forbidden " . implode('<br>', $reason));

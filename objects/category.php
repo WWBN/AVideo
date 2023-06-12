@@ -454,6 +454,7 @@ class Category {
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
                     $row['name'] = $row['name'];
+                    $row['clean_name'] = $row['clean_name'];
                     $row['total'] = $totals['total'];
                     $row['fullTotal'] = $fullTotals['total'];
                     $row['fullTotal_videos'] = $fullTotals['videos'];

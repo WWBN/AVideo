@@ -403,8 +403,12 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
             $sql .= " )";
         }
-        if($active){
-            $sql .= " AND finished IS NULL ";
+        if(!empty($active)){
+            if(is_int($active)){
+                $sql .= " AND (modified >= DATE_SUB(NOW(), INTERVAL $active MINUTE) OR finished IS NULL)";
+            }else{
+                $sql .= " AND finished IS NULL ";
+            }
         }
         $sql .= " ORDER BY created DESC LIMIT 1";
         //var_dump($sql, $key);exit;
@@ -714,21 +718,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     public function save() {
         global $global;
         _mysql_commit();
-        /*
-        $activeLive = self::getActiveLiveFromUser($this->users_id, $this->live_servers_id, $this->key);
-        if(!empty($activeLive)){
-            //_error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
-            foreach ($activeLive as $key => $value) {
-                if(empty($this->$key)){
-                    $this->$key = $value;
-                }
-            }
-        }else{
-            //_error_log("LiveTransmitionHistory::save: active live NOT found ");
-        }
-         * 
-         */
-        $activeLive = self::getLatest($this->key, $this->live_servers_id, true);
+        $activeLive = self::getLatest($this->key, $this->live_servers_id, 10);
         if(!empty($activeLive)){
             _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {

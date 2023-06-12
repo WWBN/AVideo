@@ -1819,6 +1819,10 @@ button.btn-sm.hamburger svg {
 	font-size: 1em;
 }
 
+.ypt-article{
+    padding: 15px 20px;
+}
+
 @keyframes moveGradient {
 	50% {
 		background-position: 100% 50%;

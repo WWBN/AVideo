@@ -52,6 +52,7 @@ class PlayerSkins extends PluginAbstract {
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;
+        $obj->showPictureInPicture = true;
         $obj->showLogo = false;
         $obj->showShareSocial = true;
         $obj->showShareAutoplay = true;
@@ -318,8 +319,9 @@ class PlayerSkins extends PluginAbstract {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
             }
-
-            PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
+            if($obj->showPictureInPicture){
+                PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
+            }
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $social = getSocialModal(@$video['id'], @$url, @$title);
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/shareButton.js"));
@@ -407,6 +409,9 @@ class PlayerSkins extends PluginAbstract {
                 $dataSetup[] = "sources:[{type: \"video/vimeo\", src: \"{$video['videoLink']}\"}]";
                 $dataSetup[] = "vimeo:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
             }
+        }
+        if(!$obj->showPictureInPicture){
+            $dataSetup[] = "controlBar: {pictureInPictureToggle: false}";
         }
 
         $pluginsDataSetup = AVideoPlugin::dataSetup();

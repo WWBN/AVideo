@@ -813,7 +813,6 @@ if (typeof gtag !== \"function\") {
     private static function setCacheWatchVideo($cacheName, $value) {
         if (!User::isLogged()) {
             ObjectYPT::setCache($cacheName, $value);
-            ;
         } else {
             ObjectYPT::setSessionCache($cacheName, $value);
         }

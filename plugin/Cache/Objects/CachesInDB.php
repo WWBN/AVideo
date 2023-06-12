@@ -134,10 +134,13 @@ class CachesInDB extends ObjectYPT
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE name = ? ";
         $formats = 's';
         $values = [$name];
+        $sql .= "  AND ishttps = ? AND domain = ? AND user_location = ? ";
+        $formats = 'ssss';
+        $values = [$name, $ishttps, $domain, $user_location];
         if(empty($ignoreMetadata)){
-            $sql .= "  AND ishttps = ? AND loggedType = ? AND domain = ? AND user_location = ? ";
-            $formats = 'sisss';
-            $values = [$name, $ishttps, $loggedType, $domain, $user_location];
+            $sql .= " AND loggedType = ? ";
+            $formats .= 'i';
+            $values[] = $loggedType;
         }
         $sql .= " ORDER BY id DESC LIMIT 1";
         //_error_log(json_encode(array($sql, $values )));

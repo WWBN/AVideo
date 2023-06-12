@@ -35,14 +35,18 @@ function socketConnect() {
     }
     conn = new WebSocket(url);
     setSocketIconStatus('loading');
-    conn.onopen = function (e) {
-        socketConnectRequested = 0;
-        socketConnectRetryTimeout = 2000;
-        clearTimeout(socketConnectTimeout);
-        console.log("socketConnect: Socket onopen");
-        onSocketOpen();
-        return false;
-    };
+    try {
+        conn.onopen = function (e) {
+            socketConnectRequested = 0;
+            socketConnectRetryTimeout = 2000;
+            clearTimeout(socketConnectTimeout);
+            console.log("socketConnect: Socket onopen");
+            onSocketOpen();
+            return false;
+        };
+    } catch (e) {
+        console.log("socketConnect: Error onopen", e);
+    }
     conn.onmessage = function (e) {
         var json = JSON.parse(e.data);
         consolelog("Socket onmessage conn.onmessage", json);
