@@ -14,5 +14,10 @@
 
 .github/* -linguist-detectable
 .vscode/* -linguist-detectable
-node_modules/* -linguist-detectable
-vendor/* -linguist-detectable
+node_modules/* linguist-vendored
+vendor/* linguist-vendored
+
+*.php linguist-language=PHP
+*.js linguist-language=JavaScript
+*.html linguist-language=HTML
+*.css linguist-language=CSS
