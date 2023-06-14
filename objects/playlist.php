@@ -770,25 +770,24 @@ class PlayList extends ObjectYPT {
         }
         _error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
-        _error_log('playlistSort addVideo line=' . __LINE__);
-        self::deleteCacheDir($this->id, $deleteCache);
-        _error_log('playlistSort addVideo line=' . __LINE__);
-        self::removeCache($videos_id);
+        if($deleteCache){
+            _error_log('playlistSort addVideo line=' . __LINE__);
+            self::deleteCacheDir($this->id);
+            _error_log('playlistSort addVideo line=' . __LINE__);
+            self::removeCache($videos_id);
+        }
         _error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
     }
 
-    private static function deleteCacheDir($playlists_id, $deleteCache = true) {
+    private static function deleteCacheDir($playlists_id) {
         $tmpDir = ObjectYPT::getCacheDir();
         $name = "getvideosfromplaylist{$playlists_id}";
         $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
-        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
         rrmdir($cacheDir);
-        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
-        if ($deleteCache && class_exists('CachesInDB')) {
+        if (class_exists('CachesInDB')) {
             CachesInDB::_deleteCacheStartingWith($name);
         }
-        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
     }
 
     public function delete() {
