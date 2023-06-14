@@ -773,9 +773,9 @@ class PlayList extends ObjectYPT {
             _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         if($_deleteCache === true){
             _error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
-            //self::deleteCacheDir($this->id);
+            self::deleteCacheDir($this->id);
             _error_log('playlistSort addVideo line=' . __LINE__);
-            //self::removeCache($videos_id);
+            self::removeCache($videos_id);
         }
         _error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
