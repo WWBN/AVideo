@@ -52,12 +52,13 @@ if (empty($_POST['list'])) {
         $_POST['list'][] = $value['id'];
     }
 }
-
+_error_log('playlistSort line='.__LINE__);
 mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
     $result = $obj->addVideo($value, true, $count++, false);
 }
 mysqlCommit();
+_error_log('playlistSort line='.__LINE__);
 
 if (!empty($_GET['sort'])) {
     header("Location: ". $_SERVER['HTTP_REFERER']);
