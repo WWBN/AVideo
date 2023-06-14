@@ -350,10 +350,10 @@ class PlayList extends ObjectYPT {
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
         $TimeLog1 = "playList getAllFromUser($userId, $videos_id)";
         TimeLogStart($TimeLog1);
-        $cacheName = "getAllFromUserVideo_{$videos_id}".DIRECTORY_SEPARATOR."getAllFromUserVideo($userId, $videos_id)".intval($publicOnly).$status;
+        $cacheName = "getAllFromUserVideo_{$videos_id}" . DIRECTORY_SEPARATOR . "getAllFromUserVideo($userId, $videos_id)" . intval($publicOnly) . $status;
         //var_dump($playlists_id, $sql);exit;
         $rows = self::getCacheGlobal($cacheName, 0);
-        if(empty($rows)){
+        if (empty($rows)) {
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             TimeLogEnd($TimeLog1, __LINE__);
             foreach ($rows as $key => $value) {
@@ -363,7 +363,7 @@ class PlayList extends ObjectYPT {
             }
             TimeLogEnd($TimeLog1, __LINE__);
             self::setCacheGlobal($cacheName, $rows);
-        }else{
+        } else {
             $rows = object_to_array($rows);
         }
         TimeLogEnd($TimeLog1, __LINE__);
@@ -768,9 +768,13 @@ class PlayList extends ObjectYPT {
             $values[] = $videos_id;
             $values[] = $order;
         }
+        _error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
+        _error_log('playlistSort addVideo line=' . __LINE__);
         self::deleteCacheDir($this->id, $deleteCache);
+        _error_log('playlistSort addVideo line=' . __LINE__);
         self::removeCache($videos_id);
+        _error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
     }
 
