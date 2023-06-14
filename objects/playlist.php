@@ -756,13 +756,11 @@ class PlayList extends ObjectYPT {
         $formats = '';
         $values = [];
         if (_empty($add)) {
-_error_log('playlistSort.php addVideo line ' . __LINE__);
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
             $values[] = $this->id;
             $values[] = $videos_id;
         } else {
-_error_log('playlistSort.php  addVideo line ' . __LINE__);
             $this->addVideo($videos_id, false);
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
@@ -770,13 +768,11 @@ _error_log('playlistSort.php  addVideo line ' . __LINE__);
             $values[] = $videos_id;
             $values[] = $order;
         }
-_error_log('playlistSort.php  addVideo line ' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
-_error_log('playlistSort.php  addVideo line ' . __LINE__);
+_error_log('playlistSort.php addVideo line ' . __LINE__);
         self::deleteCacheDir($this->id);
-_error_log('playlistSort.php  addVideo line ' . __LINE__);
+_error_log('playlistSort.php addVideo line ' . __LINE__);
         self::removeCache($videos_id);
-_error_log('playlistSort.php  addVideo line ' . __LINE__);
         return $result;
     }
 
@@ -784,10 +780,13 @@ _error_log('playlistSort.php  addVideo line ' . __LINE__);
         $tmpDir = ObjectYPT::getCacheDir();
         $name = "getvideosfromplaylist{$playlists_id}";
         $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
+_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
         rrmdir($cacheDir);
+_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
         if (class_exists('CachesInDB')) {
             CachesInDB::_deleteCacheStartingWith($name);
         }
+_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
     }
 
     public function delete() {
