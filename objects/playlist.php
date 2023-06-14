@@ -756,11 +756,13 @@ class PlayList extends ObjectYPT {
         $formats = '';
         $values = [];
         if (_empty($add)) {
+_error_log('playlistSort.php addVideo line ' . __LINE__);
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
             $values[] = $this->id;
             $values[] = $videos_id;
         } else {
+_error_log('playlistSort.php  addVideo line ' . __LINE__);
             $this->addVideo($videos_id, false);
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
@@ -768,9 +770,13 @@ class PlayList extends ObjectYPT {
             $values[] = $videos_id;
             $values[] = $order;
         }
+_error_log('playlistSort.php  addVideo line ' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
+_error_log('playlistSort.php  addVideo line ' . __LINE__);
         self::deleteCacheDir($this->id);
+_error_log('playlistSort.php  addVideo line ' . __LINE__);
         self::removeCache($videos_id);
+_error_log('playlistSort.php  addVideo line ' . __LINE__);
         return $result;
     }
 
