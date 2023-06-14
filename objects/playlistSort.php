@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
@@ -7,7 +8,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 if (!User::isLogged()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    die('{"error":"' . __("Permission denied") . '"}');
 }
 
 if (empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])) {
@@ -16,18 +17,20 @@ if (empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])) {
 
 $obj = new PlayList($_POST['playlist_id']);
 if (User::getId() !== $obj->getUsers_id()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    die('{"error":"' . __("Permission denied") . '"}');
 }
 
 $count = 1;
-
+_error_log('playlistSort.php line ' . __LINE__);
 if (empty($_POST['list'])) {
+    _error_log('playlistSort.php line ' . __LINE__);
     // get all videos from playlist
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_POST['playlist_id']);
     $videos = [];
     foreach ($videosArrayId as $value) {
         $videos[] = Video::getVideoLight($value);
     }
+    _error_log('playlistSort.php line ' . __LINE__);
     $sortFunc = "titleASC";
     switch ($_GET['sort']) {
         case 1:
@@ -47,31 +50,37 @@ if (empty($_POST['list'])) {
     // sort video
     uasort($videos, $sortFunc);
 
+    _error_log('playlistSort.php line ' . __LINE__);
     // transfer the id to the list
     foreach ($videos as $key => $value) {
         $_POST['list'][] = $value['id'];
     }
+    _error_log('playlistSort.php line ' . __LINE__);
 }
 
+_error_log('playlistSort.php line ' . __LINE__);
 mysqlBeginTransaction();
+_error_log('playlistSort.php line ' . __LINE__);
 foreach ($_POST['list'] as $key => $value) {
     $result = $obj->addVideo($value, true, $count++);
 }
+_error_log('playlistSort.php line ' . __LINE__);
 mysqlCommit();
 
+_error_log('playlistSort.php line ' . __LINE__);
 if (!empty($_GET['sort'])) {
-    header("Location: ". $_SERVER['HTTP_REFERER']);
+    header("Location: " . $_SERVER['HTTP_REFERER']);
     //header("Location: ". User::getChannelLink($obj->getUsers_id()));
     exit;
 }
 $o = new stdClass();
 $o->status = $result;
 //$o->channelName = $obj->get;
-echo json_encode($o);exit;
+echo json_encode($o);
+exit;
 
 // Comparison function
-function dateCmp($videoA, $videoB)
-{
+function dateCmp($videoA, $videoB) {
     $a = strtotime($videoA['created']);
     $b = strtotime($videoB['created']);
     if ($a == $b) {
@@ -79,8 +88,8 @@ function dateCmp($videoA, $videoB)
     }
     return ($a > $b) ? -1 : 1;
 }
-function dateCmpDesc($videoA, $videoB)
-{
+
+function dateCmpDesc($videoA, $videoB) {
     $a = strtotime($videoA['created']);
     $b = strtotime($videoB['created']);
     if ($a == $b) {
@@ -88,11 +97,11 @@ function dateCmpDesc($videoA, $videoB)
     }
     return ($a < $b) ? -1 : 1;
 }
-function titleASC($videoA, $videoB)
-{
+
+function titleASC($videoA, $videoB) {
     return strcasecmp($videoA['title'], $videoB['title']);
 }
-function titleDESC($videoA, $videoB)
-{
+
+function titleDESC($videoA, $videoB) {
     return strcasecmp($videoB['title'], $videoA['title']);
 }
