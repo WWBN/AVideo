@@ -742,7 +742,7 @@ class PlayList extends ObjectYPT {
         return sqlDAL::writeSql($sql);
     }
 
-    public function addVideo($videos_id, $add, $order = 0, $deleteCache = true) {
+    public function addVideo($videos_id, $add, $order = 0, $_deleteCache = true) {
         global $global;
 
         $this->id = intval($this->id);
@@ -770,7 +770,7 @@ class PlayList extends ObjectYPT {
         }
         _error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
-        if($deleteCache){
+        if($_deleteCache){
             _error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
             //self::deleteCacheDir($this->id);
             _error_log('playlistSort addVideo line=' . __LINE__);
