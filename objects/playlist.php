@@ -772,9 +772,9 @@ class PlayList extends ObjectYPT {
         $result = sqlDAL::writeSql($sql, $formats, $values);
         if($deleteCache){
             _error_log('playlistSort addVideo line=' . __LINE__);
-            self::deleteCacheDir($this->id);
+            //self::deleteCacheDir($this->id);
             _error_log('playlistSort addVideo line=' . __LINE__);
-            self::removeCache($videos_id);
+            //self::removeCache($videos_id);
         }
         _error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
