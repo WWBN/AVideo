@@ -782,10 +782,13 @@ class PlayList extends ObjectYPT {
         $tmpDir = ObjectYPT::getCacheDir();
         $name = "getvideosfromplaylist{$playlists_id}";
         $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
+        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
         rrmdir($cacheDir);
+        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
         if ($deleteCache && class_exists('CachesInDB')) {
             CachesInDB::_deleteCacheStartingWith($name);
         }
+        _error_log('playlistSort deleteCacheDir line=' . __LINE__);
     }
 
     public function delete() {
