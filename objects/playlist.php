@@ -742,7 +742,7 @@ class PlayList extends ObjectYPT {
         return sqlDAL::writeSql($sql);
     }
 
-    public function addVideo($videos_id, $add, $order = 0) {
+    public function addVideo($videos_id, $add, $order = 0, $deleteCache = true) {
         global $global;
 
         $this->id = intval($this->id);
@@ -769,24 +769,19 @@ class PlayList extends ObjectYPT {
             $values[] = $order;
         }
         $result = sqlDAL::writeSql($sql, $formats, $values);
-_error_log('playlistSort.php addVideo line ' . __LINE__);
         self::deleteCacheDir($this->id);
-_error_log('playlistSort.php addVideo line ' . __LINE__);
         self::removeCache($videos_id);
         return $result;
     }
 
-    private static function deleteCacheDir($playlists_id) {
+    private static function deleteCacheDir($playlists_id, $deleteCache = true) {
         $tmpDir = ObjectYPT::getCacheDir();
         $name = "getvideosfromplaylist{$playlists_id}";
         $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
-_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
         rrmdir($cacheDir);
-_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
-        if (class_exists('CachesInDB')) {
+        if ($deleteCache && class_exists('CachesInDB')) {
             CachesInDB::_deleteCacheStartingWith($name);
         }
-_error_log('playlistSort.php deleteCacheDir line ' . __LINE__);
     }
 
     public function delete() {
