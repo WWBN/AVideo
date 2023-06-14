@@ -744,17 +744,21 @@ class PlayList extends ObjectYPT {
 
     public function addVideo($videos_id, $add, $order = 0, $_deleteCache = true) {
         global $global;
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
 
         $this->id = intval($this->id);
         $videos_id = intval($videos_id);
         $order = intval($order);
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
 
         if (empty($this->id) || empty($videos_id)) {
             return false;
         }
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
 
         $formats = '';
         $values = [];
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         if (_empty($add)) {
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
@@ -768,8 +772,10 @@ class PlayList extends ObjectYPT {
             $values[] = $videos_id;
             $values[] = $order;
         }
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         _error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         if($_deleteCache === true){
             _error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
             //self::deleteCacheDir($this->id);
