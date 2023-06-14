@@ -53,9 +53,11 @@ if (empty($_POST['list'])) {
     }
 }
 
+mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
     $result = $obj->addVideo($value, true, $count++);
 }
+mysqlCommit();
 
 if (!empty($_GET['sort'])) {
     header("Location: ". $_SERVER['HTTP_REFERER']);
