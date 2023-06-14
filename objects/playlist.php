@@ -768,16 +768,15 @@ class PlayList extends ObjectYPT {
             $values[] = $videos_id;
             $values[] = $order;
         }
-        _error_log('playlistSort addVideo line=' . __LINE__);
+        //_error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         if($_deleteCache === true){
-            _error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
+            //_error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
             self::deleteCacheDir($this->id);
-            _error_log('playlistSort addVideo line=' . __LINE__);
+            //_error_log('playlistSort addVideo line=' . __LINE__);
             self::removeCache($videos_id);
         }
-        _error_log('playlistSort addVideo line=' . __LINE__);
+        //_error_log('playlistSort addVideo line=' . __LINE__);
         return $result;
     }
 
