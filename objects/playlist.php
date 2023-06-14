@@ -744,38 +744,33 @@ class PlayList extends ObjectYPT {
 
     public function addVideo($videos_id, $add, $order = 0, $_deleteCache = true) {
         global $global;
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
 
         $this->id = intval($this->id);
         $videos_id = intval($videos_id);
         $order = intval($order);
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
 
         if (empty($this->id) || empty($videos_id)) {
             return false;
         }
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
 
         $formats = '';
         $values = [];
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
         if (_empty($add)) {
             $sql = "DELETE FROM playlists_has_videos WHERE playlists_id = ? AND videos_id = ? ";
             $formats = "ii";
             $values[] = $this->id;
             $values[] = $videos_id;
         } else {
-            $this->addVideo($videos_id, false);
+            $this->addVideo($videos_id, false, 0, false);
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
             $values[] = $this->id;
             $values[] = $videos_id;
             $values[] = $order;
         }
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
         _error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
-            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache).' line=' . __LINE__);
+            _error_log('playlistSort addVideo $_deleteCache=' .  json_encode($_deleteCache));
         if($_deleteCache === true){
             _error_log('playlistSort addVideo line=' . __LINE__ .' '. json_encode(debug_backtrace()));
             //self::deleteCacheDir($this->id);
