@@ -476,7 +476,7 @@ class PlayList extends ObjectYPT {
                     $row['videos'] = Video::getVideosPaths($row['filename'], true);
                     $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
                     $row['title'] = UTF8encode($row['title']);
-                    $row['description'] = UTF8encode($row['description']);
+                    $row['description'] = UTF8encode(@$row['description']);
                     $row['tags'] = Video::getTags($row['videos_id']);
                     if (AVideoPlugin::isEnabledByName("VideoTags")) {
                         $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
