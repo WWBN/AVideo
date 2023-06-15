@@ -29,9 +29,24 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.0";
+        return "3.0";
     }
 
+    
+    public function updateScript() {
+        global $global;
+        
+        if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Cache/install/updateV3.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        return true;
+    }
+    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();

@@ -373,7 +373,7 @@ class PlayList extends ObjectYPT {
 
     private static function removeCache($videos_id) {
         $cacheName = "getAllFromUserVideo_{$videos_id}";
-        self::deleteCacheFromPattern($name);
+        self::deleteCacheFromPattern($cacheName);
     }
 
     public static function getSuggested() {

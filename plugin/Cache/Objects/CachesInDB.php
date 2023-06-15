@@ -17,7 +17,7 @@ class CachesInDB extends ObjectYPT
     protected $expires;
     protected $timezone;
     protected $name;
-
+    
     public static function getSearchFieldsNames()
     {
         return ['domain', 'ishttps', 'user_location', 'timezone', 'name'];
@@ -214,8 +214,10 @@ class CachesInDB extends ObjectYPT
             return false;
         }
         $name = self::hashName($name);
-        $sql = "DELETE FROM " . static::getTableName() . " ";
-        $sql .= " WHERE name LIKE '{$name}%'";
+        //$sql = "DELETE FROM " . static::getTableName() . " ";
+        //$sql .= " WHERE name LIKE '{$name}%'";
+        $sql = "DELETE FROM CachesInDB WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
+        
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql);

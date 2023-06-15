@@ -55,7 +55,7 @@ if (empty($_POST['list'])) {
 _error_log('playlistSort line='.__LINE__);
 mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
-    $result = $obj->addVideo($value, true, ($count++), false);
+    $result = $obj->addVideo($value, true, ($count++));
 }
 mysqlCommit();
 _error_log('playlistSort line='.__LINE__);

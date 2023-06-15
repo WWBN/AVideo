@@ -21,3 +21,4 @@ CREATE TABLE IF NOT EXISTS `CachesInDB` (
   INDEX `caches8` (`timezone` ASC),
   INDEX `caches9` (`name` ASC))
 ENGINE = InnoDB;
+ALTER TABLE CachesInDB ADD FULLTEXT(name);
