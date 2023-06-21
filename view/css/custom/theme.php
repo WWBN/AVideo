@@ -1,7 +1,7 @@
 <?php
 $theme = "default";
 if (!empty($_REQUEST['theme'])) {
-    $theme = $_REQUEST['theme'];
+    $theme = htmlspecialchars($_REQUEST['theme']);
 }
 ?>
 <!DOCTYPE html>
