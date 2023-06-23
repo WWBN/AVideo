@@ -327,15 +327,21 @@ class AVideoPlugin
 
     public static function getHTMLMenuRight()
     {
-        $plugins = Plugin::getAllEnabled();
-        $str = "";
-        foreach ($plugins as $value) {
-            self::YPTstart();
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $str .= $p->getHTMLMenuRight();
+        $name = "getHTMLMenuRight" . User::getId();
+        $str = ObjectYPT::getCache($name, 3600);
+        if (empty($str)) {
+            $plugins = Plugin::getAllEnabled();
+            $str = "";
+            foreach ($plugins as $value) {
+                self::YPTstart();
+                $p = static::loadPlugin($value['dirName']);
+                if (is_object($p)) {
+                    $str .= $p->getHTMLMenuRight();
+                }
+                self::YPTend("{$value['dirName']}::" . __FUNCTION__);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+
+            ObjectYPT::setCache($name, $str);
         }
         return $str;
     }
@@ -1379,7 +1385,7 @@ class AVideoPlugin
     public static function compareVersion($name, $version)
     {
         $currentVersion = self::getCurrentVersion($name);
-        if(empty($currentVersion)){
+        if (empty($currentVersion)) {
             return -1;
         }
         return version_compare($currentVersion, $version);

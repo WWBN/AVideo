@@ -95,6 +95,11 @@ if (empty($name)) {
                     photoURL = ui.item.photo;
                 }
                 $("#user-img<?php echo $id; ?>").attr("src", photoURL);
+                <?php
+                if(!empty($jsFunctionForSelectCallback)){
+                    echo $jsFunctionForSelectCallback.';';
+                }
+                ?>
                 return false;
             }
         }).autocomplete("instance")._renderItem = function (ul, item) {

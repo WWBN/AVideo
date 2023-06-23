@@ -9,8 +9,6 @@ $program = PlayList::getFromDbFromId($playlists_id);
 if(empty($program)){
     return;
 }
-//var_dump($playlists_id, $program);
-$isMyChannel = $program['users_id'] == User::getId();
 
 $playListButtons = AVideoPlugin::getPlayListButtons($playlists_id);
 $link = PlayLists::getLink($program['id']);
@@ -28,7 +26,7 @@ if (empty($isASerie)) {
 <?php echo $playListButtons; ?>
 <?php
 echo PlayLists::getPlayLiveButton($program['id']);
-if ($isMyChannel) {
+if (PlayLists::canManagePlaylist($playlists_id)) {
     ?>
     <script>
         $(function () {

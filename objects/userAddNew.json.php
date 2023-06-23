@@ -16,6 +16,15 @@ $obj->status = 0;
 if (!Permissions::canAdminUsers()) {
     forbiddenPage();
 }
+
+if(empty($_REQUEST['securityToken'])){
+    forbiddenPage('Security token is empty');
+}
+
+if(!isTokenValid($_REQUEST['securityToken'])){
+    forbiddenPage('Security token is invalid');
+}
+
 session_write_close();
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     $_POST['email'] = $_POST['user'];
@@ -34,7 +43,7 @@ $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
 $user->setIsAdmin($_POST['isAdmin']);
 $user->setCanStream($_POST['canStream']);
-$user->setIs_company($_POST['is_company']);
+$user->setIs_company(@$_POST['is_company']);
 $user->setCanUpload($_POST['canUpload']);
 $user->setCanViewChart($_POST['canViewChart']);
 $user->setCanCreateMeet($_POST['canCreateMeet']);

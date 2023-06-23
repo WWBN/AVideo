@@ -341,7 +341,7 @@ if (typeof gtag !== \"function\") {
 
     public static function _recommendChannelName($name = "", $try = 0, $unknown = "", $users_id = 0) {
         
-        $name = preg_replace('/\s+/', '', $name);
+        $name = preg_replace('/\s+/', '', "{$name}");
         if (empty($users_id)) {
             if (!empty(User::getId())) {
                 $users_id = User::getId();
@@ -694,7 +694,7 @@ if (typeof gtag !== \"function\") {
         $password = ($this->password);
         $name = ($this->name);
         $status = ($this->status);
-        $this->about = preg_replace("/(\\\)+n/", "\n", $this->about);
+        $this->about = preg_replace("/(\\\)+n/", "\n", "{$this->about}");
         $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
         $channelName = ($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === false) {
@@ -749,6 +749,8 @@ if (typeof gtag !== \"function\") {
                     . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company,emailVerified) "
                     . " VALUES (?,?,?,?,?,?,?,?, false, "
                     . "?,?,?, now(), now(),?,?,?,?," . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ",?)";
+        
+            _error_log("Insert new user user=$user, email={$this->email}, name=$name ". json_encode(debug_backtrace()));
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
@@ -771,6 +773,7 @@ if (typeof gtag !== \"function\") {
                 // update the user groups
                 UserGroups::updateUserGroups($id, $this->userGroups);
             }
+            $this->id = $id;
             return $id;
         } else {
             _error_log(' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . " $sql");
@@ -1188,7 +1191,7 @@ if (typeof gtag !== \"function\") {
         return !empty($_SESSION['user']['emailVerified']);
     }
 
-    public static function isAdmin($users_id = 0) {
+    public static function isAdmin($users_id = 0) : bool {
         if (!empty($users_id)) {
             $user = new User($users_id);
             return !empty($user->getIsAdmin());

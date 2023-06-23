@@ -54,9 +54,6 @@ class UserGroups{
     public function save()
     {
         global $global;
-        if (empty($this->isAdmin)) {
-            $this->isAdmin = "false";
-        }
         $formats = '';
         $values = [];
         $this->group_name = _substr($this->group_name, 0, 255);

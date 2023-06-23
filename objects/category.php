@@ -73,7 +73,6 @@ class Category {
     public function setClean_name($clean_name) {
         $clean_name = preg_replace('/\W+/', '-', strtolower(cleanString($clean_name)));
         $this->clean_name = _substr($clean_name, 0, 45);
-        ;
     }
 
     public function setNextVideoOrder($nextVideoOrder) {
@@ -471,7 +470,7 @@ class Category {
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['hierarchyAndName'] = $row['hierarchy'] . __($row['name']);
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
-                    $row['description_html'] = textToLink(htmlentities($row['description']));
+                    $row['description_html'] = textToLink(htmlentities("{$row['description']}"));
                     $category[] = $row;
                 }
 

@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
 
-$canAdminUsers = Permissions::canAdminUsers();
+$canAdminUsers = canAdminUsers(); 
 if (empty($_POST['current'])) {
     $_POST['current'] = 1;
 }
@@ -29,7 +29,7 @@ if (!empty($_REQUEST['users_id'])) {
     //echo __LINE__, PHP_EOL;
     $isAdmin = null;
     $isCompany = null;
-    $ignoreAdmin = $advancedCustomUser->userCanChangeVideoOwner ? true : false;
+    $ignoreAdmin = canSearchUsers() ? true : false;
     if (isset($_REQUEST['isAdmin'])) {
         $isAdmin = 1;
     }
@@ -48,8 +48,8 @@ if (!empty($_REQUEST['users_id'])) {
     $total = User::getTotalUsers($ignoreAdmin, @$_GET['status'], $isAdmin, $isCompany);
 } else {
     //echo __LINE__, PHP_EOL;
-    $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status']);
-    $total = User::getTotalUsersFromUsergroup($_REQUEST['user_groups_id'], $advancedCustomUser->userCanChangeVideoOwner ? true : false, @$_GET['status']);
+    $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], canSearchUsers() ? true : false, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status']);
+    $total = User::getTotalUsersFromUsergroup($_REQUEST['user_groups_id'], canSearchUsers() ? true : false, @$_GET['status']);
 }
 
 //echo examineJSONError($users);exit;

@@ -129,6 +129,7 @@ Passcode: {password}
             "sub" => "meet.jitsi",
             "room" => $room,
             "exp" => strtotime("+30 hours"),
+            "nbf" => strtotime("-24 hours"),
             "moderator" => $isModerator,
         ];
         return $jitsiPayload; // HS256

@@ -8,6 +8,8 @@ require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_sch
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 
 class PlayLists extends PluginAbstract {
+    
+    const PERMISSION_CAN_MANAGE_ALL_PLAYLISTS = 0;
 
     public function getTags() {
         return array(
@@ -28,6 +30,33 @@ class PlayLists extends PluginAbstract {
 
     public function getUUID() {
         return "plist12345-370-4b1f-977a-fd0e5cabtube";
+    }
+
+    function getPermissionsOptions():array {
+        $permissions = array();
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_MANAGE_ALL_PLAYLISTS, __("Can Manage All Playlists"), __("Can Manage All Playlists"), 'PlayLists');
+        return $permissions;
+    }
+    
+    static function canManageAllPlaylists():bool {
+        if(User::isAdmin()){
+            return true;
+        }
+        return Permissions::hasPermission(self::PERMISSION_CAN_MANAGE_ALL_PLAYLISTS, 'PlayLists');
+    }
+
+    static function canManagePlaylist($playlists_id) {
+        if (!User::isLogged()) {
+            return false;
+        }
+        if (self::canManageAllPlaylists()) {
+            return true;
+        }
+        $pl = new PlayList($playlists_id);
+        if ($pl->getUsers_id() == User::getId()) {
+            return true;
+        }
+        return false;
     }
 
     public function getPluginVersion() {
@@ -564,20 +593,6 @@ class PlayLists extends PluginAbstract {
         return !empty($obj->showTVFeatures);
     }
 
-    static function canManagePlaylist($playlists_id) {
-        if (!User::isLogged()) {
-            return false;
-        }
-        if (User::isAdmin()) {
-            return true;
-        }
-        $pl = new PlayList($playlists_id);
-        if ($pl->getUsers_id() == User::getId()) {
-            return true;
-        }
-        return false;
-    }
-
     static function getShowOnTVSwitch($playlists_id) {
         if (!self::showTVFeatures()) {
             return "";
@@ -1002,9 +1017,10 @@ class PlayListPlayer {
             $playListData = array();
         }
         foreach ($this->videos as $key => $video) {
+
             if ($video['type'] === 'embed') {
                 $sources[0]['type'] = 'video';
-                $sources[0]['url'] = $video["videoLink"];
+                $sources[0]['url'] = @$video["videoLink"];
             } else {
                 $sources = getVideosURL($video['filename']);
             }
@@ -1027,7 +1043,7 @@ class PlayListPlayer {
                 $messagesFromPlayList[] = "videos_id={$video['videos_id']} empty playlist source ";
                 continue;
             }
-            $playListData[] = new PlayListElement($video['title'], $video['description'], $video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), @$video['created'], $video['likes'], $video['views_count'], $video['videos_id']);
+            $playListData[] = new PlayListElement($video['title'], $video['description'], @$video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), @$video['created'], @$video['likes'], @$video['views_count'], $video['videos_id']);
         }
         return $playListData;
     }

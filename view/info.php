@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: application/json');
-$cachedFile = '../videos/cache/version.cache';
+$cachedFile = '../videos/cache/version'.(empty($_GET['version'])?1:0).'.cache';
 
 if (empty($_GET['modified']) && file_exists($cachedFile)) {
     $content = file_get_contents($cachedFile);

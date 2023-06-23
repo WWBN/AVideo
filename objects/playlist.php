@@ -469,7 +469,7 @@ class PlayList extends ObjectYPT {
                         $row['humancreate'] = humanTiming(strtotime($row['cre']));
                     }
                     $images = Video::getImageFromFilename($row['filename'], $row['type']);
-                    if (!file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
+                    if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
                         $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
                     }
                     $row['images'] = $images;
@@ -729,6 +729,7 @@ class PlayList extends ObjectYPT {
         if (!empty($playlists_id)) {
             self::deleteCacheDir($playlists_id);
         }
+        $this->id = $playlists_id;
         return $playlists_id;
     }
 

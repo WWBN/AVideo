@@ -2169,6 +2169,7 @@ function addGetParam(_url, _key, _value) {
     }
     _url += sep + param;
     _url = removeDuplicatedGetParam(_url);
+    _url = _url.replace("#?", "?");
     return _url;
 }
 

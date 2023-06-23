@@ -17,7 +17,8 @@ class MobileYPT extends PluginAbstract {
     }
 
     public function getDescription() {
-        $desc = "Manage the Mobile YPTApp";
+        $desc = "Your Media Companion: YPT Mobile App";
+        $desc .= "<p>YPT Media is a dynamic mobile app for streaming high-quality videos, audios, managing playlists, supporting PPV, and live streaming. Enjoy an ad-free experience with our server hosting. <a href=\"https://github.com/WWBN/AVideo/wiki/YPT-Media-Mobile-app\">Learn more</a>.</p>";
         $desc .= $this->isReadyLabel(['API']);
         return $desc;
     }

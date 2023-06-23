@@ -390,7 +390,8 @@ print AVideoPlugin::updateUserFormJS();
                                 "status": $('#status').is(':checked') ? 'a' : 'i',
                                 "isEmailVerified": $('#isEmailVerified').is(':checked'),
                                 "userGroups": selectedUserGroups,
-                                "do_not_login": 1
+                                "do_not_login": 1,
+                                "securityToken": '<?php echo getToken(3600); ?>'
                         },
                         type: 'post',
                         success: function (response) {

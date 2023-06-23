@@ -388,6 +388,9 @@ function getRealIpAddr()
 
 function cleanString($text)
 {
+    if(empty($text)){
+        return '';
+    }
     $utf8 = [
         '/[áaâaaäą]/u' => 'a',
         '/[ÁAÂAÄĄ]/u' => 'A',
@@ -1674,6 +1677,9 @@ function getResolutionFromFilename($filename)
         return $getResolutionFromFilenameArray[$filename];
     }
 
+    if(empty($filename)){
+        return 0;
+    }
     if (!preg_match('/^http/i', $filename) && !file_exists($filename)) {
         return 0;
     }
@@ -10132,7 +10138,7 @@ function forbiddenPageIfCannotEmbed($videos_id)
                     $reason[] = __('Admin block video sharing');
                 }
                 if (!CustomizeUser::canShareVideosFromVideo($videos_id)) {
-                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo({$video['id']})");
+                    error_log("forbiddenPageIfCannotEmbed: Embed is forbidden: !CustomizeUser::canShareVideosFromVideo({$videos_id})");
                     $reason[] = __('User block video sharing');
                 }
                 forbiddenPage("Embed is forbidden " . implode('<br>', $reason));
@@ -11199,3 +11205,33 @@ function getImageOrientation($imagePath) {
     }
 }
 
+function canSearchUsers(){
+    global $advancedCustomUser;
+    if(canAdminUsers()){
+        return true;
+    }
+    if(AVideoPlugin::isEnabledByName('PlayLists')){
+        if(PlayLists::canManageAllPlaylists()){
+            return true;
+        }
+    }
+    if (empty($advancedCustomUser)) {
+        $advancedCustomUser = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+    }
+    if($advancedCustomUser->userCanChangeVideoOwner){
+        return true;
+    }
+    return false;
+}
+
+function canAdminUsers(){
+    if(Permissions::canAdminUsers()){
+        return true;
+    }
+    if(AVideoPlugin::isEnabledByName('PayPerView')){
+        if(PayPerView::canSeePPVManagementInfo()){
+            return true;
+        }
+    }
+    return false;
+}

@@ -575,7 +575,7 @@ class Layout extends PluginAbstract
         return $content;
     }
 
-    static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array())
+    static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
     {
         global $global;
         $default_users_id = intval($default_users_id);

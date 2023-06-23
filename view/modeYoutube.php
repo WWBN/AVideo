@@ -177,7 +177,7 @@ if (!empty($evideo)) {
 
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
-    if (!empty($video)) {
+    if (!empty($video) && !empty($video['users_id'])) {
         $name = User::getNameIdentificationById($video['users_id']);
         $name = "<a href='" . User::getChannelLink($video['users_id']) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($video['users_id']) . "</a>";
         $subscribe = Subscribe::getButton($video['users_id']);
@@ -241,7 +241,7 @@ if (!empty($evideo)) {
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
-    if (empty($_GET['videoName']) && !empty($video)) {
+    if (empty($_GET['videoName']) && !empty($video) && !empty($video['clean_title'])) {
         $_GET['videoName'] = $video['clean_title'];
     }
     if(!empty($video)){
@@ -352,8 +352,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 if (empty($video['type'])) {
                     $video['type'] = "video";
                 }
-                $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-
+                
                 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
                 require "{$global['systemRootPath']}view/modeYoutubeBundle.php";
 

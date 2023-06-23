@@ -10,20 +10,16 @@ if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
-if (empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])) {
-    $_POST['playlist_id'] = intval($_GET['playlist_id']);
-}
-
-$obj = new PlayList($_POST['playlist_id']);
-if (User::getId() !== $obj->getUsers_id()) {
+if (!PlayLists::canManagePlaylist($_REQUEST['playlist_id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
+$obj = new PlayList($_REQUEST['playlist_id']);
 $count = 1;
 
 if (empty($_POST['list'])) {
     // get all videos from playlist
-    $videosArrayId = PlayList::getVideosIdFromPlaylist($_POST['playlist_id']);
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_id']);
     $videos = [];
     foreach ($videosArrayId as $value) {
         $videos[] = Video::getVideoLight($value);

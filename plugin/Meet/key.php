@@ -30,7 +30,9 @@ if (empty($obj->key) || strlen($obj->key) < 50) {
     if (empty($server)) {
         $obj->msg = "The server URL is empty";
     } else {
-        $obj->key = url_get_contents("http://key.ypt.me?server=" . urlencode($server));
+        $url = "http://key.ypt.me?server=" . urlencode($server);
+        //$obj->url = $url;
+        $obj->key = url_get_contents($url);
         $obj->length = strlen($obj->key); // 1 day
         if (!empty($obj->key) && $obj->length > 50) {
             $obj->error = false;

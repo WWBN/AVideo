@@ -645,9 +645,9 @@ if (!class_exists('Video')) {
 
         public function setDuration($duration) {
             if (!self::isValidDuration($this->duration) || self::isValidDuration($duration)) {
-                _error_log("setDuration before {$duration}");
+                //_error_log("setDuration before {$duration}");
                 AVideoPlugin::onVideoSetDuration($this->id, $this->duration, $duration);
-                _error_log("setDuration after {$duration}");
+                //_error_log("setDuration after {$duration}");
                 $this->duration = $duration;
             } else {
                 _error_log("setDuration error is not a valid {$duration}, old duration = {$this->duration}");
@@ -1669,7 +1669,7 @@ if (!class_exists('Video')) {
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             $name = "_getVideoInfo_{$row['id']}";
             $OneHour = 3600;
-            $cache = ObjectYPT::getCache($name, $OneHour);
+            $cache = ObjectYPT::getCacheGlobal($name, $OneHour);
             if (!empty($cache)) {
                 $externalOptions = $cache->externalOptions;
                 $obj = object_to_array($cache);
@@ -1733,7 +1733,7 @@ if (!class_exists('Video')) {
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $otherInfocachename = "otherInfo{$row['id']}";
-            $otherInfo = object_to_array(ObjectYPT::getCache($otherInfocachename, 600));
+            $otherInfo = object_to_array(ObjectYPT::getCacheGlobal($otherInfocachename, 600));
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if (empty($otherInfo)) {
                 $otherInfo = [];
@@ -1743,7 +1743,7 @@ if (!class_exists('Video')) {
                 //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
                 //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
-                $cached = ObjectYPT::setCache($otherInfocachename, $otherInfo);
+                $cached = ObjectYPT::setCacheGlobal($otherInfocachename, $otherInfo);
                 //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 //_error_log("video::getInfo cache " . json_encode($cached));
             }
@@ -1786,7 +1786,7 @@ if (!class_exists('Video')) {
             //var_dump($row['userExternalOptions']);exit;
             $row = array_merge($row, AVideoPlugin::getAllVideosArray($row['id']));
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-            ObjectYPT::setCache($name, $row);
+            ObjectYPT::setCacheGlobal($name, $row);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 
             if (self::forceAudio()) {
@@ -5344,7 +5344,7 @@ if (!class_exists('Video')) {
             } else {
                 if (self::userGroupAndVideoGroupMatch($users_id, $videos_id)) {
                     $videosug = self::getVideoGroups($videos_id);
-                    $categoriessug = self::getCategoriesGroups($videos_id);
+                    $categoriessug = UserGroups::getCategoriesGroups($videos_id);
                     $rowsUser = UserGroups::getUserGroups(User::getId());
                     // what group the user needs
                 }
@@ -5355,12 +5355,12 @@ if (!class_exists('Video')) {
             if ($p = AVideoPlugin::loadPluginIfEnabled($name)) {
                 $obj = $p->getDataObject();
                 if ($obj->ifExceedQuotaDoNotPlayVideos) {
-                    if ($this->videoOwnerExceedsQuota($videos_id)) {
+                    if ($p->videoOwnerExceedsQuota($videos_id)) {
                         $response->canWatch = false;
                         $response->why[] = 'DiskUploadQuota videoOwnerExceedsQuota and ifExceedQuotaDoNotPlayVideos';
                     }
                 } else {
-                    if ($this->videoOwnerExceedsQuota($videos_id)) {
+                    if ($p->videoOwnerExceedsQuota($videos_id)) {
                         $response->why[] = 'DiskUploadQuota is active but the owner still have quota';
                     } else {
                         $response->why[] = 'DiskUploadQuota is active but the owner quota os gone but ifExceedQuotaDoNotPlayVideos is deactivated';
