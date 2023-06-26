@@ -4398,7 +4398,7 @@ function getLdJson($videos_id)
 
     $img = Video::getPoster($videos_id);
 
-    $description = getSEODescription(empty(trim($video['description'])) ? $video['title'] : $video['description']);
+    $description = getSEODescription(_empty($video['description']) ? $video['title'] : $video['description']);
     $duration = Video::getItemPropDuration($video['duration']);
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";

@@ -35,7 +35,7 @@ $video['filename'] = '';
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
     </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body class="<?php echo $global['bodyClass']; ?> videoNotFound">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
         <!-- view videoNotFound.php -->
         <div class="container-fluid principalContainer" id="modeYoutubePrincipal" style="overflow: hidden;">

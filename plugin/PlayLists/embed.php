@@ -111,7 +111,7 @@ foreach ($playList as $key => $value) {
         if (empty($videoStartSeconds)) {
             $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
         }
-        $playListData[] = new PlayListElement($value['title'], $value['description'], $value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], $value['likes'], $value['views_count'], $value['videos_id'], "embedPlayList ", $subtitleTracks);
+        $playListData[] = new PlayListElement(@$value['title'], @$value['description'], @$value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'],@$value['likes'], @$value['views_count'], @$value['videos_id'], "embedPlayList ", $subtitleTracks);
         //$playListData_videos_id[] = $value['videos_id'];
     }
 }

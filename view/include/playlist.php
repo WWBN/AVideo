@@ -73,16 +73,16 @@ if (!empty($videoSerie)) {
                     $indicator = '<span class="fa fa-play text-danger"></span>';
                 } ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/" . urlencode(cleanURLName(@$value["channelName"])) . "/" . urlencode(cleanURLName($playlist->getName())) . "/".(@$value['clean_title']); ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/" . urlencode(cleanURLName(@$value["channelName"])) . "/" . urlencode(cleanURLName($playlist->getName())) . "/" . (@$value['clean_title']); ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-3 nopadding">
                             <?php
                             if (($value['type'] !== "audio") && ($value['type'] !== "linkAudio")) {
-                                if(empty($value['images']['poster'])){
+                                if (empty($value['images']['poster'])) {
                                     $img = Video::getPoster($value['videos_id']);
-                                }else{
+                                } else {
                                     $img = $value['images']['poster'];
                                 }
                             } else {
@@ -111,7 +111,7 @@ if (!empty($videoSerie)) {
                                 if (empty($advancedCustom->doNotDisplayViews)) {
                                 ?>
                                     <div>
-                                        <strong class=""><?php echo empty($value['views_count'])?0:number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
+                                        <strong class=""><?php echo empty($value['views_count']) ? 0 : number_format($value['views_count'], 0); ?></strong> <?php echo __("Views"); ?>
                                     </div>
                                 <?php
                                 } ?>
@@ -127,3 +127,10 @@ if (!empty($videoSerie)) {
         </ul>
     </nav>
 </div>
+<script>
+    $(function() {
+        var ul = $(".playlistList ul"); 
+        var li = ul.find("li.active"); 
+        ul.scrollTop(ul.scrollTop() + li.position().top);
+    });
+</script>

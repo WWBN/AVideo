@@ -250,7 +250,7 @@ if (!empty($evideo)) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        $response = Video::whyUserCannotWatchVideo(User::getId(), $video['id']);
+        $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
         $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
         videoNotFound($html);
     } else {
