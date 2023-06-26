@@ -7,16 +7,19 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
-function getPlaylistOwnerUsersId(){
-    if(!empty($_REQUEST['PlaylistOwnerUsersId'])){
+function getPlaylistOwnerUsersId()
+{
+    if (!empty($_REQUEST['PlaylistOwnerUsersId'])) {
         return intval($_REQUEST['PlaylistOwnerUsersId']);
-    }else if (User::isAdmin() && !empty($_REQUEST['users_id'])) {
+    } else if (User::isAdmin() && !empty($_REQUEST['users_id'])) {
         return intval($_REQUEST['users_id']);
     }
     return User::getId();
 }
-
+$timeName = "managerPlaylists.php";
+TimeLogStart($timeName);
 $users_id = getPlaylistOwnerUsersId();
+TimeLogEnd($timeName, __LINE__);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
@@ -24,8 +27,11 @@ $users_id = getPlaylistOwnerUsersId();
 <head>
     <title><?php echo __("Users") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
     <?php
+    TimeLogEnd($timeName, __LINE__);
     include $global['systemRootPath'] . 'view/include/head.php';
+    TimeLogEnd($timeName, __LINE__);
     include $global['systemRootPath'] . 'view/managerUsers_head.php';
+    TimeLogEnd($timeName, __LINE__);
     ?>
     <style>
         .playLists li {
@@ -89,25 +95,30 @@ $users_id = getPlaylistOwnerUsersId();
                         </button>
                     </li>
                     <?php
+
+                    TimeLogEnd($timeName, __LINE__);
                     if (PlayLists::canManageAllPlaylists()) {
+                        TimeLogEnd($timeName, __LINE__);
                     ?>
                         <li class="pull-right">
                             <?php
-                            if (PlayLists::canManageAllPlaylists()) {
-                                $autocomplete = Layout::getUserAutocomplete(getPlaylistOwnerUsersId(), 'User_playlist_owner', array(), 'updatePlaylistOwner()');
-                            }
+                            $autocomplete = Layout::getUserAutocomplete(getPlaylistOwnerUsersId(), 'User_playlist_owner', array(), 'updatePlaylistOwner()');
                             ?>
                         </li>
                     <?php
+                        TimeLogEnd($timeName, __LINE__);
                     }
+                    TimeLogEnd($timeName, __LINE__);
                     ?>
                 </ul>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <?php
+                    TimeLogEnd($timeName, __LINE__);
                     $pl = PlayList::getAllFromUser($users_id, false);
                     $count = 0;
+                    TimeLogEnd($timeName, __LINE__);
                     foreach ($pl as $value) {
                         $count++;
                         //var_dump($value);
@@ -287,19 +298,19 @@ $users_id = getPlaylistOwnerUsersId();
                                 </div>
                             </div>
                         </div>
-                    <?php
-                    if($count % 2 == 0){
-                        echo '<div class="clearfix visible-sm"></div>';
-                    }
-                    if($count % 3 == 0){
-                        echo '<div class="clearfix visible-md"></div>';
-                    }
-                    if($count % 4 == 0){
-                        echo '<div class="clearfix visible-lg"></div>';
-                    }
+                        <?php
+                        if ($count % 2 == 0) {
+                            echo '<div class="clearfix visible-sm"></div>';
+                        }
+                        if ($count % 3 == 0) {
+                            echo '<div class="clearfix visible-md"></div>';
+                        }
+                        if ($count % 4 == 0) {
+                            echo '<div class="clearfix visible-lg"></div>';
+                        }
                     }
                     if (empty($count)) {
-                    ?>
+                        ?>
                         <div class="col-sm-12">
                             <div class="alert alert-info">
                                 <?php echo __('Sorry you do not have any playlist yet'); ?>
@@ -307,6 +318,7 @@ $users_id = getPlaylistOwnerUsersId();
                         </div>
                     <?php
                     }
+                    TimeLogEnd($timeName, __LINE__);
                     ?>
 
                 </div>
@@ -314,7 +326,9 @@ $users_id = getPlaylistOwnerUsersId();
         </div>
     </div>
     <?php
+    TimeLogEnd($timeName, __LINE__);
     include $global['systemRootPath'] . 'view/include/footer.php';
+    TimeLogEnd($timeName, __LINE__);
     ?>
     <script>
         $(document).ready(function() {
@@ -322,9 +336,9 @@ $users_id = getPlaylistOwnerUsersId();
 
         });
 
-        function updatePlaylistOwner(){
+        function updatePlaylistOwner() {
             modal.showPleaseWait();
-            var url = window.location.href; 
+            var url = window.location.href;
             url = addQueryStringParameter(url, 'PlaylistOwnerUsersId', $('#User_playlist_owner').val());
             console.log('updatePlaylistOwner', url);
             window.location.href = url;

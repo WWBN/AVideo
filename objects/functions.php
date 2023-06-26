@@ -2869,7 +2869,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         }
         $url = getURL(getRelativePath($file));
         if (file_exists($file)) {
-            $image_info = getimagesize($file);
+            $image_info = @getimagesize($file);
             if (!empty($image_info)) {
                 $wh = $image_info[3];
             }

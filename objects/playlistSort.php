@@ -53,6 +53,7 @@ mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
     $result = $obj->addVideo($value, true, ($count++), false);
 }
+PlayList::deleteCacheDir($obj->getId());
 mysqlCommit();
 _error_log('playlistSort line='.__LINE__);
 
