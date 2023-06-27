@@ -20,10 +20,15 @@ if (empty($_POST['name'])) {
 }
 $obj = new PlayList(@$_POST['id']);
 
-if(!empty($obj->getUsers_id())){
-    forbidIfItIsNotMyUsersId($obj->getUsers_id());
+if (PlayLists::canManageAllPlaylists()) {
+    if(!empty($_REQUEST['users_id'])){
+        $obj->setUsers_id($_REQUEST['users_id']);
+    }
+}else{
+    if(!empty($obj->getUsers_id())){
+        forbidIfItIsNotMyUsersId($obj->getUsers_id());
+    }
 }
-
 $obj->setName($_POST['name']);
 $obj->setStatus($_POST['status']);
-echo '{"status":"'.$obj->save().'"}';
+echo '{"status":"'.$obj->save().'", "users_id":"'.$obj->getUsers_id().'"}';

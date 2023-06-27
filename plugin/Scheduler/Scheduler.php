@@ -5,6 +5,8 @@ require_once $global['systemRootPath'] . 'objects/ICS.php';
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Scheduler_commands.php';
+require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Emails_messages.php';
+require_once $global['systemRootPath'] . 'plugin/Scheduler/Objects/Email_to_user.php';
 
 class Scheduler extends PluginAbstract
 {
@@ -43,7 +45,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "4.3";
+        return "4.4";
     }
 
     public function updateScript()
@@ -84,6 +86,13 @@ class Scheduler extends PluginAbstract
                 sqlDal::writeSqlTry(trim($value));
             }
         }
+        if (AVideoPlugin::compareVersion($this->getName(), "4.4") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.4.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSqlTry(trim($value));
+            }
+        }
         return true;
     }
 
@@ -94,6 +103,7 @@ class Scheduler extends PluginAbstract
         $obj->watchDogSocket = true;
         $obj->watchDogLiveServer = true;
         $obj->watchDogLiveServerSSL = true;
+        $obj->sendEmails = true;
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -110,6 +120,27 @@ class Scheduler extends PluginAbstract
           $obj->textareaSample = $o;
          */
         return $obj;
+    }
+    
+    static function sendEmails(){
+        $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
+        if($obj->sendEmails){
+            $messages = Email_to_user::getAllEmailsToSend();
+            echo 'Scheduler::sendEmails found '.count($messages).PHP_EOL;
+            foreach ($messages as $value) {
+                $to = explode(',', $value['emails']);
+                // Make sure the emails in $to are unique
+                $to = array_unique($to);
+
+                $subject = $value['subject'];
+                $message = $value['message'];
+                echo "Scheduler::sendEmails [{$subject}] found emails ".count($to).PHP_EOL;
+                //var_dump($to);
+                sendSiteEmailAsync($to, $subject, $message);
+                $ids = explode(',', $value['ids']);
+                Email_to_user::setSent($ids);
+            }
+        }
     }
 
     public function getPluginMenu()

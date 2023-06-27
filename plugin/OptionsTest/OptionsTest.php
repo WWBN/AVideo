@@ -2,8 +2,6 @@
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on our plugin.
-
 class OptionsTest extends PluginAbstract {
 
     public function getTags() {
@@ -49,15 +47,6 @@ class OptionsTest extends PluginAbstract {
     }
     
     public function getHeadCode() {
-    }
-    
-    public function addRoutes()
-    {
-        global $basePath; 
-        SimpleRouter::get($basePath."OptionsTest/home", function() {
-            require_once "plugin/OptionsTest/home.php"; exit;
-        });
-        return false;
     }
     
     public function getCustomizeAdvancedOptions()

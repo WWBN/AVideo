@@ -45,6 +45,7 @@ time.duration {
 	border-radius: 5px;
 	opacity: 0.8;
 	text-shadow: 1px 1px 4px #000;
+        z-index: 10;
 }
 
 .thumbsImageContainer {

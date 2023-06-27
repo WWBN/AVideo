@@ -368,10 +368,6 @@ abstract class PluginAbstract {
         return array();
     }
 
-    public function addRoutes() {
-        return false;
-    }
-
     public function addView($videos_id, $total) {
         return false;
     }

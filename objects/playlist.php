@@ -724,8 +724,10 @@ class PlayList extends ObjectYPT {
             return false;
         }
         $this->clearEmptyLists();
-        $users_id = User::getId();
-        $this->setUsers_id($users_id);
+        if(empty($this->getUsers_id()) || !PlayLists::canManageAllPlaylists()){
+            $users_id = User::getId();
+            $this->setUsers_id($users_id);
+        }
         $this->showOnTV = intval($this->showOnTV);
         $playlists_id = parent::save();
         if (!empty($playlists_id)) {

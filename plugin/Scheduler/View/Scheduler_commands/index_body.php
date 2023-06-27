@@ -22,7 +22,7 @@ if (!User::isAdmin()) {
                     <div class="panel-body">
                         <form id="panelScheduler_commandsForm">
                             <div class="row">
-                                <input type="hidden" name="id" id="Scheduler_commandsid" value="" >
+                                <input type="hidden" name="id" id="Scheduler_commandsid" value="">
                                 <div class="form-group col-sm-12">
                                     <label for="Scheduler_commandscallbackURL"><?php echo __("CallbackURL"); ?>:</label>
                                     <input type="text" id="Scheduler_commandscallbackURL" name="callbackURL" class="form-control input-sm" placeholder="<?php echo __("CallbackURL"); ?>" required="true">
@@ -164,13 +164,13 @@ if (!User::isAdmin()) {
         $('#Scheduler_commandsrepeat_day_of_week').val('');
         $('#Scheduler_commandstype').val('');
     }
-    $(document).ready(function () {
-        $('#addScheduler_commandsBtn').click(function () {
+    $(document).ready(function() {
+        $('#addScheduler_commandsBtn').click(function() {
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/addScheduler_commandsVideo.php',
                 data: $('#panelScheduler_commandsForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         avideoAlertError(response.msg);
                     } else {
@@ -186,18 +186,39 @@ if (!User::isAdmin()) {
         var Scheduler_commandstableVar = $('#Scheduler_commandsTable').DataTable({
             serverSide: true,
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Scheduler_commands/list.json.php",
-            "columns": [
-                {"data": "id"},
-                {"data": "parameters"},
-                {"data": "date_to_execute"},
-                {"data": "executed_in"},
-                {"data": "status"},
-                {"data": "repeat_minute"},
-                {"data": "repeat_hour"},
-                {"data": "repeat_day_of_month"},
-                {"data": "repeat_month"},
-                {"data": "repeat_day_of_week"},
-                {"data": "type"},
+            "columns": [{
+                    "data": "id"
+                },
+                {
+                    "data": "parameters"
+                },
+                {
+                    "data": "date_to_execute"
+                },
+                {
+                    "data": "executed_in"
+                },
+                {
+                    "data": "status"
+                },
+                {
+                    "data": "repeat_minute"
+                },
+                {
+                    "data": "repeat_hour"
+                },
+                {
+                    "data": "repeat_day_of_month"
+                },
+                {
+                    "data": "repeat_month"
+                },
+                {
+                    "data": "repeat_day_of_week"
+                },
+                {
+                    "data": "type"
+                },
                 {
                     sortable: false,
                     data: null,
@@ -206,19 +227,19 @@ if (!User::isAdmin()) {
             ],
             select: true,
         });
-        $('#newScheduler_commands').on('click', function (e) {
+        $('#newScheduler_commands').on('click', function(e) {
             e.preventDefault();
             $('#panelScheduler_commandsForm').trigger("reset");
             $('#Scheduler_commandsid').val('');
         });
-        $('#panelScheduler_commandsForm').on('submit', function (e) {
+        $('#panelScheduler_commandsForm').on('submit', function(e) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Scheduler_commands/add.json.php',
                 data: $('#panelScheduler_commandsForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         avideoAlertError(response.msg);
                     } else {
@@ -231,38 +252,38 @@ if (!User::isAdmin()) {
                 }
             });
         });
-        $('#Scheduler_commandsTable').on('click', 'button.delete_Scheduler_commands', function (e) {
+        $('#Scheduler_commandsTable').on('click', 'button.delete_Scheduler_commands', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Scheduler_commandstableVar.row(tr).data();
             swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                    .then(function (willDelete) {
-                        if (willDelete) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Scheduler_commands/delete.json.php",
-                                data: data
+                    title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/Scheduler/View/Scheduler_commands/delete.json.php",
+                            data: data
 
-                            }).done(function (resposta) {
-                                if (resposta.error) {
-                                    avideoAlertError(resposta.msg);
-                                }
-                                Scheduler_commandstableVar.ajax.reload();
-                                modal.hidePleaseWait();
-                            });
-                        } else {
+                        }).done(function(resposta) {
+                            if (resposta.error) {
+                                avideoAlertError(resposta.msg);
+                            }
+                            Scheduler_commandstableVar.ajax.reload();
+                            modal.hidePleaseWait();
+                        });
+                    } else {
 
-                        }
-                    });
+                    }
+                });
         });
-        $('#Scheduler_commandsTable').on('click', 'button.edit_Scheduler_commands', function (e) {
+        $('#Scheduler_commandsTable').on('click', 'button.edit_Scheduler_commands', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Scheduler_commandstableVar.row(tr).data();
@@ -283,9 +304,19 @@ if (!User::isAdmin()) {
         });
     });
 </script>
-<script> $(document).ready(function () {
-        $('#Scheduler_commandsdate_to_execute').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-    });</script>
-<script> $(document).ready(function () {
-        $('#Scheduler_commandsexecuted_in').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-    });</script>
+<script>
+    $(document).ready(function() {
+        $('#Scheduler_commandsdate_to_execute').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#Scheduler_commandsexecuted_in').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true
+        });
+    });
+</script>

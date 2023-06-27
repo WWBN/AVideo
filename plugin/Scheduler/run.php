@@ -53,3 +53,5 @@ function _log($msg){
 }
 
 include $global['systemRootPath'] . 'plugin/Scheduler/watchDog.php';
+
+Scheduler::sendEmails();

@@ -5,9 +5,6 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
-use Pecee\SimpleRouter\SimpleRouter; //required if we want to define routes on our plugin.
-
-
 class TopMenu extends PluginAbstract {
     const PERMISSION_CAN_EDIT = 0;
 
@@ -54,16 +51,6 @@ class TopMenu extends PluginAbstract {
             sqlDal::writeSql("alter table topMenu_items add menuSeoUrlItem varchar(255) default ''"); 
         }
         return true;
-    }
-    
-    public function addRoutes()
-    {
-        global $basePath; 
-        SimpleRouter::get($basePath."/menu/{menuSeoUrlItem}", function($menuSeoUrlItem) {
-            $_GET['menuSeoUrlItem']=$menuSeoUrlItem;
-            require_once "plugin/TopMenu/seo.php";
-        },['defaultParameterRegex' => '.*']);
-        return false;
     }
 
     public function getHeadCode() {
