@@ -173,7 +173,7 @@
                 width: '100vw',
                 height: '100vh',
                 frameborder: 0,
-                src: shortVideos[index2].embedlink // Put the source URL here
+                src: addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1) // Put the source URL here
             });
             var overlay = $('<div/>', {
                 // The attributes for the overlay

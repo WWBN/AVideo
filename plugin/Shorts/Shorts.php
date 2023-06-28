@@ -27,7 +27,6 @@ class Shorts extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->shortMaxDurationInSeconds = 60;
-        $obj->autoAddVideoIntoShorts = true;
 
         return $obj;
     }
