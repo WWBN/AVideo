@@ -6,7 +6,7 @@ if (!file_exists($configFile)) {
     $configFile = $path['dirname'] . "/" . $configFile;
 }
 $global['bypassSameDomainCheck'] = 1;
-
+$remember = 1; 
 require_once $configFile;
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
 header('Access-Control-Allow-Origin: *');
