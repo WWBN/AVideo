@@ -2451,11 +2451,18 @@ if (!class_exists('Video')) {
         }
 
         public function delete($allowOfflineUser = false) {
+            global $advancedCustomUser;
             if (!$allowOfflineUser && !$this->userCanManageVideo()) {
                 return false;
             }
-
-            global $global;
+            if (empty($advancedCustomUser)) {
+                $advancedCustomUser = AVideoPlugin::getObjectDataIfEnabled('CustomizeUser');
+            }
+            if($advancedCustomUser->nonAdminCannotDeleteVideo){
+                if(!User::isAdmin()){
+                    return false;
+                }
+            }
             if (!empty($this->id)) {
                 $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);

@@ -6,7 +6,11 @@ require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
-                                                
+                        
+if(empty($_POST['videos_id'])){
+    $_POST['videos_id'] = intval($_POST['videoAutocomplete']);
+}
+
 if(!User::isAdmin() && !Video::canEdit($_POST['videos_id'])){
     $obj->msg = "You cant do this";
     die(json_encode($obj));

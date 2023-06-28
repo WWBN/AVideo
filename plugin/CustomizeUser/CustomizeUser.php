@@ -47,6 +47,7 @@ class CustomizeUser extends PluginAbstract
         global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
         $obj->nonAdminCannotDownload = false;
+        $obj->nonAdminCannotDeleteVideo = false;
         $obj->userCanAllowFilesDownload = false;
         $obj->userCanAllowFilesShare = false;
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
