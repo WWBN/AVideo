@@ -115,10 +115,28 @@ if (!class_exists('Video')) {
         public static $rratingOptionsText = ['g' => 'General Audience', 'pg' => 'Parental Guidance Suggested', 'pg-13' => 'Parental Strongly Cautioned', 'r' => 'Restricted', 'nc-17' => 'No One 17 and Under Admitted', 'ma' => 'Mature Audience'];
         //ver 3.4
         protected $youtubeId;
-        public static $typeOptions = ['audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
         public static $searchFieldsNames = ['v.title', 'v.description', 'c.name', 'c.description', 'v.id', 'v.filename'];
         public static $searchFieldsNamesLabels = ['Video Title', 'Video Description', 'Channel Name', 'Channel Description', 'Video ID', 'Video Filename'];
         public static $iframeAllowAttributes = 'allow="fullscreen;autoplay;camera *;microphone *;" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"';
+
+        public static $videoTypeAudio = 'audio';
+        public static $videoTypeVideo = 'video';
+        public static $videoTypeShort = 'short';
+        public static $videoTypeEmbed = 'embed';
+        public static $videoTypeLinkVideo = 'linkVideo';
+        public static $videoTypeLinkAudio = 'linkAudio';
+        public static $videoTypeTorrent = 'torrent';
+        public static $videoTypePdf = 'pdf';
+        public static $videoTypeImage = 'image';
+        public static $videoTypeGallery = 'gallery';
+        public static $videoTypeArticle = 'article';
+        public static $videoTypeSerie = 'serie';
+        public static $videoTypeZip = 'zip';
+        public static $videoTypeNotfound = 'notfound';
+        public static $videoTypeBlockedUser = 'blockedUser';
+        
+        public static $typeOptions = ['audio', 'video', 'short', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
+        
 
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false) {
             global $global;
@@ -1328,7 +1346,7 @@ if (!class_exists('Video')) {
          * @param string $videosArrayId an array with videos to return (for filter only)
          * @return array
          */
-        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '') {
+        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds=0) {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return [];
@@ -1509,6 +1527,11 @@ if (!class_exists('Video')) {
                     $searchFieldsNames = ['v.title'];
                     $sql .= self::getFullTextSearch($searchFieldsNames, $_POST['searchPhrase']) . ')';
                 }
+            }
+
+            if(!empty($max_duration_in_seconds)){
+                $max_duration_in_seconds = intval($max_duration_in_seconds);
+                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -1932,7 +1955,7 @@ if (!class_exists('Video')) {
          * @param string $showOnlyLoggedUserVideos
          * @return array
          */
-        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '') {
+        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds=0) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return [];
@@ -1984,10 +2007,18 @@ if (!class_exists('Video')) {
                 }
                 $sql .= " )";
             }
-            $sql .= AVideoPlugin::getVideoWhereClause();
+
             if (!empty($type)) {
                 $sql .= " AND v.type = '" . $type . "' ";
             }
+
+            if(!empty($max_duration_in_seconds)){
+                $max_duration_in_seconds = intval($max_duration_in_seconds);
+                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
+            }
+
+            $sql .= AVideoPlugin::getVideoWhereClause();
+
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 $sql .= " ORDER BY RAND() ";
@@ -2035,7 +2066,7 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '') {
+        public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '', $max_duration_in_seconds=0) {
             global $global, $config, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return false;
@@ -2178,6 +2209,11 @@ if (!class_exists('Video')) {
                     $uid = intval($user['id']);
                     $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company  = '{$uid}')";
                 }
+            }
+
+            if(!empty($max_duration_in_seconds)){
+                $max_duration_in_seconds = intval($max_duration_in_seconds);
+                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
