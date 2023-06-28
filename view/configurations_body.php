@@ -685,8 +685,8 @@ if (User::isAdmin()) {
                         captcha: $('#captchaText').val(),
                         first_name: "Your Site test",
                         email: "<?php echo $config->getContactEmail(); ?>",
-                        website: "www.avideo.com",
-                        comment: "Teste of comment"
+                        website: "<?php echo $global['webSiteRootURL']; ?>",
+                        comment: "This is a test from SMTP admin"
                     },
                     type: 'post',
                     success: function (response) {

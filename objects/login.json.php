@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
-
+$remember = 1;
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 global $global, $config;
@@ -26,6 +26,13 @@ TimeLogEnd($timeLog, __LINE__);
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+
+if (isset($_POST['token'])) {
+    // FIND USER WITH = $_POST['token']
+    $getUserByToken = User::getUserByToken($_POST['token']);
+    $_POST['user'] = $getUserByToken['user'];
+    $_POST['pass'] = $getUserByToken['password'];
+}
 
 Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
@@ -250,6 +257,7 @@ $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 $object->embedChatUrl = '';
 $object->embedChatUrlMobile = '';
+$object->token = User::getToken();
 
 //_error_log("login.json.php check chat2");
 if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
@@ -345,5 +353,10 @@ $json = _json_encode($object);
 //header("Content-length: " . strlen($json));
 //_error_log('login.json.php is done '.User::getId());
 session_write_close();
+
+if (isset($_POST['token'])) {
+    echo "authenticated"; die();
+}
+
 echo $json;
 exit;

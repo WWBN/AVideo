@@ -3083,4 +3083,35 @@ if (typeof gtag !== \"function\") {
         }
         return $_SESSION['swapUser']['id'];
     }
+
+    public static function getToken() {
+        return User::saveToken();
+    }
+
+    public function saveToken($token = "") {
+        if ($token == "") {
+            $token = hash("SHA1","csrf_token".rand(0,1000000).time().uniqid());
+        }
+        $formats = "si";
+        $values = array($token, User::getId());
+        $sql = "UPDATE users SET token = ? WHERE id = ?";
+        $update_token = sqlDAL::writeSql($sql, $formats, $values);
+        if ($update_token) {
+            return $token;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getUserByToken($token) {
+        $sql = "SELECT * FROM users WHERE token = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($token));
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user != false) {
+            return $user;
+        } else {
+            return false;
+        }
+    }
 }

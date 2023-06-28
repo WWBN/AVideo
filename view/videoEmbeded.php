@@ -507,6 +507,21 @@ if (User::hasBlockedUser($video['users_id'])) {
     <script>
         var topInfoTimeout;
         $(document).ready(function () {
+            if ("<?= $autoplay ?>" == 1 && "<?= $video['type'] ?>" == "video") {
+                var playPromise = player.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        // Automatic playback started!
+                        // Show playing UI.
+                    })
+                    .catch(error => {
+                        // Auto-play was prevented
+                        // Show paused UI.
+                        document.getElementById("mainVideo_html5_api").muted = true;
+                        document.getElementById("mainVideo_html5_api").play();
+                    });
+                }
+            }
             setInterval(function () {
                 if (typeof player !== 'undefined') {
                     if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {

@@ -492,9 +492,9 @@
                         continue;
                     }
                     if ($advancedCustom->ShowAllVideosOnCategory) {
-                        $total = $value['fullTotal'];
+                        $total = $value['fullTotal_videos']; //$value['fullTotal'];
                     } else {
-                        $total = $value['total'];
+                        $total = $value['fullTotal_videos'] + $value['fullTotal_livelinks']; //$value['total'];
                     }
                     if (empty($total)) {
                         continue;
@@ -580,6 +580,13 @@
                         <span class="glyphicon glyphicon-comment"></span>
                         <?php echo __("Contact"); ?>
                     </a>
+                </li>
+            <?php }
+
+            if (AVideoPlugin::loadPluginIfEnabled("TopMenu")) {
+            ?>
+                <li>
+                    <a><?= TopMenu::getHTMLMenuLeftCustomPosition(); ?></a>
                 </li>
             <?php }
             ?>
