@@ -5,6 +5,7 @@
         left: 0;
         width: 100%;
         height: calc(50% - 60px);
+        cursor: move;
     }
 
     .playingShorts .scrtabs-tab-container {
