@@ -2467,7 +2467,7 @@ if (!class_exists('Video')) {
                 $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);
                 $this->removeCampaign($this->id);
-                $video = self::getVideoLight($this->id);
+                //$video = self::getVideoLight($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
                 return false;
