@@ -92,7 +92,7 @@ if (!empty($advancedCustom->twitter_summary_large_image)) {
     <?php
     }
 ?>
-<meta name="twitter:url" content="<?php echo $global['webSiteRootURL']; ?>"/>
-<meta name="twitter:title" content="<?php echo $title; ?>"/>
-<meta name="twitter:description" content="<?php echo $title; ?>"/>
+<meta name="twitter:url" content="<?php echo $url; ?>"/>
+<meta name="twitter:title" content="<?php echo getSEOTitle($title); ?>"/>
+<meta name="twitter:description" content="<?php echo $description; ?>"/>
 <meta name="twitter:image" content="<?php echo $img; ?>"/>
