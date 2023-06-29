@@ -123,7 +123,7 @@
             console.log('carousel click');
             if (!isDraggingShorts) {
                 var index = $(this).parents('.carousel-cell').index();
-                shortsPlay(index);
+                shortsOpen(index);
             } else {
                 console.log('carousel is dragging');
             };

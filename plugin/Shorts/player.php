@@ -119,8 +119,10 @@
 </div>
 <script>
     var currentCell;
+    var shortIsOpen = false;
 
-    function shortsPlay(index) {
+    function shortsOpen(index) {
+        shortIsOpen = true;
         $('body').addClass('playingShorts');
         $('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');
         $('#ShortsPlayerContent').addClass('animate__bounceInLeft');
@@ -132,6 +134,7 @@
     }
 
     function shortsClose() {
+        shortIsOpen = false;
         $('body').removeClass('playingShorts');
         $('#ShortsPlayerContent').removeClass('animate__bounceInLeft');
         $('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() {
@@ -168,12 +171,16 @@
             var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
             index = index2;
             console.log('Flickity settled at ', index2, shortVideos[index2]);
+            var src = 'about:blank';
+            if(shortIsOpen){
+                src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
+            }
             var iframe = $('<iframe/>', {
                 // The attributes for the iframe
                 width: '100vw',
                 height: '100vh',
                 frameborder: 0,
-                src: addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1) // Put the source URL here
+                src: src
             });
             var overlay = $('<div/>', {
                 // The attributes for the overlay
