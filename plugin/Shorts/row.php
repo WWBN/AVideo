@@ -2,6 +2,11 @@
 <style>
     #Shorts.carousel {
         background: #EEE;
+        margin-bottom: 30px;
+    }
+
+    #Shorts.carousel .flickity-page-dots {
+        bottom: -35px;
     }
 
     #Shorts .carousel-cell {
