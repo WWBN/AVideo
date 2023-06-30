@@ -41,7 +41,7 @@ class SeekButton extends PluginAbstract {
         if (isVideoPlayerHasProgressBar() && !isMobile()) {
             $css = '<link href="' .getURL('node_modules/videojs-seek-buttons/dist/videojs-seek-buttons.css') .'" rel="stylesheet" type="text/css"/>';
             $css .= '<link href="' .getURL('plugin/SeekButton/seek.css') .'" rel="stylesheet" type="text/css"/>';
-            $css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
+            //$css .= '<style>.video-js .vjs-seek-button {font-size: 25px;width: 2em !important;}</style>';
             if(isMobile()){
                 $css .= '<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">';
             }
