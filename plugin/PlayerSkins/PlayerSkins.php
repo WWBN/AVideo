@@ -536,7 +536,7 @@ class PlayerSkins extends PluginAbstract {
         }
 
         $js .= "}
-        player.ready(function () {";
+        player.ready(function () {console.log('player.ready');";
 
         $js .= "player.on('error', () => {
             AvideoJSError(player.error().code);
@@ -557,12 +557,15 @@ class PlayerSkins extends PluginAbstract {
             $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
         }
 
-        $js .= "var err = this.error();
+        $js .= "try {
+            var err = this.error();
             if (err && err.code) {
                 $('.vjs-error-display').hide();
                 $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
-            }
-            " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
+            }} catch (e) {
+    console.error('error-display', e);
+}try {
+            " . implode(' } catch (e) {console.error(\'onPlayerReady\', e);} try { ', $prepareStartPlayerJS_onPlayerReady) . " } catch (e) {console.error('onPlayerReady', e);}
             {$play}
         });";
 

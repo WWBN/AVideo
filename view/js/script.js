@@ -917,6 +917,7 @@ async function showMuteTooltip() {
 }
 
 function playerPlayIfAutoPlay(currentTime) {
+    console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
     if (isWebRTC()) {
         return false;
     }
