@@ -15,7 +15,7 @@ if (typeof window.CustomEvent === "function") {
 } else {
 	if (canUseDOM) {
 		Event = function (event, params) {
-			params = params || {bubbles: false, cancelable: false, detail: undefined};
+			params = params || {bubbles: false, cancelable: false, composed: true, detail: undefined};
 			var evt = document.createEvent("CustomEvent");
 			evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
 			return evt;
@@ -31,7 +31,7 @@ function on(events, handler) {
 		if (elem.addEventListener) { // all browsers except IE before version 9
 			elem.addEventListener(ev, handler, false);
 		} else if (elem.attachEvent) { // IE before version 9
-			elem.attachEvent("on" + ev, handler);
+			elem.attachEvent(`on${ev}`, handler);
 		}
 		eventRegistry[ev] = eventRegistry[ev] || {};
 		eventRegistry[ev][namespace] = eventRegistry[ev][namespace] || [];
@@ -42,14 +42,10 @@ function on(events, handler) {
 		var eventRegistry = this[0].eventRegistry,
 			elem = this[0];
 
-
-		var _events = events.split(" ");
-		for (var endx = 0; endx < _events.length; endx++) {
-			var nsEvent = _events[endx].split("."),
-				ev = nsEvent[0],
-				namespace = nsEvent[1] || "global";
+		events.split(" ").forEach((event) => {
+			const [ev, namespace = "global"] = event.split(".");
 			addEvent(ev, namespace);
-		}
+		});
 	}
 	return this;
 }
@@ -63,7 +59,7 @@ function off(events, handler) {
 			if (elem.removeEventListener) { // all browsers except IE before version 9
 				elem.removeEventListener(ev, handler, false);
 			} else if (elem.detachEvent) { // IE before version 9
-				elem.detachEvent("on" + ev, handler);
+				elem.detachEvent(`on${ev}`, handler);
 			}
 			if (namespace === "global") {
 				for (var nmsp in eventRegistry[ev]) {
@@ -125,15 +121,12 @@ function off(events, handler) {
 		eventRegistry = this[0].eventRegistry;
 		elem = this[0];
 
-
-		var _events = events.split(" ");
-		for (var endx = 0; endx < _events.length; endx++) {
-			var nsEvent = _events[endx].split("."),
-				offEvents = resolveNamespace(nsEvent[0], nsEvent[1]);
-			for (var i = 0, offEventsL = offEvents.length; i < offEventsL; i++) {
-				removeEvent(offEvents[i].ev, offEvents[i].namespace, offEvents[i].handler);
-			}
-		}
+		events.split(" ").forEach((event) => {
+			const [ev, namespace] = event.split(".");
+			resolveNamespace(ev, namespace).forEach(({ev: ev1, handler: handler1, namespace: namespace1}) => {
+				removeEvent(ev1, namespace1, handler1);
+			});
+		});
 	}
 	return this;
 }
@@ -152,6 +145,7 @@ function trigger(events /* , args... */) {
 				var evnt, i, params = {
 					bubbles: true,
 					cancelable: true,
+					composed: true,
 					detail: arguments[1]
 				};
 				// The custom event that will be created
@@ -181,17 +175,10 @@ function trigger(events /* , args... */) {
 			} else if (eventRegistry[ev] !== undefined) {
 				arguments[0] = arguments[0].type ? arguments[0] : DependencyLib.Event(arguments[0]);
 				arguments[0].detail = arguments.slice(1);
-				if (namespace === "global") {
-					for (var nmsp in eventRegistry[ev]) {
-						for (i = 0; i < eventRegistry[ev][nmsp].length; i++) {
-							eventRegistry[ev][nmsp][i].apply(elem, arguments);
-						}
-					}
-				} else {
-					for (i = 0; i < eventRegistry[ev][namespace].length; i++) {
-						eventRegistry[ev][namespace][i].apply(elem, arguments);
-					}
-				}
+
+				const registry = eventRegistry[ev],
+					handlers = namespace === "global" ? Object.values(registry).flat() : registry[namespace];
+				handlers.forEach(handler => handler.apply(elem, arguments));
 			}
 		}
 	}

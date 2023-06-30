@@ -25,7 +25,7 @@ QUnit.module('Play Middleware', {}, function() {
 
   QUnit.module('Not supported unit tests', {
     beforeEach() {
-      this.videojs = videojs.mergeOptions({}, baseMockedVjsNotSupported);
+      this.videojs = videojs.obj.merge({}, baseMockedVjsNotSupported);
     },
     afterEach() {
       this.videojs = null;
@@ -67,7 +67,7 @@ QUnit.module('Play Middleware', {}, function() {
   QUnit.module('Supported unit tests', {
     beforeEach() {
       // Stub videojs to force playMiddleware to be used
-      this.videojs = videojs.mergeOptions({}, baseMockedVjsIsSupported);
+      this.videojs = videojs.obj.merge({}, baseMockedVjsIsSupported);
       pm.testHook(this.videojs);
 
       this.triggeredEvent = null;

@@ -1,3 +1,16 @@
+<?php
+$removeAnimation = false;
+
+$class = "animate__animated animate__bounceInLeft";
+$shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');$('#ShortsPlayerContent').addClass('animate__bounceInLeft');";
+$shortsClose = "$('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});"; 
+
+if($removeAnimation){
+    $class = "";
+    $shortsOpen = "";
+    $shortsClose = "$('#ShortsPlayerContent').hide();"; 
+}
+?>
 <style>
     .ShortsPlayerOverlay {
         position: absolute;
@@ -39,7 +52,6 @@
 
     #ShortsPlayer .carousel-cell {
         width: 100%;
-        position: relative;
         margin-right: 10px;
         background: #8C8;
         border-radius: 5px;
@@ -111,7 +123,7 @@
         color: #333
     }
 </style>
-<div style="display: none;" class="animate__animated animate__bounceInLeft" id="ShortsPlayerContent">
+<div style="display: none;" class="<?php echo $class; ?>" id="ShortsPlayerContent">
     <div class="carousel" id="ShortsPlayer"></div>
     <button id="closeCarousel" style="position: absolute; z-index: 9999; right: 10px; top: 10px;">
         <i class="fas fa-times"></i>
@@ -124,8 +136,7 @@
     function shortsOpen(index) {
         shortIsOpen = true;
         $('body').addClass('playingShorts');
-        $('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');
-        $('#ShortsPlayerContent').addClass('animate__bounceInLeft');
+        <?php echo $shortsOpen; ?>
         console.log('shortsPlay', index);
         $('#ShortsPlayerContent').show();
         $('#ShortsPlayer').flickity('destroy');
@@ -136,10 +147,7 @@
     function shortsClose() {
         shortIsOpen = false;
         $('body').removeClass('playingShorts');
-        $('#ShortsPlayerContent').removeClass('animate__bounceInLeft');
-        $('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() {
-            $(this).hide();
-        });
+        <?php echo $shortsClose; ?>
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
@@ -161,7 +169,7 @@
             fullscreen: true,
             contain: true,
             pageDots: false,
-            initialIndex: initialIndex
+            initialIndex: initialIndex,
         });
 
         $carouselPlayer.on('settle.flickity', function(event, index) {

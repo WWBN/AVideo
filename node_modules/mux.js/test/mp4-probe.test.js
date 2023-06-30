@@ -5,6 +5,7 @@ var
   probe = require('../lib/mp4/probe'),
   mp4Helpers = require('./utils/mp4-helpers'),
   box = mp4Helpers.box,
+  id3 = require('./utils/id3-generator'),
 
   // defined below
   moovWithoutMdhd,
@@ -141,6 +142,79 @@ QUnit.test('getTimescaleFromMediaHeader gets timescale for version 0 mdhd', func
     1000,
     'got timescale from version 1 mdhd'
   );
+});
+
+QUnit.test('can get ID3 data from a v0 EMSG box', function(assert) { 
+  var id3Data = new Uint8Array(id3.id3Tag(id3.id3Frame('PRIV', 
+    id3.stringToCString('priv-owner@example.com'), 
+    id3.stringToInts('foo.bar.id3.com')))
+  );
+
+  var v0EmsgId3Data = mp4Helpers.generateEmsgBoxData(0, id3Data);
+  var emsgId3Box = new Uint8Array(box('emsg', [].slice.call(v0EmsgId3Data)));
+  var emsgBoxes = probe.getEmsgID3(emsgId3Box, 10);
+  assert.equal(emsgBoxes[0].cueTime, 20, 'got correct emsg cueTime value from v0 emsg');
+  assert.equal(emsgBoxes[0].duration, 0, 'got correct emsg duration value from v0 emsg');
+  assert.equal(emsgBoxes[0].frames[0].id, 'PRIV' , 'got correct ID3 id');
+  assert.equal(emsgBoxes[0].frames[0].owner, 'priv-owner@example.com', 'got correct ID3 owner');
+  assert.deepEqual(emsgBoxes[0].frames[0].data, new Uint8Array(id3.stringToInts('foo.bar.id3.com')), 'got correct ID3 data');
+});
+
+QUnit.test('can get ID3 data from a v1 EMSG box', function(assert) { 
+  var id3Data = new Uint8Array(id3.id3Tag(id3.id3Frame('TXXX',
+    0x03, // utf-8
+    id3.stringToCString('foo bar'),
+    id3.stringToCString('{ "key": "value" }')),
+    [0x00, 0x00])
+  );
+
+  var v1EmsgId3Data = mp4Helpers.generateEmsgBoxData(1, id3Data);
+  var emsgId3Box = new Uint8Array(box('emsg', [].slice.call(v1EmsgId3Data)));
+  var emsgBoxes = probe.getEmsgID3(emsgId3Box);
+  assert.equal(emsgBoxes[0].cueTime, 100, 'got correct emsg cueTime value from v1 emsg');
+  assert.equal(emsgBoxes[0].duration, 0.01, 'got correct emsg duration value from v1 emsg');
+  assert.equal(emsgBoxes[0].frames[0].id, 'TXXX' , 'got correct ID3 id');
+  assert.equal(emsgBoxes[0].frames[0].description, 'foo bar', 'got correct ID3 description');
+  assert.deepEqual(JSON.parse(emsgBoxes[0].frames[0].data), { key: 'value' }, 'got correct ID3 data');
+});
+
+QUnit.test('can get ID3 data from multiple EMSG boxes', function(assert) { 
+  var v1id3Data = new Uint8Array(id3.id3Tag(id3.id3Frame('PRIV', 
+    id3.stringToCString('priv-owner@example.com'), 
+    id3.stringToInts('foo.bar.id3.com')))
+  );
+
+  var v0id3Data = new Uint8Array(id3.id3Tag(id3.id3Frame('TXXX',
+    0x03, // utf-8
+    id3.stringToCString('foo bar'),
+    id3.stringToCString('{ "key": "value" }')),
+    [0x00, 0x00])
+  );
+
+  var v1EmsgId3Data = mp4Helpers.generateEmsgBoxData(1, v1id3Data);
+  var v1emsgId3Box = new Uint8Array(box('emsg', [].slice.call(v1EmsgId3Data)));
+
+  var v0EmsgId3Data = mp4Helpers.generateEmsgBoxData(0, v0id3Data);
+  var v0emsgId3Box = new Uint8Array(box('emsg', [].slice.call(v0EmsgId3Data)));
+
+  var multiBoxData = new Uint8Array(v1emsgId3Box.length + v0emsgId3Box.length);
+  multiBoxData.set(v1emsgId3Box);
+  multiBoxData.set(v0emsgId3Box, v1emsgId3Box.length);
+
+  var emsgBoxes = probe.getEmsgID3(multiBoxData);
+
+  assert.equal(emsgBoxes[0].cueTime, 100, 'got correct emsg cueTime value from v1 emsg');
+  assert.equal(emsgBoxes[0].duration, 0.01, 'got correct emsg duration value from v1 emsg');
+  assert.equal(emsgBoxes[0].frames[0].id, 'PRIV' , 'got correct ID3 id');
+  assert.equal(emsgBoxes[0].frames[0].owner, 'priv-owner@example.com', 'got correct ID3 owner');
+  assert.deepEqual(emsgBoxes[0].frames[0].data, new Uint8Array(id3.stringToInts('foo.bar.id3.com')), 'got correct ID3 data');
+
+
+  assert.equal(emsgBoxes[1].cueTime, 10, 'got correct emsg cueTime value from v0 emsg');
+  assert.equal(emsgBoxes[1].duration, 0, 'got correct emsg duration value from v0 emsg');
+  assert.equal(emsgBoxes[1].frames[0].id, 'TXXX' , 'got correct ID3 id');
+  assert.equal(emsgBoxes[1].frames[0].description, 'foo bar', 'got correct ID3 description');
+  assert.deepEqual(JSON.parse(emsgBoxes[1].frames[0].data),{ key: 'value' }, 'got correct ID3 data');
 });
 
 // ---------

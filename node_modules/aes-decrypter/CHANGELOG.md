@@ -1,3 +1,22 @@
+<a name="4.0.1"></a>
+## [4.0.1](https://github.com/videojs/aes-decrypter/compare/v4.0.0...v4.0.1) (2022-08-18)
+
+### Chores
+
+* do not run es-check on publish ([#87](https://github.com/videojs/aes-decrypter/issues/87)) ([6f0cbd9](https://github.com/videojs/aes-decrypter/commit/6f0cbd9))
+
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/videojs/aes-decrypter/compare/v3.1.3...v4.0.0) (2022-08-18)
+
+### Chores
+
+* **package:** remove IE11 support ([#86](https://github.com/videojs/aes-decrypter/issues/86)) ([3338e9b](https://github.com/videojs/aes-decrypter/commit/3338e9b))
+
+
+### BREAKING CHANGES
+
+* **package:** Internet Explorer is no longer supported.
+
 <a name="3.1.3"></a>
 ## [3.1.3](https://github.com/videojs/aes-decrypter/compare/v3.1.2...v3.1.3) (2022-04-05)
 

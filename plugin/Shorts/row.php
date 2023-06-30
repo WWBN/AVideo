@@ -1,4 +1,4 @@
-<link href="<?php echo getURL('plugin/YouPHPFlix2/view/js/flickity/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     #Shorts.carousel {
         background: #EEE;
@@ -11,7 +11,6 @@
 
     #Shorts .carousel-cell {
         width: 18%;
-        position: relative;
         margin-right: 10px;
         border-radius: 5px;
         counter-increment: carousel-cell;
@@ -37,7 +36,7 @@
         content: counter(carousel-cell);
         line-height: 200px;
         font-size: 80px;
-        color: white;
+        color: transparent;
         padding-top: 56.25%;
     }
 
@@ -64,7 +63,7 @@
         }
     }
 </style>
-<script src="<?php echo getURL('plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <h3 class="galleryTitle"><i class="fas fa-layer-group"></i> <?php echo __('Shorts'); ?></h3>
 
 <!-- Flickity HTML init -->

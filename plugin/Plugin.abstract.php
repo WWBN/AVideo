@@ -750,6 +750,10 @@ abstract class PluginAbstract {
     function onVideoSetRrating($video_id, $oldValue, $newValue) {
         
     }
+    
+    function executeEveryMinute() {
+        
+    }
 
     /**
      * @param type $file = [

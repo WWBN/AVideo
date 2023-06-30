@@ -18,7 +18,7 @@ With this basic structure in place, you're ready to develop an ad plugin.
 
 ### Including the files in your HTML
 
-This is not the recommended approach, but may be useful in some cases. In addition to the video.js library, you'll need two files from this project: `videojs.ads.js` and `videojs.ads.css`. After you [build the project](/developer/getting-started.md) they are both in the `dist` directory.
+This is not the recommended approach, but may be useful in some cases. In addition to the video.js library, you'll need two files from this project: `videojs.ads.js` and `videojs.ads.css`. After you [build the project](../developer/getting-started.md) they are both in the `dist` directory.
 
 Include the CSS in your HTML's `<head>` section with a `<link>` tag:
 

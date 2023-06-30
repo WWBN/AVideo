@@ -1,6 +1,6 @@
 # Common Interface
 
-videojs-contrib-ads does not implement these. This page establishes a convention used some some ad plugins that you may want to consider sending for consistency as they may be useful.
+videojs-contrib-ads does not implement these. This page establishes a convention used by some ad plugins that you may want to consider sending for consistency as they may be useful.
 
 ## Events
 
@@ -10,6 +10,7 @@ videojs-contrib-ads does not implement these. This page establishes a convention
 * `ads-pod-ended`: Fired when a LINEAR ad pod has completed.
 * `ads-allpods-completed`: Fired when all LINEAR ads are completed.
 * `ads-ad-started`: Fired when the ad starts playing. Should include the event parameter `indexInBreak`.
+* `ads-ad-skipped`: Fired when the ad unit is skipped. 
 * `ads-ad-ended`: Fired when the ad completes playing.
 * `ads-first-quartile`: Fired when the ad playhead crosses first quartile.
 * `ads-midpoint`: Fired when the ad playhead crosses midpoint.
@@ -33,5 +34,10 @@ player.ads.ad = {
   "id": `String`,
   "duration": `Number`,
   "currentTime": `Function`
+}
+
+player.ads.pod = {
+  "id": `String`,
+  "size": `Number`
 }
 ```

@@ -4,9 +4,7 @@ import {
   flatten,
   range,
   from,
-  findIndexes,
-  findIndex,
-  includes
+  findIndexes
 } from '../src/utils/list';
 import { findChildren, getContent } from '../src/utils/xml';
 import {DOMParser} from '@xmldom/xmldom';
@@ -197,26 +195,6 @@ QUnit.test('indexes found', function(assert) {
     { b: true },
     { b: true, c: true }
   ], 'b'), [1, 2]);
-});
-
-QUnit.module('findIndex');
-
-QUnit.test('match', function(assert) {
-  assert.equal(findIndex([2, 'b', 'a'], (el) => el === 'a'), 2, 'returned index');
-});
-
-QUnit.test('no match', function(assert) {
-  assert.equal(findIndex([], (el) => el === 'a'), -1, 'no match');
-});
-
-QUnit.module('includes');
-
-QUnit.test('match', function(assert) {
-  assert.ok(includes([2, 'b', 'a'], 'a'), 'match found');
-});
-
-QUnit.test('no match', function(assert) {
-  assert.notOk(includes([], 'a'), 'no match');
 });
 
 QUnit.module('xml', {

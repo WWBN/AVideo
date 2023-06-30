@@ -12,84 +12,7 @@
 
 var Stream = require('../utils/stream'),
     StreamTypes = require('./stream-types'),
-    // return a percent-encoded representation of the specified byte range
-// @see http://en.wikipedia.org/wiki/Percent-encoding
-percentEncode = function percentEncode(bytes, start, end) {
-  var i,
-      result = '';
-
-  for (i = start; i < end; i++) {
-    result += '%' + ('00' + bytes[i].toString(16)).slice(-2);
-  }
-
-  return result;
-},
-    // return the string representation of the specified byte range,
-// interpreted as UTf-8.
-parseUtf8 = function parseUtf8(bytes, start, end) {
-  return decodeURIComponent(percentEncode(bytes, start, end));
-},
-    // return the string representation of the specified byte range,
-// interpreted as ISO-8859-1.
-parseIso88591 = function parseIso88591(bytes, start, end) {
-  return unescape(percentEncode(bytes, start, end)); // jshint ignore:line
-},
-    parseSyncSafeInteger = function parseSyncSafeInteger(data) {
-  return data[0] << 21 | data[1] << 14 | data[2] << 7 | data[3];
-},
-    tagParsers = {
-  TXXX: function TXXX(tag) {
-    var i;
-
-    if (tag.data[0] !== 3) {
-      // ignore frames with unrecognized character encodings
-      return;
-    }
-
-    for (i = 1; i < tag.data.length; i++) {
-      if (tag.data[i] === 0) {
-        // parse the text fields
-        tag.description = parseUtf8(tag.data, 1, i); // do not include the null terminator in the tag value
-
-        tag.value = parseUtf8(tag.data, i + 1, tag.data.length).replace(/\0*$/, '');
-        break;
-      }
-    }
-
-    tag.data = tag.value;
-  },
-  WXXX: function WXXX(tag) {
-    var i;
-
-    if (tag.data[0] !== 3) {
-      // ignore frames with unrecognized character encodings
-      return;
-    }
-
-    for (i = 1; i < tag.data.length; i++) {
-      if (tag.data[i] === 0) {
-        // parse the description and URL fields
-        tag.description = parseUtf8(tag.data, 1, i);
-        tag.url = parseUtf8(tag.data, i + 1, tag.data.length);
-        break;
-      }
-    }
-  },
-  PRIV: function PRIV(tag) {
-    var i;
-
-    for (i = 0; i < tag.data.length; i++) {
-      if (tag.data[i] === 0) {
-        // parse the description and URL fields
-        tag.owner = parseIso88591(tag.data, 0, i);
-        break;
-      }
-    }
-
-    tag.privateData = tag.data.subarray(i + 1);
-    tag.data = tag.privateData;
-  }
-},
+    id3 = require('../tools/parse-id3'),
     _MetadataStream;
 
 _MetadataStream = function MetadataStream(options) {
@@ -152,7 +75,7 @@ _MetadataStream = function MetadataStream(options) {
       // last four bytes of the ID3 header.
       // The most significant bit of each byte is dropped and the
       // results concatenated to recover the actual value.
-      tagSize = parseSyncSafeInteger(chunk.data.subarray(6, 10)); // ID3 reports the tag size excluding the header but it's more
+      tagSize = id3.parseSyncSafeInteger(chunk.data.subarray(6, 10)); // ID3 reports the tag size excluding the header but it's more
       // convenient for our comparisons to include it
 
       tagSize += 10;
@@ -185,23 +108,25 @@ _MetadataStream = function MetadataStream(options) {
       // advance the frame start past the extended header
       frameStart += 4; // header size field
 
-      frameStart += parseSyncSafeInteger(tag.data.subarray(10, 14)); // clip any padding off the end
+      frameStart += id3.parseSyncSafeInteger(tag.data.subarray(10, 14)); // clip any padding off the end
 
-      tagSize -= parseSyncSafeInteger(tag.data.subarray(16, 20));
+      tagSize -= id3.parseSyncSafeInteger(tag.data.subarray(16, 20));
     } // parse one or more ID3 frames
     // http://id3.org/id3v2.3.0#ID3v2_frame_overview
 
 
     do {
       // determine the number of bytes in this frame
-      frameSize = parseSyncSafeInteger(tag.data.subarray(frameStart + 4, frameStart + 8));
+      frameSize = id3.parseSyncSafeInteger(tag.data.subarray(frameStart + 4, frameStart + 8));
 
       if (frameSize < 1) {
         this.trigger('log', {
           level: 'warn',
-          message: 'Malformed ID3 frame encountered. Skipping metadata parsing.'
-        });
-        return;
+          message: 'Malformed ID3 frame encountered. Skipping remaining metadata parsing.'
+        }); // If the frame is malformed, don't parse any further frames but allow previous valid parsed frames
+        // to be sent along.
+
+        break;
       }
 
       frameHeader = String.fromCharCode(tag.data[frameStart], tag.data[frameStart + 1], tag.data[frameStart + 2], tag.data[frameStart + 3]);
@@ -209,29 +134,37 @@ _MetadataStream = function MetadataStream(options) {
         id: frameHeader,
         data: tag.data.subarray(frameStart + 10, frameStart + frameSize + 10)
       };
-      frame.key = frame.id;
+      frame.key = frame.id; // parse frame values
 
-      if (tagParsers[frame.id]) {
-        tagParsers[frame.id](frame); // handle the special PRIV frame used to indicate the start
-        // time for raw AAC data
+      if (id3.frameParsers[frame.id]) {
+        // use frame specific parser
+        id3.frameParsers[frame.id](frame);
+      } else if (frame.id[0] === 'T') {
+        // use text frame generic parser
+        id3.frameParsers['T*'](frame);
+      } else if (frame.id[0] === 'W') {
+        // use URL link frame generic parser
+        id3.frameParsers['W*'](frame);
+      } // handle the special PRIV frame used to indicate the start
+      // time for raw AAC data
 
-        if (frame.owner === 'com.apple.streaming.transportStreamTimestamp') {
-          var d = frame.data,
-              size = (d[3] & 0x01) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
-          size *= 4;
-          size += d[7] & 0x03;
-          frame.timeStamp = size; // in raw AAC, all subsequent data will be timestamped based
-          // on the value of this frame
-          // we couldn't have known the appropriate pts and dts before
-          // parsing this ID3 tag so set those values now
 
-          if (tag.pts === undefined && tag.dts === undefined) {
-            tag.pts = frame.timeStamp;
-            tag.dts = frame.timeStamp;
-          }
+      if (frame.owner === 'com.apple.streaming.transportStreamTimestamp') {
+        var d = frame.data,
+            size = (d[3] & 0x01) << 30 | d[4] << 22 | d[5] << 14 | d[6] << 6 | d[7] >>> 2;
+        size *= 4;
+        size += d[7] & 0x03;
+        frame.timeStamp = size; // in raw AAC, all subsequent data will be timestamped based
+        // on the value of this frame
+        // we couldn't have known the appropriate pts and dts before
+        // parsing this ID3 tag so set those values now
 
-          this.trigger('timestamp', frame);
+        if (tag.pts === undefined && tag.dts === undefined) {
+          tag.pts = frame.timeStamp;
+          tag.dts = frame.timeStamp;
         }
+
+        this.trigger('timestamp', frame);
       }
 
       tag.frames.push(frame);

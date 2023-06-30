@@ -50,7 +50,7 @@ const common = {
     this.clock.tick(1000);
 
     this.player.buffered = function() {
-      return videojs.createTimeRange(0, 0);
+      return videojs.time.createTimeRange(0, 0);
     };
 
     this.player.ads(this.adsOptions);

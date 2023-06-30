@@ -2855,6 +2855,20 @@ class AVideoPlugin
         }
         return $name;
     }
+    
+    
+    public static function executeEveryMinute()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->executeEveryMinute();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
 }
 
 class YouPHPTubePlugin extends AVideoPlugin
