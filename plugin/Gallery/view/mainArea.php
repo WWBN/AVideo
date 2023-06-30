@@ -76,7 +76,7 @@
                     $users_id = intval($matches[1]);
                     User::getChannelPanel($users_id);
                 } else
-                if ($value['name'] == 'Shorts') {
+                if ($value['name'] == 'Shorts' && AVideoPlugin::isEnabledByName('Shorts')) {
                     include $global['systemRootPath'].'plugin/Shorts/row.php';
                 } else
                 if ($value['name'] == 'Suggested') {
