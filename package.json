@@ -33,6 +33,7 @@
     "videojs-font": "^4.1.0",
     "videojs-ima": "^2.1.0",
     "videojs-landscape-fullscreen": "^11.1111.0",
+    "videojs-seek-buttons": "^4.0.3",
     "wow.js": "^1.2.2"
   }
 }
