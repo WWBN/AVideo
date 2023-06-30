@@ -3,12 +3,12 @@ $removeAnimation = false;
 
 $class = "animate__animated animate__bounceInLeft";
 $shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');$('#ShortsPlayerContent').addClass('animate__bounceInLeft');";
-$shortsClose = "$('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});"; 
+$shortsClose = "$('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});";
 
-if($removeAnimation){
+if ($removeAnimation) {
     $class = "";
     $shortsOpen = "";
-    $shortsClose = "$('#ShortsPlayerContent').hide();"; 
+    $shortsClose = "$('#ShortsPlayerContent').hide();";
 }
 ?>
 <style>
@@ -161,6 +161,8 @@ if($removeAnimation){
         newCarouselCell.append(newCarouselCellContent);
         $carouselPlayer.flickity('append', newCarouselCell);
     }
+    var isSettling = false;
+    var timeoutId = null;
 
     function createShortsPlayerFlickity(initialIndex) {
         var $carouselPlayer = $('#ShortsPlayer');
@@ -173,33 +175,48 @@ if($removeAnimation){
         });
 
         $carouselPlayer.on('settle.flickity', function(event, index) {
-            if (typeof currentCell != 'undefined') {
-                currentCell.html('');
+            if (isSettling) {
+                return;
             }
-            var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
-            index = index2;
-            console.log('Flickity settled at ', index2, shortVideos[index2]);
-            var src = 'about:blank';
-            if(shortIsOpen){
-                src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
+            isSettling = true;
+
+            if (timeoutId !== null) {
+                clearTimeout(timeoutId);
             }
-            var iframe = $('<iframe/>', {
-                // The attributes for the iframe
-                width: '100vw',
-                height: '100vh',
-                frameborder: 0,
-                src: src
-            });
-            var overlay = $('<div/>', {
-                // The attributes for the overlay
-                class: 'ShortsPlayerOverlay',
-                click: function() {
-                    $(this).hide();
+
+            timeoutId = setTimeout(function() {
+                if (typeof currentCell != 'undefined') {
+                    currentCell.html('');
                 }
-            });
-            currentCell = $('#ShortsPlayer .carousel-cell.is-selected .carousel-cell-content');
-            currentCell.html(iframe);
-            currentCell.append(overlay); // Add the overlay to the cell
+                var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
+                index = index2;
+                console.log('Flickity settled at ', index2, shortVideos[index2]);
+                var src = 'about:blank';
+                if (shortIsOpen) {
+                    src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
+                }
+                var iframe = $('<iframe/>', {
+                    // The attributes for the iframe
+                    width: '100vw',
+                    height: '100vh',
+                    frameborder: 0,
+                    src: src
+                });
+                var overlay = $('<div/>', {
+                    // The attributes for the overlay
+                    class: 'ShortsPlayerOverlay',
+                    click: function() {
+                        $(this).hide();
+                    }
+                });
+                currentCell = $('#ShortsPlayer .carousel-cell.is-selected .carousel-cell-content');
+                currentCell.html(iframe);
+                currentCell.append(overlay); // Add the overlay to the cell
+
+                // After 300 milliseconds, allow the event to trigger again
+                isSettling = false;
+                timeoutId = null; // reset the timeoutId
+            }, 300);
         });
 
         $carouselPlayer.on('change.flickity', function(event, index) {
@@ -209,7 +226,7 @@ if($removeAnimation){
         $carouselPlayer.on('select.flickity', function(event, index) {
             console.log('Flickity select ' + index)
         });
-        
+
     }
 
 

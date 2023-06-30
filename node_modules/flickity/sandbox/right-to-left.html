@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>right to left</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <link rel="stylesheet" href="sandbox.css" />
+
+  <style>
+  .variable-width .cell { margin: 0 0 0 4%; }
+  </style>
+
+</head>
+<body>
+
+  <h1>right to left</h1>
+
+  <div id="gallery1" class="container variable-width"
+    data-flickity='{ "rightToLeft": true, "wrapAround": true }'>
+    <div class="cell n1"><b>1</b></div>
+    <div class="cell n2 w2"><b>2</b></div>
+    <div class="cell n3 w3"><b>3</b></div>
+    <div class="cell n4"><b>4</b></div>
+    <div class="cell n5 w2"><b>5</b></div>
+    <div class="cell n6"><b>6</b></div>
+  </div>
+
+  <div id="gallery2" class="container variable-width"
+    data-flickity='{ "rightToLeft": true }'>
+    <div class="cell n1"><b>1</b></div>
+    <div class="cell n2 w2"><b>2</b></div>
+    <div class="cell n3 w3"><b>3</b></div>
+    <div class="cell n4"><b>4</b></div>
+    <div class="cell n5 w2"><b>5</b></div>
+    <div class="cell n6"><b>6</b></div>
+  </div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+
+</body>
+</html>

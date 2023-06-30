@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+
+  <title>ajax</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <style>
+  .gallery-cell {
+      width: auto;
+      height: 320px;
+  }
+  .gallery-cell img {
+      height:100%;
+  }
+  </style>
+
+</head>
+<body>
+
+  <h1>ajax</h1>
+
+  <div class="gallery"></div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+<script src="../node_modules/imagesloaded/imagesloaded.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+<script src="../js/imagesloaded.js"></script>
+
+<script>
+window.onajaxload = function({ items }) {
+  let gallery = document.querySelector('.gallery');
+  gallery.innerHTML = items.map( ( item ) => {
+    return `<div class="gallery-cell"><img src="${item.media.m}" /></div>`;
+  } ).join(' ');
+  
+  new Flickity( gallery, {
+    freeScroll: true,
+    friction: 0.2,
+    imagesLoaded: true,
+    prevNextButtons: false,
+    pageDots: false,
+    wrapAround: true
+  });
+};
+</script>
+
+<script src="https://api.flickr.com/services/feeds/photos_public.gne?&format=json&jsoncallback=onajaxload&extras=url_n&per_page=10"></script>
+
+</body>
+</html>

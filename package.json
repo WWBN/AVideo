@@ -8,6 +8,7 @@
     "croppie": "^2.6.5",
     "dexie": "^3.2.4",
     "dom-walk": "^0.1.2",
+    "flickity": "^3.0.0",
     "fontawesome-free": "^1.0.4",
     "hls.js": "^1.4.5",
     "infinite-scroll": "^4.0.1",
