@@ -42,7 +42,9 @@ class Cache extends PluginAbstract {
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
             }
-            LiveTransmitionHistory::finishALL();
+            if(class_exists('LiveTransmitionHistory')){
+                LiveTransmitionHistory::finishALL();
+            }
         }
         return true;
     }

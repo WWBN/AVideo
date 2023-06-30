@@ -190,11 +190,11 @@ if ($removeAnimation) {
                 }
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
                 index = index2;
-                console.log('Flickity settled at ', index2, shortVideos[index2]);
                 var src = 'about:blank';
                 if (shortIsOpen) {
                     src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
                 }
+                console.log('Flickity settled at ', index2, src);
                 var iframe = $('<iframe/>', {
                     // The attributes for the iframe
                     width: '100vw',
