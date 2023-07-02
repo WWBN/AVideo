@@ -117,7 +117,7 @@ foreach ($playList as $key => $value) {
 }
 
 $playListData_videos_id = getPlayListDataVideosId();
-echo "<!-- line=".__LINE__." count=".count($playListData)." playlist_index={$playlist_index} playListData_videos_id=".count($playListData_videos_id)." getPlayListIndex()=".getPlayListIndex()." -->".PHP_EOL;
+
 if (empty($playListData)) {
     forbiddenPage(__("The program is empty"));
 }
@@ -132,7 +132,10 @@ if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
 }
 $_REQUEST['hideAutoplaySwitch'] = 1;
 //var_dump($playListData_videos_id);exit;
-
+echo "<!-- line=".__LINE__." count=".count($playListData)." playlist_index={$playlist_index} playListData_videos_id=".count($playListData_videos_id)." getPlayListIndex()=".getPlayListIndex()." -->".PHP_EOL;
+foreach ($playListData_videos_id as $key => $value) {
+echo "<!-- line=".__LINE__." value[$key]=".$value." -->".PHP_EOL;    
+}
 $pl_index = getPlayListIndex();
 $str = file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/getStartPlayerJS.js');
 $str = str_replace('{$pl_index}', $pl_index, $str);
