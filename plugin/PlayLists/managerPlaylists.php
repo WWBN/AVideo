@@ -466,7 +466,7 @@ TimeLogEnd($timeName, __LINE__);
                     data: {
                         'status': "public",
                         'name': inputValue,
-                        'user': '<?php echo $users_id; ?>'
+                        'users_id': '<?php echo $users_id; ?>'
                     },
                     success: function(response) {
                         if (response.status > 0) {
