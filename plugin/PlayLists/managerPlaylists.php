@@ -3,7 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
-$maxItemsInPlaylist = 10;
+$maxItemsInPlaylist = 5;
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
