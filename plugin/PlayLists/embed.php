@@ -43,7 +43,7 @@ foreach ($playList as $key => $value) {
 
     if ($key == $playlist_index) {
         setPlayListIndex(count($playListData));
-    }echo "<!-- line=".__LINE__." {$oldValue['type']} {$oldValue['serie_playlists_id']} -->".PHP_EOL;
+    }
 
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
@@ -117,7 +117,7 @@ foreach ($playList as $key => $value) {
 }
 
 $playListData_videos_id = getPlayListDataVideosId();
-
+echo "<!-- line=".__LINE__." count=".count($playListData)." playlist_index={$playlist_index} playListData_videos_id={$playListData_videos_id} -->".PHP_EOL;
 if (empty($playListData)) {
     forbiddenPage(__("The program is empty"));
 }
