@@ -33,6 +33,8 @@
     "videojs-font": "^4.1.0",
     "videojs-ima": "^2.1.0",
     "videojs-landscape-fullscreen": "^11.1111.0",
+    "videojs-playlist": "^5.1.0",
+    "videojs-playlist-ui": "^5.0.0",
     "videojs-seek-buttons": "^4.0.3"
   }
 }

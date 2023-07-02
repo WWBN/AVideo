@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-playlist Demo</title>
+  <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <style>
+
+    button {
+      margin: 1em;
+      width: 10em;
+    }
+
+    .options {
+      margin: 1em;
+    }
+
+    .autoadvance-group label {
+      margin: 10px;
+    }
+  </style>
+</head>
+<body>
+  <video class="video-js vjs-default-skin" controls width="640px" height="360px"></video>
+  <button class="previous">Previous</button>
+  <button class="next">Next</button>
+  <div class="options">
+    <div class="autoadvance-group">
+      <h4>Auto-advance (in seconds)</h4>
+      <label><input type="radio" name="autoadvance" value="null" checked> No auto-advance</label>
+      <label><input type="radio" name="autoadvance" value="0"> 0</label>
+      <label><input type="radio" name="autoadvance" value="5"> 5</label>
+      <label><input type="radio" name="autoadvance" value="10"> 10</label>
+      <label><input type="radio" name="autoadvance" value="30"> 30</label>
+    </div>
+    <div class="repeat-group">
+      <h4>Repeat</h4>
+      <label><input class="repeat" type="checkbox" name="repeat" > Enable Repeat</label>
+    </div>
+  </div>
+  <ul>
+    <li><a href="/test/debug.html">Run unit tests in browser.</a></li>
+  </ul>
+  <script src="/node_modules/video.js/dist/video.js"></script>
+  <script src="/dist/videojs-playlist.js"></script>
+  <script>
+    var videoList = [{
+      sources: [{
+        src: 'http://media.w3.org/2010/05/sintel/trailer.mp4',
+        type: 'video/mp4'
+      }],
+      poster: 'http://media.w3.org/2010/05/sintel/poster.png'
+    }, {
+      sources: [{
+        src: 'http://vjs.zencdn.net/v/oceans.mp4',
+        type: 'video/mp4'
+      }],
+      poster: 'http://www.videojs.com/img/poster.jpg'
+    }, {
+      sources: [{
+        src: 'http://media.w3.org/2010/05/video/movie_300.mp4',
+        type: 'video/mp4'
+      }],
+      poster: 'http://media.w3.org/2010/05/video/poster.png'
+    }];
+
+    var player = videojs(document.querySelector('video'), {
+      inactivityTimeout: 0
+    });
+
+    try {
+      // try on ios
+      player.volume(0);
+    } catch (e) {}
+
+    player.on([
+      'duringplaylistchange',
+      'playlistchange',
+      'beforeplaylistitem',
+      'playlistitem',
+      'playlistsorted'
+    ], function(e) {
+      videojs.log('player saw "' + e.type + '"');
+    });
+
+    player.playlist(videoList);
+
+    document.querySelector('.previous').addEventListener('click', function() {
+      player.playlist.previous();
+    });
+
+    document.querySelector('.next').addEventListener('click', function() {
+      player.playlist.next();
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('[name=autoadvance]'), function(el) {
+      el.addEventListener('click', function() {
+        var value = document.querySelector('[name=autoadvance]:checked').value;
+        player.playlist.autoadvance(Number(value));
+      });
+    });
+
+    document.querySelector('[name="autoadvance"][value="null"]').click();
+
+    var repeatCheckbox = document.querySelector('.repeat');
+
+    repeatCheckbox.addEventListener('click', function() {
+      player.playlist.repeat(this.checked);
+    });
+
+    repeatCheckbox.checked = false;
+  </script>
+</body>
+</html>
