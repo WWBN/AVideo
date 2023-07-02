@@ -2259,6 +2259,7 @@ function getCroppie(uploadCropObject, callback, width, height) {
 }
 
 let tooltipTimeout = null;
+let isExecutingTooltip = false;
 
 async function setToolTips() {
     if (tooltipTimeout) {
@@ -2266,9 +2267,16 @@ async function setToolTips() {
         tooltipTimeout = null;
     }
 
+    if (isExecutingTooltip) {
+        return;
+    }
+
+    isExecutingTooltip = true;
+
     tooltipTimeout = setTimeout(function () {
         const selector = '[data-toggle="tooltip"]';
         if (!$(selector).not('.alreadyTooltip').length) {
+            isExecuting = false;
             return false;
         }
 
@@ -2287,8 +2295,11 @@ async function setToolTips() {
                 setToolTips();
             }, 1000);
         }
+
+        isExecutingTooltip = false;
     }, 2000);
 }
+
 
 function avideoSocketIsActive() {
     if (typeof isSocketActive == 'function') {
