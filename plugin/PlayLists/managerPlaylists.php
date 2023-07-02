@@ -265,8 +265,11 @@ TimeLogEnd($timeName, __LINE__);
                                                         if ($countItemsInPlaylist > $maxItemsInPlaylist) {
                                                     ?>
                                                             <li class="list-group-item">
-                                                                <button type="button" class="btn btn-default btn-xs editBtn " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
-                                                                    <i class="fas fa-edit"></i>
+                                                                <button type="button" class="btn btn-default btn-xs btn-block " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
+                                                                    <?php
+                                                                    echo __('More');
+                                                                    ?>
+                                                                    <i class="fas fa-ellipsis-h"></i>
                                                                 </button>
                                                             </li>
                                                         <?php
