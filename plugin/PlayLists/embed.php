@@ -117,7 +117,7 @@ foreach ($playList as $key => $value) {
 }
 
 $playListData_videos_id = getPlayListDataVideosId();
-echo "<!-- line=".__LINE__." count=".count($playListData)." playlist_index={$playlist_index} playListData_videos_id={$playListData_videos_id} -->".PHP_EOL;
+echo "<!-- line=".__LINE__." count=".count($playListData)." playlist_index={$playlist_index} playListData_videos_id=".count($playListData_videos_id)." getPlayListIndex()=".getPlayListIndex()." -->".PHP_EOL;
 if (empty($playListData)) {
     forbiddenPage(__("The program is empty"));
 }
