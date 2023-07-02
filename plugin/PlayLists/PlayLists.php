@@ -1043,7 +1043,7 @@ class PlayListPlayer {
                 $messagesFromPlayList[] = "videos_id={$video['videos_id']} empty playlist source ";
                 continue;
             }
-            $playListData[] = new PlayListElement($video['title'], $video['description'], @$video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), @$video['created'], @$video['likes'], @$video['views_count'], $video['videos_id']);
+            $playListData[] = new PlayListElement(@$video['title'], @$video['description'], @$video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), @$video['created'], @$video['likes'], @$video['views_count'], $video['videos_id']);
         }
         return $playListData;
     }

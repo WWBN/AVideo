@@ -25,7 +25,7 @@ if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize"))
 }
 
 TimeLogEnd($timeLogHead, __LINE__);
-if (!empty($poster)) {
+if (!empty($poster) && !empty($video['description'])) {
     $subTitle = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags("{$video['description']}"));
     $custom = [];
     $custom[] = $subTitle;
