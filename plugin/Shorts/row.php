@@ -1,7 +1,7 @@
 <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     #Shorts.carousel {
-        background: #EEE;
+        background: #99999922;
         margin-bottom: 30px;
     }
 
