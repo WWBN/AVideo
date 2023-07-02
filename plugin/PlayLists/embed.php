@@ -32,28 +32,22 @@ $videoStartSeconds = array();
 $users_id = User::getId();
 
 setPlayListIndex(0);
-echo '<!-- line='.__LINE__.' -->';
+
 foreach ($playList as $key => $value) {
     $oldValue = $value;
 
-echo '<!-- line='.__LINE__.' -->';
     if (!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])) {
         unset($playList[$key]);
         continue;
     }
-echo '<!-- line='.__LINE__.' -->';
 
     if ($key == $playlist_index) {
         setPlayListIndex(count($playListData));
-    }
-echo '<!-- line='.__LINE__.' -->';
+    }echo "<!-- line=".__LINE__." {$oldValue['type']} {$oldValue['serie_playlists_id']} -->".PHP_EOL;
 
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
-echo '<!-- line='.__LINE__.' -->';
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
-echo '<!-- line='.__LINE__.' -->';
         foreach ($subPlayList as $value) {
-echo '<!-- line='.__LINE__.' -->';
             $sources = getVideosURL($value['filename']);
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
             $externalOptions = _json_decode($value['externalOptions']);
@@ -84,7 +78,6 @@ echo '<!-- line='.__LINE__.' -->';
             $playListData[] = new PlayListElement(@$value['title'], @$value['description'], @$value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], @$value['likes'], @$value['views_count'], @$value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
             //$playListData_videos_id[] = $value['id'];
         }
-echo '<!-- line='.__LINE__.' -->';
     } else {
         $sources = getVideosURL($value['filename']);
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
