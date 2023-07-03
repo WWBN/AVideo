@@ -232,18 +232,20 @@ if ($removeAnimation) {
         });
 
         $carouselPlayer.on('select.flickity', function(event, index) {
-            var browserWidth = $(window).width();
-            <?php
-            foreach ($totalFlickityCells as $key => $value) {
-                if (empty($key)) {
-                    echo "var newIndex = Math.floor(index/{$value});";
-                } else {
-                    echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
+            if (shortIsOpen) {
+                var browserWidth = $(window).width();
+                <?php
+                foreach ($totalFlickityCells as $key => $value) {
+                    if (empty($key)) {
+                        echo "var newIndex = Math.floor(index/{$value});";
+                    } else {
+                        echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
+                    }
                 }
+                ?>
+                $('#Shorts').flickity('select', newIndex);
+                console.log('Flickity select ' + index)
             }
-            ?>
-            $('#Shorts').flickity('select', newIndex);
-            console.log('Flickity select ' + index)
         });
 
     }
