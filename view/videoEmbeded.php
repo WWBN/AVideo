@@ -453,7 +453,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } else {
         ?>
         <!-- else -->
-        <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
+        <video style="width: 100%; height: 100%; position: fixed; top: 0; left:0; <?php echo $objectFit; ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
     <?php echo getSources($video['filename']); ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
