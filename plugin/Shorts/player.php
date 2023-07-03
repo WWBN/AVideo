@@ -156,11 +156,14 @@ if ($removeAnimation) {
     function populateCarouselPlayer(video) {
         var $carouselPlayer = $('#ShortsPlayer');
         var newCarouselCell = $('<div>').addClass('carousel-cell');
-        var newCarouselCellContent = $('<div>').addClass('carousel-cell-content').attr('data-video-url', video.videoLink).css('background-image', 'url(' + video.images.posterLandscapeThumbs + ')');
+        var newCarouselCellContent = $('<div>')
+            .addClass('carousel-cell-content')
+            .attr('data-flickity-bg-lazyload', video.images.poster);
         newCarouselCellContent.append($('<strong>').text(video.title));
         newCarouselCell.append(newCarouselCellContent);
         $carouselPlayer.flickity('append', newCarouselCell);
     }
+
     var isSettling = false;
     var timeoutId = null;
 
@@ -172,6 +175,7 @@ if ($removeAnimation) {
             contain: true,
             pageDots: false,
             initialIndex: initialIndex,
+            bgLazyLoad: true
         });
 
         $carouselPlayer.on('settle.flickity', function(event, index) {

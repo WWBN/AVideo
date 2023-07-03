@@ -1531,7 +1531,7 @@ if (!class_exists('Video')) {
 
             if(!empty($max_duration_in_seconds)){
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
-                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -2014,7 +2014,7 @@ if (!class_exists('Video')) {
 
             if(!empty($max_duration_in_seconds)){
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
-                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -2213,7 +2213,7 @@ if (!class_exists('Video')) {
 
             if(!empty($max_duration_in_seconds)){
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
-                $sql .= " AND duration_in_seconds <= {$max_duration_in_seconds} ";
+                $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();

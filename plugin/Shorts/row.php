@@ -64,6 +64,7 @@
     }
 </style>
 <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
 <h3 class="galleryTitle"><i class="fas fa-layer-group"></i> <?php echo __('Shorts'); ?></h3>
 
 <!-- Flickity HTML init -->
@@ -97,13 +98,16 @@
                     }
                     shortVideos.push(video);
                     populateCarouselPlayer(video);
-                    imageUrl = video.images.posterLandscapeThumbs;
+                    imageUrl = video.images.poster;
                     var newCarouselCell = $('<div>').addClass('carousel-cell');
-                    var newCarouselCellContent = $('<div>').addClass('carousel-cell-content').css('background-image', 'url(' + imageUrl + ')');
+                    var newCarouselCellContent = $('<div>')
+                        .addClass('carousel-cell-content')
+                        .attr('data-flickity-bg-lazyload', imageUrl);
                     newCarouselCellContent.append($('<strong>').text(video.title));
                     newCarouselCell.append(newCarouselCellContent);
                     // append the new cell to the carousel
                     $carousel.flickity('append', newCarouselCell);
+
                 }
 
                 isLoadingShorts = false;
@@ -115,7 +119,8 @@
         var $carousel = $('#Shorts');
 
         $carousel.flickity({
-            groupCells: true
+            groupCells: true,
+            bgLazyLoad: true
         });
 
         $carousel.on('scroll.flickity', function(event, progress) {
