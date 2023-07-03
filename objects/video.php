@@ -959,20 +959,31 @@ if (!class_exists('Video')) {
             if (!$ignoreGroup) {
                 $sql .= self::getUserGroupsCanSeeSQL('v.');
             }
+
             if (!empty($_SESSION['type'])) {
-                if ($_SESSION['type'] == 'video' || $_SESSION['type'] == 'linkVideo') {
-                    $sql .= " AND (v.type = 'video' OR  v.type = 'embed' OR  v.type = 'linkVideo')";
-                } elseif ($_SESSION['type'] == 'audio') {
-                    $sql .= " AND (v.type = 'audio' OR  v.type = 'linkAudio')";
-                } else {
-                    $sql .= " AND v.type = '{$_SESSION['type']}' ";
+                $type = $_SESSION['type'];
+                if ($type == 'notAudio') {
+                    $sql .= " AND v.type != 'audio' ";
+                } elseif ($type == 'notArticleOrAudio') {
+                    $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+                } elseif ($type == 'notArticle') {
+                    $sql .= " AND v.type != 'article' ";
+                } elseif ($type == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                }  elseif ($type == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($type, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$type}' ";
                 }
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
-            } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
-                $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
+            } elseif (!empty($_REQUEST['videoType'])) {
+                $videoType = $_REQUEST['videoType'];
+                if ($videoType == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                } elseif ($videoType == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($videoType, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$videoType}' ";
+                }
             }
 
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
@@ -1445,21 +1456,30 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
             }
-
-            if (!empty($type) && $type == 'notAudio') {
-                $sql .= " AND v.type != 'audio' ";
-            } else if (!empty($type) && $type == 'notArticleOrAudio') {
-                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
-            } else if (!empty($type) && $type == 'notArticle') {
-                $sql .= " AND v.type != 'article' ";
-            } else if (!empty($type)) {
-                $sql .= " AND v.type = '{$type}' ";
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
-            } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
-                $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
+            
+            if (!empty($type)) {
+                if ($type == 'notAudio') {
+                    $sql .= " AND v.type != 'audio' ";
+                } elseif ($type == 'notArticleOrAudio') {
+                    $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+                } elseif ($type == 'notArticle') {
+                    $sql .= " AND v.type != 'article' ";
+                } elseif ($type == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                }  elseif ($type == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($type, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$type}' ";
+                }
+            } elseif (!empty($_REQUEST['videoType'])) {
+                $videoType = $_REQUEST['videoType'];
+                if ($videoType == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                } elseif ($videoType == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($videoType, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$videoType}' ";
+                }
             }
 
             if ($status == "viewable") {
@@ -2181,20 +2201,29 @@ if (!class_exists('Video')) {
                 }
             }
 
-            if (!empty($type) && $type == 'notAudio') {
-                $sql .= " AND v.type != 'audio' ";
-            } else if (!empty($type) && $type == 'notArticleOrAudio') {
-                $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
-            } else if (!empty($type) && $type == 'notArticle') {
-                $sql .= " AND v.type != 'article' ";
-            } else if (!empty($type)) {
-                $sql .= " AND v.type = '{$type}' ";
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
-            } else if (!empty($_REQUEST['videoType']) && $_REQUEST['videoType'] == 'audio_and_video_and_serie') {
-                $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
-            } else if (!empty($_REQUEST['videoType']) && in_array($_REQUEST['videoType'], self::$typeOptions)) {
-                $sql .= " AND v.type = '{$_REQUEST['videoType']}' ";
+            if (!empty($type)) {
+                if ($type == 'notAudio') {
+                    $sql .= " AND v.type != 'audio' ";
+                } elseif ($type == 'notArticleOrAudio') {
+                    $sql .= " AND (v.type != 'article' AND v.type != 'audio') ";
+                } elseif ($type == 'notArticle') {
+                    $sql .= " AND v.type != 'article' ";
+                } elseif ($type == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                }  elseif ($type == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($type, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$type}' ";
+                }
+            } elseif (!empty($_REQUEST['videoType'])) {
+                $videoType = $_REQUEST['videoType'];
+                if ($videoType == 'audio_and_video') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video') ";
+                } elseif ($videoType == 'audio_and_video_and_serie') {
+                    $sql .= " AND (v.type = 'audio' OR v.type = 'video' OR v.type = 'serie') ";
+                } elseif (in_array($videoType, self::$typeOptions)) {
+                    $sql .= " AND v.type = '{$videoType}' ";
+                }
             }
 
             if (!$ignoreGroup) {
