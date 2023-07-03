@@ -1,75 +1,81 @@
 <?php
+
+$YPTWallet = AVideoPlugin::isEnabledByName('YPTWallet');
+
 $data = MonetizeUsers::getRewards(User::getId(), date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s'), MonetizeUsers::$GetRewardModeGrouped);
 
 $rows = [];
 $labels = [];
 foreach ($data as $value) {
-    $index = "{$value['watched_date']} {$value['watched_hour']}h";
-    if(empty($rows[$index])){
-        $rows[$index] = array('date_hour'=>$index, 'reward'=>$value['total_reward'], 'count'=>1);
-    }else{
-        $rows[$index]['reward']+=$value['total_reward'];
-        $rows[$index]['count']++;
-    }
-    
+  $index = "{$value['watched_date']} {$value['watched_hour']}h";
+  if (empty($rows[$index])) {
+    $rows[$index] = array('date_hour' => $index, 'reward' => $value['total_reward'], 'count' => 1);
+  } else {
+    $rows[$index]['reward'] += $value['total_reward'];
+    $rows[$index]['count']++;
+  }
 }
 
 $chartData = [];
 $chartDataCount = [];
 foreach ($rows as $key => $value) {
-    $labels[] = $key;
-    $chartData[] = $value['reward'];
-    $chartDataCount[] = $value['count'];
+  $labels[] = $key;
+  $chartData[] = $value['reward'];
+  $chartDataCount[] = $value['count'];
 }
-
-
-
 ?>
 <div class="container">
-    <table class="table table-striped">
+  <div class="panel">
+    <div class="panel-body">
+      <canvas id="rewardChart" style="width:100%; height:400px;"></canvas>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-body">
+      <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Watched Date</th>
-                <th>Reward</th>
-                <th>Count</th>
-            </tr>
+          <tr>
+            <th>Watched Date</th>
+            <th>Reward</th>
+            <th>Count</th>
+          </tr>
         </thead>
         <tbody>
-            <?php
-            foreach($rows as $row) {
-                echo '<tr>';
-                echo '<td>'.$row['date_hour'].'</td>';
-                echo '<td>'.$row['reward'].'</td>';
-                echo '<td>'.$row['count'].'</td>';
-                echo '</tr>';
-            }
-            ?>
+          <?php
+          foreach ($rows as $row) {
+            echo '<tr>';
+            echo '<td>' . $row['date_hour'] . '</td>';
+            echo '<td>' . YPTWallet::formatCurrency($row['reward']) . '</td>';
+            echo '<td>' . $row['count'] . '</td>';
+            echo '</tr>';
+          }
+          ?>
         </tbody>
-    </table>
+      </table>
+    </div>
+  </div>
 
-    <canvas id="rewardChart" style="width:100%; height:400px;"></canvas>
 </div>
 
 <script src="<?php echo getURL('node_modules/chart.js/dist/chart.umd.js'); ?>" type="text/javascript"></script>
 <script>
-let data = <?php echo json_encode($rows); ?>;
-let labels = <?php echo json_encode($labels); ?>;
-let rewards = <?php echo json_encode($chartData); ?>;
-let counts = <?php echo json_encode($chartDataCount); ?>;
+  let data = <?php echo json_encode($rows); ?>;
+  let labels = <?php echo json_encode($labels); ?>;
+  let rewards = <?php echo json_encode($chartData); ?>;
+  let counts = <?php echo json_encode($chartDataCount); ?>;
 
-new Chart(document.getElementById("rewardChart"), {
+  new Chart(document.getElementById("rewardChart"), {
     type: 'line',
     data: {
       labels: labels,
-      datasets: [
-        { 
+      datasets: [{
           data: rewards,
           label: "Reward",
           borderColor: "#3e95cd",
           fill: false,
           yAxisID: 'y-axis-reward'
         },
-        { 
+        {
           data: counts,
           label: "Count",
           borderColor: "#8e5ea2",
@@ -96,7 +102,5 @@ new Chart(document.getElementById("rewardChart"), {
         }
       }
     }
-});
-
-
+  });
 </script>

@@ -8,6 +8,12 @@ if (!isset($global['systemRootPath'])) {
 $ShortsObj = AVideoPlugin::getDataObjectIfEnabled("Shorts");
 $videos = ['data'=>[], 'draw'=>0, 'recordsTotal'=>0, 'recordsFiltered'=>0];
 if(!empty($ShortsObj)){
+    $shortMaxDurationInSeconds = intval($ShortsObj->shortMaxDurationInSeconds);
+
+    if(empty($shortMaxDurationInSeconds)){
+        $shortMaxDurationInSeconds = 60;
+    }
+
     $sort = @$_POST['sort'];
     $rowCount = @$_REQUEST['rowCount'];
 
@@ -16,9 +22,9 @@ if(!empty($ShortsObj)){
     $_POST['sort']['created'] = 'DESC';
     $_REQUEST['rowCount'] = 12;
 
-    $videos['recordsTotal'] = Video::getTotalVideos("viewable", false, false, false, true, false,'audio_and_video', $ShortsObj->shortMaxDurationInSeconds);
+    $videos['recordsTotal'] = Video::getTotalVideos("viewable", false, false, false, true, false,'audio_and_video', $shortMaxDurationInSeconds);
     //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds=0) {
-    $videos['data'] = Video::getAllVideos("viewable", false, false, [], false, false, true, false, null, 'audio_and_video', $ShortsObj->shortMaxDurationInSeconds);
+    $videos['data'] = Video::getAllVideos("viewable", false, false, [], false, false, true, false, null, 'audio_and_video', $shortMaxDurationInSeconds);
     foreach ($videos['data'] as $key => $video) {
         $images = object_to_array(Video::getImageFromFilename($video['filename'], $video['type']));
         $videos['data'][$key]['images'] = $images;
