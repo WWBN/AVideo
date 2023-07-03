@@ -285,10 +285,8 @@ class VideosStatistics extends PluginAbstract {
                 $obj->totalLikes += $video->total_likes;
                 $obj->totalDislikes += $video->total_dislikes;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
-
+        
         if (!empty($obj->videos)) {
             usort(
                     $obj->videos,

@@ -52,6 +52,10 @@ if (!empty($_GET['users_id'])) {
         </div>
 
         <?php
+        if(AVideoPlugin::isEnabledByName('MonetizeUsers')){
+            include $global['systemRootPath'] . 'plugin/MonetizeUsers/View/report.php';
+        }
+
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
         <script>
