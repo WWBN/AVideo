@@ -1,3 +1,6 @@
+<?php
+$totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
+?>
 <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     #Shorts.carousel {
@@ -10,7 +13,6 @@
     }
 
     #Shorts .carousel-cell {
-        width: 18%;
         margin-right: 10px;
         border-radius: 5px;
         counter-increment: carousel-cell;
@@ -51,17 +53,18 @@
         border-bottom-right-radius: 10px;
     }
 
-    @media (max-width: 992px) {
-        #Shorts .carousel-cell {
-            width: 22%;
+    <?php
+    foreach ($totalFlickityCells as $key => $value) {
+        if (!empty($key)) {
+            echo "@media (max-width: {$key}px) {";
+        }
+        $width = floor(100 / $value) - 2;
+        echo "#Shorts .carousel-cell {width: {$width}%;}";
+        if (!empty($key)) {
+            echo '}';
         }
     }
-
-    @media (max-width: 767px) {
-        #Shorts .carousel-cell {
-            width: 40%;
-        }
-    }
+    ?>
 </style>
 <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>

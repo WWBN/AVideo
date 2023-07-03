@@ -177,7 +177,11 @@ if ($removeAnimation) {
             initialIndex: initialIndex,
             bgLazyLoad: true
         });
-
+        $carouselPlayer.on('scroll.flickity', function(event, progress) {
+            if (progress > 0.7) {
+                loadShorts();
+            }
+        });
         $carouselPlayer.on('settle.flickity', function(event, index) {
             if (isSettling) {
                 return;
@@ -228,6 +232,17 @@ if ($removeAnimation) {
         });
 
         $carouselPlayer.on('select.flickity', function(event, index) {
+            var browserWidth = $(window).width();
+            <?php
+            foreach ($totalFlickityCells as $key => $value) {
+                if (empty($key)) {
+                    echo "var newIndex = Math.floor(index/{$value});";
+                } else {
+                    echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
+                }
+            }
+            ?>
+            $('#Shorts').flickity('select', newIndex);
             console.log('Flickity select ' + index)
         });
 
