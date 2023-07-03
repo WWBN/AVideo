@@ -139,7 +139,7 @@ class MonetizeUsers extends PluginAbstract {
     static function getRewards($users_id = 0, $when_from = '', $when_to = '', $mode = 'all') {
         global $global;
         // Preparing the SQL statement
-        $sql = "SELECT u.id as user_id, u.name as user_name, DATE(mrl.when_watched) as watched_date, HOUR(mrl.when_watched) as watched_hour, ";
+        $sql = "SELECT u.id as user_id, u.name as user_name, DATE(mrl.when_watched) as watched_date, HOUR(mrl.when_watched) as watched_hour, mrl.videos_id, v.title, mrl.created as record_created, ";
 
         if ($mode === self::$GetRewardModeTotal || $mode === self::$GetRewardModeGrouped) {
             $sql .= "SUM(mrl.total_reward) as total_reward ";
@@ -173,7 +173,7 @@ class MonetizeUsers extends PluginAbstract {
         } else { // default to 'all'
             $sql .= " ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
         }
-
+        //var_dump($sql);
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);

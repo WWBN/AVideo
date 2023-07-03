@@ -3,16 +3,17 @@
 $YPTWallet = AVideoPlugin::isEnabledByName('YPTWallet');
 
 $data = MonetizeUsers::getRewards(User::getId(), date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s'), MonetizeUsers::$GetRewardModeGrouped);
-
+//var_dump($data);exit;
 $rows = [];
 $labels = [];
 foreach ($data as $value) {
   $index = "{$value['watched_date']} {$value['watched_hour']}h";
   if (empty($rows[$index])) {
-    $rows[$index] = array('date_hour' => $index, 'reward' => $value['total_reward'], 'count' => 1);
+    $rows[$index] = array('date_hour' => $index, 'reward' => $value['total_reward'], 'count' => 1, 'data' => array($value));
   } else {
     $rows[$index]['reward'] += $value['total_reward'];
     $rows[$index]['count']++;
+    $rows[$index]['data'][] = $value;
   }
 }
 
@@ -24,36 +25,54 @@ foreach ($rows as $key => $value) {
   $chartDataCount[] = $value['count'];
 }
 ?>
-<div class="container">
-  <div class="panel">
-    <div class="panel-body">
-      <canvas id="rewardChart" style="width:100%; height:400px;"></canvas>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-body">
+          <canvas id="rewardChart" style="width:100%; height:400px;"></canvas>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel">
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Watched Date</th>
+                <th>Reward</th>
+                <th>Views</th>
+                <th>Videos</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $reversedRows = array_reverse($rows);
+
+              foreach ($reversedRows as $row) {
+                  echo '<tr>';
+                  echo '<td>' . $row['date_hour'] . '</td>';
+                  echo '<td>' . YPTWallet::formatCurrency($row['reward']) . '</td>';
+                  echo '<td>' . $row['count'] . '</td>';
+                  echo '<td>';
+                  $records = array();
+                  foreach ($row['data'] as $key => $recordData) {
+                    $link = Video::getLinkToVideo($recordData['videos_id']);
+                    $records[] = "".($key+1)." - <a href=\"{$link}\" target=\"_blank\">[{$recordData['record_created']}] ".strip_tags($recordData['title'])."</a>";
+                  }
+                  echo implode('<br>', $records);
+                  echo '</td>';
+                  echo '</tr>';
+              }              
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="panel">
-    <div class="panel-body">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Watched Date</th>
-            <th>Reward</th>
-            <th>Count</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php
-          foreach ($rows as $row) {
-            echo '<tr>';
-            echo '<td>' . $row['date_hour'] . '</td>';
-            echo '<td>' . YPTWallet::formatCurrency($row['reward']) . '</td>';
-            echo '<td>' . $row['count'] . '</td>';
-            echo '</tr>';
-          }
-          ?>
-        </tbody>
-      </table>
-    </div>
-  </div>
+
 
 </div>
 

@@ -478,7 +478,7 @@ class CustomizeUser extends PluginAbstract
                 //_error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
                 return true;
             } else {
-                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [{$_SERVER['HTTP_REFERER']}]");
+                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [".(@$_SERVER['HTTP_REFERER'])."]");
             }
         }
         $cansee = User::canWatchVideoWithAds($videos_id);
