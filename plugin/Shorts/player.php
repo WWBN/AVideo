@@ -16,7 +16,7 @@ if ($removeAnimation) {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
+        width: calc(100% - 60px);
         height: calc(50% - 60px);
         cursor: move;
     }
@@ -95,7 +95,7 @@ if ($removeAnimation) {
         width: 100%;
     }
 
-    #closeCarousel {
+    .circleCarouselBtn {
         width: 40px;
         /* adjust size as needed */
         height: 40px;
@@ -110,63 +110,202 @@ if ($removeAnimation) {
         align-items: center;
         transition: background 0.3s ease;
         border: none;
+        margin-bottom: 15px;
     }
 
-    #closeCarousel:hover {
+    .circleCarouselBtn:hover {
         background: rgba(255, 255, 255, 0.9);
         /* white with 70% transparency */
     }
 
-    #closeCarousel i {
-        font-size: 2em;
+    .circleCarouselBtn i {
+        font-size: 1.7em;
         /* adjust size as needed */
         color: #333
+    }
+
+    .circleCarouselBtn.active {
+        background: rgba(255, 255, 255, 0.85);
+        box-shadow: 0 0 0 5px #19f;
+    }
+    .circleCarouselBtn.active i{
+        color: #111
+    }
+
+    #buttonsCarousel{
+        position: fixed;
+        z-index: 9999;
+        right: 10px;
+        bottom: 70px;
+    }
+    #closeCarousel{
+        position: fixed;
+        z-index: 9999;
+        right: 10px;
+        top: 10px;
+    }
+
+    #buttonsCarousel .circleCarouselBtn{
+        position: relative;
+    }
+    .circleCarouselBtn .votes{
+        position: absolute;
+        top: -5px;
+        left: -5px;
     }
 </style>
 <div style="display: none;" class="<?php echo $class; ?>" id="ShortsPlayerContent">
     <div class="carousel" id="ShortsPlayer"></div>
-    <button id="closeCarousel" style="position: absolute; z-index: 9999; right: 10px; top: 10px;">
+    <button id="closeCarousel" class="circleCarouselBtn" >
         <i class="fas fa-times"></i>
     </button>
+    <div id="buttonsCarousel">
+        <?php
+        if (empty($advancedCustom->removeThumbsUpAndDown)) {
+            ?>
+            <button id="likeCarousel" class="circleCarouselBtn" onclick="carouselPlayerLike()" >
+                <i class="fas fa-thumbs-up"></i>
+                <br>
+                <span class="votes badge"></span>
+            </button>
+            <button id="dislikeCarousel" class="circleCarouselBtn" onclick="carouselPlayerDislike()">
+                <i class="fas fa-thumbs-down"></i>
+                <br>
+                <span class="votes badge"></span>
+            </button>
+            <?php
+        }
+        if (isShareEnabled()) {
+            ?>
+            <button id="shareCarousel" class="circleCarouselBtn"
+                    onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');" >
+                <i class="fas fa-share"></i>
+            </button>
+            <?php
+        }
+        if (User::canComment() && false) {
+            ?>
+            <button id="commentCarousel" class="circleCarouselBtn">
+                <i class="fas fa-comment"></i>
+            </button>
+            <?php
+        }
+        ?>
+    </div>
 </div>
 <script>
     var currentCell;
     var shortIsOpen = false;
+    var currentCarouselPlayerVideo;
+
+    function carouselPlayerGetLikes() {
+        if(shortIsOpen){
+            var videos_id = currentCarouselPlayerVideo.id;
+            var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=likes&videos_id=' + videos_id;
+            console.log('carouselPlayerGetLikes', url);
+            carouselPlayerResetLikesResponse();
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    carouselPlayerProcessLikesResponse(response)
+                }
+            });
+        }else{
+            console.log('carouselPlayerGetLikes else', shortIsOpen);
+        }
+    }
+
+    function carouselPlayerProcessLikesResponse(response) {
+        if (response.error) {
+            avideoAlertError(response.msg);
+        } else {
+            avideoToastSuccess(response.msg);
+            if (typeof response.eval !== 'undefined') {
+                eval(response.eval);
+            }
+            console.log('carouselPlayerProcessLikesResponse response.response', response.response);
+            $('#likeCarousel .votes').text(response.response.likes);
+            $('#dislikeCarousel .votes').text(response.response.dislikes);
+            if (response.response.myVote == 1) {
+                $('#likeCarousel').addClass('active');
+            } else if (response.response.myVote == -1) {
+                $('#dislikeCarousel').addClass('active');
+            }
+        }
+    }
+    function carouselPlayerResetLikesResponse() {
+        $('#likeCarousel .votes').text(0);
+        $('#dislikeCarousel .votes').text(0);
+        $('#likeCarousel, #dislikeCarousel').removeClass('active');
+    }
+
+    function carouselPlayerLike() {
+        carouselPlayerLikeDislike('like');
+    }
+    function carouselPlayerDislike() {
+        carouselPlayerLikeDislike('dislike');
+    }
+    function carouselPlayerLikeDislike(APIName) {
+        if(shortIsOpen){
+            modal.showPleaseWait();
+            console.log('currentCarouselPlayerVideo', currentCarouselPlayerVideo);
+            var videos_id = currentCarouselPlayerVideo.id;
+            var url = webSiteRootURL + 'plugin/API/set.json.php?APIName=' + APIName + '&videos_id=' + videos_id;
+
+            $.ajax({
+                url: url,
+                success: function (response) {
+                    carouselPlayerProcessLikesResponse(response)
+                },
+                complete: function (response) {
+                    modal.hidePleaseWait();
+                }
+            });
+        }
+    }
 
     function shortsOpen(index) {
         shortIsOpen = true;
         $('body').addClass('playingShorts');
-        <?php echo $shortsOpen; ?>
+<?php echo $shortsOpen; ?>
         console.log('shortsPlay', index);
         $('#ShortsPlayerContent').show();
         $('#ShortsPlayer').flickity('destroy');
         createShortsPlayerFlickity(index);
         $('#ShortsPlayer').flickity('select', index);
+        currentShortsPlayerIndex = -1;
     }
 
     function shortsClose() {
         shortIsOpen = false;
         $('body').removeClass('playingShorts');
-        <?php echo $shortsClose; ?>
+<?php echo $shortsClose; ?>
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
+        currentShortsPlayerIndex = -1;
     }
 
     function populateCarouselPlayer(video) {
         var $carouselPlayer = $('#ShortsPlayer');
         var newCarouselCell = $('<div>').addClass('carousel-cell');
         var newCarouselCellContent = $('<div>')
-            .addClass('carousel-cell-content')
-            .attr('data-flickity-bg-lazyload', video.images.poster);
+                .addClass('carousel-cell-content')
+                .attr('data-flickity-bg-lazyload', video.images.poster);
         newCarouselCellContent.append($('<strong>').text(video.title));
         newCarouselCell.append(newCarouselCellContent);
         $carouselPlayer.flickity('append', newCarouselCell);
     }
 
+    function resetPlayerFlickity(){
+        isSettling = false;
+        timeoutId = null; 
+    }
+
     var isSettling = false;
     var timeoutId = null;
-
+    var iframe;
+    var currentShortsPlayerIndex = -1;
     function createShortsPlayerFlickity(initialIndex) {
         var $carouselPlayer = $('#ShortsPlayer');
 
@@ -177,12 +316,12 @@ if ($removeAnimation) {
             initialIndex: initialIndex,
             bgLazyLoad: true
         });
-        $carouselPlayer.on('scroll.flickity', function(event, progress) {
+        $carouselPlayer.on('scroll.flickity', function (event, progress) {
             if (progress > 0.7) {
                 loadShorts();
             }
         });
-        $carouselPlayer.on('settle.flickity', function(event, index) {
+        $carouselPlayer.on('settle.flickity', function (event, index) {
             if (isSettling) {
                 return;
             }
@@ -192,18 +331,25 @@ if ($removeAnimation) {
                 clearTimeout(timeoutId);
             }
 
-            timeoutId = setTimeout(function() {
+            timeoutId = setTimeout(function () {
+                var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
+                if(currentShortsPlayerIndex == index2){
+                    console.log('Flickity settled canceled ', index2, currentShortsPlayerIndex);
+                    return false;
+                }
+                currentShortsPlayerIndex = index2;
                 if (typeof currentCell != 'undefined') {
                     currentCell.html('');
                 }
-                var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
+                currentCarouselPlayerVideo = shortVideos[index2];
+                carouselPlayerGetLikes();
                 index = index2;
                 var src = 'about:blank';
                 if (shortIsOpen) {
                     src = addQueryStringParameter(shortVideos[index2].embedlink, 'autoplay', 1);
                 }
                 console.log('Flickity settled at ', index2, src);
-                var iframe = $('<iframe/>', {
+                iframe = $('<iframe/>', {
                     // The attributes for the iframe
                     width: '100vw',
                     height: '100vh',
@@ -213,7 +359,7 @@ if ($removeAnimation) {
                 var overlay = $('<div/>', {
                     // The attributes for the overlay
                     class: 'ShortsPlayerOverlay',
-                    click: function() {
+                    click: function () {
                         $(this).hide();
                     }
                 });
@@ -221,28 +367,26 @@ if ($removeAnimation) {
                 currentCell.html(iframe);
                 currentCell.append(overlay); // Add the overlay to the cell
 
-                // After 300 milliseconds, allow the event to trigger again
-                isSettling = false;
-                timeoutId = null; // reset the timeoutId
             }, 300);
+            resetPlayerFlickity(); // reset the timeoutId
         });
 
-        $carouselPlayer.on('change.flickity', function(event, index) {
+        $carouselPlayer.on('change.flickity', function (event, index) {
             console.log('Slide changed to ' + index)
         });
 
-        $carouselPlayer.on('select.flickity', function(event, index) {
+        $carouselPlayer.on('select.flickity', function (event, index) {
             if (shortIsOpen) {
                 var browserWidth = $(window).width();
-                <?php
-                foreach ($totalFlickityCells as $key => $value) {
-                    if (empty($key)) {
-                        echo "var newIndex = Math.floor(index/{$value});";
-                    } else {
-                        echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
-                    }
-                }
-                ?>
+<?php
+foreach ($totalFlickityCells as $key => $value) {
+    if (empty($key)) {
+        echo "var newIndex = Math.floor(index/{$value});";
+    } else {
+        echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
+    }
+}
+?>
                 $('#Shorts').flickity('select', newIndex);
                 console.log('Flickity select ' + index)
             }
@@ -251,9 +395,9 @@ if ($removeAnimation) {
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         createShortsPlayerFlickity();
-        $('#closeCarousel').on('click', function() {
+        $('#closeCarousel').on('click', function () {
             shortsClose();
         });
     });

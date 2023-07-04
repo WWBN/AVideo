@@ -6810,9 +6810,14 @@ function getCaptcha($uid = "", $forceCaptcha = false) {
     ];
 }
 
+function isShareEnabled(){
+    global $global, $advancedCustom;
+    return empty($advancedCustom->disableShareOnly) && empty($advancedCustom->disableShareAndPlaylist);
+}
+
 function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
-    if ($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist) {
+    if (!isShareEnabled()) {
         return false;
     }
     $video['id'] = $videos_id;
@@ -9145,7 +9150,7 @@ function getURL($relativePath, $ignoreCDN = false) {
 
 function fixTestURL($text) {
     if (isAVideoMobileApp() || !empty($_REQUEST['isAVideoMobileApp'])) {
-        $text = str_replace(array('https://vlu.me', 'vlu.me'), array('http://192.168.0.2', '192.168.0.2'), $text);
+        $text = str_replace(array('https://vlu.me', 'https://www.vlu.me', 'vlu.me'), array('http://192.168.0.2', 'http://192.168.0.2', '192.168.0.2'), $text);
     }
     $text = str_replace(array('https://192.168.0.2'), array('http://192.168.0.2'), $text);
     return $text;

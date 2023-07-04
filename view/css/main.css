@@ -1386,7 +1386,7 @@ li.dropdown-submenu > ul > li > a {
 }
 
 .pleaseWaitDialog {
-	z-index: 2001;
+	z-index: 19999;
 	background-color: #00000077;
 }
 

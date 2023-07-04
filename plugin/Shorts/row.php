@@ -69,8 +69,6 @@ $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
 <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
 <h3 class="galleryTitle"><i class="fas fa-layer-group"></i> <?php echo __('Shorts'); ?></h3>
-
-<!-- Flickity HTML init -->
 <div class="carousel" id="Shorts"></div>
 <script>
     var isLoadingShorts = false;
@@ -88,11 +86,12 @@ $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
         var current = shortPage++;
         $.ajax({
             url: webSiteRootURL + 'plugin/Shorts/row.json.php?current=' + current,
-            success: function(response) {
+            success: function (response) {
                 if (response.data.length === 0) {
                     hasMoreShorts = false;
                     return;
                 }
+                //$('#carouselContent').show();
                 var $carousel = $('#Shorts');
                 for (var key in response.data) {
                     var video = response.data[key];
@@ -104,8 +103,8 @@ $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
                     imageUrl = video.images.poster;
                     var newCarouselCell = $('<div>').addClass('carousel-cell');
                     var newCarouselCellContent = $('<div>')
-                        .addClass('carousel-cell-content')
-                        .attr('data-flickity-bg-lazyload', imageUrl);
+                            .addClass('carousel-cell-content')
+                            .attr('data-flickity-bg-lazyload', imageUrl);
                     newCarouselCellContent.append($('<strong>').text(video.title));
                     newCarouselCell.append(newCarouselCellContent);
                     // append the new cell to the carousel
@@ -126,33 +125,34 @@ $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
             bgLazyLoad: true
         });
 
-        $carousel.on('scroll.flickity', function(event, progress) {
+        $carousel.on('scroll.flickity', function (event, progress) {
             if (progress > 0.7) {
                 loadShorts();
             }
         });
-        $carousel.on('click', '.carousel-cell-content', function() {
+        $carousel.on('click', '.carousel-cell-content', function () {
             console.log('carousel click');
             if (!isDraggingShorts) {
                 var index = $(this).parents('.carousel-cell').index();
                 shortsOpen(index);
             } else {
                 console.log('carousel is dragging');
-            };
+            }
+            ;
         });
-        $carousel.on('dragStart.flickity', function(event, pointer) {
+        $carousel.on('dragStart.flickity', function (event, pointer) {
             isDraggingShorts = true;
             console.log('carousel dragStart');
         });
-        $carousel.on('dragEnd.flickity', function(event, pointer) {
-            setTimeout(function() {
+        $carousel.on('dragEnd.flickity', function (event, pointer) {
+            setTimeout(function () {
                 isDraggingShorts = false;
                 console.log('carousel dragEnd');
             }, 500);
         });
     }
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         createShortsFlickity();
         loadShorts();
     });
