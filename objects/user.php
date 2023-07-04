@@ -593,6 +593,11 @@ if (typeof gtag !== \"function\") {
                 $mark .= " " . $advancedCustomUser->Checkmark3HTML;
             }
         }
+        if ($advancedCustomUser->Checkmark4Enabled) {	
+            if (User::externalOptionsFromUserID($id, "checkmark4")) {	
+                $mark .= " " . $advancedCustomUser->Checkmark4HTML;	
+            }	
+        }
         return $mark;
     }
 
