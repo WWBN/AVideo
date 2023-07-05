@@ -338,7 +338,6 @@ if (!class_exists('Video')) {
         }
 
         public function setFilesize($filesize) {
-            AVideoPlugin::onVideoSetFilesize($this->id, $this->filesize, $filesize);
             $this->filesize = intval($filesize);
         }
 
@@ -1919,6 +1918,19 @@ if (!class_exists('Video')) {
             return self::updateFilesize($video['id']);
         }
 
+        public static function updateFileSizeDB($filesize, $videos_id){
+            if(empty($filesize)){
+                return false;
+            }
+            if(empty($videos_id)){
+                return false;
+            }
+            $sql = "UPDATE videos SET filesize = ? WHERE id = ?";
+            $formats = 'ii';
+            $values = [$filesize, $videos_id];
+            return sqlDAL::writeSql($sql, $formats, $values);
+        }
+        
         public static function updateFilesize($videos_id) {
             global $config, $global;
 
@@ -1958,9 +1970,8 @@ if (!class_exists('Video')) {
                 _error_log("updateFilesize: No need to update videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                 return $filesize;
             }
-            $video->setFilesize($filesize);
             TimeLogEnd("Video::updateFilesize {$videos_id}", __LINE__);
-            if ($video->save(false, true)) {
+            if (self::updateFileSizeDB($filesize, $videos_id)) {
                 _error_log("updateFilesize: videos_id=$videos_id filename=$filename filesize=$filesize " . humanFileSize($filesize));
                 Video::clearCache($videos_id);
                 return $filesize;

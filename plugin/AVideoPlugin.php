@@ -2072,27 +2072,6 @@ class AVideoPlugin
         return;
     }
 
-    public static function onVideoSetFilesize($video_id, $oldValue, $newValue)
-    {
-        global $global;
-        if (empty($global)) {
-            $global = [];
-        }
-        $plugins = Plugin::getAllEnabled();
-        foreach ($plugins as $value) {
-            if (in_array($value['dirName'], $global['skippPlugins'])) {
-                continue;
-            }
-            self::YPTstart();
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $p->onVideoSetFilesize($video_id, $oldValue, $newValue);
-            }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
-        }
-        return;
-    }
-
     public static function onVideoSetUsers_id($video_id, $oldValue, $newValue)
     {
         global $global;

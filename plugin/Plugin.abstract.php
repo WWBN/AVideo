@@ -639,10 +639,6 @@ abstract class PluginAbstract {
         
     }
 
-    function onVideoSetFilesize($video_id, $oldValue, $newValue) {
-        
-    }
-
     function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
         
     }

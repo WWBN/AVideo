@@ -501,7 +501,7 @@ class Scheduler extends PluginAbstract
         if (!Video::canEdit($videos_id)) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         if (empty($externalOptions)) {
             $externalOptions = new stdClass();
