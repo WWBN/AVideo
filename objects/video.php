@@ -1488,9 +1488,9 @@ if (!class_exists('Video')) {
                     $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
                     $sql .= " OR (v.status='".Video::$statusUnlisted."' ";
                     if(!User::isAdmin() && !Permissions::canAdminVideos()){
-                        $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "'))";
+                        $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')";
                     }
-                    $sql .= " )";
+                    $sql .= " ))";
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
