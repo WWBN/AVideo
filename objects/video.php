@@ -352,7 +352,9 @@ if (!class_exists('Video')) {
         }
 
         public function setSites_id($sites_id) {
+            _error_log("Video::setSites_id($sites_id) start ".json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             AVideoPlugin::onVideoSetSites_id($this->id, $this->sites_id, $sites_id);
+            _error_log("Video::setSites_id($sites_id) done ");
             $this->sites_id = $sites_id;
         }
 
