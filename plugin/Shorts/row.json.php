@@ -19,7 +19,8 @@ if(!empty($ShortsObj)){
 
     $videos['draw'] = getCurrentPage();
 
-    $_POST['sort']['created'] = 'DESC';
+    //$_POST['sort']['created'] = 'DESC';
+    $_POST['sort']['trending'] = 1;
     $_REQUEST['rowCount'] = 12;
 
     $videos['recordsTotal'] = Video::getTotalVideos("viewable", false, false, false, true, false,'audio_and_video', $shortMaxDurationInSeconds);
