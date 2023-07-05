@@ -35,7 +35,7 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
 }
 Video::clearCache($_REQUEST['videos_id']);
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_REQUEST['videos_id']);
+$video = new Video("", "", $_REQUEST['videos_id'], true);
 $obj->video_id = $_REQUEST['videos_id'];
 
 
@@ -43,7 +43,7 @@ $video->setAutoStatus(Video::$statusActive);
 
 $video_id = $video->save();
 
-$video = new Video("", "", $video_id);
+$video = new Video("", "", $video_id, true);
 
 $obj->error = false;
 $obj->video_id = $video_id;

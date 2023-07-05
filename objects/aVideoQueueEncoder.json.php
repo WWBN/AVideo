@@ -57,7 +57,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
                 . "<br>[This File Duration: {$thisFile} Seconds]"
                 . "<br>[Limit after this file: {$limitAfterThisFile} Seconds]", "type" => '$_FILES Limit Error', ]);
             if (!empty($_FILES['upl']['videoId'])) {
-                $video = new Video("", "", $_FILES['upl']['videoId']);
+                $video = new Video("", "", $_FILES['upl']['videoId'], true);
                 $video->delete();
             }
             exit;
@@ -77,7 +77,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $filename = $paths['filename'];
     $originalFilePath =  Video::getStoragePath()."original_" . $filename;
 
-    $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId']);
+    $video = new Video(preg_replace("/_+/", " ", $path_parts['filename']), $filename, @$_FILES['upl']['videoId'], true);
     $video->setDuration($duration);
     if ($type == 'audio') {
         $video->setType($type);
@@ -138,7 +138,7 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         }
     }
 
-    $video = new Video('', '', $id);
+    $video = new Video('', '', $id, true);
     // send to encoder
     $queue = [];
     $postFields = [];
