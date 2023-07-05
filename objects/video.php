@@ -2027,6 +2027,7 @@ if (!class_exists('Video')) {
                         $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')";
                     }
                     $sql .= " ))";
+                    
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
