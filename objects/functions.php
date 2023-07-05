@@ -343,16 +343,30 @@ function saveBase64DataToPNGImage($imgBase64, $filePath) {
 }
 
 function getRealIpAddr() {
+    $ip = "127.0.0.1";
+
     if (isCommandLineInterface()) {
-        $ip = "127.0.0.1";
-    } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    } else {
-        $ip = "127.0.0.1";
+        return $ip;
+    }
+
+    $headers = [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'REMOTE_ADDR'
+    ];
+
+    foreach($headers as $header) {
+        if (!empty($_SERVER[$header])) {
+            $ips = explode(',', $_SERVER[$header]);
+            foreach($ips as $ipCandidate) {
+                $ipCandidate = trim($ipCandidate); // Just to be safe
+                if(filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                    return $ipCandidate; // Return the first valid IPv4 we find
+                } elseif($header === 'REMOTE_ADDR' && filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                    $ip = $ipCandidate; // In case no IPv4 is found, set the first IPv6 found from REMOTE_ADDR
+                }
+            }
+        }
     }
     return $ip;
 }
