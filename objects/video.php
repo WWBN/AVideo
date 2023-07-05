@@ -1485,7 +1485,12 @@ if (!class_exists('Video')) {
 
             if ($status == "viewable") {
                 if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')))";
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
+                    $sql .= " OR (v.status='".Video::$statusUnlisted."' ";
+                    if(!User::isAdmin() && !Permissions::canAdminVideos()){
+                        $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "'))";
+                    }
+                    $sql .= " )";
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
@@ -2016,7 +2021,12 @@ if (!class_exists('Video')) {
             }
             if ($status == "viewable") {
                 if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND (v.users_id ='" . User::getId() . "' OR v.users_id_company ='" . User::getId() . "' )))";
+                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
+                    $sql .= " OR (v.status='".Video::$statusUnlisted."' ";
+                    if(!User::isAdmin() && !Permissions::canAdminVideos()){
+                        $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "'))";
+                    }
+                    $sql .= " )";
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
