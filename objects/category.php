@@ -303,7 +303,7 @@ class Category {
         sqlDAL::close($res);
         if ($result) {
             $result['name'] = xss_esc_back($result['name']);
-            $result['description_html'] = textToLink(htmlentities($result['description']));
+            $result['description_html'] = textToLink(htmlentities("{$result['description']}"));
         }
         //var_dump($sql,$name, $result);exit;
         return ($res) ? $result : false;

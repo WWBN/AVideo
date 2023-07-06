@@ -534,13 +534,11 @@ class PlayerSkins extends PluginAbstract {
                     console.log('ads-request', a);
                 });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
-
-        $js .= "}
-        player.ready(function () {console.log('player.ready');";
-
-        $js .= "player.on('error', () => {
-            AvideoJSError(player.error().code);
-        });";
+        $js .= "}";
+        
+        $js .= "if(typeof player !== 'undefined'){";
+        $js .= "player.ready(function () {console.log('player.ready');";
+        $js .= "player.on('error', () => {AvideoJSError(player.error().code);});";
 
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
         if (isMobile()) {
@@ -548,36 +546,35 @@ class PlayerSkins extends PluginAbstract {
         }
         if (empty($_REQUEST['mute'])) {
             $play = "playerPlayIfAutoPlay({$currentTime});";
-
-            $js .= "
-            player.persistvolume({
-                namespace: 'AVideo'
-            });";
+            $js .= "player.persistvolume({namespace: 'AVideo'});";
         } else {
             $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
         }
 
         $js .= "try {
-            var err = this.error();
-            if (err && err.code) {
-                $('.vjs-error-display').hide();
-                $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
-            }} catch (e) {
-    console.error('error-display', e);
-}try {
-            " . implode(' } catch (e) {console.error(\'onPlayerReady\', e);} try { ', $prepareStartPlayerJS_onPlayerReady) . " } catch (e) {console.error('onPlayerReady', e);}
-            {$play}
-        });";
+                    var err = this.error();
+                    if (err && err.code) {
+                        $('.vjs-error-display').hide();
+                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
+                    }} catch (e) {
+                        console.error('error-display', e);
+                    };";
+       $js .= "try {";
+       $js .= implode(' } catch (e) {console.error(\'onPlayerReady\', e);};try { ', $prepareStartPlayerJS_onPlayerReady).";";
+       $js .= " } catch (e) {console.error('onPlayerReady', e);}";
+       $js .= $play;
+       $js .= "});";
 
         if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
-
-
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
+        
+        $js .= "}";
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
+        
         //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;

@@ -38,7 +38,7 @@ TimeLogEnd($timeLogHead, __LINE__);
 if (!empty($_REQUEST['catName'])) {
     $category = Category::getCategoryByName($_REQUEST['catName']);
     if(!empty($category)){
-        $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags($category['description']));
+        $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags("{$category['description']}"));
         $custom = [];
         $custom[] = $description;
         $custom[] = $category['name'];
@@ -150,60 +150,7 @@ if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exis
 TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
 ?>
-
-    <style>
-        .principalContainer,
-        #mainContainer,
-        #bigVideo,
-        .mainArea,
-        .galleryVideo,
-        #sidebar,
-        .navbar-header li,
-        .panel-heading,
-        th,
-        td,
-        a,
-        .panel-footer,
-        .label {
-            direction: rtl;
-            unicode-bidi: embed;
-        }
-
-        #sidebar .nav {
-            padding-right: 0;
-        }
-
-        .dropdown-menu,
-        .navbar-header li a,
-        #sideBarContainer .btn {
-            text-align: right !important;
-        }
-
-        .dropdown-submenu a {
-            width: 100%;
-        }
-
-        .galeryDetails div {
-            float: right !important;
-        }
-
-        #saveCommentBtn {
-            border-width: 1px;
-            border-right-width: 0;
-        }
-
-        .pull-left {
-            float: right !important;
-        }
-
-        .pull-right {
-            float: left !important;
-        }
-
-        .material-switch {
-            direction: initial;
-        }
-    </style>
+    <link href="<?php echo getURL('view/css/rtl.css'); ?>" rel="stylesheet" type="text/css"/>
 <?php
 }
 ?>
