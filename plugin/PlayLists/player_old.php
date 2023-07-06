@@ -206,7 +206,7 @@ if (!empty($video['id'])) {
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script src="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js"></script>
-        <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-youtube/dist/Youtube.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
 
                                         var playerPlaylist = <?php echo json_encode($playListData); ?>;

@@ -143,7 +143,7 @@ $name = $plp->getName();
         <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script src="<?php echo getURL('node_modules/videojs-playlist/dist/videojs-playlist.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script src="<?php echo getURL('node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
-        <script src="<?php echo getURL('view/js/videojs-youtube/Youtube.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-youtube/dist/Youtube.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
 
             var playerPlaylist = <?php echo json_encode($playListData); ?>;
