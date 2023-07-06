@@ -1,0 +1,47 @@
+{
+  "name": "videojs-youtube",
+  "description": "YouTube playback technology for Video.js",
+  "version": "3.0.1",
+  "author": "Benoit Tremblay",
+  "main": "dist/Youtube.js",
+  "license": "MIT",
+  "keywords": [
+    "video",
+    "videojs",
+    "video.js",
+    "vjs",
+    "YouTube",
+    "tech"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videojs/videojs-youtube.git"
+  },
+  "peerDependencies": {
+    "video.js": "5.x || 6.x || 7.x || 8.x"
+  },
+  "scripts": {
+    "build": "mkdirp dist && cp src/Youtube.js dist/Youtube.js && uglifyjs src/Youtube.js -o dist/Youtube.min.js",
+    "lint": "jshint .",
+    "test": "karma start --single-run",
+    "validate": "npm ls",
+    "version": "npm run build && git add -f dist"
+  },
+  "pre-commit": [
+    "lint"
+  ],
+  "devDependencies": {
+    "http-server": "^0.10.0",
+    "jasmine-core": "^2.3.4",
+    "jshint": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-chrome-launcher": "^2.0.0",
+    "karma-jasmine": "^1.0.2",
+    "mkdirp": "^0.5.1",
+    "precommit-hook": "^3.0.0",
+    "uglify-js": "^3.4.6"
+  },
+  "dependencies": {
+    "video.js": "5.x || 6.x || 7.x || 8.x"
+  }
+}
