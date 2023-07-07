@@ -205,9 +205,12 @@ class MonetizeUsers extends PluginAbstract {
                     HOUR(mrl.when_watched)";
         }
 
+        /*
         if (!empty($_REQUEST['debug'])) {
             var_dump($sql, $formats, $values);
         }
+         * 
+         */
 
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
