@@ -52,30 +52,31 @@ class MonetizeUsers extends PluginAbstract {
 
         return $obj;
     }
+
     /*
-    public function addView($videos_id, $total) {
-        global $global;
-        $obj = $this->getDataObject();
-        if (empty($obj->rewardMinimumViewPercentage->value)) {
-            return false;
-        }
-        if ($obj->rewardOnlyLoggedUsersView && !User::isLogged()) {
-            return false;
-        }
+      public function addView($videos_id, $total) {
+      global $global;
+      $obj = $this->getDataObject();
+      if (empty($obj->rewardMinimumViewPercentage->value)) {
+      return false;
+      }
+      if ($obj->rewardOnlyLoggedUsersView && !User::isLogged()) {
+      return false;
+      }
 
-        // Check ownership to prevent the uploader from farming money from their own video content
-        if (User::isLogged()) {
-            $user_id = User::getId();
-            if (Video::isOwner($videos_id, $user_id)) {
-                return false; // Prevent exploitation of free money; Don't award money if viewer is uploader
-            }
-        }
+      // Check ownership to prevent the uploader from farming money from their own video content
+      if (User::isLogged()) {
+      $user_id = User::getId();
+      if (Video::isOwner($videos_id, $user_id)) {
+      return false; // Prevent exploitation of free money; Don't award money if viewer is uploader
+      }
+      }
 
-        $wallet = AVideoPlugin::loadPlugin("YPTWallet");
-        $video = new Video("", "", $videos_id);
-        return YPTWallet::transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
-    }
-    */
+      $wallet = AVideoPlugin::loadPlugin("YPTWallet");
+      $video = new Video("", "", $videos_id);
+      return YPTWallet::transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
+      }
+     */
 
     function executeEveryMinute() {
         $obj = $this->getDataObject();
@@ -140,7 +141,8 @@ class MonetizeUsers extends PluginAbstract {
     static function getRewards($users_id = 0, $when_from = '', $when_to = '', $mode = 'all') {
         global $global;
         // Preparing the SQL statement
-        $sql = "SELECT u.id as user_id, u.name as user_name, DATE(mrl.when_watched) as watched_date, HOUR(mrl.when_watched) as watched_hour, mrl.videos_id, v.title, mrl.created as record_created, ";
+        $sql = "SELECT u.id as user_id, u.name as user_name, DATE(mrl.when_watched) as watched_date, "
+                . "HOUR(mrl.when_watched) as watched_hour, mrl.videos_id, v.title, mrl.created as record_created, ";
 
         if ($mode === self::$GetRewardModeTotal || $mode === self::$GetRewardModeGrouped) {
             $sql .= "SUM(mrl.total_reward) as total_reward ";
@@ -168,13 +170,15 @@ class MonetizeUsers extends PluginAbstract {
         }
 
         if ($mode === self::$GetRewardModeTotal) {
-            $sql .= " GROUP BY u.id, DATE(mrl.when_watched), HOUR(mrl.when_watched) ORDER BY DATE(mrl.when_watched), HOUR(mrl.when_watched)";
+            $sql .= " GROUP BY u.id, u.name, DATE(mrl.when_watched), HOUR(mrl.when_watched), mrl.videos_id, v.title, mrl.created ";
+            $sql .= "ORDER BY DATE(mrl.when_watched), HOUR(mrl.when_watched)";
         } else if ($mode === self::$GetRewardModeGrouped) {
-            $sql .= " GROUP BY mrl.when_watched, HOUR(mrl.when_watched) ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
+            $sql .= " GROUP BY mrl.when_watched, HOUR(mrl.when_watched), mrl.videos_id ";
+            $sql .= "ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
         } else { // default to 'all'
-            $sql .= " ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
+            $sql .= "ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
         }
-        //var_dump($sql, $formats, $values);
+
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
