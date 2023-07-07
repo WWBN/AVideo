@@ -52,7 +52,7 @@ class MonetizeUsers extends PluginAbstract {
 
         return $obj;
     }
-
+    /*
     public function addView($videos_id, $total) {
         global $global;
         $obj = $this->getDataObject();
@@ -75,6 +75,7 @@ class MonetizeUsers extends PluginAbstract {
         $video = new Video("", "", $videos_id);
         return YPTWallet::transferBalanceFromSiteOwner($video->getUsers_id(), $obj->rewardPerView, "Reward from video <a href='{$global['webSiteRootURL']}v/{$videos_id}'>" . $video->getTitle() . "</a>", true);
     }
+    */
 
     function executeEveryMinute() {
         $obj = $this->getDataObject();
