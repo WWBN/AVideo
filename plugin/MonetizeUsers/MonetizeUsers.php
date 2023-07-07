@@ -179,6 +179,7 @@ class MonetizeUsers extends PluginAbstract {
             $sql .= "ORDER BY mrl.when_watched, HOUR(mrl.when_watched)";
         }
 
+        //var_dump($sql, $formats, $values);
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
