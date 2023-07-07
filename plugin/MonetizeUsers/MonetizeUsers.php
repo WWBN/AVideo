@@ -186,16 +186,16 @@ class MonetizeUsers extends PluginAbstract {
                         HOUR(mrl.when_watched),
                         mrl.videos_id,
                         v.title,
-                        mrl.created,
-                        mrl.when_watched ";
+                        mrl.created ";
             $sql .= "ORDER BY
-                    DATE(mrl.when_watched),
+                    mrl.when_watched,
                     HOUR(mrl.when_watched)";
         } else if ($mode === self::$GetRewardModeGrouped) {
             $sql .= " GROUP BY
                         mrl.when_watched,
                         HOUR(mrl.when_watched),
-                        mrl.videos_id ";
+                        mrl.videos_id,
+                        mrl.created ";
             $sql .= "ORDER BY
                     mrl.when_watched,
                     HOUR(mrl.when_watched)";
@@ -205,10 +205,10 @@ class MonetizeUsers extends PluginAbstract {
                     HOUR(mrl.when_watched)";
         }
 
-        if(!empty($_REQUEST['debug'])){
+        if (!empty($_REQUEST['debug'])) {
             var_dump($sql, $formats, $values);
         }
-        
+
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
