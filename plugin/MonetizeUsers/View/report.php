@@ -7,7 +7,7 @@ if(User::isAdmin() && !empty($_REQUEST['users_id'])){
   $users_id = $_REQUEST['users_id'];
 }
 
-$data = MonetizeUsers::getRewards(User::getId(), date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s', strtotime('+1 day')), MonetizeUsers::$GetRewardModeGrouped);
+$data = MonetizeUsers::getRewards($users_id, date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s', strtotime('+1 day')), MonetizeUsers::$GetRewardModeGrouped);
 //var_dump($data);exit;
 $rows = [];
 $labels = [];
