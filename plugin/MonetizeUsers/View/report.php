@@ -62,7 +62,7 @@ foreach ($rows as $key => $value) {
               $records = array();
               foreach ($row['data'] as $key => $recordData) {
                 $link = Video::getLinkToVideo($recordData['videos_id']);
-                $records[] = "" . ($key + 1) . " - <a href=\"{$link}\" target=\"_blank\">[{$recordData['record_created']}] " . strip_tags($recordData['title']) . "</a>";
+                $records[] = "" . ($key + 1) . " - <a href=\"{$link}\" target=\"_blank\">" . strip_tags($recordData['title']) . "</a>";
               }
               echo implode('<br>', $records);
               echo '</td>';
