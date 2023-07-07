@@ -34,7 +34,7 @@ if (sqlDAL::writeSql($sql)) {
     echo "Error on Table wallet balance reset<br>";
 }
 
-$sql = " UPDATE wallet SET balance = 10000 WHERE id = 1 AND isAdmin = 1";
+$sql = " UPDATE wallet SET balance = 10000 WHERE users_id = 1";
 if (sqlDAL::writeSql($sql)) {
     echo "Table wallet balance reset.<br>";
 } else {
