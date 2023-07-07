@@ -21,22 +21,22 @@ foreach ($tables as $table) {
     $sql = "TRUNCATE TABLE " . $table;
 
     if (sqlDAL::writeSql($sql)) {
-        echo "Table " . $table . " truncated successfully.<br>";
+        echo "Table " . $table . " truncated successfully.<br>".PHP_EOL;
     } else {
-        echo "Error truncating table " . $table . ": " . $conn->error . "<br>";
+        echo "Error truncating table " . $table . ": " . $conn->error . "<br>".PHP_EOL;
     }
 }
 
 $sql = " UPDATE wallet SET balance = 0 WHERE id > 0";
 if (sqlDAL::writeSql($sql)) {
-    echo "Table wallet balance reset.<br>";
+    echo "Table wallet balance reset.<br>".PHP_EOL;
 } else {
-    echo "Error on Table wallet balance reset<br>";
+    echo "Error on Table wallet balance reset<br>".PHP_EOL;
 }
 
 $sql = " UPDATE wallet SET balance = 10000 WHERE users_id = 1";
 if (sqlDAL::writeSql($sql)) {
-    echo "Table wallet balance reset.<br>";
+    echo "Table wallet balance reset.<br>".PHP_EOL;
 } else {
-    echo "Error on Table wallet balance reset<br>";
+    echo "Error on Table wallet balance reset<br>".PHP_EOL;
 }
