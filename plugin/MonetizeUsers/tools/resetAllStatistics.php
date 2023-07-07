@@ -36,7 +36,7 @@ if (sqlDAL::writeSql($sql)) {
 
 $sql = " UPDATE wallet SET balance = 10000 WHERE users_id = 1";
 if (sqlDAL::writeSql($sql)) {
-    echo "Table wallet balance reset.<br>".PHP_EOL;
+    echo "Table wallet admin balance reset.<br>".PHP_EOL;
 } else {
-    echo "Error on Table wallet balance reset<br>".PHP_EOL;
+    echo "Error on Table wallet admin balance reset<br>".PHP_EOL;
 }

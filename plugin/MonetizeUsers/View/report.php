@@ -2,7 +2,7 @@
 
 $YPTWallet = AVideoPlugin::isEnabledByName('YPTWallet');
 
-$data = MonetizeUsers::getRewards(User::getId(), date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s'), MonetizeUsers::$GetRewardModeGrouped);
+$data = MonetizeUsers::getRewards(User::getId(), date('Y-m-d H:i:s', strtotime('-7 days')), date('Y-m-d H:i:s', strtotime('+1 day')), MonetizeUsers::$GetRewardModeGrouped);
 //var_dump($data);exit;
 $rows = [];
 $labels = [];
