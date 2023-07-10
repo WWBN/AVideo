@@ -330,7 +330,10 @@ if ($removeAnimation) {
             if (timeoutId !== null) {
                 clearTimeout(timeoutId);
             }
-
+            
+            if (typeof currentCell != 'undefined') {
+                currentCell.html('');
+            }
             timeoutId = setTimeout(function () {
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
                 if(currentShortsPlayerIndex == index2){
@@ -338,9 +341,6 @@ if ($removeAnimation) {
                     return false;
                 }
                 currentShortsPlayerIndex = index2;
-                if (typeof currentCell != 'undefined') {
-                    currentCell.html('');
-                }
                 currentCarouselPlayerVideo = shortVideos[index2];
                 carouselPlayerGetLikes();
                 index = index2;
