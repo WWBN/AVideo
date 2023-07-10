@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `duration` VARCHAR(15) NOT NULL,
   `type` ENUM('audio', 'video', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'zip') NOT NULL DEFAULT 'video',
   `videoDownloadedLink` VARCHAR(255) NULL DEFAULT NULL,
-  `order` INT(10) UNSIGNED NOT NULL DEFAULT 1,
+  `order` INT(10) UNSIGNED NULL DEFAULT NULL,
   `rotation` SMALLINT(6) NULL DEFAULT 0,
   `zoom` FLOAT NULL DEFAULT 1,
   `youtubeId` VARCHAR(45) NULL DEFAULT NULL,

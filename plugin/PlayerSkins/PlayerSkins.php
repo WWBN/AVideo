@@ -664,24 +664,29 @@ class PlayerSkins extends PluginAbstract {
         player.on('ratechange', function () {
             sendAVideoMobileMessage('ratechange', player.playbackRate);
         });
-        player.on('timeupdate', function () {
+        player.on('timeupdate', function() {
             var time = Math.round(this.currentTime());
             playerCurrentTime = time;
             var url = '{$url}';
+            
             if (url.indexOf('?') > -1) {
-            url += '&t=' + time;
+                url += '&t=' + time;
             } else {
-            url += '?t=' + time;
+                url += '?t=' + time;
             }
+            
             $('#linkCurrentTime, .linkCurrentTime').val(url);
+            
             if (time >= 5 && time % 1 === 0) {
                 addView({$videos_id}, time);
-            }else{
+            } else {
                 addViewFromCookie();
                 addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
+            
             sendAVideoMobileMessage('timeupdate', time);
-        });";
+        });
+        ;";
 
         if (!empty($nextURL)) {
             $js .= "playNextURL = '{$nextURL}';";

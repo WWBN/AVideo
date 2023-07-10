@@ -1577,6 +1577,15 @@ if (!class_exists('Video')) {
                     $_POST['sort']['v.created'] = $_POST['sort']['created'];
                     unset($_POST['sort']['created']);
                 }
+                if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
+                    $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
+                    unset($_POST['sort']['v.created']);
+                    unset($_POST['sort']['created']);
+                    $_POST['sort']['v.order'] = 'IS NULL';
+                    $_POST['sort']['order'] = 'ASC';
+                    $_POST['sort']['v.created'] =$created;
+                }
+                //var_dump($_POST['sort']);exit;
                 $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
             } else {
                 unset($_POST['sort']['trending'], $_GET['sort']['trending']);
@@ -1619,7 +1628,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //echo $sql;var_dump($_REQUEST['doNotShowCatChilds']);exit;
+            //echo $sql;//var_dump($_REQUEST['doNotShowCatChilds']);exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
@@ -1993,7 +2002,7 @@ if (!class_exists('Video')) {
          * @param string $showOnlyLoggedUserVideos
          * @return array
          */
-        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds=0) {
+        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds=0, $with_order_only=false) {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return [];
@@ -2010,6 +2019,11 @@ if (!class_exists('Video')) {
             }
 
             $sql .= " WHERE 1=1 ";
+            
+            if ($with_order_only) {
+                $sql .= " AND v.`order` IS NOT NULL ";
+            }
+
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
@@ -2845,6 +2859,22 @@ if (!class_exists('Video')) {
                 return false;
             }
             return VideoHLS::updateHLSDurationIfNeed($this);
+        }
+
+        static public function resetOrder() {
+            if (!Permissions::canAdminVideos()) {
+                return false;
+            }
+            $sql = "UPDATE videos SET `order` = NULL WHERE `order` IS NOT NULL";
+            return sqlDAL::writeSql($sql);
+        }
+
+        static public function updateOrder($videos_id, $order) {
+            if (!Permissions::canAdminVideos()) {
+                return false;
+            }
+            $sql = "UPDATE videos SET `order` = ?, modified = now() WHERE id = ?";
+            return sqlDAL::writeSql($sql, "ii", [$order, $videos_id]);
         }
 
         public function updateDurationIfNeed($fileExtension = ".mp4") {

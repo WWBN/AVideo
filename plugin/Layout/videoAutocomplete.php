@@ -39,7 +39,7 @@ if (empty($name)) {
                 data: data,
                 success: function (data) {
                     if (data.rows && data.rows[0]) {
-                        $("#videoAutocomplete<?php echo $id; ?>").val(data.rows[0].identification);
+                        $("#videoAutocomplete<?php echo $id; ?>").val(data.rows[0].title);
                         $("#<?php echo $id; ?>").val(videos_id);
                         var photoURL = data.rows[0].videosURL.jpg.url;
                         $("#videoAutocomplete-img<?php echo $id; ?>").attr("src", photoURL);
@@ -85,11 +85,11 @@ if (empty($name)) {
                 });
             },
             focus: function (event, ui) {
-                $("#videoAutocomplete<?php echo $id; ?>").val(ui.item.identification);
+                $("#videoAutocomplete<?php echo $id; ?>").val(ui.item.title);
                 return false;
             },
             select: function (event, ui) {
-                $("#videoAutocomplete<?php echo $id; ?>").val(ui.item.identification);
+                $("#videoAutocomplete<?php echo $id; ?>").val(ui.item.title);
                 $("#<?php echo $id; ?>").val(ui.item.id);
                 var photoURL = webSiteRootURL + 'img/notfound.jpg'
                 if (ui.item.videosURL.jpg.url) {

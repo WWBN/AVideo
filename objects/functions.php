@@ -6075,7 +6075,9 @@ function getRowCount($default = 1000) {
 }
 
 function setRowCount($rowCount) {
+    global $global;
     $_REQUEST['rowCount'] = intval($rowCount);
+    $global['rowCount'] = $_REQUEST['rowCount'];
 }
 
 function getSearchVar() {
