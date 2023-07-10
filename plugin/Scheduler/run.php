@@ -57,3 +57,23 @@ include $global['systemRootPath'] . 'plugin/Scheduler/watchDog.php';
 Scheduler::sendEmails();
 
 AVideoPlugin::executeEveryMinute();
+
+// This script runs every minute
+$current_minute = date('i'); // Get the current minute (00-59)
+$current_hour = date('G'); // Get the current hour (0-23, 24-hour format)
+$current_day = date('j'); // Get the current day of the month (1-31)
+
+// Block to execute every hour
+if ($current_minute == '00') {
+    AVideoPlugin::executeEveryHour();
+}
+
+// Block to execute every day (at midnight)
+if ($current_hour == '0' && $current_minute == '00') {
+    AVideoPlugin::executeEveryDay();
+}
+
+// Block to execute every month (at midnight)
+if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
+    AVideoPlugin::executeEveryMonth();
+}
