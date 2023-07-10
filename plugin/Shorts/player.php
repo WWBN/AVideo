@@ -316,7 +316,7 @@ if ($removeAnimation) {
             initialIndex: initialIndex,
             bgLazyLoad: true
         });
-        $carousel.on( 'dragStart.flickity', function( event, pointer ) {            
+        $carouselPlayer.on( 'dragStart.flickity', function( event, pointer ) {            
             if (typeof currentCell != 'undefined') {
                 currentCell.html('');
             }
