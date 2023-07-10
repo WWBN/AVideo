@@ -316,6 +316,11 @@ if ($removeAnimation) {
             initialIndex: initialIndex,
             bgLazyLoad: true
         });
+        $carousel.on( 'dragStart.flickity', function( event, pointer ) {            
+            if (typeof currentCell != 'undefined') {
+                currentCell.html('');
+            }
+        });
         $carouselPlayer.on('scroll.flickity', function (event, progress) {
             if (progress > 0.7) {
                 loadShorts();
@@ -330,15 +335,11 @@ if ($removeAnimation) {
             if (timeoutId !== null) {
                 clearTimeout(timeoutId);
             }
-            
-            if (typeof currentCell != 'undefined') {
-                currentCell.html('');
-            }
             timeoutId = setTimeout(function () {
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
                 if(currentShortsPlayerIndex == index2){
                     console.log('Flickity settled canceled ', index2, currentShortsPlayerIndex);
-                    return false;
+                    //return false;
                 }
                 currentShortsPlayerIndex = index2;
                 currentCarouselPlayerVideo = shortVideos[index2];
