@@ -17,6 +17,7 @@ class Menu extends ObjectYPT {
     static $typeMobileLeftMenu = 9;
     static $typeMobileTabMenuInABrowser = 10;
     static $typeMobileLeftMenuInABrowser = 11;
+    static $typeFloatMenu = 12;
     
     static $typeName = array(
         1=>'Left', 
@@ -29,7 +30,8 @@ class Menu extends ObjectYPT {
         8=>'Mobile Tab Menu',
         9=>'Mobile Left Menu',
         10=>'Mobile Tab Menu in a Browser',
-        11=>'Mobile Left Menu in a Browser');
+        11=>'Mobile Left Menu in a Browser',
+        12=>'Float Menu');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 
