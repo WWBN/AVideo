@@ -750,6 +750,18 @@ abstract class PluginAbstract {
     function executeEveryMinute() {
         
     }
+    
+    function executeEveryHour() {
+        
+    }
+    
+    function executeEveryDay() {
+        
+    }
+    
+    function executeEveryMonth() {
+        
+    }
 
     /**
      * @param type $file = [
