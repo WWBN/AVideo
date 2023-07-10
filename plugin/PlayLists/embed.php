@@ -240,6 +240,7 @@ PlayerSkins::getStartPlayerJS($str);
         //$jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
         //$jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
         $jsFiles[] = "view/js/script.js";
+        $jsFiles[] = "view/js/addView.js";
         $jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
         //$jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
         $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
