@@ -503,134 +503,6 @@ function isMobile() {
     return check;
 }
 
-var last_videos_id = 0;
-var last_currentTime = -1;
-var videoViewAdded = false;
-var addViewBeaconTimeout;
-var _addViewCheck = false;
-function addView(videos_id, currentTime) {
-    addViewSetCookie(PHPSESSID, videos_id, currentTime, seconds_watching_video);
-    if (_addViewCheck) {
-        return false;
-    }
-    if (last_videos_id == videos_id && last_currentTime == currentTime) {
-        return false;
-    }
-    if (currentTime > 5 && currentTime % 30 !== 0) { // only update each 30 seconds
-        return false;
-    }
-    _addViewCheck = true;
-    last_videos_id = videos_id;
-    last_currentTime = currentTime;
-    _addView(videos_id, currentTime, seconds_watching_video);
-    setTimeout(function () {
-        _addViewCheck = false
-    }, 1000);
-    return true;
-}
-
-var isVideoAddViewCount = false;
-function _addView(videos_id, currentTime, seconds_watching_video) {
-    if (isVideoAddViewCount) {
-        return false;
-    }
-    isVideoAddViewCount = true;
-    if (typeof PHPSESSID == 'undefined') {
-        PHPSESSID = '';
-    }
-    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    if (empty(PHPSESSID)) {
-        return false;
-    }
-    url = addGetParam(url, 'PHPSESSID', PHPSESSID);
-    //console.log('_addView', videos_id, currentTime);
-    $.ajax({
-        url: url,
-        method: 'POST',
-        data: {
-            id: videos_id,
-            currentTime: currentTime,
-            seconds_watching_video: seconds_watching_video
-        },
-        success: function (response) {
-            isVideoAddViewCount = false;
-            $('.view-count' + videos_id).text(response.countHTML);
-        }
-    });
-}
-
-var _addViewAsyncSent = false;
-function _addViewAsync() {
-    if (_addViewAsyncSent || typeof webSiteRootURL == 'undefined' || typeof player == 'undefined') {
-        return false;
-    }
-    if (typeof PHPSESSID == 'undefined') {
-        PHPSESSID = '';
-    }
-    //console.log('_addViewAsync', mediaId, playerCurrentTime);
-    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    url = addGetParam(url, 'PHPSESSID', PHPSESSID);
-    _addViewAsyncSent = true;
-    _addView(mediaId, playerCurrentTime, seconds_watching_video);
-    setTimeout(function () {
-        _addViewAsyncSent = false;
-    }, 2000);
-}
-
-var _addViewFromCookie_addingtime = false;
-async function addViewFromCookie() {
-    if (typeof webSiteRootURL == 'undefined') {
-        return false;
-    }
-    if (_addViewFromCookie_addingtime) {
-        return false;
-    }
-    _addViewFromCookie_addingtime = true;
-    var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
-    var addView_videos_id = Cookies.get('addView_videos_id');
-    var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
-    var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
-    if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
-        !addView_videos_id || addView_videos_id === 'false' ||
-        !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
-        !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
-        return false;
-    }
-    //console.log('addViewFromCookie', addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
-    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
-    if (mediaId == addView_videos_id) {
-        // it is the same video, play at the last moment
-        forceCurrentTime = addView_playerCurrentTime;
-    }
-
-    _addView(addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video)
-    setTimeout(function () {
-        _addViewFromCookie_addingtime = false;
-    }, 2000);
-    addViewSetCookie(false, false, false, false);
-
-}
-
-async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
-    ////console.log('addViewSetCookie', videos_id, playerCurrentTime, seconds_watching_video, new Error().stack);
-    Cookies.set('addView_PHPSESSID', PHPSESSID, {
-        path: '/',
-        expires: 1
-    });
-    Cookies.set('addView_videos_id', videos_id, {
-        path: '/',
-        expires: 1
-    });
-    Cookies.set('addView_playerCurrentTime', playerCurrentTime, {
-        path: '/',
-        expires: 1
-    });
-    Cookies.set('addView_seconds_watching_video', seconds_watching_video, {
-        path: '/',
-        expires: 1
-    });
-}
 
 function getPlayerButtonIndex(name) {
     var children = player.getChild('controlBar').children();
@@ -2364,6 +2236,9 @@ function changeVideoStatus(videos_id, status) {
 }
 
 function avideoAjax(url, data) {
+    if (!url.startsWith('http')) {
+        url = webSiteRootURL + url;
+    }
     avideoAjax2(url, data, true);
 }
 
@@ -2405,15 +2280,6 @@ function isPlayerUserActive() {
     return $('#mainVideo').hasClass("vjs-user-active");
 }
 
-eventer('beforeunload', function (e) {
-    ////console.log('window.addEventListener(beforeunload');
-    _addViewAsync();
-}, false);
-eventer('visibilitychange', function () {
-    if (document.visibilityState === 'hidden') {
-        _addViewAsync();
-    }
-});
 function socketClearSessionCache(json) {
     //console.log('socketClearSessionCache', json);
     clearCache(false, 0, 1);
@@ -2957,7 +2823,6 @@ function getPleaseWait() {
 
 $(document).ready(function () {
     getServerTime();
-    addViewFromCookie();
     checkDescriptionArea();
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
