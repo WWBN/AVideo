@@ -54,12 +54,27 @@ class VideosStatistics extends PluginAbstract {
           $o->value = "";
           $obj->textareaSample = $o;
          */
+        $o = new stdClass();
+        $o->type = array(
+            0=>'Do not delete', 
+            7=>'Delete records older than 1 week', 
+            30=>'Delete records older than 1 month', 
+        );
+        for ($i=60; $i < 365; $i+=60) { 
+            $o->type[$i] = "Delete records older than ".($i/30)." months";
+        }
+        $o->value = 60;
+        $obj->autoCleanStatisticsTable = $o;
+        self::addDataObjectHelper('autoCleanStatisticsTable', 'Auto clean statistics table', 'This option is good to speed up your page');
+        
         return $obj;
     }
 
     public function getPluginMenu() {
         global $global;
-        return '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/VideosStatistics/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
+        $btn = '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/VideosStatistics/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
+        $btn .= '<button onclick="avideoAjax(webSiteRootURL+\'plugin/VideosStatistics/autoclean.json.php\')" class="btn btn-danger btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Clean Old Records</button>';
+        return $btn;
     }
 
     static public function getTotalVideos($users_id) {
@@ -337,4 +352,18 @@ class VideosStatistics extends PluginAbstract {
         return $fullData;
     }
 
+    function executeEveryDay() {
+        self::autoCleanStatisticsTable();
+    }
+
+    static function autoCleanStatisticsTable(){
+        $obj = AVideoPlugin::getDataObject('VideosStatistics');
+        if(!empty($obj->autoCleanStatisticsTable)){
+            $interval = intval($obj->autoCleanStatisticsTable->value);
+            $sql = "DELETE FROM videos_statistics
+            WHERE created < NOW() - INTERVAL {$interval} DAY;";
+            return sqlDAL::writeSql($sql);
+        }
+        return false;
+    }
 }
