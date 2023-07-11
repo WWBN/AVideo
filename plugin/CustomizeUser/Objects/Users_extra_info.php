@@ -101,6 +101,14 @@ class Users_extra_info extends ObjectYPT {
         $this->order = intval($order);
     }
 
+    function getDisplay() {
+        return $this->display;
+    }
+
+    function setDisplay($display) {
+        $this->display = $display;
+    }
+
     public static function getTypesOptionArray() {
         return ['input' => 'Text', 'number' => 'Number', 'select' => 'Predefined options (select one)', 'textarea' => 'Textarea'];
     }
@@ -196,7 +204,7 @@ class Users_extra_info extends ObjectYPT {
         return !self::isAllUserField($status);
     }
 
-    public static function getAllActive($users_id = 0, $includeCompany = false) {
+    public static function getAllActive($users_id = 0, $includeCompany = false, $display = null) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -210,7 +218,11 @@ class Users_extra_info extends ObjectYPT {
 
         $statusList = self::getActiveStatusList($includeCompany);
 
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status IN ('" . implode("','", $statusList) . "') ORDER BY `order` ASC ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status IN ('" . implode("','", $statusList) . "')";
+        if ($display != null) {
+            $sql .= " AND display = {$display} OR display = 2";
+        }
+        $sql .= " ORDER BY `order` ASC ";
         //var_dump($includeCompany, $sql);
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -261,6 +273,57 @@ class Users_extra_info extends ObjectYPT {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+
+    static function typeToHTMLSignup($row) {
+        $html = "";
+        if(isset($row['value'])){
+            $row['field_default_value'] = $row['value'];
+        }
+        if ($row['field_type'] == 'input') {
+            $html .= "<label class='col-sm-4 control-label hidden-xs' for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
+            $html .= '<div class="col-sm-8 inputGroupContainer">
+                         <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>';
+            $html .= "<input type=\"text\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
+                    . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" value=\"{$row['field_default_value']}\">";
+            $html .= '</div></div>';
+        } else if ($row['field_type'] == 'number') {
+            $html .= "<label class='col-sm-4 control-label hidden-xs' for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
+            $html .= '<div class="col-sm-8 inputGroupContainer">
+                         <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>';
+            $html .= "<input type=\"number\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
+                    . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" value=\"{$row['field_default_value']}\">";
+            $html .= '</div></div>';
+        } else if ($row['field_type'] == 'select') {
+            $html = "<label class='col-sm-4 control-label hidden-xs' for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}:</label>";
+            $html .= '<div class="col-sm-8 inputGroupContainer">
+                         <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>';
+            $html .= "<select class=\"form-control input-sm usersExtraInfoInput\" name=\"usersExtraInfo[{$row['id']}]\" id=\"usersExtraInfo_{$row['id']}\">";
+            
+            foreach (preg_split("/((\r?\n)|(\r\n?))/", $row['field_options']) as $line) {
+                $line = trim($line);
+                if (empty($line)) {
+                    continue;
+                }
+                $selected = "";
+                if ($line == $row['field_default_value']) {
+                    $selected = "selected";
+                }
+                $html .= "<option {$selected}>" . htmlentities($line) . "</option>";
+            }
+            $html .= "</select>";
+            $html .= '</div></div>';
+        } else if ($row['field_type'] == 'textarea') {
+            $html .= "<label class='col-sm-4 control-label hidden-xs' for=\"usersExtraInfo_{$row['id']}\">{$row['field_name']}</label>";
+            $html .= '<div class="col-sm-8 inputGroupContainer">';
+            $html .= "<textarea type=\"text\" id=\"usersExtraInfo_{$row['id']}\" name=\"usersExtraInfo[{$row['id']}]\" "
+                    . "class=\"form-control input-sm usersExtraInfoInput\" placeholder=\"{$row['field_name']}\" rows=\"6\">{$row['field_default_value']}</textarea>";
+            $html .= '</div>';
+        }
+        return $html;
     }
 
 }

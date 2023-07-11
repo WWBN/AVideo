@@ -128,7 +128,7 @@ if (!User::canUpload()) {
                         var row_index = $(this).closest('tr').index();
                         var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                         console.log(row);
-                        _subscribe(row.email, row.users_id, row.id);
+                        _subscribe(row.email, row.subscriber_id, row.id); // row.email, row.users_id, row.id
                     });
                 });
                 $("#sendSubscribeBtn").click(function () {

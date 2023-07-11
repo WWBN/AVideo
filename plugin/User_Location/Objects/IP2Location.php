@@ -234,4 +234,23 @@ class IP2Location extends ObjectYPT {
         return $countries;
     }
 
+    static function getCountries2() {
+        global $global;
+
+        $sql = "SELECT distinct(country_name) as country_name, country_code FROM  " . static::getTableName() . " WHERE country_name != '-' ORDER BY country_name";
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = array();
+        if ($res != false) {
+            foreach ($fullData as $row) {
+                $rows[$row['country_code']] = $row['country_name'];
+            }
+        } else {
+            return array();
+        }
+
+        return $rows;
+    }
+
 }

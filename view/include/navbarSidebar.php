@@ -586,9 +586,10 @@
             if (AVideoPlugin::loadPluginIfEnabled("TopMenu")) {
             ?>
                 <li>
-                    <a><?= TopMenu::getHTMLMenuLeftCustomPosition(); ?></a>
+                    <a><?= TopMenu::getHTMLMenuLeft(); ?></a>
                 </li>
-            <?php }
+            <?php 
+            }
             ?>
         </ul>
     </div>

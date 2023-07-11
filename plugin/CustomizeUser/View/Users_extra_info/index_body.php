@@ -60,13 +60,21 @@ if (!User::isAdmin()) {
                                     <input type="text" id="Users_extra_infofield_default_value" name="field_default_value" class="form-control input-sm" placeholder="<?php echo __("Field Default Value"); ?>">
                                 </div>
                                 <div class="form-group col-sm-6">
-                                    <label for="status"><?php echo __("Status"); ?>:</label>
+                                    <label for="Users_extra_infostatus"><?php echo __("Status"); ?>:</label>
                                     <select class="form-control input-sm" name="status" id="Users_extra_infostatus">
                                         <?php
                                         foreach (Users_extra_info::$status_options as $key => $value) {
                                             echo '<option value="' . $key . '">' . __($value) . '</option>';
                                         }
                                         ?>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="Users_extra_infodisplay"><?php echo __("Display"); ?>:</label>
+                                    <select class="form-control input-sm" name="display" id="Users_extra_infodisplay">
+                                        <option value="0"><?php echo __("Extra Info"); ?></option>
+                                        <option value="1"><?php echo __("Sign Up"); ?></option>
+                                        <option value="2"><?php echo __("Both"); ?></option>
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-12" style="display: none;">
@@ -96,6 +104,7 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Field Type"); ?></th>
                                     <th><?php echo __("Field Options"); ?></th>
                                     <th><?php echo __("Field Default Value"); ?></th>
+                                    <th><?php echo __("Display"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
                                     <th><?php echo __("Order"); ?></th>
                                     <th></th>
@@ -108,6 +117,7 @@ if (!User::isAdmin()) {
                                     <th><?php echo __("Field Type"); ?></th>
                                     <th><?php echo __("Field Options"); ?></th>
                                     <th><?php echo __("Field Default Value"); ?></th>
+                                    <th><?php echo __("Display"); ?></th>
                                     <th><?php echo __("Status"); ?></th>
                                     <th><?php echo __("Order"); ?></th>
                                     <th></th>
@@ -142,6 +152,7 @@ if (!User::isAdmin()) {
         $('#Users_extra_infoparameters').val('');
         $('#Users_extra_infostatus').val('');
         $('#Users_extra_infoorder').val(0);
+        $('#Users_extra_infodisplay').val(0).trigger('change');
     }
     $(document).ready(function () {
         $('#Users_extra_infofield_type').change(function () {
@@ -177,6 +188,19 @@ if (!User::isAdmin()) {
                 {"data": "field_type"},
                 {"data": "field_options"},
                 {"data": "field_default_value"},
+                {"data": null, 
+                    render: function(row) {
+                        var display = "";
+                        if (row.display == 0) { // Extra Info
+                            display = "<?php echo __("Extra Info") ?>";
+                        } else if (row.display == 1) { // Sign up
+                            display = "<?php echo __("Sign Up") ?>";
+                        } else { // Both
+                            display = "<?php echo __("Both") ?>";
+                        }
+                        return display;
+                    }
+                },
                 {"data": "status",
                     "render": function (data, type, row, meta) {
                         return row.status_description;
@@ -209,6 +233,7 @@ if (!User::isAdmin()) {
                         avideoToast("<?php echo __("Your register has been saved!"); ?>");
                         $("#panelUsers_extra_infoForm").trigger("reset");
                     }
+                    clearUsers_extra_infoForm();
                     Users_extra_infotableVar.ajax.reload();
                     $('#Users_extra_infoid').val('');
                     modal.hidePleaseWait();
@@ -259,6 +284,7 @@ if (!User::isAdmin()) {
             $('#Users_extra_infoparameters').val(data.parameters);
             $('#Users_extra_infostatus').val(data.status);
             $('#Users_extra_infoorder').val(data.order);
+            $('#Users_extra_infodisplay').val(data.display).trigger('change');
         });
     });
 </script>

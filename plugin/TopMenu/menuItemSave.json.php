@@ -22,11 +22,19 @@ $menu->setStatus($_POST['item_status']);
 $menu->setText($_POST['text']);
 $menu->setTitle($_POST['title']);
 $menu->setUrl($_POST['url']);
-$menu->setIcon($_POST['icon']);
+// $menu->setIcon($_POST['icon']);
 $menu->setMenuSeoUrlItem($_POST['menuSeoUrlItem']);
+$menu->setTarget($_POST['target']);
+$menu->setIconType($_POST['icon_type']);
 
-if(!empty($_POST['mobileicon'])){
+if (!empty($_POST['mobileicon'])) {
     $menu->setIcon($_POST['mobileicon']);
+} else {
+    if ($_POST['icon_type'] == 1) {
+        $menu->setIcon($_POST['icon']);
+    } else {
+        $menu->setUrlIcon($_POST['url_icon']);
+    }
 }
 
 $obj->error = $menu->save();

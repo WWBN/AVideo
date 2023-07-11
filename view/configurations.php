@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 require_once $global['systemRootPath'] . 'admin/functions.php';
 
 if (!User::isAdmin()) {
-    forbiddenPage('');
+    forbiddenPage(__("You can not manage to do this")); //forbiddenPage('');
 }
 
 //var_dump($config);exit;

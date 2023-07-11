@@ -1,6 +1,6 @@
 <?php
 require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_extra_info.php';
-$rows = Users_extra_info::getAllActive(User::getId());
+$rows = Users_extra_info::getAllActive(User::getId(), false, 0);
 
 ?>
 <div id="<?php echo $tabId; ?>" class="tab-pane fade in" style="padding: 10px 0;">

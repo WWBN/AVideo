@@ -36,10 +36,18 @@ foreach ($menu as $key => $value) {
                 <li  style="margin-right: 0;">
                     <a  href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> >
                         <?php
-                        if (!empty($value2['icon'])) {
+                        if ($value2['icon_type'] == 1) {
+                            if (!empty($value2['icon'])) {
                             ?>
-                            <i class="<?php echo $value2['icon'] ?>"></i> 
+                                <i class="<?php echo $value2['icon'] ?>"></i> 
                             <?php
+                            }
+                        } else {
+                            if (!empty($value2['url_icon'])) {
+                            ?>
+                                <img src="<?php echo $value2['url_icon'] ?>" onerror="this.src='<?= $global['webSiteRootURL'] ?>view/img/favicon.png'" style="height:25px; width:25px;">
+                            <?php
+                            }
                         }
                         ?>
                         <?php echo __($value2['title']); ?>

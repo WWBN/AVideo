@@ -23,6 +23,7 @@ $o->setField_default_value($_POST['field_default_value']);
 $o->setParameters($_POST['parameters']);
 $o->setStatus($_POST['status']);
 $o->setOrder($_POST['order']);
+$o->setDisplay($_POST['display']);
 
 if ($id = $o->save()) {
     $obj->error = false;

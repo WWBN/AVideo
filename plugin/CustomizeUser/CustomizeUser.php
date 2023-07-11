@@ -164,6 +164,8 @@ class CustomizeUser extends PluginAbstract
         $obj->Checkmark2HTML = '<i class="fas fa-shield-alt" data-toggle="tooltip" data-placement="bottom" title="Official User"></i>';
         $obj->Checkmark3Enabled = true;
         $obj->Checkmark3HTML = '<i class="fas fa-certificate fa-spin" data-toggle="tooltip" data-placement="bottom" title="Premium User"></i>';
+        $obj->Checkmark4Enabled = true;
+        $obj->Checkmark4HTML = '<label class="label label-success" style="border-radius:10px">DEMO</label>';
 
         $obj->autoSaveUsersOnCategorySelectedGroups = false;
         self::addDataObjectHelper('autoSaveUsersOnCategorySelectedGroups', 'Auto save new videos on category selected User Groups', 'Edit this plugin to select the user groups per category');
@@ -234,6 +236,9 @@ class CustomizeUser extends PluginAbstract
         }
         if ($obj->Checkmark3Enabled) {
             $userOptions["Checkmark 3"] = "checkmark3";
+        }
+        if ($obj->Checkmark4Enabled) {
+            $userOptions["Checkmark 4"] = "checkmark4";
         }
         return $userOptions;
     }

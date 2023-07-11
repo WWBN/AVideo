@@ -92,6 +92,7 @@ Best regards,
             // create the log
             self::createLog($users_id);
         }
+        self::setUser2FA($users_id);
         // check if the user confirmed this device before
         if (!self::ignore2FA($users_id) && self::is2FAEnabled($users_id) && !self::is2FAConfirmed($users_id)) {
             header('Content-Type: application/json');
