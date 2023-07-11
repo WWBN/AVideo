@@ -2492,6 +2492,73 @@ class API extends PluginAbstract {
         return new ApiObject("", false, $roku);
     }
 
+    /**
+     * @param array $parameters
+     * 
+     * Generates a one-time login code for a specific user.
+     * The function takes username and password as parameters and creates a unique login code. 
+     * This code is then saved into a log file within a specified directory. The code along with user details is encrypted before storing.
+     * 
+     * ['user' username of the user]
+     * ['pass' password  of the user]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
+     * @return \ApiObject Returns an ApiObject containing the encrypted user information, including the generated code.
+     */
+    public function set_api_login_code($parameters) {
+        global $global, $config;
+        $code = getRandomCode();
+        $obj = array(
+            'username'=>User::getUserName(),
+            'users_id'=>User::getId(),
+            'code'=>$code,
+        );
+        
+        $path = getTmpDir('loginCodes');
+        make_path($path);
+        $filename = "{$path}{$code}.log";
+        //$obj['filename'] = $filename;
+        $obj['bytes'] = file_put_contents($filename, encryptString(json_encode($obj)));
+
+        return new ApiObject("", !User::isLogged(), $obj);
+    }
+
+    /**
+     * @param array $parameters
+     * 
+     * Verifies a one-time login code.
+     * The function takes the one-time login code as a parameter. It then fetches and decrypts the associated user information from the log file.
+     * If the file or the code does not exist, or the decrypted information is empty, it returns a message indicating the error.
+     *
+     * 'code' The one-time login code generated in the set_api_login_code function.
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
+     * @return \ApiObject Returns an ApiObject containing the decrypted user information, or a message indicating the error.
+     */
+    public function get_api_login_code($parameters) {
+        global $global, $config;
+        $msg = '';
+        $obj = false;
+        if(!empty($parameters['code'])){
+            $path = getTmpDir('loginCodes');
+            $filename = "{$path}{$parameters['code']}.log";
+            if(file_exists($filename)){
+                $content = file_get_contents($filename);
+                unlink($filename);
+                $string = decryptString($content);
+                if(!empty($string)){
+                    $obj = json_decode($string);
+                }else{            
+                    $msg = 'Code is corrupted';
+                }
+            }else{            
+                $msg = 'Code not found';
+            }
+        }else{            
+            $msg = 'You need to provide a code';
+        }
+
+        return new ApiObject($msg, empty($obj), $obj);
+    }
+
     public static function isAPISecretValid() {
         global $global;
         if (!empty($_REQUEST['APISecret'])) {

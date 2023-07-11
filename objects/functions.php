@@ -10803,3 +10803,18 @@ function canAdminUsers() {
     }
     return false;
 }
+
+function getRandomCode() {
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $max = strlen($characters) - 1;
+    $char1 = $characters[rand(0, $max)];
+    $char2 = $characters[rand(0, $max)];
+    $char3 = $characters[rand(0, $max)];
+    $uniqueId = uniqid();
+    $uniquePart1 = str_pad(base_convert(substr($uniqueId, -5), 16, 36), 4, $char1, STR_PAD_LEFT);
+    $uniquePart2 = str_pad(base_convert(substr($uniqueId, 4, 4), 16, 36), 4, $char2, STR_PAD_LEFT);
+    $uniquePart3 = str_pad(base_convert(substr($uniqueId, 0, 4), 16, 36), 4, $char3, STR_PAD_LEFT);
+    $code = strtoupper("{$uniquePart2}-{$uniquePart1}");
+    return $code;
+}
+

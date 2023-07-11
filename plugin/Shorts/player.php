@@ -128,30 +128,27 @@ if ($removeAnimation) {
         background: rgba(255, 255, 255, 0.85);
         box-shadow: 0 0 0 5px #19f;
     }
-
-    .circleCarouselBtn.active i {
+    .circleCarouselBtn.active i{
         color: #111
     }
 
-    #buttonsCarousel {
+    #buttonsCarousel{
         position: fixed;
         z-index: 9999;
         right: 10px;
         bottom: 70px;
     }
-
-    #closeCarousel {
+    #closeCarousel{
         position: fixed;
         z-index: 9999;
         right: 10px;
         top: 10px;
     }
 
-    #buttonsCarousel .circleCarouselBtn {
+    #buttonsCarousel .circleCarouselBtn{
         position: relative;
     }
-
-    .circleCarouselBtn .votes {
+    .circleCarouselBtn .votes{
         position: absolute;
         top: -5px;
         left: -5px;
@@ -159,14 +156,14 @@ if ($removeAnimation) {
 </style>
 <div style="display: none;" class="<?php echo $class; ?>" id="ShortsPlayerContent">
     <div class="carousel" id="ShortsPlayer"></div>
-    <button id="closeCarousel" class="circleCarouselBtn">
+    <button id="closeCarousel" class="circleCarouselBtn" >
         <i class="fas fa-times"></i>
     </button>
     <div id="buttonsCarousel">
         <?php
         if (empty($advancedCustom->removeThumbsUpAndDown)) {
-        ?>
-            <button id="likeCarousel" class="circleCarouselBtn" onclick="carouselPlayerLike()">
+            ?>
+            <button id="likeCarousel" class="circleCarouselBtn" onclick="carouselPlayerLike()" >
                 <i class="fas fa-thumbs-up"></i>
                 <br>
                 <span class="votes badge"></span>
@@ -176,80 +173,44 @@ if ($removeAnimation) {
                 <br>
                 <span class="votes badge"></span>
             </button>
-        <?php
+            <?php
         }
         if (isShareEnabled()) {
-        ?>
-            <button id="shareCarousel" class="circleCarouselBtn" onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');">
+            ?>
+            <button id="shareCarousel" class="circleCarouselBtn"
+                    onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');" >
                 <i class="fas fa-share"></i>
             </button>
-        <?php
+            <?php
         }
         if (User::canComment() && false) {
-        ?>
+            ?>
             <button id="commentCarousel" class="circleCarouselBtn">
                 <i class="fas fa-comment"></i>
             </button>
-        <?php
+            <?php
         }
         ?>
     </div>
 </div>
 <script>
-    Flickity.prototype.dragMove = function(event, pointer, moveVector) {
-        console.log('jsut drag')
-        if (!this.isDraggable) {
-            return
-        }
-
-        event.preventDefault()
-
-        this.previousDragX = this.dragX
-        // reverse if right-to-left
-        var direction = this.options.rightToLeft ? -1 : 1
-        if (this.options.wrapAround) {
-            // wrap around move. #589
-            moveVector.x = moveVector.x % this.slideableWidth
-        }
-        var dragX = this.dragStartPosition + moveVector.x * direction
-
-        var originBound = Math.max(-this.slides[0].target, this.dragStartPosition)
-
-        var endBound = Math.min(
-            -this.getLastSlide().target,
-            this.dragStartPosition
-        )
-
-        if (dragX > originBound) {
-            dragX = originBound
-        }
-
-        if (dragX < endBound) {
-            dragX = endBound
-        }
-
-        this.dragX = dragX
-
-        this.dragMoveTime = new Date()
-        this.dispatchEvent('dragMove', event, [pointer, moveVector])
-    }
     var currentCell;
     var shortIsOpen = false;
     var currentCarouselPlayerVideo;
 
     function carouselPlayerGetLikes() {
-        if (shortIsOpen) {
+        if(shortIsOpen){
             var videos_id = currentCarouselPlayerVideo.id;
             var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=likes&videos_id=' + videos_id;
             console.log('carouselPlayerGetLikes', url);
             carouselPlayerResetLikesResponse();
             $.ajax({
                 url: url,
-                success: function(response) {
+                success: function (response) {
                     carouselPlayerProcessLikesResponse(response)
                 }
             });
-        } else {
+        }else{
             console.log('carouselPlayerGetLikes else', shortIsOpen);
         }
     }
@@ -272,7 +233,6 @@ if ($removeAnimation) {
             }
         }
     }
-
     function carouselPlayerResetLikesResponse() {
         $('#likeCarousel .votes').text(0);
         $('#dislikeCarousel .votes').text(0);
@@ -282,13 +242,11 @@ if ($removeAnimation) {
     function carouselPlayerLike() {
         carouselPlayerLikeDislike('like');
     }
-
     function carouselPlayerDislike() {
         carouselPlayerLikeDislike('dislike');
     }
-
     function carouselPlayerLikeDislike(APIName) {
-        if (shortIsOpen) {
+        if(shortIsOpen){
             modal.showPleaseWait();
             console.log('currentCarouselPlayerVideo', currentCarouselPlayerVideo);
             var videos_id = currentCarouselPlayerVideo.id;
@@ -296,10 +254,10 @@ if ($removeAnimation) {
 
             $.ajax({
                 url: url,
-                success: function(response) {
+                success: function (response) {
                     carouselPlayerProcessLikesResponse(response)
                 },
-                complete: function(response) {
+                complete: function (response) {
                     modal.hidePleaseWait();
                 }
             });
@@ -309,7 +267,7 @@ if ($removeAnimation) {
     function shortsOpen(index) {
         shortIsOpen = true;
         $('body').addClass('playingShorts');
-        <?php echo $shortsOpen; ?>
+<?php echo $shortsOpen; ?>
         console.log('shortsPlay', index);
         $('#ShortsPlayerContent').show();
         $('#ShortsPlayer').flickity('destroy');
@@ -321,7 +279,7 @@ if ($removeAnimation) {
     function shortsClose() {
         shortIsOpen = false;
         $('body').removeClass('playingShorts');
-        <?php echo $shortsClose; ?>
+<?php echo $shortsClose; ?>
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
@@ -332,23 +290,22 @@ if ($removeAnimation) {
         var $carouselPlayer = $('#ShortsPlayer');
         var newCarouselCell = $('<div>').addClass('carousel-cell');
         var newCarouselCellContent = $('<div>')
-            .addClass('carousel-cell-content')
-            .attr('data-flickity-bg-lazyload', video.images.poster);
+                .addClass('carousel-cell-content')
+                .attr('data-flickity-bg-lazyload', video.images.poster);
         newCarouselCellContent.append($('<strong>').text(video.title));
         newCarouselCell.append(newCarouselCellContent);
         $carouselPlayer.flickity('append', newCarouselCell);
     }
 
-    function resetPlayerFlickity() {
+    function resetPlayerFlickity(){
         isSettling = false;
-        timeoutId = null;
+        timeoutId = null; 
     }
 
     var isSettling = false;
     var timeoutId = null;
     var iframe;
     var currentShortsPlayerIndex = -1;
-
     function createShortsPlayerFlickity(initialIndex) {
         var $carouselPlayer = $('#ShortsPlayer');
 
@@ -359,12 +316,12 @@ if ($removeAnimation) {
             initialIndex: initialIndex,
             bgLazyLoad: true
         });
-        $carouselPlayer.on('scroll.flickity', function(event, progress) {
+        $carouselPlayer.on('scroll.flickity', function (event, progress) {
             if (progress > 0.7) {
                 loadShorts();
             }
         });
-        $carouselPlayer.on('settle.flickity', function(event, index) {
+        $carouselPlayer.on('settle.flickity', function (event, index) {
             if (isSettling) {
                 return;
             }
@@ -373,13 +330,13 @@ if ($removeAnimation) {
             if (timeoutId !== null) {
                 clearTimeout(timeoutId);
             }
-
+            
             if (typeof currentCell != 'undefined') {
                 currentCell.html('');
             }
-            timeoutId = setTimeout(function() {
+            timeoutId = setTimeout(function () {
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
-                if (currentShortsPlayerIndex == index2) {
+                if(currentShortsPlayerIndex == index2){
                     console.log('Flickity settled canceled ', index2, currentShortsPlayerIndex);
                     return false;
                 }
@@ -402,7 +359,7 @@ if ($removeAnimation) {
                 var overlay = $('<div/>', {
                     // The attributes for the overlay
                     class: 'ShortsPlayerOverlay',
-                    click: function() {
+                    click: function () {
                         $(this).hide();
                     }
                 });
@@ -414,22 +371,22 @@ if ($removeAnimation) {
             resetPlayerFlickity(); // reset the timeoutId
         });
 
-        $carouselPlayer.on('change.flickity', function(event, index) {
+        $carouselPlayer.on('change.flickity', function (event, index) {
             console.log('Slide changed to ' + index)
         });
 
-        $carouselPlayer.on('select.flickity', function(event, index) {
+        $carouselPlayer.on('select.flickity', function (event, index) {
             if (shortIsOpen) {
                 var browserWidth = $(window).width();
-                <?php
-                foreach ($totalFlickityCells as $key => $value) {
-                    if (empty($key)) {
-                        echo "var newIndex = Math.floor(index/{$value});";
-                    } else {
-                        echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
-                    }
-                }
-                ?>
+<?php
+foreach ($totalFlickityCells as $key => $value) {
+    if (empty($key)) {
+        echo "var newIndex = Math.floor(index/{$value});";
+    } else {
+        echo "if(browserWidth<{$key}){newIndex = Math.floor(index/{$value});}";
+    }
+}
+?>
                 $('#Shorts').flickity('select', newIndex);
                 console.log('Flickity select ' + index)
             }
@@ -438,9 +395,9 @@ if ($removeAnimation) {
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         createShortsPlayerFlickity();
-        $('#closeCarousel').on('click', function() {
+        $('#closeCarousel').on('click', function () {
             shortsClose();
         });
     });
