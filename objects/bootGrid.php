@@ -28,6 +28,8 @@ class BootGrid
                 }else 
                 if (strtoupper($value)==="IS NULL") {
                     $direction = "IS NULL";
+                }else if (strtoupper($value)==="IS NOT NULL DESC") {
+                    $direction = "IS NOT NULL DESC";
                 }
                 $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
                 if ($key=='order') {
