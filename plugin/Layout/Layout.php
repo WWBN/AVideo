@@ -585,6 +585,18 @@ class Layout extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
         return "updateUserAutocomplete{$id}();";
     }
+    
+    static function getVideoAutocomplete($default_videos_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
+    {
+        global $global;
+        $default_videos_id = intval($default_videos_id);
+        if (empty($id)) {
+            $id = 'getVideoAutocomplete_' . uniqid();
+        }
+        include $global['systemRootPath'] . 'plugin/Layout/videoAutocomplete.php';
+        return "updateVideoAutocomplete{$id}();";
+    }
+
 
     static function organizeHTML($html)
     {

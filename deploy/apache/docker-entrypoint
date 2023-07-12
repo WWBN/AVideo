@@ -137,6 +137,7 @@ echo "entrypoint -- Running reencodeAllVideos script..."
 cd /var/www/html/AVideo/Encoder/install && php reencodeAllVideos.php
 
 echo '127.0.0.1       vlu.me' >> /etc/hosts
+echo '127.0.0.1       www.vlu.me' >> /etc/hosts
 
 echo "entrypoint -- Starting cron service..."
 cron

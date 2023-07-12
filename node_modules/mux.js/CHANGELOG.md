@@ -1,3 +1,32 @@
+<a name="6.3.0"></a>
+# [6.3.0](https://github.com/videojs/mux.js/compare/v6.2.0...v6.3.0) (2023-02-22)
+
+### Features
+
+* support emsg box parsing ([2e77285](https://github.com/videojs/mux.js/commit/2e77285))
+
+### Bug Fixes
+
+* emsg ie11 test failures ([528e9ed](https://github.com/videojs/mux.js/commit/528e9ed))
+
+<a name="6.2.0"></a>
+# [6.2.0](https://github.com/videojs/mux.js/compare/v6.1.0...v6.2.0) (2022-07-08)
+
+### Features
+
+* add ID3 parsing for text, link, and APIC frames ([#412](https://github.com/videojs/mux.js/issues/412)) ([5454bdd](https://github.com/videojs/mux.js/commit/5454bdd))
+
+### Bug Fixes
+
+* replace indexOf with typedArrayIndexOf for IE11 support ([#417](https://github.com/videojs/mux.js/issues/417)) ([4e1b195](https://github.com/videojs/mux.js/commit/4e1b195))
+
+<a name="6.1.0"></a>
+# [6.1.0](https://github.com/videojs/mux.js/compare/v6.0.1...v6.1.0) (2022-05-26)
+
+### Features
+
+* send ID3 tag even when a frame has malformed content ([#408](https://github.com/videojs/mux.js/issues/408)) ([1da5d23](https://github.com/videojs/mux.js/commit/1da5d23))
+
 <a name="6.0.1"></a>
 ## [6.0.1](https://github.com/videojs/mux.js/compare/v6.0.0...v6.0.1) (2021-12-20)
 

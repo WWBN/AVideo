@@ -1,0 +1,15 @@
+.video-js {
+
+  /* This class is added to the video.js element by the plugin by default. */
+  & .vjs-seek-button {
+    cursor: pointer;
+
+    &.skip-back .vjs-icon-placeholder::before {
+      transform: rotate(-45deg);
+    }
+
+    &.skip-forward .vjs-icon-placeholder::before {
+      transform: scale(-1, 1) rotate(-45deg);
+    }
+  }
+}

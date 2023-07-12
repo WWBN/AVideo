@@ -242,6 +242,19 @@ export const parsers = {
   },
 
   /**
+   * Specifies the presentationTime.
+   *
+   * @param {string} value
+   *        value of the attribute as a string
+   *
+   * @return {number}
+   *         The parsed presentationTime
+   */
+  presentationTime(value) {
+    return parseInt(value, 10);
+  },
+
+  /**
    * Default parser for all other attributes. Acts as a no-op and just returns the value
    * as a string
    *

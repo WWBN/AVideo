@@ -186,6 +186,14 @@ if (!empty($_GET['iframe'])) {
                             </button>
                             <?php
                         }
+                        if (Permissions::canAdminVideos()) {
+                            ?>
+                            <button class="btn btn-sm btn-xs btn-default" onclick="avideoModalIframeFullScreen(webSiteRootURL+'view/managerVideosOrganize.php');">
+                                <i class="fas fa-sort-amount-up-alt"></i>
+                                <span class="hidden-md hidden-sm hidden-xs"><?php echo __("Sort Videos"); ?></span>
+                            </button>
+                            <?php
+                        }
                     }
                     ?>
                 </div>

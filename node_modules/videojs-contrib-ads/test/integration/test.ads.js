@@ -1011,3 +1011,34 @@ if (videojs.browser.IS_IOS) {
     this.player.addTextTrack('captions', 'English', 'en');
   });
 }
+
+QUnit.test('playback rate is always x1 during an ad break and the previous value when ad completes', function(assert) {
+  const preAdPlaybackRate = 4;
+
+  this.player.trigger('adsready');
+  this.player.trigger('play');
+  this.player.playbackRate(preAdPlaybackRate);
+  this.player.tech_.trigger('ratechange');
+  assert.strictEqual(this.player.playbackRate(), preAdPlaybackRate, `Playback rate is x${preAdPlaybackRate} before ad`);
+
+  this.player.ads.startLinearAdMode();
+  this.player.tech_.trigger('ratechange');
+  assert.strictEqual(this.player.playbackRate(), 1, 'Playback rate is x1 during ad playback');
+
+  this.player.ads.endLinearAdMode();
+  this.player.tech_.trigger('ratechange');
+  assert.strictEqual(this.player.playbackRate(), preAdPlaybackRate, 'Playback rate reset to previous value when ad finishes');
+});
+
+QUnit.test('playback rate menu is hidden during ad playback if playbackrate supported', function(assert) {
+  this.player.playbackRates([1, 2]);
+  assert.ok(this.player.controlBar.playbackRateMenuButton.playbackRateSupported());
+  this.player.trigger('adsready');
+  this.player.trigger('play');
+
+  this.player.ads.startLinearAdMode();
+  assert.ok(this.player.controlBar.playbackRateMenuButton.hasClass('vjs-hidden'), 'Playback rate menu is hidden during an ad');
+
+  this.player.ads.endLinearAdMode();
+  assert.notOk(this.player.controlBar.playbackRateMenuButton.hasClass('vjs-hidden'), 'Playback rate menu is shown when ad finishes');
+});

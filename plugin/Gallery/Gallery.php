@@ -74,6 +74,11 @@ class Gallery extends PluginAbstract
         $obj->Description = false;
         $obj->CategoryDescription = false;
 
+        $obj->Shorts = true;
+        $obj->ShortsCustomTitle = "";
+        $obj->ShortsRowCount = 12;
+        $obj->ShortsOrder = 1;
+
         $obj->Suggested = true;
         $obj->SuggestedCustomTitle = "";
         $obj->SuggestedRowCount = 12;

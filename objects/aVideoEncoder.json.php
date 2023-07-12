@@ -59,7 +59,7 @@ if (!empty($_REQUEST['videos_id']) && !Video::canEdit($_REQUEST['videos_id'])) {
 _error_log("aVideoEncoder.json: start to receive: " . json_encode($_REQUEST));
 
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", @$_REQUEST['videos_id']);
+$video = new Video("", "", @$_REQUEST['videos_id'], true);
 
 if (!empty($video->getId()) && !empty($_REQUEST['first_request'])) {
     _error_log("aVideoEncoder.json: There is a new video to replace the existing one, we will delete the current files videos_id = ".$video->getId());
@@ -199,7 +199,7 @@ if (!empty($_REQUEST['usergroups_id'])) {
 $obj->error = false;
 $obj->video_id = $video_id;
 
-$v = new Video('', '', $video_id);
+$v = new Video('', '', $video_id, true);
 $obj->video_id_hash = $v->getVideoIdHash();
 $obj->releaseDate = @$_REQUEST['releaseDate'];
 

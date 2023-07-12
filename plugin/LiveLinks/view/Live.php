@@ -174,7 +174,7 @@ if (isHTMLEmpty($sideAd)) {
 
                             <div class="row">
                                 <div class="col-md-12 watch8-action-buttons text-muted">
-                                    <?php if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) { ?>
+                                    <?php if (isShareEnabled()) { ?>
                                         <a href="#" class="btn btn-default no-outline" id="shareBtn">
                                             <span class="fa fa-share"></span> <?php echo __("Share"); ?>
                                         </a>
@@ -195,7 +195,7 @@ if (isHTMLEmpty($sideAd)) {
                                 </div>
                             </div>
                             <?php
-                            if (empty($advancedCustom->disableShareAndPlaylist) && empty($advancedCustom->disableShareOnly)) {
+                            if (isShareEnabled()) {
                                 /**
                                  * @var string $link
                                  * @var string $linkEmbed

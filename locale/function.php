@@ -48,7 +48,22 @@ function printJSString($str, $return = false) {
 
 function isRTL() {
     global $t_isRTL;
-    return !empty($t_isRTL) && $t_isRTL;
+    return _isRTL(getLanguage()) || (!empty($t_isRTL) && $t_isRTL);
+}
+
+function _isRTL($code) {
+    // Convert input to lowercase and replace dashes with underscores to make comparison case insensitive and format uniform
+    $code = str_replace('-', '_', strtolower($code));
+
+    // Array of RTL short codes
+    $rtlLanguages = array('ar', 'ar_sa', 'fa', 'fa_ir', 'ur', 'ur_pk', 'he', 'he_il', 'yi', 'yi_de', 'sd', 'sd_in', 'ps', 'ps_af', 'dv', 'dv_mv', 'ckb', 'ckb_iq');
+
+    // Check if code is in the RTL array
+    if(in_array($code, $rtlLanguages)) {
+        return true;
+    }
+
+    return false;
 }
 
 function getAllFlags() {

@@ -60,6 +60,7 @@ echo getTagIfExists('node_modules/moment/locale/'. getLanguage().'.js');
 ?>
 <script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
 <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/addView.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
 <?php
 include $global['systemRootPath'] . 'view/include/bootstrap.js.php';

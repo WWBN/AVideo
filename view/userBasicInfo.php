@@ -1,12 +1,14 @@
-<form class="form-compact well form-horizontal"  id="updateUserForm" onsubmit="">
+<form class="form-compact well form-horizontal" id="updateUserForm" onsubmit="">
     <?php
     $bgURL = User::getBackgroundURLFromUserID(User::getId());
     ?>
     <style>
-        .file-caption{
+        .file-caption {
             padding: 6px 12px !important;
         }
-        .file-preview-frame,.krajee-default.file-preview-frame .kv-file-content {
+
+        .file-preview-frame,
+        .krajee-default.file-preview-frame .kv-file-content {
             width: 95%;
             height: auto;
         }
@@ -16,17 +18,17 @@
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                <input  id="inputName" placeholder="<?php echo __("Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getName(); ?>" required >
+                <input id="inputName" placeholder="<?php echo __("Name"); ?>" class="form-control" type="text" value="<?php echo $user->getName(); ?>" required>
             </div>
         </div>
     </div>
 
     <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
+        <label class="col-md-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input  id="inputUser" placeholder="<?php echo!empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control"  type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email" ?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername)) ? "readonly" : ""; ?>  >
+                <input id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control" type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email" ?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername)) ? "readonly" : ""; ?>>
             </div>
         </div>
     </div>
@@ -36,61 +38,60 @@
         <div class="col-md-6 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                <input  id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control"  type="email" value="<?php echo $user->getEmail(); ?>" required
-                <?php
-                if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-                    echo "readonly";
-                }
-                ?>    >
+                <input id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control" type="email" value="<?php echo $user->getEmail(); ?>" required <?php
+                                                                                                                                                                        if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+                                                                                                                                                                            echo "readonly";
+                                                                                                                                                                        }
+                                                                                                                                                                        ?>>
             </div>
         </div>
         <div class="col-md-2">
             <?php
             if ($user->getEmailVerified()) {
-                ?>
+            ?>
                 <span class="btn btn-success"><i class="fa fa-check"></i> <?php echo __("E-mail Verified"); ?></span>
-                <?php
+            <?php
             } else {
-                ?>
+            ?>
                 <button class="btn btn-warning" id="verifyEmail"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
 
                 <script>
-                    $(document).ready(function () {
+                    $(document).ready(function() {
 
-                        $('#verifyEmail').click(function (e) {
+                        $('#verifyEmail').click(function(e) {
                             e.preventDefault();
                             modal.showPleaseWait();
                             $.ajax({
                                 type: "POST",
                                 url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
-                                            }).done(function (response) {
-                                                if (response.error) {
-                                                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                                } else {
-                                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
-                                                }
-                                                modal.hidePleaseWait();
-                                            });
-                                        });
+                            }).done(function(response) {
+                                if (response.error) {
+                                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
+                                } else {
+                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
+                                }
+                                modal.hidePleaseWait();
+                            });
+                        });
 
-                                    });
+                    });
                 </script>
-                <?php
+            <?php
             }
             ?>
         </div>
     </div>
 
     <div class="form-group <?php
-    if (!empty($advancedCustomUser->doNotShowPhone)) {
-        echo " hidden ";
-    }
-    ?>">
+                            if (!empty($advancedCustomUser->doNotShowPhone)) {
+                                echo " hidden ";
+                            }
+                            ?>">
         <label class="col-md-4 control-label"><?php echo __("Phone"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fas fa-phone"></i></span>
-                <input  id="phone" placeholder="<?php echo __("Phone"); ?>" class="form-control"  type="text" value="<?php echo $user->getPhone(); ?>" >
+                <input id="phone" placeholder="<?php echo __("Phone"); ?>" class="form-control" type="text" value="<?php echo $user->getPhone(); ?>">
             </div>
         </div>
     </div>
@@ -114,56 +115,56 @@
     </div>
 
     <div class="form-group <?php
-    if (!empty($advancedCustomUser->doNotShowMyChannelNameOnBasicInfo)) {
-        echo " hidden ";
-    }
-    ?>">
+                            if (!empty($advancedCustomUser->doNotShowMyChannelNameOnBasicInfo)) {
+                                echo " hidden ";
+                            }
+                            ?>">
         <label class="col-md-4 control-label"><?php echo __("Channel Name"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fas fa-play-circle"></i></span>
-                <input  id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getChannelName(); ?>" >
+                <input id="channelName" placeholder="<?php echo __("Channel Name"); ?>" class="form-control" type="text" value="<?php echo $user->getChannelName(); ?>">
             </div>
         </div>
     </div>
 
     <div class="form-group <?php
-    if (empty($advancedCustomUser->allowDonationLink)) {
-        echo " hidden ";
-    }
-    ?>">
+                            if (empty($advancedCustomUser->allowDonationLink)) {
+                                echo " hidden ";
+                            }
+                            ?>">
         <label class="col-md-4 control-label"><?php echo __("Donation Link"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fas fa-donate"></i></span>
-                <input  id="donationLink" placeholder="<?php echo __("Donation Link"); ?>" class="form-control"  type="url" value="<?php echo $user->getDonationLink(); ?>" >
+                <input id="donationLink" placeholder="<?php echo __("Donation Link"); ?>" class="form-control" type="url" value="<?php echo $user->getDonationLink(); ?>">
             </div>
         </div>
     </div>
 
     <div class="form-group <?php
-    if (!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)) {
-        echo " hidden ";
-    }
-    ?>">
+                            if (!empty($advancedCustomUser->doNotShowMyAnalyticsCodeOnBasicInfo)) {
+                                echo " hidden ";
+                            }
+                            ?>">
         <label class="col-md-4 control-label"><?php echo __("Analytics Code"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fas fa-chart-line"></i></span>
-                <input  id="analyticsCode" placeholder="UA-123456789-1" class="form-control"  type="text" value="<?php echo $user->getAnalyticsCode(); ?>" >
+                <input id="analyticsCode" placeholder="UA-123456789-1" class="form-control" type="text" value="<?php echo $user->getAnalyticsCode(); ?>">
             </div>
             <small><?php echo __("Track your videos with Google analytics"); ?></small>
         </div>
     </div>
 
     <div class="form-group <?php
-    if (!empty($advancedCustomUser->doNotShowMyAboutOnBasicInfo)) {
-        echo " hidden ";
-    }
-    ?> ">
+                            if (!empty($advancedCustomUser->doNotShowMyAboutOnBasicInfo)) {
+                                echo " hidden ";
+                            }
+                            ?> ">
         <label class="col-md-4 control-label"><?php echo __("About"); ?></label>
         <div class="col-md-8 inputGroupContainer">
-            <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"  ><?php echo $user->getAbout(); ?></textarea>
+            <textarea id="textAbout" placeholder="<?php echo __("About"); ?>" class="form-control"><?php echo $user->getAbout(); ?></textarea>
             <?php
             echo getTinyMCE("textAbout", true);
             ?>
@@ -211,6 +212,7 @@
     </div>
     <script>
         var uploadCrop;
+
         function isAnalytics() {
             return true;
             str = $('#analyticsCode').val();
@@ -218,41 +220,48 @@
         }
 
         function updateUserFormSubmit() {
+            var content;
+            if (window.tinyMCE) {
+                content = tinyMCE.get('textAbout') ? tinyMCE.get('textAbout').getContent() : '';
+            } else {
+                content = $('#textAbout').val();
+            }
+
             $.ajax({
-                url: webSiteRootURL+'objects/userUpdate.json.php?do_not_login=1',
+                url: webSiteRootURL + 'objects/userUpdate.json.php?do_not_login=1',
                 data: {
                     "user": $('#inputUser').val(),
                     "pass": $('#inputPassword').val(),
                     "email": $('#inputEmail').val(),
                     "phone": $('#phone').val(),
                     "name": $('#inputName').val(),
-                    "about": $('#textAbout').val(),
+                    "about": content,
                     "channelName": $('#channelName').val(),
                     "donationLink": $('#donationLink').val(),
                     "analyticsCode": $('#analyticsCode').val(),
                 },
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     avideoResponse(response);
                     modal.hidePleaseWait();
                 }
             });
         }
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-<?php
-if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-    ?>
-                $('#inputUser').on('keyup', function () {
+            <?php
+            if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
+            ?>
+                $('#inputUser').on('keyup', function() {
                     $('#inputEmail').val($(this).val());
                 });
-    <?php
-}
-?>
+            <?php
+            }
+            ?>
 
 
 
-            $('#updateUserForm').submit(function (evt) {
+            $('#updateUserForm').submit(function(evt) {
                 evt.preventDefault();
                 if (!isAnalytics()) {
                     avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");

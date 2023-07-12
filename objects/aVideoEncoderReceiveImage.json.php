@@ -35,7 +35,7 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
 }
 _error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
-$video = new Video("", "", $_REQUEST['videos_id']);
+$video = new Video("", "", $_REQUEST['videos_id'], true);
 $obj->video_id = $_REQUEST['videos_id'];
 
 $videoFileName = $video->getFilename();
@@ -192,7 +192,7 @@ AVideoPlugin::onEncoderReceiveImage($videos_id);
 
 $obj->error = false;
 $obj->video_id = $videos_id;
-$v = new Video('', '', $videos_id);
+$v = new Video('', '', $videos_id, true);
 $obj->video_id_hash = $v->getVideoIdHash();
 $obj->releaseDate = @$_REQUEST['releaseDate'];
 

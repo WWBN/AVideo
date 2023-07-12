@@ -17,5 +17,5 @@
 <script src="<?php echo getURL('node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('plugin/Gallery/script.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('view/js/bootstrap-list-filter/bootstrap-list-filter.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo getURL('plugin/YouPHPFlix2/view/js/flickity/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('plugin/YouPHPFlix2/view/js/script.js'); ?>" type="text/javascript"></script>

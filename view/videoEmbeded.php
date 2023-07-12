@@ -34,8 +34,8 @@ AVideoPlugin::getEmbed($video['id']);
 
 if (empty($video)) {
     $msg = 'Video not found';
-    if(User::isAdmin()){
-        $msg = "{$msg} ". json_encode($_GET);
+    if (User::isAdmin()) {
+        $msg = "{$msg} " . json_encode($_GET);
     }
     forbiddenPage($msg);
 }
@@ -181,6 +181,11 @@ if (User::hasBlockedUser($video['users_id'])) {
         ?>
         <script>
             var isEmbed = true;
+            window.addEventListener('message', function (event) {
+                if (event.data === 'togglePlayerSocial') {
+                    tooglePlayersocial();
+                }
+            });
         </script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -330,10 +335,10 @@ if (User::hasBlockedUser($video['users_id'])) {
         <!-- serie -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/embed.php?playlists_id=<?php
-    echo $video['serie_playlists_id'];
-    if ($config->getAutoplay()) {
-        echo "&autoplay=1";
-    }
+        echo $video['serie_playlists_id'];
+        if ($config->getAutoplay()) {
+            echo "&autoplay=1";
+        }
         ?>"></iframe>
         <script>
             $(document).ready(function () {
@@ -356,10 +361,10 @@ if (User::hasBlockedUser($video['users_id'])) {
             </script>
 
         </div>
-    <?php
-} elseif ($video['type'] == "pdf") {
-    $sources = getVideosURLPDF($video['filename']);
-    ?>
+        <?php
+    } elseif ($video['type'] == "pdf") {
+        $sources = getVideosURLPDF($video['filename']);
+        ?>
         <!-- pdf -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
         <iframe style="width: 100%; height: 100%;"  class="embed-responsive-item" src="<?php echo $sources["pdf"]['url']; ?>"></iframe>
@@ -368,15 +373,15 @@ if (User::hasBlockedUser($video['users_id'])) {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
-    <?php
-} elseif ($video['type'] == "image") {
-    $sources = getVideosURLIMAGE($video['filename']);
-    ?>
+        <?php
+    } elseif ($video['type'] == "image") {
+        $sources = getVideosURLIMAGE($video['filename']);
+        ?>
         <!-- image -->
         <center style="height: 100%;">
             <img src="<?php
-    echo $sources["image"]['url']
-    ?>" class="img img-responsive"  style="height: 100%;" >
+            echo $sources["image"]['url']
+            ?>" class="img img-responsive"  style="height: 100%;" >
         </center>
         <script>
             $(document).ready(function () {
@@ -400,7 +405,7 @@ if (User::hasBlockedUser($video['users_id'])) {
                         $fname = basename($stat['name']);
                         ?>
                         <li class="list-group-item"  style="text-align: left;"><i class="<?php echo fontAwesomeClassName($fname) ?>"></i> <?php echo $fname; ?></li>
-                        <?php }
+                    <?php }
                     ?>
                 </ul>
             </div>
@@ -423,21 +428,21 @@ if (User::hasBlockedUser($video['users_id'])) {
                 addView(<?php echo $video['id']; ?>, 0);
             });
         </script>
-    <?php
-} elseif ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
-    $isAudio = 1;
-    ?>
+        <?php
+    } elseif ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
+        $isAudio = 1;
+        ?>
         <!-- audio -->
         <audio style="width: 100%; height: 100%;"  id="mainVideo" <?php echo $controls; ?> <?php echo $loop; ?> class="center-block video-js vjs-default-skin vjs-big-play-centered"  id="mainVideo"  data-setup='{ "fluid": true }'
                poster="<?php echo $poster; ?>">
-    <?php echo getSources($video['filename']); ?>
+                   <?php echo getSources($video['filename']); ?>
         </audio>
         <script>
-        <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
+    <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
         <?php
     } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
-        $t = ['id'=>$_GET['link']];
+        $t = ['id' => $_GET['link']];
         ?>
         <!-- videoLink include liveVideo.php [<?php echo $_GET['link']; ?>] -->
         <?php
@@ -447,15 +452,15 @@ if (User::hasBlockedUser($video['users_id'])) {
         }
         ?>
         <script>
-        <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
+    <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
         <?php
     } else {
         ?>
         <!-- else -->
-        <video style="width: 100%; height: 100%; position: fixed; top: 0; <?php echo $objectFit; ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
+        <video style="width: 100%; height: 100%; position: fixed; top: 0; left:0; <?php echo $objectFit; ?>" <?php echo PlayerSkins::getPlaysinline(); ?> poster="<?php echo $poster; ?>" <?php echo $controls; ?> <?php echo $loop; ?>   <?php echo $mute; ?>
                class="video-js vjs-default-skin vjs-big-play-centered <?php echo $vjsClass; ?> " id="mainVideo">
-    <?php echo getSources($video['filename']); ?>
+                   <?php echo getSources($video['filename']); ?>
             <p><?php echo __("If you can't view this video, your browser does not support HTML5 videos"); ?></p>
         </video>
         <script><?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
@@ -489,6 +494,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     //$jsFiles[] = "view/js/bootgrid/jquery.bootgrid.js";
     //$jsFiles[] = "view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.min.js";
     $jsFiles[] = "view/js/script.js";
+    $jsFiles[] = "view/js/addView.js";
     $jsFiles[] = "node_modules/js-cookie/dist/js.cookie.js";
     //$jsFiles[] = "view/css/flagstrap/js/jquery.flagstrap.min.js";
     $jsFiles[] = "node_modules/jquery-lazy/jquery.lazy.min.js";
@@ -505,57 +511,57 @@ if (User::hasBlockedUser($video['users_id'])) {
     ?>
     <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
     <script>
-        var topInfoTimeout;
-        $(document).ready(function () {
-            if ("<?= $autoplay ?>" == 1 && "<?= $video['type'] ?>" == "video") {
-                var playPromise = player.play();
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        // Automatic playback started!
-                        // Show playing UI.
-                    })
-                    .catch(error => {
-                        // Auto-play was prevented
-                        // Show paused UI.
-                        document.getElementById("mainVideo_html5_api").muted = true;
-                        document.getElementById("mainVideo_html5_api").play();
-                    });
-                }
-            }
-            setInterval(function () {
-                if (typeof player !== 'undefined') {
-                    if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                        $('#topInfo').fadeOut();
-                    } else {
-                        $('#topInfo').fadeIn();
+            var topInfoTimeout;
+            $(document).ready(function () {
+                if ("<?= $autoplay ?>" == 1 && "<?= $video['type'] ?>" == "video") {
+                    var playPromise = player.play();
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            // Automatic playback started!
+                            // Show playing UI.
+                        })
+                        .catch(error => {
+                            // Auto-play was prevented
+                            // Show paused UI.
+                            document.getElementById("mainVideo_html5_api").muted = true;
+                            document.getElementById("mainVideo_html5_api").play();
+                        });
                     }
                 }
-            }, 200);
+                setInterval(function () {
+                    if (typeof player !== 'undefined') {
+                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
+                            $('#topInfo').fadeOut();
+                        } else {
+                            $('#topInfo').fadeIn();
+                        }
+                    }
+                }, 200);
 
-            $("iframe, #topInfo").mouseover(function (e) {
-                clearTimeout(topInfoTimeout);
-                $('#mainVideo').addClass("vjs-user-active");
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 5000);
-            });
+                $("iframe, #topInfo").mouseover(function (e) {
+                    clearTimeout(topInfoTimeout);
+                    $('#mainVideo').addClass("vjs-user-active");
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 5000);
+                });
 
-            $("iframe").mouseout(function (e) {
-                topInfoTimeout = setTimeout(function () {
-                    $('#mainVideo').removeClass("vjs-user-active");
-                }, 500);
-            });
+                $("iframe").mouseout(function (e) {
+                    topInfoTimeout = setTimeout(function () {
+                        $('#mainVideo').removeClass("vjs-user-active");
+                    }, 500);
+                });
 <?php
 if ($hideProgressBarAndUnPause) {
     ?>
-                player.on('pause', function () {
-                    player.play();
-                });
+                    player.on('pause', function () {
+                        player.play();
+                    });
     <?php
 }
 ?>
 
-        });
+            });
     </script>
     <?php
     showCloseButton();

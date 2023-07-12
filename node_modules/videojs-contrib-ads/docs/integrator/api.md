@@ -30,8 +30,8 @@ Your ad plugin can invoke these methods and events to play (or skip) ads. See [G
   * For a preroll ad, you can invoke `startLinearAdMode` after the `readyforpreroll` event if `isWaitingForAdBreak()` is true.
   * For a midroll ad, you can invoke `startLinearAdMode` during content playback if `isInAdMode()` is false.
   * For a postroll ad, you can invoke `startLinearAdMode` after the `readyforpostroll` event if `isWaitingForAdBreak()` is true.
-* `ads-ad-started` (event) -- Trigger this event during an ad break to indicate that an ad has actually started playing. This will hide the loading spinner. It is possible for an ad break to end without playing any ads.
-* `endLinearAdMode()` (method) -- Invoke this method to end an ad break. This will cause content to resume. You can check if an ad break is active using `inAdBreak()`.
+* `ads-ad-started` (EVENT) -- Trigger this event during an ad break to indicate that an ad has actually started playing. This will hide the loading spinner. It is possible for an ad break to end without playing any ads.
+* `endLinearAdMode()` (METHOD) -- Invoke this method to end an ad break. This will cause content to resume. You can check if an ad break is active using `inAdBreak()`.
 * `skipLinearAdMode()` (METHOD) -- At a time when `startLinearAdMode()` is expected, calling `skipLinearAdMode()` will immediately resume content playback instead.
 * `nopreroll` (EVENT) -- You can trigger this event even before `readyforpreroll` to indicate that no preroll will play. The ad plugin will not check for prerolls and will instead begin content playback after the `play` event (or immediately, if playback was already requested).
 * `nopostroll` (EVENT) -- Similar to `nopreroll`, you can trigger this event even before `readyforpostroll` to indicate that no postroll will play.  The ad plugin will not wait for a postroll to play and will instead immediately trigger the `ended` event.

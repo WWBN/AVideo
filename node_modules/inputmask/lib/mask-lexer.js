@@ -1,11 +1,33 @@
 import $ from "./dependencyLibs/inputmask.dependencyLib";
 import MaskToken from "./masktoken";
 import Inputmask from "./inputmask";
+import escapeRegex from "./escapeRegex";
 
 export {generateMaskSet, analyseMask};
 
 function generateMaskSet(opts, nocache) {
     var ms;
+
+    function preProcessMask(mask, {repeat, groupmarker, quantifiermarker, keepStatic}) {
+        if (repeat > 0 || repeat === "*" || repeat === "+") {
+            var repeatStart = repeat === "*" ? 0 : (repeat === "+" ? 1 : repeat);
+            mask = groupmarker[0] + mask + groupmarker[1] + quantifiermarker[0] + repeatStart + "," + repeat + quantifiermarker[1];
+        }
+        if (keepStatic === true) {
+            let optionalRegex = "(.)\\[([^\\]]*)\\]", // "(?<p1>.)\\[(?<p2>[^\\]]*)\\]", remove named capture group @2428
+                maskMatches = mask.match(new RegExp(optionalRegex, "g"));
+            maskMatches && maskMatches.forEach((m, i) => {
+                let [p1, p2] = m.split("["); p2 = p2.replace("]", "");
+                mask = mask.replace(new RegExp(`${escapeRegex(p1)}\\[${escapeRegex(p2)}\\]`),
+                    p1.charAt(0) === p2.charAt(0) ?
+                        `(${p1}|${p1}${p2})` :
+                        `${p1}[${p2}]`);
+                // console.log(mask);
+            });
+        }
+
+        return mask;
+    }
 
     function generateMask(mask, metadata, opts) {
         var regexMask = false;
@@ -22,10 +44,7 @@ function generateMaskSet(opts, nocache) {
         if (mask.length === 1 && opts.greedy === false && opts.repeat !== 0) {
             opts.placeholder = "";
         } //hide placeholder with single non-greedy mask
-        if (opts.repeat > 0 || opts.repeat === "*" || opts.repeat === "+") {
-            var repeatStart = opts.repeat === "*" ? 0 : (opts.repeat === "+" ? 1 : opts.repeat);
-            mask = opts.groupmarker[0] + mask + opts.groupmarker[1] + opts.quantifiermarker[0] + repeatStart + "," + opts.repeat + opts.quantifiermarker[1];
-        }
+        mask = preProcessMask(mask, opts);
 
         // console.log(mask);
         var masksetDefinition, maskdefKey;
@@ -38,7 +57,7 @@ function generateMaskSet(opts, nocache) {
             masksetDefinition = {
                 "mask": mask,
                 "maskToken": Inputmask.prototype.analyseMask(mask, regexMask, opts),
-                "validPositions": {},
+                "validPositions": [],
                 "_buffer": undefined,
                 "buffer": undefined,
                 "tests": {},
@@ -114,9 +133,12 @@ function analyseMask(mask, regexMask, opts) {
         position = position !== undefined ? position : mtoken.matches.length;
         var prevMatch = mtoken.matches[position - 1];
         if (regexMask) {
-            if (element.indexOf("[") === 0 || (escaped && /\\d|\\s|\\w/i.test(element)) || element === ".") {
+            if (element.indexOf("[") === 0 || (escaped && /\\d|\\s|\\w|\\p/i.test(element)) || element === ".") {
+                let flag = opts.casing ? "i" : "";
+                if (/^\\p\{.*}$/i.test(element))
+                    flag += "u";
                 mtoken.matches.splice(position++, 0, {
-                    fn: new RegExp(element, opts.casing ? "i" : ""),
+                    fn: new RegExp(element, flag),
                     static: false,
                     optionality: false,
                     newBlockMarker: prevMatch === undefined ? "master" : prevMatch.def !== element,
@@ -151,6 +173,7 @@ function analyseMask(mask, regexMask, opts) {
                     } : new RegExp("."),
                     static: maskdef.static || false,
                     optionality: maskdef.optional || false,
+                    defOptionality: maskdef.optional || false, //indicator for an optional from the definition
                     newBlockMarker: (prevMatch === undefined || maskdef.optional) ? "master" : prevMatch.def !== (maskdef.definitionSymbol || element),
                     casing: maskdef.casing,
                     def: maskdef.definitionSymbol || element,
@@ -327,17 +350,16 @@ function analyseMask(mask, regexMask, opts) {
                 case "\\d":
                     m = "[0-9]";
                     break;
+                case "\\p": //Unicode Categories
+                    m += regexTokenizer.exec(mask)[0]; // {
+                    m += regexTokenizer.exec(mask)[0]; // ?}
+                    break;
+                case "(?:": //non capturing group
                 case "(?=": //lookahead
-                    // openenings.push(new MaskToken(true));
-                    break;
                 case "(?!": //negative lookahead
-                    // openenings.push(new MaskToken(true));
-                    break;
                 case "(?<=": //lookbehind
-                    // openenings.push(new MaskToken(true));
-                    break;
                 case "(?<!": //negative lookbehind
-                    // openenings.push(new MaskToken(true));
+                    // treat as group
                     break;
             }
         }
@@ -391,20 +413,16 @@ function analyseMask(mask, regexMask, opts) {
                 };
                 var matches = openenings.length > 0 ? openenings[openenings.length - 1].matches : currentToken.matches;
                 match = matches.pop();
-                if (match.isAlternator) { //handle quantifier in an alternation [0-9]{2}|[0-9]{3}
-                    matches.push(match); //push back alternator
-                    matches = match.matches; //remap target matches
-                    var groupToken = new MaskToken(true);
-                    var tmpMatch = matches.pop();
-                    matches.push(groupToken); //push the group
-                    matches = groupToken.matches;
-                    match = tmpMatch;
-                }
+                // if (match.isAlternator) { //handle quantifier in an alternation [0-9]{2}|[0-9]{3}
+                //     matches.push(match); //push back alternator
+                //     matches = match.matches; //remap target matches
+                //     var groupToken = new MaskToken(true);
+                //     var tmpMatch = matches.pop();
+                //     matches.push(groupToken); //push the group
+                //     matches = groupToken.matches;
+                //     match = tmpMatch;
+                // }
                 if (!match.isGroup) {
-                    // if (regexMask && match.fn === null) { //why is this needed???
-                    //     if (match.def === ".") match.fn = new RegExp(match.def, opts.casing ? "i" : "");
-                    // }
-
                     match = groupify([match]);
                 }
                 matches.push(match);

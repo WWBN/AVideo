@@ -186,6 +186,7 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+require_once $global['systemRootPath'] . 'objects/Page.php';
 setSiteLang();
 
 adminSecurityCheck();

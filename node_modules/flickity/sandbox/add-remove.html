@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+
+  <title>add/remove cells</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <link rel="stylesheet" href="sandbox.css" />
+
+  <style>
+    .remove-button {
+      font-size: 20px;
+      position: absolute;
+      right: 10px;
+      top: 10px;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>add/remove cells</h1>
+
+  <div id="demo1" class="demo">
+    <div class="container variable-width" data-flickity>
+      <div class="cell n1 w3"><b>1</b><button class="remove-button">&times;</button></div>
+      <div class="cell n2"><b>2</b><button class="remove-button">&times;</button></div>
+      <div class="cell n3 w3"><b>3</b><button class="remove-button">&times;</button></div>
+      <div class="cell n4"><b>4</b><button class="remove-button">&times;</button></div>
+      <div class="cell n5 w2"><b>5</b><button class="remove-button">&times;</button></div>
+      <div class="cell n6 w2"><b>6</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+      <button class="insert-button">Insert</button>
+      <button class="append-button">Append</button>
+    </p>
+  </div>
+
+  <h2>freeScroll</h2>
+
+  <div id="demo2" class="demo">
+    <div class="container variable-width"
+      data-flickity='{ "freeScroll": true }'>
+      <div class="cell n6"><b>1</b><button class="remove-button">&times;</button></div>
+      <div class="cell n5 w2"><b>2</b><button class="remove-button">&times;</button></div>
+      <div class="cell n4"><b>3</b><button class="remove-button">&times;</button></div>
+      <div class="cell n3 w3"><b>4</b><button class="remove-button">&times;</button></div>
+      <div class="cell n2"><b>5</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+      <button class="insert-button">Insert</button>
+      <button class="append-button">Append</button>
+    </p>
+  </div>
+
+  <h2>wrapAround</h2>
+
+  <div id="demo3" class="demo">
+    <div class="container variable-width"
+      data-flickity='{ "wrapAround": true }'>
+      <div class="cell n6"><b>1</b><button class="remove-button">&times;</button></div>
+      <div class="cell n5 w2"><b>2</b><button class="remove-button">&times;</button></div>
+      <div class="cell n4"><b>3</b><button class="remove-button">&times;</button></div>
+      <div class="cell n3 w3"><b>4</b><button class="remove-button">&times;</button></div>
+      <div class="cell n2"><b>5</b><button class="remove-button">&times;</button></div>
+      <div class="cell n6 w2"><b>6</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+      <button class="insert-button">Insert</button>
+      <button class="append-button">Append</button>
+    </p>
+  </div>
+
+  <h2>wrapAround, freeScroll</h2>
+
+  <div id="demo4" class="demo">
+    <div class="container variable-width"
+      data-flickity='{ "wrapAround": true, "freeScroll": true }'>
+      <div class="cell n6"><b>1</b><button class="remove-button">&times;</button></div>
+      <div class="cell n5 w2"><b>2</b><button class="remove-button">&times;</button></div>
+      <div class="cell n4"><b>3</b><button class="remove-button">&times;</button></div>
+      <div class="cell n3 w3"><b>4</b><button class="remove-button">&times;</button></div>
+      <div class="cell n2"><b>5</b><button class="remove-button">&times;</button></div>
+      <div class="cell n6 w2"><b>6</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+      <button class="insert-button">Insert</button>
+      <button class="append-button">Append</button>
+    </p>
+  </div>
+
+  <h2>contain</h2>
+
+  <div id="demo5" class="demo">
+    <div class="container variable-width"
+      data-flickity='{ "contain": true }'>
+      <div class="cell n1 w3"><b>1</b><button class="remove-button">&times;</button></div>
+      <div class="cell n2"><b>2</b><button class="remove-button">&times;</button></div>
+      <div class="cell n3 w3"><b>3</b><button class="remove-button">&times;</button></div>
+      <div class="cell n4"><b>4</b><button class="remove-button">&times;</button></div>
+      <div class="cell n5 w2"><b>5</b><button class="remove-button">&times;</button></div>
+      <div class="cell n6 w2"><b>6</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+      <button class="insert-button">Insert</button>
+      <button class="append-button">Append</button>
+    </p>
+  </div>
+
+
+  <h2>reposition</h2>
+
+  <div id="reposition">
+    <div class="container variable-width">
+      <div class="cell w2"><b>1</b></div>
+      <div class="cell"><b>2</b></div>
+      <div class="cell w3"><b>3</b></div>
+      <div class="cell"><b>4</b></div>
+      <div class="cell"><b>5</b></div>
+      <div class="cell w2"><b>6</b></div>
+      <div class="cell"><b>7</b></div>
+      <div class="cell w2"><b>8</b></div>
+      <div class="cell"><b>9</b></div>
+    </div>
+  </div>
+
+  <h2>prepend with single #492</h2>
+  <div id="prepend-single">
+    <div class="container variable-width">
+      <div class="cell n1"><b>1</b><button class="remove-button">&times;</button></div>
+    </div>
+    <p>
+      <button class="prepend-button">Prepend</button>
+    </p>
+  </div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+
+<script src="js/add-remove.js"></script>
+
+</body>
+</html>

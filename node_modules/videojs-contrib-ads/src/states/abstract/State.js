@@ -56,6 +56,7 @@ class State {
   onAdsCanceled() {}
   onAdTimeout() {}
   onAdStarted() {}
+  onAdSkipped() {}
   onContentChanged() {}
   onContentResumed() {}
   onReadyForPostroll() {
@@ -124,6 +125,8 @@ class State {
       this.onAdTimeout(player);
     } else if (type === 'ads-ad-started') {
       this.onAdStarted(player);
+    } else if (type === 'ads-ad-skipped') {
+      this.onAdSkipped(player);
     } else if (type === 'contentchanged') {
       this.onContentChanged(player);
     } else if (type === 'contentresumed') {

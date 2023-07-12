@@ -12,13 +12,15 @@ var toUnsigned = require('../utils/bin').toUnsigned;
 var toHexString = require('../utils/bin').toHexString;
 var findBox = require('../mp4/find-box.js');
 var parseType = require('../mp4/parse-type.js');
+var emsg = require('../mp4/emsg.js');
 var parseTfhd = require('../tools/parse-tfhd.js');
 var parseTrun = require('../tools/parse-trun.js');
 var parseTfdt = require('../tools/parse-tfdt.js');
 var getUint64 = require('../utils/numbers.js').getUint64;
 var timescale, startTime, compositionStartTime, getVideoTrackIds, getTracks,
-  getTimescaleFromMediaHeader;
+  getTimescaleFromMediaHeader, getEmsgID3;
 var window = require('global/window');
+var parseId3Frames = require('../tools/parse-id3.js').parseId3Frames;
 
 
 /**
@@ -370,6 +372,29 @@ getTracks = function(init) {
   return tracks;
 };
 
+/**
+ * Returns an array of emsg ID3 data from the provided segmentData.
+ * An offset can also be provided as the Latest Arrival Time to calculate 
+ * the Event Start Time of v0 EMSG boxes. 
+ * See: https://dashif-documents.azurewebsites.net/Events/master/event.html#Inband-event-timing
+ * 
+ * @param {Uint8Array} segmentData the segment byte array.
+ * @param {number} offset the segment start time or Latest Arrival Time, 
+ * @return {Object[]} an array of ID3 parsed from EMSG boxes
+ */
+getEmsgID3 = function(segmentData, offset = 0) {
+  var emsgBoxes = findBox(segmentData, ['emsg']);
+  return emsgBoxes.map((data) => {
+    var parsedBox = emsg.parseEmsgBox(new Uint8Array(data));
+    var parsedId3Frames = parseId3Frames(parsedBox.message_data);
+    return {
+      cueTime: emsg.scaleTime(parsedBox.presentation_time, parsedBox.timescale, parsedBox.presentation_time_delta, offset),
+      duration: emsg.scaleTime(parsedBox.event_duration, parsedBox.timescale),
+      frames: parsedId3Frames
+    };
+  });
+};
+
 module.exports = {
   // export mp4 inspector's findBox and parseType for backwards compatibility
   findBox: findBox,
@@ -379,5 +404,6 @@ module.exports = {
   compositionStartTime: compositionStartTime,
   videoTrackIds: getVideoTrackIds,
   tracks: getTracks,
-  getTimescaleFromMediaHeader: getTimescaleFromMediaHeader
+  getTimescaleFromMediaHeader: getTimescaleFromMediaHeader,
+  getEmsgID3: getEmsgID3,
 };

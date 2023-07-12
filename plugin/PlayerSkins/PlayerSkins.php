@@ -308,7 +308,7 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id'])) {
+        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id']) || !empty($video['id'])) {
             if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
@@ -534,13 +534,11 @@ class PlayerSkins extends PluginAbstract {
                     console.log('ads-request', a);
                 });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
-
-        $js .= "}
-        player.ready(function () {";
-
-        $js .= "player.on('error', () => {
-            AvideoJSError(player.error().code);
-        });";
+        $js .= "}";
+        
+        $js .= "if(typeof player !== 'undefined'){";
+        $js .= "player.ready(function () {console.log('player.ready');";
+        $js .= "player.on('error', () => {AvideoJSError(player.error().code);});";
 
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
         if (isMobile()) {
@@ -548,33 +546,35 @@ class PlayerSkins extends PluginAbstract {
         }
         if (empty($_REQUEST['mute'])) {
             $play = "playerPlayIfAutoPlay({$currentTime});";
-
-            $js .= "
-            player.persistvolume({
-                namespace: 'AVideo'
-            });";
+            $js .= "player.persistvolume({namespace: 'AVideo'});";
         } else {
             $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
         }
 
-        $js .= "var err = this.error();
-            if (err && err.code) {
-                $('.vjs-error-display').hide();
-                $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
-            }
-            " . implode(PHP_EOL, $prepareStartPlayerJS_onPlayerReady) . "
-            {$play}
-        });";
+        $js .= "try {
+                    var err = this.error();
+                    if (err && err.code) {
+                        $('.vjs-error-display').hide();
+                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
+                    }} catch (e) {
+                        console.error('error-display', e);
+                    };";
+       $js .= "try {";
+       $js .= implode(' } catch (e) {console.error(\'onPlayerReady\', e);};try { ', $prepareStartPlayerJS_onPlayerReady).";";
+       $js .= " } catch (e) {console.error('onPlayerReady', e);}";
+       $js .= $play;
+       $js .= "});";
 
         if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
-
-
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
+        
+        $js .= "}";
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
+        
         //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;
@@ -664,24 +664,29 @@ class PlayerSkins extends PluginAbstract {
         player.on('ratechange', function () {
             sendAVideoMobileMessage('ratechange', player.playbackRate);
         });
-        player.on('timeupdate', function () {
+        player.on('timeupdate', function() {
             var time = Math.round(this.currentTime());
             playerCurrentTime = time;
             var url = '{$url}';
+            
             if (url.indexOf('?') > -1) {
-            url += '&t=' + time;
+                url += '&t=' + time;
             } else {
-            url += '?t=' + time;
+                url += '?t=' + time;
             }
+            
             $('#linkCurrentTime, .linkCurrentTime').val(url);
+            
             if (time >= 5 && time % 1 === 0) {
                 addView({$videos_id}, time);
-            }else{
+            } else {
                 addViewFromCookie();
                 addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
             }
+            
             sendAVideoMobileMessage('timeupdate', time);
-        });";
+        });
+        ;";
 
         if (!empty($nextURL)) {
             $js .= "playNextURL = '{$nextURL}';";

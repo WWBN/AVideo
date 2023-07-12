@@ -21,7 +21,7 @@ if (empty($serie_playlists_id)) {
 }
 
 $pl = new PlayList($serie_playlists_id);
-if (User::getId() != $pl->getUsers_id()) {
+if (!PlayLists::canManagePlaylist($playlists_id)) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 $msg = "";

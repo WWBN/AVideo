@@ -343,16 +343,30 @@ function saveBase64DataToPNGImage($imgBase64, $filePath) {
 }
 
 function getRealIpAddr() {
+    $ip = "127.0.0.1";
+
     if (isCommandLineInterface()) {
-        $ip = "127.0.0.1";
-    } elseif (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (!empty($_SERVER['REMOTE_ADDR'])) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    } else {
-        $ip = "127.0.0.1";
+        return $ip;
+    }
+
+    $headers = [
+        'HTTP_CLIENT_IP',
+        'HTTP_X_FORWARDED_FOR',
+        'REMOTE_ADDR'
+    ];
+
+    foreach($headers as $header) {
+        if (!empty($_SERVER[$header])) {
+            $ips = explode(',', $_SERVER[$header]);
+            foreach($ips as $ipCandidate) {
+                $ipCandidate = trim($ipCandidate); // Just to be safe
+                if(filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
+                    return $ipCandidate; // Return the first valid IPv4 we find
+                } elseif($header === 'REMOTE_ADDR' && filter_var($ipCandidate, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+                    $ip = $ipCandidate; // In case no IPv4 is found, set the first IPv6 found from REMOTE_ADDR
+                }
+            }
+        }
     }
     return $ip;
 }
@@ -6061,7 +6075,9 @@ function getRowCount($default = 1000) {
 }
 
 function setRowCount($rowCount) {
+    global $global;
     $_REQUEST['rowCount'] = intval($rowCount);
+    $global['rowCount'] = $_REQUEST['rowCount'];
 }
 
 function getSearchVar() {
@@ -6810,9 +6826,14 @@ function getCaptcha($uid = "", $forceCaptcha = false) {
     ];
 }
 
+function isShareEnabled(){
+    global $global, $advancedCustom;
+    return empty($advancedCustom->disableShareOnly) && empty($advancedCustom->disableShareAndPlaylist);
+}
+
 function getSharePopupButton($videos_id, $url = "", $title = "") {
     global $global, $advancedCustom;
-    if ($advancedCustom->disableShareOnly || $advancedCustom->disableShareAndPlaylist) {
+    if (!isShareEnabled()) {
         return false;
     }
     $video['id'] = $videos_id;
@@ -9145,7 +9166,7 @@ function getURL($relativePath, $ignoreCDN = false) {
 
 function fixTestURL($text) {
     if (isAVideoMobileApp() || !empty($_REQUEST['isAVideoMobileApp'])) {
-        $text = str_replace(array('https://vlu.me', 'vlu.me'), array('http://192.168.0.2', '192.168.0.2'), $text);
+        $text = str_replace(array('https://vlu.me', 'https://www.vlu.me', 'vlu.me'), array('http://192.168.0.2', 'http://192.168.0.2', '192.168.0.2'), $text);
     }
     $text = str_replace(array('https://192.168.0.2'), array('http://192.168.0.2'), $text);
     return $text;
@@ -10782,3 +10803,18 @@ function canAdminUsers() {
     }
     return false;
 }
+
+function getRandomCode() {
+    $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $max = strlen($characters) - 1;
+    $char1 = $characters[rand(0, $max)];
+    $char2 = $characters[rand(0, $max)];
+    $char3 = $characters[rand(0, $max)];
+    $uniqueId = uniqid();
+    $uniquePart1 = str_pad(base_convert(substr($uniqueId, -5), 16, 36), 4, $char1, STR_PAD_LEFT);
+    $uniquePart2 = str_pad(base_convert(substr($uniqueId, 4, 4), 16, 36), 4, $char2, STR_PAD_LEFT);
+    $uniquePart3 = str_pad(base_convert(substr($uniqueId, 0, 4), 16, 36), 4, $char3, STR_PAD_LEFT);
+    $code = strtoupper("{$uniquePart2}-{$uniquePart1}");
+    return $code;
+}
+

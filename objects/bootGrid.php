@@ -25,12 +25,19 @@ class BootGrid
                 $direction = "ASC";
                 if (strtoupper($value)==="DESC") {
                     $direction = "DESC";
+                }else 
+                if (strtoupper($value)==="IS NULL") {
+                    $direction = "IS NULL";
                 }
                 $key = preg_replace("/[^A-Za-z0-9._ ]/", '', $key);
                 if ($key=='order') {
                     $key = '`order`';
                 }
-                $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
+                if (strpos($key, $keyPrefix) === 0) {
+                    $orderBy[] = " {$key} {$direction} ";
+                } else {
+                    $orderBy[] = " {$keyPrefix}{$key} {$direction} ";
+                }
             }
             $sql .= " ORDER BY ".implode(",", $orderBy);
         } else {

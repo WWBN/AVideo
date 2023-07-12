@@ -38,6 +38,19 @@ function start(player) {
   // This removes the native poster so the ads don't show the content
   // poster if content element is reused for ad playback.
   player.ads.removeNativePoster();
+
+  // Ensure ads are watched at x1 speed and speed cannot be changed for the duration of the ad
+  player.ads.preAdPlaybackRate_ = player.playbackRate();
+  player.playbackRate(1);
+  if (player.controlBar &&
+      player.controlBar.playbackRateMenuButton &&
+      player.controlBar.playbackRateMenuButton.playbackRateSupported &&
+      !player.controlBar.playbackRateMenuButton.hasClass('vjs-hidden')) {
+    player.controlBar.playbackRateMenuButton.hide();
+    player.ads.showPlaybackMenuOnAdEnd_ = true;
+  } else {
+    player.ads.showPlaybackMenuOnAdEnd_ = false;
+  }
 }
 
 function end(player, callback) {
@@ -73,6 +86,11 @@ function end(player, callback) {
     callback();
   }
 
+  // Reset playback
+  player.playbackRate(player.ads.preAdPlaybackRate_);
+  if (player.ads.showPlaybackMenuOnAdEnd_) {
+    player.controlBar.playbackRateMenuButton.show();
+  }
 }
 
 const obj = {start, end};

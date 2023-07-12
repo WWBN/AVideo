@@ -639,10 +639,6 @@ abstract class PluginAbstract {
         
     }
 
-    function onVideoSetFilesize($video_id, $oldValue, $newValue) {
-        
-    }
-
     function onVideoSetUsers_id($video_id, $oldValue, $newValue) {
         
     }
@@ -748,6 +744,22 @@ abstract class PluginAbstract {
     }
 
     function onVideoSetRrating($video_id, $oldValue, $newValue) {
+        
+    }
+    
+    function executeEveryMinute() {
+        
+    }
+    
+    function executeEveryHour() {
+        
+    }
+    
+    function executeEveryDay() {
+        
+    }
+    
+    function executeEveryMonth() {
         
     }
 

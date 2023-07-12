@@ -1,0 +1,264 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>lazyload</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+
+  <style>
+  * { box-sizing: border-box; }
+
+  .carousel {
+    border: 1px solid;
+    margin-bottom: 40px;
+  }
+
+  .carousel__image {
+    display: block;
+    margin-right: 20px;
+    height: 400px;
+    max-width: 100%;
+    min-width: 200px;
+    background: #DDD;
+    transition: opacity 0.8s;
+    opacity: 0;
+  }
+
+  .carousel__image.flickity-lazyloaded {
+    opacity: 1;
+  }
+
+  .carousel__cell {
+    width: 80%;
+    height: 400px;
+    margin-right: 20px;
+    background: #DDD;
+  }
+  
+  .carousel__cell__image,
+  .carousel__cell__image img {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    margin: 0 auto;
+  }
+  </style>
+
+</head>
+<body>
+
+<h1>lazyload</h1>
+
+<div class="carousel" data-flickity='{ "lazyLoad": true }'>
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/r8p3Xgq.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/q9zO6tw.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/bwy74ok.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/hODreXI.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/UORFJ3w.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/bAZWoqx.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/PgmEBSB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/aboaFoB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/LkmcILl.jpg" />
+</div>
+
+<div class="carousel"
+  data-flickity='{ "lazyLoad": 1, "wrapAround": true }'>
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/r8p3Xgq.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/q9zO6tw.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/bwy74ok.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/hODreXI.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/UORFJ3w.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/bAZWoqx.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/PgmEBSB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/aboaFoB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/LkmcILl.jpg" />
+</div>
+
+<div class="carousel"
+  data-flickity='{ "lazyLoad": true }'>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/r8p3Xgq.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/q9zO6tw.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/bwy74ok.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/hODreXI.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/UORFJ3w.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/bAZWoqx.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/PgmEBSB.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/aboaFoB.jpg" /></div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image" data-flickity-lazyload="https://i.imgur.com/LkmcILl.jpg" /></div>
+</div>
+
+<div class="carousel carousel--jq">
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/r8p3Xgq.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/q9zO6tw.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="foo.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/hODreXI.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/UORFJ3w.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/bAZWoqx.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/PgmEBSB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/aboaFoB.jpg" />
+  <img class="carousel__image" data-flickity-lazyload="https://i.imgur.com/LkmcILl.jpg" />
+</div>
+
+<h2>srcset</h2>
+
+<div class="carousel" data-flickity='{ "lazyLoad": true }'>
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=718"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=718 720w,
+      https://picsum.photos/360/270/?image=718 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=517"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=517 720w,
+      https://picsum.photos/360/270/?image=517 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=696"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=696 720w,
+      https://picsum.photos/360/270/?image=696 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=56"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=56 720w,
+      https://picsum.photos/360/270/?image=56 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=1084"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=1084 720w,
+      https://picsum.photos/360/270/?image=1084 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+  <img class="carousel__image"
+    data-flickity-lazyload-src="https://picsum.photos/360/270/?image=1080"
+    data-flickity-lazyload-srcset="
+      https://picsum.photos/720/540/?image=1080 720w,
+      https://picsum.photos/360/270/?image=1080 360w"
+    sizes="(min-width: 1024px) 720px, 360px"
+    />
+</div>
+
+<div class="carousel" data-flickity='{ "lazyLoad": true }'>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=718 720w,
+        https://picsum.photos/360/270/?image=718 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+  </div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=517 720w,
+        https://picsum.photos/360/270/?image=517 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+  </div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=696 720w,
+        https://picsum.photos/360/270/?image=696 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+    </div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=56 720w,
+        https://picsum.photos/360/270/?image=56 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+    </div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=1084 720w,
+        https://picsum.photos/360/270/?image=1084 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+  </div>
+  <div class="carousel__cell">
+    <img class="carousel__cell__image"
+      data-flickity-lazyload-srcset="
+        https://picsum.photos/720/540/?image=1080 720w,
+        https://picsum.photos/360/270/?image=1080 360w"
+      sizes="(min-width: 1024px) 720px, 360px" />
+  </div>
+</div>
+
+<h2>&lt;picture&gt;</h2>
+
+<div class="carousel" data-flickity='{ "lazyLoad": true }'>
+  <div class="carousel__cell">
+    <picture class="carousel__cell__image">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/1036/1200/900" media="(min-width: 1200px)">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/1036/800/600" media="(min-width: 800px)">
+      <img data-flickity-lazyload-src="https://picsum.photos/id/1036/400/300">
+    </picture>
+  </div>
+  <div class="carousel__cell">
+    <picture class="carousel__cell__image">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/103/1200/900" media="(min-width: 1200px)">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/103/800/600" media="(min-width: 800px)">
+      <img data-flickity-lazyload-src="https://picsum.photos/id/103/400/300">
+    </picture>
+  </div>
+  <div class="carousel__cell">
+    <picture class="carousel__cell__image">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/1080/900/1200" media="(min-width: 1200px)">
+      <source data-flickity-lazyload-srcset="https://picsum.photos/id/1080/600/800" media="(min-width: 800px)">
+      <img data-flickity-lazyload-src="https://picsum.photos/id/1080/300/400">
+    </picture>
+  </div>
+</div>
+
+<!-- jQuery -->
+<script src="../node_modules/jquery/dist/jquery.js"></script>
+<script src="../node_modules/jquery-bridget/jquery-bridget.js"></script>
+<!-- dependencies -->
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+<!-- Flickity -->
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+<script src="../js/lazyload.js"></script>
+
+<script>
+
+  let $jQCarousel = $('.carousel--jq').flickity({
+    lazyLoad: true
+  });
+
+  $jQCarousel.on( 'lazyLoad', function( event, cellElem ) {
+  });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,91 @@
+* { box-sizing: border-box; }
+
+body {
+  font-family: sans-serif;
+  color: #333;
+}
+
+.container {
+  border: 1px solid;
+  margin-bottom: 50px;
+}
+
+.container::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.container:focus { border: 1px blue dotted; }
+
+.cell {
+  width: 100%;
+  height: 200px;
+  border: 0 solid white;
+  background: #CCC;
+}
+
+.cell.is-selected {
+  outline: 4px solid hsl(0 0% 0% / 25%);
+  outline-offset: -4px;
+}
+
+.cell:nth-child(6n) { background: hsl(0 80% 70%); }
+.cell:nth-child(6n+1) { background: hsl(60 80% 70%); }
+.cell:nth-child(6n+2) { background: hsl(120 80% 70%); }
+.cell:nth-child(6n+3) { background: hsl(180 80% 70%); }
+.cell:nth-child(6n+4) { background: hsl(240 80% 70%); }
+.cell:nth-child(6n+5) { background: hsl(300 80% 70%); }
+
+.cell.n1 { background: hsl(0 80% 70%); }
+.cell.n2 { background: hsl(60 80% 70%); }
+.cell.n3 { background: hsl(120 80% 70%); }
+.cell.n4 { background: hsl(180 80% 70%); }
+.cell.n5 { background: hsl(240 80% 70%); }
+.cell.n6 { background: hsl(300 80% 70%); }
+
+.variable-width .cell {
+  width: 20%;
+  margin-right: 3%;
+}
+
+.variable-width .cell.w2 { width: 30%; }
+.variable-width .cell.w3 { width: 40%; }
+
+.fixed-width .cell {
+  width: 200px;
+  margin-right: 20px;
+}
+
+#half-width .cell {
+  width: 48%;
+  margin-right: 4%;
+}
+
+/* big number */
+.cell b {
+  display: block;
+  font-size: 100px;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+/* ---- couning ---- */
+.counting {
+  counter-reset: cell;
+}
+
+.counting .cell::before {
+  counter-increment: cell;
+  content: counter(cell);
+  display: block;
+  font-size: 100px;
+  color: white;
+  font-weight: bold;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}

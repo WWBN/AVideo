@@ -126,19 +126,22 @@ class Scheduler extends PluginAbstract
         $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
         if($obj->sendEmails){
             $messages = Email_to_user::getAllEmailsToSend();
-            echo 'Scheduler::sendEmails found '.count($messages).PHP_EOL;
-            foreach ($messages as $value) {
-                $to = explode(',', $value['emails']);
-                // Make sure the emails in $to are unique
-                $to = array_unique($to);
-
-                $subject = $value['subject'];
-                $message = $value['message'];
-                echo "Scheduler::sendEmails [{$subject}] found emails ".count($to).PHP_EOL;
-                //var_dump($to);
-                sendSiteEmailAsync($to, $subject, $message);
-                $ids = explode(',', $value['ids']);
-                Email_to_user::setSent($ids);
+            $total = count($messages);
+            if($total > 0){
+                echo 'Scheduler::sendEmails found '.count($messages).PHP_EOL;
+                foreach ($messages as $value) {
+                    $to = explode(',', $value['emails']);
+                    // Make sure the emails in $to are unique
+                    $to = array_unique($to);
+    
+                    $subject = $value['subject'];
+                    $message = $value['message'];
+                    echo "Scheduler::sendEmails [{$subject}] found emails ".count($to).PHP_EOL;
+                    //var_dump($to);
+                    sendSiteEmailAsync($to, $subject, $message);
+                    $ids = explode(',', $value['ids']);
+                    Email_to_user::setSent($ids);
+                }
             }
         }
     }
@@ -498,7 +501,7 @@ class Scheduler extends PluginAbstract
         if (!Video::canEdit($videos_id)) {
             return false;
         }
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
         if (empty($externalOptions)) {
             $externalOptions = new stdClass();

@@ -1,5 +1,5 @@
 /**
- * @popperjs/core v2.11.6 - MIT License
+ * @popperjs/core v2.11.8 - MIT License
  */
 
 (function (global, factory) {
@@ -48,7 +48,7 @@
   function getUAString() {
     var uaData = navigator.userAgentData;
 
-    if (uaData != null && uaData.brands) {
+    if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
       return uaData.brands.map(function (item) {
         return item.brand + "/" + item.version;
       }).join(' ');
@@ -357,7 +357,6 @@
   var bottom = 'bottom';
   var right = 'right';
   var left = 'left';
-  var auto = 'auto';
   var basePlacements = [top, bottom, right, left];
   var start = 'start';
   var end = 'end';
@@ -436,112 +435,6 @@
 
       return pending;
     };
-  }
-
-  function format(str) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-
-    return [].concat(args).reduce(function (p, c) {
-      return p.replace(/%s/, c);
-    }, str);
-  }
-
-  var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
-  var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
-  var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
-  function validateModifiers(modifiers) {
-    modifiers.forEach(function (modifier) {
-      [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
-      .filter(function (value, index, self) {
-        return self.indexOf(value) === index;
-      }).forEach(function (key) {
-        switch (key) {
-          case 'name':
-            if (typeof modifier.name !== 'string') {
-              console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
-            }
-
-            break;
-
-          case 'enabled':
-            if (typeof modifier.enabled !== 'boolean') {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
-            }
-
-            break;
-
-          case 'phase':
-            if (modifierPhases.indexOf(modifier.phase) < 0) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
-            }
-
-            break;
-
-          case 'fn':
-            if (typeof modifier.fn !== 'function') {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
-            }
-
-            break;
-
-          case 'effect':
-            if (modifier.effect != null && typeof modifier.effect !== 'function') {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
-            }
-
-            break;
-
-          case 'requires':
-            if (modifier.requires != null && !Array.isArray(modifier.requires)) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
-            }
-
-            break;
-
-          case 'requiresIfExists':
-            if (!Array.isArray(modifier.requiresIfExists)) {
-              console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
-            }
-
-            break;
-
-          case 'options':
-          case 'data':
-            break;
-
-          default:
-            console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
-              return "\"" + s + "\"";
-            }).join(', ') + "; but \"" + key + "\" was provided.");
-        }
-
-        modifier.requires && modifier.requires.forEach(function (requirement) {
-          if (modifiers.find(function (mod) {
-            return mod.name === requirement;
-          }) == null) {
-            console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
-          }
-        });
-      });
-    });
-  }
-
-  function uniqueBy(arr, fn) {
-    var identifiers = new Set();
-    return arr.filter(function (item) {
-      var identifier = fn(item);
-
-      if (!identifiers.has(identifier)) {
-        identifiers.add(identifier);
-        return true;
-      }
-    });
-  }
-
-  function getBasePlacement(placement) {
-    return placement.split('-')[0];
   }
 
   function mergeByName(modifiers) {
@@ -700,6 +593,10 @@
     return clippingRect;
   }
 
+  function getBasePlacement(placement) {
+    return placement.split('-')[0];
+  }
+
   function getVariation(placement) {
     return placement.split('-')[1];
   }
@@ -849,8 +746,6 @@
     return overflowOffsets;
   }
 
-  var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
-  var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
   var DEFAULT_OPTIONS = {
     placement: 'bottom',
     modifiers: [],
@@ -912,42 +807,7 @@
 
           state.orderedModifiers = orderedModifiers.filter(function (m) {
             return m.enabled;
-          }); // Validate the provided modifiers so that the consumer will get warned
-          // if one of the modifiers is invalid for any reason
-
-          {
-            var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
-              var name = _ref.name;
-              return name;
-            });
-            validateModifiers(modifiers);
-
-            if (getBasePlacement(state.options.placement) === auto) {
-              var flipModifier = state.orderedModifiers.find(function (_ref2) {
-                var name = _ref2.name;
-                return name === 'flip';
-              });
-
-              if (!flipModifier) {
-                console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
-              }
-            }
-
-            var _getComputedStyle = getComputedStyle(popper),
-                marginTop = _getComputedStyle.marginTop,
-                marginRight = _getComputedStyle.marginRight,
-                marginBottom = _getComputedStyle.marginBottom,
-                marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
-            // cause bugs with positioning, so we'll warn the consumer
-
-
-            if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
-              return parseFloat(margin);
-            })) {
-              console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
-            }
-          }
-
+          });
           runModifierEffects();
           return instance.update();
         },
@@ -967,10 +827,6 @@
           // anymore
 
           if (!areValidElements(reference, popper)) {
-            {
-              console.error(INVALID_ELEMENT_ERROR);
-            }
-
             return;
           } // Store the reference and popper rects to be read by modifiers
 
@@ -993,18 +849,8 @@
           state.orderedModifiers.forEach(function (modifier) {
             return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
           });
-          var __debug_loops__ = 0;
 
           for (var index = 0; index < state.orderedModifiers.length; index++) {
-            {
-              __debug_loops__ += 1;
-
-              if (__debug_loops__ > 100) {
-                console.error(INFINITE_LOOP_ERROR);
-                break;
-              }
-            }
-
             if (state.reset === true) {
               state.reset = false;
               index = -1;
@@ -1042,10 +888,6 @@
       };
 
       if (!areValidElements(reference, popper)) {
-        {
-          console.error(INVALID_ELEMENT_ERROR);
-        }
-
         return instance;
       }
 
@@ -1060,11 +902,11 @@
       // one.
 
       function runModifierEffects() {
-        state.orderedModifiers.forEach(function (_ref3) {
-          var name = _ref3.name,
-              _ref3$options = _ref3.options,
-              options = _ref3$options === void 0 ? {} : _ref3$options,
-              effect = _ref3.effect;
+        state.orderedModifiers.forEach(function (_ref) {
+          var name = _ref.name,
+              _ref$options = _ref.options,
+              options = _ref$options === void 0 ? {} : _ref$options,
+              effect = _ref.effect;
 
           if (typeof effect === 'function') {
             var cleanupFn = effect({

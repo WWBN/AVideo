@@ -1,0 +1,52 @@
+{
+  "name": "get-size",
+  "version": "3.0.0",
+  "description": "measures element size",
+  "main": "get-size.js",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-metafizzy": "^1.2.1",
+    "qunit": "^2.17.2"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "test": "echo \"View test/ in browser\" && exit 1",
+    "version": "node tasks/version.js && git add -A ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/desandro/get-size.git"
+  },
+  "keywords": [
+    "size",
+    "DOM"
+  ],
+  "author": "David DeSandro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/desandro/get-size/issues"
+  },
+  "homepage": "https://github.com/desandro/get-size",
+  "eslintConfig": {
+    "plugins": [
+      "metafizzy"
+    ],
+    "extends": "plugin:metafizzy/browser",
+    "env": {
+      "browser": true,
+      "commonjs": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "rules": {
+      "complexity": [
+        "error",
+        20
+      ]
+    }
+  }
+}

@@ -29,7 +29,7 @@ class TopMenu extends PluginAbstract {
     }    
     
     public function getPluginVersion() {
-        return "2.1";   
+        return "2.2";   
     }
     
      public function getEmptyDataObject() {
@@ -117,7 +117,6 @@ class TopMenu extends PluginAbstract {
         return "menu_url_{$menu_item_id}";
     }
     
-
     static function setVideoMenuURL($videos_id, $menu_item_id, $url) {
         $video = new Video('', '', $videos_id);
         $externalOptions = _json_decode($video->getExternalOptions());        
@@ -190,6 +189,11 @@ class TopMenu extends PluginAbstract {
         $btn .= '<button type="button" class="btn btn-primary btn-light btn-sm btn-xs btn-block" onclick="avideoModalIframeSmall(webSiteRootURL+\\\'plugin/TopMenu/addVideoInfo.php?videos_id=\'+row.id+\'\\\');" ><i class="fas fa-edit"></i> Menu items</button>';
 
         return $btn;
+    }
+
+    public function getFooterCode(){
+        global $global;
+        include $global['systemRootPath'] . 'plugin/TopMenu/floatMenu.php';
     }
     
 }

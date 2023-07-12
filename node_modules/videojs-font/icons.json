@@ -88,22 +88,28 @@
     "svg": "av/svg/production/ic_replay_48px.svg"
   }, {
     "name": "replay-5",
-    "svg": "av/svg/production/ic_replay_5_48px.svg"
+    "svg": "replay-5.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "replay-10",
-    "svg": "av/svg/production/ic_replay_10_48px.svg"
+    "svg": "replay-10.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "replay-30",
-    "svg": "av/svg/production/ic_replay_30_48px.svg"
+    "svg": "replay-30.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "forward-5",
-    "svg": "av/svg/production/ic_forward_5_48px.svg"
+    "svg": "forward-5.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "forward-10",
-    "svg": "av/svg/production/ic_forward_10_48px.svg"
+    "svg": "forward-10.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "forward-30",
-    "svg": "av/svg/production/ic_forward_30_48px.svg"
+    "svg": "forward-30.svg",
+    "root-dir": "./custom-icons/skip-forward-backward/"
   }, {
     "name": "audio",
     "svg": "hardware/svg/production/ic_headset_48px.svg"

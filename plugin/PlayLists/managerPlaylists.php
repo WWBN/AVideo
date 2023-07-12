@@ -3,6 +3,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
+$maxItemsInPlaylist = 5;
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
@@ -162,7 +163,7 @@ TimeLogEnd($timeName, __LINE__);
                                         <button type="button" class="btn btn-default btn-xs pull-right" data-toggle="tooltip" title="<?php echo __('Play'); ?>" onclick="avideoModalIframe('<?php echo PlayLists::getLink($value["id"], true); ?>');">
                                             <i class="fas fa-play"></i>
                                         </button>
-                                        <button type="button" class="btn btn-default btn-xs editBtn " onclick="editPlayList(<?php echo $value["id"]; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
+                                        <button type="button" class="btn btn-default btn-xs editBtn " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                     </div>
@@ -213,9 +214,24 @@ TimeLogEnd($timeName, __LINE__);
                                                 <ul class="list-group">
                                                     <?php
                                                     if ($totalSubPlaylists > 0) {
+                                                        $countItemsInPlaylist = 0;
                                                         foreach ($rowsSubPlaylists as $row) {
-                                                            $durationInSeconds += durationToSeconds($row["duration"]);
+                                                            $countItemsInPlaylist++;
+                                                            if ($countItemsInPlaylist > $maxItemsInPlaylist) {
                                                     ?>
+                                                            <li class="list-group-item">
+                                                                <button type="button" class="btn btn-default btn-xs btn-block " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
+                                                                    <?php
+                                                                    echo __('More');
+                                                                    ?>
+                                                                    <i class="fas fa-ellipsis-h"></i>
+                                                                </button>
+                                                            </li>
+                                                            <?php
+                                                                break;
+                                                            }
+                                                            $durationInSeconds += durationToSeconds($row["duration"]);
+                                                            ?>
                                                             <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                 <div class="ellipsis videoTitle">
                                                                     <?php
@@ -246,10 +262,25 @@ TimeLogEnd($timeName, __LINE__);
                                             <div id="videos<?php echo $value["id"]; ?>" class="tab-pane fade <?php echo $active; ?>">
                                                 <ul class="list-group">
                                                     <?php
+                                                    $countItemsInPlaylist = 0;
                                                     foreach ($rowsNOTSubPlaylists as $row) {
+                                                        $countItemsInPlaylist++;
+                                                        if ($countItemsInPlaylist > $maxItemsInPlaylist) {
+                                                    ?>
+                                                            <li class="list-group-item">
+                                                                <button type="button" class="btn btn-default btn-xs btn-block " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
+                                                                    <?php
+                                                                    echo __('More');
+                                                                    ?>
+                                                                    <i class="fas fa-ellipsis-h"></i>
+                                                                </button>
+                                                            </li>
+                                                        <?php
+                                                            break;
+                                                        }
                                                         if ($totalNOTSubPlaylists > 0) {
                                                             $durationInSeconds += durationToSeconds($row["duration"]);
-                                                    ?>
+                                                        ?>
                                                             <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                 <div class="ellipsis videoTitle">
                                                                     <?php
@@ -438,7 +469,7 @@ TimeLogEnd($timeName, __LINE__);
                     data: {
                         'status': "public",
                         'name': inputValue,
-                        'user': '<?php echo $users_id; ?>'
+                        'users_id': '<?php echo $users_id; ?>'
                     },
                     success: function(response) {
                         if (response.status > 0) {

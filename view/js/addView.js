@@ -1,0 +1,127 @@
+var last_videos_id = 0;
+var last_currentTime = -1;
+var videoViewAdded = false;
+var addViewBeaconTimeout;
+var _addViewCheck = false;
+
+function addView(videos_id, currentTime) {
+    addViewSetCookie(PHPSESSID, videos_id, currentTime, seconds_watching_video);
+    
+    if (_addViewCheck) {
+        return false;
+    }
+    
+    if (last_videos_id === videos_id && last_currentTime === currentTime) {
+        return false;
+    }
+    
+    if (currentTime > 5 && currentTime % 30 !== 0) { // only update each 30 seconds
+        return false;
+    }
+    
+    _addViewCheck = true;
+    last_videos_id = videos_id;
+    last_currentTime = currentTime;
+    
+    _addView(videos_id, currentTime, seconds_watching_video);
+    
+    setTimeout(function() {
+        _addViewCheck = false;
+    }, 1000);
+    
+    return true;
+}
+
+var isVideoAddViewCount = false;
+
+function _addView(videos_id, currentTime, seconds_watching_video) {
+    console.log('_addView 1', videos_id, currentTime, seconds_watching_video);
+    if (isVideoAddViewCount) {
+        return false;
+    }
+    
+    console.log('_addView 2', videos_id, currentTime, seconds_watching_video);
+    isVideoAddViewCount = true;
+    
+    if (typeof PHPSESSID === 'undefined') {
+        PHPSESSID = '';
+    }
+    
+    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
+    
+    if (empty(PHPSESSID)) {
+        return false;
+    }
+    
+    console.log('_addView 3', videos_id, currentTime, seconds_watching_video);
+    url = addGetParam(url, 'PHPSESSID', PHPSESSID);
+    
+    $.ajax({
+        url: url,
+        method: 'POST',
+        data: {
+            id: videos_id,
+            currentTime: currentTime,
+            seconds_watching_video: seconds_watching_video
+        },
+        success: function(response) {
+            console.log('_addView 4', response);
+            isVideoAddViewCount = false;
+            $('.view-count' + videos_id).text(response.countHTML);
+            PHPSESSID = response.session_id;
+        }
+    });
+}
+
+var _addViewFromCookie_addingtime = false;
+
+async function addViewFromCookie() {
+    if (typeof webSiteRootURL === 'undefined') {
+        return false;
+    }
+    
+    if (_addViewFromCookie_addingtime) {
+        return false;
+    }
+    
+    _addViewFromCookie_addingtime = true;
+    
+    var addView_PHPSESSID = Cookies.get('addView_PHPSESSID');
+    var addView_videos_id = Cookies.get('addView_videos_id');
+    var addView_playerCurrentTime = Cookies.get('addView_playerCurrentTime');
+    var addView_seconds_watching_video = Cookies.get('addView_seconds_watching_video');
+    
+    if (!addView_PHPSESSID || addView_PHPSESSID === 'false' ||
+        !addView_videos_id || addView_videos_id === 'false' ||
+        !addView_playerCurrentTime || addView_playerCurrentTime === 'false' ||
+        !addView_seconds_watching_video || addView_seconds_watching_video === 'false') {
+        return false;
+    }
+    
+    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
+    url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
+    
+    if (mediaId === addView_videos_id) {
+        // it is the same video, play at the last moment
+        forceCurrentTime = addView_playerCurrentTime;
+    }
+    
+    _addView(addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
+    
+    setTimeout(function() {
+        _addViewFromCookie_addingtime = false;
+    }, 2000);
+    
+    addViewSetCookie(false, false, false, false);
+}
+
+async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds_watching_video) {
+    Cookies.set('addView_PHPSESSID', PHPSESSID, { path: '/', expires: 1 });
+    Cookies.set('addView_videos_id', videos_id, { path: '/', expires: 1 });
+    Cookies.set('addView_playerCurrentTime', playerCurrentTime, { path: '/', expires: 1 });
+    Cookies.set('addView_seconds_watching_video', seconds_watching_video, { path: '/', expires: 1 });
+}
+
+$(document).ready(function() {
+    addViewFromCookie();
+});

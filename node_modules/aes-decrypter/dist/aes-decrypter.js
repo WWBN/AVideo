@@ -1,27 +1,9 @@
-/*! @name aes-decrypter @version 3.1.3 @license Apache-2.0 */
+/*! @name aes-decrypter @version 4.0.1 @license Apache-2.0 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.aesDecrypter = {}));
-}(this, (function (exports) { 'use strict';
-
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    return Constructor;
-  }
-
-  var createClass = _createClass;
+})(this, (function (exports) { 'use strict';
 
   /**
    * @file aes.js
@@ -67,23 +49,23 @@
    *
    * @private
    */
-  var precompute = function precompute() {
-    var tables = [[[], [], [], [], []], [[], [], [], [], []]];
-    var encTable = tables[0];
-    var decTable = tables[1];
-    var sbox = encTable[4];
-    var sboxInv = decTable[4];
-    var i;
-    var x;
-    var xInv;
-    var d = [];
-    var th = [];
-    var x2;
-    var x4;
-    var x8;
-    var s;
-    var tEnc;
-    var tDec; // Compute double and third tables
+  const precompute = function () {
+    const tables = [[[], [], [], [], []], [[], [], [], [], []]];
+    const encTable = tables[0];
+    const decTable = tables[1];
+    const sbox = encTable[4];
+    const sboxInv = decTable[4];
+    let i;
+    let x;
+    let xInv;
+    const d = [];
+    const th = [];
+    let x2;
+    let x4;
+    let x8;
+    let s;
+    let tEnc;
+    let tDec; // Compute double and third tables
 
     for (i = 0; i < 256; i++) {
       th[(d[i] = i << 1 ^ (i >> 7) * 283) ^ i] = i;
@@ -115,7 +97,7 @@
     return tables;
   };
 
-  var aesTables = null;
+  let aesTables = null;
   /**
    * Schedule out an AES key for both encryption and decryption. This
    * is a low-level class. Use a cipher mode to do bulk encryption.
@@ -124,8 +106,8 @@
    * @param key {Array} The key as an array of 4, 6 or 8 words.
    */
 
-  var AES = /*#__PURE__*/function () {
-    function AES(key) {
+  class AES {
+    constructor(key) {
       /**
       * The expanded S-box and inverse S-box tables. These will be computed
       * on the client so that we don't have to send them down the wire.
@@ -146,20 +128,20 @@
 
 
       this._tables = [[aesTables[0][0].slice(), aesTables[0][1].slice(), aesTables[0][2].slice(), aesTables[0][3].slice(), aesTables[0][4].slice()], [aesTables[1][0].slice(), aesTables[1][1].slice(), aesTables[1][2].slice(), aesTables[1][3].slice(), aesTables[1][4].slice()]];
-      var i;
-      var j;
-      var tmp;
-      var sbox = this._tables[0][4];
-      var decTable = this._tables[1];
-      var keyLen = key.length;
-      var rcon = 1;
+      let i;
+      let j;
+      let tmp;
+      const sbox = this._tables[0][4];
+      const decTable = this._tables[1];
+      const keyLen = key.length;
+      let rcon = 1;
 
       if (keyLen !== 4 && keyLen !== 6 && keyLen !== 8) {
         throw new Error('Invalid aes key size');
       }
 
-      var encKey = key.slice(0);
-      var decKey = [];
+      const encKey = key.slice(0);
+      const decKey = [];
       this._key = [encKey, decKey]; // schedule encryption keys
 
       for (i = keyLen; i < 4 * keyLen + 28; i++) {
@@ -203,29 +185,27 @@
      */
 
 
-    var _proto = AES.prototype;
+    decrypt(encrypted0, encrypted1, encrypted2, encrypted3, out, offset) {
+      const key = this._key[1]; // state variables a,b,c,d are loaded with pre-whitened data
 
-    _proto.decrypt = function decrypt(encrypted0, encrypted1, encrypted2, encrypted3, out, offset) {
-      var key = this._key[1]; // state variables a,b,c,d are loaded with pre-whitened data
+      let a = encrypted0 ^ key[0];
+      let b = encrypted3 ^ key[1];
+      let c = encrypted2 ^ key[2];
+      let d = encrypted1 ^ key[3];
+      let a2;
+      let b2;
+      let c2; // key.length === 2 ?
 
-      var a = encrypted0 ^ key[0];
-      var b = encrypted3 ^ key[1];
-      var c = encrypted2 ^ key[2];
-      var d = encrypted1 ^ key[3];
-      var a2;
-      var b2;
-      var c2; // key.length === 2 ?
+      const nInnerRounds = key.length / 4 - 2;
+      let i;
+      let kIndex = 4;
+      const table = this._tables[1]; // load up the tables
 
-      var nInnerRounds = key.length / 4 - 2;
-      var i;
-      var kIndex = 4;
-      var table = this._tables[1]; // load up the tables
-
-      var table0 = table[0];
-      var table1 = table[1];
-      var table2 = table[2];
-      var table3 = table[3];
-      var sbox = table[4]; // Inner rounds. Cribbed from OpenSSL.
+      const table0 = table[0];
+      const table1 = table[1];
+      const table2 = table[2];
+      const table3 = table[3];
+      const sbox = table[4]; // Inner rounds. Cribbed from OpenSSL.
 
       for (i = 0; i < nInnerRounds; i++) {
         a2 = table0[a >>> 24] ^ table1[b >> 16 & 255] ^ table2[c >> 8 & 255] ^ table3[d & 255] ^ key[kIndex];
@@ -247,18 +227,9 @@
         c = d;
         d = a2;
       }
-    };
+    }
 
-    return AES;
-  }();
-
-  function _inheritsLoose(subClass, superClass) {
-    subClass.prototype = Object.create(superClass.prototype);
-    subClass.prototype.constructor = subClass;
-    subClass.__proto__ = superClass;
   }
-
-  var inheritsLoose = _inheritsLoose;
 
   /**
    * @file stream.js
@@ -381,6 +352,9 @@
   }();
 
   /**
+   * @file async-stream.js
+   */
+  /**
    * A wrapper around the Stream class to use setTimeout
    * and run stream "jobs" Asynchronously
    *
@@ -388,17 +362,12 @@
    * @extends Stream
    */
 
-  var AsyncStream = /*#__PURE__*/function (_Stream) {
-    inheritsLoose(AsyncStream, _Stream);
-
-    function AsyncStream() {
-      var _this;
-
-      _this = _Stream.call(this, Stream) || this;
-      _this.jobs = [];
-      _this.delay = 1;
-      _this.timeout_ = null;
-      return _this;
+  class AsyncStream extends Stream {
+    constructor() {
+      super(Stream);
+      this.jobs = [];
+      this.delay = 1;
+      this.timeout_ = null;
     }
     /**
      * process an async job
@@ -407,9 +376,7 @@
      */
 
 
-    var _proto = AsyncStream.prototype;
-
-    _proto.processJob_ = function processJob_() {
+    processJob_() {
       this.jobs.shift()();
 
       if (this.jobs.length) {
@@ -423,18 +390,17 @@
      *
      * @param {Function} job the job to push into the stream
      */
-    ;
 
-    _proto.push = function push(job) {
+
+    push(job) {
       this.jobs.push(job);
 
       if (!this.timeout_) {
         this.timeout_ = setTimeout(this.processJob_.bind(this), this.delay);
       }
-    };
+    }
 
-    return AsyncStream;
-  }(Stream);
+  }
 
   /*! @name pkcs7 @version 1.0.4 @license Apache-2.0 */
   /**
@@ -450,11 +416,17 @@
   }
 
   /**
+   * @file decrypter.js
+   *
+   * An asynchronous implementation of AES-128 CBC decryption with
+   * PKCS#7 padding.
+   */
+  /**
    * Convert network-order (big-endian) bytes into their little-endian
    * representation.
    */
 
-  var ntoh = function ntoh(word) {
+  const ntoh = function (word) {
     return word << 24 | (word & 0xff00) << 8 | (word & 0xff0000) >> 8 | word >>> 24;
   };
   /**
@@ -472,25 +444,25 @@
    */
 
 
-  var decrypt = function decrypt(encrypted, key, initVector) {
+  const decrypt = function (encrypted, key, initVector) {
     // word-level access to the encrypted bytes
-    var encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2);
-    var decipher = new AES(Array.prototype.slice.call(key)); // byte and word-level access for the decrypted output
+    const encrypted32 = new Int32Array(encrypted.buffer, encrypted.byteOffset, encrypted.byteLength >> 2);
+    const decipher = new AES(Array.prototype.slice.call(key)); // byte and word-level access for the decrypted output
 
-    var decrypted = new Uint8Array(encrypted.byteLength);
-    var decrypted32 = new Int32Array(decrypted.buffer); // temporary variables for working with the IV, encrypted, and
+    const decrypted = new Uint8Array(encrypted.byteLength);
+    const decrypted32 = new Int32Array(decrypted.buffer); // temporary variables for working with the IV, encrypted, and
     // decrypted data
 
-    var init0;
-    var init1;
-    var init2;
-    var init3;
-    var encrypted0;
-    var encrypted1;
-    var encrypted2;
-    var encrypted3; // iteration variable
+    let init0;
+    let init1;
+    let init2;
+    let init3;
+    let encrypted0;
+    let encrypted1;
+    let encrypted2;
+    let encrypted3; // iteration variable
 
-    var wordIx; // pull out the words of the IV to ensure we don't modify the
+    let wordIx; // pull out the words of the IV to ensure we don't modify the
     // passed-in reference and easier access
 
     init0 = initVector[0];
@@ -536,12 +508,12 @@
    */
 
 
-  var Decrypter = /*#__PURE__*/function () {
-    function Decrypter(encrypted, key, initVector, done) {
-      var step = Decrypter.STEP;
-      var encrypted32 = new Int32Array(encrypted.buffer);
-      var decrypted = new Uint8Array(encrypted.byteLength);
-      var i = 0;
+  class Decrypter {
+    constructor(encrypted, key, initVector, done) {
+      const step = Decrypter.STEP;
+      const encrypted32 = new Int32Array(encrypted.buffer);
+      const decrypted = new Uint8Array(encrypted.byteLength);
+      let i = 0;
       this.asyncStream_ = new AsyncStream(); // split up the encryption job and do the individual chunks asynchronously
 
       this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
@@ -564,28 +536,23 @@
      */
 
 
-    var _proto = Decrypter.prototype;
-
+    static get STEP() {
+      // 4 * 8000;
+      return 32000;
+    }
     /**
      * @private
      */
-    _proto.decryptChunk_ = function decryptChunk_(encrypted, key, initVector, decrypted) {
+
+
+    decryptChunk_(encrypted, key, initVector, decrypted) {
       return function () {
-        var bytes = decrypt(encrypted, key, initVector);
+        const bytes = decrypt(encrypted, key, initVector);
         decrypted.set(bytes, encrypted.byteOffset);
       };
-    };
+    }
 
-    createClass(Decrypter, null, [{
-      key: "STEP",
-      get: function get() {
-        // 4 * 8000;
-        return 32000;
-      }
-    }]);
-
-    return Decrypter;
-  }();
+  }
 
   exports.AsyncStream = AsyncStream;
   exports.Decrypter = Decrypter;
@@ -593,4 +560,4 @@
 
   Object.defineProperty(exports, '__esModule', { value: true });
 
-})));
+}));

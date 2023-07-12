@@ -2072,27 +2072,6 @@ class AVideoPlugin
         return;
     }
 
-    public static function onVideoSetFilesize($video_id, $oldValue, $newValue)
-    {
-        global $global;
-        if (empty($global)) {
-            $global = [];
-        }
-        $plugins = Plugin::getAllEnabled();
-        foreach ($plugins as $value) {
-            if (in_array($value['dirName'], $global['skippPlugins'])) {
-                continue;
-            }
-            self::YPTstart();
-            $p = static::loadPlugin($value['dirName']);
-            if (is_object($p)) {
-                $p->onVideoSetFilesize($video_id, $oldValue, $newValue);
-            }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
-        }
-        return;
-    }
-
     public static function onVideoSetUsers_id($video_id, $oldValue, $newValue)
     {
         global $global;
@@ -2854,6 +2833,59 @@ class AVideoPlugin
             return 'PlayLists';
         }
         return $name;
+    }
+    
+    
+    public static function executeEveryMinute()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->executeEveryMinute();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
+    public static function executeEveryHour()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->executeEveryHour();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
+    public static function executeEveryDay()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->executeEveryDay();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+    
+    public static function executeEveryMonth()
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->executeEveryMonth();
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
     }
 }
 

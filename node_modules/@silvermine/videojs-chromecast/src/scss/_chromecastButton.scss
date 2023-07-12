@@ -6,6 +6,7 @@ $icon-chromecast-casting--hover: 'images/ic_cast_connected_white_24dp.png' !defa
 
 // Sizes
 $chromecast-icon-size: 12px !default;
+$chromecast-button-spacing: 4px !default;
 
 .vjs-chromecast-button {
    .vjs-icon-placeholder {
@@ -28,5 +29,20 @@ $chromecast-icon-size: 12px !default;
       &:hover .vjs-icon-placeholder {
          background-image: url($icon-chromecast-casting--hover);
       }
+   }
+}
+
+.vjs-chromecast-button.vjs-chromecast-button-lg:not(.vjs-hidden) {
+   // Fits both the icon and the label on the same control
+   display: flex;
+   align-items: center;
+   width: auto;
+   padding: 0 $chromecast-button-spacing;
+   .vjs-chromecast-button-label {
+      flex-grow: 1;
+      margin-left: $chromecast-button-spacing;
+   }
+   .vjs-icon-placeholder {
+      flex-grow: 1;
    }
 }

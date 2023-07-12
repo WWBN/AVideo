@@ -376,7 +376,7 @@ TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/footer.php';
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
-        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
             var fading = false;
         </script>

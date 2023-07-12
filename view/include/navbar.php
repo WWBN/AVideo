@@ -114,9 +114,9 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
         <ul class="items-container">
             <?php
             TimeLogEnd($tname, __LINE__, $tTolerance);
-            include $global['systemRootPath'] . 'view/include/navbarMenuAndLogo.php';
+            echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarMenuAndLogo.php', [], true);
             TimeLogEnd($tname, __LINE__, $tTolerance);
-            include $global['systemRootPath'] . 'view/include/navbarSearch.php';
+            echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarSearch.php', [], true);
             TimeLogEnd($tname, __LINE__, $tTolerance);
             ?>
 

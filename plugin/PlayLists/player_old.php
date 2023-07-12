@@ -56,7 +56,7 @@ if (!empty($video['id'])) {
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css" rel="stylesheet">
+        <link href="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.css" rel="stylesheet">
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <style>
@@ -204,9 +204,9 @@ if (!empty($video['id'])) {
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
-        <script src="<?php echo getCDN(); ?>view/js/videojs-youtube/Youtube.js"></script>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-youtube/dist/Youtube.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
 
                                         var playerPlaylist = <?php echo json_encode($playListData); ?>;

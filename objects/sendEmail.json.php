@@ -44,7 +44,7 @@ if ($valid) {
         $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle() . " ({$_POST['first_name']})";
         $mail->msgHTML($msg);
 
-        _error_log("Send email now");
+        _error_log("Send email now to {$sendTo}");
         //send the message, check for errors
         if (!$mail->send()) {
             $obj->error = __("Message could not be sent") . " (" . $mail->ErrorInfo.")";

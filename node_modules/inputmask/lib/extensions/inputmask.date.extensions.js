@@ -5,7 +5,7 @@
  Licensed under the MIT license
  */
 import Inputmask from "../inputmask";
-import keyCode from "../keycode.json";
+import {keys} from "../keycode.js";
 import escapeRegex from "../escapeRegex";
 import {seekNext} from "../positioning";
 import {getMaskTemplate} from "../validation-tests";
@@ -39,11 +39,11 @@ class DateObject {
             if (mask !== undefined) {
                 if (dynMatches) {
                     let lastIndex = getTokenizer(opts).lastIndex,
-                        tokanMatch = getTokenMatch(match.index, opts);
+                        tokenMatch = getTokenMatch(match.index, opts);
                     getTokenizer(opts).lastIndex = lastIndex;
-                    value = mask.slice(0, mask.indexOf(tokanMatch.nextMatch[0]));
+                    value = mask.slice(0, mask.indexOf(tokenMatch.nextMatch[0]));
                 } else {
-                    value = mask.slice(0, fcode.length);
+                    value = mask.slice(0, (formatCode[fcode] && formatCode[fcode][4]) || fcode.length);
                 }
                 mask = mask.slice(value.length);
             }
@@ -100,7 +100,7 @@ let currentYear = new Date().getFullYear(),
     //supported codes for formatting
     //http://blog.stevenlevithan.com/archives/date-time-format
     //https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?view=netframework-4.7
-    formatCode = { //regex, valueSetter, type, displayformatter
+    formatCode = { //regex, valueSetter, type, displayformatter, #entries (optional)
         d: ["[1-9]|[12][0-9]|3[01]", Date.prototype.setDate, "day", Date.prototype.getDate], //Day of the month as digits; no leading zero for single-digit days.
         dd: ["0[1-9]|[12][0-9]|3[01]", Date.prototype.setDate, "day", function () {
             return pad(Date.prototype.getDate.call(this), 2);
@@ -159,10 +159,10 @@ let currentYear = new Date().getFullYear(),
         }], //Seconds; leading zero for single-digit seconds.
         l: ["[0-9]{3}", Date.prototype.setMilliseconds, "milliseconds", function () {
             return pad(Date.prototype.getMilliseconds.call(this), 3);
-        }], //Milliseconds. 3 digits.
+        }, 3], //Milliseconds. 3 digits.
         L: ["[0-9]{2}", Date.prototype.setMilliseconds, "milliseconds", function () {
             return pad(Date.prototype.getMilliseconds.call(this), 2);
-        }], //Milliseconds. 2 digits.
+        }, 2], //Milliseconds. 2 digits.
         t: ["[ap]", setAMPM, "ampm", getAMPM, 1], //Lowercase, single-character time marker string: a or p.
         tt: ["[ap]m", setAMPM, "ampm", getAMPM, 2], //two-character time marker string: am or pm.
         T: ["[AP]", setAMPM, "ampm", getAMPM, 1], //single-character time marker string: A or P.
@@ -294,7 +294,7 @@ function isValidDate(dateParts, currentResult, opts) {
 function isDateInRange(dateParts, result, opts, maskset, fromCheckval) {
     if (!result) return result;
     if (result && opts.min) {
-        if (/*useDateObject && (dateParts["year"] === undefined || dateParts["yearSet"]) && */opts.min.date.getTime() === opts.min.date.getTime()) {
+        if (/*useDateObject && (dateParts["year"] === undefined || dateParts["yearSet"]) && */!isNaN(opts.min.date.getTime())) {
             let match;
             dateParts.reset();
             getTokenizer(opts).lastIndex = 0;
@@ -334,7 +334,7 @@ function isDateInRange(dateParts, result, opts, maskset, fromCheckval) {
     }
 
     if (result && opts.max) {
-        if (opts.max.date.getTime() === opts.max.date.getTime()) {
+        if (!isNaN(opts.max.date.getTime())) {
             result = opts.max.date.getTime() >= dateParts.date.getTime();
         }
     }
@@ -541,7 +541,7 @@ Inputmask.extendAliases({
             }
 
             var result = currentResult, dateParts = analyseMask(buffer.join(""), opts.inputFormat, opts);
-            if (result && dateParts.date.getTime() === dateParts.date.getTime()) { //check for a valid date ~ an invalid date returns NaN which isn't equal
+            if (result && !isNaN(dateParts.date.getTime())) { //check for a valid date ~ an invalid date returns NaN which isn't equal
                 if (opts.prefillYear) result = prefillYear(dateParts, result, opts);
                 result = isValidDate.call(inputmask, dateParts, result, opts);
                 result = isDateInRange(dateParts, result, opts, maskset, fromCheckval);
@@ -559,7 +559,7 @@ Inputmask.extendAliases({
         },
         onKeyDown: function (e, buffer, caretPos, opts) {
             var input = this;
-            if (e.ctrlKey && e.keyCode === keyCode.RIGHT) {
+            if (e.ctrlKey && e.key === keys.ArrowRight) {
                 input.inputmask._valueSet(importDate(new Date(), opts));
                 $(input).trigger("setvalue");
             }
@@ -580,6 +580,7 @@ Inputmask.extendAliases({
             return initialValue;
         },
         insertMode: false,
+        insertModeVisual: false,
         shiftPositions: false,
         keepStatic: false,
         inputmode: "numeric",

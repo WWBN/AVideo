@@ -1,3 +1,41 @@
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/videojs/videojs-contrib-ads/compare/v7.1.0...v7.2.0) (2023-04-18)
+
+### Features
+
+* Add additional static macros ([#549](https://github.com/videojs/videojs-contrib-ads/issues/549)) ([5ae0a47](https://github.com/videojs/videojs-contrib-ads/commit/5ae0a47))
+* refactor macro logic and add support for disableDefaultMacros and macroNameOverrides parameters ([#544](https://github.com/videojs/videojs-contrib-ads/issues/544)) ([dc64fcb](https://github.com/videojs/videojs-contrib-ads/commit/dc64fcb))
+
+### Bug Fixes
+
+* playback rate should be 1 while ad is playing ([#548](https://github.com/videojs/videojs-contrib-ads/issues/548)) ([9b0dfcf](https://github.com/videojs/videojs-contrib-ads/commit/9b0dfcf))
+
+### Code Refactoring
+
+* minor improvements in macro.js ([#546](https://github.com/videojs/videojs-contrib-ads/issues/546)) ([933e243](https://github.com/videojs/videojs-contrib-ads/commit/933e243))
+
+<a name="7.1.0"></a>
+# [7.1.0](https://github.com/videojs/videojs-contrib-ads/compare/v7.0.0...v7.1.0) (2023-02-22)
+
+### Features
+
+* Standardize ads-ad-skipped event ([#542](https://github.com/videojs/videojs-contrib-ads/issues/542)) ([ad64309](https://github.com/videojs/videojs-contrib-ads/commit/ad64309))
+
+<a name="7.0.0"></a>
+# [7.0.0](https://github.com/videojs/videojs-contrib-ads/compare/v6.9.0...v7.0.0) (2023-02-03)
+
+### Features
+
+* Macro improvements ([#537](https://github.com/videojs/videojs-contrib-ads/issues/537)) ([dcf3aae](https://github.com/videojs/videojs-contrib-ads/commit/dcf3aae))
+
+### Bug Fixes
+
+* Don't break on nested macros with undefined parent ([#538](https://github.com/videojs/videojs-contrib-ads/issues/538)) ([18879a8](https://github.com/videojs/videojs-contrib-ads/commit/18879a8))
+
+### Chores
+
+* remove deprecated functionality ([#541](https://github.com/videojs/videojs-contrib-ads/issues/541)) ([169d6d2](https://github.com/videojs/videojs-contrib-ads/commit/169d6d2))
+
 <a name="6.9.0"></a>
 # [6.9.0](https://github.com/videojs/videojs-contrib-ads/compare/v6.8.0...v6.9.0) (2021-06-29)
 

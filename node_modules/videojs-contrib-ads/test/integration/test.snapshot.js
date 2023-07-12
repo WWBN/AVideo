@@ -293,8 +293,13 @@ QUnit.test('changing the source and then timing out does not restore a snapshot'
 QUnit.test('checks for a src attribute change that isn\'t reflected in currentSrc', function(assert) {
   let updatedSrc;
 
+  const srcObj = {src: 'content.webm', type: 'video/webm'};
+
   this.player.currentSource = function() {
-    return {src: 'content.webm', type: 'video/webm'};
+    return srcObj;
+  };
+  this.player.currentSources = function() {
+    return [srcObj];
   };
 
   this.player.trigger('adsready');

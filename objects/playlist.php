@@ -96,7 +96,7 @@ class PlayList extends ObjectYPT {
             }
             $images = Video::getImageFromFilename($videosP[$key]['filename'], $videosP[$key]['type']);
             $videosP[$key]['images'] = $images;
-            if ($videosP[$key]['type'] !== 'linkVideo') {
+            if ($videosP[$key]['type'] !== Video::$videoTypeLinkVideo) {
                 $videosP[$key]['videos'] = Video::getVideosPaths($videosP[$key]['filename'], true);
             }
         }

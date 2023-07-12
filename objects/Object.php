@@ -427,7 +427,8 @@ abstract class ObjectYPT implements ObjectInterface {
             'audit',
             'wallet_log',
             'live_restreams_logs',
-            'clone_SitesAllowed'
+            'clone_SitesAllowed',
+            'user_notifications'
         ];
         return in_array(static::getTableName(), $ignoreArray);
     }

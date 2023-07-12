@@ -62,7 +62,45 @@ QUnit.test('is not in an ad break by default', function(assert) {
 });
 
 QUnit.test('handles events', function(assert) {
-  this.state.onPlay = sinon.stub();
-  this.state.handleEvent('play');
-  assert.ok(this.state.onPlay.calledOnce);
+  const eventNames = [
+    'play',
+    'adsready',
+    'adserror',
+    'adscanceled',
+    'adtimeout',
+    'ads-ad-started',
+    'ads-ad-skipped',
+    'contentchanged',
+    'contentresumed',
+    'readyforpostroll',
+    'playing',
+    'ended',
+    'nopreroll',
+    'nopostroll',
+    'adended'
+  ];
+
+  const methods = [
+    'onPlay',
+    'onAdsReady',
+    'onAdsError',
+    'onAdsCanceled',
+    'onAdTimeout',
+    'onAdStarted',
+    'onAdSkipped',
+    'onContentChanged',
+    'onContentResumed',
+    'onReadyForPostroll',
+    'onPlaying',
+    'onEnded',
+    'onNoPreroll',
+    'onNoPostroll',
+    'onAdEnded'
+  ];
+
+  methods.forEach((name, i) => {
+    this.state[name] = sinon.stub();
+    this.state.handleEvent(eventNames[i]);
+    assert.ok(this.state[name].calledOnce);
+  });
 });

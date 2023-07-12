@@ -29,7 +29,7 @@ $name = $plp->getName();
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo getURL('plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css'); ?>" rel="stylesheet">
+        <link href="<?php echo getURL('node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.css'); ?>" rel="stylesheet">
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <style>
@@ -140,10 +140,10 @@ $name = $plp->getName();
         echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist/videojs-playlist.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getURL('plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo getURL('view/js/videojs-youtube/Youtube.js'); ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
+        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-playlist/dist/videojs-playlist.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-youtube/dist/Youtube.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
 
             var playerPlaylist = <?php echo json_encode($playListData); ?>;
@@ -233,24 +233,27 @@ $name = $plp->getName();
                     }
                 });
                 setTimeout(function () {
+                    if (typeof player == 'undefined') {
+                        player = videojs(videoJsId);
+                    }
+
                     var Button = videojs.getComponent('Button');
-                    var nextButton = videojs.extend(Button, {
-                        //constructor: function(player, options) {
-                        constructor: function () {
-                            Button.apply(this, arguments);
-                            //this.addClass('vjs-chapters-button');
+
+                    class NextButton extends Button {
+                        constructor() {
+                            super(...arguments);
                             this.addClass('next-button');
                             this.addClass('vjs-button-fa-size');
                             this.controlText("Next");
-                        },
-                        handleClick: function () {
-                            player.playlist.next();
                         }
-                    });
+                        handleClick() {
+                            document.location = autoPlayVideoURL;
+                        }
+                    }
 
                     // Register the new component
-                    videojs.registerComponent('nextButton', nextButton);
-                    player.getChild('controlBar').addChild('nextButton', {}, getPlayerButtonIndex('PlayToggle') + 1);
+                    videojs.registerComponent('NextButton', NextButton);
+                    player.getChild('controlBar').addChild('NextButton', {}, getPlayerButtonIndex('PlayToggle') + 1);
                 }, 30);
 
             });

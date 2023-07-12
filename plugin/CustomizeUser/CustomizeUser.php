@@ -47,6 +47,7 @@ class CustomizeUser extends PluginAbstract
         global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
         $obj->nonAdminCannotDownload = false;
+        $obj->nonAdminCannotDeleteVideo = false;
         $obj->userCanAllowFilesDownload = false;
         $obj->userCanAllowFilesShare = false;
         $obj->userCanAllowFilesDownloadSelectPerVideo = false;
@@ -294,13 +295,8 @@ class CustomizeUser extends PluginAbstract
     {
         global $advancedCustom;
 
-        if (!empty($advancedCustom->disableShareOnly)) {
-            _error_log("CustomizeUser::canShareVideosFromUser disableShareOnly");
-            return false;
-        }
-
-        if (!empty($advancedCustom->disableShareAndPlaylist)) {
-            _error_log("CustomizeUser::canShareVideosFromUser disableShareAndPlaylist");
+        if (!isShareEnabled()) {
+            _error_log("NOT isShareEnabled()");
             return false;
         }
 
@@ -482,7 +478,7 @@ class CustomizeUser extends PluginAbstract
                 //_error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
                 return true;
             } else {
-                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [{$_SERVER['HTTP_REFERER']}]");
+                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [".(@$_SERVER['HTTP_REFERER'])."]");
             }
         }
         $cansee = User::canWatchVideoWithAds($videos_id);
