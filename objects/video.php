@@ -1579,9 +1579,9 @@ if (!class_exists('Video')) {
                 }
                 if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
                     $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
-                    unset($_POST['sort']['v.created']);
-                    unset($_POST['sort']['created']);
-                    $_POST['sort']['v.order'] = 'IS NULL';
+                    unset($_POST['sort']);
+                    $_POST['sort'] = array();
+                    $_POST['sort']['v.order'] = 'IS NOT NULL DESC';
                     $_POST['sort']['order'] = 'ASC';
                     $_POST['sort']['v.created'] =$created;
                 }
