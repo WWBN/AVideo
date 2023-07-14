@@ -2511,22 +2511,8 @@ class API extends PluginAbstract {
      * @return \ApiObject Returns an ApiObject containing the encrypted user information, including the generated code.
      */
     public function set_api_login_code($parameters) {
-        global $global, $config;
-        $code = getRandomCode();
-        $obj = array(
-            'username'=>User::getUserName(),
-            'users_id'=>User::getId(),
-            'code'=>$code,
-            'expires'=>strtotime('+10 minutes'),
-        );
-        
-        $path = getTmpDir('loginCodes');
-        make_path($path);
-        $filename = "{$path}{$code}.log";
-        //$obj['filename'] = $filename;
-        $obj['bytes'] = file_put_contents($filename, encryptString(json_encode($obj)));
-
-        return new ApiObject('', !User::isLogged(), $obj);
+        $obj = getActivationCode();
+        return new ApiObject('', empty($obj['bytes']), $obj);
     }
 
     /**

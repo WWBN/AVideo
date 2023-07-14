@@ -1,6 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../videos/configuration.php';
 $_page = new Page(array('Activate'));
+$activation = getActivationCode();
 ?>
 <style>
 .loginCode{
@@ -11,7 +12,7 @@ $_page = new Page(array('Activate'));
 <div class="container">
     <div class="panel panel-default">
         <div class="panel panel-body text-center ">
-            <strong class="loginCode"><?php echo getRandomCode(); ?></strong>
+            <strong class="loginCode"><?php echo $activation['code']; ?></strong>
         </div>
     </div>
 </div>
