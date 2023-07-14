@@ -39,7 +39,7 @@ class MemoryCookieStore extends Store {
   constructor() {
     super();
     this.synchronous = true;
-    this.idx = {};
+    this.idx = Object.create(null);
     const customInspectSymbol = getCustomInspectSymbol();
     if (customInspectSymbol) {
       this[customInspectSymbol] = this.inspect;
@@ -111,10 +111,10 @@ class MemoryCookieStore extends Store {
 
   putCookie(cookie, cb) {
     if (!this.idx[cookie.domain]) {
-      this.idx[cookie.domain] = {};
+      this.idx[cookie.domain] = Object.create(null);
     }
     if (!this.idx[cookie.domain][cookie.path]) {
-      this.idx[cookie.domain][cookie.path] = {};
+      this.idx[cookie.domain][cookie.path] = Object.create(null);
     }
     this.idx[cookie.domain][cookie.path][cookie.key] = cookie;
     cb(null);
@@ -146,7 +146,7 @@ class MemoryCookieStore extends Store {
     return cb(null);
   }
   removeAllCookies(cb) {
-    this.idx = {};
+    this.idx = Object.create(null);
     return cb(null);
   }
   getAllCookies(cb) {
@@ -196,9 +196,9 @@ exports.MemoryCookieStore = MemoryCookieStore;
 function inspectFallback(val) {
   const domains = Object.keys(val);
   if (domains.length === 0) {
-    return "{}";
+    return "[Object: null prototype] {}";
   }
-  let result = "{\n";
+  let result = "[Object: null prototype] {\n";
   Object.keys(val).forEach((domain, i) => {
     result += formatDomain(domain, val[domain]);
     if (i < domains.length - 1) {
@@ -212,7 +212,7 @@ function inspectFallback(val) {
 
 function formatDomain(domainName, domainValue) {
   const indent = "  ";
-  let result = `${indent}'${domainName}': {\n`;
+  let result = `${indent}'${domainName}': [Object: null prototype] {\n`;
   Object.keys(domainValue).forEach((path, i, paths) => {
     result += formatPath(path, domainValue[path]);
     if (i < paths.length - 1) {
@@ -226,7 +226,7 @@ function formatDomain(domainName, domainValue) {
 
 function formatPath(pathName, pathValue) {
   const indent = "    ";
-  let result = `${indent}'${pathName}': {\n`;
+  let result = `${indent}'${pathName}': [Object: null prototype] {\n`;
   Object.keys(pathValue).forEach((cookieName, i, cookieNames) => {
     const cookie = pathValue[cookieName];
     result += `      ${cookieName}: ${cookie.inspect()}`;

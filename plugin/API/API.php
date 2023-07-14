@@ -843,9 +843,13 @@ class API extends PluginAbstract {
                     );
                 }
             }
+            $rows[$key]['sources'] = array();
             if (empty($rows[$key]['videos'])) {
                 $rows[$key]['videos'] = new stdClass();
+            }else{
+                $rows[$key]['sources'] = Video::getVideosPathsToSource($rows[$key]['videos']);
             }
+            
             $rows[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
             $rows[$key]['Thumbnail'] = !empty($objMob->portraitImage) ? $images->posterPortraitThumbs : $images->thumbsJpg;
             $rows[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
@@ -899,7 +903,7 @@ class API extends PluginAbstract {
             //$rows[$key]['wwbnImgGif'] = $rows[$key]['pageUrl'];
             //$rows[$key]['wwbnTags'] = $rows[$key]['pageUrl'];
             $rows[$key]['wwbnTitle'] = $rows[$key]['title'];
-            $rows[$key]['wwbnDescription'] = $rows[$key]['description'];
+            //$rows[$key]['wwbnDescription'] = $rows[$key]['description'];
             //$rows[$key]['wwbnChannel'] = User::getChannelLink($rows[$key]['users_id']);
             $rows[$key]['wwbnChannelURL'] = User::getChannelLink($rows[$key]['users_id']);
             $rows[$key]['wwbnImgChannel'] = $rows[$key]['UserPhoto'];
@@ -2497,7 +2501,9 @@ class API extends PluginAbstract {
      * 
      * Generates a one-time login code for a specific user.
      * The function takes username and password as parameters and creates a unique login code. 
-     * This code is then saved into a log file within a specified directory. The code along with user details is encrypted before storing.
+     * This code is then saved into a log file within a specified directory. 
+     * The code along with user details is encrypted before storing.
+     * The code expires in 10 minutes
      * 
      * ['user' username of the user]
      * ['pass' password  of the user]
@@ -2511,6 +2517,7 @@ class API extends PluginAbstract {
             'username'=>User::getUserName(),
             'users_id'=>User::getId(),
             'code'=>$code,
+            'expires'=>strtotime('+10 minutes'),
         );
         
         $path = getTmpDir('loginCodes');
@@ -2519,7 +2526,7 @@ class API extends PluginAbstract {
         //$obj['filename'] = $filename;
         $obj['bytes'] = file_put_contents($filename, encryptString(json_encode($obj)));
 
-        return new ApiObject("", !User::isLogged(), $obj);
+        return new ApiObject('', !User::isLogged(), $obj);
     }
 
     /**
@@ -2546,6 +2553,14 @@ class API extends PluginAbstract {
                 $string = decryptString($content);
                 if(!empty($string)){
                     $obj = json_decode($string);
+                    if($obj->expires < time()){
+                        $msg = 'Code is expired';
+                        $obj = false;
+                    }else{
+                        $obj->photo = User::getPhoto($obj->users_id);
+                        $obj->identification = User::getNameIdentificationById($obj->users_id);
+                        $obj->email = User::getEmailDb($obj->users_id);
+                    }
                 }else{            
                     $msg = 'Code is corrupted';
                 }

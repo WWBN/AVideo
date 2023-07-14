@@ -12,8 +12,12 @@ function getTemplateFromArray(itemsArray) {
         } else if (search == 'element_class' && !empty(itemsArray.id)) {
             replace += " UserNotificationsJS_" + itemsArray.id;
         } else if (search == 'created' && typeof _serverSystemTimezone !== 'undefined') {
-            m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
-            replace = m.fromNow();
+            try {
+                m = moment.tz(itemsArray.created, _serverSystemTimezone).local();
+                replace = m.fromNow();
+            } catch (error) {
+                console.warn('m = moment.tz(created, "'+_serverSystemTimezone+'").local()', itemsArray.created, _serverSystemTimezone, error);
+            }
         } else if (search == 'href' && !empty(replace) && !isValidURL(replace)) {
             replace = webSiteRootURL + replace;
         }

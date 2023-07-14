@@ -505,7 +505,11 @@ if (User::hasBlockedUser($video['users_id'])) {
     include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
     ?>
     <?php
-    echo combineFilesHTML($jsFiles, "js");
+    //echo combineFilesHTML($jsFiles, "js");
+    foreach ($jsFiles as $key => $value) {
+        echo getTagIfExists($value);
+    }
+    include $global['systemRootPath'] . 'view/include/moment.js.php';
     echo AVideoPlugin::getFooterCode();
     include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
     ?>

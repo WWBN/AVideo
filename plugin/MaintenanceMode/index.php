@@ -130,12 +130,12 @@ if(empty($obj)){
         include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
         ?>
         <!--===============================================================================================-->
-        <script src="<?php echo getCDN(); ?>view/js/select2/select2.min.js"></script>
+        <script src="<?php echo getURL('view/js/select2/select2.min.js'); ?>"></script>
         <!--===============================================================================================-->
-        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment.min.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment-timezone.min.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment-timezone-with-data.min.js"></script>
-        <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/countdowntime.js"></script>
+        <?php
+        include $global['systemRootPath'] . 'view/include/moment.js.php';
+        ?>
+        <script src="<?php echo getURL('plugin/MaintenanceMode/vendor/countdowntime/countdowntime.js'); ?>"></script>
         <?php
         if (empty($obj->hideClock) && !empty($obj->endIn)) {
             ?>

@@ -613,11 +613,9 @@ if (!is_numeric($toTime)) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         if (!empty($toTime)) {
-            ?>
-            <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment.min.js"></script>
-            <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment-timezone.min.js"></script>
-            <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/moment-timezone-with-data.min.js"></script>
-            <script src="<?php echo getCDN(); ?>plugin/MaintenanceMode/vendor/countdowntime/countdowntime.js"></script>
+            include $global['systemRootPath'] . 'view/include/moment.js.php';
+        ?>
+            <script src="<?php echo getURL('plugin/MaintenanceMode/vendor/countdowntime/countdowntime.js'); ?>"></script>
             <script>
                 $('.cd100').countdown100({
                     endtimeYear: <?php echo date("Y", ($toTime)); ?>,

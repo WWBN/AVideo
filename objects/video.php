@@ -6480,6 +6480,36 @@ if (!class_exists('Video')) {
             return $_getVideoWithMoreViews;
         }
 
+        static public function getVideosPathsToSource($paths){
+            $sources = array();
+            if(!empty($paths)){
+                $paths = object_to_array($paths);
+                if(!empty($paths['m3u8'])){
+                    foreach ($paths as $key => $value) {
+                        if(!is_array($value)){
+                            continue;
+                        }
+                        $label = 'Auto';
+                        $res = 'auto';
+                        if($value['resolution']!=='auto'){
+                            $label = "{$value['resolution']}p";
+                            $res = $value['resolution'];
+                        }
+                        $sources[] = array('src'=> $value['url'], 'type'=>  'application/x-mpegURL', 'label'=> $label, 'res'=>$res);
+                    }
+                }else if(!empty($paths['mp4']) && is_array($paths['mp4'])){
+                    foreach ($paths['mp4'] as $key => $value) {
+                        $label = "{$key}p";
+                        $res = $key;
+                        $sources[] = array('src'=> $value, 'type'=>  'video/mp4', 'label'=> $label, 'res'=>$res);
+                    }
+                }else if(!empty($paths['mp3'])){
+                    $sources[] = array('src'=> $paths['mp3'], 'type'=>  'audio/mpeg', 'label'=> 'Audio', 'res'=>'');
+                }
+            }
+            return $sources;
+        }
+
     }
 
 }

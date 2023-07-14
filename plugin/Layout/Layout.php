@@ -1088,95 +1088,71 @@ class Layout extends PluginAbstract
     }
 }
 
+function compareOrder($a, $b, $firstOrder, $lastOrder)
+{
+    $aIndexFirst = $aIndexLast = $bIndexFirst = $bIndexLast = null;
+
+    // Check if $a and $b are in $firstOrder
+    foreach($firstOrder as $index => $value) {
+        if(strpos($a, $value) !== false) $aIndexFirst = $index;
+        if(strpos($b, $value) !== false) $bIndexFirst = $index;
+    }
+    
+    // Check if $a and $b are in $lastOrder
+    foreach($lastOrder as $index => $value) {
+        if(strpos($a, $value) !== false) $aIndexLast = $index;
+        if(strpos($b, $value) !== false) $bIndexLast = $index;
+    }
+
+    // Handle case when $a and $b are in $firstOrder
+    if($aIndexFirst !== null && $bIndexFirst !== null) {
+        return $aIndexFirst - $bIndexFirst; // order by position in $firstOrder
+    }
+    if($aIndexFirst !== null) {
+        return -1; // $a in $firstOrder, $b not
+    }
+    if($bIndexFirst !== null) {
+        return 1; // $b in $firstOrder, $a not
+    }
+
+    // Handle case when $a and $b are in $lastOrder
+    if($aIndexLast !== null && $bIndexLast !== null) {
+        return $aIndexLast - $bIndexLast; // order by position in $lastOrder
+    }
+    if($aIndexLast !== null) {
+        return 1; // $a in $lastOrder, $b not
+    }
+    if($bIndexLast !== null) {
+        return -1; // $b in $lastOrder, $a not
+    }
+
+    // If none of the above conditions met, order doesn't matter
+    return 0;
+}
+
+
+
+
 function _sortJS($a, $b)
 {
-    // make it first
-    if (preg_match('/jquery(.min)?.js/i', $a)) {
-        return -1;
-    }
-    if (preg_match('/jquery(.min)?.js/i', $b)) {
-        return 1;
-    }
-    if (preg_match('/jquery-ui/i', $a)) {
-        return -1;
-    }
-    if (preg_match('/jquery-ui/i', $b)) {
-        return 1;
-    }
-    if (preg_match('/\/js\/bootstrap\.min\.js/', $a)) {
-        return -1;
-    }
-    if (preg_match('/\/js\/bootstrap\.min\.js/', $b)) {
-        return 1;
-    }
-    if (preg_match('/js.cookie.js/i', $a)) {
-        return -1;
-    }
-    if (preg_match('/js.cookie.js/i', $b)) {
-        return 1;
-    }
-
-    // videojs
-    if (preg_match('/video\.?js/i', $a) || preg_match('/video\.?js/i', $b)) {
-        if (preg_match('/node_modules.video.js.dist.video/i', $a)) {
-            return -1;
-        }
-        if (preg_match('/node_modules.video.js.dist.video/i', $b)) {
-            return 1;
-        }
-        // must come right after video js
-        if (preg_match('/videojs-contrib-ads/i', $a)) {
-            return -1;
-        }
-        if (preg_match('/videojs-contrib-ads/i', $b)) {
-            return 1;
-        }
-        if (preg_match('/videojs-ima/i', $a)) {
-            return -1;
-        }
-        if (preg_match('/videojs-ima/i', $b)) {
-            return 1;
-        }
-        return 1;
-    }
-
-
-    // make it last
-    if (preg_match('/js.script.js/i', $a)) {
-        return 1;
-    }
-    if (preg_match('/js.script.js/i', $b)) {
-        return -1;
-    }
-    if (preg_match('/\/plugin\//', $a)) {
-        return 1;
-    }
-    if (preg_match('/\/plugin\//', $b)) {
-        return -1;
-    }
-
-    // moment timezone must be after moment
-    if (preg_match('/\/moment-timezone\//', $a) && preg_match('/\/moment\//', $b)) {
-        return 1;
-    }
-    if (preg_match('/\/moment\//', $b) && preg_match('/\/moment-timezone\//', $a)) {
-        return -1;
-    }
-    if (preg_match('/\/moment.min.js/', $a) && preg_match('/\/moment\/locale/', $b)) {
-        return -1;
-    }
-    if (preg_match('/\/moment.min.js/', $b) && preg_match('/\/moment\/locale/', $a)) {
-        return 1;
-    }
-    // lazy plugin must be after lazy
-    if (preg_match('/jquery\.lazy/', $a) || preg_match('/\/jquery\.lazy/', $b)) {
-        if (preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $a) || preg_match('/\/jquery\.lazy\.min\.js/', $b)) {
-            return 1;
-        }
-        if (preg_match('/\/jquery\.lazy\.min\.js/', $a) || preg_match('/\/jquery\.lazy\.plugins\.min\.js/', $b)) {
-            return -1;
-        }
-    }
-
-    return 0;
+    $firstOrder = [
+        "jquery.min.js",
+        "jquery-ui",
+        "js/bootstrap.min.js",
+        "js.cookie.js",
+        "node_modules/video.js/dist/video",
+        "videojs-contrib-ads",
+        "videojs-ima",
+        "moment.min.js",
+        "moment-timezone.min.js",
+        "moment-timezone-with-data.min.js",
+        "moment/locale/",
+        "jquery.lazy.min.js",
+        "jquery.lazy.plugins.min.js"
+    ];   
+    $lastOrder = [
+        "js/script.js",
+        "/plugin/",
+    ];   
+    return compareOrder($a, $b, $firstOrder, $lastOrder);
 }

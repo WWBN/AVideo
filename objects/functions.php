@@ -6598,11 +6598,11 @@ function _utf8_encode_recursive($object) {
 }
 
 function _json_encode($object) {
-    if (empty($object)) {
-        return $object;
-    }
     if (is_string($object)) {
         return $object;
+    }
+    if (empty($object)) {
+        return json_encode($object);
     }
 
     // Ensure that all strings within the object are UTF-8 encoded
@@ -8779,6 +8779,32 @@ function getDatabaseTime() {
     return $_getDatabaseTime;
 }
 
+function fixTimezone($timezone) {
+    $known_abbreviations = [
+        'PDT' => 'America/Los_Angeles',
+        'PST' => 'America/Los_Angeles',
+        'EDT' => 'America/New_York',
+        'EST' => 'America/New_York',
+        'CDT' => 'America/Chicago',
+        'CST' => 'America/Chicago',
+        'CEST' => 'Europe/Madrid',
+        'Etc/UTC' => 'America/Los_Angeles',
+        //'UTC' => 'America/Los_Angeles'
+    ];
+
+    // If the timezone is a known abbreviation, replace it
+    if (array_key_exists($timezone, $known_abbreviations)) {
+        $timezone = $known_abbreviations[$timezone];
+    }
+
+    // If the timezone is not a valid identifier, default to 'UTC'
+    if (!in_array($timezone, timezone_identifiers_list())) {
+        $timezone = 'America/Los_Angeles';
+    }
+
+    return $timezone;
+}
+
 function getSystemTimezone() {
     global $global, $_getSystemTimezoneName;
     if (isset($_getSystemTimezoneName)) {
@@ -8792,6 +8818,8 @@ function getSystemTimezone() {
     }
 
     $_getDatabaseTimezoneName = trim(preg_replace('/[^a-z0-9_ \/-]+/si', '', shell_exec($cmd)));
+
+    $_getDatabaseTimezoneName = fixTimezone($_getDatabaseTimezoneName);
 
     return $_getDatabaseTimezoneName;
 }
@@ -8811,15 +8839,7 @@ function getDatabaseTimezoneName() {
         $_getDatabaseTimezoneName = false;
     }
 
-    if ($_getDatabaseTimezoneName == 'PDT' || $_getDatabaseTimezoneName == 'PST') {
-        $_getDatabaseTimezoneName = 'America/Los_Angeles';
-    } elseif ($_getDatabaseTimezoneName == 'EDT' || $_getDatabaseTimezoneName == 'EST') {
-        $_getDatabaseTimezoneName = 'America/New_York';
-    } elseif ($_getDatabaseTimezoneName == 'CDT' || $_getDatabaseTimezoneName == 'CST') {
-        $_getDatabaseTimezoneName = 'America/Chicago';
-    } elseif ($_getDatabaseTimezoneName == 'CEST') {
-        $_getDatabaseTimezoneName = 'Europe/Madrid';
-    }
+    $_getDatabaseTimezoneName = fixTimezone($_getDatabaseTimezoneName);
 
     return $_getDatabaseTimezoneName;
 }
