@@ -2537,7 +2537,7 @@ class API extends PluginAbstract {
      * If the file or the code does not exist, or the decrypted information is empty, it returns a message indicating the error.
      *
      * 'code' The one-time login code generated in the set_api_login_code function.
-     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&user=admin&pass=f321d14cdeeb7cded7489f504fa8862b
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&code=XXXX-XXXX
      * @return \ApiObject Returns an ApiObject containing the decrypted user information, or a message indicating the error.
      */
     public function get_api_login_code($parameters) {
