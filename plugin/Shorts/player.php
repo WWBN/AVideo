@@ -314,9 +314,14 @@ if ($removeAnimation) {
             contain: true,
             pageDots: false,
             initialIndex: initialIndex,
-            bgLazyLoad: true
+            bgLazyLoad: true,
+            adaptiveHeight: true,
+            cellSelector: '.carousel-cell', 
         });
         $carouselPlayer.on('scroll.flickity', function (event, progress) {
+            if (typeof currentCell != 'undefined') {
+                currentCell.html('');
+            }
             if (progress > 0.7) {
                 loadShorts();
             }
