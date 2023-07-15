@@ -1148,7 +1148,9 @@ function _sortJS($a, $b)
         "moment-timezone-with-data.min.js",
         "moment/locale/",
         "jquery.lazy.min.js",
-        "jquery.lazy.plugins.min.js"
+        "jquery.lazy.plugins.min.js",
+        "flickity.pkgd.min.js",
+        "flickity-bg-lazyload/bg-lazyload.js",
     ];   
     $lastOrder = [
         "js/script.js",
