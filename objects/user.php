@@ -1651,6 +1651,12 @@ if (typeof gtag !== \"function\") {
     }
 
     public function setPassword($password, $doNotEncrypt = false) {
+        if (strpos($password, "_user_hash_") === 0) {
+            $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
+            if(!empty($passwordFromHash)){
+                $password = $passwordFromHash;
+            }
+        }
         if (!empty($password)) {
             if ($doNotEncrypt) {
                 $this->password = ($password);
