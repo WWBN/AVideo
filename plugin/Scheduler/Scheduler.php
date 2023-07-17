@@ -45,7 +45,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "4.4";
+        return "5.0";
     }
 
     public function updateScript()
@@ -88,6 +88,13 @@ class Scheduler extends PluginAbstract
         }
         if (AVideoPlugin::compareVersion($this->getName(), "4.4") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.4.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSqlTry(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "5.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV5.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSqlTry(trim($value));

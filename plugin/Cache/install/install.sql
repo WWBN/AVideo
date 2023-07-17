@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS `CachesInDB` (
   `user_location` VARCHAR(255) NULL,
   `expires` DATETIME NULL,
   `timezone` VARCHAR(255) NULL,
+  `created_php_time` INT(11) NULL,
   `name` VARCHAR(500) NULL,
   PRIMARY KEY (`id`),
   INDEX `cacheds1` (`domain` ASC),
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS `CachesInDB` (
   INDEX `caches6` (`modified` ASC),
   INDEX `caches7` (`expires` ASC),
   INDEX `caches8` (`timezone` ASC),
-  INDEX `caches9` (`name` ASC))
+  INDEX `caches9` (`name` ASC),
+  INDEX `CachesInDB_created_php_time` (`created_php_time` ASC))
 ENGINE = InnoDB;
 ALTER TABLE CachesInDB ADD FULLTEXT(name);

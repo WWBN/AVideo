@@ -29,7 +29,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";
+        return "4.0";
     }
 
     
@@ -44,6 +44,13 @@ class Cache extends PluginAbstract {
             }
             if(class_exists('LiveTransmitionHistory')){
                 LiveTransmitionHistory::finishALL();
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "4.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Cache/install/updateV4.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
             }
         }
         return true;

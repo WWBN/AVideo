@@ -12,7 +12,7 @@ class Scheduler_commands extends ObjectYPT {
     protected $id, $callbackURL, $parameters, $date_to_execute, $executed_in,
             $status, $callbackResponse, $timezone,
             $repeat_minute, $repeat_hour, $repeat_day_of_month, $repeat_month,
-            $repeat_day_of_week, $type, $videos_id;
+            $repeat_day_of_week, $type, $videos_id, $time_to_execute;
 
     static function getSearchFieldsNames() {
         return array('callbackURL', 'parameters');
@@ -137,6 +137,7 @@ class Scheduler_commands extends ObjectYPT {
             $date_to_execute = date('Y-m-d H:i:s', $date_to_execute);
         }
         $this->date_to_execute = $date_to_execute;
+        $this->time_to_execute = strtotime($date_to_execute);
     }
 
     function setExecuted_in($executed_in) {
@@ -352,5 +353,15 @@ class Scheduler_commands extends ObjectYPT {
         }
         return $rows;
     }
+    
+    public function getTime_to_execute() {
+        return $this->time_to_execute;
+    }
+
+    public function setTime_to_execute($time_to_execute): void {
+        $this->time_to_execute = $time_to_execute;
+    }
+
+
 
 }
