@@ -1478,7 +1478,7 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    private static function getUserHash($users_id, $valid = '+7 days') {
+    static function getUserHash($users_id, $valid = '+7 days') {
         $obj = new stdClass();
         $obj->u = $users_id;
         $obj->v = strtotime($valid);
