@@ -229,7 +229,10 @@ Best regards,
         }
 
         if(empty($config) || !is_object($config)){
-            $config = new Configuration();
+            require_once $global['systemRootPath'] . 'objects/configuration.php';
+            if (class_exists('Configuration')) {
+                $config = new Configuration();
+            }
         }
 
         $user = $u->getNameIdentificationBd();
