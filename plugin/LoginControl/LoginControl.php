@@ -227,6 +227,10 @@ Best regards,
             return false;
         }
 
+        if(empty($config) || !is_object($config)){
+            $config = new Configuration();
+        }
+
         $user = $u->getNameIdentificationBd();
         $siteName = $config->getWebSiteTitle();
         $userIP = getRealIpAddr();
