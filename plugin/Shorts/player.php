@@ -361,13 +361,11 @@ if ($removeAnimation) {
             }
             timeoutId = setTimeout(function () {
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
-                if (currentShortsPlayerIndex == index2) {
-                    //console.log('Flickity settled canceled ', index2, currentShortsPlayerIndex);
-                    //return false;
+                if (currentShortsPlayerIndex !== index2) {
+                    carouselPlayerGetLikes();
                 }
                 currentShortsPlayerIndex = index2;
                 currentCarouselPlayerVideo = shortVideos[index2];
-                carouselPlayerGetLikes();
                 index = index2;
                 var src = 'about:blank';
                 if (shortIsOpen) {

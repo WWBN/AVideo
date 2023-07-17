@@ -46,23 +46,39 @@ class VideoStatistic extends ObjectYPT {
         if (empty($videos_id)) {
             die(__("You need a video to generate statistics"));
         }
-
-        $userId = empty($_SESSION["user"]["id"]) ? "NULL" : $_SESSION["user"]["id"];
+        
+        if(empty($_SESSION["user"]["id"])){
+            $userId = 0;
+        }else{
+            $userId = $_SESSION["user"]["id"];
+        }
 
         $lastVideoTime = 0;
         if (empty($currentTime)) {
-            $lastStatistic = self::getLastStatistics($videos_id, $userId);
+            $lastStatistic = self::getLastStatistics($videos_id, $userId, getRealIpAddr(), session_id());
             if (empty($currentTime) && !empty($lastStatistic)) {
                 $lastVideoTime = intval($lastStatistic['lastVideoTime']);
             }
         } else {
             $lastVideoTime = intval($currentTime);
         }
-
-        $sql = "INSERT INTO videos_statistics "
-                . "(`when`,ip, users_id, videos_id, lastVideoTime, created, modified, session_id) values "
-                . "(now(),?," . $userId . ",?,{$lastVideoTime},now(),now(),'" . session_id() . "')";
-        $insert_row = sqlDAL::writeSql($sql, "si", [getRealIpAddr(), $videos_id]);
+        
+        $columns = array('`when`','ip','videos_id','lastVideoTime','created','modified','session_id','timezone','created_php_time');
+        $values = array('now()','?','?','?','now()','now()','?','?','?');
+        $formatValues = [getRealIpAddr(), $videos_id, $lastVideoTime, session_id(), date_default_timezone_get(), time()];
+        $formats = 'siissi';
+        
+        if(!empty($userId)){
+            $columns[] = 'users_id';
+            $values[] = '?';
+            $formats .= 'i';
+            $formatValues[] = $userId;
+        }
+        
+        $sql = "INSERT INTO videos_statistics (".implode(',', $columns).") values "
+                . "(".implode(',', $values).")";
+        //var_dump($sql, $formats, $formatValues, $columns, $values);
+        $insert_row = sqlDAL::writeSql($sql, $formats, $formatValues);
         //if($videos_id==4){_error_log($sql);}
         /**
          *
@@ -80,7 +96,7 @@ class VideoStatistic extends ObjectYPT {
         if(isBot()){
             return false;
         }
-        $lastStatistic = self::getLastStatistics($videos_id, $users_id);
+        $lastStatistic = self::getLastStatistics($videos_id, $users_id, getRealIpAddr(), session_id());
         if (empty($lastStatistic)) {
             $vs = new VideoStatistic(0);
             $vs->setUsers_id($users_id);
@@ -132,7 +148,7 @@ class VideoStatistic extends ObjectYPT {
         $this->json = ($this->json);
 
         if(empty($this->id)){
-            $row = self::getLastStatistics($this->videos_id, $this->users_id);
+            $row = self::getLastStatistics($this->videos_id, $this->users_id, getRealIpAddr(), session_id());
             if(!empty($row)){
                 $this->id = $row['id'];
             }
@@ -141,22 +157,49 @@ class VideoStatistic extends ObjectYPT {
         return parent::save();
     }
 
-    public static function getLastStatistics($videos_id, $users_id = 0) {
+    public static function getLastStatistics($videos_id, $users_id = 0, $ip = '', $session_id = '') {
+    
+        if(empty($videos_id)){
+            return false;
+        }
+        
+        $sql = "SELECT * FROM videos_statistics WHERE 1=1 ";
+
+        $conditions = [];
+        $params = [];
+    
+        $sql .= " AND videos_id = ? AND ";
+        $params[] = $videos_id;
+
         if (!empty($users_id)) {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND (users_id = ? OR session_id = ?) ORDER BY id DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'iis', [$videos_id, $users_id, session_id()]);
-        } else {
-            $sql = "SELECT * FROM videos_statistics WHERE videos_id = ? AND session_id = ? ORDER BY id DESC LIMIT 1 ";
-            $res = sqlDAL::readSql($sql, 'is', [$videos_id, session_id()]);
+            $sql .= " users_id = ? ";
+            $params[] = $users_id;
+        } else{
+            $sql .= " users_id IS NULL ";
+            if (!empty($session_id)) {
+                $conditions[] = "session_id = ? ";
+                $params[] = $session_id;
+            }
+            if (!empty($ip)) {
+                $conditions[] = " ip = ? ";
+                $params[] = $ip;
+            }
+            if(!empty($conditions)){
+                $sql .= " AND ( ";
+                $sql .= implode(' OR ',$conditions);
+                $sql .= " ) ";
+            }
         }
+
+        $sql .= " ORDER BY id DESC LIMIT 1";
+    
+        $res = sqlDAL::readSql($sql, str_repeat('s', count($params)), $params, true);
         $result = sqlDAL::fetchAssoc($res);
-        //if($videos_id==4){_error_log($sql." $videos_id, $users_id, ".session_id().' => '. json_encode($result));}
         sqlDAL::close($res);
-        if (!empty($result)) {
-            return $result;
-        }
-        return false;
+    
+        return !empty($result) ? $result : false;
     }
+    
 
     public static function getLastVideoTimeFromVideo($videos_id, $users_id) {
         $row = self::getLastStatistics($videos_id, $users_id);
@@ -568,7 +611,9 @@ class VideoStatistic extends ObjectYPT {
             return false;
         }
 
-        $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs LEFT JOIN users u ON vs.users_id = u.id WHERE videos_id=$videos_id ";
+        $sql = "SELECT u.*, vs.* FROM  " . static::getTableName() . " vs ";
+        $sql .= " LEFT JOIN users u ON vs.users_id = u.id ";
+        $sql .= " WHERE videos_id=$videos_id ";
 
         $sql .= self::getSqlFromPost('', 'vs');
         //var_dump($_POST['searchPhrase'], $_GET['search']['value'], $sql);exit;
@@ -581,7 +626,7 @@ class VideoStatistic extends ObjectYPT {
 
             foreach ($fullData as $row) {
                 $row['users'] = User::getNameIdentificationById($row['users_id']);
-                $row['when_human'] = humanTimingAgo($row['when']);
+                $row['when_human'] = humanTimingAgo($row['created_php_time'], 0, false);
                 $row['seconds_watching_video_human'] = seconds2human($row['seconds_watching_video']);
                 if ($isPluginEnabled) {
                     $json = _json_decode($row['json']);

@@ -196,7 +196,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId());
+            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId(), getRealIpAddr(), session_id());
             if (!empty($lastStatistic)) {
                 //_error_log("addView !empty(\$lastStatistic) ");
                 return false;
