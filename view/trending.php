@@ -68,7 +68,7 @@ $metaDescription = __("Trending");
                                             <img src="<?php echo getCDN(); ?>view/img/loading-gif.png" data-src="<?php echo $imgGif; ?>" style="position: absolute; top: 0; display: none;" alt="<?php echo $value['title']; ?>" id="thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive" height="196" />
                                         <?php }
                                         ?>
-                                        <span class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></span>
+                                        <time class="duration"><?php echo Video::getCleanDuration($value['duration']); ?></time>
                                     </div>
                                     <div class="progress" style="height: 3px; margin-bottom: 2px;">
                                         <div class="progress-bar progress-bar-danger" role="progressbar" style="width: <?php echo $value['progress']['percent'] ?>%;" aria-valuenow="<?php echo $value['progress']['percent'] ?>" aria-valuemin="0" aria-valuemax="100"></div>
