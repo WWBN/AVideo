@@ -1577,6 +1577,7 @@ if (!class_exists('Video')) {
                     $_POST['sort']['v.created'] = $_POST['sort']['created'];
                     unset($_POST['sort']['created']);
                 }
+                $sort = $_POST['sort'];
                 if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
                     $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
                     unset($_POST['sort']);
@@ -1587,6 +1588,8 @@ if (!class_exists('Video')) {
                 }
                 //var_dump($_POST['sort']);exit;
                 $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                unset($_POST['sort']);
+                $_POST['sort'] = $sort;
                 //var_dump($sql);exit;
             } else {
                 unset($_POST['sort']['trending'], $_GET['sort']['trending']);
