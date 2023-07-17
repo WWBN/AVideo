@@ -406,7 +406,7 @@ Retrieve a cookie with the given domain, path, and key (name). The RFC maintains
 
 Callback takes an error and the resulting `Cookie` object. If no cookie is found then `null` MUST be passed instead (that is, not an error).
 
-#### `store.findCookies(domain, path, callback(err, cookies))`
+#### `store.findCookies(domain, path, allowSpecialUseDomain, callback(err, cookies))`
 
 Locates cookies matching the given domain and path. This is most often called in the context of [`cookiejar.getCookies()`](#getcookiescurrenturl-options-callbackerr-cookies).
 

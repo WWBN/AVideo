@@ -196,7 +196,7 @@ if (!class_exists('Video')) {
                 return false;
             }
 
-            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId());
+            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId(), getRealIpAddr(), session_id());
             if (!empty($lastStatistic)) {
                 //_error_log("addView !empty(\$lastStatistic) ");
                 return false;
@@ -1579,14 +1579,15 @@ if (!class_exists('Video')) {
                 }
                 if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
                     $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
-                    unset($_POST['sort']['v.created']);
-                    unset($_POST['sort']['created']);
-                    $_POST['sort']['v.order'] = 'IS NULL';
-                    $_POST['sort']['order'] = 'ASC';
+                    unset($_POST['sort']);
+                    $_POST['sort'] = array();
+                    $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
+                    $_POST['sort']['`order`'] = 'ASC';
                     $_POST['sort']['v.created'] =$created;
                 }
                 //var_dump($_POST['sort']);exit;
                 $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                //var_dump($sql);exit;
             } else {
                 unset($_POST['sort']['trending'], $_GET['sort']['trending']);
                 $rows = [];
@@ -6477,6 +6478,36 @@ if (!class_exists('Video')) {
                 sqlDAL::close($res);
             }
             return $_getVideoWithMoreViews;
+        }
+
+        static public function getVideosPathsToSource($paths){
+            $sources = array();
+            if(!empty($paths)){
+                $paths = object_to_array($paths);
+                if(!empty($paths['m3u8'])){
+                    foreach ($paths as $key => $value) {
+                        if(!is_array($value)){
+                            continue;
+                        }
+                        $label = 'Auto';
+                        $res = 'auto';
+                        if($value['resolution']!=='auto'){
+                            $label = "{$value['resolution']}p";
+                            $res = $value['resolution'];
+                        }
+                        $sources[] = array('src'=> $value['url'], 'type'=>  'application/x-mpegURL', 'label'=> $label, 'res'=>$res);
+                    }
+                }else if(!empty($paths['mp4']) && is_array($paths['mp4'])){
+                    foreach ($paths['mp4'] as $key => $value) {
+                        $label = "{$key}p";
+                        $res = $key;
+                        $sources[] = array('src'=> $value, 'type'=>  'video/mp4', 'label'=> $label, 'res'=>$res);
+                    }
+                }else if(!empty($paths['mp3'])){
+                    $sources[] = array('src'=> $paths['mp3'], 'type'=>  'audio/mpeg', 'label'=> 'Audio', 'res'=>'');
+                }
+            }
+            return $sources;
         }
 
     }

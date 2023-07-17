@@ -255,13 +255,11 @@ PlayerSkins::getStartPlayerJS($str);
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>
         <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
-        <script src="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js"></script>
-        <script src="<?php echo getURL('node_modules/moment/min/moment.min.js'); ?>"></script>
+        <script src="<?php echo getURL('node_modules/videojs-playlist/dist/videojs-playlist.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js'); ?>" type="text/javascript"></script>
         <?php
-        echo getTagIfExists('node_modules/moment/locale/' . getLanguage() . '.js');
+        include $global['systemRootPath'] . 'view/include/moment.js.php';
         ?>
-        <script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
         <script>
             var embed_playerPlaylist = <?php echo json_encode($playListData); ?>;
             var originalPlayerPlaylist = embed_playerPlaylist;

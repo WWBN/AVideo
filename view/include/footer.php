@@ -54,11 +54,9 @@ if(isBot()){
 </script>
 <script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/jquery-lazy/jquery.lazy.plugins.min.js'); ?>" type="text/javascript"></script>
-<script src="<?php echo getURL('node_modules/moment/min/moment.min.js'); ?>"></script>
-<?php 
-echo getTagIfExists('node_modules/moment/locale/'. getLanguage().'.js');
+<?php
+include $global['systemRootPath'] . 'view/include/moment.js.php';
 ?>
-<script src="<?php echo getURL('node_modules/moment-timezone/builds/moment-timezone-with-data.min.js'); ?>"></script>
 <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('view/js/addView.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>

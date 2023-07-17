@@ -347,6 +347,13 @@ abstract class ObjectYPT implements ObjectInterface {
                     $formats .= 's';
                     $values[] = $this->$value;
                     $fields[] = " ? ";
+                }  elseif (strtolower($value) == 'created_php_time') {
+                    if (empty($this->$value)) {
+                        $this->$value = time();
+                    }
+                    $formats .= 'i';
+                    $values[] = $this->$value;
+                    $fields[] = " ? ";
                 } elseif (!isset($this->$value) || (is_string($this->$value) && strtolower($this->$value) == 'null')) {
                     $fields[] = " NULL ";
                 } elseif (is_string($this->$value) || is_numeric($this->$value)) {

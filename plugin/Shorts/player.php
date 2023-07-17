@@ -128,42 +128,56 @@ if ($removeAnimation) {
         background: rgba(255, 255, 255, 0.85);
         box-shadow: 0 0 0 5px #19f;
     }
-    .circleCarouselBtn.active i{
+
+    .circleCarouselBtn.active i {
         color: #111
     }
 
-    #buttonsCarousel{
+    #buttonsCarousel {
         position: fixed;
         z-index: 9999;
         right: 10px;
         bottom: 70px;
     }
-    #closeCarousel{
+
+    #closeCarousel {
         position: fixed;
         z-index: 9999;
         right: 10px;
         top: 10px;
     }
 
-    #buttonsCarousel .circleCarouselBtn{
+    #buttonsCarousel .circleCarouselBtn {
         position: relative;
     }
-    .circleCarouselBtn .votes{
+
+    .circleCarouselBtn .votes {
         position: absolute;
         top: -5px;
         left: -5px;
     }
+
+    @media (max-height: 600px) {
+        #buttonsCarousel {
+            bottom: 50px;
+        }
+        .circleCarouselBtn {
+            width: 35px;
+            height: 35px;
+            margin-bottom: 5px;
+        }
+    }
 </style>
 <div style="display: none;" class="<?php echo $class; ?>" id="ShortsPlayerContent">
     <div class="carousel" id="ShortsPlayer"></div>
-    <button id="closeCarousel" class="circleCarouselBtn" >
+    <button id="closeCarousel" class="circleCarouselBtn">
         <i class="fas fa-times"></i>
     </button>
     <div id="buttonsCarousel">
         <?php
         if (empty($advancedCustom->removeThumbsUpAndDown)) {
             ?>
-            <button id="likeCarousel" class="circleCarouselBtn" onclick="carouselPlayerLike()" >
+            <button id="likeCarousel" class="circleCarouselBtn" onclick="carouselPlayerLike()">
                 <i class="fas fa-thumbs-up"></i>
                 <br>
                 <span class="votes badge"></span>
@@ -177,8 +191,7 @@ if ($removeAnimation) {
         }
         if (isShareEnabled()) {
             ?>
-            <button id="shareCarousel" class="circleCarouselBtn"
-                    onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');" >
+            <button id="shareCarousel" class="circleCarouselBtn" onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');">
                 <i class="fas fa-share"></i>
             </button>
             <?php
@@ -199,7 +212,7 @@ if ($removeAnimation) {
     var currentCarouselPlayerVideo;
 
     function carouselPlayerGetLikes() {
-        if(shortIsOpen){
+        if (shortIsOpen) {
             var videos_id = currentCarouselPlayerVideo.id;
             var url = webSiteRootURL + 'plugin/API/get.json.php?APIName=likes&videos_id=' + videos_id;
             console.log('carouselPlayerGetLikes', url);
@@ -210,7 +223,7 @@ if ($removeAnimation) {
                     carouselPlayerProcessLikesResponse(response)
                 }
             });
-        }else{
+        } else {
             console.log('carouselPlayerGetLikes else', shortIsOpen);
         }
     }
@@ -226,6 +239,7 @@ if ($removeAnimation) {
             console.log('carouselPlayerProcessLikesResponse response.response', response.response);
             $('#likeCarousel .votes').text(response.response.likes);
             $('#dislikeCarousel .votes').text(response.response.dislikes);
+            $('#likeCarousel, #dislikeCarousel').removeClass('active');
             if (response.response.myVote == 1) {
                 $('#likeCarousel').addClass('active');
             } else if (response.response.myVote == -1) {
@@ -233,6 +247,7 @@ if ($removeAnimation) {
             }
         }
     }
+
     function carouselPlayerResetLikesResponse() {
         $('#likeCarousel .votes').text(0);
         $('#dislikeCarousel .votes').text(0);
@@ -242,11 +257,13 @@ if ($removeAnimation) {
     function carouselPlayerLike() {
         carouselPlayerLikeDislike('like');
     }
+
     function carouselPlayerDislike() {
         carouselPlayerLikeDislike('dislike');
     }
+
     function carouselPlayerLikeDislike(APIName) {
-        if(shortIsOpen){
+        if (shortIsOpen) {
             modal.showPleaseWait();
             console.log('currentCarouselPlayerVideo', currentCarouselPlayerVideo);
             var videos_id = currentCarouselPlayerVideo.id;
@@ -278,12 +295,14 @@ if ($removeAnimation) {
 
     function shortsClose() {
         shortIsOpen = false;
-        $('body').removeClass('playingShorts');
-<?php echo $shortsClose; ?>
+        currentShortsPlayerIndex = -1;
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
-        currentShortsPlayerIndex = -1;
+        setTimeout(function () {
+            $('body').removeClass('playingShorts');
+            <?php echo $shortsClose; ?>
+        }, 100);
     }
 
     function populateCarouselPlayer(video) {
@@ -297,15 +316,16 @@ if ($removeAnimation) {
         $carouselPlayer.flickity('append', newCarouselCell);
     }
 
-    function resetPlayerFlickity(){
+    function resetPlayerFlickity() {
         isSettling = false;
-        timeoutId = null; 
+        timeoutId = null;
     }
 
     var isSettling = false;
     var timeoutId = null;
     var iframe;
     var currentShortsPlayerIndex = -1;
+
     function createShortsPlayerFlickity(initialIndex) {
         var $carouselPlayer = $('#ShortsPlayer');
 
@@ -314,9 +334,14 @@ if ($removeAnimation) {
             contain: true,
             pageDots: false,
             initialIndex: initialIndex,
-            bgLazyLoad: true
+            bgLazyLoad: true,
+            adaptiveHeight: true,
+            cellSelector: '.carousel-cell',
         });
         $carouselPlayer.on('scroll.flickity', function (event, progress) {
+            if (typeof currentCell != 'undefined') {
+                currentCell.html('');
+            }
             if (progress > 0.7) {
                 loadShorts();
             }
@@ -330,19 +355,17 @@ if ($removeAnimation) {
             if (timeoutId !== null) {
                 clearTimeout(timeoutId);
             }
-            
+
             if (typeof currentCell != 'undefined') {
                 currentCell.html('');
             }
             timeoutId = setTimeout(function () {
                 var index2 = $('#ShortsPlayer .carousel-cell.is-selected').index();
-                if(currentShortsPlayerIndex == index2){
-                    console.log('Flickity settled canceled ', index2, currentShortsPlayerIndex);
-                    return false;
+                if (currentShortsPlayerIndex !== index2) {
+                    carouselPlayerGetLikes();
                 }
                 currentShortsPlayerIndex = index2;
                 currentCarouselPlayerVideo = shortVideos[index2];
-                carouselPlayerGetLikes();
                 index = index2;
                 var src = 'about:blank';
                 if (shortIsOpen) {

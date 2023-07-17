@@ -3789,3 +3789,46 @@ function getUser() {
 function getUniqueValuesFromArray(items) {
     return [...new Set(items)];
 }
+
+//autoPlayTime 
+// if === false it will not play
+// if === -1 it will play as the api response (last position)
+// if is any positive int or 0 it will play at that position 
+function updateVideoPlayer(videos_id, autoPlayTime) {
+    modal.showPleaseWait();
+    $.ajax({
+        url: webSiteRootURL + 'plugin/API/get.json.php?APIName=video',
+        type: "POST",
+        data: {
+            videos_id: videos_id,
+            noRelated: 1
+        },
+        success: function (data) {
+            if (!data.error) {
+                if (data.response.rows.length) {
+                    var video = data.response.rows[0];
+                    if (video.sources.length) {
+                        player.src(video.sources);
+                        player.poster(video.images.poster);
+                        $('.videoTitle').text(video.title);
+                        $('.videoDescription').text(video.description);
+                        player.load();
+                        if(autoPlayTime!==false){
+                            if(autoPlayTime===-1){
+                                currentTime = 0;
+                            }else{
+                                currentTime = autoPlayTime;
+                            }
+                            tryToPlay(currentTime);
+                        }
+                    }
+                }
+            }
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+            console.error("AJAX request failed: " + textStatus);
+        }, complete: function (resp) {
+            modal.hidePleaseWait();
+        },
+    });
+}

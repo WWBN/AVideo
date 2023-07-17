@@ -344,23 +344,26 @@ ENGINE = InnoDB;
 -- Table `videos_statistics`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `videos_statistics` (
-  `id` INT NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
   `when` DATETIME NOT NULL,
-  `ip` VARCHAR(45) NULL,
-  `users_id` INT NULL,
-  `videos_id` INT NOT NULL,
+  `ip` VARCHAR(45) NULL DEFAULT NULL,
+  `users_id` INT(11) NULL DEFAULT NULL,
+  `videos_id` INT(11) NOT NULL,
   `created` DATETIME NULL DEFAULT NULL,
   `modified` DATETIME NULL DEFAULT NULL,
   `lastVideoTime` INT(11) NULL DEFAULT NULL,
   `session_id` VARCHAR(45) NOT NULL,
-  `seconds_watching_video` INT(11) NULL DEFAULT NULL,
-  `json` TEXT NULL DEFAULT NULL,
+  `seconds_watching_video` INT NULL,
+  `json` TEXT NULL,
+  `timezone` VARCHAR(255) NULL,
+  `created_php_time` INT(11) NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC),
-  INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC),
-  INDEX `when_statisci` (`when` ASC),
-  INDEX `session_id_statistics` (`session_id` ASC),
-  INDEX `sec_watchin_videos` (`seconds_watching_video` ASC),
+  INDEX `fk_videos_statistics_users1_idx` (`users_id` ASC) ,
+  INDEX `fk_videos_statistics_videos1_idx` (`videos_id` ASC) ,
+  INDEX `when_statisci` (`when` ASC) ,
+  INDEX `session_id_statistics` (`session_id` ASC) ,
+  INDEX `sec_watchin_videos` (`seconds_watching_video` ASC) ,
+  INDEX `videos_statistics_created_php_time` (`created_php_time` ASC) ,
   CONSTRAINT `fk_videos_statistics_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)
