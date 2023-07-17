@@ -560,6 +560,7 @@ class Live extends PluginAbstract {
             'disable_live_schedule',
             'live_schedule_label',
             'hls_path',
+            'autoFishLiveEveryHour',
             );
     }
     
@@ -588,6 +589,14 @@ class Live extends PluginAbstract {
             'webRTC_PushRTMP',
             'webRTC_PushRTMP',
         );
+    }
+
+    function executeEveryHour() {
+        global $global;
+        $obj = $this->getDataObject();
+        if(!empty($obj->autoFishLiveEveryHour)){
+            exec('php ' . $global['systemRootPath'].'plugin/Live/view/finishAll.json.php');
+        }
     }
 
     public function getEmptyDataObject() {
@@ -742,6 +751,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->reminderText = $o;
         self::addDataObjectHelper('reminderText', 'Scheduled reminder text', 'If you setup the live scheduler properly this text will be sent to your subscribers');
 
+        $obj->autoFishLiveEveryHour = false;
+        self::addDataObjectHelper('autoFishLiveEveryHour', 'Automatically end offline live sessions every hour', 'The server will verify if can access the m3u8 file, and finish the live if cannot');
 
         return $obj;
     }
