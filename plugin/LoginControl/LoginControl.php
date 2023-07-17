@@ -235,7 +235,11 @@ Best regards,
         }
 
         $user = $u->getNameIdentificationBd();
-        $siteName = $config->getWebSiteTitle();
+        if(!empty($config) && is_object($config)){
+            $siteName = $config->getWebSiteTitle();
+        }else{
+            $siteName = '';
+        }
         $userIP = getRealIpAddr();
         $userAgent = get_browser_name();
         $confirmation = self::getConfirmationCodeHash($users_id);
