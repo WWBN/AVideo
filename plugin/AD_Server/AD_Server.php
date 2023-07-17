@@ -23,6 +23,7 @@ class AD_Server extends PluginAbstract {
 
     public function getDescription() {
         $desc = "VAST Ad Server<br><small><a href='https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        return $desc;
     }
 
     public function getName() {

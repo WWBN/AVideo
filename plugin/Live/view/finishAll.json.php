@@ -14,7 +14,7 @@ if (empty($objP)) {
     die(json_encode($obj));
 }
 
-if (!User::isAdmin()) {
+if (!User::isAdmin() && !isCommandLineInterface()) {
     $obj->msg = __('Not Admin');
     die(json_encode($obj));
 }
