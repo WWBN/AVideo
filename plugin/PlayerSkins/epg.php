@@ -39,6 +39,7 @@ $epgs = array();
 $minDate = strtotime('+1 year');
 $maxDate = 0;
 $videos_id = intval(@$_REQUEST['videos_id']);
+$_GET['rowCount'] = $_REQUEST['rowCount'] = 500;
 $videos = Video::getAllActiveEPGs();
 foreach ($videos as $video) {
     if ($video['status'] !== Video::$statusActive || !isValidURL($video['epg_link'])) {
