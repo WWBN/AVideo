@@ -1,11 +1,12 @@
 <?php
+global $advancedCustom;
 $removeAnimation = false;
 
 $class = "animate__animated animate__bounceInLeft";
-$shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');$('#ShortsPlayerContent').addClass('animate__bounceInLeft');";
-$shortsClose = "$('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});";
+$shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft').addClass('animate__bounceInLeft');";
+$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});";
 
-if ($removeAnimation) {
+if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
     $class = "";
     $shortsOpen = "";
     $shortsClose = "$('#ShortsPlayerContent').hide();";
