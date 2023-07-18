@@ -1,5 +1,5 @@
 // Check if PiP mode is supported on this platform
-if (document.pictureInPictureEnabled) {
+if (document.pictureInPictureEnabled && !isIframe()) {
     // Detect when the document's visibility changes
     document.addEventListener('visibilitychange', function () {
         console.log('Picture-in-Picture visibilitychange', document.visibilityState);

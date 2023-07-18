@@ -3832,3 +3832,7 @@ function updateVideoPlayer(videos_id, autoPlayTime) {
         },
     });
 }
+
+function isIframe(){
+    return window.self !== window.top;
+}

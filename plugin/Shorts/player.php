@@ -4,7 +4,7 @@ $removeAnimation = false;
 
 $class = "animate__animated animate__bounceInLeft";
 $shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft').addClass('animate__bounceInLeft');";
-$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();$(this).removeClass('animate__bounceOutLeft');});";
+$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft');";
 
 if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
     $class = "";
@@ -305,10 +305,13 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
+            console.log('shortsClose 1');
         setTimeout(function () {
+            console.log('shortsClose 2');
             $('body').removeClass('playingShorts');
 <?php echo $shortsClose; ?>
             $('#ShortsPlayerContent').hide();
+            $('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');
         }, 100);
     }
 
@@ -389,9 +392,11 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
                 var overlay = $('<div/>', {
                     // The attributes for the overlay
                     class: 'ShortsPlayerOverlay',
+                    /*
                     click: function () {
                         $(this).hide();
                     }
+                     */
                 });
                 currentCell = $('#ShortsPlayer .carousel-cell.is-selected .carousel-cell-content');
                 currentCell.html(iframe);
