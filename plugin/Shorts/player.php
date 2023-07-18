@@ -307,6 +307,7 @@ if ($removeAnimation) {
         setTimeout(function () {
             $('body').removeClass('playingShorts');
 <?php echo $shortsClose; ?>
+            $('#ShortsPlayerContent').hide();
         }, 100);
     }
 
