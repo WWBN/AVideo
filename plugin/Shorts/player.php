@@ -4,7 +4,7 @@ $removeAnimation = false;
 
 $class = "animate__animated animate__bounceInLeft";
 $shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft').addClass('animate__bounceInLeft');";
-$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});";
+$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();$(this).removeClass('animate__bounceOutLeft');});";
 
 if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
     $class = "";
