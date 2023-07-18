@@ -85,7 +85,7 @@ class Monetize_user_reward_log extends ObjectYPT {
         $res = sqlDAL::readSql($sql, '', [], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res && !empty($data['created'])) {
+        if ($res && !empty($data['created_php_time'])) {
             _error_log("MonetizeUsers getLastRewardTime {$when_from}");
             return $data['created_php_time'];
         } else {
