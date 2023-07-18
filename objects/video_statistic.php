@@ -21,6 +21,7 @@ class VideoStatistic extends ObjectYPT {
     protected $session_id;
     protected $seconds_watching_video;
     protected $json;
+    protected $rewarded;
 
     public static function getSearchFieldsNames() {
         return ['json', 'ip', 'when', 'user', 'name', 'email', 'channelName'];
@@ -146,8 +147,9 @@ class VideoStatistic extends ObjectYPT {
         $this->seconds_watching_video = intval($this->seconds_watching_video);
 
         $this->json = ($this->json);
-
+        
         if(empty($this->id)){
+            $this->rewarded = 0;
             $row = self::getLastStatistics($this->videos_id, $this->users_id, getRealIpAddr(), session_id());
             if(!empty($row)){
                 $this->id = $row['id'];
