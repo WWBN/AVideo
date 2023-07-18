@@ -322,7 +322,7 @@ class VideosStatistics extends PluginAbstract {
                 . " (vs.seconds_watching_video / v.duration_in_seconds * 100) as percentage_watched "
                 . " FROM videos_statistics as vs "
                 . " JOIN videos as v ON vs.videos_id = v.id "
-                . " WHERE vs.seconds_watching_video IS NOT NULL ";
+                . " WHERE vs.seconds_watching_video IS NOT NULL AND percentage_watched IS NOT NULL ";
 
         if (!empty($only_logged_users)) {
             $sql .= " AND vs.users_id IS NOT NULL AND vs.users_id > 0 ";
