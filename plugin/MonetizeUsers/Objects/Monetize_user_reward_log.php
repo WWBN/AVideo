@@ -92,4 +92,11 @@ class Monetize_user_reward_log extends ObjectYPT {
             return strtotime('-24 hours');
         }
     }
+    
+    public function save() {
+        if(empty($this->percentage_watched)){
+            $this->percentage_watched = 0;
+        }
+        return parent::save();
+    }
 }
