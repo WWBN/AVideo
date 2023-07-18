@@ -28,7 +28,7 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -86,6 +86,7 @@ class MonetizeUsers extends PluginAbstract {
                 $percentage_watched = $obj->rewardMinimumViewPercentage->value;
                 $now = date('Y-m-d H:i:s');
                 $when_from = date('Y-m-d H:i:s', Monetize_user_reward_log::getLastRewardTime());
+                _error_log("MonetizeUsers getLastRewardTime {$when_from}");
                 //$when_from = date('Y-m-d H:i:s', strtotime('-1 year'));
                 $only_logged_users = $obj->rewardOnlyLoggedUsersView;
                 $users_id = 0;
@@ -219,4 +220,16 @@ class MonetizeUsers extends PluginAbstract {
         return $fullData;
     }
 
+    public function updateScript() {
+        global $global;
+        
+        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/MonetizeUsers/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
+    }
 }

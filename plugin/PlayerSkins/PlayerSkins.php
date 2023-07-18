@@ -308,7 +308,12 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id']) || !empty($video['id'])) {
+        if (
+                !empty($_GET['videoName']) || 
+                !empty($_GET['u']) || 
+                !empty($_GET['evideo']) || 
+                !empty($_GET['playlists_id']) || 
+                (is_array($video) && !empty($video['id']))) {
             if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }

@@ -10,10 +10,12 @@ CREATE TABLE IF NOT EXISTS `monetize_user_reward_log` (
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
   `timezone` VARCHAR(255) NULL,
+  `created_php_time` INT(11) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_monetize_user_reward_log_videos1_idx` (`videos_id` ASC) ,
   INDEX `monetize_user_reward_log_idx1` (`video_owner_users_id` ASC) ,
   INDEX `monetize_user_reward_log_idx2` (`when_watched` ASC) ,
+  INDEX `monetize_user_reward_log_created_php_time` (`created_php_time` ASC),
   CONSTRAINT `fk_monetize_user_reward_log_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
