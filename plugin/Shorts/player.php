@@ -233,17 +233,22 @@ if ($removeAnimation) {
             avideoAlertError(response.msg);
         } else {
             avideoToastSuccess(response.msg);
-            if (typeof response.eval !== 'undefined') {
-                eval(response.eval);
-            }
-            console.log('carouselPlayerProcessLikesResponse response.response', response.response);
-            $('#likeCarousel .votes').text(response.response.likes);
-            $('#dislikeCarousel .votes').text(response.response.dislikes);
-            $('#likeCarousel, #dislikeCarousel').removeClass('active');
-            if (response.response.myVote == 1) {
-                $('#likeCarousel').addClass('active');
-            } else if (response.response.myVote == -1) {
-                $('#dislikeCarousel').addClass('active');
+            if (typeof response.response !== 'undefined') {
+                try {
+                    $('#likeCarousel .votes').text(response.response.likes);
+                    $('#dislikeCarousel .votes').text(response.response.dislikes);
+                    $('#likeCarousel, #dislikeCarousel').removeClass('active');
+                    if (response.response.myVote == 1) {
+                        $('#likeCarousel').addClass('active');
+                    } else if (response.response.myVote == -1) {
+                        $('#dislikeCarousel').addClass('active');
+                    }
+                    console.log('carouselPlayerProcessLikesResponse response.response', response.response);
+                } catch (e) {
+                    console.log('carouselPlayerProcessLikesResponse ERROR response.response', response.response);
+                }
+
+
             }
         }
     }
@@ -301,7 +306,7 @@ if ($removeAnimation) {
         }
         setTimeout(function () {
             $('body').removeClass('playingShorts');
-            <?php echo $shortsClose; ?>
+<?php echo $shortsClose; ?>
         }, 100);
     }
 
