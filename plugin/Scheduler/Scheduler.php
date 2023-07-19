@@ -469,25 +469,27 @@ class Scheduler extends PluginAbstract
     }
 
     public static function saveVideosAddNew($post, $videos_id){
-        return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime']);
+        return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime'], @$post['releaseTime']);
     }
 
     public function afterNewVideo($videos_id){
-        return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime']);
+        return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime'], @$_REQUEST['releaseTime']);
     }
 
-    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime = '')
+    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime = '', $releaseTime = '')
     {
         if (!empty($releaseDate)) {
             if ($releaseDate !== 'now') {
-                if ($releaseDate == 'in-1-hour') {
-                    $releaseTime = strtotime('+1 hour');
-                } else if (!empty($releaseDateTime)) {
-                    $releaseDateTime = self::convertIfTimezoneIsPassed($releaseDateTime);
-                    $releaseTime = _strtotime($releaseDateTime);
-                } else {
-                    $releaseDate = self::convertIfTimezoneIsPassed($releaseDate);
-                    $releaseTime = _strtotime($releaseDate);
+                if(empty($releaseTime) || !is_numeric($releaseTime)){
+                    if ($releaseDate == 'in-1-hour') {
+                        $releaseTime = strtotime('+1 hour');
+                    } else if (!empty($releaseDateTime)) {
+                        $releaseDateTime = self::convertIfTimezoneIsPassed($releaseDateTime);
+                        $releaseTime = _strtotime($releaseDateTime);
+                    } else {
+                        $releaseDate = self::convertIfTimezoneIsPassed($releaseDate);
+                        $releaseTime = _strtotime($releaseDate);
+                    }
                 }
                 $video = new Video('', '', $videos_id);
                 if ($releaseTime > time()) {

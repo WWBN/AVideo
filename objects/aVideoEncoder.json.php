@@ -202,6 +202,7 @@ $obj->video_id = $video_id;
 $v = new Video('', '', $video_id, true);
 $obj->video_id_hash = $v->getVideoIdHash();
 $obj->releaseDate = @$_REQUEST['releaseDate'];
+$obj->releaseTime = @$_REQUEST['releaseTime'];
 
 _error_log("aVideoEncoder.json: Files Received for video {$video_id}: " . $video->getTitle());
 if (!empty($destinationFile)) {
