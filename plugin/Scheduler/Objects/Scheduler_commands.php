@@ -99,7 +99,7 @@ class Scheduler_commands extends ObjectYPT {
         if (!static::isTableInstalled()) {
             return false;
         }
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . self::$statusActive . "' AND date_to_execute <= now() ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status='" . self::$statusActive . "' AND time_to_execute <= now() ";
 
         //echo $sql;
         $res = sqlDAL::readSql($sql);
