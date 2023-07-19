@@ -418,6 +418,10 @@ if (!class_exists('Video')) {
             $this->views_count = intval($this->views_count);
             $this->order = intval($this->order);
 
+            if(empty($this->order)){
+                $this->order = 'NULL';
+            }
+
             if (empty($this->categories_id)) {
                 $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
                 $category = Category::getCategoryDefault();
