@@ -224,7 +224,7 @@ class Scheduler extends PluginAbstract
         return Scheduler_commands::isActiveFromVideosId($videos_id);;
     }
 
-    static public function addVideoToRelease($date_to_execute, $videos_id)
+    static public function addVideoToRelease($date_to_execute, $time_to_execute, $videos_id)
     {
         _error_log("Scheduler::addVideoToRelease [$date_to_execute] [$videos_id]");
         if (empty($date_to_execute)) {
@@ -251,6 +251,7 @@ class Scheduler extends PluginAbstract
         }
 
         $e = new Scheduler_commands($id);
+        $e->setTime_to_execute($time_to_execute);
         $e->setDate_to_execute($date_to_execute);
         $e->setVideos_id($videos_id);
 
@@ -495,8 +496,8 @@ class Scheduler extends PluginAbstract
                 if ($releaseTime > time()) {
                     $releaseDateTime = date('Y-m-d H:i:s', $releaseTime);
                     $video->setStatus(Video::$statusScheduledReleaseDate);
-                    self::setReleaseDateTime($videos_id, $releaseDateTime);
-                    self::addVideoToRelease($releaseDateTime, $videos_id);
+                    self::setReleaseDateTime($videos_id, $releaseDateTime, $releaseTime);
+                    self::addVideoToRelease($releaseDateTime, $releaseTime, $videos_id);
                     return true;
                 } else if ($video->getStatus() == Video::$statusScheduledReleaseDate) {
                     self::releaseVideosNow($videos_id);
@@ -506,7 +507,7 @@ class Scheduler extends PluginAbstract
         return false;
     }
 
-    public static function setReleaseDateTime($videos_id, $releaseDateTime)
+    public static function setReleaseDateTime($videos_id, $releaseDateTime, $releaseTime)
     {
         if (!Video::canEdit($videos_id)) {
             return false;
@@ -516,6 +517,7 @@ class Scheduler extends PluginAbstract
         if (empty($externalOptions)) {
             $externalOptions = new stdClass();
         }
+        $externalOptions->releaseTime = $releaseTime;
         $externalOptions->releaseDateTime = $releaseDateTime;
         $externalOptions->releaseDateTimeZone = date_default_timezone_get();
         $video->setExternalOptions(json_encode($externalOptions));

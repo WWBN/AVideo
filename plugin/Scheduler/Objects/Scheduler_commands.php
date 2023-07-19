@@ -131,13 +131,15 @@ class Scheduler_commands extends ObjectYPT {
         
         $this->parameters = $parameters;
     }
-
+    
     function setDate_to_execute($date_to_execute) {
         if (is_numeric($date_to_execute)) {
             $date_to_execute = date('Y-m-d H:i:s', $date_to_execute);
         }
         $this->date_to_execute = $date_to_execute;
-        $this->time_to_execute = strtotime($date_to_execute);
+        if(empty($this->time_to_execute)){
+            $this->time_to_execute = strtotime($date_to_execute);
+        }
     }
 
     function setExecuted_in($executed_in) {
