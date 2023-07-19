@@ -14,6 +14,9 @@ if (!User::isAdmin()) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
+
+_error_log("save configuration {$_POST['language']}");
+
 $config = new Configuration();
 $config->setContactEmail($_POST['contactEmail']);
 $config->setLanguage($_POST['language']);
