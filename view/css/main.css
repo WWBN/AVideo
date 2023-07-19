@@ -1429,7 +1429,7 @@ li.dropdown-submenu > ul > li > a {
 	}
 
 	.playerFullHeight, .playerFullHeight video, .playerFullHeight audio, .playerFullHeight iframe, .playerFullHeight #mainVideo, .playerFullHeight #main-video {
-		height: calc(100vh - 60px);
+		/*height: calc(100vh - 60px);*/
 		width: 100%;
 		padding: 0;
 	}
