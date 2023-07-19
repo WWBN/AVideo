@@ -166,10 +166,10 @@ class PlayerSkins extends PluginAbstract {
                     }
                     $htmlMediaTag = "<!-- Embed Link 1 {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
-                    $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
+                    //$htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
                     $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
-                    $htmlMediaTag .= '</div>';
+                    //$htmlMediaTag .= '</div>';
                 } else {
                     // youtube!
                     if ((stripos($video['videoLink'], "youtube.com") != false) || (stripos($video['videoLink'], "youtu.be") != false)) {
