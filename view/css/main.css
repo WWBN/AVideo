@@ -1421,10 +1421,6 @@ li.dropdown-submenu > ul > li > a {
 	z-index: 1;
 }
 
-.ypt-is-compressed #main-video{
-	display: contents;
-}
-
 @media (min-width: 1200px) {
 	.pleaseWaitDialog .progress, .pleaseWaitDialog h2 {
 		margin: 0 0 0 -200px;
