@@ -22,7 +22,7 @@ class LoginApple extends PluginAbstract {
         . "<br>Domains and Subdomains: <strong>". $parse['host']."</strong>"
         . "<br>Return URLs: <strong>{$global['webSiteRootURL']}objects/login.json.php?type=$name</strong>"
         . ", <strong>{$global['webSiteRootURL']}plugin/MobileManager/oauth2.php?type=$name</strong>";
-        $help = "<br><small><a href='https://hybridauth.github.io/providers/apple.html' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://hybridauth.github.io/providers/apple.html' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $str.$help;
     }
 

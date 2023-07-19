@@ -31,7 +31,7 @@ class ADs extends PluginAbstract
     {
         $txt = "Handle the ads system, like Adsense or similar";
         $help = "";
-        $help .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/ADs-plugin' target='__blank'>"
+        $help .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/ADs-plugin' target='_blank'>"
             . "<i class='fas fa-question-circle'></i> Help</a></small>";
 
         return $txt . $help;

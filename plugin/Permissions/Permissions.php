@@ -18,7 +18,7 @@ class Permissions extends PluginAbstract {
     public function getDescription() {
         $desc = "Permissions will allow you to add intermediate permisson to usergroups without need to make them Admin, "
                 . " each plugin will have his own permission rules";
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Permissions-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Permissions-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc.$help;
     }

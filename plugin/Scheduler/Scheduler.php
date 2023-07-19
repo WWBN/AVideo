@@ -15,6 +15,7 @@ class Scheduler extends PluginAbstract
     {
         global $global;
         $desc = "Scheduler Plugin";
+        $desc = '<br><a href="https://github.com/WWBN/AVideo/wiki/Scheduler-Plugin" target="_blank"><i class="fas fa-question-circle"></i> Help</a>';
         if (!_isSchedulerPresentOnCrontab()) {
             $desc = "<strong onclick='tooglePluginDescription(this);'>";
             $desc .= self::getCronHelp();

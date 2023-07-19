@@ -14,7 +14,7 @@ class PredefinedCategory extends PluginAbstract {
 
     public function getDescription() {
         $txt = "Choose what category the video goes when upload, encode or embed";
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/PredefinedCategory-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/PredefinedCategory-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
 
