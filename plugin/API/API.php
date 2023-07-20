@@ -825,6 +825,7 @@ class API extends PluginAbstract {
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
+                $rows[$key]['videoLink'] = modifyURL($rows[$key]['videoLink']);
                 if ($extension == 'mp4') {
                     $rows[$key]['videos'] = array(
                         'mp4' => array(
