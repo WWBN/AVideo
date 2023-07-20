@@ -10895,3 +10895,44 @@ function fix_parse_url($url, $parameter){
     $cleanParameter = str_replace('.', '_', $parameter);
     return str_replace("{$cleanParameter}=", "{$parameter}=", $url);
 }
+
+function generateHorizontalFlickity($items) {
+    global $generateHorizontalFlickityLoaded;
+    if(empty($generateHorizontalFlickityLoaded)){
+        ?>
+        <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
+        <?php
+    }
+    $carouselClass = 'carousel_'.uniqid();
+    ?>
+    <div id="<?php echo $carouselClass; ?>" class="HorizontalFlickity">
+        <?php foreach ($items as $item) { ?>
+            <div class="carousel-cell">
+                <a data-toggle="tab" 
+                data-toggle="tooltip" title="<?php echo $item['tooltip']; ?>"
+                href="<?php echo $item['href']; ?>" 
+                class="btn btn-default"
+                onclick="<?php echo $item['onclick']; ?>">
+                <?php echo $item['label']; ?>
+                </a>
+            </div>
+        <?php } ?>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#<?php echo $carouselClass; ?>').flickity({
+                    cellAlign: 'left',
+                    contain: true,
+                    wrapAround: true,
+                    pageDots: false,
+                });
+        });
+    </script>
+    <?php
+    if(empty($generateHorizontalFlickityLoaded)){
+        ?>
+        <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
+        <?php
+    }
+    $generateHorizontalFlickityLoaded = 1;
+}
