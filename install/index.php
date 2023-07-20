@@ -25,13 +25,13 @@ require_once '../locale/function.php';
     <body>
         <?php
         if (file_exists('../videos/configuration.php')) {
-            require_once '../videos/configuration.php'; ?>
+            //require_once '../videos/configuration.php'; ?>
             <div class="container">
                 <h3 class="alert alert-success">
                     <span class="glyphicon glyphicon-ok-circle"></span>
-                    Your system is installed, remove the <code><?php echo $global['systemRootPath']; ?>install</code> directory to continue
+                    Your system is installed
                     <hr>
-                    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-success btn-lg center-block">Go to the main page</a>
+                    <a href="../" class="btn btn-success btn-lg center-block">Go to the main page</a>
                 </h3>
             </div>
             <?php

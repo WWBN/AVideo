@@ -68,6 +68,7 @@
 /plugin/FansSubscriptions/
 /plugin/MessageOfTheDay/
 /plugin/InteractiveVideo/
+getPaidPlugisList.php
 /videos/
 *.zip
 sitemap.xml

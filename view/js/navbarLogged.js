@@ -216,6 +216,7 @@ async function YPTSidebarOpen() {
     $("#sidebar").removeClass('animate__bounceOutLeft');
     $("#sidebar").show();
     $("#sidebar").addClass('animate__animated animate__bounceInLeft');
+    Cookies.set("menuOpen", true, { expires: 365, path: '/' });
     setTimeout(function () {
         $('body').addClass('youtube');
     }, 500);
@@ -224,6 +225,7 @@ async function YPTSidebarOpen() {
 async function YPTSidebarClose() {
     $("#sidebar").removeClass('animate__bounceInLeft');
     $("#sidebar").addClass('animate__bounceOutLeft');
+    Cookies.set("menuOpen", false, { expires: 365, path: '/' });
     setTimeout(function () {
         $('body').removeClass('youtube');
         $("#sidebar").hide();
@@ -243,3 +245,12 @@ async function YPTHidenavbar() {
         }
     }
 }
+
+$(document).ready(function() {
+    var menuOpen = Cookies.get("menuOpen");
+    if (menuOpen === "true") {
+        YPTSidebarOpen();
+    } else {
+        YPTSidebarClose();
+    }
+});
