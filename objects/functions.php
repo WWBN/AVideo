@@ -10880,10 +10880,18 @@ function modifyURL($url) {
         if (!empty($_REQUEST[$key])) {
             //var_dump($_modifyURL_url);
             $url = addQueryStringParameter($url, $value, $_REQUEST[$key]);
-            //var_dump($_modifyURL_url, $value, $_REQUEST[$key]);
+            //var_dump($url, $value, $key, $_REQUEST[$key]);
         } else {
             $url = removeQueryStringParameter($url, $value);
         }
     }
+    foreach ($parameters as $key => $value) {
+        $url = fix_parse_url($url, $value);
+    }
     return $url;
+}
+
+function fix_parse_url($url, $parameter){
+    $cleanParameter = str_replace('.', '_', $parameter);
+    return str_replace("{$cleanParameter}=", "{$parameter}=", $url);
 }
