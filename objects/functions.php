@@ -11438,6 +11438,7 @@ function generateHorizontalFlickity($items)
                 contain: true,
                 wrapAround: true,
                 pageDots: false,
+                groupCells: true,
             });
         });
     </script>
