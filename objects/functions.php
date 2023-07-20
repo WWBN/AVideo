@@ -11418,12 +11418,17 @@ function generateHorizontalFlickity($items)
     <div id="<?php echo $carouselClass; ?>" class="carousel HorizontalFlickity" style="visibility: hidden;">
         <?php foreach ($items as $item) { ?>
             <div class="carousel-cell">
-                <a data-toggle="tab" 
-                data-toggle="tooltip" 
+                <a 
                 title="<?php echo $item['tooltip']; ?>" 
                 href="<?php echo $item['href']; ?>" 
                 class="btn btn-default" 
-                <?php if(!empty($item['onclick'])){echo 'onclick="'.$item['onclick'].'"';} ?> >
+                <?php 
+                if(!empty($item['onclick'])){
+                    echo 'onclick="'.$item['onclick'].'"';
+                    echo ' data-toggle="tab" ';
+                }else{
+                    echo ' data-toggle="tooltip" ';
+                } ?> >
                     <?php echo $item['label']; ?>
                 </a>
             </div>
