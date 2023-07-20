@@ -109,7 +109,8 @@ class PlayerSkins extends PluginAbstract {
                 if ($video['type'] == "video") {
                     $htmlMediaTag .= "<!-- Video {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
                 } else { // video link
-                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$video['videoLink']}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
+                    $url = modifyURL($video['videoLink']);
+                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
                 /*
@@ -166,10 +167,10 @@ class PlayerSkins extends PluginAbstract {
                     }
                     $htmlMediaTag = "<!-- Embed Link 1 {$video['title']} {$video['filename']} -->";
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
-                    $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
+                    //$htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
                     $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
-                    $htmlMediaTag .= '</div>';
+                    //$htmlMediaTag .= '</div>';
                 } else {
                     // youtube!
                     if ((stripos($video['videoLink'], "youtube.com") != false) || (stripos($video['videoLink'], "youtu.be") != false)) {
@@ -308,7 +309,12 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
-        if (!empty($_GET['videoName']) || !empty($_GET['u']) || !empty($_GET['evideo']) || !empty($_GET['playlists_id']) || !empty($video['id'])) {
+        if (
+                !empty($_GET['videoName']) || 
+                !empty($_GET['u']) || 
+                !empty($_GET['evideo']) || 
+                !empty($_GET['playlists_id']) || 
+                (is_array($video) && !empty($video['id']))) {
             if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }

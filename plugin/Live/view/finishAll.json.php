@@ -1,6 +1,6 @@
 <?php
 
-require_once '../../../videos/configuration.php';
+require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 header('Content-Type: application/json');
 

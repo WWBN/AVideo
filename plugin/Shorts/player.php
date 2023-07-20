@@ -1,11 +1,12 @@
 <?php
+global $advancedCustom;
 $removeAnimation = false;
 
 $class = "animate__animated animate__bounceInLeft";
-$shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');$('#ShortsPlayerContent').addClass('animate__bounceInLeft');";
-$shortsClose = "$('#ShortsPlayerContent').addClass('animate__bounceOutLeft').one('animationend', function() { $(this).hide();});";
+$shortsOpen = "$('#ShortsPlayerContent').removeClass('animate__bounceOutLeft').addClass('animate__bounceInLeft');";
+$shortsClose = "$('#ShortsPlayerContent').removeClass('animate__bounceInLeft').addClass('animate__bounceOutLeft');";
 
-if ($removeAnimation) {
+if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
     $class = "";
     $shortsOpen = "";
     $shortsClose = "$('#ShortsPlayerContent').hide();";
@@ -233,17 +234,22 @@ if ($removeAnimation) {
             avideoAlertError(response.msg);
         } else {
             avideoToastSuccess(response.msg);
-            if (typeof response.eval !== 'undefined') {
-                eval(response.eval);
-            }
-            console.log('carouselPlayerProcessLikesResponse response.response', response.response);
-            $('#likeCarousel .votes').text(response.response.likes);
-            $('#dislikeCarousel .votes').text(response.response.dislikes);
-            $('#likeCarousel, #dislikeCarousel').removeClass('active');
-            if (response.response.myVote == 1) {
-                $('#likeCarousel').addClass('active');
-            } else if (response.response.myVote == -1) {
-                $('#dislikeCarousel').addClass('active');
+            if (typeof response.response !== 'undefined') {
+                try {
+                    $('#likeCarousel .votes').text(response.response.likes);
+                    $('#dislikeCarousel .votes').text(response.response.dislikes);
+                    $('#likeCarousel, #dislikeCarousel').removeClass('active');
+                    if (response.response.myVote == 1) {
+                        $('#likeCarousel').addClass('active');
+                    } else if (response.response.myVote == -1) {
+                        $('#dislikeCarousel').addClass('active');
+                    }
+                    console.log('carouselPlayerProcessLikesResponse response.response', response.response);
+                } catch (e) {
+                    console.log('carouselPlayerProcessLikesResponse ERROR response.response', response.response);
+                }
+
+
             }
         }
     }
@@ -299,9 +305,13 @@ if ($removeAnimation) {
         if (typeof currentCell != 'undefined') {
             currentCell.html('');
         }
+            console.log('shortsClose 1');
         setTimeout(function () {
+            console.log('shortsClose 2');
             $('body').removeClass('playingShorts');
-            <?php echo $shortsClose; ?>
+<?php echo $shortsClose; ?>
+            $('#ShortsPlayerContent').hide();
+            $('#ShortsPlayerContent').removeClass('animate__bounceOutLeft');
         }, 100);
     }
 
@@ -382,9 +392,11 @@ if ($removeAnimation) {
                 var overlay = $('<div/>', {
                     // The attributes for the overlay
                     class: 'ShortsPlayerOverlay',
+                    /*
                     click: function () {
                         $(this).hide();
                     }
+                     */
                 });
                 currentCell = $('#ShortsPlayer .carousel-cell.is-selected .carousel-cell-content');
                 currentCell.html(iframe);

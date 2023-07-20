@@ -15,6 +15,7 @@ class Scheduler extends PluginAbstract
     {
         global $global;
         $desc = "Scheduler Plugin";
+        $desc = '<br><a href="https://github.com/WWBN/AVideo/wiki/Scheduler-Plugin" target="_blank"><i class="fas fa-question-circle"></i> Help</a>';
         if (!_isSchedulerPresentOnCrontab()) {
             $desc = "<strong onclick='tooglePluginDescription(this);'>";
             $desc .= self::getCronHelp();
@@ -45,7 +46,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "4.4";
+        return "5.0";
     }
 
     public function updateScript()
@@ -88,6 +89,13 @@ class Scheduler extends PluginAbstract
         }
         if (AVideoPlugin::compareVersion($this->getName(), "4.4") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.4.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSqlTry(trim($value));
+            }
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "5.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV5.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSqlTry(trim($value));
@@ -216,7 +224,7 @@ class Scheduler extends PluginAbstract
         return Scheduler_commands::isActiveFromVideosId($videos_id);;
     }
 
-    static public function addVideoToRelease($date_to_execute, $videos_id)
+    static public function addVideoToRelease($date_to_execute, $time_to_execute, $videos_id)
     {
         _error_log("Scheduler::addVideoToRelease [$date_to_execute] [$videos_id]");
         if (empty($date_to_execute)) {
@@ -243,6 +251,7 @@ class Scheduler extends PluginAbstract
         }
 
         $e = new Scheduler_commands($id);
+        $e->setTime_to_execute($time_to_execute);
         $e->setDate_to_execute($date_to_execute);
         $e->setVideos_id($videos_id);
 
@@ -461,32 +470,34 @@ class Scheduler extends PluginAbstract
     }
 
     public static function saveVideosAddNew($post, $videos_id){
-        return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime']);
+        return self::addNewVideoToRelease($videos_id, @$post['releaseDate'], @$post['releaseDateTime'], @$post['releaseTime']);
     }
 
     public function afterNewVideo($videos_id){
-        return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime']);
+        return self::addNewVideoToRelease($videos_id, @$_REQUEST['releaseDate'], @$_REQUEST['releaseDateTime'], @$_REQUEST['releaseTime']);
     }
 
-    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime = '')
+    public static function addNewVideoToRelease($videos_id, $releaseDate, $releaseDateTime = '', $releaseTime = '')
     {
         if (!empty($releaseDate)) {
             if ($releaseDate !== 'now') {
-                if ($releaseDate == 'in-1-hour') {
-                    $releaseTime = strtotime('+1 hour');
-                } else if (!empty($releaseDateTime)) {
-                    $releaseDateTime = self::convertIfTimezoneIsPassed($releaseDateTime);
-                    $releaseTime = _strtotime($releaseDateTime);
-                } else {
-                    $releaseDate = self::convertIfTimezoneIsPassed($releaseDate);
-                    $releaseTime = _strtotime($releaseDate);
+                if(empty($releaseTime) || !is_numeric($releaseTime)){
+                    if ($releaseDate == 'in-1-hour') {
+                        $releaseTime = strtotime('+1 hour');
+                    } else if (!empty($releaseDateTime)) {
+                        $releaseDateTime = self::convertIfTimezoneIsPassed($releaseDateTime);
+                        $releaseTime = _strtotime($releaseDateTime);
+                    } else {
+                        $releaseDate = self::convertIfTimezoneIsPassed($releaseDate);
+                        $releaseTime = _strtotime($releaseDate);
+                    }
                 }
                 $video = new Video('', '', $videos_id);
                 if ($releaseTime > time()) {
                     $releaseDateTime = date('Y-m-d H:i:s', $releaseTime);
                     $video->setStatus(Video::$statusScheduledReleaseDate);
-                    self::setReleaseDateTime($videos_id, $releaseDateTime);
-                    self::addVideoToRelease($releaseDateTime, $videos_id);
+                    self::setReleaseDateTime($videos_id, $releaseDateTime, $releaseTime);
+                    self::addVideoToRelease($releaseDateTime, $releaseTime, $videos_id);
                     return true;
                 } else if ($video->getStatus() == Video::$statusScheduledReleaseDate) {
                     self::releaseVideosNow($videos_id);
@@ -496,7 +507,7 @@ class Scheduler extends PluginAbstract
         return false;
     }
 
-    public static function setReleaseDateTime($videos_id, $releaseDateTime)
+    public static function setReleaseDateTime($videos_id, $releaseDateTime, $releaseTime)
     {
         if (!Video::canEdit($videos_id)) {
             return false;
@@ -506,6 +517,7 @@ class Scheduler extends PluginAbstract
         if (empty($externalOptions)) {
             $externalOptions = new stdClass();
         }
+        $externalOptions->releaseTime = $releaseTime;
         $externalOptions->releaseDateTime = $releaseDateTime;
         $externalOptions->releaseDateTimeZone = date_default_timezone_get();
         $video->setExternalOptions(json_encode($externalOptions));

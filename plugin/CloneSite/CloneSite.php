@@ -24,7 +24,7 @@ class CloneSite extends PluginAbstract
         if (!isSshpass()) {
             $txt .= "<div class='alert alert-danger'>To use rsync feature you must install sshpass <code>sudo apt-get install sshpass</code></div>";
         }
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Clone-Site-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
 

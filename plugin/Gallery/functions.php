@@ -345,7 +345,7 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
 
                     <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
                         <button type="button" class="btn btn-default btn-sm btn-xs btn-block"  data-toggle="dropdown">
-                            <i class="fa fa-download"></i> <?php echo!empty($advancedCustom->uploadButtonDropdownText) ? $advancedCustom->uploadButtonDropdownText : ""; ?> <span class="caret"></span>
+                            <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-left" role="menu">
                             <?php

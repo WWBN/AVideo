@@ -1429,9 +1429,13 @@ li.dropdown-submenu > ul > li > a {
 	}
 
 	.playerFullHeight, .playerFullHeight video, .playerFullHeight audio, .playerFullHeight iframe, .playerFullHeight #mainVideo, .playerFullHeight #main-video {
-		height: calc(100vh - 60px);
 		width: 100%;
 		padding: 0;
+	}
+
+	.ypt-is-expanded .playerFullHeight, .ypt-is-expanded .playerFullHeight video, .ypt-is-expanded .playerFullHeight audio, .ypt-is-expanded .playerFullHeight iframe, 
+	.ypt-is-expanded .playerFullHeight #mainVideo, .ypt-is-expanded .playerFullHeight #main-video {
+		height: calc(100vh - 60px);
 	}
 
 	.playerFullHeight .floatVideo video, .playerFullHeight .floatVideo audio, .playerFullHeight .floatVideo iframe, .playerFullHeight .floatVideo #mainVideo, .playerFullHeight .floatVideo #main-video {

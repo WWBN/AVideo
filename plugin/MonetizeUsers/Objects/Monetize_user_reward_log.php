@@ -81,14 +81,22 @@ class Monetize_user_reward_log extends ObjectYPT {
 
     static function getLastRewardTime(){
         global $global;
-        $sql = "SELECT MAX(created) as created FROM monetize_user_reward_log";
+        $sql = "SELECT MAX(created_php_time) as created_php_time FROM monetize_user_reward_log";
         $res = sqlDAL::readSql($sql, '', [], true);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res && !empty($data['created'])) {
-            return strtotime($data['created']);
+        if ($res && !empty($data['created_php_time'])) {
+            _error_log("MonetizeUsers getLastRewardTime {$when_from}");
+            return $data['created_php_time'];
         } else {
             return strtotime('-24 hours');
         }
+    }
+    
+    public function save() {
+        if(empty($this->percentage_watched)){
+            $this->percentage_watched = 0;
+        }
+        return parent::save();
     }
 }

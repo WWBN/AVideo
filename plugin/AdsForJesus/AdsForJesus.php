@@ -30,7 +30,7 @@ class AdsForJesus extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return "<a href='https://forjesus.tv/' target='__blank' class='btn btn-success'><img src='https://forjesus.tv/img/logoLandscape-50.png' alt='4JesusTV' class='img img-responsive'></a>";
+        return "<a href='https://forjesus.tv/' target='_blank' class='btn btn-success'><img src='https://forjesus.tv/img/logoLandscape-50.png' alt='4JesusTV' class='img img-responsive'></a>";
     }
 
     public function getEmptyDataObject() {

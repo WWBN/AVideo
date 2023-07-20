@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__FILE__) . '/../videos/configuration.php';
+if (!User::isLogged()) {
+    gotToLoginAndComeBackHere();
+}
 $_page = new Page(array('Activate'));
 $activation = getActivationCode();
 ?>

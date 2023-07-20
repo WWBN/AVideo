@@ -15,7 +15,7 @@ class YouPHPFlix2 extends PluginAbstract
     public function getDescription()
     {
         $txt = "Make the first page looks like a Netflix site";
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Configure-a-Netflix-Clone-Page' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Configure-a-Netflix-Clone-Page' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $txt . $help;
     }
 

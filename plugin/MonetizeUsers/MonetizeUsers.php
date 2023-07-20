@@ -28,7 +28,7 @@ class MonetizeUsers extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "1.0";
+        return "2.0";
     }
 
     public function getEmptyDataObject() {
@@ -85,18 +85,22 @@ class MonetizeUsers extends PluginAbstract {
             if (!empty($VideosStatistics)) {
                 $percentage_watched = $obj->rewardMinimumViewPercentage->value;
                 $now = date('Y-m-d H:i:s');
-                $when_from = date('Y-m-d H:i:s', Monetize_user_reward_log::getLastRewardTime());
                 //$when_from = date('Y-m-d H:i:s', strtotime('-1 year'));
                 $only_logged_users = $obj->rewardOnlyLoggedUsersView;
                 $users_id = 0;
                 $when_to = '';
-                $rows = VideosStatistics::getVideosToReward($percentage_watched, $when_from, $only_logged_users, $users_id, $when_to);
-                _error_log("Checking rewardMinimumViewPercentage {$percentage_watched}% from {$when_from} now {$now}");
+                $rows = VideosStatistics::getVideosToReward($percentage_watched, $only_logged_users, $users_id);
+                _error_log("Checking rewardMinimumViewPercentage {$percentage_watched}% ");
                 //var_dump($percentage_watched);
+                $ids_array = array();
                 foreach ($rows as $value) {
                     if ($value['video_owner_users_id'] == $value['users_id']) {
                         continue; // Prevent exploitation of free money; Don't award money if viewer is uploader
                     }
+                    if (is_null($value['percentage_watched'])) {
+                        continue; // Prevent exploitation of free money; Don't award money if viewer is uploader
+                    }
+                    $ids_array[] = $value['id'];
                     //var_dump($value);
                     //var_dump("seconds_watching_video={$value["seconds_watching_video"]} duration_in_seconds={$value["duration_in_seconds"]} {$value["percentage_watched"]}%");
                     $this->rewardAndSaveLog(
@@ -107,6 +111,7 @@ class MonetizeUsers extends PluginAbstract {
                             $value['created'],
                             $value['users_id']);
                 }
+                VideosStatistics::setRewarded($ids_array);
             }
         }
     }
@@ -219,4 +224,16 @@ class MonetizeUsers extends PluginAbstract {
         return $fullData;
     }
 
+    public function updateScript() {
+        global $global;
+        
+        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/MonetizeUsers/install/updateV2.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+        return true;
+    }
 }

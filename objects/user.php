@@ -1483,7 +1483,7 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    private static function getUserHash($users_id, $valid = '+7 days') {
+    static function getUserHash($users_id, $valid = '+7 days') {
         $obj = new stdClass();
         $obj->u = $users_id;
         $obj->v = strtotime($valid);
@@ -1656,6 +1656,12 @@ if (typeof gtag !== \"function\") {
     }
 
     public function setPassword($password, $doNotEncrypt = false) {
+        if (strpos($password, "_user_hash_") === 0) {
+            $passwordFromHash = User::getPasswordFromUserHashIfTheItIsValid($password);
+            if(!empty($passwordFromHash)){
+                $password = $passwordFromHash;
+            }
+        }
         if (!empty($password)) {
             if ($doNotEncrypt) {
                 $this->password = ($password);

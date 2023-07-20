@@ -2546,6 +2546,7 @@ class API extends PluginAbstract {
                         $obj->photo = User::getPhoto($obj->users_id);
                         $obj->identification = User::getNameIdentificationById($obj->users_id);
                         $obj->email = User::getEmailDb($obj->users_id);
+                        $obj->passhash = User::getUserHash($obj->users_id, $valid = '+1 year');
                     }
                 }else{            
                     $msg = 'Code is corrupted';

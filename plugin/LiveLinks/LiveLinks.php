@@ -18,7 +18,7 @@ class LiveLinks extends PluginAbstract {
     public function getDescription() {
         $desc = "Register Livestreams external Links from any HLS provider, Wowza and others";
         $desc .= $this->isReadyLabel(array('Live'));
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/LiveLinks-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/LiveLinks-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
         return $desc . $help;
     }

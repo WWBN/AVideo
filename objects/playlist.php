@@ -432,11 +432,7 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getVideosFromPlaylist($playlists_id, $getExtraInfo = true) {
-        $sql = "SELECT p.*,v.created as cre, p.`order` as video_order, v.externalOptions as externalOptions, v.externalOptions as externalOptions
-                    , v.filename
-                    , v.type as type
-                    , v.serie_playlists_id as serie_playlists_id
-                    , v.title as title "
+        $sql = "SELECT v.*, p.*,v.created as cre, p.`order` as video_order  "
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
@@ -493,6 +489,7 @@ class PlayList extends ObjectYPT {
                             $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
                         }
                     }
+                    $row['id'] = $row['videos_id'];
                     $rows[] = $row;
                 }
 

@@ -1,5 +1,12 @@
 <?php
 $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
+
+$Gobj = AVideoPlugin::getDataObjectIfEnabled('Gallery');
+if(!empty($Gobj->ShortsCustomTitle)){
+    $Gtitle = __($Gobj->ShortsCustomTitle);
+}else{
+    $Gtitle = __('Shorts');
+}
 ?>
 <link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
@@ -68,7 +75,7 @@ $totalFlickityCells = array('0' => 5, '992' => 4, '767' => 2);
 </style>
 <script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
 <script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
-<h3 class="galleryTitle"><i class="fas fa-layer-group"></i> <?php echo __('Shorts'); ?></h3>
+<h3 class="galleryTitle"><i class="fas fa-layer-group"></i> <?php echo $Gtitle; ?></h3>
 <div class="carousel" id="Shorts"></div>
 <script>
     var isLoadingShorts = false;

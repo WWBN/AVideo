@@ -46,7 +46,7 @@ class Live extends PluginAbstract {
             }
         }
         $desc .= "<br><strong>Start Self hosted WebRTC server:</strong> <code>php {$global['systemRootPath']}plugin/Live/standAloneFiles/WebRTCServer/server.php</code> ";
-        $desc .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/WebRTC-Server' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $desc .= "<br><small><a href='https://github.com/WWBN/AVideo/wiki/WebRTC-Server' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         return $desc;
     }
 

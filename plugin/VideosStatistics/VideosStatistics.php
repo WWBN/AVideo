@@ -315,7 +315,7 @@ class VideosStatistics extends PluginAbstract {
         return $obj;
     }
 
-    static public function getVideosToReward($percentage_watched, $when_from, $only_logged_users = false, $users_id = 0, $when_to = '') {
+    static public function getVideosToReward($percentage_watched, $only_logged_users = false, $users_id = 0) {
         global $global;
         // Preparing the SQL statement
         $sql = "SELECT vs.*, v.duration_in_seconds, v.users_id as video_owner_users_id, "
@@ -328,15 +328,9 @@ class VideosStatistics extends PluginAbstract {
             $sql .= " AND vs.users_id IS NOT NULL AND vs.users_id > 0 ";
         }
 
-        $sql .= " AND vs.created > ? AND vs.seconds_watching_video >= (v.duration_in_seconds * ? / 100) ";
-        $formats = "ss";
-        $values = [$when_from, $percentage_watched];
-
-        if (!empty($when_to)) {
-            $sql .= " AND vs.when < ?";
-            $formats .= 's';
-            $values[] = $when_to;
-        }
+        $sql .= " AND vs.rewarded = 0 AND vs.seconds_watching_video >= (v.duration_in_seconds * ? / 100) ";
+        $formats = "s";
+        $values = [$percentage_watched];
 
         if (!empty($users_id)) {
             $sql .= " AND v.users_id = ?";
@@ -350,6 +344,20 @@ class VideosStatistics extends PluginAbstract {
         sqlDAL::close($res);
 
         return $fullData;
+    }
+    
+    static public function setRewarded($ids_array) {
+        if(empty($ids_array)){
+            return true;
+        }
+        if(!is_array($ids_array)){
+            $ids_array = array($ids_array);
+        }
+        global $global;
+        // Preparing the SQL statement
+        $sql = "UPDATE videos_statistics SET rewarded = 1 WHERE id IN (".implode(',', $ids_array).") ";
+        
+        return sqlDAL::writeSql($sql);
     }
 
     function executeEveryDay() {
