@@ -1451,19 +1451,6 @@ li.dropdown-submenu > ul > li > a {
 	overflow: auto !important;
 }
 
-.nav-tabs-horizontal {
-	display: -webkit-box;
-	display: -webkit-inline-box;
-}
-
-.scrtabs-tab-container {
-	margin: 5px 0;
-}
-
-.scrtabs-tab-scroll-arrow {
-	border-top: 1px solid #ddd;
-}
-
 .videoCreator {
 	display: inline-block;
 }
@@ -1892,4 +1879,14 @@ button.btn-sm.hamburger svg {
 	100% {
 	  opacity: 1;
 	}
+  }
+
+  .HorizontalFlickity .btn{
+	border-radius: 32px;
+	margin: 5px 2px;
+  }
+
+  .HorizontalFlickity .flickity-button{
+	width: 22px;
+    height: 22px;
   }

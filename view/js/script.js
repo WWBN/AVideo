@@ -2832,17 +2832,6 @@ $(document).ready(function () {
         expires: 365
     });
     tabsCategoryDocumentHeight = $(document).height();
-    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-        $('.nav-tabs-horizontal').scrollingTabs();
-        //$('.nav-tabs-horizontal').fadeIn();
-    }
-    setInterval(function () {
-        if (tabsCategoryDocumentHeightChanged()) {
-            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-                $('.nav-tabs-horizontal').scrollingTabs('refresh');
-            }
-        }
-    }, 2000);
     modal = getPleaseWait();
     try {
         $('[data-toggle="popover"]').popover();

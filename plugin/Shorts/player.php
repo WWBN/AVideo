@@ -22,9 +22,6 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
         cursor: move;
     }
 
-    .playingShorts .scrtabs-tab-container {
-        display: none;
-    }
 
     body.playingShorts {
         overflow: hidden;

@@ -1648,9 +1648,10 @@ if (!class_exists('Video')) {
                     $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
                     unset($_POST['sort']);
                     $_POST['sort'] = array();
-
-                    $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
-                    $_POST['sort']['`order`'] = 'ASC';
+                    if(strtoupper($created) === 'DESC'){
+                        $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
+                        $_POST['sort']['`order`'] = 'ASC';
+                    }
 
                     $_POST['sort']['v.created'] = $created;
                 }
@@ -1700,7 +1701,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //echo $sql;//var_dump($_REQUEST['doNotShowCatChilds']);exit;
+            //echo $sql;//exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
