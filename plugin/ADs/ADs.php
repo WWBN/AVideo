@@ -349,6 +349,33 @@ class ADs extends PluginAbstract
         return $adCode;
     }
 
+    public static function getAdsCodeReason($type)
+    {
+        $reasons = array();
+        if (isBot()) {
+            $reasons[] = 'Is a bot';
+        }
+        $videos_id = 0;
+        if (empty($videos_id)) {
+            $videos_id = getVideos_id();
+        }
+        $reasons[] = 'videos_id='.$videos_id;
+        $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        if (!empty($ad)) {
+            if (isMobile()) {
+                $type = $type . 'Mobile';
+            }
+            $adC = self::getAdsFromVideosId($type, $videos_id);
+            $reasons[] = 'type='.$type;
+            if(empty($adC['adCode'])){
+                $reasons[] = 'adCode is empty';
+            }
+        }else{
+            $reasons[] = 'ADs plugin disabled';
+        }
+        return $reasons;
+    }
+
     public static function getSize($type)
     {
         $obj = AVideoPlugin::getObjectData("ADs");
