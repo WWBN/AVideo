@@ -11421,14 +11421,16 @@ function generateHorizontalFlickity($items)
                 <a 
                 title="<?php echo $item['tooltip']; ?>" 
                 href="<?php echo $item['href']; ?>" 
-                class="btn btn-default" 
                 <?php 
+                if (preg_match('/^#[0-9a-z.-]+/', $item['href'])) {
+                    echo ' data-toggle="tab" ';
+                } else {
+                    echo ' data-toggle="tooltip" ';
+                }
                 if(!empty($item['onclick'])){
                     echo 'onclick="'.$item['onclick'].'"';
-                    echo ' data-toggle="tab" ';
-                }else{
-                    echo ' data-toggle="tooltip" ';
-                } ?> >
+                } ?> 
+                class="btn btn-default">
                     <?php echo $item['label']; ?>
                 </a>
             </div>
