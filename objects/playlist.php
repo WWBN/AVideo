@@ -436,7 +436,8 @@ class PlayList extends ObjectYPT {
                     , v.filename
                     , v.type as type
                     , v.serie_playlists_id as serie_playlists_id
-                    , v.title as title "
+                    , v.title as title 
+                    , v.duration "
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
