@@ -10855,3 +10855,35 @@ function getActivationCode() {
     return $obj;
 }
 
+function modifyURL($url) {
+    if(!isValidURL($url)){
+        return $url;
+    }
+    $parameters = array(
+        'ads_app_bundle' => 'ads.app_bundle', //App Bundle from App Store ie. com.selecttvandroid
+        'ads_did' => 'ads.did', //Device ID uses session.uuid, App to replace with DID
+        'ads_w' => 'ads.w', //player width 
+        'ads_h' => 'ads.h', //player height
+        'app_store_url' => 'ads.app_store_url', //player height
+        'app_name' => 'ads.app_name', //player height
+        'us_privacy' => 'ads.us_privacy', //from Playout: (NP CCPA US field) 1N-N
+        'is_lat' => 'is_lat', //0: User has NOT opted out targeting advertising 1: User has opted out of targeting advertising
+        'gdpr' => 'ads.gdpr', // client decides (GDPR value)
+        'gdpr_consent' => 'ads.gdpr_consent', // client decides (GDPR Consent value)
+        'url' => 'url', // client provides URL if Web option for content available
+        // GUMGUM
+        'publisher_app_bundle' => 'gg.ads.publisher_app_bundle', //APP bundle
+        'publisher_app_url' => 'gg.ads.publisher_app_url', //the publisher URL 
+        'device_ifa' => 'gg.ads.device_ifa' //Device Identifier
+    );
+    foreach ($parameters as $key => $value) {
+        if (!empty($_REQUEST[$key])) {
+            //var_dump($_modifyURL_url);
+            $url = addQueryStringParameter($url, $value, $_REQUEST[$key]);
+            //var_dump($_modifyURL_url, $value, $_REQUEST[$key]);
+        } else {
+            $url = removeQueryStringParameter($url, $value);
+        }
+    }
+    return $url;
+}
