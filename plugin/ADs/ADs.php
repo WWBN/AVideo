@@ -367,6 +367,7 @@ class ADs extends PluginAbstract
             }
             $adC = self::getAdsFromVideosId($type, $videos_id);
             $reasons[] = 'type='.$type;
+            $reasons[] = 'label='.$adC['label'];
             if(empty($adC['adCode'])){
                 $reasons[] = 'adCode is empty';
             }
