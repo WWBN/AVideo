@@ -493,6 +493,7 @@ class PlayList extends ObjectYPT {
                             $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
                         }
                     }
+                    $row['id'] = $row['videos_id'];
                     $rows[] = $row;
                 }
 
