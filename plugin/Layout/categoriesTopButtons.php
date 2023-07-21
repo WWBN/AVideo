@@ -32,6 +32,14 @@ foreach ($categories as $value) {
     if (!empty($obj->categoriesTopButtonsShowVideosCount)) {
         $label .= ' <span class="badge">' . $total . '</span>';
     }
-    $items[] = array('href' => Category::getCategoryLinkFromName($value['clean_name']), 'tooltip' => __($value['name']), 'onclick' => '', 'label' => $label);
+    $items[] = array(
+        'href' => Category::getCategoryLinkFromName($value['clean_name']), 
+        'tooltip' => __($value['name']), 
+        'onclick' => '', 
+        'label' => $label,
+        'isActive' => $value['clean_name'] == @$_REQUEST['catName'],
+        'clean_name' => $value['clean_name']
+    );
 }
+//var_dump($_REQUEST['catName'], $items);exit;
 generateHorizontalFlickity($items);

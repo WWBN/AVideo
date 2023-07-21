@@ -63,7 +63,19 @@ if ($seconds_watching_video < 0) {
     $seconds_watching_video = 0;
 }
 
+// Comparison and update
+$current_time = time();
+if (isset($_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'])) {
+    $elapsed_time = $current_time - $_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'];
+    if ($seconds_watching_video > $elapsed_time) {
+        $seconds_watching_video = $elapsed_time;
+    }
+}
+
+$_SESSION['addViewCount'][$_REQUEST['id']]['last_update_time'] = $current_time;
+
 $obj2->seconds_watching_video = $seconds_watching_video;
+
 if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     //_error_log("videos_statistics addView {$_REQUEST['id']} {$_SERVER['HTTP_USER_AGENT']} ".json_encode($_SESSION['addViewCount']));
     $resp = $obj->addView();

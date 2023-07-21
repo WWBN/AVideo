@@ -266,8 +266,6 @@ async function lazyImage() {
 }
 
 var pauseIfIsPlayinAdsInterval;
-var seconds_watching_video = 0;
-var _startCountPlayingTime;
 async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -275,7 +273,6 @@ async function setPlayerListners() {
             //console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
-            clearInterval(_startCountPlayingTime);
         });
         player.on('play', function () {
             isTryingToPlay = false;
@@ -291,10 +288,6 @@ async function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
-            clearInterval(_startCountPlayingTime);
-            _startCountPlayingTime = setInterval(function () {
-                seconds_watching_video++;
-            }, 1000);
         });
         $("#mainVideo .vjs-mute-control").click(function () {
             Cookies.set('muted', player.muted(), {

@@ -22,6 +22,7 @@ class VideoStatistic extends ObjectYPT {
     protected $seconds_watching_video;
     protected $json;
     protected $rewarded;
+    protected $created_php_time;
 
     public static function getSearchFieldsNames() {
         return ['json', 'ip', 'when', 'user', 'name', 'email', 'channelName'];
@@ -105,6 +106,10 @@ class VideoStatistic extends ObjectYPT {
             $vs->setWhen(date("Y-m-d h:i:s"));
         } else {
             $vs = new VideoStatistic($lastStatistic['id']);
+            $elapsedTime = time() - $vs->created_php_time;
+            if ($seconds_watching_video > $elapsedTime) {
+                $seconds_watching_video = $elapsedTime;
+            }
         }
         $vs->setLastVideoTime($lastVideoTime);
         $vs->setIp(getRealIpAddr());

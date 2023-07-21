@@ -1,3 +1,6 @@
+<?php
+saveRequestVars();
+?>
 <div class="row mainArea">
     <?php
     if (!empty($currentCat)) {
@@ -163,3 +166,6 @@
     }
     ?>
 </div>
+<?php
+restoreRequestVars();
+?>

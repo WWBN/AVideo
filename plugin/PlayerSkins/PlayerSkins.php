@@ -169,7 +169,6 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                     //$htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
                     $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
-                    $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
                     //$htmlMediaTag .= '</div>';
                 } else {
                     // youtube!
@@ -650,18 +649,14 @@ class PlayerSkins extends PluginAbstract {
         $url = Video::getURLFriendly($videos_id);
         $js .= "
         player.on('play', function () {
-            addView({$videos_id}, this.currentTime());
-            _addViewBeaconAdded = false;
             sendAVideoMobileMessage('play', this.currentTime());
         });
         player.on('ended', function () {
             var time = Math.round(this.currentTime());
-            addView({$videos_id}, time);
             sendAVideoMobileMessage('ended', time);
         });
         player.on('pause', function () {
             var time = Math.round(this.currentTime());
-            addView({$videos_id}, time);
             sendAVideoMobileMessage('pause', time);
         });
         player.on('volumechange', function () {
@@ -682,13 +677,6 @@ class PlayerSkins extends PluginAbstract {
             }
             
             $('#linkCurrentTime, .linkCurrentTime').val(url);
-            
-            if (time >= 5 && time % 1 === 0) {
-                addView({$videos_id}, time);
-            } else {
-                addViewFromCookie();
-                addViewSetCookie(PHPSESSID, {$videos_id}, time, seconds_watching_video);
-            }
             
             sendAVideoMobileMessage('timeupdate', time);
         });

@@ -1,11 +1,31 @@
 var last_videos_id = 0;
 var last_currentTime = -1;
 var videoViewAdded = false;
-var addViewBeaconTimeout;
 var _addViewCheck = false;
+var isVideoPlaying = false;
 
+// Create an encapsulation for seconds_watching_video
+var VideoWatchTime = (function () {
+    var seconds_watching_video = 0;
+
+    return {
+        increment: function() {
+            if (isVideoPlaying) {
+                seconds_watching_video++;
+            }
+        },
+        reset: function() {
+            seconds_watching_video = 0;
+        },
+        getValue: function() {
+            return seconds_watching_video;
+        }
+    };
+})();
+
+// Modify the addView function
 function addView(videos_id, currentTime) {
-    addViewSetCookie(PHPSESSID, videos_id, currentTime, seconds_watching_video);
+    addViewSetCookie(PHPSESSID, videos_id, currentTime, VideoWatchTime.getValue());
     
     if (_addViewCheck) {
         return false;
@@ -15,15 +35,12 @@ function addView(videos_id, currentTime) {
         return false;
     }
     
-    if (currentTime > 5 && currentTime % 30 !== 0) { // only update each 30 seconds
-        return false;
-    }
-    
+    // Removed the currentTime condition
     _addViewCheck = true;
     last_videos_id = videos_id;
     last_currentTime = currentTime;
     
-    _addView(videos_id, currentTime, seconds_watching_video);
+    _addView(videos_id, currentTime, VideoWatchTime.getValue());
     
     setTimeout(function() {
         _addViewCheck = false;
@@ -41,7 +58,6 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
     }
     
     console.log('_addView 2', videos_id, currentTime, seconds_watching_video);
-    isVideoAddViewCount = true;
     
     if (typeof PHPSESSID === 'undefined') {
         PHPSESSID = '';
@@ -52,23 +68,29 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
     if (empty(PHPSESSID)) {
         return false;
     }
-    
+
+    isVideoAddViewCount = true;
     console.log('_addView 3', videos_id, currentTime, seconds_watching_video);
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
-    
+    // reset seconds_watching_video
+    var seconds_watching_video_to_send = seconds_watching_video;
+    VideoWatchTime.reset();
+    console.trace();
     $.ajax({
         url: url,
         method: 'POST',
         data: {
             id: videos_id,
             currentTime: currentTime,
-            seconds_watching_video: seconds_watching_video
+            seconds_watching_video: seconds_watching_video_to_send
         },
         success: function(response) {
             console.log('_addView 4', response);
-            isVideoAddViewCount = false;
             $('.view-count' + videos_id).text(response.countHTML);
             PHPSESSID = response.session_id;
+        }, complete: function(response) {
+            console.log('_addView 5', response);
+            isVideoAddViewCount = false;
         }
     });
 }
@@ -122,6 +144,49 @@ async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds
     Cookies.set('addView_seconds_watching_video', seconds_watching_video, { path: '/', expires: 1 });
 }
 
-$(document).ready(function() {
+async function startAddViewCountInPlayer(){
+    if(typeof player !== 'undefined' && typeof mediaId !== 'undefined'){
+        player.on('play', function () {
+            isVideoPlaying = true;
+            addView(mediaId, this.currentTime());
+        });
+        player.on('pause', function () {
+            isVideoPlaying = false;
+            var time = Math.round(this.currentTime());
+            addView(mediaId, time);
+        });
+        player.on('ended', function () {
+            isVideoPlaying = false;
+            var time = Math.round(this.currentTime());
+            addView(mediaId, time);
+        });
+        
+        player.on('timeupdate', function() {
+            var time = Math.round(this.currentTime());        
+            if (time === 0 || time % 30 === 0) {
+                addView(mediaId, time);
+            }
+        });
+    } else {
+        setTimeout(function() {
+            startAddViewCountInPlayer();
+        }, 5000);
+    }
+}
+
+// Add beforeunload event
+window.addEventListener('beforeunload', (event) => {
     addViewFromCookie();
+});
+
+$(document).ready(function() {
+    // Use setInterval to update seconds_watching_video every second
+    setInterval(function () {
+        VideoWatchTime.increment();
+    }, 1000);
+    
+    // Call addViewFromCookie on the next page load
+    addViewFromCookie();
+
+    startAddViewCountInPlayer();
 });

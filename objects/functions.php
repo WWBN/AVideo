@@ -11416,10 +11416,21 @@ function generateHorizontalFlickity($items)
     $carouselClass = 'carousel_' . uniqid();
     ?>
     <div id="<?php echo $carouselClass; ?>" class="carousel HorizontalFlickity" style="visibility: hidden;">
-        <?php foreach ($items as $item) { ?>
+        <?php 
+        $initialIndex = 0;
+        foreach ($items as $key => $item) { 
+            $isActive = false;
+            if(!empty($item['isActive'])){
+                $isActive = true;
+            }
+            $class = 'btn-default';
+            if($isActive){
+                $class = 'btn-primary';
+                $initialIndex = $key;
+            }
+            ?>
             <div class="carousel-cell">
-                <a 
-                title="<?php echo $item['tooltip']; ?>" 
+                <a title="<?php echo $item['tooltip']; ?>" 
                 href="<?php echo $item['href']; ?>" 
                 <?php 
                 if (preg_match('/^#[0-9a-z.-]+/', $item['href'])) {
@@ -11430,7 +11441,7 @@ function generateHorizontalFlickity($items)
                 if(!empty($item['onclick'])){
                     echo 'onclick="'.$item['onclick'].'"';
                 } ?> 
-                class="btn btn-default">
+                class="btn <?php echo $class; ?>">
                     <?php echo $item['label']; ?>
                 </a>
             </div>
@@ -11451,7 +11462,10 @@ function generateHorizontalFlickity($items)
                 wrapAround: true,
                 pageDots: false,
                 groupCells: true,
+                //initialIndex: <?php echo $initialIndex; ?>,
             });
+            
+            $carousel.flickity( 'selectCell', <?php echo $initialIndex; ?> );
         });
     </script>
     <?php
@@ -11461,4 +11475,25 @@ function generateHorizontalFlickity($items)
 <?php
     }
     $generateHorizontalFlickityLoaded = 1;
+}
+
+function saveRequestVars(){
+    global $savedRequestVars;
+
+    $array = array('GET', 'POST', 'REQUEST');
+
+    foreach ($array as $value) {
+        eval('$savedRequestVars[$value] = $_'.$value.';');
+    }
+}
+
+
+function restoreRequestVars(){
+    global $savedRequestVars;
+
+    $array = array('GET', 'POST', 'REQUEST');
+
+    foreach ($array as $value) {
+        eval('$_'.$value.' = $savedRequestVars[$value];');
+    }
 }
