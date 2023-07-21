@@ -849,7 +849,11 @@ function playNext(url) {
         }, 1000);
     } else if (isPlayNextEnabled()) {
         modal.showPleaseWait();
-        if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
+        if (window.parent && typeof window.parent.playNextShorts === 'function') {
+            // Function exists, send a message to call it
+            console.log(" window.parent.postMessage(playNextShorts ");
+            window.parent.postMessage('playNextShorts', '*');
+        } else if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
             //console.log("playNext changing location " + url);
             document.location = url;
         } else {
