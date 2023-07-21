@@ -75,7 +75,7 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
     // reset seconds_watching_video
     var seconds_watching_video_to_send = seconds_watching_video;
     VideoWatchTime.reset();
-    console.trace();
+    //console.trace();
     $.ajax({
         url: url,
         method: 'POST',
