@@ -19,6 +19,6 @@ span.selection > span.select2-selection--single{
     border-left-color: rgb(204, 204, 204);
 }
 
-#search-tab label{
+#filterDropdown label{
     color: #333;    
 }
