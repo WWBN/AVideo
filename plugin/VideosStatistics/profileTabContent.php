@@ -25,6 +25,8 @@
         </div>
     </div>
 </div>
+
+<script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
 <script>
     var historyTable;
 
