@@ -157,7 +157,8 @@ class Statistics extends ObjectYPT
         $rows = [];
         if ($res !== false) {
             foreach ($fullData as $row) {
-                $row['when'] = humanTimingAgo($row['created_php_time']);
+                $time = !empty($row['created_php_time'])?$row['created_php_time']:$row['created'];
+                $row['when'] = humanTimingAgo($time);
                 //$row['poster'] = Video::getPoster($row['videos_id']);
                 $row['listItem'] = Video::getVideosListItem($row['videos_id']);
                 $row['img'] = '<img src="' . $row['poster'] . '" class="img img-responsive"/>';
