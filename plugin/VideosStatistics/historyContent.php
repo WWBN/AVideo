@@ -1,7 +1,7 @@
 <style>
     #video-history .videoLink, 
     #video-history .thumbsImage {
-        max-height: 100px;
+        max-height: 150px;
     }
 </style>
 <div class="panel panel-default">
