@@ -11254,9 +11254,11 @@ function convertThumbsIfNotExists($source, $destination)
 {
     global $advancedCustom;
     if (file_exists($destination)) {
+        _error_log("convertThumbsIfNotExists destination image exists ");
         return true;
     }
     if (!file_exists($source)) {
+        _error_log("convertThumbsIfNotExists source image does not exists ");
         return false;
     }
     if (empty($advancedCustom)) {
