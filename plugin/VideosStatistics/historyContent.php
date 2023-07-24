@@ -1,3 +1,8 @@
+<style>
+    #video-history .thumbsImage{
+        max-height: 100px;
+    }
+</style>
 <div class="panel panel-default">
     <div class="panel-heading">
         <button id="delete-all" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Delete All</button>
