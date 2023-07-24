@@ -560,7 +560,11 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 }
             }
         }).on("loaded.rs.jquery.bootgrid", function () {
-            $('[data-toggle="tooltip"], .tooltip').tooltip("hide");
+            try {
+                $('[data-toggle="tooltip"], .tooltip').tooltip("hide");
+            } catch (error) {
+                
+            }
             setTimeout(function(){
                 $('[data-toggle="tooltip"]').tooltip({container: 'body',html:true});
             },500);
