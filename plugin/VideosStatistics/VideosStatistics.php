@@ -374,4 +374,16 @@ class VideosStatistics extends PluginAbstract {
         }
         return false;
     }
+
+
+    
+    public static function profileTabName($users_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/VideosStatistics/profileTabName.php';
+    }
+
+    public static function profileTabContent($users_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/VideosStatistics/profileTabContent.php';
+    }
 }
