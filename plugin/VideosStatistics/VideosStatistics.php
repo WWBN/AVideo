@@ -386,4 +386,10 @@ class VideosStatistics extends PluginAbstract {
         global $global;
         include $global['systemRootPath'] . 'plugin/VideosStatistics/profileTabContent.php';
     }
+    
+    public function navBarButtons()
+    {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/VideosStatistics/navBarButtons.php';
+    }
 }
