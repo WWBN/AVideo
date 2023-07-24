@@ -248,7 +248,7 @@ async function YPTHidenavbar() {
 
 $(document).ready(function() {
     var menuOpen = Cookies.get("menuOpen");
-    if (menuOpen === "true") {
+    if (menuOpen === "true" && !inIframe()) {
         YPTSidebarOpen();
     } else {
         YPTSidebarClose();
