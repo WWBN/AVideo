@@ -1,12 +1,12 @@
 <?php
 require_once $global['systemRootPath'] . 'objects/functions.php';
 // filter some security here
-$securityFilter = ['jump','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
+$securityFilter = ['jump','videoLink','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
 $securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
 $securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
 $securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
 $securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
-$filterURL = ['videoURL','videoLink', 'siteURL', 'redirectUri', 'encoderURL'];
+$filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
@@ -36,6 +36,7 @@ foreach ($scanVars as $value) {
             $global['makeVideosIDHarderToGuessNotDecrypted'] = 0;
         }
     }
+
     foreach ($filterURL as $key => $value) {
         if (!empty($scanThis[$value])) {
             if (!filter_var($scanThis[$value], FILTER_VALIDATE_URL) || !preg_match("/^http.*/i", $scanThis[$value])) {
@@ -46,6 +47,7 @@ foreach ($scanVars as $value) {
             }
         }
     }
+
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
