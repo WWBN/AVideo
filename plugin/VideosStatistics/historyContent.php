@@ -1,5 +1,6 @@
 <style>
-    #video-history .videoLink {
+    #video-history .videoLink, 
+    #video-history .thumbsImage {
         max-height: 100px;
     }
 </style>
