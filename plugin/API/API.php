@@ -967,9 +967,12 @@ class API extends PluginAbstract
             }
 
             if ($SubtitleSwitcher) {
-                $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
-                foreach ($rows[$key]['subtitles'] as $key2 => $value) {
-                    $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
+                $sub = getVTTTracks($value['filename'], true);
+                if(!empty($sub)){
+                    $rows[$key]['subtitles'] = $sub;
+                    foreach ($rows[$key]['subtitles'] as $key2 => $value) {
+                        $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
+                    }
                 }
             }
             require_once $global['systemRootPath'] . 'objects/comment.php';
