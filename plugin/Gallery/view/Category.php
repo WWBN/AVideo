@@ -1,4 +1,5 @@
 <?php
+//var_dump($videos, debug_backtrace());exit;
 if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
     if (($obj->CategoryDescription) && (!empty($_REQUEST['catName']))) { 
         $category = Category::getCategoryByName($_REQUEST['catName']);
@@ -49,6 +50,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
             </div>
             <?php
         }
+        //var_dump(!empty($childCategories) ,($currentCat['parentId'] != "0") , ($currentCat['parentId'] != "-1"));exit;
         if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) {
             $obj->BigVideo = false;
             ?>         
@@ -71,7 +73,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
 
                         $_GET['limitOnceToOne'] = "1";
                         $videos = Video::getAllVideos();
-
+                        
                         // make a row each 6 cols
                         if ($countCols % 6 === 0) {
                             echo '</div><div class="clearfix">';

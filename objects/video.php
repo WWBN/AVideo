@@ -1537,11 +1537,10 @@ if (!class_exists('Video')) {
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-             * 
-             */
+            */
             
             $sql .= self::getSQLByStatus($status, $showUnlisted);
-
+            //echo $sql;exit;
             if (!empty($_REQUEST['catName'])) {
                 $catName = ($_REQUEST['catName']);
                 $sql .= " AND (c.clean_name = '{$catName}' ";
@@ -2096,11 +2095,9 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
-            }
-             * 
-             */
+            }*/
             $sql .= self::getSQLByStatus($status, $showUnlisted);
-
+            //echo $sql;exit;
             if (!empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND (v.users_id = '{$user['id']}' OR v.users_id_company = '{$user['id']}')";
@@ -2226,7 +2223,7 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId) && is_string($videosArrayId[0])) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-            /*
+            
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             } elseif ($status == "viewableNotUnlisted") {
@@ -2238,10 +2235,8 @@ if (!class_exists('Video')) {
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-             * 
-             */
-            $sql .= self::getSQLByStatus($status, $showUnlisted);
-
+            //$sql .= self::getSQLByStatus($status, $showUnlisted);
+            //echo $sql;exit;
             if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $sql .= " AND (v.users_id = '" . User::getId() . "' OR v.users_id_company  = '" . User::getId() . "')";
             } elseif (is_int($showOnlyLoggedUserVideos)) {
@@ -2363,6 +2358,7 @@ if (!class_exists('Video')) {
               sqlDAL::close($res);
              *
              */
+            //var_dump($sql);exit;
             global $lastGetTotalVideos;
             $lastGetTotalVideos = $sql;
             $res = sqlDAL::readSql($sql);
