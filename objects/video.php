@@ -1023,7 +1023,6 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-            /*
             if ($status == "viewable") {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             } elseif ($status == "viewableNotUnlisted") {
@@ -1031,9 +1030,7 @@ if (!class_exists('Video')) {
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
-             * 
-             */
-            $sql .= self::getSQLByStatus($status, $showUnlisted);
+            //$sql .= self::getSQLByStatus($status, $showUnlisted);
 
             if (!empty($_REQUEST['catName'])) {
                 $catName = ($_REQUEST['catName']);

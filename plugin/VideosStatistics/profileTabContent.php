@@ -14,7 +14,6 @@
                     <tr>
                         <th>Date</th>
                         <th></th>
-                        <th>Title</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -55,11 +54,7 @@
                     "data": "when"
                 },
                 {
-                    sortable: false,
-                    "data": "img"
-                },
-                {
-                    "data": "title"
+                    "data": "listItem"
                 },
                 {
                     sortable: false,

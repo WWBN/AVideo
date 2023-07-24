@@ -159,6 +159,7 @@ class Statistics extends ObjectYPT
             foreach ($fullData as $row) {
                 $row['when'] = humanTimingAgo($row['created_php_time']);
                 $row['poster'] = Video::getPoster($row['videos_id']);
+                $row['listItem'] = Video::getVideosListItem($row['videos_id']);
                 $row['img'] = '<img src="' . $row['poster'] . '" class="img img-responsive"/>';
                 $rows[] = $row;
             }
