@@ -60,6 +60,7 @@
                     "defaultContent": "<button class='btn btn-sm btn-xs btn-danger btn-block deleteHistory'><i class='fa fa-trash'></i></button>"
                 }
             ],
+            "order": [[ 0, "desc" ]], 
             select: true,
         });
 
