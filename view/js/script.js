@@ -266,8 +266,6 @@ async function lazyImage() {
 }
 
 var pauseIfIsPlayinAdsInterval;
-var seconds_watching_video = 0;
-var _startCountPlayingTime;
 async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
@@ -275,7 +273,6 @@ async function setPlayerListners() {
             //console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
-            clearInterval(_startCountPlayingTime);
         });
         player.on('play', function () {
             isTryingToPlay = false;
@@ -291,10 +288,6 @@ async function setPlayerListners() {
             pauseIfIsPlayinAdsInterval = setInterval(function () {
                 pauseIfIsPlayinAds();
             }, 500);
-            clearInterval(_startCountPlayingTime);
-            _startCountPlayingTime = setInterval(function () {
-                seconds_watching_video++;
-            }, 1000);
         });
         $("#mainVideo .vjs-mute-control").click(function () {
             Cookies.set('muted', player.muted(), {
@@ -849,7 +842,11 @@ function playNext(url) {
         }, 1000);
     } else if (isPlayNextEnabled()) {
         modal.showPleaseWait();
-        if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
+        if (window.parent && typeof window.parent.playNextShorts === 'function') {
+            // Function exists, send a message to call it
+            console.log(" window.parent.postMessage(playNextShorts ");
+            window.parent.postMessage('playNextShorts', '*');
+        } else if (typeof autoPlayAjax == 'undefined' || !autoPlayAjax) {
             //console.log("playNext changing location " + url);
             document.location = url;
         } else {
@@ -2832,17 +2829,6 @@ $(document).ready(function () {
         expires: 365
     });
     tabsCategoryDocumentHeight = $(document).height();
-    if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-        $('.nav-tabs-horizontal').scrollingTabs();
-        //$('.nav-tabs-horizontal').fadeIn();
-    }
-    setInterval(function () {
-        if (tabsCategoryDocumentHeightChanged()) {
-            if (typeof $('.nav-tabs-horizontal').scrollingTabs == 'function') {
-                $('.nav-tabs-horizontal').scrollingTabs('refresh');
-            }
-        }
-    }, 2000);
     modal = getPleaseWait();
     try {
         $('[data-toggle="popover"]').popover();

@@ -13,7 +13,11 @@
                 <?php
                 echo $getAdsLeaderBoardTop;
             }else{
-                echo "<!-- getAdsLeaderBoardTop is empty -->";
+                echo "<!-- ";
+                echo "getAdsLeaderBoardTop is empty ";
+                echo implode(', ', ADs::getAdsCodeReason('leaderBoardTop'));
+                echo " -->";
+
             }
             ?>
         </center>

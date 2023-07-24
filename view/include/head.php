@@ -94,7 +94,6 @@ if (!isBot()) {
 ?>
     <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
     <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('view/bootstrap/jquery-bootstrap-scrolling-tabs/jquery.scrolling-tabs.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
     <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
     <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
     <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />

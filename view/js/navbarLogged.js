@@ -125,8 +125,6 @@ async function openLeftMenu() {
         closeRightMenu();
         closeSearchMenu();
     }
-    var selector = '#buttonMenu svg';
-    $(selector).addClass('active');
     YPTSidebarOpen();
 }
 
@@ -213,6 +211,8 @@ function YPTSidebarIsOpen() {
     return $('body').hasClass('youtube');
 }
 async function YPTSidebarOpen() {
+    var selector = '#buttonMenu svg';
+    $(selector).addClass('active');
     $("#sidebar").removeClass('animate__bounceOutLeft');
     $("#sidebar").show();
     $("#sidebar").addClass('animate__animated animate__bounceInLeft');

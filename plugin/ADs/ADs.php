@@ -245,12 +245,12 @@ class ADs extends PluginAbstract
     {
         global $global;
         if (isBot()) {
-            return false;
+            return array();
         }
         $paths = self::getAdsPath($type, $is_regular_user);
 
         if (empty($paths)) {
-            return false;
+            return array();
         }
 
         $files = _glob($paths['path'], '/.png$/');
@@ -280,10 +280,8 @@ class ADs extends PluginAbstract
     {
         global $global;
         
-        $emptyAd = ['adCode' => '', 'label' => '', 'paths' => array()];
-        
         if (isBot()) {
-            return $emptyAd;
+            return ['adCode' => '', 'label' => '', 'paths' => array()];
         }
 
         if (empty($videos_id)) {
@@ -298,9 +296,15 @@ class ADs extends PluginAbstract
             $users_id = 0;
         }
         
+
+        return self::getAdsFromUsersId($type, $users_id);
+    }
+
+    public static function getAdsFromUsersId($type, $users_id)
+    {
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         if(empty($ad->$type)){
-            return $emptyAd;
+            return ['adCode' => '', 'label' => '', 'paths' => array()];
         }
         $label = '';
         eval("\$label = \$ad->{$type}Label;");
@@ -325,7 +329,6 @@ class ADs extends PluginAbstract
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];
     }
 
-
     public static function getAdsCode($type)
     {
         global $global;
@@ -347,6 +350,34 @@ class ADs extends PluginAbstract
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }
         return $adCode;
+    }
+
+    public static function getAdsCodeReason($type)
+    {
+        $reasons = array();
+        if (isBot()) {
+            $reasons[] = 'Is a bot';
+        }
+        $videos_id = 0;
+        if (empty($videos_id)) {
+            $videos_id = getVideos_id();
+        }
+        $reasons[] = 'videos_id='.$videos_id;
+        $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
+        if (!empty($ad)) {
+            if (isMobile()) {
+                $type = $type . 'Mobile';
+            }
+            $adC = self::getAdsFromVideosId($type, $videos_id);
+            $reasons[] = 'type='.$type;
+            $reasons[] = 'label='.$adC['label'];
+            if(empty($adC['adCode'])){
+                $reasons[] = 'adCode is empty';
+            }
+        }else{
+            $reasons[] = 'ADs plugin disabled';
+        }
+        return $reasons;
     }
 
     public static function getSize($type)

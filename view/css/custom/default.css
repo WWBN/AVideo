@@ -18,3 +18,7 @@ span.selection > span.select2-selection--single{
     border-bottom-color: rgb(204, 204, 204);
     border-left-color: rgb(204, 204, 204);
 }
+
+#filterDropdown label{
+    color: #333;    
+}

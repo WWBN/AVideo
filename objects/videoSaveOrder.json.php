@@ -20,6 +20,6 @@ Video::resetOrder();
 foreach ($_REQUEST['videos'] as $key => $value) {
     $obj->responses[] = Video::updateOrder($value['videos_id'], $value['order']);
 }
-$obj->error = empty($obj->responses);
+$obj->error = empty($obj->responses) && !empty($_REQUEST['videos']);
 mysqlCommit();
 echo json_encode($obj);

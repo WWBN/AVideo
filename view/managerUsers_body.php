@@ -14,9 +14,11 @@ foreach ($userGroups as $value) {
     $users_tabs[] = ['selector' => 'userGroupGrid' . $value['id'], 'queryString' => '?status=a&user_groups_id=' . $value['id'], 'icon' => 'fas fa-users', 'title' => $value['group_name'], 'active' => '', 'userGroupID' => $value['id']];
 }
 ?>
+
+<link href="<?php echo getURL('node_modules/flickity/dist/flickity.min.css'); ?>" rel="stylesheet" type="text/css" />
 <div class="panel panel-default">
     <div class="panel-heading tabbable-line">
-        <div class="btn-group pull-right" >
+        <div class="btn-group pull-right">
             <button type="button" class="btn btn-default" id="addUserBtn">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User"); ?>
             </button>
@@ -34,30 +36,27 @@ foreach ($userGroups as $value) {
             </div>
         </div>
         <div class="clearfix"></div>
-        <ul class="nav nav-tabs nav-tabs-horizontal">
-            <?php
-            foreach ($users_tabs as $value) {
-                ?>
-                <li class="<?php echo $value['active']; ?>">
-                    <a data-toggle="tab" href="#<?php echo $value['selector']; ?>Tab" onclick="startUserGrid('#<?php echo $value['selector']; ?>', '<?php echo $value['queryString']; ?>', <?php echo intval($value['userGroupID']); ?>);">
-                        <i class="<?php echo $value['icon']; ?>"></i> <?php echo __($value['title']); ?>
-                    </a>
-                </li>
-                <?php
-            }
-            ?>
-        </ul>
+        <?php
+        $_REQUEST['rowCount'] = $_rowCount;
+        $_REQUEST['current'] = $current;
+        $items = array();
+        foreach ($users_tabs as $value) {
+            $label = "<i class=\"{$value['icon']}\"></i> " . __($value['title']);
+            $items[] = array('href' => "#{$value['selector']}Tab", 'tooltip' => __($value['title']), 'onclick' => "startUserGrid('#{$value['selector']}', '{$value['queryString']}', " . intval($value['userGroupID']) . ");", 'label' => $label);
+        }
+        generateHorizontalFlickity($items);
+        ?>
     </div>
     <div class="panel-body">
         <div class="tab-content">
 
             <?php
             foreach ($users_tabs as $value) {
-                ?>
+            ?>
                 <div id="<?php echo $value['selector']; ?>Tab" class="tab-pane fade in <?php echo $value['active']; ?>">
                     <?php
                     if (!empty($value['userGroupID'])) {
-                        ?>
+                    ?>
                         <div class="btn-group pull-left" id="filterButtonsUG<?php echo $value['userGroupID']; ?>">
                             <div class="btn-group ">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -69,7 +68,7 @@ foreach ($userGroups as $value) {
                                 </ul>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
                     ?>
                     <table id="<?php echo $value['selector']; ?>" class="table table-condensed table-hover table-striped">
@@ -78,17 +77,17 @@ foreach ($userGroups as $value) {
                                 <th data-column-id="id" data-width="80px"><?php echo __("#"); ?></th>
                                 <th data-column-id="user" data-formatter="user"><?php echo __("User"); ?></th>
                                 <th data-column-id="name" data-order="desc"><?php echo __("Name"); ?></th>
-                                <th data-column-id="email" ><?php echo __("E-mail"); ?></th>
-                                <th data-column-id="phone" ><?php echo __("Phone"); ?></th>
-                                <th data-column-id="created" ><?php echo __("Created"); ?></th>
-                                <th data-column-id="modified" ><?php echo __("Modified"); ?></th>
-                                <th data-column-id="tags" data-formatter="tags"  data-sortable="false" ><?php echo __("Tags"); ?></th>
+                                <th data-column-id="email"><?php echo __("E-mail"); ?></th>
+                                <th data-column-id="phone"><?php echo __("Phone"); ?></th>
+                                <th data-column-id="created"><?php echo __("Created"); ?></th>
+                                <th data-column-id="modified"><?php echo __("Modified"); ?></th>
+                                <th data-column-id="tags" data-formatter="tags" data-sortable="false"><?php echo __("Tags"); ?></th>
                                 <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="200px"></th>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <?php
+            <?php
             }
             ?>
         </div>
@@ -104,28 +103,28 @@ foreach ($userGroups as $value) {
                 <h4 class="modal-title"><?php echo __("User Form"); ?></h4>
             </div>
             <div class="modal-body">
-                <form class="form-compact"  id="updateUserForm" onsubmit="">
-                    <input type="hidden" id="inputUserId"  >
+                <form class="form-compact" id="updateUserForm" onsubmit="">
+                    <input type="hidden" id="inputUserId">
                     <label for="inputUser" class="sr-only"><?php echo __("User"); ?></label>
-                    <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required"  data-toggle="tooltip" title="<?php echo __('User'); ?>">
+                    <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required" data-toggle="tooltip" title="<?php echo __('User'); ?>">
                     <?php
                     getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
                     ?>
                     <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>"  data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
+                    <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
                     <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                    <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>"  data-toggle="tooltip" title="<?php echo __('Name'); ?>">
+                    <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" data-toggle="tooltip" title="<?php echo __('Name'); ?>">
                     <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
-                    <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>"  data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
+                    <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
                     <label for="inputPhone" class="sr-only"><?php echo __("Phone"); ?></label>
-                    <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>" >
+                    <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>">
                     <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
-                    <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1"  data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
+                    <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
                     <small>Do not paste the full javascript code, paste only the gtag id</small>
                     <br>
                     <?php
                     if (empty($advancedCustomUser->disableCompanySignUp) || !empty($advancedCustomUser->enableAffiliation)) {
-                        ?>
+                    ?>
                         <label for="is_company" class="sr-only"><?php echo __("is a Company"); ?></label>
                         <select name="is_company" id="is_company" class="form-control last">
                             <?php
@@ -144,49 +143,49 @@ foreach ($userGroups as $value) {
                         <li class="list-group-item <?php echo User::isAdmin() ? "" : "hidden"; ?>">
                             <?php echo __("is Admin"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="isAdmin" id="isAdmin"/>
+                                <input type="checkbox" value="isAdmin" id="isAdmin" />
                                 <label for="isAdmin" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("Can Stream Videos"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="canStream" id="canStream"/>
+                                <input type="checkbox" value="canStream" id="canStream" />
                                 <label for="canStream" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("Can Upload Videos"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="canUpload" id="canUpload"/>
+                                <input type="checkbox" value="canUpload" id="canUpload" />
                                 <label for="canUpload" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("Can view chart"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="canViewChart" id="canViewChart"/>
+                                <input type="checkbox" value="canViewChart" id="canViewChart" />
                                 <label for="canViewChart" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("Can create meet"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="canCreateMeet" id="canCreateMeet"/>
+                                <input type="checkbox" value="canCreateMeet" id="canCreateMeet" />
                                 <label for="canCreateMeet" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("E-mail Verified"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="isEmailVerified" id="isEmailVerified"/>
+                                <input type="checkbox" value="isEmailVerified" id="isEmailVerified" />
                                 <label for="isEmailVerified" class="label-success"></label>
                             </div>
                         </li>
                         <li class="list-group-item">
                             <?php echo __("is Active"); ?>
                             <div class="material-switch pull-right">
-                                <input type="checkbox" value="status" id="status"/>
+                                <input type="checkbox" value="status" id="status" />
                                 <label for="status" class="label-success"></label>
                             </div>
                         </li>
@@ -197,22 +196,22 @@ foreach ($userGroups as $value) {
                     <ul class="list-group">
                         <li class="list-group-item active">
                             <?php echo __("User Groups"); ?>
-                            <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
+                            <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom" data-content="<?php echo __("By associating groups with this user, they will be able to see all the videos that are related to this group"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                         </li>
                         <?php
                         foreach ($userGroups as $value) {
-                            ?>
+                        ?>
                             <li class="list-group-item usergroupsLi" id="usergroupsLi<?php echo $value['id']; ?>">
                                 <span class="fa fa-unlock"></span>
                                 <?php echo $value['group_name']; ?>
                                 <span class="label label-info"><?php echo $value['total_videos']; ?> <?php echo __("Videos linked"); ?></span>
                                 <span class="label label-warning dynamicLabel"><i class="fas fa-link"></i> <?php echo __("Dynamic group"); ?></span>
                                 <div class="material-switch pull-right">
-                                    <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups"/>
+                                    <input id="userGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" />
                                     <label for="userGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                 </div>
                             </li>
-                            <?php
+                        <?php
                         }
                         ?>
                     </ul>
@@ -240,7 +239,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="first_name" class="form-control"  type="text" readonly >
+                            <input id="first_name" class="form-control" type="text" readonly>
                         </div>
                     </div>
                 </div>
@@ -250,7 +249,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="last_name" class="form-control" readonly >
+                            <input id="last_name" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -260,7 +259,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="address" class="form-control"  readonly >
+                            <input id="address" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -270,7 +269,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="zip_code" class="form-control" readonly>
+                            <input id="zip_code" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -280,7 +279,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="country" class="form-control" readonly>
+                            <input id="country" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -289,7 +288,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="region" class="form-control" readonly>
+                            <input id="region" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -298,7 +297,7 @@ foreach ($userGroups as $value) {
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                            <input  id="city" class="form-control" readonly>
+                            <input id="city" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
@@ -307,7 +306,7 @@ foreach ($userGroups as $value) {
                     <label class="col-md-4 control-label"><?php echo __("Document"); ?></label>
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
-                            <img src="" class="img img-responsive img-thumbnail" id="documentImage"/>
+                            <img src="" class="img img-responsive img-thumbnail" id="documentImage" />
                         </div>
                     </div>
                 </div>
@@ -317,6 +316,8 @@ foreach ($userGroups as $value) {
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+<script src="<?php echo getURL('node_modules/flickity/dist/flickity.pkgd.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/flickity-bg-lazyload/bg-lazyload.js'); ?>" type="text/javascript"></script>
 
 <script>
     function isAnalytics() {
@@ -325,10 +326,10 @@ foreach ($userGroups as $value) {
         //return str === '' || (/^ua-\d{4,9}-\d{1,4}$/i).test(str.toString());
     }
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         startUserGrid("#<?php echo $users_tabs[0]['selector']; ?>", "<?php echo $users_tabs[0]['queryString']; ?>", <?php echo intval($users_tabs[0]['userGroupID']); ?>);
-        $('#addUserBtn').click(function (evt) {
+        $('#addUserBtn').click(function(evt) {
             $('#inputUserId').val('');
             $('#inputUser').val('');
             $('#inputPassword').val('');
@@ -346,71 +347,70 @@ foreach ($userGroups as $value) {
             $('.userGroups').prop('checked', false);
             $('#status').prop('checked', true);
             $('#isEmailVerified').prop('checked', false);
-<?php
-print AVideoPlugin::addUserBtnJS();
-?>
+            <?php
+            print AVideoPlugin::addUserBtnJS();
+            ?>
             $('#userFormModal').modal();
         });
-        $('#saveUserBtn').click(function (evt) {
+        $('#saveUserBtn').click(function(evt) {
             $('#updateUserForm').submit();
         });
-        $('#updateUserForm').submit(function (evt) {
-        evt.preventDefault();
-                if (!isAnalytics()){
-        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
+        $('#updateUserForm').submit(function(evt) {
+            evt.preventDefault();
+            if (!isAnalytics()) {
+                avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your analytics code is wrong"); ?>", "error");
                 $('#inputAnalyticsCode').focus();
                 return false;
-        }
+            }
 
-        modal.showPleaseWait();
-                var selectedUserGroups = [];
-                $('.userGroups:checked').each(function () {
-        selectedUserGroups.push($(this).val());
-        });
-                $.ajax({
+            modal.showPleaseWait();
+            var selectedUserGroups = [];
+            $('.userGroups:checked').each(function() {
+                selectedUserGroups.push($(this).val());
+            });
+            $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>objects/userAddNew.json.php',
-                        data: {
-<?php
-print AVideoPlugin::updateUserFormJS();
-?>
-                        "id": $('#inputUserId').val(),
-                                "user": $('#inputUser').val(),
-                                "pass": $('#inputPassword').val(),
-                                "email": $('#inputEmail').val(),
-                                "name": $('#inputName').val(),
-                                "phone": $('#inputPhone').val(),
-                                "channelName": $('#inputChannelName').val(),
-                                "analyticsCode": $('#inputAnalyticsCode').val(),
-                                "isAdmin": $('#isAdmin').is(':checked'),
-                                "canStream": $('#canStream').is(':checked'),
-                                "is_company": $('#is_company').val(),
-                                "canUpload": $('#canUpload').is(':checked'),
-                                "canViewChart": $('#canViewChart').is(':checked'),
-                                "canCreateMeet": $('#canCreateMeet').is(':checked'),
-                                "status": $('#status').is(':checked') ? 'a' : 'i',
-                                "isEmailVerified": $('#isEmailVerified').is(':checked'),
-                                "userGroups": selectedUserGroups,
-                                "do_not_login": 1,
-                                "securityToken": '<?php echo getToken(3600); ?>'
-                        },
-                        type: 'post',
-                        success: function (response) {
-                            if(!response.error){
-                                $('#userFormModal').modal('hide');
-                                $('.bootgrid-table').bootgrid("reload");
-                            }
-                            avideoResponse(response);
-                            console.log('user save', response);
-                            modal.hidePleaseWait();
-                        }
-                });
-                return false;
-        }
-        );
+                data: {
+                    <?php
+                    print AVideoPlugin::updateUserFormJS();
+                    ?> "id": $('#inputUserId').val(),
+                    "user": $('#inputUser').val(),
+                    "pass": $('#inputPassword').val(),
+                    "email": $('#inputEmail').val(),
+                    "name": $('#inputName').val(),
+                    "phone": $('#inputPhone').val(),
+                    "channelName": $('#inputChannelName').val(),
+                    "analyticsCode": $('#inputAnalyticsCode').val(),
+                    "isAdmin": $('#isAdmin').is(':checked'),
+                    "canStream": $('#canStream').is(':checked'),
+                    "is_company": $('#is_company').val(),
+                    "canUpload": $('#canUpload').is(':checked'),
+                    "canViewChart": $('#canViewChart').is(':checked'),
+                    "canCreateMeet": $('#canCreateMeet').is(':checked'),
+                    "status": $('#status').is(':checked') ? 'a' : 'i',
+                    "isEmailVerified": $('#isEmailVerified').is(':checked'),
+                    "userGroups": selectedUserGroups,
+                    "do_not_login": 1,
+                    "securityToken": '<?php echo getToken(3600); ?>'
+                },
+                type: 'post',
+                success: function(response) {
+                    if (!response.error) {
+                        $('#userFormModal').modal('hide');
+                        $('.bootgrid-table').bootgrid("reload");
+                    }
+                    avideoResponse(response);
+                    console.log('user save', response);
+                    modal.hidePleaseWait();
+                }
+            });
+            return false;
+        });
     });
 
     var userGroupShowOnly = '';
     var userGroupQueryString = '';
+
     function userGroupFilter(user_groups_id, value) {
         console.log('Filter usergroup', user_groups_id, value);
         userGroupShowOnly = value;
@@ -427,6 +427,7 @@ print AVideoPlugin::updateUserFormJS();
         url = addGetParam(url, 'userGroupShowOnly', userGroupShowOnly);
         return url;
     }
+
     function startUserGrid(selector, queryString, user_groups_id) {
         userGroupQueryString = queryString;
         if (user_groups_id) {
@@ -448,14 +449,14 @@ print AVideoPlugin::updateUserFormJS();
             ajax: true,
             url: getUserGridURL,
             formatters: {
-                "commands": function (column, row) {
+                "commands": function(column, row) {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
                     return editBtn + infoBtn + pluginsButtons;
                 },
-                "tags": function (column, row) {
+                "tags": function(column, row) {
                     var tags = '';
                     for (var i in row.tags) {
                         if (typeof row.tags[i].type == "undefined") {
@@ -465,7 +466,7 @@ print AVideoPlugin::updateUserFormJS();
                     }
                     return tags;
                 },
-                "user": function (column, row) {
+                "user": function(column, row) {
                     var photo = '';
                     if (row.photoURL) {
                         photo = "<br><img src='" + row.photo + "' class='img img-responsive img-rounded img-thumbnail' style='max-width:100px;'/>";
@@ -473,10 +474,9 @@ print AVideoPlugin::updateUserFormJS();
                     return row.user + photo;
                 }
             }
-        }).on("loaded.rs.jquery.bootgrid", function ()
-        {
+        }).on("loaded.rs.jquery.bootgrid", function() {
             /* Executes after data is loaded and rendered */
-            grid.find(".command-edit").on("click", function (e) {
+            grid.find(".command-edit").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $(selector).bootgrid("getCurrentRows")[row_index];
                 console.log(row);
@@ -507,12 +507,12 @@ print AVideoPlugin::updateUserFormJS();
                 $('#canCreateMeet').prop('checked', (row.canCreateMeet == "1" ? true : false));
                 $('#status').prop('checked', (row.status === "a" ? true : false));
                 $('#isEmailVerified').prop('checked', (row.isEmailVerified == "1" ? true : false));
-<?php
-print AVideoPlugin::loadUsersFormJS();
-?>
+                <?php
+                print AVideoPlugin::loadUsersFormJS();
+                ?>
 
                 $('#userFormModal').modal();
-            }).end().find(".command-info").on("click", function (e) {
+            }).end().find(".command-info").on("click", function(e) {
 
                 var row_index = $(this).closest('tr').index();
                 var row = $(selector).bootgrid("getCurrentRows")[row_index];
@@ -531,5 +531,4 @@ print AVideoPlugin::loadUsersFormJS();
             });
         });
     }
-
 </script>
