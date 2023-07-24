@@ -33,6 +33,7 @@ if (empty($name)) {
             if (typeof modal === 'object') {
                 modal.showPleaseWait();
             }
+            data.showAll=1;
             $.ajax({
                 url: webSiteRootURL + 'objects/videos.json.php',
                 type: "POST",
@@ -75,6 +76,7 @@ if (empty($name)) {
                 var data = <?php echo _json_encode((object) $parameters); ?>;
                 data.searchPhrase = req.term;
                 data.rowCount = 12;
+                data.showAll=1;
                 $.ajax({
                     url: webSiteRootURL + 'objects/videos.json.php',
                     type: "POST",
