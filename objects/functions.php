@@ -11415,7 +11415,7 @@ function generateHorizontalFlickity($items)
     }
     $carouselClass = 'carousel_' . uniqid();
     ?>
-    <div id="<?php echo $carouselClass; ?>" class=" HorizontalFlickity" style="visibility: hidden;">
+    <div id="<?php echo $carouselClass; ?>" class=" HorizontalFlickity" style="visibility: hidden; min-height: 50px;">
         <?php 
         $initialIndex = 0;
         foreach ($items as $key => $item) { 
