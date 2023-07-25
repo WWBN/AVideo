@@ -6622,6 +6622,7 @@ $statusThatTheUserCanUpdate = [
     [Video::$statusUnlistedButSearchable, '#BBB'],
 ];
 
+AVideoPlugin::loadPlugin('Permissions');
 if(User::isAdmin() || Permissions::canModerateVideos()){
     $statusThatTheUserCanUpdate[] = [Video::$statusUnpublished, '#B00'];
 }
