@@ -7,6 +7,7 @@ if (empty($playlists_id)) {
 
 $program = PlayList::getFromDbFromId($playlists_id);
 if(empty($program)){
+    echo 'program not found';
     return;
 }
 

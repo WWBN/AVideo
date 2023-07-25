@@ -95,12 +95,17 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
             //_error_log("channelPlaylist videosArrayId: ".json_encode($videosArrayId));
             @$timesC[__LINE__] += microtime(true) - $startC;
             $startC = microtime(true);
-
+            $totalVideos = count($videosP);
         ?>
             <br>
             <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
                 <div class="panel-heading">
-                    <strong class="playlistName"><?php echo $program['name']; ?> </strong>
+                    <div class="playlistName" style="position: relative;">
+                        <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>
+                        <strong><?php echo $program['name']; ?></strong>
+                        <br>
+                        <small>(<?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($program['id'])); ?>)</small>
+                    </div>
                     <?php
                     PlayLists::getPLButtons($program['id'], false);
                     ?>

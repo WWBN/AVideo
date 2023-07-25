@@ -46,9 +46,11 @@ class PlayList extends ObjectYPT {
 
     static function getFromDbFromId($id) {
         global $global;
+        /*
         if (!User::isLogged()) {
             return false;
         }
+        */
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
         $res = sqlDAL::readSql($sql, "i", [$id]);
         $data = sqlDAL::fetchAssoc($res);
