@@ -81,7 +81,8 @@ if (!class_exists('Video')) {
             's' => 'Unlisted but Searchable',
             'r' => 'Recording',
             'f' => 'FansOnly',
-            'b' => 'Broken Missing files'
+            'b' => 'Broken Missing files',
+            'p' => 'Unpublished'
         ];
         public static $statusIcons = [
             'a' => '<i class=\'fas fa-eye\'></i>',
@@ -96,7 +97,8 @@ if (!class_exists('Video')) {
             's' => '<i class=\'fas fa-search\' style=\'color: #BBB;\'></i>',
             'r' => '<i class=\'fas fa-circle\'></i>',
             'f' => '<i class=\'fas fa-star\'></i>',
-            'b' => '<i class=\'fas fa-times\'></i>'
+            'b' => '<i class=\'fas fa-times\'></i>',
+            'p' => '<i class=\'fas fa-ban\'></i>'
         ];
         public static $statusActive = 'a';
         public static $statusActiveAndEncoding = 'k';
@@ -111,6 +113,7 @@ if (!class_exists('Video')) {
         public static $statusRecording = 'r';
         public static $statusFansOnly = 'f';
         public static $statusBrokenMissingFiles = 'b';
+        public static $statusUnpublished = 'p';
         public static $rratingOptions = ['', 'g', 'pg', 'pg-13', 'r', 'nc-17', 'ma'];
         public static $rratingOptionsText = ['g' => 'General Audience', 'pg' => 'Parental Guidance Suggested', 'pg-13' => 'Parental Strongly Cautioned', 'r' => 'Restricted', 'nc-17' => 'No One 17 and Under Admitted', 'ma' => 'Mature Audience'];
         //ver 3.4
@@ -707,6 +710,13 @@ if (!class_exists('Video')) {
                     _error_log("Video::setStatus({$status}) NOT found ", AVideoLog::$WARNING);
                     return false;
                 }
+
+                if($this->status == Video::$statusUnpublished){
+                    if(!User::isAdmin() && !Permissions::canModerateVideos()){
+                        _error_log("Video::setStatus({$status}) Only modetrators can publish videos ", AVideoLog::$WARNING);
+                        return false;
+                    }
+                }
                 /**
                  *
                  * @var array $global
@@ -761,7 +771,9 @@ if (!class_exists('Video')) {
             if (!empty($_POST['fail'])) {
                 return $this->setStatus(Video::$statusEncodingError);
             } else {
-                if ($this->isScheduledForRelease()) {
+                if($advancedCustom->enableVideoModeration){
+                    return $this->setStatus(Video::$statusUnpublished);
+                }else if ($this->isScheduledForRelease()) {
                     return $this->setStatus(Video::$statusScheduledReleaseDate);
                 } else
                 if (!empty($_REQUEST['overrideStatus'])) {
@@ -1025,9 +1037,23 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
             if ($status == "viewable") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                $sql .= " AND ( ";
+                $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
+                if(User::isAdmin()){
+                    $sql .= " OR v.status = '".Video::$statusUnpublished."' ";
+                }else if(User::isLogged()){
+                    $sql .= " OR (v.status = '".Video::$statusUnpublished."' AND v.users_id = '".User::getId()."' )";
+                }
+                $sql .= " )";
             } elseif ($status == "viewableNotUnlisted") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+                $sql .= " AND ( ";
+                $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
+                if(User::isAdmin()){
+                    $sql .= " OR v.status = '".Video::$statusUnpublished."' ";
+                }else if(User::isLogged()){
+                    $sql .= " OR (v.status = '".Video::$statusUnpublished."' AND v.users_id = '".User::getId()."' )";
+                }
+                $sql .= " )";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
             }
@@ -6574,6 +6600,7 @@ $statusThatShowTheCompleteMenu = [
     Video::$statusUnlistedButSearchable,
     Video::$statusUnlisted,
     Video::$statusFansOnly,
+    Video::$statusUnpublished,
 ];
 
 $statusSearchFilter = [
@@ -6585,6 +6612,7 @@ $statusSearchFilter = [
     Video::$statusUnlisted,
     Video::$statusUnlistedButSearchable,
     Video::$statusBrokenMissingFiles,
+    Video::$statusUnpublished,
 ];
 
 $statusThatTheUserCanUpdate = [
@@ -6593,3 +6621,7 @@ $statusThatTheUserCanUpdate = [
     [Video::$statusUnlisted, '#AAA'],
     [Video::$statusUnlistedButSearchable, '#BBB'],
 ];
+
+if(User::isAdmin() || Permissions::canModerateVideos()){
+    $statusThatTheUserCanUpdate[] = [Video::$statusUnpublished, '#B00'];
+}

@@ -278,6 +278,8 @@ if (empty($video)) {
             } else {
                 videoNotFound('ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
             }
+        } else if ($vid->getStatus() === Video::$statusUnpublished) {
+            videoNotFound('This video is currently unpublished. Please contact an administrator to review and approve it for publication. Thank you for your patience and understanding.');
         } else {
             videoNotFound('ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
         }

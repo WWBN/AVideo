@@ -170,6 +170,8 @@ class CustomizeAdvanced extends PluginAbstract {
     public function getEmptyDataObject() {
         global $global, $statusThatTheUserCanUpdate, $advancedCustom;
         $obj = new stdClass();
+        $obj->enableVideoModeration = false;
+        self::addDataObjectHelper('enableVideoModeration', 'Video moderation', 'When enabled, leaves all videos unpublished. Only the administrator and video moderators have the authority to activate and make these videos public');
         $obj->logoMenuBarURL = "";
         $obj->encoderNetwork = "https://network.wwbn.net/";
         $obj->useEncoderNetworkRecomendation = false;
