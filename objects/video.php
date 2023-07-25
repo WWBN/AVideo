@@ -1673,7 +1673,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            echo $sql;exit;
+            //echo $sql;exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
