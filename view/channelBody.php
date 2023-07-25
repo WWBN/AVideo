@@ -167,11 +167,13 @@ if($advancedCustomUser->showChannelLiveTab){
                     echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
                     ?>
                         <?php
-                        $urlChannel = addLastSlash(User::getChannelLink($user_id));
-                        $rss =  "{$urlChannel}rss";
-                        $mrss =  "{$urlChannel}mrss";
-                        $roku =  "{$urlChannel}roku.json";
-                        echo getFeedButton($rss, $mrss, $roku);
+                        if(!empty($advancedCustomUser->showChannelFeed)){
+                            $urlChannel = addLastSlash(User::getChannelLink($user_id));
+                            $rss =  "{$urlChannel}rss";
+                            $mrss =  "{$urlChannel}mrss";
+                            $roku =  "{$urlChannel}roku.json";
+                            echo getFeedButton($rss, $mrss, $roku);
+                        }
                         echo User::getAddChannelToGalleryButton($user_id);
                         echo User::getBlockUserButton($user_id);
                         echo Subscribe::getButton($user_id);

@@ -80,6 +80,7 @@ class PlayLists extends PluginAbstract {
         $obj->showPlayLiveButton = true;
         $obj->showTrailerInThePlayList = true;
         $obj->showTVFeatures = false;
+        $obj->showFeed = true;
 
         return $obj;
     }

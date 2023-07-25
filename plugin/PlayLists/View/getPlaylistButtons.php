@@ -10,6 +10,7 @@ if(empty($program)){
     return;
 }
 
+$plObj = AVideoPlugin::getDataObject('PlayLists');
 $playListButtons = AVideoPlugin::getPlayListButtons($playlists_id);
 $link = PlayLists::getLink($program['id']);
 
@@ -54,10 +55,12 @@ if (PlayLists::canManagePlaylist($playlists_id)) {
         </ul>
     </div>
     <?php 
-    $rss =  "{$global['webSiteRootURL']}feed/?program_id={$program['id']}";
-    $mrss =  "{$global['webSiteRootURL']}mrss/?program_id={$program['id']}";
-    $roku =  "{$global['webSiteRootURL']}roku.json?program_id={$program['id']}";
-    echo getFeedButton($rss, $mrss, $roku);
+    if(!empty($plObj->showFeed)){
+        $rss =  "{$global['webSiteRootURL']}feed/?program_id={$program['id']}";
+        $mrss =  "{$global['webSiteRootURL']}mrss/?program_id={$program['id']}";
+        $roku =  "{$global['webSiteRootURL']}roku.json?program_id={$program['id']}";
+        echo getFeedButton($rss, $mrss, $roku);
+    }
     ?>
     <div class="pull-right btn-group"  style="display: inline-flex;">
         <?php

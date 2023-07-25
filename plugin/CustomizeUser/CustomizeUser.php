@@ -89,6 +89,7 @@ class CustomizeUser extends PluginAbstract
         $obj->showChannelLiveTab = true;
         $obj->showChannelHomeTab = true;
         $obj->showChannelVideosTab = true;
+        $obj->showChannelFeed = true;
         $obj->showArticlesTab = true;
         $obj->showAudioTab = true;
         $obj->showChannelProgramsTab = true;
