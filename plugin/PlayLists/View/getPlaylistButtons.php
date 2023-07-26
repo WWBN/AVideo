@@ -29,6 +29,7 @@ if (empty($isASerie)) {
 <?php
 echo PlayLists::getPlayLiveButton($program['id']);
 if (PlayLists::canManagePlaylist($playlists_id)) {
+    if(!isMobile()){
     ?>
     <script>
         $(function () {
@@ -42,6 +43,9 @@ if (PlayLists::canManagePlaylist($playlists_id)) {
             $("#sortable<?php echo $program['id']; ?>").disableSelection();
         });
     </script>
+    <?php
+    }
+    ?>
     <div class="dropdown" style="display: inline-block;">
         <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
             <i class="fas fa-sort-amount-down"></i> 
