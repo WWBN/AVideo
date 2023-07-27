@@ -126,7 +126,7 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         }
         if($obj->TwitterEnable){
             $connection = new TwitterOAuth($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret);
-            $connection->setApiVersion('2');
+            //$connection->setApiVersion('2');
             if($obj->debugMode){
                 _error_log($msg);
             }
