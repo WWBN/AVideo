@@ -142,9 +142,9 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
             
             if($obj->debugMode){
                 _error_log("getLastHttpCode: ". $connection->getLastHttpCode());
-                _error_log("getLastBody: ". $connection->getLastBody());
-                _error_log("getLastXHeaders: ". $connection->getLastXHeaders());
-                _error_log("getLastApiPath: ". $connection->getLastApiPath());
+                //_error_log("getLastBody: ". $connection->getLastBody());
+                //_error_log("getLastXHeaders: ". $connection->getLastXHeaders());
+                //_error_log("getLastApiPath: ". $connection->getLastApiPath());
                 _error_log(json_encode($post_tweets), AVideoLog::$DEBUG);
             }
         }else{
