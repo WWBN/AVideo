@@ -1,8 +1,8 @@
 
 body.floatVideo #videoContainer{
     position: fixed;
-    bottom: 0;
-    left: 0;
+    bottom: 50px;
+    left: 5px;
     width: 30vw;
     height: 30vh;
     z-index: 9999;
@@ -12,10 +12,10 @@ body.floatVideo #floatButtons{
 }
 body.floatVideo #floatButtonsClose{
     position: absolute;
-    right: -20px;
-    top: -20px;
+    right: -15px;
+    top: -15px;
 }
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     body.floatVideo #floatButtons{
         display: none !important;
     }
