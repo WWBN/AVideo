@@ -107,13 +107,14 @@ foreach ($json->photoFiles as $key => $value) {
 $objClone->cloneSiteURL = str_replace("'", '', escapeshellarg($objClone->cloneSiteURL));
 
 // get dump file
-$cmd = "wget -O {$clonesDir}{$json->sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
+$sqlFile = "{$clonesDir}{$json->sqlFile}";
+$cmd = "wget -O {$sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
 $log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file");
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error: " . print_r($output, true));
 }
-$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}]");
+$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}] ".humanFileSize(filesize($sqlFile)));
 
 // remove the first warning line
 $file = "{$clonesDir}{$json->sqlFile}";

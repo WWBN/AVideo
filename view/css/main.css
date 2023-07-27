@@ -1971,3 +1971,7 @@ body.ypt-is-compressed #videoCol {
     margin-left: 0;
     float: none;
 }
+
+#bigVideoCarousel .galleryVideoButtons button{
+    display: inline-block;
+}
