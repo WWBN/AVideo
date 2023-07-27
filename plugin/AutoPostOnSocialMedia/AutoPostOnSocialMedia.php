@@ -83,8 +83,8 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         $obj->TwitterAccessTokenSecret = "";
 
         $o = new stdClass();
-        $o->type = [1 => 'API Version 1', 2=>'API Version 2'];
-        $o->value = 2;
+        $o->type = [1 => 'API Version 1', '1.1' => 'API Version 1.1', 2=>'API Version 2'];
+        $o->value = '1.1';
         $obj->apiVersion = $o;
 
         $o = new stdClass();
