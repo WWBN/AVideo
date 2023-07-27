@@ -131,7 +131,16 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
                 _error_log($msg);
             }
             $post_tweets = $connection->post("statuses/update", ["status" => $msg]);
+            
+            if ($connection->getLastHttpCode() == 200) {
+                // Tweet posted successfully
+            } else {
+                // Handle error case
+            }
             if($obj->debugMode){
+                _error_log($connection->getLastHttpCode());
+                _error_log($connection->getLastBody());
+                _error_log($connection->getLastHttpCode());
                 _error_log(json_encode($post_tweets), AVideoLog::$DEBUG);
             }
         }else{
