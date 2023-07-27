@@ -116,13 +116,11 @@ if ($return_val !== 0) {
 }
 $log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}] ".humanFileSize(filesize($sqlFile)));
 
-// remove the first warning line
-$file = "{$clonesDir}{$json->sqlFile}";
 //$log->add("Clone: MySQL Dump $file");
-$contents = file($file, FILE_IGNORE_NEW_LINES);
+$contents = file($sqlFile, FILE_IGNORE_NEW_LINES);
 //$log->add("Clone: MySQL Dump contents ". json_encode($contents));
 $first_line = array_shift($contents);
-file_put_contents($file, implode("\r\n", $contents));
+file_put_contents($sqlFile, implode("\r\n", $contents));
 
 $log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database");
 // restore dump
