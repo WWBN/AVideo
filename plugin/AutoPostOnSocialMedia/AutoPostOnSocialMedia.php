@@ -83,6 +83,11 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         $obj->TwitterAccessTokenSecret = "";
 
         $o = new stdClass();
+        $o->type = [1 => 'API Version 1', 2=>'API Version 2'];
+        $o->value = 1;
+        $obj->apiVersion = $o;
+
+        $o = new stdClass();
         $o->type = array(
             0 => __("All time"),
             1 => __("1 Day"),
@@ -126,7 +131,10 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         }
         if($obj->TwitterEnable){
             $connection = new TwitterOAuth($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret);
-            //$connection->setApiVersion('2');
+            if($obj->apiVersion->value>1){
+                $connection->setApiVersion($obj->apiVersion->value);
+            }
+            
             if($obj->debugMode){
                 _error_log($msg);
             }
