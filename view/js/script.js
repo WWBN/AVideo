@@ -3799,10 +3799,10 @@ function updateVideoPlayer(videos_id, autoPlayTime) {
                         $('.videoTitle').text(video.title);
                         $('.videoDescription').text(video.description);
                         player.load();
-                        if(autoPlayTime!==false){
-                            if(autoPlayTime===-1){
+                        if (autoPlayTime !== false) {
+                            if (autoPlayTime === -1) {
                                 currentTime = 0;
-                            }else{
+                            } else {
                                 currentTime = autoPlayTime;
                             }
                             tryToPlay(currentTime);
@@ -3819,6 +3819,14 @@ function updateVideoPlayer(videos_id, autoPlayTime) {
     });
 }
 
-function isIframe(){
+function isIframe() {
     return window.self !== window.top;
 }
+//custom jQuery function to check if an element is visible
+$.fn.isVisible = function () {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+};

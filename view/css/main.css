@@ -1491,7 +1491,7 @@ li.dropdown-submenu>ul>li>a {
     .ypt-is-compressed .playerFullHeight #main-video {
         height: calc(100vh - 60px);
     }
-    
+
     .playerFullHeight .floatVideo video,
     .playerFullHeight .floatVideo audio,
     .playerFullHeight .floatVideo iframe,
@@ -1956,6 +1956,14 @@ button.btn-sm.hamburger svg {
     height: 22px;
 }
 
-.HorizontalFlickity,.HorizontalFlickity .flickity-viewport{
+.HorizontalFlickity,
+.HorizontalFlickity .flickity-viewport {
     min-height: 50px;
+}
+
+body.ypt-is-compressed #videoCol {
+    width: 100%;
+    overflow-x: hidden;
+    margin-left: 0;
+    float: none;
 }

@@ -199,6 +199,7 @@ class PlayerSkins extends PluginAbstract {
             $html .= "<script>mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
         }
 
+ /*       
         $col1Classes = 'col-md-2 firstC';
         $col2Classes = 'col-md-8 secC';
         $col3Classes = 'col-md-2 thirdC';
@@ -221,8 +222,10 @@ class PlayerSkins extends PluginAbstract {
                 </button>
             </div>
             <div id="main-video" class="embed-responsive embed-responsive-16by9">' . $htmlMediaTag . '</div>';
+*/
 
-        $html .= showCloseButton() . '</div></div><div class="' . $col3Classes . '"></div></div>';
+        //$html .= showCloseButton() . '</div></div><div class="' . $col3Classes . '"></div></div>';
+        $html .= getMVideo($htmlMediaTag);
 
         return $html;
     }

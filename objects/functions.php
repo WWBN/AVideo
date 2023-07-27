@@ -11499,3 +11499,12 @@ function restoreRequestVars(){
         eval('$_'.$value.' = $savedRequestVars[$value];');
     }
 }
+
+
+function getMVideo($htmlMediaTag)
+{
+    global $global;
+    $filePath = "{$global['systemRootPath']}objects/functionGetMVideo.php";
+    $contents = getIncludeFileContent( $filePath, ['htmlMediaTag' => $htmlMediaTag] );
+    return $contents;
+}
