@@ -190,9 +190,15 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
         }
         if (isShareEnabled()) {
         ?>
-            <button id="shareCarousel" class="circleCarouselBtn" onclick="iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');">
+            <button id="shareCarousel" class="circleCarouselBtn" onclick="shareCarouselShorts();">
                 <i class="fas fa-share"></i>
             </button>
+            <script>
+                function shareCarouselShorts() {
+                    $('.ShortsPlayerOverlay').hide();
+                    iframe[0].contentWindow.postMessage('togglePlayerSocial', '*');
+                }
+            </script>
         <?php
         }
         if (User::canComment() && false) {
