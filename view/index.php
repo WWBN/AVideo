@@ -95,8 +95,6 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
         </form>
         <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
         <script src="<?php echo getURL('view/bootstrap/js/bootstrap.min.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.js'); ?>" type="text/javascript"></script>
-        <script src="<?php echo getURL('view/js/jquery-dialogextend/build/jquery.dialogextend.min.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
         <script src="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.js'); ?>" type="text/javascript"></script>
@@ -240,7 +238,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
                 }
                 return x;
             }
-
+            /*
             var windowCount = 0;
             function openWindow(url, iframeAllowAttributes, title, maximize) {
                 var id = 'window' + windowCount;
@@ -313,7 +311,7 @@ $postURL = addQueryStringParameter($postURL, 'inMainIframe', 1);
                 return iframeId;
                 //addButtons($("." + id));
             }
-
+*/
 
 
             function openWindowWithPost(url, iframeAllowAttributes, params) {
