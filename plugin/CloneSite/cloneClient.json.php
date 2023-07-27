@@ -122,19 +122,19 @@ $contents = file($sqlFile, FILE_IGNORE_NEW_LINES);
 $first_line = array_shift($contents);
 file_put_contents($sqlFile, implode("\r\n", $contents));
 
-$log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database");
+$log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database {$sqlFile}");
 // restore dump
-$cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < {$clonesDir}{$json->sqlFile}";
+$cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < $sqlFile";
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error try again: " . end($output));
-    $cmd2 = "sed -i 's/COLLATE=utf8mb4_0900_ai_ci/ /g' {$clonesDir}{$json->sqlFile} ";
+    $cmd2 = "sed -i 's/COLLATE=utf8mb4_0900_ai_ci/ /g' $sqlFile ";
     $log->add("Clone try again this command: {$cmd2}");
     exec($cmd2 . " 2>&1", $output2, $return_val2);
     if ($return_val2 !== 0) {
         $log->add("Clone Error: " . print_r($output2, true));
     }
-    $cmd2 = "sed -i 's/COLLATE utf8mb4_0900_ai_ci/ /g' {$clonesDir}{$json->sqlFile} ";
+    $cmd2 = "sed -i 's/COLLATE utf8mb4_0900_ai_ci/ /g' $sqlFile ";
     $log->add("and also this command: {$cmd2}");
     exec($cmd2 . " 2>&1", $output2, $return_val2);
     if ($return_val2 !== 0) {
