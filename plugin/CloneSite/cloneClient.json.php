@@ -125,6 +125,7 @@ file_put_contents($sqlFile, implode("\r\n", $contents));
 $log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database {$sqlFile}");
 // restore dump
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < $sqlFile";
+_error_log($cmd);
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error try again: " . end($output));
