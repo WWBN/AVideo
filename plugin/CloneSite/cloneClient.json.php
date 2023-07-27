@@ -122,7 +122,7 @@ $contents = file($sqlFile, FILE_IGNORE_NEW_LINES);
 $first_line = array_shift($contents);
 file_put_contents($sqlFile, implode("\r\n", $contents));
 
-$cmd = "sed -i '/CREATE DATABASE/d; /USE/d; /INSERT INTO \`CachesInDB\`/d' $sqlFile";
+$cmd = "sed -i '/CREATE DATABASE /d; /USE /d; /INSERT INTO \`CachesInDB\` /d' $sqlFile";
 exec($cmd);
 
 $log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database {$sqlFile}");
