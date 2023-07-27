@@ -62,7 +62,11 @@ time.duration {
     left: 0;
     width: 100%;
     height: 100%;
-    border: 4px solid transparent;
+}
+
+.thumbsImageContainer .thumbsImage {
+    border-radius: 5px;
+    overflow: hidden;
 }
 
 .thumbsImageContainer .progress {
