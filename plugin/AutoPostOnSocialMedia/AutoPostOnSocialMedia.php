@@ -132,6 +132,7 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
         if($obj->TwitterEnable){
             $connection = new TwitterOAuth($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret);
             if($obj->apiVersion->value>1){
+                _error_log('AutoPostOnSocialMedia apiVersion '.$obj->apiVersion->value);
                 $connection->setApiVersion($obj->apiVersion->value);
             }
             
