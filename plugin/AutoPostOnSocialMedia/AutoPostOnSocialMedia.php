@@ -133,7 +133,7 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
             $connection = new TwitterOAuth($obj->TwitterAPIKey, $obj->TwitterAPIKeySecret, $obj->TwitterAccessToken, $obj->TwitterAccessTokenSecret);
             if($obj->apiVersion->value>1){
                 _error_log('AutoPostOnSocialMedia apiVersion '.$obj->apiVersion->value);
-                $connection->setApiVersion($obj->apiVersion->value);
+                $connection->setApiVersion("{$obj->apiVersion->value}");
             }
             
             if($obj->debugMode){
@@ -141,11 +141,6 @@ In the Reset keys tab, press the Reset button, update the consumer key and secre
             }
             $post_tweets = $connection->post("statuses/update", ["status" => $msg]);
             
-            if ($connection->getLastHttpCode() == 200) {
-                // Tweet posted successfully
-            } else {
-                // Handle error case
-            }
             if($obj->debugMode){
                 _error_log($connection->getLastHttpCode());
                 _error_log($connection->getLastBody());
