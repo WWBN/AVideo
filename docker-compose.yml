@@ -121,12 +121,12 @@ services:
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
       - ./.compose/db:/var/lib/mysql
-    healthcheck:
+    #healthcheck:
       #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
       #test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      #interval: 30s
+      #timeout: 10s
+      #retries: 3
     networks:
       - app_net
 
@@ -141,12 +141,12 @@ services:
       MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
     volumes:
       - ./.compose/db_encoder:/var/lib/mysql
-    healthcheck:
+    #healthcheck:
       #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
       #test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
-      interval: 30s
-      timeout: 10s
-      retries: 3
+      #interval: 30s
+      #timeout: 10s
+      #retries: 3
     networks:
       - app_net
 
