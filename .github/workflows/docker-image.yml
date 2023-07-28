@@ -7,8 +7,6 @@ on:
   pull_request:
     branches:
       - "master"
-#  schedule:
-#    - cron: '35 2 * * 1'
 
 permissions:
   contents: read
@@ -18,6 +16,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
@@ -36,3 +37,4 @@ jobs:
         with:
           push: true
           tags: ${{ secrets.DOCKERHUB_IMAGE }}
+          context: .
