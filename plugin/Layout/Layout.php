@@ -854,7 +854,7 @@ class Layout extends PluginAbstract
             $divs[] = '<div class="form-check">
                             <input class="form-check-input" type="checkbox" value="' . $value['value'] . '" id="' . $id . '_' . $key . '" name="' . $name . '">
                             <label class="form-check-label" for="' . $id . '_' . $key . '">
-                            ' . $value['text'] . ' 
+                            ' . __($value['text']) . ' 
                             </label>
                        </div>';
         }
