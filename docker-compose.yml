@@ -122,7 +122,8 @@ services:
     volumes:
       - ./.compose/db:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      #test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
       interval: 30s
       timeout: 10s
       retries: 3
@@ -141,7 +142,8 @@ services:
     volumes:
       - ./.compose/db_encoder:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      #test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
       interval: 30s
       timeout: 10s
       retries: 3
