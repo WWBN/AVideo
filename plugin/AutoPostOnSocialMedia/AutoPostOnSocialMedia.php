@@ -11,24 +11,10 @@ class AutoPostOnSocialMedia extends PluginAbstract {
     static $scheduleType = 'AutoPostOnSocialMedia';
     
     public function getDescription() {
-        $desc = "AutoPostOnSocialMedia Plugin
-            
-    Our final goal is to post a tweet on your Twitter account using the REST API. This process requires you to register the application on Twitter and get the API keys.
+        $desc = "Helps you automatically post your content on multiple social media platforms (Cuttently Twitter only)";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AutoPostOnSocialMedia-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
-These API keys are act like your identity for your Twitter account. To create application, go to <a href='https://apps.twitter.com/' target='_blank'>Twitter Apps</a> and follow the below steps.
-
-Click the button \"Create New App\".
-Fill up Name, Description, Website fields.
-Accept agreement and click the button \"Create your Twitter application\".
-On the next page, click on the tab \"Keys and Access Tokens\". Under this tab you will find your Consumer Key and Consumer Secret. Copy these details and store it in safe place.
-Under the same tab, you will see the section \"Your Access Token\". Click on the button \"Create Access Token\".
-At this step, copy your Access Token and Access Token Secret. Keep these details safe.
-
-Login in your app: http://dev.twitter.com/apps
-In the Settings tab, change the Application type to Read, Write and Access direct messages
-In the Reset keys tab, press the Reset button, update the consumer key and secret in your application accordingly.";
-
-        $desc = nl2br($desc);
+        $desc = $desc.$help ;
         return $desc;
     }
 
