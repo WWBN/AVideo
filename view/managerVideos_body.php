@@ -513,6 +513,9 @@ if (!empty($_GET['iframe'])) {
     if (empty($advancedCustom->disableDownloadVideosList)) {
         ?>
         <div class="btn-group pull-right" role="group">
+            <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php?type=csv" target="_blank" class="btn btn-default btn-sm">
+                <i class="fas fa-download"></i> <?php echo __("Download your videos sheet"); ?> <?php echo __("(Sheet .csv file)"); ?>
+            </a>
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php?type=seo" target="_blank" class="btn btn-default btn-sm">
                 <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> <?php echo __("(SEO .txt file)"); ?>
             </a>
