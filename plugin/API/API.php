@@ -812,6 +812,7 @@ class API extends PluginAbstract
      * @example Suggested ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[suggested]=1
      * @example DateAdded ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[created]=desc
      * @example Trending ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[trending]=1
+     * @example Shorts ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[shorts]=1
      * @example MostWatched ----> {webSiteRootURL}plugin/API/get.json.php?APIName={APIName}&rowCount=10&sort[views_count]=desc
      * @return \ApiObject
      */
