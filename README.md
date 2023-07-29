@@ -86,8 +86,4 @@ For assistance with installation, consultin or plugins, our team of certified AV
 
 <a href="https://youphp.tube/marketplace/">Daniel Neto</a>
 
-### AVideo Platform Mobile APP
-
-<a href="https://play.google.com/store/apps/details?id=platform.avideo.com">Android</a>
-
 
