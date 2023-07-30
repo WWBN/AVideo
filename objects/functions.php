@@ -4089,6 +4089,9 @@ function object_to_array($obj)
     }
     //otherwise (i.e. for scalar values) return without modification
     else {
+        if(empty($obj)){
+            $obj = array();
+        }
         return $obj;
     }
 }
