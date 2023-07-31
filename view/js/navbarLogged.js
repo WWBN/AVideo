@@ -219,6 +219,14 @@ async function YPTSidebarOpen() {
     Cookies.set("menuOpen", true, { expires: 365, path: '/' });
     setTimeout(function () {
         $('body').addClass('youtube');
+        setTimeout(function () {
+            // Check if Flickity is enabled on the selected elements
+            var flickityEnabledElements = $('.flickity-enabled');
+            if (flickityEnabledElements.data('flickity')) {
+              // Execute the 'reposition' method only if Flickity is enabled
+              flickityEnabledElements.flickity('reposition');
+            }
+        }, 500);
     }, 500);
     youTubeMenuIsOpened = true;
 }
