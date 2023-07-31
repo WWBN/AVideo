@@ -166,7 +166,7 @@ if (isHTMLEmpty($sideAd)) {
                         <?php
                     }
                     ?>
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="panel-body">
                             <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>

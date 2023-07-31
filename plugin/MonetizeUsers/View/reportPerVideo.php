@@ -27,7 +27,7 @@ foreach ($videosData as $videosId => $videoInfo) {
 ?>
 
 <div class="container">
-    <div class="panel">
+    <div class="panel panel-default">
         <div class="panel-body">
             <canvas id="rewardChart2" style="width:100%; height:400px;"></canvas>
         </div>

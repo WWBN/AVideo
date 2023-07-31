@@ -176,7 +176,7 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
                         <?php
                     }
                     ?>
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="panel-body">
                             <h1 itemprop="name">
                                 <?php

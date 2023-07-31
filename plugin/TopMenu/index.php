@@ -44,7 +44,7 @@ if (!empty($url) && strpos($url, 'iframe:') !== false) {
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
         <div class="container">
-            <div class="panel">
+            <div class="panel panel-default">
                 <div class="panel-body">
                     <?php echo $menuItem->getText(); ?>
                 </div>

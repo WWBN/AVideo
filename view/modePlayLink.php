@@ -55,7 +55,7 @@ if (!isset($global['systemRootPath'])) {
         <div class="container">
             <div class="row">
                 <div class="input-group col-md-12">
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="panel-body" id="linkPanel">
                             <form id="play-form" name="play-form" method="get">
                                 <div id="custom-search-input">

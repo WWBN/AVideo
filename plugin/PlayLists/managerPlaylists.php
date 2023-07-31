@@ -70,7 +70,7 @@ TimeLogEnd($timeName, __LINE__);
     <div class="container-fluid">
         <br>
 
-        <div class="panel">
+        <div class="panel panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
                     <li class="active pl_filter" onclick="pl_filter('all', $(this));" data-toggle="tooltip" title="<?php echo __('Show all types'); ?>">

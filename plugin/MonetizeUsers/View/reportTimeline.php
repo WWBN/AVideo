@@ -25,7 +25,7 @@ foreach ($rows as $key => $value) {
     <div class="panel-heading" style="height: 70px;">
       <h1><?php echo __('Reward'); ?></h1>
     </div>
-    <div class="panel">
+    <div class="panel panel-default">
       <div class="panel-body">
         <canvas id="rewardChart" style="width:100%; height:400px;"></canvas>
       </div>

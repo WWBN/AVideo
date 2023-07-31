@@ -34,7 +34,7 @@ $poster = Video::getPathToFile("{$video['filename']}.jpg");
             <?php
             require_once $global['systemRootPath'] . 'view/include/video.php';
             ?>
-            <div class="panel">
+            <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
 
