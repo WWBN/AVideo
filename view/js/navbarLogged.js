@@ -39,7 +39,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#searchForm').on('submit', function(event) {
+    $('#searchForm').on('submit', function (event) {
         if (seachFormIsRunning) {
             event.preventDefault();
             return false;
@@ -56,7 +56,7 @@ $(document).ready(function () {
             this.submit();
             //document.location = webSiteRootURL + "?search=" + str;
         }
-    });    
+    });
 
     $('#buttonMenu').on("click.sidebar", function (event) {
         event.stopPropagation();
@@ -99,13 +99,13 @@ $(document).ready(function () {
 
     $(window).resize(function () {
         if (!isScreeWidthCollapseSize()) {
-            $("#myNavbar").css({display:''});
+            $("#myNavbar").css({display: ''});
             $("#myNavbar").removeClass('animate__bounceOutRight');
             var selector = '#buttonMyNavbar svg';
             $(selector).removeClass('active');
             $(selector).attr('aria-expanded', 'false');
-            
-            $("#mysearch").css({display:''});
+
+            $("#mysearch").css({display: ''});
             $("#mysearch").removeClass('animate__bounceOutUp');
         }
     });
@@ -216,27 +216,34 @@ async function YPTSidebarOpen() {
     $("#sidebar").removeClass('animate__bounceOutLeft');
     $("#sidebar").show();
     $("#sidebar").addClass('animate__animated animate__bounceInLeft');
-    Cookies.set("menuOpen", true, { expires: 365, path: '/' });
+    Cookies.set("menuOpen", true, {expires: 365, path: '/'});
     setTimeout(function () {
         $('body').addClass('youtube');
         setTimeout(function () {
-            // Check if Flickity is enabled on the selected elements
-            var flickityEnabledElements = $('.flickity-enabled');
-            if (flickityEnabledElements.data('flickity')) {
-              // Execute the 'reposition' method only if Flickity is enabled
-              flickityEnabledElements.flickity('resize');
-            }
+            flickityReload();
         }, 500);
     }, 500);
     youTubeMenuIsOpened = true;
 }
+
+async function flickityReload() {
+    var flickityEnabledElements = $('.flickity-enabled');
+    if (flickityEnabledElements.data('flickity')) {
+        // Execute the 'reposition' method only if Flickity is enabled
+        flickityEnabledElements.flickity('resize');
+    }
+}
+
 async function YPTSidebarClose() {
     $("#sidebar").removeClass('animate__bounceInLeft');
     $("#sidebar").addClass('animate__bounceOutLeft');
-    Cookies.set("menuOpen", false, { expires: 365, path: '/' });
+    Cookies.set("menuOpen", false, {expires: 365, path: '/'});
     setTimeout(function () {
         $('body').removeClass('youtube');
         $("#sidebar").hide();
+        setTimeout(function () {
+            flickityReload();
+        }, 500);
     }, 500);
     youTubeMenuIsOpened = false;
 }
@@ -254,7 +261,7 @@ async function YPTHidenavbar() {
     }
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
     var menuOpen = Cookies.get("menuOpen");
     if (menuOpen === "true" && !inIframe()) {
         YPTSidebarOpen();
