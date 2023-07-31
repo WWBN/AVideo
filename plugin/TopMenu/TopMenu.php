@@ -118,7 +118,7 @@ class TopMenu extends PluginAbstract {
     }
     
     static function setVideoMenuURL($videos_id, $menu_item_id, $url) {
-        $video = new Video('', '', $videos_id);
+        $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions()); 
         if(!is_object($externalOptions)){
             $externalOptions = new stdClass();
