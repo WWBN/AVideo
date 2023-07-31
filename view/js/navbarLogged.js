@@ -224,7 +224,7 @@ async function YPTSidebarOpen() {
             var flickityEnabledElements = $('.flickity-enabled');
             if (flickityEnabledElements.data('flickity')) {
               // Execute the 'reposition' method only if Flickity is enabled
-              flickityEnabledElements.flickity('reposition');
+              flickityEnabledElements.flickity('resize');
             }
         }, 500);
     }, 500);
