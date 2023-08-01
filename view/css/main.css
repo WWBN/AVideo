@@ -1956,10 +1956,18 @@ button.btn-sm.hamburger svg {
 }
 
 .HorizontalFlickity .flickity-button {
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
+.HorizontalFlickity .flickity-button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.HorizontalFlickity .flickity-slider {
+    margin: 2px;
+}
 .HorizontalFlickity,
 .HorizontalFlickity .flickity-viewport {
     min-height: 50px;
