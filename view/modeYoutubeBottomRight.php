@@ -13,7 +13,6 @@ TimeLogEnd($timeLogNameMYBR, __LINE__, $TimeLogLimitMYBR);
 ?>
 <!--googleoff: all-->
 <div class="col-lg-12 col-sm-12 col-xs-12 text-center">
-    <?php echo getAdsSideRectangle(); ?>
     <?php
     $getAdsSideRectangle = getAdsSideRectangle();
     if (!empty($getAdsSideRectangle)) {
