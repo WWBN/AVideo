@@ -96,7 +96,8 @@ class ADs extends PluginAbstract
 
             $o = new stdClass();
             $o->type = "textarea";
-            $o->value = empty($adsense) ? "<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample{$size}.jpg'></center>" : $adsense;
+            //$o->value = empty($adsense) ? "<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample{$size}.jpg'></center>" : $adsense;
+            $o->value = '';
             eval("\$obj->$value[0] = \$o;");
 
             $width = 728;
