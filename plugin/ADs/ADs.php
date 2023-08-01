@@ -346,6 +346,9 @@ class ADs extends PluginAbstract
                 $type = $type . 'Mobile';
             }
             $adC = self::getAdsFromVideosId($type, $videos_id);
+            if(empty($adC['adCode'])){
+                $adC =  self::getAdsFromUsersId($type, 0);
+            }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }
