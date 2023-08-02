@@ -11390,6 +11390,8 @@ function modifyURL($url)
         'ads_ua' => 'ads.ua',
         'ads_url' => 'ads.url',
         'ads_vast_id' => 'ads.vast_id',
+        'ads_ic' => 'ads.ic',
+        'ads_ip' => 'ads.ip',
         'us_privacy' => 'ads.us_privacy', //from Playout: (NP CCPA US field) 1N-N
         'is_lat' => 'is_lat', //0: User has NOT opted out targeting advertising 1: User has opted out of targeting advertising
         'gdpr' => 'ads.gdpr', // client decides (GDPR value)
