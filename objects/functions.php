@@ -11396,6 +11396,7 @@ function modifyURL($url)
         'is_lat' => 'is_lat', //0: User has NOT opted out targeting advertising 1: User has opted out of targeting advertising
         'gdpr' => 'ads.gdpr', // client decides (GDPR value)
         'gdpr_consent' => 'ads.gdpr_consent', // client decides (GDPR Consent value)
+        'ads_gdpr_consent' => 'ads.gdpr_consent', // client decides (GDPR Consent value)
         'url' => 'url', // client provides URL if Web option for content available
         
         // GUMGUM
