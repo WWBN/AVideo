@@ -37,3 +37,4 @@ $vmaps = AD_Server::getVMAPSFromRequest();
     }
     ?>
 </vmap:VMAP>
+<!-- AD_Server -->

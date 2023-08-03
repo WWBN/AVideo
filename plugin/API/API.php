@@ -2080,7 +2080,21 @@ class API extends PluginAbstract
     {
         global $global;
         $this->getToPost();
-        require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        header('Content-type: application/xml');
+        if (AVideoPlugin::isEnabledByName('GoogleAds_IMA')) {
+            require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        } else if (AVideoPlugin::isEnabledByName('AD_Server')) {
+            require_once $global['systemRootPath'] . 'plugin/AD_Server/VMAP.php';
+        } else if (AVideoPlugin::isEnabledByName('AdsForJesus')) {
+            $videos_id = getVideos_id();
+            $url = AdsForJesus::getVMAPURL($videos_id);
+            if (!empty($url)) {
+                echo url_get_contents($url);
+            }
+        } else {
+            echo '<?xml version="1.0" encoding="UTF-8"?><vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0"></vmap:VMAP> ';
+            echo '<!-- VMAP API not found --> ';
+        }
         exit;
     }
 
