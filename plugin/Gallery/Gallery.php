@@ -383,6 +383,14 @@ class Gallery extends PluginAbstract
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;
                 } else
+                if ($value['name'] == 'Shorts' && empty($_REQUEST['catName'])) {
+                    $title = !empty($obj->ShortsCustomTitle) ? $obj->ShortsCustomTitle : __("Shorts");
+                    $rowCount = intval($obj->ShortsRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[shorts]=1";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
                 if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
                     $title = !empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added");
                     $rowCount = intval($obj->DateAddedRowCount);
