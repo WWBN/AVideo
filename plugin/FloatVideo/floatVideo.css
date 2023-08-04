@@ -3,8 +3,8 @@ body.floatVideo #videoContainer{
     position: fixed;
     bottom: 50px;
     left: 5px;
-    width: 30vw;
-    height: 30vh;
+    width: 20vw;
+    height: auto;
     z-index: 9999;
 }
 body.floatVideo #floatButtons{
