@@ -235,15 +235,15 @@ class API extends PluginAbstract
                 $mobileGlobal = true;
                 $mobile = ADs::getAds($type . 'Mobile', false);
             }
-
+            //var_dump($desktop);exit;
             $desktopURLs = array();
             foreach ($desktop as $item) {
-                $desktopURLs[] = $item['imageURL'];
+                $desktopURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
             }
 
             $mobileURLs = array();
             foreach ($mobile as $item) {
-                $mobileURLs[] = $item['imageURL'];
+                $mobileURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
             }
             $label = '';
             eval("\$label = \$ad->{$type}Label;");
