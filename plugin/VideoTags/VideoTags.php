@@ -9,6 +9,13 @@ require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/Tags_subscrip
 
 class VideoTags extends PluginAbstract {
 
+    static $TagTypePinned = 'pinned';
+    static $TagTypePaid = 'paid';
+    static $TagTypeStatus = 'status';
+    static $TagTypeUserGroups = 'userGroups';
+    static $TagTypeCategory = 'category';
+    static $TagTypeSource = 'source';
+
     public function getTags() {
         return array(
             PluginTags::$FREE,

@@ -250,9 +250,20 @@ if (!empty($evideo)) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
-        $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
-        videoNotFound($html);
+        if($_GET['playlist_id'] == 'favorite' || $_GET['playlist_id'] == 'watch-later'){
+            if($_GET['playlist_id'] == 'favorite'){
+                $msg = __('Your Favorite playlist is waiting to be filled! Start exploring and add the videos you love the most.');
+            }else{
+                $msg = __('Oops! Your Watch Later playlist is empty. Don\'t worry, we have plenty of exciting videos for you to choose from and add here.');
+            }
+            $url = addQueryStringParameter($global['webSiteRootURL'], 'msg', $msg);
+            header("location: {$url}");
+            exit;
+        }else {
+            $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
+            $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
+            videoNotFound($html);
+        }
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);

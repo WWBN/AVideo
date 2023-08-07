@@ -3211,11 +3211,11 @@ if (!class_exists('Video')) {
 
             $tags = Video::getTags($video_id);
             $_getTagsHTMLLabelArray[$video_id] = [];
+            $valid_tags = [__("Paid Content"), __("Group"), __("Plugin"), __("Rating"),__("Pinned")];
             foreach ($tags as $value2) {
                 if (empty($value2->label) || empty($value2->text)) {
                     continue;
                 }
-                $valid_tags = [__("Paid Content"), __("Group"), __("Plugin"), __("Rating")];
                 if (!in_array($value2->label, $valid_tags)) {
                     continue;
                 }
@@ -3314,7 +3314,16 @@ if (!class_exists('Video')) {
             TimeLogStart("video::getTags_ new Video $video_id, $type");
             $video = new Video("", "", $video_id);
             $tags = [];
-            if (empty($type) || $type === "paid") {
+
+            if (empty($type) || $type === VideoTags::$TagTypePinned) {
+                $objTag = new stdClass();
+                $objTag->label = __("Pinned");
+                $objTag->type = "default";
+                $objTag->text = '<i class="fas fa-thumbtack"></i>';
+                $tags[] = $objTag;
+                $objTag = new stdClass();
+            }
+            if (empty($type) || $type === VideoTags::$TagTypePaid) {
                 $objTag = new stdClass();
                 $objTag->label = __("Paid Content");
                 if (!empty($advancedCustom->paidOnlyShowLabels)) {
@@ -3371,7 +3380,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ new Video $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ status $video_id, $type");
-            if (empty($type) || $type === "status") {
+            if (empty($type) || $type === VideoTags::$TagTypeStatus) {
                 $objTag = new stdClass();
                 $objTag->label = __("Status");
                 /**
@@ -3415,7 +3424,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ status $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ userGroups $video_id, $type");
-            if (empty($type) || $type === "userGroups") {
+            if (empty($type) || $type === VideoTags::$TagTypeUserGroups) {
                 $groups = UserGroups::getVideosAndCategoriesUserGroups($video_id);
                 $objTag = new stdClass();
                 $objTag->label = __("Group");
@@ -3455,7 +3464,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ userGroups $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ category $video_id, $type");
-            if (empty($type) || $type === "category") {
+            if (empty($type) || $type === VideoTags::$TagTypeCategory) {
                 require_once 'category.php';
                 $sort = null;
                 if (!empty($_POST['sort']['title'])) {
@@ -3478,7 +3487,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ category $video_id, $type", __LINE__, $tolerance);
 
             TimeLogStart("video::getTags_ source $video_id, $type");
-            if (empty($type) || $type === "source") {
+            if (empty($type) || $type === VideoTags::$TagTypeSource) {
                 $url = $video->getVideoDownloadedLink();
                 if (!empty($url)) {
                     $parse = parse_url($url);

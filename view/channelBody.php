@@ -37,29 +37,29 @@ if (empty($channelPassword) && !$isMyChannel) {
 
 
 $type = '';
-if($advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')){
+if ($advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')) {
     $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'article');
-    if(!empty($uploadedTotalArticles)){
+    if (!empty($uploadedTotalArticles)) {
         $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'article');
     }
     $type = 'notArticle';
 }
-if($advancedCustomUser->showAudioTab){
+if ($advancedCustomUser->showAudioTab) {
     $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'audio');
-    if(!empty($uploadedTotalAudio)){
+    if (!empty($uploadedTotalAudio)) {
         $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'audio');
     }
     //var_dump($uploadedAudio);exit;
-    if(empty($type)){
+    if (empty($type)) {
         $type = 'notAudio';
-    }else{
+    } else {
         $type = 'notArticleOrAudio';
     }
 }
 //var_dump($uploadedArticles);exit;
 $uploadedVideos = [];
 $uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, $type);
-if(!empty($uploadedTotalVideos)){
+if (!empty($uploadedTotalVideos)) {
     $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
 }
 TimeLogEnd($timeLog, __LINE__);
@@ -74,9 +74,13 @@ $palyListsObj = AVideoPlugin::getObjectDataIfEnabled('PlayLists');
 TimeLogEnd($timeLog, __LINE__);
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 
-if($advancedCustomUser->showChannelLiveTab){
+if ($advancedCustomUser->showChannelLiveTab) {
     $liveVideos = getLiveVideosFromUsers_id($user_id);
 }
+
+$showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && User::canUpload();
+$showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && User::canUpload();
+$showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 ?>
 
 <style>
@@ -140,6 +144,7 @@ if($advancedCustomUser->showChannelLiveTab){
                 } else {
                     $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
                 }
+                if(file_exists($global['systemRootPath'].$relativePath)){
                 ?>
                 <div class="clearfix" style="clear: both;"></div>
                 <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
@@ -151,6 +156,14 @@ if($advancedCustomUser->showChannelLiveTab){
                     </div>
                 </a>
                 <?php
+                }else{
+                ?>
+                <div class="clearfix" style="clear: both;"></div>
+                <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
+                    <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
+                </a>
+                <?php
+                }
             }
             ?>
             <div class="row">
@@ -163,15 +176,15 @@ if($advancedCustomUser->showChannelLiveTab){
                         echo User::getEmailVerifiedIcon($user_id)
                         ?></h2>
                     <span class="pull-right">
-                    <?php
-                    echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
-                    ?>
                         <?php
-                        if(!empty($advancedCustomUser->showChannelFeed)){
+                        echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
+                        ?>
+                        <?php
+                        if (!empty($advancedCustomUser->showChannelFeed)) {
                             $urlChannel = addLastSlash(User::getChannelLink($user_id));
-                            $rss =  "{$urlChannel}rss";
-                            $mrss =  "{$urlChannel}mrss";
-                            $roku =  "{$urlChannel}roku.json";
+                            $rss = "{$urlChannel}rss";
+                            $mrss = "{$urlChannel}mrss";
+                            $roku = "{$urlChannel}roku.json";
                             echo getFeedButton($rss, $mrss, $roku);
                         }
                         echo User::getAddChannelToGalleryButton($user_id);
@@ -186,7 +199,7 @@ if($advancedCustomUser->showChannelLiveTab){
                 <div id="aboutAreaPreContent">
                     <div id="aboutAreaContent">
                         <?php
-                        $about =  html_entity_decode($user->getAbout());
+                        $about = html_entity_decode($user->getAbout());
                         echo $about;
                         ?>
                     </div>
@@ -219,13 +232,13 @@ if($advancedCustomUser->showChannelLiveTab){
                                 ?>
                                 <li class="nav-item <?php echo $active; ?>">
                                     <a class="nav-link " href="#channelLive" data-toggle="tab" aria-expanded="false">
-                                    <span class="glow-flash-icon live-icon"></span> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
+                                        <span class="glow-flash-icon live-icon"></span> <span class="labelUpperCase"><?php echo __('Live Now'); ?></span>
                                     </a>
                                 </li>
                                 <?php
                                 $active = '';
                             }
-                            if ($advancedCustomUser->showChannelHomeTab) {
+                            if ($showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
                                 }
@@ -238,7 +251,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = '';
                             }
-                            if ($advancedCustomUser->showChannelVideosTab) {
+                            if ($showChannelVideosTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = "active";
                                 }
@@ -277,7 +290,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = '';
                             }
-                            if ($advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj)) {
+                            if ($showChannelProgramsTab) {
                                 $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true, true);
                                 if ($totalPrograms) {
                                     ?>
@@ -295,7 +308,7 @@ if($advancedCustomUser->showChannelLiveTab){
                         <div class="tab-content clearfix">
                             <?php
                             $active = "active fade in";
-                            if(!empty($liveVideos)){
+                            if (!empty($liveVideos)) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
                                 }
@@ -312,7 +325,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 $active = "fade";
                             }
 
-                            if ($advancedCustomUser->showChannelHomeTab) {
+                            if ($showChannelHomeTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = '';
                                 }
@@ -348,7 +361,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            if ($advancedCustomUser->showChannelVideosTab) {
+                            if ($showChannelVideosTab) {
                                 if (!empty($_GET['current'])) { // means you are paging the Videos tab
                                     $active = "active fade in";
                                 }
@@ -487,7 +500,7 @@ if($advancedCustomUser->showChannelLiveTab){
                                 <?php
                                 $active = "fade";
                             }
-                            if (!empty($totalPrograms)) {
+                            if ($showChannelProgramsTab) {
                                 ?>
                                 <div class="tab-pane <?php echo $active; ?>" id="channelPlayLists" style="min-height: 800px;">
                                     <div class="panel panel-default">
@@ -502,7 +515,35 @@ if($advancedCustomUser->showChannelLiveTab){
                                             ?>
                                         </div>
                                         <div class="panel-body">
-                                            <?php include $global['systemRootPath'] . 'view/channelPlaylist.php'; ?>
+                                            <?php
+                                            if (!empty($totalPrograms)) {
+                                                include $global['systemRootPath'] . 'view/channelPlaylist.php';
+                                            } else {
+                                                if ($isMyChannel) {
+                                                ?>
+                                                <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
+                                                    <p class="text-center">
+                                                        <?php echo __('You haven\'t created any') . ' ' . __($palyListsObj->name); ?>
+                                                    </p>
+                                                    <hr>
+                                                    <p class="mb-0 text-center">
+                                                        <?php echo __('Once you\'ve created a playlist, it will appear here.'); ?>
+                                                    </p>
+                                                </div>    
+                                                <?php
+                                                }else{
+                                                ?>
+                                                <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
+                                                    <p class="text-center">
+                                                        <?php echo __('This user does not have any') . ' ' . __($palyListsObj->name); ?>
+                                                    </p>
+                                                </div>    
+                                                <?php
+                                                }
+                                            }
+                                            ?>
                                         </div>
                                         <div class="panel-footer">
 
@@ -523,5 +564,5 @@ if($advancedCustomUser->showChannelLiveTab){
         </div>
     </div>
 </div>
-<script src="<?php echo getCDN(); ?>plugin/Gallery/script.js" type="text/javascript"></script>
-<script src="<?php echo getCDN(); ?>node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
+<script src="<?php echo getURL('plugin/Gallery/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js'); ?>" type="text/javascript"></script>
