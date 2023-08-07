@@ -35,16 +35,17 @@ if (empty($channelPassword) && !$isMyChannel) {
     $showUnlisted = true;
 }
 
-
+$ownerCanUplaodVideos = $user->getCanUpload() || $user->getIsAdmin();
+//var_dump($ownerCanUplaodVideos, $user_id, $user);exit;
 $type = '';
-if ($advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')) {
+if ($ownerCanUplaodVideos && $advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')) {
     $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'article');
     if (!empty($uploadedTotalArticles)) {
         $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'article');
     }
     $type = 'notArticle';
 }
-if ($advancedCustomUser->showAudioTab) {
+if ($ownerCanUplaodVideos && $advancedCustomUser->showAudioTab) {
     $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'audio');
     if (!empty($uploadedTotalAudio)) {
         $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'audio');
@@ -58,9 +59,11 @@ if ($advancedCustomUser->showAudioTab) {
 }
 //var_dump($uploadedArticles);exit;
 $uploadedVideos = [];
-$uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, $type);
-if (!empty($uploadedTotalVideos)) {
-    $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
+if ($ownerCanUplaodVideos) {
+    $uploadedTotalVideos = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, $type);
+    if (!empty($uploadedTotalVideos)) {
+        $uploadedVideos = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, $type);
+    }
 }
 TimeLogEnd($timeLog, __LINE__);
 $totalPages = ceil($uploadedTotalVideos / $rowCount);
@@ -77,8 +80,6 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 if ($advancedCustomUser->showChannelLiveTab) {
     $liveVideos = getLiveVideosFromUsers_id($user_id);
 }
-
-$ownerCanUplaodVideos = $user->canUpload();
 
 $showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && $ownerCanUplaodVideos;
 $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos;
@@ -146,25 +147,25 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                 } else {
                     $relativePath = $user->getBackgroundURL(User::$channel_artDesktopMax);
                 }
-                if(file_exists($global['systemRootPath'].$relativePath)){
-                ?>
-                <div class="clearfix" style="clear: both;"></div>
-                <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                    <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
-                         -moz-background-size: cover;
-                         -o-background-size: cover;
-                         background-size: cover;">
+                if (file_exists($global['systemRootPath'] . $relativePath)) {
+                    ?>
+                    <div class="clearfix" style="clear: both;"></div>
+                    <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
+                        <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
+                             -moz-background-size: cover;
+                             -o-background-size: cover;
+                             background-size: cover;">
+                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
+                        </div>
+                    </a>
+                    <?php
+                } else {
+                    ?>
+                    <div class="clearfix" style="clear: both;"></div>
+                    <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
                         <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-                    </div>
-                </a>
-                <?php
-                }else{
-                ?>
-                <div class="clearfix" style="clear: both;"></div>
-                <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                    <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;"/>
-                </a>
-                <?php
+                    </a>
+                    <?php
                 }
             }
             ?>
@@ -522,27 +523,27 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                                 include $global['systemRootPath'] . 'view/channelPlaylist.php';
                                             } else {
                                                 if ($isMyChannel) {
-                                                ?>
-                                                <div class="alert alert-info" role="alert" style="margin-top: 20px;">
-                                                    <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
-                                                    <p class="text-center">
-                                                        <?php echo __('You haven\'t created any') . ' ' . __($palyListsObj->name); ?>
-                                                    </p>
-                                                    <hr>
-                                                    <p class="mb-0 text-center">
-                                                        <?php echo __('Once you\'ve created a playlist, it will appear here.'); ?>
-                                                    </p>
-                                                </div>    
-                                                <?php
-                                                }else{
-                                                ?>
-                                                <div class="alert alert-info" role="alert" style="margin-top: 20px;">
-                                                    <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
-                                                    <p class="text-center">
-                                                        <?php echo __('This user does not have any') . ' ' . __($palyListsObj->name); ?>
-                                                    </p>
-                                                </div>    
-                                                <?php
+                                                    ?>
+                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                        <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
+                                                        <p class="text-center">
+                                                            <?php echo __('You haven\'t created any') . ' ' . __($palyListsObj->name); ?>
+                                                        </p>
+                                                        <hr>
+                                                        <p class="mb-0 text-center">
+                                                            <?php echo __('Once you\'ve created a playlist, it will appear here.'); ?>
+                                                        </p>
+                                                    </div>    
+                                                    <?php
+                                                } else {
+                                                    ?>
+                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                        <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
+                                                        <p class="text-center">
+                                                            <?php echo __('This user does not have any') . ' ' . __($palyListsObj->name); ?>
+                                                        </p>
+                                                    </div>    
+                                                    <?php
                                                 }
                                             }
                                             ?>
