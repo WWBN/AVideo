@@ -590,7 +590,7 @@ class CustomizeUser extends PluginAbstract
 
             $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' ' . $totalNotifications . '</a></li>';
         }
-        $btn .= '<li><a data-toggle="tab" href="#tabSubscriptions">' . __('Subscriptions') . '</a></li>';
+        $btn .= '<li><a data-toggle="tab" href="#tabSubscriptions"><i class="fas fa-bell"></i> ' . __('Notification Subscriptions') . '</a></li>';
         $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id=' . $users_id . '\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete my account') . '</a></li>';
         return $btn;
     }
