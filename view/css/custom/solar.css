@@ -25,3 +25,7 @@ th > a > span.text,
 .bootgrid-table th > .column-header-anchor{
     color: #FFF;
 }
+
+.bootgrid-table th:hover, .bootgrid-table th:active{
+    background-color: #002b36;
+}
