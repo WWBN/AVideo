@@ -1,12 +1,13 @@
 <?php
+global $avideoLayout;
 /*
-$navbarIsOpen = !empty($_COOKIE['menuOpen']) && $_COOKIE['menuOpen'] == 'true';
-$navbarClass = '';
-if($navbarIsOpen){
-    $navbarClass = 'show animate__animated animate__bounceInLeft';
-    $sidebarStyle = '';
-}
-*/
+  $navbarIsOpen = !empty($_COOKIE['menuOpen']) && $_COOKIE['menuOpen'] == 'true';
+  $navbarClass = '';
+  if($navbarIsOpen){
+  $navbarClass = 'show animate__animated animate__bounceInLeft';
+  $sidebarStyle = '';
+  }
+ */
 ?>
 <div id="sidebar" class="list-group-item <?php echo $navbarClass; ?>" style="<?php echo $sidebarStyle; ?>">
     <div id="sideBarContainer">
@@ -434,100 +435,104 @@ if($navbarIsOpen){
 
             <?php }
             ?>
-            <li>
-                <hr>
-            </li>
-            <!-- categories -->
-            <li>
-                <strong>
-                    <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
-                            return false;" class="text-danger">
-                        <?php echo __($advancedCustom->CategoryLabel); ?>
-                    </a>
-                </strong>
-            </li>
             <?php
-            $_rowCount = getRowCount();
-            $_REQUEST['rowCount'] = 1000;
-            $parsed_cats = [];
-            if (!function_exists('mkSub')) {
+            if (!empty($avideoLayout->categoriesTopLeftMenu)) {
+                ?>
+                <li>
+                    <hr>
+                </li>
+                <!-- categories -->
+                <li>
+                    <strong>
+                        <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
+                                    return false;" class="text-danger">
+                            <?php echo __($advancedCustom->CategoryLabel); ?>
+                        </a>
+                    </strong>
+                </li>
+                <?php
+                $_rowCount = getRowCount();
+                $_REQUEST['rowCount'] = 1000;
+                $parsed_cats = [];
+                if (!function_exists('mkSub')) {
 
-                function mkSub($catId) {
-                    global $global, $parsed_cats;
-                    unset($_GET['parentsOnly']);
-                    $subcats = Category::getChildCategories($catId);
-                    if (!empty($subcats)) {
-                        echo "<ul class=\"nav\" style='margin-bottom: 0px; list-style-type: none;'>";
-                        foreach ($subcats as $subcat) {
-                            if ($subcat['parentId'] != $catId) {
-                                continue;
+                    function mkSub($catId) {
+                        global $global, $parsed_cats;
+                        unset($_GET['parentsOnly']);
+                        $subcats = Category::getChildCategories($catId);
+                        if (!empty($subcats)) {
+                            echo "<ul class=\"nav\" style='margin-bottom: 0px; list-style-type: none;'>";
+                            foreach ($subcats as $subcat) {
+                                if ($subcat['parentId'] != $catId) {
+                                    continue;
+                                }
+                                if (empty($subcat['total'])) {
+                                    continue;
+                                }
+                                if (is_array($parsed_cats) && in_array($subcat['id'], $parsed_cats)) {
+                                    continue;
+                                }
+                                //$parsed_cats[] = $subcat['id'];
+                                echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
+                                . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
+                                echo '</a>';
+                                mkSub($subcat['id']);
+                                echo '</li>';
                             }
-                            if (empty($subcat['total'])) {
-                                continue;
-                            }
-                            if (is_array($parsed_cats) && in_array($subcat['id'], $parsed_cats)) {
-                                continue;
-                            }
-                            //$parsed_cats[] = $subcat['id'];
-                            echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
-                            . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                            . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
-                            echo '</a>';
-                            mkSub($subcat['id']);
-                            echo '</li>';
+                            echo "</ul>";
                         }
-                        echo "</ul>";
                     }
+
+                }
+                if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
+                    $post = $_POST;
+                    $get = $_GET;
+                    unset($_GET);
+                    unset($_POST);
+                    $_GET['current'] = $_POST['current'] = 1;
+                    $_GET['parentsOnly'] = 1;
+                    $sameUserGroupAsMe = true;
+
+                    if (User::isAdmin()) {
+                        $sameUserGroupAsMe = false;
+                    } else if (User::isLogged()) {
+                        $sameUserGroupAsMe = User::getId();
+                    }
+
+                    $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
+                    foreach ($categories as $value) {
+                        if ($value['parentId']) {
+                            continue;
+                        }
+                        if ($advancedCustom->ShowAllVideosOnCategory) {
+                            $total = $value['fullTotal'];
+                        } else {
+                            $total = $value['total'];
+                        }
+                        if (empty($total)) {
+                            continue;
+                        }
+                        if (in_array($value['id'], $parsed_cats)) {
+                            continue;
+                        }
+                        //$parsed_cats[] = $value['id'];
+                        echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
+                        . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
+                        echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
+                        if (empty($advancedCustom->hideCategoryVideosCount)) {
+                            echo ' <span class="badge">' . $total . '</span>';
+                        }
+                        echo '</a>';
+                        mkSub($value['id']);
+                        echo '</li>';
+                    }
+                    $_POST = $post;
+                    $_GET = $get;
                 }
 
+                $_REQUEST['rowCount'] = $_rowCount;
             }
-            if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
-                $post = $_POST;
-                $get = $_GET;
-                unset($_GET);
-                unset($_POST);
-                $_GET['current'] = $_POST['current'] = 1;
-                $_GET['parentsOnly'] = 1;
-                $sameUserGroupAsMe = true;
-
-                if (User::isAdmin()) {
-                    $sameUserGroupAsMe = false;
-                } else if (User::isLogged()) {
-                    $sameUserGroupAsMe = User::getId();
-                }
-
-                $categories = Category::getAllCategories(false, false, false, $sameUserGroupAsMe);
-                foreach ($categories as $value) {
-                    if ($value['parentId']) {
-                        continue;
-                    }
-                    if ($advancedCustom->ShowAllVideosOnCategory) {
-                        $total = $value['fullTotal'];
-                    } else {
-                        $total = $value['total'];
-                    }
-                    if (empty($total)) {
-                        continue;
-                    }
-                    if (in_array($value['id'], $parsed_cats)) {
-                        continue;
-                    }
-                    //$parsed_cats[] = $value['id'];
-                    echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
-                    . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
-                    echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
-                    if (empty($advancedCustom->hideCategoryVideosCount)) {
-                        echo ' <span class="badge">' . $total . '</span>';
-                    }
-                    echo '</a>';
-                    mkSub($value['id']);
-                    echo '</li>';
-                }
-                $_POST = $post;
-                $_GET = $get;
-            }
-
-            $_REQUEST['rowCount'] = $_rowCount;
             ?>
 
             <!-- categories END -->

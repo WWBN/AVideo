@@ -81,6 +81,7 @@ class Layout extends PluginAbstract
         $obj->categoriesTopButtonsShowOnlyOnFirstPage = true;
         $obj->categoriesTopButtonsShowVideosCount = false;
         $obj->categoriesTopButtonsFluid = true;
+        $obj->categoriesTopLeftMenu = true;
         $obj->enableAccessibility = false;
 
         $o = new stdClass();
