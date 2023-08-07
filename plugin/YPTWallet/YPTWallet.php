@@ -26,7 +26,10 @@ class YPTWallet extends PluginAbstract
     }
     public function getDescription()
     {
-        return "Wallet for AVideo";
+        $txt = "Wallet for AVideo";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/YPTWallet-Usage' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName()

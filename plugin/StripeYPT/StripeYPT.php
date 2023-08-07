@@ -20,13 +20,10 @@ class StripeYPT extends PluginAbstract
 
     public function getDescription()
     {
-        $str = "Stripe module for several purposes<br>
-            Go to Stripe dashboard Site <a href='https://dashboard.stripe.com/apikeys'>here</a>  (you must have Stripe account, of course)<br>";
-        $str .= "Before you can verify signatures, you need to retrieve your endpoint’s secret from your Dashboard’s"
-            . " <br><a href='https://dashboard.stripe.com/account/webhooks' target='_blank'>Webhooks settings</a>."
-            . " <br>Select an endpoint that you want to obtain the secret for, then select the Click to reveal button."
-            . " <br><strong>The SigningSecret will be available after your first purchase attempt, Webhook will be created automatically.</strong>";
-        return $str;
+        $txt = "Stripe module for several purposes";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/StripeYPT-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName()
