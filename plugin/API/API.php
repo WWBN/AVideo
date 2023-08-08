@@ -822,7 +822,7 @@ class API extends PluginAbstract
 
         $cacheParameters = array('noRelated', 'APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
 
-        $cacheVars = array('users_id' => User::getId(), 'device'=>getDeviceName());
+        $cacheVars = array('users_id' => User::getId());
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
         }
