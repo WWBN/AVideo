@@ -347,7 +347,7 @@ abstract class ObjectYPT implements ObjectInterface {
                     $formats .= 's';
                     $values[] = $this->$value;
                     $fields[] = " ? ";
-                }  elseif (strtolower($value) == 'created_php_time') {
+                } elseif (strtolower($value) == 'created_php_time') {
                     if (empty($this->$value)) {
                         $this->$value = time();
                     }
@@ -791,7 +791,7 @@ abstract class ObjectYPT implements ObjectInterface {
         global $global;
         $tmpDir = self::getCacheDir($name, $createDir, $addSubDirs, $ignoreMetadata);
         $uniqueHash = sha1($name . $global['salt']); // add salt for security reasons 
-        return $tmpDir . $uniqueHash . '.cache';
+        return $tmpDir . $uniqueHash . '_' . getDeviceName() . '.cache';
     }
 
     public static function deleteCacheFromPattern($name) {
