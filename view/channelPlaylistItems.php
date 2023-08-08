@@ -115,9 +115,14 @@ unset($_POST['current']);
 
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
             <div class="panel-heading clearfix">
-                <strong style="font-size: 1.1em;" class="playlistName">
-                    <?php echo __($playlist['name']); ?> (<?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($playlist['id'])); ?>)
-                </strong>
+                <div class="pull-left">
+                    <strong style="font-size: 1.1em;" class="playlistName">
+                        <?php echo __($playlist['name']); ?>
+                    </strong><br>
+                    <small class="text-muted">
+                        <?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($playlist['id'])); ?>
+                    </small>
+                </div>
                 <?php
                 PlayLists::getPLButtons($playlist['id']);
                 ?>
@@ -137,7 +142,7 @@ unset($_POST['current']);
                             <div class="row">
                                 <div class="col-md-4">
                                     <?php
-                                        echo Video::getVideoImagewithHoverAnimationFromVideosId($serie['id'], true, true, true);
+                                    echo Video::getVideoImagewithHoverAnimationFromVideosId($serie['id'], true, true, true);
                                     ?>
                                 </div>
                                 <div class="col-md-8">
@@ -167,7 +172,7 @@ unset($_POST['current']);
                                             ?>
                                         </div>
                                         <i class="far fa-clock"></i>
-                                        <?php echo humanTiming(strtotime($serie['created']), 0, true,true); ?>
+                                        <?php echo humanTiming(strtotime($serie['created']), 0, true, true); ?>
 
                                         <?php
                                         if (!empty($serie['trailer1'])) {
@@ -204,7 +209,7 @@ unset($_POST['current']);
                         ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
                             <?php
-                                echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
+                            echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
                             ?>
                             <a class="h6 galleryLink hrefLink" href="<?php echo $episodeLink; ?>" title="<?php echo getSEOTitle($value['title']); ?>">
                                 <strong class="title"><?php echo getSEOTitle($value['title']); ?></strong>
@@ -236,7 +241,7 @@ unset($_POST['current']);
 
                                 <div>
                                     <i class="far fa-clock"></i>
-                                    <?php echo humanTiming(strtotime($value['videoCreation']), 0, true,true); ?>
+                                    <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
                                 </div>
                                 <div>
                                     <i class="fa fa-user"></i>

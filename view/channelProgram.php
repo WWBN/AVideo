@@ -27,14 +27,15 @@ if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
 
-$programs = PlayList::getAllFromUser($user_id, $publicOnly, false, @$_GET['program_id']);
-if (empty($programs)) {
+$programs = PlayList::getAllFromUser(empty($_GET['program_id'])?$user_id:0, $publicOnly, false, @$_GET['program_id']);
+if (empty($programs)) {    
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
 } else {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
     $videos_id = @$videosArrayId[0];
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
+//var_dump($_GET['program_id']);exit;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
@@ -99,12 +100,15 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
         ?>
             <br>
             <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
-                <div class="panel-heading">
-                    <div class="playlistName" style="position: relative;">
-                        <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>
-                        <strong><?php echo $program['name']; ?></strong>
-                        <br>
-                        <small>(<?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($program['id'])); ?>)</small>
+                <div class="panel-heading clearfix">
+                    <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>
+                    <div class="pull-left">
+                        <strong style="font-size: 1.1em;" class="playlistName">
+                            <?php echo __($program['name']); ?>
+                        </strong><br>
+                        <small class="text-muted">
+                            <?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($program['id'])); ?>
+                        </small>
                     </div>
                     <?php
                     PlayLists::getPLButtons($program['id'], false);

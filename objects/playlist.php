@@ -147,6 +147,7 @@ class PlayList extends ObjectYPT {
             }
         }
         $sql .= self::getSqlFromPost("pl.");
+        //var_dump($sql);
         $TimeLog1 = "playList getAllFromUser($userId)";
         TimeLogStart($TimeLog1);
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
