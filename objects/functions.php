@@ -11526,3 +11526,28 @@ function getMVideo($htmlMediaTag)
     $contents = getIncludeFileContent( $filePath, ['htmlMediaTag' => $htmlMediaTag] );
     return $contents;
 }
+
+function getDeviceName() {
+    if(empty($_SERVER['HTTP_USER_AGENT'])){
+        return 'unknown';
+    }
+    $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    if (strpos($userAgent, 'roku') !== false) {
+        return 'roku';
+    } elseif (strpos($userAgent, 'appletv') !== false) {
+        return 'appleTV';
+    } elseif (strpos($userAgent, 'iphone') !== false || strpos($userAgent, 'ipad') !== false || strpos($userAgent, 'ipod') !== false) {
+        return 'ios';
+    } elseif (strpos($userAgent, 'android') !== false) {
+        if (strpos($userAgent, 'mobile') !== false) {
+            return 'androidMobile';
+        } else {
+            return 'androidTV';
+        }
+    } elseif (strpos($userAgent, 'silk') !== false) {
+        return 'firestick';
+    } else {
+        return 'web';
+    }
+}
+
