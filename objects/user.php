@@ -2961,7 +2961,8 @@ if (typeof gtag !== \"function\") {
         return $value;
     }
 
-    public static function getWebsite($users_id = '') {
+
+    public static function getSocialMediaURL($socialMedia, $users_id = '') {
         global $config;
         $obj = AVideoPlugin::getObjectDataIfEnabled("CustomizeUser");
         if (empty($obj)) {
@@ -2971,8 +2972,12 @@ if (typeof gtag !== \"function\") {
             $users_id = User::getId();
         }
         $user = new User($users_id);
-        $value = $user->getExternalOptions('userWebsite');
+        $value = $user->getExternalOptions($socialMedia);
         return $value;
+    }
+
+    public static function getWebsite($users_id = '') {
+        return self::getSocialMediaURL('website', $users_id);
     }
 
     public static function setProfilePassword($users_id, $value) {

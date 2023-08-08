@@ -91,3 +91,4 @@ test.php
 /.env
 /plugin/User_Location/install/install.sql
 /plugin/PedagoFlix/
+/plugin/YPTWebRTC/

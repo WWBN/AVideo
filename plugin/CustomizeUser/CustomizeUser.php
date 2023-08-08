@@ -13,6 +13,49 @@ require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_aff
 class CustomizeUser extends PluginAbstract
 {
 
+    
+
+    public static function getSocialMedia()
+    {
+        return [
+            'website' => [
+                'class'=>'icoCopy',
+                'icon' => 'fas fa-globe',
+                'label' => __("Website"),
+                'placeholder' => __("Website URL"),
+                'isActive' => User::canUpload(),
+            ],
+            'facebook' => [
+                'class'=>'icoFacebook',
+                'icon' => 'fab fa-facebook-f',
+                'label' => __("Facebook"),
+                'placeholder' => __("Facebook URL"),
+                'isActive' => true,
+            ],
+            'twitter' => [
+                'class'=>'icoTwitter',
+                'icon' => 'fab fa-twitter',
+                'label' => __("Twitter"),
+                'placeholder' => __("Twitter URL"),
+                'isActive' => true,
+            ],
+            'instagram' => [
+                'class'=>'icoInstagram',
+                'icon' => 'fab fa-instagram',
+                'label' => __("Instagram"),
+                'placeholder' => __("Instagram URL"),
+                'isActive' => true,
+            ],
+            'linkedin' => [
+                'class'=>'icoLinkedIn',
+                'icon' => 'fab fa-linkedin-in',
+                'label' => __("LinkedIn"),
+                'placeholder' => __("LinkedIn URL"),
+                'isActive' => true,
+            ]
+        ];
+    }
+
     public function getTags()
     {
         return [

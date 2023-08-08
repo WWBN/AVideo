@@ -24,7 +24,9 @@ ul.social-network li {
 .social-network a.icoWhatsapp:hover {
     background-color: #25D366;
 }
-
+.social-network a.icoInstagram:hover {
+    background-color: #E4405F; 
+}
 .social-network a.icoFacebook:hover {
     background-color: #3B5998;
 }
