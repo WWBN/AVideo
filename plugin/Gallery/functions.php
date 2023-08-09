@@ -303,7 +303,7 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
         <?php
         if ($galeryDetails) {
         ?>
-            <div class="galeryDetails">
+            <div class="galeryDetails clearfix">
                 <div class="galleryTags">
                     <!-- category tags -->
                     <?php
@@ -331,25 +331,6 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                 <div data-toggle="tooltip" class="videoHumanTime" title="<?php echo $humanTiming; ?>">
                     <i class="far fa-clock"></i>
                     <?php echo $humanTiming; ?>
-                </div>
-                <!-- Dropdown trigger -->
-                <div class="dropdown pull-right">
-                    <!-- Trigger button -->
-                    <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                    <!-- Dropdown Menu -->
-                    <div class="dropdown-menu" id="videoButtonOptions">
-                        <div class="videoChannel">
-                            <a href="<?php echo User::getChannelLink($video['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
-                                <i class="fa fa-user"></i>
-                                <?php echo $name; ?>
-                            </a>
-                        </div>
-                        <?php
-                        echo AVideoPlugin::getGalleryActionButton($video['id']);
-                        ?>
-                    </div>
                 </div>
                 <?php
                 if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
@@ -386,6 +367,26 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                     echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
                 }
                 ?>
+            </div>
+
+            <!-- Dropdown trigger -->
+            <div class="dropdown pull-right">
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu" id="videoButtonOptions">
+                    <div class="videoChannel">
+                        <a href="<?php echo User::getChannelLink($video['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
+                            <i class="fa fa-user"></i>
+                            <?php echo $name; ?>
+                        </a>
+                    </div>
+                    <?php
+                    echo AVideoPlugin::getGalleryActionButton($video['id']);
+                    ?>
+                </div>
+                <!-- Trigger button -->
+                <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                    <i class="fas fa-ellipsis-v"></i>
+                </button>
             </div>
         <?php
         }

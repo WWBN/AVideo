@@ -6,7 +6,7 @@ doNOTOrganizeHTMLIfIsPagination();
     <?php if ((empty($_POST['disableAddTo'])) && (( ($advancedCustom != false) && ($advancedCustom->disableShareAndPlaylist == false)) || ($advancedCustom == false))) { ?>
        <a href="#" class="<?php echo $btnClass; ?>" id="addBtn<?php echo $videos_id . $crc; ?>" onclick="loadPlayLists('<?php echo $videos_id; ?>', '<?php echo $crc; ?>');return false;" data-toggle="tooltip" title="<?php echo __("Add to"); ?>">
             <span class="fa fa-plus"></span> 
-            <span class="hidden-sm hidden-xs"><?php echo __("Add to"); ?></span>
+            <?php echo __("Add to"); ?>
         </a>
         <div class="webui-popover-content" >
             <?php if (User::isLogged()) { ?>

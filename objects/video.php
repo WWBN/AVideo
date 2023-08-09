@@ -155,6 +155,16 @@ if (!class_exists('Video')) {
             }
         }
 
+        public function getOrder()
+        {
+            return intval($this->order);
+        }
+
+        public function setOrder($order)
+        {
+            $this->order = intval($order);
+        }
+
         public function getPublish_datetime()
         {
             return $this->publish_datetime;
@@ -3316,12 +3326,14 @@ if (!class_exists('Video')) {
             $tags = [];
 
             if (empty($type) || $type === VideoTags::$TagTypePinned) {
-                $objTag = new stdClass();
-                $objTag->label = __("Pinned");
-                $objTag->type = "default";
-                $objTag->text = '<i class="fas fa-thumbtack"></i>';
-                $tags[] = $objTag;
-                $objTag = new stdClass();
+                if($video->getOrder()){
+                    $objTag = new stdClass();
+                    $objTag->label = __("Pinned");
+                    $objTag->type = "default";
+                    $objTag->text = '<i class="fas fa-thumbtack"></i>';
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
+                }
             }
             if (empty($type) || $type === VideoTags::$TagTypePaid) {
                 $objTag = new stdClass();
