@@ -180,7 +180,6 @@ $name = $plp->getName();
 
             var timeout;
             $(document).ready(function () {
-
                 $("#playListSearch").keyup(function () {
                     var filter = $(this).val();
                     $(".vjs-playlist-item-list li").each(function () {

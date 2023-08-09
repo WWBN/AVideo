@@ -864,7 +864,6 @@ function playNext(url) {
                         }
                     } else {
                         //console.log("playNext ajax success");
-                        $('topInfo').hide();
                         playNextURL = (typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
                         //console.log("New playNextURL", playNextURL);
                         var cSource = false;
@@ -1331,7 +1330,9 @@ function avideoModalIframeLarge(url) {
 function avideoModalIframeFullScreen(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
-
+function avideoModalIframeFullScreenNoBar(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-no-bar', true);
+}
 function avideoModalIframeFullWithMinimize(url) {
     if (false && typeof parent.openWindow === 'function') {
         parent.openWindow(url, iframeAllowAttributes, '', true);
@@ -3830,3 +3831,99 @@ $.fn.isVisible = function () {
     var viewportBottom = viewportTop + $(window).height();
     return elementBottom > viewportTop && elementTop < viewportBottom;
 };
+let fullscreenIframe;
+let originalURL; // to store the original URL
+
+function openFullscreenVideosId(videos_id) {
+    var url = webSiteRootURL + 'videoEmbed/' + videos_id + '/-';
+    var urlBar = webSiteRootURL + 'v/' + videos_id + '/-';
+    openFullscreenVideo(url, urlBar);
+}
+
+function openFullscreenVideo(url, urlBar) {
+    
+    $('body').addClass('fullScreen');
+    // Store the current URL
+    originalURL = window.location.href;
+
+    // If there's an existing iframe, close it first
+    if (fullscreenIframe) {
+        closeFullscreenIframe();
+    }
+
+    url = addQueryStringParameter(url, 'autoplay', 1);
+
+    fullscreenIframe = $('<iframe ' + iframeAllowAttributes + '>', {
+        src: url,
+        id: 'fullscreenIframe'
+    });
+
+    fullscreenIframe.attr('src', url);
+    // Apply styles and other attributes
+    fullscreenIframe.css({
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'z-index': 9999,
+        'border': 'none',
+        'background-color': 'black'
+    });
+
+    if(validURL(url)){
+        window.history.pushState(null, null, urlBar);
+    }
+    // Append the iframe to the body
+    fullscreenIframe.appendTo('body');
+}
+
+function closeFullscreenVideo() {
+    if (fullscreenIframe) {
+        fullscreenIframe.remove();
+        fullscreenIframe = null;
+        $('body').removeClass('fullscreen');
+
+        // Revert the browser's address bar to the original URL
+        if (originalURL) {
+            history.pushState({}, null, originalURL);
+        }
+    }
+}
+
+function addCloseButtonInVideo() {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        if(typeof player !== 'object'){
+            setTimeout(function(){addCloseButtonInVideo();}, 2000);
+            return false;
+        }
+        addCloseButton($(player.el()));
+    }
+}
+
+function addCloseButtonInPage() {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        addCloseButton($('body'));
+    }
+}
+
+function addCloseButton(elementToAppend) {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        var closeButton = $('<button>', {
+            'id': 'CloseButtonInVideo',
+        });
+        closeButton.addClass('btn');
+        closeButton.addClass('pull-right');
+        closeButton.html('<i class="fas fa-times"></i>');
+        // Add event listener
+        closeButton.on('click', function() {
+            window.parent.closeFullscreenVideo();
+        });
+        // Append the close button to the Video.js player
+        elementToAppend.append(closeButton);
+
+    }
+}

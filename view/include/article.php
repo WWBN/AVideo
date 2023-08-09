@@ -44,7 +44,7 @@ $sources = getVideosURLPDF($video['filename']);
     </div>
     <script>
         $(document).ready(function () {
-
+            addCloseButtonInPage();
         });
     </script>
     <div class="col-xs-12 col-sm-12 col-lg-2"></div>

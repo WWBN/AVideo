@@ -204,10 +204,10 @@ Options All -Indexes
     RewriteRule ^article/([^!#$&'(),/:;=?@[]]+)/page/([0-9]+)/??$ view/modeYoutube.php?videoName=$1&page=$2 [QSA]
     
     #for the embeded article name
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/[0-9a-zA-Z_.-]*?$ view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^articleEmbed/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
-    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
-    
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?v=$1 [QSA]    
 
     # audio and video IDs
     RewriteRule ^article/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=article [QSA]

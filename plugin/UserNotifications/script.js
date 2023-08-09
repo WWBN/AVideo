@@ -1,4 +1,7 @@
 function getTemplateFromArray(itemsArray) {
+    if(typeof user_notification_template == 'undefined'){
+        return false;
+    }
     var template = user_notification_template;
     for (var search in itemsArray) {
         var replace = itemsArray[search];

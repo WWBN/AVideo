@@ -365,7 +365,7 @@ class Message implements MessageComponentInterface {
         $obj['users_id_online'] = dbGetUniqueUsers();
 
         $msgToSend = json_encode($obj);
-        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type}");
+        _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
         $this->clients[$resourceId]->send($msgToSend);
     }
 

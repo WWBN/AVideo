@@ -88,6 +88,19 @@ h3.galleryTitle{
 .galeryDetails div.userName{
     width: 100%;
 }
+
+#videoButtonOptions{
+    padding: 10px;
+}
+
+#videoButtonOptions .btn-link{
+    padding: 1px 0;
+}
+
+#videoButtonOptions div{
+    float: none;
+}
+
 .fixPadding{
     padding: 0 5px;
 }
