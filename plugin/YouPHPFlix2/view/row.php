@@ -107,6 +107,11 @@ TimeLogStart($timeLog3);
 <?php
 TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
+    
+    $timeLog4Limit = 0.1;
+    $timeLog5 = "{$timeLog3} loop {$value['clean_title']}";
+    TimeLogStart($timeLog5);
+
     $uid = "{$uidOriginal}_{$value['id']}";
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
@@ -114,6 +119,8 @@ foreach ($videos as $_index => $value) {
             $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
         }
     }
+    
+    TimeLogEnd($timeLog5, __LINE__);
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
     $poster = $images->poster;
@@ -123,6 +130,7 @@ foreach ($videos as $_index => $value) {
     } else if ($obj->hidePlayButtonIfCannotWatch) {
         $canWatchPlayButton = "hidden";
     }
+    TimeLogEnd($timeLog5, __LINE__);
 
     if (!empty($rowPlayListLink)) {
         $rowLink = addQueryStringParameter($rowPlayListLink, 'playlist_index', $_index);
@@ -131,12 +139,14 @@ foreach ($videos as $_index => $value) {
         $rowLink = YouPHPFlix2::getLinkToVideo($value['id'], true);
         $rowLinkEmbed = Video::getLinkToVideo($value['id'], $value['clean_title'], true);
     }
+    TimeLogEnd($timeLog5, __LINE__);
 
     if (empty($value['serie_playlists_id'])) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_video.php';
     } else {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_serie.php';
     }
+    TimeLogEnd($timeLog5, __LINE__);
 }
 
 TimeLogEnd($timeLog3, __LINE__);
