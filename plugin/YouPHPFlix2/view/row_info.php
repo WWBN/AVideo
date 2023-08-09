@@ -1,6 +1,7 @@
 <?php
 $timeLog6Limit = 0.01;
 $timeLog6 = "row_info.php {$value['clean_title']}";
+TimeLogStart($timeLog6);
 ?>
 <!-- row_info start -->
 <div class="infoDetails">
