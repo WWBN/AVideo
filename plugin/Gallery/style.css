@@ -91,6 +91,7 @@ h3.galleryTitle{
 
 #videoButtonOptions{
     padding: 10px;
+    white-space: nowrap;
 }
 
 #videoButtonOptions .btn-link{
@@ -99,6 +100,10 @@ h3.galleryTitle{
 
 #videoButtonOptions div{
     float: none;
+}
+
+#videoButtonOptions .btn {
+    font-size: unset;
 }
 
 .fixPadding{

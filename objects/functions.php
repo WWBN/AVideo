@@ -7131,7 +7131,7 @@ function isShareEnabled()
     return empty($advancedCustom->disableShareOnly) && empty($advancedCustom->disableShareAndPlaylist);
 }
 
-function getSharePopupButton($videos_id, $url = "", $title = "")
+function getSharePopupButton($videos_id, $url = '', $title = '', $class='')
 {
     global $global, $advancedCustom;
     if (!isShareEnabled()) {
