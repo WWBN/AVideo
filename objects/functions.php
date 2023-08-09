@@ -9702,7 +9702,7 @@ function useVideoHashOrLogin()
     return User::loginFromRequest();
 }
 
-function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'], $removeContent=false)
+function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'], $removeContent=true)
 {
     if (empty($string)) {
         return '';

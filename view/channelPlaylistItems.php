@@ -187,7 +187,7 @@ unset($_POST['current']);
                                     <div class="descriptionArea">
                                         <div class="descriptionAreaPreContent">
                                             <div class="descriptionAreaContent">
-                                                <?php echo $serie['description']; ?>
+                                                <?php echo strip_specific_tags($serie['description']) ; ?>
                                             </div>
                                         </div>
                                         <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
