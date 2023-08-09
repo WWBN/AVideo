@@ -774,7 +774,8 @@ class Layout extends PluginAbstract
             preg_match('/<script async/i', $tag) ||
             preg_match('/doNotSepareteTag/', $tag) ||
             preg_match('/window.googletag/', $tag) ||
-            preg_match('/document\.write/', $tag)
+            preg_match('/document\.write/', $tag) || 
+            isBot()
         ) {
             return true;
         }
