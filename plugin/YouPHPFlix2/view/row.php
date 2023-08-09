@@ -148,6 +148,7 @@ foreach ($videos as $_index => $value) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_serie.php';
         TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     }
+    
 }
 
 TimeLogEnd($timeLog3, __LINE__);
