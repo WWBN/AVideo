@@ -98,7 +98,7 @@
         <h4 class="mainInfoText" itemprop="description">
             <?php
             if (strip_tags($value['description']) != $value['description']) {
-                echo $value['description'];
+                echo strip_specific_tags($value['description']);
             } else {
                 echo nl2br(textToLink(htmlentities($value['description'])));
             }
