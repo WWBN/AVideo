@@ -279,7 +279,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                 }
                             ?>
                                 <li class="nav-item <?php echo $active; ?>">
-                                    <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
+                                    <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false" onclick="setTimeout(function () {flickityReload();}, 500);">
                                         <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
                                 </li>
