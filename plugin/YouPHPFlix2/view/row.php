@@ -108,7 +108,7 @@ TimeLogStart($timeLog3);
 TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
     
-    $timeLog5Limit = 0.1;
+    $timeLog5Limit = 0.5;
     $timeLog5 = "{$timeLog3} second foreach {$value['clean_title']}";
     TimeLogStart($timeLog5);
 
