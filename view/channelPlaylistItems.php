@@ -92,7 +92,7 @@ unset($_POST['current']);
         } else {
             $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
             //var_dump($videosArrayId);exit;
-        }//var_dump($videosArrayId, $videosP); exit;
+        } //var_dump($videosArrayId, $videosP); exit;
         $totalDuration = 0;
         foreach ($videosP as $value) {
             //var_dump($value['id'], $value['title'], $value['duration']);echo '<br>';
@@ -111,7 +111,7 @@ unset($_POST['current']);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         $countSuccess++;
-        ?>
+    ?>
 
         <div class="panel panel-default" playListId="<?php echo $playlist['id']; ?>">
             <div class="panel-heading clearfix">
@@ -130,14 +130,14 @@ unset($_POST['current']);
 
             <?php
             if (!empty($videosArrayId)) {
-                ?>
+            ?>
 
                 <div class="panel-body">
                     <?php
                     $serie = PlayLists::isPlayListASerie($playlist['id']);
                     if (!empty($serie)) {
                         $category = new Category($serie['categories_id']);
-                        ?>
+                    ?>
                         <div style="overflow: hidden;">
                             <div class="row">
                                 <div class="col-md-4">
@@ -154,7 +154,7 @@ unset($_POST['current']);
                                             <a class="label label-default" href="<?php echo Video::getLink($serie['id'], $category->getClean_name(), false, $get); ?>">
                                                 <?php
                                                 if (!empty($category->getIconClass())) {
-                                                    ?>
+                                                ?>
                                                     <i class="<?php echo $category->getIconClass(); ?>"></i>
                                                 <?php }
                                                 ?>
@@ -164,9 +164,9 @@ unset($_POST['current']);
                                             $serie['tags'] = Video::getTags($serie['id']);
                                             foreach ($serie['tags'] as $value2) {
                                                 if ($value2->label === __("Group")) {
-                                                    ?>
+                                            ?>
                                                     <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
@@ -176,7 +176,7 @@ unset($_POST['current']);
 
                                         <?php
                                         if (!empty($serie['trailer1'])) {
-                                            ?>
+                                        ?>
                                             <button class="btn btn-xs btn-warning" onclick="avideoModalIframe('<?php echo parseVideos($serie['trailer1'], 1, 0, 0, 0, 1, 0, 'fill'); ?>');">
                                                 <span class="fa fa-film"></span>
                                                 <span class="hidden-xs"><?php echo __("Trailer"); ?></span>
@@ -184,9 +184,17 @@ unset($_POST['current']);
                                         <?php }
                                         ?>
                                     </small>
-                                    <p>
-                                        <?php echo $serie['description']; ?>
-                                    </p>
+                                    <div class="descriptionArea">
+                                        <div class="descriptionAreaPreContent">
+                                            <div class="descriptionAreaContent">
+                                                <?php echo $serie['description']; ?>
+                                            </div>
+                                        </div>
+                                        <button onclick="$(this).closest('.descriptionArea').toggleClass('expanded');" class="btn btn-xs btn-default descriptionAreaShowMoreBtn" style="display: none; ">
+                                            <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                                            <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +214,7 @@ unset($_POST['current']);
                         $count++;
                         $name = User::getNameIdentificationById($value['users_id']);
                         $class = '';
-                        ?>
+                    ?>
                         <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6 galleryVideo <?php echo $class; ?> " id="<?php echo $value['id']; ?>" style="padding: 1px;">
                             <?php
                             echo Video::getVideoImagewithHoverAnimationFromVideosId($value);
@@ -220,16 +228,16 @@ unset($_POST['current']);
                                     $value['tags'] = Video::getTags($value['id']);
                                     foreach ($value['tags'] as $value2) {
                                         if ($value2->label === __("Group")) {
-                                            ?>
+                                    ?>
                                             <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
-                                            <?php
+                                    <?php
                                         }
                                     }
                                     ?>
                                 </div>
                                 <?php
                                 if (empty($advancedCustom->doNotDisplayViews)) {
-                                    ?>
+                                ?>
                                     <div>
                                         <i class="fa fa-eye"></i>
                                         <span itemprop="interactionCount">
@@ -249,7 +257,7 @@ unset($_POST['current']);
                                 </div>
                                 <?php
                                 if (Video::canEdit($value['id'])) {
-                                    ?>
+                                ?>
                                     <div>
                                         <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>"><i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?></a>
 
@@ -259,7 +267,7 @@ unset($_POST['current']);
                                 ?>
                                 <?php
                                 if ($isMyChannel) {
-                                    ?>
+                                ?>
                                     <div>
                                         <span style=" cursor: pointer;" class="btn-link text-primary removeVideo" playlist_id="<?php echo $playlist['id']; ?>" video_id="<?php echo $value['id']; ?>">
                                             <i class="fa fa-trash"></i> <?php echo __("Remove"); ?>
@@ -273,10 +281,10 @@ unset($_POST['current']);
                     ?>
                 </div>
 
-                <?php
+            <?php
             }
             if (PlayLists::showTVFeatures()) {
-                ?>
+            ?>
                 <div class="panel-footer">
                     <?php
                     $_REQUEST['user_id'] = $user_id;
@@ -287,7 +295,7 @@ unset($_POST['current']);
             <?php }
             ?>
         </div>
-        <?php
+    <?php
     }
     if (!empty($videosP) && empty($countSuccess)) {
         header("Location: {$global['webSiteRootURL']}view/channelPlaylistItems.php?current=" . (count($playlists) ? $_POST['current'] + 1 : $_POST['current']) . "&channelName={$_GET['channelName']}");
@@ -297,70 +305,69 @@ unset($_POST['current']);
     $_GET['channelName'] = $channelName;
     ?>
     <script>
-
-        $(function () {
-            $('.removeVideo').click(function () {
+        $(function() {
+            $('.removeVideo').click(function() {
                 currentObject = this;
                 swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then(function (willDelete) {
-                            if (willDelete) {
+                        title: "<?php echo __("Are you sure?"); ?>",
+                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
 
-                                modal.showPleaseWait();
-                                var playlist_id = $(currentObject).attr('playlist_id');
-                                var video_id = $(currentObject).attr('video_id');
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
-                                    data: {
-                                        "playlist_id": playlist_id,
-                                        "video_id": video_id
-                                    },
-                                    type: 'post',
-                                    success: function (response) {
-                                        reloadPlayLists();
-                                        $(".playListsIds" + video_id).prop("checked", false);
-                                        $(currentObject).closest('.galleryVideo').fadeOut();
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-                            }
-                        });
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            var video_id = $(currentObject).attr('video_id');
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                data: {
+                                    "playlist_id": playlist_id,
+                                    "video_id": video_id
+                                },
+                                type: 'post',
+                                success: function(response) {
+                                    reloadPlayLists();
+                                    $(".playListsIds" + video_id).prop("checked", false);
+                                    $(currentObject).closest('.galleryVideo').fadeOut();
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        }
+                    });
             });
-            $('.deletePlaylist').click(function () {
+            $('.deletePlaylist').click(function() {
                 currentObject = this;
                 swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then(function (willDelete) {
-                            if (willDelete) {
+                        title: "<?php echo __("Are you sure?"); ?>",
+                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
 
-                                modal.showPleaseWait();
-                                var playlist_id = $(currentObject).attr('playlist_id');
-                                console.log(playlist_id);
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
-                                    data: {
-                                        "playlist_id": playlist_id
-                                    },
-                                    type: 'post',
-                                    success: function (response) {
-                                        $(currentObject).closest('.panel').slideUp();
-                                        modal.hidePleaseWait();
-                                    }
-                                });
-                            }
-                        });
+                            modal.showPleaseWait();
+                            var playlist_id = $(currentObject).attr('playlist_id');
+                            console.log(playlist_id);
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemove.php',
+                                data: {
+                                    "playlist_id": playlist_id
+                                },
+                                type: 'post',
+                                success: function(response) {
+                                    $(currentObject).closest('.panel').slideUp();
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        }
+                    });
             });
-            $('.statusPlaylist').click(function () {
+            $('.statusPlaylist').click(function() {
                 var playlist_id = $(this).attr('playlist_id');
                 var status = "public";
                 if ($('#statusPrivate' + playlist_id).is(":visible")) {
@@ -385,13 +392,13 @@ unset($_POST['current']);
                         "status": status
                     },
                     type: 'post',
-                    success: function (response) {
+                    success: function(response) {
 
                         modal.hidePleaseWait();
                     }
                 });
             });
-            $('.renamePlaylist').click(function () {
+            $('.renamePlaylist').click(function() {
                 currentObject = this;
                 swal({
                     text: "<?php echo __("Change Playlist Name"); ?>!",
@@ -400,16 +407,16 @@ unset($_POST['current']);
                         text: "<?php echo __("Confirm Playlist name"); ?>",
                         closeModal: false,
                     },
-                }).then(function (name) {
+                }).then(function(name) {
                     if (!name)
                         throw null;
                     modal.showPleaseWait();
                     var playlist_id = $(currentObject).attr('playlist_id');
                     console.log(playlist_id);
                     return fetch('<?php echo $global['webSiteRootURL']; ?>objects/playlistRename.php?playlist_id=' + playlist_id + '&name=' + encodeURI(name));
-                }).then(function (results) {
+                }).then(function(results) {
                     return results.json();
-                }).then(function (response) {
+                }).then(function(response) {
                     if (response.error) {
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                         modal.hidePleaseWait();
@@ -419,7 +426,7 @@ unset($_POST['current']);
                         swal.close();
                         modal.hidePleaseWait();
                     }
-                }).catch(function (err) {
+                }).catch(function(err) {
                     if (err) {
                         swal("Oh noes!", "The AJAX request failed!", "error");
                     } else {
@@ -429,11 +436,11 @@ unset($_POST['current']);
                     modal.hidePleaseWait();
                 });
             });
-            $('.sortNow').click(function () {
+            $('.sortNow').click(function() {
                 var $val = $(this).siblings("input").val();
                 sortNow(this, $val);
             });
-            $('.video_order').keypress(function (e) {
+            $('.video_order').keypress(function(e) {
                 if (e.which == 13) {
                     sortNow(this, $(this).val());
                 }
