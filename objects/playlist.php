@@ -509,6 +509,12 @@ class PlayList extends ObjectYPT {
 
     public static function getRandomImageFromPlayList($playlists_id, $try = 0) {
         global $global;
+        $cacheName = "getRandomImageFromPlayList_{$playlists_id}";
+        $images = self::getCacheGlobal($cacheName, 3600); // 1 hour cache
+        if(!empty($images)){
+            return $images;
+        }
+
         $sql = "SELECT v.* "
                 . " FROM  playlists_has_videos p "
                 . " LEFT JOIN videos as v ON videos_id = v.id "
@@ -522,12 +528,11 @@ class PlayList extends ObjectYPT {
             $images = Video::getImageFromFilename($row['filename'], $row['type']);
 
             if (!file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
-                if ($try > 5) {
-                    return $images;
-                } else {
-                    return self::getRandomImageFromPlayList($row['serie_playlists_id'], $try + 1);
+                if ($try < 5) {
+                    $images = self::getRandomImageFromPlayList($row['serie_playlists_id'], $try + 1);
                 }
             }
+            $cache = self::setCacheGlobal($cacheName, $images);
             return $images;
         }
         return false;
