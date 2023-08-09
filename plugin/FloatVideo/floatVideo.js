@@ -8,6 +8,8 @@ function closeFloatVideo() {
     clearTimeout(FloatVideoTimeout);
     setTimeout(function () {
         $('#videoCol').css('height', '');
+        $('#videoContainer').removeClass('animate__animated');
+        $('#videoContainer').removeClass('animate__bounceInDown');
         $('body').removeClass('floatVideo');
     }, 100);
 }
@@ -23,6 +25,8 @@ function setFloatVideo() {
     setTimeout(function () {
         var videoContainerHeight = $('#videoContainer').height();
         $('#videoCol').height(videoContainerHeight);
+        $('#videoContainer').addClass('animate__animated');
+        $('#videoContainer').addClass('animate__bounceInDown');
         $('body').addClass('floatVideo');
     }, 100);
 }
