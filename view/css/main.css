@@ -1330,6 +1330,14 @@ li.dropdown-submenu>ul>li>a {
     max-height: 100%;
 }
 
+.swal-modal-iframe-full,
+.swal-modal-iframe-full-with-minimize {
+    width: 100%;
+    height: calc(100% - 50px);
+    max-width: 100%;
+    max-height: 100%;
+}
+
 /* Position and background styles for full screen swal-modal */
 .swal-modal-iframe-full,
 .swal-modal-iframe-full-with-minimize,
