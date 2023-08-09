@@ -109,7 +109,7 @@ TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
     
     $timeLog4Limit = 0.1;
-    $timeLog5 = "{$timeLog3} loop {$value['clean_title']}";
+    $timeLog5 = "{$timeLog3} second foreach {$value['clean_title']}";
     TimeLogStart($timeLog5);
 
     $uid = "{$uidOriginal}_{$value['id']}";
@@ -143,10 +143,11 @@ foreach ($videos as $_index => $value) {
 
     if (empty($value['serie_playlists_id'])) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_video.php';
+        TimeLogEnd($timeLog5, __LINE__);
     } else {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_serie.php';
+        TimeLogEnd($timeLog5, __LINE__);
     }
-    TimeLogEnd($timeLog5, __LINE__);
 }
 
 TimeLogEnd($timeLog3, __LINE__);
