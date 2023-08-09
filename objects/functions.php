@@ -9702,13 +9702,17 @@ function useVideoHashOrLogin()
     return User::loginFromRequest();
 }
 
-function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'])
+function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'], $removeContent=false)
 {
     if (empty($string)) {
         return '';
     }
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '$1', $string);
+        $replacement = '$1';
+        if($removeContent){
+            $replacement = '';
+        }
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', $replacement, $string);
     }
     return $string;
 }
