@@ -11382,7 +11382,9 @@ function modifyURL($url)
         'ads_w' => 'ads.w', //player width 
         'ads_h' => 'ads.h', //player height
         'app_store_url' => 'ads.app_store_url', //player height
+        'ads_app_store_url' => 'ads.app_store_url', //player height
         'app_name' => 'ads.app_name', //player height
+        'ads_app_name' => 'ads.app_name', //player height
         'ads_cb' => 'ads.cb',
         'ads_channel_name' => 'ads.channel_name',
         'ads_content_genre' => 'ads.content_genre',

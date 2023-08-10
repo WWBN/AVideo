@@ -16,6 +16,7 @@ class PlayList extends ObjectYPT {
     protected $users_id;
     protected $status;
     protected $showOnTV;
+    protected $showOnFirstPage;
     protected $modified;
     public static $validStatus = ['public', 'private', 'unlisted', 'favorite', 'watch_later'];
 
@@ -85,9 +86,10 @@ class PlayList extends ObjectYPT {
         }
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
         $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
-        $videosP = PlayList::sortVideos($videosP, $videosArrayId);
+        //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
             if (empty($videosP[$key]['type'])) {
+                //echo 'unset ';var_dump($videosP[$key]);
                 unset($videosP[$key]);
                 continue;
             }
@@ -101,6 +103,8 @@ class PlayList extends ObjectYPT {
             if ($videosP[$key]['type'] !== Video::$videoTypeLinkVideo) {
                 $videosP[$key]['videos'] = Video::getVideosPaths($videosP[$key]['filename'], true);
             }
+            $videosP[$key]['playlists_id'] = $playlists_id;
+            $videosP[$key]['playlist_index'] = $key;
         }
 
         return $videosP;
@@ -703,25 +707,31 @@ class PlayList extends ObjectYPT {
     }
 
     public static function sortVideos($videosList, $listIdOrder) {
-        $list = [];
-        foreach ($listIdOrder as $value) {
-            $found = false;
-            foreach ($videosList as $key => $value2) {
-                if ($value2['id'] == $value) {
-                    $list[] = $value2;
-                    unset($videosList[$key]);
-                    $found = true;
-                }
+        usort($videosList, function($a, $b) use ($listIdOrder) {
+            // Get the index of the 'id' from the $listIdOrder array
+            $indexA = array_search($a['id'], $listIdOrder);
+            $indexB = array_search($b['id'], $listIdOrder);
+    
+            // If both IDs are found in $listIdOrder
+            if ($indexA !== false && $indexB !== false) {
+                return $indexA - $indexB; // Sort based on the order in $listIdOrder
             }
-            if (!$found) {
-                $v = new Video("", "", $value);
-                if (empty($v->getFilename())) {
-                    continue;
-                }
-                $list[] = ['id' => $value];
+    
+            // If $a['id'] is not found, it should come after $b
+            if ($indexA === false && $indexB !== false) {
+                return 1;
             }
-        }
-        return $list;
+    
+            // If $b['id'] is not found, it should come after $a
+            if ($indexB === false && $indexA !== false) {
+                return -1;
+            }
+    
+            // If neither ID is found, sort them based on their IDs
+            return $a['id'] - $b['id'];
+        });
+    
+        return $videosList;
     }
 
     public function save() {
@@ -734,6 +744,7 @@ class PlayList extends ObjectYPT {
             $this->setUsers_id($users_id);
         }
         $this->showOnTV = intval($this->showOnTV);
+        $this->showOnFirstPage = intval($this->showOnFirstPage);
         $playlists_id = parent::save();
         if (!empty($playlists_id)) {
             self::deleteCacheDir($playlists_id);
@@ -894,6 +905,19 @@ class PlayList extends ObjectYPT {
         $this->showOnTV = intval($showOnTV);
     }
 
+    public function getShowOnFirstPage() {
+        return intval($this->showOnFirstPage);
+    }
+
+    public function setShowOnFirstPage($showOnFirstPage) {
+        if (strtolower($showOnFirstPage) === "false") {
+            $showOnFirstPage = 0;
+        } elseif (strtolower($showOnFirstPage) === "true") {
+            $showOnFirstPage = 1;
+        }
+        $this->showOnFirstPage = intval($showOnFirstPage);
+    }
+
     public static function getAllToShowOnTV() {
         global $global;
         if (!static::isTableInstalled()) {
@@ -904,6 +928,34 @@ class PlayList extends ObjectYPT {
                 . " WHERE showOnTV=1 ";
 
         $sql .= self::getSqlFromPost();
+        //echo $sql;exit;
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = [];
+        if ($res !== false) {
+            foreach ($fullData as $row) {
+                $row = cleanUpRowFromDatabase($row);
+                $rows[] = $row;
+            }
+        } else {
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            $rows = [];
+        }
+        return $rows;
+    }
+
+    
+    public static function getAllToShowOnFirstPage() {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT u.*, pl.* FROM  playlists pl "
+                . " LEFT JOIN users u ON users_id = u.id "
+                . " WHERE showOnFirstPage=1 ";
+
+        //$sql .= self::getSqlFromPost();
         //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);

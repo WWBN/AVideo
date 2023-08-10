@@ -1,3 +1,5 @@
-ALTER TABLE `configurations` 
-CHANGE COLUMN `language` `language` VARCHAR(25) NOT NULL DEFAULT 'en_US';
-UPDATE configurations SET  version = '12.8', modified = now() WHERE id = 1;
+ALTER TABLE `playlists`
+ADD COLUMN `showOnFirstPage` TINYINT(1) UNSIGNED NULL DEFAULT 0,
+ADD INDEX `showonFirstpage` (`showOnFirstPage` ASC);
+
+UPDATE configurations SET  version = '12.9', modified = now() WHERE id = 1;

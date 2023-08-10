@@ -27,8 +27,8 @@ if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
 }
 
-$programs = PlayList::getAllFromUser(empty($_GET['program_id'])?$user_id:0, $publicOnly, false, @$_GET['program_id']);
-if (empty($programs)) {    
+$programs = PlayList::getAllFromUser(empty($_GET['program_id']) ? $user_id : 0, $publicOnly, false, @$_GET['program_id']);
+if (empty($programs)) {
     $programs = PlayList::getAllFromUser($user_id, $publicOnly);
 } else {
     $videosArrayId = PlayList::getVideosIdFromPlaylist($_GET['program_id']);
@@ -89,7 +89,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
             @$timesC[__LINE__] += microtime(true) - $startC;
             $startC = microtime(true);
             //_error_log("channelPlaylist videosP: ".json_encode($videosP));
-            $videosP = PlayList::sortVideos($videosP, $videosArrayId);
+            //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
             @$timesC[__LINE__] += microtime(true) - $startC;
             $startC = microtime(true);
             //_error_log("channelPlaylist videosP2: ".json_encode($videosP));
@@ -97,13 +97,19 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
             @$timesC[__LINE__] += microtime(true) - $startC;
             $startC = microtime(true);
             $totalVideos = count($videosP);
+
+            $checked = '';
+            if(!empty($program['showOnFirstPage'])){
+                $checked = ' checked="checked" ';
+            }
         ?>
             <br>
             <div class="panel panel-default program" playListId="<?php echo $program['id']; ?>">
-                <div class="panel-heading clearfix">
+                <div class="panel-heading clearfix" style="padding-left: 10px;">
                     <span class="badge pull-right"><?php echo $totalVideos; ?> <?php echo __('Videos'); ?></span>
                     <div class="pull-left">
                         <strong style="font-size: 1.1em;" class="playlistName">
+                            <!-- <?php echo basename(__FILE__); ?> -->
                             <?php echo __($program['name']); ?>
                         </strong><br>
                         <small class="text-muted">
@@ -112,6 +118,20 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                     </div>
                     <?php
                     PlayLists::getPLButtons($program['id'], false);
+                    if (PlayLists::canManageAllPlaylists()) {
+                    ?>
+                    <br>
+                    <div class="pull-right" style="padding: 10px 0 0 0;">
+                        <label for="addOnFirstPage<?php echo $program['id']; ?>">
+                            <span style="margin-right: 10px;"><?php echo __('Add to first page'); ?></span>
+                        </label>
+                        <div class="material-small material-switch pull-right">
+                            <input <?php echo $checked; ?> name="addOnFirstPage" id="addOnFirstPage<?php echo $program['id']; ?>" class="addOnFirstPage" type="checkbox" value="<?php echo $program['id']; ?>">
+                            <label for="addOnFirstPage<?php echo $program['id']; ?>" class="label-success"></label>
+                        </div>
+                    </div>
+                    <?php
+                    }
                     ?>
                 </div>
 
@@ -318,6 +338,15 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 
             var currentObject;
             $(function() {
+                $('.addOnFirstPage').on('change', function() {
+                    url = webSiteRootURL + 'objects/playlistAddOnFirstPage.json.php';
+                    var playlist_id = $(this).val();
+                    var showOnFirstPage = $(this).prop('checked');
+                    avideoAjax(url, {
+                        playlist_id: playlist_id,
+                        showOnFirstPage: showOnFirstPage
+                    });
+                });
                 <?php
                 if (count($programs) <= 1 || !empty($palyListsObj->expandPlayListOnChannels)) {
                 ?>
@@ -343,7 +372,7 @@ $playListsObj = AVideoPlugin::getObjectData("PlayLists");
                                 var playlist_id = $(currentObject).attr('playlist_id');
                                 var video_id = $(currentObject).attr('video_id');
                                 $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistRemoveVideo.php',
+                                    url: webSiteRootURL + 'objects/playlistRemoveVideo.php',
                                     data: {
                                         "playlist_id": playlist_id,
                                         "video_id": video_id

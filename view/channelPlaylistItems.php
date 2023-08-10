@@ -103,7 +103,7 @@ unset($_POST['current']);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         //_error_log("channelPlaylist videosP: ".json_encode($videosP));
-        $videosP = PlayList::sortVideos($videosP, $videosArrayId);
+        //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
         //_error_log("channelPlaylist videosP2: ".json_encode($videosP));
@@ -117,7 +117,8 @@ unset($_POST['current']);
             <div class="panel-heading clearfix">
                 <div class="pull-left">
                     <strong style="font-size: 1.1em;" class="playlistName">
-                        <?php echo __($playlist['name']); ?>
+                        <!-- <?php echo basename(__FILE__); ?> -->
+                        <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$playlist['id']}/".urlencode($playlist['name']); ?>"><?php echo __($playlist['name']); ?></a>
                     </strong><br>
                     <small class="text-muted">
                         <?php echo seconds2human(PlayList::getTotalDurationFromPlaylistInSeconds($playlist['id'])); ?>
@@ -131,7 +132,6 @@ unset($_POST['current']);
             <?php
             if (!empty($videosArrayId)) {
             ?>
-
                 <div class="panel-body">
                     <?php
                     $serie = PlayLists::isPlayListASerie($playlist['id']);

@@ -84,6 +84,10 @@ class Gallery extends PluginAbstract
         $obj->SuggestedRowCount = 12;
         $obj->SuggestedOrder = 1;
 
+        $obj->PlayLists = true;
+        $obj->PlayListsRowCount = 12;
+        $obj->PlayListsOrder = 2;
+
         $obj->Trending = true;
         $obj->TrendingCustomTitle = "";
         $obj->TrendingRowCount = 12;
