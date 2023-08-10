@@ -92,7 +92,7 @@ saveRequestVars();
                     //var_dump(count($plRows));exit;
                     if (!empty($plRows)) {
                         $rowCount = getRowCount();
-                        setRowCount(12);
+                        setRowCount($obj->PlayListsRowCount);
                         foreach ($plRows as $pl) {
                         ?>
                             <!-- For Playlist -->
