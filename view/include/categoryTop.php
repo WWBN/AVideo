@@ -8,7 +8,7 @@ if (!empty($_REQUEST['catName'])) {
     if(!empty($currentCat)){
         $categories_id = $currentCat['id'];
         if (!Category::isAssetsValids($categories_id)) {
-            echo '<!-- category images  assets invalid -->';
+            echo "<!-- category images  assets invalid categories_id=$categories_id -->";
             return false;
         }
     }
