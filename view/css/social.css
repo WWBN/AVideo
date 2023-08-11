@@ -70,7 +70,7 @@ ul.social-network li {
     background-color: #FF0000;  /* YouTube's primary color */
 }
 
-.social-network a.icoTiktok:hover {
+.social-network a.icoTikTok:hover {
     background-color: #000000;  /* TikTok's primary color is black, but sometimes it's represented with a lighter shade or with the blue from its logo */
 }
 
