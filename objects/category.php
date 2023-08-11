@@ -920,8 +920,8 @@ class Category {
         if (filesize($background['path']) <= 980 || filesize($background['path']) == 4480) { // transparent image
             return false;
         }
-        return true;
-        //return !is_image_fully_transparent($photo['path']) && !is_image_fully_transparent($background['path']);
+        //return true;
+        return !is_image_fully_transparent($photo['path']) && !is_image_fully_transparent($background['path']);
     }
 
     public static function getOGImagePaths($categories_id) {
