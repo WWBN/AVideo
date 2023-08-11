@@ -1268,8 +1268,17 @@ function avideoAlertHTMLText(title, msg, type) {
         icon: type,
         closeModal: true,
         closeOnClickOutside: !isErrorOrWarning,
-        buttons: isErrorOrWarning ? null : (empty(type) ? false : true),
+        buttons: {
+            confirm: {
+                text: "OK", // or whatever text you want
+                value: true,
+                visible: isErrorOrWarning ? false : (empty(type) ? false : true),
+                className: "btn btn-success" // Add your class name here
+            }
+        }
     });
+    $(".swal-button--confirm").removeClass("swal-button");
+    
 }
 
 function avideoModalIframeClose() {
