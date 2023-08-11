@@ -26,6 +26,10 @@ if (!isset($global['systemRootPath'])) {
             .categoryItem .panel-default{
                 position: relative;
             }
+            .categoryItem .panel-body{
+                padding: 0;
+            }
+
             .categoryItem img{
                 max-width: 20%;
                 position: absolute;
