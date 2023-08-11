@@ -99,7 +99,7 @@ if (!isset($global['systemRootPath'])) {
                     if (!empty($value['fullTotal_videos'])) {
                         $video = Category::getLatestVideoFromCategory($value['id'], true, true);
                         $images = Video::getImageFromID($video['id']);
-                        $image = $images->poster;
+                        $image = $images->default['url'];
                     } elseif (!empty($value['fullTotal_lives'])) {
                         $live = Category::getLatestLiveFromCategory($value['id'], true, true);
                         $image = Live::getImage($live['users_id'], $live['live_servers_id']);

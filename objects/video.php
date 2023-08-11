@@ -4913,12 +4913,7 @@ if (!class_exists('Video')) {
                 return $_getPoster[$videos_id];
             }
             $images = self::getImageFromID($videos_id);
-            $_getPoster[$videos_id] = false;
-            if (!empty($images->poster)) {
-                $_getPoster[$videos_id] = $images->poster;
-            } elseif (!empty($images->posterPortrait)) {
-                $_getPoster[$videos_id] = $images->posterPortrait;
-            }
+            $_getPoster[$videos_id] = $images->default['url'];
             return $_getPoster[$videos_id];
         }
 
@@ -4926,13 +4921,7 @@ if (!class_exists('Video')) {
         {
             global $global;
             $images = self::getImageFromID($videos_id);
-            $imagePath = $images->posterLandscapePath;
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->posterLandscapeThumbs;
-            }
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->poster;
-            }
+            $imagePath = $images->default['path'];
             if (empty($imagePath) || empty(@filesize($imagePath))) {
                 if (AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')) {
                     MP4ThumbsAndGif::getImageInDuration($videos_id, 'jpg');
@@ -4946,13 +4935,7 @@ if (!class_exists('Video')) {
         {
             global $global;
             $images = self::getImageFromID($videos_id);
-            $imagePath = $images->posterLandscapePath;
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->posterLandscapeThumbs;
-            }
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->poster;
-            }
+            $imagePath = $images->default['path'];
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
             if (convertImageToRoku($imagePath, $rokuImage)) {
                 $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
