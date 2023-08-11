@@ -86,6 +86,7 @@ $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUp
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 ?>
 
+<link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
 <style>
     #aboutArea #aboutAreaPreContent {
         max-height: 120px;
