@@ -534,6 +534,9 @@ global $avideoLayout;
                 $_REQUEST['rowCount'] = $_rowCount;
             } else {
                 ?>
+                <li>
+                    <hr>
+                </li>
                 <li class="nav-item ">
                     <a class="nav-link " href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');return false;">
                         <i class="fas fa-list"></i>
