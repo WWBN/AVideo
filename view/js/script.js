@@ -1636,14 +1636,14 @@ function avideoAlertText(msg) {
 }
 
 function avideoAlertInfo(msg) {
-    avideoAlert("Info", msg, 'info');
+    avideoAlert("Info", msg, '');
 }
 
 function avideoAlertError(msg) {
-    avideoAlert("Error", msg, 'error');
+    avideoAlert("Error", msg, '');
 }
 function avideoAlertSuccess(msg) {
-    avideoAlert("Success", msg, 'success');
+    avideoAlert("Success", msg, '');
 }
 
 function avideoTooltip(selector, text) {
