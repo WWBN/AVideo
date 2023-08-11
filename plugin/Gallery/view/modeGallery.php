@@ -15,7 +15,7 @@ $_page = new Page(array($siteTitle), 'mainPage');
     <div class="panel panel-default">
         <div class="panel-body" style="overflow: hidden;">
             <?php
-            include $global['systemRootPath'] . 'view/include/categoryTop.php';
+            include_once $global['systemRootPath'] . 'view/include/categoryTop.php';
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
             ?>
         </div>

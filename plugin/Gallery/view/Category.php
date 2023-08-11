@@ -53,6 +53,8 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
         //var_dump(!empty($childCategories) ,($currentCat['parentId'] != "0") , ($currentCat['parentId'] != "-1"));exit;
         if ((!empty($childCategories)) && ((($currentCat['parentId'] != "0") || ($currentCat['parentId'] != "-1")))) {
             $obj->BigVideo = false;
+            
+            include_once $global['systemRootPath'] . 'view/include/categoryTop.php';
             ?>         
             <div class="clear clearfix">
                 <h3 class="galleryTitle">
