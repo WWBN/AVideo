@@ -25,6 +25,13 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Website URL"),
                 'isActive' => User::canUpload(),
             ],
+            'youtube' => [
+                'class'=>'icoYoutube',
+                'icon' => 'fab fa-youtube',
+                'label' => __("Youtube"),
+                'placeholder' => __("Youtube URL"),
+                'isActive' => true,
+            ],
             'facebook' => [
                 'class'=>'icoFacebook',
                 'icon' => 'fab fa-facebook-f',
@@ -51,6 +58,27 @@ class CustomizeUser extends PluginAbstract
                 'icon' => 'fab fa-linkedin-in',
                 'label' => __("LinkedIn"),
                 'placeholder' => __("LinkedIn URL"),
+                'isActive' => true,
+            ],
+            'tiktok' => [
+                'class'=>'icoTikTok',
+                'icon' => 'fab fa-tiktok',
+                'label' => __("TikTok"),
+                'placeholder' => __("TikTok URL"),
+                'isActive' => true,
+            ],
+            'patreon' => [
+                'class'=>'icoPatreon',
+                'icon' => 'fab fa-patreon',
+                'label' => __("Patreon"),
+                'placeholder' => __("Patreon URL"),
+                'isActive' => true,
+            ],
+            'pinterest' => [
+                'class'=>'icoPinterest',
+                'icon' => 'fab fa-pinterest',
+                'label' => __("Pinterest"),
+                'placeholder' => __("Pinterest URL"),
                 'isActive' => true,
             ]
         ];

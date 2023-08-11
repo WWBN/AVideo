@@ -66,6 +66,18 @@ ul.social-network li {
 .social-network a.icoCloutHub:hover {
     background-color: #F16E28;
 }
+.social-network a.icoYoutube:hover {
+    background-color: #FF0000;  /* YouTube's primary color */
+}
+
+.social-network a.icoTiktok:hover {
+    background-color: #000000;  /* TikTok's primary color is black, but sometimes it's represented with a lighter shade or with the blue from its logo */
+}
+
+.social-network a.icoPatreon:hover {
+    background-color: #F96854;  /* Patreon's primary color */
+}
+
 
 .social-network a.icoRss:hover i,
 .social-network a.icoFacebook:hover i,
