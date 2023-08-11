@@ -11083,6 +11083,9 @@ function set_error_reporting()
  */
 function is_image_fully_transparent($filename)
 {
+    if(filesize($filename)>10000){
+        return false;
+    }
     // Load the image
     $image = imagecreatefrompng($filename);
 
