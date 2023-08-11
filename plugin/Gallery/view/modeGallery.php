@@ -1,7 +1,9 @@
 <?php
 $isFirstPage = 1;
 include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
-$leaderBoardTop = getAdsLeaderBoardTop();
+if (empty($_REQUEST['catName'])) {
+    $leaderBoardTop = getAdsLeaderBoardTop();
+}
 $_page = new Page(array($siteTitle), 'mainPage');
 ?>
 <div class="<?php echo Gallery::getContaierClass('avideoLoadPage'); ?>">
