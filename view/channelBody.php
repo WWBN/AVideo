@@ -559,7 +559,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                             } else {
                                                 if ($isMyChannel) {
                                             ?>
-                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <div class="alert alert-warning" role="alert" style="margin-top: 20px;">
                                                         <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
                                                         <p class="text-center">
                                                             <?php echo __('You haven\'t created any') . ' ' . __($palyListsObj->name); ?>
@@ -572,7 +572,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                                 <?php
                                                 } else {
                                                 ?>
-                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <div class="alert alert-warning" role="alert" style="margin-top: 20px;">
                                                         <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
                                                         <p class="text-center">
                                                             <?php echo __('This user does not have any') . ' ' . __($palyListsObj->name); ?>
