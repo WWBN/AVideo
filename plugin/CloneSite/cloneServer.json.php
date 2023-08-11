@@ -61,8 +61,11 @@ $resp->error = !$canClone->clone->updateLastCloneRequest();
 $tables = array();
 $res = sqlDAL::readSql("SHOW TABLES");
 $row = sqlDAL::fetchAllAssoc($res);
-foreach ($row as $value) {
-    $tables[] = reset($value);
+foreach ($row as $value) {    
+    $firstElement = reset($value);
+    if ($firstElement != 'CachesInDB') {
+        $tables[] = $firstElement;
+    }
 }
 $tablesList = implode(" ", $tables);
 // Then use that list in the mysqldump command
