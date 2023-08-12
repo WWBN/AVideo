@@ -40,5 +40,6 @@ module.exports = {
     }
   ],
   endList: true,
-  version: 7
+  version: 7,
+  independentSegments: true
 };

@@ -461,5 +461,6 @@ module.exports = {
     uri: 'v1/prog_index.m3u8'
   }],
   segments: [],
-  version: 6
+  version: 6,
+  independentSegments: true
 };
