@@ -263,7 +263,6 @@ a.h6{
 .videoChannel {
     display: flex;
     align-items: center;
-    margin: 2px 0;
 }
 .videoChannel a {
     display: flex;
@@ -278,11 +277,11 @@ a.h6{
     margin-left: 2px;
 }
 .channelPhoto{
-    width: 45px;
-    margin-right: 5px;
+    width: 35px;
+    margin-right:10px;
 }
 .channelPhotoDescription{
-    width: calc(100% - 70px);
+    width: calc(100% - 65px);
 }
 
 .channelPhoto {
@@ -294,4 +293,13 @@ a.h6{
 .galleryVideo:hover .channelPhoto {
     filter: grayscale(0%);
     opacity: 1; 
+}
+
+.videoHumanTime{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    display: inline-block;
+}
+.galeryDetailsContent{
+    margin-top: 5px;
 }
