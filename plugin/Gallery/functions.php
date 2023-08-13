@@ -303,82 +303,14 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
         <?php
         if ($galeryDetails) {
         ?>
-            <div class="galeryDetails clearfix">
-                <div class="galleryTags">
-                    <!-- category tags -->
-                    <?php
-                    getLabelTags($video);
-                    ?>
-                    <!-- end category tags -->
-                </div>
-                <?php
-                if (empty($advancedCustom->doNotDisplayViews)) {
-                    if (AVideoPlugin::isEnabledByName('LiveUsers')) {
-                        echo getLiveUsersLabelVideo($video['id'], $video['views_count'], "", "");
-                    } else {
-                ?>
-                        <div class="videoViews">
-                            <i class="fa fa-eye"></i>
-                            <span itemprop="interactionCount">
-                                <?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?>
-                            </span>
-                        </div>
-                <?php
-                    }
-                }
-                $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
-                ?>
-                <div data-toggle="tooltip" class="videoHumanTime" title="<?php echo $humanTiming; ?>">
-                    <i class="far fa-clock"></i>
-                    <?php echo $humanTiming; ?>
-                </div>
-                <?php
-                if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
-                    $files = getVideosURL($video['filename']);
-                    if (!empty($files['mp4']) || !empty($files['mp3'])) {
-                ?>
-                        <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                            <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
-                                <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                <?php
-                                //var_dump($files);exit;
-                                foreach ($files as $key => $theLink) {
-                                    if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
-                                        continue;
-                                    }
-                                    $path_parts = pathinfo($theLink['filename']);
-                                ?>
-                                    <li>
-                                        <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                            <?php echo __("Download"); ?> <?php echo $key; ?>
-                                        </a>
-                                    </li>
-                                <?php }
-                                ?>
-                            </ul>
-                        </div>
-                <?php
-                    } else {
-                        echo "<!-- canDownloadVideosFromVideo you can only download MP3 or MP4 -->";
-                    }
-                } else {
-                    echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
-                }
-                ?>
-            </div>
-
+            <div class="clearfix"></div>
+            <a href="<?php echo User::getChannelLink($video['users_id']); ?>" class=" pull-left " data-toggle="tooltip" title="<?php echo $nameId; ?>">
+                <img src="<?php echo User::getPhoto($video['users_id']); ?>" class="img img-responsive img-circle pull-left channelPhoto" />
+            </a>
             <!-- Dropdown trigger -->
             <div class="dropdown pull-right">
                 <!-- Dropdown Menu -->
                 <div class="dropdown-menu" id="videoButtonOptions">
-                    <div class="videoChannel">
-                        <a href="<?php echo User::getChannelLink($video['users_id']); ?>" data-toggle="tooltip" title="<?php echo $nameId; ?>">
-                            <i class="fa fa-user"></i>
-                            <?php echo $name; ?>
-                        </a>
-                    </div>
                     <?php
                     echo AVideoPlugin::getGalleryActionButton($video['id']);
                     ?>
@@ -387,6 +319,82 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                 <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
                     <i class="fas fa-ellipsis-v"></i>
                 </button>
+            </div>
+            <div class="pull-left channelPhotoDescription">
+                <div class="galeryDetails pull-left">
+                    <div class="galleryTags  pull-left">
+                        <!-- category tags -->
+                        <?php
+                        getLabelTags($video);
+                        ?>
+                        <!-- end category tags -->
+                    </div>
+                    <?php
+                    if (empty($advancedCustom->doNotDisplayViews)) {
+                        if (AVideoPlugin::isEnabledByName('LiveUsers')) {
+                            echo getLiveUsersLabelVideo($video['id'], $video['views_count'], "", "");
+                        } else {
+                    ?>
+                            <div class="videoViews">
+                                <i class="fa fa-eye"></i>
+                                <span itemprop="interactionCount">
+                                    <?php echo number_format($video['views_count'], 0); ?> <?php echo __("Views"); ?>
+                                </span>
+                            </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                    <?php
+                    if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+                        $files = getVideosURL($video['filename']);
+                        if (!empty($files['mp4']) || !empty($files['mp3'])) {
+                    ?>
+                            <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                                <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
+                                    <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                                    <?php
+                                    //var_dump($files);exit;
+                                    foreach ($files as $key => $theLink) {
+                                        if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
+                                            continue;
+                                        }
+                                        $path_parts = pathinfo($theLink['filename']);
+                                    ?>
+                                        <li>
+                                            <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                                <?php echo __("Download"); ?> <?php echo $key; ?>
+                                            </a>
+                                        </li>
+                                    <?php }
+                                    ?>
+                                </ul>
+                            </div>
+                    <?php
+                        } else {
+                            echo "<!-- canDownloadVideosFromVideo you can only download MP3 or MP4 -->";
+                        }
+                    } else {
+                        echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
+                    }
+                    ?>
+                </div>
+                <div class="clearfix"></div>
+                <div class="videoChannel pull-left">
+                    <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
+                        <?php echo $name; ?>
+                    </a>
+                </div>
+            </div>
+            <?php
+            $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
+            ?>
+            <div class="clearfix"></div>
+            <div class="videoHumanTime pull-right">
+                <i class="far fa-clock"></i>
+                <?php echo $humanTiming; ?>
             </div>
         <?php
         }

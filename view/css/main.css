@@ -65,7 +65,7 @@ time.duration {
 }
 
 .thumbsImageContainer .thumbsImage {
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
