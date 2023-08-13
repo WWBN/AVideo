@@ -347,41 +347,6 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                     ?>
                 </div>
                 <div class="clearfix"></div>
-                <?php
-                    if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
-                        $files = getVideosURL($video['filename']);
-                        if (!empty($files['mp4']) || !empty($files['mp3'])) {
-                    ?>
-                            <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
-                                <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
-                                    <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-left" role="menu">
-                                    <?php
-                                    //var_dump($files);exit;
-                                    foreach ($files as $key => $theLink) {
-                                        if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
-                                            continue;
-                                        }
-                                        $path_parts = pathinfo($theLink['filename']);
-                                    ?>
-                                        <li>
-                                            <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
-                                                <?php echo __("Download"); ?> <?php echo $key; ?>
-                                            </a>
-                                        </li>
-                                    <?php }
-                                    ?>
-                                </ul>
-                            </div>
-                    <?php
-                        } else {
-                            echo "<!-- canDownloadVideosFromVideo you can only download MP3 or MP4 -->";
-                        }
-                    } else {
-                        echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
-                    }
-                    ?>
                 <div class="videoChannel pull-left">
                     <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
                         <?php echo $name; ?>
@@ -392,6 +357,41 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
             $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
             ?>
             <div class="clearfix"></div>
+            <?php
+            if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
+                $files = getVideosURL($video['filename']);
+                if (!empty($files['mp4']) || !empty($files['mp3'])) {
+            ?>
+                    <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                        <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
+                            <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-left" role="menu">
+                            <?php
+                            //var_dump($files);exit;
+                            foreach ($files as $key => $theLink) {
+                                if (($theLink['type'] !== 'video' && $theLink['type'] !== 'audio') || $key == "m3u8") {
+                                    continue;
+                                }
+                                $path_parts = pathinfo($theLink['filename']);
+                            ?>
+                                <li>
+                                    <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($video['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
+                                        <?php echo __("Download"); ?> <?php echo $key; ?>
+                                    </a>
+                                </li>
+                            <?php }
+                            ?>
+                        </ul>
+                    </div>
+            <?php
+                } else {
+                    echo "<!-- canDownloadVideosFromVideo you can only download MP3 or MP4 -->";
+                }
+            } else {
+                echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
+            }
+            ?>
             <div class="videoHumanTime pull-right">
                 <i class="far fa-clock"></i>
                 <?php echo $humanTiming; ?>
