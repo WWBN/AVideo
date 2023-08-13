@@ -345,7 +345,9 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         }
                     }
                     ?>
-                    <?php
+                </div>
+                <div class="clearfix"></div>
+                <?php
                     if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                         $files = getVideosURL($video['filename']);
                         if (!empty($files['mp4']) || !empty($files['mp3'])) {
@@ -380,8 +382,6 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         echo "<!-- canDownloadVideosFromVideo {$_lastCanDownloadVideosFromVideoReason} -->";
                     }
                     ?>
-                </div>
-                <div class="clearfix"></div>
                 <div class="videoChannel pull-left">
                     <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
                         <?php echo $name; ?>
