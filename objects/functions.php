@@ -10091,9 +10091,10 @@ function isImage($file)
 
 function isHTMLEmpty($html_string)
 {
-    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div']);
-    //var_dump($html_string_no_tags, $html_string);
-    return empty(trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags)));
+    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div'], false);
+    $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));
+    //var_dump(empty($result), $result, $html_string_no_tags, $html_string);
+    return empty($result);
 }
 
 function emptyHTML($html_string)
