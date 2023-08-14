@@ -14,8 +14,7 @@ class CustomizeUser extends PluginAbstract
 {
 
     
-
-    public static function getSocialMedia()
+    private static function _getSocialMedia()
     {
         return [
             'website' => [
@@ -23,7 +22,7 @@ class CustomizeUser extends PluginAbstract
                 'icon' => 'fas fa-globe',
                 'label' => __("Website"),
                 'placeholder' => __("Website URL"),
-                'isActive' => User::canUpload(),
+                'isActive' => true,
             ],
             'youtube' => [
                 'class'=>'icoYoutube',
@@ -51,6 +50,13 @@ class CustomizeUser extends PluginAbstract
                 'icon' => 'fab fa-instagram',
                 'label' => __("Instagram"),
                 'placeholder' => __("Instagram URL"),
+                'isActive' => true,
+            ],
+            'spreaker' => [
+                'class'=>'icoSpreaker',
+                'icon' => 'fas fa-heart',
+                'label' => __("Spreaker"),
+                'placeholder' => __("Spreaker URL"),
                 'isActive' => true,
             ],
             'linkedin' => [
@@ -82,6 +88,16 @@ class CustomizeUser extends PluginAbstract
                 'isActive' => true,
             ]
         ];
+    }
+    public static function getSocialMedia()
+    {
+        $obj = AVideoPlugin::getDataObject('CustomizeUser');
+        $socialMedias = self::_getSocialMedia();
+        foreach ($socialMedias as $key => $value) {
+            $param = "socialMedia_{$key}";
+            $socialMedias[$key]['isActive'] = $obj->$param;
+        }
+        return  $socialMedias;
     }
 
     public function getTags()
@@ -117,6 +133,14 @@ class CustomizeUser extends PluginAbstract
     {
         global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
+
+        $socialMedias = self::_getSocialMedia();
+        foreach ($socialMedias as $key => $value) {
+            $param = "socialMedia_{$key}";
+            $obj->$param = true;
+            self::addDataObjectHelper($param, "<i class=\"{$value['icon']}\"></i> Enable {$value['placeholder']}", "The user can add his {$value['placeholder']}, and it will appear on his channel");
+        }
+
         $obj->nonAdminCannotDownload = false;
         $obj->nonAdminCannotDeleteVideo = false;
         $obj->userCanAllowFilesDownload = false;

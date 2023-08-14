@@ -86,7 +86,7 @@ $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUp
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 ?>
 
-<link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     #aboutArea #aboutAreaPreContent {
         max-height: 120px;
@@ -188,11 +188,9 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                         <?php
                         echo User::getEmailVerifiedIcon($user_id)
                         ?></h2>
-                    <?php
-                    $socialMedia = CustomizeUser::getSocialMedia();
-                    ?>
                     <ul class="social-network social-circle">
                         <?php
+                        $socialMedia = CustomizeUser::getSocialMedia();
                         foreach ($socialMedia as $platform => $details) {
                             if ($details['isActive']) {
                                 $url = User::getSocialMediaURL($platform, $user_id);
