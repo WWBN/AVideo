@@ -269,14 +269,14 @@ var pauseIfIsPlayinAdsInterval;
 async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
-            clearTimeout(promisePlayTimeout);
+            cancelAllPlaybackTimeouts();
             //console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
         });
         player.on('play', function () {
             isTryingToPlay = false;
-            clearTimeout(promisePlayTimeout);
+            cancelAllPlaybackTimeouts();
             if (startCurrentTime) {
                 setTimeout(function () {
                     setCurrentTime(startCurrentTime);
@@ -369,7 +369,7 @@ function reloadAds() {
     setTimeout(function () {
         isReloadingAds = false;
     }, 500);
-    clearTimeout(_reloadAdsTimeout);
+    cancelAllPlaybackTimeouts();
     //console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
         try {
@@ -571,7 +571,7 @@ var isTryingToPlay = false;
 var promisePlaytryNetworkFailTimeout;
 function playerPlay(currentTime) {
     isTryingToPlay = true;
-    clearTimeout(playerPlayTimeout);
+    cancelAllPlaybackTimeouts();
     if (playerIsPlayingAds()) {
         return false;
     }
@@ -631,7 +631,7 @@ function playerPlay(currentTime) {
                         promisePlaytry = 20;
                         promisePlaytryNetworkFail++;
                         //console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
-                        clearTimeout(promisePlaytryNetworkFailTimeout);
+                        cancelAllPlaybackTimeouts();
                         promisePlaytryNetworkFailTimeout = setTimeout(function () {
                             player.src(player.currentSources());
                             userIsControling = false;
@@ -705,7 +705,7 @@ function showUnmutePopup() {
 }
 
 function tryToPlay(currentTime) {
-    clearTimeout(promisePlayTimeout);
+    cancelAllPlaybackTimeouts();
     promisePlayTimeout = setTimeout(function () {
         if (player.paused()) {
             playerPlayTimeout = setTimeout(function () {
@@ -805,6 +805,15 @@ function playerPlayIfAutoPlay(currentTime) {
     //console.log('playerPlayIfAutoPlay false', currentTime);
     //$.toast("Autoplay disabled");
     return false;
+}
+
+function cancelAllPlaybackTimeouts(){
+    clearTimeout(playerPlayTimeout);
+    clearTimeout(promisePlayTimeout);
+    clearTimeout(promisePlaytryNetworkFailTimeout);
+    clearTimeout(_reloadAdsTimeout);
+    clearTimeout(videoJSRecreateSourcesTimeout);
+    clearTimeout(setPlayerLoopSetTimeout);
 }
 
 function playerPlayMutedIfAutoPlay(currentTime) {
@@ -923,7 +932,7 @@ async function tooglePlayerLoop() {
 
 var setPlayerLoopSetTimeout;
 async function setPlayerLoop(loop) {
-    clearTimeout(setPlayerLoopSetTimeout);
+    cancelAllPlaybackTimeouts();
     if (typeof player === 'undefined' && $('#mainVideo').length) {
         setPlayerLoopSetTimeout = setTimeout(function () {
             setPlayerLoop(loop)
@@ -3094,7 +3103,7 @@ function fixAdSize() {
  */
 var videoJSRecreateSourcesTimeout;
 async function videoJSRecreateSources(defaultSource) {
-    clearTimeout(videoJSRecreateSourcesTimeout);
+    cancelAllPlaybackTimeouts();
     if (empty(player) || empty(player.options_)) {
         videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
