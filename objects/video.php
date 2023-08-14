@@ -5343,6 +5343,11 @@ if (!class_exists('Video')) {
             return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly", $get);
         }
 
+        public static function getURL($videos_id)
+        {
+            return self::getLink($videos_id, '', isIframe());
+        }
+
         public static function getLink($videos_id, $clean_title, $embed = false, $get = [])
         {
             global $advancedCustom;
@@ -6340,7 +6345,7 @@ if (!class_exists('Video')) {
                     $favoriteBtnAddedStyle = "display: none;";
                     $favoriteBtnStyle = '';
                 }
-                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">';
+                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons ">';
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
                     . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
                     . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
