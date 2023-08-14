@@ -164,6 +164,9 @@ class CustomizeAdvanced extends PluginAbstract {
             'removeVideoList',
             'sortVideoListByDefault',
             'showVideoDownloadedLink',
+            'showEllipsisMenuOnVideoItem',
+            'showCreationTimeOnVideoItem',
+            'showChannelPhotoOnVideoItem',
             );
     }
     

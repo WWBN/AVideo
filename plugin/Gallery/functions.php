@@ -364,6 +364,11 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         </a>
                     </div>
                     <?php
+                    if (empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
+                        echo AVideoPlugin::getGalleryActionButton($video['id']);
+                    }
+                    ?>
+                    <?php
                     if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
                         $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
                     ?>
@@ -375,14 +380,6 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                     }
                     ?>
                 </div>
-                <?php
-                if (empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
-                ?>
-                    <div class="clearfix"></div>
-                <?php
-                    echo AVideoPlugin::getGalleryActionButton($video['id']);
-                }
-                ?>
                 <?php
                 if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                     $files = getVideosURL($video['filename']);
