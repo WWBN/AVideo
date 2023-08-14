@@ -409,4 +409,39 @@ class Meet_schedule extends ObjectYPT {
         return parent::save();
     }
 
+    static function getMeetByID($meet_id)
+    {
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE id = $meet_id ";
+        $res = sqlDAL::readSql($sql);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+
+        $groups = "SELECT
+                        b.*
+                    FROM
+                        meet_schedule_has_users_groups a
+                        INNER JOIN users_groups b ON a.users_groups_id = b.id
+                    WHERE
+                        a.meet_schedule_id = $meet_id";
+        $groupsres = sqlDAL::readSql($groups);
+        $groupsres_data = sqlDAL::fetchAllAssoc($groupsres);
+        sqlDAL::close($groupsres_data);
+
+        if ($groupsres_data) {
+            $data['userGroups'] = $groupsres_data;
+        }
+
+        return $data;
+    }
+
+    public function deleteMeetByID($meet_id)
+    {
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE id = ?";
+        $log = "DELETE FROM meet_join_log WHERE meet_schedule_id = ?";
+        sqlDAL::writeSql($log, "i", array($meet_id));
+        $groups = "DELETE FROM meet_schedule_has_users_groups WHERE meet_schedule_id = ?";
+        sqlDAL::writeSql($groups, "i", array($meet_id));
+        return sqlDAL::writeSql($sql, "i", array($meet_id));
+    }
+
 }

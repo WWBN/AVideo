@@ -22,7 +22,15 @@ $menu->setStatus($_POST['item_status']);
 $menu->setText($_POST['text']);
 $menu->setTitle($_POST['title']);
 $menu->setUrl($_POST['url']);
-$menu->setIcon($_POST['icon']);
+$menu->setTarget($_POST['target']);
+$menu->setIconType($_POST['icon_type']);
+if ($_POST['icon_type'] == 1) {
+    $menu->setIcon($_POST['icon']);
+} else if ($_POST['icon_type'] == 2) {
+    $menu->setUrlIcon($_POST['url_icon']);
+} else {
+    // $menu->setUploadIcon($_FILES);
+}
 $menu->setMenuSeoUrlItem($_POST['menuSeoUrlItem']);
 
 if(!empty($_POST['mobileicon'])){

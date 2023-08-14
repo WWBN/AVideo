@@ -21,6 +21,7 @@ $o->setField_type($_POST['field_type']);
 $o->setField_options($_POST['field_options']);
 $o->setField_default_value($_POST['field_default_value']);
 $o->setParameters($_POST['parameters']);
+$o->setDisplay($_POST['display']);
 $o->setStatus($_POST['status']);
 $o->setOrder($_POST['order']);
 

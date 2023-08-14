@@ -80,7 +80,31 @@ $user->setName($_POST['name']);
 $user->setPhone(@$_POST['phone']);
 $user->setIs_company($_POST['is_company']);
 
-$user->setCanUpload($config->getAuthCanUploadVideos());
+if (isset($_POST['canUpload']) && !empty($_POST['canUpload'])) {
+    $user->setCanUpload(1);
+} else {
+    $user->setCanUpload($config->getAuthCanUploadVideos());
+}
+
+if (isset($_POST['usersExtraInfo']) && !empty($_POST['usersExtraInfo'])) {
+    $user->setExtra_info($_POST['usersExtraInfo']);
+}
+
+if (isset($_POST['zip_code']) && !empty($_POST['zip_code'])) {
+    $user->setZip_code($_POST['zip_code']);
+}
+
+if (isset($_POST['country']) && !empty($_POST['country'])) {
+    $user->setCountry($_POST['country']);
+}
+
+if (isset($_POST['region']) && !empty($_POST['region'])) {
+    $user->setRegion($_POST['region']);
+}
+
+if (isset($_POST['city']) && !empty($_POST['city'])) {
+    $user->setCity($_POST['city']);
+}
 
 $users_id = $user->save();
 

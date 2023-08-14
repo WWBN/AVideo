@@ -1,8 +1,10 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
+$remember = 1;
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -26,6 +28,15 @@ TimeLogEnd($timeLog, __LINE__);
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+
+if (isset($_REQUEST['token'])) {
+    // FIND USER WITH = $_REQUEST['token']
+    $getUserByToken = User::getUserByToken($_REQUEST['token']);
+    $_POST['user'] = $getUserByToken['user'];
+    $_REQUEST['user'] = $_POST['user'];
+    $_POST['pass'] = $getUserByToken['password'];
+    $_REQUEST['pass'] = $_POST['pass'];
+}
 
 Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
@@ -250,7 +261,9 @@ $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 $object->embedChatUrl = '';
 $object->embedChatUrlMobile = '';
-
+$object->token = User::getToken();
+$object->hasToken = isset($_REQUEST['token']) 
+? true : false;
 //_error_log("login.json.php check chat2");
 if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
     $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);

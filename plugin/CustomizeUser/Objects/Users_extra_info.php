@@ -10,6 +10,7 @@ class Users_extra_info extends ObjectYPT {
     protected $field_options;
     protected $field_default_value;
     protected $parameters;
+    protected $display;
     protected $status;
     protected $order;
     public static $status_INACTIVE = 'i';
@@ -99,6 +100,14 @@ class Users_extra_info extends ObjectYPT {
 
     public function setOrder($order) {
         $this->order = intval($order);
+    }
+
+    function getDisplay() {
+        return $this->display;
+    }
+
+    function setDisplay($display) {
+        $this->display = $display;
     }
 
     public static function getTypesOptionArray() {
@@ -196,7 +205,7 @@ class Users_extra_info extends ObjectYPT {
         return !self::isAllUserField($status);
     }
 
-    public static function getAllActive($users_id = 0, $includeCompany = false) {
+    public static function getAllActive($users_id = 0, $includeCompany = false, $display = null) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -210,7 +219,11 @@ class Users_extra_info extends ObjectYPT {
 
         $statusList = self::getActiveStatusList($includeCompany);
 
-        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status IN ('" . implode("','", $statusList) . "') ORDER BY `order` ASC ";
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE status IN ('" . implode("','", $statusList) . "')";
+        if ($display != null) {
+            $sql .= " AND display = {$display} OR display = 2";
+        }
+        $sql .= " ORDER BY `order` ASC ";
         //var_dump($includeCompany, $sql);
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);

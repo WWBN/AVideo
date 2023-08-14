@@ -31,9 +31,15 @@ foreach ($menu as $key => $value) {
         <li>
             <a  href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?> >
                 <?php
-                if (!empty($value2['icon'])) {
+                if ($value2['icon_type'] == 1) {
+                    if (!empty($value2['icon'])) {
+                        ?>
+                        <i class="<?php echo $value2['icon'] ?>"></i> 
+                        <?php
+                    }
+                } else if ($value2['icon_type'] == 2 && $value2['url_icon'] != "") {
                     ?>
-                    <i class="<?php echo $value2['icon'] ?>"></i> 
+                    <img src="<?php echo $value2['url_icon'] ?>" style="height:25px; width:25px;">
                     <?php
                 }
                 ?>

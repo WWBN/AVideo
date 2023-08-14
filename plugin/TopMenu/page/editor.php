@@ -203,6 +203,34 @@ $groups = UserGroups::getAllUsersGroups();
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Target:</label><br>
+                                                <select class="form-control" id="target">
+                                                    <option value="_self"><?php echo __('_self'); ?></option>
+                                                    <option value="_blank"><?php echo __('_blank'); ?></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Icon Type:</label><br>
+                                                <select class="form-control" id="icon_type">
+                                                    <option value="1"><?php echo __('Font Icon'); ?></option>
+                                                    <option value="2"><?php echo __('Image Icon'); ?></option>
+                                                    <!-- <option value="3"><?php echo __('Upload Icon'); ?></option> -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" id="url-upload-div" style="display:none">
+                                            <br>
+                                            <div class="form-group" id="url-icon-div" style="display:none">
+                                                <button class="btn btn-primary" id="generate-icon-btn">Generate Icon</button>
+                                            </div>
+                                            <div class="form-group" id="upload-icon-div" style="display:none">
+                                                <input type="file" id="upload-icon-input">
+                                            </div>
+                                        </div>
                                         <div class="col-md-6" id="menuItemIconDiv">
                                             <div class="form-group">
                                                 <label>Icon:</label><br>
@@ -212,6 +240,11 @@ $groups = UserGroups::getAllUsersGroups();
                                                     ?>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="icon-preview-div" style="display:none">
+                                            <div class="col-md-6"></div>
+                                            <!-- URL/UPLOAD ICON PREVIEW -->
+                                            <div class="col-md-6" id="icon-preview"></div>
                                         </div>
                                         <div class="col-md-6" id="menuItemIconMobileDiv">
                                             <div class="form-group">
@@ -271,7 +304,8 @@ $groups = UserGroups::getAllUsersGroups();
         <button class="btn  btn-default btn-light btn-sm" onclick="removeItem(this)">
             <i class="fa fa-trash"></i>
         </button>
-        <i class="icon"></i>
+        <i class="icon" style="display:none;"></i>
+        <img class="img_icon" src="" style="height:25px; width:25px; display:none;">
         <span>Text</span>
     </li>
     <?php
@@ -322,6 +356,8 @@ $groups = UserGroups::getAllUsersGroups();
             $("#menuItemIcon").val("");
             $("#menuItemIconMobile").val("");
             $("#menuItemIcon").trigger('change');
+            $("#target").val("_self").trigger('change');
+            $("#icon_type").val(1).trigger('change');
         }
 
         function startSortable() {
@@ -370,7 +406,16 @@ $groups = UserGroups::getAllUsersGroups();
                         li = $('.liModel').clone();
                         li.removeClass('liModel');
                         li.removeClass('hidden');
-                        li.find('.icon').addClass(response.data[i].icon);
+                        // li.find('.icon').addClass(response.data[i].icon);
+                        if (response.data[i].icon_type == 1) {
+                            li.find('.icon').css("display", "");
+                            li.find('.img_icon').css("display", "none");
+                            li.find('.icon').addClass(response.data[i].icon);
+                        } else if (response.data[i].icon_type == 2) {
+                            li.find('.icon').css("display", "none");
+                            li.find('.img_icon').css("display", "");
+                            li.find('.img_icon').attr('src', response.data[i].url_icon);
+                        }
 
                         li.attr('id', 'item' + response.data[i].id);
                         li.attr('itemid', response.data[i].id);
@@ -432,6 +477,11 @@ $groups = UserGroups::getAllUsersGroups();
                 $("#menuItemIconMobile").val(item.icon);
                 $("#menuItemIcon").trigger('change');
                 $(tinymce.get('pageText').getBody()).html(item.text);
+                $("#target").val(item.target).trigger('change');
+                $("#icon_type").val(item.icon_type).trigger('change');
+                if (item.icon_type == 2 && item.url_icon != "") { // URL ICON
+                    $("#icon-preview").html('<img src="'+item.url_icon+'">');
+                }
                 if (item.url.length > 0) {
                     $('#pageType').val('url');
                 } else {
@@ -455,6 +505,83 @@ $groups = UserGroups::getAllUsersGroups();
                 }
             });
 
+            $("#icon_type").on("change", function() {
+                var icon_type = $(this).val();
+                if (icon_type == 1) { // ICON
+                    $("#url-upload-div").css("display", "none");
+                    $("#menuItemIconDiv").css("display", "");
+                    $("#url-icon-div").css("display", "none");
+                    $("#upload-icon-div").css("display", "none");
+                    $("#icon-preview-div").css("display", "none");
+                    $("#icon-preview").html("");
+                } else if (icon_type == 2) { // URL ICON
+                    var type = $("#pageType").val();
+                    if (type == "page") {
+                        $("#icon_type").val(1).trigger('change');
+                        swal("Notice", "URL Icon is not applicable with the selected type.", "info");
+                    } else {
+                        $("#url-upload-div").css("display", "");
+                        $("#menuItemIconDiv").css("display", "none");
+                        $("#url-icon-div").css("display", "");
+                        $("#upload-icon-div").css("display", "none");
+                        $("#icon-preview-div").css("display", "");
+                        $("#icon-preview").html("");
+                    }
+                } else if (icon_type == 3) { // UPLOAD ICON
+                    $("#url-upload-div").css("display", "");
+                    $("#menuItemIconDiv").css("display", "none");
+                    $("#url-icon-div").css("display", "none");
+                    $("#upload-icon-div").css("display", "");
+                    $("#icon-preview-div").css("display", "");
+                    $("#icon-preview").html("");
+                }
+            });
+
+            $("#generate-icon-btn").on("click", function() {
+                var icon_type = $("#icon_type").val();
+                var url = $("#url").val();
+                var urlIframe = $("#urlIframe").val();
+                var generate_url = "";
+                if (icon_type == 2) {
+                    if (url == "") {
+                        swal("Required Field", "URL is required!", "warning");
+                        return false;
+                    } else {
+                        generate_url = url;
+                    }
+                } else if (icon_type == 3) {
+                    if (urlIframe == "") {
+                        swal("Required Field", "URL is required!", "warning");
+                        return false;
+                    } else {
+                        generate_url = urlIframe;
+                    }
+                }
+                modal.showPleaseWait();
+                $.ajax({
+                    url: '<?php echo $global['webSiteRootURL']; ?>plugin/TopMenu/menuItemGenerateUrlIcon.json.php',
+                    data: {url:generate_url},
+                    type: 'post',
+                    success: function (response) {
+                        modal.hidePleaseWait();
+                        if (response) {
+                            $("#icon-preview").html('<img src="'+response+'videos/favicon.png"><br>');
+                        } else {
+                            swal("Error", "URL must be an avideo platform to generate an icon. Also make sure the platform is accessible and not restricted.", "error");
+                            $("#icon-preview").html("");
+                        }
+                    },
+                    error: function(e) {
+                        console.log(e)
+                    }
+                });
+                // image preview
+            });
+
+            $("#upload-icon-input").on("change", function(e) {
+                // image preview
+                $("#icon-preview").html();
+            });
 
             $('#pageType').change(function() {
                 console.log($(this).val());
@@ -561,7 +688,10 @@ $groups = UserGroups::getAllUsersGroups();
                         "item_order": $('#item_order').val(),
                         "item_status": $('#item_status').val(),
                         "text": $('#pageType').val() == 'page' ? $(tinymce.get('pageText').getBody()).html() : '',
-                        "icon": $("#menuItemIcon").val(),
+                        "target": $("#target").val(),
+                        "icon":  ($("#icon_type").val() == 1) ? $("#menuItemIcon").val() : '',
+                        "icon_type": $("#icon_type").val(),
+                        "url_icon": ($("#icon_type").val() == 2) ? ($("#icon-preview").find('img').length > 0 ? $("#icon-preview").find('img').attr('src') : '') : '',
                         "mobileicon": $("#menuItemIconMobile").val()
                     },
                     type: 'post',

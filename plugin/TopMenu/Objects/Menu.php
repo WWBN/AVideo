@@ -87,6 +87,7 @@ class Menu extends ObjectYPT {
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE status = 'active' ";
         if(!empty($type)){
             $sql .= " AND type = $type ";
+            $sql .= " OR type = 3 ";
         }
         $sql .= " ORDER BY menu_order ";
         _mysql_connect();

@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class MenuItem extends ObjectYPT {
 
-    protected $id, $title, $image, $url, $class, $style, $item_order, $topMenu_id, $status, $text, $icon, $clean_url, $menuSeoUrlItem;
+    protected $id, $title, $image, $url, $class, $style, $item_order, $topMenu_id, $status, $text, $icon, $target, $icon_type, $url_icon, $upload_icon, $clean_url, $menuSeoUrlItem;
 
     static function getSearchFieldsNames() {
         return array();
@@ -42,11 +42,11 @@ class MenuItem extends ObjectYPT {
             $webSiteRootURLParse['host'] = strtolower($webSiteRootURLParse['host']);
             while ($row = $res->fetch_assoc()) {
                 $row['finalURL'] = $row['url'];
-                $row['target'] = "";
+                // $row['target'] = "";
                 if (!empty($row['url']) && strpos($row['url'], 'iframe:') === false) {// it is not an iframe
                     $parse = parse_url($row['url']);
                     if (!empty($parse['host']) && strtolower($parse['host']) !== $webSiteRootURLParse['host']) {// it is to another domain
-                        $row['target'] = " target='_blank' rel='noopener noreferrer' ";
+                        // $row['target'] = " target='_blank' rel='noopener noreferrer' ";
                     }
                 } else {
                     if (!empty($row['menuSeoUrlItem'])) {
@@ -97,8 +97,24 @@ class MenuItem extends ObjectYPT {
         $this->text = $text;
     }
 
+    function setTarget($target) {
+        $this->target = $target;
+    }
+
+    function setIconType($icon_type) {
+        $this->icon_type = $icon_type;
+    }
+
     function setIcon($icon) {
         $this->icon = $icon;
+    }
+
+    function setUrlIcon($url_icon) {
+        $this->url_icon = $url_icon;
+    }
+
+    function setUploadIcon($upload_icon) {
+        $this->upload_icon = $upload_icon;
     }
 
     function setClean_url($clean_url) {

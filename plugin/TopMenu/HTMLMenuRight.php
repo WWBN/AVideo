@@ -39,10 +39,16 @@ if (count($menu) < $objTopMenu->compactMenuIfIsGreaterThen->value) {
                     <li style="margin-right: 0;">
                         <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?>>
                             <?php
-                            if (!empty($value2['icon'])) {
-                            ?>
-                                <i class="<?php echo $value2['icon'] ?>"></i>
-                            <?php
+                            if ($value2['icon_type'] == 1) {
+                                if (!empty($value2['icon'])) {
+                                    ?>
+                                    <i class="<?php echo $value2['icon'] ?>"></i> 
+                                    <?php
+                                }
+                            } else if ($value2['icon_type'] == 2 && $value2['url_icon'] != "") {
+                                ?>
+                                <img src="<?php echo $value2['url_icon'] ?>" style="height:25px; width:25px;">
+                                <?php
                             }
                             ?>
                             <?php echo __($value2['title']); ?>
@@ -56,36 +62,46 @@ if (count($menu) < $objTopMenu->compactMenuIfIsGreaterThen->value) {
 <?php
     }
 }
+if (count($menu) > 0) {
 ?>
-<!-- This is for smaller screens (the hamburger menu) -->
-<div class="<?php echo $dropdownClass; ?>">
-    <li class="dropdown">
-        <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown">
-            <i class="fas fa-bars"></i> <b class="caret"></b>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <?php foreach ($menu as $key => $value) : ?>
-                <li class="dropdown-header"><?php echo __($value['menuName']); ?></li>
-                <?php
-                $menuItems = MenuItem::getAllFromMenu($value['id'], true);
-                foreach ($menuItems as $key2 => $value2) :
-                ?>
-                    <li style="margin-right: 0;">
-                        <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?>>
-                            <?php
-                            if (!empty($value2['icon'])) {
-                            ?>
-                                <i class="<?php echo $value2['icon'] ?>"></i>
-                            <?php
-                            }
-                            ?>
-                            <?php echo __($value2['title']); ?>
-                        </a>
-                    </li>
+    <!-- This is for smaller screens (the hamburger menu) -->
+    <div class="<?php echo $dropdownClass; ?>">
+        <li class="dropdown">
+            <a href="#" class="btn btn-default btn-light navbar-btn" data-toggle="dropdown">
+                <i class="fas fa-bars"></i> <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <?php foreach ($menu as $key => $value) : ?>
+                    <li class="dropdown-header"><?php echo __($value['menuName']); ?></li>
+                    <?php
+                    $menuItems = MenuItem::getAllFromMenu($value['id'], true);
+                    foreach ($menuItems as $key2 => $value2) :
+                    ?>
+                        <li style="margin-right: 0;">
+                            <a href="<?php echo $value2['finalURL']; ?>" <?php echo $value2['target']; ?>>
+                                <?php
+                                if ($value2['icon_type'] == 1) {
+                                    if (!empty($value2['icon'])) {
+                                        ?>
+                                        <i class="<?php echo $value2['icon'] ?>"></i> 
+                                        <?php
+                                    }
+                                } else if ($value2['icon_type'] == 2 && $value2['url_icon'] != "") {
+                                    ?>
+                                    <img src="<?php echo $value2['url_icon'] ?>" style="height:25px; width:25px;">
+                                    <?php
+                                }
+                                ?>
+                                <?php echo __($value2['title']); ?>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
                 <?php endforeach; ?>
-            <?php endforeach; ?>
-        </ul>
+            </ul>
 
-    </li>
-</div>
-<!-- right menu start -->
+        </li>
+    </div>
+    <!-- right menu start -->
+<?php
+}
+?>

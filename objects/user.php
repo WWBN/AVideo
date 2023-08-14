@@ -593,6 +593,11 @@ if (typeof gtag !== \"function\") {
                 $mark .= " " . $advancedCustomUser->Checkmark3HTML;
             }
         }
+        if ($advancedCustomUser->Checkmark4Enabled) {	
+            if (User::externalOptionsFromUserID($id, "checkmark4")) {	
+                $mark .= " " . $advancedCustomUser->Checkmark4HTML;	
+            }	
+        }
         return $mark;
     }
 
@@ -985,7 +990,7 @@ if (typeof gtag !== \"function\") {
             //_error_log('User:login is already logged '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
         }
-        global $global, $advancedCustom, $advancedCustomUser, $config;
+        global $global, $advancedCustom, $advancedCustomUser, $config, $remember;
 
         if (empty($advancedCustomUser)) {
             $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
@@ -1019,6 +1024,9 @@ if (typeof gtag !== \"function\") {
         } elseif ($user) {
             $_SESSION['user'] = $user;
             $this->setLastLogin($_SESSION['user']['id']);
+            if ($remember != null && $remember == 1) {
+                $_REQUEST['rememberme'] = "true";
+            }
             $rememberme = 0;
 
             if ((!empty($_REQUEST['rememberme']) && $_REQUEST['rememberme'] == "true") || !empty($_COOKIE['rememberme'])) {
@@ -1035,7 +1043,6 @@ if (typeof gtag !== \"function\") {
             _setcookie("users_id", $user['id'], $expires);
             _setcookie("user", $user['user'], $expires);
             _setcookie("pass", $passhash, $expires);
-
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             _session_regenerate_id();
@@ -3093,5 +3100,36 @@ if (typeof gtag !== \"function\") {
             return false;
         }
         return $_SESSION['swapUser']['id'];
+    }
+
+    public static function getToken() {
+        return User::saveToken();
+    }
+
+    public function saveToken($token = "") {
+        if ($token == "") {
+            $token = hash("SHA1","csrf_token".rand(0,1000000).time().uniqid());
+        }
+        $formats = "si";
+        $values = array($token, User::getId());
+        $sql = "UPDATE users SET token = ? WHERE id = ?";
+        $update_token = sqlDAL::writeSql($sql, $formats, $values);
+        if ($update_token) {
+            return $token;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getUserByToken($token) {
+        $sql = "SELECT * FROM users WHERE token = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", array($token));
+        $user = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($user != false) {
+            return $user;
+        } else {
+            return false;
+        }
     }
 }

@@ -16,7 +16,7 @@ if (!User::isAdmin()) {
         echo "<b>User:</b> " . $u->getUser() . "<br>";
         echo "<b>Name:</b> " . $u->getBdName() . "<br>";
         echo "<b>Email:</b> " . $u->getEmail() . "<br>";
-        $rows = Users_extra_info::getAllActive($_REQUEST['users_id']);
+        $rows = Users_extra_info::getAllActive($_REQUEST['users_id'], false, "0");
         foreach ($rows as $value) {
             $val = nl2br($value['current_value']);
             echo "<b>{$value['field_name']}:</b> {$val}<br>";
