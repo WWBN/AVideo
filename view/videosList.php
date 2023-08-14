@@ -222,7 +222,7 @@ if (!$searchForVideosNow) {
         $.get(url, function (response) {
             var videosList = $($.parseHTML(response)).filter("#videosListItems").html();
             $('#videosListItems').html(videosList);
-            animateChilds('#videosListItems', 'animate__flipInX', 0.2);
+            //animateChilds('#videosListItems', 'animate__flipInX', 0.2);
             lazyImage();
             avideoSocket();
             loadVideosListPageTransformLinks();
