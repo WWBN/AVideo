@@ -323,6 +323,9 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
         $obj->showShareMenuOpenByDefault = false;
+        $obj->showEllipsisMenuOnVideoItem = true;
+        $obj->showCreationTimeOnVideoItem = true;
+        $obj->showChannelPhotoOnVideoItem = true;
         /**
          * @var mixed[] $global
          */

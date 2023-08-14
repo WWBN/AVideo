@@ -305,22 +305,32 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
         ?>
             <div class="galeryDetailsContent">
                 <div class="clearfix"></div>
-                <a href="<?php echo User::getChannelLink($video['users_id']); ?>" class=" pull-left " data-toggle="tooltip" title="<?php echo $nameId; ?>">
-                    <img src="<?php echo User::getPhoto($video['users_id']); ?>" class="img img-responsive  img-rounded pull-left channelPhoto" />
-                </a>
-                <!-- Dropdown trigger -->
-                <div class="dropdown pull-right">
-                    <!-- Dropdown Menu -->
-                    <div class="dropdown-menu" id="videoButtonOptions">
-                        <?php
-                        echo AVideoPlugin::getGalleryActionButton($video['id']);
-                        ?>
+                <?php
+                if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
+                ?>
+                    <a href="<?php echo User::getChannelLink($video['users_id']); ?>" class=" pull-left " data-toggle="tooltip" title="<?php echo $nameId; ?>">
+                        <img src="<?php echo User::getPhoto($video['users_id']); ?>" class="img img-responsive  img-rounded pull-left channelPhoto" />
+                    </a>
+                <?php
+                }
+                if (!empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
+                ?>
+                    <!-- Dropdown trigger -->
+                    <div class="dropdown pull-right">
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu" id="videoButtonOptions">
+                            <?php
+                            echo AVideoPlugin::getGalleryActionButton($video['id']);
+                            ?>
+                        </div>
+                        <!-- Trigger button -->
+                        <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
                     </div>
-                    <!-- Trigger button -->
-                    <button class="btn btn-link btn-xs dropdown-toggle" type="button" data-toggle="dropdown">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                </div>
+                <?php
+                }
+                ?>
                 <div class="pull-left channelPhotoDescription">
                     <div class="galeryDetails pull-left">
                         <div class="galleryTags  pull-left">
@@ -354,14 +364,25 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         </a>
                     </div>
                     <?php
-                    $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
+                    if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
+                        $humanTiming = humanTiming(strtotime($video['videoCreation']), 0, true, true);
                     ?>
-                    <time datetime="<?php echo $video['videoCreation']; ?>" class="videoHumanTime pull-right">
-                        <i class="far fa-clock"></i>
-                        <?php echo $humanTiming; ?>
-                    </time>
+                        <time datetime="<?php echo $video['videoCreation']; ?>" class="videoHumanTime pull-right">
+                            <i class="far fa-clock"></i>
+                            <?php echo $humanTiming; ?>
+                        </time>
+                    <?php
+                    }
+                    ?>
                 </div>
-                <div class="clearfix"></div>
+                <?php
+                if (empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
+                ?>
+                    <div class="clearfix"></div>
+                <?php
+                    echo AVideoPlugin::getGalleryActionButton($video['id']);
+                }
+                ?>
                 <?php
                 if (CustomizeUser::canDownloadVideosFromVideo($video['id'])) {
                     $files = getVideosURL($video['filename']);
