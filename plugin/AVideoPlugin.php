@@ -2843,6 +2843,7 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
+                echo "executeEveryMinute {$value['dirName']}".PHP_EOL;
                 $p->executeEveryMinute();
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
