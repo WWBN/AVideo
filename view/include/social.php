@@ -41,11 +41,6 @@ $global['social_medias_Pinboard'] = "https://pinboard.in/popup_login/?url=$urlSo
 $global['social_medias_Gab'] = "https://gab.com/compose?url={$urlSocial}&text={$titleSocial}";
 $global['social_medias_CloutHub'] = "https://app.clouthub.com/share?url={$urlSocial}&text={$titleSocial}";
 
-if (empty($socialAdded)) { // do not add the CSS more then once
-    ?>     
-    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
-    <?php
-}
 $socialAdded = 1;
 
 $social_medias = [

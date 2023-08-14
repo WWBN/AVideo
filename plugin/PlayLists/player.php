@@ -27,8 +27,6 @@ $name = $plp->getName();
     <head>
         <title><?php echo $name . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
-
         <link href="<?php echo getURL('node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.css'); ?>" rel="stylesheet">
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
