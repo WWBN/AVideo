@@ -665,6 +665,7 @@ class PlayerSkins extends PluginAbstract {
             sendAVideoMobileMessage('ended', time);
         });
         player.on('pause', function () {
+            cancelAllPlaybackTimeouts();
             var time = Math.round(this.currentTime());
             sendAVideoMobileMessage('pause', time);
         });
