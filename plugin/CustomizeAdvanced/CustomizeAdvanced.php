@@ -167,6 +167,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'showEllipsisMenuOnVideoItem',
             'showCreationTimeOnVideoItem',
             'showChannelPhotoOnVideoItem',
+            'showChannelNameOnVideoItem',
             );
     }
     
@@ -329,6 +330,7 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->showEllipsisMenuOnVideoItem = true;
         $obj->showCreationTimeOnVideoItem = true;
         $obj->showChannelPhotoOnVideoItem = true;
+        $obj->showChannelNameOnVideoItem = true;
         /**
          * @var mixed[] $global
          */

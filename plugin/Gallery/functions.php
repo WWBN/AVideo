@@ -358,11 +358,18 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                         ?>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="videoChannel pull-left">
-                        <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
-                            <?php echo $name; ?>
-                        </a>
-                    </div>
+
+                    <?php
+                    if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                    ?>
+                        <div class="videoChannel pull-left">
+                            <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
+                                <?php echo $name; ?>
+                            </a>
+                        </div>
+                    <?php
+                    }
+                    ?>
                     <?php
                     if (empty($advancedCustom->showEllipsisMenuOnVideoItem)) {
                         echo AVideoPlugin::getGalleryActionButton($video['id']);
