@@ -18,12 +18,12 @@ $rows = Scheduler_commands::getAllActiveAndReady();
 $total2 = count($rows);
 
 if(empty($rows)){
-    _log("Scheduler row is empty"); 
+    echo ("Scheduler row is empty"); 
 }
 
 $rows2 = Scheduler_commands::getAllScheduledTORepeat();
 if(empty($rows)){
-    _log("Scheduler row2 is empty"); 
+    echo ("Scheduler row2 is empty"); 
 }
 $total3 = count($rows2);
 //_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
@@ -63,6 +63,7 @@ include $global['systemRootPath'] . 'plugin/Scheduler/watchDog.php';
 
 Scheduler::sendEmails();
 
+echo ("Scheduler executeEveryMinute"); 
 AVideoPlugin::executeEveryMinute();
 
 // This script runs every minute
@@ -72,15 +73,18 @@ $current_day = date('j'); // Get the current day of the month (1-31)
 
 // Block to execute every hour
 if ($current_minute == '00') {
+    echo ("Scheduler executeEveryHour"); 
     AVideoPlugin::executeEveryHour();
 }
 
 // Block to execute every day (at midnight)
 if ($current_hour == '0' && $current_minute == '00') {
+    echo ("Scheduler executeEveryDay"); 
     AVideoPlugin::executeEveryDay();
 }
 
 // Block to execute every month (at midnight)
 if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
+    echo ("Scheduler executeEveryMonth"); 
     AVideoPlugin::executeEveryMonth();
 }
