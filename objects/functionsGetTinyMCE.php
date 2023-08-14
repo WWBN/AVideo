@@ -8,7 +8,7 @@ if (empty($tinyMCELibs)) {
     <style>.tox-statusbar__branding, .tox-promotion{
             display:none !important;
         }</style>
-    <?php
+        <?php
     } else {
         $tinyMCELibs++;
     }
@@ -26,7 +26,7 @@ if ($simpleMode) {
     <?php
 } else {
     ?>
-        if(typeof videos_id === 'undefined'){
+        if (typeof videos_id === 'undefined') {
             videos_id = -1;
         }
         const image_upload_handler<?php echo $tinyMCEuid; ?> = (blobInfo, progress) => new Promise((resolve, reject) => {
@@ -108,7 +108,31 @@ if (file_exists($global['systemRootPath'] . $langFile)) {
             mobile: {
                 theme: 'silver'
             },
-            images_upload_handler: image_upload_handler<?php echo $tinyMCEuid; ?>
+            images_upload_handler: image_upload_handler<?php echo $tinyMCEuid; ?>,
+
+            extended_valid_elements: (
+                    'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls],' +
+                    'div[class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent],' +
+                    'button[class|data-toggle|data-target|data-dismiss|type|aria-expanded],' +
+                    'span[class|aria-hidden],' +
+                    'ul[class],' +
+                    'li[class],' +
+                    'i[class],' +
+                    'img[class|src|alt|data-src],' +
+                    'nav[class],' +
+                    'input[class|type|data-toggle|placeholder|aria-describedby],' +
+                    'label[for|class|data-toggle],' +
+                    'textarea[class|rows|placeholder],' +
+                    'h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],' +
+                    'p[class],' +
+                    'br,' +
+                    'hr[class],' +
+                    'ol[class],' +
+                    'blockquote[class],' +
+                    'abbr[title],' +
+                    'code,' +
+                    'pre[class]'
+                    ),
         });
     }, <?php echo $tinyMCELibs * 500; ?>);
 </script>
