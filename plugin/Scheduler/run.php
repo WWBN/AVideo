@@ -17,7 +17,14 @@ $total1 = count($rowActive);
 $rows = Scheduler_commands::getAllActiveAndReady();
 $total2 = count($rows);
 
+if(empty($rows)){
+    _log("Scheduler row is empty"); 
+}
+
 $rows2 = Scheduler_commands::getAllScheduledTORepeat();
+if(empty($rows)){
+    _log("Scheduler row2 is empty"); 
+}
 $total3 = count($rows2);
 //_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
 

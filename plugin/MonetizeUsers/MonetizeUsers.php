@@ -113,6 +113,8 @@ class MonetizeUsers extends PluginAbstract {
                 }
                 VideosStatistics::setRewarded($ids_array);
             }
+        }else{
+            _error_log("Checking rewardMinimumViewPercentage is empty ");
         }
     }
 
