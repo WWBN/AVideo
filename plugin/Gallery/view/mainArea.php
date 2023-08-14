@@ -1,6 +1,7 @@
 <?php
 saveRequestVars();
 ?>
+<link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
 <div class="row mainArea">
     <?php
     if (!empty($currentCat)) {
