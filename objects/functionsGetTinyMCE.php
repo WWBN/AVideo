@@ -111,7 +111,7 @@ if (file_exists($global['systemRootPath'] . $langFile)) {
             images_upload_handler: image_upload_handler<?php echo $tinyMCEuid; ?>,
 
             extended_valid_elements: (
-                    'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls],' +
+                    'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class],' +
                     'div[class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent],' +
                     'button[class|data-toggle|data-target|data-dismiss|type|aria-expanded],' +
                     'span[class|aria-hidden],' +
