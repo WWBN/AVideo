@@ -1368,12 +1368,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($_REQUEST['live_servers_id'])) {
             if(!empty($_POST['tcurl'])){
                 $url = $_POST['tcurl'];
-                if (empty($url)) {
-                    $url = @$_POST['swfurl'];
-                    if(!empty($url)){
-                        return Live_servers::getServerIdFromRTMPHost($url);
-                    }
-                }
+            }
+            if (empty($url)) {
+                $url = @$_POST['swfurl'];
+            }
+            if(!empty($url)){
+                return Live_servers::getServerIdFromRTMPHost($url);
             }
             return 0;
         }
