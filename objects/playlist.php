@@ -491,6 +491,8 @@ class PlayList extends ObjectYPT {
                             foreach ($row['subtitles'] as $value) {
                                 $row['subtitlesSRT'][] = convertSRTTrack($value);
                             }
+                        }else{
+                            $row['subtitles'] = [];
                         }
                         if (empty($row['externalOptions'])) {
                             $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
