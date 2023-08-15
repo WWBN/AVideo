@@ -972,6 +972,8 @@ class API extends PluginAbstract
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
+            }else{
+                $rows[$key]['subtitles'] = [];
             }
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
