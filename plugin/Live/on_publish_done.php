@@ -59,7 +59,7 @@ if (strpos($_GET['p'], '/') !== false) {
 
 deleteStatsNotifications(true);
 $live_servers_id = Live::getLiveServersIdRequest();
-$row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, true);
+$row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, 10);
 $insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
 _error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} id={$row['id']} key={$row['key']} live_servers_id={$row['live_servers_id']} insert_row={$insert_row}");
 Live::killIfIsRunning($row['key']);
