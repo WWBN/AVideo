@@ -911,7 +911,7 @@ class API extends PluginAbstract
             }
             if ($value['type'] == 'serie') {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
-                $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
+                $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id'], true);
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
