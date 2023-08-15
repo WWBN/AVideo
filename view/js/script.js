@@ -269,14 +269,14 @@ var pauseIfIsPlayinAdsInterval;
 async function setPlayerListners() {
     if (typeof player !== 'undefined') {
         player.on('pause', function () {
-            clearTimeout(promisePlayTimeout);
+            cancelAllPlaybackTimeouts();
             //console.log("setPlayerListners: pause");
             //userIsControling = true;
             clearInterval(pauseIfIsPlayinAdsInterval);
         });
         player.on('play', function () {
             isTryingToPlay = false;
-            clearTimeout(promisePlayTimeout);
+            cancelAllPlaybackTimeouts();
             if (startCurrentTime) {
                 setTimeout(function () {
                     setCurrentTime(startCurrentTime);
@@ -369,7 +369,7 @@ function reloadAds() {
     setTimeout(function () {
         isReloadingAds = false;
     }, 500);
-    clearTimeout(_reloadAdsTimeout);
+    cancelAllPlaybackTimeouts();
     //console.log('reloadAds ');
     if (playerIsReady() && player.ima) {
         try {
@@ -571,7 +571,7 @@ var isTryingToPlay = false;
 var promisePlaytryNetworkFailTimeout;
 function playerPlay(currentTime) {
     isTryingToPlay = true;
-    clearTimeout(playerPlayTimeout);
+    cancelAllPlaybackTimeouts();
     if (playerIsPlayingAds()) {
         return false;
     }
@@ -631,7 +631,7 @@ function playerPlay(currentTime) {
                         promisePlaytry = 20;
                         promisePlaytryNetworkFail++;
                         //console.log("playerPlay: Network error detected, trying again", promisePlaytryNetworkFail);
-                        clearTimeout(promisePlaytryNetworkFailTimeout);
+                        cancelAllPlaybackTimeouts();
                         promisePlaytryNetworkFailTimeout = setTimeout(function () {
                             player.src(player.currentSources());
                             userIsControling = false;
@@ -705,7 +705,7 @@ function showUnmutePopup() {
 }
 
 function tryToPlay(currentTime) {
-    clearTimeout(promisePlayTimeout);
+    cancelAllPlaybackTimeouts();
     promisePlayTimeout = setTimeout(function () {
         if (player.paused()) {
             playerPlayTimeout = setTimeout(function () {
@@ -807,6 +807,15 @@ function playerPlayIfAutoPlay(currentTime) {
     return false;
 }
 
+function cancelAllPlaybackTimeouts(){
+    clearTimeout(playerPlayTimeout);
+    clearTimeout(promisePlayTimeout);
+    clearTimeout(promisePlaytryNetworkFailTimeout);
+    clearTimeout(_reloadAdsTimeout);
+    clearTimeout(videoJSRecreateSourcesTimeout);
+    clearTimeout(setPlayerLoopSetTimeout);
+}
+
 function playerPlayMutedIfAutoPlay(currentTime) {
     if (isWebRTC()) {
         return false;
@@ -864,7 +873,6 @@ function playNext(url) {
                         }
                     } else {
                         //console.log("playNext ajax success");
-                        $('topInfo').hide();
                         playNextURL = (typeof isEmbed !== 'undefined' && isEmbed) ? response.nextURLEmbed : response.nextURL;
                         //console.log("New playNextURL", playNextURL);
                         var cSource = false;
@@ -924,7 +932,7 @@ async function tooglePlayerLoop() {
 
 var setPlayerLoopSetTimeout;
 async function setPlayerLoop(loop) {
-    clearTimeout(setPlayerLoopSetTimeout);
+    cancelAllPlaybackTimeouts();
     if (typeof player === 'undefined' && $('#mainVideo').length) {
         setPlayerLoopSetTimeout = setTimeout(function () {
             setPlayerLoop(loop)
@@ -1269,8 +1277,17 @@ function avideoAlertHTMLText(title, msg, type) {
         icon: type,
         closeModal: true,
         closeOnClickOutside: !isErrorOrWarning,
-        buttons: isErrorOrWarning ? null : (empty(type) ? false : true),
+        buttons: {
+            confirm: {
+                text: "OK", // or whatever text you want
+                value: true,
+                visible: isErrorOrWarning ? false : (empty(type) ? false : true),
+                className: "btn btn-success" // Add your class name here
+            }
+        }
     });
+    $(".swal-button--confirm").removeClass("swal-button");
+    
 }
 
 function avideoModalIframeClose() {
@@ -1331,7 +1348,9 @@ function avideoModalIframeLarge(url) {
 function avideoModalIframeFullScreen(url) {
     avideoModalIframeWithClassName(url, 'swal-modal-iframe-full', true);
 }
-
+function avideoModalIframeFullScreenNoBar(url) {
+    avideoModalIframeWithClassName(url, 'swal-modal-iframe-full-no-bar', true);
+}
 function avideoModalIframeFullWithMinimize(url) {
     if (false && typeof parent.openWindow === 'function') {
         parent.openWindow(url, iframeAllowAttributes, '', true);
@@ -1635,14 +1654,14 @@ function avideoAlertText(msg) {
 }
 
 function avideoAlertInfo(msg) {
-    avideoAlert("Info", msg, 'info');
+    avideoAlert("", msg, 'info');
 }
 
 function avideoAlertError(msg) {
-    avideoAlert("Error", msg, 'error');
+    avideoAlert("", msg, 'error');
 }
 function avideoAlertSuccess(msg) {
-    avideoAlert("Success", msg, 'success');
+    avideoAlert("", msg, 'success');
 }
 
 function avideoTooltip(selector, text) {
@@ -3084,7 +3103,7 @@ function fixAdSize() {
  */
 var videoJSRecreateSourcesTimeout;
 async function videoJSRecreateSources(defaultSource) {
-    clearTimeout(videoJSRecreateSourcesTimeout);
+    cancelAllPlaybackTimeouts();
     if (empty(player) || empty(player.options_)) {
         videoJSRecreateSourcesTimeout = setTimeout(function () {
             videoJSRecreateSources(defaultSource);
@@ -3830,3 +3849,99 @@ $.fn.isVisible = function () {
     var viewportBottom = viewportTop + $(window).height();
     return elementBottom > viewportTop && elementTop < viewportBottom;
 };
+let fullscreenIframe;
+let originalURL; // to store the original URL
+
+function openFullscreenVideosId(videos_id) {
+    var url = webSiteRootURL + 'videoEmbed/' + videos_id + '/-';
+    var urlBar = webSiteRootURL + 'v/' + videos_id + '/-';
+    openFullscreenVideo(url, urlBar);
+}
+
+function openFullscreenVideo(url, urlBar) {
+    
+    $('body').addClass('fullScreen');
+    // Store the current URL
+    originalURL = window.location.href;
+
+    // If there's an existing iframe, close it first
+    if (fullscreenIframe) {
+        closeFullscreenIframe();
+    }
+
+    url = addQueryStringParameter(url, 'autoplay', 1);
+
+    fullscreenIframe = $('<iframe ' + iframeAllowAttributes + '>', {
+        src: url,
+        id: 'fullscreenIframe'
+    });
+
+    fullscreenIframe.attr('src', url);
+    // Apply styles and other attributes
+    fullscreenIframe.css({
+        'position': 'fixed',
+        'top': 0,
+        'left': 0,
+        'width': '100%',
+        'height': '100%',
+        'z-index': 9999,
+        'border': 'none',
+        'background-color': 'black'
+    });
+
+    if(validURL(url)){
+        window.history.pushState(null, null, urlBar);
+    }
+    // Append the iframe to the body
+    fullscreenIframe.appendTo('body');
+}
+
+function closeFullscreenVideo() {
+    if (fullscreenIframe) {
+        fullscreenIframe.remove();
+        fullscreenIframe = null;
+        $('body').removeClass('fullscreen');
+
+        // Revert the browser's address bar to the original URL
+        if (originalURL) {
+            history.pushState({}, null, originalURL);
+        }
+    }
+}
+
+function addCloseButtonInVideo() {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        if(typeof player !== 'object'){
+            setTimeout(function(){addCloseButtonInVideo();}, 2000);
+            return false;
+        }
+        addCloseButton($(player.el()));
+    }
+}
+
+function addCloseButtonInPage() {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        addCloseButton($('body'));
+    }
+}
+
+function addCloseButton(elementToAppend) {
+    // If either function exists, add a close button inside videojs
+    if (typeof window.parent.closeFullscreenVideo === "function") {
+        var closeButton = $('<button>', {
+            'id': 'CloseButtonInVideo',
+        });
+        closeButton.addClass('btn');
+        closeButton.addClass('pull-right');
+        closeButton.html('<i class="fas fa-times"></i>');
+        // Add event listener
+        closeButton.on('click', function() {
+            window.parent.closeFullscreenVideo();
+        });
+        // Append the close button to the Video.js player
+        elementToAppend.append(closeButton);
+
+    }
+}

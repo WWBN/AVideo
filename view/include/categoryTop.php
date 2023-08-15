@@ -1,5 +1,6 @@
 <?php
 if (empty($advancedCustom->showCategoryTopImages)) {
+    echo '<!-- category images advancedCustom->showCategoryTopImages disabled -->';
     return false;
 }
 if (!empty($_REQUEST['catName'])) {
@@ -7,13 +8,16 @@ if (!empty($_REQUEST['catName'])) {
     if(!empty($currentCat)){
         $categories_id = $currentCat['id'];
         if (!Category::isAssetsValids($categories_id)) {
+            echo "<!-- category images  assets invalid categories_id=$categories_id -->";
             return false;
         }
     }
 } else {
+    echo '<!-- category images  catName is empty -->';
     return false;
 }
 if(empty($categories_id)){
+    echo '<!-- category images categories_id is empty -->';
     return false;
 }
 

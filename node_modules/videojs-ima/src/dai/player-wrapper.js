@@ -50,6 +50,11 @@ const PlayerWrapper = function(player, adsPluginSettings, daiController) {
   this.vjsPlayer.on('play', this.onPlay.bind(this));
   this.vjsPlayer.on('seeked', this.onSeekEnd.bind(this));
   this.vjsPlayer.ready(this.onPlayerReady.bind(this));
+
+  if (!this.vjsPlayer.ads) {
+    window.console.warn('You may be using a version of videojs-contrib-ads ' +
+    'that is not compatible with your version of video.js.');
+  }
   this.vjsPlayer.ads(adsPluginSettings);
 };
 

@@ -22,19 +22,29 @@ foreach (CustomizeUser::getSocialMedia() as $platform => $details) {
 ?>
 
 <script>
+    var prevValue = {}; // Object to store previous values for each input
     $(document).ready(function() {
         var saveTimeout;
 
-        $('.CustomizeUserSocialMedia').on('change keyup', function(e) {
-            clearTimeout(saveTimeout); // Clear the existing timeout
 
+        $('.CustomizeUserSocialMedia').on('input', function(e) {
             var platform = $(this).attr('platform');
-            var value = $(this).val();
+            var currentValue = $(this).val();
 
-            saveTimeout = setTimeout(function() {
-                saveUserURL(platform, value);
-            }, 500);
+            // Check if the value actually changed
+            if (currentValue !== prevValue[platform]) {
+                clearTimeout(saveTimeout);
+
+                saveTimeout = setTimeout(function() {
+                    saveUserURL(platform, currentValue);
+                }, 500);
+            }
+
+            // Update the stored value for the next comparison
+            prevValue[platform] = currentValue;
         });
+
+
     });
 
 

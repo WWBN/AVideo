@@ -1,7 +1,7 @@
 
 .gallery .title,
 .videosDetails .title {
-    font-size: 1em;
+    font-size: 1.1em;
     margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -88,6 +88,29 @@ h3.galleryTitle{
 .galeryDetails div.userName{
     width: 100%;
 }
+
+#videoButtonOptions{
+    padding: 10px;
+    white-space: nowrap;
+}
+
+#videoButtonOptions .btn-link{
+    padding: 1px 0;
+}
+
+#videoButtonOptions div{
+    float: none;
+}
+
+#videoButtonOptions .btn {
+    font-size: unset;
+}
+
+.galleryVideo > .galeryDetails{
+    width: calc(100% - 20px);
+    float: left;
+}
+
 .fixPadding{
     padding: 0 5px;
 }
@@ -219,13 +242,11 @@ a.h6{
     display:-webkit-box;
     font-weight: bold;
 }
+
+
 .galleryTags .label{
    display: table-cell;
    font-size: 0.9em;
-}
-.galleryTags{
-   margin: 0 !important;
-   display: inline-flex;
 }
 
 .isChannelToGallery .addChannelToGallery, .removeChannelFromGallery{
@@ -234,4 +255,51 @@ a.h6{
 
 .isChannelToGallery .removeChannelFromGallery {
     display: inline-block;
+}
+.galleryTags{
+    margin: 0 4px 0 0;
+    display: inline-flex;
+ }
+.videoChannel {
+    display: flex;
+    align-items: center;
+}
+.videoChannel a {
+    display: flex;
+    align-items: center;
+}
+
+.videoChannel a img{
+    width: 20px; 
+    margin: 2px 5px 2px 0;
+}
+.videoChannel a i{
+    margin-left: 2px;
+}
+.channelPhoto{
+    width: 35px;
+    margin-right:10px;
+}
+.channelPhotoDescription{
+    width: calc(100% - 65px);
+}
+
+.channelPhoto {
+    filter: grayscale(50%);
+    opacity: 0.7; 
+    transition: filter 0.3s, opacity 0.3s; 
+}
+
+.galleryVideo:hover .channelPhoto {
+    filter: grayscale(0%);
+    opacity: 1; 
+}
+
+.videoHumanTime{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.8em;
+    display: inline-block;
+}
+.galeryDetailsContent{
+    margin-top: 5px;
 }

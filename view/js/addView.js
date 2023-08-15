@@ -146,6 +146,9 @@ async function addViewSetCookie(PHPSESSID, videos_id, playerCurrentTime, seconds
 
 async function startAddViewCountInPlayer(){
     if(typeof player !== 'undefined' && typeof mediaId !== 'undefined'){
+        if(!player.paused()){
+            isVideoPlaying = true;
+        }
         player.on('play', function () {
             isVideoPlaying = true;
             addView(mediaId, this.currentTime());

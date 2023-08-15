@@ -343,15 +343,16 @@ class Tree {
     /// not have its children iterated over (or `leave` called).
     iterate(spec) {
         let { enter, leave, from = 0, to = this.length } = spec;
-        for (let c = this.cursor((spec.mode || 0) | IterMode.IncludeAnonymous);;) {
+        let mode = spec.mode || 0, anon = (mode & IterMode.IncludeAnonymous) > 0;
+        for (let c = this.cursor(mode | IterMode.IncludeAnonymous);;) {
             let entered = false;
-            if (c.from <= to && c.to >= from && (c.type.isAnonymous || enter(c) !== false)) {
+            if (c.from <= to && c.to >= from && (!anon && c.type.isAnonymous || enter(c) !== false)) {
                 if (c.firstChild())
                     continue;
                 entered = true;
             }
             for (;;) {
-                if (entered && leave && !c.type.isAnonymous)
+                if (entered && leave && (anon || !c.type.isAnonymous))
                     leave(c);
                 if (c.nextSibling())
                     break;
@@ -1438,6 +1439,8 @@ class InnerParse {
         this.overlay = overlay;
         this.target = target;
         this.ranges = ranges;
+        if (!ranges.length || ranges.some(r => r.from >= r.to))
+            throw new RangeError("Invalid inner parse ranges given: " + JSON.stringify(ranges));
     }
 }
 class ActiveOverlay {

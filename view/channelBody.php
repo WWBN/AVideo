@@ -86,6 +86,7 @@ $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUp
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 ?>
 
+<link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css" />
 <style>
     #aboutArea #aboutAreaPreContent {
         max-height: 120px;
@@ -187,11 +188,9 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                         <?php
                         echo User::getEmailVerifiedIcon($user_id)
                         ?></h2>
-                    <?php
-                    $socialMedia = CustomizeUser::getSocialMedia();
-                    ?>
                     <ul class="social-network social-circle">
                         <?php
+                        $socialMedia = CustomizeUser::getSocialMedia();
                         foreach ($socialMedia as $platform => $details) {
                             if ($details['isActive']) {
                                 $url = User::getSocialMediaURL($platform, $user_id);
@@ -279,7 +278,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                 }
                             ?>
                                 <li class="nav-item <?php echo $active; ?>">
-                                    <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false">
+                                    <a class="nav-link " href="#channelHome" data-toggle="tab" aria-expanded="false" onclick="setTimeout(function () {flickityReload();}, 500);">
                                         <i class="fas fa-home"></i> <span class="labelUpperCase"><?php echo __('Home'); ?></span>
                                     </a>
                                 </li>
@@ -558,7 +557,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                             } else {
                                                 if ($isMyChannel) {
                                             ?>
-                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <div class="alert alert-warning" role="alert" style="margin-top: 20px;">
                                                         <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
                                                         <p class="text-center">
                                                             <?php echo __('You haven\'t created any') . ' ' . __($palyListsObj->name); ?>
@@ -571,7 +570,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                                 <?php
                                                 } else {
                                                 ?>
-                                                    <div class="alert alert-info" role="alert" style="margin-top: 20px;">
+                                                    <div class="alert alert-warning" role="alert" style="margin-top: 20px;">
                                                         <h4 class="alert-heading text-center"><?php echo __('No Playlist Found'); ?></h4>
                                                         <p class="text-center">
                                                             <?php echo __('This user does not have any') . ' ' . __($palyListsObj->name); ?>

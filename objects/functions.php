@@ -7131,7 +7131,7 @@ function isShareEnabled()
     return empty($advancedCustom->disableShareOnly) && empty($advancedCustom->disableShareAndPlaylist);
 }
 
-function getSharePopupButton($videos_id, $url = "", $title = "")
+function getSharePopupButton($videos_id, $url = '', $title = '', $class='')
 {
     global $global, $advancedCustom;
     if (!isShareEnabled()) {
@@ -9702,13 +9702,17 @@ function useVideoHashOrLogin()
     return User::loginFromRequest();
 }
 
-function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'])
+function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'], $removeContent=true)
 {
     if (empty($string)) {
         return '';
     }
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '$1', $string);
+        $replacement = '$1';
+        if($removeContent){
+            $replacement = '';
+        }
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', $replacement, $string);
     }
     return $string;
 }
@@ -10087,9 +10091,10 @@ function isImage($file)
 
 function isHTMLEmpty($html_string)
 {
-    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div']);
-    //var_dump($html_string_no_tags, $html_string);
-    return empty(trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags)));
+    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div'], false);
+    $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));
+    //var_dump(empty($result), $result, $html_string_no_tags, $html_string);
+    return empty($result);
 }
 
 function emptyHTML($html_string)
@@ -11079,6 +11084,9 @@ function set_error_reporting()
  */
 function is_image_fully_transparent($filename)
 {
+    if(filesize($filename)>10000){
+        return false;
+    }
     // Load the image
     $image = imagecreatefrompng($filename);
 
@@ -11378,7 +11386,9 @@ function modifyURL($url)
         'ads_w' => 'ads.w', //player width 
         'ads_h' => 'ads.h', //player height
         'app_store_url' => 'ads.app_store_url', //player height
+        'ads_app_store_url' => 'ads.app_store_url', //player height
         'app_name' => 'ads.app_name', //player height
+        'ads_app_name' => 'ads.app_name', //player height
         'ads_cb' => 'ads.cb',
         'ads_channel_name' => 'ads.channel_name',
         'ads_content_genre' => 'ads.content_genre',
@@ -11526,3 +11536,28 @@ function getMVideo($htmlMediaTag)
     $contents = getIncludeFileContent( $filePath, ['htmlMediaTag' => $htmlMediaTag] );
     return $contents;
 }
+
+function getDeviceName() {
+    if(empty($_SERVER['HTTP_USER_AGENT'])){
+        return 'unknown';
+    }
+    $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    if (strpos($userAgent, 'roku') !== false) {
+        return 'roku';
+    } elseif (strpos($userAgent, 'appletv') !== false) {
+        return 'appleTV';
+    } elseif (strpos($userAgent, 'iphone') !== false || strpos($userAgent, 'ipad') !== false || strpos($userAgent, 'ipod') !== false) {
+        return 'ios';
+    } elseif (strpos($userAgent, 'android') !== false) {
+        if (strpos($userAgent, 'mobile') !== false) {
+            return 'androidMobile';
+        } else {
+            return 'androidTV';
+        }
+    } elseif (strpos($userAgent, 'silk') !== false) {
+        return 'firestick';
+    } else {
+        return 'web';
+    }
+}
+

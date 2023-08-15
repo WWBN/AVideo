@@ -57,13 +57,15 @@ function exec (cmd) {
 }
 
 function buildFromSource () {
-  return hasFlag('--build-from-source')
+  return hasFlag('--build-from-source') || process.env.npm_config_build_from_source === 'true'
 }
 
 function verbose () {
-  return hasFlag('--verbose')
+  return hasFlag('--verbose') || process.env.npm_config_loglevel === 'verbose'
 }
 
+// TODO (next major): remove in favor of env.npm_config_* which works since npm
+// 0.1.8 while npm_config_argv will stop working in npm 7. See npm/rfcs#90
 function hasFlag (flag) {
   if (!process.env.npm_config_argv) return false
 

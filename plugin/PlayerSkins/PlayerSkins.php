@@ -305,6 +305,11 @@ class PlayerSkins extends PluginAbstract {
         return $js . $css . $oembed;
     }
 
+    static function showAutoplay(){
+        $obj = AVideoPlugin::getDataObject('PlayerSkins');
+        return !isLive() && $obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch']);
+    }
+
     public function getFooterCode() {
         if (isWebRTC()) {
             return '';
@@ -338,7 +343,7 @@ class PlayerSkins extends PluginAbstract {
                 $js .= "<script>function tooglePlayersocial(){showSharing{$social['id']}();}</script>";
             }
 
-            if (!isLive() && $obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch'])) {
+            if (self::showAutoplay()) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/autoplayButton.js"));
             } else {
                 if (isLive()) {
@@ -660,6 +665,7 @@ class PlayerSkins extends PluginAbstract {
             sendAVideoMobileMessage('ended', time);
         });
         player.on('pause', function () {
+            cancelAllPlaybackTimeouts();
             var time = Math.round(this.currentTime());
             sendAVideoMobileMessage('pause', time);
         });

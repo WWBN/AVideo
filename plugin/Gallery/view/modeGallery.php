@@ -1,7 +1,9 @@
 <?php
 $isFirstPage = 1;
 include $global['systemRootPath'] . 'plugin/Gallery/view/topLogic.php';
-$leaderBoardTop = getAdsLeaderBoardTop();
+if (empty($_REQUEST['catName'])) {
+    $leaderBoardTop = getAdsLeaderBoardTop();
+}
 $_page = new Page(array($siteTitle), 'mainPage');
 ?>
 <div class="<?php echo Gallery::getContaierClass('avideoLoadPage'); ?>">
@@ -15,7 +17,7 @@ $_page = new Page(array($siteTitle), 'mainPage');
     <div class="panel panel-default">
         <div class="panel-body" style="overflow: hidden;">
             <?php
-            include $global['systemRootPath'] . 'view/include/categoryTop.php';
+            include_once $global['systemRootPath'] . 'view/include/categoryTop.php';
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainArea.php';
             ?>
         </div>

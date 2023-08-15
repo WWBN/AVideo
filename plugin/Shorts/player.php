@@ -225,7 +225,7 @@ if ($removeAnimation || !empty($advancedCustom->disableAnimations)) {
             $.ajax({
                 url: url,
                 success: function(response) {
-                    carouselPlayerProcessLikesResponse(response)
+                    carouselPlayerProcessLikesResponse(response);
                 }
             });
         } else {

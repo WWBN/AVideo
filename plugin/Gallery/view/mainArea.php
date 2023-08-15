@@ -1,6 +1,7 @@
 <?php
 saveRequestVars();
 ?>
+<link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
 <div class="row mainArea">
     <?php
     if (!empty($currentCat)) {
@@ -12,7 +13,7 @@ saveRequestVars();
             $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
             $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
             if (!empty($channels)) {
-                ?>
+    ?>
                 <div id="channelsResults" class="clear clearfix">
                     <h3 class="galleryTitle"> <i class="fas fa-user"></i> <?php echo __('Channels'); ?></h3>
                     <div class="row">
@@ -28,7 +29,7 @@ saveRequestVars();
                         ?>
                     </div>
                 </div>
-                <?php
+            <?php
                 global $contentSearchFound;
                 $contentSearchFound = true;
             }
@@ -45,7 +46,7 @@ saveRequestVars();
         if (empty($_REQUEST['catName'])) {
             $objLive = AVideoPlugin::getDataObject('Live');
             if (empty($objLive->doNotShowLiveOnVideosList)) {
-                ?>
+            ?>
                 <!-- For Live Videos -->
                 <div id="liveVideos" class="clear clearfix" style="display: none;">
                     <h3 class="galleryTitle text-danger"> <i class="fas fa-play-circle"></i> <?php echo __("Live"); ?></h3>
@@ -70,21 +71,53 @@ saveRequestVars();
 
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
         } else {
+            //var_dump($sections);exit;
             foreach ($sections as $value) {
                 if (empty($value['active'])) {
                     continue;
                 }
                 $countSections++;
-                if(preg_match('/Channel_([0-9]+)_/', $value['name'], $matches)){
+                if (preg_match('/Channel_([0-9]+)_/', $value['name'], $matches)) {
                     $users_id = intval($matches[1]);
                     User::getChannelPanel($users_id);
                 } else
                 if ($value['name'] == 'Shorts' && AVideoPlugin::isEnabledByName('Shorts')) {
-                    include $global['systemRootPath'].'plugin/Shorts/row.php';
+                    include $global['systemRootPath'] . 'plugin/Shorts/row.php';
                 } else
                 if ($value['name'] == 'Suggested') {
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
-                } else
+                } else 
+                if($value['name'] == 'PlayLists'){
+                    $objPl = AVideoPlugin::getDataObject('PlayLists');
+                    $plRows = PlayList::getAllToShowOnFirstPage();
+                    //var_dump(count($plRows));exit;
+                    if (!empty($plRows)) {
+                        $rowCount = getRowCount();
+                        setRowCount($obj->PlayListsRowCount);
+                        foreach ($plRows as $pl) {
+                        ?>
+                            <!-- For Playlist -->
+                            <div class="clear clearfix">
+                                <h3 class="galleryTitle">
+                                    <a href="<?php echo "{$global['webSiteRootURL']}viewProgram/{$pl['id']}/" . urlencode($pl['name']); ?>">
+                                        <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
+                                    </a>
+                                </h3>
+                                <?php
+                                $videos = PlayList::getAllFromPlaylistsID($pl['id']);
+                                // need to add dechex because some times it return an negative value and make it fails on javascript playlists
+                                ?>
+                                <div class="gallerySectionContent">
+                                    <?php
+                                    $countCols = createGallerySection($videos);
+                                    ?>
+                                </div>
+                            </div>
+                        <?php
+                        }
+                        setRowCount($rowCount);
+                    }
+                }else 
                 if ($value['name'] == 'Trending') {
                     createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
                 } else
@@ -130,7 +163,7 @@ saveRequestVars();
             }
         }
     } else {
-        echo '<!-- '.basename(__FILE__).' -->';
+        echo '<!-- ' . basename(__FILE__) . ' -->';
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = _ob_get_clean();
         _ob_start();
@@ -158,10 +191,10 @@ saveRequestVars();
             <!-- <?php echo basename(__FILE__); ?> -->
             <?php echo __("We have not found any videos or audios to show"); ?>.
         </div>
-        <?php
-        _error_log('contentSearchFound NOT FOUND '. json_encode(debug_backtrace()));
-        _error_log('contentSearchFound NOT FOUND LAST SQL '. $debugLastGetVideoSQL);
-        _error_log('contentSearchFound NOT FOUND LAST TOTAL SQL '. $lastGetTotalVideos);
+    <?php
+        _error_log('contentSearchFound NOT FOUND ' . json_encode(debug_backtrace()));
+        _error_log('contentSearchFound NOT FOUND LAST SQL ' . $debugLastGetVideoSQL);
+        _error_log('contentSearchFound NOT FOUND LAST TOTAL SQL ' . $lastGetTotalVideos);
         include $global['systemRootPath'] . 'view/include/notfound.php';
     }
     ?>

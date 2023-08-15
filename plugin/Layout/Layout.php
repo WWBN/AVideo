@@ -603,6 +603,10 @@ class Layout extends PluginAbstract
     {
         global $global; // add socket twice on live page
         //return $html;
+        if (isBot()) {
+            //var_dump('doNOTOrganizeHTML');exit;
+            return $html . PHP_EOL . '<!-- Layout::organizeHTML isBot -->';
+        }
         if (!empty($global['doNOTOrganizeHTML'])) {
             //var_dump('doNOTOrganizeHTML');exit;
             return $html . PHP_EOL . '<!-- Layout::organizeHTML doNOTOrganizeHTML -->';
@@ -770,7 +774,8 @@ class Layout extends PluginAbstract
             preg_match('/<script async/i', $tag) ||
             preg_match('/doNotSepareteTag/', $tag) ||
             preg_match('/window.googletag/', $tag) ||
-            preg_match('/document\.write/', $tag)
+            preg_match('/document\.write/', $tag) || 
+            isBot()
         ) {
             return true;
         }

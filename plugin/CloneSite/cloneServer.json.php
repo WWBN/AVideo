@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../videos/configuration.php';
 set_time_limit(0);
 session_write_close();
@@ -6,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/Objects/Clones.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');
 
-$videosDir = Video::getStoragePath()."";
+$videosDir = Video::getStoragePath() . "";
 $clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 
@@ -16,7 +17,7 @@ $resp->msg = "";
 $resp->url = $_GET['url'];
 $resp->key = $_GET['key'];
 $resp->useRsync = intval($_GET['useRsync']);
-$resp->videosDir = Video::getStoragePath()."";
+$resp->videosDir = Video::getStoragePath() . "";
 $resp->sqlFile = "";
 $resp->videoFiles = [];
 $resp->photoFiles = [];
@@ -48,19 +49,32 @@ if (!empty($_GET['deleteDump'])) {
 
 if (!file_exists($clonesDir)) {
     mkdir($clonesDir, 0777, true);
-    file_put_contents($clonesDir."index.html", '');
+    file_put_contents($clonesDir . "index.html", '');
 }
 
-$resp->sqlFile = uniqid('Clone_mysqlDump_').".sql";
+$resp->sqlFile = uniqid('Clone_mysqlDump_') . ".sql";
 // update this clone last request
 $resp->error = !$canClone->clone->updateLastCloneRequest();
 
 // get mysql dump
-$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers --databases {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
+// Get a list of all tables except CachesInDB
+$tables = array();
+$res = sqlDAL::readSql("SHOW TABLES");
+$row = sqlDAL::fetchAllAssoc($res);
+foreach ($row as $value) {    
+    $firstElement = reset($value);
+    if ($firstElement != 'CachesInDB') {
+        $tables[] = $firstElement;
+    }
+}
+$tablesList = implode(" ", $tables);
+// Then use that list in the mysqldump command
+$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers {$mysqlDatabase} {$tablesList} > {$clonesDir}{$resp->sqlFile}";
+//$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers --databases {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
 _error_log("Clone: Dump to {$clonesDir}{$resp->sqlFile}");
-exec($cmd." 2>&1", $output, $return_val);
+exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
-    _error_log("Clone Error: ". print_r($output, true));
+    _error_log("Clone Error: " . print_r($output, true));
 }
 
 if (empty($resp->useRsync)) {

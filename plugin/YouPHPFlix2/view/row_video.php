@@ -1,11 +1,11 @@
 <div class="poster rowVideo" id="poster<?php echo $uid; ?>" poster="<?php echo $poster; ?>"
      style="
      display: none;
-     background-image: url(<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif);
      -webkit-background-size: cover;
      -moz-background-size: cover;
      -o-background-size: cover;
      background-size: cover;
+     background-image: url('<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/img/loading.gif');
      ">
     <div class="posterDetails " style="
          background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) 40%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);

@@ -23,6 +23,7 @@ $sources = getVideosURLPDF($video['filename']);
                 <iframe id="pdfIframe" class="embed-responsive-item" scrolling="no" <?php echo Video::$iframeAllowAttributes; ?> type="application/pdf" src="<?php echo $url; ?>"></iframe>
                 <script>
                     $(document).ready(function () {
+                        addCloseButtonInPage();
                         addView(<?php echo $video['id']; ?>, 0);
                         
                         $('#pdfIframe').on('load', function(){

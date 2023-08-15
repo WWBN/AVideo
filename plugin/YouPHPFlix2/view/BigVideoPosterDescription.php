@@ -32,7 +32,7 @@ if (empty($obj->RemoveBigVideoDescription)) {
     <div class="infoText col-md-4 col-sm-6 hidden-xs  ">
         <h4 class="mainInfoText" itemprop="description">
             <?php
-            echo $video['descriptionHTML'];
+            echo strip_specific_tags($video['descriptionHTML']);
             ?>
         </h4>
         <?php

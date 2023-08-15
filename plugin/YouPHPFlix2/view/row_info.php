@@ -1,3 +1,8 @@
+<?php
+$timeLog6Limit = 0.5;
+$timeLog6 = "row_info.php {$value['clean_title']}";
+TimeLogStart($timeLog6);
+?>
 <!-- row_info start -->
 <div class="infoDetails">
     <?php
@@ -24,6 +29,7 @@
         <span class="label label-success"><a style="color: inherit;" class="tile__cat" cat="<?php echo $value['clean_category']; ?>" href="<?php echo $global['webSiteRootURL'] . "cat/" . $value['clean_category']; ?>"><i class="<?php echo $value['iconClass']; ?>"></i> <?php echo $value['category']; ?></a></span>
     <?php } ?>
     <?php
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     foreach ($value['tags'] as $value2) {
         $value2 = (object) $value2;
         if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayGroupsTags)) {
@@ -45,13 +51,16 @@
             }
         }
     }
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     ?>
     <?php
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     if (!empty($value['rrating'])) {
         include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
     } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
         include $global['systemRootPath'] . 'view/rrating/notRated.php';
     }
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     ?>
 </div>
 <div class="row">
@@ -98,16 +107,18 @@
         <h4 class="mainInfoText" itemprop="description">
             <?php
             if (strip_tags($value['description']) != $value['description']) {
-                echo $value['description'];
+                echo strip_specific_tags($value['description']);
             } else {
                 echo nl2br(textToLink(htmlentities($value['description'])));
             }
             ?>
         </h4>
         <?php
+        TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
         if (AVideoPlugin::isEnabledByName("VideoTags")) {
             echo VideoTags::getLabels($value['id']);
         }
+        TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
         ?>
     </div>
 </div>
@@ -115,6 +126,7 @@
     <?php
     $canWatchPlayButton = "";
     $get = $_GET;
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     if (User::canWatchVideoWithAds($value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
     } else if ($obj->hidePlayButtonIfCannotWatch) {
@@ -131,6 +143,7 @@
             <?php
         }
     }
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     $_GET = $get;
     ?>
     <a class="btn btn-danger playBtn <?php echo $canWatchPlayButton; ?>" 
@@ -150,8 +163,11 @@
     }
     ?>
     <?php
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     echo AVideoPlugin::getNetflixActionButton($value['id']);
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     getSharePopupButton($value['id']);
+    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     ?>
 </div>
 <!-- row_info end -->

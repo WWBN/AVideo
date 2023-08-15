@@ -164,6 +164,10 @@ class CustomizeAdvanced extends PluginAbstract {
             'removeVideoList',
             'sortVideoListByDefault',
             'showVideoDownloadedLink',
+            'showEllipsisMenuOnVideoItem',
+            'showCreationTimeOnVideoItem',
+            'showChannelPhotoOnVideoItem',
+            'showChannelNameOnVideoItem',
             );
     }
     
@@ -323,6 +327,10 @@ class CustomizeAdvanced extends PluginAbstract {
         $obj->doNotDisplayPluginsTags = false;
         $obj->showNotRatedLabel = false;
         $obj->showShareMenuOpenByDefault = false;
+        $obj->showEllipsisMenuOnVideoItem = true;
+        $obj->showCreationTimeOnVideoItem = true;
+        $obj->showChannelPhotoOnVideoItem = true;
+        $obj->showChannelNameOnVideoItem = true;
         /**
          * @var mixed[] $global
          */

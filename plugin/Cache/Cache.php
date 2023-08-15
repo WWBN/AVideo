@@ -178,7 +178,7 @@ class Cache extends PluginAbstract {
                 }
 
                 if ($isBot) {
-                    $firstPageCache = strip_specific_tags($firstPageCache);
+                    $firstPageCache = strip_specific_tags($firstPageCache, ['script', 'style', 'iframe', 'object', 'applet', 'link'], true);
                     $firstPageCache = strip_render_blocking_resources($firstPageCache);
                 } else {
                     $firstPageCache = optimizeHTMLTags($firstPageCache);

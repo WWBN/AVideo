@@ -158,6 +158,7 @@ Manifest {
 * [EXT-X-KEY](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.2.4)
 * [EXT-X-MAP](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.2.5)
 * [EXT-X-PROGRAM-DATE-TIME](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.2.6)
+* [EXT-X-DATERANGE](https://datatracker.ietf.org/doc/html/draft-pantos-http-live-streaming-23#section-4.3.2.7)
 
 ### Media Playlist Tags
 
@@ -167,6 +168,7 @@ Manifest {
 * [EXT-X-ENDLIST](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.3.4)
 * [EXT-X-PLAYLIST-TYPE](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.3.5)
 * [EXT-X-START](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.5.2)
+* [EXT-X-INDEPENDENT-SEGMENTS](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.5.1)
 
 ### Master Playlist Tags
 
@@ -236,12 +238,10 @@ Example media playlist using `EXT-X-CUE-` tags.
 
 ### Not Yet Supported
 
-* [EXT-X-DATERANGE](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.2.7)
 * [EXT-X-I-FRAMES-ONLY](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.3.6)
 * [EXT-X-I-FRAME-STREAM-INF](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.4.3)
 * [EXT-X-SESSION-DATA](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.4.4)
 * [EXT-X-SESSION-KEY](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.4.5)
-* [EXT-X-INDEPENDENT-SEGMENTS](http://tools.ietf.org/html/draft-pantos-http-live-streaming#section-4.3.5.1)
 
 ### Custom Parsers
 

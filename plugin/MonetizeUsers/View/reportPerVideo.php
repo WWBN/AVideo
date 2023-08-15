@@ -8,10 +8,12 @@ foreach ($data as $value) {
     // If this videos_id is already in the $videosData array, update its reward, otherwise add it as a new entry.
     if (isset($videosData[$videosId])) {
         $videosData[$videosId]['reward'] += $reward;
+        $videosData[$videosId]['count']++;
     } else {
         $videosData[$videosId] = [
             'reward' => $reward,
             'title' => $title,
+            'count' => 1,
         ];
     }
 }
@@ -31,6 +33,32 @@ foreach ($videosData as $videosId => $videoInfo) {
         <div class="panel-body">
             <canvas id="rewardChart2" style="width:100%; height:400px;"></canvas>
         </div>
+    </div>
+
+    
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Video</th>
+              <th>Reward</th>
+              <th>Views</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php
+            foreach ($videosData as $row) {
+              echo '<tr>';
+              echo '<td>' . $row['title'] . '</td>';
+              echo '<td>' . YPTWallet::formatCurrency($row['reward']) . '</td>';
+              echo '<td>' . $row['count'] . '</td>';
+              echo '</tr>';
+            }
+            ?>
+          </tbody>
+        </table>
+      </div>
     </div>
 </div>
 

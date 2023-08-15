@@ -21,6 +21,8 @@ if (empty($isASerie)) {
 } else {
     $currentSerieVideos_id = $isASerie['id'];
 }
+
+getSharePopupButton(0, "{$global['webSiteRootURL']}viewProgram/{$program['id']}/".urlencode($program['name']), $program['name'], 'btn-xs');
 ?>
 <a href="<?php echo $link; ?>" class="btn btn-xs btn-default playAll hrefLink"  data-toggle="tooltip" title="<?php echo __("Play All"); ?>" >
     <span class="fa fa-play"></span> <span class="hidden-sm hidden-xs"><?php echo __("Play All"); ?></span>

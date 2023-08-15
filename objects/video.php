@@ -155,6 +155,16 @@ if (!class_exists('Video')) {
             }
         }
 
+        public function getOrder()
+        {
+            return intval($this->order);
+        }
+
+        public function setOrder($order)
+        {
+            $this->order = intval($order);
+        }
+
         public function getPublish_datetime()
         {
             return $this->publish_datetime;
@@ -1641,8 +1651,11 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.status = '{$status}'";
             }
             */
-
-            $sql .= self::getSQLByStatus($status, $showUnlisted);
+            if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
+                $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
+            } else {
+                $sql .= self::getSQLByStatus($status, $showUnlisted);
+            }
             //var_dump($max_duration_in_seconds);echo $sql;exit;
             if (!empty($_REQUEST['catName'])) {
                 $catName = ($_REQUEST['catName']);
@@ -1701,59 +1714,60 @@ if (!class_exists('Video')) {
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
-
-            if ($suggestedOnly) {
-                $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
-                $sql .= " ORDER BY RAND() ";
-                $sort = @$_POST['sort'];
-                unset($_POST['sort']);
-                $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                if (strpos(mb_strtolower($sql), 'limit') === false) {
-                    $sql .= " LIMIT 60 ";
-                }
-                $_POST['sort'] = $sort;
-            } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
-                if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
-                    $_POST['sort']['v.created'] = $_POST['sort']['created'];
-                    unset($_POST['sort']['created']);
-                }
-                $sort = $_POST['sort'];
-                if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
-                    $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
+            if (empty($videosArrayId)) {
+                if ($suggestedOnly) {
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                    $sql .= " ORDER BY RAND() ";
+                    $sort = @$_POST['sort'];
                     unset($_POST['sort']);
-                    $_POST['sort'] = array();
-                    if (strtoupper($created) === 'DESC') {
-                        $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
-                        $_POST['sort']['`order`'] = 'ASC';
+                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                    if (strpos(mb_strtolower($sql), 'limit') === false) {
+                        $sql .= " LIMIT 60 ";
+                    }
+                    $_POST['sort'] = $sort;
+                } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
+                    if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
+                        $_POST['sort']['v.created'] = $_POST['sort']['created'];
+                        unset($_POST['sort']['created']);
+                    }
+                    $sort = $_POST['sort'];
+                    if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
+                        $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
+                        unset($_POST['sort']);
+                        $_POST['sort'] = array();
+                        if (strtoupper($created) === 'DESC') {
+                            $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
+                            $_POST['sort']['`order`'] = 'ASC';
+                        }
+
+                        $_POST['sort']['v.created'] = $created;
+                    }
+                    //var_dump($_POST['sort']);exit;
+                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                    unset($_POST['sort']);
+                    $_POST['sort'] = $sort;
+                    //var_dump($sql);exit;
+                } else {
+                    unset($_POST['sort']['trending'], $_GET['sort']['trending']);
+                    $rows = [];
+                    if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
+                        $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
+                    }
+                    //var_dump($_REQUEST['current'], $rows); 
+                    $ids = [];
+                    foreach ($rows as $row) {
+                        $ids[] = $row['id'];
                     }
 
-                    $_POST['sort']['v.created'] = $created;
-                }
-                //var_dump($_POST['sort']);exit;
-                $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                unset($_POST['sort']);
-                $_POST['sort'] = $sort;
-                //var_dump($sql);exit;
-            } else {
-                unset($_POST['sort']['trending'], $_GET['sort']['trending']);
-                $rows = [];
-                if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
-                    $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
-                }
-                //var_dump($_REQUEST['current'], $rows); 
-                $ids = [];
-                foreach ($rows as $row) {
-                    $ids[] = $row['id'];
-                }
+                    //$daysLimit = getTrendingLimit();
 
-                //$daysLimit = getTrendingLimit();
-
-                if (!empty($ids)) {
-                    $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
-                } else {
-                    $sql .= " ORDER BY likes DESC ";
+                    if (!empty($ids)) {
+                        $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
+                    } else {
+                        $sql .= " ORDER BY likes DESC ";
+                    }
+                    $sql .= ObjectYPT::getSqlLimit();
                 }
-                $sql .= ObjectYPT::getSqlLimit();
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {
@@ -1775,7 +1789,7 @@ if (!class_exists('Video')) {
                 }
             }
 
-            //var_dump($max_duration_in_seconds);echo $sql;exit;
+            //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
 
             $timeLogName = TimeLogStart("video::getAllVideos");
@@ -3211,7 +3225,7 @@ if (!class_exists('Video')) {
 
             $tags = Video::getTags($video_id);
             $_getTagsHTMLLabelArray[$video_id] = [];
-            $valid_tags = [__("Paid Content"), __("Group"), __("Plugin"), __("Rating"),__("Pinned")];
+            $valid_tags = [__("Paid Content"), __("Group"), __("Plugin"), __("Rating"), __("Pinned")];
             foreach ($tags as $value2) {
                 if (empty($value2->label) || empty($value2->text)) {
                     continue;
@@ -3316,12 +3330,14 @@ if (!class_exists('Video')) {
             $tags = [];
 
             if (empty($type) || $type === VideoTags::$TagTypePinned) {
-                $objTag = new stdClass();
-                $objTag->label = __("Pinned");
-                $objTag->type = "default";
-                $objTag->text = '<i class="fas fa-thumbtack"></i>';
-                $tags[] = $objTag;
-                $objTag = new stdClass();
+                if ($video->getOrder()) {
+                    $objTag = new stdClass();
+                    $objTag->label = __("Pinned");
+                    $objTag->type = "default";
+                    $objTag->text = '<i class="fas fa-thumbtack"></i>';
+                    $tags[] = $objTag;
+                    $objTag = new stdClass();
+                }
             }
             if (empty($type) || $type === VideoTags::$TagTypePaid) {
                 $objTag = new stdClass();
@@ -4897,12 +4913,7 @@ if (!class_exists('Video')) {
                 return $_getPoster[$videos_id];
             }
             $images = self::getImageFromID($videos_id);
-            $_getPoster[$videos_id] = false;
-            if (!empty($images->poster)) {
-                $_getPoster[$videos_id] = $images->poster;
-            } elseif (!empty($images->posterPortrait)) {
-                $_getPoster[$videos_id] = $images->posterPortrait;
-            }
+            $_getPoster[$videos_id] = $images->default['url'];
             return $_getPoster[$videos_id];
         }
 
@@ -4910,13 +4921,7 @@ if (!class_exists('Video')) {
         {
             global $global;
             $images = self::getImageFromID($videos_id);
-            $imagePath = $images->posterLandscapePath;
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->posterLandscapeThumbs;
-            }
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->poster;
-            }
+            $imagePath = $images->default['path'];
             if (empty($imagePath) || empty(@filesize($imagePath))) {
                 if (AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')) {
                     MP4ThumbsAndGif::getImageInDuration($videos_id, 'jpg');
@@ -4930,13 +4935,7 @@ if (!class_exists('Video')) {
         {
             global $global;
             $images = self::getImageFromID($videos_id);
-            $imagePath = $images->posterLandscapePath;
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->posterLandscapeThumbs;
-            }
-            if (empty($imagePath) || !file_exists($imagePath)) {
-                $imagePath = $images->poster;
-            }
+            $imagePath = $images->default['path'];
             $rokuImage = str_replace(".jpg", "_roku.jpg", $imagePath);
             if (convertImageToRoku($imagePath, $rokuImage)) {
                 $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
@@ -5342,6 +5341,11 @@ if (!class_exists('Video')) {
         public static function getURLFriendlyFromCleanTitle($clean_title, $embed = false, $get = [])
         {
             return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly", $get);
+        }
+
+        public static function getURL($videos_id)
+        {
+            return self::getLink($videos_id, '', isIframe());
         }
 
         public static function getLink($videos_id, $clean_title, $embed = false, $get = [])
@@ -6341,7 +6345,7 @@ if (!class_exists('Video')) {
                     $favoriteBtnAddedStyle = "display: none;";
                     $favoriteBtnStyle = '';
                 }
-                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons ' . getCSSAnimationClassAndStyle('animate__flipInY', uniqid(), 0) . '">';
+                $loggedUserHTML = '<!-- getVideosListItem --><div class="galleryVideoButtons ">';
                 $loggedUserHTML .= '<button onclick="addVideoToPlayList(' . $value['id'] . ', false, ' . $value['watchLaterId'] . ');return false;" '
                     . 'class="btn btn-dark btn-xs watchLaterBtnAdded watchLaterBtnAdded' . $value['id'] . '" '
                     . 'title="' . __("Added On Watch Later") . '" style="color: #4285f4;' . $watchLaterBtnAddedStyle . '" ><i class="fas fa-check"></i></button> ';
@@ -6496,8 +6500,18 @@ if (!class_exists('Video')) {
 
                 $galleryVideoButtons .= $galleryDropDownMenu . '</div>';
             }
-            $href = Video::getLink($video['id'], $video['clean_title']);
-            $embed = Video::getLink($video['id'], $video['clean_title'], true);
+
+            if (!empty($video['playlists_id']) && isset($video['playlist_index'])) {
+                if (!class_exists('PlayLists')) {
+                    AVideoPlugin::loadPlugin('PlayLists');
+                }
+                $href = PlayLists::getLink($video['playlists_id'], false, $video['playlist_index']);
+                $embed = PlayLists::getLink($video['playlists_id'], true, $video['playlist_index']);
+            } else {
+                $href = Video::getLink($video['id'], $video['clean_title']);
+                $embed = Video::getLink($video['id'], $video['clean_title'], true);
+            }
+
             $title = safeString($video['title']);
             $a = '<a videos_id="' . $videos_id . '"
                                        href="' . $href . '"

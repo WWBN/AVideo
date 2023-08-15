@@ -15,7 +15,7 @@ global $avideoLayout;
 
             <?php
             if (empty($advancedCustom->doNotShowLeftHomeButton)) {
-                ?>
+            ?>
                 <li>
 
                     <div>
@@ -26,11 +26,11 @@ global $avideoLayout;
 
                     </div>
                 </li>
-                <?php
+            <?php
             }
 
             if (AVideoPlugin::isEnabledByName("PlayLists") && PlayLists::showTVFeatures()) {
-                ?>
+            ?>
                 <li>
                     <div>
                         <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'epg');return false;" class="btn btn-primary btn-block " style="border-radius:  0 0 0 0;">
@@ -49,10 +49,10 @@ global $avideoLayout;
 
                     </div>
                 </li>
-                <?php
+            <?php
             }
             if (empty($advancedCustom->doNotShowLeftTrendingButton)) {
-                ?>
+            ?>
                 <li>
 
                     <div>
@@ -63,37 +63,37 @@ global $avideoLayout;
 
                     </div>
                 </li>
-                <?php
+            <?php
             }
             if (User::isSwapBackActive()) {
-                ?>
+            ?>
                 <li>
-                    <button type="button" class="btn btn-success btn-block" onclick="swapUser(0);" >
+                    <button type="button" class="btn btn-success btn-block" onclick="swapUser(0);">
                         <i class="fas fa-backspace"></i> <i class="fas fa-user-friends"></i> <?php echo __("Back to"); ?> <?php echo User::getNameIdentificationById(User::isSwapBackActive()); ?>
                     </button>
-                </li> 
+                </li>
                 <?php
             }
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                 if (User::isLogged()) {
-                    ?>
+                ?>
                     <li>
                         <hr>
                     </li>
                     <li>
                         <?php
                         if (!$advancedCustomUser->disableSignOutButton) {
-                            ?>
+                        ?>
                             <div>
-                                <a href="#" onclick="avideoLogoff(true);" class="btn btn-default btn-block" >
+                                <a href="#" onclick="avideoLogoff(true);" class="btn btn-default btn-block">
                                     <?php
                                     if (!empty($_COOKIE['user']) && !empty($_COOKIE['pass'])) {
-                                        ?>
-                                        <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>    
-                                        <?php
+                                    ?>
+                                        <i class="fas fa-lock text-muted" style="opacity: 0.2;"></i>
+                                    <?php
                                     } else {
-                                        ?>
-                                        <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>    
+                                    ?>
+                                        <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>
                                     <?php }
                                     ?>
                                     <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign out"); ?>
@@ -105,9 +105,9 @@ global $avideoLayout;
                     </li>
                     <li style="min-height: 60px; margin: 5px 0;">
                         <div class="pull-left" style="margin-left: 10px;">
-                            <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;"  class="img img-thumbnail img-responsive img-circle"/>
+                            <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;" class="img img-thumbnail img-responsive img-circle" />
                         </div>
-                        <div  style="margin-left: 80px;">
+                        <div style="margin-left: 80px;">
                             <strong class="text-danger"><?php echo User::getName(); ?></strong>
                             <div><small><?php echo User::getMail(); ?></small></div>
 
@@ -126,7 +126,7 @@ global $avideoLayout;
 
                     <?php
                     if (User::canUpload()) {
-                        ?>
+                    ?>
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos');
@@ -149,12 +149,12 @@ global $avideoLayout;
                             </a>
 
                         </div>
-                    </li>    
+                    </li>
                     <?php
                     print AVideoPlugin::navBarButtons();
 
                     if ((($config->getAuthCanViewChart() == 0) && (User::canUpload())) || (($config->getAuthCanViewChart() == 1) && (User::canViewChart()))) {
-                        ?>
+                    ?>
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'charts');
@@ -164,10 +164,10 @@ global $avideoLayout;
                                 </a>
                             </div>
                         </li>
-                        <?php
+                    <?php
                     }
                     if (User::canUpload()) {
-                        ?>
+                    ?>
                         <li>
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'subscribes');
@@ -179,7 +179,7 @@ global $avideoLayout;
                         </li>
                         <?php
                         if (Category::canCreateCategory()) {
-                            ?>
+                        ?>
 
                             <li>
                                 <div>
@@ -203,9 +203,9 @@ global $avideoLayout;
                         </li>
                     <?php }
                     ?>
-                    <?php
+                <?php
                 } else {
-                    ?>
+                ?>
                     <li>
                         <hr>
                     </li>
@@ -217,7 +217,7 @@ global $avideoLayout;
                             </a>
                         </div>
                     </li>
-                    <?php
+                <?php
                 }
             }
             if (User::isAdmin()) {
@@ -227,7 +227,7 @@ global $avideoLayout;
                 </li>
                 <li>
                     <strong class="text-danger"><?php echo __("Admin Menu"); ?></strong>
-                    <ul  class="nav navbar" style="margin-bottom: 10px;">
+                    <ul class="nav navbar" style="margin-bottom: 10px;">
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
                                         return false;">
@@ -263,8 +263,8 @@ global $avideoLayout;
                                 <?php echo __("Update version"); ?>
                                 <?php
                                 if (!empty($updateFiles)) {
-                                    ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php }
-                                ?>
+                                ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php }
+                                                                                                                ?>
                             </a>
                         </li>
                         <li>
@@ -374,13 +374,13 @@ global $avideoLayout;
                                 ';
                 }
                 if (count($menus)) {
-                    ?>
+                ?>
                     <hr>
                     <strong class="text-danger"><?php echo __("Extra Permissions"); ?></strong>
-                    <ul  class="nav navbar" style="margin-bottom: 10px;">
+                    <ul class="nav navbar" style="margin-bottom: 10px;">
                         <?php eval(implode(" ", $menus)); ?>
                     </ul>
-                    <?php
+            <?php
                 }
             }
             ?>
@@ -390,7 +390,7 @@ global $avideoLayout;
 
             <?php
             if (empty($advancedCustom->doNotShowLeftMenuAudioAndVideoButtons)) {
-                ?>
+            ?>
                 <li>
                     <hr>
                 </li>
@@ -417,7 +417,7 @@ global $avideoLayout;
 
             <?php
             if (empty($advancedCustom->removeBrowserChannelLinkFromMenu)) {
-                ?>
+            ?>
                 <!-- Channels -->
                 <li>
                     <hr>
@@ -426,7 +426,7 @@ global $avideoLayout;
                     <strong class="text-danger"><?php echo __("Channels"); ?></strong>
                 </li>
                 <li>
-                    <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');
+                    <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');
                                 return false;">
                         <i class="fa fa-search"></i>
                         <?php echo __("Browse Channels"); ?>
@@ -437,14 +437,14 @@ global $avideoLayout;
             ?>
             <?php
             if (!empty($avideoLayout->categoriesTopLeftMenu)) {
-                ?>
+            ?>
                 <li>
                     <hr>
                 </li>
                 <!-- categories -->
                 <li>
                     <strong>
-                        <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
+                        <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
                                     return false;" class="text-danger">
                             <?php echo __($advancedCustom->CategoryLabel); ?>
                         </a>
@@ -456,7 +456,8 @@ global $avideoLayout;
                 $parsed_cats = [];
                 if (!function_exists('mkSub')) {
 
-                    function mkSub($catId) {
+                    function mkSub($catId)
+                    {
                         global $global, $parsed_cats;
                         unset($_GET['parentsOnly']);
                         $subcats = Category::getChildCategories($catId);
@@ -474,8 +475,8 @@ global $avideoLayout;
                                 }
                                 //$parsed_cats[] = $subcat['id'];
                                 echo '<li class="navsub-toggle ' . ($subcat['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
-                                . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
-                                . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
+                                    . '<a href="' . $global['webSiteRootURL'] . 'cat/' . $subcat['clean_name'] . '" >'
+                                    . '<span class="' . (empty($subcat['iconClass']) ? "fa fa-folder" : $subcat['iconClass']) . '"></span>  ' . __($subcat['name']) . ' <span class="badge">' . $subcat['total'] . '</span>';
                                 echo '</a>';
                                 mkSub($subcat['id']);
                                 echo '</li>';
@@ -483,7 +484,6 @@ global $avideoLayout;
                             echo "</ul>";
                         }
                     }
-
                 }
                 if (empty($advancedCustom->doNotDisplayCategoryLeftMenu)) {
                     $post = $_POST;
@@ -518,7 +518,7 @@ global $avideoLayout;
                         }
                         //$parsed_cats[] = $value['id'];
                         echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
-                        . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
+                            . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
                         echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
                         if (empty($advancedCustom->hideCategoryVideosCount)) {
                             echo ' <span class="badge">' . $total . '</span>';
@@ -532,6 +532,17 @@ global $avideoLayout;
                 }
 
                 $_REQUEST['rowCount'] = $_rowCount;
+            } else {
+                ?>
+                <li>
+                    <hr>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');return false;">
+                        <i class="fas fa-list"></i>
+                        <?php echo __($advancedCustom->CategoryLabel); ?></a>
+                </li>
+            <?php
             }
             ?>
 
@@ -542,55 +553,55 @@ global $avideoLayout;
             </li>
             <?php
             if (empty($advancedCustom->disableInstallPWAButton)) {
-                ?>
+            ?>
                 <li class="nav-item A2HSInstall" style="display: none;">
                     <a class="nav-link" href="#" onclick="A2HSInstall();
                                 return false;">
                         <i class="fas fa-arrow-alt-circle-down"></i>
                         <?php echo __("Install"); ?>
                     </a>
-                </li>    
-                <?php
+                </li>
+            <?php
             }
             if (empty($advancedCustom->disablePlayLink)) {
-                ?>
+            ?>
                 <li class="nav-item">
                     <a class="nav-link" href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'playLink');
                                 return false;">
                         <i class="fas fa-play-circle"></i>
                         <?php echo __("Play a Link"); ?>
                     </a>
-                </li>    
-                <?php
+                </li>
+            <?php
             }
             if (empty($advancedCustom->disableHelpLeftMenu)) {
-                ?>
+            ?>
                 <li>
-                    <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'help');
+                    <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'help');
                                 return false;">
                         <span class="glyphicon glyphicon-question-sign"></span>
                         <?php echo __("Help"); ?>
                     </a>
                 </li>
-                <?php
+            <?php
             }
 
             if (empty($advancedCustom->disableAboutLeftMenu)) {
-                ?>
+            ?>
                 <li>
-                    <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'about');
+                    <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'about');
                                 return false;">
                         <span class="glyphicon glyphicon-info-sign"></span>
                         <?php echo __("About"); ?>
                     </a>
                 </li>
-                <?php
+            <?php
             }
 
             if (empty($advancedCustom->disableContactLeftMenu)) {
-                ?>
+            ?>
                 <li>
-                    <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'contact');
+                    <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'contact');
                                 return false;">
                         <span class="glyphicon glyphicon-comment"></span>
                         <?php echo __("Contact"); ?>
