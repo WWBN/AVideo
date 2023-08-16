@@ -3,7 +3,11 @@
 // Fetch requested image URL
 $imageURL = !empty($_GET['image']) ? $_GET['image'] : $_SERVER["REQUEST_URI"];
 $rootDir = dirname(__FILE__) . '/../../';
-$imgLocalFile = "{$rootDir}/{$imageURL}";
+if($imageURL == 'favicon.ico'){
+    $imgLocalFile = "{$rootDir}/videos/{$imageURL}";
+}else{
+    $imgLocalFile = "{$rootDir}/{$imageURL}";
+}
 
 if (file_exists($imgLocalFile)) {
     // Determine the content type based on the file extension
