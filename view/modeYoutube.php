@@ -106,12 +106,12 @@ if (!empty($evideo)) {
             $_REQUEST['catName'] = '';
         }
 
-        if (empty($video) && !empty($_REQUEST['v'])) {
-            $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
+        $videos_id = getVideos_id();
+        if (empty($video) && !empty($videos_id)) {
+            $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
             //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
-
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
