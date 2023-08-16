@@ -1020,6 +1020,9 @@ class API extends PluginAbstract
                     if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
                     }
+                    if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                        $rows[$key]['relatedVideos'][$key2]['videoLink'] = modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
+                    }
                 }
             }
             $rows[$key]['adsImages'] = array();
