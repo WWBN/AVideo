@@ -905,6 +905,8 @@ img.blur {
 
 #CloseButtonInVideo {
     display: none;
+    justify-content: center;   /* Horizontally centers the content (i.e., the <i> element) */
+    align-items: center;  
     z-index: 9999;
     position: fixed;
     top: 10px;
@@ -912,6 +914,8 @@ img.blur {
     background-color: rgba(255, 255, 255, 0.5);
     color: #333;
     border-radius: 50%;
+    height: 25px;
+    width: 25px;
 }
 #CloseButtonInVideo:hover {
     background-color: rgba(255, 255, 255, 1);
@@ -920,7 +924,7 @@ img.blur {
 .vjs-user-active #CloseButtonInVideo,
 .vjs-paused #CloseButtonInVideo,
 body>#CloseButtonInVideo {
-    display: inline-block;
+    display: flex;
 }
 
 .rightProfile li a {
