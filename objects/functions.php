@@ -4461,42 +4461,42 @@ function getLdJson($videos_id)
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '
-    <script type="application/ld+json" id="application_ld_json">
-        {
-        "@context": "http://schema.org/",
-        "@type": "VideoObject",
-        "name": "' . getSEOTitle($video['title']) . '",
-        "description": "' . $description . '",
-        "thumbnailUrl": [
-        "' . $img . '"
-        ],
-        "uploadDate": "' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '",
-        "duration": "' . $duration . '",
-        "contentUrl": "' . Video::getLinkToVideo($videos_id, '', false, false) . '",
-        "embedUrl": "' . Video::getLinkToVideo($videos_id, '', true, false) . '",
-        "interactionCount": "' . $video['views_count'] . '",
-        "@id": "' . Video::getPermaLink($videos_id) . '",
-        "datePublished": "' . date("Y-m-d", strtotime($video['created'])) . '",
-        "interactionStatistic": [
-        {
-        "@type": "InteractionCounter",
-        "interactionService": {
-        "@type": "WebSite",
-        "name": "' . str_replace('"', '', $config->getWebSiteTitle()) . '",
-        "@id": "' . $global['webSiteRootURL'] . '"
-        },
-        "interactionType": "http://schema.org/LikeAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        },
-        {
-        "@type": "InteractionCounter",
-        "interactionType": "http://schema.org/WatchAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        }
-        ]
-        }
-    </script>';
+    $data = array(
+        "@context" => "http://schema.org/",
+        "@type" => "VideoObject",
+        "name" => getSEOTitle($video['title']),
+        "description" => $description,
+        "thumbnailUrl" => array($img),
+        "uploadDate" => date("Y-m-d\Th:i:s", strtotime($video['created'])),
+        "duration" => $duration,
+        "contentUrl" => Video::getLinkToVideo($videos_id, '', false, false),
+        "embedUrl" => Video::getLinkToVideo($videos_id, '', true, false),
+        "interactionCount" => $video['views_count'],
+        "@id" => Video::getPermaLink($videos_id),
+        "datePublished" => date("Y-m-d", strtotime($video['created'])),
+        "interactionStatistic" => array(
+            array(
+                "@type" => "InteractionCounter",
+                "interactionService" => array(
+                    "@type" => "WebSite",
+                    "name" => str_replace('"', '', $config->getWebSiteTitle()),
+                    "@id" => $global['webSiteRootURL']
+                ),
+                "interactionType" => "http://schema.org/LikeAction",
+                "userInteractionCount" => $video['views_count']
+            ),
+            array(
+                "@type" => "InteractionCounter",
+                "interactionType" => "http://schema.org/WatchAction",
+                "userInteractionCount" => $video['views_count']
+            )
+        )
+    );
+
+    $output = '<script type="application/ld+json" id="application_ld_json">';
+    $output .= json_encode($data, JSON_UNESCAPED_SLASHES);
+    $output .= '</script>';
+
     ObjectYPT::setCacheGlobal("getLdJson{$videos_id}", $output);
     echo $output;
 }
@@ -10847,7 +10847,7 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type)
         if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
         } else {
-            _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
+            //_error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
         }
     } else {
         _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid vidreo type");

@@ -396,6 +396,25 @@ class Cache extends PluginAbstract {
         return CachesInDB::_deleteCacheStartingWith('firstPage');
     }
 
+    public static function deleteOldCache($days, $limit = 5000) {
+        global $global;
+        $days = intval($days);
+        if (!empty($days)) {
+            $sql = "DELETE FROM CachesInDB ";
+            $sql .= " WHERE created < DATE_SUB(NOW(), INTERVAL ? DAY) ";
+            $sql .= " LIMIT $limit";
+            $global['lastQuery'] = $sql;
+    
+            return sqlDAL::writeSql($sql, "i", [$days]);
+        }
+        return false;
+    }
+    function executeEveryMinute() {
+        global $global;
+        $global['systemRootPath'] . 'plugin/Cache/deleteStatistics.json.php';
+        self::deleteOldCache(1);
+    }
+
 }
 
 function sanitize_output($buffer) {

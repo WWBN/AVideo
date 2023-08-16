@@ -99,6 +99,7 @@ if (!isBot()) {
     <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
     <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
     <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
+    <script src="<?php echo getURL('locale/function.js.php'); ?>&lang=<?php echo revertLangString(getLanguage()); ?>"></script>
 <?php
 }
 if (!isVideo()) {

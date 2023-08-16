@@ -94,3 +94,4 @@ test.php
 /plugin/YPTWebRTC/
 plugin/CustomizeUser/getMyAccount.php
 *.rnd
+/plugin/Gift/

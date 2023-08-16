@@ -25,10 +25,10 @@ class PlayerSkins extends PluginAbstract {
             $names[] = $path_parts['filename'];
         }
         $desc .= $desc . "<code>" . implode("</code> or <code>", $names) . "</code>";
-        
+
         $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/epg.php';
         $desc .= "<br>crontab for auto generate cache for EPG links <code>0 * * * * php {$dir}</code>";
-        
+
         return $desc;
     }
 
@@ -70,13 +70,14 @@ class PlayerSkins extends PluginAbstract {
         $obj->contextMenuShare = true;
         $obj->playerFullHeight = false;
         $obj->playsinline = true;
+        $obj->showVideoSEOViewForBots = true;
 
         return $obj;
     }
-    
-    static function getPlaysinline(){
+
+    static function getPlaysinline() {
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
-        if($obj->playsinline){
+        if ($obj->playsinline) {
             return ' playsinline webkit-playsinline="webkit-playsinline" ';
         }
         return '';
@@ -103,7 +104,7 @@ class PlayerSkins extends PluginAbstract {
             }
             $images = Video::getImageFromFilename($filename);
             if ($vType == 'video') {
-                $htmlMediaTag = '<video '.self::getPlaysinline()
+                $htmlMediaTag = '<video ' . self::getPlaysinline()
                         . 'preload="auto" poster="' . $images->poster . '" controls 
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == "video") {
@@ -130,7 +131,7 @@ class PlayerSkins extends PluginAbstract {
                  */
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
             } else if ($vType == 'audio') {
-                $htmlMediaTag = '<audio '.self::getPlaysinline().'
+                $htmlMediaTag = '<audio ' . self::getPlaysinline() . '
                        preload="auto"
                        poster="' . $images->poster . '" controls class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" id="mainVideo">';
                 if ($video['type'] == "audio" || Video::forceAudio()) {
@@ -152,14 +153,12 @@ class PlayerSkins extends PluginAbstract {
                 }
                 $_GET['isEmbedded'] = "";
                 if (
-                    ($disableYoutubeIntegration) 
-                    || 
-                    (
-                        (strpos($video['videoLink'], "youtu.be") == false) 
-                        && (strpos($video['videoLink'], "youtube.com") == false) 
+                        ($disableYoutubeIntegration) ||
+                        (
+                        (strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false)
                         //&& (strpos($video['videoLink'], "vimeo.com") == false)
-                    )
-                    ) {
+                        )
+                ) {
                     $_GET['isEmbedded'] = "e";
                     $isVideoTypeEmbed = 1;
                     $url = parseVideos($video['videoLink']);
@@ -167,9 +166,9 @@ class PlayerSkins extends PluginAbstract {
                         $url = addQueryStringParameter($url, 'autoplay', 1);
                     }
                     $htmlMediaTag = "<!-- Embed Link 1 {$video['title']} {$video['filename']} -->";
-                    $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                    $htmlMediaTag .= '<video ' . self::getPlaysinline() . ' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
                     //$htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
-                    $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
+                    $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" ' . Video::$iframeAllowAttributes . ' src="' . $url . '"></iframe>';
                     //$htmlMediaTag .= '</div>';
                 } else {
                     // youtube!
@@ -181,7 +180,7 @@ class PlayerSkins extends PluginAbstract {
                     $_GET['isMediaPlaySite'] = $video['id'];
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
                     $htmlMediaTag = "<!-- Embed Link 2 YoutubeIntegration {$video['title']} {$video['filename']} -->";
-                    $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+                    $htmlMediaTag .= '<video ' . self::getPlaysinline() . ' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
                     $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
@@ -192,38 +191,38 @@ class PlayerSkins extends PluginAbstract {
                 $link = addQueryStringParameter($link, 'playlist_index', @$_REQUEST['playlist_index']);
 
                 $htmlMediaTag = "<!-- Serie {$video['title']} {$video['filename']} -->";
-                $htmlMediaTag .= '<video '.self::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
-                $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $link . '"></iframe>';
+                $htmlMediaTag .= '<video ' . self::getPlaysinline() . ' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+                $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" ' . Video::$iframeAllowAttributes . ' src="' . $link . '"></iframe>';
                 $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
             }
 
             $html .= "<script>mediaId = '{$video['id']}';var player;" . self::playerJSCodeOnLoad($video['id'], @$autoPlayURL) . '</script>';
         }
 
- /*       
-        $col1Classes = 'col-md-2 firstC';
-        $col2Classes = 'col-md-8 secC';
-        $col3Classes = 'col-md-2 thirdC';
-        if ($obj->playerFullHeight) {
-            $col2Classes .= ' text-center playerFullHeight';
-        }
+        /*
+          $col1Classes = 'col-md-2 firstC';
+          $col2Classes = 'col-md-8 secC';
+          $col3Classes = 'col-md-2 thirdC';
+          if ($obj->playerFullHeight) {
+          $col2Classes .= ' text-center playerFullHeight';
+          }
 
-        $html .= '
-<div class="row main-video" id="mvideo">
-    <div class="' . $col1Classes . '"></div>
-    <div class="' . $col2Classes . '">
-        <div id="videoContainer">
-            <div id="floatButtons" style="display: none;">
-                <p class="btn btn-outline btn-xs move">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                </p>
-                <button type="button" class="btn btn-outline btn-xs"
-                        onclick="closeFloatVideo(); floatClosed = 1;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="main-video" class="embed-responsive embed-responsive-16by9">' . $htmlMediaTag . '</div>';
-*/
+          $html .= '
+          <div class="row main-video" id="mvideo">
+          <div class="' . $col1Classes . '"></div>
+          <div class="' . $col2Classes . '">
+          <div id="videoContainer">
+          <div id="floatButtons" style="display: none;">
+          <p class="btn btn-outline btn-xs move">
+          <i class="fas fa-expand-arrows-alt"></i>
+          </p>
+          <button type="button" class="btn btn-outline btn-xs"
+          onclick="closeFloatVideo(); floatClosed = 1;">
+          <i class="fas fa-times"></i>
+          </button>
+          </div>
+          <div id="main-video" class="embed-responsive embed-responsive-16by9">' . $htmlMediaTag . '</div>';
+         */
 
         //$html .= showCloseButton() . '</div></div><div class="' . $col3Classes . '"></div></div>';
         $html .= getMVideo($htmlMediaTag);
@@ -305,9 +304,22 @@ class PlayerSkins extends PluginAbstract {
         return $js . $css . $oembed;
     }
 
-    static function showAutoplay(){
+    static function showAutoplay() {
         $obj = AVideoPlugin::getDataObject('PlayerSkins');
         return !isLive() && $obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch']);
+    }
+
+    public function getStart() {
+        global $global;
+        /*
+        if (!isBot()) {
+            $obj = AVideoPlugin::getObjectData('PlayerSkins');
+            if ($obj->showVideoSEOViewForBots) {
+                include "{$global['systemRootPath']}plugin/PlayerSkins/seo.php";
+            }
+        }
+         * 
+         */
     }
 
     public function getFooterCode() {
@@ -318,10 +330,10 @@ class PlayerSkins extends PluginAbstract {
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
         if (
-                !empty($_GET['videoName']) || 
-                !empty($_GET['u']) || 
-                !empty($_GET['evideo']) || 
-                !empty($_GET['playlists_id']) || 
+                !empty($_GET['videoName']) ||
+                !empty($_GET['u']) ||
+                !empty($_GET['evideo']) ||
+                !empty($_GET['playlists_id']) ||
                 (is_array($video) && !empty($video['id']))) {
             if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
@@ -333,7 +345,7 @@ class PlayerSkins extends PluginAbstract {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/logo.js"));
                 //$js .= "<script src=\"".getCDN()."plugin/PlayerSkins/logo.js\"></script>";
             }
-            if($obj->showPictureInPicture){
+            if ($obj->showPictureInPicture) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/pipButton.js"));
             }
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
@@ -363,8 +375,8 @@ class PlayerSkins extends PluginAbstract {
                 }
             }
             $videos_id = getVideos_id();
-            
-            $event = "updateMediaSessionMetadata();"; 
+
+            $event = "updateMediaSessionMetadata();";
             PlayerSkins::getStartPlayerJS($event);
             if (!empty($videos_id) && Video::getEPG($videos_id)) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/epgButton.js"));
@@ -374,9 +386,9 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             $video = Video::getVideoLight($videos_id);
             $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
-            if(empty($spectrumSource["path"])){
-                if(AVideoPlugin::isEnabledByName('MP4ThumbsAndGif') && method_exists('MP4ThumbsAndGif', 'getSpectrum')){
-                    if(MP4ThumbsAndGif::getSpectrum($videos_id)){
+            if (empty($spectrumSource["path"])) {
+                if (AVideoPlugin::isEnabledByName('MP4ThumbsAndGif') && method_exists('MP4ThumbsAndGif', 'getSpectrum')) {
+                    if (MP4ThumbsAndGif::getSpectrum($videos_id)) {
                         $spectrumSource = Video::getSourceFile($video['filename'], "_spectrum.jpg");
                     }
                 }
@@ -424,7 +436,7 @@ class PlayerSkins extends PluginAbstract {
                 $dataSetup[] = "vimeo:{customVars: {wmode: \"transparent\", origin: \"{$global['webSiteRootURL']}\"}}";
             }
         }
-        if(!$obj->showPictureInPicture){
+        if (!$obj->showPictureInPicture) {
             $dataSetup[] = "controlBar: {pictureInPictureToggle: false}";
         }
 
@@ -549,7 +561,7 @@ class PlayerSkins extends PluginAbstract {
                 });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
         }
         $js .= "}";
-        
+
         $js .= "if(typeof player !== 'undefined'){";
         $js .= "player.ready(function () {console.log('player.ready');";
         $js .= "player.on('error', () => {AvideoJSError(player.error().code);});";
@@ -573,22 +585,22 @@ class PlayerSkins extends PluginAbstract {
                     }} catch (e) {
                         console.error('error-display', e);
                     };";
-       $js .= "try {";
-       $js .= implode(' } catch (e) {console.error(\'onPlayerReady\', e);};try { ', $prepareStartPlayerJS_onPlayerReady).";";
-       $js .= " } catch (e) {console.error('onPlayerReady', e);}";
-       $js .= $play;
-       $js .= "});";
+        $js .= "try {";
+        $js .= implode(' } catch (e) {console.error(\'onPlayerReady\', e);};try { ', $prepareStartPlayerJS_onPlayerReady) . ";";
+        $js .= " } catch (e) {console.error('onPlayerReady', e);}";
+        $js .= $play;
+        $js .= "});";
 
         if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/loopbutton.js');
         }
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
-        
+
         $js .= "}";
         if (empty($noReadyFunction)) {
             $js .= "});";
         }
-        
+
         //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;
@@ -602,7 +614,7 @@ class PlayerSkins extends PluginAbstract {
             $videos_id = getVideos_id();
             if (!empty($videos_id)) {
                 $video = Video::getVideoLight($videos_id);
-                if(!empty($video)){
+                if (!empty($video)) {
                     $progress = Video::getVideoPogressPercent($videos_id);
                     if (!empty($progress) && !empty($progress['lastVideoTime'])) {
                         $currentTime = intval($progress['lastVideoTime']);
@@ -618,7 +630,7 @@ class PlayerSkins extends PluginAbstract {
                     if ($maxCurrentTime <= $currentTime + 5) {
                         $currentTime = 0;
                     }
-                }else{
+                } else {
                     return 0;
                 }
             }
@@ -806,14 +818,12 @@ class PlayerSkins extends PluginAbstract {
             PlayerSkins::getStartPlayerJS($onPlayerReady);
         }
     }
-    
-    
-    
+
     public function getWatchActionButton($videos_id) {
         global $global, $video;
         include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButton.php';
     }
-    
+
     public function getGalleryActionButton($videos_id) {
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButtonGallery.php';

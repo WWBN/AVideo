@@ -85,6 +85,7 @@ Options All -Indexes
     RewriteEngine on
     #VideoHLS for DRM
 
+    RewriteRule    ^buy/?  plugin/Layout/buy.php [NC,L,QSA]
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]
     RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
 

@@ -227,7 +227,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                 if ($(this).attr('type') === 'checkbox') {
                     if (!$(this).is(':checked')) {
                         $(this).closest('.input-group').addClass(errorClass);
-                        errorFound = 'Confirmation Required';
+                        errorFound = __('Confirmation Required');
                         return false;
                     }
                 } else {
@@ -238,7 +238,7 @@ getCSSAnimationClassAndStyleAddWait(0.5);
                         if (!label) {
                             label = $(this).attr('name');
                         }
-                        errorFound = label + ' is required';
+                        errorFound = label + ' ' + __('is required');
                         return false;
                     }
                 }
@@ -253,23 +253,23 @@ getCSSAnimationClassAndStyleAddWait(0.5);
         // Password doesn't match
         if (!$('#inputPassword').val().match(/[0-9a-z]+/i)) {
             $('#inputPassword').closest('.input-group').addClass(errorClass);
-            avideoAlertError("<?php echo __("Your password cannot be blank"); ?>");
+            avideoAlertError(__("Your password cannot be blank"));
             return false;
         }
         if (!checkIfPasswordsMatch()) {
-            avideoAlertError("<?php echo __("Your password does not match!"); ?>");
+            avideoAlertError(__("Your password does not match!"));
             return false;
         }
         if ($('#inputEmail').is(":visible") && !isEmailValid($('#inputEmail').val())) {
             if (!isEmailValid($('#inputUser').val())) {
                 $('#inputEmail').closest('.input-group').addClass(errorClass);
-                avideoAlertError("<?php echo __("You must specify a valid email"); ?>");
+                avideoAlertError(__("You must specify a valid email"));
                 return false;
             }
         }
         if (!$('#inputUser').val().match(/^[0-9a-z@._-]{3,}$/i) && !isEmailValid($('#inputUser').val())) {
             $('#inputUser').closest('.input-group').addClass(errorClass);
-            avideoAlertError("<?php echo __("Invalid user"); ?>");
+            avideoAlertError(__("Invalid user"));
             return false;
         }
 

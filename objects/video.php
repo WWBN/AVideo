@@ -545,7 +545,7 @@ if (!class_exists('Video')) {
             if (empty($this->duration_in_seconds)) {
                 $this->duration_in_seconds = durationToSeconds($this->duration);
             }
-
+            //var_dump($this->clean_title);exit;
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
                     forbiddenPage('Permission denied');
@@ -1428,7 +1428,6 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             $sql .= "ORDER BY RAND() LIMIT {$limit}";
-
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
 
@@ -2881,7 +2880,6 @@ if (!class_exists('Video')) {
         public function setDescription($description)
         {
             global $global, $advancedCustom;
-
             if (empty($advancedCustom)) {
                 $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
             }
@@ -5185,7 +5183,7 @@ if (!class_exists('Video')) {
             sqlDAL::close($res);
 
             if ($res !== false) {
-                if ($videoRow !== false) {
+                if (is_array($videoRow)) {
                     return $videoRow['clean_title'];
                 }
             } else {
