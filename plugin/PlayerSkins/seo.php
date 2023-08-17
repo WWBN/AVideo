@@ -30,7 +30,7 @@ $relatedVideos = Video::getRelatedMovies($videos_id);
     <?php
     getOpenGraph($videos_id);
     ?>
-    <title><?php echo htmlentities(getSEOTitle($video->getTitle())); ?></title>
+    <title><?php echo getSEOTitle($video->getTitle(), 75); ?></title>
 </head>
 
 <body>
