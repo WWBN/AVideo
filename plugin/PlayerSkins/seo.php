@@ -35,7 +35,7 @@ $relatedVideos = Video::getRelatedMovies($videos_id);
 <body>
     <section>
         <h1><?php echo $video->getTitle(); ?></h1>
-        <video controls poster="<?php echo Video::getPoster($video->getId()); ?>">
+        <video controls poster="<?php echo Video::getPoster($video->getId()); ?>" style="width: 100%;">
             <?php
             echo getSources($video->getFilename());
             ?>

@@ -447,8 +447,8 @@ Allow: /plugin/Live/*.css
 Allow: /plugin/Live/*.js
 Allow: /plugin/*.css
 Allow: /plugin/*.js
-Allow: .js
-Allow: .css";
+Allow: *.js
+Allow: *.css";
         $obj->robotsTXT = $o;
         self::addDataObjectHelper('robotsTXT', 'robots.txt file content', 'robots.txt is a plain text file that follows the Robots Exclusion Standard. A robots.txt file consists of one or more rules. Each rule blocks (or allows) access for a given crawler to a specified file path in that website.');
         
