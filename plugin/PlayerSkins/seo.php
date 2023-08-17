@@ -23,7 +23,7 @@ function extractKeywords($description) {
 $video = new Video('', '', $videos_id);
 $keywords = strip_tags($advancedCustom->keywords);
 $relatedVideos = Video::getRelatedMovies($videos_id);
-$keywords2 = extractKeywords($video->getDescription());
+$keywords2 = extractKeywords(strip_tags($video->getDescription()));
 $keywords3 = implode(', ', $keywords2);
 ?>
 <!DOCTYPE html>
