@@ -4152,8 +4152,8 @@ if (!class_exists('Video')) {
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
-                if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip)$/i', $type)) {
-                    if (file_exists($source['path']) && filesize($source['path']) < 1024) {
+                if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
+                    if (file_exists($source['path']) && (($type != '.m3u8' && filesize($source['path']) < 1024) || ($type === '.m3u8' && filesize($source['path']) < 20))) {
                         if (!empty($cdn_obj->enable_storage)) {
                             $source['url'] = CDNStorage::getURL("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
@@ -4191,7 +4191,6 @@ if (!class_exists('Video')) {
                         return $VideoGetSourceFile[$cacheName];
                     }
                 }
-
                 $videosPaths[$filename][$type][intval($includeS3)] = $source;
             } else {
                 $source = $videosPaths[$filename][$type][intval($includeS3)];

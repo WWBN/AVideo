@@ -2013,3 +2013,11 @@ body.ypt-is-compressed #videoCol {
 #bigVideoCarousel .galleryVideoButtons button {
     display: inline-block;
 }
+
+#_avideoPageLoader{
+    display: none !important;
+}
+
+#_avideoPageContent{
+    display: unset !important;
+}

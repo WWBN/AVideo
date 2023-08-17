@@ -682,13 +682,15 @@ class Layout extends PluginAbstract {
             'view/css/custom/default.css',
             'videos/cache/custom.css',
             'view/css/main.css',
+            'plugin/Gallery/style.css',
+            'view/css/navbar.css'
         );
         preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
                 $response = self::tryToReplace($value, '', $html);
                 if ($response['success']) {
-                    if (strpos($str, 'rel="preload"') === false) {
+                    if (strpos($value, 'rel="preload"') === false) {
                         $containsCritical = false;
                         foreach ($critical as $crit) {
                             if (strpos($value, $crit) !== false) {

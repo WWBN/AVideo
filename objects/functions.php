@@ -1528,7 +1528,7 @@ function getVideosDir()
 
 $getVideosURL_V2Array = [];
 
-function getVideosURL_V2($fileName, $recreateCache = false)
+function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
 {
     global $global, $getVideosURL_V2Array;
     if (empty($fileName)) {
@@ -1579,6 +1579,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
         } else {
             //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
+        
         TimeLogEnd($TimeLog1, __LINE__);
     } else {
         _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -1703,6 +1704,16 @@ function getVideosURL_V2($fileName, $recreateCache = false)
     return $getVideosURL_V2Array[$cleanfilename];
 }
 
+function checkIfFilesAreValid($files){
+    foreach ($files as $value) {
+        if(($value['type'] == 'video' || $value['type'] == 'audio') && @filesize($value['path'])<20){
+            $video = Video::getVideoFromFileNameLight($value['filename']);
+            Video::clearCache($video['id']);
+
+        }
+    }
+}
+
 //Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
 function sortVideosURL($a, $b)
 {
@@ -1788,7 +1799,6 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
-
     if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
     } else {
@@ -2977,9 +2987,9 @@ function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimat
 {
     $id = uniqid();
     //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
-    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, true) . PHP_EOL;
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, $preloadImage) . PHP_EOL;
     if (empty($doNotUseAnimatedGif) && !empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {
-        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true) . PHP_EOL;
+        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', $preloadImage) . PHP_EOL;
     }
     return '<div class="thumbsImage">' . $img . '</div>';
 }

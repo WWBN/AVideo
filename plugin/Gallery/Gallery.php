@@ -43,11 +43,11 @@ class Gallery extends PluginAbstract
         $obj = $this->getDataObject();
         // preload image
         $js = "<script>var img1 = new Image();img1.src=\"" . getCDN() . "view/img/video-placeholder-gray.png\";</script>";
-        $css = '<link href="' . getCDN() . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getURL('plugin/Gallery/style.css') . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
             if (canFullScreen()) {
-                $css .= '<link href="' . getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<link href="' . getURL('plugin/YouPHPFlix2/view/css/fullscreen.css') . '" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
                 $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
             }
