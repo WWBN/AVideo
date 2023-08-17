@@ -87,6 +87,7 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
         $context = stream_context_create(array('http' => array('timeout' => 30)));
         $content = file_get_contents($filename, false, $context);
         if(strlen($content) < 20 && preg_match('/Dummy File/i', $content)){
+            _error_log("Video::clearCache [{$_GET['videoDirectory']}] ".$video['id']);
             $video = Video::getVideoFromFileNameLight($_GET['videoDirectory']);
             Video::clearCache($video['id']);
         }
