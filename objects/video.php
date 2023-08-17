@@ -4152,8 +4152,8 @@ if (!class_exists('Video')) {
                 }
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
-                if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
-                    if (file_exists($source['path']) && (($type != '.m3u8' && filesize($source['path']) < 1024) || ($type === '.m3u8' && filesize($source['path']) < 20))) {
+                if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip)$/i', $type)) {
+                    if (file_exists($source['path']) && filesize($source['path']) < 1024) {
                         if (!empty($cdn_obj->enable_storage)) {
                             $source['url'] = CDNStorage::getURL("{$filename}{$type}");
                             $source['url_noCDN'] = $source['url'];
@@ -4190,6 +4190,21 @@ if (!class_exists('Video')) {
                         //echo PHP_EOL.'---'.PHP_EOL;var_dump($source, $type, !file_exists($source['path']), ($type !== ".m3u8" && !is_dir($source['path']) && (filesize($source['path']) < 1000 && filesize($source['path']) != 10)));echo PHP_EOL.'+++'.PHP_EOL;
                         return $VideoGetSourceFile[$cacheName];
                     }
+                }
+                $typesToVerify = array('.m3u8', '.mp4');
+                if($filename == "video_230813150408_va39e" && in_array($type, $typesToVerify)){
+                    if(isDummyFile($source['path']) ){
+                        if($cdnObject = AVideoPlugin::getDataObjectIfEnabled('CDN')){
+                            if($cdnObject->enable_storage){
+                                if (strpos($source['url'], $cdnObject->storage_username) === false) {
+                                    var_dump($includeS3 , preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip)$/i', $type), __LINE__);exit;
+                                    $source['url'] = CDNStorage::getURL("{$filename}{$type}");
+                                    //var_dump(PHP_EOL, $cdnObject->storage_username, $includeS3, "{$filename}{$type}", $source['url'], strpos($source['url'], $cdnObject->storage_username), CDNStorage::getURL("{$filename}{$type}"));exit;
+                                } 
+                            }
+                        }
+                    }
+                    var_dump($filename, $cdn, $type, $includeS3, $source);exit;
                 }
                 $videosPaths[$filename][$type][intval($includeS3)] = $source;
             } else {
