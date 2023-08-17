@@ -1695,6 +1695,11 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
 
         ObjectYPT::setCacheGlobal($cacheName, $files);
     }
+    /*
+    if(empty($recreateCache) && $fileName == "video_230813150408_va39e"){
+        var_dump($fileName, $files, debug_backtrace());exit;
+    }
+    */
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");

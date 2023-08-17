@@ -4211,7 +4211,7 @@ if (!class_exists('Video')) {
             }
             /*
             if($filename == "video_230813150408_va39e" && $type == '.m3u8'){
-                var_dump($filename, $type,$source);exit;
+                var_dump($filename, $type,$source, debug_backtrace());exit;
             }
             */
             $source = AVideoPlugin::modifyURL($source);
