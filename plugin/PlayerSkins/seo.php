@@ -14,12 +14,20 @@ function extractKeywords($description) {
     // Convert description to lowercase and tokenize into words
     $words = str_word_count(strtolower($description), 1);
 
-    // Filter out stopwords and get unique words
-    $keywords = array_diff($words, $stopWords);
+    // Filter out stopwords, words with length less than 3, and get the frequency of each word
+    $filteredWords = array_filter($words, function($word) use ($stopWords) {
+        return !in_array($word, $stopWords) && strlen($word) >= 3;
+    });
 
-    // Return the unique keywords
-    return array_unique($keywords);
+    $wordFrequencies = array_count_values($filteredWords);
+
+    // Sort by frequency
+    arsort($wordFrequencies);
+
+    // Return the top 10 words
+    return array_slice(array_keys($wordFrequencies), 0, 10);
 }
+
 $video = new Video('', '', $videos_id);
 $keywords = strip_tags($advancedCustom->keywords);
 $relatedVideos = Video::getRelatedMovies($videos_id);
