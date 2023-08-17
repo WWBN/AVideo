@@ -4153,7 +4153,7 @@ if (!class_exists('Video')) {
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 /* need it because getDurationFromFile */
                 if ($includeS3 && preg_match('/\.(mp4|webm|mp3|ogg|pdf|zip|m3u8)$/i', $type)) {
-                    if (file_exists($source['path']) && (($type != '.m3u8' && filesize($source['path']) < 1024) || ($type === '.m3u8' && filesize($source['path']) < 20))) {
+                    if (isDummyFile($source['path'])) {
                         if (!empty($cdn_obj->enable_storage)) {
                             if($type === '.m3u8'){
                                 $source['url'] = CDNStorage::getURL("{$filename}/index.m3u8");
