@@ -4209,7 +4209,11 @@ if (!class_exists('Video')) {
                 $source['url'] = addQueryStringParameter($source['url'], 'cache', $x);
                 $source['url_noCDN'] = addQueryStringParameter($source['url_noCDN'], 'cache', $x);
             }
-
+            /*
+            if($filename == "video_230813150408_va39e" && $type == '.m3u8'){
+                var_dump($filename, $type,$source);exit;
+            }
+            */
             $source = AVideoPlugin::modifyURL($source);
 
             //var_dump($type, $source);exit;
