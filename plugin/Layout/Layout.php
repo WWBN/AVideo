@@ -2,8 +2,7 @@
 global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
-class Layout extends PluginAbstract
-{
+class Layout extends PluginAbstract {
 
     static private $tags = array();
     static $searchOptions = array(
@@ -33,36 +32,30 @@ class Layout extends PluginAbstract
         ),
     );
 
-    public function getTags()
-    {
+    public function getTags() {
         return array(
             PluginTags::$RECOMMENDED,
             PluginTags::$FREE
         );
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         return "Finetune the layout and helpers";
     }
 
-    public function getName()
-    {
+    public function getName() {
         return "Layout";
     }
 
-    public function getPluginVersion()
-    {
+    public function getPluginVersion() {
         return "1.1";
     }
 
-    public function getUUID()
-    {
+    public function getUUID() {
         return "layout84-8f5a-4d1b-b912-172c608bf9e3";
     }
 
-    public function getEmptyDataObject()
-    {
+    public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
         /*
@@ -92,8 +85,7 @@ class Layout extends PluginAbstract
         return $obj;
     }
 
-    static function getLoadersArray()
-    {
+    static function getLoadersArray() {
         $files = Layout::getLoadersFiles();
         $response = array();
         foreach ($files as $key => $value) {
@@ -102,8 +94,7 @@ class Layout extends PluginAbstract
         return $response;
     }
 
-    static function getLoadersFiles()
-    {
+    static function getLoadersFiles() {
         global $global;
         $files = _glob($global['systemRootPath'] . 'plugin/Layout/loaders/', '/.*html/');
         $response = array();
@@ -114,8 +105,7 @@ class Layout extends PluginAbstract
         return $response;
     }
 
-    static public function getLoader($file)
-    {
+    static public function getLoader($file) {
         global $global;
         $files = self::getLoadersFiles();
         $name = '';
@@ -136,8 +126,7 @@ class Layout extends PluginAbstract
         return trim(preg_replace('/\s+/', ' ', str_replace('lds-', 'lds-' . uniqid(), $content)));
     }
 
-    static function getLoaderDefault()
-    {
+    static function getLoaderDefault() {
         global $_getLoaderDefault;
 
         if (!isset($_getLoaderDefault)) {
@@ -153,8 +142,7 @@ class Layout extends PluginAbstract
         return $_getLoaderDefault;
     }
 
-    static function getBGAnimationFiles()
-    {
+    static function getBGAnimationFiles() {
         global $global;
         $files = _glob($global['systemRootPath'] . 'plugin/Layout/animatedBackGrounds/', '/.*php/');
         $response = array();
@@ -169,8 +157,7 @@ class Layout extends PluginAbstract
         return $response;
     }
 
-    static function includeBGAnimationFile($file)
-    {
+    static function includeBGAnimationFile($file) {
         if (empty($file)) {
             return false;
         }
@@ -189,16 +176,14 @@ class Layout extends PluginAbstract
         return true;
     }
 
-    public function getPluginMenu()
-    {
+    public function getPluginMenu() {
         global $global;
         return "";
         $filename = $global['systemRootPath'] . 'plugin/Customize/pluginMenu.html';
         return file_get_contents($filename);
     }
 
-    public function getHeadCode()
-    {
+    public function getHeadCode() {
         global $global;
         $loaderParts = self::getLoaderDefault();
         echo $loaderParts['css'];
@@ -206,8 +191,7 @@ class Layout extends PluginAbstract
         return false;
     }
 
-    static function getIconsList()
-    {
+    static function getIconsList() {
         global $global;
         include $global['systemRootPath'] . 'plugin/Layout/fontAwesomeFAB.php';
         // Fetch variables scss file in variable
@@ -242,15 +226,14 @@ class Layout extends PluginAbstract
         return $fonts_list;
     }
 
-    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '')
-    {
-        global $global;
+    static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '') {
+        global $global, $nonCriticalCSS;
         if (empty($id)) {
             $id = $name;
         }
         $html = "";
         if (empty($global['getSelectSearchable'])) {
-            $html .= '<link href="' . getURL('view/js/select2/select2.min.css') . '" rel="stylesheet" />';
+            $html .= '<link href="' . getURL('view/js/select2/select2.min.css') . '" rel="stylesheet"  ' . $nonCriticalCSS . '/>';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
                 .select2-selection {min-height: 34px !important;}</style>';
@@ -277,8 +260,8 @@ class Layout extends PluginAbstract
                 $selectedString = "selected";
             }
             $html .= '<option value="' . $_value . '" ' .
-                $selectedString . ' ' . $_parameters . '>' .
-                $_text . '</option>';
+                    $selectedString . ' ' . $_parameters . '>' .
+                    $_text . '</option>';
         }
         $html .= '</select>';
         // this is just to display something before load the select2
@@ -293,8 +276,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '')
-    {
+    static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '') {
         global $global;
         if (empty($id)) {
             $id = $name;
@@ -315,8 +297,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function getIconsSelect($name, $selected = "", $id = "", $class = "")
-    {
+    static function getIconsSelect($name, $selected = "", $id = "", $class = "") {
         global $getIconsSelect;
         $getIconsSelect = 1;
         $icons = self::getIconsList();
@@ -339,8 +320,7 @@ class Layout extends PluginAbstract
         return self::getSelectSearchable($icons, $name, $selected, $id, $class . " iconSelect", true);
     }
 
-    static function getAvilableFlags()
-    {
+    static function getAvilableFlags() {
         global $global;
         $flags = array();
         include_once $global['systemRootPath'] . 'objects/bcp47.php';
@@ -357,8 +337,7 @@ class Layout extends PluginAbstract
         return $flags;
     }
 
-    static function getAllFlags()
-    {
+    static function getAllFlags() {
         global $global;
         if (empty($global)) {
             $global = [];
@@ -375,8 +354,7 @@ class Layout extends PluginAbstract
         return $flags;
     }
 
-    static function getLangsSelect($name, $selected = "", $id = "", $class = "navbar-btn", $flagsOnly = false, $getAll = false)
-    {
+    static function getLangsSelect($name, $selected = "", $id = "", $class = "navbar-btn", $flagsOnly = false, $getAll = false) {
         global $getLangsSelect;
         $getLangsSelect = 1;
         if ($getAll) {
@@ -426,8 +404,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function getUserSelect($name, $users_id_list, $selected = "", $id = "", $class = "")
-    {
+    static function getUserSelect($name, $users_id_list, $selected = "", $id = "", $class = "") {
         $elements = array();
         foreach ($users_id_list as $users_id) {
             $name = User::getNameIdentificationById($users_id);
@@ -456,12 +433,11 @@ class Layout extends PluginAbstract
         return self::getSelectSearchable($elements, $name, $selected, $id, $class, true);
     }
 
-    static function getCategorySelect($name, $selected = "", $id = "", $class = "")
-    {
+    static function getCategorySelect($name, $selected = "", $id = "", $class = "") {
         $parentsOnly = @$_GET['parentsOnly'];
         unset($_GET['parentsOnly']);
-        $rows = Category::getAllCategories(true, false);        
-        $_GET['parentsOnly'] = $parentsOnly ;
+        $rows = Category::getAllCategories(true, false);
+        $_GET['parentsOnly'] = $parentsOnly;
         //var_dump($rows);exit;
         //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
         $cats = array();
@@ -487,8 +463,7 @@ class Layout extends PluginAbstract
         return self::getSelectSearchable($cats, $name, $selected, $id, $class, true);
     }
 
-    static function getUserGroupsSelect($name, $selected = "", $id = "", $class = "")
-    {
+    static function getUserGroupsSelect($name, $selected = "", $id = "", $class = "") {
         $rows = UserGroups::getAllUsersGroupsArray();
         if (empty($id)) {
             $id = uniqid();
@@ -509,8 +484,7 @@ class Layout extends PluginAbstract
         return self::getSelectSearchable($rows, $name, $selected, $id, $class, true);
     }
 
-    public function getFooterCode()
-    {
+    public function getFooterCode() {
         global $global;
 
         $obj = $this->getDataObject();
@@ -531,8 +505,7 @@ class Layout extends PluginAbstract
         return $content;
     }
 
-    private static function addFooterCode($code)
-    {
+    private static function addFooterCode($code) {
         global $LayoutaddFooterCode;
         if (!isset($LayoutaddFooterCode)) {
             $LayoutaddFooterCode = array();
@@ -540,8 +513,7 @@ class Layout extends PluginAbstract
         $LayoutaddFooterCode[] = $code;
     }
 
-    private static function _getFooterCode()
-    {
+    private static function _getFooterCode() {
         global $LayoutaddFooterCode;
         if (!isset($LayoutaddFooterCode)) {
             return "";
@@ -550,8 +522,7 @@ class Layout extends PluginAbstract
         return implode(PHP_EOL, $LayoutaddFooterCode);
     }
 
-    public function getHTMLMenuRight()
-    {
+    public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
         if (empty($obj->showButtonNotification)) {
@@ -560,8 +531,7 @@ class Layout extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/Layout/menuRight.php';
     }
 
-    public function navBarAfter()
-    {
+    public function navBarAfter() {
         global $global;
         $obj = $this->getDataObject();
         $content = '';
@@ -576,8 +546,7 @@ class Layout extends PluginAbstract
         return $content;
     }
 
-    static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
-    {
+    static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '') {
         global $global;
         $default_users_id = intval($default_users_id);
         if (empty($id)) {
@@ -586,9 +555,8 @@ class Layout extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
         return "updateUserAutocomplete{$id}();";
     }
-    
-    static function getVideoAutocomplete($default_videos_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
-    {
+
+    static function getVideoAutocomplete($default_videos_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '') {
         global $global;
         $default_videos_id = intval($default_videos_id);
         if (empty($id)) {
@@ -598,9 +566,7 @@ class Layout extends PluginAbstract
         return "updateVideoAutocomplete{$id}();";
     }
 
-
-    static function organizeHTML($html)
-    {
+    static function organizeHTML($html) {
         global $global; // add socket twice on live page
         //return $html;
         if (isBot()) {
@@ -648,8 +614,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    private static function tryToReplace($search, $replace, $subject)
-    {
+    private static function tryToReplace($search, $replace, $subject) {
         if (true || self::codeIsValid($subject)) {
             $newSubject = str_replace($search, $replace, $subject, $count);
             return ['newSubject' => $newSubject, 'success' => $count];
@@ -659,8 +624,7 @@ class Layout extends PluginAbstract
         }
     }
 
-    private static function codeIsValid($string)
-    {
+    private static function codeIsValid($string) {
         $len = strlen($string);
         $stack = array();
         for ($i = 0; $i < $len; $i++) {
@@ -693,8 +657,7 @@ class Layout extends PluginAbstract
         return (empty($stack));
     }
 
-    static function removeExtraSpacesFromHead($html)
-    {
+    static function removeExtraSpacesFromHead($html) {
         preg_match('/(<head.+<\/head>)/Usi', $html, $matches);
         $str = preg_replace('/[ \t]+/', ' ', $matches[0]);
         $str = preg_replace('/\n\s*\n+/', PHP_EOL, $matches[0]);
@@ -703,8 +666,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function removeExtraSpacesFromScript($html)
-    {
+    static function removeExtraSpacesFromScript($html) {
         preg_match_all('/(<script[^>]*>.+<\/script>)/Usi', $html, $matches);
         foreach ($matches as $value) {
             $str = preg_replace('/ +/', ' ', $value);
@@ -713,13 +675,31 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function getTagsLinkCSS($html)
-    {
+    static function getTagsLinkCSS($html) {
+        $nonCriticalCSS = ' rel="preload" media="print" as="style" onload="this.media=\'all\'" ';
+        $critical = array(
+            'view/bootstrap/css/bootstrap.min.css',
+            'view/css/custom/default.css',
+            'videos/cache/custom.css',
+            'view/css/main.css',
+        );
         preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
                 $response = self::tryToReplace($value, '', $html);
                 if ($response['success']) {
+                    if (strpos($str, 'rel="preload"') === false) {
+                        $containsCritical = false;
+                        foreach ($critical as $crit) {
+                            if (strpos($value, $crit) !== false) {
+                                $containsCritical = true;
+                                break;
+                            }
+                        }
+                        if (!$containsCritical) {
+                            $value = str_replace('type="text/css"', 'type="text/css" ' . $nonCriticalCSS, $value);
+                        }
+                    }
                     self::addTag('tagcss', $value);
                     $html = $response['newSubject'];
                 }
@@ -728,8 +708,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function getTagsScript($html)
-    {
+    static function getTagsScript($html) {
         preg_match_all('/<script[^<]* src=[^<]+<\/script>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $key => $value) {
@@ -746,8 +725,7 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function separeteTag($html, $tag)
-    {
+    static function separeteTag($html, $tag) {
         $reg = '/<' . $tag . '[^>]*>(.*)<\/' . $tag . '>/Usi';
         //var_dump($reg, $html);
         preg_match_all($reg, $html, $matches);
@@ -766,24 +744,22 @@ class Layout extends PluginAbstract
         return $html;
     }
 
-    static function shouldIgnoreJS($tag)
-    {
+    static function shouldIgnoreJS($tag) {
         if (
-            preg_match('/application.+json/i', $tag) ||
-            preg_match('/function gtag\(/i', $tag) ||
-            preg_match('/<script async/i', $tag) ||
-            preg_match('/doNotSepareteTag/', $tag) ||
-            preg_match('/window.googletag/', $tag) ||
-            preg_match('/document\.write/', $tag) || 
-            isBot()
+                preg_match('/application.+json/i', $tag) ||
+                preg_match('/function gtag\(/i', $tag) ||
+                preg_match('/<script async/i', $tag) ||
+                preg_match('/doNotSepareteTag/', $tag) ||
+                preg_match('/window.googletag/', $tag) ||
+                preg_match('/document\.write/', $tag) ||
+                isBot()
         ) {
             return true;
         }
         return false;
     }
 
-    static public function addTag($tag, $value)
-    {
+    static public function addTag($tag, $value) {
         if (empty($value)) {
             return false;
         }
@@ -794,8 +770,7 @@ class Layout extends PluginAbstract
         return true;
     }
 
-    public function getEnd()
-    {
+    public function getEnd() {
         global $global;
         $html = _ob_get_clean();
         $html = self::organizeHTML($html);
@@ -804,8 +779,7 @@ class Layout extends PluginAbstract
         echo '<!-- Layout organizeHTML start -->' . PHP_EOL . $html . PHP_EOL . '<!-- Layout organizeHTML END -->';
     }
 
-    static private function removeDuplicated($list)
-    {
+    static private function removeDuplicated($list) {
         $cleanList = array();
         $srcList = array();
         foreach ($list as $key => $value) {
@@ -829,8 +803,7 @@ class Layout extends PluginAbstract
         return $cleanList;
     }
 
-    static function getSuggestedButton($videos_id, $class = 'btn btn-xs')
-    {
+    static function getSuggestedButton($videos_id, $class = 'btn btn-xs') {
         global $global;
         if (empty($videos_id)) {
             return '';
@@ -843,8 +816,7 @@ class Layout extends PluginAbstract
         return getIncludeFileContent($filePath, $varsArray);
     }
 
-    static function getCategoriesToSearch()
-    {
+    static function getCategoriesToSearch() {
         global $global;
         $global['doNotSearch'] = 1;
         $categories = Category::getAllCategories(false, true);
@@ -852,8 +824,7 @@ class Layout extends PluginAbstract
         return $categories;
     }
 
-    static function getSearchOptions($name)
-    {
+    static function getSearchOptions($name) {
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
         foreach (Layout::$searchOptions as $key => $value) {
@@ -867,8 +838,7 @@ class Layout extends PluginAbstract
         return $divs;
     }
 
-    static function getSearchCategories($name)
-    {
+    static function getSearchCategories($name) {
         global $global;
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
@@ -892,8 +862,7 @@ class Layout extends PluginAbstract
         return $divs;
     }
 
-    static function getSearchDateTime($name)
-    {
+    static function getSearchDateTime($name) {
         global $global;
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
@@ -910,7 +879,7 @@ class Layout extends PluginAbstract
                         1 ' . __('Day') . '
                     </label>
                 </div>';
-        for ($i = 5; $i <= 30; $i+=5) {
+        for ($i = 5; $i <= 30; $i += 5) {
             $divs[] = '<div class="form-check">
                             <input class="form-check-input" type="radio" value="' . $i . '" id="' . $id . '_' . $i . '" name="' . $name . '">
                             <label class="form-check-label" for="' . $id . '_' . $i . '">
@@ -937,25 +906,24 @@ class Layout extends PluginAbstract
         return $divs;
     }
 
-    static function getSearchViews($name)
-    {
+    static function getSearchViews($name) {
         global $global;
         $video = Video::getVideoWithMoreViews();
 
-        if($video['views_count']>10){
-            $step = $video['views_count']/10;
-        }else{
+        if ($video['views_count'] > 10) {
+            $step = $video['views_count'] / 10;
+        } else {
             $step = 1;
         }
 
         if ($step >= 10000) {
             $step = round($step / 10000) * 10000;
-        }else if ($step >= 1000) {
+        } else if ($step >= 1000) {
             $step = round($step / 1000) * 1000;
-        }else if ($step >= 100) {
+        } else if ($step >= 100) {
             $step = round($step / 100) * 100;
         }
-        
+
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
         $divs[] = '<div class="form-check">
@@ -964,7 +932,7 @@ class Layout extends PluginAbstract
                             ' . __('All') . '
                         </label>
                     </div>';
-        for ($i = $step; $i <= $video['views_count']; $i+=$step) {
+        for ($i = $step; $i <= $video['views_count']; $i += $step) {
             $count = intval($i);
             $divs[] = '<div class="form-check">
                             <input class="form-check-input" type="radio" value="' . $count . '" id="' . $id . '_' . $count . '" name="' . $name . '">
@@ -977,8 +945,7 @@ class Layout extends PluginAbstract
         return $divs;
     }
 
-    static function getSearchTags($name)
-    {
+    static function getSearchTags($name) {
         global $global;
         if (!class_exists('TagsHasVideos')) {
             return array();
@@ -1008,32 +975,31 @@ class Layout extends PluginAbstract
         return $divs;
     }
 
-    static function getSearchHTML($elements, $name)
-    {
+    static function getSearchHTML($elements, $name) {
         $id = 'search_' . uniqid();
         $class = 'searchHTML' . str_replace('[]', '', $name);
-?>
+        ?>
         <div class="panel panel-default searchHTML <?php echo $class; ?>" id="<?php echo $id; ?>-panel" style="margin: 0;">
             <div class="panel-heading">
                 <input class="form-control" type="text" id="<?php echo $id; ?>-search" placeholder="<?php echo __('Search'); ?>..." style="float: unset;">
             </div>
             <div class="panel-body <?php echo $id; ?>">
-                <?php echo implode('', $elements); ?>
+        <?php echo implode('', $elements); ?>
             </div>
         </div>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 searchInList('#<?php echo $id; ?>-search', '.<?php echo $id; ?> .form-check');
-                $('#<?php echo $id; ?>-panel .form-check-input').on('change', function() {
+                $('#<?php echo $id; ?>-panel .form-check-input').on('change', function () {
                     var checked = $(this).prop('checked');
                     var value = $(this).val();
-                    $('.<?php echo $class; ?> input[type="checkbox"], .<?php echo $class; ?> input[type="radio"]').each(function() {
+                    $('.<?php echo $class; ?> input[type="checkbox"], .<?php echo $class; ?> input[type="radio"]').each(function () {
                         if ($(this).val() === value) {
                             $(this).prop('checked', checked);
                         }
                     });
 
-                    const checkedValues = $('#<?php echo $id; ?>-panel .form-check-input').filter(':checked').map(function() {
+                    const checkedValues = $('#<?php echo $id; ?>-panel .form-check-input').filter(':checked').map(function () {
                         return this.value;
                     }).get();
 
@@ -1048,87 +1014,86 @@ class Layout extends PluginAbstract
                 var savedCookies = Cookies.get('<?php echo $name; ?>');
                 if (savedCookies) {
                     var checkedValues = JSON.parse(savedCookies);
-                    $('#<?php echo $id; ?>-panel .form-check-input').each(function() {
+                    $('#<?php echo $id; ?>-panel .form-check-input').each(function () {
                         this.checked = checkedValues.includes(this.value);
                     });
                 }
                 setSearchFilterIcon();
             });
         </script>
-<?php
+        <?php
     }
 
-    static function getSearchOptionHTML()
-    {
+    static function getSearchOptionHTML() {
         $name = 'searchFieldsNames[]';
         $elements = self::getSearchOptions($name);
         self::getSearchHTML($elements, $name);
     }
 
-    static function getSearchCategoriesHTML()
-    {
+    static function getSearchCategoriesHTML() {
         $name = 'catName';
         $elements = self::getSearchCategories($name);
         self::getSearchHTML($elements, $name);
     }
 
-    static function getSearchTagsHTML()
-    {
+    static function getSearchTagsHTML() {
         $name = 'tags_id';
         $elements = self::getSearchTags($name);
         self::getSearchHTML($elements, $name);
     }
 
-    static function getSearchDateHTML()
-    {
+    static function getSearchDateHTML() {
         $name = 'created';
         $elements = self::getSearchDateTime($name);
         self::getSearchHTML($elements, $name);
     }
 
-    static function getSearchViewsHTML()
-    {
+    static function getSearchViewsHTML() {
         $name = 'minViews';
         $elements = self::getSearchViews($name);
         self::getSearchHTML($elements, $name);
     }
+
 }
 
-function compareOrder($a, $b, $firstOrder, $lastOrder)
-{
+function compareOrder($a, $b, $firstOrder, $lastOrder) {
     $aIndexFirst = $aIndexLast = $bIndexFirst = $bIndexLast = null;
 
     // Check if $a and $b are in $firstOrder
-    foreach($firstOrder as $index => $value) {
-        if(strpos($a, $value) !== false) $aIndexFirst = $index;
-        if(strpos($b, $value) !== false) $bIndexFirst = $index;
+    foreach ($firstOrder as $index => $value) {
+        if (strpos($a, $value) !== false)
+            $aIndexFirst = $index;
+        if (strpos($b, $value) !== false)
+            $bIndexFirst = $index;
     }
-    
+
     // Check if $a and $b are in $lastOrder
-    foreach($lastOrder as $index => $value) {
-        if(strpos($a, $value) !== false) $aIndexLast = $index;
-        if(strpos($b, $value) !== false) $bIndexLast = $index;
+    foreach ($lastOrder as $index => $value) {
+        if (strpos($a, $value) !== false)
+            $aIndexLast = $index;
+        if (strpos($b, $value) !== false)
+            $bIndexLast = $index;
     }
 
     // Handle case when $a and $b are in $firstOrder
-    if($aIndexFirst !== null && $bIndexFirst !== null) {
+    if ($aIndexFirst !== null && $bIndexFirst !== null) {
         return $aIndexFirst - $bIndexFirst; // order by position in $firstOrder
     }
-    if($aIndexFirst !== null) {
+    if ($aIndexFirst !== null) {
         return -1; // $a in $firstOrder, $b not
     }
-    if($bIndexFirst !== null) {
+    if ($bIndexFirst !== null) {
         return 1; // $b in $firstOrder, $a not
     }
 
     // Handle case when $a and $b are in $lastOrder
-    if($aIndexLast !== null && $bIndexLast !== null) {
+    if ($aIndexLast !== null && $bIndexLast !== null) {
         return $aIndexLast - $bIndexLast; // order by position in $lastOrder
     }
-    if($aIndexLast !== null) {
+    if ($aIndexLast !== null) {
         return 1; // $a in $lastOrder, $b not
     }
-    if($bIndexLast !== null) {
+    if ($bIndexLast !== null) {
         return -1; // $b in $lastOrder, $a not
     }
 
@@ -1136,11 +1101,7 @@ function compareOrder($a, $b, $firstOrder, $lastOrder)
     return 0;
 }
 
-
-
-
-function _sortJS($a, $b)
-{
+function _sortJS($a, $b) {
     $firstOrder = [
         "jquery.min.js",
         "jquery-ui",
@@ -1157,10 +1118,10 @@ function _sortJS($a, $b)
         "jquery.lazy.plugins.min.js",
         "flickity.pkgd.min.js",
         "flickity-bg-lazyload/bg-lazyload.js",
-    ];   
+    ];
     $lastOrder = [
         "js/script.js",
         "/plugin/",
-    ];   
+    ];
     return compareOrder($a, $b, $firstOrder, $lastOrder);
 }

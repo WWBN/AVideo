@@ -321,12 +321,13 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 }
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+global $nonCriticalCSS;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>" prefix="og: http://ogp.me/ns#">
     <head>
         <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"  />
         <link href="<?php echo getCDN('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
