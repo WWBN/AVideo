@@ -49,7 +49,7 @@ $keywords3 = implode(', ', $keywords2);
     <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
     <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
     <meta name="robots" content="index, follow" />
-    <meta name="description" content="<?php echo getSEODescription($video->getDescription()); ?>">
+    <meta name="description" content="<?php echo getSEODescription($video->getDescription(), 160); ?>">
     <?php
     getOpenGraph($videos_id);
     ?>
