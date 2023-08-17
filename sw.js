@@ -49,7 +49,24 @@ self.addEventListener('fetch', (event) => {
 });
 */
 workbox.routing.registerRoute(
-    ({ request }) => {
+    async ({ request }) => {
+        // Exclude GIF images
+        if (request.url.endsWith('.gif')) {
+            return false;
+        }
+
+        /*
+        // If the request is for an image, check its size
+        if (request.destination === 'image') {
+            const response = await fetch(request);
+            const contentLength = response.headers.get('Content-Length');
+
+            // If size is more than 600 KB, return false
+            if (contentLength && parseInt(contentLength, 10) > 600 * 1024) {
+                return false;
+            }
+        }*/
+
         return (request.destination === 'script' ||
             request.destination === 'style' ||
             request.destination === 'image' ||
@@ -65,6 +82,7 @@ workbox.routing.registerRoute(
         ]
     })
 );
+
 
 workbox.routing.setCatchHandler(async ({ event }) => {
     console.log('setCatchHandler called', event.request.url);
