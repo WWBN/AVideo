@@ -26,10 +26,11 @@ $relatedVideos = Video::getRelatedMovies($videos_id);
     <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
     <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
     <meta name="robots" content="index, follow" />
+    <meta name="description" content="<?php echo getSEODescription($video->getTitle()); ?>">
     <?php
     getOpenGraph($videos_id);
     ?>
-    <title><?php echo htmlentities($video->getTitle()); ?></title>
+    <title><?php echo htmlentities(getSEOTitle($video->getTitle())); ?></title>
 </head>
 
 <body>
