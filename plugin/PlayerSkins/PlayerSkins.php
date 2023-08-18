@@ -329,7 +329,7 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
-        if (empty($obj->forceAlwaysAutoplay)) {
+        if (!empty($obj->forceAlwaysAutoplay)) {
             $js .= " $(document).ready(function () {enableAutoPlay();});";
         }
         if (
