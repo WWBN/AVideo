@@ -2619,12 +2619,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         } else {
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
-            //_error_log('getStats execute isKeyLiveInStats: ' . __LINE__ . ' ' . __FILE__);
-            //_error_log("isLiveAndIsReadyFromKey::key: {$key}");
+            _error_log('getStats execute isKeyLiveInStats: ' . __LINE__ . ' ' . __FILE__);
+            _error_log("isLiveAndIsReadyFromKey::key: {$key}");
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                //_error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
+                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
@@ -2635,7 +2635,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $m3u8 = getDockerInternalURL().'live/'.$parts[1];
                 }
                 $_REQUEST['live_servers_id'] = $ls;
-                //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
+                _error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8);
                 if (empty($is200)) {
                     _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
@@ -2969,7 +2969,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/Offline.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2978,7 +2978,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/OnAir.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2987,7 +2987,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/ComingSoon.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
