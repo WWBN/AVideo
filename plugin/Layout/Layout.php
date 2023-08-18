@@ -11,6 +11,11 @@ class Layout extends PluginAbstract {
         'plugin/Gallery/style.css',
         'view/css/main.css',
     );
+    static $lastOnesCSS = array(
+        'node_modules/video.js/dist/video-js.min.css', 
+        'videojs',
+        'plugin/PlayerSkins/player.css', 
+    );
     static private $tags = array();
     static $searchOptions = array(
         array(
@@ -602,31 +607,47 @@ class Layout extends PluginAbstract {
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
             usort(self::$tags['tagcss'], function($a, $b) {
-                $posA = -1;
-                $posB = -1;
-                
-                foreach (self::$criticalCSS as $index => $css) {
-                    if (strpos($a, $css) !== false) {
-                        $posA = $index;
-                        break;
+                // Constants for not found items
+                $NOT_FOUND = 10000;  // This is used for items not in either criticalCSS or lastOnesCSS
+            
+                // Check positions in lastOnesCSS
+                $lastOnesPosA = array_search($a, self::$lastOnesCSS);
+                $lastOnesPosB = array_search($b, self::$lastOnesCSS);
+            
+                // Initial positions set to NOT_FOUND
+                $posA = $NOT_FOUND;
+                $posB = $NOT_FOUND;
+            
+                // If found in lastOnesCSS, set positions accordingly
+                if ($lastOnesPosA !== false) {
+                    $posA = $NOT_FOUND + $lastOnesPosA;
+                }
+                if ($lastOnesPosB !== false) {
+                    $posB = $NOT_FOUND + $lastOnesPosB;
+                }
+            
+                // If not in lastOnesCSS, check in criticalCSS
+                if ($posA === $NOT_FOUND) {
+                    foreach (self::$criticalCSS as $index => $css) {
+                        if (strpos($a, $css) !== false) {
+                            $posA = $index;
+                            break;
+                        }
                     }
                 }
-    
-                foreach (self::$criticalCSS as $index => $css) {
-                    if (strpos($b, $css) !== false) {
-                        $posB = $index;
-                        break;
+            
+                if ($posB === $NOT_FOUND) {
+                    foreach (self::$criticalCSS as $index => $css) {
+                        if (strpos($b, $css) !== false) {
+                            $posB = $index;
+                            break;
+                        }
                     }
                 }
-                
-                // If $a is not found, it means it should come after all found items in $criticalCSS
-                if ($posA == -1) return 1;
-    
-                // If $b is not found, it means it should come after all found items in $criticalCSS
-                if ($posB == -1) return -1;
-    
+            
                 return $posA - $posB;
             });
+            
             $html = str_replace('</head>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;

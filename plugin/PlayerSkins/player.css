@@ -43,3 +43,7 @@
 .vjs-thumbnail-holder {
     margin-bottom: 10px;
 }
+
+.vjs-has-started.vjs-paused .vjs-big-play-button{
+    display: none !important;
+}
