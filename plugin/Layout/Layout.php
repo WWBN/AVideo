@@ -14,7 +14,8 @@ class Layout extends PluginAbstract {
     static $lastOnesCSS = array(
         'node_modules/video.js/dist/video-js.min.css', 
         'videojs',
-        'plugin/PlayerSkins/player.css', 
+        'plugin/PlayerSkins/player.css',
+        'plugin/PlayerSkins/skins/', 
     );
     static private $tags = array();
     static $searchOptions = array(
