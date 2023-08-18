@@ -11588,4 +11588,3 @@ function getDeviceName() {
         return 'web';
     }
 }
-

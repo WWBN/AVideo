@@ -607,47 +607,8 @@ class Layout extends PluginAbstract {
         //var_dump(self::$tags['tagscript']);exit;
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
-            usort(self::$tags['tagcss'], function($a, $b) {
-                // Constants for not found items
-                $NOT_FOUND = 10000;  // This is used for items not in either criticalCSS or lastOnesCSS
             
-                // Check positions in lastOnesCSS
-                $lastOnesPosA = array_search($a, self::$lastOnesCSS);
-                $lastOnesPosB = array_search($b, self::$lastOnesCSS);
-            
-                // Initial positions set to NOT_FOUND
-                $posA = $NOT_FOUND;
-                $posB = $NOT_FOUND;
-            
-                // If found in lastOnesCSS, set positions accordingly
-                if ($lastOnesPosA !== false) {
-                    $posA = $NOT_FOUND + $lastOnesPosA;
-                }
-                if ($lastOnesPosB !== false) {
-                    $posB = $NOT_FOUND + $lastOnesPosB;
-                }
-            
-                // If not in lastOnesCSS, check in criticalCSS
-                if ($posA === $NOT_FOUND) {
-                    foreach (self::$criticalCSS as $index => $css) {
-                        if (strpos($a, $css) !== false) {
-                            $posA = $index;
-                            break;
-                        }
-                    }
-                }
-            
-                if ($posB === $NOT_FOUND) {
-                    foreach (self::$criticalCSS as $index => $css) {
-                        if (strpos($b, $css) !== false) {
-                            $posB = $index;
-                            break;
-                        }
-                    }
-                }
-            
-                return $posA - $posB;
-            });
+            usort(self::$tags['tagcss'], "_sortCSS");
             
             $html = str_replace('</head>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
@@ -1172,5 +1133,11 @@ function _sortJS($a, $b) {
         "js/script.js",
         "/plugin/",
     ];
+    return compareOrder($a, $b, $firstOrder, $lastOrder);
+}
+
+function _sortCSS($a, $b) {
+    $firstOrder = Layout::$criticalCSS;
+    $lastOrder = Layout::$lastOnesCSS;
     return compareOrder($a, $b, $firstOrder, $lastOrder);
 }
