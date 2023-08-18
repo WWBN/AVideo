@@ -225,7 +225,7 @@ class ADs extends PluginAbstract
         }
 
         make_path($videosDir);
-        $videosURL = addQueryStringParameter($videosURL, 'cache', 1);
+        //$videosURL = addQueryStringParameter($videosURL, 'cache', 1);
         return ['path' => $videosDir, 'url' => $videosURL];
     }
 
