@@ -683,7 +683,8 @@ class Layout extends PluginAbstract {
             'videos/cache/custom.css',
             'view/css/main.css',
             'plugin/Gallery/style.css',
-            'view/css/navbar.css'
+            'view/css/navbar.css',
+            'view/css/custom',
         );
         preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
