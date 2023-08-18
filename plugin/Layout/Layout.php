@@ -3,7 +3,14 @@ global $global;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Layout extends PluginAbstract {
-
+    static $criticalCSS = array(
+        'view/bootstrap/css/bootstrap.min.css',
+        'view/css/custom',
+        'videos/cache/custom.css',
+        'view/css/navbar.css',
+        'plugin/Gallery/style.css',
+        'view/css/main.css',
+    );
     static private $tags = array();
     static $searchOptions = array(
         array(
@@ -594,6 +601,32 @@ class Layout extends PluginAbstract {
         //var_dump(self::$tags['tagscript']);exit;
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
+            usort(self::$tags['tagcss'], function($a, $b) {
+                $posA = -1;
+                $posB = -1;
+                
+                foreach (self::$criticalCSS as $index => $css) {
+                    if (strpos($a, $css) !== false) {
+                        $posA = $index;
+                        break;
+                    }
+                }
+    
+                foreach (self::$criticalCSS as $index => $css) {
+                    if (strpos($b, $css) !== false) {
+                        $posB = $index;
+                        break;
+                    }
+                }
+                
+                // If $a is not found, it means it should come after all found items in $criticalCSS
+                if ($posA == -1) return 1;
+    
+                // If $b is not found, it means it should come after all found items in $criticalCSS
+                if ($posB == -1) return -1;
+    
+                return $posA - $posB;
+            });
             $html = str_replace('</head>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
@@ -677,15 +710,6 @@ class Layout extends PluginAbstract {
 
     static function getTagsLinkCSS($html) {
         $nonCriticalCSS = ' rel="preload" media="print" as="style" onload="this.media=\'all\'" ';
-        $critical = array(
-            'view/bootstrap/css/bootstrap.min.css',
-            'view/css/custom/default.css',
-            'videos/cache/custom.css',
-            'view/css/main.css',
-            'plugin/Gallery/style.css',
-            'view/css/navbar.css',
-            'view/css/custom',
-        );
         preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
@@ -693,7 +717,7 @@ class Layout extends PluginAbstract {
                 if ($response['success']) {
                     if (strpos($value, 'rel="preload"') === false) {
                         $containsCritical = false;
-                        foreach ($critical as $crit) {
+                        foreach (self::$criticalCSS as $crit) {
                             if (strpos($value, $crit) !== false) {
                                 $containsCritical = true;
                                 break;
