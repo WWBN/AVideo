@@ -312,6 +312,10 @@ class Live extends PluginAbstract {
                 }
             }
 
+            if($obj->useLiveServers && empty($value['live_servers_id'])){
+                continue;
+            }
+
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
                 continue;
