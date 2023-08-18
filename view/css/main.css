@@ -2003,6 +2003,14 @@ button.btn-sm.hamburger svg {
     min-height: 50px;
 }
 
+.HorizontalFlickity .carousel-cell {
+    display: none;
+}
+
+.HorizontalFlickity.flickity-enabled .carousel-cell {
+    display: block;
+}
+
 body.ypt-is-compressed #videoCol {
     width: 100%;
     overflow-x: hidden;
