@@ -836,12 +836,16 @@ function sendBulkEmail($users_id_array, $emails_array, $subject, $message)
     if (!empty($users_id_array) && $obj->sendEmails) {
         _error_log("sendBulkEmail Scheduler");
         $Emails_messages = Emails_messages::setOrCreate($message, $subject);
+        $count = 0;
         foreach ($users_id_array as $users_id) {
             $Email_to_user = new Email_to_user(0);
             $Email_to_user->setEmails_messages_id($Emails_messages->getId());
             $Email_to_user->setUsers_id($users_id);
-            $Email_to_user->save();
+            if($Email_to_user->save()){
+                $count++;
+            }
         }
+        _error_log("sendBulkEmail Scheduler done total={$count}");
     } else {
         _error_log("sendBulkEmail sendSiteEmailAsync");
         if (empty($emails_array)) {
