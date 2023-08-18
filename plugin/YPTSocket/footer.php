@@ -60,7 +60,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             -o-transition: background-color  0.5s linear;
             transition: background-color  0.5s linear;
             transition: box-shadow 0.5s ease-in-out;
-            z-index: 1000;
+            z-index: 1050;
             -moz-box-shadow:    0 0 0 #00000000;
             -webkit-box-shadow: 0 0 0 #00000000;
             box-shadow:         0 0 0 #00000000;
