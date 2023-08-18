@@ -42,7 +42,7 @@ class Gallery extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         // preload image
-        $js = "<script>var img1 = new Image();img1.src=\"" . getCDN() . "view/img/video-placeholder-gray.png\";</script>";
+        $js = "<script>var img1 = new Image();img1.src=\"" . getURL('view/img/video-placeholder-gray.png') . "\";</script>";
         $css = '<link href="' . getURL('plugin/Gallery/style.css') . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {

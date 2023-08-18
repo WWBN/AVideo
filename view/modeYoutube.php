@@ -44,8 +44,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "" . getCDN() . "view/img/notfound.jpg";
-    $poster = "" . getCDN() . "view/img/notfound.jpg";
+    $img = "" . getURL("view/img/notfound.jpg");
+    $poster = "" . getURL("view/img/notfound.jpg");
     $imgw = 1280;
     $imgh = 720;
 
@@ -190,7 +190,7 @@ if (!empty($evideo)) {
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "" . getCDN() . "view/img/audio_wave.jpg";
+        $poster = "" . getURL("view/img/audio_wave.jpg");
     }
 
     if (!empty($video)) {
@@ -201,7 +201,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } elseif ($video['type'] == "audio") {
-            $img = "" . getCDN() . "view/img/audio_wave.jpg";
+            $img = "" . getURL("view/img/audio_wave.jpg");
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -222,7 +222,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "" . getCDN() . "view/img/notfound.jpg";
+        $poster = "" . getURL("view/img/notfound.jpg");
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');

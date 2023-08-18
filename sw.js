@@ -11,6 +11,18 @@ const CACHE_NAME = 'avideo-cache-ver-3.6';
 
 const staticAssetsCacheName = CACHE_NAME + '-static-assets';
 
+function hasCacheParameter(url) {
+    return url.includes('cache=');
+}
+
+function isRequestValid(request) {
+    return (!request.url.match(/\.php/)) && (request.destination === 'script' ||
+    request.destination === 'style' ||
+    request.destination === 'image' ||
+    request.url.match(/\.map/) ||
+    request.url.match(/\.woff2/));
+}
+
 console.log('sw strategy CACHE_NAME', CACHE_NAME);
 
 self.addEventListener('install', (event) => {
@@ -30,48 +42,25 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
     console.log('Service worker activated');
 });
-/*
-self.addEventListener('fetch', (event) => {
-    if (event.request.mode === 'navigate') {
-        console.log(`Service worker intercepted request: ${event.request.url}`);
-    }
-    console.log('fetch', event.request);
-    event.respondWith(
-        caches.match(event.request).then((cachedResponse) => {
-          if (cachedResponse) {
-            console.log(`Cache hit: ${event.request.url}`);
-            return cachedResponse;
-          }
-          console.log(`Cache miss: ${event.request.url}`);
-          return fetch(event.request);
-        })
-      );
-});
-*/
+
 workbox.routing.registerRoute(
-    async ({ request }) => {
-        // Exclude GIF images
-        if (request.url.endsWith('.gif')) {
-            return false;
-        }
+    ({ request }) => {
+        return isRequestValid(request) && hasCacheParameter(request.url);
+    },
+    new workbox.strategies.CacheFirst({
+        cacheName: staticAssetsCacheName,
+        plugins: [
+            new workbox.cacheableResponse.CacheableResponsePlugin({
+                statuses: [0, 200]
+            })
+        ]
+    })
+);
 
-        /*
-        // If the request is for an image, check its size
-        if (request.destination === 'image') {
-            const response = await fetch(request);
-            const contentLength = response.headers.get('Content-Length');
 
-            // If size is more than 600 KB, return false
-            if (contentLength && parseInt(contentLength, 10) > 600 * 1024) {
-                return false;
-            }
-        }*/
-
-        return (request.destination === 'script' ||
-            request.destination === 'style' ||
-            request.destination === 'image' ||
-            request.url.match(/\.map/) ||
-            request.url.match(/\.woff2/));
+workbox.routing.registerRoute(
+    ({ request }) => {
+        return isRequestValid(request) && !hasCacheParameter(request.url);
     },
     new workbox.strategies.StaleWhileRevalidate({
         cacheName: staticAssetsCacheName,
@@ -82,7 +71,6 @@ workbox.routing.registerRoute(
         ]
     })
 );
-
 
 workbox.routing.setCatchHandler(async ({ event }) => {
     console.log('setCatchHandler called', event.request.url);

@@ -86,7 +86,7 @@ if (!empty($videoSerie)) {
                                     $img = $value['images']['poster'];
                                 }
                             } else {
-                                $img = "" . getCDN() . "view/img/audio_wave.jpg";
+                                $img = "" . getURL("view/img/audio_wave.jpg");
                             } ?>
                             <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130" itemprop="thumbnail" />
 

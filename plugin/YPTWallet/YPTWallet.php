@@ -786,7 +786,7 @@ class YPTWallet extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $js = "";
-        $js .= "<script src=\"" . getCDN() . "plugin/YPTWallet/script.js\"></script>";
+        $js .= "<script src=\"" . getURL('plugin/YPTWallet/script.js') . "\"></script>";
 
         return $js;
     }

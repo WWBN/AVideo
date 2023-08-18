@@ -1225,8 +1225,8 @@ function _getImagesURL($fileName, $type)
         unset($file1);
         $files["jpg"] = [
             'filename' => "{$type}.png",
-            'path' => getCDN() . "view/img/{$type}.png",
-            'url' => getCDN() . "view/img/{$type}.png",
+            'path' => getURL("view/img/{$type}.png"),
+            'url' => getURL("view/img/{$type}.png"),
             'type' => 'image',
         ];
     }
@@ -1245,8 +1245,8 @@ function _getImagesURL($fileName, $type)
         } else {
             $files["pjpg"] = [
                 'filename' => "{$type}_portrait.png",
-                'path' => getCDN() . "view/img/{$type}_portrait.png",
-                'url' => getCDN() . "view/img/{$type}_portrait.png",
+                'path' => getURL("view/img/{$type}_portrait.png"),
+                'url' => getURL("view/img/{$type}_portrait.png"),
                 'type' => 'image',
             ];
         }
@@ -9177,7 +9177,7 @@ function cleanUpRowFromDatabase($row)
 function getImageTransparent1pxURL()
 {
     global $global;
-    return getCDN() . "view/img/transparent1px.png";
+    return getURL("view/img/transparent1px.png");
 }
 
 function getDatabaseTime()

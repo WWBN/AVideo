@@ -4024,7 +4024,7 @@ if (!class_exists('Video')) {
             //self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
-                return ['path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getCDN() . 'view/img/loading-gif.png'];
+                return ['path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getURL('view/img/loading-gif.png')];
             }
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -5025,30 +5025,30 @@ if (!class_exists('Video')) {
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
                     if ($type == "article") {
-                        $obj->posterPortrait = "" . getCDN() . "view/img/article_portrait.png";
+                        $obj->posterPortrait = "" . getURL("view/img/article_portrait.png");
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/article_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/article_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getURL("view/img/article_portrait.png");
+                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/article_portrait.png");
                     } elseif ($type == "pdf") {
-                        $obj->posterPortrait = "" . getCDN() . "view/img/pdf_portrait.png";
+                        $obj->posterPortrait = "" . getURL("view/img/pdf_portrait.png");
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/pdf_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getURL("view/img/pdf_portrait.png");
+                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/pdf_portrait.png");
                     } /* elseif ($type == "image") {
                       $obj->posterPortrait = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
                       $obj->posterPortraitThumbs = "".getCDN()."view/img/image_portrait.png";
                       $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/image_portrait.png";
                       } */ elseif ($type == "zip") {
-                        $obj->posterPortrait = "" . getCDN() . "view/img/zip_portrait.png";
+                        $obj->posterPortrait = "" . getURL("view/img/zip_portrait.png");
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/zip_portrait.png";
+                        $obj->posterPortraitThumbs = "" . getURL("view/img/zip_portrait.png");
+                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/zip_portrait.png");
                     } else {
-                        $obj->posterPortrait = "" . getCDN() . "view/img/notfound_portrait.jpg";
+                        $obj->posterPortrait = "" . getURL("view/img/notfound_portrait.jpg");
                         $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getCDN() . "view/img/notfound_portrait.jpg";
-                        $obj->posterPortraitThumbsSmall = "" . getCDN() . "view/img/notfound_portrait.jpg";
+                        $obj->posterPortraitThumbs = "" . getURL("view/img/notfound_portrait.jpg");
+                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/notfound_portrait.jpg");
                     }
                 }
 
@@ -5062,35 +5062,35 @@ if (!class_exists('Video')) {
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
                     if ($type == "article") {
-                        $obj->poster = "" . getCDN() . "view/img/article.png";
-                        $obj->thumbsJpg = "" . getCDN() . "view/img/article.png";
-                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/article.png";
+                        $obj->poster = "" . getURL("view/img/article.png");
+                        $obj->thumbsJpg = "" . getURL("view/img/article.png");
+                        $obj->thumbsJpgSmall = "" . getURL("view/img/article.png");
                     } elseif ($type == "pdf") {
-                        $obj->poster = "" . getCDN() . "view/img/pdf.png";
-                        $obj->thumbsJpg = "" . getCDN() . "view/img/pdf.png";
-                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/pdf.png";
+                        $obj->poster = "" . getURL("view/img/pdf.png");
+                        $obj->thumbsJpg = "" . getURL("view/img/pdf.png");
+                        $obj->thumbsJpgSmall = "" . getURL("view/img/pdf.png");
                     } elseif ($type == "image") {
-                        $obj->poster = "" . getCDN() . "view/img/image.png";
-                        $obj->thumbsJpg = "" . getCDN() . "view/img/image.png";
-                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/image.png";
+                        $obj->poster = "" . getURL("view/img/image.png");
+                        $obj->thumbsJpg = "" . getURL("view/img/image.png");
+                        $obj->thumbsJpgSmall = "" . getURL("view/img/image.png");
                     } elseif ($type == "zip") {
-                        $obj->poster = "" . getCDN() . "view/img/zip.png";
-                        $obj->thumbsJpg = "" . getCDN() . "view/img/zip.png";
-                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/zip.png";
+                        $obj->poster = "" . getURL("view/img/zip.png");
+                        $obj->thumbsJpg = "" . getURL("view/img/zip.png");
+                        $obj->thumbsJpgSmall = "" . getURL("view/img/zip.png");
                     } elseif (($type !== "audio") && ($type !== "linkAudio")) {
                         if (file_exists($spectrumSource['path'])) {
                             $obj->poster = $spectrumSource['url'];
                             $obj->thumbsJpg = $spectrumSource['url'];
                             $obj->thumbsJpgSmall = $spectrumSource['url'];
                         } else {
-                            $obj->poster = "" . getCDN() . "view/img/notfound.jpg";
-                            $obj->thumbsJpg = "" . getCDN() . "view/img/notfoundThumbs.jpg";
-                            $obj->thumbsJpgSmall = "" . getCDN() . "view/img/notfoundThumbsSmall.jpg";
+                            $obj->poster = "" . getURL("view/img/notfound.jpg");
+                            $obj->thumbsJpg = "" . getURL("view/img/notfoundThumbs.jpg");
+                            $obj->thumbsJpgSmall = "" . getURL("view/img/notfoundThumbsSmall.jpg");
                         }
                     } else {
-                        $obj->poster = "" . getCDN() . "view/img/audio_wave.jpg";
-                        $obj->thumbsJpg = "" . getCDN() . "view/img/audio_waveThumbs.jpg";
-                        $obj->thumbsJpgSmall = "" . getCDN() . "view/img/audio_waveThumbsSmall.jpg";
+                        $obj->poster = "" . getURL("view/img/audio_wave.jpg");
+                        $obj->thumbsJpg = "" . getURL("view/img/audio_waveThumbs.jpg");
+                        $obj->thumbsJpgSmall = "" . getURL("view/img/audio_waveThumbsSmall.jpg");
                     }
                 }
 
@@ -5168,7 +5168,7 @@ if (!class_exists('Video')) {
             } else if (!empty($return->posterPortrait)) {
                 $return->default = ['url' => $return->posterPortrait, 'path' => $return->posterPortraitPath];
             } else {
-                $return->default = ['url' => getCDN() . "view/img/notfoundThumbs.jpg", 'path' => "{$global['systemRootPath']}view/img/notfoundThumbs.jpg"];
+                $return->default = ['url' => getURL("view/img/notfoundThumbs.jpg"), 'path' => "{$global['systemRootPath']}view/img/notfoundThumbs.jpg"];
             }
 
             return $return;
