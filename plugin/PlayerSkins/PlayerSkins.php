@@ -374,6 +374,9 @@ class PlayerSkins extends PluginAbstract {
                     $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
                 }
             }
+            if (empty($obj->forceAlwaysAutoplay)) {
+                $js .= " $(document).ready(function () {enableAutoPlay();});";
+            }
             $videos_id = getVideos_id();
 
             $event = "updateMediaSessionMetadata();";
