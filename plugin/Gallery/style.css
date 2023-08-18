@@ -19,6 +19,12 @@
     margin: 0;
     padding: 0;
 }
+.galleryVideo  {
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    padding-bottom: 10px;
+}
+
 .galleryVideo .group {
     overflow: hidden;
     text-overflow: ellipsis;

@@ -2013,7 +2013,7 @@ body.ypt-is-compressed #videoCol {
 #bigVideoCarousel .galleryVideoButtons button {
     display: inline-block;
 }
-
+/*
 #_avideoPageLoader{
     display: none !important;
 }
@@ -2021,3 +2021,4 @@ body.ypt-is-compressed #videoCol {
 #_avideoPageContent{
     display: unset !important;
 }
+*/
