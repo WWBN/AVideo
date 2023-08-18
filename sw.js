@@ -43,36 +43,50 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
     console.log('Service worker activated');
 });
+const cacheFirst = new workbox.strategies.CacheFirst({
+    cacheName: staticAssetsCacheName,
+    plugins: [
+        new workbox.cacheableResponse.CacheableResponsePlugin({
+            statuses: [0, 200]
+        })
+    ]
+});
+
+const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
+    cacheName: staticAssetsCacheName,
+    plugins: [
+        new workbox.cacheableResponse.CacheableResponsePlugin({
+            statuses: [0, 200]
+        })
+    ]
+});
+
+const networkFirst = new workbox.strategies.NetworkFirst({
+    cacheName: staticAssetsCacheName,
+    plugins: [
+        new workbox.cacheableResponse.CacheableResponsePlugin({
+            statuses: [0, 200]
+        })
+    ]
+});
 
 workbox.routing.registerRoute(
-    ({ request }) => {
-        return isRequestValid(request) && hasCacheParameter(request.url);
-    },
-    new workbox.strategies.CacheFirst({
-        cacheName: staticAssetsCacheName,
-        plugins: [
-            new workbox.cacheableResponse.CacheableResponsePlugin({
-                statuses: [0, 200]
-            })
-        ]
-    })
+    ({ request }) => isRequestValid(request),
+    async ({ request, event }) => {
+        try {
+            if (hasCacheParameter(request.url)) {
+                //console.log('cacheFirst', request.url);
+                return await cacheFirst.handle({ request, event });
+            } else {
+               // console.log('staleWhileRevalidate', request.url);
+                return await staleWhileRevalidate.handle({ request, event });
+            }
+        } catch (error) {
+            console.error('registerRoute networkFirst', request.url);
+            return await networkFirst.handle({ request, event });
+        }
+    }
 );
-
-
-workbox.routing.registerRoute(
-    ({ request }) => {
-        return isRequestValid(request) && !hasCacheParameter(request.url);
-    },
-    new workbox.strategies.StaleWhileRevalidate({
-        cacheName: staticAssetsCacheName,
-        plugins: [
-            new workbox.cacheableResponse.CacheableResponsePlugin({
-                statuses: [0, 200]
-            })
-        ]
-    })
-);
-
 workbox.routing.setCatchHandler(async ({ event }) => {
     console.log('setCatchHandler called', event.request.url);
     if (event.request.destination === 'document') {
