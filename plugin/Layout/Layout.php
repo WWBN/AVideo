@@ -11,12 +11,6 @@ class Layout extends PluginAbstract {
         'plugin/Gallery/style.css',
         'view/css/main.css',
     );
-    static $lastOnesCSS = array(
-        'node_modules/video.js/dist/video-js.min.css', 
-        'videojs',
-        'plugin/PlayerSkins/player.css',
-        'plugin/PlayerSkins/skins/', 
-    );
     static private $tags = array();
     static $searchOptions = array(
         array(
@@ -1137,7 +1131,20 @@ function _sortJS($a, $b) {
 }
 
 function _sortCSS($a, $b) {
-    $firstOrder = Layout::$criticalCSS;
-    $lastOrder = Layout::$lastOnesCSS;
+    $firstOrder = array(
+        'view/bootstrap/css/bootstrap.min.css',
+        'view/css/custom',
+        'videos/cache/custom.css',
+        'view/css/navbar.css',
+        'plugin/Gallery/style.css',
+        'node_modules/animate.css/animate',
+        'view/css/main.css',
+    );
+    $lastOrder = array(
+        'node_modules/video.js/dist/video-js.min.css', 
+        'videojs',
+        'plugin/PlayerSkins/player.css',
+        'plugin/PlayerSkins/skins/', 
+    );;
     return compareOrder($a, $b, $firstOrder, $lastOrder);
 }
