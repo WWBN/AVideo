@@ -329,6 +329,9 @@ class PlayerSkins extends PluginAbstract {
         global $global, $config, $getStartPlayerJSWasRequested, $video, $url, $title;
         $js = "<!-- playerSkin -->";
         $obj = $this->getDataObject();
+        if (empty($obj->forceAlwaysAutoplay)) {
+            $js .= " $(document).ready(function () {enableAutoPlay();});";
+        }
         if (
                 !empty($_GET['videoName']) ||
                 !empty($_GET['u']) ||
@@ -373,9 +376,6 @@ class PlayerSkins extends PluginAbstract {
                 if (empty($_REQUEST['hideAutoplaySwitch'])) {
                     $js .= "<!-- PlayerSkins empty(\$_REQUEST['hideAutoplaySwitch']) -->";
                 }
-            }
-            if (empty($obj->forceAlwaysAutoplay)) {
-                $js .= " $(document).ready(function () {enableAutoPlay();});";
             }
             $videos_id = getVideos_id();
 
