@@ -16,10 +16,11 @@ function hasCacheParameter(url) {
 }
 
 function isRequestValid(request) {
-    return (!request.url.match(/\.php/)) && (request.destination === 'script' ||
+    return (!request.url.match(/\.php/) || request.url.match(/\.js.php/)) && (request.destination === 'script' ||
     request.destination === 'style' ||
     request.destination === 'image' ||
     request.url.match(/\.map/) ||
+    request.url.match(/\.ico/) ||
     request.url.match(/\.woff2/));
 }
 
