@@ -225,13 +225,13 @@ if (!class_exists('Video')) {
                 //_error_log("addView !empty(\$lastStatistic) ");
                 $_addViewFailReason = 'You already watched this video';
                 if(User::getId() == $lastStatistic['users_id']){
-                    $_addViewFailReason = ' same users_id';
+                    $_addViewFailReason .= ' same users_id';
                 }
                 if($ip== $lastStatistic['ip']){
-                    $_addViewFailReason = ' same ip';
+                    $_addViewFailReason .= ' same ip';
                 }
                 if(session_id() == $lastStatistic['session_id']){
-                    $_addViewFailReason = ' same session_id';
+                    $_addViewFailReason .= ' same session_id';
                 }
                 return false;
             }
