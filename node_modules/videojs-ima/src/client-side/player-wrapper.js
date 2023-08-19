@@ -145,6 +145,10 @@ const PlayerWrapper = function(player, adsPluginSettings, controller) {
       this.controller.requestAds.bind(this.controller));
 }
 
+  if (!this.vjsPlayer.ads) {
+    window.console.warn('You may be using a version of videojs-contrib-ads ' +
+    'that is not compatible with your version of video.js.');
+  }
   this.vjsPlayer.ads(adsPluginSettings);
 };
 

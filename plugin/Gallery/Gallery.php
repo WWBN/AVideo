@@ -42,12 +42,12 @@ class Gallery extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         // preload image
-        $js = "<script>var img1 = new Image();img1.src=\"" . getCDN() . "view/img/video-placeholder-gray.png\";</script>";
-        $css = '<link href="' . getCDN() . 'plugin/Gallery/style.css?' . (filemtime($global['systemRootPath'] . 'plugin/Gallery/style.css')) . '" rel="stylesheet" type="text/css"/>';
+        $js = "<script>var img1 = new Image();img1.src=\"" . getURL('view/img/video-placeholder-gray.png') . "\";</script>";
+        $css = '<link href="' . getURL('plugin/Gallery/style.css') . '" rel="stylesheet" type="text/css"/>';
 
         if (!empty($obj->playVideoOnFullscreenOnIframe)) {
             if (canFullScreen()) {
-                $css .= '<link href="' . getCDN() . 'plugin/YouPHPFlix2/view/css/fullscreen.css" rel="stylesheet" type="text/css"/>';
+                $css .= '<link href="' . getURL('plugin/YouPHPFlix2/view/css/fullscreen.css') . '" rel="stylesheet" type="text/css"/>';
                 $css .= '<style>.container-fluid {overflow: visible;padding: 0;}#mvideo{padding: 0 !important; position: absolute; top: 0;}</style>';
                 $css .= '<style>body.fullScreen{overflow: hidden;}</style>';
             }
@@ -83,6 +83,10 @@ class Gallery extends PluginAbstract
         $obj->SuggestedCustomTitle = "";
         $obj->SuggestedRowCount = 12;
         $obj->SuggestedOrder = 1;
+
+        $obj->PlayLists = true;
+        $obj->PlayListsRowCount = 12;
+        $obj->PlayListsOrder = 2;
 
         $obj->Trending = true;
         $obj->TrendingCustomTitle = "";
@@ -379,6 +383,14 @@ class Gallery extends PluginAbstract
                     $title = !empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name");
                     $rowCount = intval($obj->SortByNameRowCount);
                     $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[name]=asc";
+                    $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
+                    $countVideos += $section->totalRows;
+                    $response->sections[] = $section;
+                } else
+                if ($value['name'] == 'Shorts' && empty($_REQUEST['catName'])) {
+                    $title = !empty($obj->ShortsCustomTitle) ? $obj->ShortsCustomTitle : __("Shorts");
+                    $rowCount = intval($obj->ShortsRowCount);
+                    $endpoint = "{$global['webSiteRootURL']}plugin/API/get.json.php?APIName=video&sort[shorts]=1";
                     $section = new SectionFirstPage($value['name'], $title, $endpoint, $rowCount);
                     $countVideos += $section->totalRows;
                     $response->sections[] = $section;

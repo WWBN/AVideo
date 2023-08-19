@@ -26,7 +26,10 @@ class YPTWallet extends PluginAbstract
     }
     public function getDescription()
     {
-        return "Wallet for AVideo";
+        $txt = "Wallet for AVideo";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/YPTWallet-Usage' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName()
@@ -783,7 +786,7 @@ class YPTWallet extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $js = "";
-        $js .= "<script src=\"" . getCDN() . "plugin/YPTWallet/script.js\"></script>";
+        $js .= "<script src=\"" . getURL('plugin/YPTWallet/script.js') . "\"></script>";
 
         return $js;
     }

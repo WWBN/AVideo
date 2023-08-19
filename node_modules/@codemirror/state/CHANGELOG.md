@@ -1,3 +1,9 @@
+## 6.2.1 (2023-05-23)
+
+### Bug fixes
+
+Fix an issue that could cause `RangeSet.compare` to miss changes in the set of active ranges around a point range.
+
 ## 6.2.0 (2022-12-26)
 
 ### New features

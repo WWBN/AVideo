@@ -125,10 +125,10 @@ class PlayLists extends PluginAbstract {
     }
 
     public function getHeadCode() {
-        global $global;
+        global $global, $nonCriticalCSS;
         $obj = $this->getDataObject();
 
-        $css = '<link href="' . getURL('plugin/PlayLists/style.css') . '" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getURL('plugin/PlayLists/style.css') . '" rel="stylesheet" type="text/css" />';
         $css .= '<style>.epgProgress.progress-bar-primary{opacity: 0.5;}.epgProgress:hover{opacity: 1.0;}.epgProgressText{border-right: 1px solid #FFF; height:100%;}</style>';
 
         if (!empty(getPlaylists_id()) && isEmbed()) {

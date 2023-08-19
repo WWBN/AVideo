@@ -373,6 +373,8 @@ PlayerSkins::getStartPlayerJS($str);
                 $('#mainVideo').bind('contextmenu', function () {
                     return false;
                 });
+                
+                addCloseButtonInVideo();
             });
 
             function compare(a, b, type) {
@@ -408,35 +410,6 @@ PlayerSkins::getStartPlayerJS($str);
                 s2 = (s2 + '').toLowerCase();
                 return s1 > s2 ? 1 : (s1 < s2 ? -1 : 0);
             }
-        </script>
-        <script>
-            var topInfoTimeout;
-            $(document).ready(function () {
-                setInterval(function () {
-                    if (typeof player !== 'undefined') {
-                        if (!player.paused() && (!player.userActive() || !$('.vjs-control-bar').is(":visible") || $('.vjs-control-bar').css('opacity') == "0")) {
-                            $('#topInfo').fadeOut();
-                        } else {
-                            $('#topInfo').fadeIn();
-                        }
-                    }
-                }, 200);
-
-                $("iframe, #topInfo").mouseover(function (e) {
-                    clearTimeout(topInfoTimeout);
-                    $('#mainVideo').addClass("vjs-user-active");
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 5000);
-                });
-
-                $("iframe").mouseout(function (e) {
-                    topInfoTimeout = setTimeout(function () {
-                        $('#mainVideo').removeClass("vjs-user-active");
-                    }, 500);
-                });
-
-            });
         </script>
         <?php
         echo AVideoPlugin::getFooterCode();

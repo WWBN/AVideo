@@ -38,6 +38,14 @@ class TopMenu extends PluginAbstract {
         $obj = new stdClass();
         $obj->show_menu_items = true;
         
+        $o = new stdClass();
+        $o->type = [0=>'Do not compact top menu'];
+        for ($i = 1; $i <= 10; $i++) {
+            $o->type[$i] = "Compact top menus if it is greater then $i items";
+        }
+        $o->value = 4;
+        $obj->compactMenuIfIsGreaterThen = $o;
+        
         return $obj;
      }
     

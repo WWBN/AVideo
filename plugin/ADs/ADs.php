@@ -96,7 +96,8 @@ class ADs extends PluginAbstract
 
             $o = new stdClass();
             $o->type = "textarea";
-            $o->value = empty($adsense) ? "<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample{$size}.jpg'></center>" : $adsense;
+            //$o->value = empty($adsense) ? "<center><img src='{$global['webSiteRootURL']}plugin/ADs/sample{$size}.jpg'></center>" : $adsense;
+            $o->value = '';
             eval("\$obj->$value[0] = \$o;");
 
             $width = 728;
@@ -224,7 +225,7 @@ class ADs extends PluginAbstract
         }
 
         make_path($videosDir);
-
+        //$videosURL = addQueryStringParameter($videosURL, 'cache', 1);
         return ['path' => $videosDir, 'url' => $videosURL];
     }
 
@@ -346,6 +347,9 @@ class ADs extends PluginAbstract
                 $type = $type . 'Mobile';
             }
             $adC = self::getAdsFromVideosId($type, $videos_id);
+            if(empty($adC['adCode'])){
+                $adC =  self::getAdsFromUsersId($type, 0);
+            }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }

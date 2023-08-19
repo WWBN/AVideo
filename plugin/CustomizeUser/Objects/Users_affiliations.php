@@ -204,7 +204,7 @@ class Users_affiliations extends ObjectYPT {
 
             foreach ($sendTo as $key => $value) {
                 $identification = User::getNameIdentificationById($value[0]);
-                $image = "user/{$value[0]}/foto.png";
+                $image = User::getPhoto($value[0], false, true);
                 $element_id = "affiliation_a{$value[0]}_b{$value[1]}_{$this->modified}";
                 $to_users_id = $value[1];
                 $msg .= " <strong>{$identification}</strong> ";

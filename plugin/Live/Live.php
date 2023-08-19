@@ -312,6 +312,10 @@ class Live extends PluginAbstract {
                 }
             }
 
+            if($obj->useLiveServers && empty($value['live_servers_id'])){
+                continue;
+            }
+
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
                 continue;
@@ -1366,6 +1370,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getLiveServersIdRequest() {
         if (empty($_REQUEST['live_servers_id'])) {
+            if(!empty($_POST['tcurl'])){
+                $url = $_POST['tcurl'];
+            }
+            if (empty($url)) {
+                $url = @$_POST['swfurl'];
+            }
+            if(!empty($url)){
+                return Live_servers::getServerIdFromRTMPHost($url);
+            }
             return 0;
         }
         return intval($_REQUEST['live_servers_id']);
@@ -2960,7 +2973,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/Offline.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2969,7 +2982,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/OnAir.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2978,7 +2991,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/ComingSoon.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }

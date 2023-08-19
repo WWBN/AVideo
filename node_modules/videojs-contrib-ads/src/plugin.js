@@ -15,7 +15,8 @@ import cueTextTracks from './cueTextTracks.js';
 import initCancelContentPlay from './cancelContentPlay.js';
 import playMiddlewareFeature from './playMiddleware.js';
 import register from './register.js';
-import { listenToTcf } from './tcf.js';
+import {listenToTcf} from './tcf.js';
+import {obtainUsPrivacyString} from './usPrivacy.js';
 
 import States from './states.js';
 import './states/abstract/State.js';
@@ -294,9 +295,14 @@ const contribAdsPlugin = function(options) {
   // Listen to TCF changes
   listenToTcf();
 
+  // Initialize the US Privacy string
+  obtainUsPrivacyString(() => {});
+
   // Can be called for testing, or if the TCF CMP has loaded late
   player.ads.listenToTcf = listenToTcf;
 
+  // Expose so the US privacy string can be updated as needed
+  player.ads.updateUsPrivacyString = (callback) => obtainUsPrivacyString(callback);
 };
 
 // Expose the contrib-ads version before it is initialized. Will be replaced

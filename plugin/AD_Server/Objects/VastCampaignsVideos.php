@@ -109,9 +109,7 @@ class VastCampaignsVideos extends ObjectYPT
                 $row['link'] = Video::getLink($row['videos_id'], $row['clean_title']);
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 

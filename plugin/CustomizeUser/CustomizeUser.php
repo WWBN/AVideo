@@ -13,6 +13,181 @@ require_once $global['systemRootPath'] . 'plugin/CustomizeUser/Objects/Users_aff
 class CustomizeUser extends PluginAbstract
 {
 
+
+    private static function _getSocialMedia()
+    {
+        return [
+            'website' => [
+                'class' => 'icoCopy',
+                'icon' => 'fas fa-globe',
+                'label' => __("Website"),
+                'placeholder' => __("Website URL"),
+                'isActive' => true,
+            ],
+            'facebook' => [
+                'class' => 'icoFacebook',
+                'icon' => 'fab fa-facebook-f',
+                'label' => __("Facebook"),
+                'placeholder' => __("Facebook URL"),
+                'isActive' => true,
+            ],
+            'youtube' => [
+                'class' => 'icoYoutube',
+                'icon' => 'fab fa-youtube',
+                'label' => __("Youtube"),
+                'placeholder' => __("Youtube URL"),
+                'isActive' => true,
+            ],
+            'instagram' => [
+                'class' => 'icoInstagram',
+                'icon' => 'fab fa-instagram',
+                'label' => __("Instagram"),
+                'placeholder' => __("Instagram URL"),
+                'isActive' => true,
+            ],
+            /*
+            'whatsapp' => [
+                'class' => 'icoWhatsapp',
+                'icon' => 'fab fa-whatsapp',
+                'label' => __("Whatsapp"),
+                'placeholder' => __("Whatsapp URL"),
+                'isActive' => true,
+            ],
+            */
+            'twitter' => [
+                'class' => 'icoTwitter',
+                'icon' => 'fab fa-twitter',
+                'label' => __("Twitter"),
+                'placeholder' => __("Twitter URL"),
+                'isActive' => true,
+            ],
+            'linkedin' => [
+                'class' => 'icoLinkedIn',
+                'icon' => 'fab fa-linkedin-in',
+                'label' => __("LinkedIn"),
+                'placeholder' => __("LinkedIn URL"),
+                'isActive' => true,
+            ],
+            'tiktok' => [
+                'class' => 'icoTikTok',
+                'icon' => 'fab fa-tiktok',
+                'label' => __("TikTok"),
+                'placeholder' => __("TikTok URL"),
+                'isActive' => true,
+            ],
+            'pinterest' => [
+                'class' => 'icoPinterest',
+                'icon' => 'fab fa-pinterest',
+                'label' => __("Pinterest"),
+                'placeholder' => __("Pinterest URL"),
+                'isActive' => true,
+            ],
+            'reddit' => [
+                'class' => 'icoReddit',
+                'icon' => 'fab fa-reddit',
+                'label' => __("Reddit"),
+                'placeholder' => __("Reddit URL"),
+                'isActive' => true,
+            ],
+            /*
+            'telegram' => [
+                'class' => 'icoTelegram',
+                'icon' => 'fab fa-telegram',
+                'label' => __("Telegram"),
+                'placeholder' => __("Telegram URL"),
+                'isActive' => true,
+            ],
+            'google' => [
+                'class' => 'icoGoogle',
+                'icon' => 'fab fa-google',
+                'label' => __("Google"),
+                'placeholder' => __("Google URL"),
+                'isActive' => true,
+            ],
+            */
+            'vimeo' => [
+                'class' => 'icoVimeo',
+                'icon' => 'fab fa-vimeo',
+                'label' => __("Vimeo"),
+                'placeholder' => __("Vimeo URL"),
+                'isActive' => true,
+            ],
+            'tumblr' => [
+                'class' => 'icoTumblr',
+                'icon' => 'fab fa-tumblr',
+                'label' => __("Tumblr"),
+                'placeholder' => __("Tumblr URL"),
+                'isActive' => true,
+            ],
+            'spreaker' => [
+                'class' => 'icoSpreaker',
+                'icon' => 'fas fa-heart',
+                'label' => __("Spreaker"),
+                'placeholder' => __("Spreaker URL"),
+                'isActive' => true,
+            ],
+            /*
+            'rss' => [
+                'class' => 'icoRss',
+                'icon' => 'fas fa-rss',
+                'label' => __("RSS"),
+                'placeholder' => __("RSS URL"),
+                'isActive' => true,
+            ],
+            'gab' => [
+                'class' => 'icoGab',
+                'icon' => 'fab fa-gab',
+                'label' => __("Gab"),
+                'placeholder' => __("Gab URL"),
+                'isActive' => true,
+            ],
+            */
+            'clouthub' => [
+                'class' => 'icoCloutHub',
+                'icon' => 'fas fa-cloud',
+                'label' => __("CloutHub"),
+                'placeholder' => __("CloutHub URL"),
+                'isActive' => true,
+            ],
+            'pinboard' => [
+                'class' => 'icoPinboard',
+                'icon' => 'fas fa-thumbtack',
+                'label' => __("Pinboard"),
+                'placeholder' => __("Pinboard URL"),
+                'isActive' => true,
+            ],
+            'apple' => [
+                'class' => 'icoApple',
+                'icon' => 'fab fa-apple',
+                'label' => __("Apple"),
+                'placeholder' => __("Apple URL"),
+            ],
+            'imdb' => [
+                'class' => 'icoIMDB',
+                'icon' => 'fab fa-imdb',
+                'label' => __("IMDB"),
+                'placeholder' => __("IMDB URL"),
+            ],
+            'podcast' => [
+                'class' => 'icoPodcast',
+                'icon' => 'fas fa-podcast',
+                'label' => __("Podcast"),
+                'placeholder' => __("Podcast URL"),
+            ],
+        ];
+    }
+
+    public static function getSocialMedia()
+    {
+        $obj = AVideoPlugin::getDataObject('CustomizeUser');
+        $socialMedias = self::_getSocialMedia();
+        foreach ($socialMedias as $key => $value) {
+            $param = "socialMedia_{$key}";
+            $socialMedias[$key]['isActive'] = $obj->$param;
+        }
+        return  $socialMedias;
+    }
+
     public function getTags()
     {
         return [
@@ -46,6 +221,14 @@ class CustomizeUser extends PluginAbstract
     {
         global $advancedCustom, $advancedCustomUser;
         $obj = new stdClass();
+
+        $socialMedias = self::_getSocialMedia();
+        foreach ($socialMedias as $key => $value) {
+            $param = "socialMedia_{$key}";
+            $obj->$param = true;
+            self::addDataObjectHelper($param, "<i class=\"{$value['icon']}\"></i> Enable {$value['placeholder']}", "The user can add his {$value['placeholder']}, and it will appear on his channel");
+        }
+
         $obj->nonAdminCannotDownload = false;
         $obj->nonAdminCannotDeleteVideo = false;
         $obj->userCanAllowFilesDownload = false;
@@ -186,16 +369,18 @@ class CustomizeUser extends PluginAbstract
         return $obj;
     }
 
-    function onUserSocketConnect() {
+    function onUserSocketConnect()
+    {
         global $global;
         echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketConnect.js');
     }
 
-    function onUserSocketDisconnect() {
+    function onUserSocketDisconnect()
+    {
         global $global;
         echo file_get_contents($global['systemRootPath'] . 'plugin/CustomizeUser/onUserSocketDisconnect.js');
     }
-    
+
     static function getCallerButton($users_id, $class = '')
     {
         global $global;
@@ -474,7 +659,7 @@ class CustomizeUser extends PluginAbstract
                 //_error_log("CustomizeUser::getModeYouTube this video is embed and whitelisted, we will by pass the security check");
                 return true;
             } else {
-                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [".(@$_SERVER['HTTP_REFERER'])."]");
+                _error_log("CustomizeUser::getModeYouTube this video is NOT whitelisted, [" . (@$_SERVER['HTTP_REFERER']) . "]");
             }
         }
         $cansee = User::canWatchVideoWithAds($videos_id);
@@ -590,7 +775,7 @@ class CustomizeUser extends PluginAbstract
 
             $btn .= '<li><a data-toggle="tab" href="#tabAffiliation">' . __('Affiliations') . ' ' . $totalNotifications . '</a></li>';
         }
-        $btn .= '<li><a data-toggle="tab" href="#tabSubscriptions">' . __('Subscriptions') . '</a></li>';
+        $btn .= '<li><a data-toggle="tab" href="#tabSubscriptions"><i class="fas fa-bell"></i> ' . __('Following') . '</a></li>';
         $btn .= '<li><a onclick="avideoModalIframeSmall(webSiteRootURL+\'plugin/CustomizeUser/confirmDeleteUser.php?users_id=' . $users_id . '\');return false;" style="cursor: pointer;"><i class="fas fa-trash"></i> ' . __('Delete my account') . '</a></li>';
         return $btn;
     }

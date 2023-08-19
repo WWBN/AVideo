@@ -85,6 +85,7 @@ Options All -Indexes
     RewriteEngine on
     #VideoHLS for DRM
 
+    RewriteRule    ^buy/?  plugin/Layout/buy.php [NC,L,QSA]
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]
     RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
 
@@ -204,10 +205,10 @@ Options All -Indexes
     RewriteRule ^article/([^!#$&'(),/:;=?@[]]+)/page/([0-9]+)/??$ view/modeYoutube.php?videoName=$1&page=$2 [QSA]
     
     #for the embeded article name
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/[0-9a-zA-Z_.-]*?$ view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
     RewriteRule ^articleEmbed/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
-    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
-    
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?v=$1 [QSA]    
 
     # audio and video IDs
     RewriteRule ^article/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=article [QSA]
@@ -383,16 +384,23 @@ Options All -Indexes
         RewriteRule    ^videos/cache/download/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2&cacheDownload=1    [QSA]
     </IfModule>
 
-    # if image do not exists
+    # Special redirect for videos/userPhoto/photo[0-9]+.png to user/[0-9]+/foto.png if not found
+    RewriteCond %{REQUEST_URI} ^/videos/userPhoto/photo([0-9]+)\.png$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ /user/%1/foto.png [L,R=302]
+
+    # if image does not exist
     RewriteCond %{REQUEST_URI} \.(webp|jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule (.*)$ img/image404.php?image=$1 [NC,L]
 
+    # for other missing files
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule .*$ view/error.php [NC,L]
+
 
 </IfModule>
 <IfModule mod_deflate.c>

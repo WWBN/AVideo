@@ -18,6 +18,17 @@ $total = Subscribe::getTotalSubscribedChannels(User::getId());
 $page = getCurrentPage();
 $channels = Subscribe::getSubscribedChannels(User::getId(), $itemsPerPage, $page);
 if (empty($channels)) {
+    ?>
+    <div class="alert alert-warning" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        <strong><?php echo __("No Channels Followed Yet"); ?></strong>
+        <p><?php echo __("You haven't started following any channels yet. Browse around to find channels that interest you and click the 'Follow' button to start getting updates!"); ?></p>
+        <hr>
+        <button class="btn btn-primary" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');return false;">
+            <i class="fas fa-search"></i> <?php echo __("Browse Channels"); ?>
+        </button>
+    </div>
+    <?php
     return '';
 }
 $totalPages = ceil($total / $itemsPerPage);

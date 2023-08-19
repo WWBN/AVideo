@@ -834,13 +834,20 @@ function sendBulkEmail($users_id_array, $emails_array, $subject, $message)
 
     $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
     if (!empty($users_id_array) && $obj->sendEmails) {
+        _error_log("sendBulkEmail Scheduler");
         $Emails_messages = Emails_messages::setOrCreate($message, $subject);
+        $count = 0;
         foreach ($users_id_array as $users_id) {
             $Email_to_user = new Email_to_user(0);
             $Email_to_user->setEmails_messages_id($Emails_messages->getId());
             $Email_to_user->setUsers_id($users_id);
+            if($Email_to_user->save()){
+                $count++;
+            }
         }
+        _error_log("sendBulkEmail Scheduler done total={$count}");
     } else {
+        _error_log("sendBulkEmail sendSiteEmailAsync");
         if (empty($emails_array)) {
             $to = array();
             $sql = "SELECT email FROM users WHERE id IN (" . implode(', ', $users_id_array) . ") ";
@@ -1218,8 +1225,8 @@ function _getImagesURL($fileName, $type)
         unset($file1);
         $files["jpg"] = [
             'filename' => "{$type}.png",
-            'path' => getCDN() . "view/img/{$type}.png",
-            'url' => getCDN() . "view/img/{$type}.png",
+            'path' => getURL("view/img/{$type}.png"),
+            'url' => getURL("view/img/{$type}.png"),
             'type' => 'image',
         ];
     }
@@ -1238,8 +1245,8 @@ function _getImagesURL($fileName, $type)
         } else {
             $files["pjpg"] = [
                 'filename' => "{$type}_portrait.png",
-                'path' => getCDN() . "view/img/{$type}_portrait.png",
-                'url' => getCDN() . "view/img/{$type}_portrait.png",
+                'path' => getURL("view/img/{$type}_portrait.png"),
+                'url' => getURL("view/img/{$type}_portrait.png"),
                 'type' => 'image',
             ];
         }
@@ -1528,7 +1535,7 @@ function getVideosDir()
 
 $getVideosURL_V2Array = [];
 
-function getVideosURL_V2($fileName, $recreateCache = false)
+function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
 {
     global $global, $getVideosURL_V2Array;
     if (empty($fileName)) {
@@ -1568,8 +1575,9 @@ function getVideosURL_V2($fileName, $recreateCache = false)
                 ) { // file size is small
                     _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(["/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), $pathFilesize, $value]));
                     unset($files);
-                    $video = Video::getVideoFromFileName($fileName, true, true);
-                    Video::clearCache($video['id']);
+                    clearCache();
+                    //$video = Video::getVideoFromFileName($fileName, true, true);
+                    //Video::clearCache($video['id']);
                     break;
                 } else {
                     //_error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
@@ -1579,6 +1587,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
         } else {
             //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
+        
         TimeLogEnd($TimeLog1, __LINE__);
     } else {
         _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -1621,6 +1630,11 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            /*
+            if(empty($recreateCache) && $fileName == "video_230816233020_vb81e"){
+                var_dump($fileName, $source);exit;
+            }
+            */
             //TimeLogEnd($timeName2, __LINE__);
             if (empty($source)) {
                 continue;
@@ -1694,6 +1708,11 @@ function getVideosURL_V2($fileName, $recreateCache = false)
 
         ObjectYPT::setCacheGlobal($cacheName, $files);
     }
+    /*
+    if(empty($recreateCache) && $fileName == "video_230813150408_va39e"){
+        var_dump($fileName, $files, debug_backtrace());exit;
+    }
+    */
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");
@@ -1701,6 +1720,16 @@ function getVideosURL_V2($fileName, $recreateCache = false)
     //var_dump($files);exit;
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
+}
+
+function checkIfFilesAreValid($files){
+    foreach ($files as $value) {
+        if(($value['type'] == 'video' || $value['type'] == 'audio') && @filesize($value['path'])<20){
+            $video = Video::getVideoFromFileNameLight($value['filename']);
+            Video::clearCache($video['id']);
+
+        }
+    }
 }
 
 //Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
@@ -1788,7 +1817,6 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
-
     if ($returnArray) {
         $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
     } else {
@@ -2977,9 +3005,9 @@ function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimat
 {
     $id = uniqid();
     //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
-    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, true) . PHP_EOL;
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, $preloadImage) . PHP_EOL;
     if (empty($doNotUseAnimatedGif) && !empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {
-        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true) . PHP_EOL;
+        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', $preloadImage) . PHP_EOL;
     }
     return '<div class="thumbsImage">' . $img . '</div>';
 }
@@ -4076,20 +4104,20 @@ function siteMap()
     return $newXML5;
 }
 
-function object_to_array($obj)
+function object_to_array($obj, $level = 0)
 {
     //only process if it's an object or array being passed to the function
     if (is_object($obj) || is_array($obj)) {
         $ret = (array) $obj;
         foreach ($ret as &$item) {
             //recursively process EACH element regardless of type
-            $item = object_to_array($item);
+            $item = object_to_array($item, $level +1);
         }
         return $ret;
     }
     //otherwise (i.e. for scalar values) return without modification
     else {
-        if(empty($obj)){
+        if(empty($level) && empty($obj)){
             $obj = array();
         }
         return $obj;
@@ -4461,42 +4489,42 @@ function getLdJson($videos_id)
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '
-    <script type="application/ld+json" id="application_ld_json">
-        {
-        "@context": "http://schema.org/",
-        "@type": "VideoObject",
-        "name": "' . getSEOTitle($video['title']) . '",
-        "description": "' . $description . '",
-        "thumbnailUrl": [
-        "' . $img . '"
-        ],
-        "uploadDate": "' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '",
-        "duration": "' . $duration . '",
-        "contentUrl": "' . Video::getLinkToVideo($videos_id, '', false, false) . '",
-        "embedUrl": "' . Video::getLinkToVideo($videos_id, '', true, false) . '",
-        "interactionCount": "' . $video['views_count'] . '",
-        "@id": "' . Video::getPermaLink($videos_id) . '",
-        "datePublished": "' . date("Y-m-d", strtotime($video['created'])) . '",
-        "interactionStatistic": [
-        {
-        "@type": "InteractionCounter",
-        "interactionService": {
-        "@type": "WebSite",
-        "name": "' . str_replace('"', '', $config->getWebSiteTitle()) . '",
-        "@id": "' . $global['webSiteRootURL'] . '"
-        },
-        "interactionType": "http://schema.org/LikeAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        },
-        {
-        "@type": "InteractionCounter",
-        "interactionType": "http://schema.org/WatchAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        }
-        ]
-        }
-    </script>';
+    $data = array(
+        "@context" => "http://schema.org/",
+        "@type" => "VideoObject",
+        "name" => getSEOTitle($video['title']),
+        "description" => $description,
+        "thumbnailUrl" => array($img),
+        "uploadDate" => date("Y-m-d\Th:i:s", strtotime($video['created'])),
+        "duration" => $duration,
+        "contentUrl" => Video::getLinkToVideo($videos_id, '', false, false),
+        "embedUrl" => Video::getLinkToVideo($videos_id, '', true, false),
+        "interactionCount" => $video['views_count'],
+        "@id" => Video::getPermaLink($videos_id),
+        "datePublished" => date("Y-m-d", strtotime($video['created'])),
+        "interactionStatistic" => array(
+            array(
+                "@type" => "InteractionCounter",
+                "interactionService" => array(
+                    "@type" => "WebSite",
+                    "name" => str_replace('"', '', $config->getWebSiteTitle()),
+                    "@id" => $global['webSiteRootURL']
+                ),
+                "interactionType" => "http://schema.org/LikeAction",
+                "userInteractionCount" => $video['views_count']
+            ),
+            array(
+                "@type" => "InteractionCounter",
+                "interactionType" => "http://schema.org/WatchAction",
+                "userInteractionCount" => $video['views_count']
+            )
+        )
+    );
+
+    $output = '<script type="application/ld+json" id="application_ld_json">';
+    $output .= json_encode($data, JSON_UNESCAPED_SLASHES);
+    $output .= '</script>';
+
     ObjectYPT::setCacheGlobal("getLdJson{$videos_id}", $output);
     echo $output;
 }
@@ -7131,7 +7159,7 @@ function isShareEnabled()
     return empty($advancedCustom->disableShareOnly) && empty($advancedCustom->disableShareAndPlaylist);
 }
 
-function getSharePopupButton($videos_id, $url = "", $title = "")
+function getSharePopupButton($videos_id, $url = '', $title = '', $class='')
 {
     global $global, $advancedCustom;
     if (!isShareEnabled()) {
@@ -9149,7 +9177,7 @@ function cleanUpRowFromDatabase($row)
 function getImageTransparent1pxURL()
 {
     global $global;
-    return getCDN() . "view/img/transparent1px.png";
+    return getURL("view/img/transparent1px.png");
 }
 
 function getDatabaseTime()
@@ -9702,13 +9730,17 @@ function useVideoHashOrLogin()
     return User::loginFromRequest();
 }
 
-function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'])
+function strip_specific_tags($string, $tags_to_strip = ['script', 'style', 'iframe', 'object', 'applet', 'link'], $removeContent=true)
 {
     if (empty($string)) {
         return '';
     }
     foreach ($tags_to_strip as $tag) {
-        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', '$1', $string);
+        $replacement = '$1';
+        if($removeContent){
+            $replacement = '';
+        }
+        $string = preg_replace('/<' . $tag . '[^>]*>(.*?)<\/' . $tag . '>/s', $replacement, $string);
     }
     return $string;
 }
@@ -10087,9 +10119,10 @@ function isImage($file)
 
 function isHTMLEmpty($html_string)
 {
-    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div']);
-    //var_dump($html_string_no_tags, $html_string);
-    return empty(trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags)));
+    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div'], false);
+    $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));
+    //var_dump(empty($result), $result, $html_string_no_tags, $html_string);
+    return empty($result);
 }
 
 function emptyHTML($html_string)
@@ -10842,7 +10875,7 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type)
         if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
         } else {
-            _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
+            //_error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
         }
     } else {
         _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid vidreo type");
@@ -11079,6 +11112,9 @@ function set_error_reporting()
  */
 function is_image_fully_transparent($filename)
 {
+    if(filesize($filename)>10000){
+        return false;
+    }
     // Load the image
     $image = imagecreatefrompng($filename);
 
@@ -11378,12 +11414,29 @@ function modifyURL($url)
         'ads_w' => 'ads.w', //player width 
         'ads_h' => 'ads.h', //player height
         'app_store_url' => 'ads.app_store_url', //player height
+        'ads_app_store_url' => 'ads.app_store_url', //player height
         'app_name' => 'ads.app_name', //player height
+        'ads_app_name' => 'ads.app_name', //player height
+        'ads_cb' => 'ads.cb',
+        'ads_channel_name' => 'ads.channel_name',
+        'ads_content_genre' => 'ads.content_genre',
+        'ads_content_series' => 'ads.content_series',
+        'ads_pod_max_dur' => 'ads.pod_max_dur',
+        'ads_provider' => 'ads.provider',
+        'ads_rating' => 'ads.rating',
+        'ads_schain' => 'ads.schain',
+        'ads_ua' => 'ads.ua',
+        'ads_url' => 'ads.url',
+        'ads_vast_id' => 'ads.vast_id',
+        'ads_ic' => 'ads.ic',
+        'ads_ip' => 'ads.ip',
         'us_privacy' => 'ads.us_privacy', //from Playout: (NP CCPA US field) 1N-N
         'is_lat' => 'is_lat', //0: User has NOT opted out targeting advertising 1: User has opted out of targeting advertising
         'gdpr' => 'ads.gdpr', // client decides (GDPR value)
         'gdpr_consent' => 'ads.gdpr_consent', // client decides (GDPR Consent value)
+        'ads_gdpr_consent' => 'ads.gdpr_consent', // client decides (GDPR Consent value)
         'url' => 'url', // client provides URL if Web option for content available
+        
         // GUMGUM
         'publisher_app_bundle' => 'gg.ads.publisher_app_bundle', //APP bundle
         'publisher_app_url' => 'gg.ads.publisher_app_url', //the publisher URL 
@@ -11391,7 +11444,7 @@ function modifyURL($url)
     );
     foreach ($parameters as $key => $value) {
         if (!empty($_REQUEST[$key])) {
-            //var_dump($_modifyURL_url);
+            //var_dump($url);
             $url = addQueryStringParameter($url, $value, $_REQUEST[$key]);
             //var_dump($url, $value, $key, $_REQUEST[$key]);
         } else {
@@ -11510,4 +11563,28 @@ function getMVideo($htmlMediaTag)
     $filePath = "{$global['systemRootPath']}objects/functionGetMVideo.php";
     $contents = getIncludeFileContent( $filePath, ['htmlMediaTag' => $htmlMediaTag] );
     return $contents;
+}
+
+function getDeviceName() {
+    if(empty($_SERVER['HTTP_USER_AGENT'])){
+        return 'unknown';
+    }
+    $userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+    if (strpos($userAgent, 'roku') !== false) {
+        return 'roku';
+    } elseif (strpos($userAgent, 'appletv') !== false) {
+        return 'appleTV';
+    } elseif (strpos($userAgent, 'iphone') !== false || strpos($userAgent, 'ipad') !== false || strpos($userAgent, 'ipod') !== false) {
+        return 'ios';
+    } elseif (strpos($userAgent, 'android') !== false) {
+        if (strpos($userAgent, 'mobile') !== false) {
+            return 'androidMobile';
+        } else {
+            return 'androidTV';
+        }
+    } elseif (strpos($userAgent, 'silk') !== false) {
+        return 'firestick';
+    } else {
+        return 'web';
+    }
 }

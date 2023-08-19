@@ -501,10 +501,12 @@ CREATE TABLE IF NOT EXISTS `playlists` (
   `modified` DATETIME NULL DEFAULT NULL,
   `users_id` INT(11) NOT NULL,
   `status` ENUM('public', 'private', 'unlisted', 'favorite', 'watch_later') NOT NULL DEFAULT 'public',
-  `showOnTV` TINYINT NULL,
+  `showOnTV` TINYINT NULL,,
+  `showOnFirstPage` TINYINT(1) UNSIGNED NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   INDEX `fk_playlists_users1_idx` (`users_id` ASC),
   INDEX `showOnTVindex3` (`showOnTV` ASC),
+  INDEX `showonFirstpage` (`showOnFirstPage` ASC),
   CONSTRAINT `fk_playlists_users1`
     FOREIGN KEY (`users_id`)
     REFERENCES `users` (`id`)

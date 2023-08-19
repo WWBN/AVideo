@@ -65,7 +65,7 @@ time.duration {
 }
 
 .thumbsImageContainer .thumbsImage {
-    border-radius: 5px;
+    border-radius: 8px;
     overflow: hidden;
 }
 
@@ -74,6 +74,7 @@ time.duration {
     z-index: 1;
     top: -5px;
     border-radius: unset;
+    margin-bottom: 0;
 }
 
 .videoLink .glyphicon-play-circle {
@@ -902,6 +903,30 @@ img.blur {
     display: block;
 }
 
+#CloseButtonInVideo {
+    display: none;
+    justify-content: center;   /* Horizontally centers the content (i.e., the <i> element) */
+    align-items: center;  
+    z-index: 9999;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #333;
+    border-radius: 50%;
+    height: 25px;
+    width: 25px;
+}
+#CloseButtonInVideo:hover {
+    background-color: rgba(255, 255, 255, 1);
+    color: #000;
+}
+.vjs-user-active #CloseButtonInVideo,
+.vjs-paused #CloseButtonInVideo,
+body>#CloseButtonInVideo {
+    display: flex;
+}
+
 .rightProfile li a {
     text-align: left;
 }
@@ -1255,6 +1280,7 @@ li.dropdown-submenu>ul>li>a {
     height: calc(100% - 150px);
 }
 
+/* Common styles for swal-content inside various swal-modal classes */
 .swal-modal.swal-modal-iframe .swal-content,
 .swal-modal.swal-modal-iframe-xsmall .swal-content,
 .swal-modal.swal-modal-iframe-small .swal-content,
@@ -1264,8 +1290,11 @@ li.dropdown-submenu>ul>li>a {
 .swal-modal.swal-modal-iframe-full-transparent .swal-content {
     width: 100%;
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
+/* Common styles for iframes inside various swal-modal classes */
 .swal-modal.swal-modal-iframe iframe,
 .swal-modal.swal-modal-iframe-xsmall iframe,
 .swal-modal.swal-modal-iframe-small iframe,
@@ -1277,27 +1306,28 @@ li.dropdown-submenu>ul>li>a {
     height: calc(100% - 50px);
 }
 
-#avideoModalIframeDiv {
-    display: none;
-    padding: 8px 10px;
-    padding-inline-start: 40px;
+/* Override height for certain swal-modal classes */
+.swal-modal.swal-modal-iframe-full iframe,
+.swal-modal.swal-modal-iframe-full-with-minimize iframe,
+.swal-modal.swal-modal-iframe-full-transparent iframe {
+    height: 100%;
+}
+
+/* Specific styles for swal-modal size variations */
+.swal-modal-iframe-xsmall {
+    width: 640px;
+    height: 480px;
 }
 
 .swal-modal-iframe-small {
     width: 800px;
     height: 600px;
-    max-width: 100%;
-    max-height: 100%;
 }
 
-.swal-modal-iframe-xsmall {
-    width: 640px;
-    height: 480px;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.swal-modal-iframe-large {
+.swal-modal-iframe-large,
+.swal-modal-iframe-full,
+.swal-modal-iframe-full-with-minimize,
+.swal-modal-iframe-full-transparent {
     width: calc(100% - 50px);
     height: calc(100% - 50px);
     max-width: 100%;
@@ -1305,27 +1335,26 @@ li.dropdown-submenu>ul>li>a {
 }
 
 .swal-modal-iframe-full,
-.swal-modal-iframe-full-with-minimize,
-.swal-modal-iframe-full-transparent {
-    margin: 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+.swal-modal-iframe-full-with-minimize {
     width: 100%;
     height: calc(100% - 50px);
     max-width: 100%;
     max-height: 100%;
 }
 
-.swal-modal.swal-modal-iframe-full iframe,
-.swal-modal.swal-modal-iframe-full-with-minimize iframe,
-.swal-modal.swal-modal-iframe-full-transparent iframe {
-    height: 100%;
+/* Position and background styles for full screen swal-modal */
+.swal-modal-iframe-full,
+.swal-modal-iframe-full-with-minimize,
+.swal-modal-iframe-full-transparent {
+    margin: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
-.swal-modal-iframe-full-transparent iframe,
+.swal-modal-iframe-full-transparent,
 .swal-modal-iframe-full-transparent .swal-content,
-.swal-modal-iframe-full-transparent {
+.swal-modal-iframe-full-transparent iframe {
     background-color: transparent;
 }
 
@@ -1336,14 +1365,7 @@ li.dropdown-submenu>ul>li>a {
     margin: 0;
 }
 
-.swal-modal.swal-modal-iframe-large .swal-content,
-.swal-modal.swal-modal-iframe-full .swal-content,
-.swal-modal.swal-modal-iframe-full-with-minimize .swal-content,
-.swal-modal-iframe-full-transparent .swal-content {
-    padding: 0;
-    margin: 0;
-}
-
+/* Additional styles */
 .swal-modal-iframe-full-with-maximize-btn {
     display: none;
 }
@@ -1373,6 +1395,13 @@ li.dropdown-submenu>ul>li>a {
 
 .swal-offline-video-compress .swal-modal-logo {
     display: none;
+}
+
+/* Styles related to avideoModalIframeDiv element */
+#avideoModalIframeDiv {
+    display: none;
+    padding: 8px 10px;
+    padding-inline-start: 40px;
 }
 
 /* sm */
@@ -1907,7 +1936,8 @@ button.btn-sm.hamburger svg {
 }
 
 .mainArea .galleryVideo {
-    margin-bottom: 3em;
+    margin-bottom: 1em;
+    padding-bottom: 1em;
 }
 
 .ui-menu .ui-menu-item {
@@ -1956,13 +1986,30 @@ button.btn-sm.hamburger svg {
 }
 
 .HorizontalFlickity .flickity-button {
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.HorizontalFlickity .flickity-button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+}
+
+.HorizontalFlickity .flickity-slider {
+    margin: 2px;
 }
 
 .HorizontalFlickity,
 .HorizontalFlickity .flickity-viewport {
     min-height: 50px;
+}
+
+.HorizontalFlickity .carousel-cell {
+    display: none;
+}
+
+.HorizontalFlickity.flickity-enabled .carousel-cell {
+    display: block;
 }
 
 body.ypt-is-compressed #videoCol {
@@ -1972,6 +2019,15 @@ body.ypt-is-compressed #videoCol {
     float: none;
 }
 
-#bigVideoCarousel .galleryVideoButtons button{
+#bigVideoCarousel .galleryVideoButtons button {
     display: inline-block;
 }
+/*
+#_avideoPageLoader{
+    display: none !important;
+}
+
+#_avideoPageContent{
+    display: unset !important;
+}
+*/

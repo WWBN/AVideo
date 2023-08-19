@@ -3,7 +3,7 @@ $obj = AVideoPlugin::getObjectData("LoginControl");
 ?>
 <li>
     <a data-toggle="tab" href="#loginHistory" id="aloginControl">
-        <?php echo __("Login History") ?>
+        <i class="fas fa-history"></i> <?php echo __("Login History") ?>
     </a>
 </li>
 <?php

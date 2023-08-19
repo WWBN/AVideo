@@ -489,7 +489,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
     $global_fps = 30;
     if (count($restreamsDestinations) > 1) {
         //$command = "{$ffmpegBinary} -re -i \"{$m3u8}\" ";
-        $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -i \"{$m3u8}\" ";
+        $command = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -i \"{$m3u8}\" ";
         foreach ($restreamsDestinations as $value) {
             if (!isOpenSSLEnabled() && preg_match("/rtpms:/i", $value)) {
                 error_log("Restreamer.json.php startRestream ERROR #1 FFMPEG openssl is not enabled, ignoring $value ");
@@ -514,7 +514,7 @@ function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 
         } else {
             $audioConfig = getAudioConfiguration($restreamsDestinations[0]);
             //$command = "ffmpeg -re -i \"{$m3u8}\" -max_muxing_queue_size 1024 -acodec copy -bsf:a aac_adtstoasc -vcodec copy -f flv \"{$restreamsDestinations[0]}\"";
-            $command = "{$ffmpegBinary} -re -rw_timeout 15000000 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
+            $command = "{$ffmpegBinary} -re -rw_timeout 30000000 -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 -y -i \"{$m3u8}\" -max_muxing_queue_size 1024 "
             . $audioConfig
             . "-vcodec libx264 "
             . "-pix_fmt yuv420p "

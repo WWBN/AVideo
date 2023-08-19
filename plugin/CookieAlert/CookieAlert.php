@@ -21,12 +21,13 @@ class CookieAlert extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        global $nonCriticalCSS;
         if($this->doNotShow()){
             return "";
         }
         $obj = $this->getDataObject();
         global $global;
-        $css = '<link href="' . getCDN() . 'plugin/CookieAlert/cookiealert.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getURL('plugin/CookieAlert/cookiealert.css') . '" rel="stylesheet" type="text/css"  />';
         $css .= '<style></style>';
         return $css;
     }

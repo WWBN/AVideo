@@ -178,7 +178,7 @@ class Cache extends PluginAbstract {
                 }
 
                 if ($isBot) {
-                    $firstPageCache = strip_specific_tags($firstPageCache);
+                    $firstPageCache = strip_specific_tags($firstPageCache, ['script', 'style', 'iframe', 'object', 'applet', 'link'], true);
                     $firstPageCache = strip_render_blocking_resources($firstPageCache);
                 } else {
                     $firstPageCache = optimizeHTMLTags($firstPageCache);
@@ -394,6 +394,25 @@ class Cache extends PluginAbstract {
     public static function deleteFirstPageCache() {
         clearCache(true);
         return CachesInDB::_deleteCacheStartingWith('firstPage');
+    }
+
+    public static function deleteOldCache($days, $limit = 5000) {
+        global $global;
+        $days = intval($days);
+        if (!empty($days)) {
+            $sql = "DELETE FROM CachesInDB ";
+            $sql .= " WHERE created < DATE_SUB(NOW(), INTERVAL ? DAY) ";
+            $sql .= " LIMIT $limit";
+            $global['lastQuery'] = $sql;
+    
+            return sqlDAL::writeSql($sql, "i", [$days]);
+        }
+        return false;
+    }
+    function executeEveryMinute() {
+        global $global;
+        $global['systemRootPath'] . 'plugin/Cache/deleteStatistics.json.php';
+        self::deleteOldCache(1);
     }
 
 }

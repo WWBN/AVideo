@@ -1,5 +1,11 @@
+### 2.1.0 - 2023-05-23
 
-### 2.0.1 - 2020-01-DD
+- un-deprecate IPv6.toString() and make it an alias to toRFC5952String()
+- add reserved 198.18.0.0/15 block
+- add reserved blocks in 2001: space
+
+
+### 2.0.1 - 2020-01-06
 
 - add support for deprecated IPv4 compatible IPv6 addresses #142
 - drop node 8 testing, add v14

@@ -583,7 +583,6 @@ class VideoStatistic extends ObjectYPT {
             //_error_log("Delete Query: ".$sql);
             return sqlDAL::writeSql($sql, "i", [$days]);
         }
-        _error_log("Id for table " . static::getTableName() . " not defined for deletion", AVideoLog::$ERROR);
         return false;
     }
 

@@ -44,8 +44,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "" . getCDN() . "view/img/notfound.jpg";
-    $poster = "" . getCDN() . "view/img/notfound.jpg";
+    $img = "" . getURL("view/img/notfound.jpg");
+    $poster = "" . getURL("view/img/notfound.jpg");
     $imgw = 1280;
     $imgh = 720;
 
@@ -106,12 +106,12 @@ if (!empty($evideo)) {
             $_REQUEST['catName'] = '';
         }
 
-        if (empty($video) && !empty($_REQUEST['v'])) {
-            $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
+        $videos_id = getVideos_id();
+        if (empty($video) && !empty($videos_id)) {
+            $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
             //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
-
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
@@ -190,7 +190,7 @@ if (!empty($evideo)) {
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "" . getCDN() . "view/img/audio_wave.jpg";
+        $poster = "" . getURL("view/img/audio_wave.jpg");
     }
 
     if (!empty($video)) {
@@ -201,7 +201,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } elseif ($video['type'] == "audio") {
-            $img = "" . getCDN() . "view/img/audio_wave.jpg";
+            $img = "" . getURL("view/img/audio_wave.jpg");
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -222,7 +222,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "" . getCDN() . "view/img/notfound.jpg";
+        $poster = "" . getURL("view/img/notfound.jpg");
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
@@ -250,9 +250,20 @@ if (!empty($evideo)) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
-        $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
-        videoNotFound($html);
+        if($_GET['playlist_id'] == 'favorite' || $_GET['playlist_id'] == 'watch-later'){
+            if($_GET['playlist_id'] == 'favorite'){
+                $msg = __('Your Favorite playlist is waiting to be filled! Start exploring and add the videos you love the most.');
+            }else{
+                $msg = __('Oops! Your Watch Later playlist is empty. Don\'t worry, we have plenty of exciting videos for you to choose from and add here.');
+            }
+            $url = addQueryStringParameter($global['webSiteRootURL'], 'msg', $msg);
+            header("location: {$url}");
+            exit;
+        }else {
+            $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
+            $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
+            videoNotFound($html);
+        }
     } else {
         $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
         $modeYouTubeTime = microtime(true);
@@ -310,12 +321,13 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 }
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+global $nonCriticalCSS;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>" prefix="og: http://ogp.me/ns#">
     <head>
         <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"  />
         <link href="<?php echo getCDN('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);

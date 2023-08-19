@@ -10,7 +10,7 @@ $global['bypassSameDomainCheck'] = 1;
 require_once $configFile;
 require_once $global['systemRootPath'].'plugin/API/API.php';
 header('Access-Control-Allow-Origin: *');
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: Content-Type, ua-resolution");
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("API");
 $objData = AVideoPlugin::getObjectDataIfEnabled("API");

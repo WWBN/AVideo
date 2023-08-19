@@ -20,3 +20,12 @@ span.selection > span.select2-selection--single{
     background-color: #586e75;
     border-color: #586e75;
 }
+
+th > a > span.text, 
+.bootgrid-table th > .column-header-anchor{
+    color: #FFF;
+}
+
+.swal-modal, .bootgrid-table th:hover, .bootgrid-table th:active{
+    background-color: #002b36;
+}

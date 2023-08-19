@@ -18,6 +18,7 @@ if (User::isLogged()) {
                         <div class="pull-right hidden-md hidden-sm hidden-xs">
                             <?php echo $tagsStr; ?>
                         </div>
+                        <div class="clearfix"></div>
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#basicInfo" id="aBasicInfo"><?php echo __("Basic Info") ?></a></li>
 

@@ -235,15 +235,15 @@ class API extends PluginAbstract
                 $mobileGlobal = true;
                 $mobile = ADs::getAds($type . 'Mobile', false);
             }
-
+            //var_dump($desktop);exit;
             $desktopURLs = array();
             foreach ($desktop as $item) {
-                $desktopURLs[] = $item['imageURL'];
+                $desktopURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
             }
 
             $mobileURLs = array();
             foreach ($mobile as $item) {
-                $mobileURLs[] = $item['imageURL'];
+                $mobileURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
             }
             $label = '';
             eval("\$label = \$ad->{$type}Label;");
@@ -342,7 +342,7 @@ class API extends PluginAbstract
             if (!empty($value['fullTotal_videos'])) {
                 $video = Category::getLatestVideoFromCategory($value['id'], true, true);
                 $images = Video::getImageFromID($video['id']);
-                $image = $images->poster;
+                $image = $images->default['url'];
             } elseif (!empty($value['fullTotal_lives'])) {
                 $live = Category::getLatestLiveFromCategory($value['id'], true, true);
                 $image = Live::getImage($live['users_id'], $live['live_servers_id']);
@@ -912,6 +912,7 @@ class API extends PluginAbstract
             if ($value['type'] == 'serie') {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
                 $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
+                //var_dump($rows[$key]['playlist']);exit;
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
@@ -919,6 +920,7 @@ class API extends PluginAbstract
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
+                //var_dump($rows[$key]['videoLink'], modifyURL($rows[$key]['videoLink']));exit;
                 $rows[$key]['videoLink'] = modifyURL($rows[$key]['videoLink']);
                 if ($extension == 'mp4') {
                     $rows[$key]['videos'] = array(
@@ -972,6 +974,8 @@ class API extends PluginAbstract
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
+            }else{
+                $rows[$key]['subtitles'] = [];
             }
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -1015,6 +1019,9 @@ class API extends PluginAbstract
                     }
                     if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
+                    }
+                    if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                        $rows[$key]['relatedVideos'][$key2]['videoLink'] = modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
                     }
                 }
             }
@@ -2080,7 +2087,21 @@ class API extends PluginAbstract
     {
         global $global;
         $this->getToPost();
-        require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        header('Content-type: application/xml');
+        if (AVideoPlugin::isEnabledByName('GoogleAds_IMA')) {
+            require_once $global['systemRootPath'] . 'plugin/GoogleAds_IMA/VMAP.php';
+        } else if (AVideoPlugin::isEnabledByName('AD_Server')) {
+            require_once $global['systemRootPath'] . 'plugin/AD_Server/VMAP.php';
+        } else if (AVideoPlugin::isEnabledByName('AdsForJesus')) {
+            $videos_id = getVideos_id();
+            $url = AdsForJesus::getVMAPURL($videos_id);
+            if (!empty($url)) {
+                echo url_get_contents($url);
+            }
+        } else {
+            echo '<?xml version="1.0" encoding="UTF-8"?><vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0"></vmap:VMAP> ';
+            echo '<!-- VMAP API not found --> ';
+        }
         exit;
     }
 

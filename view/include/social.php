@@ -25,6 +25,9 @@ $titleSocial = getSEOTitle($titleSocial);
 $urlSocial = urlencode($url);
 //set the $urlSocial and the $titleSocial before include this
 
+if(!isset($global)){
+    $global = [];
+}
 $global['social_medias_Whatsapp'] = "https://api.whatsapp.com/send?text={$titleSocial}%20{$urlSocial}";
 $global['social_medias_Telegram'] = "https://t.me/share/url?url={$urlSocial}&text={$titleSocial}";
 $global['social_medias_Facebook'] = "https://www.facebook.com/sharer.php?u={$urlSocial}&title={$titleSocial}";
@@ -38,11 +41,6 @@ $global['social_medias_Pinboard'] = "https://pinboard.in/popup_login/?url=$urlSo
 $global['social_medias_Gab'] = "https://gab.com/compose?url={$urlSocial}&text={$titleSocial}";
 $global['social_medias_CloutHub'] = "https://app.clouthub.com/share?url={$urlSocial}&text={$titleSocial}";
 
-if (empty($socialAdded)) { // do not add the CSS more then once
-    ?>     
-    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
-    <?php
-}
 $socialAdded = 1;
 
 $social_medias = [

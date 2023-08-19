@@ -14,7 +14,7 @@ if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
         $imgw = $data[0];
         $imgh = $data[1];
     } elseif ($video['type'] == "audio") {
-        $img = "" . getCDN() . "view/img/audio_wave.jpg";
+        $img = "" . getURL("view/img/audio_wave.jpg");
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {

@@ -1,7 +1,7 @@
 {
   "name": "ipaddr.js",
   "description": "A library for manipulating IPv4 and IPv6 addresses in JavaScript.",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "author": "whitequark <whitequark@whitequark.org>",
   "directories": {
     "lib": "./lib"

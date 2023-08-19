@@ -28,9 +28,9 @@ class NextButton extends PluginAbstract {
     }
     
     public function getHeadCode() {
-        global $global, $autoPlayVideo;
+        global $global, $autoPlayVideo, $nonCriticalCSS;
         if (!empty($autoPlayVideo['url'])) {
-            $css = '<link href="' .getURL('plugin/NextButton/style.css') . '" rel="stylesheet" type="text/css"/>';
+            $css = '<link href="' .getURL('plugin/NextButton/style.css') . '" rel="stylesheet" type="text/css" />';
             $css .= '<style></style>';
             return $css;
         }

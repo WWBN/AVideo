@@ -47,6 +47,17 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
 
 $global['avideoStartMicrotime'] = microtime(true);
 
+function includeConfigLog($line, $desc=''){
+    if(empty($_REQUEST['debug'])){
+        return false;
+    }
+    global $global;
+    $seconds = number_format(microtime(true) - $global['avideoStartMicrotime'], 4);
+    $msg = "includeConfigLog: {$seconds} seconds line={$line} {$desc}";
+    echo $msg."<br>".PHP_EOL;
+    error_log($msg);
+}
+includeConfigLog(__LINE__);
 try {
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
@@ -56,13 +67,16 @@ try {
         ini_set("session.entropy_file", $urandom);
         ini_set("session.entropy_length", "512");
     }
+    includeConfigLog(__LINE__, 'autoload start');
     require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
+    includeConfigLog(__LINE__, 'autoload done');
     ini_set('display_errors', 0);
     ini_set('display_startup_errors', 0);
     error_reporting(0);
 } catch (Exception $exc) {
     echo $exc->getTraceAsString();
 }
+includeConfigLog(__LINE__);
 
 $global['webSiteRootURL'] .= (substr($global['webSiteRootURL'], -1) == '/' ? '' : '/');
 $global['systemRootPath'] .= (substr($global['systemRootPath'], -1) == '/' ? '' : '/');
@@ -86,7 +100,9 @@ if (empty($global['mysqli_charset'])) {
     //$global['mysqli_charset'] = 'latin1';
 }
 
+includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/functions.php';
+includeConfigLog(__LINE__);
 set_error_reporting();
 if (empty($doNotConnectDatabaseIncludeConfig)) {
     _mysql_connect();
@@ -98,11 +114,13 @@ require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
 
+includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
     Configuration::rewriteConfigFile();
 }
 
+includeConfigLog(__LINE__);
 $global['dont_show_us_flag'] = false;
 // this is for old versions
 
@@ -132,6 +150,7 @@ if (empty($doNotStartSessionbaseIncludeConfig)) {
     }
 }
 
+includeConfigLog(__LINE__);
 // set the referrer for aVideo
 $url1['host'] = '';
 $global['HTTP_REFERER'] = '';
@@ -154,6 +173,7 @@ if (!empty($_SERVER['HTTP_REFERER'])) {
         $url1 = parse_url($global['HTTP_REFERER']);
     }
 }
+includeConfigLog(__LINE__);
 //var_dump($global['HTTP_REFERER']);exit;
 if (!isset($_POST['redirectUri'])) {
     $_POST['redirectUri'] = '';
@@ -166,11 +186,13 @@ if (!empty($_GET['redirectUri']) && strpos($_GET['redirectUri'], 'logoff.php') !
     $_GET['redirectUri'] = '';
 }
 
+includeConfigLog(__LINE__);
 $url2 = parse_url($global['webSiteRootURL']);
 if (!empty($url1['host']) && !empty($url2['host']) && $url1['host'] !== $url2['host']) {
     $global['HTTP_REFERER'] = $global['webSiteRootURL'];
 }
 $_SESSION['LAST_HTTP_REFERER'] = @$global['HTTP_REFERER'];
+includeConfigLog(__LINE__);
 //var_dump($global['HTTP_REFERER'], $url1);exit;
 
 _ob_end_clean();
@@ -188,6 +210,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 require_once $global['systemRootPath'] . 'objects/Page.php';
 setSiteLang();
+includeConfigLog(__LINE__);
 
 adminSecurityCheck();
 fixSystemPath();
@@ -195,9 +218,12 @@ ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime();
 getDeviceID();
 allowOrigin();
 
+includeConfigLog(__LINE__);
 $baseName = basename($_SERVER['SCRIPT_FILENAME']);
 if (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php' && class_exists('Plugin')) {
+    includeConfigLog(__LINE__, 'AVideoPlugin::getStart start');
     AVideoPlugin::getStart();
+    includeConfigLog(__LINE__, 'AVideoPlugin::getStart done');
 } elseif (empty($doNotConnectDatabaseIncludeConfig) && $baseName !== 'xsendfile.php') {
     _error_log("Class Plugin Not found: {$_SERVER['REQUEST_URI']}");
 }
@@ -210,6 +236,7 @@ if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolution
     $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160, 'offline'];
 }
 
+includeConfigLog(__LINE__);
 sort($global['avideo_resolutions']);
 if (!empty($doNotConnectDatabaseIncludeConfig)) {
     return false;
@@ -230,6 +257,7 @@ if (empty($global['disableTimeFix'])) {
     ObjectYPT::setGlobalTimeZone();
 }
 
+includeConfigLog(__LINE__);
 $avideoLayout = AVideoPlugin::getObjectData('Layout');
 $avideoCustomizeUser = $advancedCustomUser = AVideoPlugin::getObjectData('CustomizeUser');
 $avideoCustomize = $customizePlugin = AVideoPlugin::getObjectData('Customize');
@@ -241,3 +269,5 @@ if (!empty($_GET['type'])) {
 } elseif (!empty($_GET['showOnly'])) {
     $metaDescription = " {$_GET['showOnly']}";
 }
+
+includeConfigLog(__LINE__);
