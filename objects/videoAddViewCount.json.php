@@ -79,9 +79,13 @@ $obj2->seconds_watching_video = $seconds_watching_video;
 if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
     //_error_log("videos_statistics addView {$_REQUEST['id']} {$_SERVER['HTTP_USER_AGENT']} ".json_encode($_SESSION['addViewCount']));
     $resp = $obj->addView();
+    if(empty($resp)){
+        $obj2->msg = $_addViewFailReason;
+    }
     _session_start();
     $_SESSION['addViewCount'][$_REQUEST['id']]['time'] = strtotime("+{$seconds} seconds");
 } else {
+    $obj2->msg = 'View not added, the user already have a view in this session';
     //_error_log("videos_statistics addView OK {$_REQUEST['id']} ".json_encode($_SESSION['addViewCount']));
 }
 
