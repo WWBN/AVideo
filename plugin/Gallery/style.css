@@ -20,8 +20,6 @@
     padding: 0;
 }
 .galleryVideo  {
-    overflow-x: hidden;
-    text-overflow: ellipsis;
     padding-bottom: 10px;
 }
 
@@ -288,6 +286,10 @@ a.h6{
 }
 .channelPhotoDescription{
     width: calc(100% - 65px);
+}
+
+.notShowChannel .channelPhotoDescription{
+    width: calc(100% - 25px);
 }
 
 .channelPhoto {
