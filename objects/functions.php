@@ -5929,6 +5929,31 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
     return $videos_id;
 }
 
+function getUsers_idOwnerFromRequest()
+{
+    $videos_id = getVideos_id();
+
+    if(!empty($videos_id)){
+        $video = new Video('', '', $videos_id);
+        return $video->getUsers_id();
+    }
+    $live = isLive();
+    if(!empty($live)){
+        if(!empty($live['users_id'])){
+            return $live['users_id'];
+        }
+        if(!empty($live['live_schedule'])){
+            return Live_schedule::getUsers_idOrCompany($live['live_schedule']);
+        }
+        if(!empty($live['key'])){
+            $row = LiveTransmition::keyExists($live['key']);
+            return $row['users_id'];
+        }
+    }
+
+    return 0;
+}
+
 function getPlayListIndex()
 {
     global $__playlistIndex;
