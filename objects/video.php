@@ -207,19 +207,32 @@ if (!class_exists('Video')) {
 
         public function addView($currentTime = 0)
         {
+            global $_addViewFailReason;
             if (isBot()) {
+                $_addViewFailReason = 'It is a bot';
                 //_error_log("addView isBot");
                 return false;
             }
             global $global;
             if (empty($this->id)) {
+                $_addViewFailReason = 'Undefined videos ID';
                 //_error_log("addView empty(\$this->id))");
                 return false;
             }
-
-            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId(), getRealIpAddr(), session_id());
+            $ip = getRealIpAddr();
+            $lastStatistic = VideoStatistic::getLastStatistics($this->id, User::getId(), $ip, session_id());
             if (!empty($lastStatistic)) {
                 //_error_log("addView !empty(\$lastStatistic) ");
+                $_addViewFailReason = 'You already watched this video';
+                if(User::getId() == $lastStatistic['users_id']){
+                    $_addViewFailReason .= ' same users_id';
+                }
+                if($ip== $lastStatistic['ip']){
+                    $_addViewFailReason .= ' same ip';
+                }
+                if(session_id() == $lastStatistic['session_id']){
+                    $_addViewFailReason .= ' same session_id';
+                }
                 return false;
             }
 
