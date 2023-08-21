@@ -346,7 +346,12 @@ class ADs extends PluginAbstract
             if (isMobile()) {
                 $type = $type . 'Mobile';
             }
-            $adC = self::getAdsFromVideosId($type, $videos_id);
+            $live = isLive();
+            if(!empty($live) && !empty($live['users_id'])){
+                $adC = self::getAdsFromUsersId($type, $live['users_id']);
+            }else{
+                $adC = self::getAdsFromVideosId($type, $videos_id);
+            }
             if(empty($adC['adCode'])){
                 $adC =  self::getAdsFromUsersId($type, 0);
             }
