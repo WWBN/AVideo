@@ -62,8 +62,10 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'title' => $value['name'],
                 'description' => $value['description'],
                 'sub_description' => $sub_description,
-                'price' => YPTWallet::formatCurrency($value['value']),
-                'link' => $link
+                'price' => $value['value'],
+                'link' => $link,
+                'plans_id' => $value['id'],
+                'type' => 'PayPerView'
             );
         }
         $paymentPanel[] = $panel;
@@ -84,13 +86,15 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 $sub_description = __('Auto renew on') . ' ' . $good_until;
             }
             $link = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php?videos_id={$videos_id}";
-            $link = addQueryStringParameter($link, 'plans_id', $value['id']);
+            $link = addQueryStringParameter($link, 'plans_id', $value['subscriptions_plans_id']);
             $panel['body'][] = array(
                 'title' => $plan->getName(),
                 'description' => $plan->getDescription(),
                 'sub_description' => $sub_description,
-                'price' => YPTWallet::formatCurrency($plan->getPrice()),
-                'link' => $link
+                'price' => $plan->getPrice(),
+                'link' => $link,
+                'plans_id' => $value['subscriptions_plans_id'],
+                'type' => 'Subscription'
             );
         }
         $paymentPanel[] = $panel;
@@ -153,7 +157,7 @@ $colSize = 12 / count($paymentOptions);
                                         <div class="panel-body">
                                             <div class="text-center">
                                                 <h3 class="price">
-                                                    <?php echo  $value2['price']; ?>
+                                                    <?php echo YPTWallet::formatCurrency($value2['price']); ?>
                                                 </h3>
                                                 <div>
                                                     <?php echo  $value2['description']; ?>
@@ -170,10 +174,14 @@ $colSize = 12 / count($paymentOptions);
                                                 </a>
                                                 <?php
                                                 if ($giftObj) {
+                                                    $url = "{$global['webSiteRootURL']}plugin/Gift/View/createGift.php";
+                                                    $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                                                    $url = addQueryStringParameter($url, 'plans_id', $value2['plans_id']);
+                                                    $url = addQueryStringParameter($url, 'type', $value2['type']);
                                                 ?>
-                                                    <a class="btn navbar-btn btn-warning" href="https://vlu.me/signUp?redirectUri=https%3A%2F%2Fvlu.me%2Fplugin%2FSubscription%2FshowPlans.php%3Fvideos_id%3D1284">
+                                                    <button class="btn navbar-btn btn-warning" onclick="avideoModalIframeSmall('<?php echo $url; ?>');">
                                                         <i class="fas fa-gift"></i> <?php echo __('Buy as a Gift'); ?>
-                                                    </a>
+                                                    </button>
                                                 <?php
                                                 }
                                                 ?>
