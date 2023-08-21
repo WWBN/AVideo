@@ -304,7 +304,7 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
         <?php
         if ($galeryDetails) {
         ?>
-            <div class="galeryDetailsContent">
+            <div class="galeryDetailsContent clearfix">
                 <div class="clearfix"></div>
                 <?php
                 if (!empty($advancedCustom->showChannelPhotoOnVideoItem) && $showChannel) {
