@@ -5931,6 +5931,7 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
 
 function getUsers_idOwnerFromRequest()
 {
+    global $isChannel;
     $videos_id = getVideos_id();
 
     if(!empty($videos_id)){
@@ -5948,6 +5949,19 @@ function getUsers_idOwnerFromRequest()
         if(!empty($live['key'])){
             $row = LiveTransmition::keyExists($live['key']);
             return $row['users_id'];
+        }
+    }
+
+    if(!empty($isChannel) && !isVideo()) {
+        if (!empty($_GET['channelName'])) {
+            $_GET['channelName'] = xss_esc($_GET['channelName']);
+            $user = User::getChannelOwner($_GET['channelName']);
+            if (!empty($user)) {
+                $users_id = $user['id'];
+            } else {
+                $users_id = intval($_GET['channelName']);
+            }
+            return $users_id;
         }
     }
 
