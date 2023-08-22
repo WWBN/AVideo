@@ -6,6 +6,7 @@ if (empty($videos_id)) {
 }
 $video = new Video('', '', $videos_id);
 $users_id = $video->getUsers_id();
+/*
 if (User::isLogged()) {
     $response = $video->whyUserCannotWatchVideo(User::getId(), $videos_id);
     if ($response->canWatch) {
@@ -13,6 +14,7 @@ if (User::isLogged()) {
         exit;
     }
 }
+*/
 $title = array('Buy');
 $title[] = $video->getTitle();
 $nameId = User::getNameIdentificationById($users_id);
@@ -179,7 +181,7 @@ $colSize = 12 / count($paymentOptions);
                                                     $url = addQueryStringParameter($url, 'plans_id', $value2['plans_id']);
                                                     $url = addQueryStringParameter($url, 'type', $value2['type']);
                                                 ?>
-                                                    <button class="btn navbar-btn btn-warning" onclick="avideoModalIframeSmall('<?php echo $url; ?>');">
+                                                    <button class="btn navbar-btn btn-warning" onclick="avideoModalIframeFullScreen('<?php echo $url; ?>');">
                                                         <i class="fas fa-gift"></i> <?php echo __('Buy as a Gift'); ?>
                                                     </button>
                                                 <?php

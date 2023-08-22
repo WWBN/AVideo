@@ -271,7 +271,7 @@ abstract class ObjectYPT implements ObjectInterface {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
             return false;
         }
-        if (!self::ignoreTableSecurityCheck() && isUntrustedRequest("SAVE " . static::getTableName())) {
+        if (!isCommandLineInterface() && !self::ignoreTableSecurityCheck() && isUntrustedRequest("SAVE " . static::getTableName())) {
             return false;
         }
         global $global;
@@ -435,7 +435,8 @@ abstract class ObjectYPT implements ObjectInterface {
             'wallet_log',
             'live_restreams_logs',
             'clone_SitesAllowed',
-            'user_notifications'
+            'user_notifications',
+            'email_to_user'
         ];
         return in_array(static::getTableName(), $ignoreArray);
     }
