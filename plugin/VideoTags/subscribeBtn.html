@@ -1,6 +1,7 @@
 <div class="btn-group subscribedTags subscribedTags{tags_id} {subscribed} {notify}" >
     <a class='btn {btnClass} {btnClassPrimary} hideIfSubscribed firstItem'
              href="{tagLink}"
+             rel="nofollow"
             data-toggle="tooltip"
             title="{subscribeText}">
         <b class='text'><i class="fas fa-tag"></i> {subscribeText}</b>
@@ -8,6 +9,7 @@
     </a>
     <a class='btn {btnClass} {btnClassPrimary} hideIfSubscribed {playAllClass}'
              href="{playAllLink}"
+             rel="nofollow"
             data-toggle="tooltip"
             title="{playAllText}">
         <i class="fas fa-play"></i>
@@ -15,12 +17,14 @@
     <button onclick="toogleTagSubscribe('{encryptedIdAndUser}', -1);return false;"
             class="btn {btnClass} {btnClassPrimary} hideIfSubscribed lastItem"
             data-toggle="tooltip"
+            rel="nofollow"
             title="{subscribe}">
         <i class="far fa-circle"></i>
     </button>
     <a class='btn {btnClass} {btnClassSuccess} showIfSubscribed firstItem'
              href="{tagLink}"
             data-toggle="tooltip"
+            rel="nofollow"
             title="{subscribeText}">
         <b class='text'><i class="fas fa-tag"></i> {subscribedText}</b>
         <span class="badge">{total}</span>
@@ -28,6 +32,7 @@
     <a class='btn {btnClass} {btnClassSuccess} showIfSubscribed {playAllClass}'
              href="{playAllLink}"
             data-toggle="tooltip"
+            rel="nofollow"
             title="{playAllText}">
         <i class="fas fa-play"></i>
     </a>

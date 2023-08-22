@@ -20,6 +20,7 @@ if ($users_id = isChannel()) {
     <meta property="profile:username" content="<?php echo $title; ?>" />
     <?php
 } elseif (!empty($_REQUEST['catName'])) {
+        echo PHP_EOL."<!-- OpenGraph catName -->".PHP_EOL;
         $imgw = 200;
         $imgh = 200;
         $category = Category::getCategoryByName($_REQUEST['catName']);
