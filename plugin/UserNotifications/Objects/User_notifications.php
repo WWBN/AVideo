@@ -67,7 +67,7 @@ class User_notifications extends ObjectYPT {
     }
 
     function setElement_Id($element_id) {
-        $this->element_id = safeString($element_id);
+        $this->element_id = substr(safeString($element_id), -250);;
     }
 
     function setPriority($priority) {

@@ -838,6 +838,9 @@ function sendBulkEmail($users_id_array, $emails_array, $subject, $message)
         $Emails_messages = Emails_messages::setOrCreate($message, $subject);
         $count = 0;
         foreach ($users_id_array as $users_id) {
+            if(empty($users_id)){
+                continue;
+            }
             $Email_to_user = new Email_to_user(0);
             $Email_to_user->setEmails_messages_id($Emails_messages->getId());
             $Email_to_user->setUsers_id($users_id);
