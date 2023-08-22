@@ -402,7 +402,7 @@ class Layout extends PluginAbstract {
             }
 
             $html .= '<li class="dropdown-submenu ' . $active . '">
-                    <a tabindex="-1" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_' . $id . ' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name=' . $name . ']\').val(\'' . $key . '\');">
+                    <a tabindex="-1" rel="nofollow" hreflang="' . $key . '" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_' . $id . ' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name=' . $name . ']\').val(\'' . $key . '\');">
                         <span class="flag"><i class="' . $info->icon . '" aria-hidden="true"></i></span> ' . $info->text . '</a>
                     </li>';
         }
