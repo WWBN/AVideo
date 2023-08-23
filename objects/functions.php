@@ -836,6 +836,7 @@ function sendBulkEmail($users_id_array, $emails_array, $subject, $message)
     if (!empty($users_id_array) && $obj->sendEmails) {
         _error_log("sendBulkEmail Scheduler");
         $Emails_messages = Emails_messages::setOrCreate($message, $subject);
+        //var_dump($Emails_messages->getId());
         $count = 0;
         foreach ($users_id_array as $users_id) {
             if(empty($users_id)){

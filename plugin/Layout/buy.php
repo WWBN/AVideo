@@ -44,6 +44,8 @@ if ($p = AVideoPlugin::loadPluginIfEnabled($name)) {
 $paymentOptions = array();
 $paymentPanel = array();
 
+$giftObj = AVideoPlugin::getDataObjectIfEnabled('Gift');
+
 // PayPerView
 $name = 'PayPerView';
 if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
@@ -67,7 +69,7 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'price' => $value['value'],
                 'link' => $link,
                 'plans_id' => $value['id'],
-                'type' => 'PayPerView'
+                'type' => Gift::$Type_PPV_Code
             );
         }
         $paymentPanel[] = $panel;
@@ -96,14 +98,12 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'price' => $plan->getPrice(),
                 'link' => $link,
                 'plans_id' => $value['subscriptions_plans_id'],
-                'type' => 'Subscription'
+                'type' => Gift::$Type_Subscription_Code
             );
         }
         $paymentPanel[] = $panel;
     }
 }
-
-$giftObj = AVideoPlugin::getDataObjectIfEnabled('Gift');
 
 if (empty($paymentPanel)) {
     forbiddenPage('There is no payment option available for the selected content. Please choose other content or check back later');

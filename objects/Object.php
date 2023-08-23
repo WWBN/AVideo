@@ -436,7 +436,8 @@ abstract class ObjectYPT implements ObjectInterface {
             'live_restreams_logs',
             'clone_SitesAllowed',
             'user_notifications',
-            'email_to_user'
+            'email_to_user',
+            'emails_messages'
         ];
         return in_array(static::getTableName(), $ignoreArray);
     }

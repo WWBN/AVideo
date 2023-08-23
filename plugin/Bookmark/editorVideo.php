@@ -79,7 +79,7 @@ $poster = Video::getPathToFile("{$video['filename']}.jpg");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
         <script src="<?php echo $jsURL; ?>" type="text/javascript"></script>
-        <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+        <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
         <script>
             var bookmarksArray = [];
             var allBookmarksArray = [];
