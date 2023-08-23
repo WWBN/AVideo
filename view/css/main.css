@@ -1150,10 +1150,6 @@ li.dropdown-submenu>ul>li>a {
     content: '';
 }
 
-#topMenuUserNotifications>ul>div.list-group {
-    overflow-x: hidden;
-}
-
 .socket_not_loading {
     display: none;
 }

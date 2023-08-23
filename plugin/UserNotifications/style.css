@@ -1,3 +1,11 @@
+#topMenuUserNotifications>ul {
+    max-width: 90vw;
+}
+
+#topMenuUserNotifications>ul>div.list-group {
+    overflow-x: hidden;
+}
+
 #topMenuUserNotifications > a > span.badge{
     position: absolute;
     top: 28px;
