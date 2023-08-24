@@ -51,30 +51,36 @@
 Options All -Indexes
 # END Expires
 # BEGIN Caching
-<ifModule mod_headers.c>
-    <filesMatch "\VMAP.php$">
-        Header set Access-Control-Allow-Origin: *
-    </filesMatch>
-    <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4)$">
-        Header set Access-Control-Allow-Origin: *
+<IfModule mod_headers.c>
+
+    # Set Access-Control-Allow-Origin for multiple file types
+    <FilesMatch "\.(php|ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4|woff2|css|html|htm|key|m3u8)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+
+    # Cache settings based on file types
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4)$">
         Header set Cache-Control "max-age=2592000, public"
-    </filesMatch>
-    <filesMatch "\.(woff2|css)$">
-        Header set Access-Control-Allow-Origin: *
+    </FilesMatch>
+
+    <FilesMatch "\.(woff2|css)$">
         Header set Cache-Control "max-age=604800, public"
-    </filesMatch>
-    <filesMatch "\.(js)$">
-        Header set Access-Control-Allow-Origin: *
-        Header set Cache-Control "max-age=216000, private"
-    </filesMatch>
-    <filesMatch "\.(xml|txt)$">
+    </FilesMatch>
+
+    <FilesMatch "\.(js)$">
+        Header set Cache-Control "max-age=216000, public"
+    </FilesMatch>
+
+    <FilesMatch "\.(xml|txt)$">
         Header set Cache-Control "max-age=216000, public, must-revalidate"
-    </filesMatch>
-    <filesMatch "\.(html|htm|php|key|m3u8)$">
-        Header set Access-Control-Allow-Origin: *
+    </FilesMatch>
+
+    <FilesMatch "\.(html|htm|php|key|m3u8)$">
         Header set Cache-Control "max-age=1, private, must-revalidate"
-    </filesMatch>
-</ifModule>
+    </FilesMatch>
+
+</IfModule>
+
 # END Caching
 <IfModule mod_rewrite.c>
     RewriteCond %{HTTPS} =on
