@@ -31,6 +31,6 @@ if (empty($contentSearchFound)) {
         </h3>
     <?php
     }
-    createGallerySection($videos, "", array(), true);
+    createGallerySection($videos, true, true);
     ?>
 </div>

@@ -107,7 +107,20 @@ class Wallet extends ObjectYPT {
         $this->balance = floatval($this->balance);
         $this->crypto_wallet_address = ($this->crypto_wallet_address);
         ObjectYPT::clearSessionCache();
-        return parent::save();
+        $id = parent::save();
+        if(!empty($id)){
+            $obj = AVideoPlugin::getObjectData('YPTWallet');
+            $decimalPrecision = $obj->decimalPrecision;
+            sendSocketMessageToUsers_id(
+                array(
+                    'balance' => number_format($this->balance, $decimalPrecision),
+                    'balance_formated' => YPTWallet::formatCurrency($this->balance, false),
+                ),
+                $this->users_id,
+                'socketWalletAddBalance'
+            );
+        }
+        return $id;
     }
 
     static function getOrCreateFromUser($users_id) {

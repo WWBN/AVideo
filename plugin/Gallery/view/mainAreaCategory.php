@@ -76,7 +76,7 @@ function createCategorySection($videos)
         ?>
         <div class="Div<?php echo $videos[0]['clean_category']; ?>Section">
             <?php
-            createGallerySection($videos, "", array(), true);
+            createGallerySection($videos, true, true);
             ?>
         </div>
     </div>

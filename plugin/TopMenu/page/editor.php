@@ -277,7 +277,7 @@ $groups = UserGroups::getAllUsersGroups();
     <?php
     include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
-    <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+    <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
     <script>
         var typeName = <?php echo json_encode(Menu::$typeName); ?>;
         var currentItem = [];

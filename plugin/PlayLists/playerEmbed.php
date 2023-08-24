@@ -71,11 +71,10 @@ foreach ($playList as $key => $value) {
             <div class="gallery">
             <?php
             if (!empty($playList)) {
-                //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
                 if(isMobile()){
-                    createGallerySection($videos, uniqid(), array(), true,6, 4, 2, 1, false);
+                    createGallerySection($videos, true, true,6, 4, 2, 1, false);
                 }else{
-                    createGallerySection($videos, uniqid(), array(), true,6, 6, 4, 2, false);
+                    createGallerySection($videos, true, true,6, 6, 4, 2, false);
                 }
             } ?>
             </div>

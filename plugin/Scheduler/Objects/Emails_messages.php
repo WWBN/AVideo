@@ -49,6 +49,8 @@ class Emails_messages extends ObjectYPT {
             $obj = new Emails_messages(0);
             $obj->setMessage($message);
             $obj->setSubject($subject);
+            $id = $obj->save();
+            $obj->setId($id);
         }else{
             $obj = new Emails_messages($data['id']);
         }

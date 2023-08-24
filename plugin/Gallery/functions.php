@@ -83,7 +83,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         ?>
         <div class="gallerySectionContent">
             <?php
-            $countCols = createGallerySection($videos, dechex(crc32($getName)));
+            $countCols = createGallerySection($videos);
             ?>
         </div>
         <?php
@@ -150,7 +150,7 @@ function createOrderInfo($getName, $mostWord, $lessWord, $orderString)
     return array($tmpOrderString, $upDown, $mostLess);
 }
 
-function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
+function createGallerySection($videos, $showChannel = true, $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
 {
     global $global, $config, $obj, $advancedCustom, $advancedCustomUser;
     $countCols = 0;
@@ -196,7 +196,7 @@ function createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = f
         if (!empty($video['isLive'])) {
             createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
         } else {
-            createGallerySectionVideo($video, $crc, $get, $ignoreAds, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall, $galeryDetails, $zindex);
+            createGallerySectionVideo($video, $showChannel, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall, $galeryDetails, $zindex);
         }
 
         $countCols++;
@@ -281,14 +281,15 @@ function getGalleryColsCSSClass($screenColsLarge = 0, $screenColsMedium = 0, $sc
     return $colsClass;
 }
 
-function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex = 1000)
+function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true, $zindex = 1000)
 {
     global $global, $advancedCustom, $_lastCanDownloadVideosFromVideoReason;
     $nameId = User::getNameIdentificationById($video['users_id']);
     $name = $nameId . " " . User::getEmailVerifiedIcon($video['users_id']);
-
-
     $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
+    if(!$showChannel){
+        $colsClass .= ' notShowChannel';
+    }
 ?>
     <!-- createGallerySection -->
     <div class=" <?php echo $colsClass; ?> galleryVideo galleryVideo<?php echo $video['id']; ?> fixPadding" style="z-index: <?php echo $zindex; ?>; min-height: 175px;">
@@ -303,10 +304,10 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
         <?php
         if ($galeryDetails) {
         ?>
-            <div class="galeryDetailsContent">
+            <div class="galeryDetailsContent clearfix">
                 <div class="clearfix"></div>
                 <?php
-                if (!empty($advancedCustom->showChannelPhotoOnVideoItem)) {
+                if (!empty($advancedCustom->showChannelPhotoOnVideoItem) && $showChannel) {
                 ?>
                     <a href="<?php echo User::getChannelLink($video['users_id']); ?>" class=" pull-left " data-toggle="tooltip" title="<?php echo $nameId; ?>">
                         <img src="<?php echo User::getPhoto($video['users_id']); ?>" class="img img-responsive  img-rounded pull-left channelPhoto" />
@@ -360,7 +361,7 @@ function createGallerySectionVideo($video, $crc = "", $get = array(), $ignoreAds
                     <div class="clearfix"></div>
 
                     <?php
-                    if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                    if (!empty($advancedCustom->showChannelNameOnVideoItem) && $showChannel) {
                     ?>
                         <div class="videoChannel pull-left">
                             <a href="<?php echo User::getChannelLink($video['users_id']); ?>">
@@ -625,7 +626,7 @@ function getTrendingVideos($rowCount = 12, $screenColsLarge = 0, $screenColsMedi
     $videos = Video::getAllVideos("viewableNotUnlisted");
     // need to add dechex because some times it return an negative value and make it fails on javascript playlists
     echo "<link href=\"" . getURL('plugin/Gallery/style.css') . "\" rel=\"stylesheet\" type=\"text/css\"/><div class='row gallery '>";
-    $countCols = createGallerySection($videos, "", array(), false, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
+    $countCols = createGallerySection($videos, true, false, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
     echo "</div>";
     return $countCols;
 }
