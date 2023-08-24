@@ -3923,20 +3923,28 @@ function closeFullscreenVideo() {
 }
 
 function addCloseButtonInVideo() {
-    // If either function exists, add a close button inside videojs
-    if (typeof window.parent.closeFullscreenVideo === "function") {
-        if(typeof player !== 'object'){
-            setTimeout(function(){addCloseButtonInVideo();}, 2000);
-            return false;
+    try {
+        // If either function exists, add a close button inside videojs
+        if (typeof window.parent.closeFullscreenVideo === "function") {
+            if(typeof player !== 'object'){
+                setTimeout(function(){addCloseButtonInVideo();}, 2000);
+                return false;
+            }
+            addCloseButton($(player.el()));
         }
-        addCloseButton($(player.el()));
+    } catch (error) {
+        
     }
 }
 
 function addCloseButtonInPage() {
-    // If either function exists, add a close button inside videojs
-    if (typeof window.parent.closeFullscreenVideo === "function") {
-        addCloseButton($('body'));
+    try {
+        // If either function exists, add a close button inside videojs
+        if (typeof window.parent.closeFullscreenVideo === "function") {
+            addCloseButton($('body'));
+        }
+    } catch (error) {
+        
     }
 }
 
