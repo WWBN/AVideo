@@ -1,4 +1,7 @@
 <?php
+
+$post = $_POST;
+$request = $_REQUEST;
 // if there is no section display only the dateAdded row for the selected category
 if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $obj = AVideoPlugin::getObjectData("Gallery");
@@ -43,6 +46,8 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     }
 }
 
+$_POST = $post;
+$_REQUEST = $request;
 
 function createCategorySection($videos)
 {

@@ -1,46 +1,16 @@
 <?php
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-$videos_id = getVideos_id();
-if (empty($videos_id)) {
-    forbiddenPage('videos_id is required');
-}
-$video = new Video('', '', $videos_id);
-$users_id = $video->getUsers_id();
-/*
-if (User::isLogged()) {
-    $response = $video->whyUserCannotWatchVideo(User::getId(), $videos_id);
-    if ($response->canWatch) {
-        header('Location: ' . Video::getURL($videos_id));
-        exit;
-    }
-}
-*/
 $title = array('Buy');
-$title[] = $video->getTitle();
-$nameId = User::getNameIdentificationById($users_id);
-$poster = Video::getPoster($videos_id);
-//User::getChannelLink()
+$videos_id = getVideos_id();
+if (!empty($videos_id)) {
+    $video = new Video('', '', $videos_id);
+    $users_id = $video->getUsers_id();
+    $title[] = $video->getTitle();
+    $nameId = User::getNameIdentificationById($users_id);
+    $poster = Video::getPoster($videos_id);
+}
 $_page = new Page($title);
 $_page->setExtraStyles(array('plugin/Layout/buy.css'));
-/*
-$_page->setInlineStyles("body {
-    background-image: url('{$poster}'); 
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-position: center center;
-}");
-
-// FansSubscriptions
-$name = 'FansSubscriptions';
-if ($p = AVideoPlugin::loadPluginIfEnabled($name)) {
-    $obj = $p->getDataObject();
-    if (FansSubscriptions::isFansOnly($videos_id)) {
-        
-    }
-}
-*/
-
 $paymentOptions = array();
 $paymentPanel = array();
 
@@ -50,10 +20,20 @@ $giftObj = AVideoPlugin::getDataObjectIfEnabled('Gift');
 $name = 'PayPerView';
 if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
     $obj = $paymentOptions['ppv']->getDataObject();
-    $isVideoPPV = PayPerView::isVideoPayPerView($videos_id);
-    if ($isVideoPPV) {
+    if(!empty($videos_id)){
+        $isVideoPPV = PayPerView::isVideoPayPerView($videos_id);
+    }
+    if (!empty($videos_id) && isset($isVideoPPV)) {
         $ppvplans = PayPerView::getAllPlansFromVideo($videos_id);
-        $panel = array('title' => '<i class="fas fa-ticket-alt"></i> ' . __('PPV Plans'), 'body' => array(), 'class' => 'primary');
+    } else {
+        $ppvplans = PPV_Plans::getAllActive();
+    }
+    if (!empty($ppvplans)) {
+        $panel = array(
+            'title' => '<i class="fas fa-ticket-alt"></i> ' . __('PPV Plans'), 
+            'body' => array(), 
+            'class' => 'primary'
+        );
         foreach ($ppvplans  as $key => $value) {
             $sub_description = '';
             if (!empty($value['hours_valid'])) {
@@ -72,6 +52,7 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'type' => Gift::$Type_PPV_Code
             );
         }
+        
         $paymentPanel[] = $panel;
     }
 }
@@ -79,9 +60,22 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
 // Subscription
 $name = 'Subscription';
 if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
-    $subplans = $paymentOptions['sub']->getPlansFromVideo($videos_id);
+    $subplans = array();
+    if(!empty($videos_id)){
+        $subplans = $paymentOptions['sub']->getPlansFromVideo($videos_id);
+    }else{
+        $subplans = SubscriptionPlansTable::getAllActive();
+        foreach ($subplans as $key => $value) {
+            $subplans[$key]['subscriptions_plans_id'] = $value['id'];
+        }
+    }
+    //var_dump($subplans);exit;
     if (!empty($subplans)) {
-        $panel = array('title' => '<i class="fas fa-infinity"></i> ' . __('Subscription'), 'body' => array(), 'class' => 'primary');
+        $panel = array(
+            'title' => '<i class="fas fa-infinity"></i> ' . __('Subscription'), 
+            'body' => array(), 
+            'class' => 'primary'
+        );
         foreach ($subplans  as $key => $value) {
             $plan = new SubscriptionPlansTable($value['subscriptions_plans_id']);
             $sub_description = '';
@@ -115,25 +109,31 @@ $colSize = 12 / count($paymentOptions);
 <div class="container buy">
     <div class="panel panel-default">
         <div class="panel-heading clearfix">
-            <div class="panel-title">
-                <div class="row">
-                    <div class="col-sm-6 col-md-3">
-                        <img src="<?php echo $poster; ?>" class="img img-responsive img-rounded" />
-                    </div>
-                    <div class="col-sm-6 col-md-9">
-                        <h2>
-                            <?php
-                            echo $video->getTitle();
-                            ?>
-                        </h2>
-                        <br>
-                        <a href="<?php echo User::getChannelLink($users_id); ?>" class="cleaarfix" data-toggle="tooltip" title="<?php echo $nameId; ?>">
-                            <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-rounded pull-left channelPhoto" />
-                            <?php echo $nameId; ?>
-                        </a>
+            <?php
+            if ($poster) {
+            ?>
+                <div class="panel-title">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3">
+                            <img src="<?php echo $poster; ?>" class="img img-responsive img-rounded" />
+                        </div>
+                        <div class="col-sm-6 col-md-9">
+                            <h2>
+                                <?php
+                                echo $video->getTitle();
+                                ?>
+                            </h2>
+                            <br>
+                            <a href="<?php echo User::getChannelLink($users_id); ?>" class="cleaarfix" data-toggle="tooltip" title="<?php echo $nameId; ?>">
+                                <img src="<?php echo User::getPhoto($users_id); ?>" class="img img-responsive img-rounded pull-left channelPhoto" />
+                                <?php echo $nameId; ?>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            <?php
+            }
+            ?>
         </div>
         <div class="panel-body">
             <div class="row">
