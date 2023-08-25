@@ -393,7 +393,7 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
                     $files = getVideosURL($video['filename']);
                     if (!empty($files['mp4']) || !empty($files['mp3'])) {
                 ?>
-                        <div style="position: relative; overflow: visible; z-index: 3;" class="dropup">
+                        <div style="position: relative; overflow: visible; z-index: 3;display: inline-flex;width: 100%;" class="dropup">
                             <button type="button" class="btn btn-default btn-sm btn-xs btn-block" data-toggle="dropdown">
                                 <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
                             </button>
