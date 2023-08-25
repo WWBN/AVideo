@@ -11631,3 +11631,20 @@ function getDeviceName() {
         return 'web';
     }
 }
+
+function isImageNotFound($imgURL){
+    if(empty($imgURL)){
+        return true;
+    }
+    if(preg_match('/notfound/i', $imgURL)){
+        return true;
+    }
+    if(preg_match('/pdf_portrait/i', $imgURL)){
+        return true;
+    }
+    if(preg_match('/article_portrait/i', $imgURL)){
+        return true;
+    }
+    
+    return false;
+}

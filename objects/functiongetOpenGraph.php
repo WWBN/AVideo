@@ -60,7 +60,7 @@ if ($video['type'] === 'article') {
     $type = 'article';
 }
 $images = Video::getImageFromFilename($video['filename'], $type);
-if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+if (!isImageNotFound($images->posterPortrait)) {
     $img = $images->posterPortrait;
     $data = getimgsize($images->posterPortraitPath);
     $imgw = $data[0];
@@ -68,6 +68,7 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
 } else {
     $img = $images->poster;
 }
+//var_dump($img, $images);exit;
 $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
