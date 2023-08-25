@@ -112,6 +112,10 @@ class Scheduler extends PluginAbstract
         $obj->watchDogLiveServer = true;
         $obj->watchDogLiveServerSSL = true;
         $obj->sendEmails = true;
+
+        $obj->disableReleaseDate = false;
+        self::addDataObjectHelper('disableReleaseDate', 'Disable Release Date');
+        
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;

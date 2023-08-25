@@ -109,7 +109,7 @@ $global['doNotSearch'] = 0;
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="searchFieldsNamesBelowNavbar-dropdown">
                 <span class="hidden-sm hidden-xs">
-                    <?php echo __('Search in'); ?>:</span> 
+                    <?php echo __('Search in'); ?>:</span>
                 </span>
                 <span class="badge">0
                     <span class="caret"></span></button>
@@ -121,7 +121,7 @@ $global['doNotSearch'] = 0;
         </div>
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="catNameBelowNavbar-dropdown">
-                <i class="fas fa-list"></i> 
+                <i class="fas fa-list"></i>
                 <span class="hidden-sm hidden-xs">
                     <?php echo __('All Categories'); ?>
                     <span class="caret"></span>
@@ -135,7 +135,7 @@ $global['doNotSearch'] = 0;
         </div>
         <div class="dropdown">
             <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" id="tagNameBelowNavbar-dropdown">
-                <i class="fas fa-tags"></i> 
+                <i class="fas fa-tags"></i>
                 <span class="hidden-sm hidden-xs">
                     <?php echo __('Tags'); ?>
                     <span class="caret"></span>
@@ -196,4 +196,10 @@ $global['doNotSearch'] = 0;
 
         $('#searchForm').submit();
     }
+
+    $(document).ready(function() {
+        $(document).on('click', '#searchOptionsMenu .dropdown-menu', function(e) {
+            e.stopPropagation();
+        });
+    });
 </script>
