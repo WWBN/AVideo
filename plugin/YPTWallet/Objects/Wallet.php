@@ -113,6 +113,7 @@ class Wallet extends ObjectYPT {
             $decimalPrecision = $obj->decimalPrecision;
             sendSocketMessageToUsers_id(
                 array(
+                    'balanceraw' => $this->balance,
                     'balance' => number_format($this->balance, $decimalPrecision),
                     'balance_formated' => YPTWallet::formatCurrency($this->balance, false),
                 ),

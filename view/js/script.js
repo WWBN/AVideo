@@ -3956,6 +3956,7 @@ function addCloseButton(elementToAppend) {
         });
         closeButton.addClass('btn');
         closeButton.addClass('pull-right');
+        closeButton.addClass('hideOnPlayerUserInactive');
         closeButton.html('<i class="fas fa-times"></i>');
         // Add event listener
         closeButton.on('click', function() {

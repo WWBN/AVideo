@@ -233,10 +233,6 @@ if (User::hasBlockedUser($video['users_id'])) {
 
         }
 
-        .vjs-playing.vjs-user-inactive #topInfo {
-            display: none;
-        }
-
         #topInfo a {
             color: #EEE;
             text-shadow: 0 0 5px rgba(0, 0, 0, 1);
@@ -489,7 +485,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     }
     if (empty($disableEmbedTopInfo)) {
     ?>
-        <div id="topInfoTemplate" style="display: none;">
+        <div id="topInfoTemplate" class="hideOnPlayerUserInactive" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
                 <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo">
                 <div class="topInfoTitle">

@@ -904,7 +904,7 @@ img.blur {
 }
 
 #CloseButtonInVideo {
-    display: none;
+    display: flex;
     justify-content: center;   /* Horizontally centers the content (i.e., the <i> element) */
     align-items: center;  
     z-index: 9999;
@@ -920,11 +920,6 @@ img.blur {
 #CloseButtonInVideo:hover {
     background-color: rgba(255, 255, 255, 1);
     color: #000;
-}
-.vjs-user-active #CloseButtonInVideo,
-.vjs-paused #CloseButtonInVideo,
-body>#CloseButtonInVideo {
-    display: flex;
 }
 
 .rightProfile li a {
@@ -2018,6 +2013,11 @@ body.ypt-is-compressed #videoCol {
 #bigVideoCarousel .galleryVideoButtons button {
     display: inline-block;
 }
+
+.vjs-playing.vjs-user-inactive .hideOnPlayerUserInactive {
+    display: none !important;
+}
+
 /*
 #_avideoPageLoader{
     display: none !important;

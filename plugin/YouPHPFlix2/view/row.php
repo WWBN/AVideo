@@ -32,7 +32,7 @@ TimeLogStart($timeLog3);
         TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
-            if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
+            if (empty($images) || isImageNotFound($images->poster)) {
                 $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
             }
             $ajaxLoad = $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id=' . $value['serie_playlists_id'];
@@ -115,7 +115,7 @@ foreach ($videos as $_index => $value) {
     $uid = "{$uidOriginal}_{$value['id']}";
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
-        if (empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)) {
+        if (empty($images) || isImageNotFound($images->poster)) {
             $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
         }
     }

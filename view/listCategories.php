@@ -117,8 +117,8 @@ if (!isset($global['systemRootPath'])) {
                     $photo = Category::getCategoryPhotoPath($value['id']);
                     $photoBg = Category::getCategoryBackgroundPath($value['id']);
                     $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
-                    $imageNotFound = preg_match('/notfound/i', $image);
-                    $photoNotFound = empty($photo) || preg_match('/notfound/i', $photo['url']);
+                    $imageNotFound =  isImageNotFound($image);
+                    $photoNotFound = empty($photo) || isImageNotFound($photo['url']);
                     $icon = '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  ' ;
                     if (!$imageNotFound) {
                         ?>

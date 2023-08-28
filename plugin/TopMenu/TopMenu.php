@@ -204,7 +204,7 @@ class TopMenu extends PluginAbstract {
 
     public function getFooterCode(){
         global $global;
-        if(!isIframe()){
+        if(!isIframe() && !isEmbed()){
             include $global['systemRootPath'] . 'plugin/TopMenu/floatMenu.php';
         }
     }

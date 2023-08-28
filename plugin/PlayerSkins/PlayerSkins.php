@@ -48,7 +48,7 @@ class PlayerSkins extends PluginAbstract {
         global $global;
         $obj = new stdClass();
         $obj->skin = "avideo";
-        $obj->playbackRates = "[0.5, 1, 1.5, 2]";
+        $obj->playbackRates = "[0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]";
         $obj->playerCustomDataSetup = "";
         $obj->showSocialShareOnEmbed = true;
         $obj->showLoopButton = true;

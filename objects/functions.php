@@ -11645,6 +11645,11 @@ function isImageNotFound($imgURL){
     if(preg_match('/article_portrait/i', $imgURL)){
         return true;
     }
+    /*
+    if(preg_match('/audio_wave/i', $imgURL)){
+        return true;
+    }
+    */
     
     return false;
 }
