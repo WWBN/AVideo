@@ -14,11 +14,6 @@ if(!empty($restore)){
 }
 
 $file = Video::getStoragePath().$prefix.'-'.date('YmdHis').'.sql';
-$mysqlHost = 'database';
-$mysqlPort = '3306';
-$mysqlUser = 'avideo';
-$mysqlPass = 'avideo';
-$mysqlDatabase = 'avideo';
 $excludeTables = ['CachesInDB', 'audit'];  // tables to exclude from the dump
 
 // Create a connection to the database to retrieve all table names
