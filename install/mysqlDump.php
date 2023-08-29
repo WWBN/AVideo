@@ -44,6 +44,6 @@ if ($output !== 0) {
     die("Error occurred while taking the database dump.");
 }
 
-echo "Database dumped successfully to {$file}";
+echo "Database dumped successfully to {$file}".PHP_EOL;
 
 ?>
