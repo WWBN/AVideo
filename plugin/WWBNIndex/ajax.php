@@ -18,7 +18,7 @@ $platformID = getPlatformId();
 
 $r = $_POST;
 
-if ($wwbnIndex->check_site_availability($_SERVER['HTTP_HOST']) != 200) {
+if (empty($_SERVER['SERVER_NAME']) || $_SERVER['SERVER_NAME'] === 'localhost' || filter_var($_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP) || $wwbnIndex->check_site_availability($_SERVER['HTTP_HOST']) != 200) {
     echo json_encode(array("error" => true, "title" => "Site not accessible", "message" => "Please make sure your site is viewable in public.")); die();
 }
 

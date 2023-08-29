@@ -10,7 +10,7 @@ $wwbnIndex = new WWBNIndex();
 //     return false;
 // }
 
-if ($wwbnIndex->check_site_availability($_SERVER['HTTP_HOST']) == 200) {
+if (!empty($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] !== 'localhost' && !filter_var($_SERVER['SERVER_NAME'], FILTER_VALIDATE_IP) && $wwbnIndex->check_site_availability($_SERVER['HTTP_HOST']) == 200) {
 
     $data = array(
         "apiName"           => "submitIndexUponInstall",
