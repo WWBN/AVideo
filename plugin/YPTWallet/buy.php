@@ -53,7 +53,9 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
             );
         }
         
-        $paymentPanel[] = $panel;
+        if(!empty($panel['body'])){
+            $paymentPanel[] = $panel;
+        }
     }
 }
 
@@ -95,7 +97,9 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'type' => Gift::$Type_Subscription_Code
             );
         }
-        $paymentPanel[] = $panel;
+        if(!empty($panel['body'])){
+            $paymentPanel[] = $panel;
+        }
     }
 }
 
