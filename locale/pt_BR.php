@@ -245,6 +245,7 @@ $t['Invalid Captcha'] = 'Captcha inválido';
 $t['Invalid Email'] = 'Email inválido';
 $t['Invalid'] = 'Inválido';
 $t['Is not logged'] = 'não está logado';
+$t['is required'] = 'é obrigatório';
 $t['Issues on github'] = 'Problemas no github';
 $t['Language'] = 'Linguagem';
 $t['Last 15 Days'] = 'Últimos 15 dias';

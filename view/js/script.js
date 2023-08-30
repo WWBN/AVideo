@@ -3973,3 +3973,29 @@ function addCloseButton(elementToAppend) {
 
     }
 }
+
+
+function __(str, allowHTML = false) {
+    if(typeof translations == 'undefined'){
+        return str;
+    }
+    let returnStr = str;
+    
+    // Check if translation exists for exact string
+    if (translations.hasOwnProperty(str)) {
+        returnStr = translations[str];
+    } else {
+        // Case insensitive check
+        let lowerCaseKey = Object.keys(translations).find(key => key.toLowerCase() === str.toLowerCase());
+        if (lowerCaseKey) {
+            returnStr = translations[lowerCaseKey];
+        }
+    }
+
+    if (allowHTML) {
+        return returnStr;
+    }
+
+    // Escape certain characters for security
+    return returnStr.replace(/'/g, "&apos;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
