@@ -310,6 +310,7 @@ if (!User::canWatchVideoWithAds($video['id'])) {
 }
 
 
+AVideoPlugin::loadPluginIfEnabled('Bookmark');
 $metaDescription = " {$video['id']}";
 
 // make sure the title tag does not have more then 70 chars
