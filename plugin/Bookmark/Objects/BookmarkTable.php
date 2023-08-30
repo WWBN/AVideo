@@ -94,7 +94,7 @@ class BookmarkTable extends ObjectYPT {
             $this->id = $row['id'];
         }
         $id = parent::save();
-        if(!empty($this->getVideos_id())){
+        if(!empty($id) && !empty($this->getVideos_id())){
             Bookmark::videoToVtt($this->getVideos_id());
         }
         return $id;
