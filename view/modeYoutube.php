@@ -44,8 +44,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "" . getCDN() . "view/img/notfound.jpg";
-    $poster = "" . getCDN() . "view/img/notfound.jpg";
+    $img = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
+    $poster =  $img;
     $imgw = 1280;
     $imgh = 720;
 
@@ -106,12 +106,12 @@ if (!empty($evideo)) {
             $_REQUEST['catName'] = '';
         }
 
-        if (empty($video) && !empty($_REQUEST['v'])) {
-            $video = Video::getVideo($_REQUEST['v'], "viewable", false, false, false, true);
+        $videos_id = getVideos_id();
+        if (empty($video) && !empty($videos_id)) {
+            $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
             //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
-
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
             $video = Video::getVideo("", "viewable", false, false, true, true);
@@ -190,7 +190,7 @@ if (!empty($evideo)) {
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "" . getCDN() . "view/img/audio_wave.jpg";
+        $poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
     }
 
     if (!empty($video)) {
@@ -201,7 +201,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } elseif ($video['type'] == "audio") {
-            $img = "" . getCDN() . "view/img/audio_wave.jpg";
+            $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -213,7 +213,7 @@ if (!empty($evideo)) {
         }
         $images = Video::getImageFromFilename($video['filename'], $type);
         $poster = isMobile() ? $images->thumbsJpg : $images->poster;
-        if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+        if (!empty($images->posterPortrait) && !ImagesPlaceHolders::isDefaultImage($images->posterPortrait)) {
             $img = $images->posterPortrait;
             $data = getimgsize($source['path']);
             $imgw = $data[0];
@@ -222,7 +222,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "" . getCDN() . "view/img/notfound.jpg";
+        $poster = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
@@ -309,6 +309,8 @@ if (!User::canWatchVideoWithAds($video['id'])) {
     exit;
 }
 
+// load the funcitons for chapters
+AVideoPlugin::loadPluginIfEnabled('Bookmark');
 
 $metaDescription = " {$video['id']}";
 
@@ -321,12 +323,13 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 }
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+global $nonCriticalCSS;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>" prefix="og: http://ogp.me/ns#">
     <head>
         <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"  />
         <link href="<?php echo getCDN('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);

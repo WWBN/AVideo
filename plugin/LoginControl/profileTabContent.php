@@ -68,7 +68,7 @@ if ($obj->enablePGP2FA) {
 <?php
 }
 ?>
-<script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+<script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
 <script>
                 $(document).ready(function () {
                     var logincontrol_historytableVar = $('#logincontrol_historyTable').DataTable({

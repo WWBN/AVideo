@@ -904,7 +904,9 @@ img.blur {
 }
 
 #CloseButtonInVideo {
-    display: none;
+    display: flex;
+    justify-content: center;   /* Horizontally centers the content (i.e., the <i> element) */
+    align-items: center;  
     z-index: 9999;
     position: fixed;
     top: 10px;
@@ -912,15 +914,12 @@ img.blur {
     background-color: rgba(255, 255, 255, 0.5);
     color: #333;
     border-radius: 50%;
+    height: 25px;
+    width: 25px;
 }
 #CloseButtonInVideo:hover {
     background-color: rgba(255, 255, 255, 1);
     color: #000;
-}
-.vjs-user-active #CloseButtonInVideo,
-.vjs-paused #CloseButtonInVideo,
-body>#CloseButtonInVideo {
-    display: inline-block;
 }
 
 .rightProfile li a {
@@ -1144,10 +1143,6 @@ li.dropdown-submenu>ul>li>a {
     border-bottom: 6px solid #ffffff;
     border-left: 6px solid transparent;
     content: '';
-}
-
-#topMenuUserNotifications>ul>div.list-group {
-    overflow-x: hidden;
 }
 
 .socket_not_loading {
@@ -1933,6 +1928,7 @@ button.btn-sm.hamburger svg {
 
 .mainArea .galleryVideo {
     margin-bottom: 1em;
+    padding-bottom: 1em;
 }
 
 .ui-menu .ui-menu-item {
@@ -1999,6 +1995,14 @@ button.btn-sm.hamburger svg {
     min-height: 50px;
 }
 
+.HorizontalFlickity .carousel-cell {
+    display: none;
+}
+
+.HorizontalFlickity.flickity-enabled .carousel-cell {
+    display: block;
+}
+
 body.ypt-is-compressed #videoCol {
     width: 100%;
     overflow-x: hidden;
@@ -2009,3 +2013,30 @@ body.ypt-is-compressed #videoCol {
 #bigVideoCarousel .galleryVideoButtons button {
     display: inline-block;
 }
+
+.vjs-playing.vjs-user-inactive .hideOnPlayerUserInactive {
+    display: none !important;
+}
+
+.ImagesPlaceHoldersDefaultImage {
+    filter: grayscale(100%);
+    background-color: rgba(128, 128, 128, 0.25); /* This is the grey background with 80% transparency */
+    transition: filter 0.3s ease, background-color 0.3s ease; /* This ensures a smooth transition effect */
+}
+
+.thumbsImageContainer:hover .ImagesPlaceHoldersDefaultImage,
+.ImagesPlaceHoldersDefaultImage:hover {
+    filter: grayscale(0%);
+    background-color: rgba(128, 128, 128, 0.5); /* This is the grey background with 50% transparency on hover */
+}
+
+
+/*
+#_avideoPageLoader{
+    display: none !important;
+}
+
+#_avideoPageContent{
+    display: unset !important;
+}
+*/

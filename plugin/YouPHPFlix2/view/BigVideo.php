@@ -10,7 +10,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
         ?>
         <center>
-            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/this-video-is-not-available.jpg">
+            <img src="<?php echo getURL('view/img/this-video-is-not-available.jpg'); ?>">
         </center>
         <?php
     } else {
@@ -45,15 +45,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             } else {
                 $percent = 40;
             }
+            $style = "
+            padding: 60px 20px 56.25% 20px;
+            background: -webkit-linear-gradient(left, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: -o-linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: -moz-linear-gradient(to right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            ";
             ?>
 
-            <div class="posterDetails" style="
-                 padding: 60px 20px 56.25% 20px;
-                 background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 ">
+            <div class="posterDetails" style="<?php echo $style; ?>">
                      <?php
                      include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
                      ?>

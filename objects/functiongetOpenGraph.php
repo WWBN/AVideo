@@ -19,30 +19,38 @@ $source = Video::getSourceFile($video['filename']);
 $imgw = 1024;
 $imgh = 768;
 
+$contentType = '<meta property="og:video:type" content="video/mp4" />';
+
+$ogtype = 'video.other';
 switch ($video['type']) {
     case "audio":
     case "linkAudio":
         $ogtype = 'music.song';
+        $contentType = '<meta property="og:audio:type" content="audio/mpeg" />';
 
         break;
     case "pdf":
     case "article":
         $ogtype = 'article';
+        $contentType = '<meta property="og:type" content="article" />';
         break;
 
     default:
         $ogtype = 'video.other';
+        $type = Video::getVideoTypeText($video['filename']);
+        if($type = 'HLS'){
+            $contentType = '<meta property="og:video:type" content="application/x-mpegURL" />';
+        }
         break;
 }
 
-$ogtype = 'video.other';
 if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($source['url'])) {
     $img = $source['url'];
     $data = getimgsize($source['path']);
     $imgw = $data[0];
     $imgh = $data[1];
 } elseif ($video['type'] == "audio") {
-    $img = getCDN()."view/img/audio_wave.jpg";
+    $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
 }
 $type = 'video';
 if ($video['type'] === 'pdf') {
@@ -52,7 +60,7 @@ if ($video['type'] === 'article') {
     $type = 'article';
 }
 $images = Video::getImageFromFilename($video['filename'], $type);
-if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+if (!isImageNotFound($images->posterPortrait)) {
     $img = $images->posterPortrait;
     $data = getimgsize($images->posterPortraitPath);
     $imgw = $data[0];
@@ -60,12 +68,15 @@ if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'no
 } else {
     $img = $images->poster;
 }
+//var_dump($img, $images);exit;
 $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
-$ogURL = Video::getLink($video['id'], $video['clean_title']);
-//$ogURL = Video::getLinkToVideo($videos_id, '', false,false);
+//$ogURL = Video::getLink($video['id'], $video['clean_title']);
+$ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
+$createddDate = date('Y-m-d', strtotime($video['created']));
+echo $contentType;
 ?>
 <!-- og from <?php echo basename(__FILE__); ?> -->
 <meta http-equiv="last-modified" content="<?php echo $modifiedDate; ?>">
@@ -81,6 +92,12 @@ $modifiedDate = date('Y-m-d', strtotime($video['modified']));
 <meta property="og:description"        content="<?php echo $description; ?>" />
 <meta property="og:url"                content="<?php echo $ogURL; ?>" />
 <meta property="og:type"               content="<?php echo $ogtype; ?>" />
+
+<meta property="ya:ovs:upload_date" content="<?php echo $createddDate; ?>" />
+<meta property="ya:ovs:adult" content="no" />
+<meta property="video:duration" content="<?php echo $video['duration_in_seconds']; ?>"" />
+
+
 <link rel="canonical" href="<?php echo $ogURL; ?>" />
 
 <?php

@@ -877,7 +877,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         }
 
 
-        var photoURL = webSiteRootURL + 'img/userSilhouette.jpg'
+        var photoURL = webSiteRootURL + 'view/img/placeholders/user.png'
         if (row.photoURL) {
             photoURL = webSiteRootURL + row.photoURL + '?rand=' + Math.random();
         }
@@ -1675,7 +1675,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             }
         });
         $('#removeAutoplay').click(function() {
-            $('#inputNextVideo-poster').attr('src', "view/img/notfound.jpg");
+            $('#inputNextVideo-poster').attr('src', "<?php echo ImagesPlaceHolders::getVideoPlaceholder(); ?>");
             $('#inputNextVideo').val("");
             $('#inputNextVideoClean').val("");
             $('#inputNextVideo-id').val("");

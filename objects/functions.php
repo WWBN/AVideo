@@ -61,27 +61,42 @@ function xss_esc_back($text)
 // Make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b)
 {
-    if (
-        $a['name'] === 'SecureVideosDirectory' ||
-        $a['name'] === 'GoogleAds_IMA' ||
-        $a['name'] === 'Subscription' ||
-        $a['name'] === 'PayPerView' ||
-        $a['name'] === 'FansSubscriptions'
-    ) {
-        return -1;
-    } elseif ($a['name'] === 'PlayerSkins') {
-        return 1;
-    } elseif (
-        $b['name'] === 'SecureVideosDirectory' ||
-        $b['name'] === 'GoogleAds_IMA' ||
-        $b['name'] === 'Subscription' ||
-        $b['name'] === 'PayPerView' ||
-        $b['name'] === 'FansSubscriptions'
-    ) {
-        return 1;
-    } elseif ($b['name'] === 'PlayerSkins') {
+    $topOrder = ['SecureVideosDirectory', 'GoogleAds_IMA', 'Gift', 'Subscription', 'PayPerView', 'FansSubscriptions'];
+    $bottomOrder = ['PlayerSkins'];
+
+    $aTopIndex = array_search($a['name'], $topOrder);
+    $bTopIndex = array_search($b['name'], $topOrder);
+
+    $aBottomIndex = array_search($a['name'], $bottomOrder);
+    $bBottomIndex = array_search($b['name'], $bottomOrder);
+
+    // Both items in the top order array
+    if ($aTopIndex !== false && $bTopIndex !== false) {
+        return $aTopIndex - $bTopIndex;
+    }
+
+    // One of the items is in the top order array
+    if ($aTopIndex !== false) {
         return -1;
     }
+    if ($bTopIndex !== false) {
+        return 1;
+    }
+
+    // Both items in the bottom order array
+    if ($aBottomIndex !== false && $bBottomIndex !== false) {
+        return $aBottomIndex - $bBottomIndex;
+    }
+
+    // One of the items is in the bottom order array
+    if ($aBottomIndex !== false) {
+        return 1;
+    }
+    if ($bBottomIndex !== false) {
+        return -1;
+    }
+
+    // Neither item in any order array
     return 0;
 }
 
@@ -834,13 +849,24 @@ function sendBulkEmail($users_id_array, $emails_array, $subject, $message)
 
     $obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
     if (!empty($users_id_array) && $obj->sendEmails) {
+        _error_log("sendBulkEmail Scheduler");
         $Emails_messages = Emails_messages::setOrCreate($message, $subject);
+        //var_dump($Emails_messages->getId());
+        $count = 0;
         foreach ($users_id_array as $users_id) {
+            if(empty($users_id)){
+                continue;
+            }
             $Email_to_user = new Email_to_user(0);
             $Email_to_user->setEmails_messages_id($Emails_messages->getId());
             $Email_to_user->setUsers_id($users_id);
+            if($Email_to_user->save()){
+                $count++;
+            }
         }
+        _error_log("sendBulkEmail Scheduler done total={$count}");
     } else {
+        _error_log("sendBulkEmail sendSiteEmailAsync");
         if (empty($emails_array)) {
             $to = array();
             $sql = "SELECT email FROM users WHERE id IN (" . implode(', ', $users_id_array) . ") ";
@@ -1201,52 +1227,6 @@ function cacheExpirationTime()
     return intval($cacheExpirationTime);
 }
 
-function _getImagesURL($fileName, $type)
-{
-    global $global;
-    $files = [];
-    $source = Video::getSourceFile($fileName, ".jpg");
-    $file1 = $source['path'];
-    if (file_exists($file1)) {
-        $files["jpg"] = [
-            'filename' => "{$fileName}.jpg",
-            'path' => $file1,
-            'url' => $source['url'],
-            'type' => 'image',
-        ];
-    } else {
-        unset($file1);
-        $files["jpg"] = [
-            'filename' => "{$type}.png",
-            'path' => getCDN() . "view/img/{$type}.png",
-            'url' => getCDN() . "view/img/{$type}.png",
-            'type' => 'image',
-        ];
-    }
-    $source = Video::getSourceFile($fileName, "_portrait.jpg");
-    $file2 = $source['path'];
-    if (file_exists($file2)) {
-        $files["pjpg"] = [
-            'filename' => "{$fileName}_portrait.jpg",
-            'path' => $file2,
-            'url' => $source['url'],
-            'type' => 'image',
-        ];
-    } elseif ($type !== 'image') {
-        if (!empty($file1)) {
-            $files["pjpg"] = $files["jpg"];
-        } else {
-            $files["pjpg"] = [
-                'filename' => "{$type}_portrait.png",
-                'path' => getCDN() . "view/img/{$type}_portrait.png",
-                'url' => getCDN() . "view/img/{$type}_portrait.png",
-                'type' => 'image',
-            ];
-        }
-    }
-    return $files;
-}
-
 function getVideosURLPDF($fileName)
 {
     global $global;
@@ -1266,7 +1246,7 @@ function getVideosURLPDF($fileName)
         'url' => $source['url'],
         'type' => 'pdf',
     ];
-    $files = array_merge($files, _getImagesURL($fileName, 'pdf'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getPdfLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1303,7 +1283,7 @@ function getVideosURLIMAGE($fileName)
         }
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'image'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1340,7 +1320,7 @@ function getVideosURLZIP($fileName)
         }
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'zip'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getZipLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1360,8 +1340,7 @@ function getVideosURLArticle($fileName)
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    //$files = array_merge($files, _getImagesURL($fileName, 'article'));
-    $files = _getImagesURL($fileName, 'article');
+    $files = array('jpg'=>ImagesPlaceHolders::getArticlesLandscape(ImagesPlaceHolders::$RETURN_ARRAY));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1415,7 +1394,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
         ];
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'audio_wave'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1528,7 +1507,7 @@ function getVideosDir()
 
 $getVideosURL_V2Array = [];
 
-function getVideosURL_V2($fileName, $recreateCache = false)
+function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
 {
     global $global, $getVideosURL_V2Array;
     if (empty($fileName)) {
@@ -1568,8 +1547,9 @@ function getVideosURL_V2($fileName, $recreateCache = false)
                 ) { // file size is small
                     _error_log("getVideosURL_V2:: dummy file found, fix cache " . json_encode(["/^{$preg_match_url}/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']), $pathFilesize, $value]));
                     unset($files);
-                    $video = Video::getVideoFromFileName($fileName, true, true);
-                    Video::clearCache($video['id']);
+                    clearCache();
+                    //$video = Video::getVideoFromFileName($fileName, true, true);
+                    //Video::clearCache($video['id']);
                     break;
                 } else {
                     //_error_log("getVideosURL_V2:: NOT dummy file ". json_encode(array("/^{$preg_match_url}video/", $value['url'], preg_match("/^{$preg_match_url}video/", $value['url']),filesize($value['path']),$value)));
@@ -1579,6 +1559,7 @@ function getVideosURL_V2($fileName, $recreateCache = false)
         } else {
             //_error_log("getVideosURL_V2:: cache not found ". json_encode($files));
         }
+        
         TimeLogEnd($TimeLog1, __LINE__);
     } else {
         _error_log("getVideosURL_V2($fileName) Recreate cache requested " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -1621,6 +1602,11 @@ function getVideosURL_V2($fileName, $recreateCache = false)
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            /*
+            if(empty($recreateCache) && $fileName == "video_230816233020_vb81e"){
+                var_dump($fileName, $source);exit;
+            }
+            */
             //TimeLogEnd($timeName2, __LINE__);
             if (empty($source)) {
                 continue;
@@ -1694,6 +1680,15 @@ function getVideosURL_V2($fileName, $recreateCache = false)
 
         ObjectYPT::setCacheGlobal($cacheName, $files);
     }
+    /*
+    if(empty($recreateCache) && $fileName == "v_230810144748_v424f"){
+        var_dump($fileName, $files, debug_backtrace());exit;
+    }
+    */
+    if (empty($files) || empty($files['jpg'])) {
+        // sort by resolution
+        $files = array('jpg'=>ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY));
+    }else 
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");
@@ -1701,6 +1696,16 @@ function getVideosURL_V2($fileName, $recreateCache = false)
     //var_dump($files);exit;
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
+}
+
+function checkIfFilesAreValid($files){
+    foreach ($files as $value) {
+        if(($value['type'] == 'video' || $value['type'] == 'audio') && @filesize($value['path'])<20){
+            $video = Video::getVideoFromFileNameLight($value['filename']);
+            Video::clearCache($video['id']);
+
+        }
+    }
 }
 
 //Returns < 0 if str1 is less than str2; > 0 if str1 is greater than str2, and 0 if they are equal.
@@ -1757,9 +1762,9 @@ function getResolutionFromFilename($filename)
 function getSources($fileName, $returnArray = false, $try = 0)
 {
     if ($returnArray) {
-        $videoSources = $audioTracks = $subtitleTracks = [];
+        $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = [];
     } else {
-        $videoSources = $audioTracks = $subtitleTracks = '';
+        $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = '';
     }
 
     $video = Video::getVideoFromFileNameLight($fileName);
@@ -1788,11 +1793,14 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
-
+    if (function_exists('getVTTCaptionTracks')) {
+        $captionsTracks = getVTTCaptionTracks($fileName, $returnArray);
+    }
+    //var_dump($subtitleTracks,  $captionsTracks);exit;
     if ($returnArray) {
-        $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
+        $return = array_merge($videoSources, $audioTracks, $subtitleTracks,  $captionsTracks);
     } else {
-        $return = $videoSources . $audioTracks . $subtitleTracks;
+        $return = $videoSources . $audioTracks . $subtitleTracks.$captionsTracks;
     }
 
     $obj = new stdClass();
@@ -2923,6 +2931,10 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
+        //var_dump($relativePath, $file, $url);exit;
+        if(ImagesPlaceHolders::isDefaultImage($url)){
+            $class .= ' ImagesPlaceHoldersDefaultImage';
+        }
         if (file_exists($file)) {
             $image_info = @getimagesize($file);
             if (!empty($image_info)) {
@@ -2943,7 +2955,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         if (is_string($lazyLoad)) {
             $loading = getURL($lazyLoad);
         } else {
-            $loading = getURL('view/img/loading-gif.png');
+            $loading = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
         }
         $img .= " src=\"{$loading}\" data-src=\"{$url}\" ";
     } else {
@@ -2977,9 +2989,9 @@ function getVideoImagewithHoverAnimation($relativePath, $relativePathHoverAnimat
 {
     $id = uniqid();
     //getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', $class = 'img img-responsive', $lazyLoad = false, $preloadImage=false)
-    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, true) . PHP_EOL;
+    $img = getImageTagIfExists($relativePath, $title, "thumbsJPG{$id}", '', 'thumbsJPG img img-responsive', false, $preloadImage) . PHP_EOL;
     if (empty($doNotUseAnimatedGif) && !empty($relativePathHoverAnimation) && empty($_REQUEST['noImgGif'])) {
-        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', true) . PHP_EOL;
+        $img .= getImageTagIfExists($relativePathHoverAnimation, $title, "thumbsGIF{$id}", 'position: absolute; top: 0;', 'thumbsGIF img img-responsive ', $preloadImage) . PHP_EOL;
     }
     return '<div class="thumbsImage">' . $img . '</div>';
 }
@@ -4009,7 +4021,7 @@ function siteMap()
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
-        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true);
+        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, 'permlink');
         TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);
         TimeLogStart("siteMap Video::isPublic $videos_id");
         $requires_subscription = Video::isPublic($video['id']) ? "no" : "yes";
@@ -4461,42 +4473,42 @@ function getLdJson($videos_id)
     if ($duration == "PT0H0M0S") {
         $duration = "PT0H0M1S";
     }
-    $output = '
-    <script type="application/ld+json" id="application_ld_json">
-        {
-        "@context": "http://schema.org/",
-        "@type": "VideoObject",
-        "name": "' . getSEOTitle($video['title']) . '",
-        "description": "' . $description . '",
-        "thumbnailUrl": [
-        "' . $img . '"
-        ],
-        "uploadDate": "' . date("Y-m-d\Th:i:s", strtotime($video['created'])) . '",
-        "duration": "' . $duration . '",
-        "contentUrl": "' . Video::getLinkToVideo($videos_id, '', false, false) . '",
-        "embedUrl": "' . Video::getLinkToVideo($videos_id, '', true, false) . '",
-        "interactionCount": "' . $video['views_count'] . '",
-        "@id": "' . Video::getPermaLink($videos_id) . '",
-        "datePublished": "' . date("Y-m-d", strtotime($video['created'])) . '",
-        "interactionStatistic": [
-        {
-        "@type": "InteractionCounter",
-        "interactionService": {
-        "@type": "WebSite",
-        "name": "' . str_replace('"', '', $config->getWebSiteTitle()) . '",
-        "@id": "' . $global['webSiteRootURL'] . '"
-        },
-        "interactionType": "http://schema.org/LikeAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        },
-        {
-        "@type": "InteractionCounter",
-        "interactionType": "http://schema.org/WatchAction",
-        "userInteractionCount": "' . $video['views_count'] . '"
-        }
-        ]
-        }
-    </script>';
+    $data = array(
+        "@context" => "http://schema.org/",
+        "@type" => "VideoObject",
+        "name" => getSEOTitle($video['title']),
+        "description" => $description,
+        "thumbnailUrl" => array($img),
+        "uploadDate" => date("Y-m-d\Th:i:s", strtotime($video['created'])),
+        "duration" => $duration,
+        "contentUrl" => Video::getLinkToVideo($videos_id, '', false, false),
+        "embedUrl" => Video::getLinkToVideo($videos_id, '', true, false),
+        "interactionCount" => $video['views_count'],
+        "@id" => Video::getPermaLink($videos_id),
+        "datePublished" => date("Y-m-d", strtotime($video['created'])),
+        "interactionStatistic" => array(
+            array(
+                "@type" => "InteractionCounter",
+                "interactionService" => array(
+                    "@type" => "WebSite",
+                    "name" => str_replace('"', '', $config->getWebSiteTitle()),
+                    "@id" => $global['webSiteRootURL']
+                ),
+                "interactionType" => "http://schema.org/LikeAction",
+                "userInteractionCount" => $video['views_count']
+            ),
+            array(
+                "@type" => "InteractionCounter",
+                "interactionType" => "http://schema.org/WatchAction",
+                "userInteractionCount" => $video['views_count']
+            )
+        )
+    );
+
+    $output = '<script type="application/ld+json" id="application_ld_json">';
+    $output .= json_encode($data, JSON_UNESCAPED_SLASHES);
+    $output .= '</script>';
+
     ObjectYPT::setCacheGlobal("getLdJson{$videos_id}", $output);
     echo $output;
 }
@@ -5899,6 +5911,45 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
         }
     }
     return $videos_id;
+}
+
+function getUsers_idOwnerFromRequest()
+{
+    global $isChannel;
+    $videos_id = getVideos_id();
+
+    if(!empty($videos_id)){
+        $video = new Video('', '', $videos_id);
+        return $video->getUsers_id();
+    }
+    $live = isLive();
+    if(!empty($live)){
+        if(!empty($live['users_id'])){
+            return $live['users_id'];
+        }
+        if(!empty($live['live_schedule'])){
+            return Live_schedule::getUsers_idOrCompany($live['live_schedule']);
+        }
+        if(!empty($live['key'])){
+            $row = LiveTransmition::keyExists($live['key']);
+            return $row['users_id'];
+        }
+    }
+
+    if(!empty($isChannel) && !isVideo()) {
+        if (!empty($_GET['channelName'])) {
+            $_GET['channelName'] = xss_esc($_GET['channelName']);
+            $user = User::getChannelOwner($_GET['channelName']);
+            if (!empty($user)) {
+                $users_id = $user['id'];
+            } else {
+                $users_id = intval($_GET['channelName']);
+            }
+            return $users_id;
+        }
+    }
+
+    return 0;
 }
 
 function getPlayListIndex()
@@ -9149,7 +9200,7 @@ function cleanUpRowFromDatabase($row)
 function getImageTransparent1pxURL()
 {
     global $global;
-    return getCDN() . "view/img/transparent1px.png";
+    return getURL("view/img/transparent1px.png");
 }
 
 function getDatabaseTime()
@@ -10389,6 +10440,9 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     $return = '';
     if (!empty($setCacheName)) {
         $name = $filePath . '_' . User::getId() . '_' . getLanguage();
+        if(is_string($setCacheName)){
+            $name .= $setCacheName;
+        }
         //var_dump($name);exit;
         $return = ObjectYPT::getSessionCache($name, 0);
     }
@@ -10847,7 +10901,7 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type)
         if (!empty($videoHLSObj) && method_exists('VideoHLS', 'getMP3ANDMP4DownloadLinks')) {
             $downloadOptions = VideoHLS::getMP3ANDMP4DownloadLinks($videos_id);
         } else {
-            _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
+            //_error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
         }
     } else {
         _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid vidreo type");
@@ -11561,3 +11615,10 @@ function getDeviceName() {
     }
 }
 
+function isImageNotFound($imgURL){
+    if(empty($imgURL)){
+        return true;
+    }
+    
+    return ImagesPlaceHolders::isDefaultImage($imgURL);
+}

@@ -4,7 +4,14 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 class Layout extends PluginAbstract
 {
-
+    static $criticalCSS = array(
+        'view/bootstrap/css/bootstrap.min.css',
+        'view/css/custom',
+        'videos/cache/custom.css',
+        'view/css/navbar.css',
+        'plugin/Gallery/style.css',
+        'view/css/main.css',
+    );
     static private $tags = array();
     static $searchOptions = array(
         array(
@@ -244,13 +251,13 @@ class Layout extends PluginAbstract
 
     static function getSelectSearchable($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '')
     {
-        global $global;
+        global $global, $nonCriticalCSS;
         if (empty($id)) {
             $id = $name;
         }
         $html = "";
         if (empty($global['getSelectSearchable'])) {
-            $html .= '<link href="' . getURL('view/js/select2/select2.min.css') . '" rel="stylesheet" />';
+            $html .= '<link href="' . getURL('view/js/select2/select2.min.css') . '" rel="stylesheet"  ' . $nonCriticalCSS . '/>';
             $html .= '<style>
                 .select2-selection__rendered {line-height: 32px !important;}
                 .select2-selection {min-height: 34px !important;}</style>';
@@ -417,7 +424,7 @@ class Layout extends PluginAbstract
             }
 
             $html .= '<li class="dropdown-submenu ' . $active . '">
-                    <a tabindex="-1" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_' . $id . ' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name=' . $name . ']\').val(\'' . $key . '\');">
+                    <a tabindex="-1" rel="nofollow" hreflang="' . $key . '" href="' . $url . '" value="' . $key . '" onclick="$(\'#div_' . $id . ' > button > span.flag\').html($(this).find(\'span.flag\').html());$(\'input[name=' . $name . ']\').val(\'' . $key . '\');">
                         <span class="flag"><i class="' . $info->icon . '" aria-hidden="true"></i></span> ' . $info->text . '</a>
                     </li>';
         }
@@ -460,8 +467,8 @@ class Layout extends PluginAbstract
     {
         $parentsOnly = @$_GET['parentsOnly'];
         unset($_GET['parentsOnly']);
-        $rows = Category::getAllCategories(true, false);        
-        $_GET['parentsOnly'] = $parentsOnly ;
+        $rows = Category::getAllCategories(true, false);
+        $_GET['parentsOnly'] = $parentsOnly;
         //var_dump($rows);exit;
         //array_multisort(array_column($rows, 'hierarchyAndName'), SORT_ASC, $rows);
         $cats = array();
@@ -586,7 +593,7 @@ class Layout extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/Layout/userAutocomplete.php';
         return "updateUserAutocomplete{$id}();";
     }
-    
+
     static function getVideoAutocomplete($default_videos_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
     {
         global $global;
@@ -597,7 +604,6 @@ class Layout extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/Layout/videoAutocomplete.php';
         return "updateVideoAutocomplete{$id}();";
     }
-
 
     static function organizeHTML($html)
     {
@@ -628,6 +634,9 @@ class Layout extends PluginAbstract
         //var_dump(self::$tags['tagscript']);exit;
         if (!empty(self::$tags['tagcss'])) {
             self::$tags['tagcss'] = self::removeDuplicated(self::$tags['tagcss']);
+
+            usort(self::$tags['tagcss'], "_sortCSS");
+
             $html = str_replace('</head>', PHP_EOL . implode(PHP_EOL, array_unique(self::$tags['tagcss'])) . '</head>', $html);
         }
         //return $html;
@@ -715,11 +724,24 @@ class Layout extends PluginAbstract
 
     static function getTagsLinkCSS($html)
     {
+        $nonCriticalCSS = ' rel="preload" media="print" as="style" onload="this.media=\'all\'" ';
         preg_match_all('/<link[^>]+href=[^>]+>/Usi', $html, $matches);
         if (!empty($matches)) {
             foreach ($matches[0] as $value) {
                 $response = self::tryToReplace($value, '', $html);
                 if ($response['success']) {
+                    if (strpos($value, 'rel="preload"') === false) {
+                        $containsCritical = false;
+                        foreach (self::$criticalCSS as $crit) {
+                            if (strpos($value, $crit) !== false) {
+                                $containsCritical = true;
+                                break;
+                            }
+                        }
+                        if (!$containsCritical) {
+                            $value = str_replace('type="text/css"', 'type="text/css" ' . $nonCriticalCSS, $value);
+                        }
+                    }
                     self::addTag('tagcss', $value);
                     $html = $response['newSubject'];
                 }
@@ -774,7 +796,7 @@ class Layout extends PluginAbstract
             preg_match('/<script async/i', $tag) ||
             preg_match('/doNotSepareteTag/', $tag) ||
             preg_match('/window.googletag/', $tag) ||
-            preg_match('/document\.write/', $tag) || 
+            preg_match('/document\.write/', $tag) ||
             isBot()
         ) {
             return true;
@@ -857,12 +879,12 @@ class Layout extends PluginAbstract
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
         foreach (Layout::$searchOptions as $key => $value) {
+            
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="' . $value['value'] . '" id="' . $id . '_' . $key . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $key . '">
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="' . $name . '" checked value="' . $value['value'] . '"> 
                             ' . __($value['text']) . ' 
-                            </label>
-                       </div>';
+                        </label></div>';
         }
         return $divs;
     }
@@ -872,22 +894,22 @@ class Layout extends PluginAbstract
         global $global;
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
+
         $divs[] = '<div class="form-check">
-                        <input class="form-check-input" type="radio" id="' . $id . '" name="' . $name . '" checked value="">
-                        <label class="form-check-label" for="' . $id . '">
-                            <i class="fas fa-list"></i> ' . __('All') . '
-                        </label>
-                    </div>';
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> 
+                        <i class="fas fa-list"></i> ' . __('All') . '
+                    </label></div>';
         $global['doNotSearch'] = 1;
         $categories_edit = Category::getAllCategories(false, true);
         $global['doNotSearch'] = 0;
         foreach ($categories_edit as $key => $value) {
+
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="radio" value="' . $value['clean_name'] . '" id="' . $id . '_' . $key . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $key . '">
-                                <i class="' . $value['iconClass'] . '"></i> ' . __($value['hierarchyAndName']) . '
-                            </label>
-                        </div>';
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="' . $name . '" checked value="' . $value['clean_name'] . '"> 
+                            <i class="' . $value['iconClass'] . '"></i> ' . __($value['hierarchyAndName']) . '
+                        </label></div>';
         }
         return $divs;
     }
@@ -897,42 +919,35 @@ class Layout extends PluginAbstract
         global $global;
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
-        $divs[] = '<div class="form-check">
-                        <input class="form-check-input" type="radio" id="' . $id . '" name="' . $name . '" checked value="">
-                        <label class="form-check-label" for="' . $id . '">
-                            ' . __('All') . '
-                        </label>
-                    </div>';
 
         $divs[] = '<div class="form-check">
-                    <input class="form-check-input" type="radio" value="1" id="' . $id . '_1" name="' . $name . '">
-                    <label class="form-check-label" for="' . $id . '_1">
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> ' . __('All') . '
+                    </label></div>';
+        $divs[] = '<div class="form-check">
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" value="1"> 
                         1 ' . __('Day') . '
-                    </label>
-                </div>';
-        for ($i = 5; $i <= 30; $i+=5) {
+                    </label></div>';
+        for ($i = 5; $i <= 30; $i += 5) {
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="radio" value="' . $i . '" id="' . $id . '_' . $i . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $i . '">
-                                ' . $i . ' ' . __('Days') . '
-                            </label>
-                        </div>';
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="' . $name . '" value="' . $i . '"> 
+                            ' . $i . ' ' . __('Days') . '
+                        </label></div>';
         }
 
-
         $divs[] = '<div class="form-check">
-                    <input class="form-check-input" type="radio" value="30" id="' . $id . '_30" name="' . $name . '">
-                    <label class="form-check-label" for="' . $id . '_30">
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" value="30"> 
                         1 ' . __('Month') . '
-                    </label>
-                </div>';
+                    </label></div>';
         for ($i = 60; $i <= 360; $i += 30) {
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="radio" value="' . $i . '" id="' . $id . '_' . $i . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $i . '">
-                                ' . ($i / 30) . ' ' . __('Months') . '
-                            </label>
-                        </div>';
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="' . $name . '" value="' . $i . '"> 
+                            ' . ($i / 30) . ' ' . __('Months') . '
+                        </label></div>';
         }
         return $divs;
     }
@@ -942,36 +957,35 @@ class Layout extends PluginAbstract
         global $global;
         $video = Video::getVideoWithMoreViews();
 
-        if($video['views_count']>10){
-            $step = $video['views_count']/10;
-        }else{
+        if ($video['views_count'] > 10) {
+            $step = $video['views_count'] / 10;
+        } else {
             $step = 1;
         }
 
         if ($step >= 10000) {
             $step = round($step / 10000) * 10000;
-        }else if ($step >= 1000) {
+        } else if ($step >= 1000) {
             $step = round($step / 1000) * 1000;
-        }else if ($step >= 100) {
+        } else if ($step >= 100) {
             $step = round($step / 100) * 100;
         }
-        
+
         $divs = array();
         $id = str_replace('[]', '', $name) . uniqid();
+                                    
         $divs[] = '<div class="form-check">
-                        <input class="form-check-input" type="radio" id="' . $id . '" name="' . $name . '" checked value="">
-                        <label class="form-check-label" for="' . $id . '">
-                            ' . __('All') . '
-                        </label>
-                    </div>';
-        for ($i = $step; $i <= $video['views_count']; $i+=$step) {
-            $count = intval($i);
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> 
+                        ' . __('All') . ' 
+                    </label></div>';
+        for ($i = $step; $i <= $video['views_count']; $i += $step) {
+            $count = intval($i);                            
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="radio" value="' . $count . '" id="' . $id . '_' . $count . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $count . '">
-                                ' . $count . ' ' . __('Views or more') . '
-                            </label>
-                        </div>';
+                            <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="' . $name . '" value="' . $count . '"> 
+                            ' . $count . ' ' . __('Views or more') . ' 
+                        </label></div>';
         }
 
         return $divs;
@@ -990,20 +1004,18 @@ class Layout extends PluginAbstract
             return array();
         }
         $divs = array();
-        $id = str_replace('[]', '', $name) . uniqid();
+        $id = str_replace('[]', '', $name) . uniqid();                    
         $divs[] = '<div class="form-check">
-                        <input class="form-check-input" type="radio" id="' . $id . '" name="' . $name . '" checked value="">
-                        <label class="form-check-label" for="' . $id . '">
-                            <i class="fas fa-tags"></i> ' . __('All') . '
-                        </label>
-                    </div>';
-        foreach ($tags as $key => $value) {
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> 
+                        <i class="fas fa-tags"></i> ' . __('All') . ' 
+                    </label></div>';
+        foreach ($tags as $key => $value) {                          
             $divs[] = '<div class="form-check">
-                            <input class="form-check-input" type="radio" value="' . $value['id'] . '" id="' . $id . '_' . $key . '" name="' . $name . '">
-                            <label class="form-check-label" for="' . $id . '_' . $key . '">
-                                <i class="fas fa-tag"></i> ' . __($value['name']) . '
-                            </label>
-                        </div>';
+                        <label class="form-check-label">
+                        <input class="form-check-input" type="radio" name="' . $name . '" value="' . $value['id'] . '"> 
+                        <i class="fas fa-tag"></i> ' . __($value['name']) . ' 
+                    </label></div>';
         }
         return $divs;
     }
@@ -1099,45 +1111,46 @@ function compareOrder($a, $b, $firstOrder, $lastOrder)
     $aIndexFirst = $aIndexLast = $bIndexFirst = $bIndexLast = null;
 
     // Check if $a and $b are in $firstOrder
-    foreach($firstOrder as $index => $value) {
-        if(strpos($a, $value) !== false) $aIndexFirst = $index;
-        if(strpos($b, $value) !== false) $bIndexFirst = $index;
+    foreach ($firstOrder as $index => $value) {
+        if (strpos($a, $value) !== false)
+            $aIndexFirst = $index;
+        if (strpos($b, $value) !== false)
+            $bIndexFirst = $index;
     }
-    
+
     // Check if $a and $b are in $lastOrder
-    foreach($lastOrder as $index => $value) {
-        if(strpos($a, $value) !== false) $aIndexLast = $index;
-        if(strpos($b, $value) !== false) $bIndexLast = $index;
+    foreach ($lastOrder as $index => $value) {
+        if (strpos($a, $value) !== false)
+            $aIndexLast = $index;
+        if (strpos($b, $value) !== false)
+            $bIndexLast = $index;
     }
 
     // Handle case when $a and $b are in $firstOrder
-    if($aIndexFirst !== null && $bIndexFirst !== null) {
+    if ($aIndexFirst !== null && $bIndexFirst !== null) {
         return $aIndexFirst - $bIndexFirst; // order by position in $firstOrder
     }
-    if($aIndexFirst !== null) {
+    if ($aIndexFirst !== null) {
         return -1; // $a in $firstOrder, $b not
     }
-    if($bIndexFirst !== null) {
+    if ($bIndexFirst !== null) {
         return 1; // $b in $firstOrder, $a not
     }
 
     // Handle case when $a and $b are in $lastOrder
-    if($aIndexLast !== null && $bIndexLast !== null) {
+    if ($aIndexLast !== null && $bIndexLast !== null) {
         return $aIndexLast - $bIndexLast; // order by position in $lastOrder
     }
-    if($aIndexLast !== null) {
+    if ($aIndexLast !== null) {
         return 1; // $a in $lastOrder, $b not
     }
-    if($bIndexLast !== null) {
+    if ($bIndexLast !== null) {
         return -1; // $b in $lastOrder, $a not
     }
 
     // If none of the above conditions met, order doesn't matter
     return 0;
 }
-
-
-
 
 function _sortJS($a, $b)
 {
@@ -1157,10 +1170,30 @@ function _sortJS($a, $b)
         "jquery.lazy.plugins.min.js",
         "flickity.pkgd.min.js",
         "flickity-bg-lazyload/bg-lazyload.js",
-    ];   
+    ];
     $lastOrder = [
         "js/script.js",
         "/plugin/",
-    ];   
+    ];
+    return compareOrder($a, $b, $firstOrder, $lastOrder);
+}
+
+function _sortCSS($a, $b)
+{
+    $firstOrder = array(
+        'view/bootstrap/css/bootstrap.min.css',
+        'view/css/custom',
+        'videos/cache/custom.css',
+        'view/css/navbar.css',
+        'plugin/Gallery/style.css',
+        'node_modules/animate.css/animate',
+        'view/css/main.css',
+    );
+    $lastOrder = array(
+        'node_modules/video.js/dist/video-js.min.css',
+        'videojs',
+        'plugin/PlayerSkins/player.css',
+        'plugin/PlayerSkins/skins/',
+    );;
     return compareOrder($a, $b, $firstOrder, $lastOrder);
 }

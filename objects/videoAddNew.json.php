@@ -109,7 +109,7 @@ if (!empty($_POST['isArticle'])) {
 }
 TimeLogEnd(__FILE__, __LINE__);
 $obj->setNext_videos_id($_POST['next_videos_id']);
-if (!empty($_POST['description'])) {
+if (isset($_POST['description'])) {
     $obj->setDescription($_POST['description']);
 }
 if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canModerateVideos()) {
@@ -166,6 +166,7 @@ if (Permissions::canAdminVideos()) {
         $obj->setCreated($_REQUEST['created']);
     }
 }
+
 TimeLogEnd(__FILE__, __LINE__);
 $resp = $obj->save(true);
 // if is a new embed video

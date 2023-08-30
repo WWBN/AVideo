@@ -11,6 +11,9 @@ $croppieFilesAdded = 1;
 <div class="croppieDiv" objectName="uploadCrop<?php echo $uid; ?>">
     <div class="col-md-12 " >
         <div id="croppie<?php echo $uid; ?>" style="min-height: <?php echo $boundaryHeight+40; ?>px;"></div>
+        <div class="clearfix"></div>
+        <small class="text-muted text-center" style="display: block;"><?php echo __('Width'); ?>: <?php echo $resultWidth; ?>px | <?php echo __('Height'); ?>: <?php echo $resultHeight; ?>px</small>
+        <div class="clearfix"></div>
         <div class="btn-group btn-group-justified" role="group">
             <a id="upload-btn<?php echo $uid; ?>" class="btn btn-primary"><i class="fa fa-upload"></i> <?php echo $buttonTitle; ?></a>
             <a id="delete-btn<?php echo $uid; ?>" class="btn btn-danger"><i class="fa fa-trash"></i> <?php echo __('Delete'); ?></a>
@@ -21,7 +24,6 @@ $croppieFilesAdded = 1;
     </div>
 </div>
 <script>
-
     var uploadCrop<?php echo $uid; ?>;
     var createCroppie<?php echo $uid; ?>Timeout;
     function createCroppie<?php echo $uid; ?>(imageURL) {

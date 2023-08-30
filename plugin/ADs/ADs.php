@@ -225,7 +225,7 @@ class ADs extends PluginAbstract
         }
 
         make_path($videosDir);
-
+        //$videosURL = addQueryStringParameter($videosURL, 'cache', 1);
         return ['path' => $videosDir, 'url' => $videosURL];
     }
 
@@ -346,10 +346,9 @@ class ADs extends PluginAbstract
             if (isMobile()) {
                 $type = $type . 'Mobile';
             }
-            $adC = self::getAdsFromVideosId($type, $videos_id);
-            if(empty($adC['adCode'])){
-                $adC =  self::getAdsFromUsersId($type, 0);
-            }
+            $users_id = getUsers_idOwnerFromRequest();
+            //var_dump($users_id);exit;
+            $adC =  self::getAdsFromUsersId($type, $users_id);
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }
@@ -372,9 +371,16 @@ class ADs extends PluginAbstract
             if (isMobile()) {
                 $type = $type . 'Mobile';
             }
-            $adC = self::getAdsFromVideosId($type, $videos_id);
+            if(!empty($live) && !empty($live['users_id'])){
+                $adC = self::getAdsFromUsersId($type, $live['users_id']);
+            }else{
+                $adC = self::getAdsFromVideosId($type, $videos_id);
+            }
             $reasons[] = 'type='.$type;
             $reasons[] = 'label='.$adC['label'];
+            if(!empty($live) && !empty($live['users_id'])){
+                $reasons[] = 'It was a live';
+            }
             if(empty($adC['adCode'])){
                 $reasons[] = 'adCode is empty';
             }

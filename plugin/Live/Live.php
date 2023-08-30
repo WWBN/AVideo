@@ -312,6 +312,10 @@ class Live extends PluginAbstract {
                 }
             }
 
+            if($obj->useLiveServers && empty($value['live_servers_id'])){
+                continue;
+            }
+
             if (!LiveTransmition::keyExists($value['key'], false) && Live_schedule::keyExists($value['key'])) {
                 //if (Live_schedule::keyExists($value['key'])) {
                 continue;
@@ -485,8 +489,8 @@ class Live extends PluginAbstract {
             $title,
             $u->getNameIdentificationBd(),
             $link,
-            (!empty($imgJPG) ? '<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
-            (!empty($imgGIF) ? ('<img src="' . getURL('view/img/loading-gif.png') . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
+            (!empty($imgJPG) ? '<img src="' . ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
+            (!empty($imgGIF) ? ('<img src="' .ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
             $LiveUsersLabelLive,
             $class,
         ];
@@ -2969,7 +2973,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/Offline.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2978,7 +2982,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/OnAir.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }
@@ -2987,7 +2991,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         global $global;
         $img = "plugin/Live/view/ComingSoon.jpg";
         if ($includeURL) {
-            $img = getCDN() . $img;
+            $img = getURL($img);
         }
         return $img;
     }

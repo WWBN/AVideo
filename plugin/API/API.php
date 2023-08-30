@@ -227,10 +227,12 @@ class API extends PluginAbstract
             $type = $value[0];
             $desktopGlobal = false;
             $mobileGlobal = false;
+            $desktop = ADs::getAds($type, $users_id);
             if (empty($desktop)) {
                 $desktopGlobal = true;
                 $desktop = ADs::getAds($type, false);
             }
+            $mobile = ADs::getAds($type . 'Mobile', $users_id);
             if (empty($mobile)) {
                 $mobileGlobal = true;
                 $mobile = ADs::getAds($type . 'Mobile', false);
@@ -495,7 +497,7 @@ class API extends PluginAbstract
         if (is_array($tags)) {
             foreach ($tags as $key => $row) {
                 $tags[$key]['videos'] = array();
-                $tags[$key]['photo'] = $global['webSiteRootURL'] . 'view/img/notfound.jpg';
+                $tags[$key]['photo'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
                 if (!empty($row['subscription'])) {
                     $videos = TagsHasVideos::getAllVideosFromTagsId($row['id']);
                     $tags[$key]['videos'] = PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly']));
@@ -912,6 +914,7 @@ class API extends PluginAbstract
             if ($value['type'] == 'serie') {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
                 $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
+                //var_dump($rows[$key]['playlist']);exit;
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
@@ -919,6 +922,7 @@ class API extends PluginAbstract
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
+                //var_dump($rows[$key]['videoLink'], modifyURL($rows[$key]['videoLink']));exit;
                 $rows[$key]['videoLink'] = modifyURL($rows[$key]['videoLink']);
                 if ($extension == 'mp4') {
                     $rows[$key]['videos'] = array(
@@ -972,6 +976,8 @@ class API extends PluginAbstract
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
                 }
+            }else{
+                $rows[$key]['subtitles'] = [];
             }
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
@@ -1015,6 +1021,9 @@ class API extends PluginAbstract
                     }
                     if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
+                    }
+                    if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                        $rows[$key]['relatedVideos'][$key2]['videoLink'] = modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
                     }
                 }
             }

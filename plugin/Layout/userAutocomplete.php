@@ -9,7 +9,7 @@ if (!empty($default_users_id)) {
 
 if (empty($name)) {
     $name = '';
-    $user_image = getURL('view/img/userSilhouette.jpg');
+    $user_image = ImagesPlaceHolders::getUserIcon(ImagesPlaceHolders::$RETURN_URL);
     $default_users_id = 0;
 }
 ?>
@@ -55,7 +55,7 @@ if (empty($name)) {
     function resetUserAutocomplete<?php echo $id; ?>() {
         $("#user<?php echo $id; ?>").val('');
         $("#<?php echo $id; ?>").val(0);
-        var photoURL = webSiteRootURL + 'img/userSilhouette.jpg'
+        var photoURL = webSiteRootURL + 'view/img/placeholders/user.png'
         $("#user-img<?php echo $id; ?>").attr("src", photoURL);
     }
 
@@ -90,7 +90,7 @@ if (empty($name)) {
             select: function (event, ui) {
                 $("#user<?php echo $id; ?>").val(ui.item.identification);
                 $("#<?php echo $id; ?>").val(ui.item.id);
-                var photoURL = webSiteRootURL + 'img/userSilhouette.jpg'
+                var photoURL = webSiteRootURL + 'view/img/placeholders/user.png'
                 if (ui.item.photo) {
                     photoURL = ui.item.photo;
                 }

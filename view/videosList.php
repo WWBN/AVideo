@@ -149,7 +149,7 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
         <div class="loadingVideosList col-lg-12 col-sm-12 col-xs-12 bottom-border videoListItem videoList-PHP ">
             <div class="col-lg-5 col-sm-5 col-xs-5 nopadding thumbsImage videoLink h6">
                 <div class="galleryVideo loading-background">
-                    <img src="<?php echo getURL('view/img/video-placeholder.png'); ?>" alt="Loading"  class="thumbsJPG img-responsive text-center" height="130" />
+                    <img src="<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>" alt="Loading"  class="thumbsJPG img-responsive text-center" height="130" />
                 </div>
             </div>
             <div class="col-lg-7 col-sm-7 col-xs-7 videosDetails">
@@ -168,7 +168,7 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
                 </div>
                 <div class="row" style="margin-top: 5px;">
                     <div class="videoCreatorSmall">
-                        <img src="<?php echo getURL('view/img/userSilhouette.jpg'); ?>" alt="Loading" class="img img-responsive img-circle zoom" />
+                        <img src="<?php echo ImagesPlaceHolders::getUserIcon(ImagesPlaceHolders::$RETURN_URL); ?>" alt="Loading" class="img img-responsive img-circle zoom" />
                             ...
                     </div>
                 </div>

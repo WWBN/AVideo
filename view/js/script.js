@@ -1269,6 +1269,16 @@ function avideoAlertAJAX(url) {
 
 function avideoAlertHTMLText(title, msg, type) {
     var isErrorOrWarning = (type == 'error' || type == 'warning');
+    var className = "btn btn-primary btn-block";
+    if(type == 'error'){
+        var className = "btn btn-danger btn-block";
+    }else if(type == 'warning'){
+        var className = "btn btn-warning btn-block";
+    }else if(type == 'info'){
+        var className = "btn btn-info btn-block";
+    }else if(type == 'success'){
+        var className = "btn btn-success btn-block";
+    }
     var span = document.createElement("span");
     span.innerHTML = msg;
     swal({
@@ -1279,14 +1289,15 @@ function avideoAlertHTMLText(title, msg, type) {
         closeOnClickOutside: !isErrorOrWarning,
         buttons: {
             confirm: {
-                text: "OK", // or whatever text you want
+                text: "OK",
                 value: true,
-                visible: isErrorOrWarning ? false : (empty(type) ? false : true),
-                className: "btn btn-success" // Add your class name here
+                visible: isErrorOrWarning,
+                className: className
             }
         }
     });
     $(".swal-button--confirm").removeClass("swal-button");
+    $(".swal-button-container").removeClass("swal-button-container");
     
 }
 
@@ -3906,24 +3917,34 @@ function closeFullscreenVideo() {
         if (originalURL) {
             history.pushState({}, null, originalURL);
         }
+    }else{
+        swal.close();
     }
 }
 
 function addCloseButtonInVideo() {
-    // If either function exists, add a close button inside videojs
-    if (typeof window.parent.closeFullscreenVideo === "function") {
-        if(typeof player !== 'object'){
-            setTimeout(function(){addCloseButtonInVideo();}, 2000);
-            return false;
+    try {
+        // If either function exists, add a close button inside videojs
+        if (typeof window.parent.closeFullscreenVideo === "function") {
+            if(typeof player !== 'object'){
+                setTimeout(function(){addCloseButtonInVideo();}, 2000);
+                return false;
+            }
+            addCloseButton($(player.el()));
         }
-        addCloseButton($(player.el()));
+    } catch (error) {
+        
     }
 }
 
 function addCloseButtonInPage() {
-    // If either function exists, add a close button inside videojs
-    if (typeof window.parent.closeFullscreenVideo === "function") {
-        addCloseButton($('body'));
+    try {
+        // If either function exists, add a close button inside videojs
+        if (typeof window.parent.closeFullscreenVideo === "function") {
+            addCloseButton($('body'));
+        }
+    } catch (error) {
+        
     }
 }
 
@@ -3935,10 +3956,17 @@ function addCloseButton(elementToAppend) {
         });
         closeButton.addClass('btn');
         closeButton.addClass('pull-right');
+        closeButton.addClass('hideOnPlayerUserInactive');
         closeButton.html('<i class="fas fa-times"></i>');
         // Add event listener
         closeButton.on('click', function() {
-            window.parent.closeFullscreenVideo();
+            if (window.self !== window.top) {
+                console.log('close parent iframe');
+                window.parent.closeFullscreenVideo();
+            }else{
+                console.log('close history.back');
+                window.history.back();
+            }
         });
         // Append the close button to the Video.js player
         elementToAppend.append(closeButton);

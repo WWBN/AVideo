@@ -78,7 +78,7 @@ function pwaIconsArray()
         if (!file_exists(getVideosDir() . $pwaIcon)) {
             im_resize($favicon['file'], getVideosDir() . $pwaIcon, $value, $value);
         }
-        $icon[] = pwaIcon(getCDN() . 'videos/' . $pwaIcon, 'image/png', "{$value}x{$value}");
+        $icon[] = pwaIcon(getURL('videos/' . $pwaIcon), 'image/png', "{$value}x{$value}");
     }
     //$icon[] = pwaIcon($favicon['url'], 'image/png', '180x180');
     //$icon[] = pwaIcon($faviconICO['url'], 'image/x-icon', '16x16,24x24,32x32,48x48,144x144');

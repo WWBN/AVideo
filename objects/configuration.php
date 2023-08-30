@@ -227,7 +227,7 @@ class Configuration extends ObjectYPT{
         if (file_exists($return['file'])) {
             convertImageToOG($return['file'], $destination);
         }
-        return getCDN() . "videos/cache/og_200X200.jpg";
+        return getURL("videos/cache/og_200X200.jpg");
     }
 
     public function setHead($head)

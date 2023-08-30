@@ -466,31 +466,33 @@ class PlayList extends ObjectYPT {
             if ($res !== false) {
                 foreach ($fullData as $row) {
                     $row = cleanUpRowFromDatabase($row);
+                    $images = Video::getImageFromFilename($row['filename'], $row['type']);
+                    if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
+                        $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
+                    }
+                    $row['images'] = $images;
+                    $row['videos'] = Video::getVideosPaths($row['filename'], true);
+                    $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
+                    $row['title'] = UTF8encode($row['title']);
+                    $row['description'] = UTF8encode(@$row['description']);
+                    if ($SubtitleSwitcher) {
+                        $row['subtitles'] = getVTTTracks($row['filename'], true);
+                        foreach ($row['subtitles'] as $value) {
+                            $row['subtitlesSRT'][] = convertSRTTrack($value);
+                        }
+                    }else{
+                        $row['subtitles'] = [];
+                    }
                     if($getExtraInfo){
                         if (!empty($_GET['isChannel'])) {
                             $row['tags'] = Video::getTags($row['id']);
                             $row['pluginBtns'] = AVideoPlugin::getPlayListButtons($playlists_id);
                             $row['humancreate'] = humanTiming(strtotime($row['cre']));
                         }
-                        $images = Video::getImageFromFilename($row['filename'], $row['type']);
-                        if (is_object($images) && !empty($images->posterLandscapePath) && !file_exists($images->posterLandscapePath) && !empty($row['serie_playlists_id'])) {
-                            $images = self::getRandomImageFromPlayList($row['serie_playlists_id']);
-                        }
-                        $row['images'] = $images;
-                        $row['videos'] = Video::getVideosPaths($row['filename'], true);
-                        $row['progress'] = Video::getVideoPogressPercent($row['videos_id']);
-                        $row['title'] = UTF8encode($row['title']);
-                        $row['description'] = UTF8encode(@$row['description']);
                         $row['tags'] = Video::getTags($row['videos_id']);
                         if (AVideoPlugin::isEnabledByName("VideoTags")) {
                             $row['videoTags'] = Tags::getAllFromVideosId($row['videos_id']);
                             $row['videoTagsObject'] = Tags::getObjectFromVideosId($row['videos_id']);
-                        }
-                        if ($SubtitleSwitcher) {
-                            $row['subtitles'] = getVTTTracks($row['filename'], true);
-                            foreach ($row['subtitles'] as $value) {
-                                $row['subtitlesSRT'][] = convertSRTTrack($value);
-                            }
                         }
                         if (empty($row['externalOptions'])) {
                             $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);

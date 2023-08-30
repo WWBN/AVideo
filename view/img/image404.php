@@ -1,74 +1,73 @@
 <?php
 
+include(dirname(__FILE__) . '/image404Raw.php');
+
+// Load configuration
 $configFile = dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $configFile;
 session_write_close();
 
-//$file = 'static2.gif';
-//$type = 'image/gif';
-$file = 'video-placeholder-gray.png';
+// Default image settings
+$file = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
 $type = 'image/png';
 
-$imageURL = $_SERVER["REQUEST_URI"];
-if (!empty($_GET['image'])) {
-    $imageURL = $_GET['image'];
-}
-if (empty($advancedCustom)) {
-    $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
-}
-// if the thumb is not ready yet, try to find the default image
-if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches) && !empty($matches[2])) {
-    $jpg = Video::getPathToFile("{$matches[2]}.jpg");
+// Fetch requested image URL
+$imageURL = !empty($_GET['image']) ? $_GET['image'] : $_SERVER["REQUEST_URI"];
+
+// Handle Thumbnails
+if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
+    $video_filename = $matches[2];
+    $jpg = Video::getPathToFile("{$video_filename}.jpg");
+
     if (file_exists($jpg)) {
         $file = $jpg;
-        if (preg_match('/_thumbsV2/', $imageURL)) {
-            _error_log("1 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL}");
-            convertThumbsIfNotExists($jpg, $global['systemRootPath'] . $imageURL);
-        } else {
-            _error_log("2 Image not found for {$imageURL} we are using {$jpg} instead ");
-        }
         $type = 'image/jpg';
-        //header("HTTP/1.0 404 Not Found");
-        header('Content-Type:' . $type);
-        header('Content-Length: ' . filesize($file));
-        readfile($file);
-        exit;
+
+        if (strpos($imageURL, '_thumbsV2') !== false) {
+            $imgDestination = "{$global['systemRootPath']}{$imageURL}";
+            if(!file_exists($imgDestination)){
+                _error_log("Converting thumbnail: {$jpg} to {$imgDestination}");
+                convertThumbsIfNotExists($jpg, $imgDestination);
+            }
+        }
+    } else {
+        _error_log("Thumbnail image not found: {$imageURL}");
     }
-} else if (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches) && !empty($matches[2])) {
-    $jpg = Video::getPathToFile("{$matches[2]}.jpg");
+// Handle Roku Images
+} elseif (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches)) {
+    $video_filename = $matches[2];
+    $jpg = Video::getPathToFile("{$video_filename}.jpg");
+
     if (file_exists($jpg)) {
         $file = $jpg;
-        if (preg_match('/_roku/', $imageURL)) {
-            _error_log("3 Image not found for {$imageURL} converting $jpg,{$global['systemRootPath']}{$imageURL} ");
-            convertImageToRoku($jpg, $global['systemRootPath'] . $imageURL);
-            //convertImageIfNotExists($jpg, $global['systemRootPath'] . $imageURL, $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
-        } else {
-            _error_log("4 Image not found for {$imageURL} we are using {$jpg} instead ");
-        }
         $type = 'image/jpg';
-        //header("HTTP/1.0 404 Not Found");
-        header('Content-Type:' . $type);
-        header('Content-Length: ' . filesize($file));
-        readfile($file);
-        exit;
+
+        if (strpos($imageURL, '_roku') !== false) {
+            $rokuDestination = "{$global['systemRootPath']}{$imageURL}";            
+            if(!file_exists($rokuDestination)){
+                _error_log("Converting for Roku: {$jpg} to {$rokuDestination}");
+                convertImageToRoku($jpg, $rokuDestination);
+            }
+        }
+
+    } else {
+        _error_log("Roku image not found: {$imageURL}");
     }
+
+} else {
+    _error_log("Unmatched image request: {$imageURL}");
 }
 
-if (empty($_GET['notFound'])) {
+// If a 404 image needs to be shown, redirect to it
+if (empty($_GET['notFound']) && ImagesPlaceHolders::isDefaultImage($file)) {
     header("Location: " . getCDN() . "view/img/image404.php?notFound=1");
     exit;
 }
 
-/*
-  header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-  header("Cache-Control: post-check=0, pre-check=0", false);
-  header("Pragma: no-cache");
-  header("Pragma-directive: no-cache");
-  header("Cache-directive: no-cache");
-  header("Expires: 0");
- *
- */
+// Serve the final image
 header("HTTP/1.0 404 Not Found");
 header('Content-Type:' . $type);
 header('Content-Length: ' . filesize($file));
 readfile($file);
+
+?>

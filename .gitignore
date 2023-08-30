@@ -1,6 +1,7 @@
 /.scannerwork/
 /YouPHPTube.code-workspace
 /git.php
+/imageToWebp.php
 /iptvsource_one_one.csv
 /nbproject/
 /nbproject/private/
@@ -94,3 +95,4 @@ test.php
 /plugin/YPTWebRTC/
 plugin/CustomizeUser/getMyAccount.php
 *.rnd
+/plugin/Gift/

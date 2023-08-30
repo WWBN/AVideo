@@ -8,8 +8,42 @@ if (!isCommandLineInterface()) {
 
 ob_end_flush();
 
-$file = Video::getStoragePath().'mysqldump-'.date('YmdHis').'.sql';
+$prefix = 'mysqldump';
+if(!empty($restore)){
+    $prefix = 'mysqldumpBackup';
+}
 
-passthru("mysqldump --opt -u '{$mysqlUser}' -p'{$mysqlPass}' -h {$mysqlHost} {$mysqlDatabase} > {$file}");
+$file = Video::getStoragePath().$prefix.'-'.date('YmdHis').'.sql';
+$excludeTables = ['CachesInDB', 'audit'];  // tables to exclude from the dump
 
-echo PHP_EOL."Dump file created at {$file}".PHP_EOL;
+// Create a connection to the database to retrieve all table names
+$connection = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort);
+
+if ($connection->connect_error) {
+    die("Connection failed: " . $connection->connect_error);
+}
+
+$res = sqlDAL::readSql("SHOW TABLES");
+$row = sqlDAL::fetchAllAssoc($res);
+foreach ($row as $value) {    
+    $firstElement = reset($value);
+    if (!in_array($firstElement, $excludeTables)) {
+        $tables[] = $firstElement;
+    }
+}
+
+// Use the mysqldump command to get the database dump
+$dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user=$mysqlUser --password=$mysqlPass "
+             . "--default-character-set=utf8mb4 $mysqlDatabase $tableList > {$file}";
+
+// Execute the command
+system($dumpCommand, $output);
+
+// Check the result
+if ($output !== 0) {
+    die("Error occurred while taking the database dump.");
+}
+
+echo "Database dumped successfully to {$file}".PHP_EOL;
+
+?>

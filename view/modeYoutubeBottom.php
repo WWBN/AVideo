@@ -14,7 +14,7 @@ if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
         $imgw = $data[0];
         $imgh = $data[1];
     } elseif ($video['type'] == "audio") {
-        $img = "" . getCDN() . "view/img/audio_wave.jpg";
+        $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
     }
     $type = 'video';
     if ($video['type'] === 'pdf') {
@@ -26,7 +26,7 @@ if ((empty($video) || !is_array($video) ) && !empty($_GET['videos_id'])) {
     }
     $images = Video::getImageFromFilename($video['filename'], $type);
     $poster = $images->poster;
-    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+    if (!empty($images->posterPortrait) && !ImagesPlaceHolders::isDefaultImage($images->posterPortrait)) {
         $img = $images->posterPortrait;
         $data = getimgsize($source['path']);
         $imgw = $data[0];

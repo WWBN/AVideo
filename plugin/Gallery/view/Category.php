@@ -116,7 +116,7 @@ if ((!empty($videos)) || (!empty($obj) && $obj->SubCategorys)) {
                                                 break;
                                             }
                                         } else {
-                                            $poster = $global['webSiteRootURL'] . "view/img/notfound.jpg";
+                                            $poster = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
                                             ?>
                                             <img src="<?php echo $poster; ?>" alt="" data-toggle="tooltip" title="<?php echo $description; ?>" class="thumbsJPG img img-responsive" id="thumbsJPG<?php echo $cat['id']; ?>" />
                                             <?php

@@ -68,6 +68,7 @@ if (!empty($head_videos_id)) {
     $tags = Video::getSeoTags($head_videos_id);
     echo $tags['head'];
 }
+
 if(!isCommandLineInterface()){
     $swRegister = getURL('view/js/swRegister.js');
     $swRegister = addQueryStringParameter($swRegister, 'webSiteRootURL', $global['webSiteRootURL']);
@@ -92,13 +93,14 @@ if(!isCommandLineInterface()){
 <?php
 if (!isBot()) {
 ?>
-    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
-    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"   />
+    <script src="<?php echo getURL('locale/function.js.php'); ?>&lang=<?php echo revertLangString(getLanguage()); ?>" ></script>
 <?php
 }
 if (!isVideo()) {
@@ -114,7 +116,7 @@ if (!isVideo()) {
 }
 if (empty($advancedCustom->disableAnimations)) {
 ?>
-    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css" media="print" onload="this.media = 'all'" />
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css"  />
 <?php
 }
 include $global['systemRootPath'] . 'view/include/bootstrap.css.php';

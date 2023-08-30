@@ -6,3 +6,10 @@ function updateYPTWallet() {
         }
     });
 }
+
+function socketWalletAddBalance(json){
+    console.log('socketWalletAddBalance', json);
+    walletBalance = json.balance;
+    console.log('socketWalletAddBalance walletBalance', walletBalance);
+    $('.walletBalance').text(walletBalance);
+}

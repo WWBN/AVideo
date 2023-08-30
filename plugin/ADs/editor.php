@@ -152,7 +152,7 @@ if ($is_regular_user) {
                                     }
 
                                     function restartForm<?php echo $value[0]; ?>() {
-                                        <?php echo $croppie1['restartCroppie'] . "('" . getCDN() . "view/img/transparent1px.png');"; ?>
+                                        <?php echo $croppie1['restartCroppie'] . "('" . getURL("view/img/transparent1px.png")."');"; ?>
                                         $('#inputAdsURL<?php echo $value[0]; ?>').val('');
                                     }
 

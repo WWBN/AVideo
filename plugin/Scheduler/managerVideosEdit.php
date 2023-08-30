@@ -1,5 +1,6 @@
 <?php
-if (Permissions::canAdminVideos()) {
+$obj = AVideoPlugin::getDataObjectIfEnabled('Scheduler');
+if (empty($obj->disableReleaseDate)) {
     ?>
     <br>
     <div class="clearfix"></div>       

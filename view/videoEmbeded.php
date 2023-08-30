@@ -87,7 +87,7 @@ if (empty($poster)) {
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
-            $poster = "" . getCDN() . "view/img/audio_wave.jpg";
+            $poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
         }
     }
 }
@@ -231,10 +231,6 @@ if (User::hasBlockedUser($video['users_id'])) {
             background-image: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
             overflow: hidden;
 
-        }
-
-        .vjs-playing.vjs-user-inactive #topInfo {
-            display: none;
         }
 
         #topInfo a {
@@ -486,10 +482,11 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
     <?php
+    //exit;
     }
     if (empty($disableEmbedTopInfo)) {
     ?>
-        <div id="topInfoTemplate" style="display: none;">
+        <div id="topInfoTemplate" class="hideOnPlayerUserInactive" style="display: none;">
             <a href="<?php echo $url; ?>" target="_blank">
                 <img src="<?php echo $photo; ?>" class="img img-responsive img-circle" style="" alt="User Photo">
                 <div class="topInfoTitle">

@@ -37,7 +37,7 @@ AVideoPlugin::loadPlugin("PlayLists");
                 </div>
             </div>
         </div>
-        <script type="text/javascript" src="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.js"></script>
+        <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
         <script src="<?php echo getCDN(); ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';

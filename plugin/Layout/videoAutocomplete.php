@@ -9,7 +9,7 @@ if (!empty($default_videos_id)) {
 
 if (empty($name)) {
     $name = '';
-    $video_image = getURL('img/notfound.jpg');
+    $video_image = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
     $default_videos_id = 0;
 }
 ?>
@@ -56,7 +56,7 @@ if (empty($name)) {
     function resetvideoAutocomplete<?php echo $id; ?>() {
         $("#videoAutocomplete<?php echo $id; ?>").val('');
         $("#<?php echo $id; ?>").val(0);
-        var photoURL = webSiteRootURL + 'img/notfound.jpg'
+        var photoURL = '<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>'
         $("#videoAutocomplete-img<?php echo $id; ?>").attr("src", photoURL);
     }
 
@@ -93,7 +93,7 @@ if (empty($name)) {
             select: function (event, ui) {
                 $("#videoAutocomplete<?php echo $id; ?>").val(ui.item.title);
                 $("#<?php echo $id; ?>").val(ui.item.id);
-                var photoURL = webSiteRootURL + 'img/notfound.jpg'
+                var photoURL = '<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>'
                 if (ui.item.videosURL.jpg.url) {
                     photoURL = ui.item.videosURL.jpg.url;
                 }

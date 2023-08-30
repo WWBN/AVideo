@@ -4,7 +4,7 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 setIsConfirmationPage();
 $images = Video::getImageFromFilename($video['filename']);
 $img = $images->poster;
-if (!empty($images->posterPortrait) && strpos($images->posterPortrait, 'notfound_portrait') === false) {
+if (!empty($images->posterPortrait) && !ImagesPlaceHolders::isDefaultImage($images->posterPortrait)) {
     $img = $images->posterPortrait;
 }
 $imgw = 1280;

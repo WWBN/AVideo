@@ -385,15 +385,6 @@ class YPTWallet extends PluginAbstract
 
         $wallet = $this->getOrCreateWallet($users_id);
         $balance = $wallet->getBalance();
-        sendSocketMessageToUsers_id(
-            array(
-                'value' => $value,
-                'balance' => $balance,
-                'balance_formated' => YPTWallet::formatCurrency($balance, false)
-            ),
-            $users_id,
-            'socketWalletAddBalance'
-        );
         _error_log("YPTWallet::addBalance AFTER (user_id={$users_id}) (balance={$balance})");
         //_error_log("YPTWallet::addBalance $wallet_id, $value, $description, $json_data");
     }
@@ -786,7 +777,7 @@ class YPTWallet extends PluginAbstract
         global $global;
         $obj = $this->getDataObject();
         $js = "";
-        $js .= "<script src=\"" . getCDN() . "plugin/YPTWallet/script.js\"></script>";
+        $js .= "<script src=\"" . getURL('plugin/YPTWallet/script.js') . "\"></script>";
 
         return $js;
     }

@@ -41,7 +41,7 @@
         "symfony/http-client": "^5.3",
         "nyholm/psr7": "^1.4",
         "norkunas/onesignal-php-api": "^2.7",
-        "stripe/stripe-php": "^10.6",
+        "stripe/stripe-php": "^12.0",
         "symfony/translation": "^5.3",
         "amphp/amp": "^2.6",
         "scssphp/scssphp": "^1.11",

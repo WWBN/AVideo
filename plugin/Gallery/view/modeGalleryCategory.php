@@ -34,17 +34,15 @@ if (empty($categories)) {
 $_REQUEST['current'] = 1;
 $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
+<!-- modeGalleryCategory start -->
 <div class="categoriesContainerItem">
     <?php
     $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
-        $setCacheName = "include{$_cat['clean_name']}";
-        $contents = ObjectYPT::getCache($setCacheName, 300);
-        if(empty($contents)){
-            $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
-            ['_cat'=>$_cat, 'obj'=>$obj]);
-            ObjectYPT::setCache($setCacheName, $contents);
-        }
+        $setCacheName = "include{$_cat['id']}";
+        //var_dump($_cat, $setCacheName);exit;
+        $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
+        ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);
         echo $contents;
     }
     TimeLogEnd($timeLogName, __LINE__, 1);
@@ -57,6 +55,7 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
     echo getPagination($totalPages, $page, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem");
     ?>
 </div>
+<!-- modeGalleryCategory end -->
 <?php
 $_POST['sort'] = $sort;
 ?>

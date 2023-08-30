@@ -349,10 +349,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                             ?>
                                 <div class="tab-pane  <?php echo $active; ?>" id="channelLive">
                                     <?php
-                                    //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
-                                    //var_dump($screenColsLarge, $screenColsMedium);exit;
-                                    //createGallerySection($videos, $crc = "", $get = array(), $ignoreAds = false, $screenColsLarge = 0, $screenColsMedium = 0, $screenColsSmall = 0, $screenColsXSmall = 0, $galeryDetails = true)
-                                    createGallerySection($liveVideos);
+                                    createGallerySection($liveVideos, false);
                                     ?>
                                 </div>
                             <?php
@@ -437,7 +434,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                             <div class="row">
                                                 <?php
                                                 TimeLogEnd($timeLog, __LINE__);
-                                                createGallerySection($uploadedVideos, "", $get);
+                                                createGallerySection($uploadedVideos, false);
                                                 TimeLogEnd($timeLog, __LINE__);
                                                 ?>
                                             </div>
@@ -479,7 +476,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                             <div class="row">
                                                 <?php
                                                 TimeLogEnd($timeLog, __LINE__);
-                                                createGallerySection($uploadedArticles, "", $get);
+                                                createGallerySection($uploadedArticles, false);
                                                 TimeLogEnd($timeLog, __LINE__);
                                                 ?>
                                             </div>
@@ -522,7 +519,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                             <div class="row">
                                                 <?php
                                                 TimeLogEnd($timeLog, __LINE__);
-                                                createGallerySection($uploadedAudio, "", $get);
+                                                createGallerySection($uploadedAudio, false);
                                                 TimeLogEnd($timeLog, __LINE__);
                                                 ?>
                                             </div>

@@ -417,10 +417,11 @@ Allow: /plugin/Gallery/*.js
 Allow: /plugin/YouPHPFlix2/*.png
 Allow: /plugin/Live/*.css
 Allow: /plugin/Live/*.js
+Allow: /plugin/LiveLink/?*
 Allow: /plugin/*.css
 Allow: /plugin/*.js
-Allow: .js
-Allow: .css
+Allow: *.js
+Allow: *.css
 Disallow: /user
 Disallow: /plugin
 Disallow: /mvideos
@@ -432,8 +433,8 @@ Disallow: /subscribes
 Disallow: /update
 Disallow: /locale
 Disallow: /objects/*
+Disallow: /view/?lang=*
 Allow: /plugin/Live/?*
-Allow: /plugin/LiveLink/?*
 Allow: /plugin/PlayLists/*.css
 Allow: /plugin/PlayLists/*.js
 Allow: /plugin/TopMenu/*.css
@@ -445,10 +446,12 @@ Allow: /plugin/Gallery/*.js
 Allow: /plugin/YouPHPFlix2/*.png
 Allow: /plugin/Live/*.css
 Allow: /plugin/Live/*.js
+Allow: /plugin/LiveLink/?*
 Allow: /plugin/*.css
 Allow: /plugin/*.js
-Allow: .js
-Allow: .css";
+Allow: *.js
+Allow: *.css
+        ";
         $obj->robotsTXT = $o;
         self::addDataObjectHelper('robotsTXT', 'robots.txt file content', 'robots.txt is a plain text file that follows the Robots Exclusion Standard. A robots.txt file consists of one or more rules. Each rule blocks (or allows) access for a given crawler to a specified file path in that website.');
         
@@ -903,6 +906,6 @@ $global['social_medias'] = array(
     'LinkedIn' => new SocialMedias('fab fa-linkedin-in', ''),
     'Wordpress' => new SocialMedias('fab fa-wordpress-simple', ''),
     'Pinboard' => new SocialMedias('fas fa-thumbtack', ''),
-    'Gab' => new SocialMedias('', getURL('view/img/gab.png')),
-    'CloutHub' => new SocialMedias('', getURL('view/img/cloutHub.png')),
+    'Gab' => new SocialMedias('', getURL('view/img/social/gab.png')),
+    'CloutHub' => new SocialMedias('', getURL('view/img/social/cloutHub.png')),
 );

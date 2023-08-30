@@ -137,7 +137,7 @@ if (!User::isAdmin()) {
                     <div class="row">
                         <h3><?php echo __("Add Videos into Campaign"); ?> - <strong id="campaignName"></strong></h3>
                         <div class="col-md-4">
-                            <img id="inputVideo-poster" src="<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg" class="ui-state-default img-responsive" alt="">
+                            <img id="inputVideo-poster" src="<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>" class="ui-state-default img-responsive" alt="">
                         </div>
                         <div class="col-md-8">
                             <input id="inputVideo" placeholder="<?php echo __("Video"); ?>" class="form-control">
@@ -237,7 +237,7 @@ if (!User::isAdmin()) {
     var tableLinks;
     var videoUploadModalinterval;
     function clearVideoForm() {
-        $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
+        $('#inputVideo-poster').attr('src', "<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>");
         $('#inputVideo').val('');
         $('#inputVideoClean').val('');
         $('#inputVideoURI').val('');

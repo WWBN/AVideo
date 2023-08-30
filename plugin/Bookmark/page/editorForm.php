@@ -84,6 +84,6 @@
 
     function clearBookmarkForm() {
         $('#bookmarkForm')[0].reset();
-        $('#inputVideo-poster').attr('src','<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg');
+        $('#inputVideo-poster').attr('src','<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>');
     }
 </script>

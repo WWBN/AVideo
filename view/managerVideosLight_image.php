@@ -16,7 +16,7 @@ if (defaultIsPortrait()) {
 } else {
     $width = 1280;
     $height = 720;
-    $path = empty($images->posterLandscapePath) ? "{$global['systemRootPath']}view/img/notfound.jpg" : $images->posterLandscapePath;
+    $path = empty($images->posterLandscapePath) ? ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH) : $images->posterLandscapePath;
     $portreait = 0;
 }
 
