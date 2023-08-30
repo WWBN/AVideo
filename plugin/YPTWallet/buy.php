@@ -113,6 +113,7 @@ if (empty($paymentPanel)) {
 
 $colSize = 12 / count($paymentOptions);
 
+//var_dump($colSize, $paymentOptions);exit;
 ?>
 <div class="container buy">
     <div class="panel panel-default">
