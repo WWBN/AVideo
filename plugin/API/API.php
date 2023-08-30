@@ -227,13 +227,15 @@ class API extends PluginAbstract
             $type = $value[0];
             $desktopGlobal = false;
             $mobileGlobal = false;
+            $desktop = ADs::getAds($type, $users_id);
             if (empty($desktop)) {
                 $desktopGlobal = true;
-                $desktop = ADs::getAds($type, $users_id);
+                $desktop = ADs::getAds($type, false);
             }
+            $mobile = ADs::getAds($type . 'Mobile', $users_id);
             if (empty($mobile)) {
                 $mobileGlobal = true;
-                $mobile = ADs::getAds($type . 'Mobile', $users_id);
+                $mobile = ADs::getAds($type . 'Mobile', false);
             }
             //var_dump($desktop);exit;
             $desktopURLs = array();
