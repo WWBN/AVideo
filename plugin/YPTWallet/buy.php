@@ -59,6 +59,8 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
     }else{
         unset($paymentOptions['ppv']);
     }
+}else{
+    unset($paymentOptions['ppv']);
 }
 
 // Subscription
@@ -105,6 +107,8 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
     }else{
         unset($paymentOptions['sub']);
     }
+}else{
+    unset($paymentOptions['sub']);
 }
 
 if (empty($paymentPanel)) {
