@@ -46,62 +46,7 @@ class Scheduler extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "5.0";
-    }
-
-    public function updateScript()
-    {
-        global $global;
-        if (AVideoPlugin::compareVersion($this->getName(), "2.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV2.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV3.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.1") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.2") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.2.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.3") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.3.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSqlTry(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.4") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV4.4.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSqlTry(trim($value));
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "5.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Scheduler/install/updateV5.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSqlTry(trim($value));
-            }
-        }
-        return true;
+        return "5.1";
     }
 
     public function getEmptyDataObject()

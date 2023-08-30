@@ -1642,13 +1642,13 @@ function avideoResponse(response) {
             if (typeof response.error === 'string') {
                 response.msg = response.error;
             } else {
-                response.msg = 'Error';
+                response.msg = __('Error');
             }
         }
         avideoAlertError(response.msg);
     } else {
         if (!response.msg) {
-            response.msg = 'Success';
+            response.msg =  __('Success');
         }
         if (response.warning) {
             avideoToastWarning(response.msg);

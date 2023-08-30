@@ -36,8 +36,7 @@ CREATE TABLE IF NOT EXISTS `emails_messages` (
   `subject` VARCHAR(255) NOT NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE INDEX `unique_msg` (`message`(255) ASC))
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `email_to_user` (

@@ -34,7 +34,75 @@ abstract class PluginAbstract {
     }
 
     public function updateScript() {
-        return true;
+        global $global;
+        $pluginName = $this->getName();
+
+        $pattern = '/updateV([\d\.]+)\.sql$/'; // This pattern will match files like "updateV2.0.sql" and capture the version "2.0"
+
+        $dir = $global['systemRootPath'] . "plugin/{$pluginName}/install/";
+        if(is_dir($dir)){
+            $files = scandir($dir);        
+        
+            $versions = [];
+            
+            foreach ($files as $file) {
+                if (preg_match($pattern, $file, $matches)) {
+                    $versions[] = [
+                        'version' => $matches[1], // This captures the version number
+                        'filename' => $file       // This captures the entire filename
+                    ];
+                }
+            }
+            
+            // Sort by version (optional)
+            usort($versions, function ($a, $b) {
+                return version_compare($a['version'], $b['version']);
+            });
+            
+            // Iterate through sorted files
+            foreach ($versions as $entry) {
+                if (AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0) {
+                    _error_log("Update plugin {$pluginName} to version {$entry['version']}");
+                    $filename = $dir . '/' . $entry['filename'];
+                    $sqls = file_get_contents($filename);
+                    $sqlParts = explode(";", $sqls);
+                    foreach ($sqlParts as $value) {
+                        sqlDal::writeSqlTry(trim($value));
+                    }
+                }
+            }$files = scandir($dir);        
+        
+            $versions = [];
+            
+            foreach ($files as $file) {
+                if (preg_match($pattern, $file, $matches)) {
+                    $versions[] = [
+                        'version' => $matches[1], // This captures the version number
+                        'filename' => $file       // This captures the entire filename
+                    ];
+                }
+            }
+            
+            // Sort by version (optional)
+            usort($versions, function ($a, $b) {
+                return version_compare($a['version'], $b['version']);
+            });
+            
+            // Iterate through sorted files
+            foreach ($versions as $entry) {
+                if (AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0) {
+                    _error_log("Update plugin {$pluginName} to version {$entry['version']}");
+                    $filename = $dir . '/' . $entry['filename'];
+                    $sqls = file_get_contents($filename);
+                    $sqlParts = explode(";", $sqls);
+                    foreach ($sqlParts as $value) {
+                        sqlDal::writeSqlTry(trim($value));
+                    }
+                }
+            }
+        }
+        
+        return true; 
     }
 
     public function getFooterCode() {
