@@ -44,8 +44,8 @@ if (!empty($evideo)) {
     require_once $global['systemRootPath'] . 'objects/subscribe.php';
     require_once $global['systemRootPath'] . 'objects/functions.php';
 
-    $img = "" . getURL("view/img/notfound.jpg");
-    $poster = "" . getURL("view/img/notfound.jpg");
+    $img = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
+    $poster =  $img;
     $imgw = 1280;
     $imgh = 720;
 
@@ -190,7 +190,7 @@ if (!empty($evideo)) {
     if (!empty($video) && $video['type'] == "video") {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
-        $poster = "" . getURL("view/img/audio_wave.jpg");
+        $poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
     }
 
     if (!empty($video)) {
@@ -201,7 +201,7 @@ if (!empty($evideo)) {
             $imgw = $data[0];
             $imgh = $data[1];
         } elseif ($video['type'] == "audio") {
-            $img = "" . getURL("view/img/audio_wave.jpg");
+            $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
         }
         $type = 'video';
         if ($video['type'] === 'pdf') {
@@ -213,7 +213,7 @@ if (!empty($evideo)) {
         }
         $images = Video::getImageFromFilename($video['filename'], $type);
         $poster = isMobile() ? $images->thumbsJpg : $images->poster;
-        if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+        if (!empty($images->posterPortrait) && !ImagesPlaceHolders::isDefaultImage($images->posterPortrait)) {
             $img = $images->posterPortrait;
             $data = getimgsize($source['path']);
             $imgw = $data[0];
@@ -222,7 +222,7 @@ if (!empty($evideo)) {
             $img = isMobile() ? $images->thumbsJpg : $images->poster;
         }
     } else {
-        $poster = "" . getURL("view/img/notfound.jpg");
+        $poster = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
     }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');

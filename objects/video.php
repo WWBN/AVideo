@@ -4037,7 +4037,7 @@ if (!class_exists('Video')) {
             //self::_moveSourceFilesToDir($filename);
             $paths = self::getPaths($filename);
             if ($type == '_thumbsSmallV2.jpg' && empty($advancedCustom->usePreloadLowResolutionImages)) {
-                return ['path' => $global['systemRootPath'] . 'view/img/loading-gif.png', 'url' => getURL('view/img/loading-gif.png')];
+                return ['path' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH), 'url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL)];
             }
 
             TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
@@ -4458,7 +4458,7 @@ if (!class_exists('Video')) {
                 return $matches[1];
             }
 
-            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound'];
+            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound', '.chapters'];
 
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
@@ -4959,7 +4959,7 @@ if (!class_exists('Video')) {
                 $relativePath = str_replace($global['systemRootPath'], '', $rokuImage);
                 return getURL($relativePath);
             }
-            return getURL("view/img/notfound.jpg");
+            return ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
         }
 
         public static function clearImageCache($filename, $type = "video")
@@ -4982,7 +4982,7 @@ if (!class_exists('Video')) {
             if (!empty($_getImageFromFilename_[$cacheFileName])) {
                 $obj = $_getImageFromFilename_[$cacheFileName];
             } else {
-                $cache = ObjectYPT::getCache($cacheFileName, 0, false, true, true);
+                //$cache = ObjectYPT::getCache($cacheFileName, 0, false, true, true);
                 if (!empty($cache)) {
                     return $cache;
                 }
@@ -5037,34 +5037,38 @@ if (!class_exists('Video')) {
                     convertImageIfNotExists($jpegPortraitThumbsSmall['path'], $jpegPortraitThumbsSmall['path'], $advancedCustom->thumbsWidthPortrait / 2, $advancedCustom->thumbsHeightPortrait / 2, true);
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
-                    if ($type == "article") {
-                        $obj->posterPortrait = "" . getURL("view/img/article_portrait.png");
-                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/article_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getURL("view/img/article_portrait.png");
-                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/article_portrait.png");
-                    } elseif ($type == "pdf") {
-                        $obj->posterPortrait = "" . getURL("view/img/pdf_portrait.png");
-                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/pdf_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getURL("view/img/pdf_portrait.png");
-                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/pdf_portrait.png");
-                    } /* elseif ($type == "image") {
-                      $obj->posterPortrait = "".getCDN()."view/img/image_portrait.png";
-                      $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/image_portrait.png";
-                      $obj->posterPortraitThumbs = "".getCDN()."view/img/image_portrait.png";
-                      $obj->posterPortraitThumbsSmall = "".getCDN()."view/img/image_portrait.png";
-                      } */ elseif ($type == "zip") {
-                        $obj->posterPortrait = "" . getURL("view/img/zip_portrait.png");
-                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/zip_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getURL("view/img/zip_portrait.png");
-                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/zip_portrait.png");
+                    if ($type == Video::$videoTypeArticle) {
+                        $obj->posterPortrait = ImagesPlaceHolders::getArticlesPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getArticlesLandscape(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
+                    } elseif ($type == Video::$videoTypePdf) {
+                        $obj->posterPortrait = ImagesPlaceHolders::getPdfPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getPdfPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
+                    } elseif ($type == Video::$videoTypeZip) {
+                        $obj->posterPortrait =ImagesPlaceHolders::getZipPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getZipPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
+                    } elseif ($type == Video::$videoTypeImage) {
+                        $obj->posterPortrait = ImagesPlaceHolders::getImageNotFoundPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getImageNotFoundPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
+                    } elseif ($type == Video::$videoTypeAudio || $type == Video::$videoTypeLinkAudio) {
+                        $obj->posterPortrait = ImagesPlaceHolders::getAudioPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getAudioPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                     } else {
-                        $obj->posterPortrait = "" . getURL("view/img/notfound_portrait.jpg");
-                        $obj->posterPortraitPath = "{$global['systemRootPath']}view/img/notfound_portrait.png";
-                        $obj->posterPortraitThumbs = "" . getURL("view/img/notfound_portrait.jpg");
-                        $obj->posterPortraitThumbsSmall = "" . getURL("view/img/notfound_portrait.jpg");
+                        $obj->posterPortrait = ImagesPlaceHolders::getVideoPlaceholderPortrait(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->posterPortraitPath = ImagesPlaceHolders::getVideoPlaceholderPortrait(ImagesPlaceHolders::$RETURN_PATH);
+                        $obj->posterPortraitThumbs = $obj->posterPortrait;
+                        $obj->posterPortraitThumbsSmall = $obj->posterPortrait;
                     }
                 }
-
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 if (file_exists($jpegSource['path'])) {
                     $obj->poster = $jpegSource['url'];
@@ -5074,36 +5078,36 @@ if (!class_exists('Video')) {
 
                     TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 } else {
-                    if ($type == "article") {
-                        $obj->poster = "" . getURL("view/img/article.png");
-                        $obj->thumbsJpg = "" . getURL("view/img/article.png");
-                        $obj->thumbsJpgSmall = "" . getURL("view/img/article.png");
-                    } elseif ($type == "pdf") {
-                        $obj->poster = "" . getURL("view/img/pdf.png");
-                        $obj->thumbsJpg = "" . getURL("view/img/pdf.png");
-                        $obj->thumbsJpgSmall = "" . getURL("view/img/pdf.png");
-                    } elseif ($type == "image") {
-                        $obj->poster = "" . getURL("view/img/image.png");
-                        $obj->thumbsJpg = "" . getURL("view/img/image.png");
-                        $obj->thumbsJpgSmall = "" . getURL("view/img/image.png");
-                    } elseif ($type == "zip") {
-                        $obj->poster = "" . getURL("view/img/zip.png");
-                        $obj->thumbsJpg = "" . getURL("view/img/zip.png");
-                        $obj->thumbsJpgSmall = "" . getURL("view/img/zip.png");
-                    } elseif (($type !== "audio") && ($type !== "linkAudio")) {
+                    if ($type == Video::$videoTypeArticle) {
+                        $obj->poster = ImagesPlaceHolders::getArticlesLandscape(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->thumbsJpg = $obj->poster;
+                        $obj->thumbsJpgSmall = $obj->poster;
+                    } elseif ($type == Video::$videoTypePdf) {
+                        $obj->poster = ImagesPlaceHolders::getPdfLandscape(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->thumbsJpg = $obj->poster;
+                        $obj->thumbsJpgSmall = $obj->poster;
+                    } elseif ($type == Video::$videoTypeImage) {
+                        $obj->poster = ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->thumbsJpg = $obj->poster;
+                        $obj->thumbsJpgSmall = $obj->poster;
+                    } elseif ($type == Video::$videoTypeZip) {
+                        $obj->poster = ImagesPlaceHolders::getZipLandscape(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->thumbsJpg = $obj->poster;
+                        $obj->thumbsJpgSmall = $obj->poster;
+                    } elseif (($type !== Video::$videoTypeAudio) && ($type !== Video::$videoTypeLinkAudio)) {
                         if (file_exists($spectrumSource['path'])) {
                             $obj->poster = $spectrumSource['url'];
                             $obj->thumbsJpg = $spectrumSource['url'];
                             $obj->thumbsJpgSmall = $spectrumSource['url'];
                         } else {
-                            $obj->poster = "" . getURL("view/img/notfound.jpg");
-                            $obj->thumbsJpg = "" . getURL("view/img/notfoundThumbs.jpg");
-                            $obj->thumbsJpgSmall = "" . getURL("view/img/notfoundThumbsSmall.jpg");
+                            $obj->poster = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
+                            $obj->thumbsJpg = $obj->poster;
+                            $obj->thumbsJpgSmall = $obj->poster;
                         }
                     } else {
-                        $obj->poster = "" . getURL("view/img/audio_wave.jpg");
-                        $obj->thumbsJpg = "" . getURL("view/img/audio_waveThumbs.jpg");
-                        $obj->thumbsJpgSmall = "" . getURL("view/img/audio_waveThumbsSmall.jpg");
+                        $obj->poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
+                        $obj->thumbsJpg = $obj->poster;
+                        $obj->thumbsJpgSmall = $obj->poster;
                     }
                 }
 
@@ -5119,6 +5123,7 @@ if (!class_exists('Video')) {
                     $obj->thumbsGif = false;
                 }
 
+                //var_dump(__LINE__, $obj->poster);
                 ObjectYPT::setCache($cacheFileName, $obj);
                 //$cache = ObjectYPT::getCache($cacheFileName, 0);
                 //_error_log("getImageFromFilename_($filename, $type) [$cacheFileName] ".!empty($cache).' ' .json_encode($response));
@@ -5181,7 +5186,7 @@ if (!class_exists('Video')) {
             } else if (!empty($return->posterPortrait)) {
                 $return->default = ['url' => $return->posterPortrait, 'path' => $return->posterPortraitPath];
             } else {
-                $return->default = ['url' => getURL("view/img/notfoundThumbs.jpg"), 'path' => "{$global['systemRootPath']}view/img/notfoundThumbs.jpg"];
+                $return->default = ['url' => ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL), 'path' => ImagesPlaceHolders::getVideoPlaceholder()];
             }
 
             return $return;

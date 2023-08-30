@@ -495,7 +495,7 @@ class API extends PluginAbstract
         if (is_array($tags)) {
             foreach ($tags as $key => $row) {
                 $tags[$key]['videos'] = array();
-                $tags[$key]['photo'] = $global['webSiteRootURL'] . 'view/img/notfound.jpg';
+                $tags[$key]['photo'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
                 if (!empty($row['subscription'])) {
                     $videos = TagsHasVideos::getAllVideosFromTagsId($row['id']);
                     $tags[$key]['videos'] = PlayLists::videosToPlaylist($videos, @$parameters['index'], !empty($parameters['audioOnly']));

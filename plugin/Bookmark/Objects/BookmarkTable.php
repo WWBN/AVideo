@@ -29,7 +29,7 @@ class BookmarkTable extends ObjectYPT {
     }
 
     function setTimeInSeconds($timeInSeconds) {
-        $this->timeInSeconds = $timeInSeconds;
+        $this->timeInSeconds = floatval($timeInSeconds);
     }
 
     function setName($name) {
@@ -43,6 +43,7 @@ class BookmarkTable extends ObjectYPT {
     static function deleteAllFromVideo($videos_id) {
         global $global;
         if (!empty($videos_id)) {
+            Bookmark::videoToVtt($videos_id);
             $sql = "DELETE FROM " . static::getTableName() . " ";
             $sql .= " WHERE videos_id = ?";
             $global['lastQuery'] = $sql;
@@ -64,9 +65,7 @@ class BookmarkTable extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
     
@@ -84,8 +83,6 @@ class BookmarkTable extends ObjectYPT {
             foreach ($fullData as $row) {
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -96,7 +93,22 @@ class BookmarkTable extends ObjectYPT {
         if(!empty($row)){
             $this->id = $row['id'];
         }
-        parent::save();
+        $id = parent::save();
+        if(!empty($id)){
+            Bookmark::videoToVtt($id);
+        }
+        return $id;
+    }
+
+    public function delete() {
+        if(!empty($this->id)){
+            $b = new BookmarkTable($this->id);            
+        }
+        $deleted = parent::delete();
+        if(!empty($b)){
+            Bookmark::videoToVtt($b->getVideos_id());        
+        }
+        return $deleted;
     }
     
     static protected function getFromTime($videos_id, $timeInSeconds) {

@@ -42,6 +42,7 @@ class VideoTags extends PluginAbstract {
         $obj->maxTags = 100;
         $obj->maxChars = 100;
         $obj->disableTagsSubscriptions = false;
+        $obj->showTagsOnEmbed = true;
         return $obj;
     }
 
@@ -378,7 +379,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return $users;
     }
 
-    static function getLabels($videos_id, $showType = true) {
+    static function getLabels($videos_id, $showType = true, $showSubscription = true) {
         global $global;
 
         $currentPage = getCurrentPage();
@@ -400,7 +401,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
                 if (empty($value['name']) || $value['name'] === '-') {
                     continue;
                 }
-                if($obj->disableTagsSubscriptions){
+                if($obj->disableTagsSubscriptions || empty($showSubscription)){
                     $strT .= self::getTagHTMLLink($value['tags_id'], $value['total']);
                 }else{
                     $strT .= self::getButton($value['tags_id'], $videos_id);
@@ -492,7 +493,20 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         return $css;
     }
     public function getFooterCode(){
-        $js = '<script src="' .getURL('plugin/VideoTags/View/script.js') . '" type="text/javascript"></script>';
+        $js = '';
+        $obj = AVideoPlugin::getDataObject('VideoTags');        
+        if($obj->showTagsOnEmbed && isEmbed() && isVideo()){
+            $videos_id = getVideos_id();
+            if(!empty($videos_id)){
+                $labels = self::getLabels($videos_id, true, false);
+                //var_dump($labels);exit;
+                if(!empty($labels)){
+                    $js .= '<script>videoTagsLabels = '.json_encode($labels).';</script>';
+                }
+            }
+        }
+        //var_dump($js);exit;
+        $js .= '<script src="' .getURL('plugin/VideoTags/View/script.js') . '" type="text/javascript"></script>';
         return $js;
     }
 }

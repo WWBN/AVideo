@@ -47,7 +47,7 @@ if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio") && !empty($
     $imgw = $data[0];
     $imgh = $data[1];
 } elseif ($video['type'] == "audio") {
-    $img = "".getCDN()."view/img/audio_wave.jpg";
+    $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
 }
 $type = 'video';
 if ($video['type'] === 'pdf') {

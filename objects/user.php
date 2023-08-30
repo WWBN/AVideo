@@ -554,7 +554,7 @@ if (typeof gtag !== \"function\") {
             }
         }
         if (empty($photo)) {
-            $photo = "view/img/userSilhouette.jpg";
+            $photo = ImagesPlaceHolders::getUserIcon();
         }
         return $photo;
     }
@@ -580,7 +580,7 @@ if (typeof gtag !== \"function\") {
             }
         }
         if (empty($photo)) {
-            $photo = "view/img/userSilhouette.jpg";
+            $photo = ImagesPlaceHolders::getUserIcon();
             if (!$returnRelativePath) {
                 $photo = getURL($photo);
             }
@@ -604,8 +604,8 @@ if (typeof gtag !== \"function\") {
     {
         global $global;
         $photo = self::_getPhoto($users_id);
-        if ($photo == "view/img/userSilhouette.jpg") {
-            return getURL('view/img/userSilhouette.jpg');
+        if ($photo == ImagesPlaceHolders::getUserIcon()) {
+            return getURL($photo);
         }
         if (empty($photo)) {
             return false;

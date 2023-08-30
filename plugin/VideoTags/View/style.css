@@ -38,3 +38,18 @@ div.mainAreaTags .btn-link b{
 div.mainAreaTags .btn-link{
     font-size: 16px;
 }
+
+#mainVideo .videoTagsLabelsElement{
+    position: fixed;
+    right: 10px;
+    bottom: 100px;
+}
+
+#mainVideo .videoTagsLabelsElement > div.text-muted{
+    margin: 15px;
+}
+
+
+#mainVideo .videoTagsLabelsElement strong.label.text-muted{
+    display: none;
+}

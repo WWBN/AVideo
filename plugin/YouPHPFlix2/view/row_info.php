@@ -65,7 +65,7 @@ TimeLogStart($timeLog6);
 </div>
 <div class="row">
     <?php
-    if (!empty($images->posterPortrait) && basename($images->posterPortrait) !== 'notfound_portrait.jpg' && basename($images->posterPortrait) !== 'pdf_portrait.png' && basename($images->posterPortrait) !== 'article_portrait.png') {
+    if (!empty($images->posterPortrait) && !ImagesPlaceHolders::isDefaultImage($images->posterPortrait)) {
         ?>
         <!-- row video 1 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
@@ -74,7 +74,7 @@ TimeLogStart($timeLog6);
             </center>
         </div>
         <?php
-    } else if (!empty($images->poster) && basename($images->poster) !== 'notfound.jpg' && basename($images->poster) !== 'pdf.png' && basename($images->poster) !== 'article.png') {
+    } else if (!empty($images->poster) && !ImagesPlaceHolders::isDefaultImage($images->poster)) {
         ?>
         <!-- row video 2 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">

@@ -115,20 +115,6 @@ class PlayerSkins extends PluginAbstract {
                     $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
-                /*
-                  if (AVideoPlugin::isEnabledByName('SubtitleSwitcher') && function_exists('getVTTTracks')) {
-                  $htmlMediaTag .= "<!-- getVTTTracks 1 -->";
-                  $htmlMediaTag .= getVTTTracks($video['filename']);
-                  }else{
-                  if(!AVideoPlugin::isEnabledByName('SubtitleSwitcher')){
-                  $htmlMediaTag .= "<!-- SubtitleSwitcher disabled -->";
-                  }
-                  if(!function_exists('getVTTTracks')){
-                  $htmlMediaTag .= "<!-- getVTTTracks not found -->";
-                  }
-                  }
-                 * 
-                 */
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
             } else if ($vType == 'audio') {
                 $htmlMediaTag = '<audio ' . self::getPlaysinline() . '
@@ -491,107 +477,56 @@ class PlayerSkins extends PluginAbstract {
             $prepareStartPlayerJS_getDataSetup = array();
         }
         if (empty($noReadyFunction)) {
-            $js .= "var originalVideo;
-                var adTagOptions;
-            var _adTagUrl = '{$IMAADTag}'; var player; "
-                    . "$(document).ready(function () {";
+            $js .= "var originalVideo;";
+            $js .= "var currentTime = $currentTime;";
+            $js .= "var adTagOptions = {};";
+            $js .= "var _adTagUrl = '{$IMAADTag}'; var player; ";       
+            $js .= "var startEvent = 'click';";
         }
+        $js .= "$(document).ready(function () {";
         $js .= "
         originalVideo = $('#mainVideo').clone();
-        /* prepareStartPlayerJS_onPlayerReady = " . count($prepareStartPlayerJS_onPlayerReady) . ", prepareStartPlayerJS_getDataSetup = " . count($prepareStartPlayerJS_getDataSetup) . " */
         if (typeof player === 'undefined' && $('#mainVideo').length) {
-            player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");
-            ";
+            player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
-            $js .= "adTagOptions = {"
-                    . "id: 'mainVideo', "
-                    . "adTagUrl: '{$IMAADTag}', "
-                    . "debug: true, "
-                    . "/*useStyledLinearAds: false,*/"
-                    . "/*useStyledNonLinearAds: true,*/"
-                    . "forceNonLinearFullSlot: true, "
-                    . "/*adLabel: 'Advertisement',*/ "
-                    . "/*autoPlayAdBreaks:false,*/"
-                    . "}; "
-                    . "player.ima(adTagOptions);";
-            $js .= "setInterval(function(){ fixAdSize(); }, 300);
-                // first time it's clicked.
-                var startEvent = 'click';";
+            $adTagOptions = array(
+                'id' => 'mainVideo',
+                'adTagUrl' => $IMAADTag,
+                'debug' => true,
+                // 'useStyledLinearAds' => false,
+                // 'useStyledNonLinearAds' => true,
+                'forceNonLinearFullSlot' => true,
+                'adLabel' => __('Advertisement'),
+                // 'autoPlayAdBreaks' => false,
+            );            
+            $js .= PHP_EOL."adTagOptions = " . json_encode($adTagOptions) . ";".PHP_EOL;
+            $js .= "player.ima(adTagOptions);";     
             if (isMobile()) {
-                $js .= "// Remove controls from the player on iPad to stop native controls from stealing
-                // our click
-                var contentPlayer = document.getElementById('content_video_html5_api');
-                if (contentPlayer && (navigator.userAgent.match(/iPad/i) ||
-                        navigator.userAgent.match(/Android/i)) &&
-                        contentPlayer.hasAttribute('controls')) {
-                    contentPlayer.removeAttribute('controls');
-                }
-
-                // Initialize the ad container when the video player is clicked, but only the
-                if (navigator.userAgent.match(/iPhone/i) ||
-                        navigator.userAgent.match(/iPad/i) ||
-                        navigator.userAgent.match(/Android/i)) {
-                    startEvent = 'touchend';
-                }";
+                $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerAdsEventsMobile.js').PHP_EOL;
             }
-
-            $js .= "
-                player.on('adsready', function () {
-                    console.log('adsready');
-                        player.ima.setAdBreakReadyListener(function(e) {
-                            if(!_adWasPlayed){
-                                console.log('ADs !_adWasPlayed player.ima.playAdBreak();',e);
-                                //player.ima.requestAds();
-                                player.on('play', function () {
-                                    if(!_adWasPlayed){
-                                        player.ima.playAdBreak();
-                                        _adWasPlayed = 1;
-                                    }
-                                });
-                            }else{
-                                console.log('ADs _adWasPlayed player.ima.playAdBreak();',e);
-                                player.ima.playAdBreak();
-                            }
-                        });
-                });player.on('ads-ad-started', function () {
-                    console.log('ads-ad-started');
-                });player.on('ads-manager', function (a) {
-                    console.log('ads-manager', a);
-                });player.on('ads-loader', function (a) {
-                    console.log('ads-loader', a);
-                });player.on('ads-request', function (a) {
-                    console.log('ads-request', a);
-                });player.one(startEvent, function () {player.ima.initializeAdDisplayContainer();});";
+            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerAdsEvents.js').PHP_EOL;
         }
-        $js .= "}";
+        $js .= "};".PHP_EOL;
 
-        $js .= "if(typeof player !== 'undefined'){";
-        $js .= "player.ready(function () {console.log('player.ready');";
-        $js .= "player.on('error', () => {AvideoJSError(player.error().code);});";
+        $js .= PHP_EOL."if(typeof player !== 'undefined'){";
+        $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReady.js');            
 
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
         if (isMobile()) {
-            $js .= "player.src(player.currentSources());";
+            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyMobile.js');
         }
         if (empty($_REQUEST['mute'])) {
-            $play = "playerPlayIfAutoPlay({$currentTime});";
-            $js .= "player.persistvolume({namespace: 'AVideo'});";
+            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyUnmuted.js');
         } else {
-            $play = "player.volume(0);player.muted(true);playerPlayMutedIfAutoPlay({$currentTime});";
+            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyMuted.js');
         }
 
-        $js .= "try {
-                    var err = this.error();
-                    if (err && err.code) {
-                        $('.vjs-error-display').hide();
-                        $('#mainVideo').find('.vjs-poster').css({'background-image': 'url({$global['webSiteRootURL']}plugin/Live/view/Offline.jpg)'});
-                    }} catch (e) {
-                        console.error('error-display', e);
-                    };";
-        $js .= "try {";
+        $js .= "player.ready(function () {";
+        $js .= "    try {";
         $js .= implode(' } catch (e) {console.error(\'onPlayerReady\', e);};try { ', $prepareStartPlayerJS_onPlayerReady) . ";";
-        $js .= " } catch (e) {console.error('onPlayerReady', e);}";
-        $js .= $play;
+        $js .= "    } catch (e) {";
+        $js .= "        console.error('onPlayerReady', e);";
+        $js .= "    }";
         $js .= "});";
 
         if ($obj->showLoopButton && isVideoPlayerHasProgressBar()) {
@@ -600,10 +535,8 @@ class PlayerSkins extends PluginAbstract {
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
 
         $js .= "}";
-        if (empty($noReadyFunction)) {
-            $js .= "});";
-        }
-
+        
+        $js .= "});";
         //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;

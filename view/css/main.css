@@ -2018,6 +2018,19 @@ body.ypt-is-compressed #videoCol {
     display: none !important;
 }
 
+.ImagesPlaceHoldersDefaultImage {
+    filter: grayscale(100%);
+    background-color: rgba(128, 128, 128, 0.25); /* This is the grey background with 80% transparency */
+    transition: filter 0.3s ease, background-color 0.3s ease; /* This ensures a smooth transition effect */
+}
+
+.thumbsImageContainer:hover .ImagesPlaceHoldersDefaultImage,
+.ImagesPlaceHoldersDefaultImage:hover {
+    filter: grayscale(0%);
+    background-color: rgba(128, 128, 128, 0.5); /* This is the grey background with 50% transparency on hover */
+}
+
+
 /*
 #_avideoPageLoader{
     display: none !important;

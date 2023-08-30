@@ -8,7 +8,7 @@ require_once $configFile;
 session_write_close();
 
 // Default image settings
-$file = 'video-placeholder-gray.png';
+$file = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
 $type = 'image/png';
 
 // Fetch requested image URL
@@ -59,7 +59,7 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
 }
 
 // If a 404 image needs to be shown, redirect to it
-if ($file === 'video-placeholder-gray.png' && empty($_GET['notFound'])) {
+if (empty($_GET['notFound']) && ImagesPlaceHolders::isDefaultImage($file)) {
     header("Location: " . getCDN() . "view/img/image404.php?notFound=1");
     exit;
 }

@@ -20,3 +20,11 @@ function startAudioSpectrumProgress(spectrumImage) {
         setTimeout(function(){startAudioSpectrumProgress(spectrumImage);},500);
     }
 }
+
+function appendOnPlayer(element){
+    if (typeof player !== 'undefined') {        
+        $(element).insertBefore($(player.el()).find('.vjs-control-bar'));
+    } else {
+        setTimeout(function () { appendOnPlayer(element); }, 1000);
+    }
+}

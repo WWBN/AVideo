@@ -1212,52 +1212,6 @@ function cacheExpirationTime()
     return intval($cacheExpirationTime);
 }
 
-function _getImagesURL($fileName, $type)
-{
-    global $global;
-    $files = [];
-    $source = Video::getSourceFile($fileName, ".jpg");
-    $file1 = $source['path'];
-    if (file_exists($file1)) {
-        $files["jpg"] = [
-            'filename' => "{$fileName}.jpg",
-            'path' => $file1,
-            'url' => $source['url'],
-            'type' => 'image',
-        ];
-    } else {
-        unset($file1);
-        $files["jpg"] = [
-            'filename' => "{$type}.png",
-            'path' => getURL("view/img/{$type}.png"),
-            'url' => getURL("view/img/{$type}.png"),
-            'type' => 'image',
-        ];
-    }
-    $source = Video::getSourceFile($fileName, "_portrait.jpg");
-    $file2 = $source['path'];
-    if (file_exists($file2)) {
-        $files["pjpg"] = [
-            'filename' => "{$fileName}_portrait.jpg",
-            'path' => $file2,
-            'url' => $source['url'],
-            'type' => 'image',
-        ];
-    } elseif ($type !== 'image') {
-        if (!empty($file1)) {
-            $files["pjpg"] = $files["jpg"];
-        } else {
-            $files["pjpg"] = [
-                'filename' => "{$type}_portrait.png",
-                'path' => getURL("view/img/{$type}_portrait.png"),
-                'url' => getURL("view/img/{$type}_portrait.png"),
-                'type' => 'image',
-            ];
-        }
-    }
-    return $files;
-}
-
 function getVideosURLPDF($fileName)
 {
     global $global;
@@ -1277,7 +1231,7 @@ function getVideosURLPDF($fileName)
         'url' => $source['url'],
         'type' => 'pdf',
     ];
-    $files = array_merge($files, _getImagesURL($fileName, 'pdf'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getPdfLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1314,7 +1268,7 @@ function getVideosURLIMAGE($fileName)
         }
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'image'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1351,7 +1305,7 @@ function getVideosURLZIP($fileName)
         }
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'zip'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getZipLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1371,8 +1325,7 @@ function getVideosURLArticle($fileName)
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
     $start = $time;
-    //$files = array_merge($files, _getImagesURL($fileName, 'article'));
-    $files = _getImagesURL($fileName, 'article');
+    $files = array('jpg'=>ImagesPlaceHolders::getArticlesLandscape(ImagesPlaceHolders::$RETURN_ARRAY));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1426,7 +1379,7 @@ function getVideosURLAudio($fileName, $fileNameisThePath = false)
         ];
     }
 
-    $files = array_merge($files, _getImagesURL($fileName, 'audio_wave'));
+    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];
@@ -1713,10 +1666,14 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
         ObjectYPT::setCacheGlobal($cacheName, $files);
     }
     /*
-    if(empty($recreateCache) && $fileName == "video_230813150408_va39e"){
+    if(empty($recreateCache) && $fileName == "v_230810144748_v424f"){
         var_dump($fileName, $files, debug_backtrace());exit;
     }
     */
+    if (empty($files) || empty($files['jpg'])) {
+        // sort by resolution
+        $files = array('jpg'=>ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY));
+    }else 
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");
@@ -1790,9 +1747,9 @@ function getResolutionFromFilename($filename)
 function getSources($fileName, $returnArray = false, $try = 0)
 {
     if ($returnArray) {
-        $videoSources = $audioTracks = $subtitleTracks = [];
+        $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = [];
     } else {
-        $videoSources = $audioTracks = $subtitleTracks = '';
+        $videoSources = $audioTracks = $subtitleTracks = $captionsTracks = '';
     }
 
     $video = Video::getVideoFromFileNameLight($fileName);
@@ -1821,10 +1778,14 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
+    if (function_exists('getVTTCaptionTracks')) {
+        $captionsTracks = getVTTCaptionTracks($fileName, $returnArray);
+    }
+    //var_dump($subtitleTracks,  $captionsTracks);exit;
     if ($returnArray) {
-        $return = array_merge($videoSources, $audioTracks, $subtitleTracks);
+        $return = array_merge($videoSources, $audioTracks, $subtitleTracks,  $captionsTracks);
     } else {
-        $return = $videoSources . $audioTracks . $subtitleTracks;
+        $return = $videoSources . $audioTracks . $subtitleTracks.$captionsTracks;
     }
 
     $obj = new stdClass();
@@ -2955,6 +2916,10 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
             $file = createWebPIfNotExists($file);
         }
         $url = getURL(getRelativePath($file));
+        //var_dump($relativePath, $file, $url);exit;
+        if(ImagesPlaceHolders::isDefaultImage($url)){
+            $class .= ' ImagesPlaceHoldersDefaultImage';
+        }
         if (file_exists($file)) {
             $image_info = @getimagesize($file);
             if (!empty($image_info)) {
@@ -2975,7 +2940,7 @@ function getImageTagIfExists($relativePath, $title = '', $id = '', $style = '', 
         if (is_string($lazyLoad)) {
             $loading = getURL($lazyLoad);
         } else {
-            $loading = getURL('view/img/loading-gif.png');
+            $loading = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL);
         }
         $img .= " src=\"{$loading}\" data-src=\"{$url}\" ";
     } else {
@@ -4041,7 +4006,7 @@ function siteMap()
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
-        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true);
+        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, 'permlink');
         TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);
         TimeLogStart("siteMap Video::isPublic $videos_id");
         $requires_subscription = Video::isPublic($video['id']) ? "no" : "yes";
@@ -10460,6 +10425,9 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     $return = '';
     if (!empty($setCacheName)) {
         $name = $filePath . '_' . User::getId() . '_' . getLanguage();
+        if(is_string($setCacheName)){
+            $name .= $setCacheName;
+        }
         //var_dump($name);exit;
         $return = ObjectYPT::getSessionCache($name, 0);
     }
@@ -11636,20 +11604,6 @@ function isImageNotFound($imgURL){
     if(empty($imgURL)){
         return true;
     }
-    if(preg_match('/notfound/i', $imgURL)){
-        return true;
-    }
-    if(preg_match('/pdf_portrait/i', $imgURL)){
-        return true;
-    }
-    if(preg_match('/article_portrait/i', $imgURL)){
-        return true;
-    }
-    /*
-    if(preg_match('/audio_wave/i', $imgURL)){
-        return true;
-    }
-    */
     
-    return false;
+    return ImagesPlaceHolders::isDefaultImage($imgURL);
 }

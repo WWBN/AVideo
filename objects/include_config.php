@@ -113,6 +113,7 @@ $global['webSiteRootURL'] = fixTestURL($global['webSiteRootURL']);
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/security.php';
+require_once $global['systemRootPath'] . 'objects/images.php';
 
 includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11

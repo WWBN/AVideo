@@ -1,5 +1,5 @@
 function toogleTagSubscribe(encryptedIdAndUser, notify) {
-    var data = {encryptedIdAndUser: encryptedIdAndUser, notify:notify};
+    var data = { encryptedIdAndUser: encryptedIdAndUser, notify: notify };
     var url = webSiteRootURL + 'plugin/VideoTags/subscribe.json.php';
     modal.showPleaseWait();
     $.ajax({
@@ -27,3 +27,17 @@ function toogleTagSubscribe(encryptedIdAndUser, notify) {
         }
     });
 }
+function loadVideoTagsLabels() {
+    if (typeof videoTagsLabels !== 'undefined') {
+        var videoTagsLabelsElement = $('<div>' + videoTagsLabels + '</div>');
+        videoTagsLabelsElement.addClass('hideOnPlayerUserInactive');
+        videoTagsLabelsElement.addClass('pull-right');
+        videoTagsLabelsElement.addClass('videoTagsLabelsElement');
+        appendOnPlayer(videoTagsLabelsElement);
+    } else {
+        setTimeout(function () { loadVideoTagsLabels(); }, 1000);
+    }
+}
+$(function () {
+    loadVideoTagsLabels();
+})

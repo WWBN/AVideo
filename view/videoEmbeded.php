@@ -87,7 +87,7 @@ if (empty($poster)) {
         if (($video['type'] !== "audio") && ($video['type'] !== "linkAudio")) {
             $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
         } else {
-            $poster = "" . getURL("view/img/audio_wave.jpg");
+            $poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
         }
     }
 }
@@ -482,6 +482,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
     <?php
+    //exit;
     }
     if (empty($disableEmbedTopInfo)) {
     ?>

@@ -305,7 +305,7 @@
                                             <div class="panel-body">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <img id="inputNextVideo-poster" src="view/img/notfound.jpg" class="ui-state-default" alt="">
+                                                        <img id="inputNextVideo-poster" src="<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>" class="ui-state-default" alt="">
                                                     </div>
                                                     <div class="col-md-8">
                                                         <input id="inputNextVideo" placeholder="<?php echo __("Autoplay Next Video"); ?>" class="form-control first" name="inputNextVideo">
