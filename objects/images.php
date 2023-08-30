@@ -1,6 +1,7 @@
 <?php
 
-Class ImagesPlaceHolders {
+class ImagesPlaceHolders
+{
 
     public static $RETURN_RELATIVE = 0;
     public static $RETURN_PATH = 1;
@@ -33,12 +34,21 @@ Class ImagesPlaceHolders {
         'videoNotFoundPoster' => 'view/img/this-video-is-not-available.jpg'
     ];
 
-    static private function getComponent($type, $return = 0) {
+    static private function getComponent($type, $return = 0)
+    {
         global $global;
         if (!isset(self::$placeholders[$type])) {
             return null; // handle invalid type
         }
         $relativePath = self::$placeholders[$type];
+
+        if(self::supportsWebP()){
+            $relativePathWebp = str_replace(array('.jpg', '.png'), array('.webp', '.webp'), $relativePath);
+            if(file_exists($global['systemRootPath'] . $relativePathWebp)){
+                $relativePath = $relativePathWebp;
+            }
+        }
+
         if (!empty($global[$type])) {
             $relativePath = $global[$type];
         }
@@ -51,7 +61,7 @@ Class ImagesPlaceHolders {
         if ($return === ImagesPlaceHolders::$RETURN_ARRAY) {
             $extension = pathinfo($relativePath, PATHINFO_EXTENSION);
             return [
-                'filename' =>basename($relativePath),
+                'filename' => basename($relativePath),
                 'path' => $global['systemRootPath'] . $relativePath,
                 'url' => getURL($relativePath),
                 'url_noCDN' => $global['webSiteRootURL'] . $relativePath,
@@ -62,7 +72,58 @@ Class ImagesPlaceHolders {
         return $relativePath;
     }
 
-    static function isDefaultImage($path) {
+    static function supportsWebP()
+    {
+        static $supportsWebP = null;
+
+        // If we've already tested this before, return the cached value
+        if ($supportsWebP !== null) {
+            return $supportsWebP;
+        }
+
+        // First, check the HTTP_ACCEPT value
+        if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false) {
+            $supportsWebP = true;
+            return $supportsWebP;
+        }
+
+        // If HTTP_ACCEPT is inconclusive, check User-Agent as a fallback
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $ua = $_SERVER['HTTP_USER_AGENT'];
+
+            if (preg_match('/Firefox\/(\d+)/', $ua, $matches) && intval($matches[1]) >= 65) {
+                $supportsWebP = true;
+                return $supportsWebP;
+            }
+
+            if (preg_match('/Opera\/.*Version\/(\d+)/', $ua, $matches) && intval($matches[1]) >= 56) {
+                $supportsWebP = true;
+                return $supportsWebP;
+            }
+
+            $webpBrowsersPatterns = [
+                '/Chrome\//',                  // Chrome (and most Chromium-based browsers)
+                '/Edge\//',                    // Edge
+                '/UCBrowser\//',               // UC Browser
+                '/SamsungBrowser/'             // Samsung Internet Browser
+            ];
+
+            foreach ($webpBrowsersPatterns as $pattern) {
+                if (preg_match($pattern, $ua)) {
+                    $supportsWebP = true;
+                    return $supportsWebP;
+                }
+            }
+        }
+
+        // Default to false if no evidence found
+        $supportsWebP = false;
+        return $supportsWebP;
+    }
+
+
+    static function isDefaultImage($path)
+    {
         global $global;
 
         foreach (self::$placeholders as $key => $defaultImagePath) {
@@ -85,98 +146,121 @@ Class ImagesPlaceHolders {
         return false;
     }
 
-    static function getImageIcon($return = 0) {
+    static function getImageIcon($return = 0)
+    {
         return self::getComponent('imageIcon', $return);
     }
 
-    static function getImageLandscape($return = 0) {
+    static function getImageLandscape($return = 0)
+    {
         return self::getComponent('imageLandscape', $return);
     }
 
-    static function getImagePortrait($return = 0) {
+    static function getImagePortrait($return = 0)
+    {
         return self::getComponent('imagePortrait', $return);
     }
 
-    static function getImageNotFoundIcon($return = 0) {
+    static function getImageNotFoundIcon($return = 0)
+    {
         return self::getComponent('imageNotFoundIcon', $return);
     }
 
-    static function getImageNotFoundLandscape($return = 0) {
+    static function getImageNotFoundLandscape($return = 0)
+    {
         return self::getComponent('imageNotFoundLandscape', $return);
     }
 
-    static function getImageNotFoundPortrait($return = 0) {
+    static function getImageNotFoundPortrait($return = 0)
+    {
         return self::getComponent('imageNotFoundPortrait', $return);
     }
 
-    static function getArticlesIcon($return = 0) {
+    static function getArticlesIcon($return = 0)
+    {
         return self::getComponent('articlesIcon', $return);
     }
 
-    static function getArticlesLandscape($return = 0) {
+    static function getArticlesLandscape($return = 0)
+    {
         return self::getComponent('articlesLandscape', $return);
     }
 
-    static function getArticlesPortrait($return = 0) {
+    static function getArticlesPortrait($return = 0)
+    {
         return self::getComponent('articlesPortrait', $return);
     }
 
-    static function getAudioIcon($return = 0) {
+    static function getAudioIcon($return = 0)
+    {
         return self::getComponent('audioIcon', $return);
     }
 
-    static function getAudioLandscape($return = 0) {
+    static function getAudioLandscape($return = 0)
+    {
         return self::getComponent('audioLandscape', $return);
     }
 
-    static function getAudioPortrait($return = 0) {
+    static function getAudioPortrait($return = 0)
+    {
         return self::getComponent('audioPortrait', $return);
     }
 
-    static function getPdfIcon($return = 0) {
+    static function getPdfIcon($return = 0)
+    {
         return self::getComponent('pdfIcon', $return);
     }
 
-    static function getPdfLandscape($return = 0) {
+    static function getPdfLandscape($return = 0)
+    {
         return self::getComponent('pdfLandscape', $return);
     }
 
-    static function getPdfPortrait($return = 0) {
+    static function getPdfPortrait($return = 0)
+    {
         return self::getComponent('pdfPortrait', $return);
     }
 
-    static function getUserIcon($return = 0) {
+    static function getUserIcon($return = 0)
+    {
         return self::getComponent('userIcon', $return);
     }
 
-    static function getUserLandscape($return = 0) {
+    static function getUserLandscape($return = 0)
+    {
         return self::getComponent('userLandscape', $return);
     }
 
-    static function getUserPortrait($return = 0) {
+    static function getUserPortrait($return = 0)
+    {
         return self::getComponent('userPortrait', $return);
     }
 
-    static function getZipIcon($return = 0) {
+    static function getZipIcon($return = 0)
+    {
         return self::getComponent('zipIcon', $return);
     }
 
-    static function getZipLandscape($return = 0) {
+    static function getZipLandscape($return = 0)
+    {
         return self::getComponent('zipLandscape', $return);
     }
 
-    static function getZipPortrait($return = 0) {
+    static function getZipPortrait($return = 0)
+    {
         return self::getComponent('zipPortrait', $return);
     }
 
-    static function getVideoPlaceholder($return = 0) {
+    static function getVideoPlaceholder($return = 0)
+    {
         return self::getComponent('videoPlaceholder', $return);
     }
-    static function getVideoPlaceholderPortrait($return = 0) {
+    static function getVideoPlaceholderPortrait($return = 0)
+    {
         return self::getComponent('videoPlaceholderPortrait', $return);
     }
-    static function getVideoNotFoundPoster($return = 0) {
+    static function getVideoNotFoundPoster($return = 0)
+    {
         return self::getComponent('videoNotFoundPoster', $return);
     }
-
 }

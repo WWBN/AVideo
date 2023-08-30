@@ -10,7 +10,7 @@ if (!empty($videos_id)) {
     $poster = Video::getPoster($videos_id);
 }
 $_page = new Page($title);
-$_page->setExtraStyles(array('plugin/Layout/buy.css'));
+$_page->setExtraStyles(array('plugin/YPTWallet/buy.css'));
 $paymentOptions = array();
 $paymentPanel = array();
 
