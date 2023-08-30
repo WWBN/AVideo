@@ -61,27 +61,42 @@ function xss_esc_back($text)
 // Make sure SecureVideosDirectory will be the first
 function cmpPlugin($a, $b)
 {
-    if (
-        $a['name'] === 'SecureVideosDirectory' ||
-        $a['name'] === 'GoogleAds_IMA' ||
-        $a['name'] === 'Subscription' ||
-        $a['name'] === 'PayPerView' ||
-        $a['name'] === 'FansSubscriptions'
-    ) {
-        return -1;
-    } elseif ($a['name'] === 'PlayerSkins') {
-        return 1;
-    } elseif (
-        $b['name'] === 'SecureVideosDirectory' ||
-        $b['name'] === 'GoogleAds_IMA' ||
-        $b['name'] === 'Subscription' ||
-        $b['name'] === 'PayPerView' ||
-        $b['name'] === 'FansSubscriptions'
-    ) {
-        return 1;
-    } elseif ($b['name'] === 'PlayerSkins') {
+    $topOrder = ['SecureVideosDirectory', 'GoogleAds_IMA', 'Gift', 'Subscription', 'PayPerView', 'FansSubscriptions'];
+    $bottomOrder = ['PlayerSkins'];
+
+    $aTopIndex = array_search($a['name'], $topOrder);
+    $bTopIndex = array_search($b['name'], $topOrder);
+
+    $aBottomIndex = array_search($a['name'], $bottomOrder);
+    $bBottomIndex = array_search($b['name'], $bottomOrder);
+
+    // Both items in the top order array
+    if ($aTopIndex !== false && $bTopIndex !== false) {
+        return $aTopIndex - $bTopIndex;
+    }
+
+    // One of the items is in the top order array
+    if ($aTopIndex !== false) {
         return -1;
     }
+    if ($bTopIndex !== false) {
+        return 1;
+    }
+
+    // Both items in the bottom order array
+    if ($aBottomIndex !== false && $bBottomIndex !== false) {
+        return $aBottomIndex - $bBottomIndex;
+    }
+
+    // One of the items is in the bottom order array
+    if ($aBottomIndex !== false) {
+        return 1;
+    }
+    if ($bBottomIndex !== false) {
+        return -1;
+    }
+
+    // Neither item in any order array
     return 0;
 }
 
