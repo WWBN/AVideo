@@ -56,6 +56,8 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
         if(!empty($panel['body'])){
             $paymentPanel[] = $panel;
         }
+    }else{
+        unset($paymentOptions['ppv']);
     }
 }
 
@@ -100,6 +102,8 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
         if(!empty($panel['body'])){
             $paymentPanel[] = $panel;
         }
+    }else{
+        unset($paymentOptions['sub']);
     }
 }
 
