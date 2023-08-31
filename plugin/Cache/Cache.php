@@ -329,13 +329,15 @@ class Cache extends PluginAbstract {
     }
 
     public static function _setCache($name, $value) {
+        /*
         global $cache_setCacheToSaveAtTheEnd;
         if(!isset($cache_setCacheToSaveAtTheEnd)){
             $cache_setCacheToSaveAtTheEnd = array();
         }
         $cache_setCacheToSaveAtTheEnd[] = array('name'=>$name, 'value'=>$value);
-        //$metadata = self::getCacheMetaData();
-        //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
+        */
+        $metadata = self::getCacheMetaData();
+        return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
     }
 
     private static function saveCache() {
