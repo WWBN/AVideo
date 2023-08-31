@@ -84,86 +84,87 @@ $percent = 90;
         }
     }
 
-
-    $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
-    if (!empty($plObj)) {
-        
-        $dataFlickirty = new stdClass();
-        $dataFlickirty->wrapAround = true;
-        $dataFlickirty->pageDots = !empty($obj->pageDots);
-        $dataFlickirty->lazyLoad = 15;
-        $dataFlickirty->setGallerySize = false;
-        $dataFlickirty->cellAlign = 'left';
-        $dataFlickirty->groupCells = true;
-        if ($obj->PlayListAutoPlay) {
-            $dataFlickirty->autoPlay = 10000;
-        }
-        $plRows = PlayList::getAllToShowOnFirstPage();
-        //var_dump(count($plRows));exit;
-        if (!empty($plRows)) {
-            $rowCount = getRowCount();
-            foreach ($plRows as $pl) {
-                $link = PlayLists::getLink($pl['id']);
-                $linkEmbed = PlayLists::getLink($pl['id'], true);
-            ?>
-                <div class="row topicRow">
-                    <h2>
-                        <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
-                            <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
-                        </a>
-                    </h2>
-                    <!-- Date Programs/Playlists -->
-                    <?php
-                    $videos = PlayList::getAllFromPlaylistsID($pl['id']);
-                    include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                    ?>
-                </div>
-                <?php
+    $search = getSearchVar();
+    if(empty($search)){
+        $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
+        if (!empty($plObj)) {
+            
+            $dataFlickirty = new stdClass();
+            $dataFlickirty->wrapAround = true;
+            $dataFlickirty->pageDots = !empty($obj->pageDots);
+            $dataFlickirty->lazyLoad = 15;
+            $dataFlickirty->setGallerySize = false;
+            $dataFlickirty->cellAlign = 'left';
+            $dataFlickirty->groupCells = true;
+            if ($obj->PlayListAutoPlay) {
+                $dataFlickirty->autoPlay = 10000;
             }
-        }
-        if ($obj->PlayList) {
-
-            $programs = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
-            cleanSearchVar();
-            if (!empty($programs)) {
-                foreach ($programs as $serie) {
-                    $videos = PlayList::getAllFromPlaylistsID($serie['serie_playlists_id']);
-
-                    foreach ($videos as $key => $value) {
-                        $videos[$key]['title'] = "{$value['icon']} {$value['title']}";
-                    }
-
-                    $link = PlayLists::getLink($serie['serie_playlists_id']);
-                    $linkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
-                    $canWatchPlayButton = "";
-                    if (User::canWatchVideoWithAds($value['id'])) {
-                        $canWatchPlayButton = "canWatchPlayButton";
-                    } else if ($obj->hidePlayButtonIfCannotWatch) {
-                        $canWatchPlayButton = "hidden";
-                    }
+            $plRows = PlayList::getAllToShowOnFirstPage();
+            //var_dump(count($plRows));exit;
+            if (!empty($plRows)) {
+                $rowCount = getRowCount();
+                foreach ($plRows as $pl) {
+                    $link = PlayLists::getLink($pl['id']);
+                    $linkEmbed = PlayLists::getLink($pl['id'], true);
                 ?>
                     <div class="row topicRow">
                         <h2>
-                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>" class="<?php echo $canWatchPlayButton; ?>">
-                                <i class="fas fa-list"></i> <?php
-                                                            echo $serie['title'];
-                                                            ?>
+                            <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>">
+                                <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                             </a>
                         </h2>
                         <!-- Date Programs/Playlists -->
                         <?php
-                        $rowPlayListLink = PlayLists::getLink($serie['serie_playlists_id']);
-                        $rowPlayListLinkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
+                        $videos = PlayList::getAllFromPlaylistsID($pl['id']);
                         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
-                        unset($rowPlayListLink);
-                        unset($rowPlayListLinkEmbed);
                         ?>
                     </div>
-
-            <?php
+                    <?php
                 }
             }
-            reloadSearchVar();
+            if ($obj->PlayList) {
+                $programs = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
+                cleanSearchVar();
+                if (!empty($programs)) {
+                    foreach ($programs as $serie) {
+                        $videos = PlayList::getAllFromPlaylistsID($serie['serie_playlists_id']);
+    
+                        foreach ($videos as $key => $value) {
+                            $videos[$key]['title'] = "{$value['icon']} {$value['title']}";
+                        }
+    
+                        $link = PlayLists::getLink($serie['serie_playlists_id']);
+                        $linkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
+                        $canWatchPlayButton = "";
+                        if (User::canWatchVideoWithAds($value['id'])) {
+                            $canWatchPlayButton = "canWatchPlayButton";
+                        } else if ($obj->hidePlayButtonIfCannotWatch) {
+                            $canWatchPlayButton = "hidden";
+                        }
+                    ?>
+                        <div class="row topicRow">
+                            <h2>
+                                <a href="<?php echo $link; ?>" embed="<?php echo $linkEmbed; ?>" class="<?php echo $canWatchPlayButton; ?>">
+                                    <i class="fas fa-list"></i> <?php
+                                                                echo $serie['title'];
+                                                                ?>
+                                </a>
+                            </h2>
+                            <!-- Date Programs/Playlists -->
+                            <?php
+                            $rowPlayListLink = PlayLists::getLink($serie['serie_playlists_id']);
+                            $rowPlayListLinkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
+                            include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
+                            unset($rowPlayListLink);
+                            unset($rowPlayListLinkEmbed);
+                            ?>
+                        </div>
+    
+                <?php
+                    }
+                }
+                reloadSearchVar();
+            }
         }
     }
 

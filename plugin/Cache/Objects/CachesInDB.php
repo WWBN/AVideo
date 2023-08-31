@@ -186,6 +186,39 @@ class CachesInDB extends ObjectYPT
         return $c->save();
     }
 
+    public static function setBulkCache($cacheArray, $metadata) {
+        if (empty($cacheArray)) {
+            return false;
+        }
+        
+        $placeholders = [];
+        $formats = [];
+        $values = [];
+
+        foreach ($cacheArray as $cache) {
+            $name = self::hashName($cache['name']);
+            $content = !is_string($cache['value']) ? _json_encode($cache['value']) : $cache['value'];
+            if (empty($content)) continue;
+
+            $formats[] = "sssssss";
+            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
+            
+            $expires = date('Y-m-d H:i:s', strtotime('+ 1 month'));
+            
+            // Add values to the values array
+            array_push($values, $name, $content, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $expires);
+        }
+
+        $sql = "INSERT INTO CachesInDB (name, content, domain, ishttps, user_location, loggedType, expires) 
+                VALUES " . implode(", ", $placeholders) . "
+                ON DUPLICATE KEY UPDATE 
+                content = VALUES(content),
+                expires = VALUES(expires)";
+
+        // Assuming you have a PDO connection $pdo
+        return sqlDAL::writeSql($sql, implode('', $formats), $values);
+    }
+
     public static function _deleteCache($name)
     {
         global $global;

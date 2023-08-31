@@ -87,7 +87,7 @@ saveRequestVars();
                 if ($value['name'] == 'Suggested') {
                     createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
                 } else 
-                if($value['name'] == 'PlayLists'){
+                if(empty(getSearchVar()) && $value['name'] == 'PlayLists'){
                     $objPl = AVideoPlugin::getDataObject('PlayLists');
                     $plRows = PlayList::getAllToShowOnFirstPage();
                     //var_dump(count($plRows));exit;

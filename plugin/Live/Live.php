@@ -1781,16 +1781,20 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getStats($force_recreate = false) {
         global $getStatsLive, $_getStats, $getStatsObject;
+        $timeName = "stats.json.php getStats";
+        TimeLogStart($timeName);
         if (empty($force_recreate)) {
             if (isset($getStatsLive)) {
                 //_error_log('Live::getStats: return cached result');
                 return $getStatsLive;
             }
         }
+        TimeLogEnd($timeName, __LINE__);
         $obj = AVideoPlugin::getObjectData("Live");
         if (empty($obj->server_type->value)) {
             _error_log("Live::getStats obj->server_type->value={$obj->server_type->value}");
             $rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 50);
+            TimeLogEnd($timeName, __LINE__);
             $servers = [];
             $servers['applications'] = [];
             foreach ($rows as $value) {
@@ -1799,15 +1803,18 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 }
                 $servers['applications'][] = LiveTransmitionHistory::getApplicationObject($value['id']);
             }
+            TimeLogEnd($timeName, __LINE__);
             return $servers;
         } elseif (empty($obj->useLiveServers)) {
             //_error_log("Live::getStats empty obj->useLiveServers}");
             //_error_log('getStats getStats 1: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
             $getStatsLive = self::_getStats(0, $force_recreate);
+            TimeLogEnd($timeName, __LINE__);
             //_error_log('Live::getStats(0) 1');
             return $getStatsLive;
         } else {
             $rows = Live_servers::getAllActive();
+            TimeLogEnd($timeName, __LINE__);
 
             _error_log("Live::getStats Live_servers::getAllActive total=" . count($rows));
             $liveServers = [];
@@ -1821,13 +1828,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $liveServers[] = $server;
                 }
             }
+            TimeLogEnd($timeName, __LINE__);
             if (!empty($liveServers)) {
                 return $liveServers;
             }
         }
         $ls = Live_servers::getAllActive();
+        TimeLogEnd($timeName, __LINE__);
         $liveServers = [];
         $getLiveServersIdRequest = self::getLiveServersIdRequest();
+        TimeLogEnd($timeName, __LINE__);
         foreach ($ls as $value) {
             $server = Live_servers::getStatsFromId($value['id'], $force_recreate);
             if (!empty($server) && is_object($server)) {
@@ -1851,6 +1861,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 _error_log("Live::getStats Live Server NOT found {$value['id']} " . json_encode($server) . " " . json_encode($value));
             }
         }
+        TimeLogEnd($timeName, __LINE__);
         //_error_log("Live::getStats return " . json_encode($liveServers));
         $_REQUEST['live_servers_id'] = $getLiveServersIdRequest;
         $getStatsLive = $liveServers;
@@ -2054,6 +2065,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function _getStats($live_servers_id = 0, $force_recreate = false) {
         global $global, $_getStats;
+        $timeName = "stats.json.php _getStats";
+        TimeLogStart($timeName);
         if (empty($_REQUEST['name'])) {
             //_error_log("Live::_getStats {$live_servers_id} GET " . json_encode($_GET));
             //_error_log("Live::_getStats {$live_servers_id} POST " . json_encode($_POST));
@@ -2068,7 +2081,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
+            TimeLogEnd($timeName, __LINE__);
             $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
+            TimeLogEnd($timeName, __LINE__);
             /*
             $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
             $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
@@ -2080,6 +2095,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return _json_decode($result);
             }
         }
+        
+        TimeLogEnd($timeName, __LINE__);
         session_write_close();
         $obj = new stdClass();
         $obj->error = true;
@@ -2097,6 +2114,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $stream = false;
         $lifeStream = [];
         $applicationName = self::getApplicationName();
+        TimeLogEnd($timeName, __LINE__);
         if (empty($xml) || !is_object($xml)) {
             _error_log("_getStats XML is not an object live_servers_id=$live_servers_id");
         } else {
@@ -2106,6 +2124,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $xml->server->application = [];
                 $xml->server->application[] = $application;
             }
+            TimeLogEnd($timeName, __LINE__);
 
             //_error_log("_getStats XML ". json_encode($xml->server));
             foreach ($xml->server->application as $key => $application) {
@@ -2134,9 +2153,11 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     }
                 }
             }
+            TimeLogEnd($timeName, __LINE__);
         }
         $obj->disableGif = $p->getDisableGifThumbs();
 
+        TimeLogEnd($timeName, __LINE__);
         foreach ($lifeStream as $value) {
             unset($_REQUEST['playlists_id_live']);
             if (!empty($value->name)) {
@@ -2262,12 +2283,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $_REQUEST['playlists_id_live'] = $_playlists_id_live;
             }
         }
+        TimeLogEnd($timeName, __LINE__);
 
         $obj->countLiveStream = count($obj->applications);
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
         ObjectYPT::setCache($cacheName, json_encode($obj));
+        TimeLogEnd($timeName, __LINE__);
         return $obj;
     }
 

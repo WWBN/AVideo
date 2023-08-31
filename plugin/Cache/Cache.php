@@ -29,33 +29,9 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "4.0";
+        return "5.0";
     }
 
-    
-    public function updateScript() {
-        global $global;
-        
-        if (AVideoPlugin::compareVersion($this->getName(), "3.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Cache/install/updateV3.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-            if(class_exists('LiveTransmitionHistory')){
-                LiveTransmitionHistory::finishALL();
-            }
-        }
-        if (AVideoPlugin::compareVersion($this->getName(), "4.0") < 0) {
-            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Cache/install/updateV4.0.sql');
-            $sqlParts = explode(";", $sqls);
-            foreach ($sqlParts as $value) {
-                sqlDal::writeSql(trim($value));
-            }
-        }
-        return true;
-    }
-    
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();
@@ -242,6 +218,8 @@ class Cache extends PluginAbstract {
         if ($obj->logPageLoadTime) {
             $this->end();
         }
+        
+        self::saveCache();
     }
 
     private function isREQUEST_URIWhitelisted() {
@@ -351,8 +329,23 @@ class Cache extends PluginAbstract {
     }
 
     public static function _setCache($name, $value) {
-        $metadata = self::getCacheMetaData();
-        return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
+        global $cache_setCacheToSaveAtTheEnd;
+        if(!isset($cache_setCacheToSaveAtTheEnd)){
+            $cache_setCacheToSaveAtTheEnd = array();
+        }
+        $cache_setCacheToSaveAtTheEnd[] = array('name'=>$name, 'value'=>$value);
+        //$metadata = self::getCacheMetaData();
+        //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
+    }
+
+    private static function saveCache() {
+        global $cache_setCacheToSaveAtTheEnd;
+        if(!empty($cache_setCacheToSaveAtTheEnd)){
+            $metadata = self::getCacheMetaData();
+            mysqlBeginTransaction();
+            CachesInDB::setBulkCache($cache_setCacheToSaveAtTheEnd, $metadata);
+            mysqlCommit();
+        }
     }
 
     public static function getCache($name, $lifetime = 60, $ignoreMetadata = false) {

@@ -3854,11 +3854,15 @@ function isIframe() {
 }
 //custom jQuery function to check if an element is visible
 $.fn.isVisible = function () {
-    var elementTop = $(this).offset().top;
-    var elementBottom = elementTop + $(this).outerHeight();
-    var viewportTop = $(window).scrollTop();
-    var viewportBottom = viewportTop + $(window).height();
-    return elementBottom > viewportTop && elementTop < viewportBottom;
+    try {
+        var elementTop = $(this).offset().top;
+        var elementBottom = elementTop + $(this).outerHeight();
+        var viewportTop = $(window).scrollTop();
+        var viewportBottom = viewportTop + $(window).height();
+        return elementBottom > viewportTop && elementTop < viewportBottom;
+    } catch (error) {
+        return true;
+    }
 };
 let fullscreenIframe;
 let originalURL; // to store the original URL

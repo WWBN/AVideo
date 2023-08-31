@@ -8878,6 +8878,8 @@ function getLiveVideosFromCategory($categories_id)
 
 function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner = true)
 {
+    $timeName = "stats.json.php getStatsNotifications";
+    TimeLogStart($timeName);
     global $__getStatsNotifications__;
     $isLiveEnabled = AVideoPlugin::isEnabledByName('Live');
     $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
@@ -8885,12 +8887,15 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     if ($force_recreate) {
         if ($isLiveEnabled) {
             deleteStatsNotifications();
+            TimeLogEnd($timeName, __LINE__);
         }
     } else {
         if (!empty($__getStatsNotifications__)) {
             return $__getStatsNotifications__;
         }
+        TimeLogEnd($timeName, __LINE__);
         $json = ObjectYPT::getCache($cacheName, 0, true);
+        TimeLogEnd($timeName, __LINE__);
         /*
           $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
           $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
@@ -8898,10 +8903,13 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
           var_dump($cachefile, $cache, $c);exit;
          */
     }
+    TimeLogEnd($timeName, __LINE__);
     if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
+        TimeLogEnd($timeName, __LINE__);
         $json = object_to_array($json);
+        TimeLogEnd($timeName, __LINE__);
         // make sure all the applications are listed on the same array, even from different live servers
         if (empty($json['applications']) && is_array($json)) {
             $oldjson = $json;
@@ -8917,9 +8925,12 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                 }
                 unset($json[$key]);
             }
+            TimeLogEnd($timeName, __LINE__);
         }
 
+        TimeLogEnd($timeName, __LINE__);
         $appArray = AVideoPlugin::getLiveApplicationArray();
+        TimeLogEnd($timeName, __LINE__);
         if (!empty($appArray)) {
             if (empty($json)) {
                 $json = [];
@@ -8934,6 +8945,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
             $json['applications'] = array_merge($json['applications'], $appArray);
         }
+        TimeLogEnd($timeName, __LINE__);
 
         $count = 0;
         if (!isset($json['total'])) {
@@ -8961,31 +8973,39 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                 }
             }
         }
+        TimeLogEnd($timeName, __LINE__);
         $cache = ObjectYPT::setCache($cacheName, $json);
+        TimeLogEnd($timeName, __LINE__);
         Live::unfinishAllFromStats();
+        TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
         //_error_log('getStatsNotifications: 2 cached result');
         $json = object_to_array($json);
     }
 
+    TimeLogEnd($timeName, __LINE__);
     if (empty($json['applications'])) {
         $json['applications'] = [];
     }
 
+    TimeLogEnd($timeName, __LINE__);
     foreach ($json['applications'] as $key => $value) {
         if (!Live::isApplicationListed(@$value['key'], $listItIfIsAdminOrOwner)) {
             $json['hidden_applications'][] = $value;
             unset($json['applications'][$key]);
         }
     }
+    TimeLogEnd($timeName, __LINE__);
     if (!empty($json['applications']) && is_array($json['applications'])) {
         $json['countLiveStream'] = count($json['applications']);
     } else {
         $json['countLiveStream'] = 0;
     }
+    TimeLogEnd($timeName, __LINE__);
     $json['timezone'] = date_default_timezone_get();
     $__getStatsNotifications__ = $json;
+    TimeLogEnd($timeName, __LINE__);
     return $json;
 }
 
