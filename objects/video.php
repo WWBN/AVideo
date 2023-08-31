@@ -1803,7 +1803,7 @@ if (!class_exists('Video')) {
 
             //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
-            //var_dump($sql);
+            //var_dump($sql);exit;
             $timeLogName = TimeLogStart("video::getAllVideos");
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);

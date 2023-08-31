@@ -7,7 +7,7 @@ class ImagesPlaceHolders
     public static $RETURN_PATH = 1;
     public static $RETURN_URL = 2;
     public static $RETURN_ARRAY = 3;
-    private static $placeholders = [
+    static $placeholders = [
         'imageIcon' => 'view/img/placeholders/image.png',
         'imageLandscape' => 'view/img/placeholders/imageLandscape.png',
         'imagePortrait' => 'view/img/placeholders/imagePortrait.png',
@@ -34,7 +34,7 @@ class ImagesPlaceHolders
         'videoNotFoundPoster' => 'view/img/this-video-is-not-available.jpg'
     ];
 
-    static private function getComponent($type, $return = 0)
+    static function getComponent($type, $return = 0)
     {
         global $global;
         if (!isset(self::$placeholders[$type])) {

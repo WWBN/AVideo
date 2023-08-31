@@ -180,6 +180,7 @@ saveRequestVars();
 
     global $contentSearchFound;
     if (empty($contentSearchFound)) {
+        //var_dump(debug_backtrace(), $debugLastGetVideoSQL);exit;
         _session_start();
         unset($_SESSION['type']);
         ?>
@@ -189,7 +190,9 @@ saveRequestVars();
                 <?php echo __("Warning"); ?>!
             </h1>
             <!-- <?php echo basename(__FILE__); ?> -->
-            <?php echo __("We have not found any videos or audios to show"); ?>.
+            <?php echo __("It seems that your search did not return any results"); ?>.
+            <br>
+            <?php echo __("This could be due to the enabled filters"); ?>:
         </div>
     <?php
         _error_log('contentSearchFound NOT FOUND ' . json_encode(debug_backtrace()));

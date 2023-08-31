@@ -7300,6 +7300,7 @@ function avideoShutdown()
 
 function videoNotFound($message, $logMessage = false)
 {
+    //var_dump(debug_backtrace());exit;
     global $global;
     $_REQUEST['404ErrorMsg'] = $message;
     if ($logMessage) {

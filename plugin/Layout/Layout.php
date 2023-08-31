@@ -907,7 +907,7 @@ class Layout extends PluginAbstract
 
             $divs[] = '<div class="form-check">
                             <label class="form-check-label">
-                            <input class="form-check-input" type="radio" name="' . $name . '" checked value="' . $value['clean_name'] . '"> 
+                            <input class="form-check-input" type="radio" name="' . $name . '" value="' . $value['clean_name'] . '"> 
                             <i class="' . $value['iconClass'] . '"></i> ' . __($value['hierarchyAndName']) . '
                         </label></div>';
         }

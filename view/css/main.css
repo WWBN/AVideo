@@ -2030,6 +2030,9 @@ body.ypt-is-compressed #videoCol {
     background-color: rgba(128, 128, 128, 0.5); /* This is the grey background with 50% transparency on hover */
 }
 
+.croppie-container .cr-boundary{
+    border: 2px solid grey;
+}
 
 /*
 #_avideoPageLoader{
