@@ -3646,11 +3646,15 @@ if (!class_exists('Video')) {
                 $values[] = $videoId;
             }
             $sql .= " LIMIT 1";
-            $res = sqlDAL::readSql($sql, $formats, $values, true);
-            $cleanTitleExists = sqlDAL::fetchAssoc($res);
-            sqlDAL::close($res);
-            if ($cleanTitleExists != false) {
-                return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $videoId, $original_title);
+            try {
+                $res = sqlDAL::readSql($sql, $formats, $values, true);
+                $cleanTitleExists = sqlDAL::fetchAssoc($res);
+                sqlDAL::close($res);
+                if ($cleanTitleExists != false) {
+                    return self::fixCleanTitle($original_title . "-" . $count, $count + 1, $videoId, $original_title);
+                }
+            } catch (\Throwable $th) {
+                _error_log("fixCleanTitle($clean_title)", AVideoLog::$ERROR);
             }
             return $clean_title;
         }
