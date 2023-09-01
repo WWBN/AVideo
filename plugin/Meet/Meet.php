@@ -252,7 +252,7 @@ Passcode: {password}
         } else {
             $url = $meetServer . "api/checkMeet.json.php?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . $secret;
             _error_log("serverlabels getMeetServerStatus $url ");
-            $content = url_get_contents($url);
+            $content = url_get_contents($url, '', 0, !empty($_REQUEST['debug']));
             _error_log("serverlabels getMeetServerStatus done $url ");
             
             $json = _json_decode($content);
