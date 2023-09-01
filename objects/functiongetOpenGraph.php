@@ -95,7 +95,7 @@ echo $contentType;
 
 <meta property="ya:ovs:upload_date" content="<?php echo $createddDate; ?>" />
 <meta property="ya:ovs:adult" content="no" />
-<meta property="video:duration" content="<?php echo $video['duration_in_seconds']; ?>"" />
+<meta property="video:duration" content="<?php echo $video['duration_in_seconds']; ?>" />
 
 
 <link rel="canonical" href="<?php echo $ogURL; ?>" />
