@@ -3158,7 +3158,11 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
             _error_log("url_get_contents: allow_url_fopen {$url}");
         }
         try {
-            $tmp = @file_get_contents($url, false, $context);
+            if ($debug) {
+                $tmp = file_get_contents($url, false, $context);
+            }else{
+                $tmp = @file_get_contents($url, false, $context);
+            }
             if ($tmp !== false) {
                 $response = remove_utf8_bom($tmp);
                 if ($debug) {
