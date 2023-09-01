@@ -493,6 +493,9 @@ function safeString($text, $strict = false, $try = 0)
     $text = trim($text);
 
     if (empty($try) && empty($text) && function_exists('mb_convert_encoding')) {
+        $originalText = preg_replace('/[^\PC\s]/u', '', $originalText);
+        // Remove leading and trailing whitespace
+        $originalText = trim($originalText);
         return safeString(mb_convert_encoding($originalText, 'UTF-8'), $strict, 1);
     }
 
