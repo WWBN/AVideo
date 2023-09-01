@@ -17,6 +17,7 @@ $phpExtensions[] = ['curl'];
 $phpExtensions[] = ['gd', 'Important to generate images'];
 $phpExtensions[] = ['xml', 'Important to get the live stats'];
 $phpExtensions[] = ['zip', 'Important handle HLS files'];
+$phpExtensions[] = ['mbstring', 'Handle multi-byte character encodings'];
 // $phpExtensions[] = array('mbstring'); // I could not detect that
 
 $apacheModules = [];
