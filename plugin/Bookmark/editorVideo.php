@@ -211,8 +211,11 @@ $_page->setExtraScripts(
         });
 
         if (typeof player === 'undefined' && $('#mainVideo').length) {
-            player = videojs('mainVideo'
-                <?php echo PlayerSkins::getDataSetup(); ?>);
+            try {                
+                player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
+            } catch (error) {
+                
+            }
         }
         player.on('timeupdate', function() {
             setTime(this.currentTime());
