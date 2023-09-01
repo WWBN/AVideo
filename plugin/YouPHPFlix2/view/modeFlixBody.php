@@ -68,9 +68,11 @@ $percent = 90;
                 <div class="row topicRow">
                     <h2>
                         <a href="<?php echo $link; ?>">
-                            <img src="<?php echo $global['webSiteRootURL'] . $channel["photoURL"]; ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;"> <?php
-                                                                                                                                                                                                            echo $channel["channelName"];
-                                                                                                                                                                                                            ?>
+                            <img 
+                            src="<?php echo User::getPhoto($channel["id"]); ?>" 
+                            class="img img-responsive pull-left" 
+                            style="max-width: 18px; max-height: 18px; margin-right: 5px;"> 
+                            <?php echo $channel["channelName"]; ?>
                         </a>
                     </h2>
                     <!-- Date Programs/Playlists -->
