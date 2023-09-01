@@ -4003,3 +4003,12 @@ function __(str, allowHTML = false) {
     // Escape certain characters for security
     return returnStr.replace(/'/g, "&apos;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
+
+function playChapter(seconds){
+    if(typeof player != 'undefined'){
+        player.currentTime(seconds);
+        var currentURL = window.location.href;
+        newURL = addQueryStringParameter(currentURL, 't', seconds);
+        history.replaceState({}, "", newURL);
+    }
+}

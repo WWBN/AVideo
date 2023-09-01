@@ -9,7 +9,7 @@ class Bookmark extends PluginAbstract
 
     public function getDescription()
     {
-        return "You can add bookmarks in a video or audio clip to highlight interest points or select chapters";
+        return "You can add bookmarks in a video or audio clip to highlight interest points or select Chapters";
     }
 
     public function getName()
@@ -78,6 +78,57 @@ class Bookmark extends PluginAbstract
         return $result;
     }
 
+    static function generateChaptersHTML($videos_id)
+    {
+        $ChaptersData = BookmarkTable::getAllFromVideo($videos_id);
+        if (empty($ChaptersData)) {
+            return '';
+        }
+        $html = '<div class="Chapters">';
+        foreach ($ChaptersData as $index => $item) {
+            $time = secondsToTime($item["timeInSeconds"], '%02d');
+            $html .= '<a href="#" id="Chapter-' . $index . '" class="Chapter" data-timestamp="' . $time . '" onclick="playChapter(' . $item["timeInSeconds"] . ');return false;">'
+                . $time . '</a> '
+                . $item["name"] . '<br>';
+        }
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    static function generateChaptersJSONLD($videos_id)
+    {
+        $ChaptersData = BookmarkTable::getAllFromVideo($videos_id);
+        $Chapters = [];
+        
+        if (!empty($ChaptersData)) {
+            $video = new VIdeo('', '', $videos_id);
+            $durationInSeconds = $video->getDuration_in_seconds();
+            foreach ($ChaptersData as $index => $item) {
+                $startTime = secondsToTime($item["timeInSeconds"], '%02d');
+    
+                // Calculate end time based on the next chapter's start time
+                $endTimeInSeconds = ($index < count($ChaptersData) - 1)
+                    ? $ChaptersData[$index + 1]["timeInSeconds"]
+                    : $durationInSeconds;
+                
+                $endTime = secondsToTime($endTimeInSeconds, '%02d');
+    
+                $Chapter = [
+                    "@type" => "VideoGameClip",
+                    "name" => $item["name"],
+                    "startTime" => "PT" . $startTime . "S",
+                    "endTime" => "PT" . $endTime . "S"
+                ];
+    
+                $Chapters[] = $Chapter;
+            }
+        }
+    
+        return $Chapters;
+    }
+
+
     static function videoToVtt($videos_id)
     {
         $data = BookmarkTable::getAllFromVideo($videos_id);
@@ -87,8 +138,8 @@ class Bookmark extends PluginAbstract
         foreach ($data as $index => $item) {
             $start_time = $item["timeInSeconds"];
 
-            // Assume each chapter is 5 seconds long if it's the last one, 
-            // or calculate the time until the next chapter starts
+            // Assume each Chapter is 5 seconds long if it's the last one, 
+            // or calculate the time until the next Chapter starts
             $end_time = ($index == count($data) - 1) ? $start_time + 5 : $data[$index + 1]["timeInSeconds"] - 1;
 
             $output .= secondsToTime($start_time) . " --> " . secondsToTime($end_time) . "\n";
@@ -101,30 +152,32 @@ class Bookmark extends PluginAbstract
         //var_dump($bytes, self::getChaptersFilename($videos_id), $output);exit;
     }
 
-    static function getChaptersFilenameFromFilename($fileName, $lang='en') {
+    static function getChaptersFilenameFromFilename($fileName, $lang = 'en')
+    {
         $video = Video::getVideoFromFileNameLight($fileName);
         //var_dump($video);
         return self::getChaptersFilename($video['id'], $lang);
     }
 
-    static function getChaptersFilename($videos_id, $lang='en') {
+    static function getChaptersFilename($videos_id, $lang = 'en')
+    {
         $video = new Video("", "", $videos_id);
         $filename = $video->getFilename();
         $path = Video::getPathToFile($filename);
         if (empty($lang) || strtoupper($lang) == 'CC') {
-            $vttFilename = "{$path}.chapters.vtt";
+            $vttFilename = "{$path}.Chapters.vtt";
         } else {
-            $vttFilename = "{$path}.chapters.{$lang}.vtt";
+            $vttFilename = "{$path}.Chapters.{$lang}.vtt";
         }
 
         return $vttFilename;
     }
-    
 }
 
-function getVTTCaptionTracks($fileName, $returnArray = false) {
+function getVTTChapterTracks($fileName, $returnArray = false)
+{
     global $global;
-    $cache = getVTTCaptionCache($fileName);
+    $cache = getVTTChapterCache($fileName);
     if (!empty($cache)) {
         $objCache = _json_decode($cache);
     } else {
@@ -143,7 +196,7 @@ function getVTTCaptionTracks($fileName, $returnArray = false) {
                 $obj->label = 'Chapters';
                 $obj->desc = 'Chapters';
 
-                $tracks .= "<track kind=\"chapters\" src=\"{$obj->src}\" srclang=\"{$obj->srclang}\" label=\"{$obj->label}\" default>";
+                $tracks .= "<track kind=\"chapters\" src=\"{$obj->src}\" default>";
 
                 $sourcesArray[] = $obj;
             }
@@ -151,14 +204,15 @@ function getVTTCaptionTracks($fileName, $returnArray = false) {
         $objCache = new stdClass();
         $objCache->sourcesArray = $sourcesArray;
         $objCache->tracks = $tracks;
-        createVTTCaptionCache($fileName, json_encode($objCache));
+        createVTTChapterCache($fileName, json_encode($objCache));
     }
     return $returnArray ? $objCache->sourcesArray : $objCache->tracks;
 }
 
-function getVTTCaptionCache($fileName) {
+function getVTTChapterCache($fileName)
+{
     global $global;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttCaption/';
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttChapter/';
     $file = "{$cacheDir}{$fileName}.cache";
     if (!file_exists($file)) {
         return false;
@@ -166,17 +220,19 @@ function getVTTCaptionCache($fileName) {
     return file_get_contents($file);
 }
 
-function createVTTCaptionCache($fileName, $data) {
+function createVTTChapterCache($fileName, $data)
+{
     global $global;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttCaption/';
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttChapter/';
     if (!file_exists($cacheDir)) {
         mkdir($cacheDir, 0777, true);
     }
     file_put_contents("{$cacheDir}{$fileName}.cache", $data);
 }
 
-function deleteVTTCaptionCache($fileName) {
+function deleteVTTChapterCache($fileName)
+{
     global $global;
-    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttCaption/';
+    $cacheDir = $global['systemRootPath'] . 'videos/cache/vttChapter/';
     @unlink("{$cacheDir}{$fileName}.cache");
 }

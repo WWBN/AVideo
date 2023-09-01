@@ -4458,7 +4458,7 @@ if (!class_exists('Video')) {
                 return $matches[1];
             }
 
-            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound', '.chapters'];
+            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound', '.Chapters'];
 
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);

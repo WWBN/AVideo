@@ -1793,8 +1793,8 @@ function getSources($fileName, $returnArray = false, $try = 0)
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
     }
-    if (function_exists('getVTTCaptionTracks')) {
-        $captionsTracks = getVTTCaptionTracks($fileName, $returnArray);
+    if (function_exists('getVTTChapterTracks')) {
+        $captionsTracks = getVTTChapterTracks($fileName, $returnArray);
     }
     //var_dump($subtitleTracks,  $captionsTracks);exit;
     if ($returnArray) {
@@ -4504,6 +4504,12 @@ function getLdJson($videos_id)
             )
         )
     );
+    if(AVideoPlugin::isEnabledByName('Bookmark')){
+        $chapters = Bookmark::generateChaptersJSONLD($videos_id);
+        if(!empty($chapters)){
+            $data['videoChapter'] = $chapters;
+        }
+    }
 
     $output = '<script type="application/ld+json" id="application_ld_json">';
     $output .= json_encode($data, JSON_UNESCAPED_SLASHES);
