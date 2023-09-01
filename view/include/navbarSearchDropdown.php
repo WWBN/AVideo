@@ -9,17 +9,17 @@
     <div class="panel panel-default dropdown-menu" aria-labelledby="filterButton" style="margin: 0;">
         <div class="panel-heading  tabbable-line">
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#search-tab"><?php echo __('Search in'); ?></a></li>
-                <li><a data-toggle="tab" href="#filter-tab"><?php echo __('Categories'); ?></a></li>
+                <li class="active"><a data-toggle="tab" href="#search-tab" rel="nofollow"><?php echo __('Search in'); ?></a></li>
+                <li><a data-toggle="tab" href="#filter-tab" rel="nofollow"><?php echo __('Categories'); ?></a></li>
                 <?php
                 if (!empty($tags)) {
                 ?>
-                    <li><a data-toggle="tab" href="#filter-tags-tab"><?php echo __('Tags'); ?></a></li>
+                    <li><a data-toggle="tab" href="#filter-tags-tab" rel="nofollow"><?php echo __('Tags'); ?></a></li>
                 <?php
                 }
                 ?>
-                <li><a data-toggle="tab" href="#filter-datetime-tab"><?php echo __('Date within'); ?></a></li>
-                <li><a data-toggle="tab" href="#filter-views-tab"><?php echo __('Views'); ?></a></li>
+                <li><a data-toggle="tab" href="#filter-datetime-tab" rel="nofollow"><?php echo __('Date within'); ?></a></li>
+                <li><a data-toggle="tab" href="#filter-views-tab" rel="nofollow"><?php echo __('Views'); ?></a></li>
             </ul>
         </div>
         <div class="panel-body">
