@@ -7,9 +7,11 @@ require_once $global['systemRootPath'] . 'plugin/Bookmark/Objects/BookmarkTable.
 class Bookmark extends PluginAbstract
 {
 
-    public function getDescription()
-    {
-        return "You can add bookmarks in a video or audio clip to highlight interest points or select Chapters";
+    public function getDescription() {
+        $txt = "You can add bookmarks in a video or audio clip to highlight interest points or select Chapters.";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/Bookmark-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+
+        return $txt . $help;
     }
 
     public function getName()
