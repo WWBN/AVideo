@@ -3172,7 +3172,8 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
                 return $response;
             }
             if ($debug) {
-                _error_log("url_get_contents: ERROR file_get_contents($url) ");
+                $error = error_get_last();
+                _error_log("url_get_contents: ERROR file_get_contents($url) ".json_encode($error));
             }
         } catch (ErrorException $e) {
             if ($debug) {
