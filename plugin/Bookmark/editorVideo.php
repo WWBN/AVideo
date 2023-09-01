@@ -214,7 +214,7 @@ $_page->setExtraScripts(
             try {                
                 player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
             } catch (error) {
-                
+                player = videojs('mainVideo');
             }
         }
         player.on('timeupdate', function() {
