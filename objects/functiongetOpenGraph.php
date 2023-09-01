@@ -132,7 +132,6 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['u
     <?php
     }
 ?>
-<meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 
 <!-- Twitter cards -->
