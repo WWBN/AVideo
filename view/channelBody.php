@@ -230,18 +230,26 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
             </div>
 
             <div class="col-md-12" id="aboutArea">
-                <div id="aboutAreaPreContent">
-                    <div id="aboutAreaContent">
-                        <?php
-                        $about = html_entity_decode($user->getAbout());
-                        echo $about;
-                        ?>
+                <?php
+                $about = html_entity_decode($user->getAbout());
+                if (!empty($advancedCustomUser->showAllAboutTextOnChannel)) {
+                    echo $about;
+                } else {
+                ?>
+                    <div id="aboutAreaPreContent">
+                        <div id="aboutAreaContent">
+                            <?php
+                            echo $about;
+                            ?>
+                        </div>
                     </div>
-                </div>
-                <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn" style="display: none; ">
-                    <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
-                    <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
-                </button>
+                    <button onclick="$('#aboutArea').toggleClass('expanded');" class="btn btn-xs btn-default" id="aboutAreaShowMoreBtn" style="display: none; ">
+                        <span class="showMore"><i class="fas fa-caret-down"></i> <?php echo __("Show More"); ?></span>
+                        <span class="showLess"><i class="fas fa-caret-up"></i> <?php echo __("Show Less"); ?></span>
+                    </button>
+                <?php
+                }
+                ?>
             </div>
 
             <script>

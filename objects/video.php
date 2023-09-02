@@ -2266,6 +2266,8 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 $sql .= " ORDER BY RAND() ";
+            }else{
+                $sql .= " ORDER BY v.created DESC ";
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (empty($global['limitForUnlimitedVideos'])) {

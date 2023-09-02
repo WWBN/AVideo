@@ -327,6 +327,9 @@ class CustomizeUser extends PluginAbstract
         $obj->doNotShowMyAboutOnBasicInfo = false;
 
         $obj->MyChannelLabel = "My Channel";
+        $obj->showAllAboutTextOnChannel = false;
+        self::addDataObjectHelper('showAllAboutTextOnChannel', 'Show All About Text On Channel', 'Instead of show the [Show more] button, it will show the whole text');
+        
         $obj->afterLoginGoToMyChannel = false;
         $obj->afterLoginGoToURL = "";
         $obj->afterLogoffGoToMyChannel = false;
