@@ -65,7 +65,11 @@ if (empty($_GET['notFound']) && ImagesPlaceHolders::isDefaultImage($file)) {
 }
 
 // Serve the final image
-header("HTTP/1.0 404 Not Found");
+if(ImagesPlaceHolders::isDefaultImage($file)){
+    header("HTTP/1.0 404 Not Found");
+}else{
+    header("HTTP/1.0 200 OK");
+}
 header('Content-Type:' . $type);
 header('Content-Length: ' . filesize($file));
 readfile($file);
