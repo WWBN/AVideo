@@ -365,7 +365,7 @@ class PlayerSkins extends PluginAbstract {
             }
             $videos_id = getVideos_id();
 
-            $event = "updateMediaSessionMetadata();";
+            $event = "if(typeof updateMediaSessionMetadata === \"function\"){updateMediaSessionMetadata();}";
             PlayerSkins::getStartPlayerJS($event);
             if (!empty($videos_id) && Video::getEPG($videos_id)) {
                 PlayerSkins::getStartPlayerJS(file_get_contents("{$global['systemRootPath']}plugin/PlayerSkins/epgButton.js"));
