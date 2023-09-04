@@ -1,3 +1,7 @@
+#topMenuUserNotifications {
+    display: list-item !important;
+}
+
 #topMenuUserNotifications > ul {
     max-width: 90vw;
 }

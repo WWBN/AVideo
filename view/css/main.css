@@ -2034,6 +2034,10 @@ body.ypt-is-compressed #videoCol {
     border: 2px solid grey;
 }
 
+#topMenuUserNotifications {
+    display: none;
+}
+
 /*
 #_avideoPageLoader{
     display: none !important;
