@@ -692,7 +692,14 @@ class PlayerSkins extends PluginAbstract {
             $video = new Video("", "", $videos_id);
             $fileName = $video->getFilename();
             //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
-            $resolution = Video::getHigestResolution($fileName);
+            $resolution = $video->getVideoHigestResolution();
+            if(!empty($resolution)){
+                $resolution = Video::getHigestResolution($fileName);
+                if(!empty($resolution)){
+                    $video->setVideoHigestResolution($resolution);
+                }
+            }
+
             $obj = new stdClass();
             if (empty($resolution) || empty($resolution['resolution_text'])) {
                 $obj->label = '';
@@ -705,6 +712,7 @@ class PlayerSkins extends PluginAbstract {
                 $obj->tooltip = $resolution['resolution'] . 'p';
             }
             $tags = $obj;
+
             ObjectYPT::setCache($name, $tags);
         }
         return array($tags);

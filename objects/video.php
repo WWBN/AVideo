@@ -3317,7 +3317,7 @@ if (!class_exists('Video')) {
         public static function getTags_($video_id, $type = "")
         {
             global $advancedCustom, $advancedCustomUser, $getTags_;
-            $tolerance = 0.5;
+            $tolerance = 0.2;
             if (!isset($getTags_)) {
                 $getTags_ = [];
             }
@@ -4588,7 +4588,7 @@ if (!class_exists('Video')) {
                 $resolution = $HigestResolution;
                 $return['resolution'] = $resolution;
                 $return['resolution_text'] = getResolutionText($return['resolution']);
-                $return['resolution_label'] = getResolutionLabel($return['resolution']);
+                $return['resolution_label'] = getResolutionLabel($return['resolution']);                
                 $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
                 return $return;
             } else {
@@ -5961,8 +5961,17 @@ if (!class_exists('Video')) {
             if (!is_object($externalOptions)) {
                 $externalOptions = new stdClass();
             }
+            
+            if(!is_numeric($HigestResolution)){
+                if(is_object($HigestResolution)){
+                    $HigestResolution = $HigestResolution->resolution;
+                }else{
+                    $HigestResolution = 0;
+                }
+            }
             $externalOptions->HigestResolution = $HigestResolution;
             $this->setExternalOptions(json_encode($externalOptions));
+            _error_log("setVideoHigestResolution($HigestResolution)");
             return $this->save(false, true);
         }
 
@@ -5971,6 +5980,13 @@ if (!class_exists('Video')) {
             $externalOptions = _json_decode($this->getExternalOptions());
             if (empty($externalOptions->HigestResolution)) {
                 return false;
+            }
+            if(!is_numeric($externalOptions->HigestResolution)){
+                if(is_object($externalOptions->HigestResolution)){
+                    return $externalOptions->HigestResolution->resolution;
+                }else{
+                    return 0;
+                }
             }
             return $externalOptions->HigestResolution;
         }
