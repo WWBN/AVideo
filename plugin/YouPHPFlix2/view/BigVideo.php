@@ -10,7 +10,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
         ?>
         <center>
-            <img src="<?php echo getURL('view/img/this-video-is-not-available.jpg'); ?>">
+            <img 
+            src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" 
+            class="img img-responsive ImagesPlaceHoldersDefaultImage">
         </center>
         <?php
     } else {

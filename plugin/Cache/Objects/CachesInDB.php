@@ -195,9 +195,9 @@ class CachesInDB extends ObjectYPT
         $formats = [];
         $values = [];
 
-        foreach ($cacheArray as $cache) {
-            $name = self::hashName($cache['name']);
-            $content = !is_string($cache['value']) ? _json_encode($cache['value']) : $cache['value'];
+        foreach ($cacheArray as $name => $cache) {
+            $name = self::hashName($name);
+            $content = !is_string($cache) ? _json_encode($cache) : $cache;
             if (empty($content)) continue;
 
             $formats[] = "sssssss";

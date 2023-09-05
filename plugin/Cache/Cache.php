@@ -324,6 +324,10 @@ class Cache extends PluginAbstract {
     }
 
     public static function _getCache($name, $ignoreMetadata = false) {
+        global $cache_setCacheToSaveAtTheEnd;
+        if(!empty($cache_setCacheToSaveAtTheEnd[$name])){
+            return $cache_setCacheToSaveAtTheEnd[$name];
+        }
         $metadata = self::getCacheMetaData();
         return CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
     }
@@ -333,7 +337,7 @@ class Cache extends PluginAbstract {
         if(!isset($cache_setCacheToSaveAtTheEnd)){
             $cache_setCacheToSaveAtTheEnd = array();
         }
-        $cache_setCacheToSaveAtTheEnd[] = array('name'=>$name, 'value'=>$value);
+        $cache_setCacheToSaveAtTheEnd[$name] = $value;
         //$metadata = self::getCacheMetaData();
         //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
     }
@@ -342,9 +346,9 @@ class Cache extends PluginAbstract {
         global $cache_setCacheToSaveAtTheEnd;
         if(!empty($cache_setCacheToSaveAtTheEnd)){
             $metadata = self::getCacheMetaData();
-            mysqlBeginTransaction();
+            //mysqlBeginTransaction();
             CachesInDB::setBulkCache($cache_setCacheToSaveAtTheEnd, $metadata);
-            mysqlCommit();
+            //mysqlCommit();
         }
     }
 

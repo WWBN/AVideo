@@ -8,6 +8,8 @@ class ImagesPlaceHolders
     public static $RETURN_URL = 2;
     public static $RETURN_ARRAY = 3;
     static $placeholders = [
+        'animationLandscape' => 'view/img/placeholders/animationLandscape.webp',
+        'animationPortrait' => 'view/img/placeholders/animationPortrait.webp',
         'imageIcon' => 'view/img/placeholders/image.png',
         'imageLandscape' => 'view/img/placeholders/imageLandscape.png',
         'imagePortrait' => 'view/img/placeholders/imagePortrait.png',
@@ -31,7 +33,7 @@ class ImagesPlaceHolders
         'zipPortrait' => 'view/img/placeholders/zipPortrait.png',
         'videoPlaceholder' => 'view/img/video-placeholder-gray.png',
         'videoPlaceholderPortrait' => 'view/img/video-placeholder-gray-portrait.png',
-        'videoNotFoundPoster' => 'view/img/this-video-is-not-available.jpg'
+        'videoNotFoundPoster' => 'view/img/videoNotFound.png'
     ];
 
     static function getComponent($type, $return = 0)
@@ -262,5 +264,13 @@ class ImagesPlaceHolders
     static function getVideoNotFoundPoster($return = 0)
     {
         return self::getComponent('videoNotFoundPoster', $return);
+    }
+    static function getVideoAnimationLandscape($return = 0)
+    {
+        return self::getComponent('animationLandscape', $return);
+    }
+    static function getVideoAnimationPortrait($return = 0)
+    {
+        return self::getComponent('animationPortrait', $return);
     }
 }
