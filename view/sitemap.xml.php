@@ -21,7 +21,10 @@ if (file_exists($sitemapFile)) {
             echo $sitemap;
             $headers = headers_list();
             foreach ($headers as $header) {
-                _error_log("sitemap.xml {$header}");
+                _error_log("sitemap.xml headers {$header}");
+            }
+            foreach ($_GET as $header) {
+                _error_log("sitemap.xml _GET {$header}");
             }
             exit;
         }
