@@ -17,7 +17,7 @@ if (file_exists($sitemapFile)) {
     if (filemtime($sitemapFile) > strtotime("-{$lifetime} seconts")) {
         if (!empty($sitemap)) {
             $sitemap_end = microtime(true) - $sitemap_start;
-            $sitemap .= "<!-- Created in {$sitemap_end} [" . seconds2human($sitemap_end) . "] -->";
+            $sitemap .= "<!-- Created in {$sitemap_end} [" . seconds2human($sitemap_end) . "] size=".humanFileSize(strlen($sitemap))." -->";
             echo $sitemap;
             exit;
         }
