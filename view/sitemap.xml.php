@@ -19,13 +19,6 @@ if (file_exists($sitemapFile)) {
             $sitemap_end = microtime(true) - $sitemap_start;
             $sitemap .= "<!-- Created in ".number_format($sitemap_end, 4)." seconds size=".humanFileSize(strlen($sitemap))." -->";
             echo $sitemap;
-            $headers = headers_list();
-            foreach ($headers as $header) {
-                _error_log("sitemap.xml headers {$header}");
-            }
-            foreach ($_GET as $header) {
-                _error_log("sitemap.xml _GET {$header}");
-            }
             exit;
         }
     }
@@ -44,8 +37,16 @@ if (file_exists($lockFile) && filemtime($lockFile) > strtotime('-10 minutes')) {
 if (empty($sitemap)) {
     file_put_contents($lockFile, time());
     $sitemap = siteMap();
-    file_put_contents($sitemapFile, $sitemap);
+    $result = file_put_contents($sitemapFile, $sitemap);
     _error_log('sitemap cache created ' . json_encode($result));
+    
+    $headers = headers_list();
+    foreach ($headers as $header) {
+        _error_log("sitemap.xml headers {$header}");
+    }
+    foreach ($_GET as $header) {
+        _error_log("sitemap.xml _GET {$header}");
+    }
     unlink($lockFile);
 } else {
     $sitemap .= "<!-- cached -->";
