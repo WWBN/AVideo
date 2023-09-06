@@ -4066,7 +4066,7 @@ function siteMap()
                     <video:publication_date>' . date("Y-m-d\TH:i:s", strtotime($video['created'])) . '+00:00</video:publication_date>
                     <video:family_friendly>yes</video:family_friendly>
                     <video:requires_subscription>' . $requires_subscription . '</video:requires_subscription>
-                    <video:uploader info="' . $uploader_info . '">' . $uploader . '</video:uploader>
+                    <video:uploader info="' . $uploader_info . '"><![CDATA[' . $uploader . ']]></video:uploader>
                     <video:live>no</video:live>
                 </video:video>
             </url>
