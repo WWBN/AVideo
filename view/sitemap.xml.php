@@ -17,8 +17,12 @@ if (file_exists($sitemapFile)) {
     if (filemtime($sitemapFile) > strtotime("-{$lifetime} seconts")) {
         if (!empty($sitemap)) {
             $sitemap_end = microtime(true) - $sitemap_start;
-            $sitemap .= "<!-- Created in ".number_format($sitemap_end, 4)." size=".humanFileSize(strlen($sitemap))." -->";
+            $sitemap .= "<!-- Created in ".number_format($sitemap_end, 4)." seconds size=".humanFileSize(strlen($sitemap))." -->";
             echo $sitemap;
+            $headers = headers_list();
+            foreach ($headers as $header) {
+                _error_log("sitemap.xml {$header}");
+            }
             exit;
         }
     }
