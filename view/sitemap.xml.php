@@ -3,6 +3,9 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+if(isset($_GET['yptDeviceID'])){
+    unset($_GET['yptDeviceID']);
+}
 $sitemap_start = microtime(true);
 $name = "sitemap.xml." . md5(json_encode($_GET));
 $lifetime = 43200; // 12 hours
