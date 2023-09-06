@@ -4023,8 +4023,8 @@ function siteMap()
         TimeLogEnd("siteMap Video::getPoster $videos_id", __LINE__, 0.5);
 
         if (empty($advancedCustom->disableSiteMapVideoDescription)) {
-            $description = str_replace(['"', "\n", "\r"], ['', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
-            $description = str_ireplace(array('&nbsp;'), array(''),_substr(strip_tags(br2nl($description)), 0, $descriptionLimit));
+            $description = str_ireplace(['"', "\n", "\r", '&nbsp;'], ['', ' ', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
+            $description = _substr(strip_tags(br2nl($description)), 0, $descriptionLimit);
         } else {
             $description = false;
         }
