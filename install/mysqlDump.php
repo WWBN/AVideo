@@ -2,7 +2,7 @@
 //streamer config
 require_once '../videos/configuration.php';
 
-if (!isCommandLineInterface()) {
+if (php_sapi_name() !== 'cli') {
     return die('Command Line only');
 }
 
