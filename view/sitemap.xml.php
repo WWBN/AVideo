@@ -59,7 +59,7 @@ function debugSiteMap($line){
     foreach ($headers as $header) {
         _error_log("sitemap.xml headers {$header}");
     }
-    foreach ($_GET as $header) {
-        _error_log("sitemap.xml _GET {$header}");
+    foreach ($_GET as $key=>$value) {
+        _error_log("sitemap.xml _GET $key=>$value");
     }
 }
