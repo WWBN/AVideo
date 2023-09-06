@@ -3952,7 +3952,7 @@ function siteMap()
         </url>
         ';
     if (empty($_REQUEST['catName'])) {
-        $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        setRowCount($advancedCustom->siteMapRowsLimit);
         _error_log("siteMap: rowCount {$_REQUEST['rowCount']} ");
         $_POST['sort']['modified'] = "DESC";
         TimeLogStart("siteMap getAllUsersThatHasVideos");
@@ -3973,7 +3973,7 @@ function siteMap()
         TimeLogEnd("siteMap getAllUsersThatHasVideos", __LINE__, 0.5);
         TimeLogStart("siteMap getAllCategories");
         $xml .= PHP_EOL . '<!-- Categories -->' . PHP_EOL;
-        $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit;
+        setRowCount($advancedCustom->siteMapRowsLimit);
         $_POST['sort']['modified'] = "DESC";
         $rows = Category::getAllCategories();
         _error_log("siteMap: getAllCategories " . count($rows));
@@ -3995,7 +3995,7 @@ function siteMap()
 
     TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
-    $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
+    setRowCount($advancedCustom->siteMapRowsLimit * 10);
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     if (empty($rows) || !is_array($rows)) {
@@ -4024,7 +4024,7 @@ function siteMap()
 
         if (empty($advancedCustom->disableSiteMapVideoDescription)) {
             $description = str_replace(['"', "\n", "\r"], ['', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
-            $description = _substr(strip_tags(br2nl($description)), 0, $descriptionLimit);
+            $description = str_ireplace(array('&nbsp;'), array(''),_substr(strip_tags(br2nl($description)), 0, $descriptionLimit));
         } else {
             $description = false;
         }
