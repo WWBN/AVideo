@@ -58,6 +58,7 @@ exit;
 
 function debugSiteMap($line){
     _error_log("sitemap.xml debugSiteMap($line)");
+    /*
     $headers = headers_list();
     foreach ($headers as $header) {
         _error_log("sitemap.xml headers {$header}");
@@ -65,4 +66,5 @@ function debugSiteMap($line){
     foreach ($_GET as $key=>$value) {
         _error_log("sitemap.xml _GET $key=>$value");
     }
+    */
 }
