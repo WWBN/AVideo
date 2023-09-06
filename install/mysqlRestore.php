@@ -2,7 +2,7 @@
 
 //streamer config
 $global['createDatabase'] = 1;
-//$doNotIncludeConfig = 1;
+$doNotIncludeConfig = 1;
 require_once '../videos/configuration.php';
 
 $global['mysqli'] = new mysqli($mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
