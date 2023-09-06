@@ -36,7 +36,7 @@ if ($option === '') {
 echo 'We will make a backup first ...' . PHP_EOL;
 $restore = 1;
 
-include './mysqlDump.php';
+//include './mysqlDump.php';
 
 echo PHP_EOL . "Backup file created at {$file}" . PHP_EOL;
 
