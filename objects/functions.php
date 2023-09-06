@@ -3995,13 +3995,25 @@ function siteMap()
 
     TimeLogStart("siteMap getAllVideos");
     $xml .= '<!-- Videos -->';
-    $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit / 2;
+    $global['rowCount'] = $_REQUEST['rowCount'] = $advancedCustom->siteMapRowsLimit * 10;
     $_POST['sort']['created'] = "DESC";
     $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
     if (empty($rows) || !is_array($rows)) {
         $rows = [];
     }
-    _error_log("siteMap: getAllVideos " . count($rows));
+    $total = count($rows);
+    _error_log("siteMap: getAllVideos total={$total}");
+    
+    $descriptionLimit = 2048;
+    if($total>2000){
+        $descriptionLimit = 128;
+    }else if($total>1000){
+        $descriptionLimit = 256;
+    }else if($total>500){
+        $descriptionLimit = 512;
+    }else if($total>200){
+        $descriptionLimit = 1024;
+    }
     foreach ($rows as $video) {
         $totalVideos++;
         $videos_id = $video['id'];
@@ -4012,7 +4024,7 @@ function siteMap()
 
         if (empty($advancedCustom->disableSiteMapVideoDescription)) {
             $description = str_replace(['"', "\n", "\r"], ['', ' ', ' '], empty(trim($video['description'])) ? $video['title'] : $video['description']);
-            $description = _substr(strip_tags(br2nl($description)), 0, 2048);
+            $description = _substr(strip_tags(br2nl($description)), 0, $descriptionLimit);
         } else {
             $description = false;
         }
