@@ -2145,9 +2145,9 @@ if (typeof gtag !== \"function\") {
             $pass = encryptPassword($pass);
             $userObject = new User(0, $user, $pass);
             $userObject->setEmail($email);
-            $userObject->setName($name);
+            //$userObject->setName($name);
             $userObject->setIsAdmin($isAdmin);
-            $userObject->setPhotoURL($photoURL);
+            //$userObject->setPhotoURL($photoURL);
             $userObject->setEmailVerified($emailVerified);
             $userId = $userObject->save();
             if (!empty($userId)) {
