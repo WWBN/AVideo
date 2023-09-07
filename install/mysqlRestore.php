@@ -32,14 +32,14 @@ if ($option === '') {
     $option = intval($option);
     $filename = $glob[$option];
 }
-
+/*
 echo 'We will make a backup first ...' . PHP_EOL;
 $restore = 1;
 
 //include './mysqlDump.php';
 
 echo PHP_EOL . "Backup file created at {$file}" . PHP_EOL;
-
+*/
 executeFile($filename);
 
 function executeFile($filename) {
