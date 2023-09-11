@@ -4385,7 +4385,7 @@ function convertImageToOG($source, $destination)
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             im_resize($fileConverted, $destination, $w, $h, 100);            
-            _error_log("convertImageToOG ($fileConverted) ($destination) unlink line=".__LINE__);
+            _error_log("convertImageToOG ($destination) unlink line=".__LINE__.' '._json_encode(debug_backtrace()));
             @unlink($fileConverted);
         }
     }
