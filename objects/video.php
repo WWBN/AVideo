@@ -5473,7 +5473,7 @@ if (!class_exists('Video')) {
                 return false;
             }
             global $global;
-
+            _error_log("Video:deleteThumbs($filename) ".json_encode(debug_backtrace()));
             $filePath = Video::getPathToFile($filename);
 
             deleteMediaSessionPosters($filePath . '.jpg');
