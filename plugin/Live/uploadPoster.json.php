@@ -35,7 +35,7 @@ if (!empty($live_schedule_id)) {
     if ($obj->image) {
         $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
         
-        _error_log("removePoster.php ({$obj->pathThumbs}) line=".__LINE__);
+        _error_log("removePoster.php ({$obj->pathThumbs}) unlink line=".__LINE__);
         @unlink($obj->pathThumbs);
         $obj->error = false;
     }

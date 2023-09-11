@@ -2274,7 +2274,7 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
 
     if ($extension == 'gif') {
         im_resize_gif($file_src, $file_dest, $max_width, $max_height);
-        _error_log("im_resize_max_size($file_src) line=".__LINE__);
+        _error_log("im_resize_max_size($file_src) unlink line=".__LINE__);
         @unlink($file_src);
         return true;
     }
@@ -2333,9 +2333,9 @@ function im_resize_max_size($file_src, $file_dest, $max_width, $max_height)
     imagedestroy($src);
     imagejpeg($dst, $file_dest); // adjust format as needed
     imagedestroy($dst);
-    _error_log("im_resize_max_size($file_src) line=".__LINE__);
+    _error_log("im_resize_max_size($file_src) unlink line=".__LINE__);
     @unlink($file_src);
-    _error_log("im_resize_max_size($tmpFile) line=".__LINE__);
+    _error_log("im_resize_max_size($tmpFile) unlink line=".__LINE__);
     @unlink($tmpFile);
 }
 
@@ -2583,7 +2583,7 @@ function unzipDirectory($filename, $destination)
     }
 
     // Delete the original zip file
-    _error_log("unzipDirectory($filename) line=".__LINE__);
+    _error_log("unzipDirectory($filename) unlink line=".__LINE__);
     @unlink($filename);
 }
 
@@ -2639,7 +2639,7 @@ function cleanDirectory($dir, $allowedExtensions = ['key', 'm3u8', 'ts', 'vtt', 
         }
         $path_parts = pathinfo($current);
         if (!empty($path_parts['extension']) && !in_array($path_parts['extension'], $allowedExtensions)) {
-            _error_log("cleanDirectory($current) line=".__LINE__);
+            _error_log("cleanDirectory($current) unlink line=".__LINE__);
             unlink($current);
         }
     }
@@ -4385,7 +4385,7 @@ function convertImageToOG($source, $destination)
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             im_resize($fileConverted, $destination, $w, $h, 100);            
-            _error_log("convertImageToOG ($fileConverted) line=".__LINE__);
+            _error_log("convertImageToOG ($fileConverted) unlink line=".__LINE__);
             @unlink($fileConverted);
         }
     }
@@ -4447,7 +4447,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
             } else {
                 _error_log("convertImageIfNotExists: convertImage error 2 $source, $fileConverted");
             }
-            _error_log("convertImageToOG ($fileConverted) line=".__LINE__);
+            _error_log("convertImageToOG ($fileConverted) unlink line=".__LINE__);
             @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageIfNotExists: " . $exc->getMessage());
@@ -10387,7 +10387,7 @@ function deleteMediaSessionPosters($imagePath)
     foreach ($sizes as $value) {
         $destination = str_replace('.jpg', "_{$value}.jpg", $imagePath);
         
-        _error_log("deleteMediaSessionPosters ($destination) line=".__LINE__);
+        _error_log("deleteMediaSessionPosters ($destination) unlink line=".__LINE__);
         @unlink($destination);
     }
 }

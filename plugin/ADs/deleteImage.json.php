@@ -58,7 +58,7 @@ $paths = ADs::getAdsPath($type, @$_REQUEST['is_regular_user']);
 $files = _glob($paths['path'], "/{$fileName}/");
 foreach ($files as $value) {
     
-    _error_log("deleteImage.json.php ($value) line=".__LINE__);
+    _error_log("deleteImage.json.php ($value) unlink line=".__LINE__);
     unlink($value);
 }
 $result->type = $type;
