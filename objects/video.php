@@ -2869,6 +2869,7 @@ if (!class_exists('Video')) {
                     if (is_dir($file)) {
                         self::rrmdir($file);
                     } else {
+                        _error_log("removeFilePath ($file) line=".__LINE__);
                         @unlink($file);
                     }
                 }
@@ -5496,6 +5497,7 @@ if (!class_exists('Video')) {
                     if (isCommandLineInterface()) {
                         echo "Deleting {$file} " . humanFileSize(filesize($file)) . PHP_EOL;
                     }
+                    _error_log("Video:deleteThumbs($file) line=".__LINE__);
                     @unlink($file);
                     $totalDeleted++;
                 }
@@ -5522,6 +5524,8 @@ if (!class_exists('Video')) {
             global $global;
 
             $filePath = Video::getPathToFile($filename);
+            
+            _error_log("Video:deleteGifAndWebp($filePath) line=".__LINE__);
             @unlink("{$filePath}.gif");
             @unlink("{$filePath}.webp");
             ObjectYPT::deleteCache($filename);

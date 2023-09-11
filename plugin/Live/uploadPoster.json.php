@@ -34,6 +34,8 @@ if (!empty($live_schedule_id)) {
     $obj->image = saveCroppieImage($obj->path, "image");
     if ($obj->image) {
         $obj->pathThumbs = $global['systemRootPath'] . Live::_getPosterThumbsImage(User::getId(), $live_servers_id, $posterType);
+        
+        _error_log("removePoster.php ({$obj->pathThumbs}) line=".__LINE__);
         @unlink($obj->pathThumbs);
         $obj->error = false;
     }

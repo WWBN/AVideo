@@ -306,13 +306,16 @@ class AVideoPlugin
 
     public static function getHTMLMenuRight()
     {
-        $name = "getHTMLMenuRight" . User::getId();
+        $name = "getHTMLMenuRight_" . User::getId();
+        //var_dump($name);
         $str = ObjectYPT::getCache($name, 3600);
         if (empty($str)) {
             $plugins = Plugin::getAllEnabled();
+            //var_dump($plugins);
             $str = "";
             foreach ($plugins as $value) {
                 self::YPTstart();
+                //var_dump($value['dirName']);
                 $p = static::loadPlugin($value['dirName']);
                 if (is_object($p)) {
                     $str .= $p->getHTMLMenuRight();

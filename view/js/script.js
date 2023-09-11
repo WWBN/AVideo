@@ -1165,7 +1165,7 @@ function avideoAlert(title, msg, type) {
     avideoAlertHTMLText(title, msg, type);
 }
 
-function avideoAlertOnce(title, msg, type, uid) {
+function avideoAlertWithCookie(title, msg, type, uid, expires) {
     var cookieName = 'avideoAlertOnce' + uid;
     if (!Cookies.get(cookieName)) {
         var span = document.createElement("span");
@@ -1180,12 +1180,29 @@ function avideoAlertOnce(title, msg, type, uid) {
             if (okay) {
                 Cookies.set(cookieName, 1, {
                     path: '/',
-                    expires: 365
+                    expires: expires
                 });
             }
         });
     }
 }
+
+function avideoAlertOnce(title, msg, type, uid) {
+    avideoAlertWithCookie(title, msg, type, uid, 365);
+}
+
+function avideoAlertOnceADay(title, msg, type, uid) {
+    // Calculate time until midnight
+    var now = new Date();
+    var midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    var timeUntilMidnight = (midnight - now) / 1000 / 60 / 60; // time in hours
+
+    // Call the main function with the calculated expiration
+    avideoAlertWithCookie(title, msg, type, uid, timeUntilMidnight / 24); // Convert time from hours to a fraction of a day
+}
+
+
 
 async function avideoConfirm(msg) {
     var span = document.createElement("span");
