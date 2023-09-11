@@ -97,3 +97,4 @@ test.php
 plugin/CustomizeUser/getMyAccount.php
 *.rnd
 /plugin/Gift/
+/plugin/Rebroadcaster/
