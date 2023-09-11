@@ -4441,7 +4441,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
                     if (!file_exists($destination)) {
                         _error_log("convertImageIfNotExists: [$fileConverted] [$source] [$destination]");
                     }else{
-                        _error_log("convertImageIfNotExists: ($destination) line=".__LINE__);
+                        //_error_log("convertImageIfNotExists: ($destination) line=".__LINE__);
                     }
                 } else {
                     _error_log("convertImageIfNotExists: convertImage error 1 $source, $fileConverted");
