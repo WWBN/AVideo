@@ -1,4 +1,4 @@
-<div class="row main-video" id="mvideo">
+<div class="main-video" id="mvideo">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12 col-sm-offset-0 text-center" id="videoCol">
             <div id="videoContainer">
