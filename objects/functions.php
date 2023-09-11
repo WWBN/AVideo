@@ -4447,7 +4447,7 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
             } else {
                 _error_log("convertImageIfNotExists: convertImage error 2 $source, $fileConverted");
             }
-            _error_log("convertImageToOG ($fileConverted) unlink line=".__LINE__);
+            _error_log("convertImageIfNotExists ($destination) unlink line=".__LINE__.' '.json_encode(debug_backtrace()) );
             @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageIfNotExists: " . $exc->getMessage());
