@@ -1627,6 +1627,7 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
                 $resolution = '';
             }
             $type = 'video';
+            
             if (in_array($parts['extension'], $video)) {
                 $isAVideo = true;
                 $type = 'video';
@@ -1690,13 +1691,12 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
     */
     if (empty($files) || empty($files['jpg'])) {
         // sort by resolution
-        $files = array('jpg'=>ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY));
+        $files['jpg'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY);
     }else 
     if (is_array($files)) {
         // sort by resolution
         uasort($files, "sortVideosURL");
     }
-    //var_dump($files);exit;
     $getVideosURL_V2Array[$cleanfilename] = $files;
     return $getVideosURL_V2Array[$cleanfilename];
 }

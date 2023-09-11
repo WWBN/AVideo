@@ -6726,7 +6726,6 @@ if (!class_exists('Video')) {
                 unset($getVideosURL_V2Array);
                 return self::isMediaFileMissing($filename, true);
             }
-
             return !$found;
         }
 
