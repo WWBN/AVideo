@@ -235,3 +235,5 @@ function revertLangString($lang) {
     }
     return $lang;
 }
+
+//var_dump(getLanguage());exit;

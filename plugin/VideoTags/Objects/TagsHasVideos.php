@@ -49,7 +49,7 @@ class TagsHasVideos extends ObjectYPT {
         return true;
     }
 
-    static protected function getFromTagsIdAndVideosId($tags_id, $videos_id) {
+    static function getFromTagsIdAndVideosId($tags_id, $videos_id) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
