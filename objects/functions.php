@@ -4385,7 +4385,7 @@ function convertImageToOG($source, $destination)
             $fileConverted = $tmpDir . "_jpg_" . uniqid() . ".jpg";
             convertImage($source, $fileConverted, 100);
             im_resize($fileConverted, $destination, $w, $h, 100);            
-            _error_log("convertImageToOG ($destination) unlink line=".__LINE__.' '._json_encode(debug_backtrace()));
+            //_error_log("convertImageToOG ($destination) unlink line=".__LINE__);
             @unlink($fileConverted);
         }
     }
@@ -4440,6 +4440,8 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
                     im_resize($fileConverted, $destination, $width, $height, 100);
                     if (!file_exists($destination)) {
                         _error_log("convertImageIfNotExists: [$fileConverted] [$source] [$destination]");
+                    }else{
+                        _error_log("convertImageIfNotExists: ($destination) line=".__LINE__);
                     }
                 } else {
                     _error_log("convertImageIfNotExists: convertImage error 1 $source, $fileConverted");
@@ -4447,7 +4449,6 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
             } else {
                 _error_log("convertImageIfNotExists: convertImage error 2 $source, $fileConverted");
             }
-            _error_log("convertImageIfNotExists ($destination) unlink line=".__LINE__.' '.json_encode(debug_backtrace()) );
             @unlink($fileConverted);
         } catch (Exception $exc) {
             _error_log("convertImageIfNotExists: " . $exc->getMessage());
