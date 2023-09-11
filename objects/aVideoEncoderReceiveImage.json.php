@@ -187,7 +187,7 @@ if (!empty($_REQUEST['duration'])) {
 }
 
 $videos_id = $video->save();
-Video::clearCache($videos_id);
+Video::clearCache($videos_id, true);
 AVideoPlugin::onEncoderReceiveImage($videos_id);
 
 $obj->error = false;

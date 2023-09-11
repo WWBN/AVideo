@@ -33,7 +33,7 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
     _error_log($obj->msg);
     die(json_encode($obj));
 }
-Video::clearCache($_REQUEST['videos_id']);
+Video::clearCache($_REQUEST['videos_id'], true);
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", $_REQUEST['videos_id'], true);
 $obj->video_id = $_REQUEST['videos_id'];
@@ -54,7 +54,7 @@ if (file_exists($originalFilePath)) {
     unlink($originalFilePath);
 }
 _error_log("Video is done notified {$video_id}: " . $video->getTitle());
-Video::clearCache($video_id);
+Video::clearCache($video_id, true);
 AVideoPlugin::onEncoderNotifyIsDone($video_id);
 AVideoPlugin::afterNewVideo($video_id);
 die(json_encode($obj));

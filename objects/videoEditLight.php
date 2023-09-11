@@ -43,6 +43,6 @@ if (isset($_REQUEST['image'])) {
 $obj->save = $video->save();
 $obj->error = empty($obj->save);
 if (empty($obj->error)) {
-    Video::clearCache($obj->videos_id);
+    Video::clearCache($obj->videos_id, true);
 }
 die(json_encode($obj));

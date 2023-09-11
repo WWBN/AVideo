@@ -4550,7 +4550,16 @@ if (!class_exists('Video')) {
             ObjectYPT::setCache($cacheName, $return);
             return $return;
         }
-
+        public static function getResolutionArray($resolution){
+            if(is_array($resolution)){
+                return $resolution;
+            }
+            $return['resolution'] = $resolution;
+            $return['resolution_text'] = getResolutionText($return['resolution']);
+            $return['resolution_label'] = getResolutionLabel($return['resolution']);                
+            $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+            return $return;
+        }
         public static function getHigestResolution($filename)
         {
             global $global;
@@ -4584,13 +4593,7 @@ if (!class_exists('Video')) {
             }
             $HigestResolution = $video->getVideoHigestResolution();
             if (!empty($HigestResolution)) {
-                //_error_log("getHigestResolution($filename) 1 {$HigestResolution} ".$video->getType());
-                $resolution = $HigestResolution;
-                $return['resolution'] = $resolution;
-                $return['resolution_text'] = getResolutionText($return['resolution']);
-                $return['resolution_label'] = getResolutionLabel($return['resolution']);                
-                $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
-                return $return;
+                return self::getResolutionArray($HigestResolution);
             } else {
                 //_error_log("getHigestResolution($filename) 2 ".$video->getType());
                 $validFileExtensions = ['webm', 'mp4', 'm3u8'];
@@ -4623,10 +4626,7 @@ if (!class_exists('Video')) {
                             if (empty($resolution)) {
                                 $resolution = 480;
                             }
-                            $return['resolution'] = $resolution;
-                            $return['resolution_text'] = getResolutionText($return['resolution']);
-                            $return['resolution_label'] = getResolutionLabel($return['resolution']);
-                            $return['resolution_string'] = trim($resolution . "p {$return['resolution_label']}");
+                            $return = self::getResolutionArray($resolution);
                         }
                     }
                 }
@@ -5484,6 +5484,7 @@ if (!class_exists('Video')) {
             $files[] = "{$filePath}_thumbsV2_jpg.webp";
             $files[] = "{$filePath}_jpg.webp";
             $totalDeleted = 0;
+            _error_log('deleteThumbs '.json_encode(debug_backtrace()));
             foreach ($files as $file) {
                 if (file_exists($file)) {
                     if ($checkIfIsCorrupted && !isImageCorrupted($file)) {
@@ -5535,7 +5536,7 @@ if (!class_exists('Video')) {
             return true;
         }
 
-        public static function clearCache($videos_id)
+        public static function clearCache($videos_id, $deleteThumbs=false)
         {
             //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
@@ -5544,7 +5545,9 @@ if (!class_exists('Video')) {
                 _error_log("Video:clearCache filename not found");
                 return false;
             }
-            self::deleteThumbs($filename, true);
+            if($deleteThumbs){
+                self::deleteThumbs($filename, true);
+            }
             ObjectYPT::deleteCache("PlayeSkins_getVideoTags{$videos_id}");
             ObjectYPT::deleteCache("_getVideoInfo_{$videos_id}");
             ObjectYPT::deleteCache("otherInfo{$videos_id}");
@@ -5965,6 +5968,8 @@ if (!class_exists('Video')) {
             if(!is_numeric($HigestResolution)){
                 if(is_object($HigestResolution)){
                     $HigestResolution = $HigestResolution->resolution;
+                }elseif(is_array($HigestResolution)){
+                    $HigestResolution = $HigestResolution['resolution'];
                 }else{
                     $HigestResolution = 0;
                 }

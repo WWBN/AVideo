@@ -51,8 +51,7 @@ $video1->setDuration($video2Duration);
 $video2->setFilename($video1Filename, true);
 $video2->setSites_id($video1Sites_id);
 $video2->setDuration($video1Duration);
-
-$global['mysqli']->autocommit(false);
+mysqlBeginTransaction();
 if (!$video1->save()) {
     $obj->msg = __("Error on save video 1");
     die(json_encode($obj));
@@ -63,6 +62,6 @@ if (!$video2->save()) {
 }
 $video1->setVideoHigestResolution(0);
 $video2->setVideoHigestResolution(0);
-$global['mysqli']->commit();
+mysqlCommit();
 $obj->error = false;
 die(json_encode($obj));

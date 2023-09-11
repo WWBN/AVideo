@@ -693,11 +693,13 @@ class PlayerSkins extends PluginAbstract {
             $fileName = $video->getFilename();
             //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
             $resolution = $video->getVideoHigestResolution();
-            if(!empty($resolution)){
+            if(empty($resolution)){
                 $resolution = Video::getHigestResolution($fileName);
                 if(!empty($resolution)){
                     $video->setVideoHigestResolution($resolution);
                 }
+            }else{
+                $resolution = Video::getResolutionArray($resolution);
             }
 
             $obj = new stdClass();
