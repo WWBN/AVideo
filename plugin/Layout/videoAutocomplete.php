@@ -2,7 +2,7 @@
 if (!empty($default_videos_id)) {
     $u = new Video('', '', $default_videos_id);
     if (!empty($u->getvideo())) {
-        $name = $u->getvideo();
+        $name = $u->getTitle();
         $video_image = Video::getPoster($default_videos_id);
     }
 }

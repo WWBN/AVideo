@@ -298,12 +298,19 @@ class Message implements MessageComponentInterface {
 
         $row = dbGetRowFromResourcesId($resourceId);
 
+        if(!self::isValidSelfURI($row['selfURI'])){
+            _log_message("msgToResourceId: resourceId=({$resourceId}) selfURI is invalid {$row['selfURI']}");
+            return false;
+        }
+
         if (empty($row)) {
             _log_message("msgToResourceId: resourceId=({$resourceId}) NOT found");
+            return false;
         }
 
         if (!$this->shouldPropagateInfo($row)) {
             _log_message("msgToResourceId: we wil NOT send the message to resourceId=({$resourceId}) [{$type}] ".$this->getShouldPropagateInfoLastMessage());
+            return false;
         }
 
         if (!is_array($msg)) {
@@ -367,6 +374,7 @@ class Message implements MessageComponentInterface {
         $msgToSend = json_encode($obj);
         _log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
         $this->clients[$resourceId]->send($msgToSend);
+        return true;
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e) {
@@ -514,6 +522,16 @@ class Message implements MessageComponentInterface {
 
     public function isUserLive($users_id) {
         return dbIsUserOnLine($users_id);
+    }
+
+    static function isValidSelfURI($selfURI){
+        if(preg_match('/\.json/i', $selfURI)){
+            return false;
+        }
+        if(preg_match('/plugin\/Live\/on_/i', $selfURI)){
+            return false;
+        }
+        return true;
     }
 
 }
