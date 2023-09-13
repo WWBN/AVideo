@@ -1443,7 +1443,7 @@ if (!class_exists('Video')) {
             $sql .= "ORDER BY RAND() LIMIT {$limit}";
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
-
+            //var_dump(count($fullData), $sql);
             sqlDAL::close($res);
             $rows = [];
             if ($res !== false) {
@@ -2276,6 +2276,9 @@ if (!class_exists('Video')) {
                 if ($global['limitForUnlimitedVideos'] > 0) {
                     $sql .= " LIMIT {$global['limitForUnlimitedVideos']}";
                 }
+            }
+            if(!empty($global['flixhouseAPI'])){
+                echo $sql;exit;
             }
             //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
