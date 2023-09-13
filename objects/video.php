@@ -1970,13 +1970,13 @@ if (!class_exists('Video')) {
             if (empty($otherInfo)) {
                 $otherInfo = [];
                 $otherInfo['category'] = xss_esc_back(@$row['category']);
-                //TimeLogStart("video::otherInfo");
+                TimeLogStart("video::otherInfo");
                 $otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
-                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
+                TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
-                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
+                TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $cached = ObjectYPT::setCacheGlobal($otherInfocachename, $otherInfo);
-                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
+                TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 //_error_log("video::getInfo cache " . json_encode($cached));
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
@@ -3198,18 +3198,17 @@ if (!class_exists('Video')) {
          */
         public static function getTags($video_id, $type = "")
         {
-            global $advancedCustom, $videos_getTags;
+            global $advancedCustom;
 
-            if (empty($videos_getTags)) {
-                $videos_getTags = [];
-            }
-            $name = "{$video_id}_{$type}";
-            if (!empty($videos_getTags[$name])) {
-                return $videos_getTags[$name];
+            $name = "getTags_{$video_id}_{$type}";
+            $videos_getTags = ObjectYPT::getCache($name, 3600);
+            if (!empty($videos_getTags)) {
+                return $videos_getTags;
             }
 
-            $videos_getTags[$name] = self::getTags_($video_id, $type);
-            return $videos_getTags[$name];
+            $videos_getTags = self::getTags_($video_id, $type);
+            ObjectYPT::setCache($name,$videos_getTags);
+            return $videos_getTags;
         }
 
         public static function getTagsHTMLLabelIfEnable($videos_id)
@@ -3319,12 +3318,12 @@ if (!class_exists('Video')) {
         {
             global $advancedCustom, $advancedCustomUser, $getTags_;
             $tolerance = 0.2;
-            if (!isset($getTags_)) {
-                $getTags_ = [];
-            }
-            $index = "{$video_id}_{$type}";
-            if (!empty($getTags_[$index])) {
-                return $getTags_[$index];
+            $index = "getTags_{$video_id}_{$type}";
+
+            $getTags_ = ObjectYPT::getCache($index, 3600);
+
+            if (!empty($getTags_)) {
+                return $getTags_;
             }
 
             TimeLogStart("video::getTags_ $video_id, $type");
@@ -3561,7 +3560,7 @@ if (!class_exists('Video')) {
             TimeLogEnd("video::getTags_ $video_id, $type", __LINE__, $tolerance * 2);
             $_REQUEST['current'] = $currentPage;
             $_REQUEST['rowCount'] = $rowCount;
-            $getTags_[$index] = $tags;
+            ObjectYPT::setCache($index, $tags);
             return $tags;
         }
 

@@ -41,7 +41,7 @@ class YPTSocket extends PluginAbstract {
     }
 
     public static function getServerVersion() {
-        return "4.2";
+        return "4.3";
     }
 
     public function updateScript() {
@@ -139,6 +139,8 @@ class YPTSocket extends PluginAbstract {
 
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {
         global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
+        _mysql_close();
+        @session_write_close();
         if (!is_string($msg)) {
             $msg = json_encode($msg);
         }

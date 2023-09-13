@@ -308,7 +308,7 @@ class AVideoPlugin
     {
         $name = "getHTMLMenuRight_" . User::getId();
         //var_dump($name);
-        $str = ObjectYPT::getCache($name, 3600);
+        //$str = ObjectYPT::getCache($name, 3600);
         if (empty($str)) {
             $plugins = Plugin::getAllEnabled();
             //var_dump($plugins);
@@ -323,7 +323,7 @@ class AVideoPlugin
                 self::YPTend("{$value['dirName']}::" . __FUNCTION__);
             }
 
-            ObjectYPT::setCache($name, $str);
+            //ObjectYPT::setCache($name, $str);
         }
         return $str;
     }

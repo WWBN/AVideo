@@ -1272,8 +1272,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $obj->controlURL;
     }
 
-    public static function getRTMPLink($users_id, $forceIndex = false) {
-        $key = self::getKeyFromUser($users_id);
+    public static function getRTMPLink($users_id, $forceIndex = false, $doNotCheckUser=false) {
+        $key = self::getKeyFromUser($users_id, $doNotCheckUser);
         return self::getRTMPLinkFromKey($key, $forceIndex);
     }
 
@@ -1295,8 +1295,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $lso->getRTMPLinkWithOutKey();
     }
 
-    public static function getKeyFromUser($users_id) {
-        if (!User::isLogged() || ($users_id !== User::getId() && !User::isAdmin())) {
+    public static function getKeyFromUser($users_id, $doNotCheckUser=false) {
+        if (!$doNotCheckUser && (!User::isLogged() || ($users_id !== User::getId() && !User::isAdmin()))) {
             return false;
         }
         $user = new User($users_id);
@@ -4123,7 +4123,15 @@ class LiveStreamObject {
     }
 
     public function getRTMPLinkWithOutKey($short = true) {
+        if(empty($this->key)){
+            return '';
+        }
         $lt = LiveTransmition::getFromKey($this->key);
+        if(!is_array($lt)){
+            _error_log('getRTMPLinkWithOutKey error '.json_encode(array($this->key,$lt )));
+
+            return '';
+        }
         return Live::getServerURL($this->key, $lt['users_id'], $short);
     }
 
