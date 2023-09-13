@@ -2282,9 +2282,6 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            if(!empty($global['flixhouseAPI'])){
-                echo $sql;exit;
-            }
             //echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
