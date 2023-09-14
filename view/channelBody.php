@@ -81,8 +81,8 @@ if ($advancedCustomUser->showChannelLiveTab) {
     $liveVideos = getLiveVideosFromUsers_id($user_id);
 }
 
-$showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && $ownerCanUplaodVideos;
-$showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos;
+$showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
+$showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 ?>
 
