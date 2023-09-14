@@ -19,7 +19,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
 
-        <div class="container-fluid">
+        <div class="container">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h1><?php echo __("User-manual of");
