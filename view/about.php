@@ -7,7 +7,7 @@ $metaDescription = "About Page";
 
 $page = new Page('About', 'about');
 ?>
-<div class="container-fluid">
+<div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
             <?php

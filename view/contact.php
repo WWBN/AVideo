@@ -25,7 +25,7 @@ $metaDescription = " Contact Form";
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid">
+        <div class="container">
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div style="display: none;" id="messageSuccess">
