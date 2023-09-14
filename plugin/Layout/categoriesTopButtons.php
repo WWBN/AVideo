@@ -41,5 +41,6 @@ foreach ($categories as $value) {
         'clean_name' => $value['clean_name']
     );
 }
+echo "<!-- generateHorizontalFlickity categories=".count($categories).' items='.count($items)."-->";
 //var_dump($_REQUEST['catName'], $items);exit;
 generateHorizontalFlickity($items);
