@@ -145,7 +145,15 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                 <div class="col-lg-12 col-sm-12 col-xs-12">
                     <center style="margin:5px;">
                         <?php
-                        echo getAdsChannelLeaderBoardTop();
+                        $getAdsChannelLeaderBoardTop = getAdsChannelLeaderBoardTop();
+                        if (!empty($getAdsChannelLeaderBoardTop)) {
+                            echo $getAdsChannelLeaderBoardTop;
+                        } else {
+                            echo "<!-- ";
+                            echo "getAdsChannelLeaderBoardTop is empty ";
+                            echo implode(', ', ADs::getAdsCodeReason('channelLeaderBoardTop'));
+                            echo " -->";
+                        }
                         ?>
                     </center>
                 </div>
