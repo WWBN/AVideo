@@ -349,6 +349,9 @@ class ADs extends PluginAbstract
             $users_id = getUsers_idOwnerFromRequest();
             //var_dump($users_id);exit;
             $adC =  self::getAdsFromUsersId($type, $users_id);
+            if(!empty($users_id) && empty($adC['adCode'])){
+                $adC = self::getAdsHTML($type);;
+            }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }
@@ -372,8 +375,10 @@ class ADs extends PluginAbstract
                 $type = $type . 'Mobile';
             }
             if(!empty($live) && !empty($live['users_id'])){
+                $reasons[] = 'from live users_id='.$live['users_id'];
                 $adC = self::getAdsFromUsersId($type, $live['users_id']);
             }else{
+                $reasons[] = 'not from live videos_id='.$videos_id;
                 $adC = self::getAdsFromVideosId($type, $videos_id);
             }
             $reasons[] = 'type='.$type;
