@@ -22,8 +22,9 @@ foreach ($categories as $value) {
     } else {
         $total = $value['total'];
     }
-    if (empty($total)) {
-        echo "<!-- generateHorizontalFlickity continue total fullTotal={$value['fullTotal']}  total={$value['total']}  {$value['fullTotal']} ShowAllVideosOnCategory={$advancedCustom->ShowAllVideosOnCategory} -->";
+    
+    if (empty($value['fullTotal']) && empty($value['total'])) {
+        echo "<!-- generateHorizontalFlickity continue total -->";
         continue;
     }
     if (in_array($value['id'], $parsed_cats)) {
