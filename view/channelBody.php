@@ -161,7 +161,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
             ?>
                     <div class="clearfix" style="clear: both;"></div>
                     <a href="<?php echo User::getWebsite($user_id); ?>" target="_blank">
-                        <div class="row bg-info profileBg" style="margin: 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
+                        <div class="row bg-info profileBg" style="margin: -10px -10px 20px -10px; background: url('<?php echo getURL($relativePath); ?>')  no-repeat 50% 50%; -webkit-background-size: cover;
                              -moz-background-size: cover;
                              -o-background-size: cover;
                              background-size: cover;">

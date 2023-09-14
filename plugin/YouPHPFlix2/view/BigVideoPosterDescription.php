@@ -6,7 +6,7 @@ $colClass = "col-md-4 col-sm-6";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
     <div class="<?php echo $colClass; ?>  hidden-xs">
-        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="" />
+        <img alt="<?php echo $video['title']; ?>" class="img img-responsive" src="<?php echo $images->posterPortrait; ?>" style="" />
     </div>
     <?php
 } else {
@@ -14,7 +14,7 @@ if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     <div class="<?php echo $colClass; ?>">
         <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
             <div class="thumbsImage hidden-xs">
-                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" />
+                <img alt="<?php echo $video['title']; ?>" class="img img-responsive thumbsJPG" src="<?php echo $images->poster; ?>" />
                 <?php if (!empty($images->thumbsGif)) { ?>
                     <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
                 <?php } ?>
