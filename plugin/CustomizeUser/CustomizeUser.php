@@ -82,6 +82,13 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Amazon URL"),
                 'isActive' => true,
             ],
+            'goodreads' => [
+                'class' => 'icoGoodreads',
+                'icon' => 'fab fa-goodreads',
+                'label' => __("Goodreads"),
+                'placeholder' => __("Goodreads URL"),
+                'isActive' => true,
+            ],
             'tiktok' => [
                 'class' => 'icoTikTok',
                 'icon' => 'fab fa-tiktok',
