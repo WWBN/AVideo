@@ -13,7 +13,10 @@ foreach (CustomizeUser::getSocialMedia() as $platform => $details) {
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="<?php echo $details['icon']; ?>"></i></span>
-                <input id="user<?php echo ucfirst($platform); ?>" platform="<?php echo $platform; ?>" placeholder="<?php echo $details['placeholder']; ?>" class="form-control CustomizeUserSocialMedia" type="url" value="<?php echo User::getSocialMediaURL($platform); ?>">
+                <input id="user<?php echo ucfirst($platform); ?>" platform="<?php echo $platform; ?>" 
+                placeholder="<?php echo $details['placeholder']; ?>" 
+                class="form-control CustomizeUserSocialMedia" 
+                type="url" value="<?php echo User::getSocialMediaURL($platform); ?>">
             </div>
         </div>
     </div>
