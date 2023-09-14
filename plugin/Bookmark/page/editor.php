@@ -2,7 +2,7 @@
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin Audit"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You are not admin"));
     exit;
 }
 ?>

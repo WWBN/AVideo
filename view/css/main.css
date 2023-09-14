@@ -1993,6 +1993,7 @@ button.btn-sm.hamburger svg {
 .HorizontalFlickity,
 .HorizontalFlickity .flickity-viewport {
     min-height: 50px;
+    margin: 0;
 }
 
 .HorizontalFlickity .carousel-cell {

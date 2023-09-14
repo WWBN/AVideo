@@ -1,7 +1,7 @@
 <?php
 require_once '../../../videos/configuration.php';
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin Audit"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager plugin Bookmark"));
     exit;
 }
 header('Content-Type: application/json');
