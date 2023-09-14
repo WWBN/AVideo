@@ -68,6 +68,13 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("LinkedIn URL"),
                 'isActive' => true,
             ],
+            'patreon' => [
+                'class' => 'icoPatreon',
+                'icon' => 'fab fa-patreon',
+                'label' => __("Patreon"),
+                'placeholder' => __("Patreon URL"),
+                'isActive' => true,
+            ],
             'tiktok' => [
                 'class' => 'icoTikTok',
                 'icon' => 'fab fa-tiktok',
