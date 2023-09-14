@@ -75,6 +75,13 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Patreon URL"),
                 'isActive' => true,
             ],
+            'amazon' => [
+                'class' => 'icoAmazon',
+                'icon' => 'fab fa-amazon',
+                'label' => __("Amazon"),
+                'placeholder' => __("Amazon URL"),
+                'isActive' => true,
+            ],
             'tiktok' => [
                 'class' => 'icoTikTok',
                 'icon' => 'fab fa-tiktok',

@@ -78,6 +78,9 @@ ul.social-network li {
 .social-network a.icoPatreon:hover {
     background-color: #F96854;  /* Patreon's primary color */
 }
+.social-network a.icoAmazon:hover {
+    background-color: #FF9900; 
+}
 .social-network a.icoCopy:hover { /* for Website */
     background-color: #333; /* Using a neutral color since "Website" doesn't have a specific brand color */
 }
