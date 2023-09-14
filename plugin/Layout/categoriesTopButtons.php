@@ -14,6 +14,7 @@ $_REQUEST['current'] = $current;
 $items = array();
 foreach ($categories as $value) {
     if ($value['parentId']) {
+        echo "<!-- generateHorizontalFlickity continue parentId -->";
         continue;
     }
     if ($advancedCustom->ShowAllVideosOnCategory) {
@@ -22,9 +23,11 @@ foreach ($categories as $value) {
         $total = $value['total'];
     }
     if (empty($total)) {
+        echo "<!-- generateHorizontalFlickity continue total fullTotal={$value['fullTotal']}  total={$value['total']}  {$value['fullTotal']} ShowAllVideosOnCategory={$advancedCustom->ShowAllVideosOnCategory} -->";
         continue;
     }
     if (in_array($value['id'], $parsed_cats)) {
+        echo "<!-- generateHorizontalFlickity continue parsed_cats -->";
         continue;
     }
     $label = '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  '
