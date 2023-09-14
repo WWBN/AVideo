@@ -125,9 +125,14 @@ if ($is_regular_user) {
                                                     <li class="list-group-item clearfix" id="<?php echo $item["fileName"]; ?>">
                                                         <img src="<?php echo $item["imageURL"]; ?>" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">
                                                         <?php echo $item["url"]; ?>
-                                                        <button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')">
-                                                            <i class="fas fa-trash"></i>
-                                                        </button>
+                                                        <div class="btn-group pull-right" role="group">
+                                                            <button class="btn btn-sm btn-primary" onclick="editAdsImage('<?php echo $item["imageURL"]; ?>', '<?php echo $item["url"]; ?>', '<?php echo $croppie1['restartCroppie']; ?>')">
+                                                                <i class="fas fa-edit"></i>
+                                                            </button>
+                                                            <button class="btn btn-sm btn-danger" onclick="deleteAdsImage('<?php echo $item["type"]; ?>', '<?php echo $item["fileName"]; ?>')">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </li>
                                                 <?php
                                                 }
@@ -137,6 +142,7 @@ if ($is_regular_user) {
                                     </div>
                                 </div>
                                 <script>
+                                    var restartCroppie<?php echo $value[0]; ?> = '<?php echo $croppie1['restartCroppie']; ?>';
                                     $('#adsTabs<?php echo $key; ?> form').submit(function(evt) {
                                         evt.preventDefault();
                                         setTimeout(function() {
@@ -148,11 +154,11 @@ if ($is_regular_user) {
                                     });
 
                                     function setImage_<?php echo $value[0]; ?>(image) {
-                                        saveAdsImage(image, '<?php echo $value[0]; ?>', $('#inputAdsURL<?php echo $value[0]; ?>').val());
+                                        saveAdsImage(image, '<?php echo $value[0]; ?>', $('#inputAdsURL<?php echo $value[0]; ?>').val(), restartCroppie<?php echo $value[0]; ?>);
                                     }
 
                                     function restartForm<?php echo $value[0]; ?>() {
-                                        <?php echo $croppie1['restartCroppie'] . "('" . getURL("view/img/transparent1px.png")."');"; ?>
+                                        <?php echo $croppie1['restartCroppie'] . "('" . getURL("view/img/transparent1px.png") . "');"; ?>
                                         $('#inputAdsURL<?php echo $value[0]; ?>').val('');
                                     }
 
@@ -171,7 +177,7 @@ if ($is_regular_user) {
         </div>
 
         <script>
-            function saveAdsImage(image, type, url) {
+            function saveAdsImage(image, type, url, restartCroppie) {
                 modal.showPleaseWait();
                 $.ajax({
                     url: webSiteRootURL + 'plugin/ADs/saveImage.json.php',
@@ -186,7 +192,7 @@ if ($is_regular_user) {
                         if (!response.error) {
                             avideoToastSuccess("<?php echo __("Ads Saved!"); ?>");
                             eval('restartForm' + type + '();');
-                            addNewImage(response);
+                            addNewImage(response, restartCroppie);
                         } else {
                             avideoAlertError(response.msg);
                         }
@@ -217,11 +223,24 @@ if ($is_regular_user) {
                 });
             }
 
-            function addNewImage(response) {
+            
+            function editAdsImage(imageURL, url, restartCroppie) {
+                eval(restartCroppie+'(imageURL)');
+                
+            }
+
+
+            function addNewImage(response, restartCroppie) {
                 var html = '<li class="list-group-item clearfix"  id="' + response.fileName + '"  >' +
                     '<img src="' + response.imageURL + '" class="img img-responsive pull-left" style="max-height: 60px; max-width: 150px; margin-right: 10px;">' +
-                    response.url + '<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\'' +
-                    response.type + '\',\'' + response.fileName + '\')"><i class="fas fa-trash"></i></button></li>';
+                    response.url;
+                html += '<div class="btn-group pull-right" role="group">';
+                html += '<button class="btn btn-sm btn-primary " onclick="editAdsImage(\'' +
+                    response.imageURL + '\',\'' + response.url + '\',\'' + restartCroppie + '\')"><i class="fas fa-edit"></i></button>';
+                html += '<button class="btn btn-sm btn-danger pull-right" onclick="deleteAdsImage(\'' +
+                    response.type + '\',\'' + response.fileName + '\')"><i class="fas fa-trash"></i></button>';
+                html += '</div>';
+                html += '</li>';
                 $('#list-group-' + response.type).append(html);
             }
         </script>

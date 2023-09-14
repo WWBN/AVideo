@@ -10,8 +10,8 @@ if (empty($videos_id)) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 $_video = new Video('', '', $videos_id);
 
-if (!$_video->userCanManageVideo()) {
-    forbiddenPage('You cannot manage this video');
+if (!Video::canEdit($videos_id)) {
+    forbiddenPage('You cannot edit this video');
 }
 
 
