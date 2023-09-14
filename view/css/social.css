@@ -84,6 +84,9 @@ ul.social-network li {
 .social-network a.icoGoodreads:hover {
     background-color: #372213; 
 }
+.social-network a.icoShopping:hover {
+    background-color: #FF5733;  /* This is a price-tag red color */
+}
 .social-network a.icoCopy:hover { /* for Website */
     background-color: #333; /* Using a neutral color since "Website" doesn't have a specific brand color */
 }

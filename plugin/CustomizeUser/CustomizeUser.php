@@ -195,6 +195,12 @@ class CustomizeUser extends PluginAbstract
                 'label' => __("Podcast"),
                 'placeholder' => __("Podcast URL"),
             ],
+            'shopping' => [
+                'class' => 'icoShopping',
+                'icon' => 'fas fa-shopping-cart',
+                'label' => __("Shopping Website"),
+                'placeholder' => __("Shopping Website URL"),
+            ],
         ];
     }
 
