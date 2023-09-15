@@ -114,8 +114,9 @@ exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error: " . print_r($output, true));
 }
-$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}] ".humanFileSize(filesize($sqlFile)));
+$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}] " . humanFileSize(filesize($sqlFile)));
 
+/*
 //$log->add("Clone: MySQL Dump $file");
 $contents = file($sqlFile, FILE_IGNORE_NEW_LINES);
 //$log->add("Clone: MySQL Dump contents ". json_encode($contents));
@@ -124,9 +125,11 @@ file_put_contents($sqlFile, implode("\r\n", $contents));
 
 $cmd = "sed -i '/CREATE DATABASE /d; /USE /d; /INSERT INTO \`CachesInDB\` /d' $sqlFile";
 exec($cmd);
+*/
 
 $log->add("Clone (3 of {$totalSteps}): Overwriting our database with the server database {$sqlFile}");
 // restore dump
+/*
 $cmd = "mysql -u {$mysqlUser} -p{$mysqlPass} --host {$mysqlHost} {$mysqlDatabase} < $sqlFile";
 _error_log($cmd);
 exec($cmd . " 2>&1", $output, $return_val);
@@ -149,6 +152,28 @@ if ($return_val !== 0) {
         $log->add("Clone Error: " . end($output));
     }
 }
+*/
+
+$lines = file($sqlFile);
+// Loop through each line
+foreach ($lines as $line) {
+    // Skip it if it's a comment
+    if (substr($line, 0, 2) == '--' || $line == '')
+        continue;
+
+    // Add this line to the current segment
+    $templine .= $line;
+    // If it has a semicolon at the end, it's the end of the query
+    if (substr(trim($line), -1, 1) == ';') {
+        // Perform the query
+        if (!$global['mysqli']->query($templine)) {
+            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+        }
+        // Reset temp variable to empty
+        $templine = '';
+    }
+}
+
 $log->add("Clone: Great! we overwrite it with success.");
 
 if (empty($objClone->useRsync)) {
@@ -239,8 +264,8 @@ echo json_encode($json);
 $log->add("Clone: Complete, Database, {$total} Videos and {$total2} Photos");
 
 $cmd = "chmod -R 777 {$videosDir}";
-exec($cmd);    
-    
+exec($cmd);
+
 $time_end = microtime(true);
 //dividing with 60 will give the execution time in minutes otherwise seconds
 $execution_time = ($time_end - $time_start);
