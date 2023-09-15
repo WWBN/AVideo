@@ -160,6 +160,7 @@ if ($return_val !== 0) {
 
 $lines = file($sqlFile);
 // Loop through each line
+$templine = '';
 foreach ($lines as $line) {
     // Skip it if it's a comment
     if (substr($line, 0, 2) == '--' || $line == '')
@@ -170,8 +171,12 @@ foreach ($lines as $line) {
     // If it has a semicolon at the end, it's the end of the query
     if (substr(trim($line), -1, 1) == ';') {
         // Perform the query
-        if (!$global['mysqli']->query($templine)) {
-            echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+        try {
+            if (!$global['mysqli']->query($templine)) {
+                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+            }
+        } catch (\Throwable $th) {
+            var_dump($templine, $th);
         }
         // Reset temp variable to empty
         $templine = '';
