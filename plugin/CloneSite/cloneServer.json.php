@@ -69,7 +69,8 @@ foreach ($row as $value) {
 }
 $tablesList = implode(" ", $tables);
 // Then use that list in the mysqldump command
-$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers {$mysqlDatabase} {$tablesList} > {$clonesDir}{$resp->sqlFile}";
+$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} ".
+" --default-character-set=utf8mb4 {$mysqlDatabase} {$tablesList} > {$clonesDir}{$resp->sqlFile}";
 //$cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} --skip-set-charset -N --routines --skip-triggers --databases {$mysqlDatabase} > {$clonesDir}{$resp->sqlFile}";
 _error_log("Clone: Dump to {$clonesDir}{$resp->sqlFile}");
 exec($cmd . " 2>&1", $output, $return_val);
