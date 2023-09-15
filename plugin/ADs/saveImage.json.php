@@ -33,7 +33,7 @@ if (empty($type)) {
 
 $typeFound = false;
 foreach (ADs::$AdsPositions as $key => $value) {
-    if ($type===$value[0]) {
+    if ($type === $value[0]) {
         $typeFound = true;
         break;
     }
@@ -48,18 +48,39 @@ if (!isset($_REQUEST['url']) || !IsValidURL($_REQUEST['url'])) {
     $_REQUEST['url'] = '';
 }
 $is_regular_user = intval(@$_REQUEST['is_regular_user']);
-$paths = ADs::getNewAdsPath($type, $is_regular_user);
-//var_dump($_REQUEST['is_regular_user'], $paths['txt']);exit;
-saveCroppieImage($paths['path'], "image");
-file_put_contents($paths['txt'], $_REQUEST['url']);
 
 $result->type = $type;
-$result->url = $_REQUEST['url'];
-$result->imageURL = $paths['url'];
-$result->fileName = $paths['fileName'];
+$result->saved = false;
+$result->edited = false;
+if (empty($_REQUEST['filename'])) {
+    $paths = ADs::getNewAdsPath($type, $is_regular_user);
+    $result->pathSaved = $paths['path'];
+    $result->saved = saveCroppieImage($paths['path'], "image");
+    $result->error = false;
+} else {
+    $paths = ADs::getAdsPath($type, $is_regular_user);
+    if (empty($paths)) {
+        forbiddenPage('Ads not find');
+    }
 
-$result->error = false;
-if(empty($is_regular_user)){
+    $files = _glob($paths['path'], '/.png$/');
+
+    foreach ($files as $value) {
+        $fileName = ADs::getFileName($paths['path'], $value);
+        if (empty($fileName)) {
+            continue;
+        }
+        if ($fileName == $_REQUEST['filename']) {
+            $result->pathSaved = $value;
+            $result->saved = saveCroppieImage($value, "image");
+            $result->edited = true;
+            $result->error = false;
+            break;
+        }
+    }
+}
+
+if (empty($is_regular_user)) {
     $result->save = ADs::saveAdsHTML($type);
 }
 // save plugin parameter

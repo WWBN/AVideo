@@ -257,30 +257,73 @@ class ADs extends PluginAbstract
         $files = _glob($paths['path'], '/.png$/');
         $return = [];
         foreach ($files as $value) {
-            $fileName = str_replace($paths['path'], '', $value);
-            $fileName = str_replace('.png', '', $fileName);
-            $fileName = str_replace('\\', '', $fileName);
+            $fileName = self::getFileName($paths['path'], $value);
             if (empty($fileName)) {
                 continue;
             }
             $return[] = [
                 'type' => $type,
                 'fileName' => $fileName,
-                'url' => file_get_contents("{$paths['path']}{$fileName}.txt"),
+                'txt' => self::getTXT("{$paths['path']}{$fileName}.txt"),
                 'imageURL' => "{$paths['url']}{$fileName}.png",
                 'imagePath' => $value
             ];
             $fileName = '';
         }
 
+        // Sort the array based on txt.order
+        usort($return, function ($a, $b) {
+            if(empty($a['txt']['order'])){
+                return 1;
+            }else if(empty($b['txt']['order'])){
+                return -1;
+            }
+            return $a['txt']['order'] - $b['txt']['order'];
+        });
+
         return $return;
     }
 
+    public static function getFileName($dir, $path)
+    {
+        $fileName = str_replace($dir, '', $path);
+        $fileName = str_replace('.png', '', $fileName);
+        $fileName = str_replace('\\', '', $fileName);
+        return $fileName;
+    }
+
+    public static function getTXT($path)
+    {
+        $content = file_get_contents($path);
+        $json = json_decode($content);
+        if (empty($json)) {
+            return array(
+                'url' => isValidURL($content)?$content:'',
+                'title' => '',
+                'order' => 0,
+            );
+        }
+        return object_to_array($json);
+    }
+
+    public static function setTXT($path, $url, $title, $order)
+    {
+        if (!isValidURL($url)) {
+            $url = '';
+        }
+        $title = xss_esc($title);
+        $array = array(
+            'url' => $url,
+            'title' => $title,
+            'order' => intval($order),
+        );
+        return file_put_contents($path, json_encode($array));
+    }
 
     public static function getAdsFromVideosId($type, $videos_id = 0)
     {
         global $global;
-        
+
         if (isBot()) {
             return ['adCode' => '', 'label' => '', 'paths' => array()];
         }
@@ -288,15 +331,15 @@ class ADs extends PluginAbstract
         if (empty($videos_id)) {
             $videos_id = getVideos_id();
         }
-        
-        if(!empty($videos_id)){
+
+        if (!empty($videos_id)) {
             $users_id = Video::getOwner($videos_id);
-        }else if(!empty($global['isChannel'])){
+        } else if (!empty($global['isChannel'])) {
             $users_id = $global['isChannel'];
-        }else{
+        } else {
             $users_id = 0;
         }
-        
+
 
         return self::getAdsFromUsersId($type, $users_id);
     }
@@ -304,7 +347,7 @@ class ADs extends PluginAbstract
     public static function getAdsFromUsersId($type, $users_id)
     {
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
-        if(empty($ad->$type)){
+        if (empty($ad->$type)) {
             return ['adCode' => '', 'label' => '', 'paths' => array()];
         }
         $label = '';
@@ -312,12 +355,12 @@ class ADs extends PluginAbstract
         $label = "{$label} [$users_id] [{$type}]";
 
         $array = self::getAdsHTML($type, $users_id);
-        if(empty($array)){
+        if (empty($array)) {
             eval("\$adCode = \$ad->{$type}->value;");
-            $array=array('paths'=>array());
-        }else{
+            $array = array('paths' => array());
+        } else {
             $adCode = $array['html'];
-    
+
             if (empty($adCode)) {
                 eval("\$adCode = \$ad->{$type}->value;");
             }
@@ -349,7 +392,7 @@ class ADs extends PluginAbstract
             $users_id = getUsers_idOwnerFromRequest();
             //var_dump($users_id);exit;
             $adC =  self::getAdsFromUsersId($type, $users_id);
-            if(empty($adC['adCode'])){
+            if (empty($adC['adCode'])) {
                 $adC = self::getAdsHTML($type);
             }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
@@ -368,28 +411,28 @@ class ADs extends PluginAbstract
         if (empty($videos_id)) {
             $videos_id = getVideos_id();
         }
-        $reasons[] = 'videos_id='.$videos_id;
+        $reasons[] = 'videos_id=' . $videos_id;
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         if (!empty($ad)) {
             if (isMobile()) {
                 $type = $type . 'Mobile';
             }
-            if(!empty($live) && !empty($live['users_id'])){
-                $reasons[] = 'from live users_id='.$live['users_id'];
+            if (!empty($live) && !empty($live['users_id'])) {
+                $reasons[] = 'from live users_id=' . $live['users_id'];
                 $adC = self::getAdsFromUsersId($type, $live['users_id']);
-            }else{
-                $reasons[] = 'not from live videos_id='.$videos_id;
+            } else {
+                $reasons[] = 'not from live videos_id=' . $videos_id;
                 $adC = self::getAdsFromVideosId($type, $videos_id);
             }
-            $reasons[] = 'type='.$type;
-            $reasons[] = 'label='.$adC['label'];
-            if(!empty($live) && !empty($live['users_id'])){
+            $reasons[] = 'type=' . $type;
+            $reasons[] = 'label=' . $adC['label'];
+            if (!empty($live) && !empty($live['users_id'])) {
                 $reasons[] = 'It was a live';
             }
-            if(empty($adC['adCode'])){
+            if (empty($adC['adCode'])) {
                 $reasons[] = 'adCode is empty';
             }
-        }else{
+        } else {
             $reasons[] = 'ADs plugin disabled';
         }
         return $reasons;
@@ -455,14 +498,14 @@ class ADs extends PluginAbstract
             }
             $validPaths++;
             $html .= "<div class=\"item {$active}\">";
-            if (isValidURL($value['url'])) {
-                $html .= "<a href=\"{$value['url']}\" target=\"_blank\">";
+            if (isValidURL($value['txt']['url'])) {
+                $html .= "<a href=\"{$value['txt']['url']}\" target=\"_blank\">";
                 $html .= "<!-- getAdsHTML::isValidURL -->";
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" title=\"{$fsize}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\" title=\"{$value['txt']['title']}\" >";
                 $html .= "</a>";
             } else {
                 $html .= "<!-- getAdsHTML -->";
-                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  title=\"{$fsize}\" >";
+                $html .= "<img src=\"{$value['imageURL']}\" class=\"img img-responsive\" style=\"width:100%;\"  title=\"{$value['txt']['title']}\" >";
             }
             $html .= "</div>";
             $active = '';
