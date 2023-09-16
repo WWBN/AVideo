@@ -424,7 +424,7 @@ class UserGroups{
             $value = intval($value);
             sqlDAL::writeSql($sql, "ii", [$videos_id,$value]);
         }
-
+        _error_log("updateVideoGroups total=".count($array_groups_id));
         return true;
     }
 
