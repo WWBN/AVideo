@@ -1972,6 +1972,7 @@ if (!class_exists('Video')) {
                 $otherInfo['category'] = xss_esc_back(@$row['category']);
                 TimeLogStart("video::otherInfo");
                 $otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
+                //$otherInfo['groups'][] = '?';
                 TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
                 TimeLogEnd("video::otherInfo", __LINE__, 0.05);
