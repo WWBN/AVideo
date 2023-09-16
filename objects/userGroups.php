@@ -517,7 +517,8 @@ class UserGroups{
         } else {
             return false;
         }
-
+        
+        _error_log("deleteGroupsFromVideo videos_id={$videos_id}");
         unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         return sqlDAL::writeSql($sql, "i", [$videos_id]);
     }
