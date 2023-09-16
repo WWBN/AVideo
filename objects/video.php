@@ -1841,12 +1841,10 @@ if (!class_exists('Video')) {
                 self::startTransaction();
                 foreach ($fullData as $index => $row) {
                     if (is_null($row['likes'])) {
-                        self::startTransaction();
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['likes'] = self::updateLikesDislikes($row['id'], 'likes');
                     }
                     if (is_null($row['dislikes'])) {
-                        self::startTransaction();
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
@@ -1860,7 +1858,6 @@ if (!class_exists('Video')) {
                         }
                     }
                     $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
-                    self::startTransaction();
                     $row = self::getInfo($row, $getStatistcs);
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
 
@@ -1964,8 +1961,9 @@ if (!class_exists('Video')) {
                 $row['statistc_unique_user'] = VideoStatistic::getStatisticTotalViews($row['id'], true);
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-            $otherInfocachename = "otherInfo{$row['id']}";
-            $otherInfo = object_to_array(ObjectYPT::getCacheGlobal($otherInfocachename, 600));
+            // cache disabled because was not showing the User groups in some sites
+            //$otherInfocachename = "otherInfo{$row['id']}";
+            //$otherInfo = object_to_array(ObjectYPT::getCacheGlobal($otherInfocachename, 600));
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             if (empty($otherInfo)) {
                 $otherInfo = [];
@@ -1976,8 +1974,8 @@ if (!class_exists('Video')) {
                 TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 $otherInfo['tags'] = self::getTags($row['id']);
                 TimeLogEnd("video::otherInfo", __LINE__, 0.05);
-                $cached = ObjectYPT::setCacheGlobal($otherInfocachename, $otherInfo);
-                TimeLogEnd("video::otherInfo", __LINE__, 0.05);
+                //$cached = ObjectYPT::setCacheGlobal($otherInfocachename, $otherInfo);
+                //TimeLogEnd("video::otherInfo", __LINE__, 0.05);
                 //_error_log("video::getInfo cache " . json_encode($cached));
             }
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
