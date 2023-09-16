@@ -422,7 +422,10 @@ class UserGroups{
         $sql = "INSERT INTO videos_group_view ( videos_id, users_groups_id) VALUES (?,?)";
         foreach ($array_groups_id as $value) {
             $value = intval($value);
-            sqlDAL::writeSql($sql, "ii", [$videos_id,$value]);
+            $resp = sqlDAL::writeSql($sql, "ii", [$videos_id,$value]);
+            if(!$resp){
+                _error_log("updateVideoGroups ERROR =".json_encode([$videos_id,$value]));
+            }
         }
         _error_log("updateVideoGroups total=".count($array_groups_id));
         return true;
