@@ -6,14 +6,14 @@ $colClass = "col-md-4 col-sm-6";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
     <div class="<?php echo $colClass; ?> hidden-xs">
-        <img alt="<?php echo $video['title']; ?>" class="img img-responsive" src="<?php echo $images->posterPortrait; ?>" style="max-height: 50vh" />
+        <img alt="<?php echo $video['title']; ?>" class="img img-responsive" src="<?php echo $images->posterPortrait; ?>" style="max-height: 40vh" />
     </div>
     <?php
 } else {
     ?>
     <div class="<?php echo $colClass; ?>">
         <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
-            <div class="thumbsImage hidden-xs" style="max-height: 50vh">
+            <div class="thumbsImage hidden-xs" style="max-height: 40vh">
                 <img alt="<?php echo $video['title']; ?>" class="img img-responsive thumbsJPG" src="<?php echo $images->poster; ?>" />
                 <?php if (!empty($images->thumbsGif)) { ?>
                     <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
