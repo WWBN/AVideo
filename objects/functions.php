@@ -4623,7 +4623,17 @@ function getOS($user_agent = "")
             '/android/i' => 'Android',
             '/blackberry/i' => 'BlackBerry',
             '/webos/i' => 'Mobile',
+            // Additional TV devices and mobile devices
+            '/roku/i' => 'Roku',
+            '/android tv/i' => 'Android TV',
+            '/apple tv/i' => 'Apple TV',
+            '/fire tv|firestick|fire stick/i' => 'Amazon Fire TV',
+            '/windows phone/i' => 'Windows Phone',
+            '/symbian/i' => 'Symbian',
+            '/tizen/i' => 'Tizen',
+            '/webos tv/i' => 'WebOS TV'
         ];
+        
 
         foreach ($os_array as $regex => $value) {
             if (preg_match($regex, $user_agent)) {
