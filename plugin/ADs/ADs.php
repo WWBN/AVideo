@@ -261,10 +261,14 @@ class ADs extends PluginAbstract
             if (empty($fileName)) {
                 continue;
             }
+            $txt = self::getTXT("{$paths['path']}{$fileName}.txt");
             $return[] = [
                 'type' => $type,
                 'fileName' => $fileName,
-                'txt' => self::getTXT("{$paths['path']}{$fileName}.txt"),
+                'txt' => $txt,
+                'url' => $txt['url'],
+                'title' => $txt['title'],
+                'order' => $txt['order'],
                 'imageURL' => "{$paths['url']}{$fileName}.png",
                 'imagePath' => $value
             ];

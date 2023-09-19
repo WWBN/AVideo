@@ -240,12 +240,12 @@ class API extends PluginAbstract
             //var_dump($desktop);exit;
             $desktopURLs = array();
             foreach ($desktop as $item) {
-                $desktopURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
+                $desktopURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url'], 'info'=>$item['txt']);
             }
 
             $mobileURLs = array();
             foreach ($mobile as $item) {
-                $mobileURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url']);
+                $mobileURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url'], 'info'=>$item['txt']);
             }
             $label = '';
             eval("\$label = \$ad->{$type}Label;");
