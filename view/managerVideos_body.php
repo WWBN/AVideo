@@ -354,23 +354,40 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
             <div class="btn-group pull-right" id="filterButtonsVideoManagerCategory">
                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                    <span class="activeFilterCategory"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></span> <span class="caret"></span></button>
+                    <span class="activeFilterCategory"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></span> <span class="caret"></span>
+                </button>
                 <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                    <!-- Adding a search input at the top of the dropdown -->
+                    <li>
+                        <input type="text" id="searchCategory" class="form-control" placeholder="<?php echo __('Search'); ?>" />
+                    </li>
+
                     <li><a href="#" onclick="filterCategory = ''; $('.activeFilterCategory').html('<i class=\'fas fa-list\'></i> <?php echo __('All Categories'); ?>');
-                            $('.tooltip').tooltip('hide');
-                            $('#grid').bootgrid('reload');
-                            return false;"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></a></li>
+                $('.tooltip').tooltip('hide');
+                $('#grid').bootgrid('reload');
+                return false;"><i class="fas fa-list"></i> <?php echo __('All Categories'); ?></a></li>
                     <?php
                     $categories_edit = Category::getAllCategories(true);
-                    //var_dump($categories);exit;
                     foreach ($categories_edit as $key => $value) {
-                        //$text = "<i class='{$value['iconClass']}'></i> ".__($value['hierarchyAndName'])." ({$value['fullTotal_videos']})";
                         $text = "<i class='{$value['iconClass']}'></i> " . __($value['hierarchyAndName']);
-                        echo PHP_EOL . '<li><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                        echo PHP_EOL . '<li class="categoryItem"><a href="#" onclick="filterCategory=\'' . $value['clean_name'] . '\'; $(\'.activeFilterCategory\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
                     }
                     ?>
                 </ul>
             </div>
+
+            <!-- jQuery to filter the list -->
+            <script>
+                $(document).ready(function() {
+                    $("#searchCategory").on("keyup", function() {
+                        var value = $(this).val().toLowerCase();
+                        $(".categoryItem").filter(function() {
+                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                        });
+                    });
+                });
+            </script>
+
             <div class="btn-group pull-right" id="filterButtonsVideoManager">
                 <div class="btn-group ">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
