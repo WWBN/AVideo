@@ -745,7 +745,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
     }
 
-    _error_log('sendSiteEmail: subject= ' . $subject);
+    _error_log("sendSiteEmail: to={$to} from={$fromEmail} subject={$subject}");
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
