@@ -106,6 +106,10 @@ $percent = 90;
             if (!empty($plRows)) {
                 $rowCount = getRowCount();
                 foreach ($plRows as $pl) {
+                    $videos = PlayList::getAllFromPlaylistsID($pl['id']);
+                    if(empty($videos)){
+                        continue;
+                    }
                     $link = PlayLists::getLink($pl['id']);
                     $linkEmbed = PlayLists::getLink($pl['id'], true);
                 ?>
@@ -117,7 +121,6 @@ $percent = 90;
                         </h2>
                         <!-- Date Programs/Playlists 2 -->
                         <?php
-                        $videos = PlayList::getAllFromPlaylistsID($pl['id']);
                         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                         ?>
                     </div>
