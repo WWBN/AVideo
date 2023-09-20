@@ -4883,6 +4883,12 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 
     // execute!
     $response = curl_exec($ch);
+    
+    if(!$response){
+        $error_msg = curl_error($ch);
+        $error_num = curl_errno($ch);
+        _error_log("postVariables: {$url} [$error_num] - $error_msg");
+    }
     if ($httpcodeOnly) {
         $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
