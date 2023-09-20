@@ -2562,22 +2562,12 @@ if (typeof gtag !== \"function\") {
                 _error_log("sendVerificationLink: config is not a object " . json_encode($config));
                 return false;
             }
-            $contactEmail = $config->getContactEmail();
             $webSiteTitle = $config->getWebSiteTitle();
             /**
              * @var string $email
              */
             $email = '';
             $email = $user->getEmail();
-            $mail = new \PHPMailer\PHPMailer\PHPMailer();
-            setSiteSendMessage($mail);
-            //$mail->SMTPDebug = 4;
-            //Set who the message is to be sent from
-            $mail->setFrom($contactEmail, $webSiteTitle);
-            //Set who the message is to be sent to
-            $mail->addAddress($email);
-            //Set the subject line
-            $mail->Subject = __('Please Verify Your E-mail ') . $webSiteTitle;
 
             $msg = sprintf(__("Hi %s"), $user->getName());
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine1);
@@ -2586,8 +2576,8 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine4);
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
 
-            $mail->msgHTML($msg);
-            $resp = $mail->send();
+            $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . $webSiteTitle, $msg);
+
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
             } else {
