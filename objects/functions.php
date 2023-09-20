@@ -728,7 +728,7 @@ function partition(array $list, $totalItens)
 
 function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
 {
-    global $advancedCustom;
+    global $advancedCustom, $config, $global;
     $resp = false;
     if (empty($to)) {
         _error_log('sendSiteEmail: ERROR: to is empty');
@@ -745,7 +745,6 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
         $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
     }
 
-    _error_log("sendSiteEmail: to={$to} from={$fromEmail} subject={$subject}");
     $subject = UTF8encode($subject);
     $message = UTF8encode($message);
     $message = createEmailMessageFromTemplate($message);
@@ -758,7 +757,6 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     }
 
     _error_log("sendSiteEmail [{$debug}] {$subject}");
-    global $config, $global;
     //require_once $global['systemRootPath'] . 'objects/include_phpmailer.php';
     if (empty($fromEmail)) {
         $fromEmail = $config->getContactEmail();
@@ -766,6 +764,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     if (empty($fromName)) {
         $fromName = $config->getWebSiteTitle();
     }
+    _error_log("sendSiteEmail: to=".json_encode($to)." from={$fromEmail} subject={$subject}");
     $webSiteTitle = $config->getWebSiteTitle();
     try {
         if (!is_array($to)) {
