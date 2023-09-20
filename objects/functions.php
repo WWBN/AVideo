@@ -772,6 +772,7 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             $mail->setFrom($fromEmail, $fromName);
+            $mail->addReplyTo($fromEmail, $fromName);
             $mail->Subject = $subject . " - " . $webSiteTitle;
             $mail->msgHTML($message);
 

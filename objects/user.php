@@ -2576,7 +2576,7 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine4);
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
 
-            $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . $webSiteTitle, $msg);
+            $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail '). ' ' . $webSiteTitle, $msg);
 
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");
