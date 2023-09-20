@@ -365,7 +365,7 @@ class Cache extends PluginAbstract {
             $_getCacheDB[$index] = null;
             $metadata = self::getCacheMetaData();
             $row = CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
-            if (!empty($row)) {
+            if (!empty($row) && !empty($row['modified'])) {
                 $time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {
                     $c = new CachesInDB($row['id']);
