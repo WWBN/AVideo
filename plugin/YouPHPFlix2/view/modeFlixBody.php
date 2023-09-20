@@ -63,6 +63,9 @@ $percent = 90;
                 $_POST['sort']['created'] = "DESC";
                 $videos = Video::getAllVideos("viewable", $channel['id']);
                 unset($_POST['sort']['created']);
+                if(empty($videos)){
+                    continue;
+                }
                 $link = User::getChannelLinkFromChannelName($channel["channelName"]);
             ?>
                 <div class="row topicRow">
@@ -137,7 +140,10 @@ $percent = 90;
                         foreach ($videos as $key => $value) {
                             $videos[$key]['title'] = "{$value['icon']} {$value['title']}";
                         }
-    
+                        
+                        if(empty($videos)){
+                            continue;
+                        }
                         $link = PlayLists::getLink($serie['serie_playlists_id']);
                         $linkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
                         $canWatchPlayButton = "";

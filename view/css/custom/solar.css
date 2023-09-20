@@ -26,6 +26,6 @@ th > a > span.text,
     color: #FFF;
 }
 
-.swal-modal, .bootgrid-table th:hover, .bootgrid-table th:active{
+.bootgrid-table th:hover, .bootgrid-table th:active{
     background-color: #002b36;
 }
