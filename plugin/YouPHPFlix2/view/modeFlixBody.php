@@ -75,7 +75,7 @@ $percent = 90;
                             <?php echo $channel["channelName"]; ?>
                         </a>
                     </h2>
-                    <!-- Date Programs/Playlists -->
+                    <!-- Date Programs/Playlists 1 -->
                     <?php
                     include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
                     ?>
@@ -115,7 +115,7 @@ $percent = 90;
                                 <i class="fas fa-list"></i> <?php echo __($pl['name']); ?>
                             </a>
                         </h2>
-                        <!-- Date Programs/Playlists -->
+                        <!-- Date Programs/Playlists 2 -->
                         <?php
                         $videos = PlayList::getAllFromPlaylistsID($pl['id']);
                         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row.php';
@@ -152,7 +152,7 @@ $percent = 90;
                                                                 ?>
                                 </a>
                             </h2>
-                            <!-- Date Programs/Playlists -->
+                            <!-- Date Programs/Playlists 3 -->
                             <?php
                             $rowPlayListLink = PlayLists::getLink($serie['serie_playlists_id']);
                             $rowPlayListLinkEmbed = PlayLists::getLink($serie['serie_playlists_id'], true);
