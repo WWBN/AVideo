@@ -91,6 +91,16 @@ class VideoTags extends PluginAbstract {
         return TagsHasVideos::removeAllTagsFromVideo($videos_id);
     }
 
+
+    static function add($name, $tags_types_id, $videos_id) {
+        $tag = VideoTags::getOrCreateTagFromName($name, $tags_types_id);
+        $id = TagsHasVideos::getFromTagsIdAndVideosId($tag->getId(), $videos_id);
+        if(empty($id)){
+            return $tag->_addVideo($videos_id);
+        }
+        return $id;
+    }
+
     static function getOrCreateTagFromName($name, $tags_types_id) {
         $name = trim(preg_replace("/[^[:alnum:][:space:]_-]/u", '', $name));
         $tag = self::getTagFromName($name, $tags_types_id);

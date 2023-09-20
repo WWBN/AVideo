@@ -1,15 +1,7 @@
 <?php
 global $avideoLayout;
-/*
-  $navbarIsOpen = !empty($_COOKIE['menuOpen']) && $_COOKIE['menuOpen'] == 'true';
-  $navbarClass = '';
-  if($navbarIsOpen){
-  $navbarClass = 'show animate__animated animate__bounceInLeft';
-  $sidebarStyle = '';
-  }
- */
 ?>
-<div id="sidebar" class="list-group-item <?php echo $navbarClass; ?>" style="<?php echo $sidebarStyle; ?>">
+<div id="sidebar" class="list-group-item" style="<?php echo $sidebarStyle; ?>">
     <div id="sideBarContainer">
         <ul class="nav navbar btn-group-vertical" style="width:100%;">
 
