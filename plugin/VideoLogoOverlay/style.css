@@ -1,3 +1,7 @@
+.floatVideo .VideoLogoOverlay{
+   display: none;
+}
+
 .VideoLogoOverlay{
     position: absolute;
     pointer-events: none;
