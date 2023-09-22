@@ -153,7 +153,7 @@ class CDNStorage {
 
             preg_match('/ ([0-9]+) [a-zA-z]+ [0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}/', $value, $matches);
 
-            $remote_filesize = $matches[1];
+            $remote_filesize = empty($matches[1])?0:$matches[1];
             $relative = $parts1[1];
             $local_path = "{$global['systemRootPath']}videos/{$relative}";
             $local_filesize = @filesize($local_path);
@@ -1140,7 +1140,7 @@ class CDNStorage {
         $list = $client->rawlist($dir, true);
         $index = "file#{$remote_filename}";
         preg_match('/ ([0-9]+) [a-zA-z]+ [0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}/', $list[$index], $matches);
-        $filesize = $matches[1];
+        $filesize = empty($matches[1])?0:$matches[1];
         if (empty($filesize)) {
             $file_exists_on_cdn[$remote_filename] = false;
         } else {
