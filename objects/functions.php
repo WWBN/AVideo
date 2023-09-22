@@ -11512,10 +11512,10 @@ function modifyURL($url)
         'ads_did' => 'ads.did', //Device ID uses session.uuid, App to replace with DID
         'ads_w' => 'ads.w', //player width 
         'ads_h' => 'ads.h', //player height
-        'app_store_url' => 'ads.app_store_url', //player height
-        'ads_app_store_url' => 'ads.app_store_url', //player height
-        'app_name' => 'ads.app_name', //player height
-        'ads_app_name' => 'ads.app_name', //player height
+        'app_store_url' => 'ads.app_store_url',
+        'ads_app_store_url' => 'ads.app_store_url', 
+        'app_name' => 'ads.app_name', 
+        'ads_app_name' => 'ads.app_name',
         'ads_cb' => 'ads.cb',
         'ads_channel_name' => 'ads.channel_name',
         'ads_content_genre' => 'ads.content_genre',
@@ -11541,14 +11541,19 @@ function modifyURL($url)
         'publisher_app_url' => 'gg.ads.publisher_app_url', //the publisher URL 
         'device_ifa' => 'gg.ads.device_ifa' //Device Identifier
     );
+    $changed = false;
     foreach ($parameters as $key => $value) {
         if (!empty($_REQUEST[$key])) {
+            $changed = true;
             //var_dump($url);
             $url = addQueryStringParameter($url, $value, $_REQUEST[$key]);
             //var_dump($url, $value, $key, $_REQUEST[$key]);
         } else {
             $url = removeQueryStringParameter($url, $value);
         }
+    }
+    if($changed){
+        $url = addQueryStringParameter($url, 'ads.cb', time());
     }
     foreach ($parameters as $key => $value) {
         $url = fix_parse_url($url, $value);
