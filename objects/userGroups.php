@@ -447,9 +447,6 @@ class UserGroups{
                 $row = cleanUpRowFromDatabase($row);
                 $arr[] = $row;
             }
-        } else {
-            $arr = false;
-            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $arr;
     }

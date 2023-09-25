@@ -10,6 +10,7 @@
   content: "\f051";
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
+  font-size: 1.2em;
 }
 
 .video-js .next-button {width: 2em !important;}
