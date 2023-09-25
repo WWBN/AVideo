@@ -3997,16 +3997,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v12.1.0",
+            "version": "v12.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "8ef18513811e3ad0cac50f699deac4032409ae07"
+                "reference": "7d0a90772fc1c179e370971264318208533324b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/8ef18513811e3ad0cac50f699deac4032409ae07",
-                "reference": "8ef18513811e3ad0cac50f699deac4032409ae07",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/7d0a90772fc1c179e370971264318208533324b9",
+                "reference": "7d0a90772fc1c179e370971264318208533324b9",
                 "shasum": ""
             },
             "require": {
@@ -4019,8 +4019,7 @@
                 "friendsofphp/php-cs-fixer": "3.5.0",
                 "php-coveralls/php-coveralls": "^2.5",
                 "phpstan/phpstan": "^1.2",
-                "phpunit/phpunit": "^5.7 || ^9.0",
-                "squizlabs/php_codesniffer": "^3.3"
+                "phpunit/phpunit": "^5.7 || ^9.0"
             },
             "type": "library",
             "extra": {
@@ -4052,9 +4051,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v12.1.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v12.4.0"
             },
-            "time": "2023-08-31T20:23:14+00:00"
+            "time": "2023-09-21T22:55:47+00:00"
         },
         {
             "name": "symfony/console",
