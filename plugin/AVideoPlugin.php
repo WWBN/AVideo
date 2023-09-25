@@ -1778,8 +1778,13 @@ class AVideoPlugin
         if (isset($_getVideoTags[$videos_id])) {
             $array = $_getVideoTags[$videos_id];
         } else {
-            $name = "getVideoTags{$videos_id}";
-            $array = ObjectYPT::getCache($name, 86400);
+            
+            $cacheSuffix = 'getVideoTags';            
+            $videoCache = new VideoCacheHandler('', $videos_id);
+            $array = $videoCache->getCache($cacheSuffix, 86400);
+
+            //$name = "getVideoTags{$videos_id}";
+            //$array = ObjectYPT::getCache($name, 86400);
             //_error_log("getVideoTags $name ".(empty($array)?"new":"old"));
             if (empty($array)) {
                 TimeLogStart("AVideoPlugin::getVideoTags($videos_id)");
@@ -1797,7 +1802,9 @@ class AVideoPlugin
                     TimeLogEnd($TimeLog, __LINE__, $tolerance);
                 }
                 TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__, $tolerance * 2);
-                ObjectYPT::setCache($name, $array);
+                
+                $videoCache->setCache($array);
+                //ObjectYPT::setCache($name, $array);
                 $_getVideoTags[$videos_id] = $array;
             } else {
                 //$array = object_to_array($array);

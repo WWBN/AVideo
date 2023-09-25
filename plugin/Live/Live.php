@@ -3063,7 +3063,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function deleteStatsCache($clearFirstPage = false) {
         global $getStatsLive, $_getStats, $getStatsObject, $_getStatsNotifications, $__getAVideoCache, $_isLiveFromKey, $_isLiveAndIsReadyFromKey;
-        $cacheDir = getTmpDir().'YPTObjectCache/getStats/';
+        $cacheDir = ObjectYPT::getTmpCacheDir().'getStats/';
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if(class_exists('CachesInDB')){

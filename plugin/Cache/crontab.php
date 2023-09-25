@@ -9,7 +9,7 @@ if (!isCommandLineInterface()) {
 $daysLimit = 3;
 
 // delete object cache
-$cacheDir = ObjectYPT::getCacheDir();
+$cacheDir = ObjectYPT::getTmpCacheDir();
 if (empty($cacheDir) || !preg_match('/YPTObjectCache/', $cacheDir)) {
     die('Wrong dir: '.$cacheDir);
 }

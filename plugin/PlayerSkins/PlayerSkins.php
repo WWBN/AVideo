@@ -685,8 +685,13 @@ class PlayerSkins extends PluginAbstract {
         if (empty($videos_id)) {
             return array();
         }
-        $name = "PlayeSkins_getVideoTags{$videos_id}";
-        $tags = ObjectYPT::getCache($name, 0);
+        
+        $cacheSuffix = 'PlayeSkins_getVideoTags';
+        $videoCache = new VideoCacheHandler('', $videos_id);
+        $tags = $videoCache->getCache($cacheSuffix, 0);
+
+        //$name = "PlayeSkins_getVideoTags{$videos_id}";
+        //$tags = ObjectYPT::getCache($name, 0);
         if (empty($tags)) {
             //_error_log("Cache not found $name");
             $video = new Video("", "", $videos_id);
@@ -715,7 +720,7 @@ class PlayerSkins extends PluginAbstract {
             }
             $tags = $obj;
 
-            ObjectYPT::setCache($name, $tags);
+            $videoCache->setCache($tags);
         }
         return array($tags);
     }

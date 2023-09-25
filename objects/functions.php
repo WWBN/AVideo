@@ -1523,16 +1523,19 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
         return $getVideosURL_V2Array[$cleanfilename];
     }
 
+    $cacheSuffix = 'getVideosURL_V2';
     $paths = Video::getPaths($cleanfilename);
-
-    $cacheName = "getVideosURL_V2$fileName";
+    $videoCache = new VideoCacheHandler($fileName);
+    $videoCache->setSuffix($cacheSuffix);
+    //$cacheName = "getVideosURL_V2$fileName";
     if (empty($recreateCache)) {
         $lifetime = maxLifetime();
 
         $TimeLog1 = "getVideosURL_V2($fileName) empty recreateCache";
         TimeLogStart($TimeLog1);
         //var_dump($cacheName, $lifetime);exit;
-        $cache = ObjectYPT::getCacheGlobal($cacheName, $lifetime, true);
+        $cache = $videoCache->getCache($cacheSuffix, $lifetime);
+        //$cache = ObjectYPT::getCacheGlobal($cacheName, $lifetime, true);
         $files = object_to_array($cache);
         if (is_array($files)) {
             //_error_log("getVideosURL_V2: do NOT recreate lifetime = {$lifetime}");
@@ -1682,7 +1685,7 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
         }
         $files = array_merge($extraFiles, $files);
 
-        ObjectYPT::setCacheGlobal($cacheName, $files);
+        $videoCache->setCache($files);
     }
     /*
     if(empty($recreateCache) && $fileName == "v_230810144748_v424f"){
