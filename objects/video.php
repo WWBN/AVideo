@@ -1899,9 +1899,12 @@ if (!class_exists('Video')) {
             $name = "_getVideoInfo_{$row['id']}";
             $OneHour = 3600;
             $cache = ObjectYPT::getCacheGlobal($name, $OneHour);
+            $obj = array();
             if (!empty($cache)) {
                 $externalOptions = $cache->externalOptions;
                 $obj = object_to_array($cache);
+            }
+            if (!empty($obj) && is_array($obj)) {
                 foreach ($row as $key => $value) {
                     $obj[$key] = $value;
                 }
