@@ -7952,6 +7952,7 @@ function downloadHLS($filepath)
         $quoted = $outputfilename;
     }
 
+    _error_log("downloadHLS: filepath=($filepath) outputpath={$outputpath}");
     header('Content-Description: File Transfer');
     header('Content-Disposition: attachment; filename=' . $quoted);
     header('Content-Transfer-Encoding: binary');
