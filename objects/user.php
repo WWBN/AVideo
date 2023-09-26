@@ -1929,7 +1929,7 @@ if (typeof gtag !== \"function\") {
         $sql = "SELECT * ";
         
         if(!empty($_REQUEST['getUsage'])){
-            $sql .=", (SELECT sum(filesize) as total FROM videos WHERE users_id = u.id OR users_id_company  =  u.id) as usageInBytes";
+            $sql .=", (SELECT sum(filesize) as total FROM videos WHERE filesize > 0 AND (users_id = u.id)) as usageInBytes";
         }
 
         $sql .=" FROM users u WHERE 1=1 ";
