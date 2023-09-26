@@ -4,11 +4,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'videos/configuration.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 
 
 /**
@@ -1912,7 +1918,7 @@ if (typeof gtag !== \"function\") {
         return $result;
     }
 
-    public static function getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null, $isCompany = null)
+    public static function getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null, $isCompany = null, $canUpload = null)
     {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
@@ -1933,6 +1939,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND isAdmin = 0 ";
             } else {
                 $sql .= " AND isAdmin = 1 ";
+            }
+        }
+        if (isset($canUpload)) {
+            if (empty($canUpload)) {
+                $sql .= " AND canUpload = 0 ";
+            } else {
+                $sql .= " AND canUpload = 1 ";
             }
         }
         if (isset($isCompany)) {
@@ -2062,7 +2075,7 @@ if (typeof gtag !== \"function\") {
         return $user;
     }
 
-    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null, $isCompany = null)
+    public static function getTotalUsers($ignoreAdmin = false, $status = "", $isAdmin = null, $isCompany = null, $canUpload = null)
     {
         if (!Permissions::canAdminUsers() && !$ignoreAdmin) {
             return false;
@@ -2086,7 +2099,13 @@ if (typeof gtag !== \"function\") {
                 $sql .= " AND isAdmin = 1 ";
             }
         }
-
+        if (isset($canUpload)) {
+            if (empty($canUpload)) {
+                $sql .= " AND canUpload = 0 ";
+            } else {
+                $sql .= " AND canUpload = 1 ";
+            }
+        }
         if (isset($isCompany)) {
             if (!empty($isCompany) && $isCompany == self::$is_company_status_ISACOMPANY || $isCompany == self::$is_company_status_WAITINGAPPROVAL) {
                 $sql .= " AND is_company = $isCompany ";

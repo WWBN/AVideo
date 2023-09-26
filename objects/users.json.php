@@ -29,6 +29,7 @@ if (!empty($_REQUEST['users_id'])) {
     //echo __LINE__, PHP_EOL;
     $isAdmin = null;
     $isCompany = null;
+    $canUpload = null;
     $ignoreAdmin = canSearchUsers() ? true : false;
     if (isset($_REQUEST['isAdmin'])) {
         $isAdmin = 1;
@@ -44,6 +45,9 @@ if (!empty($_REQUEST['users_id'])) {
             $ignoreAdmin = true;
         }
     }
+    if (isset($_REQUEST['canUpload'])) {
+        $canUpload = intval($_REQUEST['canUpload']);
+    }    
     $users = User::getAllUsers($ignoreAdmin, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status'], $isAdmin, $isCompany);
     $total = User::getTotalUsers($ignoreAdmin, @$_GET['status'], $isAdmin, $isCompany);
 } else {
@@ -68,6 +72,13 @@ if (empty($users)) {
             $u['status'] = $value['status'];
         }else{
             $u = $value;
+        }
+        if(!empty($_REQUEST['getUsage'])){
+            $u['usage'] = Video::getTotalVideosSizeFromUser($value['id']);
+            $u['usageTxt'] = humanFileSize($u['usage']);
+        }else{
+            $u['usage'] = 0;
+            $u['usageTxt'] = '0 bytes';
         }
         if(empty($u['creator'])){
             $u['creator'] = Video::getCreatorHTML($u['id'], '', true, true);
