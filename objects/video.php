@@ -1876,7 +1876,7 @@ if (!class_exists('Video')) {
                     if (empty($row['externalOptions']->privacyInfo)) {
                         $row['externalOptions']->privacyInfo = self::updatePrivacyInfo($row['id']);
                     }
-                    // this if will be removed soon
+                    // TODO this if will be removed soon
                     if (!empty($global['flixhouse'])) {
                         $row['externalOptions'] = _json_encode($row['externalOptions']);
                     }
@@ -1908,11 +1908,11 @@ if (!class_exists('Video')) {
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             //$name = "_getVideoInfo_{$row['id']}";
-            $OneHour = 3600;
+            $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
             $cacheSuffix = 'getVideoInfo';
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
-            $cache = $videoCache->getCache($cacheSuffix, $OneHour);
+            $cache = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
             //$cache = ObjectYPT::getCacheVideo($cacheSuffix, $OneHour, $row['filename']);
             //$cache = ObjectYPT::getCacheGlobal($name, $OneHour);
             $obj = array();
@@ -2036,11 +2036,11 @@ if (!class_exists('Video')) {
             $TimeLogLimit = 0.2;
             $timeLogName = TimeLogStart("video::getInfo getStatistcs");
             //$name = "_getVideoInfo_{$row['id']}";
-            $OneHour = 3600;
             $cacheSuffix = 'getInfoPersonal_'.User::getId();
             //var_dump($row['filename']);
             $videoCache = new VideoCacheHandler($row['filename']);
-            $cache = $videoCache->getCache($cacheSuffix, $OneHour);
+            $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
+            $cache = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
             if(!empty($cache)){
                 return object_to_array($cache);
             }
@@ -3227,7 +3227,8 @@ if (!class_exists('Video')) {
             //$name = "getTags_{$video_id}_{$type}";
             $cacheSuffix = "getTags_{$type}";
             $videoCache = new VideoCacheHandler('', $video_id);
-            $videos_getTags = $videoCache->getCache($cacheSuffix, 3600);
+            $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
+            $videos_getTags = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
             //$videos_getTags = ObjectYPT::getCache($name, 3600);
             if (!empty($videos_getTags)) {
                 return $videos_getTags;
@@ -3342,14 +3343,15 @@ if (!class_exists('Video')) {
             return $response;
         }
 
-        public static function getTags_($video_id, $type = "")
+        public static function getTags_($video_id, $type = '')
         {
             global $advancedCustom, $advancedCustomUser, $getTags_;
             $tolerance = 0.2;
 
             $cacheSuffix = "getTags_{$type}";
             $videoCache = new VideoCacheHandler('', $video_id);
-            $getTags_ = $videoCache->getCache($cacheSuffix, 3600);
+            $oneToFiveHours = rand(3600, 18000); // 1 to 5 hours
+            $getTags_ = $videoCache->getCache($cacheSuffix, $oneToFiveHours);
             //$index = "getTags_{$video_id}_{$type}";
             //$getTags_ = ObjectYPT::getCache($index, 3600);
 

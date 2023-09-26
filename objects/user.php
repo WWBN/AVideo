@@ -1926,7 +1926,13 @@ if (typeof gtag !== \"function\") {
         //will receive
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
-        $sql = "SELECT * FROM users WHERE 1=1 ";
+        $sql = "SELECT * ";
+        
+        if(!empty($_REQUEST['getUsage'])){
+            $sql .=", (SELECT sum(filesize) as total FROM videos WHERE users_id = u.id OR users_id_company  =  u.id) as usageInBytes";
+        }
+
+        $sql .=" FROM users u WHERE 1=1 ";
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";

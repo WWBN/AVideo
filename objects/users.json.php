@@ -73,11 +73,10 @@ if (empty($users)) {
         }else{
             $u = $value;
         }
-        if(!empty($_REQUEST['getUsage'])){
-            $u['usage'] = Video::getTotalVideosSizeFromUser($value['id']);
-            $u['usageTxt'] = humanFileSize($u['usage']);
+        if(!empty($u['usageInBytes'])){
+            $u['usageTxt'] = humanFileSize($u['usageInBytes']);            
         }else{
-            $u['usage'] = 0;
+            $u['usageInBytes'] = 0;
             $u['usageTxt'] = '0 bytes';
         }
         if(empty($u['creator'])){
