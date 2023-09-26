@@ -223,7 +223,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             position: absolute;
             top: 0;
             left: 0;
-            width: calc(100% - 50px);
+            width: 100%;
             min-height: 52px;
             font: 12px Roboto, Arial, sans-serif;
             color: #FFF;
