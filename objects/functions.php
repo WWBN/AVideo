@@ -7930,6 +7930,7 @@ function downloadHLS($filepath)
         _error_log("downloadHLS: file NOT found: {$filepath}");
         return false;
     }
+    _error_log("downloadHLS: m3u8ToMP4($filepath) start");
     $output = m3u8ToMP4($filepath);
 
     if (!empty($output['error'])) {
