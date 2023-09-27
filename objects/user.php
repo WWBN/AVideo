@@ -4,17 +4,17 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = '../';
 }
-includeConfigLog(__LINE__, basename(__FILE__));
+
 require_once $global['systemRootPath'] . 'videos/configuration.php';
-includeConfigLog(__LINE__, basename(__FILE__));
+
 require_once $global['systemRootPath'] . 'objects/bootGrid.php';
-includeConfigLog(__LINE__, basename(__FILE__));
+
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
-includeConfigLog(__LINE__, basename(__FILE__));
+
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-includeConfigLog(__LINE__, basename(__FILE__));
+
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-includeConfigLog(__LINE__, basename(__FILE__));
+
 
 
 /**
