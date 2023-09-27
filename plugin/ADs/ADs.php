@@ -381,7 +381,7 @@ class ADs extends PluginAbstract
         if(empty($_REQUEST['debug'])){
             return '';
         }
-        var_dump($line, $desc);
+        var_dump('ADs debug line='.$line, $desc);
     }
 
     public static function getAdsCode($type)
