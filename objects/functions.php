@@ -5234,15 +5234,6 @@ function getUsageFromFilename($filename, $dir = "")
                     } else {
                         //_error_log("getUsageFromFilename: there is no info on the AWS_S3  {$filename} {$size}");
                     }
-                }  elseif ($dirSize < $minDirSize && $isEnabledB2) {
-                    // probably the HLS file is hosted on the S3
-                    $size = $isEnabledB2->getFilesize($filename);
-                    if (!empty($size)) {
-                        _error_log("getUsageFromFilename: found info on the B2 {$filename} {$size}");
-                        $totalSize += $size;
-                    } else {
-                        _error_log("getUsageFromFilename: there is no info on the B2  {$filename} {$size}");
-                    }
                 } else {
                     if (!($dirSize < $minDirSize)) {
                         //_error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
@@ -5265,12 +5256,18 @@ function getUsageFromFilename($filename, $dir = "")
                         file_put_contents($lockFile, time());
                         //_error_log("getUsageFromFilename: {$f} is Dummy file ({$filesize})");
                         $aws_s3 = AVideoPlugin::loadPluginIfEnabled('AWS_S3');
-                        //$bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
+                        $bb_b2 = AVideoPlugin::loadPluginIfEnabled('Blackblaze_B2');
                         if (!empty($aws_s3)) {
                             //_error_log("getUsageFromFilename: Get from S3");
                             $filesize += $aws_s3->getFilesize($filename);
                         } elseif (!empty($bb_b2)) {
-                            // TODO
+                            $size = $bb_b2->getFilesize($filename);
+                            if (!empty($size)) {
+                                _error_log("getUsageFromFilename: found info on the B2 {$filename} {$size}");
+                                $totalSize += $size;
+                            } else {
+                                _error_log("getUsageFromFilename: there is no info on the B2  {$filename} {$size}");
+                            }
                         } else {
                             $urls = Video::getVideosPaths($filename, true);
                             //_error_log("getUsageFromFilename: Paths " . json_encode($urls));
