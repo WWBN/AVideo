@@ -5261,13 +5261,7 @@ function getUsageFromFilename($filename, $dir = "")
                             //_error_log("getUsageFromFilename: Get from S3");
                             $filesize += $aws_s3->getFilesize($filename);
                         } elseif (!empty($bb_b2)) {
-                            $size = $bb_b2->getFilesize($filename);
-                            if (!empty($size)) {
-                                _error_log("getUsageFromFilename: found info on the B2 {$filename} {$size}");
-                                $totalSize += $size;
-                            } else {
-                                _error_log("getUsageFromFilename: there is no info on the B2  {$filename} {$size}");
-                            }
+                            $filesize += $bb_b2->getFilesize($filename);
                         } else {
                             $urls = Video::getVideosPaths($filename, true);
                             //_error_log("getUsageFromFilename: Paths " . json_encode($urls));
