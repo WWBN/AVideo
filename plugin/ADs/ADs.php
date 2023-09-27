@@ -544,6 +544,8 @@ class ADs extends PluginAbstract
             $html .= "<div class='alert alert-warning'>{$type} ADs Area</div>";
         }
         $html .= "</div></div>";
+        
+        self::debug(__LINE__, $html);
         return array('html' => $html, 'paths' => $paths);
     }
 
