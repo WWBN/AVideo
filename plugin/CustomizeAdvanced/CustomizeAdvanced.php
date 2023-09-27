@@ -651,7 +651,7 @@ Disallow: *action=tagsearch*
             $js .= "<script>var autoPlayAjax=true;</script>";
         }
         if ($baseName === 'mvideos') {
-            $js .= '<script src="'.getURL('plugin/CustomizeAdvanced/updateDiskUsage.js').'" type="text/javascript"></script>';
+            $js .= '<script src="'.getURL('plugin/CustomizeAdvanced/mvideo.script.js').'" type="text/javascript"></script>';
         }
         return $js;
     }
