@@ -408,6 +408,9 @@ class ADs extends PluginAbstract
             if (_empty($adC['adCode'])) {
                 self::debug(__LINE__);
                 $adC = self::getAdsHTML($type);
+                if(!_empty($adC['html'])){
+                    return $adC['html'];
+                }
             }else{
                 self::debug(__LINE__);
             }
