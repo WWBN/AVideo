@@ -5234,18 +5234,30 @@ function getUsageFromFilename($filename, $dir = "")
                     } else {
                         //_error_log("getUsageFromFilename: there is no info on the AWS_S3  {$filename} {$size}");
                     }
+                } elseif ($dirSize < $minDirSize && $isEnabledB2) {
+                    // probably the HLS file is hosted on the S3
+                    $size = $isEnabledB2->getFilesize($filename);
+                    if (!empty($size)) {
+                        _error_log("getUsageFromFilename: found info on the B2 {$filename} {$size}");
+                        $totalSize += $size;
+                    } else {
+                        _error_log("getUsageFromFilename: there is no info on the B2  {$filename} {$size}");
+                    }
                 } else {
                     if (!($dirSize < $minDirSize)) {
-                        //_error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
+                        _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
                     }
                     if (!$isEnabled) {
-                        //_error_log("getUsageFromFilename: YPTStorage is disabled");
+                        _error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                     if (!$isEnabledCDN) {
-                        //_error_log("getUsageFromFilename: CDN Storage is disabled");
+                        _error_log("getUsageFromFilename: CDN Storage is disabled");
                     }
                     if (!$isEnabledS3) {
-                        //_error_log("getUsageFromFilename: S3 Storage is disabled");
+                        _error_log("getUsageFromFilename: S3 Storage is disabled");
+                    }
+                    if (!$isEnabledB2) {
+                        _error_log("getUsageFromFilename: B2 Storage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
