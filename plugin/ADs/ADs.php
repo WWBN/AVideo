@@ -396,7 +396,7 @@ class ADs extends PluginAbstract
             $users_id = getUsers_idOwnerFromRequest();
             //var_dump($users_id);exit;
             $adC =  self::getAdsFromUsersId($type, $users_id);
-            if (empty($adC['adCode'])) {
+            if (_empty($adC['adCode'])) {
                 $adC = self::getAdsHTML($type);
             }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);

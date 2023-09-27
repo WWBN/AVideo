@@ -10218,9 +10218,12 @@ function isImage($file)
 
 function isHTMLEmpty($html_string)
 {
-    $html_string_no_tags = strip_specific_tags($html_string, ['br', 'p', 'span', 'div'], false);
-    $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));
-    //var_dump(empty($result), $result, $html_string_no_tags, $html_string);
+    // Remove HTML comments
+    $html_string_no_comments = preg_replace('/<!--(.*?)-->/', '', $html_string);    
+    $html_string_no_tags = strip_specific_tags($html_string_no_comments, ['br', 'p', 'span', 'div'], false);
+    $result = trim(str_replace(["\r", "\n"], ['', ''], $html_string_no_tags));    
+    // Uncomment the below line if you want to debug
+    // var_dump(empty($result), $result, $html_string_no_tags, $html_string_no_comments, $html_string);    
     return empty($result);
 }
 
