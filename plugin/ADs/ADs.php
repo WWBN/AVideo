@@ -377,10 +377,18 @@ class ADs extends PluginAbstract
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];
     }
 
+    private static function debug($line, $desc=''){
+        if(empty($_REQUEST['debug'])){
+            return '';
+        }
+        var_dump($line, $desc);
+    }
+
     public static function getAdsCode($type)
     {
         global $global;
         if (isBot()) {
+            self::debug(__LINE__);
             return false;
         }
         $videos_id = 0;
@@ -390,6 +398,7 @@ class ADs extends PluginAbstract
         $ad = AVideoPlugin::getObjectDataIfEnabled('ADs');
         $adCode = '';
         if (!empty($ad)) {
+            self::debug(__LINE__);
             if (isMobile()) {
                 $type = $type . 'Mobile';
             }
@@ -397,13 +406,15 @@ class ADs extends PluginAbstract
             //var_dump($users_id);exit;
             $adC =  self::getAdsFromUsersId($type, $users_id);
             if (_empty($adC['adCode'])) {
+                self::debug(__LINE__);
                 $adC = self::getAdsHTML($type);
             }else{
-                var_dump($adC);
+                self::debug(__LINE__);
             }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
             $adCode = ADs::addLabel($adCode, $adC['label']);
         }
+        self::debug(__LINE__);
         return $adCode;
     }
 
