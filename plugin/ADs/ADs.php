@@ -484,9 +484,11 @@ class ADs extends PluginAbstract
     public static function getAdsHTML($type, $is_regular_user = false)
     {
         global $global;
+        self::debug(__LINE__, "users_id={$is_regular_user}");
         $paths = self::getAds($type, $is_regular_user);
 
         if (empty($paths)) {
+            self::debug(__LINE__, "users_id={$is_regular_user}");
             return false;
         }
 
