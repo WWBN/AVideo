@@ -5190,7 +5190,7 @@ function getUsageFromFilename($filename, $dir = "")
     session_write_close();
     $filesProcessed = [];
     if (empty($files)) {
-        //_error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         make_path($dir);
         file_put_contents("{$dir}{$filename}.notfound", time());
         $totalSize = 10;
@@ -5245,19 +5245,19 @@ function getUsageFromFilename($filename, $dir = "")
                     }
                 } else {
                     if (!($dirSize < $minDirSize)) {
-                        _error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
+                        //_error_log("getUsageFromFilename: does not have the size to process $dirSize < $minDirSize");
                     }
                     if (!$isEnabled) {
-                        _error_log("getUsageFromFilename: YPTStorage is disabled");
+                        //_error_log("getUsageFromFilename: YPTStorage is disabled");
                     }
                     if (!$isEnabledCDN) {
-                        _error_log("getUsageFromFilename: CDN Storage is disabled");
+                        //_error_log("getUsageFromFilename: CDN Storage is disabled");
                     }
                     if (!$isEnabledS3) {
-                        _error_log("getUsageFromFilename: S3 Storage is disabled");
+                        //_error_log("getUsageFromFilename: S3 Storage is disabled");
                     }
                     if (!$isEnabledB2) {
-                        _error_log("getUsageFromFilename: B2 Storage is disabled");
+                        //_error_log("getUsageFromFilename: B2 Storage is disabled");
                     }
                 }
             } elseif (is_file($f)) {
