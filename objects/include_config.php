@@ -111,10 +111,12 @@ if (empty($doNotConnectDatabaseIncludeConfig)) {
 }
 $global['webSiteRootURL'] = fixTestURL($global['webSiteRootURL']);
 require_once $global['systemRootPath'] . 'objects/mysql_dal.php';
+includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/configuration.php';
+includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/security.php';
+includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/images.php';
-
 includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11
 if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {

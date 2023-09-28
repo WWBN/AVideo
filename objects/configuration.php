@@ -3,9 +3,13 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/user.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/functions.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/Object.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 
 class Configuration extends ObjectYPT{
     protected $id;

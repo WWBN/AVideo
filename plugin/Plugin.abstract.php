@@ -1,7 +1,10 @@
 <?php
 
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'locale/function.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/plugin.php';
+includeConfigLog(__LINE__, basename(__FILE__));
 
 abstract class PluginAbstract {
 

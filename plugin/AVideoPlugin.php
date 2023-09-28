@@ -1781,7 +1781,7 @@ class AVideoPlugin
             
             $cacheSuffix = 'getVideoTags';            
             $videoCache = new VideoCacheHandler('', $videos_id);
-            $array = $videoCache->getCache($cacheSuffix, 86400);
+            $array = $videoCache->getCache($cacheSuffix,rand(86400, 864000));
 
             //$name = "getVideoTags{$videos_id}";
             //$array = ObjectYPT::getCache($name, 86400);

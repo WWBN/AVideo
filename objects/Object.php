@@ -692,7 +692,6 @@ abstract class ObjectYPT implements ObjectInterface
         if (class_exists('Cache')) {
             Cache::deleteCache($name);
         }
-
         global $__getAVideoCache;
         unset($__getAVideoCache);
         //_error_log('deleteCache: '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -1051,9 +1050,10 @@ abstract class CacheHandler {
         if (class_exists('CachesInDB')) {           
             CachesInDB::_deleteCacheStartingWith($prefix);
         } 
-        _session_start();
+        _session_start();     
+        clearCache(true);
         unset($_SESSION['user']['sessionCache']);
-        session_write_close();
+        session_write_close();   
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
         return exec("rm -R {$dir}");
     }
