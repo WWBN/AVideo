@@ -1019,6 +1019,8 @@ abstract class ObjectYPT implements ObjectInterface
 abstract class CacheHandler {
 
     protected $suffix;
+    protected $maxCacheRefresh = 10;
+    static $cachedResults = 0;
 
     protected function getCacheName($suffix) {
         if (!is_string($suffix)) {
@@ -1040,8 +1042,15 @@ abstract class CacheHandler {
 
     public function getCache($suffix, $lifetime = 60) {
         $this->setSuffix($suffix);
+        if(!empty($lifetime) && !$this->canRefreshCache()){
+            //_error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now");
+            $lifetime = 0;
+        }
         $name = $this->getCacheName($suffix);
         $cache = ObjectYPT::getCacheGlobal($name, $lifetime);
+        if(!empty($cache)){
+            self::$cachedResults++;
+        }
         return $cache;
     }
 
@@ -1063,11 +1072,15 @@ abstract class CacheHandler {
     }
 
     abstract protected function getCacheSubdir();
+    
+    abstract protected function canRefreshCache();
+    
 }
 
 class VideoCacheHandler extends CacheHandler {
 
     private $filename;
+    private static $cacheRefreshCount = 0;
 
     private function getCacheVideoFilename($filename = '', $id = 0)
     {
@@ -1101,11 +1114,21 @@ class VideoCacheHandler extends CacheHandler {
     protected function getCacheSubdir() {
         return "video/{$this->filename}/";
     }
+    
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
+    }
+
 }
 
 class CategoryCacheHandler extends CacheHandler {
 
     private $id;
+    private static $cacheRefreshCount = 0;
     
     public function __construct($id) {
         $this->id = intval($id);
@@ -1113,6 +1136,14 @@ class CategoryCacheHandler extends CacheHandler {
 
     protected function getCacheSubdir() {
         return "category/{$this->id}/";
+    }
+
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
     }
 
 }

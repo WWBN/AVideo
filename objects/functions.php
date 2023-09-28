@@ -132,8 +132,11 @@ function parse_size($size)
     }
 }
 
-function humanFileSize($size, $unit = "")
-{
+function humanFileSize($size, $unit = "") {
+    if ((!$unit && $size >= 1 << 40) || $unit == "TB") {
+        return number_format($size / (1 << 40), 2) . "TB";
+    }
+
     if ((!$unit && $size >= 1 << 30) || $unit == "GB") {
         return number_format($size / (1 << 30), 2) . "GB";
     }
@@ -148,6 +151,7 @@ function humanFileSize($size, $unit = "")
 
     return number_format($size) . " bytes";
 }
+
 
 function get_max_file_size()
 {
