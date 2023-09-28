@@ -1316,6 +1316,16 @@ if (!class_exists('Video')) {
 
         public static function getTotalVideosSizeFromUser($users_id)
         {
+            $users_id = intval($users_id);
+            if(empty($users_id)){
+                return 0;
+            }
+            return self::getTotalVideosSize($users_id);
+        }
+
+
+        public static function getTotalVideosSize($users_id = 0)
+        {
             global $global, $config;
             $users_id = intval($users_id);
             $sql = "SELECT sum(filesize) as total FROM videos WHERE 1=1 ";
