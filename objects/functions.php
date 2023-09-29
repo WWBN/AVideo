@@ -4799,17 +4799,17 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
     if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
-        $prefix = '    Warning    ';
+        $prefix = ' Warning ';
         if($total_time > 1){
-            $prefix = "*** WARNING ***";
+            $prefix = "*WARNING*";
         }
         $ua = '';
         if(empty($_SERVER['HTTP_USER_AGENT'])){
             $ua = "USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
-        }else{
-            if($total_time > 1){
-                $ua = json_encode(debug_backtrace());
-            }
+        }
+        
+        if($total_time > 2){
+            $ua .= ' backtrace='.json_encode(debug_backtrace());
         }
         _error_log("{$prefix}: Process exceeded time limit ({$TimeLogLimit}s). Actual time: ". number_format($total_time,3) ."s Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}] {$ua}");
     }
