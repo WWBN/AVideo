@@ -4803,12 +4803,15 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
         if($total_time > 1){
             $prefix = "*** WARNING ***";
         }
+        $ua = '';
         if(empty($_SERVER['HTTP_USER_AGENT'])){
             $ua = "USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
         }else{
-            $ua = json_encode(debug_backtrace());
+            if($total_time > 1){
+                $ua = json_encode(debug_backtrace());
+            }
         }
-        _error_log("{$prefix}: Slow process detected takes ". number_format($total_time,3) ." seconds to complete, Limit ({$TimeLogLimit}) {$_SERVER["SCRIPT_FILENAME"]} [{$name}] On  Line {$line} {$ua}");
+        _error_log("{$prefix}: Process exceeded time limit ({$TimeLogLimit}s). Actual time: ". number_format($total_time,3) ."s Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}] {$ua}");
     }
     TimeLogStart($name);
 }
