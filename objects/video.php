@@ -6377,6 +6377,9 @@ if (!class_exists('Video')) {
 
             $loggedUserHTML = '';
             if (User::isLogged() && !empty($program)) {
+                if(AVideoPlugin::isEnabledByName('PlayLists')){
+                    PlayLists::loadScripts();
+                }
                 $value['favoriteId'] = self::getFavoriteIdFromUser(User::getId());
                 $value['watchLaterId'] = self::getWatchLaterIdFromUser(User::getId());
                 if (!empty($value['isWatchLater'])) {
@@ -6511,6 +6514,9 @@ if (!class_exists('Video')) {
             }
             $galleryVideoButtons = '';
             if (!empty($program) && User::isLogged()) {
+                if(AVideoPlugin::isEnabledByName('PlayLists')){
+                    PlayLists::loadScripts();
+                }
                 $isFavorite = self::isFavorite($videos_id);
                 $isWatchLater = self::isWatchLater($videos_id);
                 $favoriteId = self::getFavoriteIdFromUser(User::getId());

@@ -4799,7 +4799,16 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
     if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
-        _error_log("Warning: Slow process detected [{$name}] On  Line {$line} takes ". number_format($total_time,3) ." seconds to complete, Limit ({$TimeLogLimit}). {$_SERVER["SCRIPT_FILENAME"]}");
+        $prefix = '    Warning    ';
+        if($total_time > 1){
+            $prefix = "*** WARNING ***";
+        }
+        if(empty($_SERVER['HTTP_USER_AGENT'])){
+            $ua = "USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
+        }else{
+            $ua = json_encode(debug_backtrace());
+        }
+        _error_log("{$prefix}: Slow process detected takes ". number_format($total_time,3) ." seconds to complete, Limit ({$TimeLogLimit}) {$_SERVER["SCRIPT_FILENAME"]} [{$name}] On  Line {$line} {$ua}");
     }
     TimeLogStart($name);
 }

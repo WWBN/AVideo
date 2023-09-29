@@ -138,11 +138,19 @@ class PlayLists extends PluginAbstract {
         return $css;
     }
 
+    public static function loadScripts(){
+        global $global;
+        $global['laodPlaylistScript'] = 1;
+    }
+
     public function getFooterCode() {
         global $global;
         $obj = $this->getDataObject();
-        include $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
-        $js = '<script src="' . getURL('plugin/PlayLists/script.js') . '" type="text/javascript"></script>';
+        $js = '';
+        if(!empty($global['laodPlaylistScript'])){
+            include $global['systemRootPath'] . 'plugin/PlayLists/footer.php';
+            $js .= '<script src="' . getURL('plugin/PlayLists/script.js') . '" type="text/javascript"></script>';
+        }
 
         if (isEmbed()) {
             if (self::showTVFeatures()) {
