@@ -675,17 +675,15 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getVideosIdFromPlaylist($playlists_id) {
-        global $getVideosIdFromPlaylist;
-        $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . "getVideosIdFromPlaylist";
-        $videosId = self::getCacheGlobal($cacheName, 0);
+        $cacheHandler = new PlayListCacheHandler($playlists_id);
+        $videosId = $cacheHandler->getCache('getVideosFromPlaylist', 0);
         if (empty($videosId)) {
             $videosId = [];
             $rows = static::getVideosIDFromPlaylistLight($playlists_id);
             foreach ($rows as $value) {
                 $videosId[] = $value['videos_id'];
             }
-
-            $cache = self::setCacheGlobal($cacheName, $videosId);
+            $cacheHandler->setCache($videosId);
         }
         return $videosId;
     }

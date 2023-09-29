@@ -1879,6 +1879,8 @@ if (!class_exists('Video')) {
                     $row = self::getInfo($row, $getStatistcs);
                     if($getStatistcs){
                         $row = self::getInfoPersonal($row);
+                    }else{
+                        $row['progress'] = ['percent' => 0, 'lastVideoTime' => 0, 'duration' => $row['duration_in_seconds']];
                     }
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
 
