@@ -7,7 +7,8 @@ $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-//var_dump(Video::getVideo($videos_id, "viewable", false, false, false, true));
+//var_dump(Video::getVideo(73, "viewable", false, false, false, true));
+//var_dump(Video::userGroupAndVideoGroupMatch(User::getId(), 73));exit;
 $TimeLogLimitMY = 0.5;
 $timeLogNameMY = TimeLogStart("modeYoutube.php");
 //_error_log("modeYoutube: session_id = " . session_id() . " IP = " . getRealIpAddr());
