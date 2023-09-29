@@ -22,7 +22,8 @@ if (!empty($evideo)) {
     $autoPlayPoster = '';
     $autoPlayThumbsSprit = '';
 } elseif (!empty($_GET['v'])) {
-    $video = Video::getVideo($_GET['v'], "", true, false, false, true);
+    //$video = Video::getVideo($_GET['v'], "", true, false, false, true);
+    $video = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
     //$video['id'] = $_GET['v'];
 } elseif (!empty($_GET['videoName'])) {
     $video = Video::getVideoFromCleanTitle($_GET['videoName']);
