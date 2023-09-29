@@ -1147,3 +1147,50 @@ class CategoryCacheHandler extends CacheHandler {
     }
 
 }
+
+class UserCacheHandler extends CacheHandler {
+
+    private $id;
+    private static $cacheRefreshCount = 0;
+    
+    public function __construct($id) {
+        $this->id = intval($id);
+    }
+
+    protected function getCacheSubdir() {
+        return "user/{$this->id}/";
+    }
+
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
+    }
+
+}
+
+
+class PlayListCacheHandler extends CacheHandler {
+
+    private $id;
+    private static $cacheRefreshCount = 0;
+    
+    public function __construct($id) {
+        $this->id = intval($id);
+    }
+
+    protected function getCacheSubdir() {
+        return "playlists/{$this->id}/";
+    }
+
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
+    }
+
+}

@@ -6937,6 +6937,34 @@ if (!class_exists('Video')) {
             }
             return $sources;
         }
+        
+        static function deleteUselessOldVideos($days) {
+            $arrayStatusToDelete = array(
+                Video::$statusBrokenMissingFiles,
+                Video::$statusDownloading,
+                Video::$statusEncoding,
+                Video::$statusEncodingError,
+                Video::$statusTranfering,
+            );        
+            $daysAgo = date("Y-m-d H:i:s", strtotime("-{$days} days"));
+            $sql = "SELECT * FROM  videos WHERE status IN ('" . implode("', '", $arrayStatusToDelete) . "') AND created < ? ";
+            $res = sqlDAL::readSql($sql, "s", array($daysAgo));
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);   
+            $count = 0;     
+            if ($res != false) {
+                foreach ($fullData as $row) {
+                    $count++;
+                    if (!in_array($row['status'], $arrayStatusToDelete)) {
+                        continue;
+                    }
+                    $v = new Video('', '', $row['id']);
+                    $v->delete(true);
+                }
+            }
+            return $count;
+        }
+
     }
 }
 // Just to convert permalink into clean_title

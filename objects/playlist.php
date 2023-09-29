@@ -379,6 +379,10 @@ class PlayList extends ObjectYPT {
     }
 
     private static function removeCache($videos_id) {
+        
+        $cacheHandler = new VideoCacheHandler($videos_id);
+        $cacheHandler->deleteCache();
+
         $cacheName = "getAllFromUserVideo_{$videos_id}";
         self::deleteCacheFromPattern($cacheName);
     }
@@ -452,9 +456,11 @@ class PlayList extends ObjectYPT {
         $sql .= self::getSqlFromPost();
         reloadSearchVar();
         $_POST['sort'] = $sort;
-        $cacheName = "getVideosFromPlaylist{$playlists_id}" . DIRECTORY_SEPARATOR . md5($sql);
-        //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCacheGlobal($cacheName, 0);
+
+
+        $cacheHandler = new PlayListCacheHandler($playlists_id);
+        $cacheObj = $cacheHandler->getCache(md5($sql), 0);
+        $rows = object_to_array($cacheObj);
         if (empty($rows)) {
             global $global;
 
@@ -502,13 +508,11 @@ class PlayList extends ObjectYPT {
                     $rows[] = $row;
                 }
 
-                $cache = self::setCacheGlobal($cacheName, $rows);
+                $cacheHandler->setCache($rows);
             } else {
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 $rows = [];
             }
-        } else {
-            $rows = object_to_array($rows);
         }
         return $rows;
     }
@@ -752,6 +756,9 @@ class PlayList extends ObjectYPT {
             self::deleteCacheDir($playlists_id);
         }
         $this->id = $playlists_id;
+        
+        $cacheHandler = new PlayListCacheHandler($this->id);
+        $cacheHandler->deleteCache();
         return $playlists_id;
     }
 
@@ -804,6 +811,9 @@ class PlayList extends ObjectYPT {
     }
 
     static function deleteCacheDir($playlists_id) {
+        $cacheHandler = new PlayListCacheHandler($playlists_id);
+        $cacheHandler->deleteCache();
+        /*
         $tmpDir = ObjectYPT::getCacheDir();
         $name = "getvideosfromplaylist{$playlists_id}";
         $cacheDir = $tmpDir . $name . DIRECTORY_SEPARATOR;
@@ -811,6 +821,7 @@ class PlayList extends ObjectYPT {
         if (class_exists('CachesInDB')) {
             CachesInDB::_deleteCacheStartingWith($name);
         }
+        */
     }
 
     public function delete() {

@@ -57,6 +57,7 @@ class Scheduler extends PluginAbstract
         $obj->watchDogLiveServer = true;
         $obj->watchDogLiveServerSSL = true;
         $obj->sendEmails = true;
+        $obj->deleteOldUselessVideos = true;
 
         $obj->disableReleaseDate = false;
         self::addDataObjectHelper('disableReleaseDate', 'Disable Release Date');
@@ -518,5 +519,12 @@ class Scheduler extends PluginAbstract
 
         $result = $lastVisitTime + $TwoMinutes - time();
         return $result > 0;
+    }
+
+    function executeEveryDay() {
+        $obj = AVideoPlugin::getDataObject('Scheduler');
+        if(!empty($obj->deleteOldUselessVideos)){
+            Video::deleteUselessOldVideos(30);
+        }
     }
 }
