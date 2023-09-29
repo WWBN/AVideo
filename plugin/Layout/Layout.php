@@ -583,6 +583,17 @@ class Layout extends PluginAbstract
         return $content;
     }
 
+    static function getPlaylistAutocomplete($default_Playlists_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
+    {
+        global $global;
+        $default_Playlists_id = intval($default_Playlists_id);
+        if (empty($id)) {
+            $id = 'getPlaylistAutocomplete_' . uniqid();
+        }
+        include $global['systemRootPath'] . 'plugin/Layout/playlistAutocomplete.php';
+        return "updatePlaylistAutocomplete{$id}();";
+    }
+
     static function getUserAutocomplete($default_users_id = 0, $id = '', $parameters = array(), $jsFunctionForSelectCallback = '')
     {
         global $global;

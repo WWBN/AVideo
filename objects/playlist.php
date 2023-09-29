@@ -996,4 +996,40 @@ class PlayList extends ObjectYPT {
         return false;
     }
 
+    public static function getAll($status='', $playlists_id = 0)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " pl WHERE 1=1 ";
+        $formats = "";
+        $values = [];
+
+        if(!empty($playlists_id)){
+            $sql .= " AND pl.id = ? ";
+            $formats .= "i";
+            $values[] = $playlists_id;
+        }
+
+        if(!empty($status)){
+            $sql .= " AND status = ? ";
+            $formats .= "s";
+            $values[] = $status;
+        }
+        
+        $sql .= self::getSqlFromPost();
+        //var_dump($sql, $formats, $values);
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = [];
+        if ($res !== false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
+    }
+
 }
