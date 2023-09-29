@@ -4784,8 +4784,7 @@ function TimeLogStart($name)
     return $name;
 }
 
-function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
-{
+function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
     global $global;
     if (!empty($global['noDebug']) || empty($global['start'][$name])) {
         return false;
@@ -4798,23 +4797,28 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7)
     $time = $time[1] + $time[0];
     $finish = $time;
     $total_time = round(($finish - $global['start'][$name]), 4);
+    $type = AVideoLog::$DEBUG;
+    $backtrace = '';
+    $ua = '';
+    
     if (empty($global['noDebugSlowProcess']) && $total_time > $TimeLogLimit) {
-        $prefix = ' Warning ';
-        if($total_time > 1){
-            $prefix = "*WARNING*";
+        if ($total_time > 1) {
+            $type = AVideoLog::$WARNING;
         }
-        $ua = '';
-        if(empty($_SERVER['HTTP_USER_AGENT'])){
-            $ua = "USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
+        if ($total_time > 2) {
+            $type = AVideoLog::$ERROR;
+            $backtrace = ' backtrace=' . json_encode(debug_backtrace());
         }
         
-        if($total_time > 2){
-            $ua .= ' backtrace='.json_encode(debug_backtrace());
+        if (!empty($_SERVER['HTTP_USER_AGENT'])) {
+            $ua = " USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
         }
-        _error_log("{$prefix}: Process exceeded time limit ({$TimeLogLimit}s). Actual time: ". number_format($total_time,3) ."s Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}] {$ua}");
+        
+        _error_log("Time: ". str_pad(number_format($total_time,3) . "s", 8) . " | Limit: {$TimeLogLimit}s | Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}]{$ua}{$backtrace}", $type);
     }
     TimeLogStart($name);
 }
+
 
 class AVideoLog
 {
