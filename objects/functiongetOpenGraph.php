@@ -73,10 +73,12 @@ $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
 //$ogURL = Video::getLink($video['id'], $video['clean_title']);
-if(empty($_REQUEST['playlists_id'])){
-    $ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
-}else{
+if(!empty($_REQUEST['playlists_id'])){
     $ogURL = PlayLists::getLink($_REQUEST['playlists_id'],isEmbed(), @$_REQUEST['playlist_index']);
+}else if(!empty($_REQUEST['tags_id']) && isset($_REQUEST['playlist_index'])){
+    $ogURL = PlayLists::getTagLink($_REQUEST['tags_id'],isEmbed(), @$_REQUEST['playlist_index']);
+}else{
+    $ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
 }
 
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
