@@ -1,4 +1,6 @@
 importScripts('workbox-v6.5.3/workbox-sw.js');
+importScripts('workbox-v6.5.3/workbox-expiration.prod.js');
+
 
 workbox.setConfig({
     modulePathPrefix: 'workbox-v6.5.3/',
@@ -8,6 +10,8 @@ workbox.setConfig({
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
 const CACHE_NAME = 'avideo-cache-ver-3.6';
+const _maxEntries = 200;
+const _1_WEEK = 7 * 24 * 60 * 60;
 
 const staticAssetsCacheName = CACHE_NAME + '-static-assets';
 
@@ -42,13 +46,30 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
     console.log('Service worker activated');
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cache => {
+                    if (cache !== CACHE_NAME) {
+                        console.log("Service worker: Clearing old cache", cache);
+                        return caches.delete(cache);
+                    }
+                })
+            );
+        })
+    );
 });
+
 const cacheFirst = new workbox.strategies.CacheFirst({
     cacheName: staticAssetsCacheName,
     plugins: [
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
-        })
+        }),
+        new ExpirationPlugin({
+            maxEntries: _maxEntries, // Adjust this value based on your needs.
+            maxAgeSeconds: _1_WEEK, // 1 week
+        }),
     ]
 });
 
@@ -57,7 +78,11 @@ const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
     plugins: [
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
-        })
+        }),
+        new ExpirationPlugin({
+            maxEntries: _maxEntries, // Adjust this value based on your needs.
+            maxAgeSeconds: _1_WEEK, // 1 week
+        }),
     ]
 });
 
@@ -66,7 +91,11 @@ const networkFirst = new workbox.strategies.NetworkFirst({
     plugins: [
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
-        })
+        }),
+        new ExpirationPlugin({
+            maxEntries: _maxEntries, // Adjust this value based on your needs.
+            maxAgeSeconds: _1_WEEK, // 1 week
+        }),
     ]
 });
 
