@@ -1,5 +1,4 @@
 importScripts('workbox-v6.5.3/workbox-sw.js');
-importScripts('workbox-v6.5.3/workbox-expiration.prod.js');
 
 
 workbox.setConfig({
@@ -7,6 +6,7 @@ workbox.setConfig({
     debug: false
 });
 
+importScripts('workbox-v6.5.3/workbox-expiration.prod.js');
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
 const CACHE_NAME = 'avideo-cache-ver-3.6';
