@@ -969,7 +969,7 @@ class PlayListPlayer {
                 $playListObj = new PlayList($this->playlists_id);
                 return $playListObj->getName();
             }
-        } else if (!empty($this->tags_id)) {
+        } else if (!empty($this->tags_id) && class_exists('Tags')) {
             $tag = new Tags($this->tags_id);
             return $tag->getName();
         }
