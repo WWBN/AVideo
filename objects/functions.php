@@ -4467,8 +4467,13 @@ function convertImageIfNotExists($source, $destination, $width, $height, $scaleU
 
 function ogSite()
 {
-    global $global, $config;
-    include $global['systemRootPath'] . 'objects/functionogSite.php';
+    global $global, $config, $advancedCustom;    
+    $videos_id = getVideos_id();
+    if(empty($videos_id)){
+        include $global['systemRootPath'] . 'objects/functionogSite.php';
+    }else{
+        getOpenGraph($videos_id);
+    }
 }
 
 function getOpenGraph($videos_id)
@@ -5986,6 +5991,15 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
 
         if (empty($videos_id) && !empty($_REQUEST['videos_id'])) {
             $videos_id = $_REQUEST['videos_id'];
+        }
+        
+        if (empty($videos_id) && !empty($_REQUEST['playlists_id'])) {
+            AVideoPlugin::loadPlugin('PlayLists');
+            $plp = new PlayListPlayer(@$_REQUEST['playlists_id'], @$_REQUEST['tags_id'], true);
+            $video = $plp->getCurrentVideo();
+            if(!empty($video)){
+                $videos_id = $video['id'];
+            }
         }
 
         $videos_id = videosHashToID($videos_id);

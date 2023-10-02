@@ -73,18 +73,23 @@ $twitter_site = $advancedCustom->twitter_site;
 $title = getSEOTitle($video['title']);
 $description = getSEODescription($video['description']);
 //$ogURL = Video::getLink($video['id'], $video['clean_title']);
-$ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
+if(empty($_REQUEST['playlists_id'])){
+    $ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
+}else{
+    $ogURL = PlayLists::getLink($_REQUEST['playlists_id'],isEmbed(), @$_REQUEST['playlist_index']);
+}
+
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
 $createddDate = date('Y-m-d', strtotime($video['created']));
 echo $contentType;
 ?>
 <!-- og from <?php echo basename(__FILE__); ?> -->
-<meta http-equiv="last-modified" content="<?php echo $modifiedDate; ?>">
-<meta name="revised" content="<?php echo $modifiedDate; ?>" />
-<link rel="image_src" href="<?php echo $img; ?>" />
-<meta property="og:image" content="<?php echo $img; ?>" />
-<meta property="og:image:secure_url" content="<?php echo $img; ?>" />
-<meta property="og:image:type" content="image/jpeg" />
+<meta http-equiv="last-modified"       content="<?php echo $modifiedDate; ?>">
+<meta name="revised"                   content="<?php echo $modifiedDate; ?>" />
+<link rel="image_src"                  href="<?php echo $img; ?>" />
+<meta property="og:image"              content="<?php echo $img; ?>" />
+<meta property="og:image:secure_url"   content="<?php echo $img; ?>" />
+<meta property="og:image:type"         content="image/jpeg" />
 <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
 <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
 <meta property="fb:app_id"             content="774958212660408" />
@@ -93,9 +98,9 @@ echo $contentType;
 <meta property="og:url"                content="<?php echo $ogURL; ?>" />
 <meta property="og:type"               content="<?php echo $ogtype; ?>" />
 
-<meta property="ya:ovs:upload_date" content="<?php echo $createddDate; ?>" />
-<meta property="ya:ovs:adult" content="no" />
-<meta property="video:duration" content="<?php echo $video['duration_in_seconds']; ?>" />
+<meta property="ya:ovs:upload_date"    content="<?php echo $createddDate; ?>" />
+<meta property="ya:ovs:adult"          content="no" />
+<meta property="video:duration"        content="<?php echo $video['duration_in_seconds']; ?>" />
 
 
 <link rel="canonical" href="<?php echo $ogURL; ?>" />
@@ -114,11 +119,11 @@ if (empty($source['url'])) {
 }
 if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
     ?>
-    <meta property="og:video" content="<?php echo $source['url']; ?>" />
+    <meta property="og:video"            content="<?php echo $source['url']; ?>" />
     <meta property="og:video:secure_url" content="<?php echo $source['url']; ?>" />
-    <meta property="og:video:type" content="video/mp4" />
-    <meta property="og:video:width" content="<?php echo $imgw; ?>" />
-    <meta property="og:video:height" content="<?php echo $imgh; ?>" />
+    <meta property="og:video:type"       content="video/mp4" />
+    <meta property="og:video:width"      content="<?php echo $imgw; ?>" />
+    <meta property="og:video:height"     content="<?php echo $imgh; ?>" />
     <?php
 } else {
         if (AVideoPlugin::isEnabledByName("SecureVideosDirectory")) {
@@ -127,12 +132,12 @@ if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['u
         if (empty($source['url'])) {
             echo "<!-- we could not get the source file -->";
         } ?>
-    <meta property="og:video" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
+    <meta property="og:video"            content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <meta property="og:video:secure_url" content="<?php echo Video::getLinkToVideo($videos_id); ?>" />
     <?php
     }
 ?>
-<meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
+<meta property="duration"                content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
 
 <!-- Twitter cards -->
 <?php
