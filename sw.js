@@ -1,6 +1,5 @@
 importScripts('workbox-v6.5.3/workbox-sw.js');
 
-
 workbox.setConfig({
     modulePathPrefix: 'workbox-v6.5.3/',
     debug: false
@@ -10,7 +9,7 @@ importScripts('workbox-v6.5.3/workbox-expiration.prod.js');
 const webSiteRootURL = this.location.href.split('sw.js?')[0];
 const FALLBACK_HTML_URL = webSiteRootURL + 'offline';
 const CACHE_NAME = 'avideo-cache-ver-3.6';
-const _maxEntries = 200;
+const _maxEntries = 400;
 const _1_WEEK = 7 * 24 * 60 * 60;
 
 const staticAssetsCacheName = CACHE_NAME + '-static-assets';
@@ -66,7 +65,7 @@ const cacheFirst = new workbox.strategies.CacheFirst({
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
         }),
-        new ExpirationPlugin({
+        new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
         }),
@@ -79,7 +78,7 @@ const staleWhileRevalidate = new workbox.strategies.StaleWhileRevalidate({
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
         }),
-        new ExpirationPlugin({
+        new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
         }),
@@ -92,7 +91,7 @@ const networkFirst = new workbox.strategies.NetworkFirst({
         new workbox.cacheableResponse.CacheableResponsePlugin({
             statuses: [0, 200]
         }),
-        new ExpirationPlugin({
+        new workbox.expiration.ExpirationPlugin({
             maxEntries: _maxEntries, // Adjust this value based on your needs.
             maxAgeSeconds: _1_WEEK, // 1 week
         }),
