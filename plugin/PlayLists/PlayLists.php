@@ -961,6 +961,7 @@ class PlayListPlayer {
     }
 
     private function _getName() {
+        global $global;
         if (!empty($this->playlists_id)) {
             $video = PlayLists::isPlayListASerie($this->playlists_id);
             if (!empty($video['id'])) {
@@ -969,7 +970,8 @@ class PlayListPlayer {
                 $playListObj = new PlayList($this->playlists_id);
                 return $playListObj->getName();
             }
-        } else if (!empty($this->tags_id) && class_exists('Tags')) {
+        } else if (!empty($this->tags_id)) {
+            require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/Tags.php';
             $tag = new Tags($this->tags_id);
             return $tag->getName();
         }
