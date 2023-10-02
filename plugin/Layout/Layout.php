@@ -987,7 +987,7 @@ class Layout extends PluginAbstract
                                     
         $divs[] = '<div class="form-check">
                         <label class="form-check-label">
-                        <input class="form-check-input" type="radio" name="' . $name . '" checked value=""> 
+                        <input class="form-check-input" type="radio" name="' . $name . '" checked value="0"> 
                         ' . __('All') . ' 
                     </label></div>';
         for ($i = $step; $i <= $video['views_count']; $i += $step) {

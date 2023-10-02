@@ -1244,7 +1244,7 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
             }
             $lastGetVideoSQL = $sql;
-            //echo $sql, "<br>";//exit;
+            //echo $sql, "<br>";var_dump(debug_backtrace());exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             if (!empty($video['id'])) {

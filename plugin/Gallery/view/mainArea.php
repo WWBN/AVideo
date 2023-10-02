@@ -9,6 +9,7 @@ saveRequestVars();
     }
     $obj = AVideoPlugin::getObjectData("Gallery");
     if ($obj->searchOnChannels) {
+        echo '<!-- searchOnChannels -->';
         if (!empty($_REQUEST['search'])) {
             $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
             $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
@@ -35,6 +36,7 @@ saveRequestVars();
             }
         }
     }
+    //var_dump(!empty($video), debug_backtrace());exit;
     if (!empty($video)) {
         global $contentSearchFound;
         $contentSearchFound = true;
@@ -72,6 +74,7 @@ saveRequestVars();
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
         } else {
             //var_dump($sections);exit;
+            //var_dump(getSearchVar());exit;
             foreach ($sections as $value) {
                 if (empty($value['active'])) {
                     continue;
@@ -163,7 +166,7 @@ saveRequestVars();
             }
         }
     } else {
-        echo '<!-- ' . basename(__FILE__) . ' -->';
+        echo '<!-- ' . basename(__FILE__) . ' modeGalleryCategoryLive -->';
         include $global['systemRootPath'] . 'plugin/Gallery/view/modeGalleryCategoryLive.php';
         $ob = _ob_get_clean();
         _ob_start();

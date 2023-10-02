@@ -44,7 +44,9 @@ doNOTOrganizeHTMLIfIsPagination();
         </div>
         <script>
             $(document).ready(function () {
-                loadPL('<?php echo $videos_id; ?>','<?php echo $crc; ?>');
+                if(typeof loadPL !== 'undefined'){
+                    loadPL('<?php echo $videos_id; ?>','<?php echo $crc; ?>');
+                }
             });
         </script>
     <?php } ?>
