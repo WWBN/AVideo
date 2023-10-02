@@ -971,7 +971,8 @@ class PlayListPlayer {
                 return $playListObj->getName();
             }
         } else if (!empty($this->tags_id)) {
-            AVideoPlugin::getObjectData("PlayLists");
+            //require_once $global['systemRootPath'] . 'plugin/VideoTags/Objects/Tags.php';            
+            AVideoPlugin::getObjectData("VideoTags");
             $tag = new Tags($this->tags_id);
             return $tag->getName();
         }
