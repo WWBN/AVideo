@@ -734,13 +734,17 @@ class StripeYPT extends PluginAbstract
     function processSinglePaymentIPN($payload)
     {
         if (!is_object($payload)) {
+            _error_log("Stripe processSinglePaymentIPN  empty payload");
             return false;
         }
         $pluginS = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
         $payment_amount = StripeYPT::addDot($payload->data->object->amount);
         $users_id = $payload->data->object->metadata->users_id;
         if (!empty($users_id)) {
+            _error_log("Stripe processSinglePaymentIPN users_id={$users_id} payment_amount={$payment_amount} {$payload->data->object->description}");
             $pluginS->addBalance($users_id, $payment_amount, "Stripe single payment: " . $payload->data->object->description, json_encode($payload));
+        }else{
+            _error_log("Stripe processSinglePaymentIPN users_id is empty payment_amount={$payment_amount}");
         }
     }
 
