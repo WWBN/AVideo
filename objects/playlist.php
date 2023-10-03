@@ -745,14 +745,15 @@ class PlayList extends ObjectYPT {
         $this->clearEmptyLists();
         if(empty($this->getUsers_id()) || !PlayLists::canManageAllPlaylists()){
             $users_id = User::getId();
-            if(empty($users_id)){
-                // return if there is no users id
-                return false;
-            }
             $this->setUsers_id($users_id);
         }
         $this->showOnTV = intval($this->showOnTV);
         $this->showOnFirstPage = intval($this->showOnFirstPage);
+        
+        if(empty($this->users_id)){
+            // return if there is no users id
+            return false;
+        }
         $playlists_id = parent::save();
         if (!empty($playlists_id)) {
             self::deleteCacheDir($playlists_id);
