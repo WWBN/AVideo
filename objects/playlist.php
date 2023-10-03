@@ -746,6 +746,7 @@ class PlayList extends ObjectYPT {
         if(empty($this->getUsers_id()) || !PlayLists::canManageAllPlaylists()){
             $users_id = User::getId();
             if(empty($users_id)){
+                // return if there is no users id
                 return false;
             }
             $this->setUsers_id($users_id);
