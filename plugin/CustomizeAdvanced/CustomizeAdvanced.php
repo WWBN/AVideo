@@ -696,6 +696,9 @@ Disallow: *action=tagsearch*
         }
         $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
+        if(!isset($externalOptions)){
+            $externalOptions = new stdClass();
+        }
         $externalOptions->doNotShowAdsOnThisVideo = $doNotShowAdsOnThisVideo;
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();
