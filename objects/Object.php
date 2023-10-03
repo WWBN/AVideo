@@ -333,6 +333,7 @@ abstract class ObjectYPT implements ObjectInterface
                     $values[] = $this->$value;
                     $fields[] = " `{$value}` = ? ";
                 }
+                //if(strtolower($value) == 'description'){ var_dump($formats, $this->$value);}
             }
             $sql .= implode(", ", $fields);
             $formats .= 'i';
