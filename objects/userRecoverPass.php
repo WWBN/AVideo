@@ -42,7 +42,7 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                     //Set who the message is to be sent to
                     $mail->addAddress($user->getEmail());
                     //Set the subject line
-                    $mail->Subject = 'Recover Pass from ' . $config->getWebSiteTitle();
+                    $mail->Subject = __('Recover Pass from') .' '. $config->getWebSiteTitle();
 
                     $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_REQUEST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
 

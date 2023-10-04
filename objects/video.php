@@ -4892,7 +4892,9 @@ if (!class_exists('Video')) {
         public static function getVideosPathsSearchingDir($filename, $includeS3 = false)
         {
             global $global;
-
+            if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolutions'])) {
+                $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160, 'offline'];
+            }
             /**
              *
              * @var array $global
