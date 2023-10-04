@@ -21,8 +21,12 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     $obj->request = $_REQUEST;
     */
     header('Content-Type: application/json');
+    if(empty($user->getStatus())){
+        $obj->error = __("User not found");
+        die(json_encode($obj));
+    }
     if($user->getStatus() !== 'a'){
-        $obj->error = __("The user is not active").' status='.$user->getStatus();
+        $obj->error = __("The user is not active");
         die(json_encode($obj));
     }
     if (!empty($user->getEmail())) {
