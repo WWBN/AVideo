@@ -35,7 +35,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.2";
+        return "3.0";
     }
 
     public function getEmptyDataObject() {
