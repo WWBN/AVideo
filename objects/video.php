@@ -5294,6 +5294,16 @@ if (!class_exists('Video')) {
                 $get_http = "?{$get_http}";
             }
 
+            $subDir = "video";
+            $subEmbedDir = "videoEmbed";
+            if ($video->getType() == 'article') {
+                $subDir = "article";
+                $subEmbedDir = "articleEmbed";
+            } else if ($video->getType() == 'audio') {
+                $subDir = "audio";
+                $subEmbedDir = "audioEmbed";
+            }
+
             if ($type == Video::$urlTypeFriendly) {
                 $cat = '';
                 if (!empty($_REQUEST['catName'])) {
@@ -5304,12 +5314,6 @@ if (!class_exists('Video')) {
                     $clean_title = $video->getClean_title();
                 }
                 $clean_title = @urlencode($clean_title);
-                $subDir = "video";
-                $subEmbedDir = "videoEmbed";
-                if ($video->getType() == 'article') {
-                    $subDir = "article";
-                    $subEmbedDir = "articleEmbed";
-                }
                 if (!empty($advancedCustom->makeVideosIDHarderToGuess)) {
                     $videoHash = idToHash($videos_id);
                     if (!empty($videoHash)) {
@@ -5337,10 +5341,10 @@ if (!class_exists('Video')) {
                     $videos_id = $encryptedVideos_id;
                 }
                 if ($embed) {
-                    $url = "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
+                    $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}{$get_http}";
                     return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
                 } else {
-                    return "{$global['webSiteRootURL']}video/{$videos_id}{$get_http}";
+                    return "{$global['webSiteRootURL']}{$subDir}/{$videos_id}{$get_http}";
                 }
             }
         }
