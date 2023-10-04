@@ -29,7 +29,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "5.0";
+        return "6.0";
     }
 
     public function getEmptyDataObject() {
