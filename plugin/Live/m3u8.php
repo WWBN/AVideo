@@ -50,7 +50,7 @@ if (true || empty($_SESSION['playerServer'][$live_servers_id])) {
     $_SESSION['playerServer'][$live_servers_id] = Live::getPlayerServer();
     $_SESSION['useAadaptiveMode'][$live_servers_id] = Live::getUseAadaptiveMode();
 } else {
-    @$global['mysqli']->close();
+    _mysql_close();
 }
 if ($_SESSION['useAadaptiveMode'][$live_servers_id]) {
     $complement = $_SESSION['playerServer'][$live_servers_id] . "/";
