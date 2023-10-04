@@ -78,7 +78,7 @@ if(!empty($_REQUEST['playlists_id'])){
 }else if(!empty($_REQUEST['tags_id']) && isset($_REQUEST['playlist_index'])){
     $ogURL = PlayLists::getTagLink($_REQUEST['tags_id'],isEmbed(), @$_REQUEST['playlist_index']);
 }else{
-    $ogURL = Video::getLinkToVideo($videos_id, '', false,'permalink', [], true);
+    $ogURL = Video::getLinkToVideo($videos_id, '', false,Video::$urlTypeCanonical, [], true);
 }
 
 $modifiedDate = date('Y-m-d', strtotime($video['modified']));
@@ -147,7 +147,7 @@ if (!empty($advancedCustom->twitter_player)) {
     if (!AVideoPlugin::isEnabledByName("SecureVideosDirectory") && !empty($source['url'])) {
         ?>
     <meta name="twitter:card" content="player" />
-    <meta name="twitter:player" content=<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
+    <meta name="twitter:player" content="<?php echo Video::getLinkToVideo($videos_id, $video['clean_title'], true); ?>" />
     <meta name="twitter:player:width" content="<?php echo $imgw; ?>" />
     <meta name="twitter:player:height" content="<?php echo $imgh; ?>" />
     <meta name="twitter:player:stream" content="<?php echo $source['url']; ?>" />

@@ -138,7 +138,8 @@ if (!class_exists('Video')) {
         public static $videoTypeNotfound = 'notfound';
         public static $videoTypeBlockedUser = 'blockedUser';
         public static $typeOptions = ['audio', 'video', 'short', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
-
+        public static $urlTypeFriendly = 'URLFriendly';
+        public static $urlTypeCanonical = 'URLCanonical';
         private $categoryWasChanged = false;
 
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false)
@@ -5254,7 +5255,7 @@ if (!class_exists('Video')) {
          * @param string $type URLFriendly or permalink
          * @return String a web link
          */
-        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = "URLFriendly", $get = [], $ignoreChannelname = false)
+        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = self::$urlTypeFriendly, $get = [], $ignoreChannelname = false)
         {
             global $global, $advancedCustomUser, $advancedCustom;
             if (!empty($_GET['evideo'])) {
@@ -5293,7 +5294,7 @@ if (!class_exists('Video')) {
                 $get_http = "?{$get_http}";
             }
 
-            if ($type == "URLFriendly") {
+            if ($type == Video::$urlTypeFriendly) {
                 $cat = '';
                 if (!empty($_REQUEST['catName'])) {
                     $cat = "cat/{$_REQUEST['catName']}/";
@@ -5339,29 +5340,29 @@ if (!class_exists('Video')) {
                     $url = "{$global['webSiteRootURL']}vEmbed/{$videos_id}{$get_http}";
                     return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
                 } else {
-                    return "{$global['webSiteRootURL']}v/{$videos_id}{$get_http}";
+                    return "{$global['webSiteRootURL']}video/{$videos_id}{$get_http}";
                 }
             }
         }
 
         public static function getPermaLink($videos_id, $embed = false, $get = [])
         {
-            return self::getLinkToVideo($videos_id, "", $embed, "permalink", $get);
+            return self::getLinkToVideo($videos_id, "", $embed, Video::$urlTypeCanonical, $get);
         }
 
         public static function getURLFriendly($videos_id, $embed = false, $get = [])
         {
-            return self::getLinkToVideo($videos_id, "", $embed, "URLFriendly", $get);
+            return self::getLinkToVideo($videos_id, "", $embed, Video::$urlTypeFriendly, $get);
         }
 
         public static function getPermaLinkFromCleanTitle($clean_title, $embed = false, $get = [])
         {
-            return self::getLinkToVideo("", $clean_title, $embed, "permalink", $get);
+            return self::getLinkToVideo("", $clean_title, $embed, Video::$urlTypeCanonical, $get);
         }
 
         public static function getURLFriendlyFromCleanTitle($clean_title, $embed = false, $get = [])
         {
-            return self::getLinkToVideo("", $clean_title, $embed, "URLFriendly", $get);
+            return self::getLinkToVideo("", $clean_title, $embed, Video::$urlTypeFriendly, $get);
         }
 
         public static function getURL($videos_id)

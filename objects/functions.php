@@ -4049,11 +4049,10 @@ function siteMap()
 
         TimeLogStart("siteMap Video::getLink $videos_id");
         $loc = Video::getLink($video['id'], $video['clean_title']);
-        //$loc = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false);
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
-        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, 'permlink');
+        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, Video::$urlTypeCanonical);
         TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);
         TimeLogStart("siteMap Video::isPublic $videos_id");
         $requires_subscription = Video::isPublic($video['id']) ? "no" : "yes";

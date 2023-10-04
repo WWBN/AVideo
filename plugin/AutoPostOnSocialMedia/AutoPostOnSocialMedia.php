@@ -102,7 +102,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
         if(AVideoPlugin::isEnabledByName('BitLy')){
             $url = BitLy::getLink($videos_id);
         }else{
-            $url = Video::getLinkToVideo($videos_id, "", false, "permalink");
+            $url = Video::getLinkToVideo($videos_id, "", false, Video::$urlTypeCanonical);
         }
         _error_log("AutoPostOnSocialMedia::postVideo($videos_id) $url");
         return self::post($url);

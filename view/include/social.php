@@ -7,7 +7,7 @@ if (empty($video['id']) && !empty(getVideos_id())) {
 }
 if (!empty($video['id'])) {
     $url = Video::getLinkToVideo($video['id']);
-    $urlShort = Video::getLinkToVideo($video['id'], '', false, "short", [], true);
+    $urlShort = Video::getLinkToVideo($video['id'], '', false, Video::$urlTypeCanonical, [], true);
     if (!empty($video['title'])) {
         $titleSocial = $video['title'];
     } else {
