@@ -5293,6 +5293,19 @@ if (!class_exists('Video')) {
             } else {
                 $get_http = "?{$get_http}";
             }
+            /*
+
+            Previously, the canonical URL was set to the shortened format "https://mysite.com/v/40701". 
+            However, to maintain consistency with the actual structure of our site URLs and to ensure clarity for search engines, 
+            we've updated the canonical URL to match the actual URL format: "https://mysite.com/video/40701".
+
+            This change is intended to:
+            - Align the canonical URL more closely with the primary URL structure of the site.
+            - Prevent any potential confusion for search engines regarding our site's URL hierarchy.
+            - Ensure a more intuitive URL format for both users and search engines.
+
+            Note: It's essential to keep canonical URLs consistent and representative of the primary content's URL structure to maximize SEO effectiveness.
+            */
 
             $subDir = "video";
             $subEmbedDir = "videoEmbed";
