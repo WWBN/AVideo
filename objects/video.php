@@ -5255,7 +5255,7 @@ if (!class_exists('Video')) {
          * @param string $type URLFriendly or permalink
          * @return String a web link
          */
-        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = self::$urlTypeFriendly, $get = [], $ignoreChannelname = false)
+        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = 'URLFriendly', $get = [], $ignoreChannelname = false)
         {
             global $global, $advancedCustomUser, $advancedCustom;
             if (!empty($_GET['evideo'])) {
