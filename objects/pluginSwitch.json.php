@@ -7,13 +7,14 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/plugin.php';
 if (!User::isAdmin()) {
-    die('{"error":"'.__("Permission denied").'"}');
+    forbiddenPage('Permission denied');
 }
 if (empty($_POST['name'])) {
+    forbiddenPage('Name can\'t be blank');
     die('{"error":"'.__("Name can't be blank").'"}');
 }
 if (empty($_POST['uuid'])) {
-    die('{"error":"'.__("UUID can't be blank").'"}');
+    forbiddenPage('UUID can\'t be blank');
 }
 $obj = new Plugin(0);
 $obj->loadFromUUID($_POST['uuid']);

@@ -14,7 +14,7 @@ class Plugin extends ObjectYPT
     protected $name;
     protected $uuid;
     protected $dirName;
-    protected $pluginVersion;
+    protected $pluginversion;
 
     public static function getSearchFieldsNames()
     {
@@ -43,7 +43,7 @@ class Plugin extends ObjectYPT
 
     public function getPluginVersion()
     {
-        return $this->pluginVersion;
+        return $this->pluginversion;
     }
 
     public function getName()
@@ -96,7 +96,7 @@ class Plugin extends ObjectYPT
 
     public function setPluginversion($pluginVersion)
     {
-        $this->pluginVersion = $pluginVersion;
+        $this->pluginversion = $pluginVersion;
     }
 
     public static function setCurrentVersionByUuid($uuid, $currentVersion)

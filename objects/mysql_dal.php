@@ -89,13 +89,19 @@ class sqlDAL
      * @return boolean                   true on success, false on fail
      */
 
-    public static function writeSql($preparedStatement, $formats = "", $values = [])
+    public static function writeSql($preparedStatement, $formats = "", $values = [], $try=0)
     {
         global $global, $disableMysqlNdMethods;
         if (empty($preparedStatement)) {
             _error_log("writeSql empty(preparedStatement)");
             return false;
         }
+
+        /**
+         *
+         * @var array $global
+         * @var object $global['mysqli']
+         */
         // make sure it does not store autid transactions
         $debug = debug_backtrace();
         if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
@@ -104,6 +110,7 @@ class sqlDAL
                 try {
                     $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
                 } catch (Exception $exc) {
+                    _error_log('Error in writeSql: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
                     log_error($exc->getTraceAsString());
                 }
             }
@@ -120,12 +127,6 @@ class sqlDAL
         if (!_mysql_is_open()) {
             _mysql_connect();
         }
-
-        /**
-         *
-         * @var array $global
-         * @var object $global['mysqli']
-         */
         if (!($stmt = $global['mysqli']->prepare($preparedStatement))) {
             log_error("[sqlDAL::writeSql] Prepare failed: (" . $global['mysqli']->errno . ") " . $global['mysqli']->error .
                 " preparedStatement = " . json_encode($preparedStatement) .
@@ -140,7 +141,11 @@ class sqlDAL
         try {
             $stmt->execute();
         } catch (Exception $exc) {
-            if (preg_match('/playlists_has_videos/', $preparedStatement)) {
+            if (empty($try) && $stmt->errno == 2006) { //MySQL server has gone away
+                _mysql_close();
+                _mysql_connect();
+                return self::writeSql($preparedStatement, $formats, $values, $try+1);
+            }else if (preg_match('/playlists_has_videos/', $preparedStatement)) {
                 log_error('Error in writeSql values: ' . json_encode($values));
             }else if (preg_match('/Illegal mix of collations.*and \(utf8mb4/i', $global['mysqli']->error)) {
                 try {
@@ -173,12 +178,10 @@ class sqlDAL
                     }
                     sqlDAL::eval_mysql_bind($stmt, $formats, $values);
                     try {
-
                         log_error('try again 2');
                         $stmt->execute();
                         log_error('try again 2 SUCCESS');
                     } catch (Exception $exc) {
-    
                         log_error($exc->getTraceAsString());
                         log_error('Error in writeSql stmt->execute: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
                     }
@@ -218,14 +221,31 @@ class sqlDAL
 
     public static function writeSqlTry($preparedStatement, $formats = "", $values = [])
     {
+        global $global;
+        
+        /**
+         * @var array $global
+         * @var object $global['mysqli']
+         */
         try {
-            return self::writeSql($preparedStatement, $formats, $values);
+            $return = self::writeSql($preparedStatement, $formats, $values);
+            if(!$return){
+                _error_log('Error in writeSqlTry return: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+            }
+            return $return;
         } catch (\Throwable $th) {
-            _error_log($th->getMessage(), AVideoLog::$ERROR);
+            _error_log('Error in writeSqlTry: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+            _error_log('writeSqlTry: '.$th->getMessage(), AVideoLog::$ERROR);
             $search = array('COLUMN IF NOT EXISTS', 'IF NOT EXISTS');
             $replace = array('COLUMN', 'COLUMN');
             $preparedStatement = str_ireplace($search, $replace, $preparedStatement);
-            return self::writeSql($preparedStatement, $formats, $values);
+            try {
+                return self::writeSql($preparedStatement, $formats, $values);
+            } catch (\Throwable $th) {
+                _error_log('Error in writeSqlTry retry: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+                _error_log('writeSqlTry retry: '.$th->getMessage(), AVideoLog::$ERROR);
+                return false;
+            }
         }
     }
 

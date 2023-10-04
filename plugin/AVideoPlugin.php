@@ -1334,6 +1334,7 @@ class AVideoPlugin
         $currentVersion = $p->getPluginVersion();
         $uuid = $p->getUUID();
         _error_log("AVideoPlugin::updatePlugin name=($name) uuid=($uuid) ");
+        //var_dump($name, method_exists($p, 'updateScript'));exit;
         if (method_exists($p, 'updateScript')) {
             _error_log("AVideoPlugin::updatePlugin method_exists ", AVideoLog::$WARNING);
             if ($p->updateScript()) {

@@ -659,6 +659,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     success: function(response) {
                         modal.hidePleaseWait();
                         $("#grid").bootgrid('reload');
+                        avideoResponse(response);
                     }
                 });
             });

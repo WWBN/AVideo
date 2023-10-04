@@ -43,6 +43,7 @@ abstract class PluginAbstract {
         $pattern = '/updateV([\d\.]+)\.sql$/'; // This pattern will match files like "updateV2.0.sql" and capture the version "2.0"
 
         $dir = $global['systemRootPath'] . "plugin/{$pluginName}/install/";
+        //var_dump($dir);exit;
         if(is_dir($dir)){
             $files = scandir($dir);        
         
@@ -64,16 +65,27 @@ abstract class PluginAbstract {
             
             // Iterate through sorted files
             foreach ($versions as $entry) {
+                //var_dump($pluginName, $entry['version'], AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0);
                 if (AVideoPlugin::compareVersion($pluginName, $entry['version']) < 0) {
                     _error_log("Update plugin {$pluginName} to version {$entry['version']}");
                     $filename = $dir . '/' . $entry['filename'];
                     $sqls = file_get_contents($filename);
                     $sqlParts = explode(";", $sqls);
+                    //var_dump($sqlParts);
                     foreach ($sqlParts as $value) {
-                        sqlDal::writeSqlTry(trim($value));
+                        $sql = trim($value);
+                        if(empty($sql)){
+                            continue;
+                        }
+                        if(sqlDal::writeSqlTry($sql)){
+                            _error_log("Update plugin {$pluginName} to version {$entry['version']} SQL success");
+                        }else{
+                            _error_log("Update plugin {$pluginName} to version {$entry['version']} SQL error: {$value}");
+                        }
                     }
                 }
-            }$files = scandir($dir);        
+            }
+            $files = scandir($dir);        
         
             $versions = [];
             
