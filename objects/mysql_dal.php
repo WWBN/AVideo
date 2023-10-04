@@ -485,7 +485,20 @@ class sqlDAL
                 try {
                     return $result->fetch_assoc();
                 } catch (\Throwable $th) {
-                    _error_log('fetchAssoc: '.$th->getMessage(), AVideoLog::$ERROR);
+                    if (preg_match('/playlists_has_videos/', $th->getMessage())) {
+                        try {
+                            return $result->fetch_assoc();
+                        } catch (\Throwable $th) {
+                            if (preg_match('/MySQL server has gone away/i', $th->getMessage())) {
+                                _mysql_close();
+                                _mysql_connect();
+                                return $result->fetch_assoc();
+                            }
+                            _error_log('fetchAssoc Error1: '.$th->getMessage(), AVideoLog::$ERROR);
+                            return false;
+                        }
+                    }
+                    _error_log('fetchAssoc Error2: '.$th->getMessage(), AVideoLog::$ERROR);
                     return false;
                 }
             }

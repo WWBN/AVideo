@@ -6,6 +6,7 @@ $AVideoEncoderNetwork_UA = "AVideoEncoderNetwork";
 $AVideoStreamer_UA = "AVideoStreamer";
 $AVideoStorage_UA = "AVideoStorage";
 $mysql_connect_was_closed = 1;
+$mysql_connect_is_persistent = false;
 
 if (!isset($global) || !is_array($global)) {
     $global = [];
@@ -5017,7 +5018,7 @@ function blackListRegenerateSession()
 
 function _mysql_connect($persistent = false, $try = 0)
 {
-    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed;
+    global $global, $mysqlHost, $mysqlUser, $mysqlPass, $mysqlDatabase, $mysqlPort, $mysql_connect_was_closed, $mysql_connect_is_persistent;
 
     $checkValues = ['mysqlHost', 'mysqlUser', 'mysqlPass', 'mysqlDatabase'];
 
@@ -5031,6 +5032,7 @@ function _mysql_connect($persistent = false, $try = 0)
         if (!_mysql_is_open()) {
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
+            $mysql_connect_is_persistent = $persistent;
             $global['mysqli'] = new mysqli(($persistent ? 'p:' : '') . $mysqlHost, $mysqlUser, $mysqlPass, '', @$mysqlPort);
             if (isCommandLineInterface() && !empty($global['createDatabase'])) {
                 $createSQL = "CREATE DATABASE IF NOT EXISTS {$mysqlDatabase};";
@@ -5080,8 +5082,8 @@ function _mysql_commit()
 
 function _mysql_close()
 {
-    global $global, $mysql_connect_was_closed;
-    if (_mysql_is_open()) {
+    global $global, $mysql_connect_was_closed, $mysql_connect_is_persistent;
+    if (!$mysql_connect_is_persistent && _mysql_is_open()) {
         //_error_log('MySQL Closed '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $mysql_connect_was_closed = 1;
         try {
