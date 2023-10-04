@@ -21,3 +21,11 @@ FOREIGN KEY (`vast_campaigns_id`)
 REFERENCES `vast_campaigns` (`id`)
 ON DELETE CASCADE
 ON UPDATE NO ACTION;
+
+ALTER TABLE `vast_campaigns_logs`
+DROP FOREIGN KEY `fk_vast_campaigns_logs_vast_campaigns_has_videos1`,
+ADD CONSTRAINT `fk_vast_campaigns_logs_vast_campaigns_has_videos1_cascade`
+FOREIGN KEY (`vast_campaigns_has_videos_id`)
+REFERENCES `vast_campaigns_has_videos` (`id`)
+ON DELETE CASCADE
+ON UPDATE NO ACTION;
