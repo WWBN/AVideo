@@ -35,7 +35,8 @@ $rows = [];
 foreach ($users as $key => $value) {
     // list all videos on that channel
     $videos = Video::getAllVideosLight("a", $value['id']);
-    $identification = User::getNameIdentificationById($value['id']);
+    $identification = 'users_id='.$value['id'];
+    //$identification = User::getNameIdentificationById($value['id']);
     $views = 0;
     _error_log("report1: count={$key} users_id=".$value['id'].' total videos='.count($videos));
     foreach ($videos as $key2 => $value2) {
