@@ -2244,6 +2244,28 @@ if (typeof gtag !== \"function\") {
         return true;
     }
 
+    public static function canNotUploadReason($doNotCheckPlugins = false)
+    {
+        global $global, $config, $advancedCustomUser;
+        $reason = [];
+        if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())) {
+            $reason[] = 'A plugin said users_id=['.User::getId().'] cannot upload';
+        }
+
+        if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
+            $reason[] = 'The email is not verified';
+        }
+
+        if ($config->getAuthCanUploadVideos() && !self::isLogged()) {            
+            $reason[] = 'The user is not logged';
+        }
+        if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {    
+            $reason[] = 'You do not have upload rights';
+        }
+        return $reason;
+    }
+
+
     public static function canUpload($doNotCheckPlugins = false)
     {
         global $global, $config, $advancedCustomUser;
