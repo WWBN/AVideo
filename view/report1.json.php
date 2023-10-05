@@ -28,7 +28,7 @@ if ($config->getAuthCanViewChart() == 0) {
 $rows = [];
 foreach ($users as $key => $value) {
     // list all videos on that channel
-    $videos = Video::getAllVideos("a", $value['id']);
+    $videos = Video::getAllVideosLight("a", $value['id']);
     $identification = User::getNameIdentificationById($value['id']);
     $views = 0;
     foreach ($videos as $key2 => $value2) {
