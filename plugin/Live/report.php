@@ -189,13 +189,11 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    y: [{
+                    yAxes: [{
                             ticks: {
                                 beginAtZero: true,
                                 callback: function (value, index, values) {
-                                    if (Math.floor(value) === value) {
-                                        return value;
-                                    }
+                                    return Math.round(value); 
                                 }
                             }
                         }]
@@ -217,7 +215,7 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    y: [{
+                    yAxes: [{
                             ticks: {
                                 beginAtZero: true,
                                 callback: function (value, index, values) {
@@ -245,7 +243,7 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    y: [{
+                    yAxes: [{
                             ticks: {
                                 beginAtZero: true,
                                 callback: function (value, index, values) {
