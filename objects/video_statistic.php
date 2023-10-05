@@ -716,7 +716,7 @@ class VideoStatistic extends ObjectYPT {
             $formats .= "s";
             $values[] = $endDate;
         }
-
+        $sql .= " LIMIT 10000 ";
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
