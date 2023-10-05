@@ -86,7 +86,8 @@ RUN apt-get install -y --no-install-recommends \
         php-xml \
         #php-dev \
         php-zip \
-        php-pear
+        php-pear \
+        php-mbstring 
 
 # Install multimedia tools
 RUN apt-get install -y --no-install-recommends \

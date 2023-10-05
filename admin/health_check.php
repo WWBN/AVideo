@@ -191,6 +191,16 @@ if (Scheduler::isActive()) {
 } else {
     $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp()];
 }
+
+$ports = json_decode(checkPorts());
+$ports = object_to_array($ports);
+foreach ($ports['ports'] as $key => $value) {
+    if ($value['isOpen']) {
+        $messages['Server'][] = "Port {$value['port']} is open";
+    } else {
+        $messages['Server'][] = ["Port {$value['port']} is closed"];
+    }
+}
 ?>
 <style>
     #healthCheck .alert {

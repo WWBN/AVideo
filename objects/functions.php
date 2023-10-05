@@ -3897,6 +3897,23 @@ function verify($url)
     return json_decode($result);
 }
 
+function checkPorts()
+{
+    $ports = array(80, 443);
+    if(AVideoPlugin::isEnabled('Live')){
+        $ports[] = 8080;
+        $ports[] = 8443;
+        $ports[] = 1935;
+    }
+    
+    if($obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket')){
+        $ports[] = $obj->port;
+    }
+    //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
+    $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, count($ports)*4);
+    return $response;
+}
+
 function isVerified($url)
 {
     $resultV = verify($url);
