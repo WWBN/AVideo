@@ -361,6 +361,7 @@ class Comment {
                     $format .= "s";
                     $values[] = $endDate;
                 }
+                $sql .= " LIMIT 10000 ";
                 $res = sqlDAL::readSql($sql, $format, $values);
                 $countRow = sqlDAL::num_rows($res);
                 sqlDAL::close($res);
