@@ -25,7 +25,7 @@ $valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['total_viewers'])) {
+    if (!intval($value['total_viewers'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -52,7 +52,7 @@ $valueArraySameTimeMoreViews = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['total_viewers'])) {
+    if (!intval($value['total_viewers'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -79,7 +79,7 @@ $valueArraySameTimeMoreViewsSameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if(!intval($value['max_viewers_sametime'])) {
+    if (!intval($value['max_viewers_sametime'])) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -104,11 +104,11 @@ foreach ($lives as $value) {
                     continue;
                 }
                 $liveChartLatest[] = $i;
-                ?>
+            ?>
                 <div class="col-md-3">
-                    <canvas id="liveChartLatest<?php echo $i; ?>"  ></canvas>
+                    <canvas id="liveChartLatest<?php echo $i; ?>"></canvas>
                 </div>
-                <?php
+            <?php
                 if (count($liveChartLatest) >= 4) {
                     break;
                 }
@@ -120,7 +120,7 @@ foreach ($lives as $value) {
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body">
             <div class="col-md-12">
-            <canvas id="liveChart" height="150"  ></canvas>
+                <canvas id="liveChart" height="150"></canvas>
             </div>
         </div>
     </div>
@@ -128,7 +128,7 @@ foreach ($lives as $value) {
         <div class="panel-heading when"># <?php echo __("More views"); ?></div>
         <div class="panel-body">
             <div class="col-md-12">
-            <canvas id="liveChartMoreViews" height="90"  ></canvas>
+                <canvas id="liveChartMoreViews" height="90"></canvas>
             </div>
         </div>
     </div>
@@ -136,7 +136,7 @@ foreach ($lives as $value) {
         <div class="panel-heading when"># <?php echo __("More views same time"); ?></div>
         <div class="panel-body">
             <div class="col-md-12">
-            <canvas id="liveChartMoreViewsSameTime" height="90"  ></canvas>
+                <canvas id="liveChartMoreViewsSameTime" height="90"></canvas>
             </div>
         </div>
     </div>
@@ -146,41 +146,41 @@ foreach ($lives as $value) {
     var liveChartData = {
         labels: <?php echo json_encode($labelsArray); ?>,
         datasets: [{
-                backgroundColor: 'rgba(255, 0, 0, 0.3)',
-                borderColor: 'rgba(255, 0, 0, 0.5)',
-                label: '# <?php echo __("Total Views"); ?>',
-                data: <?php echo json_encode($valueArray); ?>
-            }, {
-                backgroundColor: 'rgba(0,255, 0, 0.3)',
-                borderColor: 'rgba( 0,255, 0, 0.5)',
-                label: '# <?php echo __("Total Viewers Same Time"); ?>',
-                data: <?php echo json_encode($valueArraySameTime); ?>
-            }]
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+            borderColor: 'rgba(255, 0, 0, 0.5)',
+            label: '# <?php echo __("Total Views"); ?>',
+            data: <?php echo json_encode($valueArray); ?>
+        }, {
+            backgroundColor: 'rgba(0,255, 0, 0.3)',
+            borderColor: 'rgba( 0,255, 0, 0.5)',
+            label: '# <?php echo __("Total Viewers Same Time"); ?>',
+            data: <?php echo json_encode($valueArraySameTime); ?>
+        }]
     };
 
     var ctxLiveChatMoreViews = document.getElementById("liveChartMoreViews");
     var liveChartDataMoreViews = {
         labels: <?php echo json_encode($labelsArrayMoreViews); ?>,
         datasets: [{
-                backgroundColor: 'rgba(255, 0, 0, 0.3)',
-                borderColor: 'rgba(255, 0, 0, 0.5)',
-                label: '# <?php echo __("Total Views"); ?>',
-                data: <?php echo json_encode($valueArrayMoreViews); ?>
-            }]
+            backgroundColor: 'rgba(255, 0, 0, 0.3)',
+            borderColor: 'rgba(255, 0, 0, 0.5)',
+            label: '# <?php echo __("Total Views"); ?>',
+            data: <?php echo json_encode($valueArrayMoreViews); ?>
+        }]
     };
 
     var ctxLiveChatMoreViewsSameTime = document.getElementById("liveChartMoreViewsSameTime");
     var liveChartDataMoreViewsSameTime = {
         labels: <?php echo json_encode($labelsArrayMoreViewsSameTime); ?>,
         datasets: [{
-                backgroundColor: 'rgba(0,255, 0, 0.3)',
-                borderColor: 'rgba( 0,255, 0, 0.5)',
-                label: '# <?php echo __("Total Viewers Same Time"); ?>',
-                data: <?php echo json_encode($valueArraySameTimeMoreViewsSameTime); ?>
-            }]
+            backgroundColor: 'rgba(0,255, 0, 0.3)',
+            borderColor: 'rgba( 0,255, 0, 0.5)',
+            label: '# <?php echo __("Total Viewers Same Time"); ?>',
+            data: <?php echo json_encode($valueArraySameTimeMoreViewsSameTime); ?>
+        }]
     };
 
-    $(document).ready(function () {
+    $(document).ready(function() {
 
         var liveChart = new Chart(ctxLiveChat, {
             type: 'bar',
@@ -189,16 +189,16 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                callback: function (value, index, values) {
-                                    if (Math.floor(value) === value) {
-                                        return value;
-                                    }
+                    y: {
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
                                 }
                             }
-                        }]
+                        }
+                    }
                 },
                 legend: {
                     display: false
@@ -218,15 +218,15 @@ foreach ($lives as $value) {
             options: {
                 scales: {
                     yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                callback: function (value, index, values) {
-                                    if (Math.floor(value) === value) {
-                                        return value;
-                                    }
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
                                 }
                             }
-                        }]
+                        }
+                    }]
                 },
                 legend: {
                     display: false
@@ -246,15 +246,15 @@ foreach ($lives as $value) {
             options: {
                 scales: {
                     yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                callback: function (value, index, values) {
-                                    if (Math.floor(value) === value) {
-                                        return value;
-                                    }
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value, index, values) {
+                                if (Math.floor(value) === value) {
+                                    return value;
                                 }
                             }
-                        }]
+                        }
+                    }]
                 },
                 legend: {
                     display: false
@@ -266,23 +266,23 @@ foreach ($lives as $value) {
             }
         });
 
-<?php
-foreach ($liveChartLatest as $i) {
-?>
+        <?php
+        foreach ($liveChartLatest as $i) {
+        ?>
 
             var liveChartLatest<?php echo $i; ?> = new Chart(document.getElementById("liveChartLatest<?php echo $i; ?>"), {
                 type: 'doughnut',
                 data: {
                     labels: [<?php echo json_encode(__('Total Viewers')), '+ " (' . $valueArraySameTime[$i] . ')"'; ?>, <?php echo json_encode(__('Max Viewers Same Time')), '+ " (' . $valueArray[$i] . ')"'; ?>],
                     datasets: [{
-                            label: '',
-                            data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
-                            backgroundColor: [
-                                "#00FF0055",
-                                "#FF000055",
-                            ],
+                        label: '',
+                        data: <?php echo json_encode(array($valueArraySameTime[$i], $valueArray[$i])); ?>,
+                        backgroundColor: [
+                            "#00FF0055",
+                            "#FF000055",
+                        ],
 
-                        }]
+                    }]
                 },
                 options: {
                     responsive: true,
@@ -297,8 +297,8 @@ foreach ($liveChartLatest as $i) {
                     }
                 },
             });
-    <?php
-}
-?>
+        <?php
+        }
+        ?>
     });
 </script>
