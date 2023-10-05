@@ -485,7 +485,7 @@ function safeString($text, $strict = false, $try = 0)
 
     $originalText = $text;
     $text = strip_tags($text);
-    $text = str_replace(['&amp;', '&lt;', '&gt;'], ['', '', ''], $text);
+    $text = str_replace(['&amp;', '&lt;', '&gt;', '&zwnj;'], ['', '', '', ''], $text);
     $text = preg_replace('/(&#*\w+)[\x00-\x20]+;/u', '', $text);
     $text = preg_replace('/(&#x*[0-9A-F]+);*/iu', '', $text);
     $text = html_entity_decode($text, ENT_COMPAT, 'UTF-8');

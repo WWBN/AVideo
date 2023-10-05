@@ -33,7 +33,7 @@ foreach ($lives as $value) {
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArray[] = $label;
+    $labelsArray[] = safeString($label);
     $valueArraySameTime[] = intval($value['max_viewers_sametime']);
     $valueArray[] = intval($value['total_viewers']);
 }
@@ -60,7 +60,7 @@ foreach ($lives as $value) {
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArrayMoreViews[] = $label;
+    $labelsArrayMoreViews[] = safeString($label);
     $valueArraySameTimeMoreViews[] = intval($value['max_viewers_sametime']);
     $valueArrayMoreViews[] = intval($value['total_viewers']);
 }
@@ -87,7 +87,7 @@ foreach ($lives as $value) {
     } else {
         $label = $value['created'] . "\n" . $value['title'];
     }
-    $labelsArrayMoreViewsSameTime[] = $label;
+    $labelsArrayMoreViewsSameTime[] = safeString($label);
     $valueArraySameTimeMoreViewsSameTime[] = intval($value['max_viewers_sametime']);
     $valueArrayMoreViewsSameTime[] = intval($value['total_viewers']);
 }
@@ -193,7 +193,9 @@ foreach ($lives as $value) {
                             ticks: {
                                 beginAtZero: true,
                                 callback: function (value, index, values) {
-                                    return Math.round(value); 
+                                    if (Math.floor(value) === value) {
+                                        return value;
+                                    }
                                 }
                             }
                         }]
