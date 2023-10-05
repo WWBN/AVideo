@@ -217,7 +217,7 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    yAxes: [{
+                    y: {
                         ticks: {
                             beginAtZero: true,
                             callback: function(value, index, values) {
@@ -226,7 +226,7 @@ foreach ($lives as $value) {
                                 }
                             }
                         }
-                    }]
+                    }
                 },
                 legend: {
                     display: false
@@ -245,7 +245,7 @@ foreach ($lives as $value) {
             responsive: true,
             options: {
                 scales: {
-                    yAxes: [{
+                    y: {
                         ticks: {
                             beginAtZero: true,
                             callback: function(value, index, values) {
@@ -254,7 +254,7 @@ foreach ($lives as $value) {
                                 }
                             }
                         }
-                    }]
+                    }
                 },
                 legend: {
                     display: false
