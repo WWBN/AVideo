@@ -3897,17 +3897,29 @@ function verify($url)
     return json_decode($result);
 }
 
-function checkPorts()
+function getPorts()
 {
-    $ports = array(80, 443);
-    if(AVideoPlugin::isEnabled('Live')){
-        $ports[] = 8080;
-        $ports[] = 8443;
-        $ports[] = 1935;
+    $ports = array();
+    $ports[80] = 'Apache http';
+    $ports[443] = 'Apache https';
+    if(AVideoPlugin::isEnabled('Live')){  
+        $ports[8080] = 'NGINX http';
+        $ports[8443] = 'NGINX https';
+        $ports[1935] = 'RTMP';      
     }
     
-    if($obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket')){
-        $ports[] = $obj->port;
+    if($obj = AVideoPlugin::getDataObjectIfEnabled('YPTSocket')){ 
+        $ports[$obj->port] = 'Socket';        
+    }
+    return $ports;
+}
+
+function checkPorts()
+{
+    $variable = getPorts();
+    $ports = array();
+    foreach ($variable as $key => $value) {
+        $ports[] = $key;
     }
     //postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
     $response = postVariables('https://search.ypt.me/checkPorts.json.php', $ports, false, count($ports)*4);

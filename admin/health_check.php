@@ -194,11 +194,13 @@ if (Scheduler::isActive()) {
 
 $ports = json_decode(checkPorts());
 $ports = object_to_array($ports);
+$varables = getPorts();
 foreach ($ports['ports'] as $key => $value) {
+    $name = $varables[$value['port']];
     if ($value['isOpen']) {
-        $messages['Server'][] = "Port {$value['port']} is open";
+        $messages['Server'][] = "{$name} Port {$value['port']} is open";
     } else {
-        $messages['Server'][] = ["Port {$value['port']} is closed"];
+        $messages['Server'][] = ["{$name} Port {$value['port']} is closed"];
     }
 }
 ?>
