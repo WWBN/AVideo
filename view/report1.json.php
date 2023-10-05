@@ -37,7 +37,7 @@ foreach ($users as $key => $value) {
     $videos = Video::getAllVideosLight("a", $value['id']);
     $identification = User::getNameIdentificationById($value['id']);
     $views = 0;
-    _error_log("report1: users_id=".$value['id'].' total videos='.count($videos));
+    _error_log("report1: count={$key} users_id=".$value['id'].' total videos='.count($videos));
     foreach ($videos as $key2 => $value2) {
         $views+=VideoStatistic::getStatisticTotalViews($value2['id'], false, $from, $to);
     }
