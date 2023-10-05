@@ -57,4 +57,5 @@ $obj = new stdClass();
 
 $obj->data = $rows;
 
+_error_log("report1: final count=".count($rows));
 echo json_encode($obj);
