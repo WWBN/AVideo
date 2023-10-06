@@ -246,6 +246,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketVideos_id = '<?php echo getVideos_id(); ?>';
     var webSocketLiveKey = '<?php echo json_encode(isLive()); ?>';
     var webSocketServerVersion = '<?php echo YPTSocket::getServerVersion(); ?>';
+    var schedulerIsActive = <?php echo class_exists('Scheduler') && Scheduler::isActive()?1:0; ?>;
     var webSocketToken = '';
     var webSocketURL = '';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
@@ -253,7 +254,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 
     function onUserSocketConnect(response) {
         try {
-<?php echo AVideoPlugin::onUserSocketConnect(); ?>
+        <?php echo AVideoPlugin::onUserSocketConnect(); ?>
         } catch (e) {
             console.log('onUserSocketConnect:error', e.message);
         }

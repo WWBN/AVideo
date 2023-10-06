@@ -59,7 +59,7 @@ class Message implements MessageComponentInterface {
             $live_key['liveLink'] = '';
         }
 
-        
+        //_error_log(json_encode(array($json, $wsocketGetVars)));
         //var_dump($live_key);
         $client = array();
         $client['resourceId'] = intval($conn->resourceId);
@@ -141,6 +141,10 @@ class Message implements MessageComponentInterface {
         }
         $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds");
+        if(!empty($client['isCommandLine'])){
+            _error_log('isCommandLine close it');
+            $conn->close();
+        }
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -403,8 +407,8 @@ class Message implements MessageComponentInterface {
                     $this->msgToResourceId($msg, $row['resourceId'], $type);
                 }
             }
-        } catch (Exception $exc) {
-            echo $exc->getTraceAsString();
+        } catch (\Throwable $th) {
+            echo $th->getTraceAsString();
         }
 
         _log_message("msgToUsers_id: sent to ($count) clients users_id=" . json_encode($users_id));
@@ -457,6 +461,9 @@ class Message implements MessageComponentInterface {
         $totals = $this->getTotals();
 
         foreach ($rows as $key => $client) {
+            if($client['isCommandLine']){
+                continue;
+            }
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
         }
         $end = number_format(microtime(true) - $start, 4);
@@ -473,6 +480,9 @@ class Message implements MessageComponentInterface {
         _log_message("msgToAllSameVideo: {$videos_id}");
         $totals = $this->getTotals();
         foreach (dbGetAllResourcesIdFromVideosId($videos_id) as $client) {
+            if($client['isCommandLine']){
+                continue;
+            }
             $this->msgToResourceId($msg, $client['resourceId'], \SocketMessageType::ON_VIDEO_MSG, $totals);
         }
     }
@@ -490,6 +500,9 @@ class Message implements MessageComponentInterface {
         $totals = $this->getTotals();
         
         foreach ($rows as $value) {
+            if($value['isCommandLine']){
+                continue;
+            }
             $this->msgToResourceId($msg, $value['resourceId'], \SocketMessageType::ON_LIVE_MSG, $totals);
         }
     }

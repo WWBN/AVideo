@@ -234,7 +234,7 @@ async function AutoUpdateOnHTMLTimer() {
     }, 2000);
 }
 
-
+var canShowSocketToast = true;
 function parseSocketResponse() {
     json = yptSocketResponse;
     yptSocketResponse = false;
@@ -244,8 +244,16 @@ function parseSocketResponse() {
     console.log("parseSocketResponse", json);
     //console.trace();
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
-        if (typeof avideoToastWarning == 'function') {
+        if (canShowSocketToast && typeof avideoToastWarning == 'function') {
             avideoToastWarning("Please restart your socket server. You are running (v" + json.webSocketServerVersion + ") and your client is expecting (v" + webSocketServerVersion + ")");
+    
+            // Set the flag to false
+            canShowSocketToast = false;
+    
+            // Reset the flag after 5 minutes
+            setTimeout(function() {
+                canShowSocketToast = true;
+            }, 300000); // 300,000 milliseconds = 5 minutes
         }
     }
     if (json && typeof json.users_id_online !== 'undefined') {
