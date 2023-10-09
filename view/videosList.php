@@ -5,9 +5,6 @@ if (!isset($global['systemRootPath'])) {
     $firstTimeLoading = 0;
     require_once '../videos/configuration.php';
 }
-if (isBot()) {
-    return;
-}
 
 $videos_id = getVideos_id();
 
