@@ -56,7 +56,7 @@ if ($res != false) {
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {
-                echo "videos_id = {$row['id']} empty local files {$row['status']} ". PHP_EOL;
+                echo "videos_id = {$row['id']} empty local files {$row['status']} {$row['filename']}". PHP_EOL;
                 continue;
             }
             if ($last['acumulativeFilesize']<10000) {
