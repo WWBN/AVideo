@@ -54,7 +54,7 @@ if ($res != false) {
     foreach ($fullData as $key => $row) {
         $info = "[{$total}, {$key}] ";
         if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
-            exec("rm {$videos_dir}{$row['filename']}/*.tgz");
+            //exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {
