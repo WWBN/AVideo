@@ -87,6 +87,8 @@ if ($res != false) {
 }
 echo PHP_EOL . " Done! " . PHP_EOL;
 
+
+var_dump($transferStatus);
 foreach ($statusSkipped as $key => $value) {
     echo "Skipped {$key}: total={$value}". PHP_EOL;
 }
