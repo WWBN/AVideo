@@ -4078,7 +4078,9 @@ function siteMap()
         }
 
         TimeLogStart("siteMap Video::getLink $videos_id");
-        $loc = Video::getLink($video['id'], $video['clean_title']);
+        //$loc = Video::getLink($video['id'], $video['clean_title']);
+        $loc = Video::getLinkToVideo($video['id'], $video['clean_title'], false, Video::$urlTypeCanonical);
+        
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
