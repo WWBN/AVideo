@@ -237,13 +237,6 @@
 </div>
 <script>
 
-    function randomColor() {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return r + "," + g + "," + b;
-    }
-
     function createGraph(labels, data, selector) {
         var ctx = $(selector);
         var backgroundColor = [];

@@ -1172,7 +1172,6 @@ class UserCacheHandler extends CacheHandler {
 
 }
 
-
 class PlayListCacheHandler extends CacheHandler {
 
     private $id;

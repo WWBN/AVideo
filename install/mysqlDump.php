@@ -32,6 +32,10 @@ foreach ($row as $value) {
     }
 }
 
+if(empty($mysqlPort)){
+    $mysqlPort = 3306;
+}
+
 // Use the mysqldump command to get the database dump
 $dumpCommand = "mysqldump --host=$mysqlHost --port=$mysqlPort --user=$mysqlUser --password=$mysqlPass "
              . "--default-character-set=utf8mb4 $mysqlDatabase $tableList > {$file}";
