@@ -47,6 +47,8 @@ if($alsoMoveUnlisted){
     $transferStatus[] = Video::$statusUnlistedButSearchable;
 }
 
+$statusSkipped = array();
+
 if ($res != false) {
     foreach ($fullData as $row) {
         if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
@@ -72,10 +74,20 @@ if ($res != false) {
                     CDNStorage::createDummyFiles($row['id']);
                 }
             }
+        }else{
+            if(!isset($statusSkipped[$row['status']])){
+                $statusSkipped[$row['status']] = 0;
+            }
+            $statusSkipped[$row['status']]++;
+            echo "ERROR skipped {$row['status']}". PHP_EOL;
         }
     }
 } else {
     die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
 }
 echo PHP_EOL . " Done! " . PHP_EOL;
+
+foreach ($statusSkipped as $key => $value) {
+    echo "Skipped {$key}: total={$value}". PHP_EOL;
+}
 die();
