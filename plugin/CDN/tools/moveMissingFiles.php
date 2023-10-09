@@ -50,26 +50,28 @@ if($alsoMoveUnlisted){
 $statusSkipped = array();
 
 if ($res != false) {
-    foreach ($fullData as $row) {
+    $total = count($rows);
+    foreach ($fullData as $key => $row) {
+        $info = "[{$total}, {$key}] ";
         if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
             exec("rm {$videos_dir}{$row['filename']}/*.tgz");
             $localList = CDNStorage::getFilesListLocal($row['id'], false);
             $last = end($localList);
             if (empty($last)) {
-                echo "videos_id = {$row['id']} empty local files {$row['status']} {$row['filename']}". PHP_EOL;
+                echo "{$info} videos_id = {$row['id']} empty local files {$row['status']} {$row['filename']}". PHP_EOL;
                 continue;
             }
             if ($last['acumulativeFilesize']<10000) {
-                echo "videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
+                echo "{$info} videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
                 if($last['acumulativeFilesize']<50){
                    CDNStorage::deleteLog($row['id']); 
                 }
                 //echo "SKIP videos_id = {$row['id']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
             } else {
                 if (CDNStorage::isMoving($row['id'])) {
-                    echo "videos_id = {$row['id']} {$row['title']} Is moving ". PHP_EOL;
+                    echo "{$info} videos_id = {$row['id']} {$row['title']} Is moving ". PHP_EOL;
                 } else {
-                    echo "videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
+                    echo "{$info} videos_id = {$row['id']} {$row['title']} sites_id is not empty {$row['sites_id']} [{$last['acumulativeFilesize']}] ".humanFileSize($last['acumulativeFilesize']) . PHP_EOL;
                     CDNStorage::put($row['id'], 4);
                     CDNStorage::createDummyFiles($row['id']);
                 }
@@ -79,7 +81,7 @@ if ($res != false) {
                 $statusSkipped[$row['status']] = 0;
             }
             $statusSkipped[$row['status']]++;
-            echo "ERROR skipped {$row['status']}". PHP_EOL;
+            echo "{$info} ERROR skipped {$row['status']}". PHP_EOL;
         }
     }
 } else {
