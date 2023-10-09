@@ -50,7 +50,7 @@ if($alsoMoveUnlisted){
 $statusSkipped = array();
 
 if ($res != false) {
-    $total = count($rows);
+    $total = count($fullData);
     foreach ($fullData as $key => $row) {
         $info = "[{$total}, {$key}] ";
         if (in_array($row['status'], $transferStatus) || $alsoMoveUnlisted == 2) {
@@ -90,7 +90,7 @@ if ($res != false) {
 echo PHP_EOL . " Done! " . PHP_EOL;
 
 
-var_dump($transferStatus);
+//var_dump($transferStatus);
 foreach ($statusSkipped as $key => $value) {
     echo "Skipped {$key}: total={$value}". PHP_EOL;
 }
