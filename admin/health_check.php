@@ -189,7 +189,8 @@ if (empty($verified)) {
 if (Scheduler::isActive()) {
     $messages['Server'][] = "Scheduler plugin crontab is runing";
 } else {
-    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp()];
+    $reason = Scheduler::whyIsActive();
+    $messages['Server'][] = ["Scheduler plugin crontab is NOT runing", Scheduler::getCronHelp().'<br>'.$reason];
 }
 
 $ports = json_decode(checkPorts());

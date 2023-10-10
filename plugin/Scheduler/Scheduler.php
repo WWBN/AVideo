@@ -502,10 +502,28 @@ class Scheduler extends PluginAbstract
     public static function getLastVisit()
     {
         $lastVisitFile = self::getLastVisitFile();
-        if (!file_exists($lastVisitFile)) {
+        if (empty($lastVisitFile) || empty($lastVisitFile['size'])) {
             return 0;
         }
-        return file_get_contents($lastVisitFile);
+        return file_get_contents($lastVisitFile['file']);
+    }
+
+    public static function whyIsActive()
+    {
+        $lastVisitTime = self::getLastVisit();
+        if (empty($lastVisitTime)) {
+            $lastVisitFile = self::getLastVisitFile();
+            return "Time is not found in the file {$lastVisitFile['file']}";
+        }
+
+        $TwoMinutes = 120;
+        $time = time();
+        $result = $lastVisitTime + $TwoMinutes - $time;
+        if($result > 0){
+            return "Last visit time is older then 2 minutes lastVisitTime=$lastVisitTime (".date('H:i:s', $lastVisitTime)."), time=$time (".date('H:i:s', $time).")";
+        }
+
+        return '';
     }
 
     public static function isActive()
@@ -520,6 +538,7 @@ class Scheduler extends PluginAbstract
         $result = $lastVisitTime + $TwoMinutes - time();
         return $result > 0;
     }
+
 
     function executeEveryDay() {
         $obj = AVideoPlugin::getDataObject('Scheduler');
