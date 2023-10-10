@@ -493,7 +493,11 @@ class Scheduler extends PluginAbstract
         $lastVisitFile = self::getLastVisitFile();
         if(_file_put_contents($lastVisitFile, time())){
             chmod($lastVisitFile, 0777);
-            return array('file'=>$lastVisitFile, 'size'=>filesize($lastVisitFile));
+            $size = filesize($lastVisitFile);
+            if(empty($size)){
+                _error_log('setLastVisit error on create file '.$lastVisitFile)
+            }
+            return array('file'=>$lastVisitFile, 'size'=>$size);
         }else{
             return false;
         }
@@ -513,7 +517,7 @@ class Scheduler extends PluginAbstract
         $lastVisitTime = self::getLastVisit();
         if (empty($lastVisitTime)) {
             $lastVisitFile = self::getLastVisitFile();
-            return "Time is not found in the file ".json_encode($lastVisitFile);
+            return "Time is not found in the file {$lastVisitFile}";
         }
 
         $TwoMinutes = 120;
