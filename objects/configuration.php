@@ -15,6 +15,7 @@ class Configuration extends ObjectYPT{
     protected $id;
     protected $video_resolution;
     protected $webSiteTitle;
+    protected $description;
     protected $language;
     protected $contactEmail;
     protected $users_id;
@@ -96,6 +97,11 @@ class Configuration extends ObjectYPT{
         return $this->webSiteTitle;
     }
 
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
     public function getLanguage()
     {
         if ($this->language == "en") {
@@ -117,6 +123,11 @@ class Configuration extends ObjectYPT{
     public function setWebSiteTitle($webSiteTitle)
     {
         $this->webSiteTitle = $webSiteTitle;
+    }
+    
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 
     public function setLanguage($language)

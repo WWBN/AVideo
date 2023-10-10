@@ -69,7 +69,10 @@ if (empty($customizePluginDescription)) {
 }
 
 if (empty($description)) {
-    $description = $title;
+    $description = html2plainText($config->getDescription());
+    if (empty($description)) {
+        $description = $title;
+    }
     if (!empty($customizePluginDescription)) {
         echo PHP_EOL . "<!-- OpenGraph description from customizePluginDescription -->" . PHP_EOL;
         $description = $customizePluginDescription;

@@ -21,6 +21,7 @@ $config = new Configuration();
 $config->setContactEmail($_POST['contactEmail']);
 $config->setLanguage($_POST['language']);
 $config->setWebSiteTitle($_POST['webSiteTitle']);
+$config->setDescription($_POST['description']);
 $config->setAuthCanComment($_POST['authCanComment']);
 $config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
 $config->setAuthCanViewChart($_POST['authCanViewChart']);
