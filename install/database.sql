@@ -330,6 +330,7 @@ CREATE TABLE IF NOT EXISTS `configurations` (
   `smtpPassword` VARCHAR(255) NULL,
   `smtpPort` INT NULL,
   `encoderURL` VARCHAR(255) NULL,
+  `description` TEXT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_configurations_users1_idx` (`users_id` ASC),
   CONSTRAINT `fk_configurations_users1`
