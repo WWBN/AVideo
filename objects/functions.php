@@ -3382,7 +3382,8 @@ function isBot()
         'dareboost',
         'http-client',
         'hello',
-        'google'
+        'google',
+        'Expanse'
     ];
     
     // See if one of the identifiers is in the UA string.
