@@ -49,7 +49,7 @@ foreach ($rows2 as $value) {
         _log("error [{$value['id']}] callbackURL={$value['callbackURL']} ".json_encode($value)); 
     }
 }
-
+$lastVisitFile = Scheduler::setLastVisit();
 if($lastVisitFile = Scheduler::setLastVisit()){
     //_error_log("Last visit set {$lastVisitFile}");
 }else{
