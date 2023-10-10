@@ -50,9 +50,11 @@ foreach ($rows2 as $value) {
     }
 }
 $lastVisitFile = Scheduler::setLastVisit();
-if($lastVisitFile = Scheduler::setLastVisit()){
+if(!empty($lastVisitFile) && !empty($lastVisitFile['size'])){
     //_error_log("Last visit set {$lastVisitFile}");
 }else{
+    $msg = 'ERROR: Last visit NOT set '.json_encode($lastVisitFile);
+    echo ("Scheduler row2 is empty".PHP_EOL); 
     _error_log('ERROR: Last visit NOT set');
 }
 
