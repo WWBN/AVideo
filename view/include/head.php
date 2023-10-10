@@ -114,6 +114,7 @@ if (!isVideo()) {
     $metaDescription = getSEODescription($metaDescription);
     echo '<meta name="description" content="' . $metaDescription . '">';
 }
+//var_dump($metaDescription);exit;
 if (empty($advancedCustom->disableAnimations)) {
 ?>
     <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css"  />
