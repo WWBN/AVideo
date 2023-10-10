@@ -62,7 +62,7 @@ if ($res != false) {
                 continue;
             }
             if ($last['acumulativeFilesize']<10000) {
-                echo "{$info} videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} {$localList['local_path']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
+                echo "{$info} videos_id = {$row['id']} too small size status={$row['status']} {$last['acumulativeFilesize']} ". humanFileSize($last['acumulativeFilesize']). PHP_EOL;
                 if($last['acumulativeFilesize']<50){
                    CDNStorage::deleteLog($row['id']); 
                 }
