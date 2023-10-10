@@ -51,6 +51,7 @@ foreach ($rows2 as $value) {
 }
 $lastVisitFile = Scheduler::setLastVisit();
 if(!empty($lastVisitFile) && !empty($lastVisitFile['size'])){
+    echo 'Saved '.json_encode($lastVisitFile); 
     //_error_log("Last visit set {$lastVisitFile}");
 }else{
     $msg = 'ERROR: Last visit NOT set '.json_encode($lastVisitFile);
