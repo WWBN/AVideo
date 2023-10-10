@@ -513,7 +513,7 @@ class Scheduler extends PluginAbstract
         $lastVisitTime = self::getLastVisit();
         if (empty($lastVisitTime)) {
             $lastVisitFile = self::getLastVisitFile();
-            return "Time is not found in the file {$lastVisitFile['file']}";
+            return "Time is not found in the file ".json_encode($lastVisitFile);
         }
 
         $TwoMinutes = 120;
