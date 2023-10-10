@@ -379,7 +379,7 @@ if (User::isAdmin()) {
                                             </div>
                                         </div>
 
-                                        <div class="form-group">
+                                        <div class="form-group hidden">
                                             <label class="col-md-4 control-label"><?php echo __("Description"); ?></label>
                                             <div class="col-md-8 inputGroupContainer">
                                                 <div class="input-group">
