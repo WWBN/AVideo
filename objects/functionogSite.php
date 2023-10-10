@@ -5,6 +5,7 @@ $img = !empty($img) ? $img : 'default_image.jpg';
 
 // assign a default value to $title if it is empty
 $title = !empty($title) ? $title : 'Default Title';
+$description = html2plainText($config->getDescription());
 
 // assign a default value to $url if it is empty
 $url = !empty($url) ? $url : 'https://example.com';
@@ -69,7 +70,6 @@ if (empty($customizePluginDescription)) {
 }
 
 if (empty($description)) {
-    $description = html2plainText($config->getDescription());
     if (empty($description)) {
         $description = $title;
     }
