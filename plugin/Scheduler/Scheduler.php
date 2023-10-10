@@ -495,7 +495,7 @@ class Scheduler extends PluginAbstract
             chmod($lastVisitFile, 0777);
             $size = filesize($lastVisitFile);
             if(empty($size)){
-                _error_log('setLastVisit error on create file '.$lastVisitFile)
+                _error_log('setLastVisit error on create file '.$lastVisitFile);
             }
             return array('file'=>$lastVisitFile, 'size'=>$size);
         }else{
