@@ -3371,6 +3371,8 @@ function isBot()
         'ptst',
         'dmbrowser',
         'dareboost',
+        'http-client',
+        'hello',
     ];
     // See if one of the identifiers is in the UA string.
     foreach ($bot_identifiers as $identifier) {
