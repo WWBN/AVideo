@@ -104,6 +104,8 @@ if (!isBot()) {
 <?php
 }
 if (!isVideo()) {
+    
+    $custom[] = $config->getDescription();
     if (!empty($metaDescription)) {
         $metaDescription = implode(" - ", $custom) . " - {$metaDescription}";
     } else {
