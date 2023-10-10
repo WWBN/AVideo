@@ -20,7 +20,9 @@ $total1 = count($rowActive);
 
 $rows = Scheduler_commands::getAllActiveAndReady();
 $total2 = count($rows);
-
+if(!isCommandLineInterface()){
+    echo '<pre>';
+}
 if(empty($rows)){
     echo ("Scheduler row is empty".PHP_EOL); 
 }
@@ -91,4 +93,7 @@ if ($current_hour == '0' && $current_minute == '00') {
 if ($current_day == '1' && $current_hour == '0' && $current_minute == '00') {
     //echo ("Scheduler executeEveryMonth".PHP_EOL); 
     AVideoPlugin::executeEveryMonth();
+}
+if(!isCommandLineInterface()){
+    echo '</pre>';
 }
