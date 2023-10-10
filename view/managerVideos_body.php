@@ -109,6 +109,21 @@ require_once $global['systemRootPath'] . 'objects/video.php';
     .groupSwitch.categoryUserGroup .videoGroupSwitch {
         display: none;
     }
+
+    .typeFormat{
+        display: flex;
+        margin-bottom: 5px;
+    }
+    .typeFormat .tagTitle{
+        width: 40% !important;
+    }
+    .typeLabels {
+        display: inline-grid;
+        width: 100%;
+    }
+    .typeLabels span{
+        width: 100% !important;
+    }
 </style>
 <script>
     var filterStatus = '';
@@ -1892,7 +1907,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     }
                     tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";
                     //tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Views") . ":"; ?> </span><span class=\"label label-default \">" + row.views_count_short + " <a href='#' class='viewsDetails' onclick='viewsDetails(" + row.views_count + ", " + row.views_count_25 + "," + row.views_count_50 + "," + row.views_count_75 + "," + row.views_count_100 + ");'>[<i class='fas fa-info-circle'></i> Details]</a></span>";
-                    tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Format") . ":"; ?> </span>" + row.typeLabels + "";
+                    tags += "<div class=\"clearfix\"></div><span class=\"typeFormat\"><span class='label label-primary  tagTitle'><?php echo __("Format") . ":"; ?> </span><span class=\"typeLabels\">" + row.typeLabels + "</span></span>";
                     if (row.encoderURL) {
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Encoder") . ":"; ?> </span><span class=\"label label-default \">" + row.encoderURL + "</span>";
                         clearTimeout(checkProgressTimeout[row.encoderURL]);
