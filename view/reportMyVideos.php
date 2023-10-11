@@ -102,7 +102,7 @@
         $('#refreshMyVideosRep').click(function() {
             $('#dtMyVideosRep').DataTable().ajax.reload();
         });
-
+        loadReportMyVideos();
     });
 
     function loadReportMyVideos() {
@@ -140,7 +140,7 @@
             },
             "ajax": {
                 'type': 'POST',
-                'url': "<?php echo $global['webSiteRootURL']; ?>view/reportMyVideos.json.php",
+                'url': webSiteRootURL + "view/reportMyVideos.json.php",
                 'data': getDataFromVideoRep,
             },
             "footerCallback": function(row, data, start, end, display) {
