@@ -15,6 +15,7 @@ if(User::isAdmin()){
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
 $_POST['sort']['total_viewers'] = 'DESC';
+$_POST['sort']['total_viewers_from_history'] = 'DESC';
 $_POST['sort']['max_viewers_sametime'] = 'DESC';
 $_REQUEST['rowCount'] = 30;
 if (!empty($isAdminPanel)) {
@@ -28,7 +29,11 @@ $valueArraySameTime = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if (!intval($value['total_viewers'])) {
+    $total_viewers = intval($value['total_viewers']);
+    if(empty($total_viewers)){
+        $total_viewers = intval($value['total_viewers_from_history']);
+    }
+    if (!intval($total_viewers)) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -38,12 +43,13 @@ foreach ($lives as $value) {
     }
     $labelsArray[] = safeString($label);
     $valueArraySameTime[] = intval($value['max_viewers_sametime']);
-    $valueArray[] = intval($value['total_viewers']);
+    $valueArray[] = intval($total_viewers );
 }
 
 
 $_POST['sort'] = array();
 $_POST['sort']['total_viewers'] = 'DESC';
+$_POST['sort']['total_viewers_from_history'] = 'DESC';
 if ($isAdminPanel) {
     $lives = LiveTransmitionHistory::getAllFromUser(0, true);
 } else {
@@ -55,7 +61,11 @@ $valueArraySameTimeMoreViews = [];
 
 foreach ($lives as $value) {
     //var_dump($lives);
-    if (!intval($value['total_viewers'])) {
+    $total_viewers = intval($value['total_viewers']);
+    if(empty($total_viewers)){
+        $total_viewers = intval($value['total_viewers_from_history']);
+    }
+    if (!intval($total_viewers)) {
         continue;
     }
     if (!empty($isAdminPanel)) {
@@ -65,7 +75,7 @@ foreach ($lives as $value) {
     }
     $labelsArrayMoreViews[] = safeString($label);
     $valueArraySameTimeMoreViews[] = intval($value['max_viewers_sametime']);
-    $valueArrayMoreViews[] = intval($value['total_viewers']);
+    $valueArrayMoreViews[] = intval($total_viewers);
 }
 
 
