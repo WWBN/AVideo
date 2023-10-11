@@ -96,9 +96,13 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when">
             # <?php echo __("Last Lives"); ?>
-            <?php if($isAdminPanel){
-                echo '<small class="text-muted pull-right">Admin</small>';
-            } ?>
+            <?php 
+            $smallText = 'users_id='.User::getId();
+            if($isAdminPanel){
+                $smallText = 'Admin';
+            }
+            echo '<small class="text-muted pull-right">'.$smallText.'</small>';
+            ?>
         </div>
         <div class="panel-body">
             <?php
