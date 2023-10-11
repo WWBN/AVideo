@@ -141,7 +141,7 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body">
-            <div class="col-md-12" style="min-height: 400px;">
+            <div class="col-md-12" style="min-height: 500px;">
                 <canvas id="liveChart" height="150"></canvas>
             </div>
         </div>
