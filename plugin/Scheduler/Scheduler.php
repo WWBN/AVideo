@@ -506,7 +506,7 @@ class Scheduler extends PluginAbstract
     public static function getLastVisit()
     {
         $lastVisitFile = self::getLastVisitFile();
-        if (empty($lastVisitFile)) {
+        if (empty($lastVisitFile) || !file_exists($lastVisitFile)) {
             return 0;
         }
         return file_get_contents($lastVisitFile);
