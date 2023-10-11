@@ -14,8 +14,8 @@ if(User::isAdmin()){
 
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
-$_POST['sort']['total_viewers'] = 'DESC';
 $_POST['sort']['total_viewers_from_history'] = 'DESC';
+$_POST['sort']['total_viewers'] = 'DESC';
 $_POST['sort']['max_viewers_sametime'] = 'DESC';
 $_REQUEST['rowCount'] = 30;
 if (!empty($isAdminPanel)) {
@@ -45,11 +45,11 @@ foreach ($lives as $value) {
     $valueArraySameTime[] = intval($value['max_viewers_sametime']);
     $valueArray[] = intval($total_viewers );
 }
-
+//var_dump($labelsArray, $valueArraySameTime, $valueArray);
 
 $_POST['sort'] = array();
-$_POST['sort']['total_viewers'] = 'DESC';
 $_POST['sort']['total_viewers_from_history'] = 'DESC';
+$_POST['sort']['total_viewers'] = 'DESC';
 if ($isAdminPanel) {
     $lives = LiveTransmitionHistory::getAllFromUser(0, true);
 } else {
@@ -122,12 +122,12 @@ foreach ($lives as $value) {
             $liveChartLatest = array();
 
             foreach ($valueArray as $i => $value) {
-                if (empty($valueArray[$i])) {
+                if (empty($value)) {
                     continue;
                 }
                 $liveChartLatest[] = $i;
             ?>
-                <div class="col-md-3">
+                <div class="col-md-3" style="min-height: 300px;">
                     <canvas id="liveChartLatest<?php echo $i; ?>"></canvas>
                 </div>
             <?php
@@ -141,7 +141,7 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("Timeline"); ?></div>
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-md-12" style="min-height: 400px;">
                 <canvas id="liveChart" height="150"></canvas>
             </div>
         </div>
@@ -149,7 +149,7 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("More views"); ?></div>
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-md-12" style="min-height: 400px;">
                 <canvas id="liveChartMoreViews" height="90"></canvas>
             </div>
         </div>
@@ -157,7 +157,7 @@ foreach ($lives as $value) {
     <div class="panel panel-default">
         <div class="panel-heading when"># <?php echo __("More views same time"); ?></div>
         <div class="panel-body">
-            <div class="col-md-12">
+            <div class="col-md-12" style="min-height: 400px;">
                 <canvas id="liveChartMoreViewsSameTime" height="90"></canvas>
             </div>
         </div>
