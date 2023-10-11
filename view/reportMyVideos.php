@@ -108,7 +108,7 @@
     function loadReportMyVideos() {
         if (!$('#dtMyVideosRep').is(':visible')) {
             setTimeout(function() {
-                loadReport1();
+                loadReportMyVideos();
             }, 3000);
             return false;
         }
