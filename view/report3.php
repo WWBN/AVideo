@@ -56,7 +56,7 @@
     function loadReport3() {
         if (!$('#dt3').is(':visible')) {
             setTimeout(function() {
-                loadReport1();
+                loadReport3();
             }, 3000);
             return false;
         }
