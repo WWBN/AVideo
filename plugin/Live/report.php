@@ -8,6 +8,9 @@ if (!User::canStream()) {
     return false;
 }
 global $isAdminPanel;
+if(User::isAdmin()){
+   $isAdminPanel = 1; 
+}
 
 $_POST['sort'] = array();
 $_POST['sort']['created'] = 'DESC';
