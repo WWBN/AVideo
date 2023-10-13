@@ -17,7 +17,10 @@ if (!empty($_POST['path'])) {
     }
 
     if (file_exists($path)) {
-        $filesStr = "{*." . implode(",*.", $global['allowed']) . "}";
+        $extn = implode(",*.", $global['allowed']);
+        $extnLower = strtolower($extn);
+        $extnUpper = strtoupper($extn);
+        $filesStr = "{*." . $extn . ",*" . $extnLower . ",*" . $extnUpper . "}";
 
         //echo $files;
         $video_array = glob($path . $filesStr, GLOB_BRACE);
