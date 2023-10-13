@@ -102,10 +102,9 @@ class Like
             $sql = "INSERT INTO likes (`like`,users_id, videos_id, created, modified) VALUES (?, ?, ?, now(), now());";
             $res = sqlDAL::writeSql($sql, "iii", [$this->like, $this->users_id, $this->videos_id]);
         }
-        //echo $sql;
-        if ($global['mysqli']->errno!=0) {
-            die('Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        
+        $cacheHandler = new VideoCacheHandler($this->videos_id);
+        $cacheHandler->deleteCache();
         return $res;
     }
 
@@ -131,9 +130,6 @@ class Like
         $res = sqlDAL::readSql($sql, "i", [$videos_id]);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($global['mysqli']->errno!=0) {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
         $obj->likes = intval($row['total']);
 
         $sql = "SELECT count(*) as total FROM likes WHERE videos_id = ? AND `like` = -1 "; // dislike
@@ -141,9 +137,6 @@ class Like
         $res = sqlDAL::readSql($sql, "i", [$videos_id]);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($global['mysqli']->errno!=0) {
-            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
         $obj->dislikes = intval($row['total']);
         $_getLikes[$videos_id] = $obj;
         return $obj;
@@ -161,18 +154,12 @@ class Like
         $res = sqlDAL::readSql($sql);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if (!$res) {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
         $obj->likes = intval($row['total']);
 
         $sql = "SELECT count(*) as total FROM likes WHERE `like` = -1 "; // dislike
         $res = sqlDAL::readSql($sql);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if (!$res) {
-            die($sql.'\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
         $obj->dislikes = intval($row['total']);
         return $obj;
     }
