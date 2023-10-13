@@ -54,13 +54,7 @@ TimeLogStart($timeLog6);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     ?>
     <?php
-    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
-    if (!empty($value['rrating'])) {
-        include $global['systemRootPath'] . 'view/rrating/rating-' . $value['rrating'] . '.php';
-    } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
-        include $global['systemRootPath'] . 'view/rrating/notRated.php';
-    }
-    TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
+    Video::getRratingHTML($value['rrating'] );
     ?>
 </div>
 <div class="row">

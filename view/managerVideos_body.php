@@ -110,18 +110,21 @@ require_once $global['systemRootPath'] . 'objects/video.php';
         display: none;
     }
 
-    .typeFormat{
+    .typeFormat {
         display: flex;
         margin-bottom: 5px;
     }
-    .typeFormat .tagTitle{
+
+    .typeFormat .tagTitle {
         width: 40% !important;
     }
+
     .typeLabels {
         display: inline-grid;
         width: 100%;
     }
-    .typeLabels span{
+
+    .typeLabels span {
         width: 100% !important;
     }
 </style>
@@ -1900,9 +1903,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             continue;
                         }
                         var text = row.tags[i].text;
-                        if (typeof row.tags[i].tooltip !== "undefined") {
+                        if (typeof row.tags[i].tooltip !== "undefined" && text != row.tags[i].tooltip) {
                             text += ' ' + row.tags[i].tooltip;
                         }
+
+                        if (typeof row.tags[i].tooltipIcon !== "undefined") {
+                            text = row.tags[i].tooltipIcon + ' ' + text;
+                        }
+
                         tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'>" + row.tags[i].label + ": </span><span class=\"label label-" + row.tags[i].type + " \">" + text + "</span>";
                     }
                     tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Type") . ":"; ?> </span><span class=\"label label-default \">" + row.type + "</span>";

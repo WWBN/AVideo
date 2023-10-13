@@ -249,6 +249,7 @@
                                                     $label = __("Not Rated");
                                                 } else {
                                                     $label = strtoupper($value);
+                                                    $label = "[{$label}] ".Video::$rratingOptionsText[$value];
                                                 }
                                                 echo "<option value='{$value}'>" . __($label) . "</option>";
                                             }

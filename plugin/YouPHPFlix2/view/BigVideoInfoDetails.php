@@ -60,10 +60,6 @@ if (!empty($ads1)) {
     }
     ?>
     <?php
-    if (!empty($video['rrating'])) {
-        include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
-    } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
-        include $global['systemRootPath'] . 'view/rrating/notRated.php';
-    }
+    Video::getRratingHTML($video['rrating'] );
     ?>
 </div>

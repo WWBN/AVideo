@@ -68,17 +68,17 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false, false
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-2">
-                                <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>" class="img img-responsive" />
+                                <?php 
+                                echo  Video::getRratingIMG($video['rrating']);
+                                ?>
                             </div>
                             <div class="col-sm-4">
                                 <img src="<?php echo $img; ?>" class="img img-responsive"/>
                             </div>
-                            <div class="col-sm-6">
-                                <center>
-                                    <?php
-                                    include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '_text.php';
-                                    ?>
-                                </center>
+                            <div class="col-sm-6 text-center">                                
+                                <?php 
+                                echo  Video::getRratingText($video['rrating']);
+                                ?>
                             </div>
                         </div>
                     </div>

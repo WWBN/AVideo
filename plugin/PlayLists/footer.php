@@ -1,16 +1,19 @@
 <script>
     var playListsAdding = false;
+    var playListsReloading = false;
     var playList = [];
     async function reloadPlayLists() {
-        if (!isOnline()) {
+        if (!isOnline() || playListsReloading) {
             return false;
         }
+        playListsReloading = true;
         //console.log('reloadPlayLists');
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
                 playList = response;
                 reloadPlayListButtons();
+                playListsReloading = false;
             }
         });
     }

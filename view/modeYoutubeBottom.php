@@ -46,9 +46,19 @@ $cdnStorageEnabled = !empty($cdnObj) && $cdnObj->enable_storage;
 
 $description = getSEODescription(emptyHTML($video['description']) ? $video['title'] : $video['description']);
 ?>
+<style>
+    .showWhenProcessing {
+        display: none;
+    }
 
+    .processing .showWhenNotProcessing {
+        display: none;
+    }
 
-
+    .processing .showWhenProcessing {
+        display: inline-block;
+    }
+</style>
 <div class="panel panel-default">
     <div class="panel-body">
         <?php
@@ -201,25 +211,41 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
                     <?php
                     if (!empty($video['id']) && empty($advancedCustom->removeThumbsUpAndDown)) {
                     ?>
-                        <a href="#" class="faa-parent animated-hover btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
-                            <span class="fa fa-thumbs-down faa-bounce faa-reverse "></span> <small><?php echo $video['dislikes']; ?></small>
+                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
+                        <?php echo (@$video['myVote'] == -1) ? "myVote" : "" ?>" id="dislikeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Don´t like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                            <span class="fa fa-thumbs-down faa-bounce faa-reverse "></span>
+                            <small class="showWhenNotProcessing"><?php echo $video['dislikes']; ?></small>
+                            <div class="showWhenProcessing">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </a>
-                        <a href="#" class="faa-parent animated-hover btn btn-default no-outline pull-right <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
+                        <a href="#" class="likedislikebtn faa-parent animated-hover btn btn-default no-outline pull-right 
+                        <?php echo (@$video['myVote'] == 1) ? "myVote" : "" ?>" id="likeBtn" <?php if (!User::isLogged()) { ?> data-toggle="tooltip" title="<?php echo __("Like this video? Sign in to make your opinion count."); ?>" <?php } ?>>
                             <span class="fa fa-thumbs-up faa-bounce"></span>
-                            <small><?php echo $video['likes']; ?></small>
+                            <small class="showWhenNotProcessing"><?php echo $video['likes']; ?></small>
+                            <div class="showWhenProcessing">
+                                <i class="fas fa-spinner fa-spin"></i>
+                            </div>
                         </a>
                         <script>
                             $(document).ready(function() {
                                 <?php if (User::isLogged()) { ?>
-                                    $("#dislikeBtn, #likeBtn").click(function() {
+                                    $(".likedislikebtn").click(function() {
+                                        if ($(".likedislikebtn").hasClass("processing")) {
+                                            avideoToastError(__('Please wait'));
+                                            return false;
+                                        }
+                                        $(".likedislikebtn").addClass("processing");
+                                        var btnId = $(this).attr("id");
                                         $.ajax({
-                                            url: webSiteRootURL + ($(this).attr("id") == "dislikeBtn" ? "dislike" : "like"),
+                                            url: webSiteRootURL + (btnId == "dislikeBtn" ? "dislike" : "like"),
                                             method: 'POST',
                                             data: {
                                                 'videos_id': <?php echo $video['id']; ?>
                                             },
                                             success: function(response) {
-                                                $("#likeBtn, #dislikeBtn").removeClass("myVote");
+                                                $(".likedislikebtn").removeClass("processing");
+                                                $(".likedislikebtn").removeClass("myVote");
                                                 if (response.myVote == 1) {
                                                     $("#likeBtn").addClass("myVote");
                                                 } else if (response.myVote == -1) {
@@ -311,7 +337,10 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
 
                 <div class="col-xs-4 col-sm-2 col-lg-2 text-right"><strong><?php echo __("Rating"); ?>:</strong></div>
                 <div class="col-xs-8 col-sm-10 col-lg-10">
-                    <img src="<?php echo getURL('view/rrating/rating-' . $video['rrating'] . '.png'); ?>" class="img img-responsive zoom" style="width:30px;" />
+                    <?php
+                    //echo  Video::getRratingIMG($video['rrating'], 'width:30px;');
+                    echo  Video::getRratingHTML($video['rrating']);
+                    ?>
                 </div>
 
             <?php

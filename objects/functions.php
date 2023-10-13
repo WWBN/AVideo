@@ -4861,14 +4861,14 @@ function TimeLogEnd($name, $line, $TimeLogLimit = 0.7) {
             $backtrace = ' backtrace=' . json_encode(debug_backtrace());
         }
         
+        $ua = ' IP='.getRealIpAddr();
         if (!empty($_SERVER['HTTP_USER_AGENT'])) {
-            $ua = '';
             if(isBot()){
-                $ua = " BOT ";
+                $ua .= " BOT ";
+                $ua .= " USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
             }
-            $ua .= " USER_AGENT={$_SERVER['HTTP_USER_AGENT']}";
         }else{
-            $ua = " USER_AGENT=Undefined server=".json_encode($_SERVER);
+            $ua .= " USER_AGENT=Undefined server=".json_encode($_SERVER);
         }
         
         _error_log("Time: ". str_pad(number_format($total_time,3) . "s", 8) . " | Limit: {$TimeLogLimit}s | Location: {$_SERVER["SCRIPT_FILENAME"]} Line {$line} [{$name}]{$ua}{$backtrace}", $type);

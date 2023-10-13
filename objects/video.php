@@ -1069,7 +1069,7 @@ if (!class_exists('Video')) {
                 //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = -1 ) as dislikes "
             ;
             if (User::isLogged()) {
-                $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = '" . User::getId() . "' ) as myVote ";
+                $sql .= ", (SELECT `like` FROM likes as l where l.videos_id = v.id AND users_id = '" . User::getId() . "' LIMIT 1 ) as myVote ";
             } else {
                 $sql .= ", 0 as myVote ";
             }
@@ -1245,7 +1245,7 @@ if (!class_exists('Video')) {
                 $sql .= " LIMIT {$firstClauseLimit}1";
             }
             $lastGetVideoSQL = $sql;
-            //echo $sql, "<br>";var_dump(debug_backtrace());exit;
+            //echo $sql, "<br>";//var_dump(debug_backtrace());exit;
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
             if (!empty($video['id'])) {
@@ -5665,15 +5665,37 @@ if (!class_exists('Video')) {
             return $this->rrating;
         }
 
-        public function getRratingHTML()
+        public static function getRratingHTML($rrating )
         {
             global $global;
-            if (!empty($this->rrating)) {
-                $filePath = $global['systemRootPath'] . 'view/rrating/rating-' . $this->rrating . '.php';
+            if (!empty($rrating )) {
+                $filePath = $global['systemRootPath'] . 'view/rrating/rating-' . $rrating . '.php';
                 if (file_exists($filePath)) {
-                    return getIncludeFileContent($filePath);
+                    $return = getIncludeFileContent($filePath);
+
+                    return $return;
                 }
+            } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
+                include $global['systemRootPath'] . 'view/rrating/notRated.php';
             }
+            return '';
+        }
+        
+        public static function getRratingIMG($rrating, $style='' )
+        {
+            global $global;
+            if (!empty($rrating )) {
+                return '<img src="'.getURL('view/rrating/rating-' . $rrating . '.png').'" class="img img-responsive zoom" style="'.$style.'"  /> ';
+            } 
+            return '';
+        }
+
+        public static function getRratingText($rrating)
+        {
+            global $global;
+            if (!empty($rrating )) {
+                include $global['systemRootPath'] . 'view/rrating/rating-' . $rrating . '_text.php';
+            } 
             return '';
         }
 

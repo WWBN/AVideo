@@ -905,8 +905,9 @@ img.blur {
 
 #CloseButtonInVideo {
     display: flex;
-    justify-content: center;   /* Horizontally centers the content (i.e., the <i> element) */
-    align-items: center;  
+    justify-content: center;
+    /* Horizontally centers the content (i.e., the <i> element) */
+    align-items: center;
     z-index: 9999;
     position: fixed;
     top: 10px;
@@ -917,6 +918,7 @@ img.blur {
     height: 25px;
     width: 25px;
 }
+
 #CloseButtonInVideo:hover {
     background-color: rgba(255, 255, 255, 1);
     color: #000;
@@ -2021,21 +2023,25 @@ body.ypt-is-compressed #videoCol {
 
 .ImagesPlaceHoldersDefaultImage {
     filter: grayscale(100%);
-    background-color: rgba(128, 128, 128, 0.25); /* This is the grey background with 80% transparency */
-    transition: filter 0.3s ease, background-color 0.3s ease; /* This ensures a smooth transition effect */
+    background-color: rgba(128, 128, 128, 0.25);
+    /* This is the grey background with 80% transparency */
+    transition: filter 0.3s ease, background-color 0.3s ease;
+    /* This ensures a smooth transition effect */
 }
 
 .thumbsImageContainer:hover .ImagesPlaceHoldersDefaultImage,
 .ImagesPlaceHoldersDefaultImage:hover {
     filter: grayscale(0%);
-    background-color: rgba(128, 128, 128, 0.5); /* This is the grey background with 50% transparency on hover */
+    background-color: rgba(128, 128, 128, 0.5);
+    /* This is the grey background with 50% transparency on hover */
 }
 
-.croppie-container .cr-boundary{
+.croppie-container .cr-boundary {
     border: 2px solid grey;
 }
 
-#topMenuUserNotifications {
+#topMenuUserNotifications,
+.webui-popover-content {
     display: none;
 }
 
