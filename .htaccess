@@ -218,7 +218,7 @@ Options All -Indexes
 
     # audio and video IDs
     RewriteRule ^article/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=article [QSA]
-    RewriteRule ^articleEmbeded/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=article [QSA]
+    RewriteRule ^articleEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=article [QSA]
     
     # audio regular ID
     RewriteRule ^article/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1&includeType=article [QSA]
@@ -229,7 +229,7 @@ Options All -Indexes
     
     # audio and video IDs
     RewriteRule ^audio/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
-    RewriteRule ^audioEmbeded/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=audio [QSA]
+    RewriteRule ^audioEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=audio [QSA]
     
     # audio regular ID
     RewriteRule ^audio/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1&includeType=audio [QSA]
