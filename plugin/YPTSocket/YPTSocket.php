@@ -41,7 +41,7 @@ class YPTSocket extends PluginAbstract {
     }
 
     public static function getServerVersion() {
-        return "4.4";
+        return "4.5";
     }
 
     public function updateScript() {
@@ -170,7 +170,7 @@ class YPTSocket extends PluginAbstract {
         \Ratchet\Client\connect($SocketURL)->then(function ($conn) {
             global $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj;
             $conn->on('message', function ($msg) use ($conn, $SocketSendResponseObj) {
-                echo "Received: {$msg}".PHP_EOL;
+                //echo "Received: {$msg}".PHP_EOL;
                 $SocketSendResponseObj->error = false;
                 $SocketSendResponseObj->msg = $msg;
                 //$conn->close();
@@ -179,11 +179,11 @@ class YPTSocket extends PluginAbstract {
             foreach ($SocketSendUsers_id as $users_id) {
                 $SocketSendObj->to_users_id = $users_id;
                 $conn->send(json_encode($SocketSendObj));
-                echo "send: {$users_id}".PHP_EOL;
+                //echo "send: {$users_id}".PHP_EOL;
             }
 
             $conn->close();
-            echo "close".PHP_EOL;
+            //echo "close".PHP_EOL;
 
             //$SocketSendResponseObj->error = false;
         }, function ($e) {
