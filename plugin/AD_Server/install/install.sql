@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `vast_campaigns_logs` (
   CONSTRAINT `fk_vast_campaigns_logs_vast_campaigns_has_videos1`
     FOREIGN KEY (`vast_campaigns_has_videos_id`)
     REFERENCES `vast_campaigns_has_videos` (`id`)
-    ON DELETE NO CASCADE
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
