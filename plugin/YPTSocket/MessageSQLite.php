@@ -161,7 +161,7 @@ class Message implements MessageComponentInterface {
         _log_message("onClose {$conn->resourceId} has deleted");
         $this->unsetClient($conn, $client);
         if ($this->shouldPropagateInfo($client)) {
-            $this->msgToAll($conn, array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
+            $this->msgToAllLogged($conn, array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
         _log_message("Connection {$conn->resourceId} has disconnected");
     }
@@ -462,6 +462,26 @@ class Message implements MessageComponentInterface {
 
         foreach ($rows as $key => $client) {
             if($client['isCommandLine']){
+                continue;
+            }
+            $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
+        }
+        $end = number_format(microtime(true) - $start, 4);
+        _log_message("msgToAll FROM ({$from->resourceId}) {$type} Total Clients: " . count($rows) . " in {$end} seconds");
+    }
+
+    
+    public function msgToAllLogged(ConnectionInterface $from, $msg, $type = "", $includeMe = false) {
+        $start = microtime(true);
+        $rows = dbGetAll();
+
+        $totals = $this->getTotals();
+
+        foreach ($rows as $key => $client) {
+            if($client['isCommandLine']){
+                continue;
+            }
+            if(empty($client['users_id'])){
                 continue;
             }
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
