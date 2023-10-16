@@ -475,7 +475,8 @@ abstract class ObjectYPT implements ObjectInterface
         }
         //$maxLen = 60000; For blob
         // for medium blob
-        $maxLen = 16000000;
+        //$maxLen = 16000000;
+        $maxLen = 500000;
 
         if (empty($advancedCustom)) {
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
