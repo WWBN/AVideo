@@ -66,7 +66,7 @@ if (!empty($evideo)) {
     } else {
         unset($_SESSION['type']);
     }
-    session_write_close();
+    _session_write_close();
 
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     if (empty($_GET['playlist_id']) && !empty($_GET['playlist_name'])) {

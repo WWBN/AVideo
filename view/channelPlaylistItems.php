@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 
-session_write_close();
+_session_write_close();
 
 if (empty($_GET['channelName'])) {
     if (User::isLogged()) {

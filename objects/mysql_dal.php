@@ -103,15 +103,17 @@ class sqlDAL
          * @var object $global['mysqli']
          */
         // make sure it does not store autid transactions
-        $debug = debug_backtrace();
-        if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
-            $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
-            if (!empty($audit)) {
-                try {
-                    $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
-                } catch (Exception $exc) {
-                    _error_log('Error in writeSql: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
-                    log_error($exc->getTraceAsString());
+        if(strpos($preparedStatement, 'CachesInDB')===false){
+            $debug = debug_backtrace();
+            if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
+                $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
+                if (!empty($audit)) {
+                    try {
+                        $audit->exec(@$debug[1]['function'], @$debug[1]['class'], $preparedStatement, $formats, json_encode($values), User::getId());
+                    } catch (Exception $exc) {
+                        _error_log('Error in writeSql: ' . $global['mysqli']->errno . " " . $global['mysqli']->error . ' ' . $preparedStatement);
+                        log_error($exc->getTraceAsString());
+                    }
                 }
             }
         }

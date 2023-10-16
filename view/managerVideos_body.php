@@ -590,15 +590,15 @@ require_once $global['systemRootPath'] . 'objects/video.php';
     ?>
 </div><!--/.container-->
 
-<script src="<?php echo getCDN(); ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+<script src="<?php echo getURL('view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>" type="text/javascript"></script>
 
 <!-- JavaScript Includes -->
-<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.knob.js"></script>
+<script src="<?php echo getURL('view/mini-upload-form/assets/js/jquery.knob.js'); ?>"></script>
 
 <!-- jQuery File Upload Dependencies -->
-<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.ui.widget.js"></script>
-<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.iframe-transport.js"></script>
-<script src="<?php echo getCDN(); ?>view/mini-upload-form/assets/js/jquery.fileupload.js"></script>
+<script src="<?php echo getURL('view/mini-upload-form/assets/js/jquery.ui.widget.js'); ?>"></script>
+<script src="<?php echo getURL('view/mini-upload-form/assets/js/jquery.iframe-transport.js'); ?>"></script>
+<script src="<?php echo getURL('view/mini-upload-form/assets/js/jquery.fileupload.js'); ?>"></script>
 <?php
 echo AVideoPlugin::getManagerVideosJavaScripts();
 if (empty($advancedCustom->disableHTMLDescription)) {
@@ -829,9 +829,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         videos_id = row.id;
         $(".externalOptions").val("");
         try {
-            externalOptionsObject = JSON.parse(row.externalOptions);
+            if (typeof row.externalOptions == 'object') {
+                externalOptionsObject = row.externalOptions;
+            } else {
+                externalOptionsObject = JSON.parse(row.externalOptions);
+            }
             for (var key in externalOptionsObject) {
                 if (externalOptionsObject.hasOwnProperty(key)) {
+                    //console.log('externalOptions', key, externalOptionsObject[key]);
                     $('#' + key).val(externalOptionsObject[key]);
                 }
             }
@@ -1203,6 +1208,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputVideoId').val(0);
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
+        $('#videoStartSeconds').val("");
         $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#created').val("");
@@ -1265,6 +1271,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#inputVideoId').val("");
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
+        $('#videoStartSeconds').val("");
         $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#inputDescription').val("");
@@ -1550,6 +1557,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             $('#inputVideoId').val("");
             $('#inputTitle').val("");
             $('#inputTrailer').val("");
+            $('#videoStartSeconds').val("");
             $('#inputVideoPassword').val("");
             $('#inputCleanTitle').val("");
             $('#inputDescription').val("");
@@ -2252,7 +2260,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         playlistsFromUserVideosListToRequestTimetout = setTimeout(function() {
             videos_ids_list = getUniqueValuesFromArray(playlistsFromUserVideosListToRequest);
             playlistsFromUserVideosListToRequest = [];
-            console.log('playlistsFromUserVideos', videos_ids_list);
+            //console.log('playlistsFromUserVideos', videos_ids_list);
 
             $.ajax({
                 url: webSiteRootURL + 'objects/playlistsFromUserVideos.json.php',
@@ -2272,7 +2280,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         v_id = videoResponse.videos_id;
                         playlists = videoResponse.playlists;
 
-                        console.log('playlistsFromUserVideos playlists', playlists);
+                        //console.log('playlistsFromUserVideos playlists', playlists);
                         for (var y in playlists) {
                             if (typeof playlists[y] !== 'object') {
                                 continue;

@@ -5,7 +5,7 @@ if (!isset($global['systemRootPath'])) {
 header("Content-type: text/css; charset: UTF-8");
 $theme = getCurrentTheme();
 _mysql_close();
-session_write_close();
+_session_write_close();
 echo "/* theme = {$theme} */".PHP_EOL;
 echo file_get_contents("{$global['systemRootPath']}view/css/custom/{$theme}.css");
 exit;

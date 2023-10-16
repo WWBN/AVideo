@@ -700,7 +700,7 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail)
         $mail->isSendmail();
     }
     // do not let the system hang on email send
-    session_write_close();
+    _session_write_close();
 }
 
 /**
@@ -3144,7 +3144,7 @@ function url_get_contents($url, $ctx = "", $timeout = 0, $debug = false, $mantai
 
     if (isSameDomainAsMyAVideo($url) || $mantainSession) {
         $session_cookie = session_name() . '=' . session_id();
-        session_write_close();
+        _session_write_close();
     }
     if (empty($ctx)) {
         $opts = [
@@ -3955,7 +3955,7 @@ function siteMap()
     _error_log("siteMap: start");
     ini_set('memory_limit', '-1');
     ini_set('max_execution_time', 0);
-    @session_write_close();
+    @_session_write_close();
     global $global, $advancedCustom;
 
     $totalCategories = 0;
@@ -4984,6 +4984,14 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
     }
 }
 
+function _session_write_close(){    
+    if (session_status() === PHP_SESSION_ACTIVE) {
+        includeConfigLog(__LINE__, 'session_write_close '.basename(__FILE__));
+        _error_log(json_encode(debug_backtrace()));
+        @session_write_close();
+    }
+}
+
 function _session_start(array $options = [])
 {
     try {
@@ -4992,12 +5000,11 @@ function _session_start(array $options = [])
             unset($_GET['PHPSESSID']);
             if (!User::isLogged()) {
                 if ($PHPSESSID !== session_id()) {
-                    if (session_status() !== PHP_SESSION_NONE) {
-                        @session_write_close();
-                    }
+                    _session_write_close();
                     session_id($PHPSESSID);
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
+                includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
                 $session = @session_start($options);
 
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
@@ -5012,6 +5019,8 @@ function _session_start(array $options = [])
                 //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
             }
         } elseif (session_status() == PHP_SESSION_NONE) {
+            includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
+            //_error_log(json_encode(debug_backtrace()));
             return @session_start($options);
         }
     } catch (Exception $exc) {
@@ -5265,7 +5274,7 @@ function getUsageFromFilename($filename, $dir = "")
         $files = globVideosDir($filename);
     }
     //var_dump($paths, $files, $filename);exit;
-    session_write_close();
+    _session_write_close();
     $filesProcessed = [];
     if (empty($files)) {
         _error_log("getUsageFromFilename: we did not find any file for {$dir}{$filename}, we will create a fake one " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -8331,7 +8340,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
     $command .= " 1> {$progressFileEscaped} 2>&1";
     $command = removeUserAgentIfNotURL($command);
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command);
-    session_write_close();
+    _session_write_close();
     _mysql_close();
     exec($command, $output, $return);
     _session_start();
@@ -9345,7 +9354,7 @@ function outputAndContinueInBackground($msg = '')
         return false;
     }
     $outputAndContinueInBackground = 1;
-    @session_write_close();
+    @_session_write_close();
     //_mysql_close();
     // Instruct PHP to continue execution
     ignore_user_abort(true);

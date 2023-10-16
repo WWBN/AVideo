@@ -447,11 +447,9 @@ class Category
 
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $totals = self::getTotalFromCategory($row['id']);
-
                     if ($onlyWithVideos && empty($totals['total'])) {
                         continue;
                     }
-
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $fullTotals = self::getTotalFromCategory($row['id'], false, true, true);
 
@@ -475,9 +473,11 @@ class Category
                     //_error_log("getAllCategories id={$row['id']} line=".__LINE__);
                     $row['description_html'] = textToLink(htmlentities("{$row['description']}"));
                     $category[] = $row;
+                    //break;
                 }
+                $result = $cacheHandler->setCache($category);
+                //var_dump($category, $result);exit;
 
-                $cacheHandler->setCache($category);
             } else {
                 $category = false;
                 //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
@@ -631,11 +631,21 @@ class Category
 
     public static function getTotalFromCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)
     {
-        $videos = self::getTotalVideosFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
-        $lives = self::getTotalLivesFromCategory($categories_id, $showUnlisted, $renew);
-        $livelinkss = self::getTotalLiveLinksFromCategory($categories_id, $showUnlisted, $renew);
-        $total = $videos + $lives + $livelinkss;
-        return ['videos' => $videos, 'lives' => $lives, 'livelinks' => $livelinkss, 'total' => $total];
+        $cacheSuffix = "getTotalFromCategory_{$categories_id}_".intval($showUnlisted).intval($getAllVideos);
+        $cacheHandler = new CategoryCacheHandler(0);
+        $result = $cacheHandler->getCache($cacheSuffix, 0);
+        if(empty($result)){
+            $videos = self::getTotalVideosFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
+            $lives = self::getTotalLivesFromCategory($categories_id, $showUnlisted, $renew);
+            $livelinkss = self::getTotalLiveLinksFromCategory($categories_id, $showUnlisted, $renew);
+            $total = $videos + $lives + $livelinkss;
+            $result = ['videos' => $videos, 'lives' => $lives, 'livelinks' => $livelinkss, 'total' => $total];            
+            $cacheHandler->setCache($result);
+        }else{
+            $result = object_to_array($result);
+        }
+
+        return $result;
     }
 
     public static function getTotalFromChildCategory($categories_id, $showUnlisted = false, $getAllVideos = false, $renew = false)

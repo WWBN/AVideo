@@ -2,7 +2,7 @@
 $doNotConnectDatabaseIncludeConfig = 1;
 $doNotStartSessionbaseIncludeConfig = 1;
 require_once '../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 _mysql_close();
 
 

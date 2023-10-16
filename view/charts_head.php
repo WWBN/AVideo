@@ -1,7 +1,7 @@
 <?php
 $limitVideos = 50;
 global $global, $config;
-session_write_close();
+_session_write_close();
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }

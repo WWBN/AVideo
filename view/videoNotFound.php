@@ -9,7 +9,7 @@ $poster = $img;
 $imgw = 1280;
 $imgh = 720;
 unset($_SESSION['type']);
-session_write_close();
+_session_write_close();
 $video = [];
 $video['id'] = 0;
 $video['type'] = 'notfound';

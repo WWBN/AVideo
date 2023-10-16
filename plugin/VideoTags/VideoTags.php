@@ -56,7 +56,7 @@ class VideoTags extends PluginAbstract {
             session_start();
         }
         unset($_SESSION['getVideoTags'][$videos_id]);
-        session_write_close();
+        _session_write_close();
         TimeLogEnd(__FILE__ . "::" . __FUNCTION__, __LINE__);
         if ($deleted) {
             foreach ($tagsNameList as $value) {

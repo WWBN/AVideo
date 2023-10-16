@@ -216,7 +216,9 @@ class CachesInDB extends ObjectYPT
                 expires = VALUES(expires)";
 
         // Assuming you have a PDO connection $pdo
-        return sqlDAL::writeSql($sql, implode('', $formats), $values);
+        $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
+        //var_dump($result);exit;
+        return $result;
     }
 
     public static function _deleteCache($name)

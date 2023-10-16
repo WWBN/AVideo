@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 header('Content-Type: application/json');
 $resp = new stdClass();
 $resp->error = true;

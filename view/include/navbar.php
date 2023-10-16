@@ -1,4 +1,5 @@
 <?php
+return '';
 $tTolerance = 0.2;
 $tname = TimeLogStart(basename(__FILE__));
 if (isset($_GET['noNavbar'])) {
@@ -52,7 +53,7 @@ if (!empty($advancedCustomUser->keepViewerOnChannel)) {
         unset($_SESSION['channelName']);
     }
 }
-session_write_close();
+_session_write_close();
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';

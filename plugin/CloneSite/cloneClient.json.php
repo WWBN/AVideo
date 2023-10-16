@@ -2,7 +2,7 @@
 
 $time_start = microtime(true);
 $config = '../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 if (!file_exists($config)) {
     [$scriptPath] = get_included_files();
     $path = pathinfo($scriptPath);

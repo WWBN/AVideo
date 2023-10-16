@@ -263,7 +263,7 @@ class AD_Server extends PluginAbstract {
         $obj = $this->getDataObject();
         $oldId = session_id();
         if (session_status() !== PHP_SESSION_NONE) {
-            session_write_close();
+            _session_write_close();
         }
         session_id($_GET['vmap_id']);
         if (session_status() == PHP_SESSION_NONE) {
@@ -303,7 +303,7 @@ class AD_Server extends PluginAbstract {
         }
         $adRandomPositions = $_SESSION['adRandomPositions'];
         if (session_status() !== PHP_SESSION_NONE) {
-            session_write_close();
+            _session_write_close();
         }
         session_id($oldId);
         if (session_status() == PHP_SESSION_NONE) {

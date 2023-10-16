@@ -40,7 +40,7 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
 if (!empty($_GET['c'])) {
@@ -146,7 +146,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
 
     //_error_log("Live:getImage $url");
     //header('Content-Type: text/plain');var_dump($url);exit;
-    session_write_close();
+    _session_write_close();
     _mysql_close();
     $content = url_get_contents($url, '', 2);
 

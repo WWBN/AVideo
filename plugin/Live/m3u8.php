@@ -3,7 +3,7 @@
 $recheckTolerance = 600; // 10 min
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 error_reporting(0);
-session_write_close();
+_session_write_close();
 
 if (empty($_GET['uuid'])) {
     die("uuid empty");

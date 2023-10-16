@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
     }
     require_once $configFile;
 }
-session_write_close();
+_session_write_close();
 _mysql_close();
 if (!isCommandLineInterface() && empty($byPassCommandLine)) {
     die('Command Line only');

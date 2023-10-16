@@ -238,9 +238,9 @@ abstract class PluginAbstract {
                 }
             }
 
-            PluginAbstract::$dataObject[$this->getUUID()] = $wholeObjects;
+            PluginAbstract::$dataObject[$uuid] = $wholeObjects;
         } else {
-            $wholeObjects = PluginAbstract::$dataObject[$this->getUUID()];
+            $wholeObjects = PluginAbstract::$dataObject[$uuid];
         }
         //var_dump($obj['object_data']);
         //var_dump($eo, $o, (object) array_merge((array) $eo, (array) $o));exit;

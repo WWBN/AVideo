@@ -2,7 +2,7 @@
 
 require_once '../../videos/configuration.php';
 set_time_limit(0);
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'plugin/CloneSite/Objects/Clones.php';
 require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');

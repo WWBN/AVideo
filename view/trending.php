@@ -17,7 +17,7 @@ if (!empty($_GET['type'])) {
 } else {
     unset($_SESSION['type']);
 }
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 
 $total = Video::getTotalVideos();

@@ -1093,7 +1093,7 @@ abstract class CacheHandler {
         _session_start();     
         clearCache(true);
         unset($_SESSION['user']['sessionCache']);
-        session_write_close();   
+        _session_write_close();   
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
         return exec("rm -R {$dir}");
     }

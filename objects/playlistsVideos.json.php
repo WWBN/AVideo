@@ -3,9 +3,6 @@ header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 global $global, $config;
-if (!empty($_GET) && empty($_POST)) {
-    $_POST = $_GET;
-}
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
@@ -15,21 +12,20 @@ require_once 'subscribe.php';
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
 $input = _json_decode($inputJSON, true); //convert JSON into array
-if (!empty($input) && empty($_POST)) {
+if (!empty($input) && empty($_REQUEST)) {
     foreach ($input as $key => $value) {
-        $_POST[$key]=$value;
+        $_REQUEST[$key]=$value;
     }
 }
-if (!empty($_POST['user']) && !empty($_POST['pass'])) {
-    $user = new User(0, $_POST['user'], $_POST['pass']);
+if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
+    $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
     $user->login(false, true);
 }
-if (empty($_POST['playlists_id'])) {
+if (empty($_REQUEST['playlists_id'])) {
     die('Play List can not be empty');
 }
-
 require_once './playlist.php';
-$videos = PlayList::getVideosFromPlaylist($_POST['playlists_id']);
+$videos = PlayList::getVideosFromPlaylist($_REQUEST['playlists_id']);
 $objMob = AVideoPlugin::getObjectData("MobileManager");
 $index = 0;
 foreach ($videos as $key => $value) {
@@ -41,11 +37,11 @@ foreach ($videos as $key => $value) {
     $videos[$key]['imageClass'] = !empty($objMob->portraitImage) ? "portrait" : "landscape";
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
-    $videos[$key]['pageUrl'] =  PlayLists::getLink($_POST['playlists_id'], false, $index);
-    $videos[$key]['embedUrl'] = PlayLists::getLink($_POST['playlists_id'], true, $index);
-    unset($_POST['sort'], $_POST['current'], $_POST['searchPhrase']);
+    $videos[$key]['pageUrl'] =  PlayLists::getLink($_REQUEST['playlists_id'], false, $index);
+    $videos[$key]['embedUrl'] = PlayLists::getLink($_REQUEST['playlists_id'], true, $index);
+    unset($_REQUEST['sort'], $_REQUEST['current'], $_REQUEST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
-    $_POST['sort']['created'] = "desc";
+    $_REQUEST['sort']['created'] = "desc";
     $videos[$key]['comments'] = Comment::getAllComments($videos[$key]['id']);
     $videos[$key]['commentsTotal'] = Comment::getTotalComments($videos[$key]['id']);
     $videos[$key]['comments'] = Comment::addExtraInfo($videos[$key]['comments']);

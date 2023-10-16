@@ -295,7 +295,7 @@ class CDNStorage {
         if ($runInBackground) {
             outputAndContinueInBackground();
         }
-        @session_write_close();
+        @_session_write_close();
         _mysql_close();
         ini_set('max_execution_time', 0);
         set_time_limit(0);
@@ -398,7 +398,7 @@ class CDNStorage {
         if ($runInBackground) {
             outputAndContinueInBackground();
         }
-        @session_write_close();
+        @_session_write_close();
         _mysql_close();
         ini_set('max_execution_time', 0);
         set_time_limit(0);

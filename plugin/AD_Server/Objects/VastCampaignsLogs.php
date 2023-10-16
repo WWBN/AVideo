@@ -1,9 +1,10 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
+/*
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 require_once dirname(__FILE__) . '/../../../objects/video.php';
-
+*/
 class VastCampaignsLogs extends ObjectYPT
 {
     protected $id;
@@ -102,9 +103,7 @@ class VastCampaignsLogs extends ObjectYPT
             foreach ($fullData as $row) {
                 $data[$row['type']] = $row['total'];
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $data;
     }
 
@@ -123,9 +122,7 @@ class VastCampaignsLogs extends ObjectYPT
             foreach ($fullData as $row) {
                 $data[$row['type']] = $row['total'];
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $data;
     }
 }

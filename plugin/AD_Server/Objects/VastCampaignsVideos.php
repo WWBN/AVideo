@@ -1,8 +1,10 @@
 <?php
 
 require_once dirname(__FILE__) . '/../../../videos/configuration.php';
+/*
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 require_once dirname(__FILE__) . '/../../../objects/video.php';
+*/
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsLogs.php';
 
 class VastCampaignsVideos extends ObjectYPT

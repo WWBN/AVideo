@@ -18,7 +18,7 @@ $SocketDataObj->serverVersion = YPTSocket::getServerVersion();
 
 ob_end_flush();
 _mysql_close();
-session_write_close();
+_session_write_close();
 
 killProcessOnPort();
 

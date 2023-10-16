@@ -75,7 +75,7 @@ if(!in_array($_SERVER['PHP_SELF'], $ignoreLog) || preg_match('/(bot|spider|crawl
 session_name(md5($ip));
 session_start(); // inicial a sessao
 if(!empty($_SESSION['captcha_validated'])){
-    session_write_close();
+    _session_write_close();
     return ;
 }
 if(!empty($_GET['captcha'])){
@@ -88,7 +88,7 @@ if(!empty($_GET['captcha'])){
 }else if(!empty($_GET['validate'])){
     if (strtolower($_POST["palavra"]) == strtolower($_SESSION["palavra"])){
         $_SESSION['captcha_validated'] = 1;
-        session_write_close();
+        _session_write_close();
         return ;
     }else{
         echo "<h1>Wrong captcha</h1>";

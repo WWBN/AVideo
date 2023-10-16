@@ -1115,7 +1115,7 @@ if (typeof gtag !== \"function\") {
             AVideoPlugin::onUserSignIn($_SESSION['user']['id']);
             $_SESSION['loginAttempts'] = 0;
             _session_regenerate_id();
-            session_write_close();
+            _session_write_close();
 
             _error_log('User:login finish users_id=' . json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
@@ -1221,7 +1221,7 @@ if (typeof gtag !== \"function\") {
                 $params["httponly"]
             );
         }
-        session_write_close();
+        _session_write_close();
     }
 
     private static function recreateLoginFromCookie()

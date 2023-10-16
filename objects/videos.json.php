@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 User::loginFromRequestIfNotLogged();
-session_write_close();
+_session_write_close();
 header('Content-Type: application/json');
 $start = microtime(true);
 

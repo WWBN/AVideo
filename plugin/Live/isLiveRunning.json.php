@@ -2,7 +2,7 @@
 
 header('Content-Type: application/json');
 require_once '../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 
 $obj = new stdClass();
 $obj->error = true;

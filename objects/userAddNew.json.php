@@ -25,7 +25,7 @@ if(!isTokenValid($_REQUEST['securityToken'])){
     forbiddenPage('Security token is invalid');
 }
 
-session_write_close();
+_session_write_close();
 if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
     $_POST['email'] = $_POST['user'];
 }

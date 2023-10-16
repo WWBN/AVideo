@@ -7,7 +7,7 @@ if (!isset($global['systemRootPath'])) {
 
 AVideoPlugin::getDataObject('VideosStatistics');
 
-session_write_close();
+_session_write_close();
 
 $obj = new stdClass();
 $obj->error = true;

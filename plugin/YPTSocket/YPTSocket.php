@@ -140,7 +140,7 @@ class YPTSocket extends PluginAbstract {
     public static function send($msg, $callbackJSFunction = "", $users_id = "", $send_to_uri_pattern = "") {
         global $global, $SocketSendObj, $SocketSendUsers_id, $SocketSendResponseObj, $SocketURL;
         _mysql_close();
-        @session_write_close();
+        @_session_write_close();
         if (!is_string($msg)) {
             $msg = json_encode($msg);
         }

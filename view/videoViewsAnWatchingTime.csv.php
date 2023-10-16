@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 header('Content-Type: application/json');
 
-session_write_close();
+_session_write_close();
 $from = date("Y-m-d 00:00:00", strtotime($_REQUEST['dateFrom']));
 $to = date('Y-m-d 23:59:59', strtotime($_REQUEST['dateTo']));
 $fromDate = date("Y-m-d", strtotime($_REQUEST['dateFrom']));

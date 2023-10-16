@@ -344,6 +344,6 @@ $json = _json_encode($object);
 //_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
 //_error_log('login.json.php is done '.User::getId());
-session_write_close();
+_session_write_close();
 echo $json;
 exit;

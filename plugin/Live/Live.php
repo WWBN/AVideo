@@ -2097,7 +2097,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         
         TimeLogEnd($timeName, __LINE__);
-        session_write_close();
+        _session_write_close();
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = "OFFLINE";

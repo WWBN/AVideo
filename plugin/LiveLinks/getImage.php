@@ -29,7 +29,7 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
 }
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-session_write_close();
+_session_write_close();
 $filename = $global['systemRootPath'] . 'plugin/Live/view/OnAir.jpg';
 //echo file_get_contents($filename);exit;
 
@@ -74,7 +74,7 @@ if (preg_match("/\b(?:(?:https?):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+
         $content = '';
     }
     if(empty($content)){
-        session_write_close();
+        _session_write_close();
         _mysql_close();
         $content = url_get_contents($url, "", 4);
         if(!empty($content)){

@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 _session_start();
 unset($_SESSION['sessionCache']['thereIsAnyRemoteUpdate']);
 unset($_SESSION['sessionCache']['thereIsAnyUpdate']);
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'objects/user.php';
 //check if there is a update
 if (!User::isAdmin()) {

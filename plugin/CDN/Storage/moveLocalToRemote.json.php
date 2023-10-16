@@ -2,7 +2,7 @@
 
 $config = dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once $config;
-session_write_close();
+_session_write_close();
 header('Content-Type: application/json');
 
 $obj = new stdClass();

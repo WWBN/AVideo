@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
-session_write_close();
+_session_write_close();
 $user_id = isChannel();
 $user = new User($user_id);
 if ($user->getStatus() === 'i') {

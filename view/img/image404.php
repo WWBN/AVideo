@@ -5,7 +5,7 @@ include(dirname(__FILE__) . '/image404Raw.php');
 // Load configuration
 $configFile = dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $configFile;
-session_write_close();
+_session_write_close();
 
 // Default image settings
 $file = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);

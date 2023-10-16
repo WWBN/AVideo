@@ -24,12 +24,12 @@ if(!isCommandLineInterface()){
     echo '<pre>';
 }
 if(empty($rows)){
-    echo ("Scheduler row is empty".PHP_EOL); 
+    //echo ("Scheduler row is empty".PHP_EOL); 
 }
 
 $rows2 = Scheduler_commands::getAllScheduledTORepeat();
 if(empty($rows)){
-    echo ("Scheduler row2 is empty".PHP_EOL); 
+    //echo ("Scheduler row2 is empty".PHP_EOL); 
 }
 $total3 = count($rows2);
 //_log("There are {$total1} active requests; getAllActiveAndReady={$total2} getAllScheduledTORepeat={$total3} on time ". json_encode(Scheduler_commands::getTimesNow())); 
@@ -51,7 +51,7 @@ foreach ($rows2 as $value) {
 }
 $lastVisitFile = Scheduler::setLastVisit();
 if(!empty($lastVisitFile) && !empty($lastVisitFile['size'])){
-    echo 'Saved '.json_encode($lastVisitFile); 
+    //echo 'Saved '.json_encode($lastVisitFile); 
     //_error_log("Last visit set {$lastVisitFile}");
 }else{
     $msg = 'ERROR: Last visit NOT set '.json_encode($lastVisitFile);

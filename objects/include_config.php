@@ -51,10 +51,14 @@ function includeConfigLog($line, $desc=''){
     if(empty($_REQUEST['debug'])){
         return false;
     }
-    global $global;
-    $seconds = number_format(microtime(true) - $global['avideoStartMicrotime'], 4);
-    $msg = "includeConfigLog: {$seconds} seconds line={$line} {$desc}";
-    echo $msg."<br>".PHP_EOL;
+    global $global, $_includeConfigLogID, $_includeConfigLogLastCheck;
+    if(!isset($_includeConfigLogID)){
+        $_includeConfigLogID = date('H:i:s');
+    }
+    $_includeConfigLogLastCheck = microtime(true);
+    $seconds = number_format($_includeConfigLogLastCheck - $global['avideoStartMicrotime'], 4);
+    $msg = "includeConfigLog[$_includeConfigLogID]: {$seconds} seconds line={$line} {$desc}";
+    //echo $msg."<br>".PHP_EOL;
     error_log($msg);
 }
 includeConfigLog(__LINE__);
@@ -130,7 +134,7 @@ $global['dont_show_us_flag'] = false;
 if (empty($doNotStartSessionbaseIncludeConfig)) {
     $config = new Configuration();
     //var_dump($config);exit;
-    @session_write_close();
+    @_session_write_close();
 
     // server should keep session data for AT LEAST 1 hour
     ini_set('session.gc_maxlifetime', $config->getSession_timeout());
