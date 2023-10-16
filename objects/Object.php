@@ -467,11 +467,15 @@ abstract class ObjectYPT implements ObjectInterface
 
     public static function shouldUseDatabase($content)
     {
-        global $advancedCustom, $global;
+        global $advancedCustom, $global, $lastShouldUseDatabaseMsg;
+        $lastShouldUseDatabaseMsg = array();
         if (!empty($global['doNotUseCacheDatabase'])) {
+            $lastShouldUseDatabaseMsg[] = 'Seted on $global[\'doNotUseCacheDatabase\']';
             return false;
         }
-        $maxLen = 60000;
+        //$maxLen = 60000; For blob
+        // for medium blob
+        $maxLen = 16000000;
 
         if (empty($advancedCustom)) {
             $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
@@ -479,11 +483,15 @@ abstract class ObjectYPT implements ObjectInterface
 
         if (empty($advancedCustom->doNotSaveCacheOnFilesystem) && AVideoPlugin::isEnabledByName('Cache') && self::isTableInstalled('CachesInDB')) {
             $json = _json_encode($content);
-            if (empty($json)) {
+            if ($json === false) {
+                $lastShouldUseDatabaseMsg[] = 'Could not json encode '.json_last_error_msg();
+                //$lastShouldUseDatabaseMsg[] = $content;
+                //$lastShouldUseDatabaseMsg[] = $json;
                 return false;
             }
             $len = strlen($json);
             if ($len > $maxLen / 2) {
+                $lastShouldUseDatabaseMsg[] = 'String is too big len='.$len.' size='.humanFileSize($len);
                 return false;
             }
             if (class_exists('CachesInDB')) {
@@ -496,10 +504,12 @@ abstract class ObjectYPT implements ObjectInterface
             if (!empty($len) && $len < $maxLen) {
                 return $content;
             } elseif (!empty($len)) {
+                $lastShouldUseDatabaseMsg[] = 'Final content is too big len='.$len.' size='.humanFileSize($len);
                 //_error_log('Object::setCache '.$len);
             }
         }
 
+        $lastShouldUseDatabaseMsg[] = 'Finish ';
         return false;
     }
 
@@ -508,12 +518,29 @@ abstract class ObjectYPT implements ObjectInterface
         return self::setCache($name, $value, $addSubDirs, true);
     }
 
+    private static function logTime($start, $line, $name, $tolerance = 0.1){
+        global $lastShouldUseDatabaseMsg;
+        $timeNow = microtime(true);
+        $difference = $timeNow-$start;
+        if($difference>=$tolerance){
+            _error_log("cache logTime: {$line} $name ".number_format($difference, 3).' '.json_encode($lastShouldUseDatabaseMsg));
+        }
+    }
+
     public static function setCache($name, $value, $addSubDirs = true, $ignoreMetadata = false)
     {
+        if(!isset($value) || $value == ''){
+            _error_log('Error on set cache, empty content '.$name);
+            return false;
+        }
+        $start = microtime(true);
         if (!self::isToSaveInASubDir($name) && $content = self::shouldUseDatabase($value)) {
             $saved = Cache::_setCache($name, $content);
+            self::logTime($start, __LINE__, $name);
             if (!empty($saved)) {
                 return $saved;
+            }else{
+                _error_log('Error on set cache not saved ');
             }
         }
 
@@ -528,10 +555,13 @@ abstract class ObjectYPT implements ObjectInterface
         }
 
         $cachefile = self::getCacheFileName($name, true, $addSubDirs, $ignoreMetadata);
+        self::logTime($start, __LINE__, $name);
         make_path($cachefile);
         //_error_log("YPTObject::setCache log error [{$name}] $cachefile filemtime = ".filemtime($cachefile));
         $bytes = @file_put_contents($cachefile, $content);
+        self::logTime($start, __LINE__, $name);
         self::setSessionCache($name, $value);
+        self::logTime($start, __LINE__, $name);
         return ['bytes' => $bytes, 'cachefile' => $cachefile, 'type' => 'file'];
     }
 

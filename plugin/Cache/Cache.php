@@ -29,7 +29,7 @@ class Cache extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "6.0";
+        return "7.0";
     }
 
     public function getEmptyDataObject() {
@@ -338,6 +338,7 @@ class Cache extends PluginAbstract {
             $cache_setCacheToSaveAtTheEnd = array();
         }
         $cache_setCacheToSaveAtTheEnd[$name] = $value;
+        return true;
         //$metadata = self::getCacheMetaData();
         //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
     }
