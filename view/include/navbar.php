@@ -1,5 +1,4 @@
 <?php
-return '';
 $tTolerance = 0.2;
 $tname = TimeLogStart(basename(__FILE__));
 if (isset($_GET['noNavbar'])) {
