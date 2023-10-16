@@ -562,6 +562,7 @@ if (!class_exists('Video')) {
                 $this->duration_in_seconds = durationToSeconds($this->duration);
             }
             //var_dump($this->clean_title);exit;
+            //var_dump($this->externalOptions);exit;
             if (!empty($this->id)) {
                 if (!$this->userCanManageVideo() && !$allowOfflineUser && !Permissions::canModerateVideos()) {
                     forbiddenPage('Permission denied');
