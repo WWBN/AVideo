@@ -4935,9 +4935,11 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
             break;
     }
     $str = $prefix . $message . " SCRIPT_NAME: {$_SERVER['SCRIPT_NAME']}";
+    /*
     if (isCommandLineInterface() && empty($global['doNotPrintLogs'])) {
         echo '[' . date('Y-m-d H:i:s') . '] ' . $str . PHP_EOL;
     }
+    */
     error_log($str);
 }
 
