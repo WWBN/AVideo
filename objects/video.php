@@ -1886,6 +1886,7 @@ if (!class_exists('Video')) {
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
 
                     $row['externalOptions'] = _json_decode($row['externalOptions']);
+                    //var_dump($row['externalOptions']);exit;
                     if (empty($row['externalOptions']->privacyInfo)) {
                         $row['externalOptions']->privacyInfo = self::updatePrivacyInfo($row['id']);
                     }
