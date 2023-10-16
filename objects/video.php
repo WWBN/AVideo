@@ -6042,6 +6042,9 @@ if (!class_exists('Video')) {
 
         public function setVideoStartSeconds($videoStartSeconds)
         {
+            if (strpos($videoStartSeconds, ':') !== false) {
+                $videoStartSeconds = timeToSeconds($videoStartSeconds);
+            }
             $externalOptions = _json_decode($this->getExternalOptions());
             AVideoPlugin::onVideoSetVideoStartSeconds($this->id, $externalOptions->videoStartSeconds, $videoStartSeconds);
             $externalOptions->videoStartSeconds = intval($videoStartSeconds);
