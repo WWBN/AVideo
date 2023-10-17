@@ -10,10 +10,8 @@ header('Content-Type: application/json');
 if (empty($_REQUEST['users_id'])) {
     forbiddenPage('You need a user');
 }
-if (session_status() !== PHP_SESSION_NONE) {
-    _session_write_close();
-}
 
+//setRowCount(100);
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');

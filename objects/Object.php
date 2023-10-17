@@ -539,6 +539,7 @@ abstract class ObjectYPT implements ObjectInterface
             $saved = Cache::_setCache($name, $content);
             self::logTime($start, __LINE__, $name);
             if (!empty($saved)) {
+                //_error_log('set cache saved '.$saved);
                 return $saved;
             }else{
                 _error_log('Error on set cache not saved ');
@@ -653,6 +654,7 @@ abstract class ObjectYPT implements ObjectInterface
 
         if (class_exists('Cache')) {
             $cache = Cache::getCache($name, $lifetime, $ignoreMetadata);
+            //var_dump($name, $lifetime, $ignoreMetadata);
             if (!empty($cache)) {
                 self::setLastUsedCacheMode("Cache::getCache($name, $lifetime, $ignoreMetadata)");
                 return $cache;
@@ -1134,7 +1136,7 @@ class VideoCacheHandler extends CacheHandler {
 
         }
         if (empty($filename)) {
-            var_dump($filename , $id, debug_backtrace());
+            //var_dump($filename , $id, debug_backtrace());
             die('Filename not found');
         }
         return $filename;

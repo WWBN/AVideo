@@ -667,7 +667,7 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail)
         $_POST["comment"] = '';
     }
     require_once $global['systemRootPath'] . 'objects/configuration.php';
-    $config = new Configuration();
+    $config = new AVideoConf();
     $mail->CharSet = 'UTF-8';
     if ($config->getSmtp()) {
         _error_log("Sending SMTP Email");
@@ -4988,7 +4988,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 
 function _session_write_close(){    
     if (isSessionStarted()) {
-        //_error_log(json_encode(debug_backtrace()));
+        _error_log(json_encode(debug_backtrace()));
         @session_write_close();
     }
 }
@@ -5010,9 +5010,38 @@ function isSessionStarted() {
     }
 }
 
+function session_start_preload(){
+    global $_session_start_preload, $global;
+    if(!class_exists('AVideoConf')){
+        require $global['systemRootPath'] . 'objects/configuration.php';
+    }
+    if(!isset($_session_start_preload)){
+        $_session_start_preload = 1;
+    }else{
+        return false;
+    }
+
+    $config = new AVideoConf();
+
+    // server should keep session data for AT LEAST 1 hour
+    ini_set('session.gc_maxlifetime', $config->getSession_timeout());
+
+    // each client should remember their session id for EXACTLY 1 hour
+    session_set_cookie_params($config->getSession_timeout());
+
+    //Fix “set SameSite cookie to none” warning
+    if (version_compare(PHP_VERSION, '7.3.0') >= 0) {
+        setcookie('key', 'value', ['samesite' => 'None', 'secure' => true]);
+    } else {
+        header('Set-Cookie: cross-site-cookie=name; SameSite=None; Secure');
+        setcookie('key', 'value', time() + $config->getSession_timeout(), '/; SameSite=None; Secure');
+    }
+}
+
 function _session_start(array $options = [])
 {
     try {
+        session_start_preload();
         if (isset($_GET['PHPSESSID']) && !_empty($_GET['PHPSESSID'])) {
             $PHPSESSID = $_GET['PHPSESSID'];
             unset($_GET['PHPSESSID']);
@@ -5038,7 +5067,15 @@ function _session_start(array $options = [])
             }
         } elseif (!isSessionStarted()) {
             //_error_log(json_encode(debug_backtrace()));
+            $start = microtime(true);
+            //_error_log('session_start 1');
             $session = @session_start($options);
+            //_error_log('session_start 2');
+            $takes = microtime(true) - $start;
+            if($takes > 1){
+                _error_log('session_start takes '.$takes.' seconds to open');
+                _error_log(json_encode(debug_backtrace()));exit;
+            }
             return $session;
         }
     } catch (Exception $exc) {
@@ -7475,6 +7512,10 @@ function avideoShutdown()
             echo '</pre>';
         }
         exit;
+    }else{
+        if(class_exists('Cache')){
+            Cache::saveCache();
+        }
     }
 }
 
@@ -7660,8 +7701,8 @@ function _setcookie($cookieName, $value, $expires = 0)
     if (empty($expires)) {
         if (empty($config) || !is_object($config)) {
             require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (class_exists('Configuration')) {
-                $config = new Configuration();
+            if (class_exists('AVideoConf')) {
+                $config = new AVideoConf();
             }
         }
         if (!empty($config) && is_object($config)) {

@@ -17,7 +17,7 @@ require_once $global['systemRootPath'] . 'objects/functions.php';
 
 _error_log("save configuration {$_POST['language']}");
 
-$config = new Configuration();
+$config = new AVideoConf();
 $config->setContactEmail($_POST['contactEmail']);
 $config->setLanguage($_POST['language']);
 $config->setWebSiteTitle($_POST['webSiteTitle']);

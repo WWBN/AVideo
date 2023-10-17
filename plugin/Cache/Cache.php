@@ -220,7 +220,7 @@ class Cache extends PluginAbstract {
             $this->end();
         }
         
-        self::saveCache();
+        //self::saveCache();
     }
 
     private function isREQUEST_URIWhitelisted() {
@@ -344,7 +344,7 @@ class Cache extends PluginAbstract {
         //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
     }
 
-    private static function saveCache() {
+    static function saveCache() {
         global $cache_setCacheToSaveAtTheEnd;
         if(!empty($cache_setCacheToSaveAtTheEnd)){
             $metadata = self::getCacheMetaData();

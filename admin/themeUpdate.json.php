@@ -9,7 +9,7 @@ if (!User::isAdmin()) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 
-$config = new Configuration();
+$config = new AVideoConf();
 $config->setTheme($_POST['theme']);
 
 echo '{"status":"' . $config->save() . '"}';

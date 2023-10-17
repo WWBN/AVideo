@@ -2600,8 +2600,8 @@ if (typeof gtag !== \"function\") {
         }
         try {
             require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (class_exists('Configuration')) {
-                $config = new Configuration();
+            if (class_exists('AVideoConf')) {
+                $config = new AVideoConf();
             }
             $code = urlencode(static::createVerificationCode($users_id));
             //Create a new PHPMailer instance

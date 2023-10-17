@@ -152,8 +152,13 @@ class PlayList extends ObjectYPT {
         }
         $sql .= self::getSqlFromPost("pl.");
         //var_dump($sql);
-        $TimeLog1 = "playList getAllFromUser($userId)";
+        $TimeLog1 = "playList getAllFromUser 1($userId)";
         TimeLogStart($TimeLog1);
+        $cacheName = md5($sql);
+        $rows = self::getCacheGlobal($cacheName, rand(300, 3600));
+        if(!empty($rows)){
+            return object_to_array($rows);
+        }
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $fullData = sqlDAL::fetchAllAssoc($res);
         TimeLogEnd($TimeLog1, __LINE__);
@@ -229,10 +234,9 @@ class PlayList extends ObjectYPT {
                 array_unshift($rows, $watch_later);
             }
             TimeLogEnd($TimeLog1, __LINE__);
-        } else {
-            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-            $rows = [];
-        }
+        } 
+        
+        $response = self::setCacheGlobal($cacheName, $rows);
         return $rows;
     }
 
@@ -355,9 +359,9 @@ class PlayList extends ObjectYPT {
     }
 
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
-        $TimeLog1 = "playList getAllFromUser($userId, $videos_id)";
+        $TimeLog1 = "playList getAllFromUser 2($userId, $videos_id)";
         TimeLogStart($TimeLog1);
-        $cacheName = "getAllFromUserVideo_{$videos_id}" . DIRECTORY_SEPARATOR . "getAllFromUserVideo($userId, $videos_id)" . intval($publicOnly) . $status;
+        $cacheName = "getAllFromUserVideo_{$videos_id}" . DIRECTORY_SEPARATOR . "getAllFromUserVideo($userId, $videos_id)" . intval($publicOnly) . $status.getRowCount();
         //var_dump($playlists_id, $sql);exit;
         $rows = self::getCacheGlobal($cacheName, 0);
         if (empty($rows)) {
@@ -369,7 +373,7 @@ class PlayList extends ObjectYPT {
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
             TimeLogEnd($TimeLog1, __LINE__);
-            self::setCacheGlobal($cacheName, $rows);
+            $response = self::setCacheGlobal($cacheName, $rows);
         } else {
             $rows = object_to_array($rows);
         }

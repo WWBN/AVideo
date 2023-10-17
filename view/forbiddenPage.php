@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) . '/../videos/configuration.php';
-$config = new Configuration();
+$config = new AVideoConf();
 $global['isForbidden'] = true;
 ?>
 <!DOCTYPE html>

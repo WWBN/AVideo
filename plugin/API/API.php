@@ -393,7 +393,7 @@ class API extends PluginAbstract
         if (empty($parameters['playlists_id'])) {
             //return new ApiObject("Playlist ID is empty", true, $parameters);
             $_POST['sort']['created'] = 'DESC';
-            $config = new Configuration();
+            $config = new AVideoConf();
             $videos = Video::getAllVideos();
             $playlist = new PlayList($parameters['playlists_id']);
             $parameters['playlist_name'] = __('Date Added');
@@ -445,7 +445,7 @@ class API extends PluginAbstract
         global $global;
         $playlists = AVideoPlugin::loadPlugin("PlayLists");
         //var_dump($videos);exit;
-        $config = new Configuration();
+        $config = new AVideoConf();
         $users_id = User::getId();
         $list = [];
         $obj = new stdClass();
@@ -1737,7 +1737,7 @@ class API extends PluginAbstract
         global $global;
         require_once $global['systemRootPath'] . 'objects/playlist.php';
 
-        $config = new Configuration();
+        $config = new AVideoConf();
         $users_id = User::getId();
         $list = [];
         if (!empty($users_id)) {

@@ -240,7 +240,7 @@ class CachesInDB extends ObjectYPT
 
         // Assuming you have a PDO connection $pdo
         $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
-        //_error_log("setBulkCache writeSql ".json_encode($result ));
+        _error_log("setBulkCache writeSql total= ".count($placeholders));
         //var_dump($result, $sql, implode('', $formats), $values);exit;
         return $result;
     }

@@ -229,8 +229,8 @@ Best regards,
 
         if(empty($config) || !is_object($config)){
             require_once $global['systemRootPath'] . 'objects/configuration.php';
-            if (class_exists('Configuration')) {
-                $config = new Configuration();
+            if (class_exists('AVideoConf')) {
+                $config = new AVideoConf();
             }
         }
 

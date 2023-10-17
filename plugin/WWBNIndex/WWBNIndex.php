@@ -173,7 +173,7 @@ class WWBNIndex extends PluginAbstract
 
     public function getYouPortalUser($email = "")
     {
-        $configuration = new Configuration();
+        $configuration = new AVideoConf();
 
         $data = array(
             "apiName"   => "getUser",
@@ -186,7 +186,7 @@ class WWBNIndex extends PluginAbstract
 
     private function getFeedStatus($host) 
     {
-        $configuration = new Configuration();
+        $configuration = new AVideoConf();
 
         $data = array(
             "apiName"       => "getFeedStatus",

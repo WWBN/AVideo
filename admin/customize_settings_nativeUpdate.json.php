@@ -12,7 +12,7 @@ if (!User::isAdmin()) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-$config = new Configuration();
+$config = new AVideoConf();
 $config->setWebSiteTitle($_POST['webSiteTitle']);
 $imagePath = "videos/userPhoto/";
 

@@ -55,7 +55,7 @@ foreach ($custom as $key => $value) {
 $theme = getCurrentTheme();
 
 if (empty($config)) {
-    $config = new Configuration();
+    $config = new AVideoConf();
 }
 TimeLogEnd($timeLogHead, __LINE__);
 //$content = _ob_get_clean();

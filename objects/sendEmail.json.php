@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/captcha.php';
-$config = new Configuration();
+$config = new AVideoConf();
 $valid = Captcha::validation(@$_POST['captcha']);
 if(User::isAdmin()){
     $valid = true;

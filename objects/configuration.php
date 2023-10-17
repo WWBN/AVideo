@@ -11,7 +11,9 @@ includeConfigLog(__LINE__, basename(__FILE__));
 require_once $global['systemRootPath'] . 'objects/Object.php';
 includeConfigLog(__LINE__, basename(__FILE__));
 
-class Configuration extends ObjectYPT{
+if(!class_exists('AVideoConf')){
+    
+class AVideoConf extends ObjectYPT{
     protected $id;
     protected $video_resolution;
     protected $webSiteTitle;
@@ -593,4 +595,10 @@ require_once \$global['systemRootPath'].'objects/include_config.php';
         return 'configurations';
     }
 
+}
+}
+
+
+if(!class_exists('Configuration')){
+    class Configuration extends AVideoConf{}
 }

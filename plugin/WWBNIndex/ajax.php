@@ -11,7 +11,7 @@ require_once $global['systemRootPath']. "plugin/WWBNIndex/WWBNIndex.php";
 require_once $global['systemRootPath']. "objects/Channel.php";
 require_once $global['systemRootPath']. "plugin/LoginControl/pgp/functions.php";
 
-$configuration = new Configuration();
+$configuration = new AVideoConf();
 $wwbnIndex = new WWBNIndex();
 $wwbnIndexModel = new WWBNIndexModel();
 $platformID = getPlatformId();
