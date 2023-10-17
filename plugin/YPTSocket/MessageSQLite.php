@@ -142,7 +142,7 @@ class Message implements MessageComponentInterface {
         $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds");
         if(!empty($client['isCommandLine'])){
-            _error_log('isCommandLine close it');
+            //_error_log('isCommandLine close it');
             $conn->close();
         }
     }
