@@ -6526,6 +6526,9 @@ if (!class_exists('Video')) {
             } else {
                 $images = object_to_array($video['images']);
             }
+            if(is_array($images)){
+                return '';
+            }
             //var_dump($videos_id, $video, $images);
             $img = getVideoImagewithHoverAnimation(@$images['poster'], @$images['thumbsGif'], @$video['title'], $preloadImage, $doNotUseAnimatedGif);
             $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
