@@ -132,61 +132,61 @@ function setSiteLang() {
     global $config, $global;
     if (empty($global['systemRootPath'])) {
         if (function_exists('getLanguageFromBrowser')) {
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             setLanguage(getLanguageFromBrowser());
         } else {
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             setLanguage('en_US');
         }
-        includeConfigLog(__LINE__, basename(__FILE__));
+        
     } else {
-        includeConfigLog(__LINE__, basename(__FILE__));
+        
         require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
         $userLocation = false;
-        includeConfigLog(__LINE__, basename(__FILE__));
+        
         $obj = AVideoPlugin::getDataObjectIfEnabled('User_Location');
-        includeConfigLog(__LINE__, basename(__FILE__));
+        
         $userLocation = !empty($obj) && !empty($obj->autoChangeLanguage);
 
         if (!empty($_GET['lang'])) {
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             _session_start();
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             setLanguage($_GET['lang']);
         } else if ($userLocation) {
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             User_Location::changeLang();
         }
-        includeConfigLog(__LINE__, basename(__FILE__));
+        
         try {
             if (empty($config) || !is_object($config)) {
-                includeConfigLog(__LINE__, basename(__FILE__));
+                
                 require_once $global['systemRootPath'] . 'objects/configuration.php';
                 if (class_exists('Configuration')) {
                     $config = new Configuration();
                 } else {
                     //_error_log("setSiteLang ERROR 1 systemRootPath=[{$global['systemRootPath']}] " . json_encode(debug_backtrace()));
                 }
-                includeConfigLog(__LINE__, basename(__FILE__));
+                
             }
         } catch (Exception $exc) {
             _error_log("setSiteLang ERROR 2 systemRootPath=[{$global['systemRootPath']}] " . $exc->getMessage() . ' ' . json_encode(debug_backtrace()));
         }
 
         if (empty($_SESSION['language']) && is_object($config)) {
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
             setLanguage($config->getLanguage());
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
         }
         if (empty($_SESSION['language'])) {
             if (function_exists('getLanguageFromBrowser')) {
-                includeConfigLog(__LINE__, basename(__FILE__));
+                
                 setLanguage(getLanguageFromBrowser());
             } else {
-                includeConfigLog(__LINE__, basename(__FILE__));
+                
                 setLanguage('en_US');
             }
-            includeConfigLog(__LINE__, basename(__FILE__));
+            
         }
     }
 }
