@@ -804,7 +804,7 @@ class Category
         $cacheHandler = new CategoryCacheHandler($categories_id);
         $suffix = "totalLives_" . intval($showUnlisted);
         $total = $cacheHandler->getCache($suffix);
-
+        //$renew = true;
         if ($renew || (empty($total) && $total !==0 )) {
             $sql = "SELECT count(id) as total FROM live_transmitions v WHERE 1=1 AND categories_id = ? ";
 
@@ -822,7 +822,16 @@ class Category
                 $total += self::getTotalLivesFromCategory($value['id'], $showUnlisted, $renew);
             }
 
-            $cacheHandler->setCache($total);
+            $cacheHandler->setCache(intval($total));
+            /*
+            AVideoPlugin::getEnd();            
+            echo PHP_EOL.PHP_EOL.PHP_EOL.'---------'.PHP_EOL.PHP_EOL;
+            $total2 = $cacheHandler->getCache($suffix);
+            echo 'total=';
+            var_dump($total, $total2, $suffix);
+            echo PHP_EOL.PHP_EOL.PHP_EOL.'---------'.PHP_EOL.PHP_EOL;
+            exit;
+            */
         }
         return $total;
     }

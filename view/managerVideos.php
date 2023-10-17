@@ -40,6 +40,3 @@ if (!empty($_GET['iframe'])) {
 
     </body>
 </html>
-<?php
-AVideoPlugin::getEnd();
-?>

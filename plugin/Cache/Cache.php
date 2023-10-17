@@ -143,6 +143,7 @@ class Cache extends PluginAbstract {
             }
             if (empty($_REQUEST['debug_cache'])) {
                 $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
+                //var_dump($cacheName, $firstPageCache);exit;
             }
             if (!empty($firstPageCache) && strtolower($firstPageCache) != 'false') {
                 if ($isBot && $_SERVER['REQUEST_URI'] !== '/login') {
@@ -354,27 +355,39 @@ class Cache extends PluginAbstract {
     }
 
     public static function getCache($name, $lifetime = 60, $ignoreMetadata = false) {
-        global $_getCacheDB, $global;
+        global $_getCacheDB, $global, $cacheFound, $cacheNotFound;
         if (!empty($global['ignoreAllCache'])) {
             return null;
         }
         if (!isset($_getCacheDB)) {
             $_getCacheDB = [];
+            $cacheFound = 0;
+            $cacheNotFound = 0;
         }
         $index = "{$name}_{$lifetime}";
         if (empty($_getCacheDB[$index])) {
             $_getCacheDB[$index] = null;
             $metadata = self::getCacheMetaData();
             $row = CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
-            if (!empty($row) && !empty($row['modified'])) {
-                $time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
-                if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {
+            if (!empty($row)) {
+                //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
+                $time = $row['created_php_time'];
+                if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {                    
+                    $cacheNotFound++;
+                    /*
                     $c = new CachesInDB($row['id']);
                     if (!empty($c->getId())) {
                         $c->delete();
                     }
+                    */
                 } else {
                     $_getCacheDB[$index] = _json_decode($row['content']);
+                    if($_getCacheDB[$index] === null){
+                        $cacheFound++;
+                        $_getCacheDB[$index] = $row['content'];
+                    }else{
+                        $cacheNotFound++;
+                    }
                 }
             }
         }
@@ -398,8 +411,10 @@ class Cache extends PluginAbstract {
         global $global;
         $days = intval($days);
         if (!empty($days)) {
+            $time = strtotime("-{$days} days");
             $sql = "DELETE FROM CachesInDB ";
-            $sql .= " WHERE created < DATE_SUB(NOW(), INTERVAL ? DAY) ";
+            //$sql .= " WHERE created < DATE_SUB(NOW(), INTERVAL ? DAY) ";
+            $sql .= " WHERE created_php_time < {$time} ";
             $sql .= " LIMIT $limit";
             $global['lastQuery'] = $sql;
     

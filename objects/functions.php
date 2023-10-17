@@ -4987,10 +4987,28 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 }
 
 function _session_write_close(){    
-    if (session_status() === PHP_SESSION_ACTIVE) {
+    if (isSessionStarted()) {
         includeConfigLog(__LINE__, 'session_write_close '.basename(__FILE__));
-        _error_log(json_encode(debug_backtrace()));
+        //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
+        includeConfigLog(__LINE__, 'session_write_close '.basename(__FILE__));
+    }
+}
+
+function isSessionStarted() {
+    global $customSessionHandle; 
+
+    if(session_status() == PHP_SESSION_NONE){
+        return false;
+    }
+    if(session_status() == PHP_SESSION_ACTIVE){
+        return true;
+    }
+    // Check if a session variable exists in Memcached
+    if (!empty($customSessionHandle) && $customSessionHandle->get(session_id()) !== false) {
+        return true;
+    } else {
+        return false;
     }
 }
 
@@ -5007,6 +5025,7 @@ function _session_start(array $options = [])
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
                 includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
+                //memcachedSession();
                 $session = @session_start($options);
 
                 if (preg_match('/objects\/getCaptcha\.php/i', $_SERVER['SCRIPT_NAME'])) {
@@ -5016,14 +5035,17 @@ function _session_start(array $options = [])
                     _error_log("captcha: session_id regenerated new  session_id=" . session_id());
                     _session_regenerate_id();
                 }
+                includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
                 return $session;
             } else {
                 //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
             }
-        } elseif (session_status() == PHP_SESSION_NONE) {
+        } elseif (!isSessionStarted()) {
             includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
             //_error_log(json_encode(debug_backtrace()));
-            return @session_start($options);
+            $session = @session_start($options);
+            includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
+            return $session;
         }
     } catch (Exception $exc) {
         _error_log("_session_start: " . $exc->getTraceAsString());

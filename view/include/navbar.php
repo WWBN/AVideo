@@ -52,7 +52,7 @@ if (!empty($advancedCustomUser->keepViewerOnChannel)) {
         unset($_SESSION['channelName']);
     }
 }
-_session_write_close();
+//_session_write_close();
 global $includeDefaultNavBar, $global, $config, $advancedCustom, $advancedCustomUser;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -116,7 +116,7 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             TimeLogEnd($tname, __LINE__, $tTolerance);
             echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarMenuAndLogo.php', [], true);
             TimeLogEnd($tname, __LINE__, $tTolerance);
-            echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarSearch.php', [], true);
+            //echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarSearch.php', [], true);
             TimeLogEnd($tname, __LINE__, $tTolerance);
             ?>
 

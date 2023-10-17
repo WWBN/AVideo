@@ -135,27 +135,40 @@ class CachesInDB extends ObjectYPT
         $formats = 's';
         $values = [$name];
         $sql .= "  AND ishttps = ? AND domain = ? AND user_location = ? ";
-        $formats = 'ssss';
+        $formats = 'siss';
         $values = [$name, $ishttps, $domain, $user_location];
         if(empty($ignoreMetadata)){
             $sql .= " AND loggedType = ? ";
-            $formats .= 'i';
+            $formats .= 's';
             $values[] = $loggedType;
         }
         $sql .= " ORDER BY id DESC LIMIT 1";
+        
+        //var_dump($sql, $formats, $values );
         //_error_log(json_encode(array($sql, $values )));
         // I had to add this because the about from customize plugin was not loading on the about page http://127.0.0.1/AVideo/about
         $res = sqlDAL::readSql($sql, $formats, $values);
         $data = sqlDAL::fetchAssoc($res);
+        //var_dump( $data);
         sqlDAL::close($res);
         if ($res) {
             if (!empty($data) && !empty($data['content'])) {
+                $originalContent = $data['content'];
                 $data['content'] = self::decodeContent($data['content']);
+                //var_dump($originalContent );
+                //var_dump($data['content']);
+                if($data['content'] === null){
+                    _error_log("Fail decode content [{$name}]".$originalContent);
+                    //_error_log(json_encode(debug_backtrace()));exit;
+                    //var_dump(debug_backtrace());exit;
+                    //var_dump("Fail decode content [{$name}]", $originalContent);exit;
+                }
             }
             $row = $data;
         } else {
             $row = false;
         }
+        //var_dump($row);
         return $row;
     }
 
@@ -190,34 +203,45 @@ class CachesInDB extends ObjectYPT
         if (empty($cacheArray)) {
             return false;
         }
+        global $global;
         
         $placeholders = [];
         $formats = [];
         $values = [];
-
+        $tz = date_default_timezone_get();
+        $time = time();
         foreach ($cacheArray as $name => $cache) {
             $name = self::hashName($name);
             $content = !is_string($cache) ? _json_encode($cache) : $cache;
             if (empty($content)) continue;
 
-            $formats[] = "sssssss";
-            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?)";
+            $formats[] = "ssssssssi";
+            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
             
             $expires = date('Y-m-d H:i:s', strtotime('+ 1 month'));
-            
+            /*
+            echo PHP_EOL.'--name=';
+            var_dump($name);
+            echo PHP_EOL.'--content=';
+            var_dump($content);
+            */
             // Add values to the values array
-            array_push($values, $name, $content, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $expires);
+            //_error_log("setBulkCache [{$name}]");
+            array_push($values, $name, $content, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $expires, $tz, $time);
         }
 
-        $sql = "INSERT INTO CachesInDB (name, content, domain, ishttps, user_location, loggedType, expires) 
+        $sql = "INSERT INTO CachesInDB (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified) 
                 VALUES " . implode(", ", $placeholders) . "
                 ON DUPLICATE KEY UPDATE 
                 content = VALUES(content),
-                expires = VALUES(expires)";
+                expires = VALUES(expires),
+                created_php_time = VALUES(created_php_time),
+                modified = NOW()";
 
         // Assuming you have a PDO connection $pdo
         $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
-        //var_dump($result);exit;
+        //_error_log("setBulkCache writeSql ".json_encode($result ));
+        //var_dump($result, $sql, implode('', $formats), $values);exit;
         return $result;
     }
 
@@ -291,23 +315,24 @@ class CachesInDB extends ObjectYPT
 
     public static function encodeContent($content)
     {
+        $original = $content;
         if (!is_string($content)) {
             $content = _json_encode($content);
         }
         $prefix = substr($content, 0, 10);
         if ($prefix!== CachesInDB::$prefix) {
-            $base64 = base64_encode($content);
-            $content = CachesInDB::$prefix.$base64;
+            //$content = base64_encode($content);
+            $content = CachesInDB::$prefix.$content;
         }
         return $content;
     }
 
     public static function decodeContent($content)
     {
-        $prefix = substr($content, 0, 10);
+        $prefix = substr($content, 0, strlen(CachesInDB::$prefix));
         if ($prefix === CachesInDB::$prefix) {
             $content = str_replace(CachesInDB::$prefix, '', $content);
-            $content = base64_decode($content);
+            //$content = base64_decode($content);
         }
         return $content;
     }
