@@ -421,7 +421,8 @@ class Cache extends PluginAbstract {
             $sql .= " LIMIT $limit";
             $global['lastQuery'] = $sql;
     
-            return sqlDAL::writeSql($sql, "i", [$days]);
+            //return sqlDAL::writeSql($sql, "i", [$days]);
+            return sqlDAL::writeSql($sql);
         }
         return false;
     }
