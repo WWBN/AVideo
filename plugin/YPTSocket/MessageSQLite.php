@@ -142,7 +142,7 @@ class Message implements MessageComponentInterface {
         $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds");
         if(!empty($client['isCommandLine'])){
-            _error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}");
+            //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}");
             $conn->close();
         }
     }
@@ -279,6 +279,10 @@ class Message implements MessageComponentInterface {
         global $_shouldPropagateInfoLastMessage;
         if (!empty($row['yptDeviceId']) && preg_match('/^unknowDevice.*/', $row['yptDeviceId'])) {
             $_shouldPropagateInfoLastMessage = 'unknowDevice';
+            return false;
+        }
+        if (!empty($row['selfURI']) && preg_match('/.*getConfiguration.json.php$/', $row['selfURI'])) {
+            $_shouldPropagateInfoLastMessage = 'getConfiguration';
             return false;
         }
         if (!empty($row['isCommandLine'])) {
