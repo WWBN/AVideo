@@ -364,6 +364,9 @@ class Cache extends PluginAbstract {
             $cacheFound = 0;
             $cacheNotFound = 0;
         }
+        if($cacheNotFound>100){
+            $lifetime = 0; // make it unlimited
+        }
         $index = "{$name}_{$lifetime}";
         if (empty($_getCacheDB[$index])) {
             $_getCacheDB[$index] = null;
@@ -380,7 +383,7 @@ class Cache extends PluginAbstract {
                         $c->delete();
                     }
                     */
-                } else {
+                } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
                     if($_getCacheDB[$index] === null){
                         $cacheFound++;
