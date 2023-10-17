@@ -4988,10 +4988,8 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 
 function _session_write_close(){    
     if (isSessionStarted()) {
-        includeConfigLog(__LINE__, 'session_write_close '.basename(__FILE__));
         //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
-        includeConfigLog(__LINE__, 'session_write_close '.basename(__FILE__));
     }
 }
 
@@ -5024,7 +5022,6 @@ function _session_start(array $options = [])
                     session_id($PHPSESSID);
                     //_error_log("captcha: session_id changed to {$PHPSESSID}");
                 }
-                includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
                 //memcachedSession();
                 $session = @session_start($options);
 
@@ -5035,16 +5032,13 @@ function _session_start(array $options = [])
                     _error_log("captcha: session_id regenerated new  session_id=" . session_id());
                     _session_regenerate_id();
                 }
-                includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
                 return $session;
             } else {
                 //_error_log("captcha: user logged we will not change the session ID PHPSESSID={$PHPSESSID} session_id=" . session_id());
             }
         } elseif (!isSessionStarted()) {
-            includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
             //_error_log(json_encode(debug_backtrace()));
             $session = @session_start($options);
-            includeConfigLog(__LINE__, 'session_start '.basename(__FILE__));
             return $session;
         }
     } catch (Exception $exc) {
