@@ -1065,10 +1065,11 @@ abstract class CacheHandler {
     public function setCache($value) {
         $name = $this->getCacheName( $this->suffix);
         $return = ObjectYPT::setCacheGlobal($name, $value);
-
+        /*
         if (empty($return) || ($return['type'] == 'file' && empty($return['bytes']))) {
             _error_log("setCache {$this->suffix} " . json_encode($return));
         }
+        */
         return $return;
     }
 

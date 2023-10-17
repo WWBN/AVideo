@@ -364,8 +364,13 @@ class Cache extends PluginAbstract {
             $cacheFound = 0;
             $cacheNotFound = 0;
         }
-        if($cacheNotFound>100){
-            $lifetime = 0; // make it unlimited
+        if(!empty($lifetime)){
+            if($cacheNotFound>100){
+                $lifetime = 0; // make it unlimited
+            }else {
+                // increase timeout
+                $lifetime += $cacheNotFound*30;
+            }
         }
         $index = "{$name}_{$lifetime}";
         if (empty($_getCacheDB[$index])) {
