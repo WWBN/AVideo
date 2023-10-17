@@ -1698,9 +1698,6 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
     }
     */
     if (empty($files) || empty($files['jpg'])) {
-        if(is_string( $files)){
-            var_dump( $files);exit;
-        }
         // sort by resolution
         $files['jpg'] = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_ARRAY);
     }else 
