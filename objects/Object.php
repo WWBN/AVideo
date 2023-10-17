@@ -531,7 +531,7 @@ abstract class ObjectYPT implements ObjectInterface
     public static function setCache($name, $value, $addSubDirs = true, $ignoreMetadata = false)
     {
         if(!isset($value) || $value == ''){
-            _error_log('Error on set cache, empty content '.$name);
+            //_error_log('Error on set cache, empty content '.$name);
             return false;
         }
         $start = microtime(true);
