@@ -5074,7 +5074,8 @@ function _session_start(array $options = [])
             $takes = microtime(true) - $start;
             if($takes > 1){
                 _error_log('session_start takes '.$takes.' seconds to open');
-                _error_log(json_encode(debug_backtrace()));exit;
+                _error_log(json_encode(debug_backtrace()));
+                //exit;
             }
             return $session;
         }

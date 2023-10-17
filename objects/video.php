@@ -6739,12 +6739,21 @@ if (!class_exists('Video')) {
 
         public static function checkIfIsBroken($videos_id)
         {
+            global $checkIfIsBroken;
+            if(!isset($checkIfIsBroken)){
+                $checkIfIsBroken = 0;
+            }
+            if($checkIfIsBroken>10){
+                _error_log("Video::checkIfIsBroken($videos_id) maximum check reached ");                        
+                return false;
+            }
             $video = new Video('', '', $videos_id);
             if (!empty($video->getSerie_playlists_id())) {
                 return false;
             }
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
                 if ($video->getType() == 'audio' || $video->getType() == 'video') {
+                    $checkIfIsBroken++;
                     if (self::isMediaFileMissing($video->getFilename())) {
                         _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename() . ' status=[' . $video->getStatus() . ']' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                         $video->setStatus(Video::$statusBrokenMissingFiles);
