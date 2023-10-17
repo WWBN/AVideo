@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-_session_write_close();
+session_write_close();
 $obj = new stdClass();
 $obj->error = true;
 if (!isset($global['systemRootPath'])) {
