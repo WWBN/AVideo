@@ -5242,6 +5242,9 @@ if (!class_exists('Video')) {
 
         public function getChannelName()
         {
+            if(empty($this->getUsers_id())){
+                return '';
+            }
             return User::_getChannelName($this->getUsers_id());
         }
 
