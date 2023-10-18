@@ -477,7 +477,7 @@ if (!class_exists('Video')) {
             if (empty($this->order)) {
                 $this->order = 'NULL';
             }
-
+            
             if (empty($this->categories_id)) {
                 $p = AVideoPlugin::loadPluginIfEnabled("PredefinedCategory");
                 $category = Category::getCategoryDefault();
@@ -2997,6 +2997,7 @@ if (!class_exists('Video')) {
                     $this->old_categories_id = $this->categories_id;
                 }
             }
+            $this->categories_id = $categories_id;
             if($this->categoryWasChanged){
                 AVideoPlugin::onVideoSetCategories_id($this->id, $this->categories_id, $categories_id);
                 $this->categories_id = $categories_id;
