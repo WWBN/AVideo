@@ -7,7 +7,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 header('Content-Type: application/json');
-_session_write_close();
+session_write_close();
 $canAdminUsers = canAdminUsers(); 
 if (empty($_POST['current'])) {
     $_POST['current'] = 1;

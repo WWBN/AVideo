@@ -136,11 +136,13 @@ class Cache extends PluginAbstract {
                     $cacheName .= '_iframe';
                 }
             }
-
+            /*
             $lifetime = $obj->cacheTimeInSeconds;
             if ($isBot && $lifetime < 3600) {
                 $lifetime = 3600;
-            }
+            } 
+            */
+            $lifetime = 60;
             if (empty($_REQUEST['debug_cache'])) {
                 $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
                 //var_dump($cacheName, $firstPageCache);exit;
