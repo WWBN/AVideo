@@ -709,7 +709,7 @@ if (typeof gtag !== \"function\") {
             //echo "u:" . $this->user . "|p:" . strlen($this->password);
             if (empty($this->user)) {
                 //echo "u:" . $this->user . "|p:" . strlen($this->password);
-                _error_log('Error : 1 You need a user to register '.json_error(debug_backtrace()));
+                _error_log('Error : 1 You need a user to register '.json_encode(debug_backtrace()));
                 return false;
             }
             if (empty($this->password)) {
