@@ -367,7 +367,9 @@ class Cache extends PluginAbstract {
             $cacheNotFound = 0;
         }
         if(!empty($lifetime)){
-            if($cacheNotFound>100){
+            if(isBot()){
+                $lifetime = 0;
+            }else if($cacheNotFound>100){
                 $lifetime = 0; // make it unlimited
             }else {
                 // increase timeout

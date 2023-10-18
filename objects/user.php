@@ -709,12 +709,12 @@ if (typeof gtag !== \"function\") {
             //echo "u:" . $this->user . "|p:" . strlen($this->password);
             if (empty($this->user)) {
                 //echo "u:" . $this->user . "|p:" . strlen($this->password);
-                _error_log('Error : 1 ' . __("You need a user to register"));
+                _error_log('Error : 1 You need a user to register');
                 return false;
             }
             if (empty($this->password)) {
                 //echo "u:" . $this->user . "|p:" . strlen($this->password);
-                _error_log('Error : 2 ' . __("You need a passsword to register"));
+                _error_log('Error : 2 You need a password to register');
                 return false;
             }
 
