@@ -229,8 +229,6 @@ class Users_extra_info extends ObjectYPT {
                 }
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
@@ -257,8 +255,6 @@ class Users_extra_info extends ObjectYPT {
                 $row['status_description'] = self::$status_options[$row['status']];
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }

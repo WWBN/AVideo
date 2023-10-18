@@ -165,6 +165,7 @@ if (!class_exists('Video')) {
 
         public function setOrder($order)
         {
+            _error_log("Video::setOrder($order) videos_id={$this->id}");
             $this->order = intval($order);
         }
 
@@ -472,10 +473,11 @@ if (!class_exists('Video')) {
             }
 
             $this->views_count = intval($this->views_count);
-            $this->order = intval($this->order);
 
-            if (empty($this->order)) {
+            if (empty($this->order) || empty($this->id)) {
                 $this->order = 'NULL';
+            }else{
+                $this->order = intval($this->order);
             }
             
             if (empty($this->categories_id)) {
