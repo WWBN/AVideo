@@ -10,7 +10,7 @@ if (!Permissions::canAdminVideos()) {
 
 $videos = array();
 setRowCount(100);
-$row = Video::getAllVideosLight("viewable", false, true, false, '', 0, true);
+$row = Video::getAllVideosLight("", false, true, false, '', 0, true);
 foreach ($row as $key => $value) {
     $videos[] = array('videos_id' => $value['id'], 'title' => $value['title'], 'order' => $value['order']);
 }

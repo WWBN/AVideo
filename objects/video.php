@@ -2326,7 +2326,9 @@ if (!class_exists('Video')) {
             if ($suggestedOnly) {
                 $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
                 $sql .= " ORDER BY RAND() ";
-            } else {
+            } else if ($with_order_only) {
+                $sql .= " ORDER BY v.`order` ASC ";
+            }else {
                 $sql .= " ORDER BY v.created DESC ";
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
