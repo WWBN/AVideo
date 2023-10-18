@@ -2986,10 +2986,10 @@ if (!class_exists('Video')) {
                 } else {
                     $reason = 'categories_id is empty';
                 }
-                _error_log("The users_id {$users_id} cannot add in the categories_id {$categories_id} reason: ");
+                _error_log("The users_id {$users_id} cannot add in the categories_id {$categories_id} reason: {$reason}");
                 return false;
             }
-
+            $this->categoryWasChanged = empty($this->categories_id) && !empty($categories_id);
             // to update old cat as well when auto..
             if (!empty($this->categories_id)) {
                 if($this->categories_id != $categories_id){
@@ -2997,7 +2997,6 @@ if (!class_exists('Video')) {
                     $this->old_categories_id = $this->categories_id;
                 }
             }
-            $this->categories_id = $categories_id;
             if($this->categoryWasChanged){
                 AVideoPlugin::onVideoSetCategories_id($this->id, $this->categories_id, $categories_id);
                 $this->categories_id = $categories_id;
