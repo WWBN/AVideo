@@ -756,7 +756,7 @@ class Category
             }
             $cacheHandler->setCache($total);
         }
-        return $total;
+        return intval($total);
     }
 
     public static function getTotalLiveLinksFromCategory($categories_id, $showUnlisted = false, $renew = false)
@@ -790,7 +790,7 @@ class Category
 
             $cacheHandler->setCache($total);
         }
-        return $total;
+        return intval($total);
     }
 
     public static function getTotalLivesFromCategory($categories_id, $showUnlisted = false, $renew = false)
@@ -833,7 +833,7 @@ class Category
             exit;
             */
         }
-        return $total;
+        return intval($total);
     }
 
     public static function clearCacheCount($categories_id = 0)
