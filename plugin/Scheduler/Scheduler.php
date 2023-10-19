@@ -397,6 +397,10 @@ class Scheduler extends PluginAbstract
         if (!Video::canEdit($videos_id) && !isCommandLineInterface()) {
             return false;
         }
+        global $advancedCustom;
+        if (empty($advancedCustom)) {
+            $advancedCustom = AVideoPlugin::getDataObject('CustomizeAdvanced');
+        }
 
         $video = new Video('', '', $videos_id);
         $row = Scheduler_commands::getFromVideosId($videos_id);
@@ -405,7 +409,9 @@ class Scheduler extends PluginAbstract
             $e->setExecuted($videos_id);
         }
 
-        $status = $video->setStatus(Video::$statusActive);
+        //$status = $video->setStatus(Video::$statusActive);
+        $status = $video->setStatus($advancedCustom->defaultVideoStatus->value);
+        
         return true;
     }
 
