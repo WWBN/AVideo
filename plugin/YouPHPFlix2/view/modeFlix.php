@@ -7,6 +7,9 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
+if(AVideoPlugin::isEnabledByName('PlayLists')){
+    PlayLists::loadScripts();
+}
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 ?>
 <!DOCTYPE html>
