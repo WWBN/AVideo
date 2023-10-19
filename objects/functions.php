@@ -4989,7 +4989,7 @@ function postVariables($url, $array, $httpcodeOnly = true, $timeout = 10)
 
 function _session_write_close(){    
     if (isSessionStarted()) {
-        _error_log(json_encode(debug_backtrace()));
+        //_error_log(json_encode(debug_backtrace()));
         @session_write_close();
     }
 }
