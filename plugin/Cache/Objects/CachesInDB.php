@@ -7,7 +7,7 @@ class CachesInDB extends ObjectYPT
     public static $loggedType_NOT_LOGGED = 'n';
     public static $loggedType_LOGGED = 'l';
     public static $loggedType_ADMIN = 'a';
-    public static $prefix = 'yptCache_';
+    public static $prefix = 'ypt_cache_';
     protected $id;
     protected $content;
     protected $domain;
