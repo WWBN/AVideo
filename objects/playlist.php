@@ -151,10 +151,10 @@ class PlayList extends ObjectYPT {
             }
         }
         $sql .= self::getSqlFromPost("pl.");
-        //var_dump($sql);
+        //var_dump($sql, $formats, $values);
         $TimeLog1 = "playList getAllFromUser 1($userId)";
         TimeLogStart($TimeLog1);
-        $cacheName = md5($sql);
+        $cacheName = md5($sql.json_encode($values));
         $rows = self::getCacheGlobal($cacheName, rand(300, 3600));
         if(!empty($rows)){
             return object_to_array($rows);
