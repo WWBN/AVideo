@@ -15,7 +15,7 @@ error_reporting(E_ALL);
 $sql = 'DROP TABLE IF EXISTS `CachesInDB`';
 $global['mysqli']->query($sql);
 $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
-
+$templine = '';
 $lines = file($file);
     foreach ($lines as $line) {
         if (substr($line, 0, 2) == '--' || $line == '') {
