@@ -3061,17 +3061,32 @@ function isValidM3U8Link($url, $timeout = 3)
     if (!isValidURL($url)) {
         return false;
     }
-    $content = url_get_contents($url, '', $timeout);
+
+    // Check the content length without downloading the file
+    $headers = get_headers($url, 1);
+    $contentLength = isset($headers['Content-Length']) ? intval($headers['Content-Length']) : 0;
+
+    // If the content size is greater than 2MB, return false
+    if ($contentLength > 2 * 1024 * 1024) {
+        return false;
+    }
+
+    // Fetch the first few KB of the content
+    $content = url_get_contents($url, '', $timeout); 
+
     if (!empty($content)) {
-        if (preg_match('/<html/', $content)) {
+        if (preg_match('/<html/i', $content)) {
             return false;
         }
-        if (preg_match('/EXTM3U/', $content)) {
+        // Use a regular expression to check if the content is a valid M3U8 link
+        if (preg_match('/#EXTM3U/i', $content)) {
             return true;
         }
     }
+
     return false;
 }
+
 
 function copy_remotefile_if_local_is_smaller($url, $destination)
 {
@@ -5016,6 +5031,9 @@ function isSessionStarted() {
 
 function session_start_preload(){
     global $_session_start_preload, $global;
+    if(empty($global['systemRootPath'])){
+        return false;
+    }
     if(!class_exists('AVideoConf')){
         require $global['systemRootPath'] . 'objects/configuration.php';
     }
