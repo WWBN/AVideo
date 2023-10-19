@@ -11955,3 +11955,11 @@ function getCommandByPid($pid) {
 
     return $cmdArray;
 }
+
+function secondsToTime($seconds, $precision = '%06.3f') {
+    $hours = floor($seconds / 3600);
+    $mins = intval(floor($seconds / 60) % 60);
+    $secs = ($seconds % 60);   // 1
+    $decimal = fmod($seconds, 1); //0.25
+    return sprintf("%02d:%02d:{$precision}", $hours, $mins, $secs + $decimal);
+}
