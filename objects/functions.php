@@ -3063,6 +3063,9 @@ function isValidM3U8Link($url, $timeout = 3)
     }
     $content = url_get_contents($url, '', $timeout);
     if (!empty($content)) {
+        if (preg_match('/<html/', $content)) {
+            return false;
+        }
         if (preg_match('/EXTM3U/', $content)) {
             return true;
         }
