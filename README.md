@@ -82,7 +82,7 @@ The live server is already provided in the installation links above, but if you 
 
 ### Installation help, consulting or support 
 
-For assistance with installation, consultin or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
+For assistance with installation, consulting or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
 
 <a href="https://youphp.tube/marketplace/">Daniel Neto</a>
 
