@@ -1033,6 +1033,7 @@ if (typeof gtag !== \"function\") {
                 'ppvlive_purchases',
                 'bans',
                 'LiveChat',
+                'live_transmition_history_log',
             ];
 
             foreach ($arrayTables as $value) {
