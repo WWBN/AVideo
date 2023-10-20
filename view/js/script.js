@@ -4036,3 +4036,20 @@ function randomColor() {
     var b = Math.floor(Math.random() * 255);
     return r + "," + g + "," + b;
 }
+
+
+function secondsToTime(sec) {
+    var rest = parseInt((sec % 1) * 100);
+    var date = new Date(null);
+    date.setSeconds(sec); // specify value for SECONDS here
+    var timeString = date.toISOString().substr(11, 8);
+    return (timeString + '.' + rest);
+}
+
+
+function timeToSeconds(hms) {
+    var a = hms.split(':'); // split it at the colons
+    // minutes are worth 60 seconds. Hours are worth 60 minutes.
+    var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+    return (seconds);
+}

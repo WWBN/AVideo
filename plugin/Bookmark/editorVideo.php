@@ -77,20 +77,6 @@ $_page->setExtraScripts(
     var allBookmarksArray = [];
     var indexEditing = -1;
 
-    function secondsToTime(sec) {
-        var rest = parseInt((sec % 1) * 100);
-        var date = new Date(null);
-        date.setSeconds(sec); // specify value for SECONDS here
-        var timeString = date.toISOString().substr(11, 8);
-        return (timeString + '.' + rest);
-    }
-
-    function timeToSeconds(hms) {
-        var a = hms.split(':'); // split it at the colons
-        var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
-        return (seconds);
-    }
-
     function getTimeIndex(time) {
         for (var i = 0; i < bookmarksArray.length; i++) {
             if (bookmarksArray[i].start <= time && bookmarksArray[i].end >= time) {

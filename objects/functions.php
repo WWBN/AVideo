@@ -11964,3 +11964,15 @@ function secondsToTime($seconds, $precision = '%06.3f') {
     $decimal = fmod($seconds, 1); //0.25
     return sprintf("%02d:%02d:{$precision}", $hours, $mins, $secs + $decimal);
 }
+
+function timeToSecondsInt($hms) {
+    $a = explode(":", $hms); // split it at the colons
+    // minutes are worth 60 seconds. Hours are worth 60 minutes.
+
+    for ($i = 0; $i < 3; $i++) {
+        $a[$i] = @intval($a[$i]);
+    }
+
+    $seconds = round((+$a[0]) * 60 * 60 + (+$a[1]) * 60 + (+$a[2]));
+    return ($seconds);
+}

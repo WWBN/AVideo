@@ -1033,10 +1033,23 @@ if (typeof gtag !== \"function\") {
             ];
 
             foreach ($arrayTables as $value) {
-                $sql = "DELETE FROM {$value} WHERE users_id = ?";
+                // Check if table exists
+                $checkTableSQL = "SHOW TABLES LIKE '{$value}'";
                 try {
-                    sqlDAL::writeSql($sql, "i", [$this->id]);
+                    $result = sqlDAL::readSql($checkTableSQL);
+                    $tableExists = (sqlDAL::num_rows($result) > 0);
+                    sqlDAL::close($result); // Make sure to close the result after checking
                 } catch (Exception $exc) {
+                    $tableExists = false;
+                }
+            
+                if ($tableExists) {
+                    $sql = "DELETE FROM {$value} WHERE users_id = ?";
+                    try {
+                        sqlDAL::writeSql($sql, "i", [$this->id]);
+                    } catch (Exception $exc) {
+                        // Handle exception if needed
+                    }
                 }
             }
 

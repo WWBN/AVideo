@@ -68,7 +68,7 @@ class Bookmark extends PluginAbstract
             }
 
             $result[] = [
-                'seconds' => timeToSeconds($match[1]),
+                'seconds' => timeToSecondsInt($match[1]),
                 'time' => $match[1],
                 'text' => $match[2]
             ];
