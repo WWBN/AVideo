@@ -1014,6 +1014,7 @@ if (typeof gtag !== \"function\") {
 
     public function delete()
     {
+        $this->id = intval($this->id);
         if (!Permissions::canAdminUsers()) {
             if (self::getId() !== $this->id) {
                 _error_log('Delete user error, users_id does not match: [' . self::getId() . '] !== [' . $this->id . ']');
@@ -1030,6 +1031,7 @@ if (typeof gtag !== \"function\") {
                 'users_login_history',
                 'audit',
                 'ppvlive_purchases',
+                'bans',
             ];
 
             foreach ($arrayTables as $value) {
