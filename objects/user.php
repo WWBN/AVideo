@@ -1032,6 +1032,7 @@ if (typeof gtag !== \"function\") {
                 'audit',
                 'ppvlive_purchases',
                 'bans',
+                'LiveChat',
             ];
 
             foreach ($arrayTables as $value) {
