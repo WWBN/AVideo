@@ -264,7 +264,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         try {
 <?php echo AVideoPlugin::onUserSocketDisconnect(); ?>
         } catch (e) {
-            console.log('onUserSocketConnect:error', e.message);
+            console.log('onUserSocketDisconnect:error', e.message);
         }
     }
 </script>

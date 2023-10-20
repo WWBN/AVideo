@@ -8735,6 +8735,7 @@ function sendSocketMessage($msg, $callbackJSFunction = "", $users_id = "-1", $se
         }
         try {
             $obj = YPTSocket::send($msg, $callbackJSFunction, $users_id, $send_to_uri_pattern);
+            //_error_log("sendSocketMessage YPTSocket::send ");
         } catch (Exception $exc) {
             if ($try < 3) {
                 sleep(1);

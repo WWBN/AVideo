@@ -111,8 +111,7 @@ class Message implements MessageComponentInterface {
                 $client['chat_is_banned'] = 1;
             }
         }
-        
-
+        //var_dump($client, $json, $wsocketGetVars);
         //var_dump($client['liveLink'], $live_key);
         
         $this->setClient($conn, $client);
@@ -122,7 +121,6 @@ class Message implements MessageComponentInterface {
             _log_message("Test detected and received from ($conn->resourceId) " . PHP_EOL . "\e[1;32;40m*** SUCCESS TEST CONNECION {$json->test_msg} ***\e[0m");
             $this->msgToResourceId($json, $conn->resourceId, \SocketMessageType::TESTING);
         } else if ($this->shouldPropagateInfo($client)) {
-            //_log_message("shouldPropagateInfo {$json->yptDeviceId}");
             $this->msgToAll(
                 $conn, 
                 array(
@@ -141,10 +139,10 @@ class Message implements MessageComponentInterface {
         }
         $end = number_format(microtime(true) - $start, 4);
         _log_message("Connection opened in {$end} seconds");
-        if(!empty($client['isCommandLine'])){
+        //if(!empty($client['isCommandLine'])){
             //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}");
-            $conn->close();
-        }
+            //$conn->close();
+        //}
     }
 
     public function onClose(ConnectionInterface $conn) {
@@ -160,7 +158,7 @@ class Message implements MessageComponentInterface {
         dbDeleteConnection($conn->resourceId);
         _log_message("onClose {$conn->resourceId} has deleted");
         $this->unsetClient($conn, $client);
-        if ($this->shouldPropagateInfo($client)) {
+        if ($this->shouldPropagateInfo($client)) {            
             $this->msgToAllLogged($conn, array('users_id' => $client['users_id'], 'disconnected'=>$conn->resourceId), \SocketMessageType::NEW_DISCONNECTION);
         }
         _log_message("Connection {$conn->resourceId} has disconnected");
@@ -283,10 +281,6 @@ class Message implements MessageComponentInterface {
         }
         if (!empty($row['selfURI']) && preg_match('/.*getConfiguration.json.php$/', $row['selfURI'])) {
             $_shouldPropagateInfoLastMessage = 'getConfiguration';
-            return false;
-        }
-        if (!empty($row['isCommandLine'])) {
-            $_shouldPropagateInfoLastMessage = 'isCommandLine';
             return false;
         }
         return true;
@@ -466,6 +460,7 @@ class Message implements MessageComponentInterface {
 
         foreach ($rows as $key => $client) {
             if($client['isCommandLine']){
+                _error_log("msgToAll continue");
                 continue;
             }
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
@@ -483,6 +478,7 @@ class Message implements MessageComponentInterface {
 
         foreach ($rows as $key => $client) {
             if($client['isCommandLine']){
+                _error_log("msgToAllLogged continue");
                 continue;
             }
             if(empty($client['users_id'])){
@@ -505,6 +501,7 @@ class Message implements MessageComponentInterface {
         $totals = $this->getTotals();
         foreach (dbGetAllResourcesIdFromVideosId($videos_id) as $client) {
             if($client['isCommandLine']){
+                _error_log("msgToAllSameVideo continue");
                 continue;
             }
             $this->msgToResourceId($msg, $client['resourceId'], \SocketMessageType::ON_VIDEO_MSG, $totals);

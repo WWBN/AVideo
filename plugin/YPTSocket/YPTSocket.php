@@ -37,11 +37,11 @@ class YPTSocket extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "2.1";
+        return "2.2";
     }
 
     public static function getServerVersion() {
-        return "4.6";
+        return "4.7";
     }
 
     public function updateScript() {
