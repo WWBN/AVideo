@@ -1025,6 +1025,14 @@ if (typeof gtag !== \"function\") {
         global $global;
         if (!empty($this->id)) {
 
+            $sql = "DELETE FROM live_transmition_history_log 
+            WHERE live_transmitions_history_id IN (
+                SELECT id 
+                FROM live_transmitions_history
+                WHERE users_id = ?
+            )";
+            sqlDAL::writeSql($sql, "i", [$this->id]);
+            
             $arrayTables = [
                 //'live_transmition_history_log',
                 'live_transmitions',
