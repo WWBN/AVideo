@@ -1033,7 +1033,7 @@ if (typeof gtag !== \"function\") {
                 'ppvlive_purchases',
                 'bans',
                 'LiveChat',
-                'live_transmitions_history_id',
+                'live_transmitions_history',
                 'live_transmition_history_log',
             ];
 
