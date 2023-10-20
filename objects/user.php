@@ -1051,6 +1051,7 @@ if (typeof gtag !== \"function\") {
                 if ($tableExists) {
                     $sql = "DELETE FROM {$value} WHERE users_id = ?";
                     try {
+                        _error_log("Delete user $sql users_id = {$this->id}");
                         sqlDAL::writeSql($sql, "i", [$this->id]);
                     } catch (Exception $exc) {
                         // Handle exception if needed
