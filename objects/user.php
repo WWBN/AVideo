@@ -1045,6 +1045,7 @@ if (typeof gtag !== \"function\") {
                     $tableExists = (sqlDAL::num_rows($result) > 0);
                     sqlDAL::close($result); // Make sure to close the result after checking
                 } catch (Exception $exc) {
+                    _error_log("Delete usertable not found {$value}");
                     $tableExists = false;
                 }
             
