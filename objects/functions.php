@@ -1583,6 +1583,9 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             $timeName = "getVideosURL_V2::VideoHLS::getSourceFile($fileName)";
             TimeLogStart($timeName);
             $files = VideoHLS::getSourceFile($fileName, true);
+            if(!is_array($files)){
+                $files = [];
+            }
             TimeLogEnd($timeName, __LINE__);
         }
         $video = ['webm', 'mp4'];
