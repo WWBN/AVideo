@@ -300,6 +300,18 @@ class Layout extends PluginAbstract
         return $html;
     }
 
+    private static function getSearch2Code($id){
+        $code = '<script>$(document).ready(function() {
+            $(\'#' . $id . '\').select2({
+                templateSelection: templateSelectionAndResult, 
+                templateResult: templateSelectionAndResult,
+                width: \'100%\', 
+                dropdownParent: $(\'#' . $id . '\').parent()
+            });
+        });</script>';
+            return $code;
+    }
+
     static function getSelectSearchableHTML($optionsArray, $name, $selected, $id = "", $class = "", $placeholder = false, $templatePlaceholder = '')
     {
         global $global;
@@ -307,18 +319,8 @@ class Layout extends PluginAbstract
             $id = $name;
         }
         $html = self::getSelectSearchable($optionsArray, $name, $selected, $id, $class, $placeholder, $templatePlaceholder);
-
-        $html .= "<script>function getSelectformatStateResult{$name} (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    var \$state = $(
-                                      '<span><i class=\"' + state.id + '\"></i>'+
-                                      state.text + '</span>'
-                                    );
-                                    return \$state;
-                                  };";
-        $html .= '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getSelectformatStateResult' . $name . ', templateResult: getSelectformatStateResult' . $name . ',width: \'100%\'});});</script>';
+        
+        $html .= self::getSearch2Code($id);
         return $html;
     }
 
@@ -330,19 +332,9 @@ class Layout extends PluginAbstract
         if (empty($id)) {
             $id = uniqid();
         }
-        $code = "<script>function getIconsSelectformatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    var \$state = $(
-                                      '<span><i class=\"' + state.id + '\"></i>'+
-                                      ' - ' + state.text + '</span>'
-                                    );
-                                    return \$state;
-                                  };</script>";
-        self::addFooterCode($code);
-        $code = '<script>$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: getIconsSelectformatStateResult, templateResult: getIconsSelectformatStateResult,width: \'100%\'});});</script>';
-        self::addFooterCode($code);
+                                  
+        $html = self::getSearch2Code($id);
+        self::addFooterCode($html);
         return self::getSelectSearchable($icons, $name, $selected, $id, $class . " iconSelect", true);
     }
 
@@ -447,19 +439,8 @@ class Layout extends PluginAbstract
         if (empty($id)) {
             $id = uniqid();
         }
-        $methodName = __FUNCTION__;
-        $code = "<script>function {$methodName}formatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    var \$state = $(
-                                      '<span>' + state.text + '</span>'
-                                    );
-                                    return \$state;
-                                  };</script>";
-        self::addFooterCode($code);
-        $code = '<script>$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: ' . $methodName . 'formatStateResult, templateResult: ' . $methodName . 'formatStateResult,width: \'100%\'});});</script>';
-        self::addFooterCode($code);
+        $html = self::getSearch2Code($id);
+        self::addFooterCode($html);
         return self::getSelectSearchable($elements, $name, $selected, $id, $class, true);
     }
 
@@ -478,19 +459,9 @@ class Layout extends PluginAbstract
         if (empty($id)) {
             $id = uniqid();
         }
-        $methodName = __FUNCTION__;
-        $code = "<script>function {$methodName}formatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    var \$state = $(
-                                      '<span>' + state.text + '</span>'
-                                    );
-                                    return \$state;
-                                  };";
-        self::addFooterCode($code);
-        $code = '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: ' . $methodName . 'formatStateResult, templateResult: ' . $methodName . 'formatStateResult,width: \'100%\'});});</script>';
-        self::addFooterCode($code);
+                                  
+        $html = self::getSearch2Code($id);
+        self::addFooterCode($html);
         return self::getSelectSearchable($cats, $name, $selected, $id, $class, true);
     }
 
@@ -500,19 +471,8 @@ class Layout extends PluginAbstract
         if (empty($id)) {
             $id = uniqid();
         }
-        $methodName = __FUNCTION__;
-        $code = "<script>function {$methodName}formatStateResult (state) {
-                                    if (!state.id) {
-                                      return state.text;
-                                    }
-                                    var \$state = $(
-                                      '<span>' + state.text + '</span>'
-                                    );
-                                    return \$state;
-                                  };";
-        self::addFooterCode($code);
-        $code = '$(document).ready(function() {$(\'#' . $id . '\').select2({templateSelection: ' . $methodName . 'formatStateResult, templateResult: ' . $methodName . 'formatStateResult,width: \'100%\'});});</script>';
-        self::addFooterCode($code);
+        $html = self::getSearch2Code($id);
+        self::addFooterCode($html);
         return self::getSelectSearchable($rows, $name, $selected, $id, $class, true);
     }
 
@@ -524,7 +484,6 @@ class Layout extends PluginAbstract
         $content = '';
         if (!empty($global['getSelectSearchable'])) {
             $content .= '<script src="' . getURL('view/js/select2/select2.min.js') . '"></script>';
-            // $content .= '<script>$(document).ready(function() {$(\'.js-select-search\').select2();});</script>';
         }
 
         if (!empty($obj->enableAccessibility)) {

@@ -15,6 +15,7 @@ class Message implements MessageComponentInterface {
 
     protected $clients;
     protected $clientsLoggedConnections = 0;
+    protected $disconnectAfter = 14400;//4 hours
     protected $clientsInVideos = array();
     protected $clientsInLives = array();
     protected $clientsInLivesLinks = array();
@@ -62,6 +63,7 @@ class Message implements MessageComponentInterface {
         //_error_log(json_encode(array($json, $wsocketGetVars)));
         //var_dump($live_key);
         $client = array();
+        $client['time'] = time();
         $client['resourceId'] = intval($conn->resourceId);
         $client['users_id'] = intval($json->from_users_id);
         $client['room_users_id'] = intval(@$json->room_users_id);
@@ -457,10 +459,18 @@ class Message implements MessageComponentInterface {
         $rows = dbGetAll();
 
         $totals = $this->getTotals();
-
+        $time = time();
         foreach ($rows as $key => $client) {
+            if($client['time']+$this->disconnectAfter < $time){
+                _error_log("resourceId={$client['resourceId']} is too old, close it");
+                $this->clients[$client['resourceId']]->close();
+            }
             if($client['isCommandLine']){
-                _error_log("msgToAll continue");
+                if($client['time']+60 < $time){
+                    _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min");
+                    $this->clients[$client['resourceId']]->close();
+                }
+                //_error_log("msgToAll continue");
                 continue;
             }
             $this->msgToResourceId($msg, $client['resourceId'], $type, $totals);
@@ -478,7 +488,7 @@ class Message implements MessageComponentInterface {
 
         foreach ($rows as $key => $client) {
             if($client['isCommandLine']){
-                _error_log("msgToAllLogged continue");
+                //_error_log("msgToAllLogged continue");
                 continue;
             }
             if(empty($client['users_id'])){

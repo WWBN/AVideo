@@ -36,6 +36,7 @@ if (empty($programs)) {
 }
 $playListsObj = AVideoPlugin::getObjectData("PlayLists");
 //var_dump($_GET['program_id']);exit;
+PlayLists::loadScripts();
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">

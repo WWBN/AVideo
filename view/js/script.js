@@ -4053,3 +4053,11 @@ function timeToSeconds(hms) {
     var seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
     return (seconds);
 }
+
+function templateSelectionAndResult(state) {
+    var text = state.text;
+    if (state.id && /fa/.test(state.id)) {
+        text = '<i class=\"' + state.id + '\"></i> - ' + state.text;
+    }
+    return $('<span>' + text + '</span>');
+  };
