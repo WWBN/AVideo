@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `connections` (
     `ip` VARCHAR(45) NULL,
     `location` VARCHAR(45) NULL,
     `data` TEXT NULL,
-    `time` INT NULL,
+    `time` INT NULL
 );
 CREATE INDEX `index_users_id` ON connections (users_id);
 CREATE INDEX `index_room_users_id` ON connections (room_users_id);
