@@ -6,6 +6,11 @@ $isVideoTypeEmbed = 1;
 <?php
 echo PlayerSkins::getMediaTag($video['filename']);
 ?>
+<script>
+    $(document).ready(function() {
+        addView(<?php echo $video['id']; ?>, 0);
+    });
+</script>
 <!-- Embed finish -->
 <?php
 include $global['systemRootPath'] . 'plugin/PlayerSkins/contextMenu.php';
