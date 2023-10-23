@@ -1500,16 +1500,16 @@
         },
         {
             "name": "james-heinrich/getid3",
-            "version": "v1.9.22",
+            "version": "v1.9.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JamesHeinrich/getID3.git",
-                "reference": "45f20faa0f0a24489740392c5b512ddcc36deccd"
+                "reference": "06c7482532ff2b3f9111b011d880ca6699c8542b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/45f20faa0f0a24489740392c5b512ddcc36deccd",
-                "reference": "45f20faa0f0a24489740392c5b512ddcc36deccd",
+                "url": "https://api.github.com/repos/JamesHeinrich/getID3/zipball/06c7482532ff2b3f9111b011d880ca6699c8542b",
+                "reference": "06c7482532ff2b3f9111b011d880ca6699c8542b",
                 "shasum": ""
             },
             "require": {
@@ -1561,9 +1561,9 @@
             ],
             "support": {
                 "issues": "https://github.com/JamesHeinrich/getID3/issues",
-                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.22"
+                "source": "https://github.com/JamesHeinrich/getID3/tree/v1.9.23"
             },
-            "time": "2022-09-29T16:41:13+00:00"
+            "time": "2023-10-19T13:18:49+00:00"
         },
         {
             "name": "mervick/emojionearea",
