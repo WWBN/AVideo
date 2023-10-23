@@ -1043,6 +1043,7 @@ if (typeof gtag !== \"function\") {
                 'LiveChat',
                 'live_transmition_history_log',
                 'live_transmitions_history',
+                'email_to_user',
             ];
 
             foreach ($arrayTables as $value) {
