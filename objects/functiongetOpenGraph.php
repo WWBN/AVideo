@@ -62,12 +62,20 @@ if ($video['type'] === 'article') {
 $images = Video::getImageFromFilename($video['filename'], $type);
 if (!isImageNotFound($images->posterPortraitThumbs)) {
     $img = $images->posterPortraitThumbs;
-    $data = getimgsize($images->posterPortraitPath);
-    $imgw = 500;
-    $imgh = 280;
+    $imgw = 200;
+    $imgh = 800;
 } else if (!isImageNotFound($images->posterPortrait)) {
     $img = $images->posterPortrait;
     $data = getimgsize($images->posterPortraitPath);
+    $imgw = $data[0];
+    $imgh = $data[1];
+} if (!isImageNotFound($images->posterLandscapeThumbs)) {
+    $img = $images->posterLandscapeThumbs;
+    $imgw = 500;
+    $imgh = 280;
+} else if (!isImageNotFound($images->posterLandscape)) {
+    $img = $images->posterLandscape;
+    $data = getimgsize($images->posterLandscapePath);
     $imgw = $data[0];
     $imgh = $data[1];
 } else {
