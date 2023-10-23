@@ -33,6 +33,7 @@ class CustomizeAdvanced extends PluginAbstract {
     
     public static function getDataObjectDeprecated() {
         return array(
+            'useVideoIDOnSEOLinks',
             'EnableMinifyJS',
             'usePreloadLowResolutionImages',
             'useFFMPEGToGenerateThumbs',
@@ -49,7 +50,6 @@ class CustomizeAdvanced extends PluginAbstract {
     
     public static function getDataObjectAdvanced() {
         return array(
-            'useVideoIDOnSEOLinks',
             'logoMenuBarURL',
             'encoderNetwork',
             'useEncoderNetworkRecomendation',

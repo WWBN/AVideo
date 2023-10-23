@@ -85,7 +85,7 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'],
 
     <body>
         <div class="">
-            <video poster="<?php echo getURL($poster); ?>" controls  <?php echo PlayerSkins::getPlaysinline(); ?> 
+            <video poster="<?php echo getURL($poster); ?>" controls controlsList="nodownload" <?php echo PlayerSkins::getPlaysinline(); ?> 
                    class="video-js vjs-default-skin vjs-big-play-centered"
                    id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
                 <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>

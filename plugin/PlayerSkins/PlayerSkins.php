@@ -105,7 +105,7 @@ class PlayerSkins extends PluginAbstract {
             $images = Video::getImageFromFilename($filename);
             if ($vType == 'video') {
                 $htmlMediaTag = '<video ' . self::getPlaysinline()
-                        . 'preload="auto" poster="' . $images->poster . '" controls 
+                        . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload"
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == "video") {
                     $htmlMediaTag .= "<!-- Video {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
@@ -166,7 +166,7 @@ class PlayerSkins extends PluginAbstract {
                     $_GET['isMediaPlaySite'] = $video['id'];
                     PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
                     $htmlMediaTag = "<!-- Embed Link 2 YoutubeIntegration {$video['title']} {$video['filename']} -->";
-                    $htmlMediaTag .= '<video ' . self::getPlaysinline() . ' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+                    $htmlMediaTag .= '<video ' . self::getPlaysinline() . ' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls controlsList="nodownload"></video>';
                     $htmlMediaTag .= '<script>var player;mediaId = ' . $video['id'] . ';$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
                 }
             } else if ($vType == 'serie') {
