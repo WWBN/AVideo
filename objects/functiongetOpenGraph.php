@@ -60,7 +60,12 @@ if ($video['type'] === 'article') {
     $type = 'article';
 }
 $images = Video::getImageFromFilename($video['filename'], $type);
-if (!isImageNotFound($images->posterPortrait)) {
+if (!isImageNotFound($images->posterPortraitThumbs)) {
+    $img = $images->posterPortraitThumbs;
+    $data = getimgsize($images->posterPortraitPath);
+    $imgw = 500;
+    $imgh = 280;
+} else if (!isImageNotFound($images->posterPortrait)) {
     $img = $images->posterPortrait;
     $data = getimgsize($images->posterPortraitPath);
     $imgw = $data[0];
