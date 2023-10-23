@@ -432,7 +432,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     } elseif ($video['type'] == "embed") {
         $isVideoTypeEmbed = 1;
     ?>
-        <!-- embed -->
+        <!-- embed <?php echo basename(__FILE__); ?> -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
         <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php
                                                                                         $url = parseVideos($video['videoLink']);

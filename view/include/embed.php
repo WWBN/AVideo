@@ -2,7 +2,7 @@
 $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 $isVideoTypeEmbed = 1;
 ?>
-<!-- Embed -->
+<!-- Embed <?php echo basename(__FILE__); ?> -->
 <?php
 echo PlayerSkins::getMediaTag($video['filename']);
 ?>
