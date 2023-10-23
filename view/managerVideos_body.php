@@ -468,7 +468,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                 <thead>
                     <tr>
                         <th data-formatter="checkbox" data-width="25px"></th>
-                        <th data-column-id="title" data-formatter="titleTag"><?php echo __("Title"); ?></th>
+                        <th data-column-id="title" data-formatter="titleTag" data-width="200px" ><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
                         <th style="display: none;" data-column-id="sites_id" data-formatter="sites_id" data-width="50px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'>
                             <?php echo htmlentities('<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'); ?>
@@ -1313,7 +1313,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
 
 
     function getVManagerImageTag(url) {
-        return "<img class='img img-responsive img-thumbnail pull-left' src='" + addGetParam(url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
+        return "<img class='img img-responsive img-thumbnail' src='" + addGetParam(url, 'cacherand', Math.random()) + "'  style='max-height:80px; margin-right: 5px;'> ";
     }
 
     function isVManagerGoodImage(filename) {
@@ -2017,7 +2017,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     <?php
                     if (AVideoPlugin::isEnabledByName('PlayLists')) {
                     ?>
-                        var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' id='videoPlaylist" + row.id + "' style='height:100px; overflow-y: scroll; padding:10px 5px;'></div>";
+                        var playList = "<hr><div class='videoPlaylist' videos_id='" + row.id + "' id='videoPlaylist" + row.id + "' style='height:200px; overflow-y: scroll; padding:10px 5px;'></div>";
                     <?php
                     } else {
                     ?>
@@ -2025,10 +2025,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     <?php
                     }
                     ?>
-                    img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
+                    //img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
-                    var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-xs titleBtn" style="overflow: hidden;" target="_top">' + type + row.title + '</a>';
-                    return img + '<div class="clearfix hidden-md hidden-lg"></div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList;
+                    var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-block titleBtn" style="overflow: hidden;" target="_top">' + img + '<br>' + type + row.title + '</a>';
+                    return '<div>'+buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList+'</div>';
                 }
 
 
