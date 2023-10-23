@@ -224,8 +224,7 @@ if (isHTMLEmpty($sideAd)) {
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        ?>
-        <?php
+        echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
     </body>

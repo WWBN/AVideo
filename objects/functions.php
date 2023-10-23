@@ -3065,6 +3065,9 @@ function isValidM3U8Link($url, $timeout = 3)
         return false;
     }
 
+    if (preg_match('/.m3u8$/i', $url)) {
+        return true;
+    }
     // Check the content length without downloading the file
     $headers = get_headers($url, 1);
     $contentLength = isset($headers['Content-Length']) ? intval($headers['Content-Length']) : 0;

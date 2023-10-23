@@ -253,8 +253,8 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
         echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>  
-        <script src="<?php echo getCDN(); ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo getCDN(); ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
+        <script src="<?php echo getURL('js/webui-popover/jquery.webui-popover.min.js'); ?>" type="text/javascript"></script>
+        <script src="<?php echo getURL('js/bootstrap-list-filter/bootstrap-list-filter.min.js'); ?>" type="text/javascript"></script>
 
     </body>
 </html>

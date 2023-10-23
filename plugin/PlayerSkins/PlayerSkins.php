@@ -488,6 +488,7 @@ class PlayerSkins extends PluginAbstract {
         originalVideo = $('#mainVideo').clone();
         if (typeof player === 'undefined' && $('#mainVideo').length) {
             player = videojs('mainVideo'" . (self::getDataSetup(implode(" ", $prepareStartPlayerJS_getDataSetup))) . ");";
+        //var_dump($IMAADTag, isVideoPlayerHasProgressBar());exit;
         if (!empty($IMAADTag) && isVideoPlayerHasProgressBar()) {
             $adTagOptions = array(
                 'id' => 'mainVideo',
