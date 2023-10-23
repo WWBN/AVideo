@@ -47,7 +47,7 @@ if (empty($objClone->cloneSiteURL)) {
 
 $objClone->cloneSiteURL = rtrim($objClone->cloneSiteURL, "/") . '/';
 $objCloneOriginal = $objClone;
-$argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', @$argv[1]);
+$argv[1] = preg_replace("/[^A-Za-z0-9 ]/", '', empty($argv[1])?'':$argv[1]);
 
 if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
     if (!User::isAdmin()) {
