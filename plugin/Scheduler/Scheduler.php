@@ -543,9 +543,9 @@ class Scheduler extends PluginAbstract
             return false;
         }
 
-        $TwoMinutes = 120;
+        $TenMinutes = 600;
 
-        $result = $lastVisitTime + $TwoMinutes - time();
+        $result = $lastVisitTime + $TenMinutes - time();
         return $result > 0;
     }
 

@@ -2105,7 +2105,7 @@ function scaleUpImage($file_src, $file_dest, $wd, $hd)
             unlink($path);
             return false;
         }
-        _error_log("scaleUpImage error, undefined mime");
+        _error_log("scaleUpImage error, undefined mime ".humanFileSize(filesize($file_src)));
         return false;
     }
 
@@ -7280,7 +7280,7 @@ function getSEOTitle($text, $maxChars = 120)
     }
 }
 
-function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "")
+function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true)
 {
     global $global, $advancedCustom;
     if ($total < 2) {
@@ -7390,8 +7390,8 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
-            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector'],
-            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector],
+            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$laodMore', '$loadOnScroll'],
+            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector,  __('Load More'), ($loadOnScroll?'true':'false')],
             $content
         );
     }

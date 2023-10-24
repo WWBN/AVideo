@@ -2045,6 +2045,12 @@ body.ypt-is-compressed #videoCol {
     display: none;
 }
 
+.loadInfiniteScrollButton{
+    margin-bottom: 50px;
+}
+.loadInfiniteScrollButton .scroller-status{
+    display: none;
+}
 /*
 #_avideoPageLoader{
     display: none !important;

@@ -1,11 +1,13 @@
-<div class="scroller-status$uid">
-    <div class="infinite-scroll-request loader-ellips text-center">
-        <i class="fas fa-spinner fa-pulse text-muted"></i>
-    </div>
-</div>
-<center>
-    <button class="btn btn-xs btn-default" style="border: none; background: transparent;" id="loadInfiniteScrollButton$uid"> More </button>
-</center>
+
+<button class="btn btn-default btn-block loadInfiniteScrollButton" id="loadInfiniteScrollButton$uid">
+        <div class="scroller-status scroller-status$uid">
+            <div class="infinite-scroll-request loader-ellips text-center">
+                <i class="fas fa-spinner fa-pulse text-muted"></i>
+            </div>
+        </div>
+        <i class="fas fa-angle-double-down"></i>
+        $laodMore
+</button>
 <script src="$webSiteRootURLnode_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
     var $container$uid;
@@ -25,7 +27,8 @@
                 prefill: true,
                 history: false,
                 checkLastPage: false,
-                button: '#loadInfiniteScrollButton$uid'
+                button: '#loadInfiniteScrollButton$uid',
+                loadOnScroll: $loadOnScroll
             });
             $container$uid.on('scrollThreshold.infiniteScroll', function(event) {
                 //console.log('infiniteScroll Scroll at bottom');

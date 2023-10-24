@@ -19,13 +19,24 @@ foreach ($menu as $key => $value) {
 if (empty($menuItems)) {
     return;
 }
+
 ?>
 <style>
     #topMenuFloatMenu {
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 35px;
+        right: 35px;
         z-index: 19999;
+    }
+
+    .Chat2StaticRight #topMenuFloatMenu,
+    .chat2Collapsed #topMenuFloatMenu{
+        display: none;
+        bottom: 90px;
+    }
+
+    .chat2Collapsed #topMenuFloatMenu{
+        display: block;
     }
 
     .circle-menu {

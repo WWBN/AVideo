@@ -51,8 +51,8 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 <!-- modeGalleryCategory -->
 <div class="col-sm-12" style="z-index: 1;">
     <?php
-    //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-    echo getPagination($totalPages, $page, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem");
+    //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = false)
+    echo getPagination($totalPages, $page, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);
     ?>
 </div>
 <!-- modeGalleryCategory end -->
