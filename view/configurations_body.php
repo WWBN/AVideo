@@ -471,22 +471,6 @@ if (User::isAdmin()) {
                                                     <small id="disable_analyticsHelp" class="form-text text-muted"><?php echo __("This help us to track and detect errors"); ?></small>
                                                 </div>
                                             </div>
-
-                                            <div class="form-group">
-                                                <label class="col-md-4 control-label"><?php echo __("Disable Youtube-Upload"); ?></label>
-                                                <div class="col-md-8">
-
-                                                    <div class="material-switch">
-                                                        <input data-toggle="toggle" type="checkbox" name="disable_youtubeupload" id="disable_youtubeupload" value="1" <?php
-                                                                                                                                                                        if (!empty($config->getDisable_youtubeupload())) {
-                                                                                                                                                                            echo "checked";
-                                                                                                                                                                        }
-                                                                                                                                                                        ?>>
-                                                        <label for="disable_youtubeupload" class="label-success"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label"><?php echo __("Allow download video"); ?></label>
                                                 <div class="col-md-8">
@@ -834,7 +818,6 @@ if (User::isAdmin()) {
                                 "head": $('#head').val(),
                                 "adsense": $('#adsense').val(),
                                 "disable_analytics": $('#disable_analytics').prop("checked"),
-                                "disable_youtubeupload": $('#disable_youtubeupload').prop("checked"),
                                 "allow_download": $("#allow_download").prop("checked"),
                                 "session_timeout": $('#session_timeout').val(),
                                 "autoplay": $('#autoplaySwitch').prop("checked"),

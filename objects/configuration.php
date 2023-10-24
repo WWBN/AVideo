@@ -70,7 +70,7 @@ class AVideoConf extends ObjectYPT{
             die('{"error":"' . __("Permission denied") . '"}');
         }
         $this->users_id = User::getId();
-
+        $this->disable_youtubeupload = 0;
         ObjectYPT::deleteCache("getEncoderURL");
 
         return parent::save();
@@ -301,7 +301,8 @@ class AVideoConf extends ObjectYPT{
 
     public function getDisable_youtubeupload()
     {
-        return $this->disable_youtubeupload;
+        return 0;
+        //return $this->disable_youtubeupload;
     }
 
     public function getAllow_download()

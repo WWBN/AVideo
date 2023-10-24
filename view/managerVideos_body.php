@@ -257,12 +257,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
-                <?php if (!$config->getDisable_youtubeupload()) { ?>
-                    <button class="btn btn-danger" id="uploadYouTubeBtn">
-                        <i class="fas fa-play-circle" aria-hidden="true"></i> <span class="hidden-md hidden-sm hidden-xs"><?php echo __('Upload to YouTube'); ?></span>
-                    </button>
-                    <?php
-                }
+                <?php 
                 if ($advancedCustom->videosManegerBulkActionButtons) {
                     if (!empty($categories)) {
                         if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
@@ -556,34 +551,6 @@ require_once $global['systemRootPath'] . 'objects/video.php';
             <a href="<?php echo $global['webSiteRootURL']; ?>objects/videos.txt.php" target="_blank" class="btn btn-default btn-sm">
                 <i class="fas fa-download"></i> <?php echo __("Download your videos list"); ?> <?php echo __("(Permalink .txt file)"); ?>
             </a>
-        </div>
-    <?php
-    }
-    if ((Permissions::canAdminVideos()) && (!$config->getDisable_youtubeupload())) {
-    ?>
-        <div class="alert alert-info">
-            <h1><span class="fab fa-youtube-square"></span> <?php echo __("Let us upload your video to YouTube"); ?></h1>
-            <h2><?php echo __("How to setup the Youtube-Upload feature"); ?>:</h2>
-            <ol>
-                <li>
-                    <?php echo __("You need to enable"); ?>
-                    <a href="<?php echo $global['webSiteRootURL']; ?>siteConfigurations" class="btn btn-info btn-xs"><?php echo __("Google Login"); ?></a> <?php echo __("and get the following information") . ": <strong>" . __("Google ID and Key") . "</strong>"; ?>
-                </li>
-                <li>
-                    <?php echo __("Go to your"); ?>
-                    <a href="https://console.developers.google.com/apis/dashboard" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("Google Console API Dashboard"); ?></a>
-                    <?php echo __("and enable the following API") . ": <strong>" . __("YouTube Data API") . " v3</strong>"; ?>
-                </li>
-                <li>
-                    <?php echo __("In authorized credentials allow the following URIs redirection"); ?>:
-                    <code><?php echo $global['webSiteRootURL']; ?>objects/youtubeUpload.json.php</code>
-                </li>
-                <li>
-                    <?php echo __("You can find more help on the following documentation"); ?>:
-                    <a href="https://developers.google.com/youtube/v3/getting-started" class="btn btn-info btn-xs" target="_blank" rel="noopener noreferrer"><?php echo __("YouTube Data API Overview"); ?></a>
-                </li>
-            </ol>
-
         </div>
     <?php
     }
@@ -1607,25 +1574,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 $(this).prop('checked', !chk);
             });
         });
-        <?php if (!$config->getDisable_youtubeupload()) { ?>
-            $("#uploadYouTubeBtn").click(function() {
-                modal.showPleaseWait();
-                var vals = getSelectedVideos();
-                $.ajax({
-                    url: webSiteRootURL + 'objects/youtubeUpload.json.php',
-                    data: {
-                        "id": vals
-                    },
-                    type: 'post',
-                    success: function(response) {
-                        modal.hidePleaseWait();
-                        if (response.msg) {
-                            avideoAlertInfo(response.msg);
-                        }
-                    }
-                });
-            });
-        <?php } ?>
         $("#deleteBtn").click(function() {
             swal({
                     title: "<?php echo __("Are you sure?"); ?>",
@@ -1980,20 +1928,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var tags = '';
                     var youTubeLink = "",
                         youTubeUpload = '';
-                    <?php if (!$config->getDisable_youtubeupload()) { ?>
-                        youTubeUpload = '<button type="button" class="btn btn-danger btn-xs command-uploadYoutube"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Upload to YouTube")); ?>"><span class="fa fa-upload " aria-hidden="true"></span></button>';
-                        if (row.youtubeId) {
-                            //youTubeLink += '<a href=\'https://youtu.be/' + row.youtubeId + '\' target=\'_blank\'  class="btn btn-primary" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Watch on YouTube")); ?>"><span class="fas fa-external-link-alt " aria-hidden="true"></span></a>';
-                        }
-                        var yt = '<div class="btn-group" role="group" ><a class="btn btn-default  btn-xs" disabled><span class="fas fa-play-circle" aria-hidden="true"></span> YouTube</a> ' + youTubeUpload + youTubeLink + ' </div>';
-                        if (row.status == "d" || row.status == "e") {
-                            yt = '';
-                        }
-                    <?php
-                    } else {
-                        echo "yt='';";
-                    }
-                    ?>
+                        yt='';
+                    
                     if (row.status !== "a") {
                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                     }
@@ -2126,6 +2062,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         }
                     });
                 })
+                /*
                 .end().find(".command-uploadYoutube").on("click", function(e) {
                     var row_index = $(this).closest('tr').index();
                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
@@ -2143,7 +2080,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                             }
                         }
                     });
-                }).end().find(".command-releaseNow").on("click", async function(e) {
+                })*/
+                .end().find(".command-releaseNow").on("click", async function(e) {
                     var row_index = $(this).closest('tr').index();
                     var row = $("#grid").bootgrid("getCurrentRows")[row_index];
 
