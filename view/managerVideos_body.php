@@ -1818,7 +1818,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                 if (addParameters) {
                                     downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '_' + k + '.mp4');
                                 }
-                                download += '<div class="btn-group  btn-group-justified">';
+                                download += '<div class="btn-group btn-group-justified">';
                                 download += '<a class="btn btn-default btn-xs" onclick="copyToClipboard(\'' + url + '\');" ><span class="fa fa-copy " aria-hidden="true"></span> ' + k + '</a>';
                                 download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs" target="_blank" ><span class="fa fa-download " aria-hidden="true"></span> MP4</a>';
                                 download += '</div>';
@@ -1826,12 +1826,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                 if (addParameters) {
                                     downloadURL = addGetParam(downloadURL, 'title', row.clean_title + '.mp4');
                                 }
-                                download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  data-placement="left" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download File")); ?>" ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
+                                download += '<a href="' + downloadURL + '" class="btn btn-default btn-xs btn-block" target="_blank"  ><span class="fa fa-download " aria-hidden="true"></span> ' + k + '</a>';
                             }
                             if ((/\.(mp3|mp4|webm)\?/i.test(downloadURL) === true)) {
                                 downloadhighest = downloadURL;
                             }
-
                         }
                     <?php
                     }
@@ -1840,11 +1839,15 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         download += '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download disabled")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
                     <?php
                     }
+                    
                     if (!isset($statusThatShowTheCompleteMenu)) {
                         $statusThatShowTheCompleteMenu = array();
                     }
                     $ifCondition = 'row.status == "' . implode('" || row.status == "', $statusThatShowTheCompleteMenu) . '"';
                     ?>
+                    if(!empty(download)){
+                        download = '<button type="button" class="btn btn-default btn-xs btn-block" data-placement="left" data-toggle="tooltip" title="'+__("Download File")+'" onclick="$(\'#DownloadFiles'+row.id+'\').slideToggle();" ><span class="fa fa-download " aria-hidden="true"></span> '+__('Download File')+'</button><div id="DownloadFiles'+row.id+'" style="display: none;">'+download+'</div>';
+                    }
                     if (<?php echo $ifCondition; ?>) {
                         eval('if(typeof statusBtn_' + row.status + ' !== "undefined"){status = statusBtn_' + row.status + ';}else if("h"=="' + row.status + '"){status = \'<button type="button" class="btn btn-danger btn-xs command-releaseNow" data-row-id="' + row.id + '" data-toggle="tooltip" title="Release now"><i class="fas fa-check"></i></button>\';}else{status = ""}');
                     } else {
