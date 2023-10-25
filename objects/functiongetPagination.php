@@ -8,7 +8,7 @@
     </div>
 
     <i class="fas fa-angle-double-down"></i>
-    $laodMore
+    $loadMore
 </button>
 <script src="$webSiteRootURLnode_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>

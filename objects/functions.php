@@ -7396,7 +7396,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if ($isInfiniteScroll) {
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
-            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$laodMore', '$loadOnScroll'],
+            ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$loadMore', '$loadOnScroll'],
             [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector,  __('Load More'), (!empty($loadOnScroll)?'true':'false')],
             $content
         );
