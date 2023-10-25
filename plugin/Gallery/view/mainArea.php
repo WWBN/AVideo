@@ -41,7 +41,7 @@ saveRequestVars();
         global $contentSearchFound;
         $contentSearchFound = true;
         $img_portrait = ($video['rotation'] === "90" || $video['rotation'] === "270") ? "img-portrait" : "";
-        if (empty($_GET['search'])) {
+        if (empty($_GET['search']) && !isInfiniteScroll()) {
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
@@ -80,17 +80,17 @@ saveRequestVars();
                     continue;
                 }
                 $countSections++;
-                if (preg_match('/Channel_([0-9]+)_/', $value['name'], $matches)) {
+                if (preg_match('/Channel_([0-9]+)_/', $value['name'], $matches) && empty($_GET['showOnly'])) {
                     $users_id = intval($matches[1]);
                     User::getChannelPanel($users_id);
                 } else
-                if ($value['name'] == 'Shorts' && AVideoPlugin::isEnabledByName('Shorts')) {
+                if ($value['name'] == 'Shorts' && empty($_GET['showOnly']) && AVideoPlugin::isEnabledByName('Shorts')) {
                     include $global['systemRootPath'] . 'plugin/Shorts/row.php';
                 } else
                 if ($value['name'] == 'Suggested') {
-                    createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star");
+                    createGallery(!empty($obj->SuggestedCustomTitle) ? $obj->SuggestedCustomTitle : __("Suggested"), 'suggested', $obj->SuggestedRowCount, 'SuggestedOrder', "", "", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-star", true);
                 } else 
-                if(empty(getSearchVar()) && $value['name'] == 'PlayLists'){
+                if(empty(getSearchVar()) && empty($_GET['showOnly']) && $value['name'] == 'PlayLists'){
                     $objPl = AVideoPlugin::getDataObject('PlayLists');
                     $plRows = PlayList::getAllToShowOnFirstPage();
                     //var_dump(count($plRows));exit;
@@ -122,22 +122,22 @@ saveRequestVars();
                     }
                 }else 
                 if ($value['name'] == 'Trending') {
-                    createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line");
+                    createGallery(!empty($obj->TrendingCustomTitle) ? $obj->TrendingCustomTitle : __("Trending"), 'trending', $obj->TrendingRowCount, 'TrendingOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-chart-line", true);
                 } else
                 if ($value['name'] == 'SortByName') {
-                    createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font");
+                    createGallery(!empty($obj->SortByNameCustomTitle) ? $obj->SortByNameCustomTitle : __("Sort by name"), 'title', $obj->SortByNameRowCount, 'sortByNameOrder', "zyx", "abc", $orderString, "ASC", !$obj->hidePrivateVideos, "fas fa-font", true);
                 } else
                 if ($value['name'] == 'DateAdded' && empty($_REQUEST['catName'])) {
-                    createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt");
+                    createGallery(!empty($obj->DateAddedCustomTitle) ? $obj->DateAddedCustomTitle : __("Date added"), 'created', $obj->DateAddedRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-calendar-alt", true);
                 } else
                 if ($value['name'] == 'PrivateContent') {
-                    createGallery(!empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content"), 'created', $obj->PrivateContentRowCount, 'privateContentOrder', __("Most"), __("Fewest"), $orderString, "DESC", true, "fas fa-lock");
+                    createGallery(!empty($obj->PrivateContentCustomTitle) ? $obj->PrivateContentCustomTitle : __("Private Content"), 'created', $obj->PrivateContentRowCount, 'privateContentOrder', __("Most"), __("Fewest"), $orderString, "DESC", true, "fas fa-lock", true);
                 } else
                 if ($value['name'] == 'MostWatched') {
-                    createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye");
+                    createGallery(!empty($obj->MostWatchedCustomTitle) ? $obj->MostWatchedCustomTitle : __("Most watched"), 'views_count', $obj->MostWatchedRowCount, 'mostWatchedOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "far fa-eye", true);
                 } else
                 if ($value['name'] == 'MostPopular') {
-                    createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire");
+                    createGallery(!empty($obj->MostPopularCustomTitle) ? $obj->MostPopularCustomTitle : __("Most popular"), 'likes', $obj->MostPopularRowCount, 'mostPopularOrder', __("Most"), __("Fewest"), $orderString, "DESC", !$obj->hidePrivateVideos, "fas fa-fire", true);
                 } else
                 if ($value['name'] == 'SubscribedChannels' && User::isLogged() && empty($_GET['showOnly'])) {
                     include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaChannels.php';

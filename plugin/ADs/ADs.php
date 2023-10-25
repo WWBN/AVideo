@@ -129,6 +129,9 @@ class ADs extends PluginAbstract
 
     public function getHeadCode()
     {
+        if(isInfiniteScroll()){
+            return '';
+        }
         $head = "";
         //$head .= "<script> var adsbygoogleTimeout = []; </script>";
         if (!empty($_GET['abkw'])) {
@@ -387,6 +390,9 @@ class ADs extends PluginAbstract
     public static function getAdsCode($type)
     {
         global $global;
+        if(isInfiniteScroll()){
+            return false;
+        }
         if (isBot()) {
             self::debug(__LINE__);
             return false;
@@ -555,6 +561,10 @@ class ADs extends PluginAbstract
     public function getFooterCode()
     {
         global $global;
+        
+        if(isInfiniteScroll()){
+            return '';
+        }
         $js = "<script>$(function(){
             $('.carousel').carousel({
               interval: 5000

@@ -19,9 +19,12 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     global $contentSearchFound;
     $title = __($title);
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
-    if (!empty($_GET['showOnly'])) {
+    /*
+    if (!empty($_GET['showOnly']) && !isInfiniteScroll()) {
         $rowCount = 24;
     }
+    */
+    
     global $global, $args, $url;
     $paggingId = uniqid();
     $uid = "gallery" . uniqid();
@@ -81,7 +84,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $videos = Video::getAllVideos($videoStatus, false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         ?>
-        <div class="gallerySectionContent">
+        <div class="gallerySectionContent<?php echo $getName; ?>">
             <?php
             $countCols = createGallerySection($videos);
             ?>
@@ -95,11 +98,11 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 $infinityScrollGetFromSelector = "";
                 $infinityScrollAppendIntoSelector = "";
                 if ($infinityScroll) {
-                    $infinityScrollGetFromSelector = ".gallerySectionContent";
-                    $infinityScrollAppendIntoSelector = ".gallerySectionContent";
+                    $infinityScrollGetFromSelector = ".gallerySectionContent{$getName}";
+                    $infinityScrollAppendIntoSelector = ".gallerySectionContent{$getName}";
                 }
 
-                echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector);
+                echo getPagination($totalPages, $page, "{$url}{page}{$args}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
                 ?>
             </div>
         <?php

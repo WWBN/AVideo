@@ -2051,6 +2051,11 @@ body.ypt-is-compressed #videoCol {
 .loadInfiniteScrollButton .scroller-status{
     display: none;
 }
+
+.loadInfiniteScrollButton:disabled .fas.fa-angle-double-down {
+    display: none;
+}
+
 /*
 #_avideoPageLoader{
     display: none !important;

@@ -1,12 +1,14 @@
-
 <button class="btn btn-default btn-block loadInfiniteScrollButton" id="loadInfiniteScrollButton$uid">
+    <div style="display: inline-flex;">
         <div class="scroller-status scroller-status$uid">
             <div class="infinite-scroll-request loader-ellips text-center">
                 <i class="fas fa-spinner fa-pulse text-muted"></i>
             </div>
         </div>
-        <i class="fas fa-angle-double-down"></i>
-        $laodMore
+    </div>
+
+    <i class="fas fa-angle-double-down"></i>
+    $laodMore
 </button>
 <script src="$webSiteRootURLnode_modules/infinite-scroll/dist/infinite-scroll.pkgd.min.js" type="text/javascript"></script>
 <script>
@@ -24,7 +26,7 @@
                 status: '.scroller-status$uid',
                 hideNav: '.infiniteScrollPagination$uid',
                 debug: false,
-                prefill: true,
+                prefill: $loadOnScroll,
                 history: false,
                 checkLastPage: false,
                 button: '#loadInfiniteScrollButton$uid',

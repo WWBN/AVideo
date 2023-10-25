@@ -1,7 +1,9 @@
 <?php
 $tTolerance = 0.2;
 $tname = TimeLogStart(basename(__FILE__));
-if (isset($_GET['noNavbar'])) {
+if (isInfiniteScroll()) {
+    return '';
+} else if (isset($_GET['noNavbar'])) {
     _session_start();
     if (!empty($_GET['noNavbar'])) {
         $_SESSION['noNavbar'] = 1;

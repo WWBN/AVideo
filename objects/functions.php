@@ -7280,7 +7280,7 @@ function getSEOTitle($text, $maxChars = 120)
     }
 }
 
-function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true)
+function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true, $showOnly='')
 {
     global $global, $advancedCustom;
     if ($total < 2) {
@@ -7293,7 +7293,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
 
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
 
-    $uid = md5($link);
+    $uid = uniqid();
 
     if ($total < $maxVisible) {
         $maxVisible = $total;
@@ -7306,6 +7306,12 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             //$link = addQueryStringParameter($link, 'current', '{page}');
             $link .= (parse_url($link, PHP_URL_QUERY) ? '&' : '?') . 'current={page}';
         }
+    }
+    if($isInfiniteScroll){
+        $link = addQueryStringParameter($link, 'isInfiniteScroll', 1);
+    }
+    if(is_string($showOnly)){
+        $link = addQueryStringParameter($link, 'showOnly',$showOnly);
     }
 
     $class = '';
@@ -7391,7 +7397,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         $content = file_get_contents($global['systemRootPath'] . 'objects/functiongetPagination.php');
         $pag .= str_replace(
             ['$uid', '$webSiteRootURL', '$infinityScrollGetFromSelector', '$infinityScrollAppendIntoSelector', '$laodMore', '$loadOnScroll'],
-            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector,  __('Load More'), ($loadOnScroll?'true':'false')],
+            [$uid, $global['webSiteRootURL'], $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector,  __('Load More'), (!empty($loadOnScroll)?'true':'false')],
             $content
         );
     }
@@ -7810,6 +7816,12 @@ function isIframe()
         return false;
     }
     return true;
+}
+
+
+function isInfiniteScroll()
+{
+    return !empty($_GET['isInfiniteScroll']);
 }
 
 function inIframe()
