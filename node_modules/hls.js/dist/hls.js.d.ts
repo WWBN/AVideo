@@ -237,6 +237,7 @@ export declare class BaseStreamController extends TaskLoop implements NetworkCom
     protected loadFragment(frag: Fragment, level: Level, targetBufferTime: number): void;
     private _loadFragForPlayback;
     protected clearTrackerIfNeeded(frag: Fragment): void;
+    protected checkLiveUpdate(details: LevelDetails): void;
     protected flushMainBuffer(startOffset: number, endOffset: number, type?: SourceBufferName | null): void;
     protected _loadInitSegment(frag: Fragment, level: Level): void;
     protected fragContextChanged(frag: Fragment | null): boolean;

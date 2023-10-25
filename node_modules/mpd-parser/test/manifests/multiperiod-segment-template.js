@@ -30,7 +30,7 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 5,
               segments: [
                 {
@@ -145,7 +145,7 @@ export const parsedManifest = {
       uri: '',
       endList: true,
       timeline: 0,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       targetDuration: 5,
       segments: [
         {

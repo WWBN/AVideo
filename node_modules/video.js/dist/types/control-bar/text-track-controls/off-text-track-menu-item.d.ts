@@ -1,6 +1,6 @@
 export default OffTextTrackMenuItem;
 /**
- * A special menu item for turning of a specific type of text track
+ * A special menu item for turning off a specific type of text track
  *
  * @extends TextTrackMenuItem
  */

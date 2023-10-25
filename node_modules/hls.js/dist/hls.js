@@ -539,7 +539,7 @@
       // Some browsers don't allow to use bind on console object anyway
       // fallback to default if needed
       try {
-        exportedLogger.log("Debug logs enabled for \"" + id + "\" in hls.js version " + "1.4.10");
+        exportedLogger.log("Debug logs enabled for \"" + id + "\" in hls.js version " + "1.4.12");
       } catch (e) {
         exportedLogger = fakeLogger;
       }
@@ -1131,7 +1131,7 @@
       }
       var partSnDiff = this.lastPartSn - previous.lastPartSn;
       var partIndexDiff = this.lastPartIndex - previous.lastPartIndex;
-      this.updated = this.endSN !== previous.endSN || !!partIndexDiff || !!partSnDiff;
+      this.updated = this.endSN !== previous.endSN || !!partIndexDiff || !!partSnDiff || !this.live;
       this.advanced = this.endSN > previous.endSN || partSnDiff > 0 || partSnDiff === 0 && partIndexDiff > 0;
       if (this.updated || this.advanced) {
         this.misses = Math.floor(previous.misses * 0.6);
@@ -6062,7 +6062,7 @@
       if (details.live || previousDetails != null && previousDetails.live) {
         details.reloaded(previousDetails);
         if (previousDetails) {
-          this.log("live playlist " + index + " " + (details.advanced ? 'REFRESHED ' + details.lastPartSn + '-' + details.lastPartIndex : 'MISSED'));
+          this.log("live playlist " + index + " " + (details.advanced ? 'REFRESHED ' + details.lastPartSn + '-' + details.lastPartIndex : details.updated ? 'UPDATED' : 'MISSED'));
         }
         // Merge live playlists to adjust fragment starts and fill in delta playlist skipped segments
         if (previousDetails && details.fragments.length > 0) {
@@ -6117,7 +6117,7 @@
             this.loadPlaylist(deliveryDirectives);
             return;
           }
-        } else if (details.canBlockReload) {
+        } else if (details.canBlockReload || details.canSkipUntil) {
           deliveryDirectives = this.getDeliveryDirectives(details, data.deliveryDirectives, msn, part);
         }
         var bufferInfo = this.hls.mainForwardBufferInfo;
@@ -6879,7 +6879,8 @@
       fragmentEntity.loaded = null;
       if (Object.keys(fragmentEntity.range).length) {
         fragmentEntity.buffered = true;
-        if (fragmentEntity.body.endList) {
+        var endList = fragmentEntity.body.endList = frag.endList || fragmentEntity.body.endList;
+        if (endList) {
           this.endListFragments[fragmentEntity.body.type] = fragmentEntity;
         }
         if (!isPartial(fragmentEntity)) {
@@ -8909,6 +8910,21 @@
         if (fragmentTracker.getState(frag) === FragmentState.PARTIAL) {
           fragmentTracker.removeFragment(frag);
         }
+      }
+    };
+    _proto.checkLiveUpdate = function checkLiveUpdate(details) {
+      if (details.updated && !details.live) {
+        // Live stream ended, update fragment tracker
+        var lastFragment = details.fragments[details.fragments.length - 1];
+        this.fragmentTracker.detectPartialFragments({
+          frag: lastFragment,
+          part: null,
+          stats: lastFragment.stats,
+          id: lastFragment.type
+        });
+      }
+      if (!details.fragments[0]) {
+        details.deltaUpdateFailed = true;
       }
     };
     _proto.flushMainBuffer = function flushMainBuffer(startOffset, endOffset, type) {
@@ -15842,9 +15858,7 @@
       }
       var sliding = 0;
       if (newDetails.live || (_curLevel$details = curLevel.details) != null && _curLevel$details.live) {
-        if (!newDetails.fragments[0]) {
-          newDetails.deltaUpdateFailed = true;
-        }
+        this.checkLiveUpdate(newDetails);
         if (newDetails.deltaUpdateFailed) {
           return;
         }
@@ -17415,10 +17429,8 @@
       var track = levels[trackId];
       var sliding = 0;
       if (newDetails.live || (_track$details = track.details) != null && _track$details.live) {
+        this.checkLiveUpdate(newDetails);
         var mainDetails = this.mainDetails;
-        if (!newDetails.fragments[0]) {
-          newDetails.deltaUpdateFailed = true;
-        }
         if (newDetails.deltaUpdateFailed || !mainDetails) {
           return;
         }
@@ -26317,7 +26329,7 @@
        * Get the video-dev/hls.js package version.
        */
       function get() {
-        return "1.4.10";
+        return "1.4.12";
       }
     }, {
       key: "Events",

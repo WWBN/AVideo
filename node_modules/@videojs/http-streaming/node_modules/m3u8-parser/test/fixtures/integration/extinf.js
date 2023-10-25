@@ -1,5 +1,6 @@
 module.exports = {
   allowCache: true,
+  dateRanges: [],
   mediaSequence: 0,
   playlistType: 'VOD',
   segments: [
@@ -19,7 +20,8 @@ module.exports = {
       },
       duration: 10,
       timeline: 0,
-      uri: 'hls_450k_video.ts'
+      uri: 'hls_450k_video.ts',
+      title: ';asljasdfii11)))00,'
     },
     {
       byterange: {

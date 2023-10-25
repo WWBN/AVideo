@@ -36,7 +36,7 @@ export const parsedManifest = {
         timeline: 6
       }],
       targetDuration: 3,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       segments: [
         {
           duration: 3,

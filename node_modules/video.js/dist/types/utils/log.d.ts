@@ -1,9 +1,10 @@
 export default log;
 declare const log: {
     (...args: any[]): void;
-    createLogger(subname: any): any;
+    createLogger(subName: string, subDelimiter?: string, subStyles?: string): any;
+    createNewLogger(newName: string, newDelimiter?: string, newStyles?: string): any;
     levels: any;
-    level(lvl?: string): string;
+    level(lvl?: "info" | "error" | "all" | "debug" | "warn" | "off"): string;
     history: {
         (): any[];
         filter(fname: string): any[];
@@ -15,5 +16,5 @@ declare const log: {
     warn(...args: any[]): any;
     debug(...args: any[]): any;
 };
-export const createLogger: (subname: any) => any;
+export const createLogger: (subName: string, subDelimiter?: string, subStyles?: string) => any;
 //# sourceMappingURL=log.d.ts.map

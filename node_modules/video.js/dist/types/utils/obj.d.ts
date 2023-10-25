@@ -63,6 +63,13 @@ export function isPlain(value: any): boolean;
  */
 export function merge(...sources: any[]): any;
 /**
+ * Returns an array of values for a given object
+ *
+ * @param  {Object} source - target object
+ * @return {Array<unknown>} - object values
+ */
+export function values(source?: any): Array<unknown>;
+/**
  * Object.defineProperty but "lazy", which means that the value is only set after
  * it is retrieved the first time, rather than being set right away.
  *

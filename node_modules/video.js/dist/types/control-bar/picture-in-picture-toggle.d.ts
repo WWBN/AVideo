@@ -19,6 +19,11 @@ declare class PictureInPictureToggle extends Button {
      */
     constructor(player: any, options?: any);
     /**
+     * Displays or hides the button depending on the audio mode detection.
+     * Exits picture-in-picture if it is enabled when switching to audio mode.
+     */
+    handlePictureInPictureAudioModeChange(): void;
+    /**
      * Enables or disables button based on availability of a Picture-In-Picture mode.
      *
      * Enabled if

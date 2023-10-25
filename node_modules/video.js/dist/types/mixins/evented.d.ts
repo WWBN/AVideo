@@ -32,7 +32,7 @@ export function isEvented(object: any): boolean;
 /**
  * Adds a callback to run after the evented mixin applied.
  *
- * @param  {Object} object
+ * @param  {Object} target
  *         An object to Add
  * @param  {Function} callback
  *         The callback to run.

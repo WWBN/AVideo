@@ -70,6 +70,11 @@ declare class TextTrackDisplay extends Component {
      */
     updateDisplay(): void;
     /**
+     * Updates the displayed TextTrack to be sure it overlays the video when a either
+     * a {@link Player#texttrackchange} or a {@link Player#fullscreenchange} is fired.
+     */
+    updateDisplayOverlay(): void;
+    /**
      * Style {@Link TextTrack} activeCues according to {@Link TextTrackSettings}.
      *
      * @param {TextTrack} track

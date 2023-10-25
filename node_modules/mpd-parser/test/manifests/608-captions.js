@@ -46,7 +46,7 @@ export const parsedManifest = {
         'SUBTITLES': 'subs'
       },
       endList: true,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/1080p.ts',
       targetDuration: 6,
       mediaSequence: 0,
       timelineStarts: [{ start: 0, timeline: 0 }],

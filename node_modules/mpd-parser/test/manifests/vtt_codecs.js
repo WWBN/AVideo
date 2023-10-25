@@ -25,7 +25,7 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -103,7 +103,7 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -189,7 +189,7 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -267,7 +267,7 @@ export const parsedManifest = {
               uri: '',
               endList: true,
               timeline: 0,
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -440,7 +440,7 @@ export const parsedManifest = {
       uri: '',
       endList: true,
       timeline: 0,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       targetDuration: 1.9185833333333333,
       segments: [
         {
@@ -525,7 +525,7 @@ export const parsedManifest = {
       uri: '',
       endList: true,
       timeline: 0,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       targetDuration: 1.9185833333333333,
       segments: [
         {

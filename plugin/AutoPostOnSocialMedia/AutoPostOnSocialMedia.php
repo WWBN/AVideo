@@ -94,7 +94,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
     public function getPluginMenu() {
         global $global;
         $btn = '<button onclick="avideoModalIframeLarge(webSiteRootURL+\'plugin/AutoPostOnSocialMedia/View/editor.php\')" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa fa-edit"></i> Edit</button>';
-        $btn .= '<button onclick="avideoAjax(webSiteRootURL+\'plugin/AutoPostOnSocialMedia/autopost.json.php\', {})" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fab fa-twitter"></i> Autopost now</button>';
+        $btn .= '<button onclick="avideoAjax(webSiteRootURL+\'plugin/AutoPostOnSocialMedia/autopost.json.php\', {})" class="btn btn-primary btn-sm btn-xs btn-block"><i class="fa-brands fa-x-twitter"></i> Autopost now</button>';
         return $btn;
     }
 
@@ -146,7 +146,7 @@ class AutoPostOnSocialMedia extends PluginAbstract {
         if (!User::isAdmin()) {
             return "";
         }
-        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoAlertAJAX(webSiteRootURL+\\\'plugin/AutoPostOnSocialMedia/post.json.php?videos_id=\' + row.id + \'\\\');" ><i class="fab fa-twitter"></i> Post On Twitter</button>';
+        $btn = '<button type="button" class="btn btn-default btn-light btn-sm btn-xs btn-block " onclick="avideoAlertAJAX(webSiteRootURL+\\\'plugin/AutoPostOnSocialMedia/post.json.php?videos_id=\' + row.id + \'\\\');" ><i class="fa-brands fa-x-twitter"></i> Post On Twitter</button>';
         return $btn;
     }
 

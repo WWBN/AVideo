@@ -101,22 +101,19 @@ declare class EventDispatcher<T extends {}> {
     once<K extends string>(name: K, callback: (event: EditorEvent<MappedEvent<T, K>>) => void, prepend?: boolean): this;
     has(name: string): boolean;
 }
-declare const enum UndoLevelType {
-    Fragmented = "fragmented",
-    Complete = "complete"
-}
+type UndoLevelType = 'fragmented' | 'complete';
 interface BaseUndoLevel {
     type: UndoLevelType;
     bookmark: Bookmark | null;
     beforeBookmark: Bookmark | null;
 }
 interface FragmentedUndoLevel extends BaseUndoLevel {
-    type: UndoLevelType.Fragmented;
+    type: 'fragmented';
     fragments: string[];
     content: '';
 }
 interface CompleteUndoLevel extends BaseUndoLevel {
-    type: UndoLevelType.Complete;
+    type: 'complete';
     fragments: null;
     content: string;
 }
@@ -1865,6 +1862,7 @@ interface BaseEditorOptions {
     formats?: Formats;
     format_noneditable_selector?: string;
     height?: number | string;
+    help_accessibility?: boolean;
     hidden_input?: boolean;
     highlight_on_focus?: boolean;
     icons?: string;

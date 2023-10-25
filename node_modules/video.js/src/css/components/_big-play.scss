@@ -30,6 +30,16 @@
   }
 }
 
+.vjs-big-play-button .vjs-svg-icon {
+  width: 1em;
+  height: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+
 .video-js:hover .vjs-big-play-button,
 .video-js .vjs-big-play-button:focus {
   border-color: $primary-foreground-color;

@@ -89,7 +89,7 @@ if(!isCommandLineInterface()){
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
 <meta name="robots" content="index, follow" />
 
-<link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
+<link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
 if (!isBot()) {
 ?>

@@ -61,7 +61,7 @@
     </div>
     <div class="col-md-6">
         <div class="panel panel-default">
-            <div class="panel-heading"><i class="fab fa-twitter-square"></i> Twitter <div class="pull-right"><?php echo getPluginSwitch('LoginTwitter'); ?></div></div>
+            <div class="panel-heading"><i class="fa-brands fa-x-twitter-square"></i> Twitter <div class="pull-right"><?php echo getPluginSwitch('LoginTwitter'); ?></div></div>
             <div class="panel-body" style="overflow: hidden;">
                 <?php
                 createTable("LoginTwitter");

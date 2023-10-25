@@ -41,7 +41,10 @@ const manifestUri = 'https://example.com/dash.xml';
 const res = await fetch(manifestUri);
 const manifest = await res.text();
 
-var parsedManifest = mpdParser.parse(manifest, { manifestUri });
+// A callback function to handle events like errors or warnings
+const eventHandler = ({ type, message }) => console.log(`${type}: ${message}`);
+
+var parsedManifest = mpdParser.parse(manifest, { manifestUri, eventHandler });
 ```
 
 If dealing with a live stream, then on subsequent calls to parse, the previously parsed
@@ -63,6 +66,12 @@ The parser ouputs a plain javascript object with the following structure:
 ```js
 Manifest {
   allowCache: boolean,
+  contentSteering: {
+    defaultServiceLocation: string,
+    proxyServerURL: string,
+    queryBeforeStart: boolean,
+    serverURL: string
+  },
   endList: boolean,
   mediaSequence: number,
   discontinuitySequence: number,

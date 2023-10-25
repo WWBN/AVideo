@@ -1,51 +1,61 @@
 module.exports = {
   allowCache: true,
+  dateRanges: [],
   mediaSequence: 0,
   segments: [
     {
       duration: 10,
       timeline: 0,
-      uri: '001.ts'
+      uri: '001.ts',
+      title: '0'
     },
     {
       duration: 19,
       timeline: 0,
-      uri: '002.ts'
+      uri: '002.ts',
+      title: '0'
     },
     {
       duration: 10,
       timeline: 0,
-      uri: '003.ts'
+      uri: '003.ts',
+      title: '0'
     },
     {
       duration: 11,
       timeline: 0,
-      uri: '004.ts'
+      uri: '004.ts',
+      title: '0'
     },
     {
       duration: 10,
       timeline: 0,
-      uri: '005.ts'
+      uri: '005.ts',
+      title: '0'
     },
     {
       duration: 10,
       timeline: 0,
-      uri: '006.ts'
+      uri: '006.ts',
+      title: '0'
     },
     {
       duration: 10,
       timeline: 0,
-      uri: '007.ts'
+      uri: '007.ts',
+      title: '0'
     },
     {
       duration: 10,
       timeline: 0,
-      uri: '008.ts'
+      uri: '008.ts',
+      title: '0'
     },
     {
       duration: 16,
       timeline: 0,
-      uri: '009.ts'
+      uri: '009.ts',
+      title: '0'
     }
   ],
   targetDuration: 10,

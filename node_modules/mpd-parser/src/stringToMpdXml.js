@@ -15,7 +15,7 @@ export const stringToMpdXml = (manifestString) => {
     mpd = xml && xml.documentElement.tagName === 'MPD' ?
       xml.documentElement : null;
   } catch (e) {
-    // ie 11 throwsw on invalid xml
+    // ie 11 throws on invalid xml
   }
 
   if (!mpd || mpd &&

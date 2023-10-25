@@ -82,11 +82,31 @@ export const addCaptionData = function({
   captionArray.forEach((caption) => {
     const track = caption.stream;
 
-    inbandTextTracks[track].addCue(new Cue(
-      caption.startTime + timestampOffset,
-      caption.endTime + timestampOffset,
-      caption.text
-    ));
+    // in CEA 608 captions, video.js/mux.js sends a content array
+    // with positioning data
+    if (caption.content) {
+      caption.content.forEach((value) => {
+        const cue = new Cue(
+          caption.startTime + timestampOffset,
+          caption.endTime + timestampOffset,
+          value.text
+        );
+
+        cue.line = value.line;
+        cue.align = 'left';
+        cue.position = value.position;
+        cue.positionAlign = 'line-left';
+
+        inbandTextTracks[track].addCue(cue);
+      });
+    } else {
+      // otherwise, a text value with combined captions is sent
+      inbandTextTracks[track].addCue(new Cue(
+        caption.startTime + timestampOffset,
+        caption.endTime + timestampOffset,
+        caption.text
+      ));
+    }
   });
 };
 
@@ -159,6 +179,11 @@ export const addMetadata = ({
       return;
     }
 
+    // If we have no frames, we can't create a cue.
+    if (!metadata.frames || !metadata.frames.length) {
+      return;
+    }
+
     metadata.frames.forEach((frame) => {
       const cue = new Cue(
         time,
@@ -209,12 +234,79 @@ export const addMetadata = ({
   // Map each cue group's endTime to the next group's startTime
   sortedStartTimes.forEach((startTime, idx) => {
     const cueGroup = cuesGroupedByStartTime[startTime];
-    const nextTime = Number(sortedStartTimes[idx + 1]) || videoDuration;
+    const finiteDuration = isFinite(videoDuration) ? videoDuration : 0;
+    const nextTime = Number(sortedStartTimes[idx + 1]) || finiteDuration;
 
     // Map each cue's endTime the next group's startTime
     cueGroup.forEach((cue) => {
       cue.endTime = nextTime;
     });
+  });
+};
+
+// object for mapping daterange attributes
+const dateRangeAttr = {
+  id: 'ID',
+  class: 'CLASS',
+  startDate: 'START-DATE',
+  duration: 'DURATION',
+  endDate: 'END-DATE',
+  endOnNext: 'END-ON-NEXT',
+  plannedDuration: 'PLANNED-DURATION',
+  scte35Out: 'SCTE35-OUT',
+  scte35In: 'SCTE35-IN'
+};
+
+const dateRangeKeysToOmit = new Set([
+  'id',
+  'class',
+  'startDate',
+  'duration',
+  'endDate',
+  'endOnNext',
+  'startTime',
+  'endTime',
+  'processDateRange'
+]);
+
+/**
+ * Add DateRange metadata text track to a source handler given an array of metadata
+ *
+ * @param {Object}
+ *   @param {Object} inbandTextTracks the inband text tracks
+ *   @param {Array} dateRanges parsed media playlist
+ * @private
+ */
+export const addDateRangeMetadata = ({ inbandTextTracks, dateRanges }) => {
+  const metadataTrack = inbandTextTracks.metadataTrack_;
+
+  if (!metadataTrack) {
+    return;
+  }
+
+  const Cue = window.WebKitDataCue || window.VTTCue;
+
+  dateRanges.forEach((dateRange) => {
+    // we generate multiple cues for each date range with different attributes
+    for (const key of Object.keys(dateRange)) {
+      if (dateRangeKeysToOmit.has(key)) {
+        continue;
+      }
+
+      const cue = new Cue(dateRange.startTime, dateRange.endTime, '');
+
+      cue.id = dateRange.id;
+      cue.type = 'com.apple.quicktime.HLS';
+      cue.value = { key: dateRangeAttr[key], data: dateRange[key] };
+
+      if (key === 'scte35Out' || key === 'scte35In') {
+        cue.value.data = new Uint8Array(cue.value.data.match(/[\da-f]{2}/gi)).buffer;
+      }
+
+      metadataTrack.addCue(cue);
+    }
+
+    dateRange.processDateRange();
   });
 };
 
@@ -236,7 +328,10 @@ export const createMetadataTrackIfNotExists = (inbandTextTracks, dispatchType, t
     label: 'Timed Metadata'
   }, false).track;
 
-  inbandTextTracks.metadataTrack_.inBandMetadataTrackDispatchType = dispatchType;
+  if (!videojs.browser.IS_ANY_SAFARI) {
+    inbandTextTracks.metadataTrack_.inBandMetadataTrackDispatchType = dispatchType;
+
+  }
 };
 
 /**
@@ -285,26 +380,16 @@ export const removeDuplicateCuesFromTrack = function(track) {
     return;
   }
 
-  for (let i = 0; i < cues.length; i++) {
-    const duplicates = [];
-    let occurrences = 0;
+  const uniqueCues = {};
 
-    for (let j = 0; j < cues.length; j++) {
-      if (
-        cues[i].startTime === cues[j].startTime &&
-        cues[i].endTime === cues[j].endTime &&
-        cues[i].text === cues[j].text
-      ) {
-        occurrences++;
+  for (let i = cues.length - 1; i >= 0; i--) {
+    const cue = cues[i];
+    const cueKey = `${cue.startTime}-${cue.endTime}-${cue.text}`;
 
-        if (occurrences > 1) {
-          duplicates.push(cues[j]);
-        }
-      }
-    }
-
-    if (duplicates.length) {
-      duplicates.forEach(dupe => track.removeCue(dupe));
+    if (uniqueCues[cueKey]) {
+      track.removeCue(cue);
+    } else {
+      uniqueCues[cueKey] = cue;
     }
   }
 };

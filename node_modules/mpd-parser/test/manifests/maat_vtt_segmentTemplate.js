@@ -25,7 +25,7 @@ export const parsedManifest = {
               timelineStarts: [{ start: 0, timeline: 0 }],
               discontinuitySequence: 0,
               discontinuityStarts: [],
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -100,7 +100,7 @@ export const parsedManifest = {
               timelineStarts: [{ start: 0, timeline: 0 }],
               discontinuitySequence: 0,
               discontinuityStarts: [],
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -183,7 +183,7 @@ export const parsedManifest = {
               timelineStarts: [{ start: 0, timeline: 0 }],
               discontinuitySequence: 0,
               discontinuityStarts: [],
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -258,7 +258,7 @@ export const parsedManifest = {
               timelineStarts: [{ start: 0, timeline: 0 }],
               discontinuitySequence: 0,
               discontinuityStarts: [],
-              resolvedUri: '',
+              resolvedUri: 'https://www.example.com/base',
               targetDuration: 1.984,
               segments: [
                 {
@@ -421,7 +421,7 @@ export const parsedManifest = {
       timelineStarts: [{ start: 0, timeline: 0 }],
       discontinuitySequence: 0,
       discontinuityStarts: [],
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       targetDuration: 1.9185833333333333,
       segments: [
         {
@@ -503,7 +503,7 @@ export const parsedManifest = {
       timelineStarts: [{ start: 0, timeline: 0 }],
       discontinuitySequence: 0,
       discontinuityStarts: [],
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       targetDuration: 1.9185833333333333,
       segments: [
         {

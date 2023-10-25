@@ -74,7 +74,7 @@ export const findSegmentForProgramTime = (programTime, playlist) => {
 
   let segment = playlist.segments[0];
 
-  if (dateTimeObject < segment.dateTimeObject) {
+  if (dateTimeObject < new Date(segment.dateTimeObject)) {
     // Requested time is before stream start.
     return null;
   }
@@ -82,7 +82,7 @@ export const findSegmentForProgramTime = (programTime, playlist) => {
   for (let i = 0; i < playlist.segments.length - 1; i++) {
     segment = playlist.segments[i];
 
-    const nextSegmentStart = playlist.segments[i + 1].dateTimeObject;
+    const nextSegmentStart = new Date(playlist.segments[i + 1].dateTimeObject);
 
     if (dateTimeObject < nextSegmentStart) {
       break;
@@ -102,7 +102,7 @@ export const findSegmentForProgramTime = (programTime, playlist) => {
     return null;
   }
 
-  if (dateTimeObject > lastSegmentStart) {
+  if (dateTimeObject > new Date(lastSegmentStart)) {
     segment = lastSegment;
   }
 

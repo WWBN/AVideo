@@ -27,7 +27,7 @@ export const parsedManifest = {
       endList: true,
       mediaSequence: 0,
       targetDuration: 1,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       segments: [
         {
           duration: 1,
@@ -123,7 +123,7 @@ export const parsedManifest = {
         'SUBTITLES': 'subs'
       },
       endList: true,
-      resolvedUri: '',
+      resolvedUri: 'https://www.example.com/base',
       mediaSequence: 0,
       targetDuration: 60,
       segments: [

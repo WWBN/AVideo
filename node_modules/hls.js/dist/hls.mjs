@@ -402,7 +402,7 @@ function enableLogs(debugConfig, id) {
     // Some browsers don't allow to use bind on console object anyway
     // fallback to default if needed
     try {
-      exportedLogger.log(`Debug logs enabled for "${id}" in hls.js version ${"1.4.10"}`);
+      exportedLogger.log(`Debug logs enabled for "${id}" in hls.js version ${"1.4.12"}`);
     } catch (e) {
       exportedLogger = fakeLogger;
     }
@@ -927,7 +927,7 @@ class LevelDetails {
     }
     const partSnDiff = this.lastPartSn - previous.lastPartSn;
     const partIndexDiff = this.lastPartIndex - previous.lastPartIndex;
-    this.updated = this.endSN !== previous.endSN || !!partIndexDiff || !!partSnDiff;
+    this.updated = this.endSN !== previous.endSN || !!partIndexDiff || !!partSnDiff || !this.live;
     this.advanced = this.endSN > previous.endSN || partSnDiff > 0 || partSnDiff === 0 && partIndexDiff > 0;
     if (this.updated || this.advanced) {
       this.misses = Math.floor(previous.misses * 0.6);
@@ -5777,7 +5777,7 @@ class BasePlaylistController {
     if (details.live || previousDetails != null && previousDetails.live) {
       details.reloaded(previousDetails);
       if (previousDetails) {
-        this.log(`live playlist ${index} ${details.advanced ? 'REFRESHED ' + details.lastPartSn + '-' + details.lastPartIndex : 'MISSED'}`);
+        this.log(`live playlist ${index} ${details.advanced ? 'REFRESHED ' + details.lastPartSn + '-' + details.lastPartIndex : details.updated ? 'UPDATED' : 'MISSED'}`);
       }
       // Merge live playlists to adjust fragment starts and fill in delta playlist skipped segments
       if (previousDetails && details.fragments.length > 0) {
@@ -5832,7 +5832,7 @@ class BasePlaylistController {
           this.loadPlaylist(deliveryDirectives);
           return;
         }
-      } else if (details.canBlockReload) {
+      } else if (details.canBlockReload || details.canSkipUntil) {
         deliveryDirectives = this.getDeliveryDirectives(details, data.deliveryDirectives, msn, part);
       }
       const bufferInfo = this.hls.mainForwardBufferInfo;
@@ -6578,7 +6578,8 @@ class FragmentTracker {
     fragmentEntity.loaded = null;
     if (Object.keys(fragmentEntity.range).length) {
       fragmentEntity.buffered = true;
-      if (fragmentEntity.body.endList) {
+      const endList = fragmentEntity.body.endList = frag.endList || fragmentEntity.body.endList;
+      if (endList) {
         this.endListFragments[fragmentEntity.body.type] = fragmentEntity;
       }
       if (!isPartial(fragmentEntity)) {
@@ -8564,6 +8565,21 @@ class BaseStreamController extends TaskLoop {
       if (fragmentTracker.getState(frag) === FragmentState.PARTIAL) {
         fragmentTracker.removeFragment(frag);
       }
+    }
+  }
+  checkLiveUpdate(details) {
+    if (details.updated && !details.live) {
+      // Live stream ended, update fragment tracker
+      const lastFragment = details.fragments[details.fragments.length - 1];
+      this.fragmentTracker.detectPartialFragments({
+        frag: lastFragment,
+        part: null,
+        stats: lastFragment.stats,
+        id: lastFragment.type
+      });
+    }
+    if (!details.fragments[0]) {
+      details.deltaUpdateFailed = true;
     }
   }
   flushMainBuffer(startOffset, endOffset, type = null) {
@@ -15357,9 +15373,7 @@ class StreamController extends BaseStreamController {
     }
     let sliding = 0;
     if (newDetails.live || (_curLevel$details = curLevel.details) != null && _curLevel$details.live) {
-      if (!newDetails.fragments[0]) {
-        newDetails.deltaUpdateFailed = true;
-      }
+      this.checkLiveUpdate(newDetails);
       if (newDetails.deltaUpdateFailed) {
         return;
       }
@@ -16971,10 +16985,8 @@ class AudioStreamController extends BaseStreamController {
     const track = levels[trackId];
     let sliding = 0;
     if (newDetails.live || (_track$details = track.details) != null && _track$details.live) {
+      this.checkLiveUpdate(newDetails);
       const mainDetails = this.mainDetails;
-      if (!newDetails.fragments[0]) {
-        newDetails.deltaUpdateFailed = true;
-      }
       if (newDetails.deltaUpdateFailed || !mainDetails) {
         return;
       }
@@ -25051,7 +25063,7 @@ class Hls {
    * Get the video-dev/hls.js package version.
    */
   static get version() {
-    return "1.4.10";
+    return "1.4.12";
   }
 
   /**

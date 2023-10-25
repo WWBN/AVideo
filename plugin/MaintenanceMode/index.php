@@ -91,7 +91,7 @@ if(empty($obj)){
                     if (!empty($obj->twitterLink)) {
                         ?>
                         <a href="<?php echo $obj->twitterLink; ?>" class="flex-c-m size5 bg4 how1 trans-04 m-r-5">
-                            <i class="fab fa-twitter"></i>
+                            <i class="fa-brands fa-x-twitter"></i>
                         </a>
                         <?php
                     }

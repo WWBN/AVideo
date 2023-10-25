@@ -624,6 +624,16 @@ export default class ParseStream extends Stream {
         });
         return;
       }
+      match = (/^#EXT-X-CONTENT-STEERING:(.*)$/).exec(newLine);
+      if (match) {
+        event = {
+          type: 'tag',
+          tagType: 'content-steering'
+        };
+        event.attributes = parseAttributes(match[1]);
+        this.trigger('data', event);
+        return;
+      }
 
       // unknown tag type
       this.trigger('data', {

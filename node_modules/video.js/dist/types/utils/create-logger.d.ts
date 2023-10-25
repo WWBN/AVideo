@@ -1,7 +1,7 @@
-export default function createLogger(name: any): {
+export default function createLogger(name: any, delimiter?: string, styles?: string): {
     (...args: any[]): void;
     /**
-     * Create a new sublogger which chains the old name to the new name.
+     * Create a new subLogger which chains the old name to the new name.
      *
      * For example, doing `videojs.log.createLogger('player')` and then using that logger will log the following:
      * ```js
@@ -9,11 +9,27 @@ export default function createLogger(name: any): {
      *  // > VIDEOJS: player: foo
      * ```
      *
-     * @param {string} name
+     * @param {string} subName
      *        The name to add call the new logger
+     * @param {string} [subDelimiter]
+     *        Optional delimiter
+     * @param {string} [subStyles]
+     *        Optional styles
      * @return {Object}
      */
-    createLogger(subname: any): any;
+    createLogger(subName: string, subDelimiter?: string, subStyles?: string): any;
+    /**
+     * Create a new logger.
+     *
+     * @param {string} newName
+     *        The name for the new logger
+     * @param {string} [newDelimiter]
+     *        Optional delimiter
+     * @param {string} [newStyles]
+     *        Optional styles
+     * @return {Object}
+     */
+    createNewLogger(newName: string, newDelimiter?: string, newStyles?: string): any;
     /**
      * Enumeration of available logging levels, where the keys are the level names
      * and the values are `|`-separated strings containing logging methods allowed
@@ -40,13 +56,13 @@ export default function createLogger(name: any): {
      * If a string matching a key from {@link module:log.levels} is provided, acts
      * as a setter.
      *
-     * @param  {string} [lvl]
+     * @param  {'all'|'debug'|'info'|'warn'|'error'|'off'} [lvl]
      *         Pass a valid level to set a new logging level.
      *
      * @return {string}
      *         The current logging level.
      */
-    level(lvl?: string): string;
+    level(lvl?: 'all' | 'debug' | 'info' | 'warn' | 'error' | 'off'): string;
     /**
      * Returns an array containing everything that has been logged to the history.
      *

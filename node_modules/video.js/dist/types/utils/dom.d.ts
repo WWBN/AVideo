@@ -45,7 +45,7 @@ export function createEl(tagName?: string, properties?: any, attributes?: any, c
 /**
  * Injects text into an element, replacing any existing contents entirely.
  *
- * @param  {Element} el
+ * @param  {HTMLElement} el
  *         The element to add text content into
  *
  * @param  {string} text
@@ -54,7 +54,7 @@ export function createEl(tagName?: string, properties?: any, attributes?: any, c
  * @return {Element}
  *         The element with added text content.
  */
-export function textContent(el: Element, text: string): Element;
+export function textContent(el: HTMLElement, text: string): Element;
 /**
  * Insert an element as the first child node of another
  *
@@ -361,13 +361,13 @@ export function insertContent(el: Element, content: ContentDescriptor): Element;
 /**
  * Check if an event was a single left click.
  *
- * @param  {Event} event
+ * @param  {MouseEvent} event
  *         Event object.
  *
  * @return {boolean}
  *         Will be `true` if a single left click, `false` otherwise.
  */
-export function isSingleLeftClick(event: Event): boolean;
+export function isSingleLeftClick(event: MouseEvent): boolean;
 /**
  * A safe getComputedStyle.
  *
@@ -384,6 +384,14 @@ export function isSingleLeftClick(event: Event): boolean;
  * @see      https://bugzilla.mozilla.org/show_bug.cgi?id=548397
  */
 export function computedStyle(el: Element, prop: string): any;
+/**
+ * Copy document style sheets to another window.
+ *
+ * @param    {Window} win
+ *           The window element you want to copy the document style sheets to.
+ *
+ */
+export function copyStyleSheetsToWindow(win: Window): void;
 /**
  * Finds a single DOM element matching `selector` within the optional
  * `context` of another DOM element (defaulting to `document`).

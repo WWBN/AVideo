@@ -698,6 +698,14 @@ QUnit.test('parses #EXT-X-STREAM-INF with common attributes', function(assert) {
     'avc1.4d400d, mp4a.40.2',
     'codecs are parsed'
   );
+
+  manifest = '#EXT-X-STREAM-INF:PATHWAY-ID="CDN-A"\n';
+  this.lineStream.push(manifest);
+
+  assert.ok(element, 'an event was triggered');
+  assert.strictEqual(element.type, 'tag', 'the line type is tag');
+  assert.strictEqual(element.tagType, 'stream-inf', 'the tag type is stream-inf');
+  assert.strictEqual(element.attributes['PATHWAY-ID'], 'CDN-A', 'pathway-id is parsed');
 });
 QUnit.test('parses #EXT-X-STREAM-INF with arbitrary attributes', function(assert) {
   const manifest = '#EXT-X-STREAM-INF:NUMERIC=24,ALPHA=Value,MIXED=123abc\n';
