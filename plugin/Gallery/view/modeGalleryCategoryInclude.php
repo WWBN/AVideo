@@ -1,5 +1,6 @@
 <?php
 if (empty($_cat['clean_name'])) {
+    echo '<!-- empty clean_name -->';
     return;
 }//var_dump($_cat);exit;
 $_REQUEST['catName'] = $_cat['clean_name'];
@@ -14,6 +15,7 @@ $_POST['sort']['likes'] = "DESC";
 $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
 //exit;
 if (empty($videos)) {
+    echo '<!-- empty videos -->';
     return;
 }
 global $contentSearchFound;

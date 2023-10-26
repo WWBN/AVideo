@@ -37,9 +37,12 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 <!-- modeGalleryCategory start -->
 <div class="categoriesContainerItem">
     <?php
+    //var_dump($categories);exit;
     $timeLogName = TimeLogStart('modeGalleryCategory');
     foreach ($categories as $_cat) {
-        $setCacheName = "include{$_cat['id']}";
+        //var_dump($_cat);
+        $setCacheName = "GalleryCategoryInclude{$_cat['id']}";
+        unsetCurrentPage();
         //var_dump($_cat, $setCacheName);exit;
         $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
         ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);

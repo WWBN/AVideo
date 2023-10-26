@@ -6585,6 +6585,11 @@ function getCurrentPage()
         _error_log("getCurrentPage current>100 ERROR bot die [{$current}] " . getSelfURI() . ' ' . json_encode($_SERVER));
         exit;
     }
+    if(isset($_GET['isInfiniteScroll'])){
+        if($current < $_GET['isInfiniteScroll']){
+            $current = intval($_GET['isInfiniteScroll']);
+        }
+    }
     $lastCurrent = $current;
     return $current;
 }
@@ -6605,6 +6610,18 @@ function getTrendingLimitDate()
     $dateDaysLimit = date('Y-m-d H:i:s', strtotime("-{$daysLimit} days"));
     return $dateDaysLimit;
 }
+
+
+function unsetCurrentPage()
+{
+    $_REQUEST['current'] = 1;
+    $_POST['current'] = 1;
+    $_GET['current'] = 1;
+    $_GET['page'] = 1;
+    $_REQUEST['current'] = 1;
+    $_GET['isInfiniteScroll'] = 1;
+}
+
 
 function setCurrentPage($current)
 {
@@ -7308,7 +7325,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
         }
     }
     if($isInfiniteScroll){
-        $link = addQueryStringParameter($link, 'isInfiniteScroll', 1);
+        $link = addQueryStringParameter($link, 'isInfiniteScroll', getCurrentPage());
     }
     if(is_string($showOnly)){
         $link = addQueryStringParameter($link, 'showOnly',$showOnly);
