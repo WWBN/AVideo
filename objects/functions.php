@@ -3801,8 +3801,22 @@ function addQueryStringParameter($url, $varname, $value)
         parse_str($parsedUrl['query'], $query);
     }
     $query[$varname] = $value;
+    
+    // Ensure 'current' is the last parameter
+    $currentValue = null;
+    if (isset($query['current'])) {
+        $currentValue = $query['current'];
+        unset($query['current']);
+    }
+
     $path = $parsedUrl['path'] ?? '';
-    $query = !empty($query) ? '?' . http_build_query($query) : '';
+    $queryString = http_build_query($query);
+
+    // Append 'current' at the end, if it exists
+    if ($currentValue !== null) {
+        $queryString = (!empty($queryString) ? $queryString . '&' : '') . 'current=' . intval($currentValue);
+    }
+    $query = !empty($queryString) ? '?' . $queryString : '';
 
     $port = '';
     if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
@@ -3816,6 +3830,7 @@ function addQueryStringParameter($url, $varname, $value)
     }
     return $scheme . '//' . $parsedUrl['host'] . $port . $path . $query;
 }
+
 
 function isSameDomain($url1, $url2)
 {
