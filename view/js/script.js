@@ -640,7 +640,7 @@ function playerPlay(currentTime) {
                     } else {
                         if (promisePlaytryNetworkFail >= 5) {
                             userIsControling = true;
-                            //console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
+                            console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");
                             player.pause();
                         } else if (promisePlaytry <= 10) {
                             //console.log("playerPlay: (" + promisePlaytry + ") Autoplay was prevented, trying to mute and play ***");
