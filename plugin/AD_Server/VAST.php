@@ -82,14 +82,14 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                     <?php
                                     foreach ($files as $key => $value) {
                                         $adsCount++;
-                                        $type = 'video/mp4';
+                                        $type = ' type="video/mp4" delivery="progressive" ';
                                         if(preg_match('/m3u8/', $value['url'])){
-                                            $type = 'application/x-mpegURL';
+                                            $type = ' type="application/x-mpegURL" delivery="streaming"';
                                         }
-                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" delivery="progressive" type="'.$type.'" scalable="true" maintainAspectRatio="true">' . ($value['url']) . '</MediaFile>';
+                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" '.$type.' scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                                     }
                                     if (!$adsCount) {
-                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true">' . $global['webSiteRootURL'] . 'plugin/AD_Server/view/adswarning.mp4</MediaFile>';
+                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'] . 'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';
                                     }
                                     ?>
                                 </MediaFiles>
