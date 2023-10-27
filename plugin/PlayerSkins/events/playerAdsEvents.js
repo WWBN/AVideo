@@ -29,4 +29,35 @@ player.on('ads-loader', function (a) {
 player.on('ads-request', function (a) {
     console.log('ads-request', a);
 });
+
+// Event fired when an ad starts playing
+player.on('adstart', function() {
+    console.log('Ad playback has started.');
+});
+
+// Event fired when an ad is paused
+player.on('adpause', function() {
+    console.log('Ad playback has been paused.');
+});
+
+// Event fired when an ad is resumed
+player.on('adresume', function() {
+    console.log('Ad playback has been resumed.');
+});
+
+// Event fired when an ad finishes playing
+player.on('adend', function() {
+    console.log('Ad playback has finished.');
+});
+
+// Event fired when an ad is clicked
+player.on('adclick', function() {
+    console.log('Ad was clicked.');
+});
+
+// Event fired if there's an error during ad playback
+player.on('adserror', function(event) {
+    console.log('Ads error:', event.error);
+});
+
 player.one(startEvent, function () { player.ima.initializeAdDisplayContainer(); });
