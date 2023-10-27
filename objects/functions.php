@@ -841,10 +841,11 @@ function sendSiteEmailAsync($to, $subject, $message)
     // Make sure the emails in $to are unique
     $to = array_unique($to);
     $content = ['to' => $to, 'subject' => $subject, 'message' => $message];
-    $tmpFile = getTmpFile();
+    //$tmpFile = getTmpFile();
+    $tmpFile = "{$global['systemRootPath']}videos/emails_".uniqid().'.log';
     $bytes = file_put_contents($tmpFile, _json_encode($content));
     //outputAndContinueInBackground();
-    $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile'";
+    $command = "php {$global['systemRootPath']}objects/sendSiteEmailAsync.php '$tmpFile' && rm '$tmpFile'";
     $totalEmails = count($to);
     _error_log("sendSiteEmailAsync start [bytes=$bytes] [totalEmails={$totalEmails}] ($command) file_exists=" . file_exists($tmpFile));
     $pid = execAsync($command);
@@ -4231,7 +4232,6 @@ function allowOrigin()
     global $global;
     cleanUpAccessControlHeader();
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
-    header('Access-Control-Allow-Origin: ');  // This will essentially "remove" the header
     if (empty($HTTP_ORIGIN)) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');
@@ -4255,6 +4255,7 @@ function cleanUpAccessControlHeader()
             }
         }
     }
+    header('Access-Control-Allow-Origin: ');  // This will essentially "remove" the header
 }
 
 function rrmdir($dir)
@@ -5308,7 +5309,7 @@ function clearCache($firstPageOnly = false)
         return false;
     }
     $start = microtime(true);
-    _error_log('clearCache starts ');
+    _error_log('clearCache starts '.$firstPageOnly);
     file_put_contents($lockFile, time());
 
     $dir = getVideosDir() . "cache" . DIRECTORY_SEPARATOR;
