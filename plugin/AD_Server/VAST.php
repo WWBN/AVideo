@@ -84,11 +84,11 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                         $adsCount++;
                                         $type = ' type="video/mp4" delivery="progressive" ';
                                         if(preg_match('/m3u8/', $value['url'])){
-                                            $type = ' type="application/x-mpegURL" delivery="streaming"';
+                                            $type = ' type="application/x-mpegURL" delivery="streaming" minBitrate="49" maxBitrate="258" ';
                                         }
                                         echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" '.$type.' scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                                         echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" type="video/mp4" delivery="progressive" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
-                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" type="application/vnd.apple.mpegurl" delivery="streaming" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
+                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" type="application/vnd.apple.mpegurl" minBitrate="49" maxBitrate="258"  delivery="streaming" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                                     }
                                     if (!$adsCount) {
                                         echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'] . 'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';
