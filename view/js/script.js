@@ -1710,7 +1710,7 @@ function fixAdSize() {
 }
 
 function playerIsPlayingAds() {
-    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible')) && player.ima.getAdsManager().getRemainingTime() > 0;
+    return ($("#mainVideo_ima-ad-container").length && $("#mainVideo_ima-ad-container").is(':visible')) && player.ima.getAdsManager() != null && player.ima.getAdsManager().getRemainingTime() > 0;
 }
 
 function playerHasAds() {

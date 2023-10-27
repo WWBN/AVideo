@@ -16,7 +16,8 @@ if (empty($_GET['vmap_id'])) {
 }
 
 $vmaps = AD_Server::getVMAPSFromRequest();
-?><?xml version="1.0" encoding="UTF-8"?>
+echo '<?xml version="1.0" encoding="UTF-8"?>';
+?>
 <vmap:VMAP xmlns:vmap="http://www.iab.net/videosuite/vmap" version="1.0">
     <?php
     foreach ($vmaps as $key => $value) {

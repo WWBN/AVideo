@@ -40,6 +40,8 @@ class AD_Server extends PluginAbstract {
 
     public function getEmptyDataObject() {
         $obj = new stdClass();
+        $obj->prerollLive = true;
+        self::addDataObjectHelper('prerollLive', 'Pre Roll Live Stream');
         $obj->start = true;
         self::addDataObjectHelper('start', 'Show Pre-Roll ads');
         $obj->mid25Percent = true;
@@ -145,8 +147,13 @@ class AD_Server extends PluginAbstract {
                 return false;
             }
         }
-        if (empty($_GET['videoName'])) {
-            return false;
+        $obj = $this->getDataObject();
+        if($obj->prerollLive){
+            if (isLive()) {
+                return true;
+            } else if (isLiveLink()) {
+                return true;
+            }
         }
         // count it each 2 seconds
         if (empty($_SESSION['lastAdShowed']) || $_SESSION['lastAdShowed'] + 2 <= time()) {
@@ -161,7 +168,6 @@ class AD_Server extends PluginAbstract {
             }
         }
         //_error_log("Show Ads Count {$_SESSION['showAdsCount']}");
-        $obj = $this->getDataObject();
         if (!empty($obj->showAdsOnEachVideoView->value) && $_SESSION['showAdsCount'] % $obj->showAdsOnEachVideoView->value === 0) {
             return true;
         }
@@ -169,7 +175,7 @@ class AD_Server extends PluginAbstract {
     }
 
     public function getHeadCode() {
-        $obj = $this->getDataObject();
+        //$obj = $this->getDataObject();
         if (!$this->canLoadAds()) {
             return "";
         }
@@ -320,23 +326,29 @@ class AD_Server extends PluginAbstract {
 
         $selectedOptions = $this->getRandomPositions();
 
-        if (!empty($obj->start) && in_array(1, $selectedOptions)) {
-            $vmaps[] = new VMAP("start", new VAST(1));
-        }
-        if (!empty($obj->mid25Percent) && in_array(2, $selectedOptions)) {
-            $val = $video_length * (25 / 100);
-            $vmaps[] = new VMAP($val, new VAST(2));
-        }
-        if (!empty($obj->mid50Percent) && in_array(3, $selectedOptions)) {
-            $val = $video_length * (50 / 100);
-            $vmaps[] = new VMAP($val, new VAST(3));
-        }
-        if (!empty($obj->mid75Percent) && in_array(4, $selectedOptions)) {
-            $val = $video_length * (75 / 100);
-            $vmaps[] = new VMAP($val, new VAST(4));
-        }
-        if (!empty($obj->end) && in_array(5, $selectedOptions)) {
-            $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+        if(isLive() || isLiveLink()){
+            if($obj->prerollLive){
+                $vmaps[] = new VMAP("start", new VAST(100));
+            }
+        }else{
+            if (!empty($obj->start) && in_array(1, $selectedOptions)) {
+                $vmaps[] = new VMAP("start", new VAST(1));
+            }
+            if (!empty($obj->mid25Percent) && in_array(2, $selectedOptions)) {
+                $val = $video_length * (25 / 100);
+                $vmaps[] = new VMAP($val, new VAST(2));
+            }
+            if (!empty($obj->mid50Percent) && in_array(3, $selectedOptions)) {
+                $val = $video_length * (50 / 100);
+                $vmaps[] = new VMAP($val, new VAST(3));
+            }
+            if (!empty($obj->mid75Percent) && in_array(4, $selectedOptions)) {
+                $val = $video_length * (75 / 100);
+                $vmaps[] = new VMAP($val, new VAST(4));
+            }
+            if (!empty($obj->end) && in_array(5, $selectedOptions)) {
+                $vmaps[] = new VMAP("end", new VAST(5), $video_length);
+            }
         }
 
         return $vmaps;
