@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-header('Access-Control-Allow-Origin: *');
+allowOrigin();
 header('Content-Type: application/json');
 
 $_REQUEST['rowCount'] = getRowCount(1000);

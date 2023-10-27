@@ -1,11 +1,11 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once 'comment.php';
 require_once 'subscribe.php';

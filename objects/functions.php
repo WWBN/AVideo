@@ -4231,6 +4231,7 @@ function allowOrigin()
     global $global;
     cleanUpAccessControlHeader();
     $HTTP_ORIGIN = empty($_SERVER['HTTP_ORIGIN']) ? @$_SERVER['HTTP_REFERER'] : $_SERVER['HTTP_ORIGIN'];
+    header('Access-Control-Allow-Origin: ');  // This will essentially "remove" the header
     if (empty($HTTP_ORIGIN)) {
         $server = parse_url($global['webSiteRootURL']);
         header('Access-Control-Allow-Origin: ' . $server["scheme"] . '://imasdk.googleapis.com');

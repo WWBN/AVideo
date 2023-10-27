@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
@@ -9,6 +8,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 // Getting the mobile submitted value

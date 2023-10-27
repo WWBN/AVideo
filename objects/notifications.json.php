@@ -1,5 +1,4 @@
 <?php
-header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
@@ -10,6 +9,7 @@ if (empty($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
+allowOrigin();
 // Getting the mobile submitted value
 $inputJSON = url_get_contents('php://input');
 $input = _json_decode($inputJSON, true); //convert JSON into array

@@ -1,3 +1,4 @@
+var adsRetry = 0;
 setInterval(function () { fixAdSize(); }, 300);
 player.on('adsready', function () {
     console.log('adsready');
@@ -56,9 +57,20 @@ player.on('adclick', function() {
     console.log('ADS: was clicked.');
 });
 
+// Event fired when an ad is clicked
+player.on('readyforpreroll', function() {
+    console.log('ADS: readyforpreroll');
+    //player.ima.requestAds();
+});
+
 // Event fired if there's an error during ad playback
 player.on('adserror', function(event) {
     console.log('ADS: error:', event.error);
+    if(adsRetry==0){
+        adsRetry++;
+        //player.ima.requestAds();
+        preloadVmapAndUpdateAdTag(_adTagUrl);
+    }
 });
 
 player.one(startEvent, function () { player.ima.initializeAdDisplayContainer(); });

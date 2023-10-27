@@ -807,7 +807,7 @@ function playerPlayIfAutoPlay(currentTime) {
     return false;
 }
 
-function cancelAllPlaybackTimeouts(){
+function cancelAllPlaybackTimeouts() {
     clearTimeout(playerPlayTimeout);
     clearTimeout(promisePlayTimeout);
     clearTimeout(promisePlaytryNetworkFailTimeout);
@@ -1287,13 +1287,13 @@ function avideoAlertAJAX(url) {
 function avideoAlertHTMLText(title, msg, type) {
     var isErrorOrWarning = (type == 'error' || type == 'warning');
     var className = "btn btn-primary btn-block";
-    if(type == 'error'){
+    if (type == 'error') {
         var className = "btn btn-danger btn-block";
-    }else if(type == 'warning'){
+    } else if (type == 'warning') {
         var className = "btn btn-warning btn-block";
-    }else if(type == 'info'){
+    } else if (type == 'info') {
         var className = "btn btn-info btn-block";
-    }else if(type == 'success'){
+    } else if (type == 'success') {
         var className = "btn btn-success btn-block";
     }
     var span = document.createElement("span");
@@ -1315,7 +1315,7 @@ function avideoAlertHTMLText(title, msg, type) {
     });
     $(".swal-button--confirm").removeClass("swal-button");
     $(".swal-button-container").removeClass("swal-button-container");
-    
+
 }
 
 function avideoModalIframeClose() {
@@ -1665,7 +1665,7 @@ function avideoResponse(response) {
         avideoAlertError(response.msg);
     } else {
         if (!response.msg) {
-            response.msg =  __('Success');
+            response.msg = __('Success');
         }
         if (response.warning) {
             avideoToastWarning(response.msg);
@@ -3891,7 +3891,7 @@ function openFullscreenVideosId(videos_id) {
 }
 
 function openFullscreenVideo(url, urlBar) {
-    
+
     $('body').addClass('fullScreen');
     // Store the current URL
     originalURL = window.location.href;
@@ -3921,7 +3921,7 @@ function openFullscreenVideo(url, urlBar) {
         'background-color': 'black'
     });
 
-    if(validURL(url)){
+    if (validURL(url)) {
         window.history.pushState(null, null, urlBar);
     }
     // Append the iframe to the body
@@ -3938,7 +3938,7 @@ function closeFullscreenVideo() {
         if (originalURL) {
             history.pushState({}, null, originalURL);
         }
-    }else{
+    } else {
         swal.close();
     }
 }
@@ -3947,14 +3947,14 @@ function addCloseButtonInVideo() {
     try {
         // If either function exists, add a close button inside videojs
         if (typeof window.parent.closeFullscreenVideo === "function") {
-            if(typeof player !== 'object'){
-                setTimeout(function(){addCloseButtonInVideo();}, 2000);
+            if (typeof player !== 'object') {
+                setTimeout(function () { addCloseButtonInVideo(); }, 2000);
                 return false;
             }
             addCloseButton($(player.el()));
         }
     } catch (error) {
-        
+
     }
 }
 
@@ -3965,7 +3965,7 @@ function addCloseButtonInPage() {
             addCloseButton($('body'));
         }
     } catch (error) {
-        
+
     }
 }
 
@@ -3980,11 +3980,11 @@ function addCloseButton(elementToAppend) {
         closeButton.addClass('hideOnPlayerUserInactive');
         closeButton.html('<i class="fas fa-times"></i>');
         // Add event listener
-        closeButton.on('click', function() {
+        closeButton.on('click', function () {
             if (window.self !== window.top) {
                 console.log('close parent iframe');
                 window.parent.closeFullscreenVideo();
-            }else{
+            } else {
                 console.log('close history.back');
                 window.history.back();
             }
@@ -3997,11 +3997,11 @@ function addCloseButton(elementToAppend) {
 
 
 function __(str, allowHTML = false) {
-    if(typeof translations == 'undefined'){
+    if (typeof translations == 'undefined') {
         return str;
     }
     let returnStr = str;
-    
+
     // Check if translation exists for exact string
     if (translations.hasOwnProperty(str)) {
         returnStr = translations[str];
@@ -4021,8 +4021,8 @@ function __(str, allowHTML = false) {
     return returnStr.replace(/'/g, "&apos;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-function playChapter(seconds){
-    if(typeof player != 'undefined'){
+function playChapter(seconds) {
+    if (typeof player != 'undefined') {
         player.currentTime(seconds);
         var currentURL = window.location.href;
         newURL = addQueryStringParameter(currentURL, 't', seconds);
@@ -4060,4 +4060,33 @@ function templateSelectionAndResult(state) {
         text = '<i class=\"' + state.id + '\"></i> - ' + state.text;
     }
     return $('<span>' + text + '</span>');
-  };
+};
+
+function preloadVmapAndUpdateAdTag(adTagUrl) {
+    console.log('ADS: preloadVmapAndUpdateAdTag:',adTagUrl);
+    // Fetch the VMAP XML
+    fetch(adTagUrl)
+        .then(response => {
+            console.log('ADS: preloadVmapAndUpdateAdTag: 1');
+            if (!response.ok) {
+                throw new Error(`Failed to fetch VMAP from ${adTagUrl}`);
+            }
+            return response.text();
+        })
+        .then(vmapXml => {
+            console.log('ADS: preloadVmapAndUpdateAdTag: 2');
+            // Convert the VMAP XML to a Data URL for inline usage
+            const inlineVmapTag = 'data:text/xml;charset=utf-8,' + encodeURIComponent(vmapXml);
+
+            // Update the player's IMA options with the preloaded VMAP
+            player.ima.setContentWithAdTag(null, inlineVmapTag, false);
+            console.log('ADS: preloadVmapAndUpdateAdTag: 3');
+            setTimeout(function(){
+                console.log('ADS: preloadVmapAndUpdateAdTag: 4');
+                player.ima.requestAds();
+            }, 1000);
+        })
+        .catch(error => {
+            console.error("Error updating adTagUrl with preloaded VMAP:", error);
+        });
+}

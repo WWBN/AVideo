@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-header('Access-Control-Allow-Origin: *');
+allowOrigin();
 header('Content-Type: application/json');
 if (empty($_POST['current']) && !empty($_GET['current'])) {
     $_POST['current'] = $_GET['current'];

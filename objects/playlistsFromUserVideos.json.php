@@ -4,7 +4,7 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-header('Access-Control-Allow-Origin: *');
+allowOrigin();
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 if (empty($_REQUEST['users_id'])) {

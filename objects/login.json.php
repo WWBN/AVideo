@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
-header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 $timeLog = __FILE__ . "::Login ";
