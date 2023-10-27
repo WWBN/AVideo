@@ -48,6 +48,7 @@ player.on('adresume', function() {
 // Event fired when an ad finishes playing
 player.on('adend', function() {
     console.log('Ad playback has finished.');
+    player.play();
 });
 
 // Event fired when an ad is clicked
