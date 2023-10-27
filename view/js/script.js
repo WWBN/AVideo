@@ -4063,30 +4063,39 @@ function templateSelectionAndResult(state) {
 };
 
 function preloadVmapAndUpdateAdTag(adTagUrl) {
-    console.log('ADS: preloadVmapAndUpdateAdTag:',adTagUrl);
-    // Fetch the VMAP XML
-    fetch(adTagUrl)
-        .then(response => {
-            console.log('ADS: preloadVmapAndUpdateAdTag: 1');
-            if (!response.ok) {
-                throw new Error(`Failed to fetch VMAP from ${adTagUrl}`);
-            }
-            return response.text();
-        })
-        .then(vmapXml => {
-            console.log('ADS: preloadVmapAndUpdateAdTag: 2');
-            // Convert the VMAP XML to a Data URL for inline usage
-            const inlineVmapTag = 'data:text/xml;charset=utf-8,' + encodeURIComponent(vmapXml);
+    console.log('ADS: preloadVmapAndUpdateAdTag:', adTagUrl);
 
-            // Update the player's IMA options with the preloaded VMAP
+    fetch(adTagUrl)
+        .then(response => response.text())
+        .then(vmapXml => {
+            console.log('ADS: preloadVmapAndUpdateAdTag: VMAP Loaded');
+
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(vmapXml, "text/xml");
+            // Extracting the VAST URL from <vmap:AdTagURI>
+            const vastUrlElement = xmlDoc.querySelector('AdTagURI');
+            if (vastUrlElement) {
+                const vastUrl = vastUrlElement.textContent;
+                console.log('ADS: preloadVmapAndUpdateAdTag: VMAP vastUrl', vastUrl);
+                return fetch(vastUrl);
+            } else {
+                throw new Error("Failed to find <AdTagURI> element in VMAP");
+            }
+        })
+        .then(response => response.text())
+        .then(vastXml => {
+            console.log('ADS: preloadVmapAndUpdateAdTag: VAST Loaded');
+
+            const inlineVmapTag = 'data:text/xml;charset=utf-8,' + encodeURIComponent(vastXml);
+
             player.ima.setContentWithAdTag(null, inlineVmapTag, false);
-            console.log('ADS: preloadVmapAndUpdateAdTag: 3');
-            setTimeout(function(){
-                console.log('ADS: preloadVmapAndUpdateAdTag: 4');
+
+            setTimeout(() => {
+                console.log('ADS: preloadVmapAndUpdateAdTag: Requesting Ads');
                 player.ima.requestAds();
-            }, 1000);
+            }, 5000);
         })
         .catch(error => {
-            console.error("Error updating adTagUrl with preloaded VMAP:", error);
+            console.error("Error preloading and updating adTagUrl:", error);
         });
 }
