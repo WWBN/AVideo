@@ -65,12 +65,12 @@ player.on('readyforpreroll', function() {
 
 // Event fired if there's an error during ad playback
 player.on('adserror', function(event) {
-    console.log('ADS: error:', event);
+    console.log('ADS: error:', event.data.AdError);
+    
     if(adsRetry==0){
         adsRetry++;
         //player.ima.requestAds();
         preloadVmapAndUpdateAdTag(_adTagUrl);
     }
 });
-
 player.one(startEvent, function () { player.ima.initializeAdDisplayContainer(); });
