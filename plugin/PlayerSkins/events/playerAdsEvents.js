@@ -65,7 +65,7 @@ player.on('readyforpreroll', function() {
 
 // Event fired if there's an error during ad playback
 player.on('adserror', function(event) {
-    console.log('ADS: error:', event.error);
+    console.log('ADS: error:', event);
     if(adsRetry==0){
         adsRetry++;
         //player.ima.requestAds();
