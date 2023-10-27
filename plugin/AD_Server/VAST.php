@@ -87,6 +87,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>';
                                             $type = ' type="application/x-mpegURL" delivery="streaming"';
                                         }
                                         echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" '.$type.' scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
+                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" type="video/mp4" delivery="progressive" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
+                                        echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" type="application/vnd.apple.mpegurl" delivery="streaming" scalable="true" maintainAspectRatio="true"><![CDATA[' . ($value['url']) . ']]></MediaFile>';
                                     }
                                     if (!$adsCount) {
                                         echo PHP_EOL . '<MediaFile id="AdSense' . ($key) . '" delivery="progressive" type="video/mp4" scalable="true" maintainAspectRatio="true"><![CDATA[' . $global['webSiteRootURL'] . 'plugin/AD_Server/view/adswarning.mp4]]></MediaFile>';
