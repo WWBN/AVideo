@@ -110,7 +110,7 @@ if (isMobile()) {
             if (player.readyState() <= 2) {
                 isOnlineLabel = false;
                 onlineLabelOffline('#<?php echo $liveViewStatusID; ?>'); 
-                console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented");                            
+                console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented player.pause()");                            
                 player.pause();
                 //player.reset();
                 $('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});

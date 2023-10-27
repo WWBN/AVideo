@@ -14,31 +14,40 @@ if (empty($MediaMetadata)) {
     if ('mediaSession' in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata(<?php echo _json_encode($MediaMetadata); ?>);
 
-        setActionHandlerIfSupported('play', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('play', function() {
+            /* Code excerpted. */
             player.play();
         });
-        setActionHandlerIfSupported('pause', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('pause', function() {
+            /* Code excerpted. */
+            console.log("playerPlay: mediaSession pause player.pause()");
             player.pause();
         });
-        setActionHandlerIfSupported('stop', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('stop', function() {
+            /* Code excerpted. */
+            console.log("playerPlay: mediaSession stop player.pause()");
             player.pause();
         });
-        setActionHandlerIfSupported('seekbackward', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('seekbackward', function() {
+            /* Code excerpted. */
             player.currentTime(player.currentTime() - 5);
         });
-        setActionHandlerIfSupported('seekforward', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('seekforward', function() {
+            /* Code excerpted. */
             player.currentTime(player.currentTime() + 5);
         });
-        setActionHandlerIfSupported('seekto', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('seekto', function() {
+            /* Code excerpted. */
             console.log('mediaSession seekto');
         });
-        setActionHandlerIfSupported('previoustrack', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('previoustrack', function() {
+            /* Code excerpted. */
             try {
                 player.playlist.previous();
-            } catch (e) {
-            }
+            } catch (e) {}
         });
-        setActionHandlerIfSupported('nexttrack', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('nexttrack', function() {
+            /* Code excerpted. */
             try {
                 player.playlist.next();
             } catch (e) {
@@ -48,7 +57,8 @@ if (empty($MediaMetadata)) {
             }
         });
 
-        setActionHandlerIfSupported('skipad', function () { /* Code excerpted. */
+        setActionHandlerIfSupported('skipad', function() {
+            /* Code excerpted. */
             console.log('mediaSession skipad');
         });
         setPlaylistUpdate();
@@ -57,13 +67,13 @@ if (empty($MediaMetadata)) {
     function setPlaylistUpdate() {
 
         if (typeof player == 'undefined' || typeof player.playlist == 'undefined') {
-            setTimeout(function () {
+            setTimeout(function() {
                 setPlaylistUpdate();
             }, 1000);
             return false;
         }
         console.log('setPlaylistUpdate');
-        player.on('playlistitem', function () {
+        player.on('playlistitem', function() {
             updateMediaSessionMetadata();
         });
     }
@@ -107,7 +117,7 @@ if (empty($MediaMetadata)) {
                     'live_servers_id': live_servers_id,
                     'live_schedule_id': live_schedule_id,
                 },
-                success: function (response) {
+                success: function(response) {
                     console.log('updateMediaSessionMetadata response', response);
                     navigator.mediaSession.metadata = new MediaMetadata(response);
                 }
@@ -123,5 +133,4 @@ if (empty($MediaMetadata)) {
                 throw e;
         }
     }
-
 </script>
