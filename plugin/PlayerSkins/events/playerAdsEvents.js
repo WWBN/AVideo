@@ -38,6 +38,7 @@ player.on('adstart', function() {
 // Event fired when an ad is paused
 player.on('adpause', function() {
     console.log('ADS: playback has been paused.');
+    console.error(e.stack);
 });
 
 // Event fired when an ad is resumed
