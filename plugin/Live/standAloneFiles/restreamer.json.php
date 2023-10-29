@@ -280,7 +280,7 @@ $robj->logFile = $obj->logFile;
 if (function_exists('_mysql_close')) {
     _mysql_close();
 }
-_session_write_close();
+session_write_close();
 error_log("Restreamer.json.php starting async ");
 Loop::run(function () {
     global $robj;
