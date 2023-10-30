@@ -3,8 +3,6 @@
     .player-logo,
     .vjs-seek-button,
     .loop-button,
-    .vjs-duration,
-    .vjs-time-divider,
     .autoplay-button{
         display: none !important;
     }
