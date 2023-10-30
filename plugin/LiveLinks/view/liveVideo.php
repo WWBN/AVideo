@@ -17,10 +17,7 @@ if ($t['id'] > 0) {
 }
 $posterURL = LiveLinks::getImage($t['id']);
 
-$disableYoutubeIntegration = false;
-if (!empty($advancedCustom->disableYoutubePlayerIntegration) || isMobile()) {
-    $disableYoutubeIntegration = true;
-}
+$disableYoutubeIntegration = !PlayerSkins::isYoutubeIntegrationEnabled();
 $video['videoLink'] = $liveLink;
 if (isValidM3U8Link($liveLink)) {
 

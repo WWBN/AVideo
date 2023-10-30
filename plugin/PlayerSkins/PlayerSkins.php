@@ -3,11 +3,13 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
-class PlayerSkins extends PluginAbstract {
+class PlayerSkins extends PluginAbstract
+{
 
     static public $hasMarks = false;
 
-    public function getTags() {
+    public function getTags()
+    {
         return array(
             PluginTags::$FREE,
             PluginTags::$PLAYER,
@@ -15,7 +17,8 @@ class PlayerSkins extends PluginAbstract {
         );
     }
 
-    public function getDescription() {
+    public function getDescription()
+    {
         global $global;
         $desc = "Customize your playes Skin<br>The Skis options are: ";
         $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
@@ -32,19 +35,23 @@ class PlayerSkins extends PluginAbstract {
         return $desc;
     }
 
-    public function getName() {
+    public function getName()
+    {
         return "PlayerSkins";
     }
 
-    public function getUUID() {
+    public function getUUID()
+    {
         return "e9a568e6-ef61-4dcc-aad0-0109e9be8e36";
     }
 
-    public function getPluginVersion() {
+    public function getPluginVersion()
+    {
         return "1.1";
     }
 
-    public function getEmptyDataObject() {
+    public function getEmptyDataObject()
+    {
         global $global;
         $obj = new stdClass();
         $obj->skin = "avideo";
@@ -75,7 +82,8 @@ class PlayerSkins extends PluginAbstract {
         return $obj;
     }
 
-    static function getPlaysinline() {
+    static function getPlaysinline()
+    {
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         if ($obj->playsinline) {
             return ' playsinline webkit-playsinline="webkit-playsinline" ';
@@ -83,7 +91,21 @@ class PlayerSkins extends PluginAbstract {
         return '';
     }
 
-    static function getMediaTag($filename, $htmlMediaTag = false) {
+    static function isYoutubeIntegrationEnabled()
+    {
+        global $advancedCustom;
+        if (isMobile()) {
+            return false;
+        }
+
+        if (empty($advancedCustom)) {
+            $advancedCustom = AVideoPlugin::loadPlugin("CustomizeAdvanced");
+        }
+        return empty($advancedCustom->disableYoutubePlayerIntegration);
+    }
+
+    static function getMediaTag($filename, $htmlMediaTag = false)
+    {
         global $autoPlayURL, $global, $config, $isVideoTypeEmbed, $advancedCustom;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
         $html = '';
@@ -105,7 +127,7 @@ class PlayerSkins extends PluginAbstract {
             $images = Video::getImageFromFilename($filename);
             if ($vType == 'video') {
                 $htmlMediaTag = '<video ' . self::getPlaysinline()
-                        . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload"
+                    . 'preload="auto" poster="' . $images->poster . '" controls controlsList="nodownload"
                         class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered vjs-16-9" id="mainVideo">';
                 if ($video['type'] == "video") {
                     $htmlMediaTag .= "<!-- Video {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
@@ -133,17 +155,14 @@ class PlayerSkins extends PluginAbstract {
                 }
                 $htmlMediaTag .= '</audio>';
             } else if ($vType == 'embed') {
-                $disableYoutubeIntegration = false;
-                if (!empty($advancedCustom->disableYoutubePlayerIntegration) || isMobile()) {
-                    $disableYoutubeIntegration = true;
-                }
+                $disableYoutubeIntegration = !PlayerSkins::isYoutubeIntegrationEnabled();
                 $_GET['isEmbedded'] = "";
                 if (
-                        ($disableYoutubeIntegration) ||
-                        (
+                    ($disableYoutubeIntegration) ||
+                    (
                         (strpos($video['videoLink'], "youtu.be") == false) && (strpos($video['videoLink'], "youtube.com") == false)
                         //&& (strpos($video['videoLink'], "vimeo.com") == false)
-                        )
+                    )
                 ) {
                     $_GET['isEmbedded'] = "e";
                     $isVideoTypeEmbed = 1;
@@ -216,7 +235,8 @@ class PlayerSkins extends PluginAbstract {
         return $html;
     }
 
-    public function getHeadCode() {
+    public function getHeadCode()
+    {
         if (isWebRTC()) {
             return '';
         }
@@ -249,7 +269,7 @@ class PlayerSkins extends PluginAbstract {
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
                 $css .= "<style>"
-                        . ".player-logo{
+                    . ".player-logo{
   outline: none;
   filter: grayscale(100%);
   width:100px !important;
@@ -268,7 +288,7 @@ class PlayerSkins extends PluginAbstract {
   top:{$obj->showLogoAdjustTop};
     
 }"
-                        . "</style>";
+                    . "</style>";
             }
 
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
@@ -290,12 +310,14 @@ class PlayerSkins extends PluginAbstract {
         return $js . $css . $oembed;
     }
 
-    static function showAutoplay() {
+    static function showAutoplay()
+    {
         $obj = AVideoPlugin::getDataObject('PlayerSkins');
         return !isLive() && $obj->showShareAutoplay && isVideoPlayerHasProgressBar() && empty($obj->forceAlwaysAutoplay) && empty($_REQUEST['hideAutoplaySwitch']);
     }
 
-    public function getStart() {
+    public function getStart()
+    {
         global $global;
         /*
         if (!isBot()) {
@@ -308,7 +330,8 @@ class PlayerSkins extends PluginAbstract {
          */
     }
 
-    public function getFooterCode() {
+    public function getFooterCode()
+    {
         if (isWebRTC()) {
             return '';
         }
@@ -319,11 +342,12 @@ class PlayerSkins extends PluginAbstract {
             $js .= "<script>$(document).ready(function () {enableAutoPlay();});</script>";
         }
         if (
-                !empty($_GET['videoName']) ||
-                !empty($_GET['u']) ||
-                !empty($_GET['evideo']) ||
-                !empty($_GET['playlists_id']) ||
-                (is_array($video) && !empty($video['id']))) {
+            !empty($_GET['videoName']) ||
+            !empty($_GET['u']) ||
+            !empty($_GET['evideo']) ||
+            !empty($_GET['playlists_id']) ||
+            (is_array($video) && !empty($video['id']))
+        ) {
             if (empty($obj->showLoopButton) && empty($obj->contextMenuLoop)) {
                 $js .= "<script>setPlayerLoop(false);</script>";
             }
@@ -403,7 +427,8 @@ class PlayerSkins extends PluginAbstract {
         return $js;
     }
 
-    static function getDataSetup($str = "") {
+    static function getDataSetup($str = "")
+    {
         global $video, $disableYoutubeIntegration, $global;
         $obj = AVideoPlugin::getObjectData('PlayerSkins');
 
@@ -441,7 +466,8 @@ class PlayerSkins extends PluginAbstract {
     }
 
     // this function was modified, maybe removed in the future
-    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup = "", $noReadyFunction = false) {
+    static function getStartPlayerJS($onPlayerReady = "", $getDataSetup = "", $noReadyFunction = false)
+    {
         global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
         global $getStartPlayerJSWasRequested;
         self::prepareStartPlayerJS($onPlayerReady, $getDataSetup);
@@ -451,11 +477,13 @@ class PlayerSkins extends PluginAbstract {
         return '/* getStartPlayerJS $prepareStartPlayerJS_onPlayerReady = "' . count($prepareStartPlayerJS_onPlayerReady) . '", $prepareStartPlayerJS_getDataSetup = "' . count($prepareStartPlayerJS_getDataSetup) . '" */';
     }
 
-    static function addOnPlayerReady($onPlayerReady) {
+    static function addOnPlayerReady($onPlayerReady)
+    {
         return self::getStartPlayerJS($onPlayerReady);
     }
 
-    static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0) {
+    static function getStartPlayerJSCode($noReadyFunction = false, $currentTime = 0)
+    {
         if (isWebRTC()) {
             return '';
         }
@@ -480,7 +508,7 @@ class PlayerSkins extends PluginAbstract {
             $js .= "var originalVideo;";
             $js .= "var currentTime = $currentTime;";
             $js .= "var adTagOptions = {};";
-            $js .= "var _adTagUrl = '{$IMAADTag}'; var player; ";       
+            $js .= "var _adTagUrl = '{$IMAADTag}'; var player; ";
             $js .= "var startEvent = 'click';";
         }
         $js .= "$(document).ready(function () {";
@@ -499,27 +527,27 @@ class PlayerSkins extends PluginAbstract {
                 'forceNonLinearFullSlot' => true,
                 'adLabel' => __('Advertisement'),
                 // 'autoPlayAdBreaks' => false,
-            );            
-            $js .= PHP_EOL."adTagOptions = " . json_encode($adTagOptions) . ";".PHP_EOL;
-            $js .= "player.ima(adTagOptions);";     
+            );
+            $js .= PHP_EOL . "adTagOptions = " . json_encode($adTagOptions) . ";" . PHP_EOL;
+            $js .= "player.ima(adTagOptions);";
             if (isMobile()) {
-                $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerAdsEventsMobile.js').PHP_EOL;
+                $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerAdsEventsMobile.js') . PHP_EOL;
             }
-            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerAdsEvents.js').PHP_EOL;
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerAdsEvents.js') . PHP_EOL;
         }
-        $js .= "};".PHP_EOL;
+        $js .= "};" . PHP_EOL;
 
-        $js .= PHP_EOL."if(typeof player !== 'undefined'){";
-        $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReady.js');            
+        $js .= PHP_EOL . "if(typeof player !== 'undefined'){";
+        $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReady.js');
 
         // this is here because for some reason videos on the storage only works if it loads dinamically on android devices only
         if (isMobile()) {
-            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyMobile.js');
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMobile.js');
         }
         if (empty($_REQUEST['mute'])) {
-            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyUnmuted.js');
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyUnmuted.js');
         } else {
-            $js .= file_get_contents($global['systemRootPath'].'plugin/PlayerSkins/events/playerReadyMuted.js');
+            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMuted.js');
         }
 
         $js .= "player.ready(function () {";
@@ -536,14 +564,15 @@ class PlayerSkins extends PluginAbstract {
         $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/fixCurrentSources.js');
 
         $js .= "}";
-        
+
         $js .= "});";
         //var_dump('getStartPlayerJSWasRequested', debug_backtrace());
         $getStartPlayerJSWasRequested = true;
         return $js;
     }
 
-    static private function getCurrentTime() {
+    static private function getCurrentTime()
+    {
         $currentTime = 0;
         if (isset($_GET['t'])) {
             $currentTime = intval($_GET['t']);
@@ -575,12 +604,14 @@ class PlayerSkins extends PluginAbstract {
         return $currentTime;
     }
 
-    static function setIMAADTag($tag) {
+    static function setIMAADTag($tag)
+    {
         global $IMAADTag;
         $IMAADTag = $tag;
     }
 
-    static function playerJSCodeOnLoad($videos_id, $nextURL = "") {
+    static function playerJSCodeOnLoad($videos_id, $nextURL = "")
+    {
         $js = "";
         $videos_id = intval($videos_id);
         if (empty($videos_id)) {
@@ -649,7 +680,8 @@ class PlayerSkins extends PluginAbstract {
         return true;
     }
 
-    static private function prepareStartPlayerJS($onPlayerReady = "", $getDataSetup = "") {
+    static private function prepareStartPlayerJS($onPlayerReady = "", $getDataSetup = "")
+    {
         global $prepareStartPlayerJS_onPlayerReady, $prepareStartPlayerJS_getDataSetup;
 
         if (empty($prepareStartPlayerJS_onPlayerReady)) {
@@ -667,7 +699,8 @@ class PlayerSkins extends PluginAbstract {
         }
     }
 
-    static function isAutoplayEnabled() {
+    static function isAutoplayEnabled()
+    {
         global $config;
         if (isLive()) {
             return true;
@@ -682,11 +715,12 @@ class PlayerSkins extends PluginAbstract {
         return $config->getAutoplay();
     }
 
-    public static function getVideoTags($videos_id) {
+    public static function getVideoTags($videos_id)
+    {
         if (empty($videos_id)) {
             return array();
         }
-        
+
         $cacheSuffix = 'PlayeSkins_getVideoTags';
         $videoCache = new VideoCacheHandler('', $videos_id);
         $tags = $videoCache->getCache($cacheSuffix, 0);
@@ -699,12 +733,12 @@ class PlayerSkins extends PluginAbstract {
             $fileName = $video->getFilename();
             //_error_log("getVideoTags($videos_id) $fileName ".$video->getType());
             $resolution = $video->getVideoHigestResolution();
-            if(empty($resolution)){
+            if (empty($resolution)) {
                 $resolution = Video::getHigestResolution($fileName);
-                if(!empty($resolution)){
+                if (!empty($resolution)) {
                     $video->setVideoHigestResolution($resolution);
                 }
-            }else{
+            } else {
                 $resolution = Video::getResolutionArray($resolution);
             }
 
@@ -732,7 +766,8 @@ class PlayerSkins extends PluginAbstract {
      * @param int $width
      * @param string $color
      */
-    public static function createMarker($markersList, $width = 10, $color = 'yellow') {
+    public static function createMarker($markersList, $width = 10, $color = 'yellow')
+    {
         global $global;
 
         $bt = debug_backtrace();
@@ -771,14 +806,15 @@ class PlayerSkins extends PluginAbstract {
         }
     }
 
-    public function getWatchActionButton($videos_id) {
+    public function getWatchActionButton($videos_id)
+    {
         global $global, $video;
         include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButton.php';
     }
 
-    public function getGalleryActionButton($videos_id) {
+    public function getGalleryActionButton($videos_id)
+    {
         global $global;
         include $global['systemRootPath'] . 'plugin/PlayerSkins/actionButtonGallery.php';
     }
-
 }
