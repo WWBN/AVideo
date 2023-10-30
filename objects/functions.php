@@ -993,7 +993,7 @@ function parseVideos($videoString = null, $autoplay = 0, $loop = 0, $mute = 0, $
     } elseif (strpos($link, 'youtu.be') !== false) {
         //https://youtu.be/9XXOBSsPoMU
         preg_match(
-            '/youtu.be\/([a-zA-Z0-9_]+)($|\/)/',
+            '/youtu.be\/([a-zA-Z0-9_]+)(?:\?[^\/]*)?($|\/)/',
             $link,
             $matches
         );
