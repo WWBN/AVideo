@@ -33,7 +33,7 @@ $textColorDark = getColorValue('textColorDark');
 $textColorHigh = getColorValue('textColorHigh');
 ?>
 <style>
-#CloseButtonInVideo, .offline-button, .loop-button {
+#CloseButtonInVideo, .offline-button, .loop-button,.autoplay-button {
     display: none !important;
 }
 /* Overwrite Bootstrap styles <?php echo $uri; ?> */
