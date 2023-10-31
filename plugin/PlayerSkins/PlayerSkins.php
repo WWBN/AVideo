@@ -672,7 +672,7 @@ class PlayerSkins extends PluginAbstract
         });
         ;";
 
-        if (!empty($nextURL)) {
+        if (!empty($nextURL) && !isAVideoUserAgent()) {
             $js .= "playNextURL = '{$nextURL}';";
             $js .= "player.on('ended', function () {setTimeout(function(){if(playNextURL){playNext(playNextURL);}},playerHasAds()?10000:500);});";
         }
