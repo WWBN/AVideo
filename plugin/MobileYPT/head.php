@@ -34,7 +34,7 @@ $textColorHigh = getColorValue('textColorHigh');
 ?>
 <style>
 #CloseButtonInVideo, .offline-button, .loop-button {
-    display: none;
+    display: none !important;
 }
 /* Overwrite Bootstrap styles <?php echo $uri; ?> */
 <?php if ($bgColor): ?>
