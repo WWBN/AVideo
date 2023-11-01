@@ -24,6 +24,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $rowCount = 24;
     }
     */
+    if(!empty($_REQUEST['showOnly'])){
+        $rowCount = 24;
+    }
     
     global $global, $args, $url;
     $paggingId = uniqid();
