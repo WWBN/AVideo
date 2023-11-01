@@ -78,7 +78,7 @@ $objMM->translations = $t;
 if (!empty($objMM->YPTSocket)) {
     $refl = new ReflectionClass('SocketMessageType');
     $objMM->webSocketTypes = json_encode($refl->getConstants());
-    $objMM->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(true), 'page_title', 'Mobile APP');
+    $objMM->webSocketURL = addQueryStringParameter(YPTSocket::getWebSocketURL(false), 'page_title', 'Mobile APP');
 }
 $objMM->tabMenuItems = [];
 $objMM->leftMenuItems = [];
