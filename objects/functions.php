@@ -12034,3 +12034,13 @@ function timeToSecondsInt($hms) {
     $seconds = round((+$a[0]) * 60 * 60 + (+$a[1]) * 60 + (+$a[2]));
     return ($seconds);
 }
+
+function getValueOrBlank($array, $default=''){
+    $text = $default;
+    foreach ($array as $value) {
+        if(!empty($_REQUEST[$value])){
+            $text = $_REQUEST[$value];
+        }
+    }
+    return $text;
+}

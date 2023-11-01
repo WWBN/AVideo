@@ -83,7 +83,7 @@ class Cache extends PluginAbstract {
         if (!empty($_SERVER['HTTP_USER_AGENT']) && get_browser_name($_SERVER['HTTP_USER_AGENT']) === 'Safari') {
             $compl .= "safari_";
         }
-
+        $compl .= getValueOrBlank(['ads_app_store_url']);
         $dir = "";
         $plugin = AVideoPlugin::loadPluginIfEnabled('User_Location');
         if (!empty($plugin)) {
