@@ -9310,6 +9310,15 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     }
     TimeLogEnd($timeName, __LINE__);
     $json['timezone'] = date_default_timezone_get();
+    if(!isset($json['error'])){
+        $json['error'] = false;
+    }
+    if(!isset($json['msg'])){
+        $json['msg'] = '';
+    }
+    if(!isset($json['nclients'])){
+        $json['nclients'] = $json['countLiveStream'];
+    }
     $__getStatsNotifications__ = $json;
     TimeLogEnd($timeName, __LINE__);
     return $json;
