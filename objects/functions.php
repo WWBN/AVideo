@@ -1514,6 +1514,12 @@ function getVideosDir()
     return Video::getStoragePath();
 }
 
+function getVideos_IdFromFilename($fileName){
+    $cleanfilename = Video::getCleanFilenameFromFile($fileName);
+    $video = Video::getVideoFromFileNameLight($cleanfilename);
+    return $video['id'];
+}
+
 $getVideosURL_V2Array = [];
 
 function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
@@ -1528,7 +1534,7 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
     if (empty($recreateCache) && !empty($getVideosURL_V2Array[$cleanfilename])) {
         return $getVideosURL_V2Array[$cleanfilename];
     }
-
+    
     $cacheSuffix = 'getVideosURL_V2';
     $paths = Video::getPaths($cleanfilename);
     $videoCache = new VideoCacheHandler($fileName);
