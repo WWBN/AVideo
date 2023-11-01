@@ -45,6 +45,8 @@ if(!empty($chat2)){
     $objMM->chat2ShowOnUserVideos = false;
 }
 
+$objMM->stats = getStatsNotifications();
+
 $notifications = AVideoPlugin::getDataObjectIfEnabled('Notifications');
 if(!empty($notifications)){
     $objMM->oneSignalEnabled = !_empty($notifications->oneSignalEnabled);
