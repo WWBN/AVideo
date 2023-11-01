@@ -569,6 +569,9 @@ class Message implements MessageComponentInterface {
     }
 
     static function isValidSelfURI($selfURI){
+        if(preg_match('/MobileYPT\/getConfiguration\.json\.php/', $selfURI)){
+            return true;
+        }
         if(preg_match('/\.json/i', $selfURI)){
             return false;
         }
