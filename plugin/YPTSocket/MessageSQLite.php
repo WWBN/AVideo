@@ -140,7 +140,7 @@ class Message implements MessageComponentInterface {
             //_log_message("NOT shouldPropagateInfo ");
         }
         $end = number_format(microtime(true) - $start, 4);
-        _log_message("Connection opened in {$end} seconds");
+        _log_message("Connection opened in {$end} seconds users_id={$client['users_id']} selfURI={$client['selfURI']} isCommandLine={$client['isCommandLine']} page_title={$client['page_title']} browser={$client['browser']} ");
         //if(!empty($client['isCommandLine'])){
             //_error_log("isCommandLine close it {$client['browser']} {$client['selfURI']}");
             //$conn->close();
