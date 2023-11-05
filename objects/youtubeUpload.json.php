@@ -122,7 +122,7 @@ foreach ($_POST['id'] as $value) {
         } catch (Google_Service_Exception $e) {
             $obj->msg = sprintf(__("A service error occurred [1]: %s"), $e->getMessage());
         } catch (Google_Exception $e) {
-            $obj->msg = sprintf(__("An client error occurred [2]: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("A client error occurred [2]: %s"), $e->getMessage());
         }
         $_SESSION[$tokenSessionKey] = $client->getAccessToken();
     } elseif ($OAUTH2_CLIENT_ID == 'REPLACE_ME') {
