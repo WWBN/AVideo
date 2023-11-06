@@ -98,7 +98,7 @@ function createCategorySection($videos)
         //var_dump($totalPages, $page);
         $categoryURL = "{$global['webSiteRootURL']}cat/{$videos[0]['clean_category']}/page/";
         //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-        echo getPagination($totalPages, $page, "{$categoryURL}{page}{$args}", 10, ".Div{$videos[0]['clean_category']}Section", ".Div{$videos[0]['clean_category']}Section");
+        echo getPagination($totalPages, $page, "{$categoryURL}_pageNum_{$args}", 10, ".Div{$videos[0]['clean_category']}Section", ".Div{$videos[0]['clean_category']}Section");
         ?>
     </div>
 <?php

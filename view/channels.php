@@ -105,7 +105,7 @@ $metaDescription = __("Channels");
                         User::getChannelPanel($value['id']);
                     }
 
-                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page={page}");
+                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page=_pageNum_");
                     ?>
                 </div>
             </div>
