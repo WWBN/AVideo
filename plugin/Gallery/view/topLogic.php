@@ -55,12 +55,8 @@ if (empty($_GET['page'])) {
 $total = 0;
 $totalPages = 0;
 $url = '';
-$args = '';
 $metaDescription = "";
 if (!empty($video)) {
-    if (strpos($_SERVER['REQUEST_URI'], "?") != false) {
-        $args = substr($_SERVER['REQUEST_URI'], strpos($_SERVER['REQUEST_URI'], "?"), strlen($_SERVER['REQUEST_URI']));
-    }
     if (strpos($_SERVER['REQUEST_URI'], "/cat/") === false) {
         $url = $global['webSiteRootURL'] . "page/";
     } else {
