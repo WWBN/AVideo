@@ -19,12 +19,8 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     global $contentSearchFound;
     $title = __($title);
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
-    /*
+    
     if (!empty($_GET['showOnly']) && !isInfiniteScroll()) {
-        $rowCount = 24;
-    }
-    */
-    if(!empty($_REQUEST['showOnly'])){
         $rowCount = 24;
     }
     
