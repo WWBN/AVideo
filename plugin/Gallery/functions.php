@@ -20,11 +20,17 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     $title = __($title);
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     
-    if (!empty($_GET['showOnly']) && !isInfiniteScroll()) {
-        $rowCount = 24;
-    }
-    
     global $global, $args, $url;
+    if ((!empty($_GET['showOnly']) && !isInfiniteScroll())) {
+        $rowCount = 24;
+        $url = addQueryStringParameter($url, 'infiniteScrollRowCount', $rowCount);
+    }
+    if(!empty($_GET['infiniteScrollRowCount'])){
+        $rowCount = intval($_GET['infiniteScrollRowCount']);
+        $url = addQueryStringParameter($url, 'infiniteScrollRowCount', $rowCount);
+    }
+    //var_dump($rowCount);exit;
+    
     $paggingId = uniqid();
     $uid = "gallery" . uniqid();
 ?>
