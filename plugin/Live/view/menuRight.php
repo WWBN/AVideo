@@ -1,8 +1,8 @@
 <?php
 $obj = AVideoPlugin::getDataObject("Live");
-
-$buttonTitle = $this->getButtonTitle();
-$obj = $this->getDataObject();
+$o = AVideoPlugin::loadPlugin('Live');
+$buttonTitle = $o->getButtonTitle();
+$obj = $o->getDataObject();
 $isLive = isLive();
 if(empty($isLive)){
     $liveInfo = array();

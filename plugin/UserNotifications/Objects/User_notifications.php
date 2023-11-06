@@ -131,7 +131,7 @@ class User_notifications extends ObjectYPT {
         return parent::getAll();
     }
 
-    public static function getAllForUsers_id($users_id, $limit = 10) {
+    public static function getAllForUsers_id($users_id, $limit = 10, $sort = true) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
@@ -146,6 +146,12 @@ class User_notifications extends ObjectYPT {
                 $rows[] = $row;
             }
         }
+
+        if($sort){
+            usort($rows, function($a, $b) {
+                return $a['id']-$b['id'];
+            });
+        }      
         return $rows;
     }
 
