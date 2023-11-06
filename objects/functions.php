@@ -7353,7 +7353,6 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if(is_string($showOnly)){
         $link = addQueryStringParameter($link, 'showOnly',$showOnly);
     }
-
     $class = '';
     if (!empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector)) {
         $class = "infiniteScrollPagination{$uid} hidden";
@@ -7431,6 +7430,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
             $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
         }
     }
+    //var_dump($page, $link, $pageForwardLink, $pag);exit;
     $pag .= PHP_EOL . '</ul></nav> ';
 
     if ($isInfiniteScroll) {

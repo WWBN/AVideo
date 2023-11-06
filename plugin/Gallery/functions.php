@@ -109,7 +109,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                     $infinityScrollAppendIntoSelector = ".gallerySectionContent{$getName}";
                 }
 
-                echo getPagination($totalPages, $page, "{$url}{page}", 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
+                echo getPagination($totalPages, $page, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
                 ?>
             </div>
         <?php
