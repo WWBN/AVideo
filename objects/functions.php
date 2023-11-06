@@ -7359,8 +7359,8 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
 
     if ($isInfiniteScroll && $page > 1) {
-        if (preg_match("/\{page\}/", $link, $match)) {
-            $pageForwardLink = str_replace("{page}", $page + 1, $link);
+        if (preg_match("/_pageNum_/", $link, $match)) {
+            $pageForwardLink = str_replace("_pageNum_", $page + 1, $link);
         } else {
             $pageForwardLink = addQueryStringParameter($link, 'current', $page + 1);
         }
