@@ -13,6 +13,8 @@ require_once $global['systemRootPath'] . 'plugin/YPTSocket/functions.php';
 
 class Message implements MessageComponentInterface {
 
+    static $mem_usage;
+    static $mem;
     protected $clients;
     protected $clientsLoggedConnections = 0;
     protected $disconnectAfter = 14400;//4 hours
@@ -364,6 +366,7 @@ class Message implements MessageComponentInterface {
 
         $info = array(
             'webSocketServerVersion' => $SocketDataObj->serverVersion,
+            'socket_mem' => Message::$mem,
             'socket_users_id' => $users_id,
             'socket_resourceId' => $resourceId,
         );
@@ -374,6 +377,7 @@ class Message implements MessageComponentInterface {
         //$obj['users_uri'] = $return['users_uri'];
         $obj['resourceId'] = $resourceId;
         $obj['users_id_online'] = dbGetUniqueUsers();
+        $obj['mem'] = Message::$mem;
 
         $msgToSend = json_encode($obj);
         //_log_message("msgToResourceId: resourceId=({$resourceId}) {$type} users_id={$obj['users_id']}");
@@ -587,9 +591,9 @@ function _log_message($msg, $type = "") {
     global $SocketDataObj;
     if (!empty($SocketDataObj->debugAllUsersSocket) || !empty($SocketDataObj->debugSocket)) {
         //_error_log($msg, \AVideoLog::$SOCKET);
-        $mem_usage = memory_get_usage();
-        $mem = humanFileSize($mem_usage);
-        echo date('Y-m-d H:i:s') . " Using: {$mem} RAM " . $msg . PHP_EOL;
+        Message::$mem_usage = memory_get_usage();
+        Message::$mem = humanFileSize(Message::$mem_usage);
+        echo date('Y-m-d H:i:s') . " Using: ".Message::$mem." RAM " . $msg . PHP_EOL;
     } else if ($type == \AVideoLog::$ERROR) {
         _error_log($msg, \AVideoLog::$SOCKET);
         echo "\e[1;31;40m" . date('Y-m-d H:i:s') . ' ' . $msg . "\e[0m" . PHP_EOL;
