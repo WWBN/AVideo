@@ -95,8 +95,9 @@ function getEnabledLangs() {
         $flags[] = 'us';
     }
     if ($handle = opendir($dir)) {
+        $ignore = array('.', '..', 'index.php', 'function.php', 'save.php', 'function.js');
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != '.' && $entry != '..' && $entry != 'index.php' && $entry != 'function.php' && $entry != 'save.php') {
+            if (!in_array($entry, $ignore)) {
                 $flags[] = str_replace('.php', '', $entry);
             }
         }
