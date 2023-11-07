@@ -114,6 +114,8 @@ if (!isVideo()) {
     $metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
     $metaDescription = getSEODescription($metaDescription);
     echo '<meta name="description" content="' . $metaDescription . '">';
+}else if(isEmbed()){
+    echo '<style>body{background-color: #000;}</style>';
 }
 //var_dump($metaDescription);var_dump(debug_backtrace());exit;
 if (empty($advancedCustom->disableAnimations)) {

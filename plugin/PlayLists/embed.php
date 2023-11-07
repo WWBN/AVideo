@@ -171,12 +171,6 @@ PlayerSkins::getStartPlayerJS($str);
                 padding: 0 !important;
                 margin: 0 !important;
                 overflow: hidden;
-                <?php
-                if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                    echo "background-color: $customizedAdvanced->embedBackgroundColor !important;";
-                }
-                ?>
-
             }
             .vjs-control-bar{
                 z-index: 1;

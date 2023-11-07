@@ -889,7 +889,7 @@ function playNext(url) {
                         webSocketVideos_id = mediaId;
                         $('video, #mainVideo').attr('poster', response.poster);
                         player.poster(response.poster);
-                        history.pushState(null, null, url);
+                        avideoPushState(url);
                         $('.topInfoTitle, title').text(response.title);
                         $('#topInfo img').attr('src', response.userPhoto);
                         $('#topInfo a').attr('href', response.url);
@@ -1319,12 +1319,25 @@ function avideoAlertHTMLText(title, msg, type) {
 }
 
 function avideoModalIframeClose() {
-    //console.log('avideoModalIframeClose');
-    try {
-        swal.close();
-    } catch (e) {
+    if (fullscreenIframe) {
+        fullscreenIframe.remove();
+        fullscreenIframe = null;
+        $('body').removeClass('fullscreen');
 
-    }
+        // Revert the browser's address bar to the original URL
+        if (originalURL) {
+            history.pushState({}, null, originalURL);
+        }
+    } else {
+        if (typeof swal === 'function') {
+            $('.swal-overlay iframe').attr('src', 'about:blank');
+            try {
+                swal.close();
+            } catch (e) {
+    
+            }
+        }
+    }    
     try {
         if (inIframe()) {
             window.parent.swal.close();
@@ -1332,6 +1345,14 @@ function avideoModalIframeClose() {
     } catch (e) {
 
     }
+}
+
+function avideoModalIframeFullScreenClose() {
+    avideoModalIframeClose();
+}
+
+function closeFullscreenVideo() {
+    avideoModalIframeClose();
 }
 
 function avideoModalIframeCloseToastSuccess(msg) {
@@ -1397,33 +1418,6 @@ function avideoModalIframeFullScreenMinimize() {
 
 function avideoModalIframeFullScreenMaximize() {
     $('.swal-modal-iframe-full-with-minimize').closest('.swal-overlay').removeClass('swal-offline-video-compress');
-}
-
-function avideoModalIframeFullScreenClose() {
-    if (typeof swal === 'function') {
-        $('.swal-overlay iframe').attr('src', 'about:blank');
-        try {
-            /*
-             $('.swal-overlay').slideUp();
-             setTimeout(function(){
-             swal.close();
-             },500);
-             */
-            swal.close();
-        } catch (e) {
-
-        }
-    }
-}
-// this is to make sure when the use click on the back page button it will close the iframe
-window.onload = function () {
-    if (typeof history.pushState === "function") {
-        ////console.log('history.pushState loaded');
-        window.onpopstate = function (e) {
-            ////console.log('onpopstate', e.state, history.state);
-            avideoModalIframeFullScreenClose();
-        };
-    }
 }
 
 function avideoModalIframeFull(url) {
@@ -1573,12 +1567,19 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     }, 1000);
 }
 
-function avideoPushState(url) {
-    window.history.pushState("", "", url);
+function avideoPushState(url) {    
+    if (!validURL(url)) {
+        return false;
+    }
+    window.history.pushState(null, null, url);
     if (typeof parent.updatePageSRC == 'funciton') {
         console.log('avideoPushState', url);
         parent.updatePageSRC(url);
     }
+    // Then we set up the popstate event listener
+    window.onpopstate = function(event) {
+        avideoModalIframeClose();
+      };
 }
 
 function checkIframeLoaded(id) {
@@ -3054,7 +3055,7 @@ async function _alertFromGet(type) {
                     break;
             }
             var url = removeGetParam(window.location.href, type);
-            window.history.pushState({}, document.title, url);
+            avideoPushState(url);
         }
     }
 }
@@ -3885,8 +3886,13 @@ let fullscreenIframe;
 let originalURL; // to store the original URL
 
 function openFullscreenVideosId(videos_id) {
+    var url = webSiteRootURL + 'video/' + videos_id + '/-';
+    openFullscreenVideo(url, url);
+}
+
+function openFullscreenEmbedVideosId(videos_id) {
     var url = webSiteRootURL + 'videoEmbed/' + videos_id + '/-';
-    var urlBar = webSiteRootURL + 'v/' + videos_id + '/-';
+    var urlBar = webSiteRootURL + 'video/' + videos_id + '/-';
     openFullscreenVideo(url, urlBar);
 }
 
@@ -3920,27 +3926,10 @@ function openFullscreenVideo(url, urlBar) {
         'border': 'none',
         'background-color': 'black'
     });
-
-    if (validURL(url)) {
-        window.history.pushState(null, null, urlBar);
-    }
+    
+    avideoPushState(urlBar);
     // Append the iframe to the body
     fullscreenIframe.appendTo('body');
-}
-
-function closeFullscreenVideo() {
-    if (fullscreenIframe) {
-        fullscreenIframe.remove();
-        fullscreenIframe = null;
-        $('body').removeClass('fullscreen');
-
-        // Revert the browser's address bar to the original URL
-        if (originalURL) {
-            history.pushState({}, null, originalURL);
-        }
-    } else {
-        swal.close();
-    }
 }
 
 function addCloseButtonInVideo() {

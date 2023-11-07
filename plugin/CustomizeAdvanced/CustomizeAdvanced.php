@@ -39,6 +39,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'useFFMPEGToGenerateThumbs',
             'makeVideosInactiveAfterEncode',
             'makeVideosUnlistedAfterEncode',
+            'embedBackgroundColor',
             );
     }
     
@@ -70,7 +71,6 @@ class CustomizeAdvanced extends PluginAbstract {
             'doNotShowEncoderButton',
             'encoderButtonLabel',
             'doNotShowEmbedButton',
-            'embedBackgroundColor',
             'embedButtonLabel',
             'embedCodeTemplate',
             'embedCodeTemplateObject',

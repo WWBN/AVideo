@@ -89,11 +89,6 @@ $objectToReturnToParentIframe->posterURL = $poster;
                 margin: 0 !important;
                 overflow:hidden;
             }
-                <?php
-                if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                    echo "body {background-color: $customizedAdvanced->embedBackgroundColor;}";
-                }
-                ?>
         </style>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';

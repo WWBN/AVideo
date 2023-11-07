@@ -209,11 +209,6 @@ if (User::hasBlockedUser($video['users_id'])) {
             padding: 0 !important;
             margin: 0 !important;
             overflow: hidden;
-            <?php
-            if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                echo "background-color: $customizedAdvanced->embedBackgroundColor !important;";
-            }
-            ?>
         }
 
         .video-js {
