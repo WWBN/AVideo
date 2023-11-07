@@ -29,6 +29,7 @@ $objMM->firstPageEndpoint = $firstPage;
 $content = url_get_contents_with_cache($objMM->firstPageEndpoint, 600, "", 0, false, true);
 
 $objMM->firstPage = _json_decode($content);
+$objMM->enabledLangs = getEnabledLangs();
 
 $objMM->doNotShowPhoneOnSignup = $customizeUser->doNotShowPhoneOnSignup;
 
