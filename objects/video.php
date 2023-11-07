@@ -2756,6 +2756,12 @@ if (!class_exists('Video')) {
         {
             global $advancedCustomUser;
             if (!$allowOfflineUser && !$this->userCanManageVideo()) {
+                if(!$allowOfflineUser){
+                    _error_log('Error (delete on video) : !allowOfflineUser ');
+                }
+                if(!$this->userCanManageVideo()){
+                    _error_log('Error (delete on video) : !userCanManageVideo ');
+                }
                 return false;
             }
             if (empty($advancedCustomUser)) {
@@ -2763,6 +2769,7 @@ if (!class_exists('Video')) {
             }
             if ($advancedCustomUser->nonAdminCannotDeleteVideo) {
                 if (!User::isAdmin()) {
+                    _error_log('Error (delete on video) : nonAdminCannotDeleteVideo and this is not admin ');
                     return false;
                 }
             }
@@ -2773,12 +2780,18 @@ if (!class_exists('Video')) {
                 //$video = self::getVideoLight($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
+                _error_log('Error (delete on video) : empty id ');
                 return false;
             }
 
             $resp = sqlDAL::writeSql($sql, "i", [$this->id]);
             if ($resp == false) {
-                //_error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                /**
+                 *
+                 * @var array $global
+                 * @var object $global['mysqli']
+                 */
+                _error_log('Error (delete on video) : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
                 return false;
             } else {
                 $this->removeVideoFiles();
