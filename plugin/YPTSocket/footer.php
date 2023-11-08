@@ -149,7 +149,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             <button class="btn btn-xs btn-block btn-primary" onclick="socketConnect()">Try again</button>
         </div>
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fa-solid fa-code-compare"></i> Version <span class="webSocketServerVersion"></span></div>
-        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fa-solid fa-memory"></i> Memmory <span class="socket_mem">0 bytes</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fa-solid fa-memory"></i> Memory <span class="socket_mem">0 bytes</span></div>
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
         <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
