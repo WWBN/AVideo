@@ -13,16 +13,9 @@ $t['&mdash; The Team'] = '&mdash; Команда';
 $t['(filtered from _MAX_ total entries)'] = '(отфильтровано из _MAX_ всего записей)';
 $t[', where you can edit the ad-options'] = ', где вы можете редактировать параметры рекламы';
 $t['-Plugin'] = '-Плагин';
-$t['1 Day'] = '1 День';
-$t['1 Month'] = '1 Месяц';
-$t['12 Months'] = '12 месяцев';
-$t['2 Months'] = '2 Месяца';
 $t['2FA email not sent'] = '2FA эл. письмо не отправлено';
 $t['2FA login is required'] = '2FA требуется войти в систему';
-$t['3 Months'] = '3 Месяца';
 $t['465 OR 587'] = '465 или 587';
-$t['6 Months'] = '6 месяцев';
-$t['7 Day'] = '7 дней';
 $t[': activate to sort column ascending'] = ': активировать для сортировки столбца по возрастанию';
 $t[': activate to sort column descending'] = ': активировать для сортировки столбца по убыванию';
 $t['A service error occurred [1]: %s'] = 'Произошла служебная ошибка [1]: %s';
@@ -88,8 +81,8 @@ $t['Alphabetical'] = 'По алфавиту';
 $t['Already verified'] = 'Уже проверено';
 $t['Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!'] = 'Кроме того, когда вы активируете плагин и видите кнопку "Установить таблицы", нажмите ее хотя бы один раз, если вы никогда ее не нажмете, это может привести к ошибкам!';
 $t['Amount'] = 'Сумма';
-$t['An client error occurred [2]: %s'] = 'Произошла ошибка клиента [2]: %s';
-$t['An client error occurred: %s'] = 'Произошла ошибка клиента: %s';
+$t['A client error occurred [2]: %s'] = 'Произошла ошибка клиента [2]: %s';
+$t['A client error occurred: %s'] = 'Произошла ошибка клиента: %s';
 $t['Analytics Code'] = 'Код Analytics';
 $t['Anyone with this key can watch your live stream.'] = 'Любой, у кого есть этот ключ, может смотреть вашу прямую трансляцию.';
 $t['Approve Ad Code'] = 'Утвердить рекламный код';
@@ -915,7 +908,7 @@ $t['VideosStatistics'] = 'Видео Статистика';
 $t['View Details'] = 'Посмотр деталей';
 $t['View all replies'] = 'Посмотреть все ответы';
 $t['View'] = 'Посмотр';
-$t['Views in the last 30 days'] = 'Просмотры за последние 30 дней';
+$t['Views in the last 30 days'] = 'Просмотры за последние 30 дней';
 $t['Views'] = 'Просмотр (ов)';
 $t['Visibility'] = 'Наглядность';
 $t['Volume'] = 'Громкость';
@@ -1120,7 +1113,6 @@ $t['Your user has been saved!'] = 'Ваш пользователь был сох
 $t['Your user is not verified, we sent you a new e-mail'] = 'Ваш пользователь не подтвержден, мы отправили вам новое письмо';
 $t['Your user or password is wrong!'] = 'Ваш пользователь или пароль неверны!';
 $t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "] = "Ваше видео <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> было загружено на ваш <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Аккаунт</a><br> ";
-$t["Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploadedto your <a href='https://www.youtube.com/my_videos' class='btn btn-default'target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br>"] = "Ваше видео <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> был загружен на ваш <a href='https://www.youtube.com/my_videos' class='btn btn-default'target='_blank'><span class='fab fa-youtube-square'></span> Аккаунт YouTube</a><br>";
 $t['Your video download is complete, it is encoding now'] = 'Ваша загрузка видео завершена, сейчас она кодируется';
 $t['Your video has NOT been deleted!'] = 'Ваше видео не было удалено!';
 $t['Your video has NOT been saved!'] = 'Ваше видео не было сохранено!';
@@ -1200,7 +1192,6 @@ $t['youtube-dl uses Python and some servers does not came with python as default
 
 
 // Previously missing from file.
-$t['5G Radiation'] = '5G Radiation';
 $t['API'] = 'API';
 $t['AVideo URL'] = 'AVideo URL';
 $t['Actions'] = 'Actions';
