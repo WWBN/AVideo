@@ -7370,7 +7370,7 @@ function _getPageItem($url, $page, $uid, $isNext= false, $icon = ''){
     return $li;
 }
 
-function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true, $showOnly='')
+function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = false, $showOnly='')
 {
     global $global, $advancedCustom;
     if ($total < 2) {
