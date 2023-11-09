@@ -112,9 +112,8 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 }
 
                 echo getPagination($totalPages, $page, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
-                echo '<hr>'.__LINE__.'<hr>';
-                echo getPagination($totalPages, $page, $url, 10);
-                echo '<hr>'.__LINE__.'<hr>';
+                
+                //echo getPagination($totalPages, $page, $url, 10);
                 ?>
             </div>
         <?php
