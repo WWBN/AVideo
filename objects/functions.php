@@ -10551,7 +10551,8 @@ function isGoodImage($fn)
         for ($j = 0; $j < 5; ++$j) {
             $x = $w - 5 + $i;
             $y = $h - 5 + $j;
-            [$r, $g, $b] = array_values(imagecolorsforindex($im, imagecolorat($im, $x, $y)));
+            //[$r, $g, $b] = array_values(imagecolorsforindex($im, imagecolorat($im, $x, $y)));
+            [$r, $g, $b] = imagecolorsforindex($im, imagecolorat($im, $x, $y));
             if ($r == $g && $g == $b && $b == 128) {
                 ++$grey;
             }

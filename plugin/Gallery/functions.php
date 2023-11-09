@@ -21,7 +21,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     
     global $global, $url;
-    $url .= '_pageNum_/';
+    if(!preg_match('/page\/[0-9]+\//', $url)){
+        $url .= '_pageNum_/';
+    }
     foreach ($_REQUEST as $key => $value) {
         $url = addQueryStringParameter($url, $key, $value);
     }
@@ -110,6 +112,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                 }
 
                 echo getPagination($totalPages, $page, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
+                echo '<hr>'.__LINE__.'<hr>';
+                echo getPagination($totalPages, $page, $url, 10);
+                echo '<hr>'.__LINE__.'<hr>';
                 ?>
             </div>
         <?php
