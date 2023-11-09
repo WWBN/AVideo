@@ -6648,7 +6648,6 @@ function unsetCurrentPage()
     $_POST['current'] = 1;
     $_GET['current'] = 1;
     $_GET['page'] = 1;
-    $_GET['isInfiniteScroll'] = 1;
 }
 
 function resetCurrentPage()
@@ -6658,7 +6657,6 @@ function resetCurrentPage()
     $_POST['current'] = $_currentPage;
     $_GET['current'] = $_currentPage;
     $_GET['page'] = $_currentPage;
-    $_GET['isInfiniteScroll'] = $_currentPage;
 }
 
 
