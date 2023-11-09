@@ -139,7 +139,7 @@ $objGallery = AVideoPlugin::getObjectData("Gallery");
         }
         echo $getVideosListItem;
         //var_dump(getRowCount(), $totalPages, getCurrentPage(), $link);
-        echo getPagination($totalPages, getCurrentPage(), $link, 5);
+        echo getPagination($totalPages, $link, 5);
     } else {
         for($i=0;$i<1;$i++){
         ?>

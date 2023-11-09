@@ -7,7 +7,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $obj = AVideoPlugin::getObjectData("Gallery");
     setRowCount($obj->CategoriesRowCount * 3);
     if (empty($_GET['page'])) {
-        $_GET['page'] = 1;
+        unsetCurrentPage();
     }
     $_REQUEST['current'] = $_GET['page'];
 
@@ -86,19 +86,16 @@ function createCategorySection($videos)
         </div>
     </div>
     <!-- mainAreaCategory -->
-    <div class="col-sm-12" style="z-index: 1;">
+    <div class="col-sm-12 gallerySection" >
         <?php
         $_REQUEST['catName'] = $videos[0]['clean_category'];
         $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
         $totalPages = ceil($total / getRowCount());
-        $page = getCurrentPage();
-        if ($totalPages < $page) {
-            $page = $totalPages;
-        }
         //var_dump($totalPages, $page);
         $categoryURL = "{$global['webSiteRootURL']}cat/{$videos[0]['clean_category']}/page/";
         //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector="", $infinityScrollAppendIntoSelector="")
-        echo getPagination($totalPages, $page, "{$categoryURL}_pageNum_{$args}", 10, ".Div{$videos[0]['clean_category']}Section", ".Div{$videos[0]['clean_category']}Section");
+        echo getPagination($totalPages, "{$categoryURL}_pageNum_{$args}", 10, ".Div{$videos[0]['clean_category']}Section", ".Div{$videos[0]['clean_category']}Section");
+        echo getPagination($totalPages, "{$categoryURL}_pageNum_{$args}");
         ?>
     </div>
 <?php

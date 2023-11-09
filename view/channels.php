@@ -16,15 +16,8 @@ if (isset($_SESSION['channelName'])) {
 
 $totalChannels = Channel::getTotalChannels();
 
-if (!empty($_GET['page'])) {
-    $_POST['current'] = intval($_GET['page']);
-} else {
-    $_POST['current'] = 1;
-}
-
 $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
 
-$current = $_POST['current'];
 $_REQUEST['rowCount'] = 10;
 $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
 
@@ -105,7 +98,7 @@ $metaDescription = __("Channels");
                         User::getChannelPanel($value['id']);
                     }
 
-                    echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channels?page=_pageNum_");
+                    echo getPagination($totalPages, "{$global['webSiteRootURL']}channels?page=_pageNum_");
                     ?>
                 </div>
             </div>

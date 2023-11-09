@@ -19,9 +19,9 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     global $contentSearchFound;
     $title = __($title);
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
-    
+
     global $global, $url;
-    if(!preg_match('/\/page\/[0-9]+\//', $url)){
+    if (!preg_match('/\/page\/[0-9]+\//', $url) && !preg_match('/\/page\/_pageNum_/', $url)) {
         $url .= '_pageNum_/';
     }
     foreach ($_REQUEST as $key => $value) {
@@ -31,11 +31,10 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $rowCount = 24;
         $url = addQueryStringParameter($url, 'infiniteScrollRowCount', $rowCount);
     }
-    if(!empty($_GET['infiniteScrollRowCount'])){
+    if (!empty($_GET['infiniteScrollRowCount'])) {
         $rowCount = intval($_GET['infiniteScrollRowCount']);
     }
-    
-    $paggingId = uniqid();
+
     $uid = "gallery" . uniqid();
 ?>
     <div class="clear clearfix galeryRowElement" id="<?php echo $uid; ?>">
@@ -63,7 +62,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $countCols = 0;
         unset($_POST['sort']);
         if (empty($_GET['page'])) {
-            $_GET['page'] = 1;
+            unsetCurrentPage();
         }
         $_POST['sort'][$sort] = $_GET[$getName];
         $_REQUEST['current'] = $_GET['page'];
@@ -81,15 +80,6 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $contentSearchFound = !empty($total);
         }
         $totalPages = ceil($total / $_REQUEST['rowCount']);
-        $page = $_GET['page'];
-        if ($totalPages < $_GET['page']) {
-            if ($infinityScroll) {
-                echo '</div>';
-                return 0;
-            }
-            $page = $totalPages;
-            $_REQUEST['current'] = $totalPages;
-        }
         $videos = Video::getAllVideos($videoStatus, false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
         ?>
@@ -102,7 +92,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         if ($countCols) {
         ?>
             <!-- createGallery -->
-            <div class="col-sm-12" style="z-index: 1;">
+            <div class="col-sm-12 gallerySection" >
                 <?php
                 $infinityScrollGetFromSelector = "";
                 $infinityScrollAppendIntoSelector = "";
@@ -110,10 +100,8 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
                     $infinityScrollGetFromSelector = ".gallerySectionContent{$getName}";
                     $infinityScrollAppendIntoSelector = ".gallerySectionContent{$getName}";
                 }
-
-                echo getPagination($totalPages, $page, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
-                
-                //echo getPagination($totalPages, $page, $url, 10);
+                echo getPagination($totalPages, $url, 10, $infinityScrollGetFromSelector, $infinityScrollAppendIntoSelector, false, $getName);
+                echo getPagination($totalPages, $url, 10);
                 ?>
             </div>
         <?php
@@ -301,7 +289,7 @@ function createGallerySectionVideo($video, $showChannel = true, $screenColsLarge
     $nameId = User::getNameIdentificationById($video['users_id']);
     $name = $nameId . " " . User::getEmailVerifiedIcon($video['users_id']);
     $colsClass = getGalleryColsCSSClass($screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);
-    if(!$showChannel){
+    if (!$showChannel) {
         $colsClass .= ' notShowChannel';
     }
 ?>
@@ -600,7 +588,7 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
             $countCols = 0;
             unset($_POST['sort']);
             $_POST['sort']['created'] = "DESC";
-            $_REQUEST['current'] = 1;
+            unsetCurrentPage();
             $_REQUEST['rowCount'] = $rowCount;
             $videos = Video::getAllVideos("viewable", $users_id);
             createGallerySection($videos);

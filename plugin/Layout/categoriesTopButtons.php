@@ -6,7 +6,7 @@ global $advancedCustom;
 $_rowCount = getRowCount();
 $current = getCurrentPage();
 $_REQUEST['rowCount'] = 1000;
-$_REQUEST['current'] = 1;
+unsetCurrentPage();
 $parsed_cats = array();
 $categories = Category::getAllCategories();
 $_REQUEST['rowCount'] = $_rowCount;

@@ -17,13 +17,6 @@ $_GET['channelName'] = $user->getChannelName();
 $timeLog = __FILE__ . " - channelName: {$_GET['channelName']}";
 TimeLogStart($timeLog);
 $_POST['sort']['created'] = "DESC";
-
-if (empty($_GET['current'])) {
-    $_POST['current'] = 1;
-} else {
-    $_POST['current'] = $_GET['current'];
-}
-$current = $_POST['current'];
 $rowCount = 25;
 $_REQUEST['rowCount'] = $rowCount;
 
@@ -457,7 +450,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -499,7 +492,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -542,7 +535,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                         </div>
 
                                         <div class="panel-footer">
-                                            <?php echo getPagination($totalPages, $current, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
                                         </div>
                                     </div>
                                 </div>

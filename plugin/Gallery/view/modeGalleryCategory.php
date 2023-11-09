@@ -21,17 +21,13 @@ $sort = @$_POST['sort'];
 unset($_POST['sort']);
 $categories = Category::getAllCategories(false, true, $onlySuggested);
 $total = Category::getTotalCategories(false, true, $onlySuggested);
-$totalPages = ceil($total / getRowCount());
-$page = getCurrentPage();
-if ($totalPages < $page) {
-    $page = $totalPages;
-}
+
 $link = addSearchOptions("{$global['webSiteRootURL']}plugin/Gallery/view/modeGalleryCategory.php") . "&current=_pageNum_";
 
 if (empty($categories)) {
     return false;
 }
-$_REQUEST['current'] = 1;
+unsetCurrentPage();
 $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
 <!-- modeGalleryCategory start -->
@@ -43,19 +39,22 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
         //var_dump($_cat);
         $setCacheName = "GalleryCategoryInclude{$_cat['id']}";
         unsetCurrentPage();
+        var_dump($_currentPage, $_GET['page']);
         //var_dump($_cat, $setCacheName);exit;
         $contents = getIncludeFileContent("{$global['systemRootPath']}plugin/Gallery/view/modeGalleryCategoryInclude.php", 
         ['_cat'=>$_cat, 'obj'=>$obj], $setCacheName);
         echo $contents;
     }
+    resetCurrentPage();
     TimeLogEnd($timeLogName, __LINE__, 1);
     ?>
 </div>
 <!-- modeGalleryCategory -->
-<div class="col-sm-12" style="z-index: 1;">
+<div class="col-sm-12 gallerySection" >
     <?php
     //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = false)
-    echo getPagination($totalPages, $page, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);
+    echo getPagination($totalPages, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);
+    echo getPagination($totalPages, $link);
     ?>
 </div>
 <!-- modeGalleryCategory end -->

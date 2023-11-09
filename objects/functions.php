@@ -6580,8 +6580,11 @@ function doNOTOrganizeHTMLIfIsPagination()
     }
 }
 
-function getCurrentPage()
+function getCurrentPage($forceURL = false)
 {
+    if($forceURL){
+        resetCurrentPage();
+    }
     global $lastCurrent;
     $current = 1;
     if (!empty($_REQUEST['current'])) {
@@ -6637,13 +6640,27 @@ function getTrendingLimitDate()
 
 function unsetCurrentPage()
 {
+    global $_currentPage;
+    if(!isset($_currentPage)){
+        $_currentPage = getCurrentPage();
+    }
     $_REQUEST['current'] = 1;
     $_POST['current'] = 1;
     $_GET['current'] = 1;
     $_GET['page'] = 1;
-    $_REQUEST['current'] = 1;
     $_GET['isInfiniteScroll'] = 1;
 }
+
+function resetCurrentPage()
+{
+    global $_currentPage;
+    $_REQUEST['current'] = $_currentPage;
+    $_POST['current'] = $_currentPage;
+    $_GET['current'] = $_currentPage;
+    $_GET['page'] = $_currentPage;
+    $_GET['isInfiniteScroll'] = $_currentPage;
+}
+
 
 
 function setCurrentPage($current)
@@ -7320,15 +7337,51 @@ function getSEOTitle($text, $maxChars = 120)
     }
 }
 
-function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true, $showOnly='')
+function _addPageNumber($url, $page){
+    if (preg_match("/_pageNum_/", $url, $match)) {
+        $url = str_replace("_pageNum_", $page, $url);
+    } 
+    
+    $url = addQueryStringParameter($url, 'page', $page);    
+    $url = addQueryStringParameter($url, 'current', $page);
+
+    // remove duplicated
+    $pattern = '/\/page\/(\d+)\/\d+\//';
+    $replacement = '/page/$1/';
+    $url = preg_replace($pattern, $replacement, $url, 1);
+    return $url;
+}
+
+function _getPageItem($url, $page, $uid, $isNext= false, $icon = ''){
+    $class = '';
+    if($isNext){
+        $class .= 'pagination__next pagination__next'.$uid;
+    }
+    $currentPage = getCurrentPage(true);
+    if($page == $currentPage){
+        return '<li class="page-item active"><span class="page-link"> ' . $page . ' <span class="sr-only">(current)</span></span></li>';
+    }
+    $link = _addPageNumber($url, $page);
+    $li =  "<li class=\"page-item\" ><a class=\"page-link {$class}\" href=\"{$link}\" tabindex=\"-1\" pageNum=\"{$page}\" currentPage=\"{$currentPage}\" onclick=\"modal.showPleaseWait();\">";
+    if(!empty($icon)){
+        $li .=  "<i class=\"{$icon}\"></i>";
+    }else{
+        $li .= $page;
+    }
+    $li .=  "</a></li>";
+    return $li;
+}
+
+function getPagination($total, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = true, $showOnly='')
 {
     global $global, $advancedCustom;
     if ($total < 2) {
         return '<!-- getPagination total < 2 (' . json_encode($total) . ') -->';
     }
 
-    if (empty($page)) {
-        $page = getCurrentPage();
+    $page = getCurrentPage();
+    if ($total < $page) {
+        $page = $total;
     }
 
     $isInfiniteScroll = !empty($infinityScrollGetFromSelector) && !empty($infinityScrollAppendIntoSelector);
@@ -7349,7 +7402,7 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if($isInfiniteScroll){
         $link = addQueryStringParameter($link, 'isInfiniteScroll', getCurrentPage());
     }
-    if(is_string($showOnly)){
+    if(!empty($showOnly)){
         $link = addQueryStringParameter($link, 'showOnly',$showOnly);
     }
     $class = '';
@@ -7358,18 +7411,12 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     }
 
     if ($isInfiniteScroll && $page > 1) {
-        if (preg_match("/_pageNum_/", $link, $match)) {
-            $pageForwardLink = str_replace("_pageNum_", $page + 1, $link);
-        } else {
-            $pageForwardLink = addQueryStringParameter($link, 'current', $page + 1);
-        }
-
         return "<nav class=\"{$class}\">"
             . "<ul class=\"pagination\">"
-            . "<li class=\"page-item\"><a class=\"page-link pagination__next pagination__next{$uid}\" href=\"{$pageForwardLink}\"></a></li></ul></nav>";
+            ._getPageItem($link, $page, $uid,true)
+            . "</ul></nav>";
     }
-
-    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page ' . $page . ' maxVisible = ' . $maxVisible . ' -->';
+    $pag = '<nav aria-label="Page navigation" class="text-center ' . $class . '"><ul class="pagination"><!-- page ' . $page . ' maxVisible = ' . $maxVisible . ' '.$link.' -->';
     $start = 1;
     $end = $maxVisible;
 
@@ -7388,45 +7435,25 @@ function getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinit
     if (!$isInfiniteScroll) {
         if ($page > 1) {
             $pageLinkNum = 1;
-            $pageBackLinkNum = $page - 1;
-            if (preg_match("/_pageNum_/", $link, $match)) {
-                $pageLink = str_replace("_pageNum_", $pageLinkNum, $link);
-                $pageBackLink = str_replace("_pageNum_", $pageBackLinkNum, $link);
-            } else {
-                $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
-                $pageBackLink = addQueryStringParameter($link, 'current', $pageBackLinkNum);
-            }
+            $pageBackLinkNum = $page - 1;            
             if ($start > ($page - 1)) {
-                $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link backLink1" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-left"></i></a></li>';
+                $pag .= _getPageItem($link, $pageLinkNum, $uid,false,'fas fa-angle-double-left' );
+                
             }
-            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageBackLinkNum . '" class="page-link backLink2" href="' . $pageBackLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-left"></i></a></li>';
+            $pag .= _getPageItem($link, $pageBackLinkNum, $uid,false,'fas fa-angle-left' );
         }
         for ($i = $start; $i <= $end; $i++) {
-            if ($i == $page) {
-                $pag .= PHP_EOL . ' <li class="page-item active"><span class="page-link"> ' . $i . ' <span class="sr-only">(current)</span></span></li>';
-            } else {
-                if (preg_match("/_pageNum_/", $link, $match)) {
-                    $pageLink = str_replace("_pageNum_", $i, $link);
-                } else {
-                    $pageLink = addQueryStringParameter($link, 'current', $i);
-                }
-                $pag .= PHP_EOL . ' <li class="page-item"><a pageNum="' . $i . '"class="page-link pageLink1" href="' . $pageLink . '" onclick="modal.showPleaseWait();"> ' . $i . ' </a></li>';
-            }
+            $pag .= _getPageItem($link, $i, $uid);
         }
     }
     if ($page < $total) {
         $pageLinkNum = $total;
         $pageForwardLinkNum = $page + 1;
-        if (preg_match("/_pageNum_/", $link, $match)) {
-            $pageLink = str_replace("_pageNum_", $pageLinkNum, $link);
-            $pageForwardLink = str_replace("_pageNum_", $pageForwardLinkNum, $link);
-        } else {
-            $pageLink = addQueryStringParameter($link, 'current', $pageLinkNum);
-            $pageForwardLink = addQueryStringParameter($link, 'current', $pageForwardLinkNum);
-        }
-        $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageForwardLinkNum . '" class="page-link  pageLink2 pagination__next' . $uid . '" href="' . $pageForwardLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-right"></i></a></li>';
+        $pageLink = _addPageNumber($link, $pageLinkNum);
+        
+        $pag .= _getPageItem($link, $pageForwardLinkNum, $uid, true, 'fas fa-angle-right');
         if ($total > ($end + 1)) {
-            $pag .= PHP_EOL . '<li class="page-item"><a pageNum="' . $pageLinkNum . '" class="page-link  pageLink3" href="' . $pageLink . '" tabindex="-1" onclick="modal.showPleaseWait();"><i class="fas fa-angle-double-right"></i></a></li>';
+            $pag .= _getPageItem($link, $pageLinkNum, $uid, false, 'fas fa-angle-double-right');
         }
     }
     //var_dump($page, $link, $pageForwardLink, $pag);exit;

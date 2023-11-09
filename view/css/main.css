@@ -1116,6 +1116,10 @@ img.blur {
     filter: alpha(opacity=100);
 }
 
+.fa, .fas{
+    display: inline-block;
+}
+
 #closeBtnFull i {
     text-shadow: 1px 1px rgba(255, 255, 255, 0.7);
 }
@@ -2045,9 +2049,11 @@ body.ypt-is-compressed #videoCol {
     display: none;
 }
 
-.loadInfiniteScrollButton{
+.gallerySection{
+    z-index: 1;
     margin-bottom: 50px;
 }
+
 .loadInfiniteScrollButton .scroller-status{
     display: none;
 }

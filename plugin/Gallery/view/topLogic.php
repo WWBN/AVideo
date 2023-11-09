@@ -47,11 +47,6 @@ if (empty($video)) {
     $video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, true);
     $debugLastGetVideoSQL = $lastGetVideoSQL;
 }
-if (empty($_GET['page'])) {
-    $_GET['page'] = 1;
-} else {
-    $_GET['page'] = intval($_GET['page']);
-}
 $total = 0;
 $totalPages = 0;
 $url = '';

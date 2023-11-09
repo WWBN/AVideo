@@ -8,7 +8,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         //$videoRows = Video::getAllVideosLight("viewable", !$obj->hidePrivateVideos, false, true);
         $_REQUEST['rowCount'] = 20;
-        $_REQUEST['current'] = 1;
+        unsetCurrentPage();
         $videoRows = Video::getAllVideos("viewable", false, !$obj->hidePrivateVideos, array(), false, false, true, true);
     }
     if (empty($videoRows)) {

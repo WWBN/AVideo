@@ -394,7 +394,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
 
         $currentPage = getCurrentPage();
         $rowCount = getRowCount();
-        $_REQUEST['current'] = 1;
+        unsetCurrentPage();
         $_REQUEST['rowCount'] = 1000;
 
         $post = $_POST;

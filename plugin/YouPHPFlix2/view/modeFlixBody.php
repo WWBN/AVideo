@@ -9,7 +9,7 @@ $percent = 90;
      background: linear-gradient(top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
      background: -moz-linear-gradient(to top, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);">
     <?php
-    $_REQUEST['current'] = 1;
+    unsetCurrentPage();
     $_REQUEST['rowCount'] = $obj->maxVideos;
 
     if ($obj->Suggested) {
