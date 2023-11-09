@@ -21,7 +21,7 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
     $getName = str_replace(array("'", '"', "&quot;", "&#039;"), array('', '', '', ''), xss_esc($getName));
     
     global $global, $url;
-    if(!preg_match('/page\/[0-9]+\//', $url)){
+    if(!preg_match('/\/page\/[0-9]+\//', $url)){
         $url .= '_pageNum_/';
     }
     foreach ($_REQUEST as $key => $value) {
