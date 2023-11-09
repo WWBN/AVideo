@@ -2,6 +2,7 @@
 $tTolerance = 0.2;
 $tname = TimeLogStart(basename(__FILE__));
 if (isInfiniteScroll()) {
+    echo '<!-- navbar hidden line='.__LINE__.' -->';
     return '';
 } else if (isset($_GET['noNavbar'])) {
     _session_start();
@@ -40,6 +41,7 @@ if (!empty($_SESSION['noNavbar'])) {
     } else {
         echo '<style>body{padding-top:0;}</style>';
     }
+    echo '<!-- navbar hidden line='.__LINE__.' -->';
     echo '<nav class="hidden" id="mainNavBar" style="display:none;"></nav>';
     return '';
 }
@@ -74,6 +76,7 @@ TimeLogEnd($tname, __LINE__, $tTolerance);
 echo AVideoPlugin::navBar();
 TimeLogEnd($tname, __LINE__, $tTolerance);
 if (!$includeDefaultNavBar) {
+    echo '<!-- navbar hidden line='.__LINE__.' -->';
     return false;
 }
 
@@ -91,6 +94,7 @@ if (!empty($_GET['avideoIframe'])) { // comes from avideoModalIframe(url) javasc
         }
     </style>
 <?php
+    echo '<!-- navbar hidden line='.__LINE__.' -->';
     return false;
 }
 ?>
