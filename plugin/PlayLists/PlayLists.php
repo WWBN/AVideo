@@ -1047,7 +1047,7 @@ class PlayListPlayer {
             $playListSources = array();
             foreach ($sources as $value2) {
                 if ($value2['type'] !== 'video' && $value2['type'] !== 'audio' && $value2['type'] !== 'serie') {
-                    $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$value2['id']} invalid type {$value2['type']}";
+                    $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$value2['id']} invalid type {$value2['type']} filename={$value2['filename']}";
                     continue;
                 }
                 //var_dump($value2);
