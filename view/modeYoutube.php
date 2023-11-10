@@ -80,16 +80,15 @@ if (!empty($evideo)) {
         $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
 
         $playListData = $plp->getPlayListData();
+        if (empty($playListData)) {
+            _error_log(implode(PHP_EOL."Playlist error: playlist_id={$_GET['playlist_id']}, playlists_tags_id={$_GET['playlists_tags_id']} - ", $messagesFromPlayList));
+            videoNotFound("Playlist is empty {$_GET['playlist_id']}");
+        }
 
         $video = $plp->getCurrentVideo();
         if(!empty($video)){
             $_getVideos_id = intval($video['id']);
-            $playlist_index = $plp->getIndex();
-    
-            if (empty($playListData)) {
-                videoNotFound("Line code ".__LINE__);
-            }
-    
+            $playlist_index = $plp->getIndex(); 
             $videosPlayList = $plp->getVideos();
             $autoPlayVideo = $plp->getNextVideo();
             $playlist_id = $plp->getPlaylists_id();

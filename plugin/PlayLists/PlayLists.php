@@ -1024,10 +1024,11 @@ class PlayListPlayer {
     }
 
     public function getPlayListData() {
-        global $playListData;
+        global $playListData, $messagesFromPlayList;
         if (!isset($playListData)) {
             $playListData = array();
         }
+        $messagesFromPlayList = array();
         foreach ($this->videos as $key => $video) {
 
             if ($video['type'] === 'embed') {
@@ -1046,6 +1047,7 @@ class PlayListPlayer {
             $playListSources = array();
             foreach ($sources as $value2) {
                 if ($value2['type'] !== 'video' && $value2['type'] !== 'audio' && $value2['type'] !== 'serie') {
+                    $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$value2['id']} invalid type {$value2['type']}";
                     continue;
                 }
                 //var_dump($value2);
