@@ -11,6 +11,7 @@
     "dom-walk": "^0.1.2",
     "flickity": "^3.0.0",
     "flickity-bg-lazyload": "^2.0.0",
+    "font-awesome": "^4.7.0",
     "fontawesome-free": "^1.0.4",
     "hls.js": "^1.4.12",
     "infinite-scroll": "^4.0.1",
