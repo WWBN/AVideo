@@ -1,7 +1,7 @@
 <?php
 
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
-require_once $global['systemRootPath'] . 'plugin/Cache/Objects/CachesInDB.php';
+require_once $global['systemRootPath'] . 'plugin/Cache/Objects/CacheDB.php';
 
 class Cache extends PluginAbstract {
 
@@ -314,12 +314,12 @@ class Cache extends PluginAbstract {
                 $user_location = $loc['country_code'];
             }
         }
-        $loggedType = CachesInDB::$loggedType_NOT_LOGGED;
+        $loggedType = CacheDB::$loggedType_NOT_LOGGED;
         if (User::isLogged()) {
             if (User::isAdmin()) {
-                $loggedType = CachesInDB::$loggedType_ADMIN;
+                $loggedType = CacheDB::$loggedType_ADMIN;
             } else {
-                $loggedType = CachesInDB::$loggedType_LOGGED;
+                $loggedType = CacheDB::$loggedType_LOGGED;
             }
         }
         $_getCacheMetaData = ['domain' => $domain, 'ishttps' => $ishttps, 'user_location' => $user_location, 'loggedType' => $loggedType];
@@ -332,7 +332,7 @@ class Cache extends PluginAbstract {
             return $cache_setCacheToSaveAtTheEnd[$name];
         }
         $metadata = self::getCacheMetaData();
-        return CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
+        return CacheDB::getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
     }
 
     public static function _setCache($name, $value) {
@@ -342,17 +342,13 @@ class Cache extends PluginAbstract {
         }
         $cache_setCacheToSaveAtTheEnd[$name] = $value;
         return true;
-        //$metadata = self::getCacheMetaData();
-        //return CachesInDB::_setCache($name, $value, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType']);
     }
 
     static function saveCache() {
         global $cache_setCacheToSaveAtTheEnd;
         if(!empty($cache_setCacheToSaveAtTheEnd)){
             $metadata = self::getCacheMetaData();
-            //mysqlBeginTransaction();
-            CachesInDB::setBulkCache($cache_setCacheToSaveAtTheEnd, $metadata);
-            //mysqlCommit();
+            CacheDB::setBulkCache($cache_setCacheToSaveAtTheEnd, $metadata);
         }
     }
 
@@ -380,18 +376,12 @@ class Cache extends PluginAbstract {
         if (empty($_getCacheDB[$index])) {
             $_getCacheDB[$index] = null;
             $metadata = self::getCacheMetaData();
-            $row = CachesInDB::_getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
+            $row = CacheDB::getCache($name, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $ignoreMetadata);
             if (!empty($row)) {
                 //$time = getTimeInTimezone(strtotime($row['modified']), $row['timezone']);
                 $time = $row['created_php_time'];
                 if (!empty($lifetime) && ($time + $lifetime) < time() && !empty($row['id'])) {                    
                     $cacheNotFound++;
-                    /*
-                    $c = new CachesInDB($row['id']);
-                    if (!empty($c->getId())) {
-                        $c->delete();
-                    }
-                    */
                 } else if(!empty($row['content'])) {
                     $_getCacheDB[$index] = _json_decode($row['content']);
                     if($_getCacheDB[$index] === null){
@@ -407,16 +397,16 @@ class Cache extends PluginAbstract {
     }
 
     public static function deleteCache($name) {
-        return CachesInDB::_deleteCache($name);
+        return CacheDB::deleteCache($name);
     }
 
     public static function deleteAllCache() {
-        return CachesInDB::_deleteAllCache();
+        return CacheDB::deleteAllCache();
     }
 
     public static function deleteFirstPageCache() {
         clearCache(true);
-        return CachesInDB::_deleteCacheStartingWith('firstPage');
+        return CacheDB::deleteCacheStartingWith('firstPage');
     }
 
     public static function deleteOldCache($days, $limit = 5000) {

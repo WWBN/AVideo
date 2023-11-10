@@ -496,7 +496,7 @@ abstract class ObjectYPT implements ObjectInterface
                 return false;
             }
             if (class_exists('CachesInDB')) {
-                $content = CachesInDB::encodeContent($json);
+                $content = CacheDB::encodeContent($json);
             } else {
                 $content = base64_encode($json);
             }
@@ -1092,7 +1092,7 @@ abstract class CacheHandler {
     public function deleteCache() {
         $prefix = $this->getCacheSubdir();
         if (class_exists('CachesInDB')) {           
-            CachesInDB::_deleteCacheStartingWith($prefix);
+            CacheDB::deleteCacheStartingWith($prefix);
         } 
         _session_start();     
         clearCache(true);

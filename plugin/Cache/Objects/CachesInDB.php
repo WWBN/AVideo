@@ -4,10 +4,6 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 
 class CachesInDB extends ObjectYPT
 {
-    public static $loggedType_NOT_LOGGED = 'n';
-    public static $loggedType_LOGGED = 'l';
-    public static $loggedType_ADMIN = 'a';
-    public static $prefix = 'ypt_cache_';
     protected $id;
     protected $content;
     protected $domain;
@@ -166,6 +162,18 @@ class CachesInDB extends ObjectYPT
             }
             $row = $data;
         } else {
+            if (empty($global['mysqli'])) {
+                $global['mysqli'] = new stdClass();
+            }
+            if($global['mysqli']->errno == 1146){
+                $error = array($global['mysqli']->error);
+                $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
+                sqlDal::executeFile($file);
+                if (!static::isTableInstalled()) {
+                    $error[] = $global['mysqli']->error;
+                    die("We could not create table ".static::getTableName().'<br> '.implode('<br>', $error));
+                }
+            }
             $row = false;
         }
         //var_dump($row);
@@ -210,6 +218,7 @@ class CachesInDB extends ObjectYPT
         $values = [];
         $tz = date_default_timezone_get();
         $time = time();
+        $start = microtime(true);
         foreach ($cacheArray as $name => $cache) {
             $name = self::hashName($name);
             $content = !is_string($cache) ? _json_encode($cache) : $cache;
@@ -230,7 +239,7 @@ class CachesInDB extends ObjectYPT
             array_push($values, $name, $content, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $expires, $tz, $time);
         }
 
-        $sql = "INSERT INTO CachesInDB (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified) 
+        $sql = "INSERT INTO " . static::getTableName() . " (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified) 
                 VALUES " . implode(", ", $placeholders) . "
                 ON DUPLICATE KEY UPDATE 
                 content = VALUES(content),
@@ -242,6 +251,8 @@ class CachesInDB extends ObjectYPT
         $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
         //_error_log("setBulkCache writeSql total= ".count($placeholders));
         //var_dump($result, $sql, implode('', $formats), $values);exit;
+        $end  = number_format(microtime(true) - $start, 5);
+        _error_log("Disk setBulkCache took {$end} seconds");
         return $result;
     }
 
@@ -275,7 +286,7 @@ class CachesInDB extends ObjectYPT
         $name = self::hashName($name);
         //$sql = "DELETE FROM " . static::getTableName() . " ";
         //$sql .= " WHERE name LIKE '{$name}%'";
-        $sql = "DELETE FROM CachesInDB WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
         
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
@@ -320,18 +331,18 @@ class CachesInDB extends ObjectYPT
             $content = _json_encode($content);
         }
         $prefix = substr($content, 0, 10);
-        if ($prefix!== CachesInDB::$prefix) {
+        if ($prefix!== CacheDB::$prefix) {
             //$content = base64_encode($content);
-            $content = CachesInDB::$prefix.$content;
+            $content = CacheDB::$prefix.$content;
         }
         return $content;
     }
 
     public static function decodeContent($content)
     {
-        $prefix = substr($content, 0, strlen(CachesInDB::$prefix));
-        if ($prefix === CachesInDB::$prefix) {
-            $content = str_replace(CachesInDB::$prefix, '', $content);
+        $prefix = substr($content, 0, strlen(CacheDB::$prefix));
+        if ($prefix === CacheDB::$prefix) {
+            $content = str_replace(CacheDB::$prefix, '', $content);
             //$content = base64_decode($content);
         }
         return $content;

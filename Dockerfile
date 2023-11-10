@@ -153,6 +153,7 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
     a2enmod rewrite expires headers ssl xsendfile
 
 RUN echo "error_log = /dev/stdout" >> /etc/php/8.1/apache2/php.ini
+RUN echo "session.save_path = /var/www/memfolder" >> /etc/php/8.1/apache2/php.ini
 
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

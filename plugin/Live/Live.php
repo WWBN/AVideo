@@ -3067,7 +3067,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if(class_exists('CachesInDB')){
-            CachesInDB::_deleteCacheWith('getStats');
+            CacheDB::deleteCacheWith('getStats');
         }
         if ($clearFirstPage) {
             clearCache(true);

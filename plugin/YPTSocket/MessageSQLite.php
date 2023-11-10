@@ -468,11 +468,13 @@ class Message implements MessageComponentInterface {
             if($client['time']+$this->disconnectAfter < $time){
                 _error_log("resourceId={$client['resourceId']} is too old, close it");
                 $this->clients[$client['resourceId']]->close();
+                unset($this->clients[$client['resourceId']]);
             }
             if($client['isCommandLine']){
                 if($client['time']+60 < $time){
                     _error_log("resourceId={$client['resourceId']} disconnect commandline after 1 min");
                     $this->clients[$client['resourceId']]->close();
+                    unset($this->clients[$client['resourceId']]);
                 }
                 //_error_log("msgToAll continue");
                 continue;
