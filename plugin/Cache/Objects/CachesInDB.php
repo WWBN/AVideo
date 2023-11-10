@@ -252,7 +252,7 @@ class CachesInDB extends ObjectYPT
         //_error_log("setBulkCache writeSql total= ".count($placeholders));
         //var_dump($result, $sql, implode('', $formats), $values);exit;
         $end  = number_format(microtime(true) - $start, 5);
-        _error_log("Disk setBulkCache took {$end} seconds");
+        //_error_log("Disk setBulkCache took {$end} seconds");
         return $result;
     }
 

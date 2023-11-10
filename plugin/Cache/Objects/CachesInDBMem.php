@@ -85,7 +85,7 @@ class CachesInDBMem extends CachesInDB
         }
 
         $end  = number_format(microtime(true) - $start, 5);
-        _error_log("Memory setBulkCache took {$end} seconds");
+        //_error_log("Memory setBulkCache took {$end} seconds");
         return true;
     }
 
