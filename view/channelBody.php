@@ -1,5 +1,6 @@
 <?php
 global $global;
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;

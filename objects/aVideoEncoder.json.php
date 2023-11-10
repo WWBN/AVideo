@@ -32,6 +32,9 @@ if (empty($_REQUEST)) {
 }
 //_error_log("aVideoEncoder.json: start");
 _error_log("aVideoEncoder.json: start");
+if(empty($global['allowedExtension'])){
+    $global['allowedExtension'] = array();
+}
 if (empty($_REQUEST['format']) || !in_array($_REQUEST['format'], $global['allowedExtension'])) {
     $obj->msg = "aVideoEncoder.json: ERROR Extension not allowed File {$_REQUEST['format']}";
     _error_log($obj->msg. ": " . json_encode($_REQUEST));

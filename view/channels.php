@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'objects/Channel.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 
 if (isset($_SESSION['channelName'])) {
     _session_start();

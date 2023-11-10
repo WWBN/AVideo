@@ -4,9 +4,9 @@ export default EventTarget;
  */
 export type Event = CustomEvent;
 /**
- * ~EventListener
+ * All event listeners should follow the following format.
  */
-export type EventTarget = () => any;
+export type EventListener = () => any;
 /**
  * `EventTarget` is a class that can have the same API as the DOM `EventTarget`. It
  * adds shorthand functions that wrap around lengthy functions. For example:
@@ -92,7 +92,7 @@ declare class EventTarget {
     /**
      * All event listeners should follow the following format.
      *
-     * @callback EventTarget~EventListener
+     * @callback EventListener
      * @this {EventTarget}
      *
      * @param {Event} event
@@ -108,9 +108,9 @@ declare class EventTarget {
      *         will have extra functionality. See that function for more information.
      *
      * @property EventTarget.prototype.allowedEvents_
-     * @private
+     * @protected
      */
-    private allowedEvents_;
+    protected allowedEvents_: {};
     /**
      * An alias of {@link EventTarget#off}. Allows `EventTarget` to mimic
      * the standard DOM API.

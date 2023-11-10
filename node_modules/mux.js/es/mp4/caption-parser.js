@@ -248,7 +248,10 @@ var parseCaptionNals = function parseCaptionNals(segment, videoTrackId) {
   * @return {?Object[]} parsedCaptions - A list of captions or null if no video tracks
   * @return {Number} parsedCaptions[].startTime - The time to show the caption in seconds
   * @return {Number} parsedCaptions[].endTime - The time to stop showing the caption in seconds
-  * @return {String} parsedCaptions[].text - The visible content of the caption
+  * @return {Object[]} parsedCaptions[].content - A list of individual caption segments
+  * @return {String} parsedCaptions[].content.text - The visible content of the caption segment
+  * @return {Number} parsedCaptions[].content.line - The line height from 1-15 for positioning of the caption segment
+  * @return {Number} parsedCaptions[].content.position - The column indent percentage for cue positioning from 10-80
  **/
 
 

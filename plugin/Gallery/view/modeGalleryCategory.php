@@ -6,6 +6,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $obj = AVideoPlugin::getObjectData("Gallery");
 $liveobj = AVideoPlugin::getObjectDataIfEnabled("Live");
 $_REQUEST['rowCount'] = 2;

@@ -49,7 +49,7 @@ QUnit.test('parse captions from real segment', function(assert) {
   cc = captionParser.parse(dashSegment, trackIds, timescales);
 
   assert.equal(cc.captions.length, 1);
-  assert.equal(cc.captions[0].text, '00:00:00',
+  assert.equal(cc.captions[0].content[0].text, '00:00:00',
     'real segment caption has correct text');
   assert.equal(cc.captions[0].stream, 'CC1',
     'real segment caption has correct stream');
@@ -86,7 +86,7 @@ QUnit.test('parseTrackId for version 0 and version 1 boxes', function(assert) {
     { 1: 90000 }); // timescales);
 
   assert.equal(v0Captions.captions.length, 1, 'got 1 version0 caption');
-  assert.equal(v0Captions.captions[0].text, 'test string #1',
+  assert.equal(v0Captions.captions[0].content[0].text, 'test string #1',
     'got the expected version0 caption text');
   assert.equal(v0Captions.captions[0].stream, 'CC1',
     'returned the correct caption stream CC1');
@@ -108,7 +108,7 @@ QUnit.test('parseTrackId for version 0 and version 1 boxes', function(assert) {
     { 2: 90000 }); // timescales
 
   assert.equal(v1Captions.captions.length, 1, 'got version1 caption');
-  assert.equal(v1Captions.captions[0].text, 'test string #2',
+  assert.equal(v1Captions.captions[0].content[0].text, 'test string #2',
     'got the expected version1 caption text');
   assert.equal(v1Captions.captions[0].stream, 'CC4',
     'returned the correct caption stream CC4');

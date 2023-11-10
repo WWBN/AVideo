@@ -83,18 +83,6 @@ declare class ClickableComponent extends Component {
      * @abstract
      */
     handleClick(event: Event, ...args: any[]): void;
-    /**
-     * Event handler that is called when a `ClickableComponent` receives a
-     * `keydown` event.
-     *
-     * By default, if the key is Space or Enter, it will trigger a `click` event.
-     *
-     * @param {Event} event
-     *        The `keydown` event that caused this function to be called.
-     *
-     * @listens keydown
-     */
-    handleKeyDown(event: Event): void;
 }
 import Component from "./component";
 //# sourceMappingURL=clickable-component.d.ts.map

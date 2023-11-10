@@ -727,7 +727,7 @@ CoalesceStream = function(options, metadataStream) {
   this.push = function(output) {
     // buffer incoming captions until the associated video segment
     // finishes
-    if (output.text) {
+    if (output.content || output.text) {
       return this.pendingCaptions.push(output);
     }
     // buffer incoming id3 tags until the final flush

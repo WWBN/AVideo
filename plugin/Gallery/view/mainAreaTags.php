@@ -7,6 +7,7 @@ if (empty($global['systemRootPath'])) {
 
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 
 $users_id = User::getId();
 

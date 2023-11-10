@@ -333,8 +333,15 @@ transmuxer.on('data', function (segment) {
     metadataTextTrack.addCue(new VTTCue(time, time, frame.value));
   });
   // create a VTTCue for all the parsed CEA-608 captions:>
-  segment.captions.forEach(function(cue) {
-    captionTextTrack.addCue(new VTTCue(cue.startTime, cue.endTime, cue.text));
+  segment.captions.forEach(function(captionSet) {
+    // Caption sets contains multiple caption cues with text and position data.
+    captionSet.content.forEach(function(cue) {
+      const newCue = new VTTCue(cue.startTime, cue.endTime, cue.text);
+      newCue.line = cue.line;
+      newCue.position = cue.position;
+
+      captionTextTrack.addCue(newCue);
+    });
   });
 });
 ```

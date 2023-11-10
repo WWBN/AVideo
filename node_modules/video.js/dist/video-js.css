@@ -911,6 +911,10 @@ body.vjs-pip-window .video-js {
   background-color: rgba(43, 51, 63, 0.7);
 }
 
+.video-js:not(.vjs-controls-disabled, .vjs-using-native-controls, .vjs-error) .vjs-control-bar.vjs-lock-showing {
+  display: flex !important;
+}
+
 .vjs-has-started .vjs-control-bar,
 .vjs-audio-only-mode .vjs-control-bar {
   display: flex;

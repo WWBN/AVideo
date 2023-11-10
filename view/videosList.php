@@ -6,6 +6,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $videos_id = getVideos_id();
 
 $sortOptions = [

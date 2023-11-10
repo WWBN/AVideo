@@ -48,7 +48,10 @@ declare class HTMLTrackElement extends EventTarget {
     srclang: any;
     label: any;
     default: any;
-    allowedEvents_: {
+    /**
+     * @protected
+     */
+    protected allowedEvents_: {
         load: string;
     };
 }

@@ -82,6 +82,16 @@ declare class VolumePanel extends Component {
      * @listens mouseout
      */
     handleMouseOut(event: Event): void;
+    /**
+     * Handles `keyup` event on the document or `keydown` event on the `VolumePanel`,
+     * looking for ESC, which hides the `VolumeControl`.
+     *
+     * @param {Event} event
+     *        The keypress that triggered this event.
+     *
+     * @listens keydown | keyup
+     */
+    handleKeyPress(event: Event): void;
 }
 import Component from "../component.js";
 //# sourceMappingURL=volume-panel.d.ts.map

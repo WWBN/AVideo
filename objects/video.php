@@ -5304,12 +5304,6 @@ if (!class_exists('Video')) {
             }
             $video = new Video("", "", $videos_id);
 
-            if (!$ignoreChannelname && $advancedCustomUser->addChannelNameOnLinks) {
-                $get['channelName'] = $video->getChannelName();
-            } elseif ($ignoreChannelname) {
-                $get['channelName'] = null;
-            }
-
             unset($get['v'], $get['videoName'], $get['videoName'], $get['isMediaPlaySite'], $get['parentsOnly']);
             $get_http = http_build_query($get);
             if (empty($get_http)) {
@@ -5340,13 +5334,18 @@ if (!class_exists('Video')) {
                 $subDir = "audio";
                 $subEmbedDir = "audioEmbed";
             }
+            $siteURL = $global['webSiteRootURL'];
+            if (!$ignoreChannelname && $advancedCustomUser->addChannelNameOnLinks) {
+                $siteURL .= 'channel/'.urlencode($video->getChannelName()).'/';
+            } 
+
+            if ($embed) {
+                $baseURL = "{$siteURL}{$subEmbedDir}/{$videos_id}";
+            } else {
+                $baseURL = "{$siteURL}{$subDir}/{$videos_id}";
+            }
 
             if ($type == Video::$urlTypeFriendly) {
-                $cat = '';
-                if (!empty($_REQUEST['catName'])) {
-                    $cat = "cat/{$_REQUEST['catName']}/";
-                }
-
                 if (empty($clean_title)) {
                     $clean_title = $video->getClean_title();
                 }
@@ -5358,32 +5357,18 @@ if (!class_exists('Video')) {
                         $videos_id = $encryptedVideos_id;
                     }
                 }
-                if ($embed) {
-                    if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
-                        $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$clean_title}{$get_http}";
-                    } else {
-                        $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}/{$clean_title}{$get_http}";
-                    }
-                    return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
-                } else {
-                    if (empty($advancedCustom->useVideoIDOnSEOLinks)) {
-                        return "{$global['webSiteRootURL']}{$cat}{$subDir}/{$clean_title}{$get_http}";
-                    } else {
-                        return "{$global['webSiteRootURL']}{$subDir}/{$videos_id}/{$clean_title}{$get_http}";
-                    }
-                }
+                $url = "{$baseURL}/{$clean_title}{$get_http}";
             } else {
                 if (!empty($advancedCustom->makeVideosIDHarderToGuess)) {
                     $encryptedVideos_id = '.' . idToHash($videos_id);
                     $videos_id = $encryptedVideos_id;
                 }
-                if ($embed) {
-                    $url = "{$global['webSiteRootURL']}{$subEmbedDir}/{$videos_id}{$get_http}";
-                    return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
-                } else {
-                    return "{$global['webSiteRootURL']}{$subDir}/{$videos_id}{$get_http}";
-                }
+                $url = "{$baseURL}{$get_http}";
             }
+            if ($embed) {
+                return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
+            } 
+            return $url;
         }
 
         public static function getPermaLink($videos_id, $embed = false, $get = [])

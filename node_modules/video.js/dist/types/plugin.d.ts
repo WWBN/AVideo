@@ -1,8 +1,5 @@
 export default Plugin;
-/**
- * ~PluginEventHash
- */
-export type Plugin = {
+export type PluginEventHash = {
     /**
      *           For basic plugins, the return value of the plugin function. For
      *           advanced plugins, the plugin instance on which the event is fired.
@@ -126,10 +123,10 @@ declare class Plugin {
      * @param   {Object} [hash={}]
      *          An object to be used as event an event hash.
      *
-     * @return {Plugin~PluginEventHash}
+     * @return {PluginEventHash}
      *          An event hash object with provided properties mixed-in.
      */
-    getEventHash(hash?: any): Plugin;
+    getEventHash(hash?: any): PluginEventHash;
     /**
      * Triggers an event on the plugin object and overrides
      * {@link module:evented~EventedMixin.trigger|EventedMixin.trigger}.
@@ -139,7 +136,7 @@ declare class Plugin {
      *
      * @param   {Object} [hash={}]
      *          Additional data hash to merge with a
-     *          {@link Plugin~PluginEventHash|PluginEventHash}.
+     *          {@link PluginEventHash|PluginEventHash}.
      *
      * @return {boolean}
      *          Whether or not default was prevented.

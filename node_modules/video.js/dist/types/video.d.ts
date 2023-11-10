@@ -4,6 +4,7 @@ export default videojs;
  * parameters and any callback value will be ignored. See: {@link Component ~ReadyCallback}
  */
 export type ReadyCallback = () => any;
+export type version = string;
 /**
  * A callback that is called when a component is ready. Does not have any
  * parameters and any callback value will be ignored. See: {@link Component~ReadyCallback}
@@ -132,13 +133,13 @@ declare namespace videojs {
      * @param {string} name
      *        The class name of the component
      *
-     * @param {Component} comp
+     * @param {typeof Component} comp
      *        The component class
      *
-     * @return {Component}
+     * @return {typeof Component}
      *         The newly registered component
      */
-    export function registerComponent(name: string, comp: Component): Component;
+    export function registerComponent(name: string, comp: typeof Component): typeof Component;
     export const getTech: typeof Tech.getTech;
     export const registerTech: typeof Tech.registerTech;
     export { middlewareUse as use };
@@ -159,11 +160,13 @@ declare namespace videojs {
      *
      * @param {string} name
      *        The plugin name
-     *
-     * @param {Plugin|Function} plugin
+    *
+     * @param {typeof Plugin|Function} plugin
      *         The plugin sub-class or function
+     *
+     * @return {typeof Plugin|Function}
      */
-    export function plugin(name: string, plugin: Function | Plugin): Function | typeof Plugin;
+    export function plugin(name: string, plugin: Function | typeof Plugin): Function | typeof Plugin;
     export const getPlugins: typeof Plugin.getPlugins;
     export const getPlugin: (name: string) => Function | typeof Plugin;
     export const getPluginVersion: typeof Plugin.getPluginVersion;

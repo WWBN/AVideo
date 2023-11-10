@@ -1,5 +1,5 @@
 <?php
-
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 function showThis($who)
 {
     if (empty($_GET['showOnly'])) {

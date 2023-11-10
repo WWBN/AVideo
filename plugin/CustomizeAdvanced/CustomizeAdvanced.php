@@ -33,7 +33,6 @@ class CustomizeAdvanced extends PluginAbstract {
     
     public static function getDataObjectDeprecated() {
         return array(
-            'useVideoIDOnSEOLinks',
             'EnableMinifyJS',
             'usePreloadLowResolutionImages',
             'useFFMPEGToGenerateThumbs',
@@ -258,7 +257,6 @@ class CustomizeAdvanced extends PluginAbstract {
         
         $obj->usePermalinks = false;
         self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
-        $obj->useVideoIDOnSEOLinks = true;
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->EnableMinifyJS = false;

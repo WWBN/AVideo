@@ -1,5 +1,6 @@
 <?php
 global $global;
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 
 if (empty($global['systemRootPath'])) {
     $global['systemRootPath'] = dirname(__FILE__) . '/../../../';

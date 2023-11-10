@@ -1,5 +1,6 @@
 <?php
 
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $post = $_POST;
 $request = $_REQUEST;
 // if there is no section display only the dateAdded row for the selected category

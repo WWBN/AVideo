@@ -12,16 +12,23 @@ declare class BigPlayButton extends Button {
      * This gets called when a `BigPlayButton` "clicked". See {@link ClickableComponent}
      * for more detailed information on what a click can be.
      *
-     * @param {KeyboardEvent} event
+     * @param {KeyboardEvent|MouseEvent|TouchEvent} event
      *        The `keydown`, `tap`, or `click` event that caused this function to be
      *        called.
      *
      * @listens tap
      * @listens click
      */
-    handleClick(event: KeyboardEvent): void;
-    handleKeyDown(event: any): void;
-    handleMouseDown(event: any): void;
+    handleClick(event: KeyboardEvent | MouseEvent | TouchEvent): void;
+    /**
+     * Handle `mousedown` events on the `BigPlayButton`.
+     *
+     * @param {MouseEvent} event
+     *        `mousedown` or `touchstart` event that triggered this function
+     *
+     * @listens mousedown
+     */
+    handleMouseDown(event: MouseEvent): void;
 }
 import Button from "./button.js";
 //# sourceMappingURL=big-play-button.d.ts.map

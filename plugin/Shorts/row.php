@@ -13,8 +13,12 @@ if(!empty($Gobj->ShortsCustomTitle)){
     #Shorts.carousel {
         background: #99999922;
         margin-bottom: 30px;
+        display: none;
     }
-
+    #Shorts.carousel.flickity-enabled {
+        display: block;
+    }
+    
     #Shorts.carousel .flickity-page-dots {
         bottom: -35px;
     }

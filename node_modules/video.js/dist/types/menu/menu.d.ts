@@ -83,15 +83,6 @@ declare class Menu extends Component {
      */
     handleTapClick(event: Event): void;
     /**
-     * Handle a `keydown` event on this menu. This listener is added in the constructor.
-     *
-     * @param {Event} event
-     *        A `keydown` event that happened on the menu.
-     *
-     * @listens keydown
-     */
-    handleKeyDown(event: Event): void;
-    /**
      * Move to next (lower) menu item for keyboard users.
      */
     stepForward(): void;

@@ -69,8 +69,9 @@ declare class TextTrack extends Track {
     removeCue(removeCue: any): void;
     /**
      * cuechange - One or more cues in the track have become active or stopped being active.
+     * @protected
      */
-    allowedEvents_: {
+    protected allowedEvents_: {
         cuechange: string;
     };
 }

@@ -53,9 +53,14 @@ declare class TrackList extends EventTarget {
      * Events that can be called with on + eventName. See {@link EventHandler}.
      *
      * @property {Object} TrackList#allowedEvents_
-     * @private
+     * @protected
      */
-    private allowedEvents_;
+    protected allowedEvents_: {
+        change: string;
+        addtrack: string;
+        removetrack: string;
+        labelchange: string;
+    };
 }
 import EventTarget from "../event-target";
 //# sourceMappingURL=track-list.d.ts.map

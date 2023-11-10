@@ -707,19 +707,35 @@ Cea708Stream.prototype.handleText = function (i, service, options) {
   var nextByte = packetData[i + 1];
   var win = service.currentWindow;
   var char;
-  var charCodeArray; // Use the TextDecoder if one was created for this service
+  var charCodeArray; // Converts an array of bytes to a unicode hex string.
+
+  function toHexString(byteArray) {
+    return byteArray.map(function (byte) {
+      return ('0' + (byte & 0xFF).toString(16)).slice(-2);
+    }).join('');
+  }
+
+  ;
+
+  if (isMultiByte) {
+    charCodeArray = [currentByte, nextByte];
+    i++;
+  } else {
+    charCodeArray = [currentByte];
+  } // Use the TextDecoder if one was created for this service
+
 
   if (service.textDecoder_ && !isExtended) {
-    if (isMultiByte) {
-      charCodeArray = [currentByte, nextByte];
-      i++;
-    } else {
-      charCodeArray = [currentByte];
-    }
-
     char = service.textDecoder_.decode(new Uint8Array(charCodeArray));
   } else {
-    char = get708CharFromCode(extended | currentByte);
+    // We assume any multi-byte char without a decoder is unicode.
+    if (isMultiByte) {
+      var unicode = toHexString(charCodeArray); // Takes a unicode hex string and creates a single character.
+
+      char = String.fromCharCode(parseInt(unicode, 16));
+    } else {
+      char = get708CharFromCode(extended | currentByte);
+    }
   }
 
   if (win.pendingNewLine && !win.isEmpty()) {
@@ -1364,13 +1380,19 @@ var BOTTOM_ROW = 14; // This array is used for mapping PACs -> row #, since ther
 
 var ROWS = [0x1100, 0x1120, 0x1200, 0x1220, 0x1500, 0x1520, 0x1600, 0x1620, 0x1700, 0x1720, 0x1000, 0x1300, 0x1320, 0x1400, 0x1420]; // CEA-608 captions are rendered onto a 34x15 matrix of character
 // cells. The "bottom" row is the last element in the outer array.
+// We keep track of positioning information as we go by storing the
+// number of indentations and the tab offset in this buffer.
 
 var createDisplayBuffer = function createDisplayBuffer() {
   var result = [],
       i = BOTTOM_ROW + 1;
 
   while (i--) {
-    result.push('');
+    result.push({
+      text: '',
+      indent: 0,
+      offset: 0
+    });
   }
 
   return result;
@@ -1439,9 +1461,9 @@ var Cea608Stream = function Cea608Stream(field, dataChannel) {
       this.startPts_ = packet.pts;
     } else if (data === this.BACKSPACE_) {
       if (this.mode_ === 'popOn') {
-        this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1);
+        this.nonDisplayed_[this.row_].text = this.nonDisplayed_[this.row_].text.slice(0, -1);
       } else {
-        this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
+        this.displayed_[this.row_].text = this.displayed_[this.row_].text.slice(0, -1);
       }
     } else if (data === this.ERASE_DISPLAYED_MEMORY_) {
       this.flushDisplayed(packet.pts);
@@ -1474,9 +1496,9 @@ var Cea608Stream = function Cea608Stream(field, dataChannel) {
       // backspace the "e" and insert "è".
       // Delete the previous character
       if (this.mode_ === 'popOn') {
-        this.nonDisplayed_[this.row_] = this.nonDisplayed_[this.row_].slice(0, -1);
+        this.nonDisplayed_[this.row_].text = this.nonDisplayed_[this.row_].text.slice(0, -1);
       } else {
-        this.displayed_[this.row_] = this.displayed_[this.row_].slice(0, -1);
+        this.displayed_[this.row_].text = this.displayed_[this.row_].text.slice(0, -1);
       } // Bitmask char0 so that we can apply character transformations
       // regardless of field and data channel.
       // Then byte-shift to the left and OR with char1 so we can pass the
@@ -1508,7 +1530,11 @@ var Cea608Stream = function Cea608Stream(field, dataChannel) {
       // increments, with an additional offset code of 1-3 to reach any
       // of the 32 columns specified by CEA-608. So all we need to do
       // here is increment the column cursor by the given offset.
-      this.column_ += char1 & 0x03; // Detect PACs (Preamble Address Codes)
+      var offset = char1 & 0x03; // For an offest value 1-3, set the offset for that caption
+      // in the non-displayed array.
+
+      this.nonDisplayed_[this.row_].offset = offset;
+      this.column_ += offset; // Detect PACs (Preamble Address Codes)
     } else if (this.isPAC(char0, char1)) {
       // There's no logic for PAC -> row mapping, so we have to just
       // find the row code in an array and use its index :(
@@ -1542,7 +1568,10 @@ var Cea608Stream = function Cea608Stream(field, dataChannel) {
         // increments the column cursor by 4, so we can get the desired
         // column position by bit-shifting to the right (to get n/2)
         // and multiplying by 4.
-        this.column_ = ((data & 0xe) >> 1) * 4;
+        var indentations = (data & 0xe) >> 1;
+        this.column_ = indentations * 4; // add to the number of indentations for positioning
+
+        this.nonDisplayed_[this.row_].indent += indentations;
       }
 
       if (this.isColorPAC(char1)) {
@@ -1573,29 +1602,52 @@ Cea608Stream.prototype = new Stream(); // Trigger a cue point that captures the 
 // display buffer
 
 Cea608Stream.prototype.flushDisplayed = function (pts) {
-  var content = this.displayed_ // remove spaces from the start and end of the string
-  .map(function (row, index) {
-    try {
-      return row.trim();
-    } catch (e) {
-      // Ordinarily, this shouldn't happen. However, caption
-      // parsing errors should not throw exceptions and
-      // break playback.
-      this.trigger('log', {
-        level: 'warn',
-        message: 'Skipping a malformed 608 caption at index ' + index + '.'
-      });
-      return '';
+  var _this = this;
+
+  var logWarning = function logWarning(index) {
+    _this.trigger('log', {
+      level: 'warn',
+      message: 'Skipping a malformed 608 caption at index ' + index + '.'
+    });
+  };
+
+  var content = [];
+  this.displayed_.forEach(function (row, i) {
+    if (row && row.text && row.text.length) {
+      try {
+        // remove spaces from the start and end of the string
+        row.text = row.text.trim();
+      } catch (e) {
+        // Ordinarily, this shouldn't happen. However, caption
+        // parsing errors should not throw exceptions and
+        // break playback.
+        logWarning(i);
+      } // See the below link for more details on the following fields:
+      // https://dvcs.w3.org/hg/text-tracks/raw-file/default/608toVTT/608toVTT.html#positioning-in-cea-608
+
+
+      if (row.text.length) {
+        content.push({
+          // The text to be displayed in the caption from this specific row, with whitespace removed.
+          text: row.text,
+          // Value between 1 and 15 representing the PAC row used to calculate line height.
+          line: i + 1,
+          // A number representing the indent position by percentage (CEA-608 PAC indent code).
+          // The value will be a number between 10 and 80. Offset is used to add an aditional
+          // value to the position if necessary.
+          position: 10 + Math.min(70, row.indent * 10) + row.offset * 2.5
+        });
+      }
+    } else if (row === undefined || row === null) {
+      logWarning(i);
     }
-  }, this) // combine all text rows to display in one cue
-  .join('\n') // and remove blank rows from the start and end, but not the middle
-  .replace(/^\n+|\n+$/g, '');
+  });
 
   if (content.length) {
     this.trigger('data', {
       startPts: this.startPts_,
       endPts: pts,
-      text: content,
+      content: content,
       stream: this.name_
     });
   }
@@ -1804,7 +1856,11 @@ Cea608Stream.prototype.setRollUp = function (pts, newBaseRow) {
     // move currently displayed captions (up or down) to the new base row
     for (var i = 0; i < this.rollUpRows_; i++) {
       this.displayed_[newBaseRow - i] = this.displayed_[this.row_ - i];
-      this.displayed_[this.row_ - i] = '';
+      this.displayed_[this.row_ - i] = {
+        text: '',
+        indent: 0,
+        offset: 0
+      };
     }
   }
 
@@ -1841,27 +1897,35 @@ Cea608Stream.prototype.clearFormatting = function (pts) {
 
 
 Cea608Stream.prototype.popOn = function (pts, text) {
-  var baseRow = this.nonDisplayed_[this.row_]; // buffer characters
+  var baseRow = this.nonDisplayed_[this.row_].text; // buffer characters
 
   baseRow += text;
-  this.nonDisplayed_[this.row_] = baseRow;
+  this.nonDisplayed_[this.row_].text = baseRow;
 };
 
 Cea608Stream.prototype.rollUp = function (pts, text) {
-  var baseRow = this.displayed_[this.row_];
+  var baseRow = this.displayed_[this.row_].text;
   baseRow += text;
-  this.displayed_[this.row_] = baseRow;
+  this.displayed_[this.row_].text = baseRow;
 };
 
 Cea608Stream.prototype.shiftRowsUp_ = function () {
   var i; // clear out inactive rows
 
   for (i = 0; i < this.topRow_; i++) {
-    this.displayed_[i] = '';
+    this.displayed_[i] = {
+      text: '',
+      indent: 0,
+      offset: 0
+    };
   }
 
   for (i = this.row_ + 1; i < BOTTOM_ROW + 1; i++) {
-    this.displayed_[i] = '';
+    this.displayed_[i] = {
+      text: '',
+      indent: 0,
+      offset: 0
+    };
   } // shift displayed rows up
 
 
@@ -1870,13 +1934,17 @@ Cea608Stream.prototype.shiftRowsUp_ = function () {
   } // clear out the bottom row
 
 
-  this.displayed_[this.row_] = '';
+  this.displayed_[this.row_] = {
+    text: '',
+    indent: 0,
+    offset: 0
+  };
 };
 
 Cea608Stream.prototype.paintOn = function (pts, text) {
-  var baseRow = this.displayed_[this.row_];
+  var baseRow = this.displayed_[this.row_].text;
   baseRow += text;
-  this.displayed_[this.row_] = baseRow;
+  this.displayed_[this.row_].text = baseRow;
 }; // exports
 
 

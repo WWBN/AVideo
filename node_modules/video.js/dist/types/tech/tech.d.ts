@@ -1,8 +1,11 @@
 export default Tech;
 /**
- * ~SourceObject
+ * An Object containing a structure like: `{src: 'url', type: 'mimetype'}` or string
+ * that just contains the src url alone.
+ * * `var SourceObject = {src: 'http://ex.com/video.mp4', type: 'video/mp4'};`
+ *  `var SourceString = 'http://example.com/some-video.mp4';`
  */
-export type Tech = any | string;
+export type SourceObject = any | string;
 /**
  * This is the base class for media playback technology controllers, such as
  * {@link HTML5}
@@ -232,11 +235,11 @@ declare class Tech extends Component {
      * > NOTE: This implementation is incomplete. It does not track the played `TimeRange`.
      *         It only checks whether the source has played at all or not.
      *
-     * @return {TimeRange}
+     * @return { import('../utils/time').TimeRange }
      *         - A single time range if this video has played
      *         - An empty set of ranges if not.
      */
-    played(): TimeRange;
+    played(): import('../utils/time').TimeRange;
     /**
      * Start playback
      *
