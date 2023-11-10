@@ -1050,6 +1050,7 @@ class PlayListPlayer {
                     $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
                     continue;
                 }
+                $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
                 //var_dump($value2);
                 $playListSources[] = new playListSource($value2['url'], $video['type'] === 'embed');
             }
