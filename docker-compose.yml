@@ -25,8 +25,8 @@ services:
         WEBSITE_TITLE: ${WEBSITE_TITLE}
         MAIN_LANGUAGE: ${MAIN_LANGUAGE}
     restart: "unless-stopped"
-    tmpfs:
-      - /var/www/memfolder:rw,size=512M
+    # tmpfs:
+    #  - /var/www/memfolder:rw,size=512M
     environment:
       SOCKET_PORT: ${SOCKET_PORT:-2053}
       HTTP_PORT: ${HTTP_PORT:-80}
@@ -57,7 +57,7 @@ services:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
     volumes:
-      - "./.compose/tmp:/var/www/tmp"
+      # - "./.compose/tmp:/var/www/tmp"
       - "./.compose/HLS:/HLS"
       - "./:/var/www/html/AVideo"
       - "./.compose/videos:/var/www/html/AVideo/videos"
@@ -82,7 +82,7 @@ services:
       dockerfile: Dockerfile.live
     restart: "unless-stopped"
     volumes:
-      - "./.compose/tmp:/var/www/tmp"
+      # - "./.compose/tmp:/var/www/tmp"
       - "./.compose/HLS:/HLS"
       - "./.compose/letsencrypt:/etc/letsencrypt/"
     environment:

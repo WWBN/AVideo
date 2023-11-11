@@ -122,7 +122,9 @@ if (!User::isLogged() && !empty($advancedCustomUser->userMustBeLoggedIn) && !emp
             TimeLogEnd($tname, __LINE__, $tTolerance);
             echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarMenuAndLogo.php', [], true);
             TimeLogEnd($tname, __LINE__, $tTolerance);
-            echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarSearch.php', [], true);
+            if(!isBot()){
+                echo getIncludeFileContent($global['systemRootPath'] . 'view/include/navbarSearch.php', [], true);
+            }
             TimeLogEnd($tname, __LINE__, $tTolerance);
             ?>
 

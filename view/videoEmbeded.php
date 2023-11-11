@@ -21,14 +21,14 @@ if (!empty($evideo)) {
     $autoPlayURL = '';
     $autoPlayPoster = '';
     $autoPlayThumbsSprit = '';
-} elseif (!empty($_GET['v'])) {
-    //$video = Video::getVideo($_GET['v'], "", true, false, false, true);
-    $video = Video::getVideo($_GET['v'], "viewable", false, false, false, true);
-    //$video['id'] = $_GET['v'];
-} elseif (!empty($_GET['videoName'])) {
-    $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+} else {
+    $videos_id = getVideos_id();
+    if (!empty($videos_id)) {
+        $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
+    } elseif (!empty($_GET['videoName'])) {
+        $video = Video::getVideoFromCleanTitle($_GET['videoName']);
+    }
 }
-
 Video::unsetAddView($video['id']);
 
 AVideoPlugin::getEmbed($video['id']);
