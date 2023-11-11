@@ -1,17 +1,23 @@
 <?php
 
 function _addPageNumber($url, $page)
-{
-    if (preg_match("/_pageNum_/", $url, $match)) {
+{   
+    if (preg_match("/_pageNum_/", $url)) {
         $url = str_replace("_pageNum_", $page, $url);
     }
+    
+    if (preg_match("/page\/([0-9]+)\//", $url, $match)) {
+        $url = str_replace("/page/{$match[1]}/", "/page/{$page}/", $url);
+        $url = removeQueryStringParameter($url, 'page');
+    }else{
+        $url = addQueryStringParameter($url, 'page', $page);
+    }
 
-    $url = addQueryStringParameter($url, 'page', $page);
     $url = addQueryStringParameter($url, 'current', $page);
 
     // remove duplicated
     $pattern = '/\/page\/(\d+)\/\d+\//';
-    $replacement = '/page/$1/';
+    $replacement = "/page/{$page}/";
     $url = preg_replace($pattern, $replacement, $url, 1);
     return $url;
 }

@@ -6587,7 +6587,9 @@ function getCurrentPage($forceURL = false)
     }
     global $lastCurrent;
     $current = 1;
-    if (!empty($_REQUEST['current'])) {
+    if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
+        $current = intval($_GET['page']);
+    }else if (!empty($_REQUEST['current'])) {
         $current = intval($_REQUEST['current']);
     } elseif (!empty($_POST['current'])) {
         $current = intval($_POST['current']);
@@ -6599,9 +6601,7 @@ function getCurrentPage($forceURL = false)
         if (!empty($start) && !empty($length)) {
             $current = floor($start / $length) + 1;
         }
-    } elseif (!empty($_GET['page'])) {
-        $current = intval($_GET['page']);
-    }
+    } 
     if ($current > 1000 && !User::isLogged()) {
         _error_log("getCurrentPage current>1000 ERROR [{$current}] " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         _error_log("getCurrentPage current>1000 ERROR NOT LOGGED die [{$current}] " . getSelfURI() . ' ' . json_encode($_SERVER));
