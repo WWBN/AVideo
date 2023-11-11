@@ -11,7 +11,7 @@ function _addPageNumber($url, $page)
 
     // remove duplicated
     $pattern = '/\/page\/(\d+)\/\d+\//';
-    $replacement = '/page/$1/';
+    $replacement = "/page/{$page}/";
     $url = preg_replace($pattern, $replacement, $url, 1);
     return $url;
 }
