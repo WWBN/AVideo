@@ -35,7 +35,7 @@ if(empty($rows[$userGroup])){
 if (!empty($userGroup)) {
     
     $videos = Video::getAllVideosLight('', false, true);
-    
+    mysqlBeginTransaction();
     foreach ($videos as $value) {
         if($remove){
             if(UserGroups::deleteVideoGroups($value['id'], $userGroup, false)){
@@ -51,6 +51,7 @@ if (!empty($userGroup)) {
             }
         }
     }
+    mysqlCommit();
 }
 clearCache();
 echo "Bye";
