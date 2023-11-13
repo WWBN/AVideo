@@ -357,7 +357,7 @@ $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty(
                                     $active = '';
                                 }
                             ?>
-                                <div class="tab-pane  <?php echo $active; ?>" id="channelLive">
+                                <div class="tab-pane  <?php echo $active; ?> clearfix " id="channelLive">
                                     <?php
                                     createGallerySection($liveVideos, false);
                                     ?>

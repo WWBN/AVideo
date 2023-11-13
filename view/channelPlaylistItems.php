@@ -7,6 +7,7 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 
 _session_write_close();
 
@@ -34,11 +35,6 @@ $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $publicOnly = false;
     $isMyChannel = true;
-}
-if (empty($_GET['current'])) {
-    $_POST['current'] = 1;
-} else {
-    $_POST['current'] = intval($_GET['current']);
 }
 $_REQUEST['rowCount'] = 4;
 $sort = @$_POST['sort'];
@@ -459,6 +455,69 @@ unset($_POST['current']);
     ?>
     -->
 </div>
-<p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>view/channelPlaylistItems.php?current=<?php echo count($playlists) ? $_POST['current'] + 1 : $_POST['current']; ?>&channelName=<?php echo $_GET['channelName']; ?>"></a>
-</p>
+<?php
+$url = "{$global['webSiteRootURL']}view/channelPlaylistItems.php";
+$url = addQueryStringParameter($url, 'channelName', $_GET['channelName']);
+echo getPagination($totalPages, $url, 10, ".programsContainerItem", ".programsContainerItem");
+?>
+<script>
+    
+
+    var timoutembed;
+    function setTextEmbedCopied() {
+        clearTimeout(timoutembed);
+        $("#btnEmbedText").html("<?php echo __("Copied!"); ?>");
+        timoutembed = setTimeout(function () {
+            $("#btnEmbedText").html("<?php echo __("Copy embed code"); ?>");
+        }, 3000);
+    }
+    function setTextGalleryCopied() {
+        clearTimeout(timoutembed);
+        $("#btnEmbedGalleryText").html("<?php echo __("Copied!"); ?>");
+        timoutembed = setTimeout(function () {
+            $("#btnEmbedGalleryText").html("<?php echo __("Copy embed Gallery"); ?>");
+        }, 3000);
+    }
+
+    function saveSortable($sortableObject, playlist_id) {
+        var list = $($sortableObject).sortable("toArray");
+        $.ajax({
+            url: '<?php echo $global['webSiteRootURL']; ?>objects/playlistSort.php',
+            data: {
+                "list": list,
+                "playlist_id": playlist_id
+            },
+            type: 'post',
+            success: function (response) {
+                $("#channelPlaylists").load(webSiteRootURL + "view/channelPlaylist.php?channelName=" + channelName);
+                modal.hidePleaseWait();
+            }
+        });
+    }
+
+    function sortNow($t, position) {
+        var $this = $($t).closest('.galleryVideo');
+        var $uiDiv = $($t).closest('.ui-sortable');
+        var $playListId = $($t).closest('.panel').attr('playListId');
+        var $list = $($t).closest('.ui-sortable').find('li');
+        if (position < 0) {
+            return false;
+        }
+        if (position === 0) {
+            $this.slideUp(500, function () {
+                $this.insertBefore($this.siblings(':eq(0)'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        } else if ($list.length - 1 > position) {
+            $this.slideUp(500, function () {
+                $this.insertBefore($this.siblings(':eq(' + position + ')'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        } else {
+            $this.slideUp(500, function () {
+                $this.insertAfter($this.siblings(':eq(' + ($list.length - 2) + ')'));
+                saveSortable($uiDiv, $playListId);
+            }).slideDown(500);
+        }
+    }
+</script>

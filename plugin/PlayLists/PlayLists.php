@@ -904,6 +904,19 @@ class PlayLists extends PluginAbstract {
         return $pl->addVideo($videos_id, $add, $order);
     }
 
+    static public function getPlaylistNotFoundMessage($playlistId) {
+        if (is_numeric($playlistId)) {
+            return "The playlist with ID {$playlistId} is empty or does not exist.";
+        } elseif ($playlistId === 'favorite') {
+            return "Your Favorites playlist is empty.";
+        } elseif ($playlistId === 'watch_later') {
+            return "Your 'Watch Later' playlist is empty.";
+        } else {
+            return "Playlist not found (ID: {$playlistId}).";
+        }
+    }
+    
+
 }
 
 class PlayListPlayer {

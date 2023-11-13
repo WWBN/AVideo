@@ -82,7 +82,9 @@ if (!empty($evideo)) {
         $playListData = $plp->getPlayListData();
         if (empty($playListData)) {
             _error_log(implode(PHP_EOL."Playlist error: playlist_id={$_GET['playlist_id']}, playlists_tags_id={$_GET['playlists_tags_id']} - ", $messagesFromPlayList));
-            videoNotFound("Playlist is empty {$_GET['playlist_id']}");
+            
+            $notFoundMessage = PlayLists::getPlaylistNotFoundMessage($_GET['playlist_id']);
+            videoNotFound($notFoundMessage);
         }
 
         $video = $plp->getCurrentVideo();
