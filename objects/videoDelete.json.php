@@ -16,15 +16,19 @@ $id = 0;
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = '';
+$obj->videos_id = '';
+$obj->users_id = User::getId();
 foreach ($_POST['id'] as $value) {
     $video = new Video("", "", $value);
-    if(empty($video->getId()) || $video->getId() != User::getId()){
+    $obj->videos_id = $video->getId();
+    if(empty($obj->videos_id) || $obj->videos_id != User::getId()){
         if (!$video->userCanManageVideo()) {
-            forbiddenPage("You can not Manage This Video");
+            $obj->msg = __('You can not Manage This Video');
+            die(json_error($obj));
         }
     }
     $id = $video->delete();
     $obj->error = empty($id);
 }
 
-echo '{"status":"'.$id.'"}';
+die(json_error($obj));
