@@ -899,7 +899,7 @@ class API extends PluginAbstract
 
         unsetSearch();
         $objMob = AVideoPlugin::getObjectData("MobileManager");
-        $SubtitleSwitcher = AVideoPlugin::loadPluginIfEnabled("SubtitleSwitcher");
+        $SubtitleSwitcher = AVideoPlugin::getDataObjectIfEnabled("SubtitleSwitcher");
 
         // check if there are custom ads for this video
         $objAds = AVideoPlugin::getDataObjectIfEnabled('ADs');
@@ -971,7 +971,7 @@ class API extends PluginAbstract
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
             }
 
-            if ($SubtitleSwitcher) {
+            if ($SubtitleSwitcher && empty($SubtitleSwitcher->disableOnAPI)) {
                 $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
                 foreach ($rows[$key]['subtitles'] as $key2 => $value) {
                     $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
