@@ -257,11 +257,11 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                 <button class="btn btn-default" id="checkBtn">
                     <i class="far fa-square" aria-hidden="true" id="chk"></i>
                 </button>
-                <?php 
+                <?php
                 if ($advancedCustom->videosManegerBulkActionButtons) {
                     if (!empty($categories)) {
                         if (empty($advancedCustomUser->userCanNotChangeCategory) || Permissions::canAdminVideos()) {
-                    ?>
+                ?>
                             <div class="btn-group">
                                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                                     <i class="far fa-object-group"></i>
@@ -463,7 +463,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                 <thead>
                     <tr>
                         <th data-formatter="checkbox" data-width="25px"></th>
-                        <th data-column-id="title" data-formatter="titleTag" data-width="200px" ><?php echo __("Title"); ?></th>
+                        <th data-column-id="title" data-formatter="titleTag" data-width="200px"><?php echo __("Title"); ?></th>
                         <th data-column-id="tags" data-formatter="tags" data-sortable="false" data-width="300px" data-header-css-class='hidden-md hidden-sm hidden-xs' data-css-class='hidden-md hidden-sm hidden-xs tagsInfo'><?php echo __("Tags"); ?></th>
                         <th style="display: none;" data-column-id="sites_id" data-formatter="sites_id" data-width="50px" data-header-css-class='hidden-xs' data-css-class='hidden-xs'>
                             <?php echo htmlentities('<i class="fas fa-hdd" aria-hidden="true" data-placement="top" data-toggle="tooltip" title="' . __("Storage") . '"></i>'); ?>
@@ -774,13 +774,17 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 "id": videos_id
             },
             type: 'post',
-            success: function(response) {
-                if (!response.error) {
+            complete: function(resp) {
+                response = resp.responseJSON
+                console.log(response);
+                modal.hidePleaseWait();
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    avideoToastSuccess(response.msg);
                     $("#grid").bootgrid("reload");
                 }
-                avideoResponse(response);
-                modal.hidePleaseWait();
-            }
+            },
         });
     }
 
@@ -1782,14 +1786,14 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         download += '<button type="button" class="btn btn-default btn-xs btn-block" onclick="whyICannotDownload(' + row.id + ');"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Download disabled")); ?>"><span class="fa-stack" style="font-size: 0.8em;"><i class="fa fa-download fa-stack-1x"></i><i class="fas fa-ban fa-stack-2x" style="color:Tomato"></i></span></button>';
                     <?php
                     }
-                    
+
                     if (!isset($statusThatShowTheCompleteMenu)) {
                         $statusThatShowTheCompleteMenu = array();
                     }
                     $ifCondition = 'row.status == "' . implode('" || row.status == "', $statusThatShowTheCompleteMenu) . '"';
                     ?>
-                    if(!empty(download)){
-                        download = '<button type="button" class="btn btn-default btn-xs btn-block" data-placement="left" data-toggle="tooltip" title="'+__("Download File")+'" onclick="$(\'#DownloadFiles'+row.id+'\').slideToggle();" ><span class="fa fa-download " aria-hidden="true"></span> '+__('Download File')+'</button><div id="DownloadFiles'+row.id+'" style="display: none;">'+download+'</div>';
+                    if (!empty(download)) {
+                        download = '<button type="button" class="btn btn-default btn-xs btn-block" data-placement="left" data-toggle="tooltip" title="' + __("Download File") + '" onclick="$(\'#DownloadFiles' + row.id + '\').slideToggle();" ><span class="fa fa-download " aria-hidden="true"></span> ' + __('Download File') + '</button><div id="DownloadFiles' + row.id + '" style="display: none;">' + download + '</div>';
                     }
                     if (<?php echo $ifCondition; ?>) {
                         eval('if(typeof statusBtn_' + row.status + ' !== "undefined"){status = statusBtn_' + row.status + ';}else if("h"=="' + row.status + '"){status = \'<button type="button" class="btn btn-danger btn-xs command-releaseNow" data-row-id="' + row.id + '" data-toggle="tooltip" title="Release now"><i class="fas fa-check"></i></button>\';}else{status = ""}');
@@ -1923,8 +1927,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var tags = '';
                     var youTubeLink = "",
                         youTubeUpload = '';
-                        yt='';
-                    
+                    yt = '';
+
                     if (row.status !== "a") {
                         tags += '<div id="encodeProgress' + row.id + '"></div>';
                     }
@@ -1962,7 +1966,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     //img = img + '<div class="hidden-md hidden-lg"><i class="fas fa-stopwatch"></i> ' + row.duration + '</div>';
                     var pluginsButtons = '<?php echo AVideoPlugin::getVideosManagerListButtonTitle(); ?>';
                     var buttonTitleLink = '<a href="' + row.link + '" class="btn btn-default btn-block titleBtn" style="overflow: hidden;" target="_top">' + img + '<br>' + type + row.title + '</a>';
-                    return '<div>'+buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList+'</div>';
+                    return '<div>' + buttonTitleLink + tags + "<div class='clearfix'></div><div class='gridYTPluginButtons'>" + yt + pluginsButtons + "</div>" + playList + '</div>';
                 }
 
 
