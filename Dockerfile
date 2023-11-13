@@ -62,7 +62,11 @@ RUN apt-get install -y --no-install-recommends \
         apache2 \
         libapache2-mod-xsendfile \
         libapache2-mod-php \
-        libimage-exiftool-perl
+        libimage-exiftool-perl \ 
+        memcached 
+
+# Update package list and upgrade installed packages
+RUN apt-get update && apt-get upgrade -y
 
 # Install PHP and PHP extensions
 RUN apt-get install -y --no-install-recommends \
@@ -87,7 +91,8 @@ RUN apt-get install -y --no-install-recommends \
         #php-dev \
         php-zip \
         php-pear \
-        php-mbstring 
+        php-mbstring \
+        php-memcached
 
 # Install multimedia tools
 RUN apt-get install -y --no-install-recommends \
@@ -154,6 +159,11 @@ RUN dos2unix /usr/local/bin/docker-entrypoint && \
 
 RUN echo "error_log = /dev/stdout" >> /etc/php/8.1/apache2/php.ini
 # RUN echo "session.save_path = /var/www/memfolder" >> /etc/php/8.1/apache2/php.ini
+
+# Configure PHP to use Memcached for sessions
+RUN echo "session.save_handler = memcached" >> /etc/php/8.1/apache2/php.ini && \
+    echo "session.save_path = 'memcached:11211'" >> /etc/php/8.1/apache2/php.ini
+
 
 # Add Apache configuration
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf

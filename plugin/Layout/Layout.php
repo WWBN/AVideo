@@ -364,6 +364,9 @@ class Layout extends PluginAbstract
         }
         $flags = array();
         include_once $global['systemRootPath'] . 'objects/bcp47.php';
+        /**
+         * @var array $global
+         */
         foreach ($global['bcp47'] as $key => $filename) {
 
             $name = $filename['label'];

@@ -2,13 +2,16 @@
 if (empty($obj) || !isset($obj->categoriesTopButtonsFluid)) {
     $obj = AVideoPlugin::loadPlugin('Layout');
 }
+$timeLogName = TimeLogStart("CategoryTopButtons");
 global $advancedCustom;
 $_rowCount = getRowCount();
 $current = getCurrentPage();
 $_REQUEST['rowCount'] = 1000;
 unsetCurrentPage();
 $parsed_cats = array();
+TimeLogEnd($timeLogName, __LINE__);
 $categories = Category::getAllCategories();
+TimeLogEnd($timeLogName, __LINE__);
 $_REQUEST['rowCount'] = $_rowCount;
 $_REQUEST['current'] = $current;
 $items = array();
@@ -45,6 +48,8 @@ foreach ($categories as $value) {
         'clean_name' => $value['clean_name']
     );
 }
+TimeLogEnd($timeLogName, __LINE__);
 echo "<!-- generateHorizontalFlickity categories=".count($categories).' items='.count($items)."-->";
 //var_dump($_REQUEST['catName'], $items);exit;
 generateHorizontalFlickity($items);
+TimeLogEnd($timeLogName, __LINE__);

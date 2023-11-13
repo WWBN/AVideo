@@ -775,15 +775,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             },
             type: 'post',
             success: function(response) {
-                if (response.status === "1") {
+                if (!response.error) {
                     $("#grid").bootgrid("reload");
-                    $('#videoFormModal').modal('hide');
-                } else if (response.status === "") {
-                    $("#grid").bootgrid("reload");
-                    $('#videoFormModal').modal('hide');
-                } else {
-                    avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been deleted!"); ?>", "error");
                 }
+                avideoResponse(response);
                 modal.hidePleaseWait();
             }
         });

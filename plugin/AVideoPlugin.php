@@ -3,16 +3,16 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 class AVideoPlugin
 {
-    public static function YPTstart()
+    public static function YPTstart($uid = '')
     {
         global $global;
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
-        $global['AVideoPluginStart'] = $time;
+        $global["AVideoPluginStart_{$uid}"] = $time;
     }
 
-    public static function YPTend($pluginName, $timeLimit = 0)
+    public static function YPTend($pluginName, $timeLimit = 0, $uid = '')
     {
         global $global;
         require_once $global['systemRootPath'] . 'objects/user.php';
@@ -20,7 +20,7 @@ class AVideoPlugin
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
         $finish = $time;
-        $total_time = round(($finish - $global['AVideoPluginStart']), 4);
+        $total_time = round(($finish - $global["AVideoPluginStart_{$uid}"]), 4);
         if (empty($timeLimit)) {
             $timeLimit = empty($global['noDebug']) ? 0.5 : 1;
         }
@@ -35,6 +35,9 @@ class AVideoPlugin
         if (empty($global)) {
             $global = [];
         }
+        /**
+         * @var array $global
+         */
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
@@ -61,6 +64,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -88,6 +94,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -117,6 +126,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -142,6 +154,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -164,6 +179,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "<h4>" . __("Table of content") . "</h4><ul>";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -189,6 +207,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -218,6 +239,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $str = "";
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -242,6 +266,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $allFiles = [];
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -396,6 +423,9 @@ class AVideoPlugin
             $_loadPluginIfEnabled = array();
         }
 
+        /**
+         * @var array $global
+         */
         if (in_array($name, $global['skippPlugins'])) {
             return false;
         }
@@ -1310,13 +1340,14 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         $userOptions = [];
         $navBarButtons = "";
+        $uid = uniqid();
         foreach ($plugins as $value) {
-            self::YPTstart();
+            self::YPTstart($uid);
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
                 $navBarButtons .= $p->navBarAfter();
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.5, $uid);
         }
         return $navBarButtons;
     }
@@ -2001,6 +2032,9 @@ class AVideoPlugin
         }
         $plugins = Plugin::getAllEnabled();
         $r = [];
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2027,6 +2061,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2048,6 +2085,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2069,6 +2109,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2090,6 +2133,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2111,6 +2157,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2132,6 +2181,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2153,6 +2205,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2174,6 +2229,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2195,6 +2253,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2216,6 +2277,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2237,6 +2301,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2258,6 +2325,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2279,6 +2349,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2300,6 +2373,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2321,6 +2397,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2342,6 +2421,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2363,6 +2445,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2384,6 +2469,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2405,6 +2493,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2426,6 +2517,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2447,6 +2541,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2468,6 +2565,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2489,6 +2589,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2513,6 +2616,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2534,6 +2640,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2555,6 +2664,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2576,6 +2688,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2597,6 +2712,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2618,6 +2736,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2639,6 +2760,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2660,6 +2784,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2692,6 +2819,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2713,6 +2843,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2734,6 +2867,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2755,6 +2891,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;
@@ -2776,6 +2915,9 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        /**
+         * @var array $global
+         */
         foreach ($plugins as $value) {
             if (in_array($value['dirName'], $global['skippPlugins'])) {
                 continue;

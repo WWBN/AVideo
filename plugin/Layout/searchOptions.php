@@ -3,6 +3,7 @@ if (!class_exists('TagsHasVideos')) {
     return;
 }
 $global['doNotSearch'] = 1;
+$timeLogName = TimeLogStart("SearchOptions");
 $tags = TagsHasVideos::getAllWithVideo();
 $global['doNotSearch'] = 0;
 ?>
@@ -115,7 +116,9 @@ $global['doNotSearch'] = 0;
                     <span class="caret"></span></button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
+                TimeLogEnd($timeLogName, __LINE__);
                 Layout::getSearchOptionHTML();
+                TimeLogEnd($timeLogName, __LINE__);
                 ?>
             </div>
         </div>
@@ -129,7 +132,9 @@ $global['doNotSearch'] = 0;
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
+                TimeLogEnd($timeLogName, __LINE__);
                 Layout::getSearchCategoriesHTML();
+                TimeLogEnd($timeLogName, __LINE__);
                 ?>
             </div>
         </div>
@@ -143,7 +148,9 @@ $global['doNotSearch'] = 0;
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
+                TimeLogEnd($timeLogName, __LINE__);
                 Layout::getSearchTagsHTML();
+                TimeLogEnd($timeLogName, __LINE__);
                 ?>
             </div>
         </div>
@@ -157,7 +164,9 @@ $global['doNotSearch'] = 0;
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
+                TimeLogEnd($timeLogName, __LINE__);
                 Layout::getSearchDateHTML();
+                TimeLogEnd($timeLogName, __LINE__);
                 ?>
             </div>
         </div>
@@ -171,7 +180,9 @@ $global['doNotSearch'] = 0;
             </button>
             <div class="dropdown-menu dropdown-menu-right">
                 <?php
+                TimeLogEnd($timeLogName, __LINE__);
                 Layout::getSearchViewsHTML();
+                TimeLogEnd($timeLogName, __LINE__);
                 ?>
             </div>
         </div>
