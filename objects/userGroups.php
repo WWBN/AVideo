@@ -379,7 +379,7 @@ class UserGroups{
         return $response;
     }
 
-    public static function deleteVideoGroups($videos_id, $users_groups_id)
+    public static function deleteVideoGroups($videos_id, $users_groups_id, $clearCache = true)
     {
         global $_getVideosAndCategoriesUserGroups;
         if (!Video::canEdit($videos_id) && !isCommandLineInterface()) {
@@ -389,7 +389,7 @@ class UserGroups{
         $sql = "DELETE FROM videos_group_view WHERE videos_id = ? AND users_groups_id = ?";
         $response = sqlDAL::writeSql($sql, "ii", [$videos_id, $users_groups_id]);
 
-        if ($response) {
+        if ($response && $clearCache) {
             Video::clearCache($videos_id);
             unset($_getVideosAndCategoriesUserGroups[$videos_id]);
         }
