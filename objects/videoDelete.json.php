@@ -24,11 +24,11 @@ foreach ($_POST['id'] as $value) {
     if(empty($obj->videos_id) || $obj->videos_id != User::getId()){
         if (!$video->userCanManageVideo()) {
             $obj->msg = __('You can not Manage This Video');
-            die(json_error($obj));
+            die(_json_encode($obj));
         }
     }
     $id = $video->delete();
     $obj->error = empty($id);
 }
 
-die(json_error($obj));
+die(_json_encode($obj));
