@@ -3997,16 +3997,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.2.0",
+            "version": "v13.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "e0a960c8655b21b21c3ba2e5927f432eeda9105f"
+                "reference": "58d0e126670d43808ef4a814b40a2864bca788e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/e0a960c8655b21b21c3ba2e5927f432eeda9105f",
-                "reference": "e0a960c8655b21b21c3ba2e5927f432eeda9105f",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/58d0e126670d43808ef4a814b40a2864bca788e5",
+                "reference": "58d0e126670d43808ef4a814b40a2864bca788e5",
                 "shasum": ""
             },
             "require": {
@@ -4050,9 +4050,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.2.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.3.0"
             },
-            "time": "2023-11-02T22:32:22+00:00"
+            "time": "2023-11-09T21:21:22+00:00"
         },
         {
             "name": "symfony/console",
