@@ -5309,7 +5309,7 @@ if (!class_exists('Video')) {
             return true;
         }
 
-        public static function clearCache($videos_id, $deleteThumbs = false)
+        public static function clearCache($videos_id, $deleteThumbs = false, $clearFirstPageCache = false)
         {
             //_error_log("Video:clearCache($videos_id)");
             $video = new Video("", "", $videos_id);
@@ -5323,35 +5323,8 @@ if (!class_exists('Video')) {
             }
 
             $videoCache = new VideoCacheHandler($filename);
-            $videoCache->deleteCache();
-            /*
-            ObjectYPT::deleteCache("PlayeSkins_getVideoTags{$videos_id}");
-            ObjectYPT::deleteCache("_getVideoInfo_{$videos_id}");
-            ObjectYPT::deleteCache("otherInfo{$videos_id}");
-            ObjectYPT::deleteCache($filename);
-            ObjectYPT::deleteCache("getVideosURL_V2$filename");
-            ObjectYPT::deleteCache($filename . "article");
-            ObjectYPT::deleteCache($filename . "pdf");
-            ObjectYPT::deleteCache($filename . "video");
-            ObjectYPT::deleteCache(md5($filename . ".m3u8"));
-            ObjectYPT::deleteCache(md5($filename . ".mp4"));
-            ObjectYPT::deleteCache(md5($filename . ".m3u81"));
-            ObjectYPT::deleteCache(md5($filename . ".mp41"));
-            if (!class_exists('Cache')) {
-                AVideoPlugin::loadPlugin('Cache');
-            }
-            Cache::deleteCache("getSourceFile($filename)1");
-            Cache::deleteCache("getSourceFile($filename)0");
-            Cache::deleteCache("getVideosPaths_($filename)1");
-            Cache::deleteCache("getVideosPaths_($filename)0");
-            Video::clearImageCache($filename);
-            Video::clearImageCache($filename, "article");
-            Video::clearImageCache($filename, "pdf");
-            Video::clearImageCache($filename, "audio");
-            Video::deleteTagsAsync($videos_id);
-            clearVideosURL($filename);
-            AVideoPlugin::deleteVideoTags($videos_id);
-            */
+            $videoCache->deleteCache($clearFirstPageCache);
+
             ObjectYPT::setLastDeleteALLCacheTime();
             return true;
         }

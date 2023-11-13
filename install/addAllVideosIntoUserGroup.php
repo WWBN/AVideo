@@ -52,6 +52,7 @@ if (!empty($userGroup)) {
         }
     }
 }
+clearCache(true);
 echo "Bye";
 echo "\n";
 die();

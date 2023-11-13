@@ -1089,15 +1089,16 @@ abstract class CacheHandler {
         return $cache;
     }
 
-    public function deleteCache() {
+    public function deleteCache($clearFirstPageCache = false) {
         $prefix = $this->getCacheSubdir();
         if (class_exists('CachesInDB')) {           
             CacheDB::deleteCacheStartingWith($prefix);
         } 
         _session_start();     
-        clearCache(true);
         unset($_SESSION['user']['sessionCache']);
-        _session_write_close();   
+        if($clearFirstPageCache){
+            clearCache(true);
+        }
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
         return exec("rm -R {$dir}");
     }
