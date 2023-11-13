@@ -38,7 +38,7 @@ if (!empty($userGroup)) {
     
     foreach ($videos as $value) {
         if($remove){
-            if(UserGroups::deleteVideoGroups($value['id'], $userGroup)){
+            if(UserGroups::deleteVideoGroups($value['id'], $userGroup, false)){
                 echo "Success: removed video [{$value['id']}] {$value['title']} :".PHP_EOL;
             }else{
                 echo "**ERROR: removing video [{$value['id']}] {$value['title']} :".PHP_EOL;
@@ -52,7 +52,7 @@ if (!empty($userGroup)) {
         }
     }
 }
-clearCache(true);
+clearCache();
 echo "Bye";
 echo "\n";
 die();
