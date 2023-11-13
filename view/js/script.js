@@ -4088,3 +4088,12 @@ function preloadVmapAndUpdateAdTag(adTagUrl) {
             console.error("Error preloading and updating adTagUrl:", error);
         });
 }
+
+function windowIsfXs() {
+    var screenWidth = $(window).width();
+    if (screenWidth < 768) {
+        return true;
+    } else {
+        return false;
+    }
+}

@@ -192,14 +192,21 @@ if (!$searchForVideosNow) {
 
     var loadVideosListPagerowCount = 'loadVideosListPagerowCount<?php User::getId(); ?>';
     var loadVideosListPagesortBy = 'loadVideosListPagesortBy<?php User::getId(); ?>';
+    var loadVideosListPageTimeout;
+    var loadVideosListPageIsLoading = false;
 
     function loadVideosListPage(page) {
+        clearTimeout(loadVideosListPageTimeout);
         if (typeof modal === 'undefined') {
             setTimeout(function () {
-                loadVideosListPage(page);
+                loadVideosListPageTimeout = loadVideosListPage(page);
             }, 500);
             return false;
         }
+        if(loadVideosListPageIsLoading){
+            return false;
+        }
+        loadVideosListPageIsLoading = true;
         var url = '<?php echo $link; ?>';
 
         var rowCount = $('#rowCount').val();
@@ -219,6 +226,7 @@ if (!$searchForVideosNow) {
         url = addQueryStringParameter(url, 'current', page);
         $.get(url, function (response) {
             var videosList = $($.parseHTML(response)).filter("#videosListItems").html();
+            loadVideosListPageIsLoading = false;
             $('#videosListItems').html(videosList);
             //animateChilds('#videosListItems', 'animate__flipInX', 0.2);
             lazyImage();

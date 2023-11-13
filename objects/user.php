@@ -1519,11 +1519,13 @@ if (typeof gtag !== \"function\") {
         }
         if ($pass !== false) {
             if (!$encodedPass || $encodedPass === 'false') {
-                _error_log("Password check Old not encoded pass");
                 $passEncoded = md5($pass);
+                _error_log("Password check Old not encoded pass");
+                //_error_log("Password check Old not encoded pass passEncoded={$passEncoded}");
             } else {
-                _error_log("Password check Old encoded pass");
                 $passEncoded = $pass;
+                _error_log("Password check Old encoded pass");
+                //_error_log("Password check Old encoded pass passEncoded={$passEncoded}");
             }
             $sql .= " AND password = ? ";
             $formats .= "s";

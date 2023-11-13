@@ -1482,40 +1482,6 @@ if (!class_exists('Video')) {
             return $rows;
         }
 
-        private static function startTransaction()
-        {
-            global $global, $_video_startTransaction_started;
-
-            if (!empty($_video_startTransaction_started)) {
-                return false;
-            }
-            $_video_startTransaction_started = 1;
-            /**
-             *
-             * @var array $global
-             * @var object $global['mysqli']
-             */
-            $global['mysqli']->begin_transaction();
-            return true;
-        }
-
-        private static function commitTransaction()
-        {
-            global $global, $_video_startTransaction_started;
-
-            if (empty($_video_startTransaction_started)) {
-                return false;
-            }
-            $_video_startTransaction_started = 0;
-            /**
-             *
-             * @var array $global
-             * @var object $global['mysqli']
-             */
-            $global['mysqli']->commit();
-            return true;
-        }
-
         /**
          *
          * @global array $global
@@ -1860,7 +1826,7 @@ if (!class_exists('Video')) {
                  * @var array $global
                  * @var object $global['mysqli']
                  */
-                self::startTransaction();
+                mysqlBeginTransaction();
                 foreach ($fullData as $index => $row) {
                     if (is_null($row['likes'])) {
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
@@ -1872,7 +1838,6 @@ if (!class_exists('Video')) {
                     }
 
                     if (empty($row['duration_in_seconds']) && in_array($row['type'], $allowedDurationTypes)) {
-                        self::startTransaction();
                         _error_log("Video::duration_in_seconds: id={$row['id']} {$row['duration']} {$row['type']}");
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
                         if (empty($row['duration_in_seconds'])) {
@@ -1901,7 +1866,7 @@ if (!class_exists('Video')) {
                     $videos[] = $row;
                 }
                 TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
-                self::commitTransaction();
+                mysqlCommit();
                 TimeLogEnd("video::getAllVideos foreach", __LINE__, $tolerance);
                 $rowCount = getRowCount();
                 $tolerance = $rowCount / 100;

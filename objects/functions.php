@@ -10109,7 +10109,7 @@ function optimizeJS($html)
 function mysqlBeginTransaction()
 {
     global $global;
-    _error_log('Begin transaction ' . getSelfURI());
+    //_error_log('Begin transaction ' . getSelfURI());
     /**
      *
      * @var array $global
@@ -10134,7 +10134,7 @@ function mysqlRollback()
 function mysqlCommit()
 {
     global $global;
-    _error_log('Commit transaction ' . getSelfURI());
+    //_error_log('Commit transaction ' . getSelfURI());
     /**
      *
      * @var array $global

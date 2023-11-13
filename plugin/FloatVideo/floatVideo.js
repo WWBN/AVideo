@@ -8,8 +8,13 @@ function closeFloatVideo() {
     clearTimeout(FloatVideoTimeout);
     setTimeout(function () {
         $('#videoCol').css('height', '');
-        $('#videoContainer').removeClass('animate__animated');
         $('#videoContainer').removeClass('animate__bounceInDown');
+        $('#videoContainer').removeClass('animate__bounceInLeft');
+        if(windowIsfXs()){
+            $('#videoContainer').removeClass('animate__animated');
+        }else{
+            $('#videoContainer').addClass('animate__bounceIn');
+        }
         $('body').removeClass('floatVideo');
     }, 100);
 }
@@ -26,7 +31,11 @@ function setFloatVideo() {
         var videoContainerHeight = $('#videoContainer').height();
         $('#videoCol').height(videoContainerHeight);
         $('#videoContainer').addClass('animate__animated');
-        $('#videoContainer').addClass('animate__bounceInDown');
+        if(windowIsfXs()){
+            $('#videoContainer').addClass('animate__bounceInDown');
+        }else{
+            $('#videoContainer').addClass('animate__bounceInLeft');
+        }
         $('body').addClass('floatVideo');
     }, 100);
 }
