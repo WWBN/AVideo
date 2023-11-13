@@ -3179,7 +3179,10 @@ if (!class_exists('Video')) {
             if (Permissions::canAdminVideos()) {
                 return true;
             }
-            if (empty($this->users_id) || !User::canUpload()) {
+            if (empty($this->users_id)) {
+                return false;
+            }
+            if ((!User::isLogged()) ) {
                 return false;
             }
 
