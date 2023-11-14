@@ -247,6 +247,17 @@ class AVideoConf extends ObjectYPT{
         return getURL("videos/cache/og_200X200.jpg");
     }
 
+    public static function getOGImagePath()
+    {
+        global $global;
+        $destination = $global['systemRootPath']."videos/cache/og_200X200.jpg";
+        $return = self::_getFavicon(true);
+        if (file_exists($return['file'])) {
+            convertImageToOG($return['file'], $destination);
+        }
+        return $destination ;
+    }
+
     public function setHead($head)
     {
         $this->head = $head;

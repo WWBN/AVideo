@@ -36,15 +36,6 @@ $imgh = 360;
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $liveUrl; ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo getSEOTitle($liveTitle); ?>" />
-        <meta property="og:description"        content="<?php echo getSEODescription($liveTitle); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
         <style>
             body {
                 padding-top: 0;

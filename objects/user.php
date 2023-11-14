@@ -624,6 +624,24 @@ if (typeof gtag !== \"function\") {
         return getURL(self::_getOGImage($users_id));
     }
 
+    public static function getOGImagePath($users_id = "")
+    {
+        global $global;
+        $photo = self::_getPhoto($users_id);
+        if ($photo == ImagesPlaceHolders::getUserIcon()) {
+            return $global['systemRootPath'].($photo);
+        }
+        if (empty($photo)) {
+            return false;
+        }
+        $source = $global['systemRootPath'] . $photo;
+        $destination = $global['systemRootPath'] . self::_getOGImage($users_id);
+
+        convertImageToOG($source, $destination);
+
+        return $destination;
+    }
+
     public static function getEmailVerifiedIcon($id = "")
     {
         global $advancedCustomUser;

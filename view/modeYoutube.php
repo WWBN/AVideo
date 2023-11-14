@@ -338,16 +338,6 @@ global $nonCriticalCSS;
         <?php
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         include $global['systemRootPath'] . 'view/include/head.php';
-
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        if (!empty($_GET['v'])) {
-            getOpenGraph($_GET['v']);
-            getLdJson($_GET['v']);
-        } else {
-            getOpenGraph(0);
-            getLdJson(0);
-        }
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         ?>
     </head>
 

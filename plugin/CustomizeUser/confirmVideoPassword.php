@@ -17,17 +17,6 @@ $ogURL = Video::getLinkToVideo($video['id'], $video['clean_title'], false,false)
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link rel="image_src" href="<?php echo $img; ?>" />
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo $ogURL; ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo getSEOTitle($video['title']); ?>" />
-        <meta property="og:description"        content="<?php echo getSEODescription($video['title']); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
-        <meta property="video:duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
-        <meta property="duration" content="<?php echo Video::getItemDurationSeconds($video['duration']); ?>"  />
         <style>
             body {
                 padding-top: 0;

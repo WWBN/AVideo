@@ -4563,17 +4563,33 @@ function ogSite()
 {
     global $global, $config, $advancedCustom;    
     $videos_id = getVideos_id();
+    include_once $global['systemRootPath'] . 'objects/functionsOpenGraph.php';
     if(empty($videos_id)){
-        include $global['systemRootPath'] . 'objects/functionogSite.php';
+        $isLive = isLive();
+        if(!empty($isLive) && !empty($isLive['liveLink'])){
+            echo getOpenGraphLiveLink($isLive['liveLink']);
+        }else if(!empty($isLive) && !empty($isLive['cleanKey'])){
+            echo getOpenGraphLive();
+        }else if ($users_id = isChannel()) {
+            echo getOpenGraphChannel($users_id);
+        }else if(!empty($_REQUEST['catName'])){
+            $category = Category::getCategoryByName($_REQUEST['catName']);
+            echo getOpenGraphCategory($category['id']);
+        }else if(!empty($_REQUEST['tags_id']) && class_exists('Tags') && class_exists('VideoTags')){
+            echo getOpenGraphTag($_REQUEST['tags_id']);
+        }else{
+            echo getOpenGraphSite();
+        }
     }else{
-        getOpenGraph($videos_id);
+        echo getOpenGraphVideo($videos_id);
     }
 }
 
 function getOpenGraph($videos_id)
 {
     global $global, $config, $advancedCustom;
-    include $global['systemRootPath'] . 'objects/functiongetOpenGraph.php';
+    include_once $global['systemRootPath'] . 'objects/functionsOpenGraph.php';
+    echo getOpenGraphVideo($videos_id);
 }
 
 function getLdJson($videos_id)
