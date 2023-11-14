@@ -191,7 +191,7 @@ function getOpenGraphTag($tags_id)
     $pageURLEmbed = '';
     $imgURL = Configuration::getOGImage();
     $imgPath = Configuration::getOGImagePath();
-    $extraMetatags = array('<meta property="og:type" content="website" />', '<meta property="og:site_name" content="' . $title . '">');
+    $extraMetatags = array('<meta property="og:site_name" content="' . $title . '">');
     //var_dump(debug_backtrace());
     return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
 }
@@ -213,7 +213,7 @@ function getOpenGraphCategory($categories_id)
     $pageURLEmbed = '';
     $imgURL = Configuration::getOGImage();
     $imgPath = Configuration::getOGImagePath();
-    $extraMetatags = array('<meta property="og:type" content="website" />', '<meta property="og:site_name" content="' . $title . '">');
+    $extraMetatags = array('<meta property="og:site_name" content="' . $title . '">');
     //var_dump(debug_backtrace());
     return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
 }
@@ -253,7 +253,7 @@ function getOpenGraphSite()
     $pageURLEmbed = '';
     $imgURL = Configuration::getOGImage();
     $imgPath = Configuration::getOGImagePath();
-    $extraMetatags = array('<meta property="og:type" content="website" />', '<meta property="og:site_name" content="' . $title . '">');
+    $extraMetatags = array('<meta property="og:site_name" content="' . $title . '">');
     //var_dump(debug_backtrace());
     return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
 }
