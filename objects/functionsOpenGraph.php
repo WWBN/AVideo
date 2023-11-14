@@ -65,7 +65,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     $metaTags[] = '<!-- OpenGraph -->';
     if (preg_match('/\.m3u8/', $sourceFileURL)) {
         $metaTags[] = '<meta property="og:video:type" content="application/x-mpegURL" />';;
-    } else {
+    } else if(!empty($videoType)){
         $metaTags[] = getMetaTagsContentType($videoType);
     }
     if (!empty($modifiedDate)) {
