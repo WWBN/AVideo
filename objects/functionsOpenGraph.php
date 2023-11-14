@@ -7,9 +7,15 @@ function determineOgType($videoType)
             return 'music.song';
         case Video::$videoTypePdf:
         case Video::$videoTypeArticle:
+        case Video::$videoTypeImage:
             return 'article';
-        default:
+        case Video::$videoTypeEmbed:
+        case Video::$videoTypeSerie:
+        case Video::$videoTypeShort:
+        case Video::$videoTypeVideo:
             return 'video.other';
+        default:
+            return 'website';
     }
 }
 
@@ -65,7 +71,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     $metaTags[] = '<!-- OpenGraph -->';
     if (preg_match('/\.m3u8/', $sourceFileURL)) {
         $metaTags[] = '<meta property="og:video:type" content="application/x-mpegURL" />';;
-    } else if(!empty($videoType)){
+    } else if (!empty($videoType)) {
         $metaTags[] = getMetaTagsContentType($videoType);
     }
     if (!empty($modifiedDate)) {
@@ -123,7 +129,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     if (!$SecureVideosDirectoryIsEnabled && !empty($sourceFileURL)) {
         $metaTags[] = "<meta property=\"og:video\"            content=\"{$sourceFileURL}\" />";
         $metaTags[] = "<meta property=\"og:video:secure_url\" content=\"{$sourceFileURL}\" />";
-        $metaTags[] = '<meta property="og:video:type"       content="'.getMetaTagsContentVideoType($sourceFileURL).'" />';
+        $metaTags[] = '<meta property="og:video:type"       content="' . getMetaTagsContentVideoType($sourceFileURL) . '" />';
         $metaTags[] = '<meta property="og:video:width"      content="1024" />';
         $metaTags[] = '<meta property="og:video:height"     content="768" />';
     } else {
@@ -147,7 +153,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
             $metaTags[] = '<meta name="twitter:player:width" content="1024" />';
             $metaTags[] = '<meta name="twitter:player:height" content="768" />';
             $metaTags[] = '<meta name="twitter:player:stream" content="' . $sourceFileURL . '" />';
-            $metaTags[] = '<meta name="twitter:player:stream:content_type" content="'.getMetaTagsContentVideoType($sourceFileURL).'" />';
+            $metaTags[] = '<meta name="twitter:player:stream:content_type" content="' . getMetaTagsContentVideoType($sourceFileURL) . '" />';
         } else {
             $metaTags[] = '<meta name="twitter:player:width" content="480" />';
             $metaTags[] = '<meta name="twitter:player:height" content="480" />';
@@ -355,7 +361,7 @@ function getOpenGraphLive()
     $pageURL = $liveStreamObject->getURL();
     $pageURLEmbed = $liveStreamObject->getURLEmbed();
     $imgURL = getURL($poster);
-    $imgPath = $global['systemRootPath'] .$poster;
+    $imgPath = $global['systemRootPath'] . $poster;
     $extraMetatags = array();
     //var_dump(debug_backtrace());
     return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
