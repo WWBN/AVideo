@@ -2163,18 +2163,6 @@ function readFileCroppie(input, crop) {
     }
 }
 
-function getCroppie(uploadCropObject, callback, width, height) {
-    //console.log('getCroppie 1', uploadCropObject);
-    var ret = uploadCropObject.croppie('result', { type: 'base64', size: { width: width, height: height }, format: 'png' }).then(function (resp) {
-        ////console.log('getCroppie 2 ' + callback, resp);
-        eval(callback + "(resp);");
-    }).catch(function (err) {
-        //console.log('cropieError getCroppie => ' + callback, err);
-        eval(callback + "(null);");
-    });
-    //console.log('getCroppie 3', ret);
-}
-
 let tooltipTimeout = null;
 let isExecutingTooltip = false;
 

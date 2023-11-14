@@ -451,7 +451,7 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
 echo $croppie1['getCroppieFunction'];
 ?>
 
-            }, 500);
+            }, 1000);
 
             return false;
         });
