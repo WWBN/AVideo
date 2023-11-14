@@ -25,9 +25,6 @@ if (!empty($_REQUEST['showAll'])) {
 }
 
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-if (empty($_REQUEST['current'])) {
-    $_REQUEST['current'] = getCurrentPage();
-}
 
 $status = '';
 if (!empty($_REQUEST['status'])) {
@@ -38,8 +35,10 @@ if (!empty($_REQUEST['status'])) {
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 
 $videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, [], false, $showUnlisted, $activeUsersOnly);
+resetCurrentPage();
 //var_dump($videos);exit;
 $total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
+resetCurrentPage();
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 foreach ($videos as $key => $value) {
     /*

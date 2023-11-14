@@ -6669,10 +6669,12 @@ function unsetCurrentPage()
 function resetCurrentPage()
 {
     global $_currentPage;
-    $_REQUEST['current'] = $_currentPage;
-    $_POST['current'] = $_currentPage;
-    $_GET['current'] = $_currentPage;
-    $_GET['page'] = $_currentPage;
+    if(isset($_currentPage)){
+        $_REQUEST['current'] = $_currentPage;
+        $_POST['current'] = $_currentPage;
+        $_GET['current'] = $_currentPage;
+        $_GET['page'] = $_currentPage;
+    }
 }
 
 

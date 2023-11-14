@@ -2234,7 +2234,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                                 playlists[y].id + '" class="label-primary"></label>  ' +
                                 playlists[y].name_translated + '</div>';
                         }
-                        console.log('playlistsFromUserVideos videoPlaylist' + v_id, lists);
+                        //console.log('playlistsFromUserVideos videoPlaylist' + v_id, lists);
                         $('#videoPlaylist' + v_id).html(lists);
                         lists = '';
                     }
