@@ -109,7 +109,7 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
 
     $metaTags[] = "<meta property='og:type' content='{$ogType}' />";
     if ($title) {
-        $title = getSEOTitle($title);
+        $title = getSEOTitle(html2plainText($title));
         $metaTags[] = "<meta property='og:title' content='{$title}' />";
         $metaTags[] = "<meta name=\"twitter:title\" content=\"{$title}\"/>";
     }
@@ -183,7 +183,7 @@ function getOpenGraphTag($tags_id)
     $videoType = '';
     $modifiedDate = '';
     $createdDate = '';
-    $title = html2plainText($tag->getName());
+    $title = $tag->getName();
     $description = '';
     $duration_in_seconds = 0;
     $sourceFileURL = '';
@@ -205,7 +205,7 @@ function getOpenGraphCategory($categories_id)
     $videoType = '';
     $modifiedDate = '';
     $createdDate = '';
-    $title = html2plainText($cat->getName());
+    $title = $cat->getName();
     $description = '';
     $duration_in_seconds = 0;
     $sourceFileURL = '';
@@ -355,6 +355,9 @@ function getOpenGraphLive()
     $modifiedDate = '';
     $createdDate = '';
     $title = $liveT->getTitle();
+    if(empty($title)){
+        Live::getTitleFromUsers_Id($liveT->getUsers_id());
+    }
     $description = $liveT->getDescription();
     $duration_in_seconds = 0;
     $sourceFileURL = $liveStreamObject->getM3U8(true);

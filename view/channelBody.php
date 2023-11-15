@@ -1,6 +1,6 @@
 <?php
 global $global;
-require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
+require_once $global['systemRootPath'] . 'objects/functionInfiniteScroll.php';
 $isMyChannel = false;
 if (User::isLogged() && $user_id == User::getId()) {
     $isMyChannel = true;
@@ -79,34 +79,34 @@ $showChannelHomeTab = $advancedCustomUser->showChannelHomeTab && $ownerCanUplaod
 $showChannelVideosTab = $advancedCustomUser->showChannelVideosTab && $ownerCanUplaodVideos && !empty($uploadedVideos);
 $showChannelProgramsTab = $advancedCustomUser->showChannelProgramsTab && !empty($palyListsObj);
 
-function getChannelTabClass($isTabButton, $isVideoTab = false){
+function getChannelTabClass($isTabButton, $isVideoTab = false)
+{
     global $_getChannelTabClassCount;
     global $_getChannelTabContentClassCount;
     resetCurrentPage();
-    if(!isset($_getChannelTabClassCount)){
+    if (!isset($_getChannelTabClassCount)) {
         $_getChannelTabClassCount = 0;
     }
-    if(!isset($_getChannelTabContentClassCount)){
+    if (!isset($_getChannelTabContentClassCount)) {
         $_getChannelTabContentClassCount = 0;
     }
-    if($isTabButton){
+    if ($isTabButton) {
         $_getChannelTabClassCount++;
-        if($_getChannelTabClassCount == 1 && getCurrentPage() == 1){            
+        if ($_getChannelTabClassCount == 1 && getCurrentPage() == 1) {
             return ' active ';
-        }else if($isVideoTab && getCurrentPage() != 1){
+        } else if ($isVideoTab && getCurrentPage() != 1) {
             return ' active ';
         }
         return '';
-    }else{
+    } else {
         $_getChannelTabContentClassCount++;
-        if($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1){
+        if ($_getChannelTabContentClassCount == 1 && getCurrentPage() == 1) {
             return ' active fade in ';
-        }else if($isVideoTab && getCurrentPage() != 1){            
+        } else if ($isVideoTab && getCurrentPage() != 1) {
             return ' active fade in ';
-        }        
+        }
         return ' fade ';
     }
-   
 }
 
 ?>
@@ -213,8 +213,11 @@ function getChannelTabClass($isTabButton, $isVideoTab = false){
             }
             ?>
             <div class="row">
-                <div class="col-sm-12">
-                    <h2 class="pull-left">
+                <div class="col-sm-12" style="display: flex;
+    align-items: center; 
+    justify-content: space-between;
+    flex-wrap: wrap;">
+                    <h2 class="pull-left" style="font-size: 2em;">
                         <?php
                         echo $user->getNameIdentificationBd();
                         ?>
@@ -242,6 +245,8 @@ function getChannelTabClass($isTabButton, $isVideoTab = false){
                         }
                         ?>
                     </ul>
+                </div>
+                <div class="col-sm-12">
                     <span class="pull-right">
                         <?php
                         echo getUserOnlineLabel($user_id, 'pull-right', 'padding: 0 5px;');
