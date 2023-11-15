@@ -571,7 +571,6 @@ class Live extends PluginAbstract {
     public static function getDataObjectDeprecated() {
         return array(
             'server_type', 
-            'doNotProcessNotifications',
             'requestStatsTimout',
             'cacheStatsTimout',
             'requestStatsInterval',
@@ -679,8 +678,6 @@ class Live extends PluginAbstract {
         self::addDataObjectHelper('doNotShowGoLiveButton', 'Hide Top Live Settings Button', 'This will hide the "Go Live" button on the top menu bar');
         $obj->doNotShowGoLiveButtonOnUploadMenu = false;
         self::addDataObjectHelper('doNotShowGoLiveButtonOnUploadMenu', 'Hide Live Settings Button on Upload Menu', 'This will hide the "Live Settings" button on the right upload menu bar');
-        $obj->doNotProcessNotifications = false;
-        self::addDataObjectHelper('doNotProcessNotifications', 'Do not show notifications', 'Do not show the notification on the top bar');
         $obj->useLiveServers = false;
         self::addDataObjectHelper('useLiveServers', 'Use Live Servers', 'Check this if you will use External Live Servers https://github.com/WWBN/AVideo/wiki/Live-Plugin#livestream-server-balance ');
         $obj->disableMeetCamera = false;
@@ -1464,15 +1461,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         $o = AVideoPlugin::getDataObject('Live');
-        if ($o->doNotProcessNotifications) {
-            _error_log("Live::getStatsObject[$live_servers_id]: will not show notifications because you select the option doNotProcessNotifications on the live plugin ");
-            $xml = new stdClass();
-            $xml->server = new stdClass();
-            $xml->server->application = [];
-            $getStatsObject[$live_servers_id] = $xml;
-            $cacheHandler->setCache($xml);
-            return $xml;
-        }
         if (empty($o->requestStatsTimout)) {
             $o->requestStatsTimout = 2;
         }
