@@ -74,11 +74,11 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
             $videoStatus = 'privateOnly';
             $ignoreGroup = true;
         }
-
         $total = Video::getTotalVideos($videoStatus, false, $ignoreGroup);
         if (empty($contentSearchFound)) {
             $contentSearchFound = !empty($total);
         }
+        resetCurrentPage();
         $totalPages = ceil($total / $_REQUEST['rowCount']);
         $videos = Video::getAllVideos($videoStatus, false, $ignoreGroup);
         // need to add dechex because some times it return an negative value and make it fails on javascript playlists
