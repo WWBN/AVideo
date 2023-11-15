@@ -56,7 +56,8 @@ $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 <div class="col-sm-12 gallerySection" >
     <?php
     //getPagination($total, $page = 0, $link = "", $maxVisible = 10, $infinityScrollGetFromSelector = "", $infinityScrollAppendIntoSelector = "", $loadOnScroll = false)
-    echo getPagination($totalPages, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);
+    echo getPagination($totalPages, $link, 10, ".categoriesContainerItem", ".categoriesContainerItem", false);    
+    $link = addSearchOptions("{$global['webSiteRootURL']}page/_pageNum_/");  
     echo getPagination($totalPages, $link);
     ?>
 </div>
