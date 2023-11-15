@@ -23,6 +23,8 @@ unset($_POST['sort']);
 $categories = Category::getAllCategories(false, true, $onlySuggested);
 $total = Category::getTotalCategories(false, true, $onlySuggested);
 
+$totalPages = ceil($total / $_REQUEST['rowCount']);
+
 $link = addSearchOptions("{$global['webSiteRootURL']}plugin/Gallery/view/modeGalleryCategory.php") . "&current=_pageNum_";
 
 if (empty($categories)) {
