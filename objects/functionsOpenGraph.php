@@ -347,15 +347,15 @@ function getOpenGraphLive()
 {
     global $global, $config, $advancedCustom;
     $isLive = isLive();
-    $liveT = new LiveTransmition($isLive['liveLink']);
-    $users_id = $liveT->getUsers_id();
+    $liveT = LiveTransmition::getFromKey($isLive['cleanKey']);
+    $users_id = $liveT['users_id'];
     $poster = Live::getPosterImage($users_id, $isLive['live_servers_id'], $isLive['live_schedule']);
     $liveStreamObject = new LiveStreamObject($isLive['cleanKey'], $isLive['live_servers_id'], $isLive['live_index'], 0);
     echo PHP_EOL . "<!-- OpenGraph Live users_id={$users_id} ".json_encode($isLive)." -->" . PHP_EOL;
     $videoType = '';
     $modifiedDate = '';
     $createdDate = '';
-    $title = $liveT->getTitle();
+    $title = $liveT['title'];
     if(empty($title)){
         Live::getTitleFromUsers_Id($users_id);
     }
@@ -364,7 +364,7 @@ function getOpenGraphLive()
         echo PHP_EOL . "<!-- OpenGraph title is empty -->" . PHP_EOL;
     }
 
-    $description = $liveT->getDescription();
+    $description = $liveT['description'];
     $duration_in_seconds = 0;
     $sourceFileURL = $liveStreamObject->getM3U8(true);
     $pageURL = $liveStreamObject->getURL();
