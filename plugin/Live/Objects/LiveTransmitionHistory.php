@@ -284,11 +284,10 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         $stats['countLiveStream']++;
 
-        $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
-        $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
-        //_error_log("NGINX getStatsAndAddApplication ". json_encode($stats));
-        //_error_log("NGINX getStatsAndAddApplication ". json_encode($cache));
-
+        $cacheName = LiveCacheHandler::$cacheTypeNotificationSuffix;
+        $cacheHandler = new LiveCacheHandler();
+        $cacheHandler->setSuffix($cacheName);
+        $cacheHandler->setCache($stats);
         return $stats;
     }
 
@@ -326,8 +325,11 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
         }
 
-        $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
-        $cache = ObjectYPT::setCache($cacheName, $stats); // update the cache
+        $cacheName = LiveCacheHandler::$cacheTypeNotificationSuffix;
+        $cacheHandler = new LiveCacheHandler();
+        $cacheHandler->setSuffix($cacheName);
+        $cacheHandler->setCache($stats);
+        
         return $stats;
     }
 

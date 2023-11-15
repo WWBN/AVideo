@@ -23,17 +23,10 @@ if (empty($pobj)) {
     die(json_encode("Plugin disabled"));
 }
 $live_servers_id = Live::getLiveServersIdRequest();
-$cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "_statsCache_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
-
-/*
-$cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
-$cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
-$c = @url_get_contents($cachefile);
-var_dump($cachefile, $cache, $c);exit;
-*/
-
-$json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
-_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
+$cacheName = "lsid_{$live_servers_id}_" . md5($global['systemRootPath'] . json_encode($_REQUEST));
+$cacheHandler = new LiveCacheHandler();
+$json = $cacheHandler->getCache( $cacheName, $pobj->cacheStatsTimout);
+//_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
 //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 
 $timeName = "stats.json.php";
@@ -43,7 +36,7 @@ if (empty($json)) {
     $json = getStatsNotifications();
     TimeLogEnd($timeName, __LINE__);
     //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
-    ObjectYPT::setCache($cacheName, $json);
+    $cacheHandler->setCache($json);
     TimeLogEnd($timeName, __LINE__);
 }
 TimeLogEnd($timeName, __LINE__);
@@ -76,7 +69,4 @@ if (!empty($_REQUEST['name'])) {
     }
     TimeLogEnd($timeName, __LINE__);
 }
-TimeLogEnd($timeName, __LINE__);
-$json['cache'] = ObjectYPT::getLastUsedCacheInfo();
-TimeLogEnd($timeName, __LINE__);
 echo json_encode($json);

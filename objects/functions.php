@@ -8826,8 +8826,8 @@ function isURL200Clear()
 function deleteStatsNotifications($clearFirstPage = false)
 {
     Live::deleteStatsCache($clearFirstPage);
-    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
-    ObjectYPT::deleteCache($cacheName);
+    $cacheHandler = new LiveCacheHandler();
+    $cacheHandler->deleteCache();
 }
 
 function getLiveVideosFromUsers_id($users_id)
@@ -9029,7 +9029,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
     TimeLogStart($timeName);
     global $__getStatsNotifications__;
     $isLiveEnabled = AVideoPlugin::isEnabledByName('Live');
-    $cacheName = "getStats" . DIRECTORY_SEPARATOR . "getStatsNotifications";
+    $cacheHandler = new LiveCacheHandler();
     unset($_POST['sort']);
     if ($force_recreate) {
         if ($isLiveEnabled) {
@@ -9040,23 +9040,13 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
         if (!empty($__getStatsNotifications__)) {
             return $__getStatsNotifications__;
         }
-        TimeLogEnd($timeName, __LINE__);
-        $json = ObjectYPT::getCache($cacheName, 0, true);
-        TimeLogEnd($timeName, __LINE__);
-        /*
-          $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
-          $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
-          $c = @url_get_contents($cachefile);
-          var_dump($cachefile, $cache, $c);exit;
-         */
+        $json = $cacheHandler->getCache(LiveCacheHandler::$cacheTypeNotificationSuffix, 0);
     }
     TimeLogEnd($timeName, __LINE__);
     if ($isLiveEnabled && (empty($json) || !empty($json->error) || !isset($json->error))) {
         //_error_log('getStatsNotifications: 1 ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         $json = Live::getStats();
-        TimeLogEnd($timeName, __LINE__);
         $json = object_to_array($json);
-        TimeLogEnd($timeName, __LINE__);
         // make sure all the applications are listed on the same array, even from different live servers
         if (empty($json['applications']) && is_array($json)) {
             $oldjson = $json;
@@ -9120,9 +9110,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
                 }
             }
         }
-        TimeLogEnd($timeName, __LINE__);
-        $cache = ObjectYPT::setCache($cacheName, $json);
-        TimeLogEnd($timeName, __LINE__);
+        $cache = $cacheHandler->setCache($json);
         Live::unfinishAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));

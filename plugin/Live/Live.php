@@ -1439,8 +1439,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!isset($global['isStatsAccessible'])) {
             $global['isStatsAccessible'] = array();
         }
-        $name = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "getStatsObject";
-
+        $name = "live_servers_id_{$live_servers_id}_getStatsObject";
+        $cacheHandler = new LiveCacheHandler();
         global $getStatsObject;
         if (!isset($getStatsObject)) {
             $getStatsObject = [];
@@ -1451,8 +1451,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("Live::getStatsObject[$live_servers_id] 2: return cached result");
                 return $getStatsObject[$live_servers_id];
             }
-
-            $result = ObjectYPT::getCache($name, maxLifetime() + 60, true);
+            $result = $cacheHandler->getCache($name, maxLifetime() + 60);
 
             if (!empty($result)) {
                 //_error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
@@ -1471,7 +1470,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $xml->server = new stdClass();
             $xml->server->application = [];
             $getStatsObject[$live_servers_id] = $xml;
-            ObjectYPT::setCache($name, json_encode($xml));
+            $cacheHandler->setCache($xml);
             return $xml;
         }
         if (empty($o->requestStatsTimout)) {
@@ -1524,8 +1523,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
         $xml = simplexml_load_string($data);
-        $getStatsObject[$live_servers_id] = $xml;
-        ObjectYPT::setCache($name, json_encode($xml));
+        $getStatsObject[$live_servers_id] = $xml;        
+        $cacheHandler->setCache($xml);
         //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
         return $xml;
@@ -2074,22 +2073,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $_REQUEST['name'] = "undefined";
         }
         //_error_log('_getStats: ' . ($force_recreate?'force_recreate':'DO NOT force_recreate'));
-        $cacheName = "getStats" . DIRECTORY_SEPARATOR . "live_servers_id_{$live_servers_id}" . DIRECTORY_SEPARATOR . "{$_REQUEST['name']}_" . User::getId();
+        $cacheName = "live_servers_id_{$live_servers_id}_{$_REQUEST['name']}_" . User::getId();
+        $cacheHandler = new LiveCacheHandler();
         //$force_recreate = true;
         if (empty($force_recreate)) {
             if (!empty($_getStats[$live_servers_id][$_REQUEST['name']]) && is_object($_getStats[$live_servers_id][$_REQUEST['name']])) {
                 //_error_log("Live::_getStats cached result 1 {$_REQUEST['name']} ");
                 return $_getStats[$live_servers_id][$_REQUEST['name']];
             }
-            TimeLogEnd($timeName, __LINE__);
-            $result = ObjectYPT::getCache($cacheName, maxLifetime() + 60, true);
-            TimeLogEnd($timeName, __LINE__);
-            /*
-            $cachefile = ObjectYPT::getCacheFileName($cacheName, false, $addSubDirs);
-            $cache = Cache::getCache($cacheName, $lifetime, $ignoreMetadata);
-            $c = @url_get_contents($cachefile);
-            var_dump($cachefile, $cache, $c);exit;
-            */
+            $result = $cacheHandler->getCache($cacheName, maxLifetime() + 60);
             if (!empty($result)) {
                 //_error_log("Live::_getStats cached result 2 {$_REQUEST['name']} {$cacheName}");
                 return _json_decode($result);
@@ -2289,7 +2281,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $obj->error = false;
         $_getStats[$live_servers_id][$_REQUEST['name']] = $obj;
         //_error_log("Live::_getStats NON cached result {$_REQUEST['name']} " . json_encode($obj));
-        ObjectYPT::setCache($cacheName, json_encode($obj));
+        $cacheHandler->setCache($obj);
         TimeLogEnd($timeName, __LINE__);
         return $obj;
     }
@@ -2630,12 +2622,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (!isset($_isLiveAndIsReadyFromKey)) {
             $_isLiveAndIsReadyFromKey = [];
         }
-        $name = "getStats" . DIRECTORY_SEPARATOR . "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
+        $name = "isLiveAndIsReadyFromKey{$key}_{$live_servers_id}";
+        $cacheHandler = new LiveCacheHandler();
         if (empty($force_recreate)) {
             if (isset($_isLiveAndIsReadyFromKey[$name])) {
                 return $_isLiveAndIsReadyFromKey[$name];
             }
-            $cache = ObjectYPT::getCache($name, 60, true);
+            $cache = $cacheHandler->getCache( $name, 60);
+        }else{
+            $cacheHandler->setSuffix($name);
         }
         if (!empty($cache)) {
             $json = _json_decode($cache);
@@ -2671,7 +2666,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
 
             $json->result = $_isLiveAndIsReadyFromKey[$name];
-            ObjectYPT::setCache($name, json_encode($json));
+            $cacheHandler->setCache($json);
         }
 
         return $_isLiveAndIsReadyFromKey[$name];
@@ -3067,7 +3062,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         _error_log("deleteStatsCache: {$cacheDir} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         rrmdir($cacheDir);
         if(class_exists('CachesInDB')){
-            CacheDB::deleteCacheWith('getStats');
+            $cacheHandler = new LiveCacheHandler();
+            $cacheHandler->deleteCache();
         }
         if ($clearFirstPage) {
             clearCache(true);
