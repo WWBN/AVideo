@@ -350,7 +350,7 @@ function getOpenGraphLive()
     $liveT = new LiveTransmition($isLive['liveLink']);
     $users_id = $liveT->getUsers_id();
     $poster = Live::getPosterImage($users_id, $isLive['live_servers_id'], $isLive['live_schedule']);
-    $liveStreamObject = new LiveStreamObject($isLive['key'], $isLive['live_servers_id'], $isLive['live_index'], 0);
+    $liveStreamObject = new LiveStreamObject($isLive['cleanKey'], $isLive['live_servers_id'], $isLive['live_index'], 0);
     echo PHP_EOL . "<!-- OpenGraph Live users_id={$users_id} ".json_encode($isLive)." -->" . PHP_EOL;
     $videoType = '';
     $modifiedDate = '';
