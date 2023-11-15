@@ -3782,7 +3782,11 @@ function removeQueryStringParameter($url, $varname)
     } else {
         $scheme = "{$parsedUrl['scheme']}:";
     }
-    return $scheme . '//' . $parsedUrl['host'] . $path . $query;
+    $port = '';
+    if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
+        $port = ":{$parsedUrl['port']}";
+    }
+    return $scheme . '//' . $parsedUrl['host']. $port . $path . $query;
 }
 
 /**
