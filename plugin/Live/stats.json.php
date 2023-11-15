@@ -33,6 +33,7 @@ var_dump($cachefile, $cache, $c);exit;
 */
 
 $json = ObjectYPT::getCache($cacheName, $pobj->cacheStatsTimout, true);
+_error_log(json_encode(ObjectYPT::getLastUsedCacheInfo()));
 //var_dump(ObjectYPT::getLastUsedCacheInfo(), $json);exit;
 
 $timeName = "stats.json.php";
