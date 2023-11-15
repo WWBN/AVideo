@@ -521,7 +521,7 @@ class LiveTransmitionHistory extends ObjectYPT {
             }
             $keysChecked[] = $value['key'];
             $m3u8 = Live::getM3U8File($value['key'], true, true);
-            $isURL200 = isValidM3U8Link($m3u8);
+            $isURL200 = isValidM3U8Link($m3u8, true);
             if (empty($isURL200)) {
                 _error_log('LiveTransmitionHistory::finishALLOffline will be finished '.$m3u8);
                 self::finishFromTransmitionHistoryId($value['id']);

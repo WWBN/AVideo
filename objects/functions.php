@@ -3066,14 +3066,15 @@ function getSelfUserAgent()
     return $agent;
 }
 
-function isValidM3U8Link($url, $timeout = 3)
+function isValidM3U8Link($url, $skipFileNameCheck = false, $timeout = 3)
 {
     if (!isValidURL($url)) {
         return false;
     }
-
     if (preg_match('/.m3u8$/i', $url)) {
-        return true;
+        if(empty($skipFileNameCheck) ){
+            return true;
+        }
     }
     // Check the content length without downloading the file
     $headers = get_headers($url, 1);
