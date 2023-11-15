@@ -6606,6 +6606,9 @@ function getCurrentPage($forceURL = false)
     $current = 1;
     if (!empty($_GET['page']) && is_numeric($_GET['page'])) {
         $current = intval($_GET['page']);
+        if (!empty($_REQUEST['current']) && $_REQUEST['current'] > $current) {
+            $current = intval($_REQUEST['current']);
+        }
     }else if (!empty($_REQUEST['current'])) {
         $current = intval($_REQUEST['current']);
     } elseif (!empty($_POST['current'])) {
