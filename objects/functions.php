@@ -3783,7 +3783,7 @@ function removeQueryStringParameter($url, $varname)
         $scheme = "{$parsedUrl['scheme']}:";
     }
     $port = '';
-    if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80') {
+    if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80' && $parsedUrl['port'] != '443') {
         $port = ":{$parsedUrl['port']}";
     }
     return $scheme . '//' . $parsedUrl['host']. $port . $path . $query;
