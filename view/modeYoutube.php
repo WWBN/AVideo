@@ -28,6 +28,7 @@ if (!empty($_GET['evideo'])) {
     $evideo = $v['evideo'];
 }
 
+$videos_id = getVideos_id();
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 $playlist_index = 0;
 if (!empty($evideo)) {
@@ -110,7 +111,6 @@ if (!empty($evideo)) {
             $_REQUEST['catName'] = '';
         }
 
-        $videos_id = getVideos_id();
         if (empty($video) && !empty($videos_id)) {
             $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
             //var_dump($_GET, $video);exit;
@@ -263,21 +263,19 @@ if (!empty($evideo)) {
             $url = addQueryStringParameter($global['webSiteRootURL'], 'msg', $msg);
             header("location: {$url}");
             exit;
-        }else {
+        }else if(!empty($video['id'])){
             $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
             $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
             videoNotFound($html);
+        }else{            
+            AVideoPlugin::getModeYouTube($videos_id);
+            forbiddenPage('We could not load the video');
         }
-    } else {
-        $modeYouTubeTimeLog['Code part 4'] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-        AVideoPlugin::getModeYouTube($v['id']);
-        $modeYouTubeTimeLog['Code part 5'] = microtime(true) - $modeYouTubeTime;
-        $modeYouTubeTime = microtime(true);
-    }
+    } 
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 }
 
+AVideoPlugin::getModeYouTube($videos_id);
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
