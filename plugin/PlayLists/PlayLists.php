@@ -298,16 +298,21 @@ class PlayLists extends PluginAbstract {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
         if ($embed) {
-            $url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
+            //$url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
+            $url = $global['webSiteRootURL'] . "playEmbed/" . $playlists_id;
         } else {
+            /*
             if (empty($obj->useOldPlayList)) {
                 $url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
             } else {
                 $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
+            */
+            $url = $global['webSiteRootURL'] . "play/" . $playlists_id;
         }
         if (isset($playlist_index)) {
-            $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+            //$url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+            $url .= "/$playlist_index";
         }
         return $url;
     }
@@ -316,12 +321,15 @@ class PlayLists extends PluginAbstract {
         global $global;
         $obj = AVideoPlugin::getObjectData("PlayLists");
         if ($embed) {
-            $url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?tags_id=" . $tags_id;
+           // $url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?tags_id=" . $tags_id;
+           $url = $global['webSiteRootURL'] . "playTagEmbed/" . $tags_id;
         } else {
-            $url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?tags_id=" . $tags_id;
+            //$url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?tags_id=" . $tags_id;
+            $url = $global['webSiteRootURL'] . "playTag/" . $tags_id;
         }
         if (isset($playlist_index)) {
-            $url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+            //$url = addQueryStringParameter($url, 'playlist_index', $playlist_index);
+            $url .= "/$playlist_index";
         }
         return $url;
     }

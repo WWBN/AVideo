@@ -298,6 +298,16 @@ Options All -Indexes
     RewriteRule    ^addDataObjectPlugin.json$ objects/pluginAddDataObject.json.php    [NC,L]
     RewriteRule    ^runDBScriptPlugin.json$ objects/pluginRunDatabaseScript.json.php    [NC,L]
 
+    RewriteRule    ^play/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^play/([0-9]+)          plugin/PlayLists/player.php?playlists_id=$1 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)          plugin/PlayLists/embed.php?playlists_id=$1 [L,QSA]
+
+    RewriteRule    ^playTag/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTag/([0-9]+)          plugin/PlayLists/player.php?tags_id=$1 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)          plugin/PlayLists/embed.php?tags_id=$1 [L,QSA]
+
     #manager playList
     RewriteRule    ^epg.xml$ plugin/PlayLists/epg.xml.php    [NC,L,QSA]
     RewriteRule    ^epg.json$ plugin/PlayLists/epg.json.php    [NC,L,QSA]
