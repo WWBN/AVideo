@@ -142,7 +142,11 @@ class Cache extends PluginAbstract {
                 $lifetime = 3600;
             } 
             */
-            $lifetime = 60;
+            if (isBot()) {
+                return 0; // 1 week
+            }else{
+                $lifetime = cacheExpirationTime();
+            }
             if (empty($_REQUEST['debug_cache'])) {
                 $firstPageCache = ObjectYPT::getCache($cacheName, $lifetime, true);
                 //var_dump($cacheName, $firstPageCache);exit;
