@@ -34,8 +34,10 @@
 }
 
 #topMenuUserNotifications .dropdown-menu img{
-    max-width: 100px;
+    width: 60px;
     height: 60px;
+    object-fit: cover;
+    object-position: center;
     margin: 10px 0 0 10px;
 }
 

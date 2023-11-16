@@ -3,6 +3,8 @@ function getTemplateFromArray(itemsArray) {
         return false;
     }
     var template = user_notification_template;
+    
+    template = template.replace(new RegExp('{placeholder}', 'g'), user_notification_template_placeholder_image);
     for (var search in itemsArray) {
         var replace = itemsArray[search];
         if (typeof replace == 'function') {
@@ -305,6 +307,15 @@ $(document).ready(function () {
     //Avoid dropdown menu close on click inside
     $(document).on('click', '#topMenuUserNotifications .dropdown-menu', function (e) {
         e.stopPropagation();
+    });
+    $('#topMenuUserNotifications').on('click', function (e) {
+        $(this).find('.lazyload').lazy({
+            effect: 'fadeIn',
+            afterLoad: function (element) {
+                element.removeClass('lazyload');
+                element.addClass('lazyloadLoaded');
+            }
+        });
     });
     getUserNotification();
 });

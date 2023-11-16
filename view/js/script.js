@@ -232,6 +232,7 @@ async function lazyImage() {
                 afterLoad: function (element) {
 
                     element.addClass('gifNotLoaded');
+                    element.addClass('lazyloadLoaded');
                     element.removeClass('blur');
                     element.mouseover(function () {
 
@@ -470,7 +471,11 @@ async function mouseEffect() {
             var gif = $(this).find(".thumbsGIF");
             var jpg = $(this).find(".thumbsJPG");
             try {
-                gif.lazy({ effect: 'fadeIn' });
+                gif.lazy({ effect: 'fadeIn',
+                afterLoad: function (element) {
+                    element.removeClass('lazyload');
+                    element.addClass('lazyloadLoaded');
+                } });
                 setTimeout(function () {
                     gif.height(jpg.height());
                     gif.width(jpg.width());

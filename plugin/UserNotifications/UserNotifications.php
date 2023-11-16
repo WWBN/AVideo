@@ -72,8 +72,11 @@ class UserNotifications extends PluginAbstract {
         global $global;
         $css = '<link href="' . getURL('plugin/UserNotifications/style.css') . '" rel="stylesheet" type="text/css"/>';
 
-        $js = '<script>var user_notification_template = ' . json_encode(self::getTemplate()) . '</script>';
-        $js .= '<script>var requiredUserNotificationTemplateFields = ' . json_encode(self::requiredUserNotificationTemplateFields) . '</script>';
+        $js = '<script>';
+        $js .= 'var user_notification_template = ' . json_encode(self::getTemplate()) . ';';
+        $js .= 'var user_notification_template_placeholder_image = ' . json_encode(ImagesPlaceHolders::getVideoAnimationLandscape(ImagesPlaceHolders::$RETURN_URL)) . ';';
+        $js .= 'var requiredUserNotificationTemplateFields = ' . json_encode(self::requiredUserNotificationTemplateFields) . ';';
+        $js .= '</script>';
         return $css . $js;
     }
 
@@ -99,6 +102,8 @@ class UserNotifications extends PluginAbstract {
     static function createTemplateFromArray($itemsArray) {
         global $global;
         $template = self::getTemplate();
+        
+        $template = str_replace("{placeholder}",  ImagesPlaceHolders::getVideoAnimationLandscape(ImagesPlaceHolders::$RETURN_URL), $template);
         foreach ($itemsArray as $search => $replace) {
             if ($search == 'icon') {
                 $replace = '<i class="' . $replace . '"></i>';

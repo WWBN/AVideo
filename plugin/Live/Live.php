@@ -489,8 +489,8 @@ class Live extends PluginAbstract {
             $title,
             $u->getNameIdentificationBd(),
             $link,
-            (!empty($imgJPG) ? '<img src="' . ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
-            (!empty($imgGIF) ? ('<img src="' .ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
+            (!empty($imgJPG) ? '<img src="' . ImagesPlaceHolders::getVideoAnimationLandscape(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgJPG . '" class="thumbsJPG img-responsive" height="130">' : ''),
+            (!empty($imgGIF) ? ('<img src="' .ImagesPlaceHolders::getVideoAnimationLandscape(ImagesPlaceHolders::$RETURN_URL) . '" data-src="' . $imgGIF . '" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">') : ''),
             $LiveUsersLabelLive,
             $class,
         ];
