@@ -301,14 +301,12 @@ class PlayLists extends PluginAbstract {
             //$url = $global['webSiteRootURL'] . "plugin/PlayLists/embed.php?playlists_id=" . $playlists_id;
             $url = $global['webSiteRootURL'] . "playEmbed/" . $playlists_id;
         } else {
-            /*
             if (empty($obj->useOldPlayList)) {
-                $url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
+                //$url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
+                $url = $global['webSiteRootURL'] . "play/" . $playlists_id;
             } else {
                 $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
             }
-            */
-            $url = $global['webSiteRootURL'] . "play/" . $playlists_id;
         }
         if (isset($playlist_index)) {
             //$url = addQueryStringParameter($url, 'playlist_index', $playlist_index);

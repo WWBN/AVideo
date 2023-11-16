@@ -298,16 +298,6 @@ Options All -Indexes
     RewriteRule    ^addDataObjectPlugin.json$ objects/pluginAddDataObject.json.php    [NC,L]
     RewriteRule    ^runDBScriptPlugin.json$ objects/pluginRunDatabaseScript.json.php    [NC,L]
 
-    RewriteRule    ^play/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?playlists_id=$1&playlist_index=$2 [L,QSA]
-    RewriteRule    ^play/([0-9]+)          plugin/PlayLists/player.php?playlists_id=$1 [L,QSA]
-    RewriteRule    ^playEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?playlists_id=$1&playlist_index=$2 [L,QSA]
-    RewriteRule    ^playEmbed/([0-9]+)          plugin/PlayLists/embed.php?playlists_id=$1 [L,QSA]
-
-    RewriteRule    ^playTag/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?tags_id=$1&playlist_index=$2 [L,QSA]
-    RewriteRule    ^playTag/([0-9]+)          plugin/PlayLists/player.php?tags_id=$1 [L,QSA]
-    RewriteRule    ^playTagEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?tags_id=$1&playlist_index=$2 [L,QSA]
-    RewriteRule    ^playTagEmbed/([0-9]+)          plugin/PlayLists/embed.php?tags_id=$1 [L,QSA]
-
     #manager playList
     RewriteRule    ^epg.xml$ plugin/PlayLists/epg.xml.php    [NC,L,QSA]
     RewriteRule    ^epg.json$ plugin/PlayLists/epg.json.php    [NC,L,QSA]
@@ -339,6 +329,16 @@ Options All -Indexes
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
     #playlist alias
+    RewriteRule    ^play/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^play/([0-9]+)          plugin/PlayLists/player.php?playlists_id=$1 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)          plugin/PlayLists/embed.php?playlists_id=$1 [L,QSA]
+
+    RewriteRule    ^playTag/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTag/([0-9]+)          plugin/PlayLists/player.php?tags_id=$1 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)          plugin/PlayLists/embed.php?tags_id=$1 [L,QSA]
+
     RewriteRule    ^programs.json$ objects/playlists.json.php    [QSA]
     RewriteRule    ^program/([0-9]+)/([0-9]+)(/.*)?$ view/modeYoutube.php?playlist_id=$1&playlist_index=$2    [QSA]
     RewriteRule    ^program/([0-9]+)(/.*)?$ view/modeYoutube.php?playlist_id=$1    [QSA]
