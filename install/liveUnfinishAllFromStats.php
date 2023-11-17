@@ -7,6 +7,9 @@ if (!isCommandLineInterface()) {
 }
 AVideoPlugin::loadPlugin('Live');
 
+$p = AVideoPlugin::loadPlugin("Live");
+$xml = $p->getStatsObject(0, true);
+var_dump(__LINE__, $xml);
 
 $getStatsLive = Live::_getStats(0, true);
 var_dump(__LINE__, $getStatsLive);
