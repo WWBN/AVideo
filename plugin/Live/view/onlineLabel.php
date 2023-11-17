@@ -30,40 +30,9 @@ if (isLiveLink() || Live::isLiveAndIsReadyFromKey($streamName, $live_servers_id,
         
         
     function isOfflineVideo() {
-<?php
-if (isMobile()) {
-    ?>
-            return !$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline');
-    <?php
-} else {
-        ?>
-            if (player.readyState()) {
-                if (typeof player.tech_ !== 'undefined') {
-                    try {
-                        var uri = player.tech_.hls.selectPlaylist().uri;
-                        console.log("isOfflineVideo player.readyState", uri);
-                        if (uri.includes("loopBGHLS/res")) {
-                            return true;
-                        }
-                    } catch (error) {
-                        
-                    }
-                    if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
-                        return true;
-                    }
-                }
-                return false;
-            } else if (player.readyState() === 0 && player.paused()) {
-                console.log("isOfflineVideo paused ");
-                return false;
-            } else {
-                console.log("isOfflineVideo player.readyState not ready", player.readyState());
-            }
-    <?php
+        return !$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline');
     }
-?>
-        return true;
-    }
+    
     var isOnlineLabel = false;
     var playCorrectSource<?php echo $liveViewStatusID; ?>Timout;
     function playCorrectSource<?php echo $liveViewStatusID; ?>() {
