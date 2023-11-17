@@ -1532,6 +1532,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function get_data($url, $timeout) {
         global $global;
         if (!IsValidURL($url)) {
+            _error_log("Live::getStatsObject get_data($url, $timeout) invalid URL");
             return false;
         }
 
