@@ -16,9 +16,11 @@ foreach ($stats as $server) {
                 $row = LiveTransmitionHistory::getLatest($live->key, @$live->live_servers_id);
                 if (!empty($row['finished'])) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
+                }else{
+                    echo "Key not found key={$live->key}, live_servers_id={$live->live_servers_id}".PHP_EOL;
                 }
             }else{
-                echo 'Key is empty error ';
+                echo 'Key is empty error '.PHP_EOL;
             }
         }
     }else{
