@@ -8,8 +8,8 @@ if (!isCommandLineInterface()) {
 AVideoPlugin::loadPlugin('Live');
 
 $p = AVideoPlugin::loadPlugin("Live");
-$xml = $p->getStatsObject(0, true);
-var_dump(__LINE__, $xml);
+$data = $p->get_data('https://veestreamz.com:8443/stats', 4);
+var_dump(__LINE__, $data);exit;
 
 $getStatsLive = Live::_getStats(0, true);
 var_dump(__LINE__, $getStatsLive);
