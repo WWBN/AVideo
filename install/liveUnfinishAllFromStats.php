@@ -8,7 +8,7 @@ if (!isCommandLineInterface()) {
 AVideoPlugin::loadPlugin('Live');
 $p = AVideoPlugin::loadPlugin("Live");
 $xml = $p->getStatsObject($live_servers_id, true);
-var_dump($xml);
+var_dump(url_get_contents('https://veestreamz.com:8443/stat', 4));
 $stats = Live::getStats(true);
 var_dump($stats);
 foreach ($stats as $server) {
