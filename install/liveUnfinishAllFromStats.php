@@ -8,15 +8,6 @@ if (!isCommandLineInterface()) {
 AVideoPlugin::loadPlugin('Live');
 
 
-
-
-$obj = AVideoPlugin::getObjectData("Live");
-var_dump(__LINE__, $obj->server_type->value);
-$rows = LiveTransmitionHistory::getActiveLiveFromUser(0, '', '', 50);
-var_dump(__LINE__, $rows);
-foreach ($rows as $value) {
-    var_dump(__LINE__, is_array($value));
-}
 $getStatsLive = Live::_getStats(0, true);
 var_dump(__LINE__, $getStatsLive);
 
