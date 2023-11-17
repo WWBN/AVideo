@@ -6,9 +6,9 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 AVideoPlugin::loadPlugin('Live');
-$p = AVideoPlugin::loadPlugin("Live");
-$xml = $p->getStatsObject($live_servers_id, true);
-var_dump(url_get_contents('https://veestreamz.com:8443/stat', '', 4));exit;
+//$p = AVideoPlugin::loadPlugin("Live");
+//$xml = $p->getStatsObject($live_servers_id, true);
+//var_dump(url_get_contents('https://veestreamz.com:8443/stat', '', 4));exit;
 $stats = Live::getStats(true);
 var_dump($stats);
 foreach ($stats as $server) {
