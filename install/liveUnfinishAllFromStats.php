@@ -7,7 +7,7 @@ if (!isCommandLineInterface()) {
 }
 AVideoPlugin::loadPlugin('Live');
 $stats = Live::getStats($force_recreate);
-
+var_dump($stats);
 foreach ($stats as $server) {
     if (is_array($server) || is_object($server)) {
         foreach ($server as $live) {
