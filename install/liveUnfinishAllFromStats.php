@@ -10,6 +10,9 @@ AVideoPlugin::loadPlugin('Live');
 $p = AVideoPlugin::loadPlugin("Live");
 $data = $p->get_data('https://veestreamz.com:8443/stats', 4);
 $xml = simplexml_load_string($data);
+
+$xml = json_encode($xml);
+$xml = _json_decode($xml);
 var_dump(__LINE__, $data, $xml);exit;
 
 $getStatsLive = Live::_getStats(0, true);

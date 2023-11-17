@@ -1511,6 +1511,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
             }
         }
         $xml = simplexml_load_string($data);
+        $xml = json_encode($xml);
+        $xml = _json_decode($xml);
         $getStatsObject[$live_servers_id] = $xml;        
         $cacheHandler->setCache($xml);
         //var_dump(__LINE__, $xml);
@@ -2090,8 +2092,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $liveUsersEnabled = AVideoPlugin::isEnabledByName("LiveUsers");
         $p = AVideoPlugin::loadPlugin("Live");
         $xml = $p->getStatsObject($live_servers_id, $force_recreate);
-        $xml = json_encode($xml);
-        $xml = _json_decode($xml);
         $stream = false;
         $lifeStream = [];
         $applicationName = self::getApplicationName();
