@@ -6,7 +6,7 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 AVideoPlugin::loadPlugin('Live');
-
+/*
 $p = AVideoPlugin::loadPlugin("Live");
 $data = $p->get_data('https://veestreamz.com:8443/stats', 4);
 $xml = simplexml_load_string($data);
@@ -22,7 +22,7 @@ var_dump(__LINE__, $getStatsLive);
 
 exit;
 
-
+*/
 
 
 //$p = AVideoPlugin::loadPlugin("Live");
