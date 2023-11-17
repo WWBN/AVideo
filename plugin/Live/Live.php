@@ -1536,7 +1536,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return false;
         }
 
-        //_error_log_debug("Live::get_data($url, $timeout)");
+        _error_log_debug("Live::getStatsObject get_data($url, $timeout) ");
         return url_get_contents($url, '', $timeout);
     }
 
