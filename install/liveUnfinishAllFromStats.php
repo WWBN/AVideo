@@ -6,7 +6,7 @@ if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
 AVideoPlugin::loadPlugin('Live');
-$stats = Live::getStats($force_recreate);
+$stats = Live::getStats(true);
 var_dump($stats);
 foreach ($stats as $server) {
     if (is_array($server) || is_object($server)) {
