@@ -7,8 +7,8 @@ if (!isCommandLineInterface()) {
 }
 AVideoPlugin::loadPlugin('Live');
 $p = AVideoPlugin::loadPlugin("Live");
-$xml = $p->getStatsObject($live_servers_id, $force_recreate);
-var_dump($xml);exit;
+$xml = $p->getStatsObject($live_servers_id, true);
+
 $stats = Live::getStats(true);
 var_dump($stats);
 foreach ($stats as $server) {
