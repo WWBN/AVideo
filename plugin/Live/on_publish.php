@@ -191,6 +191,8 @@ if (!empty($obj) && empty($obj->error)) {
             $pid = execAsync($command);
             _error_log("NGINX Live::on_publish YPTSocket end {$pid}");
         }
+        $cacheHandler = new LiveCacheHandler();
+        $cacheHandler->deleteCache();
     }
     //exit;
 } else {

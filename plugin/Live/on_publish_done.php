@@ -73,3 +73,5 @@ if(empty($row)){
 }else{
     AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
 }
+$cacheHandler = new LiveCacheHandler();
+$cacheHandler->deleteCache();

@@ -448,6 +448,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         $sql = "UPDATE " . static::getTableName() . " SET finished = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
+        _error_log("LiveTransmitionHistory::finishFromTransmitionHistoryId: live_transmitions_history_id=$live_transmitions_history_id ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        
         _mysql_commit();
         
         Live::unfinishAllFromStats();
@@ -492,7 +494,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
 
         $insert_row = sqlDAL::writeSql($sql);
-
+        _error_log("LiveTransmitionHistory::finishALL: olderThan=$olderThan ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+       
         return $insert_row;
     }
 
@@ -730,6 +733,7 @@ class LiveTransmitionHistory extends ObjectYPT {
                     //$this->properties[$key] = $value;
                 }
             }
+            $this->finished = null;
         }else{
             _error_log("LiveTransmitionHistory::save: active live NOT found ". _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
         }
@@ -752,6 +756,8 @@ class LiveTransmitionHistory extends ObjectYPT {
         $id = parent::save();
         _error_log("LiveTransmitionHistory::save: id=$id ($this->users_id, $this->live_servers_id, $this->key) ". json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         _mysql_commit();
+        $cacheHandler = new LiveCacheHandler();
+        $cacheHandler->deleteCache();
         return $id;
     }
 

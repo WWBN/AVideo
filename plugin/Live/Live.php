@@ -3639,7 +3639,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         //var_dump('Line: '.__LINE__, 'File: '.__FILE__, $isLiveAndIsReadyFromKey, $isStatsAccessible, $global['isStatsAccessible']);exit;
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
             _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
-            LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
+            //LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
             $array['isLive'] = false;
         } else {
             $array['isLive'] = true;
