@@ -39,10 +39,14 @@ if (isMobile()) {
         ?>
             if (player.readyState()) {
                 if (typeof player.tech_ !== 'undefined') {
-                    var uri = player.tech_.hls.selectPlaylist().uri;
-                    console.log("isOfflineVideo player.readyState", uri);
-                    if (uri.includes("loopBGHLS/res")) {
-                        return true;
+                    try {
+                        var uri = player.tech_.hls.selectPlaylist().uri;
+                        console.log("isOfflineVideo player.readyState", uri);
+                        if (uri.includes("loopBGHLS/res")) {
+                            return true;
+                        }
+                    } catch (error) {
+                        
                     }
                     if (player.tech_.hls.playlists.media_.segments[0].resolvedUri.includes(".ts?seq=")) {
                         return true;
@@ -61,6 +65,85 @@ if (isMobile()) {
         return true;
     }
     var isOnlineLabel = false;
+    var playCorrectSource<?php echo $liveViewStatusID; ?>Timout;
+    function playCorrectSource<?php echo $liveViewStatusID; ?>() {
+        if (typeof player === 'undefined') {
+            clearTimeout(playCorrectSource<?php echo $liveViewStatusID; ?>Timout);
+            playCorrectSource<?php echo $liveViewStatusID; ?>Timout = setTimeout(function () {
+                playCorrectSource<?php echo $liveViewStatusID; ?>();
+            }, 1000);
+            return false;
+        }
+        var bigPlayButtonModified = false;
+        if ($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && !isOfflineVideo()) {
+            isOnlineLabel = true;
+            player.bigPlayButton.show();
+            bigPlayButtonModified = true;
+            onlineLabelOnline('#<?php echo $liveViewStatusID; ?>');
+            //playerPlayIfAutoPlay(0);
+            clearTimeout(_reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>);
+            if (isAutoplayEnabled() && !player.paused()) {
+                player.play();
+            }
+        } else if ($('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && isOfflineVideo()) {
+            isOnlineLabel = true;
+            player.bigPlayButton.show();
+            bigPlayButtonModified = true;
+            onlineLabelPleaseWait('#<?php echo $liveViewStatusID; ?>');
+            reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(10000);
+            //reloadVideoJS();
+            //playerPlayIfAutoPlay(0);            
+            if (isAutoplayEnabled() && !player.paused()) {
+                player.play();
+            }
+            player.on('error', function () {
+                console.log("PError 1 " + player.error());
+            });
+            if (typeof player.tech_ !== 'undefined') {
+                player.tech_.hls.playlists.on('error', function () {
+                    console.log("PError 2 " + player.error());
+                    console.log("PError 2.1 " + this.error());
+                });
+            }
+            clearTimeout(playCorrectSource<?php echo $liveViewStatusID; ?>Timout);
+            playCorrectSource<?php echo $liveViewStatusID; ?>Timout = setTimeout(function () {
+                playCorrectSource<?php echo $liveViewStatusID; ?>();
+                getStats<?php echo $liveViewStatusID; ?>();
+            }, 5000);
+        } else if (!$('#<?php echo $liveViewStatusID; ?>').hasClass('isOnline') && !isOfflineVideo()) {
+            if (player.readyState() <= 2) {
+                isOnlineLabel = false;
+                onlineLabelOffline('#<?php echo $liveViewStatusID; ?>'); 
+                console.log("playerPlay: (promisePlaytryNetworkFail) Autoplay was prevented player.pause()");                            
+                player.pause();
+                //player.reset();
+                $('#mainVideo.liveVideo').find('.vjs-poster').css({'background-image': 'url(<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Offline.jpg)'});
+                $('#mainVideo.liveVideo').find('.vjs-poster').fadeIn();
+                player.trigger('loadstart');
+                player.posterImage.show();
+                player.bigPlayButton.show();
+                if(!isWebRTC()){
+                    player.currentTime(0);
+                }
+                player.on('play', function () {
+                    $('#mainVideo.liveVideo').find('.vjs-poster').fadeOut();
+                });
+                //reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(10000);
+                //reloadVideoJS();
+                //playerPlay(0);
+            } else {
+                onlineLabelFinishing('#<?php echo $liveViewStatusID; ?>');
+                clearTimeout(playCorrectSource<?php echo $liveViewStatusID; ?>Timout);
+                playCorrectSource<?php echo $liveViewStatusID; ?>Timout = setTimeout(function () {
+                    playCorrectSource<?php echo $liveViewStatusID; ?>();
+                    getStats<?php echo $liveViewStatusID; ?>();
+                }, 15000);
+            }
+        }
+        if (!bigPlayButtonModified) {
+            player.bigPlayButton.hide();
+        }
+    }
 
     var _reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>;
     function reloadVideoJSTimeout<?php echo $liveViewStatusID; ?>(timeout) {
@@ -91,7 +174,7 @@ if (isMobile()) {
                         isOnlineLabel = false;
                         $('#<?php echo $liveViewStatusID; ?>').removeClass('isOnline');
                     }
-                    playerPlay(0);
+                    playCorrectSource<?php echo $liveViewStatusID; ?>();
                     $('.liveViewCount').text(" " + response.nclients);
                     $('#<?php echo $liveViewStatusID; ?>').text(response.msg);
                     $('.onlineApplications').text($('#availableLiveStream > div').length);
