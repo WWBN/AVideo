@@ -372,6 +372,7 @@ class LiveTransmition extends ObjectYPT {
 
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
+            _error_log('LiveTransition::userCanSeeTransmition usergroup not empty');
             if (empty($this->id)) {
                 return false;
             }

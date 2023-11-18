@@ -473,6 +473,7 @@ class Live_schedule extends ObjectYPT
         $lt = new LiveTransmition($ltRow['id']);
         $transmitionGroups = $lt->getGroups();
         if (!empty($transmitionGroups)) {
+            _error_log('LiveSchedule::userCanSeeTransmition usergroup not empty');
             if (empty($this->id)) {
                 return false;
             }
