@@ -178,10 +178,10 @@ Options All -Indexes
     RewriteRule ^channel/([^/]+)/videoEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?videos_id=$2&channelName=$1 [L,QSA,NC]
 
     # Article URLs with optional title or trailing slash
-    RewriteRule ^channel/([^/]+)/article/([0-9a-zA-Z_.-]+)(/.*|)$ view/modeYoutube.php?article_id=$2&channelName=$1 [L,QSA,NC]
+    RewriteRule ^channel/([^/]+)/article/([0-9a-zA-Z_.-]+)(/.*|)$ view/modeYoutube.php?videos_id=$2&channelName=$1 [L,QSA,NC]
 
     # Article Embed URLs with optional title or trailing slash
-    RewriteRule ^channel/([^/]+)/articleEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?article_id=$2&channelName=$1 [L,QSA,NC]
+    RewriteRule ^channel/([^/]+)/articleEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?videos_id=$2&channelName=$1 [L,QSA,NC]
 
     RewriteRule ^video/([0-9]+)/?$ view/modeYoutube.php?videos_id=$1 [QSA]
     RewriteRule ^video/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1 [QSA]
