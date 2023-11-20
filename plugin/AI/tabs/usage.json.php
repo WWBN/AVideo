@@ -16,6 +16,8 @@ if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
 
+AVideoPlugin::loadPlugin('YPTWallet');
+
 setDefaultSort('sortDate', 'DESC');
 $obj = new stdClass();
 $obj->msg = '';
