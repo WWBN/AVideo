@@ -69,7 +69,6 @@
 /plugin/FansSubscriptions/
 /plugin/MessageOfTheDay/
 /plugin/InteractiveVideo/
-/plugin/AI/
 getPaidPlugisList.php
 /videos/
 *.zip
