@@ -9,8 +9,8 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_transcribe_respon
 
 class AI extends PluginAbstract {
     
-    //static $url = 'https://ai.ypt.me/';
-    static $url = 'http://192.168.0.2:81/AI/';
+    static $url = 'https://ai.ypt.me/';
+    //static $url = 'http://192.168.0.2:81/AI/';
 
     static function getMetadataURL(){
         return self::$url;
