@@ -428,6 +428,10 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                             echo PHP_EOL . '<li><a href="#" onclick="filterStatus=\'' . $key . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
                         }
                         ?>
+                        <li><a href="#" onclick="filterStatus = 'passwordProtected'; $('.activeFilter').html('<i class=\'fas fa-lock\' ></i> <?php echo __('Password Protected'); ?>');
+                                $('.tooltip').tooltip('hide');
+                                $('#grid').bootgrid('reload');
+                                return false;"><i class="fas fa-lock" ></i> <?php echo __('Password Protected'); ?></a></li>
                     </ul>
                 </div>
             </div>

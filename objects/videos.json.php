@@ -30,6 +30,8 @@ $status = '';
 if (!empty($_REQUEST['status'])) {
     if (!empty(Video::$statusDesc[$_REQUEST['status']])) {
         $status = $_REQUEST['status'];
+    } else if($_REQUEST['status'] == 'passwordProtected'){
+        $status = 'passwordProtected';
     }
 }
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);

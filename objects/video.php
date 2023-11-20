@@ -1527,9 +1527,13 @@ if (!class_exists('Video')) {
                     TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__, 0.2);
                 }
             }
+            $passwordProtectedOnly = false;
             $status = str_replace("'", "", $status);
             if ($status === 'suggested') {
                 $suggestedOnly = true;
+                $status = '';
+            } else if ($status === 'passwordProtected') {
+                $passwordProtectedOnly = true;
                 $status = '';
             }
             $sql = "SELECT STRAIGHT_JOIN  u.*, u.externalOptions as userExternalOptions, v.*, c.iconClass, 
@@ -1628,29 +1632,8 @@ if (!class_exists('Video')) {
                 } elseif (in_array($videoType, self::$typeOptions)) {
                     $sql .= " AND v.type = '{$videoType}' ";
                 }
-            }
-            /*
-            if ($status == "viewable") {
-                if (User::isLogged()) {
-                    $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
-                    $sql .= " OR (v.status='" . Video::$statusUnlisted . "' ";
-                    if (!User::isAdmin() && !Permissions::canAdminVideos()) {
-                        $sql .= " AND (v.users_id ='" . User::getId() . "' OR v.users_id_company = '" . User::getId() . "')";
-                    }
-                    $sql .= " ))";
-                } else {
-                    $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-                }
-            } elseif ($status == "viewableNotUnlisted") {
-                $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-            } elseif ($status == "publicOnly") {
-                $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
-            } elseif ($status == "privateOnly") {
-                $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
-            } elseif (!empty($status)) {
-                $sql .= " AND v.status = '{$status}'";
-            }
-            */
+            }            
+            
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
             } else {
@@ -1711,6 +1694,10 @@ if (!class_exists('Video')) {
             if (!empty($max_duration_in_seconds)) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+            }
+            
+            if (!empty($passwordProtectedOnly)) {
+                $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();
@@ -2357,14 +2344,10 @@ if (!class_exists('Video')) {
             if ($status === 'suggested') {
                 $suggestedOnly = true;
                 $status = '';
+            }else if ($status === 'passwordProtected') {
+                $passwordProtectedOnly = true;
+                $status = '';
             }
-            /*
-              $cn = '';
-              if (!empty($_REQUEST['catName'])) {
-              $cn .= ", c.clean_name as cn";
-              }
-             *
-             */
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
@@ -2372,13 +2355,6 @@ if (!class_exists('Video')) {
                     TimeLogEnd("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})", __LINE__);
                 }
             }
-            /*
-              $sql = "SELECT STRAIGHT_JOIN  v.users_id, v.type, v.id, v.title,v.description, c.name as category {$cn} "
-              . "FROM videos v "
-              . "LEFT JOIN categories c ON categories_id = c.id "
-              . " LEFT JOIN users u ON v.users_id = u.id "
-              . " WHERE 1=1 ";
-             */
 
             $sql = "SELECT count(v.id) as total "
                 . "FROM videos v "
@@ -2504,6 +2480,10 @@ if (!class_exists('Video')) {
             if (!empty($max_duration_in_seconds)) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+            }
+
+            if (!empty($passwordProtectedOnly)) {
+                $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
 
             $sql .= AVideoPlugin::getVideoWhereClause();

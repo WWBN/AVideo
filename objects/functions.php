@@ -6088,7 +6088,7 @@ function redirectIfRedirectUriIsSet()
     }
 
     if (!empty($redirectUri)) {
-        header("Location: {$_SESSION['redirectUri']}");
+        header("Location: {$redirectUri}");
         exit;
     }
 }
