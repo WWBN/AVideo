@@ -38,6 +38,10 @@ $json = $obj->response;
 $json['AccessToken'] = $objAI->AccessToken;
 //echo json_encode($obj);exit;
 
+if (empty($json['AccessToken'])) {
+    forbiddenPage('Invalid AccessToken');
+}
+
 $content = postVariables($aiURL, $json, false, 600);
 $jsonDecoded = json_decode($content);
 
