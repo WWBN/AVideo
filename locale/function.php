@@ -83,7 +83,8 @@ function getAllFlags() {
 }
 
 /**
- * Deprecated replaced by Layout::getAvilableFlags()
+ * Deprecated replaced by Layout::getAvailableFlags()
+ * @deprecated
  * @global array $global
  * @return array
  */

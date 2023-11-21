@@ -276,7 +276,7 @@ if (User::isAdmin()) {
                                                     <select class="form-control" id="inputLanguage" name="inputLanguage">
                                                         <?php
                                                         $selectedLang = $config->getLanguage();
-                                                        $flags = Layout::getAvilableFlags();
+                                                        $flags = Layout::getAvailableFlags();
                                                         //var_dump($selectedLang, $flags);exit;
                                                         foreach ($flags as $key => $value) {
                                                             $info = json_decode($value[0]);
