@@ -27,7 +27,9 @@ $jsonDecoded = new stdClass();
 $jsonDecoded->error = true;
 $jsonDecoded->msg = '';
 
+_error_log('Start line='.__LINE__);
 if ($_REQUEST['type']=='translation' && !empty($_REQUEST['response']['vtt'])) {
+    _error_log('Start line='.__LINE__);
     //$jsonDecoded->lines[] = __LINE__;
     $o = new Ai_transcribe_responses(0);
     $o->setVtt($_REQUEST['response']['vtt']);
@@ -40,17 +42,15 @@ if ($_REQUEST['type']=='translation' && !empty($_REQUEST['response']['vtt'])) {
 
     $jsonDecoded->vttsaved = false;
     if (!empty($jsonDecoded->Ai_transcribe_responses)) {
+        _error_log('Start line='.__LINE__);
         //$jsonDecoded->lines[] = __LINE__;
         $paths = Ai_transcribe_responses::getVTTPaths($token->videos_id, $_REQUEST['response']['lang']);
-        //$jsonDecoded->paths = $paths;
-        if (!file_exists($paths['path'])) {
-            //$jsonDecoded->lines[] = __LINE__;
-            $jsonDecoded->vttsaved = file_put_contents($paths['path'], $_REQUEST['response']['vtt']);
-        }
+        $jsonDecoded->vttsaved = file_put_contents($paths['path'], $_REQUEST['response']['vtt']);
     }
     
     $jsonDecoded->error = false;
     //$jsonDecoded->lines[] = __LINE__;
+    sendSocketMessageToUsers_id('You received a new translation '.$_REQUEST['response']['lang'], $token->users_id);
 }
 
 _error_log(json_encode($jsonDecoded));

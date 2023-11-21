@@ -14,15 +14,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 <div class="panel panel-default">
     <div class="panel-heading">
         <input class="form-control" id="searchInput" type="text" placeholder="Search Languages...">
-        <div class="container">
-            <h2>Translation Progress</h2>
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
-                    0%
-                </div>
-            </div>
-            <div id="message"></div>
-        </div>
     </div>
     <div class="panel-body" style="max-height: calc(100vh - 300px); overflow: auto;">
         <form id="languagesForm">
@@ -58,32 +49,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
 <script>
     var hasTranscriptionRecord = false;
-    var intervalId;
-    function updateProgress(lang) {
-        $.ajax({
-            url:  webSiteRootURL + 'plugin/AI/progress.json.php',
-            data: {
-                videos_id: <?php echo $videos_id; ?>,
-                translation: 1,
-                lang: lang
-            },
-            type: 'post',
-            success: function(response) {
-                if (response.error) {
-                    $('#message').text(response.msg);
-                    clearInterval(intervalId); // Stop if error is true
-                } else {
-                    var progress = response.log.progress_text;
-                    $('.progress-bar').css('width', progress).attr('aria-valuenow', response.log.progress).text(progress);
-                    $('#message').text(response.msg);
-                }
-            },
-            error: function() {
-                $('#message').text('Error occurred while making the request.');
-                clearInterval(intervalId); // Stop if AJAX request fails
-            }
-        });
-    }
 
     function sortCheckboxes() {
         var $form = $('#languagesForm');
@@ -167,7 +132,5 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
             sortCheckboxes(); // Call the sorting function
         });
         sortCheckboxes();
-        intervalId = setInterval(updateProgress, 10000); // Request every 10 seconds
-        updateProgress(); // Initial call to start the process
     });
 </script>
