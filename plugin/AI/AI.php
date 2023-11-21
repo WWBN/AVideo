@@ -9,11 +9,12 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_transcribe_respon
 
 class AI extends PluginAbstract {
     
+    static $isTest = true;
     static $url = 'https://ai.ypt.me/';
-    //static $url = 'http://192.168.0.2:81/AI/';
+    static $url_test = 'http://192.168.0.2:81/AI/';
 
     static function getMetadataURL(){
-        return self::$url;
+        return self::$isTest?self::$url_test:self::$url;
     }
 
     static function getPricesURL(){
@@ -178,6 +179,7 @@ class AI extends PluginAbstract {
     }
 
     static function getTokenForVideo($videos_id, $ai_responses_id, $param){
+        global $global;
         $obj = new stdClass();
         $obj->videos_id = $videos_id;
         $obj->users_id = User::getId();
@@ -186,6 +188,28 @@ class AI extends PluginAbstract {
         $obj->created = time();
 
         return encryptString(_json_encode($obj));
+    }
+
+    
+    static function getTokenFromRequest(){
+
+        if(empty($_REQUEST['token'])){
+            return false;
+        }
+
+        $string = decryptString($_REQUEST['token']);
+        
+        if(empty($string)){
+            return false;
+        }
+
+        $json = _json_decode($string);
+
+        if(empty($json)){
+            return false;
+        }
+        
+        return $json;
     }
 
     static function getLowerMP3($videos_id){

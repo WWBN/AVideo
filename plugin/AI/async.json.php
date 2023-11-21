@@ -38,6 +38,7 @@ if ($obj->error) {
 
 $json = $obj->response;
 $json['AccessToken'] = $objAI->AccessToken;
+$json['isTest'] = AI::$isTest?1:0;
 //echo json_encode($obj);exit;
 
 if (empty($json['AccessToken'])) {
@@ -50,6 +51,9 @@ $o->setVideos_id($videos_id);
 $Ai_responses_id = $o->save();
 
 $json['token'] = AI::getTokenForVideo($videos_id, $Ai_responses_id, $param);
+$json['webSiteRootURL'] = $global['webSiteRootURL'];
+$json['PlatformId'] = getPlatformId();
+$json['videos_id'] = $videos_id;
 
 $content = postVariables($aiURL, $json, false, 600);
 $jsonDecoded = json_decode($content);
