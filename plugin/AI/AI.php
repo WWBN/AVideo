@@ -15,6 +15,7 @@ class AI extends PluginAbstract {
     static $url_test = 'http://192.168.0.2:81/AI/';
 
     static function getMetadataURL(){
+        self::$isTest = ($_SERVER["SERVER_NAME"] == "vlu.me");
         return self::$isTest?self::$url_test:self::$url;
     }
 
