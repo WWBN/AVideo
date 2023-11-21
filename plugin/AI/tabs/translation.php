@@ -106,7 +106,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                 });
             } catch (error) {
                 console.error("Error in processing language:", langArrayItem, error);
-                break; // If you want to stop processing further languages upon error
+                //break; // If you want to stop processing further languages upon error
             }
         }
 
