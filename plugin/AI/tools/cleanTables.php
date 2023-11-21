@@ -12,7 +12,6 @@ if (empty($isCDNEnabled)) {
     return die('Plugin disabled');
 }
 
-
 echo PHP_EOL . " Start! " . PHP_EOL;
 
 AI:: deleteAllRecords();
