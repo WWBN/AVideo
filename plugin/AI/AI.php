@@ -177,6 +177,17 @@ class AI extends PluginAbstract {
         return $obj;
     }
 
+    static function getTokenForVideo($videos_id, $ai_responses_id, $param){
+        $obj = new stdClass();
+        $obj->videos_id = $videos_id;
+        $obj->users_id = User::getId();
+        $obj->ai_responses_id = $ai_responses_id;
+        $obj->param = $param;
+        $obj->created = time();
+
+        return encryptString(_json_encode($obj));
+    }
+
     static function getLowerMP3($videos_id){
         $convert = convertVideoToMP3FileIfNotExists($videos_id);
         if(!empty($convert) && !empty($convert['url'])){
