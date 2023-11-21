@@ -384,7 +384,7 @@ class Layout extends PluginAbstract
         if ($getAll) {
             $flags = self::getAllFlags();
         } else {
-            $flags = self::getAvilableFlags();
+            $flags = self::getAvailableFlags();
         }
         if (empty($id)) {
             $id = uniqid();
