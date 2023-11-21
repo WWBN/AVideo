@@ -47,9 +47,9 @@ if (empty($json['AccessToken'])) {
 
 $o = new Ai_responses(0);
 $o->setVideos_id($videos_id);
-$jsonDecoded->Ai_responses = $o->save();
+$Ai_responses_id = $o->save();
 
-$json['token'] = AI::getTokenForVideo($videos_id, $jsonDecoded->Ai_responses, $param);
+$json['token'] = AI::getTokenForVideo($videos_id, $Ai_responses_id, $param);
 
 $content = postVariables($aiURL, $json, false, 600);
 $jsonDecoded = json_decode($content);
@@ -73,7 +73,7 @@ if (empty($jsonDecoded)) {
 $jsonDecoded->aiURL = $aiURL;
 
 
-$o = new Ai_responses($jsonDecoded->Ai_responses);
+$o = new Ai_responses($Ai_responses_id);
 $o->setElapsedTime($jsonDecoded->elapsedTime);
 $o->setPrice($jsonDecoded->payment->howmuch);
 $jsonDecoded->Ai_responses = $o->save();
