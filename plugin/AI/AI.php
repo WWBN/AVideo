@@ -231,4 +231,18 @@ class AI extends PluginAbstract {
         }
     }
 
+
+    static function deleteAllRecords()
+    {
+        $tables = array('ai_transcribe_responses', 'ai_metatags_responses', 'ai_responses');
+        foreach ($tables as $key => $value) {
+            $sql = "DELETE FROM {$value} ";
+            $sql .= " WHERE id > 0 ";
+            $global['lastQuery'] = $sql;
+            sqlDAL::writeSql($sql);
+        }
+        
+        return true;
+    }
+
 }
