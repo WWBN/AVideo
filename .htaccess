@@ -91,6 +91,10 @@ Options All -Indexes
     RewriteEngine on
     #VideoHLS for DRM
 
+    # Check if .php version of the .json file exists
+    RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+    RewriteRule ^(.+)\.json$ /$1.php [L]
+
     RewriteRule    ^buy/?  plugin/YPTWallet/buy.php [NC,L,QSA]
     RewriteRule    ^id/?  view/id.php [NC,L,QSA]
     RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
