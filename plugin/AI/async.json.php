@@ -21,7 +21,7 @@ if (!Video::canEdit($videos_id)) {
 }
 
 $aiURL = AI::getMetadataURL();
-$aiURL = "{$aiURL}async.json";
+$aiURL = "{$aiURL}async.json.php";
 $param = array();
 if (!_empty($_REQUEST['translation'])) {
     $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang']);

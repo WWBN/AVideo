@@ -82,7 +82,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
             try {
                 await new Promise((resolve, reject) => {
                     $.ajax({
-                        url: webSiteRootURL + 'plugin/AI/async.json',
+                        url: webSiteRootURL + 'plugin/AI/async.json.php',
                         data: {
                             videos_id: <?php echo $videos_id; ?>,
                             translation: 1,
