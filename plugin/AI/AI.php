@@ -6,10 +6,9 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_responses.php';
 require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_metatags_responses.php';
 require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_transcribe_responses.php';
 
-
 class AI extends PluginAbstract {
     
-    static $isTest = true;
+    static $isTest = $_SERVER["SERVER_NAME"] === "vlu.me";
     static $url = 'https://ai.ypt.me/';
     static $url_test = 'http://192.168.0.2:81/AI/';
 
