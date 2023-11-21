@@ -338,7 +338,7 @@ class Layout extends PluginAbstract
         return self::getSelectSearchable($icons, $name, $selected, $id, $class . " iconSelect", true);
     }
 
-    static function getAvilableFlags()
+    static function getAvailableFlags()
     {
         global $global;
         $flags = array();
