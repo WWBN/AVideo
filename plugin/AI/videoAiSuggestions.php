@@ -26,6 +26,8 @@ $_page = new Page(['Video Metatags']);
         border: 2px solid #CCC;
         padding: 2px;
         border-radius: 2px;
+        max-height: 200px;
+        overflow: auto;
     }
 
     .aiItem .save-btn {
