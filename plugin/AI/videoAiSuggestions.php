@@ -26,6 +26,9 @@ $_page = new Page(['Video Metatags']);
         border: 2px solid #CCC;
         padding: 2px;
         border-radius: 2px;
+    }
+    
+    #responsesT-list > tbody > tr > td > div{
         max-height: 200px;
         overflow: auto;
     }
