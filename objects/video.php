@@ -2191,6 +2191,34 @@ if (!class_exists('Video')) {
             }
         }
 
+        public static function getDistinctVideoTypes()
+{
+    global $global;
+
+    // SQL query to select distinct types from the videos table
+    $sql = "SELECT DISTINCT v.`type` FROM videos as v";
+
+    // Execute the SQL query
+    $res = sqlDAL::readSql($sql);
+    $fullData = sqlDAL::fetchAllAssoc($res);
+    sqlDAL::close($res);
+
+    // Initialize an array to store the distinct video types
+    $videoTypes = [];
+
+    // Check if the query execution was successful
+    if ($res !== false) {
+        foreach ($fullData as $row) {
+            // Add the video type to the array
+            $videoTypes[] = $row['type'];
+        }
+    } 
+
+    // Return the array containing distinct video types
+    return $videoTypes;
+}
+
+
         /**
          * Same as getAllVideos() method but a lighter query
          * @global array $global

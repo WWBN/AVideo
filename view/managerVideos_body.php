@@ -447,7 +447,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></a></li>
                         <?php
-                        foreach (Video::$typeOptions as $value) {
+                        foreach (Video::getDistinctVideoTypes() as $value) {
                             $text = __($value);
                             echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
                         }
