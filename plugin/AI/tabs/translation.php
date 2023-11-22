@@ -116,6 +116,31 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         modalContinueAISuggestions.hidePleaseWait();
     }
 
+    function getProgress(lang){
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/progress.json.php',
+            data: {
+                type: '<?php echo AI::$typeTranslation; ?>',
+                lang: lang,
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            success: function(response) {
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                    modal.hidePleaseWait();
+                } else {
+                    avideoToast(__("Your register has been saved!"));
+                    if (ai_metatags_responses_id) {
+                        loadTitleDescription();
+                    } else {
+                        loadAITranscriptions();
+                    }
+                }
+            }
+        });
+    }
+
     $(document).ready(function() {
         // Search filter
         $("#searchInput").on("keyup", function() {

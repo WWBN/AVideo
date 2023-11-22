@@ -35,7 +35,7 @@ if (empty($json['AccessToken'])) {
 $json['PlatformId'] = getPlatformId();
 $json['videos_id'] = $videos_id;
 $json['lang'] = $_REQUEST['lang'];
-$json['type'] = 'translation';
+$json['type'] = $_REQUEST['type'];
 
 $content = postVariables($aiURL, $json, false, 600);
 

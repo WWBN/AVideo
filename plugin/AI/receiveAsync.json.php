@@ -28,7 +28,7 @@ $jsonDecoded->error = true;
 $jsonDecoded->msg = '';
 
 _error_log('Start line='.__LINE__);
-if ($_REQUEST['type']=='translation' && !empty($_REQUEST['response']['vtt'])) {
+if ($_REQUEST['type']==AI::$typeTranslation && !empty($_REQUEST['response']['vtt'])) {
     _error_log('Start line='.__LINE__);
     //$jsonDecoded->lines[] = __LINE__;
     $o = new Ai_transcribe_responses(0);

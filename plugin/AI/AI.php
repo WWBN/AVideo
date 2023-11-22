@@ -10,6 +10,10 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_transcribe_respon
 
 class AI extends PluginAbstract {
     
+    static $typeTranslation = 'translation';
+    static $typeTranscription = 'transcription';
+    static $typeBasic = 'basic';
+
     static $isTest = 0;
     static $url = 'https://ai.ypt.me/';
     static $url_test = 'http://192.168.0.2:81/AI/';
@@ -91,7 +95,7 @@ class AI extends PluginAbstract {
 
         //var_dump($paths);exit;
         $obj->response = array(
-            'type' => 'translation',
+            'type' => AI::$typeTranslation,
             'vtt' => $paths['url'],
             'lang' => $lang,
             'langName' => $langName

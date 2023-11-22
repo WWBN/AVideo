@@ -109,7 +109,7 @@ if (!empty($jsonDecoded->Ai_responses)) {
                 $jsonDecoded->vttsaved = file_put_contents($paths['path'], $jsonDecoded->transcribe->vtt);
             }
         }
-    } else  if ($jsonDecoded->type=='translation' && !empty($jsonDecoded->response->response)) {
+    } else  if ($jsonDecoded->type==AI::$typeTranslation && !empty($jsonDecoded->response->response)) {
         //$jsonDecoded->lines[] = __LINE__;
         $o = new Ai_transcribe_responses(0);
         $o->setVtt($jsonDecoded->response->response->vtt);
