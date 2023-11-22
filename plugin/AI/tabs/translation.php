@@ -9,33 +9,18 @@ $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
 $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
-
-$currentLangCodes = AI::getVTTLanguageCodes($videos_id);
 ?>
-
+<style>
+    .langButton {
+        cursor: pointer;
+    }
+</style>
 <div class="panel panel-default">
     <div class="panel-heading">
         <input class="form-control" id="searchInput" type="text" placeholder="Search Languages...">
     </div>
     <div class="panel-body" style="max-height: calc(100vh - 300px); overflow: auto;">
         <form id="languagesForm">
-            <?php
-            foreach ($global['langs_codes'] as $key => $value) {
-                echo '<div class="checkbox">';
-                if(in_array($value['value'], $currentLangCodes)){
-                    echo "<i class=\"fa-regular fa-square-check\"></i> <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}";
-                }else{
-                    $checked = isset($_COOKIE['lang_' . $value['value']]) && $_COOKIE['lang_' . $value['value']] == 'true' ? 'checked' : '';
-                    echo "  <label>
-                                <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
-                                <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
-                            </label>
-                            <span id=\"progress{$value['value']}\" class=\"badge\" style=\"display:none;\">...</span>";
-                }
-                
-                echo '</div>';
-            }
-            ?>
         </form>
     </div>
     <div class="panel-footer">
@@ -57,6 +42,34 @@ $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
 
 <script>
     var hasTranscriptionRecord = false;
+
+    function deleteLang(key) {
+        avideoConfirm('Delete This Lang file?').then(response => {
+            if (response) {
+                modal.showPleaseWait();
+                $.ajax({
+                    url: webSiteRootURL + 'plugin/AI/deleteLang.json.php',
+                    data: {
+                        key: key,
+                        videos_id: <?php echo $videos_id; ?>
+                    },
+                    type: 'post',
+                    success: function(response) {
+                        if (response.error) {
+                            avideoAlertError(response.msg);
+                        } else {
+                            console.log(response);
+                        }
+                        loadLangs();
+                        modal.hidePleaseWait();
+                    }
+                });
+            } else {
+                return false;
+            }
+        });
+
+    }
 
     function sortCheckboxes() {
         var $form = $('#languagesForm');
@@ -105,7 +118,11 @@ $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
                         type: 'post',
                         success: function(response) {
                             if (response.error) {
-                                avideoToastWarning(response.msg);
+                                if(response.alert){
+                                    avideoAlertError(response.msg);
+                                }else{
+                                    avideoToastWarning(response.msg);
+                                }
                                 reject(response.msg);
                             } else {
                                 avideoToast(response.msg);
@@ -161,16 +178,22 @@ $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
         });
     }
 
-
-    $(document).ready(function() {
-        // Search filter
-        $("#searchInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#languagesForm div").filter(function() {
-                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-            });
+    function loadLangs() {
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/tabs/langs.php',
+            data: {
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            success: function(response) {
+                $('#languagesForm').html(response);
+                processLangCheckboxes();
+            }
         });
-        // Save checkbox state
+    }
+
+
+    function processLangCheckboxes(){
         $('.languageCheckbox').on('change', function() {
             var langCode = $(this).data('lang-code');
             var isChecked = $(this).is(':checked');
@@ -181,5 +204,17 @@ $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
             sortCheckboxes(); // Call the sorting function
         });
         sortCheckboxes();
+    }
+
+
+    $(document).ready(function() {
+        // Search filter
+        $("#searchInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#languagesForm div").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+        loadLangs();
     });
 </script>

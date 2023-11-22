@@ -1211,7 +1211,7 @@ function avideoAlertOnceADay(title, msg, type, uid) {
 
 async function avideoConfirm(msg) {
     var span = document.createElement("span");
-    span.innerHTML = msg;
+    span.innerHTML = __(msg);
     var response = await swal({
         title: 'Confrim',
         content: span,
@@ -1245,12 +1245,21 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
-    var options = { text: msg, hideAfter: 7000 };
+    // Average reading speed: around 200 words per minute (or 3.3 words per second)
+    var wordsPerSecond = 2;
+    var words = msg.split(' ').length;
+    var readingTimeInSeconds = words / wordsPerSecond;
+
+    // Convert reading time to milliseconds and add a buffer time
+    var displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
+
+    var options = { text: msg, hideAfter: displayTime };
     if (icon) {
         options.icon = icon;
     }
     $.toast(options);
 }
+
 function avideoToast(msg) {
     _avideoToast(msg, null);
 }
