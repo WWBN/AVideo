@@ -22,12 +22,14 @@
                 } else {
 
                     var columnOrder = [
+                        'type',
                         'sortDate',
                         'price',
                         'videos_id',
                     ];
 
                     var columnHeaders = {
+                        'type': 'type',
                         'sortDate': 'When',
                         'price': 'Cost',
                         'videos_id': 'Video ID',

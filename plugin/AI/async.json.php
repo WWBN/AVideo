@@ -45,15 +45,30 @@ if (empty($json['AccessToken'])) {
     forbiddenPage('Invalid AccessToken');
 }
 
+$json['webSiteRootURL'] = $global['webSiteRootURL'];
+$json['PlatformId'] = getPlatformId();
+$json['videos_id'] = $videos_id;
+
+$aiURLProgress = AI::getMetadataURL();
+$aiURLProgress = "{$aiURLProgress}progress.json.php";
+
+$content = postVariables($aiURLProgress, $json, false, 600);
+$jsonProgressDecoded = json_decode($content);
+if(empty($jsonProgressDecoded->canRequestNew)){    
+    $obj = new stdClass();
+    $obj->error = true;
+    //$obj->jsonProgressDecoded = $jsonProgressDecoded;
+    //$obj->aiURLProgress = $aiURLProgress;
+    $obj->msg = $jsonProgressDecoded->msg;
+    die(json_encode($obj));
+}
+
 
 $o = new Ai_responses(0);
 $o->setVideos_id($videos_id);
 $Ai_responses_id = $o->save();
 
 $json['token'] = AI::getTokenForVideo($videos_id, $Ai_responses_id, $param);
-$json['webSiteRootURL'] = $global['webSiteRootURL'];
-$json['PlatformId'] = getPlatformId();
-$json['videos_id'] = $videos_id;
 
 $content = postVariables($aiURL, $json, false, 600);
 $jsonDecoded = json_decode($content);

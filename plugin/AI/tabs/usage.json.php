@@ -26,6 +26,12 @@ $obj->response = Ai_responses::getAllFromVideo($videos_id);
 foreach ($obj->response as $key => $value) {
     $obj->response[$key]['total_price'] = YPTWallet::formatCurrency($value['total_price']);
     $obj->response[$key]['price'] = YPTWallet::formatCurrency($value['price']);
+    $obj->response[$key]['type'] = __('Undefined');
+    if(!empty($value['ai_transcribe_responses_id'])){
+        $obj->response[$key]['type'] = __('Translation').'/'.__('Transcription')." {$value['language']}";
+    }else if(!empty($value['ai_metatags_responses_id'])){
+        $obj->response[$key]['type'] = __('Basic')." Metatags";
+    }
 }
 
 $obj->error = empty($obj->response) && !is_array($obj->response);
