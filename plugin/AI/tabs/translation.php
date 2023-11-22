@@ -69,7 +69,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
     function getTranslationCheckedValues() {
         var checkedValues = $('#languagesForm input[type="checkbox"]:checked').map(function() {
-            return [$(this).data('lang-code'), $(this).val()];
+            return {code:$(this).data('lang-code'), name:$(this).val()};
         }).get();
 
         return (checkedValues);
@@ -80,6 +80,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         modalContinueAISuggestions.showPleaseWait();
 
         for (let langArrayItem of langArray) {
+            console.log(langArrayItem);
             try {
                 await new Promise((resolve, reject) => {
                     $.ajax({
@@ -87,8 +88,8 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         data: {
                             videos_id: <?php echo $videos_id; ?>,
                             translation: 1,
-                            lang: langArrayItem[0],
-                            langName: langArrayItem[1]
+                            lang: langArrayItem.code,
+                            langName: langArrayItem.name
                         },
                         type: 'post',
                         success: function(response) {
