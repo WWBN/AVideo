@@ -23,7 +23,7 @@ if (!Video::canEdit($videos_id)) {
 $aiURL = AI::getMetadataURL();
 
 if (!_empty($_REQUEST['translation'])) {
-    $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang']);
+    $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang'], $_REQUEST['langName']);
 } else if (_empty($_REQUEST['transcription'])) {
     $obj = AI::getVideoBasicMetadata($videos_id);
 } else {

@@ -64,7 +64,7 @@ class AI extends PluginAbstract {
         return $obj;
     }
 
-    static function getVideoTranslationMetadata($videos_id, $lang){
+    static function getVideoTranslationMetadata($videos_id, $lang, $langName){
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -93,7 +93,8 @@ class AI extends PluginAbstract {
         $obj->response = array(
             'type' => 'translation',
             'vtt' => $paths['url'],
-            'lang' => $lang
+            'lang' => $lang,
+            'langName' => $langName
         );
 
         $obj->error = false;

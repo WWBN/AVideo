@@ -22,9 +22,10 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                 $checked = isset($_COOKIE['lang_' . $value['value']]) && $_COOKIE['lang_' . $value['value']] == 'true' ? 'checked' : '';
                 echo "<div class=\"checkbox\">
                               <label>
-                                  <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" {$checked}>
+                                  <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
                                   <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
                               </label>
+                              <span id=\"progress{$value['value']}\"></span>
                           </div>";
             }
             ?>
@@ -68,7 +69,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
     function getTranslationCheckedValues() {
         var checkedValues = $('#languagesForm input[type="checkbox"]:checked').map(function() {
-            return $(this).data('lang-code'); // Or any other attribute you want to retrieve
+            return [$(this).data('lang-code'), $(this).val()];
         }).get();
 
         return (checkedValues);
@@ -86,7 +87,8 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         data: {
                             videos_id: <?php echo $videos_id; ?>,
                             translation: 1,
-                            lang: langArrayItem
+                            lang: langArrayItem[0],
+                            langName: langArrayItem[1]
                         },
                         type: 'post',
                         success: function(response) {

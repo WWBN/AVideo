@@ -24,7 +24,7 @@ $aiURL = AI::getMetadataURL();
 $aiURL = "{$aiURL}async.json.php";
 $param = array();
 if (!_empty($_REQUEST['translation'])) {
-    $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang']);
+    $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang'], $_REQUEST['langName']);
     $param['lang'] = $_REQUEST['lang'];
 } else if (_empty($_REQUEST['transcription'])) {
     $obj = AI::getVideoBasicMetadata($videos_id);
