@@ -79,6 +79,7 @@ $_page = new Page(['Video Metatags']);
                         <li class="active"><a data-toggle="tab" href="#pbasic"><i class="fa-solid fa-lightbulb"></i> <?php echo __("Basic"); ?></a></li>
                         <li><a data-toggle="tab" href="#pTranscription"><i class="fas fa-microphone-alt"></i> <?php echo __("Transcription"); ?></a></li>
                         <li><a data-toggle="tab" href="#pUsage"><i class="fas fa-receipt"></i> <?php echo __("Usage"); ?></a></li>
+                        <li><a data-toggle="tab" href="#pPP"><i class="fas fa-file-contract"></i> <?php echo __("Prices, Privacy Policy"); ?></a></li>
                     </ul>
                 </div>
                 <div class="panel-body">
@@ -96,6 +97,11 @@ $_page = new Page(['Video Metatags']);
                         <div id="pUsage" class="tab-pane fade ">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/usage.php';
+                            ?>
+                        </div>
+                        <div id="pPP" class="tab-pane fade ">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/privacyPolicy.php';
                             ?>
                         </div>
                     </div>
@@ -276,6 +282,7 @@ $_page = new Page(['Video Metatags']);
             }
         });
     }
+
 
     $(document).ready(function() {
 
