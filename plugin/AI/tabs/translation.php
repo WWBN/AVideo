@@ -98,12 +98,13 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         type: 'post',
                         success: function(response) {
                             if (response.error) {
-                                avideoAlertError(response.msg);
+                                avideoToastError(response.msg);
                                 reject(response.msg);
                             } else {
                                 avideoToast(response.msg);
                                 resolve();
                             }
+                            getProgress(langArrayItem.code);
                         },
                         error: function(xhr, status, error) {
                             avideoAlertError("AJAX request failed: " + error);
