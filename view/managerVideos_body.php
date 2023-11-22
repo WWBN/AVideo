@@ -440,16 +440,16 @@ require_once $global['systemRootPath'] . 'objects/video.php';
             <div class="btn-group pull-right" id="filterTypeButtonsVideoManager">
                 <div class="btn-group ">
                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                        <span class="activeFilter"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></span> <span class="caret"></span></button>
+                        <span class="activeTypeFilter"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></span> <span class="caret"></span></button>
                     <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                        <li><a href="#" onclick="filterType = ''; $('.activeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Types'); ?>');
+                        <li><a href="#" onclick="filterType = ''; $('.activeTypeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Types'); ?>');
                                 $('.tooltip').tooltip('hide');
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></a></li>
                         <?php
                         foreach (Video::getDistinctVideoTypes() as $value) {
                             $text = __($value);
-                            echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                            echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeTypeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
                         }
                         ?>
                     </ul>
