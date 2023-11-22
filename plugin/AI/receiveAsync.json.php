@@ -46,7 +46,8 @@ if ($_REQUEST['type']==AI::$typeTranslation && !empty($_REQUEST['response']['vtt
         //$jsonDecoded->lines[] = __LINE__;
         $paths = Ai_transcribe_responses::getVTTPaths($token->videos_id, $_REQUEST['response']['lang']);
         $jsonDecoded->vttsaved = file_put_contents($paths['path'], $_REQUEST['response']['vtt']);
-        Video::clearCache($token->videos_id);
+        //Video::clearCache($token->videos_id);
+        clearCache();
     }
     
     $jsonDecoded->error = false;
