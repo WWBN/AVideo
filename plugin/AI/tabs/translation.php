@@ -25,7 +25,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                                   <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
                                   <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
                               </label>
-                              <span id=\"progress{$value['value']}\"></span>
+                              <span id=\"progress{$value['value']}\" class=\"badge\">...</span>
                           </div>";
             }
             ?>
@@ -59,6 +59,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         // Append checked checkboxes at the beginning of the form
         checkedCheckboxes.forEach(function(checkbox) {
             $form.prepend(checkbox);
+            getProgress($(checkbox).find('input').data('lang-code'));
         });
 
         // Append unchecked checkboxes after the checked ones
@@ -69,7 +70,10 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
     function getTranslationCheckedValues() {
         var checkedValues = $('#languagesForm input[type="checkbox"]:checked').map(function() {
-            return {code:$(this).data('lang-code'), name:$(this).val()};
+            return {
+                code: $(this).data('lang-code'),
+                name: $(this).val()
+            };
         }).get();
 
         return (checkedValues);
@@ -115,8 +119,13 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
         modalContinueAISuggestions.hidePleaseWait();
     }
+    var progressTimeouts = {}; // Object to store timeouts for each language
 
-    function getProgress(lang){
+    function getProgress(lang) {
+        // Clear existing timeout for this language, if it exists
+        if (progressTimeouts[lang]) {
+            clearTimeout(progressTimeouts[lang]);
+        }
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/progress.json.php',
             data: {
@@ -127,19 +136,22 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
             type: 'post',
             success: function(response) {
                 if (response.error) {
-                    avideoAlertError(response.msg);
-                    modal.hidePleaseWait();
+                    //avideoAlertError(response.msg);
                 } else {
-                    avideoToast(__("Your register has been saved!"));
-                    if (ai_metatags_responses_id) {
-                        loadTitleDescription();
-                    } else {
-                        loadAITranscriptions();
+                    console.log(response);
+                    $('#progress' + response.lang).html(response.log.progress_text);
+
+                    if (response.timeout) {
+                        // Set a new timeout for this language
+                        progressTimeouts[lang] = setTimeout(function() {
+                            getProgress(lang);
+                        }, response.timeout);
                     }
                 }
             }
         });
     }
+
 
     $(document).ready(function() {
         // Search filter

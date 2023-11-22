@@ -132,7 +132,7 @@ class AI extends PluginAbstract {
         $paths = Ai_transcribe_responses::getVTTPaths($videos_id);
         //var_dump($paths);exit;
         $obj->response = array(
-            'type' => 'basic',
+            'type' => AI::$typeBasic,
             'filename' => $filename,
             'videos_id' => $videos_id,
             'title' => strip_tags($video->getTitle()),
@@ -173,7 +173,7 @@ class AI extends PluginAbstract {
 
         //var_dump($paths);exit;
         $obj->response = array(
-            'type' => 'transcription',
+            'type' => AI::$typeTranscription,
             'videos_id' => $videos_id,
             'mp3' => $mp3,
             'filesize' => $fsize,

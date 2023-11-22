@@ -70,7 +70,7 @@ $o->setPrice($jsonDecoded->payment->howmuch);
 $jsonDecoded->Ai_responses = $o->save();
 
 if (!empty($jsonDecoded->Ai_responses)) {
-    if ($jsonDecoded->type=='basic' && !empty($jsonDecoded->response->response)) {
+    if ($jsonDecoded->type==AI::$typeBasic && !empty($jsonDecoded->response->response)) {
         //$jsonDecoded->lines[] = __LINE__;
         $o = new Ai_metatags_responses(0);
         $o->setVideoTitles($jsonDecoded->response->response->videoTitles);
@@ -87,7 +87,7 @@ if (!empty($jsonDecoded->Ai_responses)) {
         $o->setPrice_completion_tokens($jsonDecoded->response->price_completion_tokens);
         $o->setAi_responses_id($jsonDecoded->Ai_responses);
         $jsonDecoded->Ai_metatags_responses = $o->save();
-    } else  if ($jsonDecoded->type=='transcription' && !empty($jsonDecoded->transcribe)) {
+    } else  if ($jsonDecoded->type==AI::$typeTranscription && !empty($jsonDecoded->transcribe)) {
         //$jsonDecoded->lines[] = __LINE__;
         $o = new Ai_transcribe_responses(0);
         $o->setVtt($jsonDecoded->transcribe->vtt);
