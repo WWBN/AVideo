@@ -98,7 +98,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         type: 'post',
                         success: function(response) {
                             if (response.error) {
-                                avideoToastError(response.msg);
+                                avideoToastWarning(response.msg);
                                 reject(response.msg);
                             } else {
                                 avideoToast(response.msg);
