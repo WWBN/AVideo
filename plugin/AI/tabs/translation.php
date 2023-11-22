@@ -23,7 +23,7 @@ $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
             foreach ($global['langs_codes'] as $key => $value) {
                 echo '<div class="checkbox">';
                 if(in_array($value['value'], $currentLangCodes)){
-                    echo "<i class=\"fa-regular fa-square-check\"></i><i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}";
+                    echo "<i class=\"fa-regular fa-square-check\"></i> <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}";
                 }else{
                     $checked = isset($_COOKIE['lang_' . $value['value']]) && $_COOKIE['lang_' . $value['value']] == 'true' ? 'checked' : '';
                     echo "  <label>
