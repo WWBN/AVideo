@@ -17,9 +17,7 @@ if (!AVideoPlugin::isEnabledByName('AI')) {
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
-
 $video = new Video('', '', $videos_id);
-
 $_page = new Page(['Video Metatags']);
 ?>
 <style>

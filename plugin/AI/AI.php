@@ -287,4 +287,22 @@ class AI extends PluginAbstract {
         return true;
     }
 
+    static function getVTTLanguageCodes($videos_id) {
+        $video = new Video('', '', $videos_id);
+        $dir = getVideosDir().DIRECTORY_SEPARATOR.$video->getFilename();
+        $languageCodes = [];
+        $filePattern = '/video_[\w\d]+\.([\w\d_]+)\.vtt$/';
+    
+        if (is_dir($dir) && ($handle = opendir($dir))) {
+            while (false !== ($entry = readdir($handle))) {
+                if (is_file($dir . '/' . $entry) && preg_match($filePattern, $entry, $matches)) {
+                    $languageCodes[] = $matches[1]; // Add the language code to the array
+                }
+            }
+            closedir($handle);
+        }
+    
+        return array_unique($languageCodes); // Return unique language codes
+    }
+
 }

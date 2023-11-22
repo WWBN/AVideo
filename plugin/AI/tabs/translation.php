@@ -9,6 +9,8 @@ $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
 $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
+
+$currentLangCodes = AI::getVTTLanguageCodes($videos_id);
 ?>
 
 <div class="panel panel-default">
@@ -19,14 +21,19 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         <form id="languagesForm">
             <?php
             foreach ($global['langs_codes'] as $key => $value) {
-                $checked = isset($_COOKIE['lang_' . $value['value']]) && $_COOKIE['lang_' . $value['value']] == 'true' ? 'checked' : '';
-                echo "<div class=\"checkbox\">
-                              <label>
-                                  <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
-                                  <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
-                              </label>
-                              <span id=\"progress{$value['value']}\" class=\"badge\" style=\"display:none;\">...</span>
-                          </div>";
+                echo '<div class="checkbox">';
+                if(in_array($value['value'], $currentLangCodes)){
+                    echo "<i class=\"fa-regular fa-square-check\"></i><i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}";
+                }else{
+                    $checked = isset($_COOKIE['lang_' . $value['value']]) && $_COOKIE['lang_' . $value['value']] == 'true' ? 'checked' : '';
+                    echo "  <label>
+                                <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
+                                <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
+                            </label>
+                            <span id=\"progress{$value['value']}\" class=\"badge\" style=\"display:none;\">...</span>";
+                }
+                
+                echo '</div>';
             }
             ?>
         </form>
