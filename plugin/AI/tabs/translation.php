@@ -25,7 +25,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                                   <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
                                   <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> {$value['label']}
                               </label>
-                              <span id=\"progress{$value['value']}\" class=\"badge\">...</span>
+                              <span id=\"progress{$value['value']}\" class=\"badge\" style=\"display:none;\">...</span>
                           </div>";
             }
             ?>
@@ -139,7 +139,8 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     //avideoAlertError(response.msg);
                 } else {
                     console.log(response);
-                    $('#progress' + response.lang).html(response.log.progress_text);
+                    $('#progress' + response.lang).show();
+                    $('#progress' + response.lang).html(response.msg);
 
                     if (response.timeout) {
                         // Set a new timeout for this language
