@@ -130,6 +130,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 </style>
 <script>
     var filterStatus = '';
+    var filterType = '';
     var filterCategory = '';
 </script>
 <div class="container-fluid">
@@ -432,6 +433,25 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                                 $('.tooltip').tooltip('hide');
                                 $('#grid').bootgrid('reload');
                                 return false;"><i class="fas fa-lock" ></i> <?php echo __('Password Protected'); ?></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="btn-group pull-right" id="filterTypeButtonsVideoManager">
+                <div class="btn-group ">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        <span class="activeFilter"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></span> <span class="caret"></span></button>
+                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                        <li><a href="#" onclick="filterType = ''; $('.activeFilter').html('<i class=\'fas fa-icons\'></i> <?php echo __('All Types'); ?>');
+                                $('.tooltip').tooltip('hide');
+                                $('#grid').bootgrid('reload');
+                                return false;"><i class="fas fa-icons"></i> <?php echo __('All Types'); ?></a></li>
+                        <?php
+                        foreach (Video::$typeOptions as $value) {
+                            $text = __($value);
+                            echo PHP_EOL . '<li><a href="#" onclick="filterType=\'' . $value . '\'; $(\'.activeFilter\').html(\'' . addcslashes($text, "'") . '\'); $(\'.tooltip\').tooltip(\'hide\');$(\'#grid\').bootgrid(\'reload\');return false;">' . $text . '</a></li>';
+                        }
+                        ?>
                     </ul>
                 </div>
             </div>
@@ -1684,6 +1704,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             var url = webSiteRootURL + "objects/videos.json.php";
             url = addQueryStringParameter(url, 'showAll', 1);
             url = addQueryStringParameter(url, 'status', filterStatus);
+            url = addQueryStringParameter(url, 'type', filterType);
             url = addQueryStringParameter(url, 'catName', filterCategory);
             $('.searchFieldsNames:checked').each(function(index) {
                 url = addGetParam(url, 'searchFieldsNames[' + index + ']', $(this).val());

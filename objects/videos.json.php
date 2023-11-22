@@ -35,11 +35,11 @@ if (!empty($_REQUEST['status'])) {
     }
 }
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-
-$videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, [], false, $showUnlisted, $activeUsersOnly);
+//getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+$videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, [], false, $showUnlisted, $activeUsersOnly, false, null, @$_REQUEST['type']);
 resetCurrentPage();
 //var_dump($videos);exit;
-$total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly);
+$total = Video::getTotalVideos($status, $showOnlyLoggedUserVideos, true, $showUnlisted, $activeUsersOnly, false, @$_REQUEST['type']);
 resetCurrentPage();
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
 foreach ($videos as $key => $value) {
