@@ -27,7 +27,7 @@ $_page = new Page(['Video Metatags']);
         padding: 2px;
         border-radius: 2px;
     }
-    
+
     #responsesT-list > tbody > tr > td > div{
         max-height: 200px;
         overflow: auto;
@@ -35,6 +35,11 @@ $_page = new Page(['Video Metatags']);
 
     .aiItem .save-btn {
         margin: 2px 0;
+    }
+    #pPP iframe{
+        width: 100%;
+        min-height: 75vh;
+        border: none;
     }
 </style>
 <div class="container-fluid">
@@ -103,9 +108,7 @@ $_page = new Page(['Video Metatags']);
                             ?>
                         </div>
                         <div id="pPP" class="tab-pane fade ">
-                            <?php
-                            include $global['systemRootPath'] . 'plugin/AI/tabs/privacyPolicy.php';
-                            ?>
+                            <iframe src="https://youphp.tube/marketplace/AI/privacyPolicy.php"></iframe>
                         </div>
                     </div>
                 </div>
