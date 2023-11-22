@@ -305,4 +305,9 @@ class AI extends PluginAbstract {
         return array_unique($languageCodes); // Return unique language codes
     }
 
+    public function getFooterCode() {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/AI/footer.php';
+    }
+
 }

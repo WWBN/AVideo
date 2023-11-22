@@ -52,7 +52,7 @@ if ($_REQUEST['type']==AI::$typeTranslation && !empty($_REQUEST['response']['vtt
     
     $jsonDecoded->error = false;
     //$jsonDecoded->lines[] = __LINE__;
-    sendSocketMessageToUsers_id('You received a new translation '.$_REQUEST['response']['lang'], $token->users_id);
+    sendSocketMessageToUsers_id('You received a new translation '.$_REQUEST['response']['lang'], $token->users_id, 'aiNewTranslationAvailable');
 }
 
 _error_log(json_encode($jsonDecoded));
