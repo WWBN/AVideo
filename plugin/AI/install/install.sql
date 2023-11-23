@@ -42,7 +42,7 @@ ENGINE = InnoDB;
 
 CREATE TABLE IF NOT EXISTS `ai_transcribe_responses` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `vtt` TEXT NULL,
+  `vtt` MEDIUMTEXT NULL,
   `language` VARCHAR(150) NULL,
   `duration` DOUBLE NULL,
   `text` TEXT NULL,

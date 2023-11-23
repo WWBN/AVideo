@@ -1,0 +1,1 @@
+ALTER TABLE `ai_transcribe_responses` MODIFY `vtt` MEDIUMTEXT NULL;
