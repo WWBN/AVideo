@@ -4,7 +4,7 @@ $filename = $video->getFilename();
 //var_dump($filename);exit;
 $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 //echo $vttfile;
-$hasTranscriptionFile = file_exists($vttfile);
+$hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
