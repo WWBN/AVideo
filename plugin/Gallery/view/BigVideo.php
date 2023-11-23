@@ -176,7 +176,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             }
                                             ?>
                                             <?php
-                                            if (!empty($advancedCustom->showChannelNameOnVideoItem) && $showChannel) {
+                                            if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
                                             ?>
                                                 <div>
                                                     <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
