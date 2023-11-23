@@ -168,10 +168,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 }
                                             }
                                             ?>
+                                            <?php
+                                            if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
+                                            ?>
                                             <div>
                                                 <i class="far fa-clock"></i>
                                                 <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true,true); ?>
                                             </div>
+                                            <?php
+                                            }
+                                            ?>
                                             <div>
                                                 <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
                                                     <i class="fa fa-user"></i>
