@@ -9,6 +9,9 @@ if (empty($videos_id)) {
 }
 $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
 foreach ($global['langs_codes'] as $key => $value) {
+    if(!preg_match('/^[a-z]{2}(_[a-z]{2})?$/i', $value['value'])){
+        continue;
+    }
     echo '<div class="checkbox">';
     if (in_array($value['value'], $currentLangCodes)) {
         echo "<i class=\"fa-regular fa-square-check langButton\" onclick=\"deleteLang($key);\"></i> <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> [{$value['value']}] {$value['label']}";
