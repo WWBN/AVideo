@@ -20,7 +20,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $class = 'carousel slide';
         $classInner = 'carousel-inner';
     }
-    ?>
+?>
     <style>
         #bigVideoCarousel .carousel-indicators .active {
             border-color: #777 !important;
@@ -31,16 +31,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         <div id="bigVideoCarousel" class="<?php echo $class; ?> " data-ride="carousel">
             <?php
             if (count($videoRows) > 1) {
-                ?>
+            ?>
                 <!-- Indicators -->
                 <ol class="carousel-indicators" style="bottom: -25px;">
                     <?php
                     for ($i = 0; $i < count($videoRows); $i++) {
-                        ?><li data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $i === 0 ? "active" : ""; ?>" style="border-color: #DDD;"></li><?php
-                    }
-                    ?>
+                    ?><li data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $i === 0 ? "active" : ""; ?>" style="border-color: #DDD;"></li><?php
+                                                                                                                                                                                }
+                                                                                                                                                                                    ?>
                 </ol>
-                <?php
+            <?php
             }
             ?>
             <!-- Wrapper for slides -->
@@ -74,7 +74,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                     if ($isserie) {
                         $isserieClass = "isserie";
                     }
-                    ?>
+                ?>
                     <div class="item <?php echo $count === 1 ? "active" : ""; ?>">
                         <div class="clear clearfix">
                             <div class="row thumbsImage">
@@ -84,7 +84,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                     ?>
                                     <?php
                                     if (!empty($program) && $videoRow['type'] == 'serie' && !empty($videoRow['serie_playlists_id'])) {
-                                        ?>
+                                    ?>
                                         <div class="gallerySerieOverlay">
                                             <div class="gallerySerieOverlayTotal">
                                                 <?php
@@ -103,10 +103,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                 </div>
                                 <div class="<?php echo $colClass2; ?>">
                                     <div class="<?php echo $colClass3; ?>">
-                                        <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" 
-                                           href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" 
-                                           embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" 
-                                           title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 200)); ?>">
+                                        <a class="h6 galleryLink <?php echo $isserieClass; ?>" videos_id="<?php echo $videoRow['id']; ?>" href="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], false, $get); ?>" embed="<?php echo Video::getLink($videoRow['id'], $videoRow['clean_title'], true, $get); ?>" title="<?php echo htmlentities(getSEOTitle($videoRow['title'], 200)); ?>">
                                             <h2 style="margin: 5px 0; padding: 5px 0;"><?php echo getSEOTitle($videoRow['title']); ?></h2>
                                         </a>
                                         <div class="descriptionArea">
@@ -126,13 +123,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                             <div class="galleryTags">
                                                 <?php
                                                 if (empty($_REQUEST['catName']) && !empty($obj->showCategoryTag)) {
-                                                    ?>
-                                                    <a class="label label-default" href="<?php echo "{$global['webSiteRootURL']}cat/{$videoRow['clean_category']}"; ?>"  data-toggle="tooltip" title="<?php echo $videoRow['category']; ?>">
+                                                ?>
+                                                    <a class="label label-default" href="<?php echo "{$global['webSiteRootURL']}cat/{$videoRow['clean_category']}"; ?>" data-toggle="tooltip" title="<?php echo $videoRow['category']; ?>">
                                                         <?php
                                                         if (!empty($videoRow['iconClass'])) {
-                                                            ?>
+                                                        ?>
                                                             <i class="<?php echo $videoRow['iconClass']; ?>"></i>
-                                                            <?php
+                                                        <?php
                                                         }
                                                         ?>
                                                         <?php echo $videoRow['category']; ?>
@@ -144,12 +141,12 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                     if (!empty($videoRow['tags'])) {
                                                         foreach ($videoRow['tags'] as $value2) {
                                                             if (!empty($value2->label) && $value2->label === __("Group")) {
-                                                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                                ?>
+                                                ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
+                                                                                                                                                        }
+                                                                                                                                                    }
+                                                                                                                                                }
+                                                                                                                                            }
+                                                                                                                                                            ?>
                                             </div>
 
                                             <?php
@@ -157,33 +154,39 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 if (AVideoPlugin::isEnabledByName('LiveUsers')) {
                                                     echo getLiveUsersLabelVideo($videoRow['id'], $videoRow['views_count'], "", "");
                                                 } else {
-                                                    ?>
+                                            ?>
                                                     <div>
                                                         <i class="fa fa-eye"></i>
                                                         <span itemprop="interactionCount">
                                                             <?php echo number_format($videoRow['views_count'], 0); ?> <?php echo __("Views"); ?>
                                                         </span>
                                                     </div>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
                                             <?php
                                             if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
                                             ?>
-                                            <div>
-                                                <i class="far fa-clock"></i>
-                                                <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true,true); ?>
-                                            </div>
+                                                <div>
+                                                    <i class="far fa-clock"></i>
+                                                    <?php echo humanTiming(strtotime($videoRow['videoCreation']), 0, true, true); ?>
+                                                </div>
                                             <?php
                                             }
                                             ?>
-                                            <div>
-                                                <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
-                                                    <i class="fa fa-user"></i>
-                                                    <?php echo $name; ?>
-                                                </a>
-                                            </div>
+                                            <?php
+                                            if (!empty($advancedCustom->showChannelNameOnVideoItem) && $showChannel) {
+                                            ?>
+                                                <div>
+                                                    <a href="<?php echo User::getChannelLink($videoRow['users_id']); ?>">
+                                                        <i class="fa fa-user"></i>
+                                                        <?php echo $name; ?>
+                                                    </a>
+                                                </div>
+                                            <?php
+                                            }
+                                            ?>
                                             <?php if (Video::canEdit($videoRow['id'])) { ?>
                                                 <button type="button" class="btn-link" onclick="avideoModalIframe(webSiteRootURL + 'view/managerVideosLight.php?avideoIframe=1&videos_id=<?php echo $videoRow['id']; ?>');return false;">
                                                     <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
@@ -201,9 +204,9 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                 @$timesG[__LINE__] += microtime(true) - $startG;
                                                 $startG = microtime(true);
                                                 if (!empty($files['mp4']) || !empty($files['mp3'])) {
-                                                    ?>
+                                            ?>
                                                     <div style="position: relative; overflow: visible;">
-                                                        <button type="button" class="btn btn-default btn-sm btn-xs"  data-toggle="dropdown">
+                                                        <button type="button" class="btn btn-default btn-sm btn-xs" data-toggle="dropdown">
                                                             <i class="fa fa-download"></i> <?php echo __('Download'); ?> <span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu" role="menu">
@@ -214,7 +217,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                                     continue;
                                                                 }
                                                                 $path_parts = pathinfo($theLink['filename']);
-                                                                ?>
+                                                            ?>
                                                                 <li>
                                                                     <a href="<?php echo $theLink['url']; ?>?download=1&title=<?php echo urlencode($videoRow['title'] . "_{$key}_.{$path_parts['extension']}"); ?>">
                                                                         <?php echo __("Download"); ?> <?php echo $key; ?>
@@ -224,7 +227,7 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                             ?>
                                                         </ul>
                                                     </div>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
@@ -237,15 +240,15 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                             </div>
                         </div>
                     </div>
-                    <?php
+                <?php
                 }
                 ?>
             </div>
         </div>
     </div>
-    <?php
+<?php
 } else if (!empty($_GET['showOnly'])) {
-    ?>
+?>
     <a href="<?php echo getHomePageURL(); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
-    <?php
+<?php
 }
