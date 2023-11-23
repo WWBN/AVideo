@@ -127,12 +127,10 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     var columnCalbackFunctions = <?php echo json_encode($columnCalbackFunctions); ?>;
                     var selector = '#responsesT-list';
                     processAIResponse(selector, response, columnOrder, columnHeaders, columnCalbackFunctions);
-                    if (empty(response.response)) {
-                        $('#transcriptionFooter').slideDown();
-                    }
                     if (response.vttFileExists) {
                         $('body').addClass('vttFileExists');
                     } else {
+                        $('#transcriptionFooter').slideDown();
                         $('body').removeClass('vttFileExists');
                     }
                 }
