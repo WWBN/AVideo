@@ -67,6 +67,17 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
                     </button>
                 <?php
+                }else{
+                    if($mp3fileExists){
+                        echo '<!-- mp3fileExists -->';
+                    }else{                        
+                        echo '<!-- mp3fileExists == false -->';
+                    }
+                    if($hasTranscriptionFile){
+                        echo '<!-- hasTranscriptionFile -->';
+                    }else{                        
+                        echo '<!-- hasTranscriptionFile == false -->';
+                    }
                 }
                 ?>
             </div>
