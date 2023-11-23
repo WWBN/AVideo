@@ -10,7 +10,7 @@ $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
 $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
-var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
+//var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
 ?>
 <style>
     .vttFileExists #pTranscription .save-btn,
