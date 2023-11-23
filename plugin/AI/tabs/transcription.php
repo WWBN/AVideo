@@ -9,7 +9,6 @@ $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
 $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
-var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));
 ?>
 <style>
     .vttFileExists #pTranscription .save-btn,
@@ -41,6 +40,7 @@ var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));
             </div>
             <div class="panel-footer" id="transcriptionFooter" style="display: none;">
                 <?php
+                var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));
                 echo '<div class="container-fluid">';
                 if (AVideoPlugin::isEnabledByName('SubtitleSwitcher')) {
                     if ($video->getType() != Video::$videoTypeVideo) {
