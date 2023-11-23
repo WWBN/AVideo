@@ -23,7 +23,7 @@ $obj->response = Ai_responses::getAllTranscriptionFromVideo($videos_id);
 
 $paths = Ai_transcribe_responses::getVTTPaths($obj->videos_id);
 $file = $paths['path'];
-$obj->vttFileExists = file_exists($file);
+$obj->vttFileExists = file_exists($file) && filesize($file) > 20;
 
 foreach ($obj->response as $key => $value) {
     $obj->response[$key]['size'] = humanFileSize($value['size_in_bytes']);
