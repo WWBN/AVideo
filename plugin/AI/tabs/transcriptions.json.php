@@ -15,6 +15,7 @@ if (!AVideoPlugin::isEnabledByName('AI')) {
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+setRowCount(100);
 setDefaultSort('created', 'DESC');
 $obj = new stdClass();
 $obj->msg = '';
