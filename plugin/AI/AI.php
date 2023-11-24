@@ -44,7 +44,7 @@ class AI extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.0";
+        return "4.0";
     }
 
     public function getEmptyDataObject() {

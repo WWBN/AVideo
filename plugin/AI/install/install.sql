@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS `ai_transcribe_responses` (
   `vtt` MEDIUMTEXT NULL,
   `language` VARCHAR(150) NULL,
   `duration` DOUBLE NULL,
-  `text` TEXT NULL,
+  `text` MEDIUMTEXT NULL,
   `total_price` DOUBLE NULL,
   `size_in_bytes` INT NULL,
   `mp3_url` VARCHAR(400) NULL,
