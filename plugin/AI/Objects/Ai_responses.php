@@ -89,7 +89,7 @@ class Ai_responses extends ObjectYPT
         $sql = "SELECT amr.*, ar.created as sortDate
         FROM ai_metatags_responses amr
         JOIN ai_responses ar ON amr.ai_responses_id = ar.id
-        WHERE ar.videos_id = ?";
+        WHERE ar.videos_id = ?  LIMIT 100";
 
         $sql .= self::getSqlFromPost();
         //var_dump($sql);
@@ -128,7 +128,7 @@ class Ai_responses extends ObjectYPT
         $sql = "SELECT atr.*, ar.created as sortDate
         FROM ai_transcribe_responses atr
         JOIN ai_responses ar ON atr.ai_responses_id = ar.id
-        WHERE ar.videos_id = ? ";
+        WHERE ar.videos_id = ? LIMIT 100";
 
         $sql .= self::getSqlFromPost();
         //var_dump($sql);
@@ -183,7 +183,7 @@ class Ai_responses extends ObjectYPT
             RIGHT JOIN
                 ai_transcribe_responses AS t ON r.id = t.ai_responses_id
             WHERE
-                r.videos_id = ?";
+                r.videos_id = ?  LIMIT 100";
 
         $sql .= self::getSqlFromPost();
         //var_dump($sql);
