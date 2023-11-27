@@ -205,7 +205,7 @@ class VideoStatistic extends ObjectYPT {
             }
             if (!empty($ip)) {
                 $conditions[] = " ip = ? ";
-                $formats .= '2';
+                $formats .= 's';
                 $params[] = $ip;
             }
             if(!empty($conditions)){
