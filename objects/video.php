@@ -1807,7 +1807,7 @@ if (!class_exists('Video')) {
                 TimeLogEnd($timeLogName, __LINE__, 0.2);
 
                 $allowedDurationTypes = ['video', 'audio'];
-
+                $users_id = User::getId();
                 /**
                  *
                  * @var array $global
@@ -1833,9 +1833,14 @@ if (!class_exists('Video')) {
                     }
                     $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
                     $row = self::getInfo($row, $getStatistcs);
+                   
                     if ($getStatistcs) {
                         $row = self::getInfoPersonal($row);
-                    } else {
+                    }                     
+                    if(!empty($users_id)){                    
+                        TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
+                        $row['progress'] = self::getVideoPogressPercent($row['id'], $users_id);
+                    }else {
                         $row['progress'] = ['percent' => 0, 'lastVideoTime' => 0, 'duration' => $row['duration_in_seconds']];
                     }
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
@@ -2024,8 +2029,6 @@ if (!class_exists('Video')) {
             } else {
                 $row['video_password'] = empty($rowOriginal['video_password']) ? '' : $rowOriginal['video_password'];
             }
-            TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-            $row['progress'] = self::getVideoPogressPercent($row['id']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['isFavorite'] = self::isFavorite($row['id']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
@@ -6014,7 +6017,7 @@ if (!class_exists('Video')) {
                 $plans = $sub->getPlansFromVideo($videos_id);
                 if (!empty($plans)) {
                     $obj->plugin = 'Subscription';
-                    $obj->buyURL = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php?videos_id={$videos_id}";
+                    $obj->buyURL = Subscription::getBuyURL($videos_id);
                     $obj->canVideoBePurchased = true;
                     return $obj;
                 }
@@ -6023,16 +6026,7 @@ if (!class_exists('Video')) {
             // check for PPV plugin
             if (AVideoPlugin::isEnabledByName('PayPerView')) {
                 if (PayPerView::isVideoPayPerView($videos_id) || $obj->onlyPlayVideosWithPayPerViewActive) {
-                    $url = "{$global['webSiteRootURL']}plugin/PayPerView/page/buy.php";
-                    if (isSerie()) {
-                        $redirectUri = getSelfURI();
-                    } else {
-                        $redirectUri = getRedirectToVideo($videos_id);
-                    }
-                    if (!empty($redirectUri)) {
-                        $url = addQueryStringParameter($url, 'redirectUri', $redirectUri);
-                    }
-                    $url = addQueryStringParameter($url, 'videos_id', $videos_id);
+                    $url = PayPerView::getBuyURL($videos_id);
                     $obj->plugin = 'PayPerView';
                     $obj->buyURL = $url;
                     $obj->canVideoBePurchased = true;

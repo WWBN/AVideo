@@ -90,11 +90,11 @@ if (empty($_SESSION['addViewCount'][$_REQUEST['id']]['time'])) {
 }
 
 if (isset($_REQUEST['currentTime'])) {
-    $currentTime = intval($_REQUEST['currentTime']);
-    if ($currentTime < 0) {
-        $currentTime = 0;
+    $obj2->currentTime = intval($_REQUEST['currentTime']);
+    if ($obj2->currentTime < 0) {
+        $obj2->currentTime = 0;
     }
-    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $currentTime, $seconds_watching_video);
+    $resp = VideoStatistic::updateStatistic($obj->getId(), User::getId(), $obj2->currentTime, $obj2->seconds_watching_video);
 } else {
     $resp = 0;
 }

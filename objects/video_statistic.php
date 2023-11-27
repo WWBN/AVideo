@@ -95,26 +95,38 @@ class VideoStatistic extends ObjectYPT {
     }
 
     public static function updateStatistic($videos_id, $users_id, $lastVideoTime, $seconds_watching_video = 0) {
+        //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
         if(isBot()){
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             return false;
         }
         $lastStatistic = self::getLastStatistics($videos_id, $users_id, getRealIpAddr(), session_id());
         if (empty($lastStatistic)) {
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $vs = new VideoStatistic(0);
             $vs->setUsers_id($users_id);
             $vs->setVideos_id($videos_id);
             $vs->setWhen(date("Y-m-d h:i:s"));
         } else {
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $vs = new VideoStatistic($lastStatistic['id']);
             $elapsedTime = time() - $vs->created_php_time;
             if ($seconds_watching_video > $elapsedTime) {
                 $seconds_watching_video = $elapsedTime;
             }
         }
-        $vs->setLastVideoTime($lastVideoTime);
+        if(empty($lastVideoTime) && empty($seconds_watching_video) && !empty($lastStatistic)){
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
+            // do not save because there is already a record and it is saving 0
+        }else{
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
+            $vs->setLastVideoTime($lastVideoTime);
+        }
+        //var_dump($lastVideoTime);exit;
         $vs->setIp(getRealIpAddr());
 
         if (!empty($seconds_watching_video) && $seconds_watching_video > 0) {
+            //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
             $totalVideoWatched = $vs->getSeconds_watching_video() + $seconds_watching_video;
             //_error_log("updateStatistic: add more [$seconds_watching_video] to video [$videos_id] " . get_browser_name());
             $vs->setSeconds_watching_video($totalVideoWatched);
@@ -124,6 +136,7 @@ class VideoStatistic extends ObjectYPT {
             //$totalVideoSeconds = timeToSeconds($hms);
             //Video::addViewPercent();
         }
+        //error_log("updateStatistic: videos_id=$videos_id lastVideoTime=$lastVideoTime, seconds_watching_video=$seconds_watching_video line=" . __LINE__);
         //if($videos_id==4){ _error_log("updateStatistic $videos_id, $users_id, $lastVideoTime, $seconds_watching_video ".json_encode($lastStatistic));}
         $id = $vs->save();
         /*
@@ -176,19 +189,23 @@ class VideoStatistic extends ObjectYPT {
         $params = [];
     
         $sql .= " AND videos_id = ? AND ";
+        $formats = 'i';
         $params[] = $videos_id;
 
         if (!empty($users_id)) {
             $sql .= " users_id = ? ";
+            $formats .= 'i';
             $params[] = $users_id;
         } else{
             $sql .= " users_id IS NULL ";
             if (!empty($session_id)) {
                 $conditions[] = "session_id = ? ";
+                $formats .= 's';
                 $params[] = $session_id;
             }
             if (!empty($ip)) {
                 $conditions[] = " ip = ? ";
+                $formats .= '2';
                 $params[] = $ip;
             }
             if(!empty($conditions)){
@@ -200,7 +217,7 @@ class VideoStatistic extends ObjectYPT {
 
         $sql .= " ORDER BY id DESC LIMIT 1";
     
-        $res = sqlDAL::readSql($sql, str_repeat('s', count($params)), $params, true);
+        $res = sqlDAL::readSql($sql, $formats, $params, true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
     

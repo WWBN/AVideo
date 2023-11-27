@@ -383,6 +383,7 @@ abstract class ObjectYPT implements ObjectInterface
             }
             $sql .= " VALUES (" . implode(", ", $fields) . ")";
         }
+        //error_log("save: $sql [$formats]".json_encode($values));
         //var_dump(static::getTableName(), $sql, $values);
         //if(static::getTableName() == 'videos'){ echo $sql;var_dump($values); var_dump(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));}//return false;
         //echo $sql;var_dump($this, $values);exit;
@@ -402,6 +403,7 @@ abstract class ObjectYPT implements ObjectInterface
             return $id;
         } else {
             _error_log("ObjectYPT::Error on save 1: " . $sql . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error . ' ' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)), AVideoLog::$ERROR);
+            _error_log("ObjectYPT::Error on save 2: " .json_encode($values), AVideoLog::$ERROR);
             return false;
         }
     }
