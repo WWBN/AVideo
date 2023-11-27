@@ -114,12 +114,18 @@ $metaDescription = __("Trending");
                                                     <?php echo number_format_short($value['views_count']); ?> <?php echo __("Views"); ?>
                                                 </span>
                                             </div>
-                                        <?php }
+                                        <?php 
+                                        }
+                                        if (!empty($advancedCustom->showCreationTimeOnVideoItem)) {
                                         ?>
                                         <div>
                                             <i class="far fa-clock"></i>
                                             <?php echo humanTiming(strtotime($value['videoCreation']), 0, true, true); ?>
                                         </div>
+                                        <?php 
+                                        }
+                                        if (!empty($advancedCustom->showChannelNameOnVideoItem)) {
+                                        ?>
                                         <div>
                                             <a href="<?php echo User::getChannelLink($value['users_id']); ?>">
                                                 <i class="fa fa-user"></i>
@@ -129,7 +135,9 @@ $metaDescription = __("Trending");
                                                 <button type="button" data-trigger="focus" class="label label-danger" data-toggle="popover" data-placement="top" data-html="true" title="<?php echo $value['title']; ?>" data-content="<div> <?php echo str_replace('"', '&quot;', $value['description']); ?> </div>" ><?php echo __("Description"); ?></button>
                                             <?php } ?>
                                         </div>
-                                        <?php if (Video::canEdit($value['id'])) { ?>
+                                        <?php 
+                                        }
+                                        if (Video::canEdit($value['id'])) { ?>
                                             <div>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos?video_id=<?php echo $value['id']; ?>">
                                                     <i class="fa fa-edit"></i> <?php echo __("Edit Video"); ?>
