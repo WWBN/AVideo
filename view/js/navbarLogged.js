@@ -268,4 +268,8 @@ $(document).ready(function () {
     } else {
         YPTSidebarClose();
     }
+    
+    setTimeout(function () {
+        flickityReload();
+    }, 5000);
 });
