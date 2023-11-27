@@ -7,6 +7,13 @@ if (!isCommandLineInterface()) {
 }
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
-$filename = '_YPTuniqid_5f80cfc9990a82.31784835';
-$size = YPTStorage::getUsageFromFilename($filename);
-var_dump($size, humanFileSize($size));
+
+$videos_id = getVideos_id();
+
+if(empty($videos_id)){
+    die('No videos ID');
+}
+
+$resp = VideoStatistic::getLastStatistics(getVideos_id(), User::getId());
+
+var_dump($resp);
