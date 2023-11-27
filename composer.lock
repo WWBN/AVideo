@@ -227,16 +227,16 @@
         },
         {
             "name": "aws/aws-crt-php",
-            "version": "v1.2.3",
+            "version": "v1.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/awslabs/aws-crt-php.git",
-                "reference": "5545a4fa310aec39f54279fdacebcce33b3ff382"
+                "reference": "eb0c6e4e142224a10b08f49ebf87f32611d162b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/5545a4fa310aec39f54279fdacebcce33b3ff382",
-                "reference": "5545a4fa310aec39f54279fdacebcce33b3ff382",
+                "url": "https://api.github.com/repos/awslabs/aws-crt-php/zipball/eb0c6e4e142224a10b08f49ebf87f32611d162b2",
+                "reference": "eb0c6e4e142224a10b08f49ebf87f32611d162b2",
                 "shasum": ""
             },
             "require": {
@@ -275,22 +275,22 @@
             ],
             "support": {
                 "issues": "https://github.com/awslabs/aws-crt-php/issues",
-                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.3"
+                "source": "https://github.com/awslabs/aws-crt-php/tree/v1.2.4"
             },
-            "time": "2023-10-16T20:10:06+00:00"
+            "time": "2023-11-08T00:42:13+00:00"
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.287.0",
+            "version": "3.289.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "06978bfc63111fccd78b364238bf214b4ade8d18"
+                "reference": "c8aafbfb34e33b8fb002f2f81c241c1df3a82b54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/06978bfc63111fccd78b364238bf214b4ade8d18",
-                "reference": "06978bfc63111fccd78b364238bf214b4ade8d18",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/c8aafbfb34e33b8fb002f2f81c241c1df3a82b54",
+                "reference": "c8aafbfb34e33b8fb002f2f81c241c1df3a82b54",
                 "shasum": ""
             },
             "require": {
@@ -370,9 +370,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.287.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.289.0"
             },
-            "time": "2023-11-17T20:03:36+00:00"
+            "time": "2023-11-27T03:48:32+00:00"
         },
         {
             "name": "brick/math",
@@ -2347,16 +2347,16 @@
         },
         {
             "name": "phpmailer/phpmailer",
-            "version": "v6.8.1",
+            "version": "v6.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHPMailer/PHPMailer.git",
-                "reference": "e88da8d679acc3824ff231fdc553565b802ac016"
+                "reference": "039de174cd9c17a8389754d3b877a2ed22743e18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/e88da8d679acc3824ff231fdc553565b802ac016",
-                "reference": "e88da8d679acc3824ff231fdc553565b802ac016",
+                "url": "https://api.github.com/repos/PHPMailer/PHPMailer/zipball/039de174cd9c17a8389754d3b877a2ed22743e18",
+                "reference": "039de174cd9c17a8389754d3b877a2ed22743e18",
                 "shasum": ""
             },
             "require": {
@@ -2376,6 +2376,7 @@
                 "yoast/phpunit-polyfills": "^1.0.4"
             },
             "suggest": {
+                "decomplexity/SendOauth2": "Adapter for using XOAUTH2 authentication",
                 "ext-mbstring": "Needed to send email in multibyte encoding charset or decode encoded addresses",
                 "ext-openssl": "Needed for secure SMTP sending and DKIM signing",
                 "greew/oauth2-azure-provider": "Needed for Microsoft Azure XOAUTH2 authentication",
@@ -2415,7 +2416,7 @@
             "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
             "support": {
                 "issues": "https://github.com/PHPMailer/PHPMailer/issues",
-                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.8.1"
+                "source": "https://github.com/PHPMailer/PHPMailer/tree/v6.9.1"
             },
             "funding": [
                 {
@@ -2423,7 +2424,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-08-29T08:26:30+00:00"
+            "time": "2023-11-25T22:23:28+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -3997,16 +3998,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.3.0",
+            "version": "v13.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "58d0e126670d43808ef4a814b40a2864bca788e5"
+                "reference": "ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/58d0e126670d43808ef4a814b40a2864bca788e5",
-                "reference": "58d0e126670d43808ef4a814b40a2864bca788e5",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1",
+                "reference": "ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1",
                 "shasum": ""
             },
             "require": {
@@ -4050,9 +4051,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.3.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.4.0"
             },
-            "time": "2023-11-09T21:21:22+00:00"
+            "time": "2023-11-21T20:08:15+00:00"
         },
         {
             "name": "symfony/console",
