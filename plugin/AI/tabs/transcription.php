@@ -5,6 +5,7 @@ $filename = $video->getFilename();
 $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
+$hasTranscriptionFile = false;
 $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
@@ -95,7 +96,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
     var hasTranscriptionRecord = false;
 
     async function generateAITranscription() {
-        await createAISuggestions(true);
+        await createAISuggestions('<?php echo AI::$typeTranscription; ?>');
         loadAITranscriptions();
         loadAIUsage();
 

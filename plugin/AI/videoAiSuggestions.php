@@ -208,14 +208,14 @@ $_page = new Page(['Video Metatags']);
         }
     }
 
-    async function createAISuggestions(transcription) {
+    async function createAISuggestions(type) {
         return new Promise((resolve, reject) => {
             modalContinueAISuggestions.showPleaseWait();
             $.ajax({
-                url: webSiteRootURL + 'plugin/AI/',
+                url: webSiteRootURL + 'plugin/AI/async.json.php',
                 data: {
                     videos_id: <?php echo $videos_id; ?>,
-                    transcription: transcription
+                    type: type
                 },
                 type: 'post',
                 success: function(response) {

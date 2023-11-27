@@ -1245,6 +1245,9 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
+    if(empty(msg)){
+        msg = '';
+    }
     // Average reading speed: around 200 words per minute (or 3.3 words per second)
     var wordsPerSecond = 2;
     var words = msg.split(' ').length;

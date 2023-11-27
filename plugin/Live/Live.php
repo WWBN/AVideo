@@ -64,7 +64,7 @@ class Live extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "11.1";
+        return "11.2";
     }
 
     public function updateScript() {
@@ -206,6 +206,14 @@ class Live extends PluginAbstract {
         }
         if (AVideoPlugin::compareVersion($this->getName(), "11.1") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.1.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "11.2") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV11.2.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -1681,6 +1689,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $url = addQueryStringParameter($url, 'playlists_id_live', $_REQUEST['playlists_id_live']);
         }
 
+        //var_dump($url, $channelName, $live_servers_id, $live_index, $live_schedule_id);
         //return "{$global['webSiteRootURL']}plugin/Live/?live_servers_id={$live_servers_id}&c=" . urlencode($channelName);
         return $url;
     }

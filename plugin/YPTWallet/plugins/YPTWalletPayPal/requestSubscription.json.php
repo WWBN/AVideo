@@ -45,7 +45,7 @@ if (!empty($payment)) {
     }
     $obj->error = false;
     $obj->approvalLink = $payment->getApprovalLink();
-    $url = "{$global['webSiteRootURL']}plugin/Subscription/showPlans.php";
+    $url = Subscription::getBuyURL(); 
     YPTWallet::setAddFundsSuccessRedirectURL($url);
 }
 die(json_encode($obj));

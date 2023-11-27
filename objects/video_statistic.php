@@ -173,7 +173,7 @@ class VideoStatistic extends ObjectYPT {
                 $this->id = $row['id'];
             }
         }
-
+        
         return parent::save();
     }
 

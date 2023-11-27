@@ -113,7 +113,8 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                             videos_id: <?php echo $videos_id; ?>,
                             translation: 1,
                             lang: langArrayItem.code,
-                            langName: langArrayItem.name
+                            langName: langArrayItem.name,
+                            type: '<?php echo AI::$typeTranslation; ?>'
                         },
                         type: 'post',
                         success: function(response) {

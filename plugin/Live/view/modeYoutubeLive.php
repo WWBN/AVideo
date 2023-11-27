@@ -32,7 +32,15 @@ if (empty($livet['live_schedule'])) {
 }
 
 if (!$lt->userCanSeeTransmition()) {
-    forbiddenPage("You are not allowed see this streaming");
+    $url = "{$global['webSiteRootURL']}buy";
+    if (empty($livet['live_schedule'])) {
+        $url = addQueryStringParameter($url, 'live_transmitions_id', $livet['id']);
+    } else {
+        $url = addQueryStringParameter($url, 'live_schedule',$livet['id']);
+    }
+    header("Location: {$url}");
+    exit;
+    //forbiddenPage("You are not allowed see this streaming");
 }
 
 $uuid = LiveTransmition::keyNameFix($livet['key']);

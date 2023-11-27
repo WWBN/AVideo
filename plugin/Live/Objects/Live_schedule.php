@@ -19,6 +19,7 @@ class Live_schedule extends ObjectYPT
     protected $showOnTV;
     protected $scheduled_password;
     protected $users_id_company;
+    protected $json;
 
     public static function getSearchFieldsNames()
     {
@@ -36,6 +37,54 @@ class Live_schedule extends ObjectYPT
 
     function setUsers_id_company($users_id_company): void {
         $this->users_id_company = intval($users_id_company);
+    }
+
+    function getJson(){
+        return $this->json;
+    }
+
+    function setJson($json){
+        if(!is_string($json)){
+            $json = _json_encode($json);
+        }
+        $this->json = $json;
+    }
+
+
+    function getUserGroups(){
+        $content = $this->getJson();
+        if(empty($content)){
+            return array();
+        }else{
+            $json = _json_decode($content);
+            if(empty($json)){
+                return array();
+            }else{
+                $json = object_to_array($json);
+                if(isset($json['usergoups'])){
+                    return $json['usergoups'];
+                } else{
+                    return array();
+                }
+            } 
+        }        
+    }
+
+    function setUserGroups($usergroups){
+        $content = $this->getJson();
+        if(empty($content)){
+            $json = array();
+        }else{
+            $json = _json_decode($content);
+            if(empty($json)){
+                $json = array();
+            }else{
+                $json = object_to_array($json);
+            } 
+        } 
+        
+        $json['usergoups'] = $usergroups;
+        $this->setJson($json);
     }
 
     public static function getAllUsers()
@@ -156,6 +205,14 @@ class Live_schedule extends ObjectYPT
                 //var_dump($row['secondsIntervalHuman']);exit;
                 $row['posterURL'] = self::getPosterURL($row['id']);
                 $row['serverURL'] = Live::getServerURL($row['key'], $row['users_id']);
+                if(empty($row['json'])){
+                    $row['json'] = array();
+                }else{
+                    $row['json'] = object_to_array(_json_decode($row['json']));
+                }
+                if(empty($row['json']['usergoups'])){
+                    $row['json']['usergoups'] = array();
+                }
 
                 $rows[] = $row;
             }
@@ -467,13 +524,14 @@ class Live_schedule extends ObjectYPT
         if(!empty($password) && !Live::passwordIsGood($this->getKey())){
             return false;
         }
-         *
-         */
         $ltRow = LiveTransmition::getFromDbByUser($this->getUsers_id());
         $lt = new LiveTransmition($ltRow['id']);
         $transmitionGroups = $lt->getGroups();
+         *
+         */
+        $transmitionGroups = $this->getUserGroups();
         if (!empty($transmitionGroups)) {
-            _error_log('LiveSchedule::userCanSeeTransmition usergroup not empty '.$ltRow['id'].' - '.json_encode($transmitionGroups));
+            _error_log('LiveSchedule::userCanSeeTransmition usergroup not empty - '.json_encode($transmitionGroups));
             if (empty($this->id)) {
                 return false;
             }

@@ -26,7 +26,7 @@
 
 <script>
     async function generateAIIdeas() {
-        await createAISuggestions(false);
+        await createAISuggestions('<?php echo AI::$typeBasic; ?>');
         loadAIBasic();
         loadAIUsage();
     }

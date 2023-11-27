@@ -241,6 +241,7 @@ class LiveTransmition extends ObjectYPT {
         if ($res != false) {
             $user = $data;
             $user['live_schedule'] = $live_schedule_id;
+            $user['json'] = object_to_array(_json_decode($user['json']));
         } else {
             $user = false;
         }
@@ -362,17 +363,10 @@ class LiveTransmition extends ObjectYPT {
         if (User::isAdmin()) {
             return true;
         }
-        /*
-          $password = $this->getPassword();
-          if(!empty($password) && !Live::passwordIsGood($this->getKey())){
-          return false;
-          }
-         *
-         */
 
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
-            _error_log('LiveTransition::userCanSeeTransmition usergroup not empty');
+            _error_log('LiveTransmition::userCanSeeTransmition usergroup not empty '.json_encode($transmitionGroups));
             if (empty($this->id)) {
                 return false;
             }

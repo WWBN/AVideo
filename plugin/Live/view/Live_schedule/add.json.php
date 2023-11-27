@@ -43,6 +43,13 @@ $o->setScheduled_password(@$_POST['scheduled_password']);
 //$o->setSaveTransmition($_POST['saveTransmition']);
 //$o->setShowOnTV($_POST['showOnTV']);
 
+
+if(empty($_REQUEST['userGroupsSchedule']) || !is_array($_REQUEST['userGroupsSchedule'])){
+    $o->setUserGroups(array());
+}else{
+    $o->setUserGroups($_REQUEST['userGroupsSchedule']);
+}
+
 if(!empty($_REQUEST['users_id_company'])){
     $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
     $users_id_list = array();
@@ -60,7 +67,5 @@ if ($id = $o->save()) {
 } else {
     $obj->msg = __('Error on save')." {$_POST['title']}";
 }
-
-
 
 echo json_encode($obj);
