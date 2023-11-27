@@ -3,7 +3,7 @@
 require_once '../videos/configuration.php';
 AVideoPlugin::loadPlugin('YPTStorage');
 if (!isCommandLineInterface()) {
-    return die('Command Line only');
+    //return die('Command Line only');
 }
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
