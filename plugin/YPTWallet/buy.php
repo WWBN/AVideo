@@ -48,7 +48,7 @@ $_page->setExtraStyles(array('plugin/YPTWallet/buy.css'));
 $paymentOptions = array();
 $paymentPanel = array();
 
-$giftObj = AVideoPlugin::getDataObjectIfEnabled('Gift');
+$giftObj = AVideoPlugin::getDataObject('Gift');
 
 // PayPerView
 $name = 'PayPerView';
