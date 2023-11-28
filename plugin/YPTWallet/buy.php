@@ -48,7 +48,7 @@ $_page->setExtraStyles(array('plugin/YPTWallet/buy.css'));
 $paymentOptions = array();
 $paymentPanel = array();
 
-$giftObj = AVideoPlugin::getDataObject('Gift');
+$giftObj = AVideoPlugin::getDataObjectIfEnabled('Gift');
 
 // PayPerView
 $name = 'PayPerView';
@@ -95,7 +95,7 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'price' => $value['value'],
                 'link' => $link,
                 'plans_id' => $value['id'],
-                'type' => Gift::$Type_PPV_Code,
+                'type' => 'p',
                 'users_groups_ids' => $users_groups_ids,
                 'userGroupsMatch' => User::userGroupsMatch($users_groups_ids)
             );
@@ -160,7 +160,7 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'price' => $plan->getPrice(),
                 'link' => $link,
                 'plans_id' => $value['subscriptions_plans_id'],
-                'type' => Gift::$Type_Subscription_Code,
+                'type' => 's',
                 'users_groups_ids' => $users_groups_ids,
                 'userGroupsMatch' => User::userGroupsMatch($users_groups_ids)
             );
