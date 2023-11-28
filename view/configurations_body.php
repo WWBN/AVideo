@@ -537,7 +537,7 @@ if (User::isAdmin()) {
                                                 <label class="col-md-4 control-label"><?php echo __("SMTP Secure"); ?></label>
                                                 <div class="col-md-8">
                                                     <select id="smtpSecure" class="form-control" aria-describedby="smtpSecureHelp">
-                                                        <option value="" <?php empty($config->getSmtpSecure()) ? 'selected' : ''; ?>><?php __('None'); ?></option>
+                                                        <option value="" <?php empty($config->getSmtpSecure()) ? 'selected' : ''; ?>><?php echo __('None'); ?></option>
                                                         <option value="tls" <?php echo $config->getSmtpSecure() == 'tls' ? 'selected' : ''; ?>>TLS</option>
                                                         <option value="ssl" <?php echo $config->getSmtpSecure() == 'ssl' ? 'selected' : ''; ?>>SSL</option>
                                                     </select>
