@@ -21,7 +21,7 @@ foreach ($global['langs_codes'] as $key => $value) {
                 <input type=\"checkbox\" class=\"languageCheckbox\" data-lang-code=\"{$value['value']}\" value=\"{$value['label']}\" {$checked}>
                 <i class=\"flagstrap-icon flagstrap-{$value['flag']}\"></i> [{$value['value']}] {$value['label']}
             </label>
-            <span id=\"progress{$value['value']}\" class=\"badge\" style=\"display:none;\">...</span>";
+            <span id=\"".AI::$typeTranslation."_{$value['value']}progress\" class=\"badge\" style=\"display:none;\">...</span>";
     }
 
     echo '</div>';

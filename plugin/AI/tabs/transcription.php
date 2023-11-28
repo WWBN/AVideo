@@ -142,6 +142,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
     $(document).ready(function() {
         loadAITranscriptions();
+        getProgress('<?php echo AI::$typeTranscription; ?>', '');
 
     });
 </script>

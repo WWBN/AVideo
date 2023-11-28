@@ -28,7 +28,7 @@ $_page = new Page(['Video Metatags']);
         border-radius: 2px;
     }
 
-    #responsesT-list > tbody > tr > td > div{
+    #responsesT-list>tbody>tr>td>div {
         max-height: 200px;
         overflow: auto;
     }
@@ -36,7 +36,8 @@ $_page = new Page(['Video Metatags']);
     .aiItem .save-btn {
         margin: 2px 0;
     }
-    #pPP iframe{
+
+    #pPP iframe {
         width: 100%;
         min-height: 75vh;
         border: none;
@@ -84,8 +85,20 @@ $_page = new Page(['Video Metatags']);
                 </div>
                 <div class="panel-heading">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a data-toggle="tab" href="#pbasic"><i class="fa-solid fa-lightbulb"></i> <?php echo __("Basic"); ?></a></li>
-                        <li><a data-toggle="tab" href="#pTranscription"><i class="fas fa-microphone-alt"></i> <?php echo __("Transcription"); ?></a></li>
+                        <li class="active">
+                            <a data-toggle="tab" href="#pbasic">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <?php echo __("Basic"); ?><br>
+                                <span id="<?php echo AI::$typeBasic; ?>progress" class="badge" style="display:none;">...</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#pTranscription">
+                                <i class="fas fa-microphone-alt"></i>
+                                <?php echo __("Transcription"); ?><br>
+                                <span id="<?php echo AI::$typeTranscription; ?>progress" class="badge" style="display:none;">...</span>
+                            </a>
+                        </li>
                         <li><a data-toggle="tab" href="#pUsage"><i class="fas fa-receipt"></i> <?php echo __("Usage"); ?></a></li>
                         <li><a data-toggle="tab" href="#pPP"><i class="fas fa-file-contract"></i> <?php echo __("Prices, Privacy Policy"); ?></a></li>
                     </ul>
@@ -163,7 +176,7 @@ $_page = new Page(['Video Metatags']);
                 ai_metatags_responses_id = item.ai_responses_id;
             } else if (typeof item.vtt !== 'undefined') {
                 ai_transcribe_responses_id = item.ai_responses_id;
-            }else{
+            } else {
 
             }
             var row = $('<tr></tr>');
@@ -228,6 +241,7 @@ $_page = new Page(['Video Metatags']);
                         //location.reload();
                         resolve();
                     }
+                    getProgress(type, '');
                 }
             });
         });
@@ -289,6 +303,42 @@ $_page = new Page(['Video Metatags']);
         });
     }
 
+    function getProgress(type, lang) {
+        // Clear existing timeout for this language, if it exists
+        if (progressTimeouts[lang]) {
+            clearTimeout(progressTimeouts[lang]);
+        }
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/progress.json.php',
+            data: {
+                type: type,
+                lang: lang,
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            success: function(response) {
+                if (response.error) {
+                    //avideoAlertError(response.msg);
+                } else {
+                    console.log(response);
+                    var selector = '#' + response.prefix + 'progress';
+                    if(response.hide){
+                        $(selector).hide();
+                    }else{
+                        $(selector).show();
+                    }
+                    $(selector).html(response.msg);
+
+                    if (response.timeout) {
+                        // Set a new timeout for this language
+                        progressTimeouts[lang] = setTimeout(function() {
+                            getProgress(type, lang);
+                        }, response.timeout);
+                    }
+                }
+            }
+        });
+    }
 
     $(document).ready(function() {
 

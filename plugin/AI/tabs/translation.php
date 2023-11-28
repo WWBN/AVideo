@@ -79,7 +79,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         // Append checked checkboxes at the beginning of the form
         checkedCheckboxes.forEach(function(checkbox) {
             $form.prepend(checkbox);
-            getProgress($(checkbox).find('input').data('lang-code'));
+            getProgress('<?php echo AI::$typeTranslation; ?>', $(checkbox).find('input').data('lang-code'));
         });
 
         // Append unchecked checkboxes after the checked ones
@@ -129,7 +129,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                                 avideoToast(response.msg);
                                 resolve();
                             }
-                            getProgress(langArrayItem.code);
+                            getProgress('<?php echo AI::$typeTranslation; ?>', langArrayItem.code);
                         },
                         error: function(xhr, status, error) {
                             avideoAlertError("AJAX request failed: " + error);
@@ -146,38 +146,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         modalContinueAISuggestions.hidePleaseWait();
     }
     var progressTimeouts = {}; // Object to store timeouts for each language
-
-    function getProgress(lang) {
-        // Clear existing timeout for this language, if it exists
-        if (progressTimeouts[lang]) {
-            clearTimeout(progressTimeouts[lang]);
-        }
-        $.ajax({
-            url: webSiteRootURL + 'plugin/AI/progress.json.php',
-            data: {
-                type: '<?php echo AI::$typeTranslation; ?>',
-                lang: lang,
-                videos_id: <?php echo $videos_id; ?>
-            },
-            type: 'post',
-            success: function(response) {
-                if (response.error) {
-                    //avideoAlertError(response.msg);
-                } else {
-                    console.log(response);
-                    $('#progress' + response.lang).show();
-                    $('#progress' + response.lang).html(response.msg);
-
-                    if (response.timeout) {
-                        // Set a new timeout for this language
-                        progressTimeouts[lang] = setTimeout(function() {
-                            getProgress(lang);
-                        }, response.timeout);
-                    }
-                }
-            }
-        });
-    }
 
     function loadLangs() {
         $.ajax({
