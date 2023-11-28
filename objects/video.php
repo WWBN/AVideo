@@ -2317,7 +2317,7 @@ if (!class_exists('Video')) {
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 $rowCount = getRowCount();
                 if (!empty($rowCount)) {
-                    $sql .= " LIMIT {$rowCount}";
+                    $sql .= self::getSqlLimit();
                 } else {
                     if (empty($global['limitForUnlimitedVideos'])) {
                         $global['limitForUnlimitedVideos'] = empty($global['rowCount']) ? 1000 : $global['rowCount'];
@@ -2327,7 +2327,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            //echo $sql;exit;
+            //var_dump($_GET);echo $sql;exit;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
 
