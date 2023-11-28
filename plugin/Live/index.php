@@ -31,9 +31,10 @@ if (!empty($_GET['u'])) {
     //var_dump($live_servers_id);exit;
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index, '', false);
     //var_dump($info);exit;
-    if (!$info['isLive'] && empty($info['live_schedule_id'])) {
+    if (!$info['isLive'] && empty($info['live_schedule_id']) && empty($_REQUEST['justRedirected'])) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
+            $link = addQueryStringParameter($link, 'justRedirected', 1);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
             //var_dump($link,$info['users_id'], $info['otherLivesSameUser']);exit;
             header("Location: {$link}");
