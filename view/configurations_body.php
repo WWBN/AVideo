@@ -536,7 +536,10 @@ if (User::isAdmin()) {
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label"><?php echo __("SMTP Secure"); ?></label>
                                                 <div class="col-md-8">
-                                                    <input id="smtpSecure" class="form-control" type="text" value="<?php echo $config->getSmtpSecure(); ?>" placeholder="<?php echo __('tls OR ssl'); ?>" aria-describedby="smtpSecureHelp">
+                                                    <select id="smtpSecure" class="form-control" aria-describedby="smtpSecureHelp">
+                                                        <option value="tls" <?php echo $config->getSmtpSecure() == 'tls' ? 'selected' : ''; ?>>tls</option>
+                                                        <option value="ssl" <?php echo $config->getSmtpSecure() == 'ssl' ? 'selected' : ''; ?>>ssl</option>
+                                                    </select>
                                                     <small id="smtpSecureHelp" class="form-text text-muted"><?php echo __("Use tls OR ssl"); ?></small>
                                                 </div>
                                             </div>
@@ -548,6 +551,7 @@ if (User::isAdmin()) {
                                                     <small id="smtpPortHelp" class="form-text text-muted"><?php echo __("465 OR 587"); ?></small>
                                                 </div>
                                             </div>
+
 
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label"><?php echo __("SMTP Host"); ?></label>
@@ -678,6 +682,14 @@ if (User::isAdmin()) {
 
         $(document).ready(function() {
 
+            $('#smtpSecure').change(function() {
+                var selectedSecureOption = $(this).val();
+                if (selectedSecureOption == 'tls') {
+                    $('#smtpPort').val('587');
+                } else if (selectedSecureOption == 'ssl') {
+                    $('#smtpPort').val('465');
+                }
+            });
             $('#btnReloadCapcha').click(function() {
                 $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
                 $('#captchaText').val('');
