@@ -130,7 +130,7 @@ class ADs extends PluginAbstract
 
     public function getHeadCode()
     {
-        if(isInfiniteScroll()){
+        if (isInfiniteScroll()) {
             return '';
         }
         $head = "";
@@ -281,9 +281,9 @@ class ADs extends PluginAbstract
 
         // Sort the array based on txt.order
         usort($return, function ($a, $b) {
-            if(empty($a['txt']['order'])){
+            if (empty($a['txt']['order'])) {
                 return 1;
-            }else if(empty($b['txt']['order'])){
+            } else if (empty($b['txt']['order'])) {
                 return -1;
             }
             return $a['txt']['order'] - $b['txt']['order'];
@@ -306,7 +306,7 @@ class ADs extends PluginAbstract
         $json = json_decode($content);
         if (empty($json)) {
             return array(
-                'url' => isValidURL($content)?$content:'',
+                'url' => isValidURL($content) ? $content : '',
                 'title' => '',
                 'order' => 0,
             );
@@ -381,17 +381,18 @@ class ADs extends PluginAbstract
         return ['adCode' => $adCode, 'label' => $label, 'paths' => $array['paths']];
     }
 
-    private static function debug($line, $desc=''){
-        if(empty($_REQUEST['debug'])){
+    private static function debug($line, $desc = '')
+    {
+        if (empty($_REQUEST['debug'])) {
             return '';
         }
-        var_dump('ADs debug line='.$line, $desc);
+        var_dump('ADs debug line=' . $line, $desc);
     }
 
     public static function getAdsCode($type)
     {
         global $global;
-        if(isInfiniteScroll()){
+        if (isInfiniteScroll()) {
             return false;
         }
         if (isBot()) {
@@ -415,10 +416,10 @@ class ADs extends PluginAbstract
             if (_empty($adC['adCode'])) {
                 self::debug(__LINE__);
                 $adC = self::getAdsHTML($type);
-                if(!_empty($adC['html'])){
+                if (!_empty($adC['html'])) {
                     return $adC['html'];
                 }
-            }else{
+            } else {
                 self::debug(__LINE__);
             }
             $adCode = ADs::giveGoogleATimeout($adC['adCode']);
@@ -490,7 +491,7 @@ class ADs extends PluginAbstract
             return $label;
         }
     }
-
+    /*
     public static function getAdsHTML($type, $is_regular_user = false)
     {
         global $global;
@@ -515,7 +516,7 @@ class ADs extends PluginAbstract
         }
 
         $obj = AVideoPlugin::getDataObject('ADs');
-        $interval = $obj->bannerIntervalInSeconds*1000;
+        $interval = $obj->bannerIntervalInSeconds * 1000;
 
         $html = "<div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\" data-interval=\"{$interval}\">"
             . "<div class=\"carousel-inner\">";
@@ -556,21 +557,85 @@ class ADs extends PluginAbstract
             $html .= "<div class='alert alert-warning'>{$type} ADs Area</div>";
         }
         $html .= "</div></div>";
-        
+
+        self::debug(__LINE__, $html);
+        return array('html' => $html, 'paths' => $paths);
+    }*/
+
+    public static function getAdsHTML($type, $is_regular_user = false)
+    {
+        global $global;
+        self::debug(__LINE__, "users_id={$is_regular_user}");
+        $paths = self::getAds($type, $is_regular_user);
+
+        if (empty($paths)) {
+            self::debug(__LINE__, "users_id={$is_regular_user}");
+            return false;
+        }
+
+        $id = 'flickityCarousel' . $type . uniqid();
+
+        $size = self::getSize($type);
+
+        $style = '';
+        if ($size['isSquare']) {
+            $width = $size['width'];
+            $height = $size['height'];
+            $style = "width: {$width}px; height: {$height}px;";
+        }
+
+        $obj = AVideoPlugin::getDataObject('ADs');
+        $interval = $obj->bannerIntervalInSeconds * 1000;
+
+        // Start Flickity HTML
+        $html = "<div id=\"{$id}\" class=\"carousel\" style=\"{$style}\">";
+
+        foreach ($paths as $value) {
+            $fsize = filesize($value['imagePath']);
+            if ($fsize < 5000) {
+                continue;
+            }
+
+            if (isValidURL($value['txt']['url'])) {
+                $html .= "<a href=\"{$value['txt']['url']}\" target=\"_blank\">";
+                $html .= "<img src=\"{$value['imageURL']}\" alt=\"{$value['txt']['title']}\" />";
+                $html .= "</a>";
+            } else {
+                $html .= "<img src=\"{$value['imageURL']}\" alt=\"{$value['txt']['title']}\" />";
+            }
+        }
+
+        $html .= "</div>";
+
+        // Flickity Initialization Script
+        $html .= "<script>
+                $(document).ready(function(){
+                    $('#{$id}').flickity({
+                        // options
+                        cellAlign: 'left',
+                        contain: true,
+                        autoPlay: {$interval},
+                        prevNextButtons: false,
+                        pageDots: true
+                    });
+                });
+              </script>";
+
         self::debug(__LINE__, $html);
         return array('html' => $html, 'paths' => $paths);
     }
 
+    /*
     public function getFooterCode()
     {
         global $global;
-        
-        if(isInfiniteScroll()){
+
+        if (isInfiniteScroll()) {
             return '';
         }
-        
+
         $obj = $this->getDataObject();
-        $interval = $obj->bannerIntervalInSeconds*1000;
+        $interval = $obj->bannerIntervalInSeconds * 1000;
         $js = "<script>$(function(){
             $('.carousel').carousel({
               interval: {$interval}
@@ -578,7 +643,7 @@ class ADs extends PluginAbstract
         });</script>";
         return $js;
     }
-
+    */
     public static function saveAdsHTML($type)
     {
         $p = new ADs();
