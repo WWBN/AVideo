@@ -568,10 +568,10 @@ class ADs extends PluginAbstract
         }
         
         $obj = $this->getDataObject();
-        
+        $interval = $obj->bannerIntervalInSeconds*1000;
         $js = "<script>$(function(){
             $('.carousel').carousel({
-              interval: {$obj->bannerIntervalInSeconds}
+              interval: {$interval}
             });
         });</script>";
         return $js;
