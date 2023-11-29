@@ -14,9 +14,16 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 //var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
 ?>
 <style>
+    .showIfvttFileExists{
+        display: none;
+    }
+
     .vttFileExists #pTranscription .save-btn,
     .vttFileExists #pTranscription .hideIfvttFileExists {
         display: none;
+    }
+    .vttFileExists .showIfvttFileExists {
+        display: block;
     }
 </style>
 <div class="row">
@@ -41,7 +48,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     </tbody>
                 </table>
             </div>
-            <div class="panel-footer" id="transcriptionFooter" style="display: none;">
+            <div class="panel-footer" id="transcriptionFooter">
                 <?php
                 echo '<div class="container-fluid">';
                 if (AVideoPlugin::isEnabledByName('SubtitleSwitcher')) {
@@ -56,7 +63,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     }
                     if ($mp3fileExists && !$hasTranscriptionFile) {
                         $canTranscribe = true;
-                        echo '<div class="alert alert-info"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
+                        echo '<div class="alert alert-info hideIfvttFileExists"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
                     }
                 } else {
                     echo '<div class="alert alert-danger"><strong>Attention:</strong> SubtitleSwitcher is required for transcriptions.</div>';
@@ -66,6 +73,9 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                 ?>
                     <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
                         <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
+                    </button>
+                    <button class="btn btn-danger btn-block showIfvttFileExists" onclick="deleteTranscriptionFile()">
+                        <i class="fas fa-trash"></i> <?php echo __('Delete Transcription') ?>
                     </button>
                 <?php
                 }else{
@@ -100,7 +110,23 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         loadAITranscriptions();
         loadAIUsage();
 
-        $('#transcriptionFooter').slideUp();
+        //$('#transcriptionFooter').slideUp();
+    }
+
+    function deleteTranscriptionFile() {
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/deleteTranscription.json.php',
+            data: {
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            success: function(response) {
+                avideoResponse(response);
+                loadAITranscriptions();
+                modal.hidePleaseWait();
+            }
+        });
     }
 
     function loadAITranscriptions() {
@@ -131,7 +157,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     if (response.vttFileExists) {
                         $('body').addClass('vttFileExists');
                     } else {
-                        $('#transcriptionFooter').slideDown();
+                        //$('#transcriptionFooter').slideDown();
                         $('body').removeClass('vttFileExists');
                     }
                 }

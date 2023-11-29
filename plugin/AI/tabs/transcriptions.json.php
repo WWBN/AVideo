@@ -19,12 +19,14 @@ setRowCount(100);
 setDefaultSort('created', 'DESC');
 $obj = new stdClass();
 $obj->msg = '';
-$obj->response = Ai_responses::getAllTranscriptionFromVideo($videos_id);
-
+$obj->videos_id = $videos_id;
+$obj->response = Ai_responses::getAllTranscriptionFromVideo($obj->videos_id);
 
 $paths = Ai_transcribe_responses::getVTTPaths($obj->videos_id);
 $file = $paths['path'];
-$obj->vttFileExists = file_exists($file) && filesize($file) > 20;
+//$obj->file = $file;
+
+$obj->vttFileExists = !empty($file) && file_exists($file) && filesize($file) > 20;
 
 foreach ($obj->response as $key => $value) {
     $obj->response[$key]['size'] = humanFileSize($value['size_in_bytes']);

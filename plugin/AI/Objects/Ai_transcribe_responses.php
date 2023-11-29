@@ -139,6 +139,9 @@ class Ai_transcribe_responses extends ObjectYPT
     {
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
+        if(empty($filename)){
+            return array('path' => '', 'relative' => '', 'url' => '');
+        }
         $videos_dir = getVideosDir();
         if(!empty($lang)){
             $lang = ".{$lang}";
