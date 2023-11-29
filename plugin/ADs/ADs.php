@@ -115,6 +115,7 @@ class ADs extends PluginAbstract
 
         $obj->tags3rdParty = "<script> window.abkw = '{ChannelName},{Category}'; </script>";
         $obj->doNotShowAdsForPaidUsers = true;
+        $obj->bannerIntervalInSeconds = 5;
 
 
         return $obj;
@@ -565,9 +566,12 @@ class ADs extends PluginAbstract
         if(isInfiniteScroll()){
             return '';
         }
+        
+        $obj = $this->getDataObject();
+        
         $js = "<script>$(function(){
             $('.carousel').carousel({
-              interval: 5000
+              interval: {$obj->bannerIntervalInSeconds}
             });
         });</script>";
         return $js;
