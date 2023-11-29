@@ -514,8 +514,10 @@ class ADs extends PluginAbstract
             //$style = "width: {$width}px; height: {$height}px;";
         }
 
+        $obj = AVideoPlugin::getDataObject('ADs');
+        $interval = $obj->bannerIntervalInSeconds*1000;
 
-        $html = "<div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\">"
+        $html = "<div id=\"{$id}\" class=\"carousel slide\" data-ride=\"carousel{$id}\" style=\"{$style}\" data-interval=\"{$interval}\">"
             . "<div class=\"carousel-inner\">";
 
         $active = 'active';
