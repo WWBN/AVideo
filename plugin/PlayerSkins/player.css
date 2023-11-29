@@ -29,6 +29,9 @@
     transition: width .1s;
     border-right: solid 2px #FF000099;
 }
+.vjs-audio .vjs-poster{
+    opacity: 0.8;
+}
 .img-portrait {
     transform: scale(0.56) rotate(90deg);
 }
