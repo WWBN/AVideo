@@ -491,7 +491,7 @@ class ADs extends PluginAbstract
             return $label;
         }
     }
-    /*
+    
     public static function getAdsHTML($type, $is_regular_user = false)
     {
         global $global;
@@ -560,72 +560,8 @@ class ADs extends PluginAbstract
 
         self::debug(__LINE__, $html);
         return array('html' => $html, 'paths' => $paths);
-    }*/
-
-    public static function getAdsHTML($type, $is_regular_user = false)
-    {
-        global $global;
-        self::debug(__LINE__, "users_id={$is_regular_user}");
-        $paths = self::getAds($type, $is_regular_user);
-
-        if (empty($paths)) {
-            self::debug(__LINE__, "users_id={$is_regular_user}");
-            return false;
-        }
-
-        $id = 'flickityCarousel' . $type . uniqid();
-
-        $size = self::getSize($type);
-
-        $style = '';
-        if ($size['isSquare']) {
-            $width = $size['width'];
-            $height = $size['height'];
-            $style = "width: {$width}px; height: {$height}px;";
-        }
-
-        $obj = AVideoPlugin::getDataObject('ADs');
-        $interval = $obj->bannerIntervalInSeconds * 1000;
-
-        // Start Flickity HTML
-        $html = "<link href=\"".getURL('node_modules/flickity/dist/flickity.min.css')."\" rel=\"stylesheet\" type=\"text/css\" /><div id=\"{$id}\" class=\"carousel\" style=\"{$style}\">";
-
-        foreach ($paths as $value) {
-            $fsize = filesize($value['imagePath']);
-            if ($fsize < 5000) {
-                continue;
-            }
-
-            if (isValidURL($value['txt']['url'])) {
-                $html .= "<a href=\"{$value['txt']['url']}\" target=\"_blank\">";
-                $html .= "<img src=\"{$value['imageURL']}\" alt=\"{$value['txt']['title']}\" />";
-                $html .= "</a>";
-            } else {
-                $html .= "<img src=\"{$value['imageURL']}\" alt=\"{$value['txt']['title']}\" />";
-            }
-        }
-
-        $html .= "</div>";
-
-        // Flickity Initialization Script
-        $html .= "<script src=\"".getURL('node_modules/flickity/dist/flickity.pkgd.min.js')."\" type=\"text/javascript\"></script><script>
-                $(document).ready(function(){
-                    $('#{$id}').flickity({
-                        // options
-                        cellAlign: 'left',
-                        contain: true,
-                        autoPlay: {$interval},
-                        prevNextButtons: false,
-                        pageDots: true
-                    });
-                });
-              </script>";
-
-        self::debug(__LINE__, $html);
-        return array('html' => $html, 'paths' => $paths);
     }
 
-    /*
     public function getFooterCode()
     {
         global $global;
@@ -643,7 +579,6 @@ class ADs extends PluginAbstract
         });</script>";
         return $js;
     }
-    */
     public static function saveAdsHTML($type)
     {
         $p = new ADs();
