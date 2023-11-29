@@ -136,12 +136,17 @@ class AD_Server extends PluginAbstract {
     }
 
     public function canLoadAds() {
+        global $global;
         if(AVideoPlugin::isEnabledByName('GoogleAds_IMA')){
             return false;
         }
         //if (empty($_GET['videoName']) && empty($_GET['u'])) {
         $videos_id = getVideos_id();
         if (!empty($videos_id)) {
+            $video = new Video('', '', $videos_id);
+            if($video->getType() !== Video::$videoTypeVideo){
+                return false;
+            }
             $showAds = AVideoPlugin::showAds($videos_id);
             if (!$showAds) {
                 return false;
