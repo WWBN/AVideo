@@ -7,9 +7,12 @@ $videos_id = getVideos_id();
 if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
 }
+echo '<!-- langs_codes='.count($global['langs_codes']).' -->';
 $currentLangCodes = AI::getVTTLanguageCodes($videos_id);
+echo '<!-- currentLangCodes='.count($currentLangCodes).' -->';
 foreach ($global['langs_codes'] as $key => $value) {
     if(!preg_match('/^[a-z]{2}(_[a-z]{2})?$/i', $value['value'])){
+        echo '<!-- not a lang='.$value['value'].' -->';
         continue;
     }
     echo '<div class="checkbox">';
