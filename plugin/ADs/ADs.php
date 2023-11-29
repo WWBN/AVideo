@@ -588,7 +588,7 @@ class ADs extends PluginAbstract
         $interval = $obj->bannerIntervalInSeconds * 1000;
 
         // Start Flickity HTML
-        $html = "<div id=\"{$id}\" class=\"carousel\" style=\"{$style}\">";
+        $html = "<link href=\"".getURL('node_modules/flickity/dist/flickity.min.css')."\" rel=\"stylesheet\" type=\"text/css\" /><div id=\"{$id}\" class=\"carousel\" style=\"{$style}\">";
 
         foreach ($paths as $value) {
             $fsize = filesize($value['imagePath']);
@@ -608,7 +608,7 @@ class ADs extends PluginAbstract
         $html .= "</div>";
 
         // Flickity Initialization Script
-        $html .= "<script>
+        $html .= "<script src=\"".getURL('node_modules/flickity/dist/flickity.pkgd.min.js')."\" type=\"text/javascript\"></script><script>
                 $(document).ready(function(){
                     $('#{$id}').flickity({
                         // options
