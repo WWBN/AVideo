@@ -146,7 +146,7 @@ a.h6{
     text-decoration: none !important;
 }
 
-.liveScheduleVideos a.h6.galleryLink > strong{
+a.h6.galleryLink > strong{
     margin-top: 8px;
 }
 
