@@ -3,6 +3,7 @@ require_once '../../../videos/configuration.php';
 if (!AVideoPlugin::isEnabledByName('AI')) {
     forbiddenPage('AI plugin is disabled');
 }
+require_once $global['systemRootPath'] . 'objects/bcp47.php';
 $videos_id = getVideos_id();
 if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
