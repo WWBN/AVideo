@@ -224,6 +224,8 @@ class AI extends PluginAbstract {
         if(!empty($convert) && !empty($convert['url'])){
             $newPath = str_replace('.mp3', '_Low.mp3', $convert['path']);
             if(!file_exists($newPath)){
+                ini_set('max_execution_time', 300); 
+                set_time_limit(300);
                 $fromFileLocationEscaped = escapeshellarg($convert['path']);
                 $toFileLocationEscaped = escapeshellarg($newPath);
                 $command = get_ffmpeg()." -i {$fromFileLocationEscaped} -ar 16000 -ac 1 -b:a 16k {$toFileLocationEscaped}";
