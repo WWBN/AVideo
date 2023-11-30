@@ -70,9 +70,11 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     echo '<div class="alert alert-danger"><strong>Attention:</strong> SubtitleSwitcher is required for transcriptions.</div>';
                 }
                 echo '</div>';
-                if ($mp3fileExists) { ?>
+                if ($mp3fileExists) { 
+                    $duration = Video::getDurationFromFile($mp3file);
+                    ?>
                     <button class="btn btn-danger btn-block" onclick="deleteMP3File()">
-                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?>
+                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?> <?php echo  $duration; ?>
                     </button>
                 <?php
                 }
