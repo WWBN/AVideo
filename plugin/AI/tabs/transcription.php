@@ -5,11 +5,11 @@ $filename = $video->getFilename();
 $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
-$hasTranscriptionFile = false;
+//$hasTranscriptionFile = false;
 $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
-$columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
+$columnCalbackFunctions = ['text'];
 
 //var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
 ?>
@@ -18,7 +18,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         display: none;
     }
 
-    .vttFileExists #pTranscription .save-btn,
     .vttFileExists #pTranscription .hideIfvttFileExists {
         display: none;
     }
@@ -62,7 +61,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';
                     }
-                    if ($mp3fileExists && !$hasTranscriptionFile) {
+                    if ($mp3fileExists) {
                         $canTranscribe = true;
                         echo '<div class="alert alert-info hideIfvttFileExists"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
                     }
@@ -70,13 +69,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     echo '<div class="alert alert-danger"><strong>Attention:</strong> SubtitleSwitcher is required for transcriptions.</div>';
                 }
                 echo '</div>';
-                if ($mp3fileExists) { 
-                    ?>
-                    <button class="btn btn-danger btn-block" onclick="deleteMP3File()">
-                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?>
-                    </button>
-                <?php
-                }
                 if ($canTranscribe) {
                 ?>
                     <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
@@ -119,23 +111,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         loadAIUsage();
 
         //$('#transcriptionFooter').slideUp();
-    }
-
-    function deleteMP3File() {
-        modal.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'plugin/AI/deleteMP3.json.php',
-            data: {
-                videos_id: <?php echo $videos_id; ?>
-            },
-            type: 'post',
-            success: function(response) {
-                avideoResponse(response);
-                loadAITranscriptions();
-                modal.hidePleaseWait();
-            }
-        });
-    }
+    }    
 
     function deleteTranscriptionFile() {
         modal.showPleaseWait();

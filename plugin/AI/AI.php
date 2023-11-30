@@ -219,7 +219,7 @@ class AI extends PluginAbstract {
         return $json;
     }
 
-    static function getLowerMP3($videos_id){
+    static function getLowerMP3($videos_id, $try = 0){
         $convert = convertVideoToMP3FileIfNotExists($videos_id);
         if(!empty($convert) && !empty($convert['url'])){
             $newPath = str_replace('.mp3', '_Low.mp3', $convert['path']);
@@ -229,10 +229,21 @@ class AI extends PluginAbstract {
                 $fromFileLocationEscaped = escapeshellarg($convert['path']);
                 $toFileLocationEscaped = escapeshellarg($newPath);
                 $command = get_ffmpeg()." -i {$fromFileLocationEscaped} -ar 16000 -ac 1 -b:a 16k {$toFileLocationEscaped}";
-                $command =removeUserAgentIfNotURL($command);
+                $command = removeUserAgentIfNotURL($command);
                 exec($command, $output);
                 _error_log('getLowerMP3: '.json_encode($output));
             }
+            $mp3Len = durationToSeconds(getDurationFromFile($convert['path']));
+            $mp3LowLen = durationToSeconds(getDurationFromFile($newPath));
+            if($mp3LowLen<$mp3Len-1){
+                _error_log('getLowerMP3 convert it wrongly');
+                if(empty($try)){
+                    _error_log('getLowerMP3 try again');
+                    unlink($newPath);
+                    return self::getLowerMP3($videos_id, $try+1);
+                }
+            }
+            //var_dump($mp3Len , $mp3LowLen );unlink($newPath);exit;
             //var_dump($command, file_exists($newPath));exit;
             if(file_exists($newPath)){
                 $convert['url'] = str_replace('.mp3', '_Low.mp3', $convert['url']);

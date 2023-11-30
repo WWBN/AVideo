@@ -8231,6 +8231,85 @@ function get_ffmpeg($ignoreGPU = false)
     return $ffmpeg . $complement;
 }
 
+function get_ffprobe() {
+    global $global;
+    $complement = ' -user_agent "' . getSelfUserAgent() . '" ';
+    //return 'ffmpeg -user_agent "'.getSelfUserAgent("FFMPEG").'" ';
+    //return 'ffmpeg -headers "User-Agent: '.getSelfUserAgent("FFMPEG").'" ';
+    $ffprobe = 'ffprobe  ';
+    if (!empty($global['ffprobe'])) {
+
+        $dir = dirname($global['ffprobe']);
+
+        $ffprobe = "{$dir}/{$ffprobe}";
+    }
+    return $ffprobe.$complement;
+}
+
+function getDurationFromFile($file)
+    {
+        global $config, $getDurationFromFile;
+        if (empty($file)) {
+            return "EE:EE:EE";
+        }
+
+        if (!isset($getDurationFromFile)) {
+            $getDurationFromFile = [];
+        }
+
+        if (!empty($getDurationFromFile[$file])) {
+            return $getDurationFromFile[$file];
+        }
+
+        $hls = str_replace(".zip", "/index.m3u8", $file);
+        $file = str_replace(".zip", ".mp4", $file);
+
+        // get movie duration HOURS:MM:SS.MICROSECONDS
+        $videoFile = $file;
+        if (!file_exists($videoFile)) {
+            $file_headers = @get_headers($videoFile);
+            if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+                error_log('getDurationFromFile try 1, File (' . $videoFile . ') Not Found');
+                $videoFile = $hls;
+            }
+        }
+        if (!file_exists($videoFile)) {
+            $file_headers = @get_headers($videoFile);
+            if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+                error_log('getDurationFromFile try 2, File (' . $videoFile . ') Not Found');
+                $videoFile = '';
+            }
+        }
+        if (empty($videoFile)) {
+            return "EE:EE:EE";
+        }
+        $videoFile = escapeshellarg($videoFile);
+        /**
+         * @var string $cmd
+         */
+        //$cmd = 'ffprobe -i ' . $file . ' -sexagesimal -show_entries  format=duration -v quiet -of csv="p=0"';
+        eval('$cmd=get_ffprobe()." -i {$videoFile} -sexagesimal -show_entries  format=duration -v quiet -of csv=\\"p=0\\"";');
+        exec($cmd . ' 2>&1', $output, $return_val);
+        if ($return_val !== 0) {
+            error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
+            // fix ffprobe
+            $duration = "EE:EE:EE";
+        } else {
+            preg_match("/([0-9]+:[0-9]+:[0-9]{2})/", $output[0], $match);
+            if (!empty($match[1])) {
+                $duration = $match[1];
+            } else {
+                error_log('{"status":"error", "msg":' . json_encode($output) . ' ,"match_not_found":' . json_encode($match) . ' ,"return_val":' . json_encode($return_val) . ', "where":"getDuration", "cmd":"' . $cmd . '"}');
+                $duration = "EE:EE:EE";
+            }
+        }
+        error_log("Duration found: {$duration}");
+        if ($duration !== 'EE:EE:EE') {
+            $getDurationFromFile[$file] = $duration;
+        }
+        return $duration;
+    }
+
 function removeUserAgentIfNotURL($cmd)
 {
     if (!preg_match('/ -i [\'"]?https?:/', $cmd)) {
