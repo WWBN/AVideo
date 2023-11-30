@@ -71,10 +71,9 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                 }
                 echo '</div>';
                 if ($mp3fileExists) { 
-                    $duration = Video::getDurationFromFile($mp3file);
                     ?>
                     <button class="btn btn-danger btn-block" onclick="deleteMP3File()">
-                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?> <?php echo  $duration; ?>
+                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?>
                     </button>
                 <?php
                 }
