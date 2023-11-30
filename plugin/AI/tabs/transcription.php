@@ -14,7 +14,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 //var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
 ?>
 <style>
-    .showIfvttFileExists{
+    .showIfvttFileExists {
         display: none;
     }
 
@@ -22,6 +22,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
     .vttFileExists #pTranscription .hideIfvttFileExists {
         display: none;
     }
+
     .vttFileExists .showIfvttFileExists {
         display: block;
     }
@@ -69,6 +70,12 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                     echo '<div class="alert alert-danger"><strong>Attention:</strong> SubtitleSwitcher is required for transcriptions.</div>';
                 }
                 echo '</div>';
+                if ($mp3fileExists) { ?>
+                    <button class="btn btn-danger btn-block" onclick="deleteMP3File()">
+                        <i class="fas fa-trash"></i> <?php echo __('Delete MP3') ?>
+                    </button>
+                <?php
+                }
                 if ($canTranscribe) {
                 ?>
                     <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
@@ -78,15 +85,15 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         <i class="fas fa-trash"></i> <?php echo __('Delete Transcription') ?>
                     </button>
                 <?php
-                }else{
-                    if($mp3fileExists){
+                } else {
+                    if ($mp3fileExists) {
                         echo '<!-- mp3fileExists -->';
-                    }else{                        
+                    } else {
                         echo '<!-- mp3fileExists == false -->';
                     }
-                    if($hasTranscriptionFile){
+                    if ($hasTranscriptionFile) {
                         echo '<!-- hasTranscriptionFile -->';
-                    }else{                        
+                    } else {
                         echo '<!-- hasTranscriptionFile == false -->';
                     }
                 }
@@ -111,6 +118,22 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         loadAIUsage();
 
         //$('#transcriptionFooter').slideUp();
+    }
+
+    function deleteMP3File() {
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/deleteMP3.json.php',
+            data: {
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            success: function(response) {
+                avideoResponse(response);
+                loadAITranscriptions();
+                modal.hidePleaseWait();
+            }
+        });
     }
 
     function deleteTranscriptionFile() {
