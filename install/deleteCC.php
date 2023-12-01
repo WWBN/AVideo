@@ -26,7 +26,7 @@ if ($res != false) {
             unlink($vtt);
             echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
         } else {
-            echo "{$total}/{$count} Thumbs NOT deleted from {$row['title']}".PHP_EOL;
+            echo "{$total}/{$count} Thumbs NOT deleted from {$row['title']} $vtt".PHP_EOL;
         }
     }
 } else {
