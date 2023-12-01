@@ -24,9 +24,9 @@ if ($res != false) {
         $vtt = "{$global['systemRootPath']}videos/$filename/$filename.vtt";        
         if (file_exists($vtt)) {
             unlink($vtt);
-            echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
+            echo "{$total}/{$count} deleted from {$row['title']}".PHP_EOL;
         } else {
-            echo "{$total}/{$count} Thumbs NOT deleted from {$row['title']} $vtt".PHP_EOL;
+            echo "{$total}/{$count} NOT deleted from {$row['title']} [$vtt]".PHP_EOL;
         }
     }
 } else {
