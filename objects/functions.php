@@ -771,56 +771,45 @@ function sendSiteEmail($to, $subject, $message, $fromEmail = '', $fromName = '')
     }
     _error_log("sendSiteEmail: to=".json_encode($to)." from={$fromEmail} subject={$subject}");
     $webSiteTitle = $config->getWebSiteTitle();
+    if(!is_array($to)){
+        $to = array($to); 
+    }
+    foreach ($to as $key => $value) {
+        if(!isValidEmail($value)){
+            _error_log("sendSiteEmail invalid email {$value}");
+            unset($to[$key]);
+        }
+    }
     try {
-        if (!is_array($to)) {
-            _error_log('sendSiteEmail: send single email ' . $to);
+        $size = intval(@$advancedCustom->splitBulkEmailSend);
+        if (empty($size)) {
+            $size = 90;
+        }
+        $to = array_iunique($to);
+        $pieces = partition($to, $size);
+        $totalEmails = count($to);
+        $totalCount = 0;
+        _error_log("sendSiteEmail::sending totalEmails=[{$totalEmails}]");
+        foreach ($pieces as $piece) {
             $mail = new \PHPMailer\PHPMailer\PHPMailer();
             setSiteSendMessage($mail);
             $mail->setFrom($fromEmail, $fromName);
-            $mail->addReplyTo($fromEmail, $fromName);
             $mail->Subject = $subject . " - " . $webSiteTitle;
             $mail->msgHTML($message);
-
-            $mail->addAddress($to);
+            $count = 0;
+            foreach ($piece as $value) {
+                $totalCount++;
+                $count++;
+                //_error_log("sendSiteEmail::addBCC [{$count}] {$value}");
+                $mail->addBCC($value);
+            }
+            //_error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
 
             $resp = $mail->send();
             if (!$resp) {
-                _error_log("sendSiteEmail Error Info: {$mail->ErrorInfo}");
+                _error_log("sendSiteEmail Error Info: {$mail->ErrorInfo} count=[{$count}] [{$totalCount}/{$totalEmails}]");
             } else {
-                _error_log("sendSiteEmail Success Info: $subject " . json_encode($to));
-            }
-        } else {
-            $size = intval(@$advancedCustom->splitBulkEmailSend);
-            if (empty($size)) {
-                $size = 90;
-            }
-
-            $to = array_iunique($to);
-            $pieces = partition($to, $size);
-            $totalEmails = count($to);
-            $totalCount = 0;
-            _error_log("sendSiteEmail::sending totalEmails=[{$totalEmails}]");
-            foreach ($pieces as $piece) {
-                $mail = new \PHPMailer\PHPMailer\PHPMailer();
-                setSiteSendMessage($mail);
-                $mail->setFrom($fromEmail, $fromName);
-                $mail->Subject = $subject . " - " . $webSiteTitle;
-                $mail->msgHTML($message);
-                $count = 0;
-                foreach ($piece as $value) {
-                    $totalCount++;
-                    $count++;
-                    //_error_log("sendSiteEmail::addBCC [{$count}] {$value}");
-                    $mail->addBCC($value);
-                }
-                //_error_log("sendSiteEmail::sending now count=[{$count}] [{$totalCount}/{$totalEmails}]");
-
-                $resp = $mail->send();
-                if (!$resp) {
-                    _error_log("sendSiteEmail Error Info: {$mail->ErrorInfo} count=[{$count}] [{$totalCount}/{$totalEmails}]");
-                } else {
-                    _error_log("sendSiteEmail Success Info: count=[{$count}] [{$totalCount}/{$totalEmails}]");
-                }
+                _error_log("sendSiteEmail Success Info: count=[{$count}] [{$totalCount}/{$totalEmails}]");
             }
         }
         //Set the subject line
@@ -6424,6 +6413,9 @@ function isValidEmail($email)
         return false;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    if (preg_match('/@teste?\./i', $email)) {
         return false;
     }
     if (!isset($_email_hosts_checked)) {
