@@ -26,6 +26,8 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         $contentSearchFound = !empty($videos);
     }
     $currPage = getCurrentPage();
+    echo '<!-- currPage=' . $currPage . ' page='. $_GET['page'] .' -->';
+    //var_dump($currPage, $_GET);exit;
     global $categoryLiveVideos;
     if (empty($categoryLiveVideos) && $currPage < 2) {
         $categoryLiveVideos = getLiveVideosFromCategory($currentCat['id']);

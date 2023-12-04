@@ -1003,7 +1003,7 @@ class PlayLists extends PluginAbstract
     function executeEveryMinute(){
         global $global;
         $file = "{$global['systemRootPath']}plugin/PlayLists/run.php";
-        require_once $file;
+        //require_once $file;
     }
 
 }
