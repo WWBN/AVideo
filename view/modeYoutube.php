@@ -82,6 +82,9 @@ if (!empty($evideo)) {
 
         $playListData = $plp->getPlayListData();
         if (empty($playListData)) {
+            if(empty($messagesFromPlayList)){
+                $messagesFromPlayList = array();
+            }
             _error_log(implode(PHP_EOL."Playlist error: playlist_id={$_GET['playlist_id']}, playlists_tags_id={$_GET['playlists_tags_id']} - ", $messagesFromPlayList));
             
             $notFoundMessage = PlayLists::getPlaylistNotFoundMessage($_GET['playlist_id']);
