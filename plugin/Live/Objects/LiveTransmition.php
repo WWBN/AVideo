@@ -134,8 +134,16 @@ class LiveTransmition extends ObjectYPT {
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($data)) {
-            $data['live_servers_id'] = Live::getLiveServersIdRequest();
-            $liveStreamObject = new LiveStreamObject($data['key'], $data['live_servers_id']);
+            $latest = LiveTransmitionHistory::getLatest($data['key']);
+            if(!empty($latest)){
+                if(!isset($data['live_servers_id'])){
+                    $data['live_servers_id'] = Live::getLiveServersIdRequest();
+                }
+                $liveStreamObject = new LiveStreamObject($latest['key'], $latest['live_servers_id']);
+            }else{
+                $data['live_servers_id'] = Live::getLiveServersIdRequest();
+                $liveStreamObject = new LiveStreamObject($data['key'], $data['live_servers_id']);
+            }
             $data['key_with_index'] = $liveStreamObject->getKeyWithIndex(true);
             $data['live_index'] = $liveStreamObject->getIndex();
 

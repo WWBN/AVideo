@@ -15,6 +15,10 @@ if (empty($_POST['name'])) {
 ini_set('max_execution_time', 300);
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 
+if($_POST['uuid'] == 'plist12345-370-4b1f-977a-fd0e5cabtube'){
+    $_POST['name'] = 'PlayLists';
+}
+
 $obj = new stdClass();
 $obj->error = !AVideoPlugin::updatePlugin($_POST['name']);
 $obj->msg = '';

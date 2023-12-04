@@ -29,8 +29,9 @@ if (!empty($_GET['u'])) {
     $live_servers_id = Live::getLiveServersIdRequest();
     $live_index = @$_REQUEST['live_index'];
     //var_dump($live_servers_id);exit;
+    //var_dump($livet['key'],$live_index, $_GET['live_index']);exit;
     $info = Live::getInfo($livet['key'], $live_servers_id, $live_index, '', false);
-    //var_dump($info);exit;
+    //var_dump($livet['key'],$live_index, $info);exit;
     if (!$info['isLive'] && empty($info['live_schedule_id']) && empty($_REQUEST['justRedirected'])) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);

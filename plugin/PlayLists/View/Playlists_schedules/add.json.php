@@ -8,17 +8,19 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-                                                
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
-    die(json_encode($obj));
+if (empty($plugin)) {
+    forbiddenPage(__("The plugin is disabled"));
+}
+                                           
+if (!User::canStream()) {
+    forbiddenPage(__("You cannot livestream"));
 }
 
 $o = new Playlists_schedules(@$_POST['id']);
 $o->setPlaylists_id($_POST['playlists_id']);
 $o->setName($_POST['name']);
 $o->setDescription($_POST['description']);
-$o->setStatus($_POST['status']);
+//$o->setStatus($_POST['status']);
 $o->setLoop($_POST['loop']);
 $o->setStart_datetime($_POST['start_datetime']);
 $o->setFinish_datetime($_POST['finish_datetime']);

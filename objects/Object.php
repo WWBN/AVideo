@@ -1232,6 +1232,29 @@ class PlayListCacheHandler extends CacheHandler {
 
 }
 
+class PlayListUserCacheHandler extends CacheHandler {
+
+    private $id;
+    private static $cacheRefreshCount = 0;
+    
+    public function __construct($id) {
+        $this->id = intval($id);
+    }
+
+    protected function getCacheSubdir() {
+        return "playlistsUser/{$this->id}/";
+    }
+
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
+    }
+
+}
+
 class LiveCacheHandler extends CacheHandler {
     private static $cacheRefreshCount = 0;
     static $cacheTypeNotificationSuffix = 'getStatsNotifications';

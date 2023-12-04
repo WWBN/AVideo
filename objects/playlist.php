@@ -155,7 +155,8 @@ class PlayList extends ObjectYPT {
         $TimeLog1 = "playList getAllFromUser 1($userId)";
         TimeLogStart($TimeLog1);
         $cacheName = md5($sql.json_encode($values));
-        $rows = self::getCacheGlobal($cacheName, rand(300, 3600));
+        $cacheHandler = new PlayListUserCacheHandler($userId);
+        $rows = $cacheHandler->getCache($cacheName, rand(300, 3600));
         if(!empty($rows)){
             return object_to_array($rows);
         }
@@ -236,7 +237,7 @@ class PlayList extends ObjectYPT {
             TimeLogEnd($TimeLog1, __LINE__);
         } 
         
-        $response = self::setCacheGlobal($cacheName, $rows);
+        $cacheHandler->setCache($rows);
         return $rows;
     }
 
@@ -361,9 +362,10 @@ class PlayList extends ObjectYPT {
     public static function getAllFromUserVideo($userId, $videos_id, $publicOnly = true, $status = false) {
         $TimeLog1 = "playList getAllFromUser 2($userId, $videos_id)";
         TimeLogStart($TimeLog1);
-        $cacheName = "getAllFromUserVideo_{$videos_id}" . DIRECTORY_SEPARATOR . "getAllFromUserVideo($userId, $videos_id)" . intval($publicOnly) . $status.getRowCount();
+        $cacheName = "getAllFromUserVideo_{$videos_id}" . intval($publicOnly) . $status.getRowCount();
         //var_dump($playlists_id, $sql);exit;
-        $rows = self::getCacheGlobal($cacheName, 0);
+        $cacheHandler = new PlayListUserCacheHandler($userId);
+        $rows = $cacheHandler->getCache($cacheName, 0);
         if (empty($rows)) {
             $rows = self::getAllFromUser($userId, $publicOnly, $status);
             TimeLogEnd($TimeLog1, __LINE__);
@@ -373,7 +375,7 @@ class PlayList extends ObjectYPT {
                 $rows[$key]['isOnPlaylist'] = in_array($videos_id, $videos);
             }
             TimeLogEnd($TimeLog1, __LINE__);
-            $response = self::setCacheGlobal($cacheName, $rows);
+            $cacheHandler->setCache($rows);
         } else {
             $rows = object_to_array($rows);
         }
@@ -525,6 +527,8 @@ class PlayList extends ObjectYPT {
         global $global;
         $cacheName = "getRandomImageFromPlayList_{$playlists_id}";
         $images = self::getCacheGlobal($cacheName, 3600); // 1 hour cache
+        $cacheHandler = new PlayListCacheHandler($playlists_id);
+        $images = $cacheHandler->getCache($cacheName, rand(3600, 10000));
         if(!empty($images)){
             return $images;
         }
@@ -546,7 +550,7 @@ class PlayList extends ObjectYPT {
                     $images = self::getRandomImageFromPlayList($row['serie_playlists_id'], $try + 1);
                 }
             }
-            $cache = self::setCacheGlobal($cacheName, $images);
+            $cacheHandler->setCache($images);
             return $images;
         }
         return false;
@@ -766,6 +770,10 @@ class PlayList extends ObjectYPT {
         
         $cacheHandler = new PlayListCacheHandler($this->id);
         $cacheHandler->deleteCache();
+
+        $cacheHandler = new PlayListUserCacheHandler($this->getUsers_id());
+        $cacheHandler->deleteCache();
+
         return $playlists_id;
     }
 

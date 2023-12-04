@@ -70,7 +70,7 @@ if (!empty($_GET['token'])) {
 }
 $newContent = '';
 // if is using a CDN I can not check if the user is logged
-if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id']) || User::canWatchVideoWithAds($video['id']) || isCDN()) {
+if (isAVideoUserAgent() || isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->videosCDN) || User::canWatchVideo($video['id']) || User::canWatchVideoWithAds($video['id']) || isCDN()) {
     if (!empty($_GET['download'])) {
         downloadHLS($_GET['file']);
     } elseif (!empty($_GET['playHLSasMP4'])) {
@@ -98,6 +98,7 @@ if (isAVideoEncoderOnSameDomain() || $tokenIsValid || !empty($advancedCustom->vi
     $newContent .= $tokenIsValid ? "" : " tokenInvalid";
     $newContent .= User::canWatchVideo($video['id']) ? "" : " cannot watch ({$video['id']})";
     $newContent .= " " . date("Y-m-d H:i:s");
+    _error_log($newContent);
 }
 header("Content-Type: text/plain");
 //header('Content-Type:');

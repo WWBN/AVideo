@@ -750,7 +750,7 @@ class AVideoPlugin
                 //echo $value['dirName'].PHP_EOL;
                 //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
                 $p->getStart();
-            }
+            }//var_dump("----- nada ",$_REQUEST['live_index'], __LINE__, "-----");exit;
             //self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
@@ -1713,7 +1713,9 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onLiveStream($live_transmitions_history_id, $users_id, $key, $live_servers_id);
+                //_error_log("PlayLists on_publish_done {$value['dirName']} start");
+                $p->on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id);
+                //_error_log("PlayLists on_publish_done {$value['dirName']} done");
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }

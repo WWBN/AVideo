@@ -22,7 +22,7 @@ if (!User::isAdmin()) {
                     <div class="panel-body">
                         <form id="panelPlaylists_schedulesForm">
                             <div class="row">
-                                <input type="hidden" name="id" id="Playlists_schedulesid" value="" >
+                                <input type="hidden" name="id" id="Playlists_schedulesid" value="">
                                 <div class="form-group col-sm-12">
                                     <label for="Playlists_schedulesname"><?php echo __("Name"); ?>:</label>
                                     <input type="text" id="Playlists_schedulesname" name="name" class="form-control input-sm" placeholder="<?php echo __("Name"); ?>" required="true">
@@ -69,10 +69,11 @@ if (!User::isAdmin()) {
                                 <div class="form-group col-sm-6">
                                     <label for="Playlists_schedulesrepeat"><?php echo __("Repeat"); ?>:</label>
                                     <select class="form-control input-sm" name="repeat" id="Playlists_schedulesrepeat">
-                                        <option value="<?php echo Playlists_schedules::$REPEAT_NEVER; ?>"><?php echo __("Never"); ?></option>
-                                        <option value="<?php echo Playlists_schedules::$REPEAT_DAILY; ?>"><?php echo __("Daily"); ?></option>
-                                        <option value="<?php echo Playlists_schedules::$REPEAT_WEEKLY; ?>"><?php echo __("Weekly"); ?></option>
-                                        <option value="<?php echo Playlists_schedules::$REPEAT_MONTHLY; ?>"><?php echo __("Monthly"); ?></option>
+                                        <?php
+                                        foreach (Playlists_schedules::$REPEAT_TEXT as $key => $value) {
+                                            echo '<option value="' . $key . '">' . _($value) . '</option>';
+                                        }
+                                        ?>
                                     </select>
 
                                 </div>
@@ -151,13 +152,13 @@ if (!User::isAdmin()) {
         $('#Playlists_schedulesrepeat').val('');
         $('#Playlists_schedulesparameters').val('');
     }
-    $(document).ready(function () {
-        $('#addPlaylists_schedulesBtn').click(function () {
+    $(document).ready(function() {
+        $('#addPlaylists_schedulesBtn').click(function() {
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/addPlaylists_schedulesVideo.php',
                 data: $('#panelPlaylists_schedulesForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
@@ -171,15 +172,38 @@ if (!User::isAdmin()) {
             });
         });
         var Playlists_schedulestableVar = $('#Playlists_schedulesTable').DataTable({
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/list.json.php",
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "status"},
-                {"data": "loop"},
-                {"data": "start_datetime"},
-                {"data": "finish_datetime"},
-                {"data": "repeat"},
+            "ajax": webSiteRootURL + "plugin/PlayLists/View/Playlists_schedules/list.json.php",
+            "columns": [{
+                    "data": "id"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "status",
+                    "render": function(data, type, row) {
+                        console.log(data, type, row);
+                        return row.statusText;
+                    }
+                },
+                {
+                    "data": "loop",
+                    "render": function(data, type, row) {
+                        return row.loopText;
+                    }
+                },
+                {
+                    "data": "start_datetime"
+                },
+                {
+                    "data": "finish_datetime"
+                },
+                {
+                    "data": "repeat",
+                    "render": function(data, type, row) {
+                        return row.repeatText;
+                    }
+                },
                 {
                     sortable: false,
                     data: null,
@@ -188,19 +212,19 @@ if (!User::isAdmin()) {
             ],
             select: true,
         });
-        $('#newPlaylists_schedules').on('click', function (e) {
+        $('#newPlaylists_schedules').on('click', function(e) {
             e.preventDefault();
             $('#panelPlaylists_schedulesForm').trigger("reset");
             $('#Playlists_schedulesid').val('');
         });
-        $('#panelPlaylists_schedulesForm').on('submit', function (e) {
+        $('#panelPlaylists_schedulesForm').on('submit', function(e) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/add.json.php',
                 data: $('#panelPlaylists_schedulesForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         swal("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
@@ -213,38 +237,38 @@ if (!User::isAdmin()) {
                 }
             });
         });
-        $('#Playlists_schedulesTable').on('click', 'button.delete_Playlists_schedules', function (e) {
+        $('#Playlists_schedulesTable').on('click', 'button.delete_Playlists_schedules', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Playlists_schedulestableVar.row(tr).data();
             swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                    .then((willDelete) => {
-                        if (willDelete) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/delete.json.php",
-                                data: data
+                    title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/delete.json.php",
+                            data: data
 
-                            }).done(function (resposta) {
-                                if (resposta.error) {
-                                    swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                }
-                                Playlists_schedulestableVar.ajax.reload();
-                                modal.hidePleaseWait();
-                            });
-                        } else {
+                        }).done(function(resposta) {
+                            if (resposta.error) {
+                                swal("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                            }
+                            Playlists_schedulestableVar.ajax.reload();
+                            modal.hidePleaseWait();
+                        });
+                    } else {
 
-                        }
-                    });
+                    }
+                });
         });
-        $('#Playlists_schedulesTable').on('click', 'button.edit_Playlists_schedules', function (e) {
+        $('#Playlists_schedulesTable').on('click', 'button.edit_Playlists_schedules', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Playlists_schedulestableVar.row(tr).data();
@@ -261,9 +285,19 @@ if (!User::isAdmin()) {
         });
     });
 </script>
-<script> $(document).ready(function () {
-        $('#Playlists_schedulesstart_datetime').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-    });</script>
-<script> $(document).ready(function () {
-        $('#Playlists_schedulesfinish_datetime').datetimepicker({format: 'yyyy-mm-dd hh:ii', autoclose: true});
-    });</script>
+<script>
+    $(document).ready(function() {
+        $('#Playlists_schedulesstart_datetime').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true
+        });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        $('#Playlists_schedulesfinish_datetime').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            autoclose: true
+        });
+    });
+</script>

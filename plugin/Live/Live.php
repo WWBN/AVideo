@@ -2209,7 +2209,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
                     $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
                 }
-                if (!empty($live_index)) {
+                if (!empty($live_index)) {if($live_index=='1'){
+                    var_dump($live_index, debug_backtrace());exit;
+                }
                     $_REQUEST['live_index'] = $live_index;
                 }
 
@@ -2386,7 +2388,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $live_index = '';
 
-        if (preg_match("/.*-([0-9a-zA-Z]+)/", $key, $matches)) {
+        if (preg_match("/[^-]+-([0-9a-z-]+)/i", $key, $matches)) {
             if (!empty($matches[1])) {
                 $live_index = strip_tags($matches[1]);
                 if ($live_index === 'false') {
@@ -2712,9 +2714,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public static function getLiveKeyFromRequest($key, $live_index = '', $playlists_id_live = '') {
         if (strpos($key, '-') === false) {
             if (!empty($live_index)) {
-                $key .= '-' . preg_replace('/[^0-9a-z]/i', '', $live_index);
+                $key .= '-' . preg_replace('/[^0-9a-z-]/i', '', $live_index);
             } elseif (!empty($_REQUEST['live_index'])) {
-                $key .= '-' . preg_replace('/[^0-9a-z]/i', '', $_REQUEST['live_index']);
+                $key .= '-' . preg_replace('/[^0-9a-z-]/i', '', $_REQUEST['live_index']);
             }
         }
         if (strpos($key, '_') === false) {
@@ -3598,12 +3600,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function getInfo($key, $live_servers_id = null, $live_index = '', $playlists_id_live = '', $doNotCheckDatabase = true) {
         global $global;
+        //var_dump($key, $live_index);exit;
         //var_dump($live_servers_id);exit;
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
 
         $keyWithIndex = $lso->getKeyWithIndex();
+        //var_dump($key, $live_index, $keyWithIndex);exit;
         $key = $lso->getKey();
         $array = array(
+            'return_line' => __LINE__,
             'key' => $key,
             'keyWithIndex' => $keyWithIndex,
             'live_schedule_id' => 0,
@@ -3625,6 +3630,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $lt = LiveTransmition::getFromKey($key);
         if (empty($lt)) {
+            $array['return_line'] = __LINE__;
             return $array;
         }
         $array['transmission'] = $lt;
@@ -3639,9 +3645,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $array['otherLivesSameUser'][] = $value;
             }
         }
-
         $lth = LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id);
         if (empty($lth)) {
+            $array['return_line'] = __LINE__;
             return $array;
         }
         $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($lth['key'], $live_servers_id);
@@ -3692,6 +3698,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $array['displayTime'] = $array['startedHumanAgo'];
         }
 
+        $array['return_line'] = __LINE__;
         return $array;
     }
 
@@ -3966,7 +3973,7 @@ class LiveStreamObject {
         if(!isset($this->live_index)){
             $this->live_index = '';
         }
-        $this->live_index = preg_replace('/[^0-9a-z]/i', '',$this->live_index);
+        $this->live_index = preg_replace('/[^0-9a-z-]/i', '',$this->live_index);
     }
     /**
      * @return string
