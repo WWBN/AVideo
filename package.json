@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.4.2",
-    "@silvermine/videojs-chromecast": "^1.4.1",
+    "@fortawesome/fontawesome-free": "^6.5.1",
+    "@silvermine/videojs-chromecast": "^1.5.0",
     "animate.css": "^4.1.1",
     "bootstrap": "^5.3.2",
     "chart.js": "^4.4.0",
@@ -29,7 +29,7 @@
     "p2p-media-loader-hlsjs": "^0.6.2",
     "pouchdb": "^8.0.0",
     "sweetalert": "^2.1.2",
-    "tinymce": "^6.8.0",
+    "tinymce": "^6.8.1",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.6.1",
     "videojs-contrib-ads": "^7.3.2",

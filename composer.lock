@@ -1113,16 +1113,16 @@
         },
         {
             "name": "guzzlehttp/guzzle",
-            "version": "7.8.0",
+            "version": "7.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/guzzle.git",
-                "reference": "1110f66a6530a40fe7aea0378fe608ee2b2248f9"
+                "reference": "41042bc7ab002487b876a0683fc8dce04ddce104"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/1110f66a6530a40fe7aea0378fe608ee2b2248f9",
-                "reference": "1110f66a6530a40fe7aea0378fe608ee2b2248f9",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/41042bc7ab002487b876a0683fc8dce04ddce104",
+                "reference": "41042bc7ab002487b876a0683fc8dce04ddce104",
                 "shasum": ""
             },
             "require": {
@@ -1137,11 +1137,11 @@
                 "psr/http-client-implementation": "1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.8.1",
+                "bamarni/composer-bin-plugin": "^1.8.2",
                 "ext-curl": "*",
                 "php-http/client-integration-tests": "dev-master#2c025848417c1135031fdf9c728ee53d0a7ceaee as 3.0.999",
                 "php-http/message-factory": "^1.1",
-                "phpunit/phpunit": "^8.5.29 || ^9.5.23",
+                "phpunit/phpunit": "^8.5.36 || ^9.6.15",
                 "psr/log": "^1.1 || ^2.0 || ^3.0"
             },
             "suggest": {
@@ -1219,7 +1219,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/guzzle/issues",
-                "source": "https://github.com/guzzle/guzzle/tree/7.8.0"
+                "source": "https://github.com/guzzle/guzzle/tree/7.8.1"
             },
             "funding": [
                 {
@@ -1235,28 +1235,28 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-27T10:20:53+00:00"
+            "time": "2023-12-03T20:35:24+00:00"
         },
         {
             "name": "guzzlehttp/promises",
-            "version": "2.0.1",
+            "version": "2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/promises.git",
-                "reference": "111166291a0f8130081195ac4556a5587d7f1b5d"
+                "reference": "bbff78d96034045e58e13dedd6ad91b5d1253223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/promises/zipball/111166291a0f8130081195ac4556a5587d7f1b5d",
-                "reference": "111166291a0f8130081195ac4556a5587d7f1b5d",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/bbff78d96034045e58e13dedd6ad91b5d1253223",
+                "reference": "bbff78d96034045e58e13dedd6ad91b5d1253223",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2.5 || ^8.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.8.1",
-                "phpunit/phpunit": "^8.5.29 || ^9.5.23"
+                "bamarni/composer-bin-plugin": "^1.8.2",
+                "phpunit/phpunit": "^8.5.36 || ^9.6.15"
             },
             "type": "library",
             "extra": {
@@ -1302,7 +1302,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/promises/issues",
-                "source": "https://github.com/guzzle/promises/tree/2.0.1"
+                "source": "https://github.com/guzzle/promises/tree/2.0.2"
             },
             "funding": [
                 {
@@ -1318,20 +1318,20 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-03T15:11:55+00:00"
+            "time": "2023-12-03T20:19:20+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
-            "version": "2.6.1",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/guzzle/psr7.git",
-                "reference": "be45764272e8873c72dbe3d2edcfdfcc3bc9f727"
+                "reference": "45b30f99ac27b5ca93cb4831afe16285f57b8221"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/psr7/zipball/be45764272e8873c72dbe3d2edcfdfcc3bc9f727",
-                "reference": "be45764272e8873c72dbe3d2edcfdfcc3bc9f727",
+                "url": "https://api.github.com/repos/guzzle/psr7/zipball/45b30f99ac27b5ca93cb4831afe16285f57b8221",
+                "reference": "45b30f99ac27b5ca93cb4831afe16285f57b8221",
                 "shasum": ""
             },
             "require": {
@@ -1345,9 +1345,9 @@
                 "psr/http-message-implementation": "1.0"
             },
             "require-dev": {
-                "bamarni/composer-bin-plugin": "^1.8.1",
+                "bamarni/composer-bin-plugin": "^1.8.2",
                 "http-interop/http-factory-tests": "^0.9",
-                "phpunit/phpunit": "^8.5.29 || ^9.5.23"
+                "phpunit/phpunit": "^8.5.36 || ^9.6.15"
             },
             "suggest": {
                 "laminas/laminas-httphandlerrunner": "Emit PSR-7 responses"
@@ -1418,7 +1418,7 @@
             ],
             "support": {
                 "issues": "https://github.com/guzzle/psr7/issues",
-                "source": "https://github.com/guzzle/psr7/tree/2.6.1"
+                "source": "https://github.com/guzzle/psr7/tree/2.6.2"
             },
             "funding": [
                 {
@@ -1434,7 +1434,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-08-27T10:13:57+00:00"
+            "time": "2023-12-03T20:05:35+00:00"
         },
         {
             "name": "hybridauth/hybridauth",
@@ -1883,16 +1883,16 @@
         },
         {
             "name": "norkunas/onesignal-php-api",
-            "version": "v2.12.0",
+            "version": "v2.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/norkunas/onesignal-php-api.git",
-                "reference": "f7298c5c8f9babd4561101e65809b0efe6bec167"
+                "reference": "a26825ead9603133a5aa2fa38303d3096aa5d8a1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/norkunas/onesignal-php-api/zipball/f7298c5c8f9babd4561101e65809b0efe6bec167",
-                "reference": "f7298c5c8f9babd4561101e65809b0efe6bec167",
+                "url": "https://api.github.com/repos/norkunas/onesignal-php-api/zipball/a26825ead9603133a5aa2fa38303d3096aa5d8a1",
+                "reference": "a26825ead9603133a5aa2fa38303d3096aa5d8a1",
                 "shasum": ""
             },
             "require": {
@@ -1903,15 +1903,15 @@
                 "psr/http-factory": "^1.0",
                 "psr/http-factory-implementation": "^1.0",
                 "symfony/deprecation-contracts": "^2.1|^3.0",
-                "symfony/options-resolver": "^4.4|^5.0|^6.0"
+                "symfony/options-resolver": "^4.4|^5.0|^6.0|^7.0"
             },
             "require-dev": {
-                "nyholm/psr7": "^1.5.1",
-                "php-cs-fixer/shim": "^3.13.2",
-                "phpstan/phpstan": "^1.9.3",
-                "phpstan/phpstan-phpunit": "^1.3.2",
-                "symfony/http-client": "^5.0|^6.2",
-                "symfony/phpunit-bridge": "^5.3|^6.2"
+                "nyholm/psr7": "^1.8.1",
+                "php-cs-fixer/shim": "^v3.40.0",
+                "phpstan/phpstan": "^1.10.46",
+                "phpstan/phpstan-phpunit": "^1.3.15",
+                "symfony/http-client": "^5.0|^6.2|^7.0",
+                "symfony/phpunit-bridge": "^5.3|^6.2|^7.0"
             },
             "type": "library",
             "extra": {
@@ -1945,9 +1945,9 @@
             ],
             "support": {
                 "issues": "https://github.com/norkunas/onesignal-php-api/issues",
-                "source": "https://github.com/norkunas/onesignal-php-api/tree/v2.12.0"
+                "source": "https://github.com/norkunas/onesignal-php-api/tree/v2.14.0"
             },
-            "time": "2023-10-03T04:00:41+00:00"
+            "time": "2023-11-30T04:38:36+00:00"
         },
         {
             "name": "nyholm/psr7",
@@ -3998,16 +3998,16 @@
         },
         {
             "name": "stripe/stripe-php",
-            "version": "v13.4.0",
+            "version": "v13.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/stripe/stripe-php.git",
-                "reference": "ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1"
+                "reference": "a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1",
-                "reference": "ff0a56c75ff50b50ed97c45c02dfaa2dd341c5b1",
+                "url": "https://api.github.com/repos/stripe/stripe-php/zipball/a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37",
+                "reference": "a688c0ee7c0a2d162dee5c80b85d017cdd8d5e37",
                 "shasum": ""
             },
             "require": {
@@ -4051,9 +4051,9 @@
             ],
             "support": {
                 "issues": "https://github.com/stripe/stripe-php/issues",
-                "source": "https://github.com/stripe/stripe-php/tree/v13.4.0"
+                "source": "https://github.com/stripe/stripe-php/tree/v13.5.0"
             },
-            "time": "2023-11-21T20:08:15+00:00"
+            "time": "2023-11-30T18:11:45+00:00"
         },
         {
             "name": "symfony/console",
