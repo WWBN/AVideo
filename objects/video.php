@@ -1265,6 +1265,7 @@ if (!class_exists('Video')) {
                 unset($_GET['channelName']);
                 $return = self::getVideo($id, $status, $ignoreGroup, $random, $suggestedOnly, $showUnlisted, $ignoreTags, $activeUsersOnly);
                 $_GET['channelName'] = $channelName;
+                resetCurrentPage();
                 return $return;
             }
 
@@ -1277,6 +1278,7 @@ if (!class_exists('Video')) {
             } else {
                 $video = false;
             }
+            resetCurrentPage();
             return $video;
         }
 
