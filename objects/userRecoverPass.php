@@ -38,22 +38,19 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                 require_once 'captcha.php';
                 $valid = Captcha::validation($_REQUEST['captcha']);
                 if ($valid) {
-                    //Create a new PHPMailer instance
-                    $mail = new \PHPMailer\PHPMailer\PHPMailer();
-                    setSiteSendMessage($mail);
-                    //Set who the message is to be sent from
-                    $mail->setFrom($config->getContactEmail(), $config->getWebSiteTitle());
-                    //Set who the message is to be sent to
-                    $mail->addAddress($user->getEmail());
-                    //Set the subject line
-                    $mail->Subject = __('Recover Pass from') .' '. $config->getWebSiteTitle();
 
-                    $msg = __("You asked for a recover link, click on the provided link") . " <a href='{$global['webSiteRootURL']}recoverPass?user={$_REQUEST['user']}&recoverpass={$recoverPass}'>" . __("Reset password") . "</a>";
+                    $url = "{$global['webSiteRootURL']}recoverPass";
+                    $url = addQueryStringParameter($url, 'user', $_REQUEST['user']);
+                    $url = addQueryStringParameter($url, 'recoverpass', $recoverPass);
 
-                    $mail->msgHTML($msg);
+                    $to = $user->getEmail();
+                    $subject = __('Recover Pass from') .' '. $config->getWebSiteTitle();
+                    $message = __("You asked for a recover link, click on the provided link") . " <a href='{$url}'>" . __("Reset password") . "</a>";
+                    $fromEmail = $config->getContactEmail();
+                    $resp = sendSiteEmail($to, $subject, $message, $fromEmail);
 
                     //send the message, check for errors
-                    if (!$mail->send()) {
+                    if (!$resp) {
                         $obj->error = __("Message could not be sent") . " " . $mail->ErrorInfo;
                     } else {
                         $obj->success = __("Message sent");
