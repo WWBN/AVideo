@@ -6,13 +6,13 @@
 </style>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <button id="delete-all" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> Delete All</button>
+        <button id="delete-all" class="btn btn-danger btn-block"><i class="fas fa-trash"></i> <?php echo __('Delete All'); ?></button>
     </div>
     <div class="panel-body">
         <table id="video-history" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th><?php echo __('Date'); ?></th>
                     <th></th>
                     <th></th>
                 </tr>
