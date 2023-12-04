@@ -1,12 +1,14 @@
 <?php
-
+echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' -->';
 require_once $global['systemRootPath'].'objects/functionInfiniteScroll.php';
 $post = $_POST;
 $request = $_REQUEST;
+echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' -->';
 // if there is no section display only the dateAdded row for the selected category
 if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $obj = AVideoPlugin::getObjectData("Gallery");
     setRowCount($obj->CategoriesRowCount * 3);
+    echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' -->';
     if (empty($_GET['page'])) {
         unsetCurrentPage();
     }
@@ -26,7 +28,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
         $contentSearchFound = !empty($videos);
     }
     $currPage = getCurrentPage();
-    echo '<!-- currPage=' . $currPage . ' page='. $_GET['page'] .' -->';
+    echo '<!-- currPage=' . $currPage . ' page='. (@$_GET['page']) .' line='.__LINE__.' -->';
     //var_dump($currPage, $_GET);exit;
     global $categoryLiveVideos;
     if (empty($categoryLiveVideos) && $currPage < 2) {
