@@ -1,7 +1,5 @@
 <?php
- echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
 saveRequestVars();
-echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
 ?>
 <link href="<?php echo getURL('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
 <div class="row mainArea">
@@ -10,7 +8,6 @@ echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE_
         include $global['systemRootPath'] . 'plugin/Gallery/view/Category.php';
     }
     $obj = AVideoPlugin::getObjectData("Gallery");
-    echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
     if ($obj->searchOnChannels) {
         echo '<!-- searchOnChannels -->';
         if (!empty($_REQUEST['search'])) {
@@ -39,7 +36,6 @@ echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE_
             }
         }
     }
-    echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
     //var_dump(!empty($video), debug_backtrace());exit;
     if (!empty($video)) {
         global $contentSearchFound;
@@ -48,7 +44,6 @@ echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE_
         if (empty($_GET['search']) && !isInfiniteScroll()) {
             include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideo.php';
         }
-        echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
         echo '<center style="margin:5px;">' . getAdsLeaderBoardTop2() . '</center>';
         if (empty($_REQUEST['catName'])) {
             $objLive = AVideoPlugin::getDataObject('Live');
@@ -69,16 +64,13 @@ echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE_
             }
         }
         echo AVideoPlugin::getGallerySection();
-        echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
 
         $sections = Gallery::getSectionsOrder();
-        echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
         $countSections = 0;
         if (!empty($_REQUEST['catName'])) {
             $currentCat = Category::getCategoryByName($_REQUEST['catName']);
             //createGallery($category['name'], 'created', $obj->CategoriesRowCount, 'dateAddedOrder', __("newest"), __("oldest"), $orderString, "DESC", !$obj->hidePrivateVideos, $category['iconClass'], true);
 
-            echo '<!-- page='. (@$_GET['page']) .' line='.__LINE__.' file='.basename(__FILE__).' -->';
             include $global['systemRootPath'] . 'plugin/Gallery/view/mainAreaCategory.php';
         } else {
             //var_dump($sections);exit;
