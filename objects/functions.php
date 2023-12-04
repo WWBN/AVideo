@@ -6410,12 +6410,15 @@ function isValidEmail($email)
 {
     global $_email_hosts_checked;
     if (empty($email)) {
+        _error_log("isValidEmail email is empty");
         return false;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        _error_log("isValidEmail not FILTER_VALIDATE_EMAIL {$email}");
         return false;
     }
     if (preg_match('/@teste?\./i', $email)) {
+        _error_log("isValidEmail wrong domain {$email}");
         return false;
     }
     if (!isset($_email_hosts_checked)) {
