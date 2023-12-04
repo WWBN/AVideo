@@ -138,11 +138,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                             if (response.error) {
                                 avideoAlertError(response.msg);
                                 reject(response.msg);
-                            } else {
-                                avideoToast(response.msg);
-                                //location.reload();
-                                resolve();
-                            }
+                            } 
                         }
                     });
                 });
