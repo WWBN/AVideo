@@ -119,9 +119,9 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                         type: 'post',
                         success: function(response) {
                             if (response.error) {
-                                if(response.alert){
+                                if (response.alert) {
                                     avideoAlertError(response.msg);
-                                }else{
+                                } else {
                                     avideoToastWarning(response.msg);
                                 }
                                 reject(response.msg);
@@ -131,9 +131,18 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                             }
                             getProgress('<?php echo AI::$typeTranslation; ?>', langArrayItem.code);
                         },
-                        error: function(xhr, status, error) {
-                            avideoAlertError("AJAX request failed: " + error);
-                            reject(error);
+                        complete: function(resp) {
+                            response = resp.responseJSON
+                            console.log(response);
+                            modalContinueAISuggestions.hidePleaseWait();
+                            if (response.error) {
+                                avideoAlertError(response.msg);
+                                reject(response.msg);
+                            } else {
+                                avideoToast(response.msg);
+                                //location.reload();
+                                resolve();
+                            }
                         }
                     });
                 });
@@ -162,7 +171,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
     }
 
 
-    function processLangCheckboxes(){
+    function processLangCheckboxes() {
         $('.languageCheckbox').on('change', function() {
             var langCode = $(this).data('lang-code');
             var isChecked = $(this).is(':checked');

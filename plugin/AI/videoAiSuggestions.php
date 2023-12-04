@@ -242,6 +242,19 @@ $_page = new Page(['Video Metatags']);
                         resolve();
                     }
                     getProgress(type, '');
+                },
+                complete: function(resp) {
+                    response = resp.responseJSON
+                    console.log(response);
+                    modalContinueAISuggestions.hidePleaseWait();
+                    if (response.error) {
+                        avideoAlertError(response.msg);
+                        reject(response.msg);
+                    } else {
+                        avideoToast(response.msg);
+                        //location.reload();
+                        resolve();
+                    }
                 }
             });
         });
@@ -322,9 +335,9 @@ $_page = new Page(['Video Metatags']);
                 } else {
                     console.log(response);
                     var selector = '#' + response.prefix + 'progress';
-                    if(response.hide){
+                    if (response.hide) {
                         $(selector).hide();
-                    }else{
+                    } else {
                         $(selector).show();
                     }
                     $(selector).html(response.msg);

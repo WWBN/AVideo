@@ -11,7 +11,7 @@ if (empty($objAI)) {
 }
 
 if (empty($objAI->AccessToken)) {
-    forbiddenPage('Invalid AccessToken');
+    forbiddenPage('Invalid AccessToken <br><a class="btn btn-primary btn-block" href="https://github.com/WWBN/AVideo/wiki/AI-Plugin#setting-up" target="_blank"><i class="fa-regular fa-circle-question"></i> Get help here<a>');
 }
 
 $videos_id = getVideos_id();
