@@ -6406,7 +6406,7 @@ function isValidURL($url)
     return false;
 }
 
-function isValidEmail($email)
+function isValidEmail($email, $checkHost = false)
 {
     global $_email_hosts_checked;
     if (empty($email)) {
@@ -6423,6 +6423,10 @@ function isValidEmail($email)
     }
     if (!isset($_email_hosts_checked)) {
         $_email_hosts_checked = [];
+    }
+
+    if(empty($checkHost)){
+        return true;
     }
 
     //Get host name from email and check if it is valid
