@@ -9,7 +9,7 @@ $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
-$columnCalbackFunctions = ['text'];
+$columnCallbackFunctions = ['text'];
 
 //var_dump($hasTranscriptionFile, $vttfile, filesize($vttfile));exit;
 ?>
@@ -151,9 +151,9 @@ $columnCalbackFunctions = ['text'];
                         'size': 'Size',
                         'text': 'Text',
                     };
-                    var columnCalbackFunctions = <?php echo json_encode($columnCalbackFunctions); ?>;
+                    var columnCallbackFunctions = <?php echo json_encode($columnCallbackFunctions); ?>;
                     var selector = '#responsesT-list';
-                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCalbackFunctions);
+                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
                     if (response.vttFileExists) {
                         $('body').addClass('vttFileExists');
                     } else {
@@ -168,9 +168,9 @@ $columnCalbackFunctions = ['text'];
 
     $(document).ready(function() {
         loadAITranscriptions();
-        var calback = 'loadAITranscriptions();';
-        startProgress(calback);
-        getProgress('<?php echo AI::$typeTranscription; ?>', calback, '');
+        var callback = 'loadAITranscriptions();';
+        startProgress(callback);
+        getProgress('<?php echo AI::$typeTranscription; ?>', callback, '');
 
     });
 </script>

@@ -149,7 +149,7 @@ $_page = new Page(['Video Metatags']);
         }
     }
 
-    function processAIResponse(selector, data, columnOrder, columnHeaders, columnCalbackFunctions) {
+    function processAIResponse(selector, data, columnOrder, columnHeaders, columnCallbackFunctions) {
         var tableHead = $(selector + ' thead');
         var tableBody = $(selector + ' tbody');
         tableHead.empty(); // Clear existing headers
@@ -181,7 +181,7 @@ $_page = new Page(['Video Metatags']);
             }
             var row = $('<tr></tr>');
             columnOrder.forEach(function(column) {
-                var addButton = columnCalbackFunctions.includes(column);
+                var addButton = columnCallbackFunctions.includes(column);
                 if (item[column] != null && typeof item[column] == 'object') {
                     var combinedCell = $('<td></td>');
                     item[column].forEach(function(content, index) {
@@ -241,9 +241,9 @@ $_page = new Page(['Video Metatags']);
                         //location.reload();
                         resolve();
                     }
-                    var calback = 'loadTitleDescription();';
-                    startProgress(calback);
-                    getProgress(type, calback, '');
+                    var callback = 'loadTitleDescription();';
+                    startProgress(callback);
+                    getProgress(type, callback, '');
                 },
                 complete: function(resp) {
                     response = resp.responseJSON
@@ -317,11 +317,11 @@ $_page = new Page(['Video Metatags']);
     var progressTimeouts = {}; // Object to store timeouts for each language    
     var progressIsComplete = {}; // Object to store timeouts for each language
 
-    function startProgress(calback){
+    function startProgress(callback){
         progressIsComplete[callback] = false;
     }
 
-    function getProgress(type, calback, lang) {
+    function getProgress(type, callback, lang) {
         // Clear existing timeout for this language, if it exists
         if (progressTimeouts[lang]) {
             clearTimeout(progressTimeouts[lang]);
@@ -354,7 +354,7 @@ $_page = new Page(['Video Metatags']);
                     if (response.timeout) {
                         // Set a new timeout for this language
                         progressTimeouts[lang] = setTimeout(function() {
-                            getProgress(type, calback, lang);
+                            getProgress(type, callback, lang);
                         }, response.timeout);
                     }
                 }

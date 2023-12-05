@@ -8,7 +8,7 @@ $hasTranscriptionFile = file_exists($vttfile);
 $mp3file = AI::getLowerMP3($videos_id);
 $mp3fileExists = file_exists($mp3file['path']);
 $canTranscribe = false;
-$columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
+$columnCallbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 ?>
 <style>
     .langButton {
@@ -130,9 +130,9 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                                 resolve();
                             }
 
-                            var calback = 'loadLangs();';
-                            startProgress(calback);
-                            getProgress('<?php echo AI::$typeTranslation; ?>', calback, langArrayItem.code);
+                            var callback = 'loadLangs();';
+                            startProgress(callback);
+                            getProgress('<?php echo AI::$typeTranslation; ?>', callback, langArrayItem.code);
                         },
                         complete: function(resp) {
                             response = resp.responseJSON

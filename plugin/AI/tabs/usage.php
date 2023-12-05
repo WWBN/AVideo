@@ -34,9 +34,9 @@
                         'price': 'Cost',
                         'videos_id': 'Video ID',
                     };
-                    var columnCalbackFunctions = [];
+                    var columnCallbackFunctions = [];
                     var selector = '#responsesUsage-list';
-                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCalbackFunctions);
+                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
                 }
                 modal.hidePleaseWait();
             }

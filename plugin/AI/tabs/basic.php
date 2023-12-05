@@ -66,7 +66,7 @@
                         'videoTitles': 'Titles'
                     };
                     
-                    var columnCalbackFunctions = [
+                    var columnCallbackFunctions = [
                         'videoTitles',
                         'casualDescription',
                         'professionalDescription',
@@ -77,7 +77,7 @@
                     ];
 
                     var selector = '#responses-list';
-                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCalbackFunctions);
+                    processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
 
                     loadTitleDescription();
                 }
