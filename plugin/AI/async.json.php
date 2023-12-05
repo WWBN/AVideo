@@ -33,7 +33,7 @@ switch ($_REQUEST['type']) {
         break;
     case AI::$typeTranscription:
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
-        $obj = AI::getVideoTranscriptionMetadata($videos_id);
+        $obj = AI::getVideoTranscriptionMetadata($videos_id, $_REQUEST['language']);
         break;
     case AI::$typeTranslation:
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);

@@ -58,20 +58,18 @@ $columnCallbackFunctions = ['text'];
                     }
                     if ($hasTranscriptionFile) {
                         echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
-                        
                     }
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';
-                        
                     }
                     if (!$mp3s['isValid']) {
                         echo '<div class="alert alert-danger"><strong>Attention:</strong> ';
-                        echo 'The MP3 was invalid, we recommend you delete the transcription and try again.<br>';
+                        echo 'The MP3 is invalid.<br>';
                         echo "Regular MP3 len: {$mp3s['regular']['duration']}<br>";
                         echo "Lower MP3 len: {$mp3s['lower']['duration']}<br>";
                         echo "{$mp3s['msg']}<br>";
                         echo '</div>';
-                    } 
+                    }
                     if ($mp3fileExists) {
                         $canTranscribe = true;
                         echo '<div class="alert alert-info hideIfvttFileExists"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
@@ -82,12 +80,34 @@ $columnCallbackFunctions = ['text'];
                 echo '</div>';
                 if ($canTranscribe) {
                 ?>
-                    <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
-                        <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
-                    </button>
                     <button class="btn btn-danger btn-block showIfvttFileExists" onclick="deleteTranscriptionFile()">
                         <i class="fas fa-trash"></i> <?php echo __('Delete Transcription') ?>
                     </button>
+                    <div class="alert alert-success hideIfvttFileExists">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <select class="form-control hideIfvttFileExists" name="transcribeLang" id="transcribeLang">
+                                    <option value=""><?php echo __("Automatic"); ?></option>
+                                    <?php
+                                    foreach (AI::$languages as $key => $value) {
+                                        echo "<option value=\"{$key}\">{$value}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
+                                    <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
+                                </button>
+                            </div>
+                            <br>
+                            <small class="col-sm-12">
+                                Our AI model has the capability to automatically detect the language in an audio file and transcribe it accordingly.
+                                However, if the automatic language detection is not accurately identifying the language in your audio files,
+                                you can specify the language manually to improve the accuracy of the transcription.
+                            </small>
+                        </div>
+                    </div>
                 <?php
                 } else {
                     if ($mp3fileExists) {
@@ -117,12 +137,52 @@ $columnCallbackFunctions = ['text'];
     var hasTranscriptionRecord = false;
 
     async function generateAITranscription() {
-        await createAISuggestions('<?php echo AI::$typeTranscription; ?>');
+        await createAITranscription();
         loadAITranscriptions();
         loadAIUsage();
 
         //$('#transcriptionFooter').slideUp();
     }
+
+    
+    async function createAITranscription() {
+        return new Promise((resolve, reject) => {
+            modalContinueAISuggestions.showPleaseWait();
+            $.ajax({
+                url: webSiteRootURL + 'plugin/AI/async.json.php',
+                data: {
+                    videos_id: <?php echo $videos_id; ?>,
+                    type: '<?php echo AI::$typeTranscription; ?>',
+                    language: $('#transcribeLang').val()
+                },
+                type: 'post',
+                success: function(response) {
+                    modalContinueAISuggestions.hidePleaseWait();
+                    if (response.error) {
+                        avideoAlertError(response.msg);
+                        reject(response.msg);
+                    } else {
+                        avideoToast(response.msg);
+                        //location.reload();
+                        resolve();
+                    }
+                    var callback = 'loadTitleDescription();';
+                    startProgress(callback);
+                    getProgress(type, callback, '');
+                },
+                complete: function(resp) {
+                    response = resp.responseJSON
+                    console.log(response);
+                    modalContinueAISuggestions.hidePleaseWait();
+                    if (response.error) {
+                        avideoAlertError(response.msg);
+                        reject(response.msg);
+                    } 
+                }
+            });
+        });
+    }
+
 
     function deleteTranscriptionFile() {
         modal.showPleaseWait();

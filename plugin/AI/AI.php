@@ -14,6 +14,39 @@ class AI extends PluginAbstract {
     static $typeTranscription = 'transcription';
     static $typeBasic = 'basic';
 
+    static $languages = [
+        'en' => 'English',
+        'es' => 'Spanish',
+        'fr' => 'French',
+        'de' => 'German',
+        'it' => 'Italian',
+        'pt' => 'Portuguese',
+        'ru' => 'Russian',
+        'zh' => 'Chinese',
+        'ja' => 'Japanese',
+        'ko' => 'Korean',
+        'ar' => 'Arabic',
+        'hi' => 'Hindi',
+        'bn' => 'Bengali',
+        'pl' => 'Polish',
+        'tr' => 'Turkish',
+        'nl' => 'Dutch',
+        'sv' => 'Swedish',
+        'da' => 'Danish',
+        'fi' => 'Finnish',
+        'no' => 'Norwegian',
+        'cs' => 'Czech',
+        'el' => 'Greek',
+        'he' => 'Hebrew',
+        'th' => 'Thai',
+        'hu' => 'Hungarian',
+        'id' => 'Indonesian',
+        'ms' => 'Malay',
+        'fa' => 'Persian',
+        'uk' => 'Ukrainian',
+        'vi' => 'Vietnamese'
+    ];
+    
     static $isTest = 0;
     static $url = 'https://ai.ypt.me/';
     static $url_test = 'http://192.168.0.2:81/AI/';
@@ -146,7 +179,7 @@ class AI extends PluginAbstract {
         return $obj;
     }
 
-    static function getVideoTranscriptionMetadata($videos_id){
+    static function getVideoTranscriptionMetadata($videos_id, $lang){
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -177,6 +210,7 @@ class AI extends PluginAbstract {
             'videos_id' => $videos_id,
             'mp3' => $mp3,
             'filesize' => $fsize,
+            'language' => $lang,
             'filesizeHuman' => humanFileSize($fsize),
             'duration_in_seconds' => $video->getDuration_in_seconds(),
         );
@@ -318,6 +352,7 @@ class AI extends PluginAbstract {
                 $command = removeUserAgentIfNotURL($command);
                 exec($command, $output);
                 _error_log('getLowerMP3: '.json_encode($output));
+                return self::getMP3RegularAndLower($videos_id);
             }
         }else{
             return $mp3s;

@@ -24,7 +24,7 @@ $obj->response = Ai_responses::getAllTranscriptionFromVideo($obj->videos_id);
 
 $paths = Ai_transcribe_responses::getVTTPaths($obj->videos_id);
 $file = $paths['path'];
-//$obj->file = $file;
+$obj->file = $file;
 
 $obj->vttFileExists = !empty($file) && file_exists($file) && filesize($file) > 20;
 
