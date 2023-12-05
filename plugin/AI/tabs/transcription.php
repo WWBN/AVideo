@@ -7,7 +7,7 @@ $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 //$hasTranscriptionFile = false;
 $mp3s = AI::getLowerMP3($videos_id);
-//var_dump($mp3s);exit;
+//var_dump($mp3s['lower']['paths']['path']);exit;
 $mp3fileExists = file_exists($mp3s['lower']['paths']['path']);
 $canTranscribe = false;
 $columnCallbackFunctions = ['text'];
@@ -70,6 +70,7 @@ $columnCallbackFunctions = ['text'];
                     }
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';
+                        var_dump($mp3s);
                     }
                     if ($mp3fileExists) {
                         $canTranscribe = true;
