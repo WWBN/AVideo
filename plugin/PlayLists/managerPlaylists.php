@@ -8,6 +8,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 if (!User::isLogged()) {
     gotToLoginAndComeBackHere('');
 }
+$global['laodPlaylistScript'] = 1;
 function getPlaylistOwnerUsersId()
 {
     if (!empty($_REQUEST['PlaylistOwnerUsersId'])) {
@@ -131,6 +132,8 @@ TimeLogEnd($timeName, __LINE__);
                         $rowsNOTSubPlaylists = PlayList::getAllNOTSubPlayLists($value["id"]);
                         $totalNOTSubPlaylists = count($rowsNOTSubPlaylists);
 
+                        $durationInSeconds = PlayList::getTotalDurationFromPlaylist($value["id"]);
+
                         $classes = array();
                         $isASerie = PlayLists::isPlayListASerie($value["id"]);
                         if ($isASerie) {
@@ -142,7 +145,6 @@ TimeLogEnd($timeName, __LINE__);
                         if ($totalNOTSubPlaylists) {
                             $classes[] = 'pl_videos';
                         }
-                        $durationInSeconds = 0;
                     ?>
                         <div class="col-sm-6 col-md-4 col-lg-3 pl pl<?php echo $value["id"]; ?> <?php echo implode(' ', $classes) ?>">
                             <div class="panel panel-<?php echo $totalSubPlaylists ? 'primary' : 'default'; ?>">
@@ -230,7 +232,6 @@ TimeLogEnd($timeName, __LINE__);
                                                             <?php
                                                                 break;
                                                             }
-                                                            $durationInSeconds += durationToSeconds($row["duration"]);
                                                             ?>
                                                             <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                 <div class="ellipsis videoTitle">
@@ -279,7 +280,6 @@ TimeLogEnd($timeName, __LINE__);
                                                             break;
                                                         }
                                                         if ($totalNOTSubPlaylists > 0) {
-                                                            $durationInSeconds += durationToSeconds($row["duration"]);
                                                         ?>
                                                             <li class="list-group-item" id="videos_id_<?php echo $row["id"]; ?>_playlists_id_<?php echo $value["id"]; ?>">
                                                                 <div class="ellipsis videoTitle">

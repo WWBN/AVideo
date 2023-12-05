@@ -1003,7 +1003,21 @@ class PlayLists extends PluginAbstract
     function executeEveryMinute(){
         global $global;
         $file = "{$global['systemRootPath']}plugin/PlayLists/run.php";
-        //require_once $file;
+        require_once $file;
+    }
+
+    
+    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id) {        
+        $lt = new LiveTransmitionHistory($live_transmitions_history_id);
+        $key = $lt->getKey();
+        _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
+        if(!empty($key) && $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key)){
+            _error_log("on_publish_done Playlists_schedules live_transmitions_history_id={$live_transmitions_history_id} ".json_encode($isPlayListScheduled));
+            $ps = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);            
+            $ps->setStatus(Playlists_schedules::STATUS_EXECUTED);
+            return  $ps->save();
+        }
+        return false;
     }
 
 }

@@ -462,7 +462,8 @@ abstract class ObjectYPT implements ObjectInterface
             'emails_messages',
             'ai_responses',
             'ai_metatags_responses',
-            'ai_transcribe_responses'
+            'ai_transcribe_responses',
+            'playlists_schedules'
         ];
         return in_array(static::getTableName(), $ignoreArray);
     }

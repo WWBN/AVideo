@@ -562,6 +562,46 @@ class PlayList extends ObjectYPT {
         return count($rows);
     }
 
+    
+    public static function getTotalDurationFromPlaylist($playlists_id, $depth=0) {
+        global $getTotalDurationFromPlaylist;
+        if (empty($playlists_id)) {
+            return false;
+        }
+        if (!isset($getTotalDurationFromPlaylist)) {
+            $getTotalDurationFromPlaylist = [];
+        }
+        if (!isset($getTotalDurationFromPlaylist[$playlists_id])) {
+            $getTotalDurationFromPlaylist[$playlists_id] = [];
+        }
+
+        $sql = "SELECT v.* "
+                . " FROM  playlists_has_videos p "
+                . " LEFT JOIN videos as v ON videos_id = v.id "
+                . " WHERE playlists_id = ? AND v.status != 'i' ";
+
+        $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $duration = 0;
+        if ($res !== false) {
+            foreach ($fullData as $row) {
+                if(empty($row['serie_playlists_id'])){
+                    $duration += $row['duration_in_seconds'];
+                }else{
+                    if($depth<4){
+                        $duration += self::getTotalDurationFromPlaylist($row['serie_playlists_id'], $depth+1);
+                    }else{
+                        return 0;
+                    }
+                }
+            }
+        }
+        //var_dump($sql, $duration);
+        $getTotalDurationFromPlaylist[$playlists_id] = $duration;
+        return $getTotalDurationFromPlaylist[$playlists_id];
+    }
+
     public static function getAllSubPlayLists($playlists_id, $NOTSubPlaylists = 0) {
         global $getAllSubPlayLists;
         if (empty($playlists_id)) {

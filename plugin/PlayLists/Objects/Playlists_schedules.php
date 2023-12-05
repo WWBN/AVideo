@@ -6,8 +6,9 @@ class Playlists_schedules extends ObjectYPT
 {
 
     const STATUS_ACTIVE = 'a';
-    const STATUS_INACTIVE = 'a';
+    const STATUS_INACTIVE = 'i';
     const STATUS_EXECUTING = 'e';
+    const STATUS_EXECUTED = 'x';
     const STATUS_COMPLETE = 'c';
     const STATUS_FAIL = 'f';
 
@@ -15,6 +16,7 @@ class Playlists_schedules extends ObjectYPT
         self::STATUS_ACTIVE => 'Active',
         self::STATUS_INACTIVE => 'Inactive',
         self::STATUS_EXECUTING => 'Executing',
+        self::STATUS_EXECUTED => 'Executed',
         self::STATUS_COMPLETE => 'Complete',
         self::STATUS_FAIL => 'Fail',
     );
@@ -167,9 +169,9 @@ class Playlists_schedules extends ObjectYPT
         return self::getAllFromStatus(self::STATUS_ACTIVE);
     }
 
-    public static function getAllExecuting()
+    public static function getAllExecuted()
     {
-        return self::getAllFromStatus(self::STATUS_EXECUTING);
+        return self::getAllFromStatus(self::STATUS_EXECUTED);
     }
 
     public function save()
@@ -178,6 +180,21 @@ class Playlists_schedules extends ObjectYPT
             $this->status = self::STATUS_ACTIVE;
         }
         return parent::save();
+    }
+
+    static function getCleanVideosIDArray($playlists_id, $depth=0){
+        $cleanVideosArrayId = array();
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
+        foreach ($videosArrayId as $key => $value) {
+            $video = new Video('', '', $value);
+            if ($video->getType() == Video::$videoTypeVideo) {
+                $cleanVideosArrayId[] = $value;
+            }else if ($video->getType() == Video::$videoTypeSerie && !empty($video->getSerie_playlists_id()) && $depth < 4){
+                $newVideosArrayId = self::getCleanVideosIDArray($video->getSerie_playlists_id(), $depth+1);
+                $cleanVideosArrayId = array_merge($cleanVideosArrayId, $newVideosArrayId);
+            }
+        }
+        return $cleanVideosArrayId;
     }
 
     static function getPlaying($playlists_schedules_id)
@@ -194,23 +211,7 @@ class Playlists_schedules extends ObjectYPT
             return $plsp;
         }
 
-        $videosArrayId = PlayList::getVideosIdFromPlaylist($plsp->playlists_id);
-        if (empty($videosArrayId)) {
-            $plsp->msg = 'videosArrayId is empty';
-            $ps->setStatus(self::STATUS_FAIL);
-            $ps->setParameters($plsp);
-            $ps->save();
-            return $plsp;
-        }
-
-        $cleanVideosArrayId = array();
-
-        foreach ($videosArrayId as $key => $value) {
-            $video = new Video('', '', $value);
-            if ($video->getType() == Video::$videoTypeVideo) {
-                $cleanVideosArrayId[] = $value;
-            }
-        }
+        $cleanVideosArrayId = self::getCleanVideosIDArray($plsp->playlists_id);
 
         if (empty($cleanVideosArrayId)) {
             $plsp->msg = 'There is no valid videos in this playlist';
@@ -249,7 +250,7 @@ class Playlists_schedules extends ObjectYPT
         if (!empty($plsp->videos_id_history) && empty($plsp->current_videos_id_index)) {
             $plsp->loop_count++;
         }
-        $plsp->current_videos_id = $videosArrayId[$plsp->current_videos_id_index];
+        $plsp->current_videos_id = $cleanVideosArrayId[$plsp->current_videos_id_index];
         $plsp->videos_id_history[] = $plsp->current_videos_id;
         if (count($plsp->videos_id_history) > $plsp->totalVideos * 2) {
             $plsp->videos_id_history = array_slice($plsp->videos_id_history, -$plsp->totalVideos);
@@ -257,11 +258,35 @@ class Playlists_schedules extends ObjectYPT
         $plsp->msg = "Playing " . ($plsp->current_videos_id_index + 1) . "/{$plsp->totalVideos} loop {$plsp->loop_count}";
         $plsp->play = true;
 
-        $ps->setStatus(self::STATUS_EXECUTING);
+        if($ps->getFinish_datetime() < time()){
+            $ps->setStatus(self::STATUS_COMPLETE);
+        }else{
+            $ps->setStatus(self::STATUS_EXECUTING);
+        }
+
         $ps->setParameters($plsp);
         $ps->save();
 
         return $plsp;
+    }
+
+    static function getPlayListScheduledIndex($playlists_schedules){
+        return "ps-{$playlists_schedules}";
+    }
+    
+    static function iskeyPlayListScheduled($key){
+        if(preg_match('/([0-9a-z]+)-ps-([0-9]+)/', $key, $matches)){
+            if(!empty($matches[2])){
+                return array('key'=>$key, 'cleankey'=>$matches[1], 'playlists_schedules'=>$matches[2]);
+            }
+        }
+        return false;
+    }
+
+    static public function stopBroadcast($playlists_schedules_id){
+        $ps = new Playlists_schedules($playlists_schedules_id);
+        $ps->setStatus(self::STATUS_COMPLETE);
+        return $ps->save();
     }
 }
 
