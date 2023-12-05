@@ -19,7 +19,7 @@ if (!User::canStream()) {
     die(json_encode($obj));
 }
 
-$lives = LiveTransmitionHistory::getAllActiveFromUser();
+$lives = LiveTransmitionHistory::getAllActiveFromUser(User::getId());
 $restreamers = Live_restreams::getAllFromUser(User::getId());
 
 foreach ($lives as $key => $value) {

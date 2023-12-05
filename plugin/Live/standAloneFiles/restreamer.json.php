@@ -71,6 +71,10 @@ if (!empty($_REQUEST['tokenForAction'])) {
     $obj = new stdClass();
     $obj->error = true;
     $obj->msg = '';
+    $obj->time = time();
+    $obj->modified = 0;
+    $obj->secondsAgo = -1;
+    $obj->isActive = false;
     $json = verifyTokenForAction($_REQUEST['tokenForAction']);
     //var_dump($json);exit;
     if (!empty($json) && isset($json->error) && empty($json->error)) {
@@ -79,12 +83,16 @@ if (!empty($_REQUEST['tokenForAction'])) {
         switch ($json->action) {
             case 'log':
                 $obj->logName = str_replace($logFileLocation, '', $json->logFile);
-                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);
-                $logFile = $logFileLocation . $obj->logName;
-                $obj->modified = @filemtime($logFile);
-                $obj->time = time();
-                $obj->secondsAgo = $obj->time - $obj->modified;
-                $obj->isActive = $obj->secondsAgo < 10;
+                $obj->logName = preg_replace('/[^a-z0-9_.-]/i', '', $obj->logName);                
+                if(!empty($obj->logName)){
+                    $logFile = $logFileLocation . $obj->logName;
+                    if(file_exists($logFile)){
+                        $obj->modified = @filemtime($logFile);
+                        $obj->secondsAgo = $obj->time - $obj->modified;
+                        $obj->isActive = $obj->secondsAgo < 10;
+                    }
+                }
+
                 echo json_encode($obj);
                 exit;
                 break;
@@ -406,8 +414,18 @@ function clearCommandURL($url) {
 function isURL200($url, $forceRecheck = false) {
     global $global_timeLimit;
     set_time_limit(5);
-    //error_log("isURL200 checking URL {$url}");
-    $headers = @get_headers($url);
+    error_log("isURL200 checking URL {$url}");
+
+    // Create a stream context that ignores SSL certificate verification
+    $context = stream_context_create(array(
+        "ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => false,
+        ),
+    ));
+
+    // Use the created context with file_get_contents
+    $headers = @get_headers($url, 1, $context);
     if (!is_array($headers)) {
         $headers = [$headers];
     }
@@ -422,13 +440,14 @@ function isURL200($url, $forceRecheck = false) {
             $result = true;
             break;
         } else {
-            //_error_log('isURL200: '.$value);
+            error_log('isURL200: '.$value);
         }
     }
     set_time_limit($global_timeLimit);
 
     return $result;
 }
+
 
 function make_path($path) {
     $created = false;
@@ -448,6 +467,7 @@ function make_path($path) {
 
 function startRestream($m3u8, $restreamsDestinations, $logFile, $robj, $tries = 1) {
     global $ffmpegBinary, $isATest;
+    $m3u8 = str_replace('vlu.me', 'live', $m3u8);
     if (empty($restreamsDestinations)) {
         error_log("Restreamer.json.php startRestream ERROR empty restreamsDestinations");
         return false;
