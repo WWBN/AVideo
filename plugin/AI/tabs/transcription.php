@@ -57,21 +57,21 @@ $columnCallbackFunctions = ['text'];
                         echo '<div class="alert alert-danger"><strong>Error:</strong> Transcription services are available exclusively for self-hosted videos.</div>';
                     }
                     if ($hasTranscriptionFile) {
-                        if (!$mp3s['isValid']) {
-                            echo '<div class="alert alert-danger"><strong>Attention:</strong> ';
-                            echo 'The MP3 was invalid, we recommend you delete the transcription and try again.<br>';
-                            echo "Regular MP3 len: {$mp3s['regular']['duration']}<br>";
-                            echo "Lower MP3 len: {$mp3s['lower']['duration']}<br>";
-                            echo "{$mp3s['msg']}<br>";
-                            echo '</div>';
-                        } else {
-                            echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
-                        }
+                        echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
+                        
                     }
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';
-                        var_dump($mp3s);
+                        
                     }
+                    if (!$mp3s['isValid']) {
+                        echo '<div class="alert alert-danger"><strong>Attention:</strong> ';
+                        echo 'The MP3 was invalid, we recommend you delete the transcription and try again.<br>';
+                        echo "Regular MP3 len: {$mp3s['regular']['duration']}<br>";
+                        echo "Lower MP3 len: {$mp3s['lower']['duration']}<br>";
+                        echo "{$mp3s['msg']}<br>";
+                        echo '</div>';
+                    } 
                     if ($mp3fileExists) {
                         $canTranscribe = true;
                         echo '<div class="alert alert-info hideIfvttFileExists"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
