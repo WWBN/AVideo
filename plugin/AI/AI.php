@@ -165,14 +165,19 @@ class AI extends PluginAbstract {
         $video = new Video('', '', $videos_id);
         $mp3 = false;
         $mp3s = self::getLowerMP3($videos_id);
-        
+        $fsize = 0;
+        if($mp3s['isValid']){
+            $mp3 = $mp3s['lower']['paths']['url'];
+            $fsize = filesize($mp3s['lower']['paths']['path']);
+        }
 
         //var_dump($paths);exit;
         $obj->response = array(
             'type' => AI::$typeTranscription,
             'videos_id' => $videos_id,
             'mp3' => $mp3,
-            'mp3s' => $mp3s,
+            'filesize' => $fsize,
+            'filesizeHuman' => humanFileSize($fsize),
             'duration_in_seconds' => $video->getDuration_in_seconds(),
         );
 

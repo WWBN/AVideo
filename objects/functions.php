@@ -8257,7 +8257,8 @@ function getDurationFromFile($file)
         }
 
         if (!empty($getDurationFromFile[$file])) {
-            return $getDurationFromFile[$file];
+            // I need to check again because I am recreating the file on the AI
+            //return $getDurationFromFile[$file];
         }
 
         $hls = str_replace(".zip", "/index.m3u8", $file);
