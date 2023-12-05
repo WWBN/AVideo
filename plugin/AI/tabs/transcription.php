@@ -85,7 +85,7 @@ $columnCallbackFunctions = ['text'];
                     </button>
                     <div class="alert alert-success hideIfvttFileExists">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <select class="form-control hideIfvttFileExists" name="transcribeLang" id="transcribeLang">
                                     <option value=""><?php echo __("Automatic"); ?></option>
                                     <?php
@@ -95,15 +95,16 @@ $columnCallbackFunctions = ['text'];
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-8">
                                 <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
                                     <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
                                 </button>
                             </div>
-                            <br>
+                            <hr>
                             <small class="col-sm-12">
                                 Our AI model has the capability to automatically detect the language in an audio file and transcribe it accordingly.
-                                However, if the automatic language detection is not accurately identifying the language in your audio files,
+                                However, if the automatic language detection is not accurately identifying the language 
+                                in your audio files or you want to force a translation,
                                 you can specify the language manually to improve the accuracy of the transcription.
                             </small>
                         </div>

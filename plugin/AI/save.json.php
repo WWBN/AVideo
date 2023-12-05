@@ -143,7 +143,7 @@ switch ($_REQUEST['label']) {
             $value = $ait->getVtt();
             //var_dump($value);exit;
             if (!empty($value)) {
-                $paths = Ai_transcribe_responses::getVTTPaths($obj->videos_id);
+                $paths = Ai_transcribe_responses::getVTTPaths($obj->videos_id, $ait->getLanguage());
                 $file = $paths['path'];
                 if (!mb_check_encoding($value, 'UTF-8')) {
                     $value = mb_convert_encoding($value, 'UTF-8');

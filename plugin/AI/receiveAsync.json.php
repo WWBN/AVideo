@@ -107,7 +107,7 @@ switch ($_REQUEST['type']) {
             if (!empty($_REQUEST['response']['vtt']) && !empty($jsonDecoded->Ai_transcribe_responses)) {
                 _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
                 //$jsonDecoded->lines[] = __LINE__;
-                $paths = Ai_transcribe_responses::getVTTPaths($videos_id);
+                $paths = Ai_transcribe_responses::getVTTPaths($videos_id, $_REQUEST['response']['language']);
                 $jsonDecoded->vttsaved = file_put_contents($paths['path'],$_REQUEST['response']['vtt']);
             }
             $jsonDecoded->error = false;

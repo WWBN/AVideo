@@ -4049,7 +4049,6 @@ if (!class_exists('Video')) {
                 return $__getPaths[$videoFilename];
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
-            //var_dump($videoFilename, $path,$cleanVideoFilename);
             $videosDir = self::getStoragePath();
 
             $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
@@ -4273,7 +4272,10 @@ if (!class_exists('Video')) {
                     return $parts[0];
                 }
                 return $parts[1];
-            } else {
+            } elseif ($path_parts['extension'] == 'vtt') {
+                $p = explode('.', $path_parts['filename']);
+                return $p[0];
+            }  else {
                 return $path_parts['filename'];
             }
         }
