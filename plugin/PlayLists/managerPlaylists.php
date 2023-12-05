@@ -69,8 +69,6 @@ TimeLogEnd($timeName, __LINE__);
     include $global['systemRootPath'] . 'view/include/navbar.php';
     ?>
     <div class="container-fluid">
-        <br>
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-tabs">
@@ -132,7 +130,9 @@ TimeLogEnd($timeName, __LINE__);
                         $rowsNOTSubPlaylists = PlayList::getAllNOTSubPlayLists($value["id"]);
                         $totalNOTSubPlaylists = count($rowsNOTSubPlaylists);
 
-                        $durationInSeconds = PlayList::getTotalDurationFromPlaylist($value["id"]);
+                        $resp = PlayList::getTotalDurationAndTotalVideosFromPlaylist($value["id"]);
+                        $durationInSeconds = $resp['duration_in_seconds'];
+                        $totalVideos = $resp['totalVideos'];
 
                         $classes = array();
                         $isASerie = PlayLists::isPlayListASerie($value["id"]);
@@ -324,8 +324,13 @@ TimeLogEnd($timeName, __LINE__);
                                     if ($totalNOTSubPlaylists) {
                                         echo '<span class="label label-default"><i class="fas fa-film"></i> ' . __('Videos') . '</span>';
                                     }
-                                    echo '<span class="label label-default"><i class="far fa-clock"></i> ' . seconds2human($durationInSeconds) . '</span>';
                                     ?>
+                                    <span class="label label-default">
+                                        <i class="far fa-clock"></i> <?php echo seconds2human($durationInSeconds); ?>
+                                    </span>
+                                    <span class="label label-default">
+                                    <i class="fa-solid fa-layer-group"></i> <?php echo $totalVideos; ?> <?php echo __('total videos'); ?>
+                                    </span>
                                 </div>
                             </div>
                         </div>
