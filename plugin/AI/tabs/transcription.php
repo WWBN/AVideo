@@ -6,8 +6,9 @@ $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 //$hasTranscriptionFile = false;
-$mp3file = AI::getLowerMP3($videos_id);
-$mp3fileExists = file_exists($mp3file['path']);
+$mp3s = AI::getLowerMP3($videos_id);
+//var_dump($mp3s);exit;
+$mp3fileExists = file_exists($mp3s['lower']['paths']['path']);
 $canTranscribe = false;
 $columnCallbackFunctions = ['text'];
 
@@ -56,7 +57,15 @@ $columnCallbackFunctions = ['text'];
                         echo '<div class="alert alert-danger"><strong>Error:</strong> Transcription services are available exclusively for self-hosted videos.</div>';
                     }
                     if ($hasTranscriptionFile) {
-                        echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
+                        if (!$mp3s['isValid']) {
+                            echo '<div class="alert alert-danger"><strong>Attention:</strong> ';
+                            echo 'The MP3 was invalid, we recommend you delete the transcription and try again.<br>';
+                            echo "Regular MP3 len: {$mp3s['regular']['duration']}<br>";
+                            echo "Lower MP3 len: {$mp3s['lower']['duration']}<br>";
+                            echo '</div>';
+                        } else {
+                            echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
+                        }
                     }
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';

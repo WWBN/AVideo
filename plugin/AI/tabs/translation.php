@@ -5,9 +5,6 @@ $filename = $video->getFilename();
 $vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile);
-$mp3file = AI::getLowerMP3($videos_id);
-$mp3fileExists = file_exists($mp3file['path']);
-$canTranscribe = false;
 $columnCallbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 ?>
 <style>

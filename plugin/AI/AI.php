@@ -164,20 +164,15 @@ class AI extends PluginAbstract {
 
         $video = new Video('', '', $videos_id);
         $mp3 = false;
-        $convert = self::getLowerMP3($videos_id);
-        $fsize = 0;
-        if(!empty($convert) && !empty($convert['url'])){
-            $mp3 = $convert['url'];
-            $fsize = filesize($convert['path']);
-        }
+        $mp3s = self::getLowerMP3($videos_id);
+        
 
         //var_dump($paths);exit;
         $obj->response = array(
             'type' => AI::$typeTranscription,
             'videos_id' => $videos_id,
             'mp3' => $mp3,
-            'filesize' => $fsize,
-            'filesizeHuman' => humanFileSize($fsize),
+            'mp3s' => $mp3s,
             'duration_in_seconds' => $video->getDuration_in_seconds(),
         );
 
@@ -219,38 +214,100 @@ class AI extends PluginAbstract {
         return $json;
     }
 
-    static function getLowerMP3($videos_id, $try = 0){
+    static function getMP3Path($videos_id){
         $convert = convertVideoToMP3FileIfNotExists($videos_id);
-        if(!empty($convert) && !empty($convert['url'])){
-            $newPath = str_replace('.mp3', '_Low.mp3', $convert['path']);
-            if(!file_exists($newPath)){
+        if(empty($convert) || empty($convert['url'])){
+            return false;
+        }
+        return $convert;
+    }
+
+    static function getMP3LowerPath($videos_id){
+        $convert = self::getMP3Path($videos_id);
+        if(empty($convert) || empty($convert['url'])){
+            return false;
+        }
+        $convert['path'] = str_replace('.mp3', '_Low.mp3', $convert['path']);
+        $convert['url'] = str_replace('.mp3', '_Low.mp3', $convert['url']);
+        return $convert;
+    }
+    
+    static function getMP3RegularAndLower($videos_id){     
+        $arrayRegular = array(
+            'paths' => false,
+            'duration' => false,
+            'durationInSeconds' => 0,
+            'isValid' => false,
+        );
+        $arrayLower = array(
+            'paths' => false,
+            'duration' => false,
+            'durationInSeconds' => 0,
+            'isValid' => false,
+        );
+
+        $paths = self::getMP3Path($videos_id);
+        if(!empty($paths )){
+            $duration = getDurationFromFile($paths['path']);
+            $durationInSeconds = durationToSeconds($duration);
+            $arrayRegular = array(
+                'paths' => $paths,
+                'duration' => $duration,
+                'durationInSeconds' => $durationInSeconds,
+                'isValid' => !empty($durationInSeconds),
+            );
+            
+            $pathsLower = self::getMP3LowerPath($videos_id); 
+            if(!empty($pathsLower )){
+                $duration = getDurationFromFile($pathsLower['path']);
+                $durationInSeconds = durationToSeconds($duration);
+                $arrayLower = array(
+                    'paths' => $pathsLower,
+                    'duration' => $duration,
+                    'durationInSeconds' => $durationInSeconds,
+                    'isValid' => !empty($durationInSeconds),
+                );
+                
+                $pathsLower = self::getMP3LowerPath($videos_id); 
+            }
+        }
+        
+        $isValid = false;
+        if($arrayRegular['valid'] && $arrayLower['valid']){
+            $diff = abs($arrayRegular['durationInSeconds'] - $arrayLower['durationInSeconds']);
+            if ($diff <= 2) {
+                $isValid = true;
+            } 
+        }
+
+        $response = array(
+            'regular' => $arrayRegular,
+            'lower' => $arrayLower,
+            'isValid' => $isValid,
+        );
+        return $response;
+    }
+
+    static function getLowerMP3($videos_id, $try = 0){
+        $mp3s = self::getMP3RegularAndLower($videos_id);
+        if($mp3s['regular']['isValid']){
+            if(!$mp3s['isValid']){
                 ini_set('max_execution_time', 300); 
                 set_time_limit(300);
-                $fromFileLocationEscaped = escapeshellarg($convert['path']);
-                $toFileLocationEscaped = escapeshellarg($newPath);
+                if(file_exists($mp3s['lower']['paths']['path'])){
+                    unlink($mp3s['lower']['paths']['path']);
+                }
+                $fromFileLocationEscaped = escapeshellarg($mp3s['regular']['paths']['path']);
+                $toFileLocationEscaped = escapeshellarg($mp3s['lower']['paths']['path']);
                 $command = get_ffmpeg()." -i {$fromFileLocationEscaped} -ar 16000 -ac 1 -b:a 16k {$toFileLocationEscaped}";
                 $command = removeUserAgentIfNotURL($command);
                 exec($command, $output);
                 _error_log('getLowerMP3: '.json_encode($output));
             }
-            $mp3Len = durationToSeconds(getDurationFromFile($convert['path']));
-            $mp3LowLen = durationToSeconds(getDurationFromFile($newPath));
-            if($mp3LowLen<$mp3Len-1){
-                _error_log('getLowerMP3 convert it wrongly');
-                if(empty($try)){
-                    _error_log('getLowerMP3 try again');
-                    unlink($newPath);
-                    return self::getLowerMP3($videos_id, $try+1);
-                }
-            }
-            //var_dump($mp3Len , $mp3LowLen );unlink($newPath);exit;
-            //var_dump($command, file_exists($newPath));exit;
-            if(file_exists($newPath)){
-                $convert['url'] = str_replace('.mp3', '_Low.mp3', $convert['url']);
-                $convert['path'] = $newPath;
-            }
+        }else{
+            return false;
         }
-        return $convert;
+        return $mp3s;
     }
     
     
