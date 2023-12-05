@@ -182,6 +182,7 @@ $_page = new Page(['Video Metatags']);
             var row = $('<tr></tr>');
             columnOrder.forEach(function(column) {
                 var addButton = columnCallbackFunctions.includes(column);
+                //console.log(addButton, column, columnCallbackFunctions);
                 if (item[column] != null && typeof item[column] == 'object') {
                     var combinedCell = $('<td></td>');
                     item[column].forEach(function(content, index) {

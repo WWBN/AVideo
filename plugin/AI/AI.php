@@ -102,6 +102,7 @@ class AI extends PluginAbstract {
     }
 
     static function getVideoTranslationMetadata($videos_id, $lang, $langName){
+        global $global;
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -124,12 +125,13 @@ class AI extends PluginAbstract {
             SubtitleSwitcher::transcribe($videos_id, false);
         }
 
-        $paths = Ai_transcribe_responses::getVTTPaths($videos_id);
+        $firstVTTPath = AI::getFirstVTTFile($videos_id);
+        $vttURL = str_replace(getVideosDir(), $global['webSiteRootURL'],$firstVTTPath);
 
         //var_dump($paths);exit;
         $obj->response = array(
             'type' => AI::$typeTranslation,
-            'vtt' => $paths['url'],
+            'vtt' => $vttURL,
             'lang' => $lang,
             'langName' => $langName
         );
@@ -139,6 +141,7 @@ class AI extends PluginAbstract {
     }
 
     static function getVideoBasicMetadata($videos_id){
+        global $global;
         $obj = new stdClass();
         $obj->error = true;
         $obj->msg = '';
@@ -162,7 +165,8 @@ class AI extends PluginAbstract {
         }
         /*
         */
-        $paths = Ai_transcribe_responses::getVTTPaths($videos_id);
+        $firstVTTPath = AI::getFirstVTTFile($videos_id);
+        $vttURL = str_replace(getVideosDir(), $global['webSiteRootURL'],$firstVTTPath);
         //var_dump($paths);exit;
         $obj->response = array(
             'type' => AI::$typeBasic,
@@ -171,7 +175,7 @@ class AI extends PluginAbstract {
             'title' => strip_tags($video->getTitle()),
             'description' => strip_tags($video->getDescription()),
             'duration_in_seconds' => $video->getDuration_in_seconds(),
-            'vtt' => $paths['url'],
+            'vtt' => $vttURL,
             'text' => Ai_responses::getTranscriptionText($videos_id)
         );
 
@@ -429,6 +433,27 @@ class AI extends PluginAbstract {
     public function getFooterCode() {
         global $global;
         include $global['systemRootPath'] . 'plugin/AI/footer.php';
+    }
+
+    static function getVTTFiles($videos_id) {
+        $video = new Video('', '', $videos_id);
+        $filename = $video->getFilename();
+        $dir = getVideosDir() . "{$filename}/";
+    
+        // Find all .vtt files in the directory
+        $vttFiles = glob($dir . "*.vtt");
+    
+        // Return the array of .vtt files
+        return $vttFiles;
+    }
+    
+
+    static function getFirstVTTFile($videos_id){
+        $vttFiles = self::getVTTFiles($videos_id);
+        if(empty($vttFiles)){
+            return false;
+        }
+        return $vttFiles[0];
     }
 
 }

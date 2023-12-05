@@ -2,10 +2,10 @@
 $video = new Video('', '', $videos_id);
 $filename = $video->getFilename();
 //var_dump($filename);exit;
-$vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
+$vttfile = AI::getFirstVTTFile($videos_id);
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile);
-$columnCallbackFunctions = $hasTranscriptionFile ? [] : ['text'];
+$columnCallbackFunctions = ['text'];
 ?>
 <style>
     .langButton {

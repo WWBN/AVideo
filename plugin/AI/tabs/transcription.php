@@ -2,7 +2,7 @@
 $video = new Video('', '', $videos_id);
 $filename = $video->getFilename();
 //var_dump($filename);exit;
-$vttfile = getVideosDir() . "{$filename}/{$filename}.vtt";
+$vttfile = AI::getFirstVTTFile($videos_id);
 //echo $vttfile;
 $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 //$hasTranscriptionFile = false;
@@ -225,6 +225,7 @@ $columnCallbackFunctions = ['text'];
                     };
                     var columnCallbackFunctions = <?php echo json_encode($columnCallbackFunctions); ?>;
                     var selector = '#responsesT-list';
+                    //console.log(columnCallbackFunctions);
                     processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
                     if (response.vttFileExists) {
                         $('body').addClass('vttFileExists');

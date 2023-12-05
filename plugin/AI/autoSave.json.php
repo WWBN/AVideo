@@ -86,8 +86,7 @@ if (!empty($VideoTags)) {
 }
 
 if (!empty($ai['vtt'])) {
-    $filename = $video->getFilename();
-    $file = getVideosDir() . "{$filename}/{$filename}.vtt";
+    $file = AI::getFirstVTTFile($videos_id);
     if (!mb_check_encoding($ai['vtt'], 'UTF-8')) {
         $ai['vtt'] = mb_convert_encoding($ai['vtt'], 'UTF-8');
     }
