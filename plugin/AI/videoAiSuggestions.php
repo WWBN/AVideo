@@ -241,7 +241,9 @@ $_page = new Page(['Video Metatags']);
                         //location.reload();
                         resolve();
                     }
-                    getProgress(type, '');
+                    var calback = 'loadTitleDescription();';
+                    startProgress(calback);
+                    getProgress(type, calback, '');
                 },
                 complete: function(resp) {
                     response = resp.responseJSON
@@ -311,12 +313,20 @@ $_page = new Page(['Video Metatags']);
             }
         });
     }
+    
+    var progressTimeouts = {}; // Object to store timeouts for each language    
+    var progressIsComplete = {}; // Object to store timeouts for each language
 
-    function getProgress(type, lang) {
+    function startProgress(calback){
+        progressIsComplete[callback] = false;
+    }
+
+    function getProgress(type, calback, lang) {
         // Clear existing timeout for this language, if it exists
         if (progressTimeouts[lang]) {
             clearTimeout(progressTimeouts[lang]);
         }
+
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/progress.json.php',
             data: {
@@ -336,12 +346,15 @@ $_page = new Page(['Video Metatags']);
                     } else {
                         $(selector).show();
                     }
+                    if(!progressIsComplete[callback]){
+                        eval(callback);
+                        progressIsComplete[callback] = true;
+                    }
                     $(selector).html(response.msg);
-
                     if (response.timeout) {
                         // Set a new timeout for this language
                         progressTimeouts[lang] = setTimeout(function() {
-                            getProgress(type, lang);
+                            getProgress(type, calback, lang);
                         }, response.timeout);
                     }
                 }

@@ -79,7 +79,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
         // Append checked checkboxes at the beginning of the form
         checkedCheckboxes.forEach(function(checkbox) {
             $form.prepend(checkbox);
-            getProgress('<?php echo AI::$typeTranslation; ?>', $(checkbox).find('input').data('lang-code'));
+            getProgress('<?php echo AI::$typeTranslation; ?>', '', $(checkbox).find('input').data('lang-code'));
         });
 
         // Append unchecked checkboxes after the checked ones
@@ -129,7 +129,10 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                                 avideoToast(response.msg);
                                 resolve();
                             }
-                            getProgress('<?php echo AI::$typeTranslation; ?>', langArrayItem.code);
+
+                            var calback = 'loadLangs();';
+                            startProgress(calback);
+                            getProgress('<?php echo AI::$typeTranslation; ?>', calback, langArrayItem.code);
                         },
                         complete: function(resp) {
                             response = resp.responseJSON
@@ -138,7 +141,7 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
                             if (response.error) {
                                 avideoAlertError(response.msg);
                                 reject(response.msg);
-                            } 
+                            }
                         }
                     });
                 });
@@ -150,7 +153,6 @@ $columnCalbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 
         modalContinueAISuggestions.hidePleaseWait();
     }
-    var progressTimeouts = {}; // Object to store timeouts for each language
 
     function loadLangs() {
         $.ajax({

@@ -111,7 +111,7 @@ $columnCalbackFunctions = ['text'];
         loadAIUsage();
 
         //$('#transcriptionFooter').slideUp();
-    }    
+    }
 
     function deleteTranscriptionFile() {
         modal.showPleaseWait();
@@ -168,7 +168,9 @@ $columnCalbackFunctions = ['text'];
 
     $(document).ready(function() {
         loadAITranscriptions();
-        getProgress('<?php echo AI::$typeTranscription; ?>', '');
+        var calback = 'loadAITranscriptions();';
+        startProgress(calback);
+        getProgress('<?php echo AI::$typeTranscription; ?>', calback, '');
 
     });
 </script>

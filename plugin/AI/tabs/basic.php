@@ -88,6 +88,6 @@
 
     $(document).ready(function() {
         loadAIBasic();
-        getProgress('<?php echo AI::$typeBasic; ?>', '');
+        getProgress('<?php echo AI::$typeBasic; ?>', '', '');
     });
 </script>
