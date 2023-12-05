@@ -8,7 +8,7 @@ $hasTranscriptionFile = file_exists($vttfile) && filesize($vttfile) > 20;
 //$hasTranscriptionFile = false;
 $mp3s = AI::getLowerMP3($videos_id);
 //var_dump($mp3s['lower']['paths']['path']);exit;
-$mp3fileExists = file_exists($mp3s['lower']['paths']['path']);
+$mp3fileExists = $mp3s['isValid'];
 $canTranscribe = false;
 $columnCallbackFunctions = ['text'];
 
