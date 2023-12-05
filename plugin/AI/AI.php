@@ -315,7 +315,7 @@ class AI extends PluginAbstract {
                 _error_log('getLowerMP3: '.json_encode($output));
             }
         }else{
-            return false;
+            return $mp3s;
         }
         return $mp3s;
     }
