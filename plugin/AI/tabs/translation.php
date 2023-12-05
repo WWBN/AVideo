@@ -14,6 +14,9 @@ $columnCallbackFunctions = $hasTranscriptionFile ? [] : ['text'];
 </style>
 <div class="panel panel-default">
     <div class="panel-heading">
+        <?php echo __('Translation'); ?>
+    </div>
+    <div class="panel-heading">
         <input class="form-control" id="searchInput" type="text" placeholder="Search Languages...">
     </div>
     <div class="panel-body" style="max-height: calc(100vh - 300px); overflow: auto;">
