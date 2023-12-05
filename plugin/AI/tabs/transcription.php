@@ -62,6 +62,7 @@ $columnCallbackFunctions = ['text'];
                             echo 'The MP3 was invalid, we recommend you delete the transcription and try again.<br>';
                             echo "Regular MP3 len: {$mp3s['regular']['duration']}<br>";
                             echo "Lower MP3 len: {$mp3s['lower']['duration']}<br>";
+                            echo "{$mp3s['msg']}<br>";
                             echo '</div>';
                         } else {
                             echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';

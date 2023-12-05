@@ -271,19 +271,29 @@ class AI extends PluginAbstract {
                 $pathsLower = self::getMP3LowerPath($videos_id); 
             }
         }
-        
+        $msg = '';
         $isValid = false;
-        if($arrayRegular['valid'] && $arrayLower['valid']){
+        if($arrayRegular['isValid'] && $arrayLower['isValid']){
             $diff = abs($arrayRegular['durationInSeconds'] - $arrayLower['durationInSeconds']);
             if ($diff <= 2) {
                 $isValid = true;
-            } 
+            }else{
+                $msg = "durationInSeconds are not the same regular={$arrayRegular['durationInSeconds']} lower={$arrayLower['durationInSeconds']}";
+            }
+        }else{
+            if(!$arrayRegular['isValid']){
+                $msg = 'Regular MP3 is invalid';
+            }
+            if(!$arrayRegular['isValid']){
+                $msg .= ' Lower MP3 is invalid';
+            }
         }
 
         $response = array(
             'regular' => $arrayRegular,
             'lower' => $arrayLower,
             'isValid' => $isValid,
+            'msg' => $msg,
         );
         return $response;
     }
