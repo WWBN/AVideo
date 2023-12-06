@@ -126,12 +126,13 @@ class AI extends PluginAbstract {
         }
 
         $firstVTTPath = AI::getFirstVTTFile($videos_id);
-        $vttURL = str_replace(getVideosDir(), $global['webSiteRootURL'],$firstVTTPath);
+        $vttURL = str_replace($global['systemRootPath'], $global['webSiteRootURL'],$firstVTTPath);
 
         //var_dump($paths);exit;
         $obj->response = array(
             'type' => AI::$typeTranslation,
             'vtt' => $vttURL,
+            //'firstVTTPath' => $firstVTTPath,
             'lang' => $lang,
             'langName' => $langName
         );
@@ -459,9 +460,7 @@ class AI extends PluginAbstract {
     static function getProgressBarHTML($classname){
         return '
         <div class="progress progressAI '.$classname.'" style="display:none;">
-            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                0%
-            </div>
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
             <strong class="progressAIText">...</strong>
         </div>';
     }
