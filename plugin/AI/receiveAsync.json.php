@@ -30,6 +30,8 @@ if (empty($token->ai_responses_id)) {
 $jsonDecoded = new stdClass();
 $jsonDecoded->error = true;
 $jsonDecoded->msg = '';
+$jsonDecoded->type = $_REQUEST['type'];
+$jsonDecoded->token = $token;
 
 _error_log('Start line=' . __LINE__);
 

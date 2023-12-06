@@ -46,6 +46,10 @@ $_page = new Page(['Video Metatags']);
     .progress-bar-animated {
         animation: progress-bar-stripes 1s linear infinite;
     }
+
+    .progressAIText{
+        float: right;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
