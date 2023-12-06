@@ -85,7 +85,7 @@ if (empty($jsonProgressDecoded->canRequestNew)) {
     $obj->error = true;
     $obj->msg = $jsonProgressDecoded->msg;
     $obj->jsonProgressDecoded = $jsonProgressDecoded;
-    if($obj->msg){
+    if(empty($obj->msg)){
         $obj->msg = 'Looks like there is already a process runing';
     }
 
