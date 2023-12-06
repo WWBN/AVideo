@@ -2,6 +2,7 @@
 
 require_once '../../videos/configuration.php';
 
+ini_set('max_execution_time', 600);
 header('Content-Type: application/json');
 
 $objAI = AVideoPlugin::getDataObjectIfEnabled('AI');
