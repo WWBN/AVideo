@@ -4238,7 +4238,12 @@ if (!class_exists('Video')) {
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
             }
-
+            
+            $path_parts = pathinfo($filename);
+            if (!empty($path_parts['extension']) && $path_parts['extension'] == 'vtt') {
+                $p = explode('.', $path_parts['filename']);
+                return $p[0];
+            }
             /**
              *
              * @var array $global
@@ -4252,6 +4257,7 @@ if (!class_exists('Video')) {
                 }
             }
             $cleanName = str_replace($search, '', $filename);
+
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
             }
@@ -4272,10 +4278,7 @@ if (!class_exists('Video')) {
                     return $parts[0];
                 }
                 return $parts[1];
-            } elseif ($path_parts['extension'] == 'vtt') {
-                $p = explode('.', $path_parts['filename']);
-                return $p[0];
-            }  else {
+            } else {
                 return $path_parts['filename'];
             }
         }

@@ -107,8 +107,12 @@ switch ($_REQUEST['type']) {
             if (!empty($_REQUEST['response']['vtt']) && !empty($jsonDecoded->Ai_transcribe_responses)) {
                 _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
                 //$jsonDecoded->lines[] = __LINE__;
-                $paths = Ai_transcribe_responses::getVTTPaths($videos_id, $_REQUEST['response']['language']);
-                $jsonDecoded->vttsaved = file_put_contents($paths['path'],$_REQUEST['response']['vtt']);
+                $paths = Ai_transcribe_responses::getVTTPaths($token->videos_id, $_REQUEST['response']['language']);
+                if(!empty($paths['path'])){
+                    $jsonDecoded->vttsaved = file_put_contents($paths['path'],$_REQUEST['response']['vtt']);
+                }else{
+                    _error_log("VTTFile Path is empty videos_id={$token->videos_id}, language={$_REQUEST['response']['language']} ".json_encode($paths));
+                }
             }
             $jsonDecoded->error = false;
         }
@@ -118,6 +122,9 @@ switch ($_REQUEST['type']) {
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
         $jsonDecoded->msg = 'Type not found';
         break;
+}
+if($jsonDecoded->vttsaved){
+    Video::clearCache($token->videos_id);
 }
 $r = json_encode($jsonDecoded);
 _error_log($r);

@@ -77,6 +77,7 @@
                     ];
 
                     var selector = '#responses-list';
+                    //console.log(selector, response);
                     processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
 
                     loadTitleDescription();

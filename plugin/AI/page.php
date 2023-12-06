@@ -51,7 +51,11 @@ $_page = new Page(['Video Metatags']);
                     <?php echo Video::getVideoImagewithHoverAnimationFromVideosId($videos_id); ?>
                 </div>
                 <div class="panel-body">
-                    <h1 id="currentTitle"><?php echo $video->getTitle(); ?></h1>
+                    <a href="<?php echo Video::getLinkToVideo($videos_id); ?>" target="_blank">
+                        <h1 id="currentTitle">
+                            <?php echo $video->getTitle(); ?>
+                        </h1>
+                    </a>
                 </div>
                 <div class="panel-footer" id="currentDescription">
                     <?php echo $video->getDescription(); ?>
@@ -77,26 +81,19 @@ $_page = new Page(['Video Metatags']);
         <div class="col-sm-12 col-md-9 col-lg-10">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <strong>
-                        Unlock the full potential of your video's reach!
-                        Click '<i class="fas fa-robot"></i> <?php echo __('Generate AI Suggestions'); ?>'
-                        now for tailored suggestions that can skyrocket your video's visibility.
-                    </strong>
-                </div>
-                <div class="panel-heading">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a data-toggle="tab" href="#pbasic">
-                                <i class="fa-solid fa-lightbulb"></i>
-                                <?php echo __("Basic"); ?><br>
-                                <span id="<?php echo AI::$typeBasic; ?>progress" class="badge" style="display:none;">...</span>
-                            </a>
-                        </li>
-                        <li>
                             <a data-toggle="tab" href="#pTranscription">
                                 <i class="fas fa-microphone-alt"></i>
                                 <?php echo __("Transcription"); ?><br>
                                 <span id="<?php echo AI::$typeTranscription; ?>progress" class="badge" style="display:none;">...</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#pbasic">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <?php echo __("Basic"); ?><br>
+                                <span id="<?php echo AI::$typeBasic; ?>progress" class="badge" style="display:none;">...</span>
                             </a>
                         </li>
                         <li><a data-toggle="tab" href="#pUsage"><i class="fas fa-receipt"></i> <?php echo __("Usage"); ?></a></li>
@@ -105,14 +102,14 @@ $_page = new Page(['Video Metatags']);
                 </div>
                 <div class="panel-body">
                     <div class="tab-content">
-                        <div id="pbasic" class="tab-pane fade in active">
-                            <?php
-                            include $global['systemRootPath'] . 'plugin/AI/tabs/basic.php';
-                            ?>
-                        </div>
-                        <div id="pTranscription" class="tab-pane fade ">
+                        <div id="pTranscription" class="tab-pane fade in active ">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/transcription.php';
+                            ?>
+                        </div>
+                        <div id="pbasic" class="tab-pane fade">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/basic.php';
                             ?>
                         </div>
                         <div id="pUsage" class="tab-pane fade ">
@@ -162,22 +159,15 @@ $_page = new Page(['Video Metatags']);
         });
         tableHead.append(headerRow);
 
-        if (!empty(data.response)) {
-            if (typeof data.response[0].ai_responses_id !== undefined) {
-                ai_metatags_responses_id = 0;
-            }
-        }
-
         // Create and append table rows
         data.response.forEach(function(item) {
             var ai_metatags_responses_id = 0;
             var ai_transcribe_responses_id = 0;
-            if (typeof item.videoTitles !== 'undefined') {
-                ai_metatags_responses_id = item.ai_responses_id;
-            } else if (typeof item.vtt !== 'undefined') {
-                ai_transcribe_responses_id = item.ai_responses_id;
-            } else {
-
+            if (!empty(item.ai_metatags_responses_id)) {
+                ai_metatags_responses_id = item.ai_metatags_responses_id;
+            }
+            if (!empty(item.ai_transcribe_responses_id)) {
+                ai_transcribe_responses_id = item.ai_transcribe_responses_id;
             }
             var row = $('<tr></tr>');
             columnOrder.forEach(function(column) {
@@ -213,12 +203,25 @@ $_page = new Page(['Video Metatags']);
         });
 
         function addSaveButton(id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column) {
-            var saveBtn = $('<button class="btn btn-primary btn-xs btn-block save-btn"><i class="fa-solid fa-floppy-disk"></i></button>');
+            var saveBtn = $('<button class="btn btn-primary btn-xs btn-block save-btn"><i class="fa-solid fa-floppy-disk"></i> ' + __('Save') + '</button>');
             saveBtn.on('click', function() {
                 confirmUpdate(id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column);
                 console.log('addSaveButton', id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column);
             });
-            return saveBtn;
+
+            if(empty(ai_transcribe_responses_id)){
+                return saveBtn;
+            }
+            
+            var btnGroup = $('<div class="btn-group btn-group-justified" role="group"></div>');
+            var deleteBtn = $('<button class="btn btn-danger btn-xs btn-block save-btn"><i class="fa-solid fa-trash"></i> ' + __('Delete') + '</button>');
+            deleteBtn.on('click', function() {
+                deleteAI(id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column);
+                console.log('deleteAI', id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column);
+            });
+            btnGroup.append(saveBtn);
+            btnGroup.append(deleteBtn);
+            return btnGroup;
         }
     }
 
@@ -253,14 +256,16 @@ $_page = new Page(['Video Metatags']);
                     if (response.error) {
                         avideoAlertError(response.msg);
                         reject(response.msg);
-                    } 
+                    }
                 }
             });
         });
     }
 
+    var modalloadTitleDescription = getPleaseWait();
+
     function loadTitleDescription() {
-        modal.showPleaseWait();
+        modalloadTitleDescription.showPleaseWait();
         $('.aiItem').slideDown();
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/tabs/video.json.php',
@@ -281,7 +286,7 @@ $_page = new Page(['Video Metatags']);
                         $('.' + simpleTextHash(text)).slideUp();
                     });
                 }
-                modal.hidePleaseWait();
+                modalloadTitleDescription.hidePleaseWait();
             }
         });
     }
@@ -299,10 +304,11 @@ $_page = new Page(['Video Metatags']);
                 videos_id: <?php echo $videos_id; ?>
             },
             type: 'post',
-            success: function(response) {
+            complete: function(resp) {
+                response = resp.responseJSON
+                console.log(response);
                 if (response.error) {
                     avideoAlertError(response.msg);
-                    modal.hidePleaseWait();
                 } else {
                     avideoToast(__("Your register has been saved!"));
                     if (ai_metatags_responses_id) {
@@ -311,14 +317,47 @@ $_page = new Page(['Video Metatags']);
                         loadAITranscriptions();
                     }
                 }
+                modal.hidePleaseWait();
             }
         });
     }
-    
+
+
+    function deleteAI(id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column) {
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/delete.json.php',
+            data: {
+                id: id,
+                ai_metatags_responses_id: ai_metatags_responses_id,
+                ai_transcribe_responses_id: ai_transcribe_responses_id,
+                index: index,
+                label: column,
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            complete: function(resp) {
+                response = resp.responseJSON
+                console.log(response);
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                } else {
+                    avideoToast(__("Your register has been saved!"));
+                    if (ai_metatags_responses_id) {
+                        loadTitleDescription();
+                    } else {
+                        loadAITranscriptions();
+                    }
+                }
+                modal.hidePleaseWait();
+            }
+        });
+    }
+
     var progressTimeouts = {}; // Object to store timeouts for each language    
     var progressIsComplete = {}; // Object to store timeouts for each language
 
-    function startProgress(callback){
+    function startProgress(callback) {
         progressIsComplete[callback] = false;
     }
 
@@ -347,7 +386,7 @@ $_page = new Page(['Video Metatags']);
                     } else {
                         $(selector).show();
                     }
-                    if(!progressIsComplete[callback]){
+                    if (!progressIsComplete[callback]) {
                         eval(callback);
                         progressIsComplete[callback] = true;
                     }

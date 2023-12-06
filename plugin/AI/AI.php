@@ -376,7 +376,7 @@ class AI extends PluginAbstract {
         $btn = '';
         $btn .= '<button type="button" ' .
             ' class="btn btn-default btn-light btn-sm btn-xs btn-block" ' .
-            ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/videoAiSuggestions.php?videos_id=\'+row.id+\'\\\');" >' .
+            ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videos_id=\'+row.id+\'\\\');" >' .
             ' <i class="fas fa-robot"></i> ' . __("AI-Powered") . '</button>';
 
         return $btn;

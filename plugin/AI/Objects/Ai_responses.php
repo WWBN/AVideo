@@ -86,7 +86,7 @@ class Ai_responses extends ObjectYPT
     static function getAllBasicFromVideo($videos_id)
     {
         global $global;
-        $sql = "SELECT amr.*, ar.created as sortDate
+        $sql = "SELECT amr.*,amr.id as ai_metatags_responses_id, ar.created as sortDate
         FROM ai_metatags_responses amr
         JOIN ai_responses ar ON amr.ai_responses_id = ar.id
         WHERE ar.videos_id = ?";
@@ -125,7 +125,7 @@ class Ai_responses extends ObjectYPT
     static function getAllTranscriptionFromVideo($videos_id)
     {
         global $global;
-        $sql = "SELECT atr.*, ar.created as sortDate
+        $sql = "SELECT atr.*, atr.id as ai_transcribe_responses_id, ar.created as sortDate
         FROM ai_transcribe_responses atr
         JOIN ai_responses ar ON atr.ai_responses_id = ar.id
         WHERE ar.videos_id = ? ";

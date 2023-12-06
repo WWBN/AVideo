@@ -29,13 +29,11 @@ $columnCallbackFunctions = ['text'];
 </style>
 <div class="row">
 
-    <div class="col-sm-6">
+    <div class="col-sm-8">
 
         <div class="panel panel-default">
             <div class="panel-heading">
                 <div class="alert alert-info">
-                    <h4><strong>AI-Powered Video Transcriptions!</strong></h4>
-                    <p>We are thrilled to announce that we are now utilizing advanced AI technology to extract transcriptions from your videos! This powerful feature is designed to recognize and transcribe speech in any language, making your content more accessible and engaging.</p>
                     <p><strong>Note:</strong> To ensure accurate transcription, your videos should contain clear speech. Please be aware that videos without any spoken words, or those containing only sounds and instrumental music, cannot be transcribed by our AI system. Make sure your videos have audible and clear speech to take full advantage of this feature.</p>
                 </div>
             </div>
@@ -56,11 +54,10 @@ $columnCallbackFunctions = ['text'];
                     if ($video->getType() != Video::$videoTypeVideo) {
                         echo '<div class="alert alert-danger"><strong>Error:</strong> Transcription services are available exclusively for self-hosted videos.</div>';
                     }
-                    if ($hasTranscriptionFile) {
-                        echo '<div class="alert alert-success"><strong>Success:</strong> A transcription has already been prepared for this video.</div>';
-                    }
                     if (!$mp3fileExists) {
                         echo '<div class="alert alert-warning"><strong>Note:</strong> An MP3 file is required for transcription. Currently, there is no MP3 file associated with this video.</div>';
+                    } else {
+                        $canTranscribe = true;
                     }
                     if (!$mp3s['isValid']) {
                         echo '<div class="alert alert-danger"><strong>Attention:</strong> ';
@@ -70,23 +67,16 @@ $columnCallbackFunctions = ['text'];
                         echo "{$mp3s['msg']}<br>";
                         echo '</div>';
                     }
-                    if ($mp3fileExists) {
-                        $canTranscribe = true;
-                        echo '<div class="alert alert-info hideIfvttFileExists"><strong>Ready for Transcription:</strong> Your video meets all the requirements and is now ready to be transcribed.</div>';
-                    }
                 } else {
                     echo '<div class="alert alert-danger"><strong>Attention:</strong> SubtitleSwitcher is required for transcriptions.</div>';
                 }
                 echo '</div>';
                 if ($canTranscribe) {
                 ?>
-                    <button class="btn btn-danger btn-block showIfvttFileExists" onclick="deleteTranscriptionFile()">
-                        <i class="fas fa-trash"></i> <?php echo __('Delete Transcription') ?>
-                    </button>
-                    <div class="alert alert-success hideIfvttFileExists">
+                    <div class="alert alert-success">
                         <div class="row">
-                            <div class="col-sm-4">
-                                <select class="form-control hideIfvttFileExists" name="transcribeLang" id="transcribeLang">
+                            <div class="col-sm-3">
+                                <select class="form-control" name="transcribeLang" id="transcribeLang">
                                     <option value=""><?php echo __("Automatic"); ?></option>
                                     <?php
                                     foreach (AI::$languages as $key => $value) {
@@ -95,15 +85,15 @@ $columnCallbackFunctions = ['text'];
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-sm-8">
-                                <button class="btn btn-success btn-block hideIfvttFileExists" onclick="generateAITranscription()">
+                            <div class="col-sm-9">
+                                <button class="btn btn-success btn-block" onclick="generateAITranscription()">
                                     <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
                                 </button>
                             </div>
                             <hr>
                             <small class="col-sm-12">
                                 Our AI model has the capability to automatically detect the language in an audio file and transcribe it accordingly.
-                                However, if the automatic language detection is not accurately identifying the language 
+                                However, if the automatic language detection is not accurately identifying the language
                                 in your audio files or you want to force a translation,
                                 you can specify the language manually to improve the accuracy of the transcription.
                             </small>
@@ -127,7 +117,7 @@ $columnCallbackFunctions = ['text'];
         </div>
 
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <?php
         include $global['systemRootPath'] . 'plugin/AI/tabs/translation.php';
         ?>
@@ -145,7 +135,7 @@ $columnCallbackFunctions = ['text'];
         //$('#transcriptionFooter').slideUp();
     }
 
-    
+
     async function createAITranscription() {
         return new Promise((resolve, reject) => {
             modalContinueAISuggestions.showPleaseWait();
@@ -169,7 +159,7 @@ $columnCallbackFunctions = ['text'];
                     }
                     var callback = 'loadTitleDescription();';
                     startProgress(callback);
-                    getProgress(type, callback, '');
+                    getProgress('<?php echo AI::$typeTranscription; ?>', callback, '');
                 },
                 complete: function(resp) {
                     response = resp.responseJSON
@@ -178,7 +168,7 @@ $columnCallbackFunctions = ['text'];
                     if (response.error) {
                         avideoAlertError(response.msg);
                         reject(response.msg);
-                    } 
+                    }
                 }
             });
         });
@@ -197,12 +187,21 @@ $columnCallbackFunctions = ['text'];
                 avideoResponse(response);
                 loadAITranscriptions();
                 modal.hidePleaseWait();
+            },
+            complete: function(resp) {
+                response = resp.responseJSON
+                modal.hidePleaseWait();
+                console.log(response);
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                }
             }
         });
     }
 
     function loadAITranscriptions() {
-        modal.showPleaseWait();
+        var modalloadAITranscriptions = getPleaseWait();
+        modalloadAITranscriptions.showPleaseWait();
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/tabs/transcriptions.json.php',
             data: {
@@ -226,6 +225,7 @@ $columnCallbackFunctions = ['text'];
                     var columnCallbackFunctions = <?php echo json_encode($columnCallbackFunctions); ?>;
                     var selector = '#responsesT-list';
                     //console.log(columnCallbackFunctions);
+                    //console.log(selector, response);
                     processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
                     if (response.vttFileExists) {
                         $('body').addClass('vttFileExists');
@@ -234,7 +234,15 @@ $columnCallbackFunctions = ['text'];
                         $('body').removeClass('vttFileExists');
                     }
                 }
+                modalloadAITranscriptions.hidePleaseWait();
+            },
+            complete: function(resp) {
+                response = resp.responseJSON
                 modal.hidePleaseWait();
+                console.log(response);
+                if (response.error) {
+                    avideoAlertError(response.msg);
+                }
             }
         });
     }

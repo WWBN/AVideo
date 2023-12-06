@@ -8,8 +8,9 @@
 </table>
 
 <script>
+    var modalloadAIUsage = getPleaseWait();
     function loadAIUsage() {
-        modal.showPleaseWait();
+        modalloadAIUsage.showPleaseWait();
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/tabs/usage.json.php',
             data: {
@@ -36,9 +37,10 @@
                     };
                     var columnCallbackFunctions = [];
                     var selector = '#responsesUsage-list';
+                    //console.log(selector, response);
                     processAIResponse(selector, response, columnOrder, columnHeaders, columnCallbackFunctions);
                 }
-                modal.hidePleaseWait();
+                modalloadAIUsage.hidePleaseWait();
             }
         });
     }

@@ -14,7 +14,14 @@ $columnCallbackFunctions = ['text'];
 </style>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <?php echo __('Translation'); ?>
+        <h1>
+            <?php echo __('Translate from transcription file'); ?>
+        </h1>
+        <small>
+            If your preferred language isn't available in our transcription/language selection menu, don't worry! 
+            You can still get your translations in the language you need. Simply choose your desired language from below. 
+            We'll handle the translation directly from one subtitle file.
+        </small>
     </div>
     <div class="panel-heading">
         <input class="form-control" id="searchInput" type="text" placeholder="Search Languages...">
