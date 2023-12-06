@@ -408,7 +408,7 @@ $_page = new Page(['Video Metatags']);
         //console.log('updateProgress("'+selector+'", "'+newVal+'", "'+message+'");', selector, newVal, message);
         $(selector + ' .progress-bar').css('width', newVal + '%');
         $(selector + ' .progress-bar').attr('aria-valuenow', newVal);
-        $(selector + ' .progressAIText').text(message + ' (' + newVal + '%)');
+        $(selector + ' .progressAIText').text(message);
     }
 
     $(document).ready(function() {
