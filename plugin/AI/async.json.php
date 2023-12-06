@@ -84,7 +84,11 @@ if (empty($jsonProgressDecoded->canRequestNew)) {
     $obj = new stdClass();
     $obj->error = true;
     $obj->msg = $jsonProgressDecoded->msg;
-    
+    $obj->jsonProgressDecoded = $jsonProgressDecoded;
+    if($obj->msg){
+        $obj->msg = 'Looks like there is already a process runing';
+    }
+
     die(json_encode($obj));
 }
 _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);

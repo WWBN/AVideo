@@ -197,7 +197,7 @@ if (!empty($_POST['updateFile'])) {
     <?php
     include $global['systemRootPath'] . 'view/include/footer.php';
     ?>
-    <script src="<?php echo getCDN(); ?>js/three.js" type="text/javascript"></script>
+    <script src="<?php echo getURL('js/three.js'); ?>" type="text/javascript"></script>
 </body>
 
 </html>
