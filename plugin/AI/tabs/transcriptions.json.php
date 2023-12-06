@@ -22,7 +22,6 @@ $obj->msg = '';
 $obj->videos_id = $videos_id;
 $obj->response = Ai_responses::getAllTranscriptionFromVideo($obj->videos_id);
 
-
 $file = AI::getFirstVTTFile($obj->videos_id);
 $obj->file = $file;
 

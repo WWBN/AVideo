@@ -86,7 +86,6 @@ $columnCallbackFunctions = ['text'];
         // Append checked checkboxes at the beginning of the form
         checkedCheckboxes.forEach(function(checkbox) {
             $form.prepend(checkbox);
-            getProgress('<?php echo AI::$typeTranslation; ?>', '', $(checkbox).find('input').data('lang-code'));
         });
 
         // Append unchecked checkboxes after the checked ones
@@ -138,8 +137,6 @@ $columnCallbackFunctions = ['text'];
                             }
 
                             var callback = 'loadLangs();';
-                            startProgress(callback);
-                            getProgress('<?php echo AI::$typeTranslation; ?>', callback, langArrayItem.code);
                         },
                         complete: function(resp) {
                             response = resp.responseJSON

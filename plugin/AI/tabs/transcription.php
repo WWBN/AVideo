@@ -36,6 +36,12 @@ $columnCallbackFunctions = ['text'];
                 <div class="alert alert-info">
                     <p><strong>Note:</strong> To ensure accurate transcription, your videos should contain clear speech. Please be aware that videos without any spoken words, or those containing only sounds and instrumental music, cannot be transcribed by our AI system. Make sure your videos have audible and clear speech to take full advantage of this feature.</p>
                 </div>
+                <?php
+                echo AI::getProgressBarHTML("transcription_{$videos_id}");
+                foreach (AI::$languages as $key => $value) {
+                    echo AI::getProgressBarHTML("transcription_{$key}_{$videos_id}");
+                }
+                ?>
             </div>
             <div class="panel-body">
                 <table id="responsesT-list" class="table table-bordered table-hover">
@@ -158,8 +164,6 @@ $columnCallbackFunctions = ['text'];
                         resolve();
                     }
                     var callback = 'loadTitleDescription();';
-                    startProgress(callback);
-                    getProgress('<?php echo AI::$typeTranscription; ?>', callback, '');
                 },
                 complete: function(resp) {
                     response = resp.responseJSON
@@ -250,8 +254,6 @@ $columnCallbackFunctions = ['text'];
     $(document).ready(function() {
         loadAITranscriptions();
         var callback = 'loadAITranscriptions();';
-        startProgress(callback);
-        getProgress('<?php echo AI::$typeTranscription; ?>', callback, '');
 
     });
 </script>

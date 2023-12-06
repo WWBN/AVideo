@@ -42,6 +42,10 @@ $_page = new Page(['Video Metatags']);
         min-height: 75vh;
         border: none;
     }
+
+    .progress-bar-animated {
+        animation: progress-bar-stripes 1s linear infinite;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -86,14 +90,12 @@ $_page = new Page(['Video Metatags']);
                             <a data-toggle="tab" href="#pTranscription">
                                 <i class="fas fa-microphone-alt"></i>
                                 <?php echo __("Transcription"); ?><br>
-                                <span id="<?php echo AI::$typeTranscription; ?>progress" class="badge" style="display:none;">...</span>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#pbasic">
                                 <i class="fa-solid fa-lightbulb"></i>
                                 <?php echo __("Basic"); ?><br>
-                                <span id="<?php echo AI::$typeBasic; ?>progress" class="badge" style="display:none;">...</span>
                             </a>
                         </li>
                         <li><a data-toggle="tab" href="#pUsage"><i class="fas fa-receipt"></i> <?php echo __("Usage"); ?></a></li>
@@ -209,10 +211,10 @@ $_page = new Page(['Video Metatags']);
                 console.log('addSaveButton', id, ai_metatags_responses_id, ai_transcribe_responses_id, index, column);
             });
 
-            if(empty(ai_transcribe_responses_id)){
+            if (empty(ai_transcribe_responses_id)) {
                 return saveBtn;
             }
-            
+
             var btnGroup = $('<div class="btn-group btn-group-justified" role="group"></div>');
             var deleteBtn = $('<button class="btn btn-danger btn-xs btn-block save-btn"><i class="fa-solid fa-trash"></i> ' + __('Delete') + '</button>');
             deleteBtn.on('click', function() {
@@ -245,9 +247,6 @@ $_page = new Page(['Video Metatags']);
                         //location.reload();
                         resolve();
                     }
-                    var callback = 'loadTitleDescription();';
-                    startProgress(callback);
-                    getProgress(type, callback, '');
                 },
                 complete: function(resp) {
                     response = resp.responseJSON
@@ -353,25 +352,12 @@ $_page = new Page(['Video Metatags']);
             }
         });
     }
-
-    var progressTimeouts = {}; // Object to store timeouts for each language    
-    var progressIsComplete = {}; // Object to store timeouts for each language
-
-    function startProgress(callback) {
-        progressIsComplete[callback] = false;
-    }
-
-    function getProgress(type, callback, lang) {
-        // Clear existing timeout for this language, if it exists
-        if (progressTimeouts[lang]) {
-            clearTimeout(progressTimeouts[lang]);
-        }
-
+    var getAIProgressTimeout;
+    function getAIProgress() {
+        clearTimeout(getAIProgressTimeout);
         $.ajax({
             url: webSiteRootURL + 'plugin/AI/progress.json.php',
             data: {
-                type: type,
-                lang: lang,
                 videos_id: <?php echo $videos_id; ?>
             },
             type: 'post',
@@ -380,30 +366,49 @@ $_page = new Page(['Video Metatags']);
                     //avideoAlertError(response.msg);
                 } else {
                     console.log(response);
-                    var selector = '#' + response.prefix + 'progress';
-                    if (response.hide) {
-                        $(selector).hide();
-                    } else {
-                        $(selector).show();
+                    if (response.services) {
+                        // Iterate through each service category (e.g., 'cron', 'processing')
+                        $.each(response.services, function(index, serviceCategory) {
+                            $.each(serviceCategory, function(index, service) {
+                                if (service.classname) {
+                                    // Find elements with this classname and update their content
+                                    var selector = '.' + service.classname;
+                                    $(selector).addClass('updated');
+                                    $(selector).slideDown();
+                                    updateProgress(selector, service.progress, service.msg)
+                                }
+                            });
+                        });
                     }
-                    if (!progressIsComplete[callback]) {
-                        eval(callback);
-                        progressIsComplete[callback] = true;
-                    }
-                    $(selector).html(response.msg);
+                    $('.progressAI').each(function() {
+                        if (!$(this).hasClass('updated')) {
+                            $(this).slideUp(); // Or use hide(), depending on the effect you want
+                        } else {
+                            // Reset the updated flag for the next operation
+                            $(this).removeClass('updated');
+                        }
+                    });
                     if (response.timeout) {
                         // Set a new timeout for this language
-                        progressTimeouts[lang] = setTimeout(function() {
-                            getProgress(type, callback, lang);
+                        getAIProgressTimeout = setTimeout(function() {
+                            getAIProgress();
                         }, response.timeout);
                     }
+
                 }
             }
         });
     }
 
-    $(document).ready(function() {
+    function updateProgress(selector, newVal, message) {
+        //console.log('updateProgress("'+selector+'", "'+newVal+'", "'+message+'");', selector, newVal, message);
+        $(selector + ' .progress-bar').css('width', newVal + '%');
+        $(selector + ' .progress-bar').attr('aria-valuenow', newVal);
+        $(selector + ' .progressAIText').text(message + ' (' + newVal + '%)');
+    }
 
+    $(document).ready(function() {
+        getAIProgress();
     });
 </script>
 <?php

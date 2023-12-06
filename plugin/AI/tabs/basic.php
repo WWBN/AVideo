@@ -6,6 +6,9 @@
             <p>Our AI analyzes your video's existing title and description to generate these SEO elements. For even more precise and tailored suggestions, we recommend providing a <i class="fas fa-microphone-alt"></i> <?php echo __("Transcription"); ?> of your video. This additional information allows our AI to better understand and optimize your content for search engines, boosting your video's visibility and reach.</p>
             <p>Start leveraging the power of AI to make your videos stand out in search results!</p>
         </div>
+        <?php
+        echo AI::getProgressBarHTML("basic_{$videos_id}");
+        ?>
     </div>
     <div class="panel-body">
         <table id="responses-list" class="table table-bordered table-hover">
@@ -65,7 +68,7 @@
                         'keywords': 'Keywords',
                         'videoTitles': 'Titles'
                     };
-                    
+
                     var columnCallbackFunctions = [
                         'videoTitles',
                         'casualDescription',
@@ -89,6 +92,5 @@
 
     $(document).ready(function() {
         loadAIBasic();
-        getProgress('<?php echo AI::$typeBasic; ?>', '', '');
     });
 </script>
