@@ -86,7 +86,7 @@ if (empty($jsonProgressDecoded->canRequestNew)) {
     $obj->msg = $jsonProgressDecoded->msg;
     $obj->jsonProgressDecoded = $jsonProgressDecoded;
     if(empty($obj->msg)){
-        $obj->msg = 'Looks like there is already a process runing';
+        $obj->msg =  "A process for Video ID {$videos_id} is currently active and in progress.";;
     }
 
     die(json_encode($obj));
