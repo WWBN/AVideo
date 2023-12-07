@@ -52,7 +52,7 @@ $_page = new Page(['Video Metatags']);
     }
     .progressAITitle{
         float: left;
-        padding: 5px;;
+        padding: 5px 10px;
     }
 </style>
 <div class="container-fluid">
