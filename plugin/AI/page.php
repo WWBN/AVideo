@@ -44,7 +44,7 @@ $_page = new Page(['Video Metatags']);
     }
 
     .progress-bar-animated {
-        transition: width 15s ease;
+        transition: width 30s ease;
     }
 
     .progressAIText{
