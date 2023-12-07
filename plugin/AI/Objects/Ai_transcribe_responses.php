@@ -154,4 +154,15 @@ class Ai_transcribe_responses extends ObjectYPT
         }
         return array('path' => $vtt, 'relative' => $relativePathVTT, 'url' => $subtitle);
     }
+
+    public function save()
+    {
+        if(empty($this->size_in_bytes)){
+            $this->size_in_bytes = strlen($this->vtt);
+            if(empty($this->size_in_bytes)){
+                $this->size_in_bytes = strlen($this->text);
+            }
+        }
+        return parent::save();
+    }
 }
