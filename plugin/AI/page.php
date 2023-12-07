@@ -382,7 +382,7 @@ $_page = new Page(['Video Metatags']);
                                     var selector = '.' + service.classname;
                                     $(selector).addClass('updated');
                                     $(selector).slideDown();
-                                    updateProgress(selector, service.progress, service.msg)
+                                    updateProgress(selector, service.progress)
                                 }
                             });
                         });
@@ -407,11 +407,10 @@ $_page = new Page(['Video Metatags']);
         });
     }
 
-    function updateProgress(selector, newVal, message) {
+    function updateProgress(selector, newVal) {
         //console.log('updateProgress("'+selector+'", "'+newVal+'", "'+message+'");', selector, newVal, message);
         $(selector + ' .progress-bar').css('width', newVal + '%');
         $(selector + ' .progress-bar').attr('aria-valuenow', newVal);
-        $(selector + ' .progressAIText').text(message);
     }
 
     $(document).ready(function() {
