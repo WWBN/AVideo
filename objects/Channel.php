@@ -54,7 +54,8 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(['user', 'about']);
+        $sql .= BootGrid::getSqlSearchFromPost(['user', 'about']);
+        //$sql .= BootGrid::getSqlFromPost(['user', 'about']);
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
