@@ -44,7 +44,7 @@ $_page = new Page(['Video Metatags']);
     }
 
     .progress-bar-animated {
-        animation: progress-bar-stripes 1s linear infinite;
+        animation: progress-bar-stripes 15s linear infinite;
     }
 
     .progressAIText{
