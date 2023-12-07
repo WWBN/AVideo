@@ -62,8 +62,6 @@ switch ($_REQUEST['type']) {
 
             $jsonDecoded->error = false;
             //$jsonDecoded->lines[] = __LINE__;
-            _error_log('You received a new translation ' . json_encode(debug_backtrace()));
-            sendSocketMessageToUsers_id('You received a new translation ' . $_REQUEST['response']['lang'], $token->users_id, 'aiNewTranslationAvailable');
         }
         break;
     case AI::$typeBasic:
@@ -128,6 +126,10 @@ switch ($_REQUEST['type']) {
 if($jsonDecoded->vttsaved){
     Video::clearCache($token->videos_id);
 }
+
+_error_log('You received a new translation ' . json_encode(debug_backtrace()));
+sendSocketMessageToUsers_id(['type'=>$_REQUEST['type']], $token->users_id, 'aiSocketMessage');
+
 $r = json_encode($jsonDecoded);
 _error_log($r);
 

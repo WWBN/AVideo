@@ -37,9 +37,9 @@ $columnCallbackFunctions = ['text'];
                     <p><strong>Note:</strong> To ensure accurate transcription, your videos should contain clear speech. Please be aware that videos without any spoken words, or those containing only sounds and instrumental music, cannot be transcribed by our AI system. Make sure your videos have audible and clear speech to take full advantage of this feature.</p>
                 </div>
                 <?php
-                echo AI::getProgressBarHTML("transcription_{$videos_id}");
+                echo AI::getProgressBarHTML("transcription_{$videos_id}", __('Automatic'));
                 foreach (AI::$languages as $key => $value) {
-                    echo AI::getProgressBarHTML("transcription_{$key}_{$videos_id}");
+                    echo AI::getProgressBarHTML("transcription_{$key}_{$videos_id}", $value);
                 }
                 ?>
             </div>
@@ -253,7 +253,6 @@ $columnCallbackFunctions = ['text'];
 
     $(document).ready(function() {
         loadAITranscriptions();
-        var callback = 'loadAITranscriptions();';
 
     });
 </script>

@@ -7,7 +7,7 @@
             <p>Start leveraging the power of AI to make your videos stand out in search results!</p>
         </div>
         <?php
-        echo AI::getProgressBarHTML("basic_{$videos_id}");
+        echo AI::getProgressBarHTML("basic_{$videos_id}", '');
         ?>
     </div>
     <div class="panel-body">
