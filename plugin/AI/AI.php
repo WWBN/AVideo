@@ -459,7 +459,8 @@ class AI extends PluginAbstract {
 
     static function getProgressBarHTML($classname, $text){
         return '
-        <div class="progress progressAI '.$classname.'" style="display:none;"> '.$text.'
+        <div class="progress progressAI '.$classname.'" style="display:none;"> 
+            <strong class="progressAITitle">'.$text.'</strong>
             <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
             <strong class="progressAIText">...</strong>
         </div>';

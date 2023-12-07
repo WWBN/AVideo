@@ -50,6 +50,9 @@ $_page = new Page(['Video Metatags']);
     .progressAIText{
         float: right;
     }
+    .progressAITitle{
+        float: left;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
