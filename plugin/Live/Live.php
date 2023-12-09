@@ -228,6 +228,14 @@ class Live extends PluginAbstract
             }
             LiveTransmitionHistory::finishALL();
         }
+        if (AVideoPlugin::compareVersion($this->getName(), "12.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV12.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
         return true;
     }
 
