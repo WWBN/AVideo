@@ -187,7 +187,7 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND users_id = $users_id ";
         }
         if ($activeHoursAgo) {
-            $sql .= " AND (scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) OR (scheduled_php_time <= ".time()."))";
+            $sql .= " AND (scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) OR (scheduled_php_time >= ".time()."))";
         }
         $sql .= self::getSqlFromPost();
         
@@ -238,7 +238,7 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND users_id = $users_id ";
         }
         
-        $sql .= " AND ((CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) OR (scheduled_php_time <= ".time().")) "
+        $sql .= " AND ((CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) OR (scheduled_php_time >= ".time().")) "
                 . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
         //echo $sql;
         $res = sqlDAL::readSql($sql);
