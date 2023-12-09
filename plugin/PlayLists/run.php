@@ -24,11 +24,12 @@ $rows = Playlists_schedules::getAllExecuted();
 foreach ($rows as $key => $value) {
     $ps = Playlists_schedules::getPlaying($value['id']);
     if ($value['finish_datetime'] < time()) {
+        PlayLists::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
         continue;
     }
     $pl = new PlayList($ps->playlists_id);
     $title = $pl->getName() . ' [' . $ps->msg . ']';
-    $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, 0, Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
+    $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
     //var_dump($response, $ps);
 }
 
@@ -40,6 +41,6 @@ foreach ($rows as $key => $value) {
     $ps = Playlists_schedules::getPlaying($value['id']);
     $pl = new PlayList($ps->playlists_id);
     $title = $pl->getName() . ' [' . $ps->msg . ']';
-    $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, 0, Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
+    $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
     //var_dump($response, $ps);
 }

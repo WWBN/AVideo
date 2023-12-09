@@ -622,6 +622,10 @@ abstract class PluginAbstract {
         return null;
     }
 
+    public function on_publish_denied($key) {
+        return null;
+    }
+
     public function thumbsOverlay($videos_id) {
         return "";
     }

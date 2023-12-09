@@ -132,12 +132,12 @@ class Playlists_schedules extends ObjectYPT
 
     function getStart_datetime()
     {
-        return $this->start_datetime;
+        return intval($this->start_datetime);
     }
 
     function getFinish_datetime()
     {
-        return $this->finish_datetime;
+        return intval($this->finish_datetime);
     }
 
     function getRepeat()
@@ -246,6 +246,9 @@ class Playlists_schedules extends ObjectYPT
                 $plsp->current_videos_id_index = 0;
             }
         }
+        if(empty($plsp->loop_count)){
+            $plsp->loop_count = 0;
+        }
         $plsp->modifiedTime = time();
         if (!empty($plsp->videos_id_history) && empty($plsp->current_videos_id_index)) {
             $plsp->loop_count++;
@@ -287,6 +290,34 @@ class Playlists_schedules extends ObjectYPT
         $ps = new Playlists_schedules($playlists_schedules_id);
         $ps->setStatus(self::STATUS_COMPLETE);
         return $ps->save();
+    }
+
+    
+    public static function getAll($playlists_id = 0)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
+        $formats = '';
+        $values = [];
+        if(!empty($playlists_id)){
+            $sql .= " AND playlists_id = ? ";
+            $formats .= 'i';
+            $values[] = $playlists_id;
+        }
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql, $formats, $values);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        $rows = [];
+        if ($res !== false) {
+            foreach ($fullData as $row) {
+                $rows[] = $row;
+            }
+        }
+        return $rows;
     }
 }
 

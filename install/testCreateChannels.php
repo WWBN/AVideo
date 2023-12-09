@@ -8,8 +8,8 @@ if (!isCommandLineInterface()) {
 
 ob_end_flush();
 
-$numberOfChannels = 20;
-$numberOfVideos = 10;
+$numberOfChannels = 30;
+$numberOfVideos = 50;
 
 for ($i = 1; $i <= $numberOfChannels; $i++) {
     $userName = "Channel{$i}";

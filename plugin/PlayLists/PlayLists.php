@@ -872,6 +872,35 @@ class PlayLists extends PluginAbstract
         return '';
     }
 
+
+    static function scheduleLiveButton($playlists_id, $showLabel = true)
+    {
+        // can the user live?
+        if (!User::canStream()) {
+            _error_log("Playlists:scheduleLiveButton this user cannot stream");
+            return '<!-- This user cannot stream -->';
+        }
+        if (!self::canManagePlaylist($playlists_id)) {
+            _error_log("Playlists:scheduleLiveButton canManagePlaylist($playlists_id) said no");
+            return "<!-- This user canManagePlaylist $playlists_id -->";
+        }
+        global $global;
+        $label = __("Play Live");
+
+        $liveLink = "{$global['webSiteRootURL']}plugin/PlayLists/View/Playlists_schedules/schedule.php";
+        $liveLink = addQueryStringParameter($liveLink, 'program_id', $playlists_id);
+
+        $labelText = $label;
+        if (empty($showLabel)) {
+            $labelText = '';
+        }
+
+        return "<button class=\"btn btn-xs btn-default\"
+        onclick=\"avideoModalIframe('$liveLink');\" 
+        data-toggle=\"tooltip\" title=\"$label\"  >
+        <i class=\"fas fa-broadcast-tower\"></i> $labelText</button>";
+    }
+
     static function getVideosIdFromPlaylist($playlists_id)
     {
         return PlayList::getVideosIdFromPlaylist($playlists_id);
@@ -1000,26 +1029,52 @@ class PlayLists extends PluginAbstract
         }
     }
 
-    function executeEveryMinute(){
+    function executeEveryMinute()
+    {
         global $global;
         $file = "{$global['systemRootPath']}plugin/PlayLists/run.php";
         require_once $file;
     }
 
-    
-    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id) {        
+
+    public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
+    {
         $lt = new LiveTransmitionHistory($live_transmitions_history_id);
         $key = $lt->getKey();
         _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
-        if(!empty($key) && $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key)){
-            _error_log("on_publish_done Playlists_schedules live_transmitions_history_id={$live_transmitions_history_id} ".json_encode($isPlayListScheduled));
-            $ps = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);            
-            $ps->setStatus(Playlists_schedules::STATUS_EXECUTED);
+        $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key);
+        $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
+        if ($pls->getFinish_datetime() > time()) {
+            $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
+            $pl = new PlayList($ps->playlists_id);
+            $title = $pl->getName() . ' [' . $ps->msg . ']';
+            Rebroadcaster::rebroadcastVideo(
+                $ps->current_videos_id, 
+                $pl->getUsers_id(), 
+                Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']), 
+                $title
+            );
+        } else {
+            _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < ".time()." | ".date('Y/m/d H:i:s', $pls->getFinish_datetime()).' < '.date('Y/m/d H:i:s', time()) );
+            self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
+        }
+    }
+
+    public function on_publish_denied($key)
+    {
+        return self::setScheduleStatus($key, Playlists_schedules::STATUS_FAIL);
+    }
+
+    static public function setScheduleStatus($key, $status)
+    {
+        if (!empty($key) && $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key)) {
+            _error_log("setFail Playlists_schedules " . json_encode($isPlayListScheduled));
+            $ps = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
+            $ps->setStatus($status);
             return  $ps->save();
         }
         return false;
     }
-
 }
 
 class PlayListPlayer

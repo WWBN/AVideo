@@ -168,6 +168,9 @@ TimeLogEnd($timeName, __LINE__);
                                         <button type="button" class="btn btn-default btn-xs editBtn " onclick="editPlayList(<?php echo $value['id']; ?>);" data-toggle="tooltip" title="<?php echo __('Edit'); ?>">
                                             <i class="fas fa-edit"></i>
                                         </button>
+                                        <?php
+                                        echo PlayLists::scheduleLiveButton($value['id'], false);
+                                        ?>
                                     </div>
 
                                 </div>

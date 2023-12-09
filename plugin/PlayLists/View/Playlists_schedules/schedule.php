@@ -176,7 +176,7 @@ $_page->setExtraScripts(
             });
         });
         var Playlists_schedulestableVar = $('#Playlists_schedulesTable').DataTable({
-            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/list.json.php",
+            "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/View/Playlists_schedules/list.json.php?program_id=<?php echo intval($_REQUEST['program_id']); ?>",
             "columns": [{
                     "data": "id"
                 },

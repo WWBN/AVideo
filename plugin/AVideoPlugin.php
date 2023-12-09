@@ -1721,6 +1721,20 @@ class AVideoPlugin
         }
     }
 
+
+    public static function on_publish_denied($key)
+    {
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->on_publish_denied($key);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
     public static function onUserSocketConnect()
     {
         _mysql_connect();

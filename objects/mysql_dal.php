@@ -266,7 +266,7 @@ class sqlDAL
      * @return Object                    Depend if mysqlnd is active or not, a object, but always false on fail
      */
 
-    public static function readSql($preparedStatement, $formats = "", $values = [], $refreshCache = false)
+    public static function readSql($preparedStatement, $formats = '', $values = [], $refreshCache = false)
     {
         // $refreshCache = true;
         global $global, $disableMysqlNdMethods, $readSqlCached, $crc, $wasSTMTError;

@@ -29,7 +29,8 @@ getSharePopupButton(0, "{$global['webSiteRootURL']}viewProgram/{$program['id']}/
 </a>
 <?php echo $playListButtons; ?>
 <?php
-echo PlayLists::getPlayLiveButton($program['id']);
+//echo PlayLists::getPlayLiveButton($program['id']);
+echo PlayLists::scheduleLiveButton($program['id']);
 if (PlayLists::canManagePlaylist($playlists_id)) {
     if(!isMobile()){
     ?>

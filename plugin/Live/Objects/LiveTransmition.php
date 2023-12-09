@@ -169,8 +169,10 @@ class LiveTransmition extends ObjectYPT {
             $l->setCategories_id(1);
             $l->setUsers_id($user_id);
             $l->save();
-            $row = static::getFromDbByUser($user_id);
-            $row['just_created'] = true;
+            $row = static::getFromDbByUser($user_id, true);
+            if(!empty($row)){
+                $row['just_created'] = true;
+            }
         }
         return $row;
     }

@@ -196,6 +196,7 @@ if (!empty($obj) && empty($obj->error)) {
     }
     //exit;
 } else {
+    AVideoPlugin::on_publish_denied($_POST['name']);
     _error_log("NGINX ON Publish denied ".User::getLastUserCanStreamReason().' '. json_encode($obj), AVideoLog::$SECURITY);
     http_response_code(401);
     header("HTTP/1.1 401 Unauthorized Error");

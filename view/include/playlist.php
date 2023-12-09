@@ -40,7 +40,8 @@ if (!empty($videoSerie)) {
                 <a>
                     <div class="pull-right">
                         <?php
-                        echo PlayLists::getPlayLiveButton($playlist_id);
+                        //echo PlayLists::getPlayLiveButton($playlist_id);
+                        echo PlayLists::scheduleLiveButton($playlist_id);
                         ?>
                     </div>
                     <h3 class="nopadding">

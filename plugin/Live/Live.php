@@ -1354,6 +1354,14 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $user = new User($users_id);
         $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
+        if(empty($trasnmition)){
+            _error_log("Live::getKeyFromUser error on create live transmission {$users_id} ");
+            return false;
+        }
+        if(empty($trasnmition['key'])){
+            _error_log("Live::getKeyFromUser error on get key ".json_encode($trasnmition));
+            return false;
+        }
         return $trasnmition['key'];
     }
 
