@@ -20,6 +20,7 @@ class Live_schedule extends ObjectYPT
     protected $scheduled_password;
     protected $users_id_company;
     protected $json;
+    protected $scheduled_php_time;
 
     public static function getSearchFieldsNames()
     {
@@ -186,7 +187,7 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND users_id = $users_id ";
         }
         if ($activeHoursAgo) {
-            $sql .= " AND scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) ";
+            $sql .= " AND (scheduled_time > DATE_SUB(NOW(), INTERVAL {$activeHoursAgo} HOUR) OR (scheduled_php_time <= ".time()."))";
         }
         $sql .= self::getSqlFromPost();
         
@@ -237,7 +238,7 @@ class Live_schedule extends ObjectYPT
             $sql .= " AND users_id = $users_id ";
         }
         
-        $sql .= " AND (CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) "
+        $sql .= " AND ((CONVERT_TZ(scheduled_time, timezone, @@session.time_zone ) > NOW() || scheduled_time > NOW()) OR (scheduled_php_time <= ".time().")) "
                 . " ORDER BY scheduled_time ASC LIMIT {$limit} ";
         //echo $sql;
         $res = sqlDAL::readSql($sql);
@@ -288,6 +289,13 @@ class Live_schedule extends ObjectYPT
     public function setScheduled_time($scheduled_time)
     {
         $this->scheduled_time = $scheduled_time;
+    }
+
+    public function setScheduledPHPtime($scheduled_time)
+    {
+        if(!empty($scheduled_time)){
+            $this->scheduled_php_time = strtotime($scheduled_time);
+        }
     }
 
     private function _setTimezone($timezone)

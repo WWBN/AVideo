@@ -180,6 +180,7 @@ CREATE TABLE IF NOT EXISTS `live_schedule` (
   `scheduled_password` VARCHAR(255) NULL,
   `users_id_company` INT(11) NULL DEFAULT NULL,
   `json` TEXT NULL DEFAULT NULL,
+  `scheduled_php_time` INT NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_live_schedule_users2_idx` (`users_id_company` ASC),
   INDEX `fk_live_schedule_users1_idx` (`users_id` ASC),
