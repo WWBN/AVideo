@@ -15,16 +15,18 @@ $path = getVideosDir();
 $total = Video::getTotalVideos("", false, true, true, false, false);
 $videos = Video::getAllVideosLight("", false, true, false);
 
+$checkAll = intval(@$argv[1]);
+
 echo "Path: {$path}" . PHP_EOL;
 
 $sites_id_to_check = [];
 
 foreach ($videos as $value) {
-    if ($value['status'] !== Video::$statusBrokenMissingFiles) {
+    if ($value['status'] !== Video::$statusBrokenMissingFiles && empty($checkAll)) {
         continue;
     }
     $sites_id_to_check[] = $value['id'];
-    echo "{$key}/{$total} added to move {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
+    echo "{$key}/{$total} added to review {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
 
 $total = count($sites_id_to_check);
