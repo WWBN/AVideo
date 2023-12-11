@@ -61,7 +61,7 @@ class VR360 extends PluginAbstract
         }
         $css = '';
         $css .= '<link href="' . getURL('node_modules/videojs-vr/dist/videojs-vr.css') . '" rel="stylesheet" type="text/css"/>';
-        $css .= '<style>#mainVideo > canvas {left: 0;}; .vjs-text-track-display{pointer-events:none !important;}</style>';
+        $css .= '<style>#mainVideo > canvas {left: 0;} #mainVideo > div.vjs-text-track-display{pointer-events:none !important;}</style>';
         return $css;
     }
 
