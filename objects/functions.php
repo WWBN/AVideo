@@ -5208,6 +5208,10 @@ function _mysql_connect($persistent = false, $try = 0)
 
     try {
         if (!_mysql_is_open()) {
+            if(!class_exists('mysqli')){
+                _error_log('ERROR: mysqli class not loaded '.php_ini_loaded_file());
+                die('ERROR: mysqli class not loaded');
+            }
             //_error_log('MySQL Connect '. json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
             $mysql_connect_was_closed = 0;
             $mysql_connect_is_persistent = $persistent;

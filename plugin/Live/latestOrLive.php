@@ -72,6 +72,8 @@ if(!$liveFound){
         videoNotFound('');
     }
     $video = $videos[0];
+    $_GET['videos_id'] = $video['id'];
+    $_REQUEST['videos_id'] = $video['id'];
     $poster = Video::getPoster($video['id']);
     $sources = getSources($video['filename']);
     $objectToReturnToParentIframe->videos_id = intval($video['id']);
