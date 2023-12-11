@@ -65,11 +65,6 @@ class VideosVR360 extends ObjectYPT {
         return !empty($vr->getActive());
     }
     
-    static function isVR360EnabledByVideoCleanTitle($clean_title){
-        $video = Video::getVideoFromCleanTitle($clean_title);
-        return self::isVR360Enabled($video['id']); 
-    }
-    
     static function toogleVR360($videos_id){
         if(!User::canUpload()){
             return false;

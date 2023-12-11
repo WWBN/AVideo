@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.7.1 (2023-10-19)
+ * TinyMCE version 6.8.2 (2023-12-11)
  */
 
 (function () {
@@ -804,7 +804,8 @@
           name: 'source',
           type: 'urlinput',
           filetype: 'media',
-          label: 'Source'
+          label: 'Source',
+          picker_text: 'Browse files'
         }];
       const sizeInput = !hasDimensions(editor) ? [] : [{
           type: 'sizeinput',
@@ -990,7 +991,8 @@
       if (name === 'iframe') {
         previewNode.attr({
           allowfullscreen: node.attr('allowfullscreen'),
-          frameborder: '0'
+          frameborder: '0',
+          sandbox: node.attr('sandbox')
         });
       } else {
         const attrs = [

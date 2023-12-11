@@ -1,0 +1,18 @@
+{
+  "name": "gl-preserve-state",
+  "version": "1.0.0",
+  "description": "Caches specified GL state, runs a callback, and restores the cached state when done.",
+  "main": "index.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsantell/gl-preserve-state.git"
+  },
+  "author": "Brandon Jones",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsantell/gl-preserve-state/issues"
+  },
+  "homepage": "https://github.com/jsantell/gl-preserve-state#readme"
+}

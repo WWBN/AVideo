@@ -1,0 +1,46 @@
+{
+  "name": "cardboard-vr-display",
+  "version": "1.0.19",
+  "homepage": "https://github.com/immersive-web/cardboard-vr-display",
+  "authors": [
+    "Boris Smus <boris@smus.com>",
+    "Brandon Jones <tojiro@gmail.com>",
+    "Jordan Santell <jordan@jsantell.com>"
+  ],
+  "description": "A Cardboard VR implementation of a WebVR 1.1 VRDisplay for polyfilling the WebVR API",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-cleanup": "^1.0.1",
+    "rollup-plugin-commonjs": "^8.2.1",
+    "rollup-plugin-json": "^2.3.0",
+    "rollup-plugin-node-resolve": "^3.0.0"
+  },
+  "main": "dist/cardboard-vr-display",
+  "keywords": [
+    "vr",
+    "webvr"
+  ],
+  "license": "Apache-2.0",
+  "scripts": {
+    "test": "echo \"No tests defined\"",
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "preversion": "npm test",
+    "version": "npm run build && git add dist/*",
+    "postversion": "git push && git push --tags && npm publish"
+  },
+  "repository": "immersive-web/cardboard-vr-display",
+  "bugs": {
+    "url": "https://github.com/immersive-web/cardboard-vr-display/issues"
+  },
+  "dependencies": {
+    "gl-preserve-state": "^1.0.0",
+    "nosleep.js": "^0.7.0",
+    "webvr-polyfill-dpdb": "^1.0.17"
+  }
+}

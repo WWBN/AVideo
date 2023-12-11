@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [our coding standards][commit-messages] for commit guidelines.
 
+## [1.5.0](https://github.com/silvermine/videojs-chromecast/compare/v1.4.1...v1.5.0) (2023-11-07)
+
+
+### Features
+
+* Allow modifying the load request ([#123](https://github.com/silvermine/videojs-chromecast/issues/123), [#141](https://github.com/silvermine/videojs-chromecast/issues/141)) ([7cee052](https://github.com/silvermine/videojs-chromecast/commit/7cee052dcd5473448f882d67bb5bc9d8e9a1763c))
+
+
+### Bug Fixes
+
+* Clear the close session timeout after new source starts playing ([4a8eb31](https://github.com/silvermine/videojs-chromecast/commit/4a8eb31faa241235c54c1f8dec897571360e7f19))
+
+
 ### [1.4.1](https://github.com/silvermine/videojs-chromecast/compare/v1.4.0...v1.4.1) (2023-03-21)
 
 

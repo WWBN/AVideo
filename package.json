@@ -41,6 +41,7 @@
     "videojs-playlist": "^5.1.0",
     "videojs-playlist-ui": "^5.0.0",
     "videojs-seek-buttons": "^4.0.3",
+    "videojs-vr": "^2.0.0",
     "videojs-youtube": "^3.0.1"
   }
 }

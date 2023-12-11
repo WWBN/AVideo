@@ -1,0 +1,26 @@
+{
+  "name": "webvr-polyfill-dpdb",
+  "version": "1.0.18",
+  "description": "A Device Parameter Database for the WebVR Polyfill",
+  "main": "dpdb.json",
+  "license": "Apache-2.0",
+  "authors": "WebVR Polyfill DPDB authors",
+  "homepage": "https://github.com/WebVRRocks/webvr-polyfill-dpdb",
+  "repository": "WebVRRocks/webvr-polyfill-dpdb",
+  "bugs": {
+    "url": "https://github.com/WebVRRocks/webvr-polyfill-dpdb/issues/new"
+  },
+  "scripts": {
+    "start": "npm run build",
+    "build": "node scripts/build.js --write",
+    "test:build": "node scripts/build.js",
+    "test": "npm run test:build && mocha",
+    "preversion": "npm install && npm test",
+    "version": "npm run build && git add .",
+    "postversion": "git push && git push --tags && npm publish"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.4.2"
+  }
+}
