@@ -24,6 +24,7 @@ $objectToReturnToParentIframe->users_id = 0;
 $objectToReturnToParentIframe->key = '';
 
 $liveVideo = Live::getLatest(true);
+$liveFound = false;
 //var_dump($liveVideo);exit;
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
@@ -41,7 +42,29 @@ if (!empty($liveVideo)) {
     $objectToReturnToParentIframe->live_transmitions_history_id = intval($liveVideo['live_transmitions_history_id']);
     $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);
     $objectToReturnToParentIframe->key = $liveVideo['key'];
-} else {
+    
+    $liveFound = true;
+} 
+
+if(!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')){
+    $_POST['rowCount'] = 1;
+    $_POST['sort']['created'] = 'DESC';
+    $liveVideo = LiveLinks::getAllActive();
+    $video = $liveVideo[0];
+    $poster = LiveLinks::getImage($video['id']);
+    $sources = "<source src=\"{$video['link']}\" type=\"application/x-mpegURL\">";
+    $objectToReturnToParentIframe->isLive = true;
+    $objectToReturnToParentIframe->title = $video['title'];
+
+    $objectToReturnToParentIframe->duration = __('Live');
+    $objectToReturnToParentIframe->videoHumanTime = __('Now');
+    $objectToReturnToParentIframe->creator = User::getNameIdentificationById($video['users_id']);
+    
+    $objectToReturnToParentIframe->mediaSession = LiveLinks::getMediaSession($video['id']);
+    $objectToReturnToParentIframe->users_id = intval($video['users_id']);
+    $liveFound = true;
+}
+if(!$liveFound){
     $_POST['rowCount'] = 1;
     $_POST['sort']['created'] = 'DESC';
     $videos = Video::getAllVideos();

@@ -970,14 +970,17 @@ class API extends PluginAbstract
                 require_once $global['systemRootPath'] . 'objects/subscribe.php';
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
             }
-
-            if ($SubtitleSwitcher && empty($SubtitleSwitcher->disableOnAPI)) {
-                $rows[$key]['subtitles'] = getVTTTracks($value['filename'], true);
-                foreach ($rows[$key]['subtitles'] as $key2 => $value) {
-                    $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
+            $rows[$key]['subtitles_available'] = false;
+            $rows[$key]['subtitles'] = [];
+            if ($SubtitleSwitcher) {
+                $subtitles = getVTTTracks($value['filename'], true);
+                $rows[$key]['subtitles_available'] = !empty($subtitles);
+                if(empty($SubtitleSwitcher->disableOnAPI)){
+                    $rows[$key]['subtitles'] = $subtitles;
+                    foreach ($rows[$key]['subtitles'] as $key2 => $value) {
+                        $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
+                    }
                 }
-            }else{
-                $rows[$key]['subtitles'] = [];
             }
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';

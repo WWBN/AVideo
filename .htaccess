@@ -122,6 +122,7 @@ Options All -Indexes
 
     RewriteRule    ^liveLink/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1 [NC,L,QSA]
     RewriteRule    ^liveLinkEmbed/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1&embed=1 [NC,L,QSA]
+    RewriteRule    ^liveNow/?.*$ plugin/Live/latestOrLive.php [NC,L,QSA]
 
     #main Files
     RewriteRule    ^index.php$ view/index.php [NC,L,QSA]
