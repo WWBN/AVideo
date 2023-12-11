@@ -9,6 +9,10 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     if (empty($_GET['page'])) {
         unsetCurrentPage();
     }
+    
+    if(!empty($_GET['catName'])){
+        resetCurrentPage();
+    }
     $_REQUEST['current'] = $_GET['page'];
 
     echo '<!-- ' . basename(__FILE__) . ' -->';
