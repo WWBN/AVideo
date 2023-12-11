@@ -20,6 +20,7 @@ if(!empty(getSearchVar())){
 }
 $sort = @$_POST['sort'];
 unset($_POST['sort']);
+resetCurrentPage();
 $categories = Category::getAllCategories(false, true, $onlySuggested);
 $total = Category::getTotalCategories(false, true, $onlySuggested);
 
