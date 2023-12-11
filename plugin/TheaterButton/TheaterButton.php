@@ -75,11 +75,11 @@ class TheaterButton extends PluginAbstract {
         $obj = $this->getDataObject();
         $js = '';
         
-        PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
+        PlayerSkins::getStartPlayerJS("if(videojs.getComponent('Theater') != null){if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
 } else {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
-}");
+}}");
         return $js;
     }
 
