@@ -25,6 +25,9 @@ foreach ($videos as $value) {
     if ($value['status'] !== Video::$statusBrokenMissingFiles && empty($checkAll)) {
         continue;
     }
+    if ($value['type'] !== Video::$videoTypeVideo) {
+        continue;
+    }
     $sites_id_to_check[] = $value['id'];
     echo "{$key}/{$total} added to review {$global['webSiteRootURL']}v/{$value['id']} {$value['title']}" . PHP_EOL;
 }
