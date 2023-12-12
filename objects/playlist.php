@@ -249,6 +249,51 @@ class PlayList extends ObjectYPT
         return $rows;
     }
 
+    public static function getTotalFromUser($userId, $publicOnly = true, $status = false, $playlists_id = 0, $try = 0, $includeSeries = false)
+    {
+        global $global, $config, $refreshCacheFromPlaylist;
+        $playlists_id = intval($playlists_id);
+        $formats = '';
+        $values = [];
+        $sql = "SELECT count(pl.id) as total FROM  " . static::getTableName() . " pl ";
+
+        if ($includeSeries) {
+            $sql .= " LEFT JOIN videos v ON pl.id = serie_playlists_id  ";
+        }
+        $sql .= " LEFT JOIN users u ON u.id = pl.users_id WHERE 1=1 ";
+        if (!empty($playlists_id)) {
+            $sql .= " AND pl.id = '{$playlists_id}' ";
+        }
+        if (!empty($status)) {
+            $status = str_replace("'", "", $status);
+            $sql .= " AND pl.status = '{$status}' ";
+        } elseif ($publicOnly) {
+            $sql .= " AND pl.status = 'public' ";
+        }
+        if (!empty($userId)) {
+            if ($includeSeries) {
+                $sql .= " AND (pl.users_id = ? OR v.users_id = ?) ";
+                $formats .= "ii";
+                $values[] = $userId;
+                $values[] = $userId;
+            } else {
+                $sql .= " AND (pl.users_id = ?) ";
+                $formats .= "i";
+                $values[] = $userId;
+            }
+        }
+        $sql .= self::getSqlSearchFromPost("pl.");
+        
+        $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res !== false) {
+            return intval($row['total']);
+        }
+
+        return 0;
+    }
+
     /**
      *
      * @global array $global
