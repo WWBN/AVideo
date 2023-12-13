@@ -794,7 +794,7 @@ $t['Australian Dollar = AUD, Brazilian Real = BRL, Canadian Dollar = CAD,Euro =E
 $t['Auto Scroll'] = 'Auto rolagem';
 $t['Auto Sort'] = 'Classificação automática';
 $t['Auto Transmit Live'] = 'Transmissão automática ao vivo';
-$t['Auto record this live'] = 'Grave automaticamente isso ao vivo';
+$t['Auto record this live'] = 'Grave esta live automaticamente';
 $t['Auto'] = 'Auto';
 $t['Automatic Withdraw'] = 'Retirada Automática';
 $t['Automatic allow new users to use your Livestream Platform'] = 'Permitir automaticamente que novos usuários usem sua plataforma Livestream';

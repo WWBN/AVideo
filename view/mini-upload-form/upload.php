@@ -119,24 +119,31 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $obj->filename = $filename;
         $obj->duration = $duration;
         $obj->videos_id = $id;
+        $obj->lines = [];
         //var_dump($obj->videos_id);exit;
         if ($extension !== "jpg" && $video->getType() == "image") {
+            $obj->lines[] = __LINE__;
             sleep(1); // to make sure the file will be available
             $file = $video->getFilename();
             $jpgFrom = Video::getPathToFile("{$file}.{$extension}");
             $jpgTo = Video::getPathToFile("{$file}.jpg");
             try {
+                $obj->lines[] = __LINE__;
                 convertImage($jpgFrom, $jpgTo, 70);
             } catch (Exception $exc) {
+                $obj->lines[] = __LINE__;
                 _error_log("We could not convert the image to JPG " . $exc->getMessage());
             }
         }
+        $obj->lines[] = __LINE__;
 
         if (!empty($_FILES['upl']['tmp_name'])) {
+            $obj->lines[] = __LINE__;
             $video->setAutoStatus(Video::$statusActive);
             AVideoPlugin::onUploadIsDone($obj->videos_id);
             AVideoPlugin::afterNewVideo($obj->videos_id);
         }
+        $obj->lines[] = __LINE__;
         die(json_encode($obj));
     }
 }

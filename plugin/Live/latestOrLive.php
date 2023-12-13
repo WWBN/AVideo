@@ -165,6 +165,9 @@ $objectToReturnToParentIframe->posterURL = $poster;
     <script>
         <?php
         echo PlayerSkins::getStartPlayerJS();
+        if(!empty($_REQUEST['muted'])){
+            echo 'player.muted(true);';
+        }
         ?>
     </script>
     <?php
@@ -192,6 +195,12 @@ $objectToReturnToParentIframe->posterURL = $poster;
             switch (event.data.type) {
                 case 'pausePlayer':
                     player.pause();
+                    break;
+                case 'playerMute':
+                    player.muted(true);
+                    break;
+                case 'playerUnmute':
+                    player.muted(false);
                     break;
                 case 'userInactive':
                     $('#mainVideo').removeClass('vjs-user-active');

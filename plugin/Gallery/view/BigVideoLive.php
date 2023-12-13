@@ -74,7 +74,7 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
 </style>
 <div class="container-fluid" id="BigVideoLive">
     <div id="BigVideoLiveOverlay"></div>
-    <iframe  id="BigVideoLiveIFrame" class="embed-responsive-item" scrolling="no" style="border: none;" <?php echo Video::$iframeAllowAttributes; ?> src="<?php echo "{$global['webSiteRootURL']}liveNow"; ?>"></iframe>
+    <iframe id="BigVideoLiveIFrame" class="embed-responsive-item" scrolling="no" style="border: none;" <?php echo Video::$iframeAllowAttributes; ?> src="<?php echo "{$global['webSiteRootURL']}liveNow?muted=1"; ?>"></iframe>
     <div id="BigVideoLiveClose">
         <button type="button" class="btn btn-default btn-circle" onclick="BigVideoLiveFullscreen(false);" style="padding: 3px 0;">
             <i class="fas fa-times fa-2x"></i>
@@ -82,15 +82,21 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
     </div>
 </div>
 <script>
+    function sendPlayerMessage(msg) {
+        var message = {
+            type: msg
+        };
+        $('#BigVideoLiveIFrame').get(0).contentWindow.postMessage(message, '*');
+    }
+
     function BigVideoLiveFullscreen(makeFull) {
         if (makeFull) {
             $('#BigVideoLive').addClass('fullscreen');
+            sendPlayerMessage('playerUnmute');
         } else {
             $('#BigVideoLive').removeClass('fullscreen');
-            var message = {
-                type: 'userInactive'
-            };
-            $('#BigVideoLiveIFrame').get(0).contentWindow.postMessage(message, '*');
+            sendPlayerMessage('userInactive');
+            sendPlayerMessage('playerMute');
         }
     }
     $(document).ready(function() {
