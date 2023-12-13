@@ -950,6 +950,10 @@ class PlayList extends ObjectYPT
     {
         $cacheHandler = new PlayListCacheHandler($playlists_id);
         $cacheHandler->deleteCache();
+        
+        $pl = new PlayList($playlists_id);
+        $cacheHandler = new PlayListUserCacheHandler($pl->getUsers_id());
+        $cacheHandler->deleteCache();
     }
 
     public function delete()
