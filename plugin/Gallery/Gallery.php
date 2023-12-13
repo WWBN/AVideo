@@ -83,7 +83,6 @@ class Gallery extends PluginAbstract
             Gallery::BigVideoLiveShowLiveOnly => 'Show Live Only'
         ];
         $o->value = Gallery::BigVideoLiveShowLiveAndVOD;
-        $obj->server_type = $o;
         $obj->BigVideoLive = $o;
         self::addDataObjectHelper('BigVideoLive', 'Big Video Live');
        
