@@ -212,11 +212,10 @@ $objectToReturnToParentIframe->posterURL = $poster;
             <?php
             echo PlayerSkins::getStartPlayerJS();
             if(!empty($_REQUEST['muted'])){
-                echo 'tryToPlayMuted(0);';
-            }else{
-                echo 'playerPlay(0);';
+                echo 'player.muted(true);';
             }
             ?>
+            playerPlay(0);
         });
     </script>
 </body>
