@@ -17,7 +17,7 @@ if (!Video::canEdit($videos_id)) {
 
 $video = Video::getVideo($videos_id, "", true);
 $poster = Video::getPathToFile("{$video['filename']}.jpg");
-
+$isModeYouTube = true;
 $_page = new Page(array('Edit Bookmark'));
 $_page->setExtraStyles(
     array(
