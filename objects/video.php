@@ -4863,8 +4863,10 @@ if (!class_exists('Video')) {
                 $obj->poster = $jpegSource['url'];
                 $obj->thumbsJpg = $thumbsSource['url'];
                 convertImageIfNotExists($jpegSource['path'], $thumbsSource['path'], $advancedCustom->thumbsWidthLandscape, $advancedCustom->thumbsHeightLandscape, true);
+                _error_log("convertImageIfNotExists {$jpegSource['path']}, {$thumbsSource['path']}");
+                TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
                 convertImageIfNotExists($jpegSource['path'], $thumbsSmallSource['path'], $advancedCustom->thumbsWidthLandscape / 2, $advancedCustom->thumbsHeightLandscape / 2, true);
-
+                _error_log("convertImageIfNotExists {$jpegSource['path']}, {$thumbsSmallSource['path']}");
                 TimeLogEnd($timeLog1, __LINE__, $timeLog1Limit);
             } else {
                 if ($type == Video::$videoTypeArticle) {

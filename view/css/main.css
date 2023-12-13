@@ -1300,13 +1300,6 @@ li.dropdown-submenu>ul>li>a {
 .swal-modal.swal-modal-iframe-full-with-minimize iframe,
 .swal-modal.swal-modal-iframe-full-transparent iframe {
     width: 100%;
-    height: calc(100% - 50px);
-}
-
-/* Override height for certain swal-modal classes */
-.swal-modal.swal-modal-iframe-full iframe,
-.swal-modal.swal-modal-iframe-full-with-minimize iframe,
-.swal-modal.swal-modal-iframe-full-transparent iframe {
     height: 100%;
 }
 

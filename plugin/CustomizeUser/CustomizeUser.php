@@ -45,7 +45,6 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Instagram URL"),
                 'isActive' => true,
             ],
-            /*
             'whatsapp' => [
                 'class' => 'icoWhatsapp',
                 'icon' => 'fab fa-whatsapp',
@@ -53,7 +52,13 @@ class CustomizeUser extends PluginAbstract
                 'placeholder' => __("Whatsapp URL"),
                 'isActive' => true,
             ],
-            */
+            'threads' => [
+                'class' => 'icoThreads ',
+                'icon' => 'fa-brands fa-square-threads',
+                'label' => __("Threads"),
+                'placeholder' => __("Threads URL"),
+                'isActive' => true,
+            ],
             'twitter' => [
                 'class' => 'icoTwitter',
                 'icon' => 'fa-brands fa-x-twitter',

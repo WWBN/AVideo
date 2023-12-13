@@ -21,6 +21,9 @@ ul.social-network li {
 .social-network a.icoTelegram:hover {
     background-color: #26A5E4;
 }
+.social-network a.icoThreads:hover {
+    background-color: #000;
+}
 .social-network a.icoWhatsapp:hover {
     background-color: #25D366;
 }
@@ -35,6 +38,9 @@ ul.social-network li {
 }
 .social-network a.icoTwitter:hover {
     background-color: #1DA1F2;
+}
+.social-network a.icoXTwitter:hover {
+    background-color: #000;
 }
 .social-network a.icoGoogle:hover {
     background-color: #DB4437;

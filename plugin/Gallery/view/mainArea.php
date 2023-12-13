@@ -36,6 +36,9 @@ saveRequestVars();
             }
         }
     }
+    if (empty($_GET['search']) && !isInfiniteScroll()) {
+        include $global['systemRootPath'] . 'plugin/Gallery/view/BigVideoLive.php';
+    }
     //var_dump(!empty($video), debug_backtrace());exit;
     if (!empty($video)) {
         global $contentSearchFound;

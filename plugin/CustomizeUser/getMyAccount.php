@@ -34,6 +34,11 @@ foreach (CustomizeUser::getSocialMedia() as $platform => $details) {
             var platform = $(this).attr('platform');
             var currentValue = $(this).val();
 
+            var id = $(this).attr('id');
+            if(id=='userWhatsapp'){
+                
+            }
+            
             // Check if the value actually changed
             if (currentValue !== prevValue[platform]) {
                 clearTimeout(saveTimeout);

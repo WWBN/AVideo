@@ -7,7 +7,8 @@
             return false;
         }
         playListsReloading = true;
-        //console.log('reloadPlayLists');
+        console.log('reloadPlayLists');
+            console.trace();
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
@@ -44,8 +45,9 @@
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
     async function loadPlayLists(videos_id, crc) {
-        //console.log('loadPlayLists');
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
+            console.log('loadPlayLists');
+            console.trace();
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
             setTimeout(function () {
@@ -57,7 +59,6 @@
                         loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
                     }
                 });
-                ;
             }, 500);
 
         } else {
@@ -146,6 +147,8 @@
     }
 
     $(document).ready(function () {
-        reloadPlayLists();
+        if(empty(mediaId)){
+            reloadPlayLists();
+        }
     });
 </script>
