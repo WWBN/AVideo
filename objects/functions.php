@@ -4139,7 +4139,7 @@ function siteMap()
         TimeLogEnd("siteMap Video::getLink $videos_id", __LINE__, 0.5);
         $title = strip_tags($video['title']);
         TimeLogStart("siteMap Video::getLinkToVideo $videos_id");
-        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, Video::$urlTypeCanonical);
+        $player_loc = Video::getLinkToVideo($video['id'], $video['clean_title'], true, Video::$urlTypeShort);
         //$player_loc = $loc;
         TimeLogEnd("siteMap Video::getLinkToVideo $videos_id", __LINE__, 0.5);
         TimeLogStart("siteMap Video::isPublic $videos_id");

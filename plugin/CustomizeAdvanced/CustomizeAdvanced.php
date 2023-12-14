@@ -167,6 +167,7 @@ class CustomizeAdvanced extends PluginAbstract {
             'showCreationTimeOnVideoItem',
             'showChannelPhotoOnVideoItem',
             'showChannelNameOnVideoItem',
+            'canonicalURLType',
             );
     }
     
@@ -257,6 +258,11 @@ class CustomizeAdvanced extends PluginAbstract {
         
         $obj->usePermalinks = false;
         self::addDataObjectHelper('usePermalinks', 'Do not show video title on URL', 'This option is not good for SEO, but makes the URL clear');
+                
+        $o->type = array(0 => 'Short URL', 1 => 'URL+Channel Name', 2 => 'URL+Channel+Title');
+        $o->value = 1;
+        $obj->canonicalURLType = $o;
+        
         $obj->disableAnimatedGif = false;
         $obj->removeBrowserChannelLinkFromMenu = false;
         $obj->EnableMinifyJS = false;

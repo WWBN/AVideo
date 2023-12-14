@@ -42,7 +42,7 @@ function getMetaTagsContentVideoType($sourceFileURL)
     return "video/mp4";
 }
 
-function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags = array())
+function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags = array(), $canonicalURL='')
 {
     global $global, $config, $advancedCustom;
     $ogType = determineOgType($videoType);
@@ -119,8 +119,13 @@ function generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $desc
     }
     if ($pageURL) {
         $metaTags[] = "<meta property='og:url' content='{$pageURL}' />";
-        $metaTags[] = "<link rel=\"canonical\" href=\"{$pageURL}\" />";
         $metaTags[] = "<meta name=\"twitter:url\" content=\"{$pageURL}\"/>";
+        if(empty($canonicalURL)){
+            $canonicalURL = $pageURL;
+        }
+    }
+    if(!empty($canonicalURL)){
+        $metaTags[] = "<link rel=\"canonical\" href=\"{$canonicalURL}\" />";
     }
     if (!empty($advancedCustom->fb_app_id)) {
         $metaTags[] = "<meta property='fb:app_id' content='{$advancedCustom->fb_app_id}' />";
@@ -262,7 +267,7 @@ function getOpenGraphVideo($videos_id)
 {
     global $global, $config, $advancedCustom;
     $video = Video::getVideoLight($videos_id);
-
+    $canonicalURL = '';
     if (!empty($_REQUEST['playlists_id'])) {
         echo PHP_EOL . "<!-- OpenGraph Playlist -->" . PHP_EOL;
         $pageURL = PlayLists::getLink($_REQUEST['playlists_id'], false, @$_REQUEST['playlist_index']);
@@ -273,8 +278,9 @@ function getOpenGraphVideo($videos_id)
         $pageURLEmbed = PlayLists::getTagLink($_REQUEST['tags_id'], true, @$_REQUEST['playlist_index']);
     } else {
         echo PHP_EOL . "<!-- OpenGraph Video -->" . PHP_EOL;
-        $pageURL = Video::getLinkToVideo($videos_id, '', false, Video::$urlTypeCanonical, [], true);
-        $pageURLEmbed = Video::getLinkToVideo($videos_id, '', true, Video::$urlTypeCanonical, [], true);
+        $pageURL = Video::getLinkToVideo($videos_id, '', false, Video::$urlTypeShort, [], true);
+        $pageURLEmbed = Video::getLinkToVideo($videos_id, '', true, Video::$urlTypeShort, [], true);
+        $canonicalURL = Video::getCanonicalLink($videos_id);
     }
 
     $sourceFileURL = '';
@@ -319,7 +325,7 @@ function getOpenGraphVideo($videos_id)
         $imgPath = $images->posterPortraitPath;
     }
     //var_dump(debug_backtrace());
-    return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL);
+    return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, array(), $canonicalURL);
 }
 
 function getOpenGraphLiveLink($liveLink_id)

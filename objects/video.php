@@ -139,7 +139,7 @@ if (!class_exists('Video')) {
         public static $videoTypeBlockedUser = 'blockedUser';
         public static $typeOptions = ['audio', 'video', 'short', 'embed', 'linkVideo', 'linkAudio', 'torrent', 'pdf', 'image', 'gallery', 'article', 'serie', 'image', 'zip', 'notfound', 'blockedUser'];
         public static $urlTypeFriendly = 'URLFriendly';
-        public static $urlTypeCanonical = 'URLCanonical';
+        public static $urlTypeShort = 'URLShort';
         private $categoryWasChanged = false;
 
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false)
@@ -1634,8 +1634,8 @@ if (!class_exists('Video')) {
                 } elseif (in_array($videoType, self::$typeOptions)) {
                     $sql .= " AND v.type = '{$videoType}' ";
                 }
-            }            
-            
+            }
+
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
             } else {
@@ -1697,7 +1697,7 @@ if (!class_exists('Video')) {
                 $max_duration_in_seconds = intval($max_duration_in_seconds);
                 $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
             }
-            
+
             if (!empty($passwordProtectedOnly)) {
                 $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
@@ -1835,14 +1835,14 @@ if (!class_exists('Video')) {
                     }
                     $tlogName = TimeLogStart("video::getInfo index={$index} id={$row['id']} {$row['type']}");
                     $row = self::getInfo($row, $getStatistcs);
-                   
+
                     if ($getStatistcs) {
                         $row = self::getInfoPersonal($row);
-                    }                     
-                    if(!empty($users_id)){                    
+                    }
+                    if (!empty($users_id)) {
                         TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
                         $row['progress'] = self::getVideoPogressPercent($row['id'], $users_id);
-                    }else {
+                    } else {
                         $row['progress'] = ['percent' => 0, 'lastVideoTime' => 0, 'duration' => $row['duration_in_seconds']];
                     }
                     TimeLogEnd($tlogName, __LINE__, $tolerance / 2);
@@ -2197,31 +2197,31 @@ if (!class_exists('Video')) {
         }
 
         public static function getDistinctVideoTypes()
-{
-    global $global;
+        {
+            global $global;
 
-    // SQL query to select distinct types from the videos table
-    $sql = "SELECT DISTINCT v.`type` FROM videos as v";
+            // SQL query to select distinct types from the videos table
+            $sql = "SELECT DISTINCT v.`type` FROM videos as v";
 
-    // Execute the SQL query
-    $res = sqlDAL::readSql($sql);
-    $fullData = sqlDAL::fetchAllAssoc($res);
-    sqlDAL::close($res);
+            // Execute the SQL query
+            $res = sqlDAL::readSql($sql);
+            $fullData = sqlDAL::fetchAllAssoc($res);
+            sqlDAL::close($res);
 
-    // Initialize an array to store the distinct video types
-    $videoTypes = [];
+            // Initialize an array to store the distinct video types
+            $videoTypes = [];
 
-    // Check if the query execution was successful
-    if ($res !== false) {
-        foreach ($fullData as $row) {
-            // Add the video type to the array
-            $videoTypes[] = $row['type'];
+            // Check if the query execution was successful
+            if ($res !== false) {
+                foreach ($fullData as $row) {
+                    // Add the video type to the array
+                    $videoTypes[] = $row['type'];
+                }
+            }
+
+            // Return the array containing distinct video types
+            return $videoTypes;
         }
-    } 
-
-    // Return the array containing distinct video types
-    return $videoTypes;
-}
 
 
         /**
@@ -2377,7 +2377,7 @@ if (!class_exists('Video')) {
             if ($status === 'suggested') {
                 $suggestedOnly = true;
                 $status = '';
-            }else if ($status === 'passwordProtected') {
+            } else if ($status === 'passwordProtected') {
                 $passwordProtectedOnly = true;
                 $status = '';
             }
@@ -3195,7 +3195,7 @@ if (!class_exists('Video')) {
             if (empty($this->users_id)) {
                 return false;
             }
-            if ((!User::isLogged()) ) {
+            if ((!User::isLogged())) {
                 return false;
             }
 
@@ -4238,7 +4238,7 @@ if (!class_exists('Video')) {
             if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
                 $search = array_merge($search, $global['langs_codes_values_withdot']);
             }
-            
+
             $path_parts = pathinfo($filename);
             if (!empty($path_parts['extension']) && $path_parts['extension'] == 'vtt') {
                 $p = explode('.', $path_parts['filename']);
@@ -5110,9 +5110,32 @@ if (!class_exists('Video')) {
             return $url;
         }
 
+        public static function getCanonicalLink($videos_id)
+        {
+            global $advancedCustom;
+            $type = Video::$urlTypeShort;
+            $ignoreChannelname = true;
+            $embed = isEmbed();
+            //array(0 => 'Short URL', 1 => 'URL+Channel Name', 2 => 'URL+Channel+Title');
+            switch ($advancedCustom->canonicalURLType) {
+                case 0:
+                    $type = Video::$urlTypeShort;
+                    $ignoreChannelname = true;
+                    break;
+                case 1:
+                    $type = Video::$urlTypeShort;
+                    $ignoreChannelname = false;
+                    break;
+                case 2:
+                    $type = Video::$urlTypeFriendly;
+                    $ignoreChannelname = false;
+                    break;
+            }
+            return Video::getLinkToVideo($videos_id, '', $embed, $type, [], $ignoreChannelname);
+        }
         public static function getPermaLink($videos_id, $embed = false, $get = [])
         {
-            return self::getLinkToVideo($videos_id, "", $embed, Video::$urlTypeCanonical, $get);
+            return self::getLinkToVideo($videos_id, "", $embed, Video::$urlTypeShort, $get);
         }
 
         public static function getURLFriendly($videos_id, $embed = false, $get = [])
@@ -5122,7 +5145,7 @@ if (!class_exists('Video')) {
 
         public static function getPermaLinkFromCleanTitle($clean_title, $embed = false, $get = [])
         {
-            return self::getLinkToVideo("", $clean_title, $embed, Video::$urlTypeCanonical, $get);
+            return self::getLinkToVideo("", $clean_title, $embed, Video::$urlTypeShort, $get);
         }
 
         public static function getURLFriendlyFromCleanTitle($clean_title, $embed = false, $get = [])
