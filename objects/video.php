@@ -5018,7 +5018,7 @@ if (!class_exists('Video')) {
          * @param string $type URLFriendly or permalink
          * @return String a web link
          */
-        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = 'URLFriendly', $get = [], $ignoreChannelname = false)
+        public static function getLinkToVideo($videos_id, $clean_title = "", $embed = false, $type = 'URLFriendly', $get = [], $ignoreChannelname = false, $parseIfEmbed = true)
         {
             global $global, $advancedCustomUser, $advancedCustom;
             if (!empty($_GET['evideo'])) {
@@ -5104,7 +5104,7 @@ if (!class_exists('Video')) {
                 }
                 $url = "{$baseURL}{$get_http}";
             }
-            if ($embed) {
+            if ($parseIfEmbed && $embed) {
                 return parseVideos($url, $advancedCustom->embedAutoplay, $advancedCustom->embedLoop, $advancedCustom->embedStartMuted, $advancedCustom->embedShowinfo, $advancedCustom->embedControls->value);
             }
             return $url;
@@ -5131,7 +5131,7 @@ if (!class_exists('Video')) {
                     $ignoreChannelname = false;
                     break;
             }
-            return Video::getLinkToVideo($videos_id, '', $embed, $type, [], $ignoreChannelname);
+            return Video::getLinkToVideo($videos_id, '', $embed, $type, [], $ignoreChannelname, false);
         }
         public static function getPermaLink($videos_id, $embed = false, $get = [])
         {
