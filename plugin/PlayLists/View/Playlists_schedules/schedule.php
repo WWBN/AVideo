@@ -54,26 +54,24 @@ $_page->setExtraScripts(
                                     <label for="Playlists_schedulesdescription"><?php echo __("Description"); ?>:</label>
                                     <textarea id="Playlists_schedulesdescription" name="description" class="form-control input-sm" placeholder="<?php echo __("Description"); ?>" required="true"></textarea>
                                 </div>
-                                <div class="form-group col-sm-6" id="group-start">
-                                    <label for="Playlists_schedulesstart_datetime"><?php echo __("Start Datetime"); ?>:</label>
+                                <div class="form-group col-sm-4" id="group-start">
+                                    <label for="Playlists_schedulesstart_datetime"><?php echo __("Start"); ?>:</label>
                                     <input type="datetime-local" id="Playlists_schedulesstart_datetime" name="start_datetime" class="form-control input-sm" placeholder="Start Datetime" required="true" autocomplete="off">
                                 </div>
-                                <div class="form-group col-sm-6" id="group-finish">
-                                    <label for="Playlists_schedulesfinish_datetime"><?php echo __("Finish Datetime"); ?>:</label>
+                                <div class="form-group col-sm-4" id="group-finish">
+                                    <label for="Playlists_schedulesfinish_datetime"><?php echo __("Finish"); ?>:</label>
                                     <input type="datetime-local" id="Playlists_schedulesfinish_datetime" name="finish_datetime" class="form-control input-sm" placeholder="Finish Datetime" required="true" autocomplete="off">
                                     <span class="help-block" id="error-finish" style="display: none;"><?php echo __("Finish Datetime must be greater than Start Datetime"); ?>.</span>
                                 </div>
-
-
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-sm-4">
                                     <label for="Playlists_schedulesloop"><?php echo __("Loop"); ?>:</label>
                                     <select class="form-control input-sm" name="loop" id="Playlists_schedulesloop">
                                         <option value="1"><?php echo __("Yes"); ?></option>
                                         <option value="0"><?php echo __("No"); ?></option>
                                     </select>
                                 </div>
-                                <div class="form-group col-sm-6">
-                                    <label for="Playlists_schedulesrepeat"><?php echo __("Repeat"); ?>:</label>
+                                <div class="form-group col-sm-6 hidden">
+                                    <label for="Playlists_schedulesrepeat "><?php echo __("Repeat"); ?>:</label>
                                     <select class="form-control input-sm" name="repeat" id="Playlists_schedulesrepeat">
                                         <option value="<?php echo Playlists_schedules::$REPEAT_NEVER; ?>"><?php echo __("Never"); ?></option>
                                         <option value="<?php echo Playlists_schedules::$REPEAT_DAILY; ?>"><?php echo __("Daily"); ?></option>

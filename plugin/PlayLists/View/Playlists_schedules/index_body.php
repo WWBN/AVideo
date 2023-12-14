@@ -51,22 +51,22 @@ if (!User::isAdmin()) {
                                         <option value="i"><?php echo __("Inactive"); ?></option>
                                     </select>
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-sm-4">
                                     <label for="Playlists_schedulesstart_datetime"><?php echo __("Start Datetime"); ?>:</label>
                                     <input type="text" id="Playlists_schedulesstart_datetime" name="start_datetime" class="form-control input-sm" placeholder="<?php echo __("Start Datetime"); ?>" required="true" autocomplete="off">
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-sm-4">
                                     <label for="Playlists_schedulesfinish_datetime"><?php echo __("Finish Datetime"); ?>:</label>
                                     <input type="text" id="Playlists_schedulesfinish_datetime" name="finish_datetime" class="form-control input-sm" placeholder="<?php echo __("Finish Datetime"); ?>" required="true" autocomplete="off">
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-sm-4">
                                     <label for="Playlists_schedulesloop"><?php echo __("Loop"); ?>:</label>
                                     <select class="form-control input-sm" name="loop" id="Playlists_schedulesloop">
                                         <option value="1"><?php echo __("Yes"); ?></option>
                                         <option value="0"><?php echo __("No"); ?></option>
                                     </select>
                                 </div>
-                                <div class="form-group col-sm-6">
+                                <div class="form-group col-sm-6 hidden" >
                                     <label for="Playlists_schedulesrepeat"><?php echo __("Repeat"); ?>:</label>
                                     <select class="form-control input-sm" name="repeat" id="Playlists_schedulesrepeat">
                                         <?php
