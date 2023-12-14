@@ -325,7 +325,7 @@ function getOpenGraphVideo($videos_id)
         $imgPath = $images->posterPortraitPath;
     }
     //var_dump(debug_backtrace());
-    return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, array(), $canonicalURL);
+    return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, array(), $canonicalURL);
 }
 
 function getOpenGraphLiveLink($liveLink_id)
