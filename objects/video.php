@@ -801,7 +801,8 @@ if (!class_exists('Video')) {
                 $sql = "UPDATE videos SET status = ?, modified = now() WHERE id = ? ";
                 $res = sqlDAL::writeSql($sql, 'si', [$status, $this->id]);
                 if ($global['mysqli']->errno !== 0) {
-                    die('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                    _error_log('Error on update Status: (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+                    return false;
                 }
                 self::clearCache($this->id);
                 if ($this->status == Video::$statusActive || $status == Video::$statusActive && ($this->status != $status)) {

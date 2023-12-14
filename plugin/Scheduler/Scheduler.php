@@ -412,7 +412,7 @@ class Scheduler extends PluginAbstract
         //$status = $video->setStatus(Video::$statusActive);
         $status = $video->setStatus($advancedCustom->defaultVideoStatus->value);
         
-        return true;
+        return $status;
     }
 
     private static function convertIfTimezoneIsPassed($releaseDate){
