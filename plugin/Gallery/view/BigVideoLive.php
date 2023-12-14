@@ -8,7 +8,8 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
         return '';
     }
 }
-
+$url = "{$global['webSiteRootURL']}liveNow?muted=1&GalleryType=";
+$url = addQueryStringParameter($url, 'muted', 1);
 ?>
 <style>
     #BigVideoLive {
@@ -74,7 +75,7 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
 </style>
 <div class="container-fluid" id="BigVideoLive">
     <div id="BigVideoLiveOverlay"></div>
-    <iframe id="BigVideoLiveIFrame" class="embed-responsive-item" scrolling="no" style="border: none;" <?php echo Video::$iframeAllowAttributes; ?> src="<?php echo "{$global['webSiteRootURL']}liveNow?muted=1"; ?>"></iframe>
+    <iframe id="BigVideoLiveIFrame" class="embed-responsive-item" scrolling="no" style="border: none;" <?php echo Video::$iframeAllowAttributes; ?> src="<?php echo $url; ?>"></iframe>
     <div id="BigVideoLiveClose">
         <button type="button" class="btn btn-default btn-circle" onclick="BigVideoLiveFullscreen(false);" style="padding: 3px 0;">
             <i class="fas fa-times fa-2x"></i>
