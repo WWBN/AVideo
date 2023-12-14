@@ -20,7 +20,7 @@ if(empty($_REQUEST['id'])){
        //$_POST['sort']['comments_id_pai'] = 'DESC';
        $_POST['sort']['id'] = 'DESC';
     }
-    $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
+    $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id'], 0, true);
     $total = Comment::getTotalComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
 }else{
     $comment = Comment::getComment($_REQUEST['id']);
@@ -33,9 +33,7 @@ if(empty($_REQUEST['id'])){
     }
 }
 
-foreach ($comments as $key => $value) {
-    $comments[$key] = Comment::addExtraInfo2($value);
-}
+$comments = Comment::addExtraInfo2InRows($comments);
 
 $obj = new stdClass();
 $obj->current = getCurrentPage();

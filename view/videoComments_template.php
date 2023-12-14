@@ -34,7 +34,7 @@
                 <i class="fas fa-thumbs-down"></i>
                 <small>{dislikes}</small>
             </button>
-            <button class="btn btn-default no-outline allReplies btn-xs isNotOpen hideIfNoVideosId" onclick="toogleReplies({id}, this);">
+            <button class="btn btn-default no-outline allReplies btn-xs isOpen hideIfNoVideosId" onclick="toogleReplies({id}, this);">
                 <span class="hideIfIsOpen">
                     {viewAllRepliesText} <span class="total_replies badge">{total_replies}</span> <i class="fa fa-chevron-down" aria-hidden="true"></i>
                 </span>

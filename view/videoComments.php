@@ -25,21 +25,24 @@ if (User::canSeeCommentTextarea()) {
     } else {
         $class .= ' withVideosId';
     }
-    ?>
+?>
     <style>
-        #commentsArea{
+        #commentsArea {
             margin-top: 15px;
         }
-        #commentsArea .media{
+
+        #commentsArea .media {
             background-color: #88888808;
             padding: 0;
             border-radius: 10px;
             overflow: hidden;
         }
-        #commentsArea .media:hover{
+
+        #commentsArea .media:hover {
             background-color: #88888810;
         }
-        #commentsArea .media .media-left{
+
+        #commentsArea .media .media-left {
             margin-left: 5px;
         }
 
@@ -55,49 +58,59 @@ if (User::canSeeCommentTextarea()) {
         #commentsArea .isResponse .hideIfIsResponse,
         #commentsArea .totalLikes0,
         #commentsArea .totalDislikes0,
-        #commentsArea .isOpen > .hideIfIsOpen,
-        #commentsArea .isNotOpen > .hideIfIsNotOpen,
+        #commentsArea .isOpen>.hideIfIsOpen,
+        #commentsArea .isNotOpen>.hideIfIsNotOpen,
         #commentsArea.noVideosId .hideIfNoVideosId,
-        #commentsArea.withVideosId .hideIfHasVideosId{
+        #commentsArea.withVideosId .hideIfHasVideosId {
             display: none;
         }
-        #commentsArea > .media > div.media-body .repliesArea{
+
+        #commentsArea>.media>div.media-body .repliesArea {
             margin-left: -60px;
             padding-left: 5px;
         }
-        #commentsArea > .media > div.media-body > div.repliesArea .repliesArea .repliesArea{
+
+        #commentsArea>.media>div.media-body>div.repliesArea .repliesArea .repliesArea {
             margin-left: -70px;
             padding-left: 0;
         }
-        #commentsArea > .media div.media-body{
+
+        #commentsArea>.media div.media-body {
             overflow: visible;
         }
-        #commentsArea > .media div.media-left > img{
+
+        #commentsArea>.media div.media-left>img {
             width: 60px;
         }
-        #commentsArea > .media .commentsButtonsGroup{
+
+        #commentsArea>.media .commentsButtonsGroup {
             opacity: 0.5;
         }
-        #commentsArea > .media .media-body:hover > .commentsButtonsGroup{
+
+        #commentsArea>.media .media-body:hover>.commentsButtonsGroup {
             opacity: 1;
         }
-        #commentsArea .isAResponse{
+
+        #commentsArea .isAResponse {
             margin-left: 20px;
         }
 
-        #commentsArea > .media .media .isAResponse{
+        #commentsArea>.media .media .isAResponse {
             margin-left: 10px;
         }
 
-        #commentsArea > .media .media .media .isAResponse{
+        #commentsArea>.media .media .media .isAResponse {
             margin-left: 5px;
         }
 
+        #commentsArea .repliesArea div.media-body h3.media-heading {
+            display: none;
+        }
     </style>
     <div id="commentsArea" class="<?php echo $class; ?>"></div>
-    <center>
+    <div class="text-center">
         <button class="btn btn-link" onclick="getComments(0, lastLoadedPage+1);" id="commentLoadMoreBtn"> <?php echo __('Load More'); ?></button>
-    </center>
+    </div>
     <script>
         var commentTemplate = <?php echo $commentTemplate; ?>;
 
@@ -119,7 +132,7 @@ if (User::canSeeCommentTextarea()) {
                         className: "btn-success",
                     },
                 }
-            }).then(function (value) {
+            }).then(function(value) {
                 console.log(value);
                 switch (value) {
                     case "comment":
@@ -192,21 +205,42 @@ if (User::canSeeCommentTextarea()) {
             return template;
         }
 
-        function addComment(itemsArray, comments_id, append) {
+        function processCommentRow(itemsArray) {
             if (typeof itemsArray === 'function') {
                 return false;
             }
-            if(!empty(itemsArray.comments_id_pai)){
+            if (!empty(itemsArray.comments_id_pai)) {
                 itemsArray.isAResponse = 'isAResponse';
-            }else{
+            } else {
                 itemsArray.isAResponse = 'isNotAResponse';
             }
-
-            itemsArray.videoLink = itemsArray.video.link;
-            itemsArray.videoTitle = itemsArray.video.title;
-
+            itemsArray.videoLink = '#';
+            itemsArray.videoTitle = '';
+            if (typeof itemsArray.video != 'undefined') {
+                itemsArray.videoLink = itemsArray.video.link;
+                itemsArray.videoTitle = itemsArray.video.title;
+            }
             var template = getCommentTemplate(itemsArray);
+            template = $(template);
+            var repliesAreaSelector = '> div.media-body > div.repliesArea';
+            if (itemsArray.responses.length > 0) {
+                for (var i in itemsArray.responses) {
+                    var row = itemsArray.responses[i];
+                    if (typeof row === 'function') {
+                        continue;
+                    }
+                    //console.log('getComments', comments_id, page, typeof row);
+                    var templateRow = processCommentRow(row);
+                    template.find(repliesAreaSelector).removeClass('isNotOpen').addClass('isOpen').append(templateRow);
+                }
+            }
 
+            return template;
+        }
+
+        function addComment(itemsArray, comments_id, append) {
+
+            var template = processCommentRow(itemsArray);
             var selector = '#commentsArea ';
 
             if (!empty(comments_id)) {
@@ -215,20 +249,19 @@ if (User::canSeeCommentTextarea()) {
 
             var element = '#comment_' + itemsArray.id;
             if ($(element).length) {
-                var object = $('<div/>').html(template);
+                var object = $('<div/>').append(template);
                 var html = $(object).find(element).html();
                 $(element).html(html);
             } else {
-                if(append){
+                if (append) {
                     $(selector).append(template);
-                }else{
+                } else {
                     $(selector).prepend(template);
                 }
 
             }
             return true;
         }
-
 
         function toogleReplies(comments_id, t) {
             var selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
@@ -240,7 +273,7 @@ if (User::canSeeCommentTextarea()) {
                 $(t).removeClass('isOpen');
                 $(t).addClass('isNotOpen');
                 $(selector).slideUp();
-            }else{
+            } else {
                 $(t).removeClass('isNotOpen');
                 $(t).addClass('isOpen');
                 $(selector).slideDown();
@@ -248,10 +281,11 @@ if (User::canSeeCommentTextarea()) {
         }
 
         var lastLoadedPage;
+
         function getComments(comments_id, page) {
             var url = webSiteRootURL + 'objects/comments.json.php';
-            if(typeof commentVideos_id == 'undefined'){
-               commentVideos_id = 0;
+            if (typeof commentVideos_id == 'undefined') {
+                commentVideos_id = 0;
             }
             url = addQueryStringParameter(url, 'video_id', commentVideos_id);
             url = addQueryStringParameter(url, 'comments_id', comments_id);
@@ -259,27 +293,27 @@ if (User::canSeeCommentTextarea()) {
             lastLoadedPage = page;
             $.ajax({
                 url: url,
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         avideoAlertError(response.msg);
                     } else {
                         var selector = '#commentsArea ';
                         if (!empty(comments_id)) {
                             selector = '#comment_' + comments_id + ' > div.media-body > div.repliesArea ';
-                        }else{
-                            if(empty(response.rows) || response.total < response.rowCount){
-                                if(page>1){
+                        } else {
+                            if (empty(response.rows) || response.total < response.rowCount) {
+                                if (page > 1) {
                                     avideoToastInfo('Finished');
                                 }
                                 $('#commentLoadMoreBtn').fadeOut();
                             }
                         }
-                        if(page<=1){
+                        if (page <= 1) {
                             $(selector).empty();
                         }
                         for (var i in response.rows) {
                             var row = response.rows[i];
-                            if(typeof row === 'function'){
+                            if (typeof row === 'function') {
                                 continue;
                             }
                             //console.log('getComments', comments_id, page, typeof row);
@@ -301,18 +335,20 @@ if (User::canSeeCommentTextarea()) {
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-            }).then(function (willDelete) {
+            }).then(function(willDelete) {
                 if (willDelete) {
 
                     modal.showPleaseWait();
                     $.ajax({
                         url: webSiteRootURL + 'objects/commentDelete.json.php',
                         method: 'POST',
-                        data: {'id': comments_id},
-                        success: function (response) {
+                        data: {
+                            'id': comments_id
+                        },
+                        success: function(response) {
                             if (!response.error) {
                                 var selector = '#comment_' + comments_id;
-                                $(selector).slideUp('fast', function () {
+                                $(selector).slideUp('fast', function() {
                                     $(this).remove();
                                 });
                             }
@@ -323,13 +359,14 @@ if (User::canSeeCommentTextarea()) {
                 }
             });
         }
+
         function editComment(id) {
             modal.showPleaseWait();
             var url = webSiteRootURL + 'objects/comments.json.php';
             url = addQueryStringParameter(url, 'id', id);
             $.ajax({
                 url: url,
-                success: function (response) {
+                success: function(response) {
                     modal.hidePleaseWait();
                     if (response.error) {
                         avideoAlertError(response.msg);
@@ -345,6 +382,7 @@ if (User::canSeeCommentTextarea()) {
             });
 
         }
+
         function saveEditedComment(id) {
             return _saveComment($('#popupCommentTextarea').val(), commentVideos_id, 0, id);
         }
@@ -359,8 +397,14 @@ if (User::canSeeCommentTextarea()) {
                 $.ajax({
                     url: webSiteRootURL + 'objects/commentAddNew.json.php',
                     method: 'POST',
-                    data: {'comment': comment, 'video': video, 'comments_id': comments_id, 'id': id, 'comment_users_id': $('#comment_users_id').val()},
-                    success: function (response) {
+                    data: {
+                        'comment': comment,
+                        'video': video,
+                        'comments_id': comments_id,
+                        'id': id,
+                        'comment_users_id': $('#comment_users_id').val()
+                    },
+                    success: function(response) {
                         avideoResponse(response);
                         if (!response.error) {
                             if (!empty(response.comment)) {
@@ -383,7 +427,7 @@ if (User::canSeeCommentTextarea()) {
             url = addQueryStringParameter(url, 'comments_id', comments_id);
             $.ajax({
                 url: url,
-                success: function (response) {
+                success: function(response) {
                     avideoResponse(response);
                     if (!response.error) {
                         getComments(0, 1);
@@ -397,8 +441,10 @@ if (User::canSeeCommentTextarea()) {
             $.ajax({
                 url: webSiteRootURL + 'objects/comments_like.json.php?like=' + like,
                 method: 'POST',
-                data: {'comments_id': comments_id},
-                success: function (response) {
+                data: {
+                    'comments_id': comments_id
+                },
+                success: function(response) {
                     var selector = '#comment_' + comments_id;
                     $(selector).removeClass("myVote0 myVote1 myVote-1");
                     $(selector).addClass('myVote' + response.myVote);
@@ -419,11 +465,11 @@ if (User::canSeeCommentTextarea()) {
             $(selector).text(parseInt($(selector).text()) + total);
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
             getComments(0, 1);
         });
     </script>
-    <?php
+<?php
     if (!empty($advancedCustom->commentsNoIndex)) {
         echo "<!--googleon: all-->";
     }

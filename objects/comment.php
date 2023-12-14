@@ -162,23 +162,25 @@ class Comment {
         return ($res != false) ? $result : false;
     }
 
-    public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id = 0) {
+    public static function getAllComments($videoId = 0, $comments_id_pai = 'NULL', $video_owner_users_id = 0, $includeResponses = false) {
         global $global;
         $format = '';
         $values = [];
         $sql = "SELECT c.*, u.name as name, u.user as user, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = 1 ) as likes, "
                 . " (SELECT count(id) FROM comments_likes as l where l.comments_id = c.id AND `like` = -1 ) as dislikes ";
+        $users_id = User::getId();
 
-        if (User::isLogged()) {
+        if (!empty($users_id)) {
             $sql .= ", (SELECT `like` FROM comments_likes as l where l.comments_id = c.id AND users_id = ? ) as myVote ";
             $format .= "i";
-            $values[] = User::getId();
+            $values[] = $users_id;
         } else {
             $sql .= ", 0 as myVote ";
         }
 
-        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id WHERE 1=1 AND u.status = 'a' ";
+        $sql .= " FROM comments c LEFT JOIN users as u ON u.id = users_id LEFT JOIN videos as v ON v.id = videos_id";
+        $sql .= " WHERE 1=1 AND u.status = 'a' ";
 
         if (!empty($videoId)) {
             $sql .= " AND videos_id = ? ";
@@ -189,19 +191,23 @@ class Comment {
                 die("can not see comments");
             }
             $users_id = User::getId();
-            $sql .= " AND (v.users_id = ? OR c.users_id = ?) ";
-            $format .= "ii";
-            $values[] = $users_id;
-            $values[] = $users_id;
+            if(!empty($users_id)){
+                $sql .= " AND (v.users_id = ? OR c.users_id = ?) ";
+                $format .= "ii";
+                $values[] = $users_id;
+                $values[] = $users_id;
+            }
         }
 
-        if ($comments_id_pai === 'NULL' || empty($comments_id_pai)) {
+        if (_empty($comments_id_pai)) {
             $sql .= " AND (comments_id_pai IS NULL ";
             if (empty($videoId) && User::isLogged()) {
                 $users_id = User::getId();
-                $sql .= " OR c.users_id = ? ";
-                $format .= "i";
-                $values[] = $users_id;
+                if(!empty($users_id)){
+                    $sql .= " OR c.users_id = ? ";
+                    $format .= "i";
+                    $values[] = $users_id;
+                }
             }
             $sql .= ") ";
         } else {
@@ -217,7 +223,10 @@ class Comment {
         }
 
         $sql .= BootGrid::getSqlFromPost(['name']);
-        //var_dump($sql);exit;
+        if($comments_id_pai == 9){
+            //echo PHP_EOL.PHP_EOL.'>>>>'.PHP_EOL.PHP_EOL;var_dump($comments_id_pai,$video_owner_users_id, $sql, $values);echo PHP_EOL.'<<<<'.PHP_EOL.PHP_EOL;exit;
+        }
+        //echo PHP_EOL.PHP_EOL.'>>>>'.PHP_EOL.PHP_EOL;var_dump($comments_id_pai,$video_owner_users_id, $sql, $values);echo PHP_EOL.'<<<<'.PHP_EOL.PHP_EOL;//exit;
         $res = sqlDAL::readSql($sql, $format, $values);
         $allData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -228,6 +237,10 @@ class Comment {
                 $row['comment'] = str_replace('\n', "\n", $row['comment']);
                 $row['commentPlain'] = xss_esc_back($row['comment']);
                 $row['commentHTML'] = nl2br($row['commentPlain']);
+                $row['responses'] = array();
+                if($includeResponses){
+                    $row['responses'] = self::getAllComments($videoId, $row['id'], $video_owner_users_id, $includeResponses);
+                }
                 $comment[] = $row;
             }
             //$comment = $res->fetch_all(MYSQLI_ASSOC);
@@ -379,6 +392,16 @@ class Comment {
             $commentsArray[$key2] = self::addExtraInfo2($value2);
         }
         return $commentsArray;
+    }
+
+    static function addExtraInfo2InRows($rows) {
+        foreach ($rows as $key => $value) {
+            $rows[$key] = Comment::addExtraInfo2($value);
+            if(!empty($rows[$key]['responses'])){
+                $rows[$key]['responses'] = self::addExtraInfo2InRows($rows[$key]['responses']);
+            }
+        }
+        return $rows;
     }
 
     static function addExtraInfo2($row) {
