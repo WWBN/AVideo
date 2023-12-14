@@ -5117,7 +5117,7 @@ if (!class_exists('Video')) {
             $ignoreChannelname = true;
             $embed = isEmbed();
             //array(0 => 'Short URL', 1 => 'URL+Channel Name', 2 => 'URL+Channel+Title');
-            switch ($advancedCustom->canonicalURLType) {
+            switch ($advancedCustom->canonicalURLType->value) {
                 case 0:
                     $type = Video::$urlTypeShort;
                     $ignoreChannelname = true;
