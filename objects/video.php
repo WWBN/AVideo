@@ -780,6 +780,9 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
 
+                if(empty($status)){
+                    $status = Video::$statusActive;
+                }
                 if (empty(Video::$statusDesc[$status])) {
                     _error_log("Video::setStatus({$status}) NOT found ", AVideoLog::$WARNING);
                     return false;
