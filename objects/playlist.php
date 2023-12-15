@@ -158,6 +158,13 @@ class PlayList extends ObjectYPT
                 $values[] = $userId;
             }
         }
+
+        if(!empty($_REQUEST['searchPlaylist'])){
+            $sql .= " AND pl.name LIKE CONCAT('%', ?, '%') ";
+            $formats .= "s";
+            $values[] = $_REQUEST['searchPlaylist'];
+        }
+
         $sql .= self::getSqlFromPost("pl.");
         //var_dump($sql, $formats, $values);
         $TimeLog1 = "playList getAllFromUser 1($userId)";

@@ -26,6 +26,7 @@ require_once $global['systemRootPath'] . 'objects/functionInfiniteScroll.php';
 $infinityScrollGetFromSelector = 'managerPlaylists';
 setRowCount(8);
 setDefaultSort('created', 'DESC');
+
 $pl = PlayList::getAllFromUser($users_id, false);
 $total = PlayList::getTotalFromUser($users_id, false);
 $totalPages = ceil($total / getRowCount());
@@ -101,6 +102,16 @@ $_page = new Page(array('Manage playlist'));
                 }
                 TimeLogEnd($timeName, __LINE__);
                 ?>
+                <li class="pull-right ">
+                    <form class="navbar-form form-inline input-group" role="search" id="searchFormPlaylist" method="get">
+                        <input id="searchPlaylist" name="searchPlaylist" placeholder="<?php echo __('Search Playlist'); ?>" class="form-control" value="<?php echo @$_REQUEST['searchPlaylist']; ?>" autocomplete="off">
+                        <span class="input-group-append">
+                            <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearchPlaylist">
+                                <i class="fas fa-search faa-shake"></i>
+                            </button>
+                        </span>
+                    </form>
+                </li>
             </ul>
         </div>
         <div class="panel-body">
@@ -341,14 +352,14 @@ $_page = new Page(array('Manage playlist'));
                         }
                     }
                     if (empty($count)) {
-                        if(getCurrentPage() <= 1){
-                            ?>
+                        if (getCurrentPage() <= 1) {
+                        ?>
                             <div class="col-sm-12">
                                 <div class="alert alert-info">
                                     <?php echo __('Sorry you do not have any playlist yet'); ?>
                                 </div>
                             </div>
-                        <?php
+                    <?php
                         }
                     }
                     TimeLogEnd($timeName, __LINE__);
@@ -359,7 +370,7 @@ $_page = new Page(array('Manage playlist'));
             <?php
 
             $url = "{$global['webSiteRootURL']}plugin/PlayLists/managerPlaylists.php";
-            if(!empty($_REQUEST['PlaylistOwnerUsersId'])){
+            if (!empty($_REQUEST['PlaylistOwnerUsersId'])) {
                 $url = addQueryStringParameter($url, 'PlaylistOwnerUsersId', $_REQUEST['PlaylistOwnerUsersId']);
             }
             echo getPagination($totalPages, $url, 10, "#{$infinityScrollGetFromSelector}", "#{$infinityScrollGetFromSelector}");
@@ -370,9 +381,15 @@ $_page = new Page(array('Manage playlist'));
 </div>
 <script>
     $(document).ready(function() {
-
-
+        $("#searchFormPlaylist").submit(function(event) {
+            var searchInput = $("#searchPlaylist").val();
+            if (empty(searchInput)) {
+                // Prevent the form from submitting
+                //event.preventDefault();
+            }
+        });
     });
+
 
     function updatePlaylistOwner() {
         modal.showPleaseWait();

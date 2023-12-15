@@ -2614,6 +2614,7 @@ function empty(data) {
         if (data == 0) {
             return true;
         }
+        data = data.trim();
         return /^[\s]*$/.test(data);
     } else if (type !== 'undefined') {
         return Object.keys(data).length == 0;
