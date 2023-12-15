@@ -64,7 +64,7 @@ TimeLogStart($timeLog6);
         <!-- row video 1 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -73,7 +73,7 @@ TimeLogStart($timeLog6);
         <!-- row video 2 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -82,7 +82,7 @@ TimeLogStart($timeLog6);
         <!-- row video 3 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo $value['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortraitThumbs; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php
@@ -91,7 +91,7 @@ TimeLogStart($timeLog6);
         <!-- row video 4 -->
         <div class="col-md-2 col-sm-3 col-xs-4 hidden-xs">
             <center>
-                <img alt="<?php echo $value['title']; ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
+                <img alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img img-responsive" src="<?php echo $images->poster; ?>" style="min-width: 86px;" />
             </center>
         </div>
         <?php

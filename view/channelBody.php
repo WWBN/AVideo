@@ -198,7 +198,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                              -moz-background-size: cover;
                              -o-background-size: cover;
                              background-size: cover;">
-                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo $user->_getName(); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
+                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo str_replace('"', '', $user->_getName()) ; ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
                         </div>
                     </a>
                 <?php

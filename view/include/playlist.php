@@ -89,7 +89,7 @@ if (!empty($videoSerie)) {
                             } else {
                                 $img = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);
                             } ?>
-                            <img src="<?php echo $img; ?>" alt="<?php echo $value['title']; ?>" class="img-responsive" height="130" itemprop="thumbnail" />
+                            <img src="<?php echo $img; ?>" alt="<?php echo str_replace('"', '', $value['title']); ?>" class="img-responsive" height="130" itemprop="thumbnail" />
 
                             <?php
                             if ($value['type'] !== 'pdf' && $value['type'] !== 'article' && $value['type'] !== 'serie') {

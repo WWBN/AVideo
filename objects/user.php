@@ -476,16 +476,16 @@ if (typeof gtag !== \"function\") {
     {
         global $advancedCustomUser;
         if (!empty($this->name) && empty($advancedCustomUser->doNotIdentifyByName)) {
-            return $this->name;
+            return str_replace('"', '', $this->name);
         }
         if (!empty($this->email) && empty($advancedCustomUser->doNotIdentifyByEmail)) {
-            return $this->email;
+            return str_replace('"', '', $this->email);
         }
         if (!empty($this->user) && empty($advancedCustomUser->doNotIdentifyByUserName)) {
-            return $this->user;
+            return str_replace('"', '', $this->user);
         }
         if (!empty($this->channelName)) {
-            return $this->channelName;
+            return str_replace('"', '', $this->channelName);
         }
         return __("Unknown User");
     }
@@ -530,7 +530,7 @@ if (typeof gtag !== \"function\") {
 
     public function _getName()
     {
-        return $this->name;
+        return str_replace('"', '', $this->name);
     }
 
     public function getBdName()

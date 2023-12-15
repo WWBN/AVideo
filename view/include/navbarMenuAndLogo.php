@@ -18,7 +18,7 @@
         </li>
         <li style="width: 100%; text-align: center;">
             <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? getHomePageURL() : $advancedCustom->logoMenuBarURL; ?>" >
-                <img src="<?php echo getURL($config->getLogo()); ?>" alt="<?php echo $config->getWebSiteTitle(); ?>" class="img-responsive "  width="250" height="70">
+                <img src="<?php echo getURL($config->getLogo()); ?>" alt="<?php echo str_replace('"', '', $config->getWebSiteTitle()); ?>" class="img-responsive "  width="250" height="70">
                 <?php
                 if(isFirstPage()){
                 ?>
