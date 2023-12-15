@@ -374,6 +374,9 @@ $_page = new Page(array('Manage playlist'));
             if (!empty($_REQUEST['PlaylistOwnerUsersId'])) {
                 $url = addQueryStringParameter($url, 'PlaylistOwnerUsersId', $_REQUEST['PlaylistOwnerUsersId']);
             }
+            if (!empty($_REQUEST['searchPlaylist'])) {
+                $url = addQueryStringParameter($url, 'searchPlaylist', $_REQUEST['searchPlaylist']);
+            }
             echo getPagination($totalPages, $url, 10, "#{$infinityScrollGetFromSelector}", "#{$infinityScrollGetFromSelector}");
             echo getPagination($totalPages, $url, 10);
             ?>
