@@ -1191,28 +1191,28 @@ if (typeof gtag !== \"function\") {
     {
         global $advancedCustomUser, $global, $_checkLoginAttempts;
         if (isset($_checkLoginAttempts)) {
-            return true;
+            return $_checkLoginAttempts;
         }
-        $_checkLoginAttempts = 1;
         // check for multiple logins attempts to prevent hacking
         if (empty($_SESSION['loginAttempts'])) {
             _session_start();
             $_SESSION['loginAttempts'] = 0;
         }
+        $_checkLoginAttempts = true;
         if (!empty($advancedCustomUser->requestCaptchaAfterLoginsAttempts)) {
             _session_start();
             $_SESSION['loginAttempts']++;
             if ($_SESSION['loginAttempts'] > $advancedCustomUser->requestCaptchaAfterLoginsAttempts) {
                 if (empty($_POST['captcha'])) {
-                    return false;
+                    $_checkLoginAttempts = false;
                 }
                 require_once $global['systemRootPath'] . 'objects/captcha.php';
                 if (!Captcha::validation($_POST['captcha'])) {
-                    return false;
+                    $_checkLoginAttempts = false;
                 }
             }
         }
-        return true;
+        return $_checkLoginAttempts;
     }
 
     public static function getCaptchaFormIfNeed()
