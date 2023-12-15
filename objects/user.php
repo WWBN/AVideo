@@ -2254,16 +2254,18 @@ if (typeof gtag !== \"function\") {
     public function setRecoverPass($forceChange = false)
     {
         // let the same recover pass if it was 10 minutes ago
-        if (!$this->isRecoverPassExpired($this->recoverPass) && empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
+        if ($this->isRecoverPassValid($this->recoverPass) && empty($forceChange) && !empty($this->recoverPass) && !empty($recoverPass) && !empty($this->modified) && strtotime($this->modified) > strtotime("-10 minutes")) {
             return $this->recoverPass;
         }
-        $this->recoverPass = $this->createRecoverPass();
+        $this->recoverPass = $this->createRecoverPass($this->id);
         return $this->recoverPass;
     }
 
-    private function createRecoverPass($secondsValid = 600)
+    private function createRecoverPass($id, $secondsValid = 600)
     {
         $json = new stdClass();
+        $json->id = $id;
+        $json->uniqid = uniqid();
         $json->valid = strtotime("+{$secondsValid} seconds");
         return encryptString(json_encode($json));
     }
@@ -2271,7 +2273,7 @@ if (typeof gtag !== \"function\") {
     public function checkRecoverPass($recoverPass)
     {
         if ($this->recoverPass === $recoverPass) {
-            if (!$this->isRecoverPassExpired($recoverPass)) {
+            if ($this->isRecoverPassValid($recoverPass)) {
                 _error_log('checkRecoverPass success: ' . $this->user . ' ' . getRealIpAddr());
                 return true;
             }
@@ -2279,18 +2281,20 @@ if (typeof gtag !== \"function\") {
         return false;
     }
 
-    public function isRecoverPassExpired($recoverPass)
+    public function isRecoverPassValid($recoverPass)
     {
         $string = decryptString($recoverPass);
         if ($string) {
             $json = _json_decode($string);
             if (is_object($json)) {
                 if (time() < $json->valid) {
-                    return false;
+                    if ($this->id < $json->id) {
+                        return true;
+                    }
                 }
             }
         }
-        return true;
+        return false;
     }
 
     public static function canNotUploadReason($doNotCheckPlugins = false)
