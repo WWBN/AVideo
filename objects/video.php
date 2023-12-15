@@ -784,7 +784,7 @@ if (!class_exists('Video')) {
                     $status = Video::$statusActive;
                 }
                 if (empty(Video::$statusDesc[$status])) {
-                    _error_log("Video::setStatus({$status}) NOT found ", AVideoLog::$WARNING);
+                    _error_log("Video::setStatus({$status}) NOT found ".json_encode(debug_backtrace()), AVideoLog::$WARNING);
                     return false;
                 }
 
