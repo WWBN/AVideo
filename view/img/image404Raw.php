@@ -10,9 +10,12 @@ if($imageURL == 'favicon.ico'){
 }
 
 if (file_exists($imgLocalFile)) {
+    $imageInfo = getimagesize($imgLocalFile);
+    if (empty($imageInfo)) {
+        die('not image');
+    }
     // Determine the content type based on the file extension
     $fileExtension = strtolower(pathinfo($imgLocalFile, PATHINFO_EXTENSION));
-
     switch ($fileExtension) {
         case 'jpg':
         case 'jpeg':

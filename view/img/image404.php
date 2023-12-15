@@ -70,6 +70,12 @@ if(ImagesPlaceHolders::isDefaultImage($file)){
 }else{
     header("HTTP/1.0 200 OK");
 }
+
+$imageInfo = getimagesize($file);
+if (empty($imageInfo)) {
+    die('not image');
+}
+
 header('Content-Type:' . $type);
 header('Content-Length: ' . filesize($file));
 readfile($file);
