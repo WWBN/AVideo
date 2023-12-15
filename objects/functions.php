@@ -4597,7 +4597,6 @@ function getLdJson($videos_id)
     if (empty($videos_id)) {
         echo "<!-- ld+json no video id -->";
         if (!empty($_GET['videoName'])) {
-            echo "<!-- ld+json videoName {$_GET['videoName']} -->";
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
         }
     } else {
@@ -4674,7 +4673,6 @@ function getItemprop($videos_id)
     if (empty($videos_id)) {
         echo "<!-- Itemprop no video id -->";
         if (!empty($_GET['videoName'])) {
-            echo "<!-- Itemprop videoName {$_GET['videoName']} -->";
             $video = Video::getVideoFromCleanTitle($_GET['videoName']);
         }
     } else {
