@@ -35,7 +35,7 @@
             <li>
                 <a class="navbar-brand"  href="#" onclick="avideoModalIframeFull('<?php echo User::getChannelLinkFromChannelName($_SESSION['channelName']); ?>');
                             return false;" >
-                    <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo User::getNameIdentificationById($user['id']); ?>" 
+                    <img src="<?php echo User::getPhoto($user['id']); ?>" alt="<?php echo str_replace('"', '', User::getNameIdentificationById($user['id'])); ?>" 
                          class="img img-circle " style="height: 33px; width: 33px; margin-right: 15px;"> 
                 </a>
             </li>
