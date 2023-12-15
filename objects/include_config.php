@@ -225,6 +225,8 @@ if (empty($global['avideo_resolutions']) || !is_array($global['avideo_resolution
     $global['avideo_resolutions'] = [240, 360, 480, 540, 720, 1080, 1440, 2160, 'offline'];
 }
 
+$global['avideo_possible_resolutions'] = array_merge($global['avideo_resolutions'],  ['HD', 'SD', 'Low']);
+
 includeConfigLog(__LINE__);
 sort($global['avideo_resolutions']);
 if (!empty($doNotConnectDatabaseIncludeConfig)) {

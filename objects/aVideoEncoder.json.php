@@ -153,6 +153,11 @@ if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_REQUEST['chunkFile
 if (!empty($_FILES['video']['tmp_name'])) {
     $resolution = '';
     if (!empty($_REQUEST['resolution'])) {
+        if(!in_array($_REQUEST['resolution'],$global['avideo_possible_resolutions'])){
+            $msg = "This resolution is not possible {$_REQUEST['resolution']}";
+            _error_log($msg);
+            forbiddenPage($msg);
+        }
         $resolution = "_{$_REQUEST['resolution']}";
     }
     $filename = "{$videoFileName}{$resolution}.{$_REQUEST['format']}";
