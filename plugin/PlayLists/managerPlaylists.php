@@ -386,6 +386,7 @@ $_page = new Page(array('Manage playlist'));
 <script>
     $(document).ready(function() {
         $("#searchFormPlaylist").submit(function(event) {
+            modal.showPleaseWait();
             var searchInput = $("#searchPlaylist").val();
             if (empty(searchInput)) {
                 // Prevent the form from submitting
