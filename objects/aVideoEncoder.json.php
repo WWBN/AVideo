@@ -144,7 +144,7 @@ if (!empty($_FILES['video']['error'])) {
         $_FILES['video']['tmp_name'] = downloadVideoFromDownloadURL($_REQUEST['downloadURL']);
     }
 }
-
+$_REQUEST['chunkFile'] = str_replace('/../', '', $_REQUEST['chunkFile']);
 if (empty($_FILES['video']['tmp_name']) && isValidURLOrPath($_REQUEST['chunkFile'])) {
     $_FILES['video']['tmp_name'] = $_REQUEST['chunkFile'];
 }
