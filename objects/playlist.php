@@ -291,6 +291,11 @@ class PlayList extends ObjectYPT
         }
         $sql .= self::getSqlSearchFromPost("pl.");
         
+        if(!empty($_REQUEST['searchPlaylist'])){
+            $sql .= " AND pl.name LIKE CONCAT('%', ?, '%') ";
+            $formats .= "s";
+            $values[] = $_REQUEST['searchPlaylist'];
+        }
         $res = sqlDAL::readSql($sql, $formats, $values, $refreshCacheFromPlaylist);
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
