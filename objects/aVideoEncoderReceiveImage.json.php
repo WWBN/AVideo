@@ -33,6 +33,20 @@ if (!Video::canEdit($_REQUEST['videos_id'])) {
     _error_log("ReceiveImage: " . $obj->msg);
     die(json_encode($obj));
 }
+
+$securityChecks = array(
+    'downloadURL_gifimage',
+    'downloadURL_webpimage',
+    'downloadURL_image',
+    'downloadURL_spectrumimage',
+);
+
+foreach ($securityChecks as $key => $value) {
+    if(!empty($_REQUEST[$value])){
+        $_REQUEST[$value] = str_replace('../', '', $_REQUEST[$value]);
+    }
+}
+
 _error_log("ReceiveImage: Start receiving image " . json_encode($_FILES) . "" . json_encode($_REQUEST));
 // check if there is en video id if yes update if is not create a new one
 $video = new Video("", "", $_REQUEST['videos_id'], true);
