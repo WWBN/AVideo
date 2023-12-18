@@ -294,13 +294,23 @@ class CachesInDB extends ObjectYPT
             return false;
         }
         $name = self::hashName($name);
+        self::set_innodb_lock_wait_timeout();
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name = ?";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql, "s", [$name]);
     }
-
+    public static function set_innodb_lock_wait_timeout($timeout = 2)
+    {
+        $sql = "SET SESSION innodb_lock_wait_timeout = {$timeout};";
+        /**
+        *
+        * @var array $global
+        * @var object $global['mysqli']
+        */
+       return $global['mysqli']->query($sql);
+    }
     public static function _deleteCacheStartingWith($name)
     {
         global $global;
@@ -313,6 +323,7 @@ class CachesInDB extends ObjectYPT
         $name = self::hashName($name);
         //$sql = "DELETE FROM " . static::getTableName() . " ";
         //$sql .= " WHERE name LIKE '{$name}%'";
+        self::set_innodb_lock_wait_timeout();
         $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
         
         $global['lastQuery'] = $sql;
@@ -332,6 +343,7 @@ class CachesInDB extends ObjectYPT
         }
         $name = self::hashName($name);
         $name = str_replace('hashName_', '', $name);
+        self::set_innodb_lock_wait_timeout();
         $sql = "DELETE FROM " . static::getTableName() . " ";
         $sql .= " WHERE name LIKE '%{$name}%'";
         $global['lastQuery'] = $sql;
