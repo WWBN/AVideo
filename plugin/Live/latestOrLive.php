@@ -8,7 +8,7 @@ $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
-
+$global['ignorePersistVolume'] = 1;
 $objectToReturnToParentIframe = new stdClass();
 $objectToReturnToParentIframe->videos_id = 0;
 $objectToReturnToParentIframe->isLive = false;
