@@ -234,13 +234,12 @@ class CachesInDB extends ObjectYPT
         return $formattedCacheItem;
     }
     
-    public static function setBulkCache($cacheArray, $metadata, $try = 0, $maxRetries = 5) {
+    public static function setBulkCache($cacheArray, $metadata, $batchSize = 50) {
         if (empty($cacheArray)) {
             return false;
         }
     
         global $global;
-        $batchSize = 50; // Adjust batch size as appropriate
         $cacheBatches = array_chunk($cacheArray, $batchSize, true);
         $tz = date_default_timezone_get();
         $time = time();
@@ -276,14 +275,7 @@ class CachesInDB extends ObjectYPT
             } catch (\Throwable $th) {
                 mysqlRollback();
                 _error_log($th->getMessage() . ' '.$sql, AVideoLog::$ERROR);
-    
-                if ($try < $maxRetries && preg_match('/Deadlock found/i', $th->getMessage())) {
-                    usleep(100000 * pow(2, $try)); // Exponential backoff
-                    return self::setBulkCache($cacheArray, $metadata, $try + 1, $maxRetries);
-                } else {
-                    // Handle the error or throw an exception
-                    return false;
-                }
+                return false;
             }
         }
     
