@@ -27,7 +27,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-Category::clearCacheCount();
+//Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
 
 if(!isSameDomain($global['webSiteRootURL'], $_POST['redirectUri'])){

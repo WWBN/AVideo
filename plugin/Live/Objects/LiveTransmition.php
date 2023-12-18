@@ -321,7 +321,7 @@ class LiveTransmition extends ObjectYPT {
             $this->password = '';
         }
         $id = parent::save();
-        Category::clearCacheCount();
+        //Category::clearCacheCount();
         deleteStatsNotifications(true);
 
         $socketObj = sendSocketMessageToAll(['stats' => getStatsNotifications(false, false)], "socketLiveONCallback");

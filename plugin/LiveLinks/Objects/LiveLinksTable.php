@@ -26,7 +26,7 @@ class LiveLinksTable extends ObjectYPT {
         if (empty($this->categories_id)) {
             $this->categories_id = 'NULL';
         }
-        Category::clearCacheCount();
+        //Category::clearCacheCount();
         $id = parent::save();
         if(class_exists('Live') && $id){
             deleteStatsNotifications(true);
