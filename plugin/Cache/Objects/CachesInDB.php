@@ -269,7 +269,7 @@ class CachesInDB extends ObjectYPT
                 mysqlCommit();
             } catch (\Throwable $th) {
                 mysqlRollback();
-                _error_log($th->getMessage(), AVideoLog::$ERROR);
+                _error_log($th->getMessage() . ' '.$sql, AVideoLog::$ERROR);
     
                 if ($try < $maxRetries && preg_match('/Deadlock found/i', $th->getMessage())) {
                     usleep(100000 * pow(2, $try)); // Exponential backoff
