@@ -545,8 +545,10 @@ class PlayerSkins extends PluginAbstract
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMobile.js');
         }
         if (empty($_REQUEST['mute'])) {
-            $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyUnmuted.js');
-        } else {
+            if(empty($global['ignorePersistVolume'] )){
+                $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyUnmuted.js');
+            } 
+        }else {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMuted.js');
         }
 
