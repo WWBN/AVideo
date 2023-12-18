@@ -34,11 +34,10 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
         if (empty($_REQUEST['captcha'])) {
             $obj->error = __("Captcha is empty");
         } else {
-            if ($user->save()) {
-                require_once 'captcha.php';
-                $valid = Captcha::validation($_REQUEST['captcha']);
-                if ($valid) {
-
+            require_once 'captcha.php';
+            $valid = Captcha::validation($_REQUEST['captcha']);
+            if ($valid) {
+                if ($user->save()) {
                     $url = "{$global['webSiteRootURL']}recoverPass";
                     $url = addQueryStringParameter($url, 'user', $_REQUEST['user']);
                     $url = addQueryStringParameter($url, 'recoverpass', $recoverPass);
@@ -56,11 +55,11 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
                         $obj->success = __("Message sent");
                     }
                 } else {
-                    $obj->error = __("Your code is not valid");
-                    $obj->reloadCaptcha = true;
+                    $obj->error = __("Recover password could not be saved!");
                 }
             } else {
-                $obj->error = __("Recover password could not be saved!");
+                $obj->error = __("Your code is not valid");
+                $obj->reloadCaptcha = true;
             }
         }
     } else {
@@ -153,5 +152,6 @@ if (!(!empty($_REQUEST['user']) && !empty($_REQUEST['recoverpass']))) {
     </script>
 
 <?php
-    $_page->print();exit;
+    $_page->print();
+    exit;
 }

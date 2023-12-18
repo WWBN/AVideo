@@ -345,10 +345,16 @@ class CachesInDB extends ObjectYPT
         if (!static::isTableInstalled()) {
             return false;
         }
+        /*
         $sql = "TRUNCATE TABLE " . static::getTableName() . " ";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
         return sqlDAL::writeSql($sql);
+        */
+        $sql = 'DROP TABLE IF EXISTS `CachesInDB`';
+        sqlDal::writeSql($sql);
+        $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
+        return sqlDal::executeFile($file);
     }
 
     public static function encodeContent($content)
