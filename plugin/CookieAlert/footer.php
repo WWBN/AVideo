@@ -1,5 +1,5 @@
 <!-- COOKIES -->
-<div class="alert alert-dismissible text-center cookiealert" role="alert">
+<div class="alert alert-dismissible text-center cookiealert" role="alert" style="display: none;">
     <div class="cookiealert-container">
         <?php echo $obj->text; ?>
         <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">

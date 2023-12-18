@@ -206,70 +206,84 @@ class CachesInDB extends ObjectYPT
         $c->setExpires(date('Y-m-d H:i:s', strtotime('+ 1 month')));
         return $c->save();
     }
-
-    public static function setBulkCache($cacheArray, $metadata, $try=0) {
+    private static function prepareCacheItem($name, $cache, $metadata, $tz, $time) {
+        $formattedCacheItem = [];
+        
+        $name = self::hashName($name);
+        $content = !is_string($cache) ? json_encode($cache) : $cache;
+        if (empty($content)) {
+            return null;
+        }
+    
+        $expires = date('Y-m-d H:i:s', strtotime('+1 month'));
+    
+        // Format for the prepared statement
+        $formattedCacheItem['format'] = "ssssssssi";
+        $formattedCacheItem['values'] = [
+            $name,
+            $content,
+            $metadata['domain'],
+            $metadata['ishttps'],
+            $metadata['user_location'],
+            $metadata['loggedType'],
+            $expires,
+            $tz,
+            $time
+        ];
+    
+        return $formattedCacheItem;
+    }
+    
+    public static function setBulkCache($cacheArray, $metadata, $try = 0, $maxRetries = 5) {
         if (empty($cacheArray)) {
             return false;
         }
+    
         global $global;
-        
-        $placeholders = [];
-        $formats = [];
-        $values = [];
+        $batchSize = 50; // Adjust batch size as appropriate
+        $cacheBatches = array_chunk($cacheArray, $batchSize, true);
         $tz = date_default_timezone_get();
         $time = time();
-        $start = microtime(true);
-        foreach ($cacheArray as $name => $cache) {
-            $name = self::hashName($name);
-            $content = !is_string($cache) ? _json_encode($cache) : $cache;
-            if (empty($content)) continue;
-
-            $formats[] = "ssssssssi";
-            $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
-            
-            $expires = date('Y-m-d H:i:s', strtotime('+ 1 month'));
-            /*
-            echo PHP_EOL.'--name=';
-            var_dump($name);
-            echo PHP_EOL.'--content=';
-            var_dump($content);
-            */
-            // Add values to the values array
-            //_error_log("setBulkCache [{$name}]");
-            array_push($values, $name, $content, $metadata['domain'], $metadata['ishttps'], $metadata['user_location'], $metadata['loggedType'], $expires, $tz, $time);
-        }
-
-        $sql = "INSERT INTO " . static::getTableName() . " (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified) 
-                VALUES " . implode(", ", $placeholders) . "
-                ON DUPLICATE KEY UPDATE 
-                content = VALUES(content),
-                expires = VALUES(expires),
-                created_php_time = VALUES(created_php_time),
-                modified = NOW()";
-
-        // Assuming you have a PDO connection $pdo
-        try {
-            $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
-        } catch (\Throwable $th) {
-            if(preg_match('/Deadlock found when trying to get lock/i', $th->getMessage())){
-                if(empty($try)){
-                    _error_log($th->getMessage(), AVideoLog::$WARNING);
-                    $sql = 'DROP TABLE IF EXISTS `CachesInDB`';
-                    sqlDAL::writeSql($sql, implode('', $formats), $values);
-                    $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
-                    sqlDal::executeFile($file);
-                    return self::setBulkCache($cacheArray, $metadata, $try+1);
-                }else{
-                    _error_log($th->getMessage(), AVideoLog::$ERROR);
+        $result = true;
+    
+        foreach ($cacheBatches as $batch) {$placeholders = [];
+            $formats = [];
+            $values = [];
+    
+            foreach ($batch as $name => $cache) {
+                $cacheItem = self::prepareCacheItem($name, $cache, $metadata, $tz, $time);
+                if ($cacheItem === null) continue;
+    
+                $placeholders[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
+                $formats[] = $cacheItem['format'];
+                $values = array_merge($values, $cacheItem['values']);
+            }
+    
+            $sql = "INSERT INTO " . static::getTableName() . " (...) VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE ...";
+    
+            // Start transaction
+            mysqlBeginTransaction();
+    
+            try {
+                $result &= sqlDAL::writeSql($sql, implode('', $formats), $values);
+                mysqlCommit();
+            } catch (\Throwable $th) {
+                mysqlRollback();
+                _error_log($th->getMessage(), AVideoLog::$ERROR);
+    
+                if ($try < $maxRetries && preg_match('/Deadlock found/i', $th->getMessage())) {
+                    usleep(100000 * pow(2, $try)); // Exponential backoff
+                    return self::setBulkCache($cacheArray, $metadata, $try + 1, $maxRetries);
+                } else {
+                    // Handle the error or throw an exception
+                    return false;
                 }
             }
         }
-        //_error_log("setBulkCache writeSql total= ".count($placeholders));
-        //var_dump($result, $sql, implode('', $formats), $values);exit;
-        $end  = number_format(microtime(true) - $start, 5);
-        //_error_log("Disk setBulkCache took {$end} seconds");
+    
         return $result;
     }
+    
 
     public static function _deleteCache($name)
     {

@@ -717,6 +717,9 @@ function array_iunique(array $array): array
 function partition(array $list, $totalItens)
 {
     $listlen = count($list);
+    if(empty($listlen)){
+        return $list;
+    }
     _error_log("partition: listlen={$listlen} totalItens={$totalItens}");
     $p = ceil($listlen / $totalItens);
     $partlen = floor($listlen / $p);

@@ -10,6 +10,7 @@ function startCookieAlert(){
         return false;
     }
     if (!getCookie("acceptCookies") && !inIframe()) {
+        $(".cookiealert").show();
         $(".cookiealert").addClass("show");
     }
     $(".acceptcookies").on('click', function(){

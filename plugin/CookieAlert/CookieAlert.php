@@ -53,7 +53,10 @@ class CookieAlert extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         global $global;
-
+        if(!empty($global['cookieAlertAlreadyIncluded'])){
+            return '';
+        }
+        $global['cookieAlertAlreadyIncluded'] = 1;
         include $global['systemRootPath'] . 'plugin/CookieAlert/footer.php';
     }
 
