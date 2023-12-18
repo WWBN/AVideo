@@ -303,6 +303,7 @@ class CachesInDB extends ObjectYPT
     }
     public static function set_innodb_lock_wait_timeout($timeout = 2)
     {
+        global $global;
         $sql = "SET SESSION innodb_lock_wait_timeout = {$timeout};";
         /**
         *
