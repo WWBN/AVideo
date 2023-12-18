@@ -260,7 +260,12 @@ class CachesInDB extends ObjectYPT
             }
     
             $sql = "INSERT INTO " . static::getTableName() . " (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified)
-             VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE ...";
+             VALUES " . implode(", ", $placeholders) . " 
+             ON DUPLICATE KEY UPDATE 
+             content = VALUES(content),
+             expires = VALUES(expires),
+             created_php_time = VALUES(created_php_time),
+             modified = NOW()";
     
             // Start transaction
             mysqlBeginTransaction();
