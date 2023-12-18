@@ -267,15 +267,15 @@ class CachesInDB extends ObjectYPT
              modified = NOW()";
     
             // Start transaction
-            //mysqlBeginTransaction();
+            mysqlBeginTransaction();
     
             try {
-                $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
-                //mysqlCommit();
+                $result &= sqlDAL::writeSql($sql, implode('', $formats), $values);
+                mysqlCommit();
             } catch (\Throwable $th) {
-                //mysqlRollback();
+                mysqlRollback();
                 _error_log($th->getMessage() . ' '.$sql, AVideoLog::$ERROR);
-                return false;
+                //return false;
             }
         }
     
