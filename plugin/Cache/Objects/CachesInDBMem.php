@@ -74,7 +74,7 @@ class CachesInDBMem extends CachesInDB
         }
         return false;
     }
-    public static function setBulkCache($cacheArray, $metadata)
+    public static function setBulkCache($cacheArray, $metadata, $try = 0, $maxRetries = 5)
     {
         if (empty($cacheArray)) {
             return false;
