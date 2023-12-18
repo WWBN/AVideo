@@ -1093,17 +1093,27 @@ abstract class CacheHandler {
     }
 
     public function deleteCache($clearFirstPageCache = false) {
+        $timeLog = __FILE__ . "::deleteCache ";
+        TimeLogStart($timeLog);
         $prefix = $this->getCacheSubdir();
         if (class_exists('CachesInDB')) {           
             CacheDB::deleteCacheStartingWith($prefix);
         } 
+        TimeLogEnd($timeLog, __LINE__);
         _session_start();     
+        TimeLogEnd($timeLog, __LINE__);
         unset($_SESSION['user']['sessionCache']);
+        TimeLogEnd($timeLog, __LINE__);
         if($clearFirstPageCache){
             clearCache(true);
         }
+        TimeLogEnd($timeLog, __LINE__);
         $dir = ObjectYPT::getTmpCacheDir() . $prefix;
-        return exec("rm -R {$dir}");
+
+        $resp = exec("rm -R {$dir}");
+        TimeLogEnd($timeLog, __LINE__);
+
+        return $resp;
     }
     
     public function setSuffix($suffix) {        
