@@ -5701,7 +5701,6 @@ function encrypt_decrypt($string, $action)
         return false;
     }
     $encrypt_method = "AES-256-CBC";
-    $secret_key = 'This is my secret key';
     $secret_iv = $global['systemRootPath'];
     while (strlen($secret_iv) < 16) {
         $secret_iv .= $global['systemRootPath'];
@@ -5709,8 +5708,9 @@ function encrypt_decrypt($string, $action)
     if (empty($secret_iv)) {
         $secret_iv = '1234567890abcdef';
     }
+    $salt = empty($global['saltV2'])?$global['salt']:$global['saltV2'];
     // hash
-    $key = hash('sha256', $global['salt']);
+    $key = hash('sha256', $salt);
 
     // iv - encrypt method AES-256-CBC expects 16 bytes - else you will get a warning
     $iv = substr(hash('sha256', $secret_iv), 0, 16);
@@ -11975,4 +11975,23 @@ function getValueOrBlank($array, $default=''){
         }
     }
     return $text;
+}
+
+/*
+secure salt in PHP using standard characters and numbers.
+This code will generate a 10 to 32-character string
+*/
+function _uniqid() {
+    // Generate 16 bytes of random data
+    $randomBytes = random_bytes(16);
+
+    // Convert the binary data to a hexadecimal string
+    $hex = bin2hex($randomBytes);
+
+    // If you want a variable length output, you can truncate the MD5 hash
+    // For example, to get a random length between 10 and 32 characters:
+    $randomLength = rand(10, 32);
+    $randomString = substr($hex, 0, $randomLength);
+
+    return $randomString;
 }

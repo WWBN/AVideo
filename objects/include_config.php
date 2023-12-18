@@ -12,7 +12,7 @@ if (!empty($doNotIncludeConfig)) {
     return false;
 }
 
-if(!isset($global['skippPlugins'])){
+if (!isset($global['skippPlugins'])) {
     $global['skippPlugins'] = array();
 }
 /*
@@ -47,12 +47,13 @@ if (!empty($global['stopBotsList']) && is_array($global['stopBotsList'])) {
 
 $global['avideoStartMicrotime'] = microtime(true);
 
-function includeConfigLog($line, $desc=''){
-    if(empty($_REQUEST['debug'])){
+function includeConfigLog($line, $desc = '')
+{
+    if (empty($_REQUEST['debug'])) {
         return false;
     }
     global $global, $_includeConfigLogID, $_includeConfigLogLastCheck;
-    if(!isset($_includeConfigLogID)){
+    if (!isset($_includeConfigLogID)) {
         $_includeConfigLogID = date('H:i:s');
     }
     $_includeConfigLogLastCheck = microtime(true);
@@ -123,8 +124,14 @@ includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/images.php';
 includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11
-if (empty($global['webSiteRootPath']) || $global['configurationVersion'] < 3.1) {
-    Configuration::rewriteConfigFile();
+if ($global['configurationVersion'] < 4.0 && empty($global['saltV2'])) {
+    $additions = [
+        '/\$global\[\'salt\'\].*/' => "\$global['saltV2'] = '"._uniqid()."';", // Add this line below the line that matches the pattern
+    ];
+
+    $replacements = [];
+
+    Configuration::updateConfigFile($additions, $replacements, 4.0);
 }
 
 includeConfigLog(__LINE__);
