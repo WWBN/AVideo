@@ -312,6 +312,7 @@ class CachesInDB extends ObjectYPT
         */
        return $global['mysqli']->query($sql);
     }
+    
     public static function _deleteCacheStartingWith($name)
     {
         global $global;
@@ -322,10 +323,9 @@ class CachesInDB extends ObjectYPT
             return false;
         }
         $name = self::hashName($name);
-        //$sql = "DELETE FROM " . static::getTableName() . " ";
-        //$sql .= " WHERE name LIKE '{$name}%'";
         self::set_innodb_lock_wait_timeout();
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
+        //$sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
         
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
