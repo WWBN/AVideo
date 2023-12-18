@@ -207,7 +207,7 @@ class CachesInDB extends ObjectYPT
         return $c->save();
     }
 
-    public static function setBulkCache($cacheArray, $metadata) {
+    public static function setBulkCache($cacheArray, $metadata, $try=0) {
         if (empty($cacheArray)) {
             return false;
         }
@@ -248,7 +248,22 @@ class CachesInDB extends ObjectYPT
                 modified = NOW()";
 
         // Assuming you have a PDO connection $pdo
-        $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
+        try {
+            $result = sqlDAL::writeSql($sql, implode('', $formats), $values);
+        } catch (\Throwable $th) {
+            if(preg_match('/Deadlock found when trying to get lock/i', $th->getMessage())){
+                if(empty($try)){
+                    _error_log($th->getMessage(), AVideoLog::$WARNING);
+                    $sql = 'DROP TABLE IF EXISTS `CachesInDB`';
+                    sqlDAL::writeSql($sql, implode('', $formats), $values);
+                    $file = $global['systemRootPath'] . 'plugin/Cache/install/install.sql';
+                    sqlDal::executeFile($file);
+                    return self::setBulkCache($cacheArray, $metadata, $try+1);
+                }else{
+                    _error_log($th->getMessage(), AVideoLog::$ERROR);
+                }
+            }
+        }
         //_error_log("setBulkCache writeSql total= ".count($placeholders));
         //var_dump($result, $sql, implode('', $formats), $values);exit;
         $end  = number_format(microtime(true) - $start, 5);
