@@ -259,7 +259,8 @@ class CachesInDB extends ObjectYPT
                 $values = array_merge($values, $cacheItem['values']);
             }
     
-            $sql = "INSERT INTO " . static::getTableName() . " (...) VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE ...";
+            $sql = "INSERT INTO " . static::getTableName() . " (name, content, domain, ishttps, user_location, loggedType, expires, timezone, created_php_time, created, modified)
+             VALUES " . implode(", ", $placeholders) . " ON DUPLICATE KEY UPDATE ...";
     
             // Start transaction
             mysqlBeginTransaction();
