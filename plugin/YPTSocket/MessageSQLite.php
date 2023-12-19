@@ -302,6 +302,11 @@ class Message implements MessageComponentInterface {
             return false;
         }
 
+        if(empty($this->clients[$resourceId])){
+            _log_message("msgToResourceId: resourceId=({$resourceId}) is empty");
+            return false;
+        }
+
         $row = dbGetRowFromResourcesId($resourceId);
 
         if(!self::isValidSelfURI($row['selfURI'])){
