@@ -1171,7 +1171,7 @@ class PlayList extends ObjectYPT
         return false;
     }
 
-    public static function getAll($status = '', $playlists_id = 0)
+    public static function getAll($status = '', $playlists_id = 0, $users_id = 0)
     {
         global $global;
         if (!static::isTableInstalled()) {

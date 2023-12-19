@@ -312,7 +312,7 @@ class CachesInDB extends ObjectYPT
         */
        return $global['mysqli']->query($sql);
     }
-    
+
     public static function _deleteCacheStartingWith($name)
     {
         global $global;
