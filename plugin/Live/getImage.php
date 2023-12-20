@@ -22,24 +22,24 @@ if (empty($_REQUEST['format'])) {
 }
 
 
-$f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_index']);
+$f = md5(@$_REQUEST['u'] . '_' . @$_REQUEST['live_servers_id'] . '_' . @$_REQUEST['live_index'] . '_' . @$_REQUEST['playlists_id_live']);
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
 $cacheFileImageNameResized = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}_{$facebookSizeRecomendationW}X{$facebookSizeRecomendationH}.{$_REQUEST['format']}";
 if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheFileImageName))) {
-    if(file_exists($cacheFileImageNameResized)){
+    if (file_exists($cacheFileImageNameResized)) {
         $content = file_get_contents($cacheFileImageNameResized);
         if (!empty($content)) {
             echo $content;
             exit;
         }
-    }else if(file_exists($cacheFileImageName)){
+    } else if (file_exists($cacheFileImageName)) {
         $content = file_get_contents($cacheFileImageName);
         if (!empty($content)) {
             echo $content;
             exit;
         }
     }
-}else if(file_exists($cacheFileImageName) && (time() - ($lifetime/2) <= filemtime($cacheFileImageName))){
+} else if (file_exists($cacheFileImageName) && (time() - ($lifetime / 2) <= filemtime($cacheFileImageName))) {
     unlink($cacheFileImageName);
     unlink($cacheFileImageNameResized);
 }
@@ -61,7 +61,7 @@ if (!empty($_REQUEST['live_schedule']) && !empty($livet['scheduled_time']) && is
     $array = Live_schedule::getPosterPaths($_REQUEST['live_schedule']);
     $uploadedPoster = $array['path'];
     header('Content-Type: image/jpg');
-    if(!file_exists($cacheFileImageNameResized)){
+    if (!file_exists($cacheFileImageNameResized)) {
         //im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
     }
@@ -101,7 +101,7 @@ if (Live::isLiveThumbsDisabled()) {
     //var_dump($livet['users_id'], $_REQUEST['live_servers_id'],$uploadedPoster );exit;
     if (file_exists($uploadedPoster) && !is_dir($uploadedPoster)) {
         header('Content-Type: image/jpg');
-        if(!file_exists($cacheFileImageNameResized)){
+        if (!file_exists($cacheFileImageNameResized)) {
             //im_resizeV2($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         }
@@ -129,7 +129,7 @@ $socketMessage['live_servers_id'] = $_REQUEST['live_servers_id'];
 
 if (!empty($result) && !Live::isDefaultImage($result)) {
     file_put_contents($cacheFileImageName, $result);
-    if(!file_exists($cacheFileImageNameResized)){
+    if (!file_exists($cacheFileImageNameResized)) {
         //im_resizeV2($cacheFileImageName, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         scaleUpImage($uploadedPoster, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
     }
@@ -157,7 +157,7 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     $content = url_get_contents($url, '', 2);
 
     if (empty($content)) {
-        if(!file_exists($cacheFileImageNameResized)){
+        if (!file_exists($cacheFileImageNameResized)) {
             //im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             scaleUpImage($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
         }
@@ -183,16 +183,16 @@ if (!empty($result) && !Live::isDefaultImage($result)) {
     } else {
         $result = file_get_contents($filename);
         if (!Live::isDefaultImage($result)) {
-            if(!file_exists($cacheFileImageNameResized)){
+            if (!file_exists($cacheFileImageNameResized)) {
                 //im_resizeV2($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
                 scaleUpImage($filename, $cacheFileImageNameResized, $facebookSizeRecomendationW, $facebookSizeRecomendationH);
             }
             echo file_get_contents($cacheFileImageNameResized);
-        }else{
+        } else {
             echo file_get_contents($cacheFileImageName);
         }
-        
-        
+
+
         //_error_log("Live:getImage  Get default image ");
     }
 }
