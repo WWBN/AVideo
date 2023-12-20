@@ -23,10 +23,21 @@ $objectToReturnToParentIframe->live_transmitions_id = 0;
 $objectToReturnToParentIframe->users_id = 0;
 $objectToReturnToParentIframe->key = '';
 
-$liveVideo = Live::getLatest(true);
 $liveFound = false;
+if(AVideoPlugin::isEnabledByName('PlayLists')){
+    // try to get a live that is not a scheduled playlist
+    $lives = LiveTransmitionHistory::getActiveLives('', false);
+    foreach ($lives as $key => $value) {
+        if(!Playlists_schedules::iskeyPlayListScheduled($value['key'])){
+            $liveVideo = $value;
+            break;
+        }
+    }
+}
+
 //var_dump($liveVideo);exit;
 if (!empty($liveVideo)) {
+    $liveVideo = Live::getLatest(true);
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
     $m3u8 = Live::getM3U8File($liveVideo['key']);

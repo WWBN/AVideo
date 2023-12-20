@@ -598,7 +598,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         return $rows;
     }
 
-    public static function getActiveLives($live_servers_id = '') {
+    public static function getActiveLives($live_servers_id = '', $checkLive = true) {
         global $global;
         if (!self::isTableInstalled(static::getTableName())) {
             _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
@@ -621,6 +621,9 @@ class LiveTransmitionHistory extends ObjectYPT {
         $res = sqlDAL::readSql($sql, $formats, $values);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
+        if(empty($checkLive)){
+            return $fullData;
+        }
         $rows = [];
         if ($res != false) {
             $total = count($fullData);
