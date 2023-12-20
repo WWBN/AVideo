@@ -21,6 +21,8 @@ if (empty($_REQUEST['format'])) {
     header('Content-Type: image/x-png');
 }
 
+require_once dirname(__FILE__) . '/../../videos/configuration.php';
+_session_write_close();
 
 $f = md5(@$_REQUEST['u'] . @$_REQUEST['live_servers_id'] . @$_REQUEST['live_index']);
 $cacheFileImageName = dirname(__FILE__) . "/../../videos/cache/liveImage_{$f}.{$_REQUEST['format']}";
@@ -39,8 +41,6 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
     unlink($cacheFileImageNameResized);
 }
 
-require_once dirname(__FILE__) . '/../../videos/configuration.php';
-_session_write_close();
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
 if (!empty($_GET['c'])) {
