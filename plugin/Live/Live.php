@@ -2402,6 +2402,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($row)) {
             return $title;
         }
+        if(AVideoPlugin::isEnabledByName('PlayLists')){
+            $ps = Playlists_schedules::iskeyPlayListScheduled($key);
+            if(!empty($ps)){
+                return Playlists_schedules::getDynamicTitle($ps['playlists_schedules']);
+            }
+        }
         if (empty($title)) {
             $title = $row['title'];
         }
