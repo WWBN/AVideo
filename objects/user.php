@@ -1279,7 +1279,7 @@ if (typeof gtag !== \"function\") {
             $justTryToRecreateLoginFromCookie = 1;
 
             // first check if the LoginControl::singleDeviceLogin is enabled, if it is only recreate login if the device is the last device
-            if ($obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
+            if (class_exists('AVideoPlugin') && $obj = AVideoPlugin::getDataObjectIfEnabled("LoginControl")) {
                 if (!empty($obj->singleDeviceLogin)) {
                     if (!LoginControl::isLoggedFromSameDevice()) {
                         //_error_log("user::recreateLoginFromCookie: LoginControl and the last logged device is different: " . $_COOKIE['user'] . "");
