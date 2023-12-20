@@ -52,7 +52,7 @@ $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
 
-$liveTitle = $livet['title'];
+$liveTitle = Live::getTitleFromKey($livet['key'], $livet['title']);
 $liveDescription = $livet['description'];
 $liveImg = User::getPhoto($user_id);
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);

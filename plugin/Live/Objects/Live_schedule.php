@@ -338,6 +338,12 @@ class Live_schedule extends ObjectYPT
         return $this->title;
     }
 
+    public function getDinamicTitle()
+    {
+        return Live::getTitleFromKey($this->key, $this->title);
+    }
+
+
     public function getDescription()
     {
         return $this->description;
