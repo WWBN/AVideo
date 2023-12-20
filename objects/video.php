@@ -4247,7 +4247,10 @@ if (!class_exists('Video')) {
             if (!empty($path_parts['extension'])) {
                 if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt' ) {
                     $p = explode('.', $path_parts['filename']);
-                    return $p[0];
+                    if(count($p) > 1){
+                        array_pop($p);
+                    }
+                    return implode('.', $p);
                 }
             }
             /**
