@@ -4244,9 +4244,11 @@ if (!class_exists('Video')) {
             }
 
             $path_parts = pathinfo($filename);
-            if (!empty($path_parts['extension']) && $path_parts['extension'] == 'vtt') {
-                $p = explode('.', $path_parts['filename']);
-                return $p[0];
+            if (!empty($path_parts['extension'])) {
+                if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt' ) {
+                    $p = explode('.', $path_parts['filename']);
+                    return $p[0];
+                }
             }
             /**
              *
