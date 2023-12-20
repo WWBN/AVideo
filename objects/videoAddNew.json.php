@@ -33,7 +33,7 @@ $obj = new Video($_POST['title'], "", @$_POST['id'], true);
 
 TimeLogEnd(__FILE__, __LINE__);
 
-$obj->setClean_Title($_POST['clean_title']);
+$obj->setClean_Title(@$_POST['clean_title']);
 $audioLinks = ['mp3', 'ogg'];
 $videoLinks = ['mp4', 'webm', 'm3u8'];
 TimeLogEnd(__FILE__, __LINE__);

@@ -739,6 +739,9 @@ Disallow: *action=tagsearch*
         }
         $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
+        if(!is_object($externalOptions)){
+            $externalOptions = new stdClass();
+        }
         $externalOptions->redirectVideo = array('code'=>$code, 'url'=>$url);
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();

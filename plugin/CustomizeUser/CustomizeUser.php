@@ -983,4 +983,15 @@ class CustomizeUser extends PluginAbstract
         include $global['systemRootPath'] . 'plugin/CustomizeUser/View/footer.php';
         return '';
     }
+    
+    public function getMobileInfo() {
+        $obj = $this->getDataObject();
+        $return = new stdClass();        
+        $return->userCanChangeVideoOwner = $obj->userCanChangeVideoOwner;
+        $return->usersCanCreateNewCategories = $obj->usersCanCreateNewCategories;
+        $return->userCanNotChangeCategory = $obj->userCanNotChangeCategory;
+        $return->userCanNotChangeUserGroup = $obj->userCanNotChangeUserGroup;
+
+        return $return;
+    }
 }

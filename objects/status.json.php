@@ -17,6 +17,7 @@ $obj->PHPSESSID = session_id();
 $obj->version = $config->getVersion();
 $obj->mobileSreamerVersion = MobileManager::getVersion();
 $obj->reportVideoPluginEnabled = AVideoPlugin::isEnabledByName("ReportVideo");
+
 $obj->oauthLogin = [];
 $obj->oauthLogin[] = ['type' => 'Facebook', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginFacebook'))];
 $obj->oauthLogin[] = ['type' => 'Google', 'status'=> !empty(AVideoPlugin::loadPluginIfEnabled('LoginGoogle'))];

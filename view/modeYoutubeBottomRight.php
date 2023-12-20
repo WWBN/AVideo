@@ -37,6 +37,7 @@ if (!empty($playlist_id)) {
 <?php
 } elseif (empty($autoPlayVideo)) {
 ?>
+    <!-- Line <?php echo __LINE__; ?> -->
     <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;">
         <strong><?php echo __("Autoplay ended"); ?></strong>
         <span class="pull-right">
@@ -52,6 +53,7 @@ if (!empty($playlist_id)) {
     </div>
 <?php
 } elseif (!empty($autoPlayVideo) && PlayerSkins::showAutoplay()) { ?>
+    <!-- Line <?php echo __LINE__; ?> -->
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12 autoplay text-muted" style="margin: 10px 0;">
             <strong><?php echo __("Up Next"); ?></strong>

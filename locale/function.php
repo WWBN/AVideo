@@ -13,6 +13,9 @@ function includeLangFile() {
     if(empty($_SESSION)){
         _session_start();
     }
+    if(empty($_SESSION['language'])){
+        $_SESSION['language'] = '';
+    }
     $_SESSION['language'] = str_replace('../', '', $_SESSION['language']);
     setSiteLang();
     @include_once "{$global['systemRootPath']}locale/{$_SESSION['language']}.php";

@@ -176,6 +176,10 @@ class Playlists_schedules extends ObjectYPT
 
     public function save()
     {
+        if(empty($this->playlists_id)){
+            _error_log("Playlists_schedules::save playlists_id is empty");
+            return false;
+        }
         if (empty($this->status)) {
             $this->status = self::STATUS_ACTIVE;
         }

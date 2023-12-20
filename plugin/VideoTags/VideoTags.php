@@ -189,7 +189,7 @@ class VideoTags extends PluginAbstract {
         $str = '<input type="text" value="" id="inputTags' . $tagTypesId . '"/>
                 <script>
                 $(document).ready(function () {
-var citynames' . $tagTypesId . ' = new Bloodhound({
+var videoTags' . $tagTypesId . ' = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace(\'name\'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   prefetch: {
@@ -200,17 +200,17 @@ var citynames' . $tagTypesId . ' = new Bloodhound({
     }
   }
 });
-citynames' . $tagTypesId . '.initialize();
+videoTags' . $tagTypesId . '.initialize();
 
 $(\'#inputTags' . $tagTypesId . '\').tagsinput({
     maxTags: ' . $obj->maxTags . ',
     maxChars: ' . $obj->maxChars . ',
     trimValue: true,
     typeaheadjs: {
-      name: \'citynames\',
+      name: \'videoTags\',
       displayKey: \'name\',
       valueKey: \'name\',
-      source: citynames' . $tagTypesId . '.ttAdapter()
+      source: videoTags' . $tagTypesId . '.ttAdapter()
     },
     freeInput: ' . (self::canCreateTag() ? "true" : "false") . '
 });
@@ -465,7 +465,7 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
 
     public static function getManagerVideosJavaScripts() {
         global $global;
-        return "<script src=\"" . getCDN() . "plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js\" type=\"text/javascript\"></script><script src=\"" . getCDN() . "plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js\" type=\"text/javascript\"></script>";
+        return "<script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js') . "\" type=\"text/javascript\"></script><script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js') . "\" type=\"text/javascript\"></script>";
     }
 
     public static function saveVideosAddNew($post, $videos_id) {
@@ -518,5 +518,12 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
         //var_dump($js);exit;
         $js .= '<script src="' .getURL('plugin/VideoTags/View/script.js') . '" type="text/javascript"></script>';
         return $js;
+    }
+    
+    public function getMobileInfo() {
+        $obj = $this->getDataObject();
+        $return = new stdClass();        
+        $return->videoTagsTypes = TagsTypes::getAll();
+        return $return;
     }
 }
