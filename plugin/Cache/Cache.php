@@ -349,6 +349,9 @@ class Cache extends PluginAbstract {
     }
 
     static function saveCache() {
+        if (isBot()) {
+            return false;
+        }
         global $cache_setCacheToSaveAtTheEnd;
         if(!empty($cache_setCacheToSaveAtTheEnd)){
             $metadata = self::getCacheMetaData();
