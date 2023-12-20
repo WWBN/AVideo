@@ -2270,6 +2270,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $obj->msg = "ONLINE";
                 }
                 $title = self::getTitleFromKey($row['key'], $row['title']);
+                $titleSet = __LINE__;
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
 
@@ -2317,6 +2318,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                     $playlists_id_live = $_REQUEST['playlists_id_live'];
                     $photo = PlayLists::getImage($_REQUEST['playlists_id_live']);
                     $title = PlayLists::getNameOrSerieTitle($_REQUEST['playlists_id_live']);
+                    $titleSet = __LINE__;
                 }
                 if (!empty($live_index)) {
                     $_REQUEST['live_index'] = $live_index;
@@ -2363,6 +2365,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['isPrivate'] = self::isPrivate($app['key']);
                 $app['isPasswordProtected'] = self::isPasswordProtected($app['key']);
                 $app['method'] = 'Live::_getStats';
+                $app['titleSet'] = $titleSet.' => '.$app['title'];
                 //var_dump($app['isPrivate'],$app['key']);exit;
                 if (!self::isApplicationListed($app['key'])) {
                     $obj->hidden_applications[] = $app;
