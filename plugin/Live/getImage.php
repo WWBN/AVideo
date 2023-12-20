@@ -32,6 +32,12 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
             echo $content;
             exit;
         }
+    }else if(file_exists($cacheFileImageName)){
+        $content = file_get_contents($cacheFileImageName);
+        if (!empty($content)) {
+            echo $content;
+            exit;
+        }
     }
 }else if(file_exists($cacheFileImageName) && (time() - ($lifetime/2) <= filemtime($cacheFileImageName))){
     unlink($cacheFileImageNameResized);
