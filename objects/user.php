@@ -1109,12 +1109,13 @@ if (typeof gtag !== \"function\") {
             return self::USER_LOGGED;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
-
-        if (empty($advancedCustomUser)) {
-            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
-        }
-        if (empty($advancedCustom)) {
-            $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+        if(class_exists('AVideoPlugin')){
+            if (empty($advancedCustomUser)) {
+                $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+            }
+            if (empty($advancedCustom)) {
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
         }
 
         if (strtolower($encodedPass) === 'false') {
