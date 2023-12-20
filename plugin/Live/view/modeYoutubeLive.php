@@ -53,7 +53,7 @@ $name = $u->getNameIdentificationBd();
 $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
 
 $liveTitle = Live::getTitleFromKey($livet['key_with_index'], $livet['title']);
-$liveDescription = $livet['description'];
+$liveDescription = Live::getDescriptionFromKey($livet['key_with_index'], $livet['description']);
 $liveImg = User::getPhoto($user_id);
 $liveUrl = Live::getLinkToLiveFromUsers_id($user_id);
 
@@ -190,7 +190,7 @@ $liveInfo = Live::getInfo($livet['key'], Live::getLiveServersIdRequest());
                                 <?php
                             }
                                 ?>
-                                <span class="<?php echo 'title_liveKey_'.$livet['key']?>"><?php echo getSEOTitle($liveTitle); ?></span>
+                                <span class="title_liveKey_<?php echo $livet['key']?>"><?php echo getSEOTitle($liveTitle); ?></span>
                                 <small class="text-muted">
                                     <?php
                                     echo $liveInfo['displayTime'];

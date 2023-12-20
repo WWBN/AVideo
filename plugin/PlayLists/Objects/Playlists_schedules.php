@@ -292,6 +292,20 @@ class Playlists_schedules extends ObjectYPT
         return $title;
     }
 
+    static function getDynamicDescription($playlists_schedules_id)
+    {
+        $ps = new Playlists_schedules($playlists_schedules_id);
+        $description = '';
+        $parametersText = $ps->getParameters();
+        if (!empty($parametersText)) {
+            $plsp = _json_decode($parametersText);
+            $video = new Video('', '', $plsp->current_videos_id);
+            $description .= '<strong>'.$video->getTitle().'</strong><br>';
+            $description .= __('Playing now')." {$plsp->current_videos_id_index}/{$plsp->totalVideos} loop {$plsp->loop_count}";
+        }
+        return $description;
+    }
+
     static function getPlayListScheduledIndex($playlists_schedules){
         return "ps-{$playlists_schedules}";
     }

@@ -2396,6 +2396,28 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $obj;
     }
 
+    static function getDescriptionFromKey($key, $description = '')
+    {
+        if (empty($key)) {
+            return $description;
+        }
+        $row = LiveTransmition::keyExists($key);
+        if (empty($row)) {
+            return $description;
+        }
+        if(AVideoPlugin::isEnabledByName('PlayLists')){
+            $ps = Playlists_schedules::iskeyPlayListScheduled($key);
+            if(!empty($ps)){
+                return Playlists_schedules::getDynamicDescription($ps['playlists_schedules']);
+            }
+        }
+        if (empty($description)) {
+            $description = $row['description'];
+        }
+
+        return $description;
+    }
+
     static function getTitleFromKey($key, $title = '')
     {
         if (empty($key)) {
