@@ -69,7 +69,7 @@ class PlayLists extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "2.0";
+        return "3.0";
     }
 
     public function getEmptyDataObject()
