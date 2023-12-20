@@ -52,7 +52,7 @@ $_page->setExtraScripts(
                                 </div>
                                 <div class="form-group col-sm-12">
                                     <label for="Playlists_schedulesdescription"><?php echo __("Description"); ?>:</label>
-                                    <textarea id="Playlists_schedulesdescription" name="description" class="form-control input-sm" placeholder="<?php echo __("Description"); ?>" required="true"></textarea>
+                                    <textarea id="Playlists_schedulesdescription" name="description" class="form-control input-sm" placeholder="<?php echo __("Description"); ?>"></textarea>
                                 </div>
                                 <div class="form-group col-sm-4" id="group-start">
                                     <label for="Playlists_schedulesstart_datetime"><?php echo __("Start"); ?>:</label>
