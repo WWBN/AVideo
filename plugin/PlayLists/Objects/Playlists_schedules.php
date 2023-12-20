@@ -300,8 +300,8 @@ class Playlists_schedules extends ObjectYPT
         if (!empty($parametersText)) {
             $plsp = _json_decode($parametersText);
             $video = new Video('', '', $plsp->current_videos_id);
-            $description .= '<strong>'.$video->getTitle().'</strong><br>';
-            $description .= __('Playing now')." {$plsp->current_videos_id_index}/{$plsp->totalVideos} loop {$plsp->loop_count}";
+            $description .= '<strong>'.$video->getTitle().'</strong><hr>';
+            $description .= '<small class="text-muted">'.__('Playing now')." {$plsp->current_videos_id_index}/{$plsp->totalVideos} loop {$plsp->loop_count}</small>";
         }
         return $description;
     }
