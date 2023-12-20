@@ -107,7 +107,6 @@ $_page->setExtraScripts(
                                     <th><?php echo __("Loop"); ?></th>
                                     <th><?php echo __("Start Datetime"); ?></th>
                                     <th><?php echo __("Finish Datetime"); ?></th>
-                                    <th><?php echo __("Repeat"); ?></th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -119,7 +118,6 @@ $_page->setExtraScripts(
                                     <th><?php echo __("Loop"); ?></th>
                                     <th><?php echo __("Start Datetime"); ?></th>
                                     <th><?php echo __("Finish Datetime"); ?></th>
-                                    <th><?php echo __("Repeat"); ?></th>
                                     <th></th>
                                 </tr>
                             </tfoot>
@@ -199,12 +197,6 @@ $_page->setExtraScripts(
                 },
                 {
                     "data": "finish_datetime"
-                },
-                {
-                    "data": "repeat",
-                    "render": function(data, type, row) {
-                        return row.repeatText;
-                    }
                 },
                 {
                     sortable: false,
