@@ -40,6 +40,7 @@ if (file_exists($cacheFileImageName) && (time() - $lifetime <= filemtime($cacheF
         }
     }
 }else if(file_exists($cacheFileImageName) && (time() - ($lifetime/2) <= filemtime($cacheFileImageName))){
+    unlink($cacheFileImageName);
     unlink($cacheFileImageNameResized);
 }
 
