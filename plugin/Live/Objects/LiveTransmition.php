@@ -289,6 +289,12 @@ class LiveTransmition extends ObjectYPT {
                 if (!isset($row['live_servers_id'])) {
                     $row['live_servers_id'] = Live::getLiveServersIdRequest();
                 }
+                if(AVideoPlugin::isEnabledByName('PlayLists')){
+                    $ps = Playlists_schedules::iskeyPlayListScheduled($key);
+                    if(!empty($ps)){
+                        $row['title'] = Playlists_schedules::getDynamicTitle($row['title']);
+                    }
+                }
             }
         } else {
             $row = false;
