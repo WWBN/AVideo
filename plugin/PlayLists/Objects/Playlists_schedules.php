@@ -179,6 +179,7 @@ class Playlists_schedules extends ObjectYPT
         if (empty($this->status)) {
             $this->status = self::STATUS_ACTIVE;
         }
+        _error_log("start={$this->start_datetime}  finish={$this->finish_datetime}");
         return parent::save();
     }
 
