@@ -1686,7 +1686,7 @@ if (typeof gtag !== \"function\") {
         if (empty($user)) {
             return false;
         }
-        if (empty($advancedCustomUser)) {
+        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {
             $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
         }
         $formats = "";
