@@ -2269,7 +2269,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 if (!empty($row) && $value->name === $obj->name) {
                     $obj->msg = "ONLINE";
                 }
-                $title = self::getTitleFromKey($row['key'], $row['title']);
+                $title = self::getTitleFromKey($value->name, $row['title']);
                 $titleSet = __LINE__;
                 $u = new User($row['users_id']);
                 $hiddenName = preg_replace('/^(.{5})/', '*****', $value->name);
