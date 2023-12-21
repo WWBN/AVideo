@@ -6426,6 +6426,10 @@ function isValidEmail($email, $checkHost = false)
         _error_log("isValidEmail wrong domain {$email}");
         return false;
     }
+    if (preg_match('/@yourDomain?\./i', $email)) {
+        _error_log("isValidEmail wrong domain {$email}");
+        return false;
+    }
     if (!isset($_email_hosts_checked)) {
         $_email_hosts_checked = [];
     }
