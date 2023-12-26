@@ -385,7 +385,7 @@ class EpgParser {
             $errors = libxml_get_errors();
             @$errors = $errors[0];
 
-            throw new \RuntimeException("Content of this request its not XML: $errors");
+            throw new \RuntimeException("Content of this request its not XML: ");
         }
     }
 }
