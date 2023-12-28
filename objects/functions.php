@@ -4562,9 +4562,12 @@ function ogSite()
     $videos_id = getVideos_id();
     include_once $global['systemRootPath'] . 'objects/functionsOpenGraph.php';
     if(empty($videos_id)){
-        $isLive = isLive();
+        $isLive = isLive(true);
+        //var_dump($isLive);exit;
         if(!empty($isLive) && !empty($isLive['liveLink'])){
             echo getOpenGraphLiveLink($isLive['liveLink']);
+        }else if(!empty($isLive) && !empty($isLive['live_schedule'])){
+            echo getOpenGraphLiveSchedule($isLive['live_schedule']);
         }else if(!empty($isLive) && !empty($isLive['cleanKey'])){
             echo getOpenGraphLive();
         }else if ($users_id = isChannel()) {
@@ -5945,10 +5948,10 @@ function isWebRTC()
     return !empty($isWebRTC);
 }
 
-function isLive()
+function isLive($forceGetInfo=false)
 {
     global $isLive, $global;
-    if (!empty($global['doNotLoadPlayer'])) {
+    if (empty($forceGetInfo) && !empty($global['doNotLoadPlayer'])) {
         return false;
     }
     if (class_exists('LiveTransmition') && class_exists('Live')) {
@@ -6639,8 +6642,9 @@ function getCurrentPage($forceURL = false)
         _error_log("getCurrentPage current>1000 ERROR NOT LOGGED die [{$current}] " . getSelfURI() . ' ' . json_encode($_SERVER));
         exit;
     } else if ($current > 100 && isBot()) {
-        _error_log("getCurrentPage current>100 ERROR [{$current}] " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
-        _error_log("getCurrentPage current>100 ERROR bot die [{$current}] " . getSelfURI() . ' ' . json_encode($_SERVER));
+        //_error_log("getCurrentPage current>100 ERROR [{$current}] " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+        //_error_log("getCurrentPage current>100 ERROR bot die [{$current}] " . getSelfURI() . ' ' . json_encode($_SERVER));
+        _error_log("getCurrentPage current>100 ERROR bot die [{$current}] " . getSelfURI() . ' ' . $_SERVER['HTTP_USER_AGENT']);
         exit;
     }
     if(isset($_GET['isInfiniteScroll'])){

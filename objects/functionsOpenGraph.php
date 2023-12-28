@@ -349,6 +349,29 @@ function getOpenGraphLiveLink($liveLink_id)
     return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
 }
 
+function getOpenGraphLiveSchedule($live_schedule_id)
+{
+    global $global, $config, $advancedCustom;
+    $liveS = new Live_schedule($live_schedule_id);
+    echo PHP_EOL . "<!-- OpenGraph Schedule -->" . PHP_EOL;
+    $videoType = '';
+    $modifiedDate = '';
+    $createdDate = '';
+    $title = $liveS->getTitle();
+    $description = '';
+    $duration_in_seconds = 0;
+    $poster = Live_schedule::getPosterURL($live_schedule_id);
+    $liveStreamObject = new LiveStreamObject($liveS->getKey(), $liveS->getLive_servers_id(), 0, 0);
+    $sourceFileURL = $liveStreamObject->getM3U8(true);
+    $pageURL = $liveStreamObject->getURL();
+    $pageURLEmbed = $liveStreamObject->getURLEmbed();
+    $imgURL = getURL($poster);
+    $imgPath = $global['systemRootPath'] . $poster;
+    $extraMetatags = array();
+    //var_dump(debug_backtrace());
+    return  generateMetaTags($videoType, $modifiedDate, $createdDate, $title, $description, $pageURL, $pageURLEmbed,  $duration_in_seconds, $sourceFileURL, $imgPath, $imgURL, $extraMetatags);
+}
+
 function getOpenGraphLive()
 {
     global $global, $config, $advancedCustom;
