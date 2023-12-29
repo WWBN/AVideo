@@ -2758,7 +2758,7 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 $this->removeNextVideos($this->id);
                 $this->removeTrailerReference($this->id);
-                $this->removeCampaign($this->id);
+                $this->deleteFromTables($this->id);
                 //$video = self::getVideoLight($this->id);
                 $sql = "DELETE FROM videos WHERE id = ?";
             } else {
@@ -2864,18 +2864,18 @@ if (!class_exists('Video')) {
             return true;
         }
 
-        private function removeCampaign($videos_id)
-        {
-            if (ObjectYPT::isTableInstalled('vast_campaigns_has_videos')) {
-                if (!empty($this->id)) {
-                    $sql = "DELETE FROM vast_campaigns_has_videos ";
+        function deleteFromTables($videos_id) {
+            $tables = array('vast_campaigns_has_videos', 'RebroadcasterSchedule');
+            foreach ($tables as $table) {
+                if(ObjectYPT::isTableInstalled($table)){
+                    $sql = "DELETE FROM $table ";
                     $sql .= " WHERE videos_id = ?";
                     $global['lastQuery'] = $sql;
-                    return sqlDAL::writeSql($sql, "i", [$videos_id]);
+                    sqlDAL::writeSql($sql, "i", [$videos_id]);
                 }
             }
-            return false;
         }
+        
 
         private function removeFiles($filename)
         {
