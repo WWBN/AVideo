@@ -3871,6 +3871,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $lth = LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id);
         if (empty($lth)) {
+            _error_log("Live::getInfo empty latest LiveTransmitionHistory::getLatest($keyWithIndex, $live_servers_id)");
             $array['return_line'] = __LINE__;
             return $array;
         }
