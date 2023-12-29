@@ -2808,7 +2808,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
+                //_error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
@@ -2821,9 +2821,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $_REQUEST['live_servers_id'] = $ls;
                 //_error_log('getStats execute isURL200: ' . __LINE__ . ' ' . __FILE__);
                 $is200 = isValidM3U8Link($m3u8, true);
-                _error_log("isLiveAndIsReadyFromKey the key {$key} m3u8=$m3u8 is200=".json_encode($is200));
+                //_error_log("isLiveAndIsReadyFromKey the key {$key} m3u8=$m3u8 is200=".json_encode($is200));
                 if (empty($is200)) {
-                    _error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
+                    //_error_log("isLiveAndIsReadyFromKey the m3u8 file is not present {$m3u8} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 5)));
                     $_isLiveAndIsReadyFromKey[$name] = false;
                 }
             }
@@ -2832,7 +2832,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $cacheHandler->setCache($json);
         }
 
-        _error_log("isLiveAndIsReadyFromKey the key {$key} ".json_encode($_isLiveAndIsReadyFromKey[$name]));
+        //_error_log("isLiveAndIsReadyFromKey the key {$key} ".json_encode($_isLiveAndIsReadyFromKey[$name]));
         return $_isLiveAndIsReadyFromKey[$name];
     }
 
