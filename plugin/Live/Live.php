@@ -2798,16 +2798,16 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         if (!empty($json) && is_object($json)) {
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} getCache");
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
         } else {
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
-            //_error_log('getStats execute isKeyLiveInStats: ' . __LINE__ . ' ' . __FILE__);
-            //_error_log("isLiveAndIsReadyFromKey::key: {$key}");
+            _error_log("isLiveAndIsReadyFromKey::key: {$key}");
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
-                //_error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
+                _error_log("isLiveAndIsReadyFromKey the key {$key} is not present on the stats live_servers_id=$live_servers_id");
                 $_isLiveAndIsReadyFromKey[$name] = false;
             } else {
                 $ls = @$_REQUEST['live_servers_id'];
