@@ -124,7 +124,7 @@ includeConfigLog(__LINE__);
 require_once $global['systemRootPath'] . 'objects/images.php';
 includeConfigLog(__LINE__);
 // for update config from old versions 2020-05-11
-if ($global['configurationVersion'] < 4.0 && empty($global['saltV2'])) {
+if (empty($global['saltV2'])) {
     $additions = [
         '/\$global\[\'salt\'\].*/' => "\$global['saltV2'] = '"._uniqid()."';", // Add this line below the line that matches the pattern
     ];

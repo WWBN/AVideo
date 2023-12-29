@@ -5,13 +5,15 @@ require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmitionHistory extends ObjectYPT {
-
+    static $reconnectionTimeoutInMinutes = 10;
     protected $id;
     protected $title;
     protected $description;
     protected $key;
     protected $created;
     protected $modified;
+    protected $created_php_time;
+    protected $modified_php_time;
     protected $users_id;
     protected $live_servers_id;
     protected $finished;
@@ -125,6 +127,10 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function getLive_servers_id() {
         return intval($this->live_servers_id);
+    }
+
+    public function getModifiedTime() {
+        return intval($this->modified_php_time);
     }
 
     public function getLive_index() {
@@ -408,7 +414,7 @@ class LiveTransmitionHistory extends ObjectYPT {
         }
         if(!empty($active)){
             if(is_int($active)){
-                $sql .= " AND (modified >= DATE_SUB(NOW(), INTERVAL $active MINUTE) OR finished IS NULL)";
+                $sql .= " AND (modified_php_time >= ".strtotime("-{$active} minutes").") OR  (modified >= DATE_SUB(NOW(), INTERVAL $active MINUTE) OR finished IS NULL)";
             }else{
                 $sql .= " AND finished IS NULL ";
             }
@@ -729,7 +735,7 @@ class LiveTransmitionHistory extends ObjectYPT {
     public function save() {
         global $global;
         _mysql_commit();
-        $activeLive = self::getLatest($this->key, $this->live_servers_id, 10);
+        $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
         if(!empty($activeLive)){
             _error_log("LiveTransmitionHistory::save: active live found ". json_encode($activeLive));
             foreach ($activeLive as $key => $value) {

@@ -304,7 +304,7 @@ class Playlists_schedules extends ObjectYPT
             $description .= '<small class="text-muted">'.__('Playing now').' '.($plsp->current_videos_id_index+1)."/{$plsp->totalVideos} loop {$plsp->loop_count}</small>";
             $url = PlayLists::getLink($ps->getPlaylists_id());
 
-            $description .= '<a href="'.$url.'" class="btn btn-default pull-right"><i class="fa-solid fa-up-right-from-square"></i></a>';
+            $description .= '<a href="'.$url.'" class="btn btn-default pull-right" target="_top"><i class="fa-solid fa-up-right-from-square"></i></a>';
         }
         return $description;
     }

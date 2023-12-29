@@ -614,7 +614,7 @@ abstract class PluginAbstract {
         return null;
     }
 
-    public function onLiveStream($users_id, $live_servers_id, $liveTransmitionHistory_id, $key) {
+    public function on_publish($users_id, $live_servers_id, $liveTransmitionHistory_id, $key, $isReconnection) {
         return null;
     }
 

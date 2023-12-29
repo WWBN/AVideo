@@ -73,6 +73,8 @@ CREATE TABLE IF NOT EXISTS `live_transmitions_history` (
   `key` VARCHAR(255) NOT NULL,
   `created` DATETIME NULL,
   `modified` DATETIME NULL,
+  `created_php_time` BIGINT NULL,
+  `modified_php_time` BIGINT NULL,
   `users_id` INT(11) NOT NULL,
   `live_servers_id` INT(11) NULL DEFAULT NULL,
   `finished` DATETIME NULL DEFAULT NULL,

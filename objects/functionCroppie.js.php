@@ -47,7 +47,7 @@ $croppieFilesAdded = 1;
 ?>
 <div class="croppieDiv" objectName="uploadCrop<?php echo $uid; ?>">
     <div class="col-md-12 ">
-        <div id="croppie<?php echo $uid; ?>" style="min-height: <?php echo $boundaryHeight + 40; ?>px;"></div>
+        <div id="croppie<?php echo $uid; ?>" style="min-height: <?php echo $boundaryHeight + 40; ?>px; overflow: hidden;"></div>
         <div class="clearfix"></div>
         <small class="text-muted text-center" style="display: block;"><?php echo __('Width'); ?>: <?php echo $resultWidth; ?>px | <?php echo __('Height'); ?>: <?php echo $resultHeight; ?>px</small>
         <div class="clearfix"></div>
@@ -66,6 +66,7 @@ $croppieFilesAdded = 1;
 
     function createCroppie<?php echo $uid; ?>(imageURL) {
         clearTimeout(createCroppie<?php echo $uid; ?>Timeout);
+        $('#croppie<?php echo $uid; ?>').show();
         if ($('#croppie<?php echo $uid; ?>').is(":hidden")) {
             createCroppie<?php echo $uid; ?>Timeout = setTimeout(function() {
                 createCroppie<?php echo $uid; ?>(imageURL);

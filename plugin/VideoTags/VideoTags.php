@@ -155,12 +155,15 @@ class VideoTags extends PluginAbstract {
         return TagsHasVideos::getAllVideosFromTagsId($tags_id, $limit);
     }
 
-    static function getTagsInputs() {
+    static function getTagsInputs($colSize = 3) {
         $types = TagsTypes::getAll();
         $str = "";
         foreach ($types as $value) {
             $input = self::getTagsInput($value['id']);
-            $str .= "<label for=\"tagTypesId{$value['id']}\">" . __($value['name']) . "</label><div class=\"clear clearfix\">{$input}</div> ";
+            $str .= "<div class=\"col-sm-{$colSize}\"><label for=\"tagTypesId{$value['id']}\">" . __($value['name']) . "</label> {$input}</div> ";
+        }
+        if(!empty($str)){
+            $str = "<div class=\"row\">{$str}</div>";
         }
         return $str;
     }
@@ -465,7 +468,9 @@ $(\'#inputTags' . $tagTypesId . '\').tagsinput({
 
     public static function getManagerVideosJavaScripts() {
         global $global;
-        return "<script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js') . "\" type=\"text/javascript\"></script><script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js') . "\" type=\"text/javascript\"></script>";
+        $js = "<script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.min.js') . "\" type=\"text/javascript\"></script><script src=\"" . getURL('plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js') . "\" type=\"text/javascript\"></script>";
+        $css = "<style></style>";
+        return $css.$js;
     }
 
     public static function saveVideosAddNew($post, $videos_id) {

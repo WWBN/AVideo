@@ -108,7 +108,10 @@ if (!empty($_GET['p']) && strpos($_GET['p'], '/') !== false) {
 }
 
 $_POST['name'] = preg_replace("/[&=]/", '', $_POST['name']);
-
+$live_servers_id = Live_servers::getServerIdFromRTMPHost($url);
+$activeLive = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
+$isReconnection = !empty($activeLive);
+_error_log("isReconnection=".json_encode(array($isReconnection, $activeLive, $_POST['name'], $live_servers_id)));
 /*
     $code = 301;
     header("Location: {$_POST['name']}");
@@ -135,9 +138,10 @@ if (!empty($_GET['p'])) {
             $lth->setKey($_POST['name']);
             $lth->setDomain(@$_REQUEST['domain']);
             $lth->setUsers_id($user->getBdId());
-            $lth->setLive_servers_id(Live_servers::getServerIdFromRTMPHost($url));
+            $lth->setLive_servers_id($live_servers_id);
             _error_log("NGINX ON Publish saving LiveTransmitionHistory");
             $obj->liveTransmitionHistory_id = $lth->save();
+
             _error_log("NGINX ON Publish saved LiveTransmitionHistory");
             $obj->error = false;
         } elseif (empty($_GET['p'])) {
@@ -173,7 +177,7 @@ if (!empty($obj) && empty($obj->error)) {
     outputAndContinueInBackground();
     deleteStatsNotifications(true);
     _error_log("NGINX Live::on_publish start");
-    Live::on_publish($obj->liveTransmitionHistory_id);
+    Live::_on_publish($obj->liveTransmitionHistory_id, $isReconnection);
     _error_log("NGINX Live::on_publish end");
     if (AVideoPlugin::isEnabledByName('YPTSocket')) {
         $array = setLiveKey($lth->getKey(), $lth->getLive_servers_id());

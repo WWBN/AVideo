@@ -2,6 +2,11 @@
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveDisabled) {
     return '';
 }
+
+if ($obj->BigVideoLiveOnFirstPageOnly && !isFirstPage()) {
+    return '';
+}
+
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
     $liveVideo = Live::getLatest(true);
     if (empty($liveVideo)) {

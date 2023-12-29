@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 
-$videos_id = @$_REQUEST['videos_id'];
+$videos_id = getVideos_id();
 
 if (empty($videos_id)) {
     forbiddenPage('Videos ID empty');
@@ -21,6 +21,7 @@ $title = $video->getTitle();
 $description = $video->getDescription();
 $categories_id = $video->getCategories_id();
 $_page = new Page(array('Edit Video', $title));
+
 if ($isVideoTagsEnabled) {
     $_page->setExtraScripts(
         array(
@@ -28,8 +29,14 @@ if ($isVideoTagsEnabled) {
             'plugin/VideoTags/bootstrap-tagsinput/typeahead.bundle.js',
         )
     );
+    $_page->setExtraStyles(
+        array('plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.css')
+    );
 }
 ?>
+<style>
+    .tagTypes {}
+</style>
 <div class="container-fluid">
     <div class="panel panel-default ">
         <div class="panel-heading clearfix ">
@@ -41,7 +48,7 @@ if ($isVideoTagsEnabled) {
         </div>
         <div class="panel-body">
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-4">
                     <?php
                     $images = Video::getImageFromID($videos_id);
 
@@ -68,10 +75,43 @@ if ($isVideoTagsEnabled) {
                     $image = addQueryStringParameter($image, 'cache', filectime($path));
                     //var_dump($image, $images);exit;
                     $croppie1 = getCroppie(__("Upload Poster"), "saveVideo", $width, $height, $viewportWidth);
-                    echo $croppie1['html'];
+                    
+                    ?>
+                        <div class="panel panel-default ">
+                            <div class="panel-heading ">
+                                <i class="fa-regular fa-image"></i>
+                                <?php
+                                echo __('Poster');
+                                ?>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                echo $croppie1['html'];
+                                ?>
+                            </div>
+                        </div>
+                    <?php
+
+                    if ($isVideoTagsEnabled) {
+                    ?>
+                        <div class="panel panel-default ">
+                            <div class="panel-heading ">
+                                <i class="fa-solid fa-tags"></i>
+                                <?php
+                                echo __('Tags');
+                                ?>
+                            </div>
+                            <div class="panel-body">
+                                <?php
+                                echo VideoTags::getTagsInputs(6);
+                                ?>
+                            </div>
+                        </div>
+                    <?php
+                    }
                     ?>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-8">
                     <div class="row">
                         <div class="form-group col-sm-6">
                             <label for="title"><?php echo __('Title'); ?></label>
@@ -93,22 +133,10 @@ if ($isVideoTagsEnabled) {
                         </div>
                     </div>
                 </div>
-                <?php
-                if ($isVideoTagsEnabled) {
-                ?>
-                    <div class="col-sm-12">
-                        <?php
-                        echo VideoTags::getTagsInputs();
-                        //$('#inputTags' + row.videoTags[i].tag_types_id).tagsinput('add', row.videoTags[i].name);
-                        ?>
-                    </div>
-                <?php
-                }
-                ?>
             </div>
-            <div class="panel-footer">
-                <button class="btn btn-success btn-lg btn-block" onclick="saveVideo(true);"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
-            </div>
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-success btn-lg btn-block" onclick="saveVideo(true);"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
         </div>
     </div>
 </div>

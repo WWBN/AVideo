@@ -1,8 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-$global['doNotLoadPlayer'] = 1;
 $title = array('Buy');
-
+$global['doNotLoadPlayer'] = 1;
 
 
 // get groups id
@@ -33,8 +32,8 @@ if (!empty($videos_id)) {
             $lt = new LiveTransmition($livet["id"]);
             $users_groups_ids = $lt->getGroups();
         }
-        
-        if(User::userGroupsMatch($users_groups_ids)){
+
+        if (User::userGroupsMatch($users_groups_ids)) {
             $link = Live::getLinkToLiveFromUsers_idAndLiveServer($livet['users_id'], $livet['live_servers_id'], $livet['live_index'], $livet['live_schedule_id']);
             //$redirectUri = getRedirectUri();
             header("Location: {$link}");
@@ -100,8 +99,8 @@ if ($paymentOptions['ppv'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 'userGroupsMatch' => User::userGroupsMatch($users_groups_ids)
             );
             $users_id = User::getId();
-                    $user_users_groups = UserGroups::getUserGroups($users_id);
-                    $ids = AVideoPlugin::getDynamicUserGroupsId($users_id);
+            $user_users_groups = UserGroups::getUserGroups($users_id);
+            $ids = AVideoPlugin::getDynamicUserGroupsId($users_id);
             //var_dump($users_id, $user_users_groups, $ids, $users_groups_ids, User::userGroupsMatch($users_groups_ids));exit;
         }
         if (!empty($panel['body'])) {
@@ -143,7 +142,7 @@ if ($paymentOptions['sub'] = AVideoPlugin::loadPluginIfEnabled($name)) {
                 $good_until = date("Y/m/d", strtotime("+{$plan->getHow_many_days()} days"));
                 $sub_description = __('Auto renew on') . ' ' . $good_until;
             }
-            $link = Subscription::getBuyURL(); 
+            $link = Subscription::getBuyURL();
             foreach ($parametersToAddInTheURL as $key => $pvalue) {
                 $link = addQueryStringParameter($link, $key, $pvalue);
             }
@@ -227,7 +226,7 @@ $colSize = 12 / count($paymentOptions);
                                 <?php
                                 foreach ($value['body'] as $key2 => $value2) {
                                     $class = 'default';
-                                    if($value['userGroupsMatch']){
+                                    if ($value['userGroupsMatch']) {
                                         $class = 'success';
                                     }
                                 ?>
@@ -285,6 +284,7 @@ $colSize = 12 / count($paymentOptions);
             </div>
         </div>
     </div>
-    <?php
-    $_page->print();
-    ?>
+</div>
+<?php
+$_page->print();
+?>

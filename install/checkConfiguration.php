@@ -198,6 +198,7 @@ if(!empty(\$_SERVER['SERVER_NAME']) && \$_SERVER['SERVER_NAME']!=='localhost' &&
 }
 \$global['systemRootPath'] = '{$_POST['systemRootPath']}';
 \$global['salt'] = '{$_POST['salt']}';
+\$global['saltV2'] = '"._uniqid()."';
 \$global['disableTimeFix'] = 0;
 \$global['enableDDOSprotection'] = 1;
 \$global['ddosMaxConnections'] = 40;

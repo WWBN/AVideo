@@ -85,6 +85,8 @@ class Gallery extends PluginAbstract
         $o->value = Gallery::BigVideoLiveShowLiveAndVOD;
         $obj->BigVideoLive = $o;
         self::addDataObjectHelper('BigVideoLive', 'Big Video Live');
+        $obj->BigVideoLiveOnFirstPageOnly = true;
+        self::addDataObjectHelper('BigVideoLiveOnFirstPageOnly', 'Big Video Live on First Page Only');
        
         $obj->useSuggestedVideosAsCarouselInBigVideo = true;
         $obj->GifOnBigVideo = true;

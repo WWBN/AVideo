@@ -15,6 +15,13 @@ if ($objLive->allowMultipleLivesPerUser) {
 $islive = getLiveKey();
 $liveStreamObject = new LiveStreamObject($islive['key'], $islive['live_servers_id'], @$_REQUEST['live_index'], 0);
 $key = $liveStreamObject->getKeyWithIndex(true);
+
+if(AVideoPlugin::isEnabledByName('PlayLists')){
+    $ps = Playlists_schedules::iskeyPlayListScheduled($key);
+    if(!empty($ps)){
+        $key = $ps['cleankey'];
+    }
+}
 //var_dump(getLiveKey(), $islive, $key);exit;
 ?>
 <style>

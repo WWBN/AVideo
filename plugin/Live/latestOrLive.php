@@ -66,7 +66,7 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     $_POST['sort']['created'] = 'DESC';
     $liveVideo = LiveLinks::getAllActive();
     $video = $liveVideo[0];
-    if(!empty($video['link'])){
+    if(!empty($video['link']) && isValidURL($video['link'])){
         $poster = LiveLinks::getImage($video['id']);
         $sources = "<source src=\"{$video['link']}\" type=\"application/x-mpegURL\">";
         $objectToReturnToParentIframe->isLive = true;

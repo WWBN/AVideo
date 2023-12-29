@@ -275,6 +275,13 @@ class YPTWallet extends PluginAbstract
 
         $sql .= BootGrid::getSqlFromPost(array('name', 'email', 'user'));
 
+        /**
+         * Global variables.
+         *
+         * @var array $global An array of global variables.
+         * @property \mysqli $global['mysqli'] A MySQLi connection object.
+         * @property mixed $global[] Dynamically loaded variables.
+         */
         $res = $global['mysqli']->query($sql);
         $user = array();
 
@@ -306,6 +313,13 @@ class YPTWallet extends PluginAbstract
         }
         $sql = "SELECT sum(balance) as total FROM wallet ";
 
+        /**
+         * Global variables.
+         *
+         * @var array $global An array of global variables.
+         * @property \mysqli $global['mysqli'] A MySQLi connection object.
+         * @property mixed $global[] Dynamically loaded variables.
+         */
         $res = $global['mysqli']->query($sql);
         $user = array();
 

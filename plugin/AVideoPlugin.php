@@ -1693,14 +1693,14 @@ class AVideoPlugin
         }
     }
 
-    public static function onLiveStream($users_id, $live_servers_id, $liveTransmitionHistory_id, $key)
+    public static function on_publish($users_id, $live_servers_id, $liveTransmitionHistory_id, $key, $isReconnection)
     {
         $plugins = Plugin::getAllEnabled();
         foreach ($plugins as $value) {
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $p->onLiveStream($users_id, $live_servers_id, $liveTransmitionHistory_id, $key);
+                $p->on_publish($users_id, $live_servers_id, $liveTransmitionHistory_id, $key, $isReconnection);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
