@@ -71,7 +71,7 @@ class Live extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "12.0";
+        return "13.0";
     }
 
     public function updateScript()
@@ -230,6 +230,14 @@ class Live extends PluginAbstract
         }
         if (AVideoPlugin::compareVersion($this->getName(), "12.0") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV12.0.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+            LiveTransmitionHistory::finishALL();
+        }
+        if (AVideoPlugin::compareVersion($this->getName(), "13.0") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/Live/install/updateV13.0.sql');
             $sqlParts = explode(";", $sqls);
             foreach ($sqlParts as $value) {
                 sqlDal::writeSql(trim($value));
@@ -3222,7 +3230,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $file;
     }
 
-    public static function on_publish($liveTransmitionHistory_id)
+    public static function _on_publish($liveTransmitionHistory_id, $isReconnection)
     {
         $obj = AVideoPlugin::getDataObject("Live");
         if (empty($obj->disableRestream)) {
@@ -3231,9 +3239,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $lt = new LiveTransmitionHistory($liveTransmitionHistory_id);
         $users_id = $lt->getUsers_id();
         $live_servers_id = $lt->getLive_servers_id();
-
-        _error_log("on_publish: liveTransmitionHistory_id={$liveTransmitionHistory_id} users_id={$users_id} live_servers_id={$live_servers_id} ");
-        AVideoPlugin::onLiveStream($users_id, $live_servers_id, $liveTransmitionHistory_id, $lt->getKey());
+        _error_log("on_publish: liveTransmitionHistory_id={$liveTransmitionHistory_id} users_id={$users_id} live_servers_id={$live_servers_id} isReconnection=$isReconnection ");
+        AVideoPlugin::on_publish($users_id, $live_servers_id, $liveTransmitionHistory_id, $lt->getKey(), $isReconnection);
     }
 
     public static function deleteStatsCache($clearFirstPage = false)
@@ -3871,8 +3878,6 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $isStatsAccessible = self::isStatsAccessible($live_servers_id);
         //var_dump('Line: '.__LINE__, 'File: '.__FILE__, $isLiveAndIsReadyFromKey, $isStatsAccessible, $global['isStatsAccessible']);exit;
         if (empty($isLiveAndIsReadyFromKey) && $isStatsAccessible) {
-            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
-            LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
             $array['isLive'] = false;
         } else {
             $array['isLive'] = true;
@@ -3916,6 +3921,10 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         $array['return_line'] = __LINE__;
+        if(empty($array['isLive'] )){
+            _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
+            LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
+        }
         return $array;
     }
 
