@@ -3829,6 +3829,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $lso = new LiveStreamObject($key, $live_servers_id, $live_index, $playlists_id_live);
 
         $keyWithIndex = $lso->getKeyWithIndex();
+        _error_log("Live::getInfo LiveStreamObject=$keyWithIndex => $key, $live_servers_id, $live_index, $playlists_id_live");
         //var_dump($key, $live_index, $keyWithIndex);exit;
         $key = $lso->getKey();
         $array = array(
