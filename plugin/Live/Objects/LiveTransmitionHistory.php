@@ -734,6 +734,7 @@ class LiveTransmitionHistory extends ObjectYPT {
 
     public function save() {
         global $global;
+        _error_log("LiveTransmitionHistory::save: ". json_encode(debug_backtrace()));
         _mysql_commit();
         $activeLive = self::getLatest($this->key, $this->live_servers_id, LiveTransmitionHistory::$reconnectionTimeoutInMinutes);
         if(!empty($activeLive)){
