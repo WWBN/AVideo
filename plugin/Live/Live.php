@@ -2804,7 +2804,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         } else {
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
-            _error_log("isLiveAndIsReadyFromKey::key: {$key}");
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} checking");
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
@@ -2831,6 +2831,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $cacheHandler->setCache($json);
         }
 
+        _error_log("isLiveAndIsReadyFromKey the key {$key} ".json_encode($_isLiveAndIsReadyFromKey[$name]));
         return $_isLiveAndIsReadyFromKey[$name];
     }
 
