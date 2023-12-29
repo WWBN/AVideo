@@ -281,7 +281,16 @@ class CachesInDB extends ObjectYPT
     
         return $result;
     }
-    
+
+    public static function readUncomited($uncomited=true)
+    {
+        if($uncomited){
+            $sql = "SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;";
+        }else{
+            $sql = "SET SESSION TRANSACTION ISOLATION LEVEL REPEATABLE READ;";
+        }
+        return sqlDAL::writeSql($sql);
+    }
 
     public static function _deleteCache($name)
     {
@@ -299,7 +308,10 @@ class CachesInDB extends ObjectYPT
         $sql .= " WHERE name = ?";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
-        return sqlDAL::writeSql($sql, "s", [$name]);
+        self::readUncomited();
+        $return = sqlDAL::writeSql($sql, "s", [$name]);
+        self::readUncomited(false);
+        return $return;
     }
     public static function set_innodb_lock_wait_timeout($timeout = 2)
     {
@@ -324,12 +336,15 @@ class CachesInDB extends ObjectYPT
         }
         $name = self::hashName($name);
         self::set_innodb_lock_wait_timeout();
-        $sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
-        //$sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
+        //$sql = "DELETE FROM " . static::getTableName() . " WHERE name LIKE '{$name}%'";
+        $sql = "DELETE FROM " . static::getTableName() . " WHERE MATCH(name) AGAINST('{$name}*' IN BOOLEAN MODE);";
         
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
-        return sqlDAL::writeSql($sql);
+        self::readUncomited();
+        $return = sqlDAL::writeSql($sql);
+        self::readUncomited(false);
+        return $return;
     }
 
     
@@ -349,7 +364,10 @@ class CachesInDB extends ObjectYPT
         $sql .= " WHERE name LIKE '%{$name}%'";
         $global['lastQuery'] = $sql;
         //_error_log("Delete Query: ".$sql);
-        return sqlDAL::writeSql($sql);
+        self::readUncomited();
+        $return = sqlDAL::writeSql($sql);
+        self::readUncomited(false);
+        return $return;
     }
 
     public static function _deleteAllCache()
