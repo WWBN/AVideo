@@ -36,6 +36,7 @@ if (!empty($_GET['u'])) {
         if (!empty($info['otherLivesSameUser'])) {
             $link = LiveTransmitionHistory::getLinkToLive($info['otherLivesSameUser'][0]['id']);
             $link = addQueryStringParameter($link, 'justRedirected', 1);
+            $link = addQueryStringParameter($link, 'return_line', $info['return_line']);
             //var_dump($link, $info['otherLivesSameUser'][0]);exit;
             //var_dump($link,$info['users_id'], $info['otherLivesSameUser']);exit;
             header("Location: {$link}");
