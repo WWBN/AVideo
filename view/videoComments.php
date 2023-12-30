@@ -223,7 +223,7 @@ if (User::canSeeCommentTextarea()) {
             var template = getCommentTemplate(itemsArray);
             template = $(template);
             var repliesAreaSelector = '> div.media-body > div.repliesArea';
-            if (itemsArray.responses.length > 0) {
+            if (typeof itemsArray.responses != 'undefined' && itemsArray.responses.length > 0) {
                 for (var i in itemsArray.responses) {
                     var row = itemsArray.responses[i];
                     if (typeof row === 'function') {
@@ -233,6 +233,10 @@ if (User::canSeeCommentTextarea()) {
                     var templateRow = processCommentRow(row);
                     template.find(repliesAreaSelector).removeClass('isNotOpen').addClass('isOpen').append(templateRow);
                 }
+            }else{
+                var selector = '#comment_'+itemsArray.id+' > div.media-body > p';
+                $(selector).html(itemsArray.commentHTML);
+                console.log(selector, itemsArray.commentHTML);
             }
 
             return template;

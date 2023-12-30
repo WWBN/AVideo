@@ -1248,19 +1248,23 @@ function _avideoToast(msg, icon) {
     if(empty(msg)){
         msg = '';
     }
-    // Average reading speed: around 200 words per minute (or 3.3 words per second)
-    var wordsPerSecond = 2;
-    var words = msg.split(' ').length;
-    var readingTimeInSeconds = words / wordsPerSecond;
+    try {
+        // Average reading speed: around 200 words per minute (or 3.3 words per second)
+        var wordsPerSecond = 2;
+        var words = msg.split(' ').length;
+        var readingTimeInSeconds = words / wordsPerSecond;
 
-    // Convert reading time to milliseconds and add a buffer time
-    var displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
+        // Convert reading time to milliseconds and add a buffer time
+        var displayTime = Math.max(readingTimeInSeconds * 1000 + 2000, 7000); // Minimum display time of 7000ms
 
-    var options = { text: msg, hideAfter: displayTime };
-    if (icon) {
-        options.icon = icon;
+        var options = { text: msg, hideAfter: displayTime };
+        if (icon) {
+            options.icon = icon;
+        }
+        $.toast(options);
+    } catch (error) {
+        
     }
-    $.toast(options);
 }
 
 function avideoToast(msg) {

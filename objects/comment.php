@@ -152,11 +152,11 @@ class Comment {
         return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
-    static function getComment($id) {
+    static function getComment($id, $refreshCache = false) {
         global $global;
         $id = intval($id);
         $sql = "SELECT * FROM comments WHERE  id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", [$id]);
+        $res = sqlDAL::readSql($sql, "i", [$id], $refreshCache);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         return ($res != false) ? $result : false;

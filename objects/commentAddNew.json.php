@@ -124,7 +124,7 @@ if (!empty($_REQUEST['id'])) {
 $obj->comments_id = $objC->save();
 if (!empty($obj->comments_id)) {
     $obj->error = false;
-    $obj->comment = Comment::getComment($obj->comments_id);
+    $obj->comment = Comment::getComment($obj->comments_id, true);
     $obj->comment = Comment::addExtraInfo2($obj->comment);
 
     $obj->msg = __("Your comment has been saved!");

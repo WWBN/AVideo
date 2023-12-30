@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'objects/comment.php';
 
 $obj = new stdClass();
 $obj->error = true;
-$obj->msg = true;
+$obj->msg = '';
 $obj->id = intval(@$_REQUEST['id']);
 $obj->status = false;
 
