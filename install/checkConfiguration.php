@@ -4,7 +4,10 @@ if (file_exists("../videos/configuration.php")) {
     exit;
 }
 
+
 $installationVersion = "14.0";
+
+require_once '../objects/functionSecurity.php';
 
 error_log("Installation: ".__LINE__." ". json_encode($_POST));
 header('Content-Type: application/json');
