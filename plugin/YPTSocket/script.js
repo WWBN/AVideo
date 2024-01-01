@@ -220,7 +220,7 @@ async function AutoUpdateOnHTMLTimer() {
                 $('.' + prop).text(val);
                 //console.log('AutoUpdateOnHTMLTimer 4', prop, val, $('.' + prop).text());
                 if (parseInt(val) > 0) {
-                    $('.' + prop).parent().addClass('text-success');
+                    //$('.' + prop).parent().addClass('text-success');
                 }
             }
         }

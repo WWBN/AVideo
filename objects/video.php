@@ -4260,18 +4260,17 @@ if (!class_exists('Video')) {
              */
             if (!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])) {
                 foreach ($global['avideo_resolutions'] as $value) {
-                    $search[] = "_{$value}";
-
-                    $search[] = "res{$value}";
+                    // Match '_240' or 'res240' followed by a non-digit or at the end of the string
+                    $pattern = "/(_{$value}|res{$value})(?=\D|$)/";
+                    $cleanName = preg_replace($pattern, '', $filename);
                 }
-            }
-            $cleanName = str_replace($search, '', $filename);
+            }            
 
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
             }
 
-            $path_parts = pathinfo($cleanName);
+            $path_parts = pathinfo($cleanName);             
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
