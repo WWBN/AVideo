@@ -4258,6 +4258,7 @@ if (!class_exists('Video')) {
              * @var array $global
              * @var array $global['avideo_resolutions']
              */
+            $cleanName = $filename;
             if (!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])) {
                 foreach ($global['avideo_resolutions'] as $value) {
                     // Match '_240' or 'res240' followed by a non-digit or at the end of the string
