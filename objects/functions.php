@@ -11985,4 +11985,4 @@ function getValueOrBlank($array, $default=''){
     return $text;
 }
 
-require_once $global['systemRootPath'].'objects/functionSecurity.php';
+require_once __DIR__.'/functionSecurity.php';
