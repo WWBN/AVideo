@@ -861,7 +861,7 @@ abstract class PluginAbstract {
       ]
      * @return $file
      */
-    function modifyURL($file) {
+    function modifyURL($file, $videos_id=0) {
         return $file;
     }
 

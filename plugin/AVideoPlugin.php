@@ -2828,18 +2828,20 @@ class AVideoPlugin
             ]
      * @return $file
      */
-    public static function modifyURL($file)
+    public static function modifyURL($file, $videos_id=0)
     {
         global $global;
         if (empty($global)) {
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
-        $videos_id = 0;
-        if(!empty($file['filename'])){
-            $videos_id = getVideos_IdFromFilename($file['filename']);
-        }else{
-            $videos_id = getVideos_id();
+        if(empty($videos_id)){
+            $videos_id = 0;
+            if(!empty($file['filename'])){
+                $videos_id = getVideos_IdFromFilename($file['filename']);
+            }else{
+                $videos_id = getVideos_id();
+            }
         }
         /**
          * @var array $global
