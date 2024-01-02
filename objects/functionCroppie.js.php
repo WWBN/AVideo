@@ -155,7 +155,9 @@ $croppieFilesAdded = 1;
             <?php
             if ($enforceBoundary) {
             ?>
-                $('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>);
+                //$('#croppie<?php echo $uid; ?>').croppie('setZoom', <?php echo $zoom; ?>);
+                var croppieData = $('#croppie<?php echo $uid; ?>').croppie('get');
+                $('#croppie<?php echo $uid; ?>').croppie('setZoom', croppieData.zoom);
             <?php
             }
             ?>

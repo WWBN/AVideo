@@ -9,6 +9,7 @@ if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 $global['ignorePersistVolume'] = 1;
+$global['ignoreMessageOfTheDay'] = 1;
 $objectToReturnToParentIframe = new stdClass();
 $objectToReturnToParentIframe->videos_id = 0;
 $objectToReturnToParentIframe->isLive = false;
@@ -122,21 +123,22 @@ $objectToReturnToParentIframe->posterURL = $poster;
     <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
     <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
-    <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
-    <?php
-    echo AVideoPlugin::afterVideoJS();
-    ?>
     <style>
         body {
             padding: 0 !important;
             margin: 0 !important;
             overflow: hidden;
+            background-color: #000;
         }
 
         .videoViews {
             margin-top: 25px;
         }
     </style>
+    <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
+    <?php
+    echo AVideoPlugin::afterVideoJS();
+    ?>
     <script>
         var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         var player;
@@ -147,7 +149,7 @@ $objectToReturnToParentIframe->posterURL = $poster;
 </head>
 
 <body>
-    <div class="">
+    <div id="videoDiv" style="display: none;">
         <video poster="<?php echo $poster; ?>" controls <?php echo PlayerSkins::getPlaysinline(); ?> class="video-js vjs-default-skin vjs-big-play-centered" id="mainVideo" style="width: 100%; height: 100%; position: absolute;">
             <?php echo $sources; ?>
         </video>
@@ -227,6 +229,9 @@ $objectToReturnToParentIframe->posterURL = $poster;
                 echo 'player.muted(true);';
             }
             ?>
+            setTimeout(function(){
+                $('#videoDiv').fadeIn();
+            },1000);            
             playerPlay(0);
         });
     </script>

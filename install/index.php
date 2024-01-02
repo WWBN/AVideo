@@ -338,7 +338,7 @@ require_once '../locale/function.php';
                             if (xhr.status == 404) {
                                 avideoAlert("Sorry!", "Your Site URL is wrong!", "error");
                             } else {
-                                avideoAlert("Sorry!", "Unknown error!", "error");
+                                avideoAlert("Sorry!", "Unknown error! Please check the Apache server log for more information.", "error");
                             }
                         }
                     });

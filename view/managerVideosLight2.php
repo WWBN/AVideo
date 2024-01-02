@@ -21,7 +21,7 @@ $title = $video->getTitle();
 $description = $video->getDescription();
 $categories_id = $video->getCategories_id();
 $_page = new Page(array('Edit Video', $title));
-
+$videoTags = '[]';
 if ($isVideoTagsEnabled) {
     $_page->setExtraScripts(
         array(
@@ -32,11 +32,9 @@ if ($isVideoTagsEnabled) {
     $_page->setExtraStyles(
         array('plugin/VideoTags/bootstrap-tagsinput/bootstrap-tagsinput.css')
     );
+    $videoTags = VideoTags::getTagsInputsJquery();
 }
 ?>
-<style>
-    .tagTypes {}
-</style>
 <div class="container-fluid">
     <div class="panel panel-default ">
         <div class="panel-heading clearfix ">
@@ -74,7 +72,7 @@ if ($isVideoTagsEnabled) {
 
                     $image = addQueryStringParameter($image, 'cache', filectime($path));
                     //var_dump($image, $images);exit;
-                    $croppie1 = getCroppie(__("Upload Poster"), "saveVideo", $width, $height, $viewportWidth);
+                    $croppie1 = getCroppie(__("Upload Poster"), "saveVideoMeta", $width, $height, $viewportWidth);
                     
                     ?>
                         <div class="panel panel-default ">
@@ -103,7 +101,7 @@ if ($isVideoTagsEnabled) {
                             </div>
                             <div class="panel-body">
                                 <?php
-                                echo VideoTags::getTagsInputs(6);
+                                echo VideoTags::getTagsInputs(6, $videos_id);
                                 ?>
                             </div>
                         </div>
@@ -136,7 +134,10 @@ if ($isVideoTagsEnabled) {
             </div>
         </div>
         <div class="panel-footer">
-            <button class="btn btn-success btn-lg btn-block" onclick="saveVideo(true);"><i class="fas fa-save"></i> <?php echo __('Save'); ?></button>
+            <button class="btn btn-success btn-lg btn-block" onclick="<?php echo $croppie1['getCroppieFunction']; ?>">
+                <i class="fas fa-save"></i> 
+                <?php echo __('Save'); ?>
+            </button>
         </div>
     </div>
 </div>
@@ -145,29 +146,8 @@ if ($isVideoTagsEnabled) {
 
     var modalimage = getPleaseWait();
     var modalmeta = getPleaseWait();
-
-    function saveVideo(image) {
-        modalimage.showPleaseWait();
-        $.ajax({
-            url: webSiteRootURL + 'objects/videoEditLight.php',
-            data: {
-                videos_id: <?php echo $videos_id; ?>,
-                image: image,
-                portrait: <?php echo $portrait; ?>,
-            },
-            type: 'post',
-            success: function(response) {
-                modalimage.hidePleaseWait();
-                avideoResponse(response);
-                if (response && !response.error) {
-                    saveVideoMeta(closeWindowAfterImageSave);
-                }
-            }
-        });
-
-    }
-
-    function saveVideoMeta(close) {
+    
+    function saveVideoMeta(image) {
         modalmeta.showPleaseWait();
         $.ajax({
             url: webSiteRootURL + 'objects/videoEditLight.php',
@@ -175,13 +155,16 @@ if ($isVideoTagsEnabled) {
                 videos_id: <?php echo $videos_id; ?>,
                 title: $('#title').val(),
                 categories_id: $('#categories_id').val(),
+                portrait: <?php echo $portrait; ?>,
+                videoTags: <?php echo $videoTags; ?>,
                 description: <?php
                                 if (empty($advancedCustom->disableHTMLDescription)) {
                                     echo 'tinymce.get(\'description\').getContent()';
                                 } else {
                                     echo '$(\'#description\').val()';
                                 }
-                                ?>
+                                ?>,
+                image: image,
             },
             type: 'post',
             success: function(response) {

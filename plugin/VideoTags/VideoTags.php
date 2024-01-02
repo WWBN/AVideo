@@ -122,12 +122,18 @@ class VideoTags extends PluginAbstract {
         return TagsHasVideos::getAllFromVideosId($videos_id);
     }
 
-    static function getArrayFromVideosId($videos_id) {
+    static function getArrayFromVideosId($videos_id, $tags_id = 0) {
         $rows = TagsHasVideos::getAllFromVideosId($videos_id);
         $array = array();
         foreach ($rows as $value) {
+            if(!empty($tags_id)){
+                if($tags_id!=$value['tags_types_id']){
+                    continue;
+                }
+            }
             $array[] = $value['name'];
         }
+        //var_dump($videos_id, $tags_id, $rows, $array);exit;
         return $array;
     }
 
@@ -155,11 +161,11 @@ class VideoTags extends PluginAbstract {
         return TagsHasVideos::getAllVideosFromTagsId($tags_id, $limit);
     }
 
-    static function getTagsInputs($colSize = 3) {
+    static function getTagsInputs($colSize = 3, $videos_id=0) {
         $types = TagsTypes::getAll();
         $str = "";
         foreach ($types as $value) {
-            $input = self::getTagsInput($value['id']);
+            $input = self::getTagsInput($value['id'], $videos_id);
             $str .= "<div class=\"col-sm-{$colSize}\"><label for=\"tagTypesId{$value['id']}\">" . __($value['name']) . "</label> {$input}</div> ";
         }
         if(!empty($str)){
@@ -186,42 +192,62 @@ class VideoTags extends PluginAbstract {
         return $str;
     }
 
-    static function getTagsInput($tagTypesId) {
+    static function getTagsInput($tagTypesId, $videos_id=0) {
         global $global;
+    
+        // Step 1: Query the database for tags associated with videos_id
+        $tags = []; // Initialize an array to hold the tags
+        if($videos_id > 0) {
+            // Assuming you have a function to get tags by video ID
+            $tags = self::getArrayFromVideosId($videos_id, $tagTypesId); 
+        }
+    
+        // Step 2: Convert tags into a suitable format (JSON)
+        $tagsJson = json_encode($tags);
+        //var_dump($tagsJson, $tags);
         $obj = AVideoPlugin::getObjectData("VideoTags");
         $str = '<input type="text" value="" id="inputTags' . $tagTypesId . '"/>
                 <script>
                 $(document).ready(function () {
-var videoTags' . $tagTypesId . ' = new Bloodhound({
-  datumTokenizer: Bloodhound.tokenizers.obj.whitespace(\'name\'),
-  queryTokenizer: Bloodhound.tokenizers.whitespace,
-  prefetch: {
-    url: \'' . $global['webSiteRootURL'] . 'plugin/VideoTags/tags.json.php?tags_types_id=' . $tagTypesId . '?\'+Math.random(),
-    filter: function(list) {
-      return $.map(list, function(cityname) {
-        return { name: cityname }; });
-    }
-  }
-});
-videoTags' . $tagTypesId . '.initialize();
-
-$(\'#inputTags' . $tagTypesId . '\').tagsinput({
-    maxTags: ' . $obj->maxTags . ',
-    maxChars: ' . $obj->maxChars . ',
-    trimValue: true,
-    typeaheadjs: {
-      name: \'videoTags\',
-      displayKey: \'name\',
-      valueKey: \'name\',
-      source: videoTags' . $tagTypesId . '.ttAdapter()
-    },
-    freeInput: ' . (self::canCreateTag() ? "true" : "false") . '
-});
-
+                    var videoTags' . $tagTypesId . ' = new Bloodhound({
+                        datumTokenizer: Bloodhound.tokenizers.obj.whitespace(\'name\'),
+                        queryTokenizer: Bloodhound.tokenizers.whitespace,
+                        prefetch: {
+                            url: \'' . $global['webSiteRootURL'] . 'plugin/VideoTags/tags.json.php?tags_types_id=' . $tagTypesId . '?\'+Math.random(),
+                            filter: function(list) {
+                                return $.map(list, function(tagsname) {
+                                    return { name: tagsname };
+                                });
+                            }
+                        }
+                    });
+                    videoTags' . $tagTypesId . '.initialize();
+    
+                    $(\'#inputTags' . $tagTypesId . '\').tagsinput({
+                        maxTags: ' . $obj->maxTags . ',
+                        maxChars: ' . $obj->maxChars . ',
+                        trimValue: true,
+                        typeaheadjs: {
+                            name: \'videoTags\',
+                            displayKey: \'name\',
+                            valueKey: \'name\',
+                            source: videoTags' . $tagTypesId . '.ttAdapter()
+                        },
+                        freeInput: ' . (self::canCreateTag() ? "true" : "false") . '
+                    });
+    
+                    // Step 3: Preload and fill the input with all tags from the database
+                    var preloadedTags = ' . $tagsJson . ';
+                    if(preloadedTags && preloadedTags.length) {
+                        preloadedTags.forEach(function(tag) {
+                            $(\'#inputTags' . $tagTypesId . '\').tagsinput(\'add\', tag);
+                        });
+                    }
                 });
                 </script>';
         return $str;
     }
+    
 
     static function canCreateTag() {
         $obj = AVideoPlugin::getObjectData("VideoTags");
