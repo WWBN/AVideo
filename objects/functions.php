@@ -10262,7 +10262,7 @@ function modifyURL($url)
         $url = fix_parse_url($url, $value);
     }
     
-    $url = AVideoPlugin::modifyURL($url);
+    //$url = AVideoPlugin::modifyURL($url);
     return $url;
 }
 
