@@ -2906,6 +2906,7 @@ function removeQueryStringParameter($url, $varname)
     if (!empty($parsedUrl['port']) && $parsedUrl['port'] != '80' && $parsedUrl['port'] != '443') {
         $port = ":{$parsedUrl['port']}";
     }
+    $query = fixURLQuery($query);
     return $scheme . '//' . $parsedUrl['host']. $port . $path . $query;
 }
 
@@ -2960,9 +2961,15 @@ function addQueryStringParameter($url, $varname, $value)
     } else {
         $scheme = "{$parsedUrl['scheme']}:";
     }
+
+    $query = fixURLQuery($query);
+
     return $scheme . '//' . $parsedUrl['host'] . $port . $path . $query;
 }
 
+function fixURLQuery($query){
+    return str_replace(array('%5B', '%5D'), array('[', ']'), $query);
+}
 
 function isSameDomain($url1, $url2)
 {
