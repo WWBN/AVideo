@@ -2835,6 +2835,12 @@ class AVideoPlugin
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
+        $videos_id = 0;
+        if(!empty($file['filename'])){
+            $videos_id = getVideos_IdFromFilename($file['filename']);
+        }else{
+            $videos_id = getVideos_id();
+        }
         /**
          * @var array $global
          */
@@ -2845,7 +2851,7 @@ class AVideoPlugin
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
             if (is_object($p)) {
-                $file = $p->modifyURL($file);
+                $file = $p->modifyURL($file, $videos_id);
             }
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
