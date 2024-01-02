@@ -10202,6 +10202,7 @@ function modifyURL($url)
     if (!isValidURL($url)) {
         return $url;
     }
+    $originalURL = $url;
     $parameters = array(
         'ads_app_bundle' => 'ads.app_bundle', //App Bundle from App Store ie. com.selecttvandroid
         'ads_did' => 'ads.did', //Device ID uses session.uuid, App to replace with DID
@@ -10256,7 +10257,7 @@ function modifyURL($url)
     
     $url = AVideoPlugin::modifyURL($url);
     if(preg_match('/652bc326f4779ceabc06f3f6/i', $url.'')){
-        var_dump($url);exit;
+        var_dump($originalURL, $url, $changed);exit;
     }
     return $url;
 }
