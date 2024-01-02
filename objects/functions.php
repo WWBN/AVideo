@@ -10261,10 +10261,12 @@ function modifyURL($url)
     foreach ($parameters as $key => $value) {
         $url = fix_parse_url($url, $value);
     }
+    /*
     if(!preg_match('/urlChanged/', $url)){
         $url = addQueryStringParameter($url, 'urlChanged', 1);
         $url = AVideoPlugin::modifyURL($url);
     }
+    */
     return $url;
 }
 
