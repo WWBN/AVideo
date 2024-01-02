@@ -157,6 +157,8 @@ if ($isVideoTagsEnabled) {
                 categories_id: $('#categories_id').val(),
                 portrait: <?php echo $portrait; ?>,
                 videoTags: <?php echo $videoTags; ?>,
+                user: "<?php echo User::getUserName() ?>",
+                pass: "<?php echo User::getUserPass() ?>",
                 description: <?php
                                 if (empty($advancedCustom->disableHTMLDescription)) {
                                     echo 'tinymce.get(\'description\').getContent()';
