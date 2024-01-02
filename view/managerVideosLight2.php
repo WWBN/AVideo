@@ -3,13 +3,13 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-
 $videos_id = getVideos_id();
 
 if (empty($videos_id)) {
     forbiddenPage('Videos ID empty');
 }
 
+User::loginFromRequest();
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
