@@ -132,7 +132,7 @@ class PlayerSkins extends PluginAbstract
                 if ($video['type'] == "video") {
                     $htmlMediaTag .= "<!-- Video {$video['title']} {$video['filename']} -->" . getSources($video['filename']);
                 } else { // video link
-                    $url = modifyURL($video['videoLink']);
+                    $url = AVideoPlugin::modifyURL($video['videoLink']);
                     //var_dump($video['videoLink'], $url);exit;
                     $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";

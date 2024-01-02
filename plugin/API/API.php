@@ -922,8 +922,7 @@ class API extends PluginAbstract
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
-                //var_dump($rows[$key]['videoLink'], modifyURL($rows[$key]['videoLink']));exit;
-                $rows[$key]['videoLink'] = modifyURL($rows[$key]['videoLink']);
+                $rows[$key]['videoLink'] = AVideoPlugin::modifyURL($rows[$key]['videoLink']);
                 if ($extension == 'mp4') {
                     $rows[$key]['videos'] = array(
                         'mp4' => array(
@@ -1026,7 +1025,7 @@ class API extends PluginAbstract
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
                     }
                     if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
-                        $rows[$key]['relatedVideos'][$key2]['videoLink'] = modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
+                        $rows[$key]['relatedVideos'][$key2]['videoLink'] = AVideoPlugin::modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
                     }
                 }
             }
