@@ -10256,9 +10256,6 @@ function modifyURL($url)
     }
     
     $url = AVideoPlugin::modifyURL($url);
-    if(preg_match('/652bc326f4779ceabc06f3f6/i', $url.'')){
-        var_dump($originalURL, $url, $changed);exit;
-    }
     return $url;
 }
 
