@@ -10,6 +10,7 @@ if (!empty($objSecure)) {
 }
 $global['ignorePersistVolume'] = 1;
 $global['ignoreMessageOfTheDay'] = 1;
+$_GET['noChat'] = 1;
 $objectToReturnToParentIframe = new stdClass();
 $objectToReturnToParentIframe->videos_id = 0;
 $objectToReturnToParentIframe->isLive = false;
