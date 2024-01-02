@@ -10253,6 +10253,8 @@ function modifyURL($url)
     foreach ($parameters as $key => $value) {
         $url = fix_parse_url($url, $value);
     }
+    
+    $url = AVideoPlugin::modifyURL($url);
     return $url;
 }
 
