@@ -10257,12 +10257,12 @@ function modifyURL($url)
     }
     if($changed){
         $url = addQueryStringParameter($url, 'ads.cb', time());
-        $url = addQueryStringParameter($url, 'urlChanged', 1);
     }
     foreach ($parameters as $key => $value) {
         $url = fix_parse_url($url, $value);
     }
     if(!preg_match('/urlChanged/', $url)){
+        $url = addQueryStringParameter($url, 'urlChanged', 1);
         $url = AVideoPlugin::modifyURL($url);
     }
     return $url;
