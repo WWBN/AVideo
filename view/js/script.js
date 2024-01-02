@@ -1376,6 +1376,14 @@ function closeFullscreenVideo() {
     avideoModalIframeClose();
 }
 
+// Listen for messages from child frames
+window.addEventListener('message', function(event) {
+    if (event.data === 'closeFullscreen') {
+        // Call the function to close fullscreen video
+        closeFullscreenVideo();
+    }
+});
+
 function avideoModalIframeCloseToastSuccess(msg) {
     avideoModalIframeClose();
     avideoToastSuccess(msg);
@@ -3945,7 +3953,7 @@ function openFullscreenVideo(url, urlBar) {
 function addCloseButtonInVideo() {
     try {
         // If either function exists, add a close button inside videojs
-        if (typeof window.parent.closeFullscreenVideo === "function") {
+        if (window.self !== window.top) {
             if (typeof player !== 'object') {
                 setTimeout(function () { addCloseButtonInVideo(); }, 2000);
                 return false;
@@ -3960,7 +3968,7 @@ function addCloseButtonInVideo() {
 function addCloseButtonInPage() {
     try {
         // If either function exists, add a close button inside videojs
-        if (typeof window.parent.closeFullscreenVideo === "function") {
+        if (window.self !== window.top) {
             addCloseButton($('body'));
         }
     } catch (error) {
@@ -3970,7 +3978,7 @@ function addCloseButtonInPage() {
 
 function addCloseButton(elementToAppend) {
     // If either function exists, add a close button inside videojs
-    if (typeof window.parent.closeFullscreenVideo === "function") {
+    if (window.self !== window.top) {
         var closeButton = $('<button>', {
             'id': 'CloseButtonInVideo',
         });
@@ -3982,7 +3990,8 @@ function addCloseButton(elementToAppend) {
         closeButton.on('click', function () {
             if (window.self !== window.top) {
                 console.log('close parent iframe');
-                window.parent.closeFullscreenVideo();
+                //window.parent.closeFullscreenVideo();
+                window.parent.postMessage('closeFullscreen', '*'); 
             } else {
                 console.log('close history.back');
                 window.history.back();
