@@ -1583,6 +1583,7 @@ function getVideosURL_V2($fileName, $recreateCache = false, $checkFiles = true)
             //$timeName2 = "getVideosURL_V2::Video::getSourceFile({$parts['filename']}, .{$parts['extension']})";
             //TimeLogStart($timeName2);
             $source = Video::getSourceFile($parts['filename'], ".{$parts['extension']}");
+            
             /*
             if(empty($recreateCache) && $fileName == "video_230816233020_vb81e"){
                 var_dump($fileName, $source);exit;
@@ -1754,9 +1755,6 @@ function getSources($fileName, $returnArray = false, $try = 0)
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
         $files = getVideosURL_V2($fileName, !empty($try));
-        if(!empty($_GET['debug']) && $fileName == "video101011752_v7f6d" ){
-            var_dump($video, $fileName, $files, $sourcesArray, $sources);exit;
-        }
         $sources = '';
         $sourcesArray = [];
         foreach ($files as $key => $value) {
@@ -1773,9 +1771,6 @@ function getSources($fileName, $returnArray = false, $try = 0)
             }
         }
         $videoSources = $returnArray ? $sourcesArray : $sources;
-    }
-    if(!empty($_GET['debug']) && $fileName == "video101011752_v7f6d" ){
-        var_dump($video, $fileName, $files, $sourcesArray, $sources);exit;
     }
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);

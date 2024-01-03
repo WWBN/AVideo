@@ -4265,13 +4265,16 @@ if (!class_exists('Video')) {
                     $pattern = "/(_{$value}|res{$value})(?=\D|$)/";
                     $cleanName = preg_replace($pattern, '', $filename);
                 }
-            }            
+            }     
+            
+            $cleanName = str_ireplace(array('_HD', '_Low', '_SD'), array('', '', ''), $cleanName);
 
             if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
                 $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
             }
 
-            $path_parts = pathinfo($cleanName);             
+            $path_parts = pathinfo($cleanName);    
+            //var_dump($filename, $cleanName, $path_parts);         
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
                 if (!empty($path_parts['filename'])) {
