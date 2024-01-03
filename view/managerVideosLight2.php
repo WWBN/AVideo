@@ -34,6 +34,7 @@ if ($isVideoTagsEnabled) {
     );
     $videoTags = VideoTags::getTagsInputsJquery();
 }
+$userCanChangeVideoOwner = !empty($advancedCustomUser->userCanChangeVideoOwner) || Permissions::canAdminVideos();
 ?>
 <div class="container-fluid">
     <div class="panel panel-default ">
@@ -73,21 +74,21 @@ if ($isVideoTagsEnabled) {
                     $image = addQueryStringParameter($image, 'cache', filectime($path));
                     //var_dump($image, $images);exit;
                     $croppie1 = getCroppie(__("Upload Poster"), "saveVideoMeta", $width, $height, $viewportWidth);
-                    
+
                     ?>
-                        <div class="panel panel-default ">
-                            <div class="panel-heading ">
-                                <i class="fa-regular fa-image"></i>
-                                <?php
-                                echo __('Poster');
-                                ?>
-                            </div>
-                            <div class="panel-body">
-                                <?php
-                                echo $croppie1['html'];
-                                ?>
-                            </div>
+                    <div class="panel panel-default ">
+                        <div class="panel-heading ">
+                            <i class="fa-regular fa-image"></i>
+                            <?php
+                            echo __('Poster');
+                            ?>
                         </div>
+                        <div class="panel-body">
+                            <?php
+                            echo $croppie1['html'];
+                            ?>
+                        </div>
+                    </div>
                     <?php
 
                     if ($isVideoTagsEnabled) {
@@ -111,14 +112,27 @@ if ($isVideoTagsEnabled) {
                 </div>
                 <div class="col-sm-8">
                     <div class="row">
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-<?php echo $userCanChangeVideoOwner ? 4 : 6; ?>">
                             <label for="title"><?php echo __('Title'); ?></label>
                             <input type="text" class="form-control" id="title" placeholder="<?php echo __('Title'); ?>" value="<?php echo $title; ?>">
                         </div>
-                        <div class="form-group col-sm-6">
+                        <div class="form-group col-sm-<?php echo $userCanChangeVideoOwner ? 4 : 6; ?>">
                             <label for="categories_id"><?php echo __('Categories'); ?></label>
                             <?php echo Layout::getCategorySelect('categories_id', $categories_id, 'categories_id'); ?>
                         </div>
+                        <?php
+                        if ($userCanChangeVideoOwner) {
+                        ?>
+                            <div class="col-md-4">
+                                <?php
+                                include $global['systemRootPath'] . 'view/managerVideos_owner.php';
+                                ?>
+                            </div>
+                        <?php
+                        }else{
+                            echo '<input type="hidden" id="inputUserOwner_id" value="'.$video->getUsers_id().'" name="inputUserOwner_id">';
+                        }
+                        ?>
                         <div class="form-group col-sm-12">
                             <label for="description"><?php echo __('Description'); ?></label>
                             <textarea class="form-control" id="description" rows="10"><?php echo $description; ?></textarea>
@@ -135,7 +149,7 @@ if ($isVideoTagsEnabled) {
         </div>
         <div class="panel-footer">
             <button class="btn btn-success btn-lg btn-block" onclick="<?php echo $croppie1['getCroppieFunction']; ?>">
-                <i class="fas fa-save"></i> 
+                <i class="fas fa-save"></i>
                 <?php echo __('Save'); ?>
             </button>
         </div>
@@ -146,7 +160,7 @@ if ($isVideoTagsEnabled) {
 
     var modalimage = getPleaseWait();
     var modalmeta = getPleaseWait();
-    
+
     function saveVideoMeta(image) {
         modalmeta.showPleaseWait();
         $.ajax({
@@ -159,6 +173,7 @@ if ($isVideoTagsEnabled) {
                 videoTags: <?php echo $videoTags; ?>,
                 user: "<?php echo User::getUserName() ?>",
                 pass: "<?php echo User::getUserPass() ?>",
+                users_id: $('#inputUserOwner_id').val(),
                 description: <?php
                                 if (empty($advancedCustom->disableHTMLDescription)) {
                                     echo 'tinymce.get(\'description\').getContent()';

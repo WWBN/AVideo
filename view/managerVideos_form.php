@@ -1,5 +1,5 @@
 <style>
-    .modal-content div.row > div{
+    .modal-content div.row>div {
         padding-bottom: 15px;
     }
 </style>
@@ -89,8 +89,8 @@
                                 </div>
                             </div>
                             <div id="pmetadata" class="tab-pane fade">
-                                <input type="hidden" id="inputVideoId"  >
-                                <input type="hidden" id="videoLinkType"  >
+                                <input type="hidden" id="inputVideoId">
+                                <input type="hidden" id="videoLinkType">
                                 <div class="titles">
                                     <div class="row">
                                         <?php
@@ -111,11 +111,11 @@
                                             if ($showCategory) {
                                                 $parentsOnly = @$_GET['parentsOnly'];
                                                 unset($_GET['parentsOnly']);
-                                                $categories = Category::getAllCategories(true, false);   
-                                                $_GET['parentsOnly'] = $parentsOnly ;
+                                                $categories = Category::getAllCategories(true, false);
+                                                $_GET['parentsOnly'] = $parentsOnly;
                                                 //var_dump($categories);exit;
-                                                ?>
-                                                <label class="control-label" for="inputCategory" ><?php echo __("Category"); ?></label>
+                                            ?>
+                                                <label class="control-label" for="inputCategory"><?php echo __("Category"); ?></label>
                                                 <select class="form-control last" id="inputCategory" required>
                                                     <?php
                                                     foreach ($categories as $value) {
@@ -123,20 +123,20 @@
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php
+                                            <?php
                                             }
                                             ?>
                                         </div>
                                     </div>
                                 </div>
-                                <label class="control-label" for="inputDescription" ><?php echo __("Description"); ?></label>
+                                <label class="control-label" for="inputDescription"><?php echo __("Description"); ?></label>
                                 <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
                             </div>
 
                             <div id="pSEO" class="tab-pane fade">
                                 <div class="row">
                                     <div class="col-md-12 titles">
-                                        <label class="control-label" for="inputCleanTitle" ><?php echo __("Clean Title"); ?></label>
+                                        <label class="control-label" for="inputCleanTitle"><?php echo __("Clean Title"); ?></label>
                                         <input type="text" id="inputCleanTitle" class="form-control" placeholder="<?php echo __("Clean Title"); ?>" required>
                                     </div>
                                 </div>
@@ -148,25 +148,25 @@
                                 <?php
                                 echo AVideoPlugin::getManagerVideosEditField('Privacy');
                                 ?>
-                                <div class="row" >
-                                    <div class="col-md-12" >
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <ul class="list-group">
                                             <?php
                                             if ($advancedCustomUser->userCanAllowFilesDownloadSelectPerVideo && CustomizeUser::canDownloadVideosFromUser(User::getId())) {
-                                                ?>
+                                            ?>
                                                 <li class="list-group-item">
                                                     <span class="fa fa-download"></span> <?php echo __("Allow Download This media"); ?>
                                                     <div class="material-switch pull-right">
-                                                        <input id="can_download" type="checkbox" value="0"/>
+                                                        <input id="can_download" type="checkbox" value="0" />
                                                         <label for="can_download" class="label-success"></label>
                                                     </div>
                                                 </li>
-                                                <?php
+                                            <?php
                                             }
                                             ?>
                                             <?php
                                             if ($advancedCustomUser->userCanAllowFilesShareSelectPerVideo && CustomizeUser::canShareVideosFromUser(User::getId())) {
-                                                ?>
+                                            ?>
                                                 <li class="list-group-item">
                                                     <span class="fa fa-share"></span> <?php echo __("Allow Share This media"); ?>
                                                     <div class="material-switch pull-right">
@@ -174,23 +174,23 @@
                                                         <label for="can_share" class="label-success"></label>
                                                     </div>
                                                 </li>
-                                                <?php
+                                            <?php
                                             }
                                             if (!empty($advancedCustomUser->userCanProtectVideosWithPassword) || Permissions::canAdminVideos()) {
-                                                ?>
+                                            ?>
                                                 <li class="list-group-item">
                                                     <label class="control-label" for="inputVideoPassword"><?php echo __("Password Protected"); ?></label>
-                                                    <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>" >
+                                                    <input type="text" id="inputVideoPassword" class="form-control" placeholder="<?php echo __("Password"); ?>">
                                                 </li>
                                                 <?php
                                             }
                                             if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
                                                 if ($advancedCustom->paidOnlyUsersTellWhatVideoIs || Permissions::canAdminVideos()) {
-                                                    ?>
+                                                ?>
                                                     <li class="list-group-item">
                                                         <i class="fas fa-money-check-alt"></i> <?php echo __("Only Paid Users Can see"); ?>
                                                         <div class="material-switch pull-right">
-                                                            <input id="only_for_paid" type="checkbox" value="0"/>
+                                                            <input id="only_for_paid" type="checkbox" value="0" />
                                                             <label for="only_for_paid" class="label-success"></label>
                                                         </div>
                                                     </li>
@@ -199,18 +199,18 @@
                                                 <li class="list-group-item">
                                                     <span class="fa fa-globe"></span> <?php echo __("Public Media"); ?>
                                                     <div class="material-switch pull-right">
-                                                        <input id="public" type="checkbox" value="0" class="userGroups"/>
+                                                        <input id="public" type="checkbox" value="0" class="userGroups" />
                                                         <label for="public" class="label-success"></label>
                                                     </div>
                                                 </li>
                                                 <li class="list-group-item active non-public">
                                                     <?php echo __("Groups that can see this video"); ?>
-                                                    <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom"  data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
+                                                    <a href="#" class="btn btn-info btn-xs pull-right" data-toggle="popover" title="<?php echo __("What is User Groups"); ?>" data-placement="bottom" data-content="<?php echo __("By linking groups to this video, it will no longer be public and only users in the same group will be able to watch this video"); ?>"><span class="fa fa-question-circle" aria-hidden="true"></span> <?php echo __("Help"); ?></a>
                                                 </li>
                                                 <?php
                                                 foreach ($userGroups as $value) {
-                                                    ?>
-                                                    <li class="list-group-item non-public groupSwitch" id="groupSwitch<?php echo $value['id']; ?>" >
+                                                ?>
+                                                    <li class="list-group-item non-public groupSwitch" id="groupSwitch<?php echo $value['id']; ?>">
                                                         <span class="fa fa-lock"></span>
                                                         <?php echo $value['group_name']; ?>
                                                         <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
@@ -219,12 +219,12 @@
                                                             <input id="videoGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="videoGroups" />
                                                             <label for="videoGroup<?php echo $value['id']; ?>" class="label-warning"></label>
                                                         </div>
-                                                        <div class="material-switch pull-right categoryGroupSwitch" >
-                                                            <input id="categoryGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="categoryGroups"/>
+                                                        <div class="material-switch pull-right categoryGroupSwitch">
+                                                            <input id="categoryGroup<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="categoryGroups" />
                                                             <label for="categoryGroup<?php echo $value['id']; ?>" class="label-default"></label>
                                                         </div>
                                                     </li>
-                                                    <?php
+                                            <?php
                                                 }
                                             }
                                             ?>
@@ -241,7 +241,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
 
-                                        <label class="control-label" for="inputRrating" ><?php echo __("R Rating"); ?></label>
+                                        <label class="control-label" for="inputRrating"><?php echo __("R Rating"); ?></label>
                                         <select class="form-control last" id="inputRrating">
                                             <?php
                                             foreach (Video::$rratingOptions as $value) {
@@ -249,7 +249,7 @@
                                                     $label = __("Not Rated");
                                                 } else {
                                                     $label = strtoupper($value);
-                                                    $label = "[{$label}] ".Video::$rratingOptionsText[$value];
+                                                    $label = "[{$label}] " . Video::$rratingOptionsText[$value];
                                                 }
                                                 echo "<option value='{$value}'>" . __($label) . "</option>";
                                             }
@@ -258,37 +258,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <?php
-                                        $myAffiliates = CustomizeUser::getCompanyAffiliates(User::getId());
-                                        if (!empty($myAffiliates)) {
-                                            $users_id_list = [];
-                                            $users_id_list[] = User::getId();
-                                            foreach ($myAffiliates as $value) {
-                                                $users_id_list[] = $value['users_id_affiliate'];
-                                            }
-
-                                            echo '<label class="control-label" for="users_id_company" >' . __("Media Owner") . '</label>';
-                                            echo Layout::getUserSelect('inputUserOwner', $users_id_list, "", 'inputUserOwner_id', '');
-                                        } else {
-                                            ?>
-                                            <div class="row" <?php if (empty($advancedCustomUser->userCanChangeVideoOwner) && !Permissions::canAdminVideos()) { ?> style="display: none;" <?php } ?>>
-                                                <label class="control-label" for="inputUserOwner_id" ><?php echo __("Media Owner"); ?></label>
-                                                <?php
-                                                $updateUserAutocomplete = Layout::getUserAutocomplete(0, 'inputUserOwner_id', []);
-                                                ?>
-                                            </div>
-                                            <?php
-                                        }
-                                        ?>
-                                        <?php
-                                        $myAffiliation = CustomizeUser::getAffiliateCompanies(User::getId());
-                                        if (!empty($myAffiliation)) {
-                                            $users_id_list = [];
-                                            foreach ($myAffiliation as $value) {
-                                                $users_id_list[] = $value['users_id_company'];
-                                            }
-                                            echo '<label class="control-label" for="users_id_company" >' . __("Company") . '</label>';
-                                            echo Layout::getUserSelect('users_id_company', $users_id_list, "", 'users_id_company', '');
-                                        }
+                                        include $global['systemRootPath'] . 'view/managerVideos_owner.php';
                                         ?>
                                     </div>
                                 </div>
@@ -326,23 +296,23 @@
                                     <div class="col-md-6">
 
                                         <div>
-                                            <label class="control-label" for="videoStartSecond" ><?php echo __("Start video at"); ?></label>
+                                            <label class="control-label" for="videoStartSecond"><?php echo __("Start video at"); ?></label>
                                             <input type="text" id="videoStartSeconds" class="form-control externalOptions" placeholder="00:00:00" value="00:00:00" required>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <?php
                                         if (Permissions::canAdminVideos()) {
-                                            ?>
-                                            <div>
-                                                <label class="control-label" for="videoStartSecond" ><?php echo __("Video Views"); ?></label>
-                                                <input type="number" step="1" id="views_count" class="form-control externalOptions" >
-                                            </div>
-                                            <?php
-                                        } else {
-                                            ?><input type="hidden" id="views_count" value="-1"><?php
-                                        }
                                         ?>
+                                            <div>
+                                                <label class="control-label" for="videoStartSecond"><?php echo __("Video Views"); ?></label>
+                                                <input type="number" step="1" id="views_count" class="form-control externalOptions">
+                                            </div>
+                                        <?php
+                                        } else {
+                                        ?><input type="hidden" id="views_count" value="-1"><?php
+                                                                                            }
+                                                                                                ?>
                                     </div>
 
                                 </div>
@@ -351,33 +321,33 @@
 
 
                             <script>
-                                $(function () {
+                                $(function() {
                                     $("#inputNextVideo").autocomplete({
                                         minLength: 0,
-                                        source: function (req, res) {
+                                        source: function(req, res) {
                                             $.ajax({
                                                 url: '<?php echo $global['webSiteRootURL']; ?>objects/videos.json.php?rowCount=6',
                                                 type: "POST",
                                                 data: {
                                                     searchPhrase: req.term
                                                 },
-                                                success: function (data) {
+                                                success: function(data) {
                                                     res(data.rows);
                                                 }
                                             });
                                         },
-                                        focus: function (event, ui) {
+                                        focus: function(event, ui) {
                                             $("#inputNextVideo").val(ui.item.title);
                                             return false;
                                         },
-                                        select: function (event, ui) {
+                                        select: function(event, ui) {
                                             $("#inputNextVideo").val(ui.item.title);
                                             $("#inputNextVideoClean").val(ui.item.link);
                                             $("#inputNextVideo-id").val(ui.item.id);
                                             $("#inputNextVideo-poster").attr("src", ui.item.videosURL.jpg.url);
                                             return false;
                                         }
-                                    }).autocomplete("instance")._renderItem = function (ul, item) {
+                                    }).autocomplete("instance")._renderItem = function(ul, item) {
                                         return $("<li>").append("<div class='clearfix'><img class='img img-responsive pull-left' style='max-width: 90px;max-height: 35px; margin-right: 10px;' src='" + item.videosURL.jpg.url + "'/>[#" + item.id + "] " + item.title + "<br><?php echo __("Owner"); ?>: " + item.user + "</div>").appendTo(ul);
                                     };
                                 });
@@ -393,11 +363,11 @@
             <div id="videoLinkContent">
                 <div class="row">
                     <div class="col-sm-6">
-                        <label class="control-label" for="videoLink" ><?php echo __("Video Link"); ?></label>
+                        <label class="control-label" for="videoLink"><?php echo __("Video Link"); ?></label>
                         <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
                     </div>
                     <div class="col-sm-6">
-                        <label class="control-label" for="epg_link" ><?php echo __("EPG XML Link"); ?> </label>
+                        <label class="control-label" for="epg_link"><?php echo __("EPG XML Link"); ?> </label>
                         <input type="url" id="epg_link" class="form-control" placeholder="<?php echo __("EPG XML Link"); ?>">
                         <small>
                             <i class="far fa-question-circle"></i>
