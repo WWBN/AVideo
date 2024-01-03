@@ -4237,12 +4237,6 @@ if (!class_exists('Video')) {
                 return $matches[1];
             }
 
-            $search = ['_Low', '_SD', '_HD', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_thumbsV2_jpg', '_spectrum', '_tvg', '.notfound', '.Chapters'];
-
-            if (!empty($global['langs_codes_values_withdot']) && is_array($global['langs_codes_values_withdot'])) {
-                $search = array_merge($search, $global['langs_codes_values_withdot']);
-            }
-
             $path_parts = pathinfo($filename);
             if (!empty($path_parts['extension'])) {
                 if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt' ) {
@@ -4253,12 +4247,14 @@ if (!class_exists('Video')) {
                     return implode('.', $p);
                 }
             }
+
+            $cleanName = $filename;
+            
             /**
              *
              * @var array $global
              * @var array $global['avideo_resolutions']
              */
-            $cleanName = $filename;
             if (!empty($global['avideo_resolutions']) && is_array($global['avideo_resolutions'])) {
                 foreach ($global['avideo_resolutions'] as $value) {
                     // Match '_240' or 'res240' followed by a non-digit or at the end of the string
@@ -4268,9 +4264,20 @@ if (!class_exists('Video')) {
             }     
             
             $cleanName = str_ireplace(array('_HD', '_Low', '_SD'), array('', '', ''), $cleanName);
+            $patterns = array(
+                '/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', 
+                '/([a-z][0-9]{9}_[a-z0-9]{5})_[0-9]+/'
+            );
 
-            if ($cleanName == $filename || preg_match('/([a-z]+_[0-9]{12}_[a-z0-9]{4})_[0-9]+/', $filename)) {
-                $cleanName = preg_replace('/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', '$1', $filename);
+            foreach ($patterns as $value) {
+                if (preg_match($value, $cleanName)) {
+                    $cleanName = preg_replace($value, '$1', $cleanName);
+                }
+            }
+            $search = ['_Low', '_SD', '_HD', '_thumbsV2_jpg', '_thumbsV2', '_thumbsSmallV2', '_thumbsSprit', '_roku', '_portrait', '_portrait_thumbsV2', '_portrait_thumbsSmallV2', '_spectrum', '_tvg', '.notfound', '.Chapters'];
+
+            foreach ($search as $value) {
+                $cleanName = str_ireplace($value, '', $cleanName);
             }
 
             $path_parts = pathinfo($cleanName);    
