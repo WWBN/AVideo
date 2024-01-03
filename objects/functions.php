@@ -1772,7 +1772,7 @@ function getSources($fileName, $returnArray = false, $try = 0)
         $videoSources = $returnArray ? $sourcesArray : $sources;
     }
     if(!empty($_GET['debug'])){
-        var_dump($sourcesArray, $sources);exit;
+        var_dump($video, $fileName, $sourcesArray, $sources);exit;
     }
     if (function_exists('getVTTTracks')) {
         $subtitleTracks = getVTTTracks($fileName, $returnArray);
