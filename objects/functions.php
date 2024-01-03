@@ -1754,6 +1754,9 @@ function getSources($fileName, $returnArray = false, $try = 0)
         $videoSources = getVRSSources($fileName, $returnArray);
     } else {
         $files = getVideosURL_V2($fileName, !empty($try));
+        if(!empty($_GET['debug']) && $fileName == "video101011752_v7f6d" ){
+            var_dump($video, $fileName, $files, $sourcesArray, $sources);exit;
+        }
         $sources = '';
         $sourcesArray = [];
         foreach ($files as $key => $value) {
