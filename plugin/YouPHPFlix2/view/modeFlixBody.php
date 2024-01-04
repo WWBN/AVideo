@@ -59,22 +59,24 @@ $percent = 90;
         $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
         $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
         if (!empty($channels)) {
+            $countChannels = 0;
             foreach ($channels as $channel) {
+                if ($countChannels > 5) {
+                    break;
+                }
                 $_POST['sort']['created'] = "DESC";
                 $videos = Video::getAllVideos("viewable", $channel['id']);
                 unset($_POST['sort']['created']);
-                if(empty($videos)){
+                if (empty($videos)) {
                     continue;
                 }
+                $countChannels++;
                 $link = User::getChannelLinkFromChannelName($channel["channelName"]);
             ?>
                 <div class="row topicRow">
                     <h2>
                         <a href="<?php echo $link; ?>">
-                            <img 
-                            src="<?php echo User::getPhoto($channel["id"]); ?>" 
-                            class="img img-responsive pull-left" 
-                            style="max-width: 18px; max-height: 18px; margin-right: 5px;"> 
+                            <img src="<?php echo User::getPhoto($channel["id"]); ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;">
                             <?php echo $channel["channelName"]; ?>
                         </a>
                     </h2>
@@ -84,16 +86,16 @@ $percent = 90;
                     ?>
                 </div>
 
-            <?php
+                <?php
             }
         }
     }
 
     $search = getSearchVar();
-    if(empty($search)){
+    if (empty($search)) {
         $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
         if (!empty($plObj)) {
-            
+
             $dataFlickirty = new stdClass();
             $dataFlickirty->wrapAround = true;
             $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -110,7 +112,7 @@ $percent = 90;
                 $rowCount = getRowCount();
                 foreach ($plRows as $pl) {
                     $videos = PlayList::getAllFromPlaylistsID($pl['id']);
-                    if(empty($videos)){
+                    if (empty($videos)) {
                         continue;
                     }
                     $link = PlayLists::getLink($pl['id']);
@@ -136,12 +138,12 @@ $percent = 90;
                 if (!empty($programs)) {
                     foreach ($programs as $serie) {
                         $videos = PlayList::getAllFromPlaylistsID($serie['serie_playlists_id']);
-    
+
                         foreach ($videos as $key => $value) {
                             $videos[$key]['title'] = "{$value['icon']} {$value['title']}";
                         }
-                        
-                        if(empty($videos)){
+
+                        if (empty($videos)) {
                             continue;
                         }
                         $link = PlayLists::getLink($serie['serie_playlists_id']);
@@ -170,8 +172,8 @@ $percent = 90;
                             unset($rowPlayListLinkEmbed);
                             ?>
                         </div>
-    
-                <?php
+
+            <?php
                     }
                 }
                 reloadSearchVar();
