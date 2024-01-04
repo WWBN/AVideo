@@ -780,11 +780,11 @@ if (!class_exists('Video')) {
             if (!empty($this->id)) {
                 global $global;
 
-                if(empty($status)){
+                if (empty($status)) {
                     $status = Video::$statusActive;
                 }
                 if (empty(Video::$statusDesc[$status])) {
-                    _error_log("Video::setStatus({$status}) NOT found ".json_encode(debug_backtrace()), AVideoLog::$WARNING);
+                    _error_log("Video::setStatus({$status}) NOT found " . json_encode(debug_backtrace()), AVideoLog::$WARNING);
                     return false;
                 }
 
@@ -2864,10 +2864,11 @@ if (!class_exists('Video')) {
             return true;
         }
 
-        function deleteFromTables($videos_id) {
+        function deleteFromTables($videos_id)
+        {
             $tables = array('vast_campaigns_has_videos', 'RebroadcasterSchedule');
             foreach ($tables as $table) {
-                if(ObjectYPT::isTableInstalled($table)){
+                if (ObjectYPT::isTableInstalled($table)) {
                     $sql = "DELETE FROM $table ";
                     $sql .= " WHERE videos_id = ?";
                     $global['lastQuery'] = $sql;
@@ -2875,7 +2876,7 @@ if (!class_exists('Video')) {
                 }
             }
         }
-        
+
 
         private function removeFiles($filename)
         {
@@ -4239,9 +4240,9 @@ if (!class_exists('Video')) {
 
             $path_parts = pathinfo($filename);
             if (!empty($path_parts['extension'])) {
-                if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt' ) {
+                if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt') {
                     $p = explode('.', $path_parts['filename']);
-                    if(count($p) > 1){
+                    if (count($p) > 1) {
                         array_pop($p);
                     }
                     return implode('.', $p);
@@ -4249,7 +4250,7 @@ if (!class_exists('Video')) {
             }
 
             $cleanName = $filename;
-            
+
             /**
              *
              * @var array $global
@@ -4261,11 +4262,11 @@ if (!class_exists('Video')) {
                     $pattern = "/(_{$value}|res{$value})(?=\D|$)/";
                     $cleanName = preg_replace($pattern, '', $filename);
                 }
-            }     
-            
+            }
+
             $cleanName = str_ireplace(array('_HD', '_Low', '_SD'), array('', '', ''), $cleanName);
             $patterns = array(
-                '/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/', 
+                '/([a-z]+_[0-9]{12}_[a-z0-9]{4,5})_[0-9]+/',
                 '/([a-z][0-9]{9}_[a-z0-9]{5})_[0-9]+/'
             );
 
@@ -4280,7 +4281,7 @@ if (!class_exists('Video')) {
                 $cleanName = str_ireplace($value, '', $cleanName);
             }
 
-            $path_parts = pathinfo($cleanName);    
+            $path_parts = pathinfo($cleanName);
             //var_dump($filename, $cleanName, $path_parts);         
             if (empty($path_parts['extension'])) {
                 //_error_log("Video::getCleanFilenameFromFile could not find extension of ".$filename);
@@ -4599,7 +4600,7 @@ if (!class_exists('Video')) {
         {
             global $global, $_getVideosPaths;
 
-            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0);
+            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0) . ($_REQUEST['ads_app_bundle']);
             $videoCache = new VideoCacheHandler($filename);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
@@ -4607,7 +4608,9 @@ if (!class_exists('Video')) {
             //$cache = ObjectYPT::getCache($cacheName, 0);
             //var_dump($cacheName, $cache, _json_decode($cache));//exit;
             if (!empty($cache)) {
-                return object_to_array(_json_decode($cache));
+                $obj = object_to_array(_json_decode($cache));
+                //var_dump($obj);exit;
+                return $obj;
             }
 
             $types = ['', '_Low', '_SD', '_HD'];

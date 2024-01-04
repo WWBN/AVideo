@@ -821,8 +821,7 @@ class API extends PluginAbstract
     public function get_api_video($parameters)
     {
         $start = microtime(true);
-
-        $cacheParameters = array('noRelated', 'APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
+        $cacheParameters = array('noRelated', 'APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist', 'ads_app_bundle');
 
         $cacheVars = array('users_id' => User::getId());
         foreach ($cacheParameters as $value) {
