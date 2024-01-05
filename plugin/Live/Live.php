@@ -2419,6 +2419,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 return Playlists_schedules::getDynamicDescription($ps['playlists_schedules']);
             }
         }
+        if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+            $rb = Rebroadcaster::isKeyARebroadcast($key);;
+            if(!empty($rb) && !empty($rb['videos_id'])){
+                $video = new Video('', '', $rb['videos_id']);
+                return $video->getDescription();
+            }
+        }
         if (empty($description)) {
             $description = $row['description'];
         }
@@ -2439,6 +2446,13 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $ps = Playlists_schedules::iskeyPlayListScheduled($key);
             if(!empty($ps)){
                 return Playlists_schedules::getDynamicTitle($ps['playlists_schedules']);
+            }
+        }
+        if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+            $rb = Rebroadcaster::isKeyARebroadcast($key);;
+            if(!empty($rb) && !empty($rb['videos_id'])){
+                $video = new Video('', '', $rb['videos_id']);
+                return $video->getTitle();
             }
         }
         if (empty($title)) {

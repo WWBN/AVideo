@@ -10439,6 +10439,11 @@ function getValueOrBlank($array, $default=''){
     return $text;
 }
 
+function getRequestUniqueString(){
+    $text = getValueOrBlank(['app_bundle','ads_app_bundle', 'publisher_app_bundle']);
+    return $text;
+}
+
 require_once __DIR__.'/functionSecurity.php';
 require_once __DIR__.'/functionMySQL.php';
 require_once __DIR__.'/functionDocker.php';

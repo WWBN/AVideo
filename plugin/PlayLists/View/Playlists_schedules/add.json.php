@@ -2,7 +2,6 @@
 header('Content-Type: application/json');
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/PlayLists/Objects/Playlists_schedules.php';
-
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";

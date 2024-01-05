@@ -16,16 +16,22 @@ $islive = getLiveKey();
 $liveStreamObject = new LiveStreamObject($islive['key'], $islive['live_servers_id'], @$_REQUEST['live_index'], 0);
 $key = $liveStreamObject->getKeyWithIndex(true);
 
-if(AVideoPlugin::isEnabledByName('PlayLists')){
+if (AVideoPlugin::isEnabledByName('PlayLists')) {
     $ps = Playlists_schedules::iskeyPlayListScheduled($key);
-    if(!empty($ps)){
+    if (!empty($ps)) {
         $key = $ps['cleankey'];
+    }
+}
+if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
+    $rb = Rebroadcaster::isKeyARebroadcast($key);;
+    if (!empty($rb) && !empty($rb['videos_id'])) {
+        $key = $rb['cleankey'];
     }
 }
 //var_dump(getLiveKey(), $islive, $key);exit;
 ?>
 <style>
-    #streamkey{
+    #streamkey {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
@@ -55,7 +61,7 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
         </div>
         <?php
         if (!empty($onliveApplications)) {
-            ?>
+        ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo __('Active Livestreams'); ?>
@@ -64,7 +70,7 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
                     <?php echo implode('', $onliveApplications); ?>
                 </div>
             </div>
-            <?php
+        <?php
         }
         ?>
 
@@ -78,24 +84,24 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
 </div>
 <div class="tabbable-line <?php echo getCSSAnimationClassAndStyle('animate__fadeInLeft', 'live'); ?>">
     <ul class="nav nav-tabs">
-        <li class="active" >
+        <li class="active">
             <a data-toggle="tab" href="#tabStreamMetaData"><i class="fas fa-key"></i> <?php echo __("Stream Meta Data"); ?></a>
         </li>
         <li class="">
             <?php
-                $url = "{$global['webSiteRootURL']}plugin/Live/view/Live_schedule/uploadPoster.php";
-                $url = addQueryStringParameter($url,'live_schedule_id',@$_REQUEST['live_schedule_id']);
-                $url = addQueryStringParameter($url,'live_servers_id',@$_REQUEST['live_servers_id']);
+            $url = "{$global['webSiteRootURL']}plugin/Live/view/Live_schedule/uploadPoster.php";
+            $url = addQueryStringParameter($url, 'live_schedule_id', @$_REQUEST['live_schedule_id']);
+            $url = addQueryStringParameter($url, 'live_servers_id', @$_REQUEST['live_servers_id']);
             ?>
             <a style="cursor: pointer;" onclick="avideoModalIframe('<?php echo $url; ?>');"><i class="fas fa-images"></i> <?php echo __("Poster Image"); ?></a>
         </li>
         <?php
         if (empty($objLive->hideUserGroups)) {
-            ?>
-            <li class="" >
+        ?>
+            <li class="">
                 <a data-toggle="tab" href="#tabUserGroups"><i class="fas fa-users"></i> <?php echo __("User Groups"); ?></a>
             </li>
-            <?php
+        <?php
         }
         ?>
     </ul>
@@ -104,32 +110,32 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
 
             <div class="panel panel-default">
                 <div class="panel-heading"><i class="fas fa-cog"></i> <?php echo __("Stream Settings"); ?></div>
-                <div class="panel-body"> 
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-sm-6">
 
                             <div class="form-group">
                                 <label for="title"><?php echo __("Title"); ?>:</label>
                                 <input type="text" class="form-control" id="title" value="<?php echo $trasnmition['title'] ?>">
-                            </div>  
+                            </div>
                             <div class="form-group">
                                 <label for="title"><?php echo __("Password Protect"); ?>:</label>
                                 <?php
                                 echo getInputPassword('password_livestream', 'class="form-control" autocomplete="off" autofill="off"  value="' . $trasnmition['password'] . '"', __("Password Protect"));
                                 ?>
-                            </div>  
+                            </div>
                             <?php
                             if (!empty($objLive->hidePublicListedOption)) {
-                                ?>
-                                <input id="listed" type="hidden" value="1"/>
-                                <?php
+                            ?>
+                                <input id="listed" type="hidden" value="1" />
+                            <?php
                             } else {
-                                ?>
+                            ?>
                                 <div class="form-group">
-                                    <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?> 
+                                    <span class="fa fa-globe"></span> <?php echo __("Make Stream Publicly Listed"); ?>
                                     <div class="material-switch pull-right">
-                                        <input id="listed" type="checkbox" value="1" <?php echo!empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();"/>
-                                        <label for="listed" class="label-success"></label> 
+                                        <input id="listed" type="checkbox" value="1" <?php echo !empty($trasnmition['public']) ? "checked" : ""; ?> onchange="saveStream();" />
+                                        <label for="listed" class="label-success"></label>
                                     </div>
                                 </div>
                                 <?php
@@ -138,21 +144,22 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
                             $SendRecordedToEncoderClassExists = class_exists('SendRecordedToEncoder');
                             $SendRecordedToEncoderMethodExists = method_exists('SendRecordedToEncoder', 'canAutoRecord');
                             if (
-                                    $SendRecordedToEncoderObjectData &&
-                                    $SendRecordedToEncoderClassExists &&
-                                    $SendRecordedToEncoderMethodExists) {
+                                $SendRecordedToEncoderObjectData &&
+                                $SendRecordedToEncoderClassExists &&
+                                $SendRecordedToEncoderMethodExists
+                            ) {
                                 $SendRecordedToEncoderCanAutoRecord = SendRecordedToEncoder::canAutoRecord(User::getId());
                                 $SendRecordedToEncoderCanApprove = SendRecordedToEncoder::canApprove(User::getId());
                                 if ($SendRecordedToEncoderCanAutoRecord || ($SendRecordedToEncoderCanApprove && $SendRecordedToEncoderObjectData->usersCanSelectAutoRecord)) {
-                                    ?> 
+                                ?>
                                     <div class="form-group">
-                                        <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?> 
+                                        <span class="fa fa-globe"></span> <?php echo __("Auto record this live"); ?>
                                         <div class="material-switch pull-right">
-                                            <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();"/>
-                                            <label for="recordLive" class="label-success"></label> 
+                                            <input id="recordLive" type="checkbox" value="1" <?php echo SendRecordedToEncoder::userApproved(User::getId()) ? "checked" : ""; ?> onchange="saveStream();" />
+                                            <label for="recordLive" class="label-success"></label>
                                         </div>
                                     </div>
-                                    <?php
+                            <?php
                                 } else {
                                     if (!$SendRecordedToEncoderCanAutoRecord) {
                                         echo '<!-- Cannot auto record -->';
@@ -174,36 +181,36 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
                                 <?php
                                 echo Layout::getCategorySelect('categories_id', $trasnmition['categories_id']);
                                 ?>
-                            </div> 
+                            </div>
                             <div class="form-group">
                                 <label for="description"><?php echo __("Description"); ?>:</label>
                                 <textarea rows="6" class="form-control" id="description"><?php echo $trasnmition['description'] ?></textarea>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                 </div>
                 <div class="panel-footer">
                     <button type="button" class="btn btn-success btn-block btnSaveStream" id="btnSaveStream"><i class="fas fa-save"></i> <?php echo __("Save Stream Settings"); ?></button>
                 </div>
             </div>
         </div>
-        <div id="tabUserGroups" class="tab-pane fade"> 
+        <div id="tabUserGroups" class="tab-pane fade">
 
             <div class="panel panel-default">
                 <div class="panel-heading"><?php echo __("Groups That Can See This Stream"); ?><br><small><?php echo __("Uncheck all to make it public"); ?></small></div>
-                <div class="panel-body"> 
+                <div class="panel-body">
                     <?php
                     $ug = UserGroups::getAllUsersGroups();
                     foreach ($ug as $value) {
-                        ?>
+                    ?>
                         <div class="form-group">
                             <span class="fa fa-users"></span> <?php echo $value['group_name']; ?>
                             <div class="material-switch pull-right">
-                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo(in_array($value['id'], $groups) ? "checked" : "") ?>/>
+                                <input id="group<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="userGroups" <?php echo (in_array($value['id'], $groups) ? "checked" : "") ?> />
                                 <label for="group<?php echo $value['id']; ?>" class="label-success"></label>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
                     ?>
                 </div>
@@ -213,8 +220,5 @@ if(AVideoPlugin::isEnabledByName('PlayLists')){
                 </div>
             </div>
         </div>
-    </div> 
-</div>  
-
-
-
+    </div>
+</div>

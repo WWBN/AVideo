@@ -295,6 +295,13 @@ class LiveTransmition extends ObjectYPT {
                         $row['title'] = Playlists_schedules::getDynamicTitle($row['title']);
                     }
                 }
+                if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+                    $rb = Rebroadcaster::isKeyARebroadcast($key);;
+                    if(!empty($rb) && !empty($rb['videos_id'])){
+                        $video = new Video('', '', $rb['videos_id']);
+                        $row['title'] = $video->getTitle();
+                    }
+                }
             }
         } else {
             $row = false;

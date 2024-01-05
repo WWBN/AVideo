@@ -4600,7 +4600,7 @@ if (!class_exists('Video')) {
         {
             global $global, $_getVideosPaths;
 
-            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0) . ($_REQUEST['ads_app_bundle']);
+            $cacheSuffix = "getVideosPaths_" . ($includeS3 ? 1 : 0) . getRequestUniqueString();
             $videoCache = new VideoCacheHandler($filename);
             $cache = $videoCache->getCache($cacheSuffix, 0);
 
