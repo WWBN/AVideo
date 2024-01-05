@@ -759,6 +759,9 @@ Disallow: *action=tagsearch*
         }
         $video = new Video('', '', $videos_id, true);
         $externalOptions = _json_decode($video->getExternalOptions());
+        if(empty($externalOptions)){
+            $externalOptions = new stdClass();
+        }
         $externalOptions->SEO = array('ShortSummary'=>$ShortSummary, 'MetaDescription'=>$MetaDescription);
         $video->setExternalOptions(json_encode($externalOptions));
         return $video->save();
