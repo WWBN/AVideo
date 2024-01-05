@@ -2630,9 +2630,9 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $latest['key'];
     }
 
-    public static function getLatest($active = false)
+    public static function getLatest($active = false, $users_id=0, $categories_id=0)
     {
-        $latest = LiveTransmitionHistory::getLatest('', null, $active);
+        $latest = LiveTransmitionHistory::getLatest('', null, $active, $users_id, $categories_id);
         if (empty($latest)) {
             return false;
         }

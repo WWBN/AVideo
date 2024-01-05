@@ -13,16 +13,16 @@
                     <tr>
                         <th data-column-id="id" data-type="numeric" data-identifier="true" data-width="5%"><?php echo __("ID"); ?></th>
                         <th data-column-id="iconHtml" data-sortable="false" data-width="5%"><?php echo __("Icon"); ?></th>
-                        <th data-column-id="name" data-order="desc"  data-formatter="name"  data-width="20%"><?php echo __("Name"); ?></th>
+                        <th data-column-id="name" data-order="desc" data-formatter="name" data-width="20%"><?php echo __("Name"); ?></th>
                         <th data-column-id="private" data-formatter="private"><?php echo __("Type"); ?></th>
                         <th data-column-id="total_users_groups" data-sortable="false"><?php echo __("Groups"); ?></th>
                         <th data-column-id="owner"><?php echo __("Owner"); ?></th>
                         <th data-column-id="fullTotal_videos" data-sortable="false"><?php echo __("Videos"); ?></th>
                         <th data-column-id="fullTotal_lives" data-sortable="false"><?php echo __("Lives"); ?></th>
                         <th data-column-id="fullTotal_livelinks" data-sortable="false"><?php echo __("Live Links"); ?></th>
-                        <th data-column-id="allow_download" data-formatter="download" ><?php echo __("Download"); ?></th>
-                        <th data-column-id="suggested" data-formatter="suggested" ><?php echo __("Suggested"); ?></th>
-                        <th data-column-id="order" ><?php echo __("Order"); ?></th>
+                        <th data-column-id="allow_download" data-formatter="download"><?php echo __("Download"); ?></th>
+                        <th data-column-id="suggested" data-formatter="suggested"><?php echo __("Suggested"); ?></th>
+                        <th data-column-id="order"><?php echo __("Order"); ?></th>
                         <th data-column-id="commands" data-formatter="commands" data-sortable="false" data-width="130px"></th>
                     </tr>
                 </thead>
@@ -37,15 +37,15 @@
                     <h4 class="modal-title"><i class="fas fa-list"></i> <?php echo __("Category Form"); ?></h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-compact"  id="updateCategoryForm" onsubmit="">
+                    <form class="form-compact" id="updateCategoryForm" onsubmit="">
                         <ul class="nav nav-tabs">
                             <li class="active"><a data-toggle="tab" href="#images"><?php echo __("Images"); ?></a></li>
                             <li><a data-toggle="tab" href="#metaData"><?php echo __("Meta Data"); ?></a></li>
                             <?php
                             if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
-                                ?>
+                            ?>
                                 <li><a data-toggle="tab" href="#catUserGroups"><?php echo __("User Groups"); ?></a></li>
-                                <?php
+                            <?php
                             }
                             ?>
                         </ul>
@@ -77,7 +77,7 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="hidden" id="inputCategoryId"  >
+                                            <input type="hidden" id="inputCategoryId">
                                             <label for="inputName"><?php echo __("Name"); ?></label>
                                             <input type="text" id="inputName" class="form-control" placeholder="<?php echo __("Name"); ?>" required autofocus>
                                         </div>
@@ -90,7 +90,7 @@
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
-                                            <label  for="inputDescription"><?php echo __("Description"); ?></label>
+                                            <label for="inputDescription"><?php echo __("Description"); ?></label>
                                             <textarea class="form-control" rows="5" id="inputDescription" placeholder="<?php echo __("Description"); ?>"></textarea>
                                         </div>
                                     </div>
@@ -102,7 +102,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>" ></i></label>
+                                            <label><?php echo __("Privacy"); ?> <i class="fas fa-question-circle" data-toggle="tooltip" title="<?php echo htmlentities(__('This option will not make your videos private, this option is for other users not to be able to include their videos in this category. to make your videos private use the user groups feature')); ?>"></i></label>
                                             <select class="form-control" id="inputPrivate">
                                                 <option value="0"><?php echo __("Public"); ?></option>
                                                 <option value="1"><?php echo __("Private"); ?></option>
@@ -149,7 +149,7 @@
 
                             <?php
                             if (empty($advancedCustomUser->userCanNotChangeUserGroup) || Permissions::canAdminVideos()) {
-                                ?>
+                            ?>
                                 <div id="catUserGroups" class="tab-pane" style="padding: 5px;">
                                     <div class="alert alert-info">
                                         <?php
@@ -167,22 +167,22 @@
                                         <?php
                                         $userGroups = UserGroups::getAllUsersGroups();
                                         foreach ($userGroups as $value) {
-                                            ?>
+                                        ?>
                                             <li class="list-group-item">
                                                 <span class="fa fa-lock"></span>
                                                 <?php echo $value['group_name']; ?>
                                                 <span class="label label-info"><?php echo $value['total_users'] . " " . __("Users linked"); ?></span>
                                                 <div class="material-switch pull-right">
-                                                    <input id="catGroups<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="catGroups"/>
+                                                    <input id="catGroups<?php echo $value['id']; ?>" type="checkbox" value="<?php echo $value['id']; ?>" class="catGroups" />
                                                     <label for="catGroups<?php echo $value['id']; ?>" class="label-warning"></label>
                                                 </div>
                                             </li>
-                                            <?php
+                                        <?php
                                         }
                                         ?>
                                     </ul>
                                 </div>
-                                <?php
+                            <?php
                             }
                             ?>
                         </div>
@@ -200,16 +200,18 @@
     var fullCatList;
     var image1;
     var image2;
+
     function setImage1(resp) {
         image1 = resp;
-<?php
-echo $croppie2['getCroppieFunction'];
-?>
+        <?php
+        echo $croppie2['getCroppieFunction'];
+        ?>
     }
+
     function setImage2(resp) {
         image2 = resp;
         $('.nav-tabs a[href="#images"]').tab('show');
-        setTimeout(function () {
+        setTimeout(function() {
             saveCategory(image1, image2);
         }, 500);
     }
@@ -232,15 +234,15 @@ echo $croppie2['getCroppieFunction'];
     }
 
     var categorySearchKeyUpTimeout;
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-        $('#categorySearch').keyup(function () {
+        $('#categorySearch').keyup(function() {
             clearTimeout(categorySearchKeyUpTimeout);
-            categorySearchKeyUpTimeout = setTimeout(function () {
+            categorySearchKeyUpTimeout = setTimeout(function() {
 
                 var searchString = $('#categorySearch').val();
 
-                $("#catUserGroups ul li").each(function (index, value) {
+                $("#catUserGroups ul li").each(function(index, value) {
                     currentName = $(value).text()
                     if (currentName.toUpperCase().indexOf(searchString.toUpperCase()) > -1) {
                         $(value).slideDown();
@@ -255,10 +257,10 @@ echo $croppie2['getCroppieFunction'];
         function refreshSubCategoryList() {
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>',
-                success: function (data) {
+                success: function(data) {
                     var tmpHtml = "<option value='0' ><?php echo __("None (Parent)"); ?></option>";
                     fullCatList = data;
-                    $.each(data.rows, function (key, val) {
+                    $.each(data.rows, function(key, val) {
                         console.log(val.id + " " + val.hierarchyAndName);
                         tmpHtml += "<option id='subcat" + val.id + "' value='" + val.id + "' >" + val.hierarchyAndName + "</option>";
                     });
@@ -267,7 +269,7 @@ echo $croppie2['getCroppieFunction'];
             });
         }
 
-        $('#categoryFormModal').on('hidden.bs.modal', function () {
+        $('#categoryFormModal').on('hidden.bs.modal', function() {
             // when modal is closed in any way, get the new list - show old entry again (hidden by edit) + if a name was changed, it's corrected with this reload.
             refreshSubCategoryList();
         })
@@ -286,24 +288,24 @@ echo $croppie2['getCroppieFunction'];
             ajax: true,
             url: "<?php echo $global['webSiteRootURL'] . "objects/categories.json.php"; ?>",
             formatters: {
-                "download": function (column, row) {
+                "download": function(column, row) {
                     if (row.allow_download == 1) {
                         return '<i class="far fa-check-square"></i>';
                     } else {
                         return '<i class="far fa-square"></i>';
                     }
                 },
-                "suggested": function (column, row) {
+                "suggested": function(column, row) {
                     if (row.suggested == 1) {
                         return '<i class="far fa-check-square"></i>';
                     } else {
                         return '<i class="far fa-square"></i>';
                     }
                 },
-                "name": function (column, row) {
+                "name": function(column, row) {
                     return row.hierarchyAndName
                 },
-                "type": function (column, row) {
+                "type": function(column, row) {
                     if (row.type == '3') {
                         return "<?php echo __("Auto"); ?>";
                     } else if (row.type == '0') {
@@ -316,17 +318,17 @@ echo $croppie2['getCroppieFunction'];
                         return "<?php echo __("Invalid"); ?>";
                     }
                 },
-                "private": function (column, row) {
+                "private": function(column, row) {
                     if (row.private == '1') {
                         return "<?php echo __("Private"); ?>";
                     } else {
                         return "<?php echo __("Public"); ?>";
                     }
                 },
-                "commands": function (column, row)
-                {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
-                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa fa-trash" aria-hidden="true"></i></button>';
+                "commands": function(column, row) {
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Edit"); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
+                    var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Delete"); ?>"><i class="fa-solid fa-trash"></i></button>';
+                    var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
                     var rssBtn = '<br><a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("RSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>feed/?catName=' + row.clean_name + '" ><i class="fas fa-rss-square"></i></a>';
                     rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("MRSS Feed"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>mrss/?catName=' + row.clean_name + '" >MRSS</a>';
                     rssBtn += '<a class="btn btn-info btn-xs" data-toggle="tooltip" title="<?php echo __("Roku Json"); ?>" target="_blank" href="<?php echo $global['webSiteRootURL']; ?>roku.json?catName=' + row.clean_name + '" >ROKU</a>';
@@ -336,11 +338,11 @@ echo $croppie2['getCroppieFunction'];
                         deleteBtn = '';
                     }
 
-                    return editBtn + deleteBtn + rssBtn;
+                    return editBtn + deleteBtn + liveNowBtn + rssBtn;
                 }
             }
-        }).on("loaded.rs.jquery.bootgrid", function () {
-            grid.find(".command-edit").on("click", function (e) {
+        }).on("loaded.rs.jquery.bootgrid", function() {
+            grid.find(".command-edit").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
 
@@ -372,57 +374,65 @@ echo $croppie2['getCroppieFunction'];
 
                 $('#categoryFormModal').modal();
                 console.log("restartCroppie");
-<?php
-echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(row.id));";
-echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
-?>
+                <?php
+                echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(row.id));";
+                echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
+                ?>
 
                 console.log("restartCroppie done");
-            }).end().find(".command-delete").on("click", function (e) {
+            }).end().find(".command-delete").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();
                 var row = $("#grid").bootgrid("getCurrentRows")[row_index];
                 swal({
-                    title: "<?php echo __("Are you sure?"); ?>",
-                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                        .then(function (willDelete) {
-                            if (willDelete) {
+                        title: "<?php echo __("Are you sure?"); ?>",
+                        text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then(function(willDelete) {
+                        if (willDelete) {
 
 
-                                modal.showPleaseWait();
-                                $.ajax({
-                                    url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
-                                    data: {"id": row.id},
-                                    type: 'post',
-                                    success: function (response) {
-                                        if (response.status === "1") {
-                                            $("#grid").bootgrid("reload");
-                                            avideoToast("<?php echo __("Your category has been deleted!"); ?>");
-                                        } else {
-                                            avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
-                                        }
-                                        modal.hidePleaseWait();
+                            modal.showPleaseWait();
+                            $.ajax({
+                                url: '<?php echo $global['webSiteRootURL'] . "objects/categoryDelete.json.php"; ?>',
+                                data: {
+                                    "id": row.id
+                                },
+                                type: 'post',
+                                success: function(response) {
+                                    if (response.status === "1") {
+                                        $("#grid").bootgrid("reload");
+                                        avideoToast("<?php echo __("Your category has been deleted!"); ?>");
+                                    } else {
+                                        avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your category has NOT been deleted!"); ?>", "error");
                                     }
-                                });
-                            }
-                        });
+                                    modal.hidePleaseWait();
+                                }
+                            });
+                        }
+                    });
+            }).end().find(".command-copy-livenow").on("click", function(e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var text = webSiteRootURL +'cat/'+row.clean_name+'/liveNow?muted=1';
+                console.log(text);
+                copyToClipboard(text);
             });
         });
 
 
 
-        $('#inputCleanName').keyup(function (evt) {
+        $('#inputCleanName').keyup(function(evt) {
             $('#inputCleanName').val(clean_name($('#inputCleanName').val()));
         });
 
-        $('#inputName').keyup(function (evt) {
+        $('#inputName').keyup(function(evt) {
             $('#inputCleanName').val(clean_name($('#inputName').val()));
         });
 
-        $('#addCategoryBtn').click(function (evt) {
+        $('#addCategoryBtn').click(function(evt) {
             $('#inputCategoryId').val('');
             $('#inputName').val('');
             $('#inputCleanName').val('');
@@ -430,26 +440,26 @@ echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(row.id));";
             $('#inputParentId').val('0');
             //$('#inputType').val('3');
 
-<?php
-echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(0));";
-echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
-?>
+            <?php
+            echo $croppie1['restartCroppie'] . "(getCategoryPhotoPath(0));";
+            echo $croppie2['restartCroppie'] . "(getCategoryBackgroundPath(0));";
+            ?>
 
             $('#categoryFormModal').modal();
         });
 
-        $('#saveCategoryBtn').click(function (evt) {
+        $('#saveCategoryBtn').click(function(evt) {
             $('#updateCategoryForm').submit();
         });
 
-        $('#updateCategoryForm').submit(function (evt) {
+        $('#updateCategoryForm').submit(function(evt) {
             //$('#updateCategoryForm a[href="#images"]').trigger("click");
 
             evt.preventDefault();
-            setTimeout(function () {
-<?php
-echo $croppie1['getCroppieFunction'];
-?>
+            setTimeout(function() {
+                <?php
+                echo $croppie1['getCroppieFunction'];
+                ?>
 
             }, 1000);
 
@@ -460,7 +470,7 @@ echo $croppie1['getCroppieFunction'];
     function saveCategory(image1, image2) {
         modal.showPleaseWait();
         var usergroups_ids_array = new Array();
-        $("input:checkbox.catGroups:checked").each(function () {
+        $("input:checkbox.catGroups:checked").each(function() {
             usergroups_ids_array.push($(this).val());
         });
         $.ajax({
@@ -481,7 +491,7 @@ echo $croppie1['getCroppieFunction'];
                 "image2": image2
             },
             type: 'post',
-            success: function (response) {
+            success: function(response) {
                 if (!response.error) {
                     $('#categoryFormModal').modal('hide');
                     $("#grid").bootgrid("reload");
@@ -493,5 +503,4 @@ echo $croppie1['getCroppieFunction'];
             }
         });
     }
-
 </script>

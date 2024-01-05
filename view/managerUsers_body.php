@@ -452,9 +452,11 @@ foreach ($userGroups as $value) {
                 "commands": function(column, row) {
                     var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
                     var infoBtn = '<button type="button" class="btn btn-xs btn-default command-info" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Info'); ?>"><i class="fas fa-info-circle"></i></button>'
+                    var liveNowBtn = '<button type="button" class="btn btn-default btn-xs command-copy-livenow" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo __("Copy Live Now URL"); ?>"><i class="fa-regular fa-copy"></i></button>';
+
                     //var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="Delete""><span class="glyphicon glyphicon-erase" aria-hidden="true"></span></button>';
                     var pluginsButtons = '<br><?php echo AVideoPlugin::getUsersManagerListButton(); ?>';
-                    return editBtn + infoBtn + pluginsButtons;
+                    return editBtn + infoBtn + liveNowBtn + pluginsButtons;
                 },
                 "tags": function(column, row) {
                     var tags = '';
@@ -528,6 +530,12 @@ foreach ($userGroups as $value) {
                 $('#documentImage').attr('src', '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=' + row.id);
                 $('#userInfoModal').modal();
                 modal.hidePleaseWait();
+            }).end().find(".command-copy-livenow").on("click", function(e) {
+                var row_index = $(this).closest('tr').index();
+                var row = $("#grid").bootgrid("getCurrentRows")[row_index];
+                var text = webSiteRootURL + 'channel/' + row.channelName + '/liveNow?muted=1';
+                console.log(text);
+                copyToClipboard(text);
             });
         });
     }

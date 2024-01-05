@@ -73,7 +73,7 @@ class LiveLinks extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/LiveLinks/view/menuRight.php';
     }
 
-    static function getAllActive($future = false, $activeOnly = true, $notStarted = false) {
+    static function getAllActive($future = false, $activeOnly = true, $notStarted = false, $users_id=0, $categories_id=0) {
         global $global;
         _mysql_connect();
         $sql = "SELECT * FROM  LiveLinks WHERE 1=1 ";
@@ -88,6 +88,14 @@ class LiveLinks extends PluginAbstract {
 
         if (!empty($notStarted)) {
             $sql .= " AND start_date >= now() ";
+        }
+
+        if (!empty($users_id)) {
+            $sql .= " AND users_id = " . intval($users_id);
+        }
+
+        if (!empty($categories_id)) {
+            $sql .= " AND categories_id = " . intval($categories_id);
         }
 
         $sql .= " ORDER BY start_date ";

@@ -25,20 +25,45 @@ $objectToReturnToParentIframe->live_transmitions_id = 0;
 $objectToReturnToParentIframe->users_id = 0;
 $objectToReturnToParentIframe->key = '';
 
+$users_id = 0;
+if(!empty($_REQUEST['channelName'])){
+    $user = User::getChannelOwner($_REQUEST['channelName']);
+    $users_id = $user['id'];
+}
+
+$categories_id = 0;
+if(!empty($_REQUEST['catName'])){
+    $cat = Category::getCategoryByName($_REQUEST['catName']);
+    $categories_id = $cat['id'];
+}
+
+function matchWithRequest($row){
+    global $users_id, $categories_id;
+    if(!empty($row['users_id']) && !empty($users_id)){
+        return $row['users_id'] == $users_id;
+    }
+    if(!empty($row['categories_id']) && !empty($categories_id)){
+        return $row['categories_id'] == $categories_id;
+    }
+    return true;
+}
+
 $liveFound = false;
 if(AVideoPlugin::isEnabledByName('PlayLists')){
     // try to get a live that is not a scheduled playlist
     $lives = LiveTransmitionHistory::getActiveLives('', false);
     foreach ($lives as $key => $value) {
         if(!Playlists_schedules::iskeyPlayListScheduled($value['key'])){
-            $liveVideo = $value;
-            $liveFound = true;
-            break;
+            if(matchWithRequest($value)){
+                $liveVideo = $value;
+                $liveFound = true;
+                break;
+            }
         }
     }
 }
 if (!$liveFound) {
-    $liveVideo = Live::getLatest(true);
+    $liveVideo = Live::getLatest(true, $users_id, $categories_id);
 }
 if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
@@ -66,7 +91,7 @@ if (!empty($liveVideo)) {
 if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     $_POST['rowCount'] = 1;
     $_POST['sort']['created'] = 'DESC';
-    $liveVideo = LiveLinks::getAllActive();
+    $liveVideo = LiveLinks::getAllActive(false, true, false, $users_id, $categories_id);
     $video = $liveVideo[0];
     if(!empty($video['link']) && isValidURL($video['link'])){
         $poster = LiveLinks::getImage($video['id']);
@@ -81,6 +106,7 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
         $objectToReturnToParentIframe->mediaSession = LiveLinks::getMediaSession($video['id']);
         $objectToReturnToParentIframe->users_id = intval($video['users_id']);
         $liveFound = true;
+        $isLiveLink = uniqid();
     }
 }
 if (!$liveFound) {
@@ -94,7 +120,12 @@ if (!$liveFound) {
     $_GET['videos_id'] = $video['id'];
     $_REQUEST['videos_id'] = $video['id'];
     $poster = Video::getPoster($video['id']);
-    $sources = getSources($video['filename']);
+    if($video['type']==Video::$videoTypeLinkVideo){
+        $sources = getSourceFromURL($video['videoLink']);
+    }else{
+        $sources = getSources($video['filename']);
+    }
+    //var_dump($sources, $video['type'], Video::$videoTypeLinkVideo, $video['videoLink']);exit;
     $objectToReturnToParentIframe->videos_id = intval($video['id']);
     $objectToReturnToParentIframe->isVOD = true;
     $objectToReturnToParentIframe->title = $video['title'];

@@ -13,7 +13,7 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveShowLiveOnly) {
         return '';
     }
 }
-$urlLiveNow = "{$global['webSiteRootURL']}liveNow?muted=1&GalleryType=";
+$urlLiveNow = "{$global['webSiteRootURL']}liveNow?muted=1";
 $urlLiveNow = addQueryStringParameter($urlLiveNow, 'muted', 1);
 ?>
 <style>

@@ -1814,6 +1814,14 @@ function getSources($fileName, $returnArray = false, $try = 0)
     return $return;
 }
 
+
+function getSourceFromURL($url)
+{
+    $url = AVideoPlugin::modifyURL($url);
+    $type = mime_content_type_per_filename($url);
+    return "<source src=\"{$url}\" type=\"{$type}\">";
+}
+
 function decideMoveUploadedToVideos($tmp_name, $filename, $type = "video")
 {
     if ($filename == '.zip') {
