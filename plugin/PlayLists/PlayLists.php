@@ -1112,7 +1112,7 @@ class PlayListPlayer
 
     public function canSee()
     {
-        return !empty($this->playlists_id) && !PlayList::canSee($this->playlists_id, $this->users_id);
+        return !empty($this->playlists_id) && PlayList::canSee($this->playlists_id, $this->users_id);
     }
 
     public function canNotSeeReason()
