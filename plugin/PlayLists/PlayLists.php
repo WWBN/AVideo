@@ -1185,7 +1185,7 @@ class PlayListPlayer
             if(!isset($_pl_getVideos)){
                 $_pl_getVideos = array();
             }
-            //_error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
+            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
             if(isset($_pl_getVideos[$this->playlists_id])){
                 return $_pl_getVideos[$this->playlists_id];
             }
