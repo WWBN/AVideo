@@ -1121,6 +1121,7 @@ class PlayListPlayer
         $status = $obj->getStatus();
         $reasons = array();
         if ($status !== 'public' && $status !== 'unlisted') {
+            $reasons[] = 'Status = '.$status;
             if($this->users_id !== $obj->getUsers_id()){
                 $reasons[] = __('Playlist is private');
             }
