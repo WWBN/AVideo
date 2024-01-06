@@ -5142,7 +5142,7 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
             $plp = new PlayListPlayer(@$_REQUEST['playlists_id'], @$_REQUEST['tags_id'], true);
             
             if (!$plp->canSee()) {
-                forbiddenPage(_('You cannot see this playlist').' '.implode(', ', $plp->canNotSeeReason()));
+                forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__).' '.implode(', ', $plp->canNotSeeReason()));
             }
             $video = $plp->getCurrentVideo();
             if(!empty($video)){
