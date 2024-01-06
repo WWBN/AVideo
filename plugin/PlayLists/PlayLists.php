@@ -1163,7 +1163,15 @@ class PlayListPlayer
     {
         $videos = array();
         if (!empty($this->playlists_id)) {
+            global $_pl_getVideos;
+            if(!isset($_pl_getVideos)){
+                $_pl_getVideos = array();
+            }
+            if(isset($_pl_getVideos[$this->playlists_id])){
+                return $_pl_getVideos[$this->playlists_id];
+            }
             $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
+            $_pl_getVideos[$this->playlists_id] = $videos;
             /*
               if (!empty($this->ObjectData->showTrailerInThePlayList)) {
               $videoSerie = PlayLists::isPlayListASerie($this->playlists_id);
@@ -1176,7 +1184,15 @@ class PlayListPlayer
              * 
              */
         } else if (!empty($this->tags_id)) {
+            global $_plt_getVideos;
+            if(!isset($_plt_getVideos)){
+                $_plt_getVideos = array();
+            }
+            if(isset($_plt_getVideos[$this->playlists_id])){
+                return $_plt_getVideos[$this->playlists_id];
+            }
             $videos = VideoTags::getAllVideosFromTagsId($this->tags_id);
+            $_plt_getVideos[$this->playlists_id] = $videos;
         }
         //var_dump($this->tags_id, $videos);exit;
         return self::fixRows($videos);
