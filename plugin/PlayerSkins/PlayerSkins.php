@@ -237,10 +237,10 @@ class PlayerSkins extends PluginAbstract
 
     public function getHeadCode()
     {
-        if (isWebRTC()) {
+        global $global, $config, $video;
+        if (isWebRTC() || !empty($global['isForbidden'])) {
             return '';
         }
-        global $global, $config, $video;
         $obj = $this->getDataObject();
         $css = "";
         $js = "";
