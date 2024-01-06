@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/../videos/configuration.php';
 $config = new AVideoConf();
 $global['isForbidden'] = true;
+$global['doNotLoadPlayer'] = true;
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
