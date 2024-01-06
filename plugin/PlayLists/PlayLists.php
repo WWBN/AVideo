@@ -1170,6 +1170,7 @@ class PlayListPlayer
             if(isset($_pl_getVideos[$this->playlists_id])){
                 return $_pl_getVideos[$this->playlists_id];
             }
+            $_pl_getVideos[$this->playlists_id] = array();
             _error_log("PlayList::getVideosFromPlaylist($this->playlists_id)");
             $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
             $_pl_getVideos[$this->playlists_id] = $videos;
@@ -1192,6 +1193,7 @@ class PlayListPlayer
             if(isset($_plt_getVideos[$this->playlists_id])){
                 return $_plt_getVideos[$this->playlists_id];
             }
+            $_plt_getVideos[$this->playlists_id] = array();
             $videos = VideoTags::getAllVideosFromTagsId($this->tags_id);
             $_plt_getVideos[$this->playlists_id] = $videos;
         }
