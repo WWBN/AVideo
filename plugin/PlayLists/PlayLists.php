@@ -1120,7 +1120,11 @@ class PlayListPlayer
         $obj = new PlayList($this->playlists_id);
         $status = $obj->getStatus();
         $reasons = array();
-        if ($status !== 'public' && $status !== 'unlisted') {
+        if ($status == 'favorite') {
+            $reasons[] = __('Favorite is always private');
+        }else if ($status == 'watch_later') {
+            $reasons[] = __('Watch later is always private');
+        }else if ($status !== 'public' && $status !== 'unlisted') {
             $reasons[] = 'Status = '.$status;
             if($this->users_id !== $obj->getUsers_id()){
                 $reasons[] = __('Playlist is private');
