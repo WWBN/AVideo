@@ -1171,7 +1171,7 @@ class PlayListPlayer
                 return $_pl_getVideos[$this->playlists_id];
             }
             $_pl_getVideos[$this->playlists_id] = array();
-            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id)");
+            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
             $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
             $_pl_getVideos[$this->playlists_id] = $videos;
             /*
