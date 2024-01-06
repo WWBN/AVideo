@@ -5103,7 +5103,10 @@ function URLsAreSameVideo($url1, $url2)
 
 function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
 {
-    global $_getVideos_id;
+    global $_getVideos_id, $global;
+    if(!empty($global['isForbidden'])){
+        return 0;
+    }
     $videos_id = false;
     if (isset($_getVideos_id) && is_int($_getVideos_id)) {
         $videos_id = $_getVideos_id;
