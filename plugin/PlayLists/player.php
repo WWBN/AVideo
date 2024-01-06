@@ -10,7 +10,7 @@ $isPlayList = true;
 
 $plp = new PlayListPlayer(@$_GET['playlists_id'], @$_GET['tags_id'], true);
 if (!$plp->canSee()) {
-    forbiddenPage(_('You cannot see this playlist'));
+    die(_('You cannot see this playlist'));
 }
 $playListData = $plp->getPlayListData();
 
