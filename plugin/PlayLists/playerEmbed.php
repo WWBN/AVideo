@@ -7,7 +7,7 @@ require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
 require_once $global['systemRootPath'] . 'plugin/Gallery/functions.php';
 
 if (!PlayList::canSee($_GET['playlists_id'], User::getId())) {
-    forbiddenPage(_('You cannot see this playlist'));
+    forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__));
 }
 $global['doNotLoadPlayer'] = 1;
 /*
