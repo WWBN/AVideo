@@ -1114,6 +1114,19 @@ class PlayListPlayer
     {
         return !empty($this->playlists_id) && !PlayList::canSee($this->playlists_id, $this->users_id);
     }
+
+    public function canNotSeeReason()
+    {
+        $obj = new PlayList($this->playlists_id);
+        $status = $obj->getStatus();
+        $reasons = array();
+        if ($status !== 'public' && $status !== 'unlisted') {
+            if($this->users_id !== $obj->getUsers_id()){
+                $reasons[] = __('Playlist is private');
+            }
+        }
+        return $reasons;
+    }
     public function __construct($playlists_id, $tags_id, $checkPlayMode = false)
     {
         $this->users_id = User::getId();
@@ -1167,7 +1180,7 @@ class PlayListPlayer
             if(!isset($_pl_getVideos)){
                 $_pl_getVideos = array();
             }
-            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
+            //_error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
             if(isset($_pl_getVideos[$this->playlists_id])){
                 return $_pl_getVideos[$this->playlists_id];
             }
