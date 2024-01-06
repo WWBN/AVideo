@@ -5137,6 +5137,10 @@ function getVideos_id($returnPlaylistVideosIDIfIsSerie = false)
         if (empty($videos_id) && (!empty($_REQUEST['playlists_id']) || (!empty($_REQUEST['tags_id']) && isset($_REQUEST['playlist_index'])))) {
             AVideoPlugin::loadPlugin('PlayLists');
             $plp = new PlayListPlayer(@$_REQUEST['playlists_id'], @$_REQUEST['tags_id'], true);
+            
+            if (!$plp->canSee()) {
+                forbiddenPage(_('You cannot see this playlist'));
+            }
             $video = $plp->getCurrentVideo();
             if(!empty($video)){
                 $videos_id = $video['id'];

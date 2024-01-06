@@ -1049,13 +1049,13 @@ class PlayLists extends PluginAbstract
             $pl = new PlayList($ps->playlists_id);
             $title = $pl->getName() . ' [' . $ps->msg . ']';
             Rebroadcaster::rebroadcastVideo(
-                $ps->current_videos_id, 
-                $pl->getUsers_id(), 
-                Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']), 
+                $ps->current_videos_id,
+                $pl->getUsers_id(),
+                Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']),
                 $title
             );
         } else {
-            _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < ".time()." | ".date('Y/m/d H:i:s', $pls->getFinish_datetime()).' < '.date('Y/m/d H:i:s', time()) );
+            _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
             self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
         }
     }
@@ -1109,6 +1109,11 @@ class PlayListPlayer
         return $this->videos;
     }
 
+
+    public function canSee()
+    {
+        return !empty($this->playlists_id) && !PlayList::canSee($this->playlists_id, $this->users_id);
+    }
     public function __construct($playlists_id, $tags_id, $checkPlayMode = false)
     {
         $this->users_id = User::getId();
@@ -1124,9 +1129,6 @@ class PlayListPlayer
             }
         }
         $this->tags_id = $tags_id;
-        if (!empty($this->playlists_id) && !PlayList::canSee($this->playlists_id, $this->users_id)) {
-            forbiddenPage(_('You cannot see this playlist'));
-        }
         if ($checkPlayMode) {
             $this->checkPlayMode();
         }
