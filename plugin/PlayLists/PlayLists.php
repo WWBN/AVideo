@@ -1170,6 +1170,7 @@ class PlayListPlayer
             if(isset($_pl_getVideos[$this->playlists_id])){
                 return $_pl_getVideos[$this->playlists_id];
             }
+            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id)");
             $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
             $_pl_getVideos[$this->playlists_id] = $videos;
             /*

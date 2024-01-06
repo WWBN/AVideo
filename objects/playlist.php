@@ -522,6 +522,7 @@ class PlayList extends ObjectYPT
 
     public static function getVideosFromPlaylist($playlists_id, $getExtraInfo = true)
     {
+        _error_log("playlist::getVideosFromPlaylist($playlists_id)");
         $sql = "SELECT v.*, p.*,v.created as cre, p.`order` as video_order  "
             //. ", (SELECT count(id) FROM likes as l where l.videos_id = v.id AND `like` = 1 ) as likes "
             . " FROM  playlists_has_videos p "
