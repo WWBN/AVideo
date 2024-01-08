@@ -153,6 +153,7 @@ $obj->setOnly_for_paid(@$_POST['only_for_paid']);
 $obj->setVideo_password(@$_POST['video_password']);
 $obj->setTrailer1(@$_POST['trailer1']);
 $obj->setRrating(@$_POST['rrating']);
+$obj->setMade_for_kids(@$_POST['made_for_kids']);
 $obj->setExternalOptions($externalOptions);
 
 if (!empty($_REQUEST['users_id_company'])) {

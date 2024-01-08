@@ -239,9 +239,20 @@
                                 echo AVideoPlugin::getManagerVideosEditField('Advanced');
                                 ?>
                                 <div class="row">
-                                    <div class="col-md-6">
-
-                                        <label class="control-label" for="inputRrating"><?php echo __("R Rating"); ?></label>
+                                    <div class="col-md-2 clearfix">
+                                        <label class="control-label" for="madeForKids">
+                                            <?php echo __("Made for kids"); ?>
+                                        </label>
+                                        <br>
+                                        <div class="material-switch">
+                                            <input id="madeForKids" type="checkbox" value="">
+                                            <label for="madeForKids" class="label-primary"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label class="control-label" for="inputRrating">
+                                            <?php echo __("R Rating"); ?>
+                                        </label>
                                         <select class="form-control last" id="inputRrating">
                                             <?php
                                             foreach (Video::$rratingOptions as $value) {
@@ -256,7 +267,7 @@
                                             ?>
                                         </select>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <?php
                                         include $global['systemRootPath'] . 'view/managerVideos_owner.php';
                                         ?>
@@ -311,8 +322,8 @@
                                         <?php
                                         } else {
                                         ?><input type="hidden" id="views_count" value="-1"><?php
-                                                                                            }
-                                                                                                ?>
+                                                                                        }
+                                                                                            ?>
                                     </div>
 
                                 </div>

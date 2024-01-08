@@ -69,6 +69,7 @@ if (!class_exists('Video')) {
         protected $epg_link;
         protected $publish_datetime;
         protected $notification_datetime;
+        protected $made_for_kids;
         public static $statusDesc = [
             'a' => 'Active',
             'k' => 'Active and Encoding',
@@ -187,6 +188,17 @@ if (!class_exists('Video')) {
         public function setNotification_datetime($notification_datetime): void
         {
             $this->notification_datetime = $notification_datetime;
+        }
+
+        
+        public function getMade_for_kids()
+        {
+            return _intval($this->made_for_kids);
+        }
+
+        public function setMade_for_kids($made_for_kids): void
+        {
+            $this->made_for_kids = _intval($made_for_kids);
         }
 
         public function getCreated()

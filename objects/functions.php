@@ -9813,6 +9813,16 @@ function _empty($html_string)
     return emptyHTML($html_string);
 }
 
+function _intval($string)
+{
+    if (is_string($string)) {
+        if (mb_strtolower($string) == 'true') {
+            return 1;
+        }
+    }
+    return intval($string);
+}
+
 function getHtaccessForVideoVersion($videosHtaccessFile)
 {
     if (!file_exists($videosHtaccessFile)) {

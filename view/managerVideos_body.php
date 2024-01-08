@@ -885,6 +885,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         ?>
         $('#inputCategory').val(row.categories_id);
         $('#inputRrating').val(row.rrating);
+        $('#madeForKids').prop('checked', !empty(row.made_for_kids));
         <?php
         echo AVideoPlugin::getManagerVideosEdit();
         ?>
@@ -1140,6 +1141,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 ?> "description": $('#inputDescription').val(),
                 <?php } ?> "categories_id": $('#inputCategory').val(),
                 "rrating": $('#inputRrating').val(),
+                "made_for_kids": $('#madeForKids').is(':checked'),
                 "public": isPublic,
                 "videoGroups": selectedVideoGroups,
                 "next_videos_id": $('#inputNextVideo-id').val(),
@@ -1214,6 +1216,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         ?>
         $('#inputCategory').val("");
         $('#inputRrating').val("");
+        $('#madeForKids').prop('checked', false);
         $('#removeAutoplay').trigger('click');
         <?php
         echo AVideoPlugin::getManagerVideosReset();
@@ -1274,6 +1277,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         ?>
         $('#inputCategory').val($('#inputCategory option:first').val());
         $('#inputRrating').val("");
+        $('#madeForKids').prop('checked', false);
         $('.videoGroups').prop('checked', false);
         $('#can_download').prop('checked', false);
         $('#only_for_paid').prop('checked', false);
@@ -1560,6 +1564,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
             ?>
             $('#inputCategory').val($('#inputCategory option:first').val());
             $('#inputRrating').val("");
+            $('#madeForKids').prop('checked', false);
             $('.videoGroups').prop('checked', false);
             $('#can_download').prop('checked', false);
             $('#only_for_paid').prop('checked', false);
