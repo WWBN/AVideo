@@ -92,6 +92,9 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        if(self::showAdsOverlay() ){
+            return '';
+        }
         $videos_id = getVideos_id();
         if (empty($videos_id)) {
             return false;
@@ -125,7 +128,9 @@ class AD_Overlay extends PluginAbstract {
     }
 
     public function getFooterCode() {
-
+        if(self::showAdsOverlay() ){
+            return '';
+        }
         global $global, $video;
         $videos_id = getVideos_id();
         $showAds = AVideoPlugin::showAds($videos_id);
