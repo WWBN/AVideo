@@ -2919,6 +2919,22 @@ function removeQueryStringParameter($url, $varname)
     return $scheme . '//' . $parsedUrl['host']. $port . $path . $query;
 }
 
+function isParamInUrl($url, $paramName) {
+    // Parse the URL and return its components
+    $urlComponents = parse_url($url);
+
+    // Check if the query part of the URL is set
+    if (!isset($urlComponents['query'])) {
+        return false;
+    }
+
+    // Parse the query string into an associative array
+    parse_str($urlComponents['query'], $queryParams);
+
+    // Check if the parameter is present in the query array
+    return array_key_exists($paramName, $queryParams);
+}
+
 /**
  * Add a query string parameter from an URL.
  *

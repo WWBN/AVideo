@@ -55,7 +55,15 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
     }
 
 } else {
-    _error_log("Unmatched image request: {$imageURL}");
+    if(
+        preg_match('/filename\/filename_/', $imageURL) OR
+        preg_match('/undefined\/undefined/', $imageURL) OR
+        preg_match('/image404.php/', $imageURL)
+    ){
+
+    }else{
+        _error_log("Unmatched image request: {$imageURL}");
+    }
 }
 
 // If a 404 image needs to be shown, redirect to it
