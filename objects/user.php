@@ -131,8 +131,12 @@ class User
 
     function setBirth_date($birth_date): void
     {
-        $time = strtotime($birth_date);
-        $this->birth_date = date('Y/m/d', $time);
+        if(_empty($birth_date)){
+            $this->birth_date = 'NULL';
+        }else{
+            $time = strtotime($birth_date);
+            $this->birth_date = date('Y/m/d', $time);
+        }
     }
 
     public function getEmail()
@@ -811,11 +815,14 @@ if (typeof gtag !== \"function\") {
                 $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
             }
-            if (!empty($this->birth_date)) {
-                $formats .= "s";
+            if (!_empty($this->birth_date)) {
                 $values[] = $this->birth_date;
-                $sql .= "birth_date = ?, ";
+            }else{
+                $values[] = null;
             }
+            $formats .= "s";
+            $sql .= " birth_date = ?, ";
+
             $formats .= "ssssssisssssssssssi";
             $values[] = $this->status;
             $values[] = $this->photoURL;

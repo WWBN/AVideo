@@ -9809,6 +9809,9 @@ function _empty($html_string)
         if (mb_strtolower($html_string) == 'false') {
             return true;
         }
+        if (mb_strtolower($html_string) == 'null') {
+            return true;
+        }
     }
     return emptyHTML($html_string);
 }
