@@ -2704,7 +2704,7 @@ function isUserOnline(users_id) {
 }
 
 function isReadyToCheckIfIsOnline() {
-    return !empty(users_id_online);
+    return typeof users_id_online !== 'undefined' && !empty(users_id_online);
 }
 
 var addAtMentionActive = false;

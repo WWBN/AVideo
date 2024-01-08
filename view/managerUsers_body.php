@@ -105,27 +105,58 @@ foreach ($userGroups as $value) {
             <div class="modal-body">
                 <form class="form-compact" id="updateUserForm" onsubmit="">
                     <input type="hidden" id="inputUserId">
-                    <label for="inputUser" class="sr-only"><?php echo __("User"); ?></label>
-                    <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required" data-toggle="tooltip" title="<?php echo __('User'); ?>">
-                    <?php
-                    getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
-                    ?>
-                    <label for="inputEmail" class="sr-only"><?php echo __("E-mail"); ?></label>
-                    <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
-                    <label for="inputName" class="sr-only"><?php echo __("Name"); ?></label>
-                    <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" data-toggle="tooltip" title="<?php echo __('Name'); ?>">
-                    <label for="inputChannelName" class="sr-only"><?php echo __("Channel Name"); ?></label>
-                    <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
-                    <label for="inputPhone" class="sr-only"><?php echo __("Phone"); ?></label>
-                    <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>">
-                    <label for="inputAnalyticsCode" class="sr-only"><?php echo __("Analytics Code"); ?></label>
-                    <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
-                    <small>Do not paste the full javascript code, paste only the gtag id</small>
-                    <br>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="inputUser"><?php echo __("User"); ?></label>
+                            <input type="text" id="inputUser" class="form-control first" placeholder="<?php echo __("User"); ?>" autofocus required="required" data-toggle="tooltip" title="<?php echo __('User'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputPassword"><?php echo __("Password"); ?></label><?php
+                                                                                            getInputPassword("inputPassword", 'class="form-control" required="required"  autocomplete="off"', __("Password"));
+                                                                                            ?>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputName">
+                                <?php echo __("Name"); ?>
+                            </label>
+                            <input type="text" id="inputName" class="form-control " placeholder="<?php echo __("Name"); ?>" data-toggle="tooltip" title="<?php echo __('Name'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputEmail">
+                                <?php echo __("E-mail"); ?>
+                            </label>
+                            <input type="email" id="inputEmail" class="form-control" placeholder="<?php echo __("E-mail"); ?>" data-toggle="tooltip" title="<?php echo __('E-mail'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputChannelName">
+                                <?php echo __("Channel Name"); ?>
+                            </label>
+                            <input type="text" id="inputChannelName" class="form-control" placeholder="<?php echo __("Channel Name"); ?>" data-toggle="tooltip" title="<?php echo __('Channel Name'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputBirth">
+                                <?php echo __("Birth"); ?>
+                            </label>
+                            <input type="date" id="inputBirth" class="form-control" placeholder="<?php echo __("Birth"); ?>" data-toggle="tooltip" title="<?php echo __('Birth'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputPhone">
+                                <?php echo __("Phone"); ?>
+                            </label>
+                            <input type="text" id="inputPhone" class="form-control" placeholder="<?php echo __("Phone"); ?>" data-toggle="tooltip" title="<?php echo __('Phone'); ?>">
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="inputAnalyticsCode">
+                                <?php echo __("Analytics Code"); ?>
+                            </label>
+                            <input type="text" id="inputAnalyticsCode" class="form-control last" placeholder="Google Analytics Code: UA-123456789-1" data-toggle="tooltip" title="<?php echo __('Analytics Code'); ?>">
+                            <small>Do not paste the full javascript code, paste only the gtag id</small>
+                        </div>
+                    </div>
                     <?php
                     if (empty($advancedCustomUser->disableCompanySignUp) || !empty($advancedCustomUser->enableAffiliation)) {
                     ?>
-                        <label for="is_company" class="sr-only"><?php echo __("is a Company"); ?></label>
+                        <label for="is_company"><?php echo __("is a Company"); ?></label>
                         <select name="is_company" id="is_company" class="form-control last">
                             <?php
                             foreach (User::$is_company_status as $key => $value) {
@@ -337,6 +368,7 @@ foreach ($userGroups as $value) {
             $('#inputName').val('');
             $('#inputChannelName').val('');
             $('#inputPhone').val('');
+            $('#inputBirth').val('');
             $('#inputAnalyticsCode').val('');
             $('#is_company').val(0);
             $('#isAdmin').prop('checked', false);
@@ -379,6 +411,7 @@ foreach ($userGroups as $value) {
                     "email": $('#inputEmail').val(),
                     "name": $('#inputName').val(),
                     "phone": $('#inputPhone').val(),
+                    "birth": $('#inputBirth').val(),
                     "channelName": $('#inputChannelName').val(),
                     "analyticsCode": $('#inputAnalyticsCode').val(),
                     "isAdmin": $('#isAdmin').is(':checked'),
@@ -489,6 +522,7 @@ foreach ($userGroups as $value) {
                 $('#inputName').val(row.name);
                 $('#inputChannelName').val(row.channelName);
                 $('#inputPhone').val(row.phone);
+                $('#inputBirth').val(row.birth_date);
                 $('#inputAnalyticsCode').val(row.analyticsCode);
                 $('.userGroups').prop('checked', false);
                 $('.usergroupsLi').removeClass('dynamic');

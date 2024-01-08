@@ -29,6 +29,7 @@ $user->setAbout($_POST['about']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
 $user->setDonationLink($_POST['donationLink']);
 $user->setPhone($_POST['phone']);
+$user->setBirth_date($_POST['birth_date']);
 $unique = $user->setChannelName($_POST['channelName']);
 if (!$unique) {
     $obj->msg = __("Channel name already exists");

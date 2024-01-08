@@ -51,6 +51,7 @@ $user->setStatus($_POST['status']);
 $user->setEmailVerified($_POST['isEmailVerified']);
 $user->setAnalyticsCode($_POST['analyticsCode']);
 $user->setPhone($_POST['phone']);
+$user->setBirth_date($_POST['birth']);
 
 _error_log("userAddNew.json.php: set channel name = ({$_POST['channelName']})");
 

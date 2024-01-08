@@ -58,6 +58,7 @@ class User
     private $extra_info;
     private $phone;
     private $is_company;
+    private $birth_date;
     public static $DOCUMENT_IMAGE_TYPE = "Document Image";
     public static $channel_artTV = 'tv';
     public static $channel_artDesktopMax = 'desktop_max';
@@ -121,6 +122,17 @@ class User
     function setPhone($phone): void
     {
         $this->phone = $phone;
+    }
+
+    function getBirth_date()
+    {
+        return $this->birth_date;
+    }
+
+    function setBirth_date($birth_date): void
+    {
+        $time = strtotime($birth_date);
+        $this->birth_date = date('Y/m/d', $time);
     }
 
     public function getEmail()
@@ -629,7 +641,7 @@ if (typeof gtag !== \"function\") {
         global $global;
         $photo = self::_getPhoto($users_id);
         if ($photo == ImagesPlaceHolders::getUserIcon()) {
-            return $global['systemRootPath'].($photo);
+            return $global['systemRootPath'] . ($photo);
         }
         if (empty($photo)) {
             return false;
@@ -727,7 +739,7 @@ if (typeof gtag !== \"function\") {
             //echo "u:" . $this->user . "|p:" . strlen($this->password);
             if (empty($this->user)) {
                 //echo "u:" . $this->user . "|p:" . strlen($this->password);
-                _error_log('Error : 1 You need a user to register '.json_encode(debug_backtrace()));
+                _error_log('Error : 1 You need a user to register ' . json_encode(debug_backtrace()));
                 return false;
             }
             if (empty($this->password)) {
@@ -798,6 +810,11 @@ if (typeof gtag !== \"function\") {
                 $formats .= "i";
                 $values[] = $this->canViewChart;
                 $sql .= "canViewChart = ?, ";
+            }
+            if (!empty($this->birth_date)) {
+                $formats .= "s";
+                $values[] = $this->birth_date;
+                $sql .= "birth_date = ?, ";
             }
             $formats .= "ssssssisssssssssssi";
             $values[] = $this->status;
@@ -1050,7 +1067,7 @@ if (typeof gtag !== \"function\") {
                 WHERE users_id = ?
             )";
             sqlDAL::writeSql($sql, "i", [$this->id]);
-            
+
             $arrayTables = [
                 //'live_transmition_history_log',
                 'live_transmitions',
@@ -1075,7 +1092,7 @@ if (typeof gtag !== \"function\") {
                     _error_log("Delete usertable not found {$value}");
                     $tableExists = false;
                 }
-            
+
                 if ($tableExists) {
                     $sql = "DELETE FROM {$value} WHERE users_id = ?";
                     try {
@@ -1109,7 +1126,7 @@ if (typeof gtag !== \"function\") {
             return self::USER_LOGGED;
         }
         global $global, $advancedCustom, $advancedCustomUser, $config;
-        if(class_exists('AVideoPlugin')){
+        if (class_exists('AVideoPlugin')) {
             if (empty($advancedCustomUser)) {
                 $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
             }
@@ -1338,6 +1355,39 @@ if (typeof gtag !== \"function\") {
 
         self::recreateLoginFromCookie();
         return !empty($_SESSION['user']['isAdmin']);
+    }
+
+    public static function getBirthIfIsSet($users_id = 0)
+    {
+        $birth_date = '';
+        if (!empty($users_id)) {
+            $user = new User($users_id);
+            $birth_date = $user->getBirth_date();
+        } else {
+            self::recreateLoginFromCookie();
+            $birth_date = $_SESSION['user']['birth_date'];
+        }
+        return $birth_date;
+    }
+
+    public static function getAge($users_id = 0)
+    {
+        $birth_date = self::getBirthIfIsSet($users_id);
+        if (empty($birth_date)) {
+            return 0;
+        }
+        $birth_date = new DateTime($birth_date);
+        $current_date = new DateTime('now');
+        $age = $current_date->diff($birth_date)->y;
+        if($age<0){
+            return 0;
+        }
+        return $age;
+    }
+
+    public static function isOver18($users_id = 0): bool
+    {
+        return self::getAge($users_id) > 18;
     }
 
     public static function isACompany($users_id = 0)
@@ -1977,12 +2027,12 @@ if (typeof gtag !== \"function\") {
         //current=1&rowCount=10&sort[sender]=asc&searchPhrase=
         global $global;
         $sql = "SELECT * ";
-        
-        if(!empty($_REQUEST['getUsage'])){
-            $sql .=", (SELECT sum(filesize) as total FROM videos WHERE filesize > 0 AND (users_id = u.id)) as usageInBytes";
+
+        if (!empty($_REQUEST['getUsage'])) {
+            $sql .= ", (SELECT sum(filesize) as total FROM videos WHERE filesize > 0 AND (users_id = u.id)) as usageInBytes";
         }
 
-        $sql .=" FROM users u WHERE 1=1 ";
+        $sql .= " FROM users u WHERE 1=1 ";
         if (!empty($status)) {
             if (strtolower($status) === 'i') {
                 $sql .= " AND status = 'i' ";
@@ -2303,17 +2353,17 @@ if (typeof gtag !== \"function\") {
         global $global, $config, $advancedCustomUser;
         $reason = [];
         if (empty($doNotCheckPlugins) && !AVideoPlugin::userCanUpload(User::getId())) {
-            $reason[] = 'A plugin said users_id=['.User::getId().'] cannot upload';
+            $reason[] = 'A plugin said users_id=[' . User::getId() . '] cannot upload';
         }
 
         if ((isset($advancedCustomUser->onlyVerifiedEmailCanUpload) && $advancedCustomUser->onlyVerifiedEmailCanUpload && !User::isVerified())) {
             $reason[] = 'The email is not verified';
         }
 
-        if ($config->getAuthCanUploadVideos() && !self::isLogged()) {            
+        if ($config->getAuthCanUploadVideos() && !self::isLogged()) {
             $reason[] = 'The user is not logged';
         }
-        if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {    
+        if (self::isLogged() && !empty($_SESSION['user']['canUpload'])) {
             $reason[] = 'You do not have upload rights';
         }
         return $reason;
@@ -2677,7 +2727,7 @@ if (typeof gtag !== \"function\") {
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine4);
             $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
 
-            $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail '). ' ' . $webSiteTitle, $msg);
+            $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . ' ' . $webSiteTitle, $msg);
 
             if (!$resp) {
                 _error_log("sendVerificationLink Error Info: {$mail->ErrorInfo}");

@@ -1841,7 +1841,6 @@ if (!class_exists('Video')) {
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
                         $row['dislikes'] = self::updateLikesDislikes($row['id'], 'dislikes');
                     }
-
                     if (empty($row['duration_in_seconds']) && in_array($row['type'], $allowedDurationTypes)) {
                         _error_log("Video::duration_in_seconds: id={$row['id']} {$row['duration']} {$row['type']}");
                         $row['duration_in_seconds'] = self::updateDurationInSeconds($row['id'], $row['duration']);
@@ -1996,6 +1995,7 @@ if (!class_exists('Video')) {
             $row['views_count_short'] = number_format_short($row['views_count']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['identification'] = User::getNameIdentificationById(!empty($row['users_id_company']) ? $row['users_id_company'] : $row['users_id']);
+            $row['age'] = User::getAge($row['users_id']);
 
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);

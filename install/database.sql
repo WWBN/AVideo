@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `extra_info` TEXT NULL DEFAULT NULL,
   `phone` VARCHAR(255) NULL DEFAULT NULL,
   `is_company` TINYINT(4) NULL DEFAULT NULL,
+  `birth_date` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `user_UNIQUE` (`user` ASC))
 ENGINE = InnoDB;

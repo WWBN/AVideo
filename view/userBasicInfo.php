@@ -34,6 +34,24 @@
     </div>
 
     <div class="form-group">
+        <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
+        <div class="col-md-8 inputGroupContainer">
+            <?php
+            getInputPassword("inputPassword", 'class="form-control"  autocomplete="off"', __("New Password"));
+            ?>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
+        <div class="col-md-8 inputGroupContainer">
+            <?php
+            getInputPassword("inputPasswordConfirm", 'class="form-control"  autocomplete="off"', __("Confirm New Password"));
+            ?>
+        </div>
+    </div>
+    
+    <div class="form-group">
         <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
         <div class="col-md-6 inputGroupContainer">
             <div class="input-group">
@@ -95,22 +113,13 @@
             </div>
         </div>
     </div>
-
     <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
+        <label class="col-md-4 control-label"><?php echo __("Birth"); ?></label>
         <div class="col-md-8 inputGroupContainer">
-            <?php
-            getInputPassword("inputPassword", 'class="form-control"  autocomplete="off"', __("New Password"));
-            ?>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
-        <div class="col-md-8 inputGroupContainer">
-            <?php
-            getInputPassword("inputPasswordConfirm", 'class="form-control"  autocomplete="off"', __("Confirm New Password"));
-            ?>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa-solid fa-cake-candles"></i></span>
+                <input id="inputBirth" placeholder="<?php echo __("Birth"); ?>" class="form-control" type="date" value="<?php echo $user->getBirth_date(); ?>">
+            </div>
         </div>
     </div>
 
@@ -234,6 +243,7 @@
                     "pass": $('#inputPassword').val(),
                     "email": $('#inputEmail').val(),
                     "phone": $('#phone').val(),
+                    "birth_date": $('#inputBirth').val(),
                     "name": $('#inputName').val(),
                     "about": content,
                     "channelName": $('#channelName').val(),
