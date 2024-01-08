@@ -181,6 +181,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   `epg_link` VARCHAR(400) NULL,
   `publish_datetime` DATETIME NULL,
   `notification_datetime` DATETIME NULL,
+  `made_for_kids` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `clean_title_UNIQUE` (`clean_title` ASC),
   INDEX `fk_videos_users_idx` (`users_id` ASC),
@@ -205,6 +206,7 @@ CREATE TABLE IF NOT EXISTS `videos` (
   INDEX `index_epg_link` (`epg_link` ASC),
   INDEX `index25_publish` (`publish_datetime` ASC),
   INDEX `index26_publish` (`notification_datetime` ASC),
+  INDEX `index_made_for_kids` (`made_for_kids` ASC),
   CONSTRAINT `fk_videos_categories1`
     FOREIGN KEY (`categories_id`)
     REFERENCES `categories` (`id`)
