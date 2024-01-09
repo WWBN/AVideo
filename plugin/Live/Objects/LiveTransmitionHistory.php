@@ -382,7 +382,7 @@ class LiveTransmitionHistory extends ObjectYPT
         $this->live_servers_id = intval($live_servers_id);
     }
 
-    public static function getAllFromUser($users_id = 0, $onlyWithViewers = false, $onlyActive = false)
+    public static function getAllFromUser($users_id = 0, $onlyWithViewers = false, $onlyActive = false, $limit = 0)
     {
         global $global;
         $users_id = intval($users_id);
@@ -401,15 +401,26 @@ class LiveTransmitionHistory extends ObjectYPT
         if ($onlyWithViewers) {
             $sql .= " AND (total_viewers>0 OR (SELECT count(id) FROM  live_transmition_history_log WHERE live_transmitions_history_id=lth.id )>0) ";
         }
-
-        $sql .= self::getSqlFromPost();
+        $limit = intval($limit);
+        if(!empty($limit)){
+            $sql .= "ORDER BY 
+            CASE 
+                WHEN finished IS NULL THEN 0 
+                ELSE 1 
+            END, 
+            modified DESC
+            LIMIT {$limit}";
+        }else{
+            $sql .= self::getSqlFromPost();
+        }
         //echo $sql;exit;
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         $rows = [];
         if ($res != false) {
-            foreach ($fullData as $row) {
+            foreach ($fullData as $row) {                
+                $row['activeStatus'] = empty($row['finished'])?__('Active'):__('Inactive');
                 if (empty($row['total_viewers'])) {
                     $row['total_viewers'] = $row['total_viewers_from_history'];
                 }
