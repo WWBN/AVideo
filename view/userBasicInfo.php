@@ -1,18 +1,23 @@
+<style>
+    .file-caption {
+        padding: 6px 12px !important;
+    }
+
+    .file-preview-frame,
+    .krajee-default.file-preview-frame .kv-file-content {
+        width: 95%;
+        height: auto;
+    }
+
+    #updateUserForm>div>div>div>span {
+        min-width: 50px;
+        ;
+    }
+</style>
 <form class="form-compact well form-horizontal" id="updateUserForm" onsubmit="">
     <?php
     $bgURL = User::getBackgroundURLFromUserID(User::getId());
     ?>
-    <style>
-        .file-caption {
-            padding: 6px 12px !important;
-        }
-
-        .file-preview-frame,
-        .krajee-default.file-preview-frame .kv-file-content {
-            width: 95%;
-            height: auto;
-        }
-    </style>
     <div class="form-group">
         <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
         <div class="col-md-8 inputGroupContainer">
@@ -50,7 +55,7 @@
             ?>
         </div>
     </div>
-    
+
     <div class="form-group">
         <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
         <div class="col-md-6 inputGroupContainer">
@@ -137,6 +142,29 @@
         </div>
     </div>
 
+    <?php
+    if (User::canUpload() || User::canStream()) {
+        $embedURL = "{$global['webSiteRootURL']}channel/" . $user->getChannelName() . '/liveNow';
+        $embedURL = addQueryStringParameter($embedURL, 'muted', 1);
+        $search = ['{embedURL}', '{videoLengthInSeconds}'];
+        $replace = [$embedURL, 0];
+    ?>
+        <div class="form-group">
+            <label class="col-md-4 control-label">
+                <?php echo __("Embed Player"); ?>
+                <br>
+                <?php getButtontCopyToClipboard('textAreaEmbed'); ?>
+            </label>
+            <div class="col-md-8 inputGroupContainer">
+                <textarea class="form-control min-width: 100%; margin: 10px 0 20px 0;" rows="2" id="textAreaEmbed" readonly="readonly"><?php
+                    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
+                    echo htmlentities($code);
+                    ?></textarea>
+            </div>
+        </div>
+    <?php
+    }
+    ?>
     <div class="form-group <?php
                             if (empty($advancedCustomUser->allowDonationLink)) {
                                 echo " hidden ";

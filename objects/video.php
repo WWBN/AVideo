@@ -1832,6 +1832,7 @@ if (!class_exists('Video')) {
                  * @var object $global['mysqli']
                  */
                 mysqlBeginTransaction();
+
                 foreach ($fullData as $index => $row) {
                     if (is_null($row['likes'])) {
                         _error_log("Video::updateLikesDislikes: id={$row['id']}");
@@ -1888,6 +1889,13 @@ if (!class_exists('Video')) {
                 //$videos = $res->fetch_all(MYSQLI_ASSOC);
             }
             return $videos;
+        }
+
+        static function userHasAgeToWatchVideo($row){
+            if($row['rrating'] == 'ma'){
+                return User::isOver18();
+            }
+            return true;
         }
 
         static function getInfo($row, $getStatistcs = false)
@@ -1995,8 +2003,7 @@ if (!class_exists('Video')) {
             $row['views_count_short'] = number_format_short($row['views_count']);
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['identification'] = User::getNameIdentificationById(!empty($row['users_id_company']) ? $row['users_id_company'] : $row['users_id']);
-            $row['age'] = User::getAge($row['users_id']);
-
+            $row['userHasAgeToWatchVideo'] = self::userHasAgeToWatchVideo($row);
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
             }

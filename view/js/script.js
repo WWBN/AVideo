@@ -512,15 +512,24 @@ function getPlayerButtonIndex(name) {
     return children.length;
 }
 
-async function copyToClipboard(text) {
-    $('body').append('<textarea id="elementToCopyAvideo" style="filter: alpha(opacity=0);-moz-opacity: 0;-khtml-opacity: 0; opacity: 0;position: absolute;z-index: -9999;top: 0;left: 0;pointer-events: none;"></textarea>');
-    $('#elementToCopyAvideo').css({ 'top': mouseY, 'left': 0 }).fadeIn('slow');
-    $('#elementToCopyAvideo').val(text);
-    $('#elementToCopyAvideo').focus();
-    $('#elementToCopyAvideo').select();
-    document.execCommand('copy');
-    $('#elementToCopyAvideo').remove();
-    $.toast("Copied to Clipboard");
+function copyToClipboard(text, mouseY) {
+    var $temp = $('<textarea>', {
+        id: "elementToCopyAvideo",
+        style: "opacity: 0; position: absolute; top: " + mouseY + "px; left: 0; pointer-events: none;"
+    }).appendTo('body').val(text).select();
+
+    try {
+        var successful = document.execCommand('copy');
+        if (successful) {
+            avideoToastSuccess("Copied to Clipboard");
+        } else {
+            avideoToastError("Copy failed");
+        }
+    } catch (err) {
+        avideoToastError("Unable to copy");
+    }
+
+    $temp.remove();
 }
 
 function nl2br(str, is_xhtml) {
