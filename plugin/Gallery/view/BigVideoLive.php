@@ -3,7 +3,7 @@ if ($obj->BigVideoLive->value == Gallery::BigVideoLiveDisabled) {
     return '';
 }
 
-if ($obj->BigVideoLiveOnFirstPageOnly && !isFirstPage()) {
+if ($obj->BigVideoLiveOnFirstPageOnly && (!isFirstPage() || !empty($_GET['catName']))) {
     return '';
 }
 
