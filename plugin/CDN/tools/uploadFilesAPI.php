@@ -25,17 +25,17 @@ $apiAccessKey = $cdnObj->storage_password;
 $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
 $storageZoneRegion = trim(strtoupper($parts[0])); // Replace with your storage zone region code
 
-echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion ");
+echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion ").PHP_EOL;
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
-echo ("CDNStorage::APIput line ".__LINE__);
+echo ("CDNStorage::APIput line ".__LINE__).PHP_EOL;
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id ";
 $res = sqlDAL::readSql($sql, "", [], true);
-echo ("CDNStorage::APIput line ".__LINE__);
+echo ("CDNStorage::APIput line ".__LINE__).PHP_EOL;
 $fullData = sqlDAL::fetchAllAssoc($res);
-echo ("CDNStorage::APIput line ".__LINE__);
+echo ("CDNStorage::APIput line ".__LINE__).PHP_EOL;
 sqlDAL::close($res);
-echo ("CDNStorage::APIput line ".__LINE__);
+echo ("CDNStorage::APIput line ".__LINE__).PHP_EOL;
 
 if ($res != false) {
     $total = count($fullData);
