@@ -824,6 +824,7 @@ class LiveTransmitionHistory extends ObjectYPT
                     //$this->properties[$key] = $value;
                 }
             }
+            self::unfinishFromTransmitionHistoryId($activeLive['id']);
             $this->finished = null;
         } else {
             _error_log("LiveTransmitionHistory::save: active live NOT found " . _json_encode(array($this->key, $this->live_servers_id, $activeLive)));
