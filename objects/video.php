@@ -545,7 +545,7 @@ if (!class_exists('Video')) {
                 $paths = self::getNewVideoFilename($prefix);
                 $this->filename = $paths['filename'];
             }
-
+            $this->made_for_kids = intval($this->made_for_kids);
             $this->can_download = intval($this->can_download);
             $this->can_share = intval($this->can_share);
             $this->only_for_paid = intval($this->only_for_paid);
