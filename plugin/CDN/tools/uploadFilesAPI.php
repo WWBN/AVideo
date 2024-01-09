@@ -23,9 +23,9 @@ ini_set('max_execution_time', $_2hours);
 $parts = explode('.', $cdnObj->storage_hostname);
 $apiAccessKey = readline("Enter BunnyCDN Storage API Access Key: ");
 $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
-$storageZoneRegion = $parts[0]; // Replace with your storage zone region code
+$storageZoneRegion = strtoupper($parts[0]); // Replace with your storage zone region code
 
-echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion ");
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
 echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 
