@@ -27,17 +27,20 @@ $storageZoneRegion = $parts[0]; // Replace with your storage zone region code
 
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
 
-$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id $sort ";
+$sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id ";
 $res = sqlDAL::readSql($sql, "", [], true);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
 
 if ($res != false) {
     $total = count($fullData);
+    _error_log("CDNStorage::put found {$total}");
     foreach ($fullData as $key => $row) {
         $info = "[{$total}, {$key}] ";
         $videos_id = $row['id'];
         $list = CDNStorage::getFilesListBoth($videos_id);
+        $totalFiles = count($list);
+        _error_log("CDNStorage::put found {$totalFiles} files for videos_id = $videos_id ");
         foreach ($list as $value) {
             if (empty($value['local'])) {
                 continue;
