@@ -37,7 +37,7 @@ if ($res != false) {
     foreach ($fullData as $key => $row) {
         $info = "[{$total}, {$key}] ";
         $videos_id = $row['id'];
-        $list = self::getFilesListBoth($videos_id);
+        $list = CDNStorage::getFilesListBoth($videos_id);
         foreach ($list as $value) {
             if (empty($value['local'])) {
                 continue;
