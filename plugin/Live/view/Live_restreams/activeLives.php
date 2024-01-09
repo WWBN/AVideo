@@ -49,6 +49,7 @@ if (!Live::canRestream()) {
                             <tr>
                                 <th>ID</th>
                                 <th>Title</th>
+                                <th>Live Status</th>
                                 <th>Key</th>
                                 <th>Started</th>
                                 <th><abbr title="<?php echo __('Max at same time'); ?>">Max</abbr></th>
