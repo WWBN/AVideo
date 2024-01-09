@@ -41,12 +41,13 @@ if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos").PHP_EOL;
     foreach ($fullData as $key => $row) {
-        $info = "[{$total}, {$key}] ";
+        $info1 = "[{$total}, {$key}] ";
         $videos_id = $row['id'];
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
-        echo ("CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ").PHP_EOL;
-        foreach ($list as $value) {
+        echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ").PHP_EOL;
+        foreach ($list as $key2 => $value) {
+            $info2 = "{$info1}[{$totalFiles}, {$key2}] ";
             if (empty($value['local'])) {
                 continue;
             }
@@ -55,17 +56,18 @@ if ($res != false) {
                 if (empty($value) || empty($value['remote']) || $filesize != $value['remote']['remote_filesize']) {
                     $remote_file = CDNStorage::filenameToRemotePath($value['local']['local_path']);
                     $startTime = microtime(true);
-                    echo ("CDNStorage::APIput {$value['local']['local_path']} {$remote_file} ".humanFileSize($filesize)).PHP_EOL;
+                    echo ("$info2 CDNStorage::APIput {$value['local']['local_path']} {$remote_file} ".humanFileSize($filesize)).PHP_EOL;
                     $client->upload($value['local']['local_path'], $remote_file);
                     $endTime = microtime(true);    
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
+                    $timeTakenFormated = number_format($timeTaken, 1);
                     $speed = $filesize / $timeTaken; // Bytes per second
-                    echo PHP_EOL . "CDNStorage::APIput Upload complete. Speed: " . humanFileSize($speed) . "/s".PHP_EOL;
+                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s".PHP_EOL;
                 } else {
-                    echo ("CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}").PHP_EOL;
+                    echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}").PHP_EOL;
                 }
             } else {
-                echo ("CDNStorage::APIput not valid local file {$value['local']['local_path']}").PHP_EOL;
+                echo ("{$info1} CDNStorage::APIput not valid local file {$value['local']['local_path']}").PHP_EOL;
             }
         }
 
