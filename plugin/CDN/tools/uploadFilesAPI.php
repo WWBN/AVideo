@@ -60,7 +60,7 @@ if ($res != false) {
                     $endTime = microtime(true);    
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
                     $speed = $filesize / $timeTaken; // Bytes per second
-                    echo PHP_EOL . "CDNStorage::APIput Upload complete. Speed: " . humanFileSize($speed) . "/s";
+                    echo PHP_EOL . "CDNStorage::APIput Upload complete. Speed: " . humanFileSize($speed) . "/s".PHP_EOL;
                 } else {
                     echo ("CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}").PHP_EOL;
                 }
