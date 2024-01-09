@@ -25,27 +25,27 @@ $apiAccessKey = readline("Enter BunnyCDN Storage API Access Key: ");
 $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
 $storageZoneRegion = $parts[0]; // Replace with your storage zone region code
 
-echo PHP_EOL.("CDNStorage::put line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
-echo PHP_EOL.("CDNStorage::put line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id ";
 $res = sqlDAL::readSql($sql, "", [], true);
-echo PHP_EOL.("CDNStorage::put line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 $fullData = sqlDAL::fetchAllAssoc($res);
-echo PHP_EOL.("CDNStorage::put line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 sqlDAL::close($res);
-echo PHP_EOL.("CDNStorage::put line ".__LINE__);
+echo PHP_EOL.("CDNStorage::APIput line ".__LINE__);
 
 if ($res != false) {
     $total = count($fullData);
-    echo PHP_EOL.("CDNStorage::put found {$total}");
+    echo PHP_EOL.("CDNStorage::APIput found {$total} videos");
     foreach ($fullData as $key => $row) {
         $info = "[{$total}, {$key}] ";
         $videos_id = $row['id'];
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
-        echo PHP_EOL.("CDNStorage::put found {$totalFiles} files for videos_id = $videos_id ");
+        echo PHP_EOL.("CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ");
         foreach ($list as $value) {
             if (empty($value['local'])) {
                 continue;
@@ -54,13 +54,13 @@ if ($res != false) {
             if ($value['isLocal'] && $filesize > 20) {
                 if (empty($value) || empty($value['remote']) || $filesize != $value['remote']['remote_filesize']) {
                     $remote_file = CDNStorage::filenameToRemotePath($value['local']['local_path']);
-                    echo PHP_EOL.("CDNStorage::put {$value['local']['local_path']} {$remote_file} {$value['remote']['relative']}");
+                    echo PHP_EOL.("CDNStorage::APIput {$value['local']['local_path']} {$remote_file} {$value['remote']['relative']}");
                     $client->upload($value['local']['local_path'], $remote_file);
                 } else {
-                    echo PHP_EOL.("CDNStorage::put same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
+                    echo PHP_EOL.("CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                 }
             } else {
-                echo PHP_EOL.("CDNStorage::put not valid local file {$value['local']['local_path']}");
+                echo PHP_EOL.("CDNStorage::APIput not valid local file {$value['local']['local_path']}");
             }
             exit;
         }
