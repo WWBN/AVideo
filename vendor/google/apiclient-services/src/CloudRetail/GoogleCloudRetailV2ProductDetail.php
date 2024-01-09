@@ -21,7 +21,6 @@ class GoogleCloudRetailV2ProductDetail extends \Google\Model
 {
   protected $productType = GoogleCloudRetailV2Product::class;
   protected $productDataType = '';
-  public $product;
   /**
    * @var int
    */

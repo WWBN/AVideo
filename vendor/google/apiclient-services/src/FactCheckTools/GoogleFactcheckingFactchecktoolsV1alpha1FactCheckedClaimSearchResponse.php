@@ -22,7 +22,6 @@ class GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse ext
   protected $collection_key = 'claims';
   protected $claimsType = GoogleFactcheckingFactchecktoolsV1alpha1Claim::class;
   protected $claimsDataType = 'array';
-  public $claims;
   /**
    * @var string
    */

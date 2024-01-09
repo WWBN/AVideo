@@ -21,10 +21,8 @@ class PoliciesPatchResponse extends \Google\Model
 {
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   protected $policyType = Policy::class;
   protected $policyDataType = '';
-  public $policy;
 
   /**
    * @param ResponseHeader

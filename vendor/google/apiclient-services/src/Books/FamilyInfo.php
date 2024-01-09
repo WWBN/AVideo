@@ -25,7 +25,6 @@ class FamilyInfo extends \Google\Model
   public $kind;
   protected $membershipType = FamilyInfoMembership::class;
   protected $membershipDataType = '';
-  public $membership;
 
   /**
    * @param string

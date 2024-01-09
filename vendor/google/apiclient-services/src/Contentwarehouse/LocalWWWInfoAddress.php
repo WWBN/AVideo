@@ -25,7 +25,6 @@ class LocalWWWInfoAddress extends \Google\Model
   public $addrFprint;
   protected $addressType = GeostoreAddressProto::class;
   protected $addressDataType = '';
-  public $address;
   /**
    * @var string
    */

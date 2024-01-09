@@ -26,7 +26,6 @@ class ImageListWarning extends \Google\Collection
   public $code;
   protected $dataType = ImageListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

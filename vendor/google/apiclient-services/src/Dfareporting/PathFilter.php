@@ -22,7 +22,6 @@ class PathFilter extends \Google\Collection
   protected $collection_key = 'eventFilters';
   protected $eventFiltersType = EventFilter::class;
   protected $eventFiltersDataType = 'array';
-  public $eventFilters;
   /**
    * @var string
    */

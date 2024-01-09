@@ -29,7 +29,6 @@ class TableCellLocation extends \Google\Model
   public $rowIndex;
   protected $tableStartLocationType = Location::class;
   protected $tableStartLocationDataType = '';
-  public $tableStartLocation;
 
   /**
    * @param int

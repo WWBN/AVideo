@@ -22,16 +22,12 @@ class GsuiteIntegrationMetadata extends \Google\Collection
   protected $collection_key = 'indexableTexts';
   protected $activityFeedDataType = AppsDynamiteSharedActivityFeedAnnotationData::class;
   protected $activityFeedDataDataType = '';
-  public $activityFeedData;
   protected $assistantDataType = AppsDynamiteSharedAssistantAnnotationData::class;
   protected $assistantDataDataType = '';
-  public $assistantData;
   protected $calendarEventDataType = AppsDynamiteSharedCalendarEventAnnotationData::class;
   protected $calendarEventDataDataType = '';
-  public $calendarEventData;
   protected $callDataType = AppsDynamiteSharedCallAnnotationData::class;
   protected $callDataDataType = '';
-  public $callData;
   /**
    * @var string
    */
@@ -42,7 +38,6 @@ class GsuiteIntegrationMetadata extends \Google\Collection
   public $indexableTexts;
   protected $tasksDataType = AppsDynamiteSharedTasksAnnotationData::class;
   protected $tasksDataDataType = '';
-  public $tasksData;
 
   /**
    * @param AppsDynamiteSharedActivityFeedAnnotationData

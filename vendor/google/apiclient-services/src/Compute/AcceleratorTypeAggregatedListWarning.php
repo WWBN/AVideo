@@ -26,7 +26,6 @@ class AcceleratorTypeAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = AcceleratorTypeAggregatedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

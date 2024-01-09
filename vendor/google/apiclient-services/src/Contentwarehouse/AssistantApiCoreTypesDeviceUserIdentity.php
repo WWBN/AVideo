@@ -21,7 +21,6 @@ class AssistantApiCoreTypesDeviceUserIdentity extends \Google\Model
 {
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
-  public $deviceId;
   /**
    * @var string
    */

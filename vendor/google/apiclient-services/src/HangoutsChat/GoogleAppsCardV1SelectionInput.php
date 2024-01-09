@@ -22,7 +22,6 @@ class GoogleAppsCardV1SelectionInput extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = GoogleAppsCardV1SelectionItem::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class GoogleAppsCardV1SelectionInput extends \Google\Collection
   public $name;
   protected $onChangeActionType = GoogleAppsCardV1Action::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var string
    */

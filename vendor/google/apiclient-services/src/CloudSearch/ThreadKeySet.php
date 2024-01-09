@@ -22,10 +22,8 @@ class ThreadKeySet extends \Google\Collection
   protected $collection_key = 'messageKeys';
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
-  public $messageKeys;
   protected $newThreadKeyType = MultiKey::class;
   protected $newThreadKeyDataType = '';
-  public $newThreadKey;
 
   /**
    * @param MultiKey[]

@@ -26,10 +26,8 @@ class ObjectDefinition extends \Google\Collection
   public $name;
   protected $optionsType = ObjectOptions::class;
   protected $optionsDataType = '';
-  public $options;
   protected $propertyDefinitionsType = PropertyDefinition::class;
   protected $propertyDefinitionsDataType = 'array';
-  public $propertyDefinitions;
 
   /**
    * @param string

@@ -21,14 +21,12 @@ class ProductViewItemIssue extends \Google\Model
 {
   protected $issueTypeType = ProductViewItemIssueItemIssueType::class;
   protected $issueTypeDataType = '';
-  public $issueType;
   /**
    * @var string
    */
   public $resolution;
   protected $severityType = ProductViewItemIssueItemIssueSeverity::class;
   protected $severityDataType = '';
-  public $severity;
 
   /**
    * @param ProductViewItemIssueItemIssueType

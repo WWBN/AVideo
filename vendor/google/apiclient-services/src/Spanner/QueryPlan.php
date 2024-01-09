@@ -22,7 +22,6 @@ class QueryPlan extends \Google\Collection
   protected $collection_key = 'planNodes';
   protected $planNodesType = PlanNode::class;
   protected $planNodesDataType = 'array';
-  public $planNodes;
 
   /**
    * @param PlanNode[]

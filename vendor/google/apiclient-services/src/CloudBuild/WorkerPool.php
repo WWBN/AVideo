@@ -45,7 +45,6 @@ class WorkerPool extends \Google\Model
   public $name;
   protected $privatePoolV1ConfigType = PrivatePoolV1Config::class;
   protected $privatePoolV1ConfigDataType = '';
-  public $privatePoolV1Config;
   /**
    * @var string
    */

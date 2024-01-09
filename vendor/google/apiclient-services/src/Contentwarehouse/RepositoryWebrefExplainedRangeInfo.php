@@ -22,7 +22,6 @@ class RepositoryWebrefExplainedRangeInfo extends \Google\Collection
   protected $collection_key = 'explainedRange';
   protected $explainedRangeType = RepositoryWebrefExplainedRangeInfoExplainedRange::class;
   protected $explainedRangeDataType = 'array';
-  public $explainedRange;
   /**
    * @var string
    */

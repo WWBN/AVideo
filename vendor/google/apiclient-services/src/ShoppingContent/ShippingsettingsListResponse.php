@@ -30,7 +30,6 @@ class ShippingsettingsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = ShippingSettings::class;
   protected $resourcesDataType = 'array';
-  public $resources;
 
   /**
    * @param string

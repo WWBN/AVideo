@@ -22,7 +22,6 @@ class ListIdpCredentialsResponse extends \Google\Collection
   protected $collection_key = 'idpCredentials';
   protected $idpCredentialsType = IdpCredential::class;
   protected $idpCredentialsDataType = 'array';
-  public $idpCredentials;
   /**
    * @var string
    */

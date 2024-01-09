@@ -21,7 +21,6 @@ class AssistantApiSettingsAppCapabilities extends \Google\Model
 {
   protected $carSettingsCapabilitiesType = AssistantApiCarSettingsCapabilities::class;
   protected $carSettingsCapabilitiesDataType = '';
-  public $carSettingsCapabilities;
   /**
    * @var bool
    */

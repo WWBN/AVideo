@@ -21,7 +21,6 @@ class NonSkippableAd extends \Google\Model
 {
   protected $commonInStreamAttributeType = CommonInStreamAttribute::class;
   protected $commonInStreamAttributeDataType = '';
-  public $commonInStreamAttribute;
   /**
    * @var string[]
    */

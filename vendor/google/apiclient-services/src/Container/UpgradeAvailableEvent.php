@@ -21,7 +21,6 @@ class UpgradeAvailableEvent extends \Google\Model
 {
   protected $releaseChannelType = ReleaseChannel::class;
   protected $releaseChannelDataType = '';
-  public $releaseChannel;
   /**
    * @var string
    */

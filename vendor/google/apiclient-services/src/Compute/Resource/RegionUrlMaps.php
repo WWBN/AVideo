@@ -52,8 +52,7 @@ class RegionUrlMaps extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified UrlMap resource. Gets a list of available URL maps by
-   * making a list() request. (regionUrlMaps.get)
+   * Returns the specified UrlMap resource. (regionUrlMaps.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.

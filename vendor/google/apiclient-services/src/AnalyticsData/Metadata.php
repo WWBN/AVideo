@@ -22,10 +22,8 @@ class Metadata extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $dimensionsType = DimensionMetadata::class;
   protected $dimensionsDataType = 'array';
-  public $dimensions;
   protected $metricsType = MetricMetadata::class;
   protected $metricsDataType = 'array';
-  public $metrics;
   /**
    * @var string
    */

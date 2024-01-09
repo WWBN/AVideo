@@ -57,9 +57,8 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
     return $this->call('batchProcess', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Creates a processor from the type processor that the user chose. The
-   * processor will be at "ENABLED" state by default after its creation.
-   * (processors.create)
+   * Creates a processor from the ProcessorType provided. The processor will be at
+   * `ENABLED` state by default after its creation. (processors.create)
    *
    * @param string $parent Required. The parent (project and location) under which
    * to create the processor. Format: `projects/{project}/locations/{location}`
@@ -139,8 +138,8 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of processors to return. If
-   * unspecified, at most 50 processors will be returned. The maximum value is
-   * 100; values above 100 will be coerced to 100.
+   * unspecified, at most `50` processors will be returned. The maximum value is
+   * `100`. Values above `100` will be coerced to `100`.
    * @opt_param string pageToken We will return the processors sorted by creation
    * time. The page token will point to the next processor.
    * @return GoogleCloudDocumentaiV1ListProcessorsResponse

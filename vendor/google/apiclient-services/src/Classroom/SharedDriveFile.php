@@ -21,7 +21,6 @@ class SharedDriveFile extends \Google\Model
 {
   protected $driveFileType = DriveFile::class;
   protected $driveFileDataType = '';
-  public $driveFile;
   /**
    * @var string
    */

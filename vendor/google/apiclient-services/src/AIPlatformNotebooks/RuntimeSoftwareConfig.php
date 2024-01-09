@@ -46,7 +46,7 @@ class RuntimeSoftwareConfig extends \Google\Collection
   public $installGpuDriver;
   protected $kernelsType = ContainerImage::class;
   protected $kernelsDataType = 'array';
-  public $kernels;
+  public $kernels = [];
   /**
    * @var string
    */

@@ -17,6 +17,7 @@
 
 namespace Google\Service\BusinessProfilePerformance\Resource;
 
+use Google\Service\BusinessProfilePerformance\FetchMultiDailyMetricsTimeSeriesResponse;
 use Google\Service\BusinessProfilePerformance\GetDailyMetricsTimeSeriesResponse;
 
 /**
@@ -29,6 +30,44 @@ use Google\Service\BusinessProfilePerformance\GetDailyMetricsTimeSeriesResponse;
  */
 class Locations extends \Google\Service\Resource
 {
+  /**
+   * Returns the values for each date from a given time range and optionally the
+   * sub entity type, where applicable, that are associated with the specific
+   * daily metrics. Example request: `GET https://businessprofileperformance.googl
+   * eapis.com/v1/locations/12345:fetchMultiDailyMetricsTimeSeries?dailyMetrics=WE
+   * BSITE_CLICKS=CALL_CLICKS_range.start_date.year=2022_range.start_date.month=1_
+   * range.start_date.day=1_range.end_date.year=2022_range.end_date.month=3_range.
+   * end_date.day=31` (locations.fetchMultiDailyMetricsTimeSeries)
+   *
+   * @param string $location Required. The location for which the time series
+   * should be fetched. Format: locations/{location_id} where location_id is an
+   * unobfuscated listing id.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string dailyMetrics Required. The metrics to retrieve time series
+   * for.
+   * @opt_param int dailyRange.endDate.day Day of a month. Must be from 1 to 31
+   * and valid for the year and month, or 0 to specify a year by itself or a year
+   * and month where the day isn't significant.
+   * @opt_param int dailyRange.endDate.month Month of a year. Must be from 1 to
+   * 12, or 0 to specify a year without a month and day.
+   * @opt_param int dailyRange.endDate.year Year of the date. Must be from 1 to
+   * 9999, or 0 to specify a date without a year.
+   * @opt_param int dailyRange.startDate.day Day of a month. Must be from 1 to 31
+   * and valid for the year and month, or 0 to specify a year by itself or a year
+   * and month where the day isn't significant.
+   * @opt_param int dailyRange.startDate.month Month of a year. Must be from 1 to
+   * 12, or 0 to specify a year without a month and day.
+   * @opt_param int dailyRange.startDate.year Year of the date. Must be from 1 to
+   * 9999, or 0 to specify a date without a year.
+   * @return FetchMultiDailyMetricsTimeSeriesResponse
+   */
+  public function fetchMultiDailyMetricsTimeSeries($location, $optParams = [])
+  {
+    $params = ['location' => $location];
+    $params = array_merge($params, $optParams);
+    return $this->call('fetchMultiDailyMetricsTimeSeries', [$params], FetchMultiDailyMetricsTimeSeriesResponse::class);
+  }
   /**
    * Returns the values for each date from a given time range that are associated
    * with the specific daily metric. Example request: `GET https://businessprofile
@@ -58,7 +97,7 @@ class Locations extends \Google\Service\Resource
    * @opt_param int dailyRange.startDate.year Year of the date. Must be from 1 to
    * 9999, or 0 to specify a date without a year.
    * @opt_param string dailySubEntityType.dayOfWeek Represents the day of the
-   * week. Eg: MONDAY.
+   * week. Eg: MONDAY. Currently supported DailyMetrics = NONE.
    * @opt_param int dailySubEntityType.timeOfDay.hours Hours of day in 24 hour
    * format. Should be from 0 to 23. An API may choose to allow the value
    * "24:00:00" for scenarios like business closing time.

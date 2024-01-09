@@ -21,10 +21,8 @@ class AppsPeopleOzExternalMergedpeopleapiContactCreateContextInfo extends \Googl
 {
   protected $contactCreateContextType = SocialGraphApiProtoContactCreateContext::class;
   protected $contactCreateContextDataType = '';
-  public $contactCreateContext;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
 
   /**
    * @param SocialGraphApiProtoContactCreateContext

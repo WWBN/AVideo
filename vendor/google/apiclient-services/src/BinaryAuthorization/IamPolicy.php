@@ -22,7 +22,6 @@ class IamPolicy extends \Google\Collection
   protected $collection_key = 'bindings';
   protected $bindingsType = Binding::class;
   protected $bindingsDataType = 'array';
-  public $bindings;
   /**
    * @var string
    */

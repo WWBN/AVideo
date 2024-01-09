@@ -21,10 +21,8 @@ class FlightWithEmissions extends \Google\Model
 {
   protected $emissionsGramsPerPaxType = EmissionsGramsPerPax::class;
   protected $emissionsGramsPerPaxDataType = '';
-  public $emissionsGramsPerPax;
   protected $flightType = Flight::class;
   protected $flightDataType = '';
-  public $flight;
 
   /**
    * @param EmissionsGramsPerPax

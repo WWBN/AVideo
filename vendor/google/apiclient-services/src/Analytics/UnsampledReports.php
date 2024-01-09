@@ -22,7 +22,6 @@ class UnsampledReports extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = UnsampledReport::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var int
    */

@@ -21,10 +21,8 @@ class GooglePrivacyDlpV2Dictionary extends \Google\Model
 {
   protected $cloudStoragePathType = GooglePrivacyDlpV2CloudStoragePath::class;
   protected $cloudStoragePathDataType = '';
-  public $cloudStoragePath;
   protected $wordListType = GooglePrivacyDlpV2WordList::class;
   protected $wordListDataType = '';
-  public $wordList;
 
   /**
    * @param GooglePrivacyDlpV2CloudStoragePath

@@ -21,24 +21,20 @@ class DataSourceRefreshSchedule extends \Google\Model
 {
   protected $dailyScheduleType = DataSourceRefreshDailySchedule::class;
   protected $dailyScheduleDataType = '';
-  public $dailySchedule;
   /**
    * @var bool
    */
   public $enabled;
   protected $monthlyScheduleType = DataSourceRefreshMonthlySchedule::class;
   protected $monthlyScheduleDataType = '';
-  public $monthlySchedule;
   protected $nextRunType = Interval::class;
   protected $nextRunDataType = '';
-  public $nextRun;
   /**
    * @var string
    */
   public $refreshScope;
   protected $weeklyScheduleType = DataSourceRefreshWeeklySchedule::class;
   protected $weeklyScheduleDataType = '';
-  public $weeklySchedule;
 
   /**
    * @param DataSourceRefreshDailySchedule

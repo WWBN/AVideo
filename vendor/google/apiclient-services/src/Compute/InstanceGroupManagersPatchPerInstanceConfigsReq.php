@@ -22,7 +22,6 @@ class InstanceGroupManagersPatchPerInstanceConfigsReq extends \Google\Collection
   protected $collection_key = 'perInstanceConfigs';
   protected $perInstanceConfigsType = PerInstanceConfig::class;
   protected $perInstanceConfigsDataType = 'array';
-  public $perInstanceConfigs;
 
   /**
    * @param PerInstanceConfig[]

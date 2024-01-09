@@ -21,10 +21,8 @@ class VideoVideoStreamInfoMetadata extends \Google\Model
 {
   protected $lutsType = VideoVideoStreamInfoMetadataLutAttachments::class;
   protected $lutsDataType = '';
-  public $luts;
   protected $videoFpaType = VideoFileFramePackingArrangement::class;
   protected $videoFpaDataType = '';
-  public $videoFpa;
 
   /**
    * @param VideoVideoStreamInfoMetadataLutAttachments

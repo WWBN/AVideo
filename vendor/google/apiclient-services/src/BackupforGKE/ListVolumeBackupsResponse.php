@@ -26,7 +26,6 @@ class ListVolumeBackupsResponse extends \Google\Collection
   public $nextPageToken;
   protected $volumeBackupsType = VolumeBackup::class;
   protected $volumeBackupsDataType = 'array';
-  public $volumeBackups;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class QueryContent extends \Google\Model
 {
   protected $iamPolicyAnalysisQueryType = IamPolicyAnalysisQuery::class;
   protected $iamPolicyAnalysisQueryDataType = '';
-  public $iamPolicyAnalysisQuery;
 
   /**
    * @param IamPolicyAnalysisQuery

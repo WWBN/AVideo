@@ -29,7 +29,6 @@ class OrderreturnsCreateOrderReturnResponse extends \Google\Model
   public $kind;
   protected $orderReturnType = MerchantOrderReturn::class;
   protected $orderReturnDataType = '';
-  public $orderReturn;
 
   /**
    * @param string

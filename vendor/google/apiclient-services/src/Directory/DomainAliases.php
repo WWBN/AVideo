@@ -22,7 +22,6 @@ class DomainAliases extends \Google\Collection
   protected $collection_key = 'domainAliases';
   protected $domainAliasesType = DomainAlias::class;
   protected $domainAliasesDataType = 'array';
-  public $domainAliases;
   /**
    * @var string
    */

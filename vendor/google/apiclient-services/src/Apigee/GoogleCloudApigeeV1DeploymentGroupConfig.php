@@ -22,6 +22,10 @@ class GoogleCloudApigeeV1DeploymentGroupConfig extends \Google\Model
   /**
    * @var string
    */
+  public $deploymentGroupType;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -32,6 +36,20 @@ class GoogleCloudApigeeV1DeploymentGroupConfig extends \Google\Model
    */
   public $uid;
 
+  /**
+   * @param string
+   */
+  public function setDeploymentGroupType($deploymentGroupType)
+  {
+    $this->deploymentGroupType = $deploymentGroupType;
+  }
+  /**
+   * @return string
+   */
+  public function getDeploymentGroupType()
+  {
+    return $this->deploymentGroupType;
+  }
   /**
    * @param string
    */

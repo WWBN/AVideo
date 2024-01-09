@@ -165,8 +165,7 @@ class Subnetworks extends \Google\Service\Resource
     return $this->call('expandIpCidrRange', [$params], Operation::class);
   }
   /**
-   * Returns the specified subnetwork. Gets a list of available subnetworks list()
-   * request. (subnetworks.get)
+   * Returns the specified subnetwork. (subnetworks.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.

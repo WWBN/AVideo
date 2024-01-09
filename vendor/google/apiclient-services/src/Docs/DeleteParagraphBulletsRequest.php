@@ -21,7 +21,6 @@ class DeleteParagraphBulletsRequest extends \Google\Model
 {
   protected $rangeType = Range::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param Range

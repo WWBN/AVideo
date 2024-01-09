@@ -22,7 +22,6 @@ class TableDataInsertAllResponse extends \Google\Collection
   protected $collection_key = 'insertErrors';
   protected $insertErrorsType = TableDataInsertAllResponseInsertErrors::class;
   protected $insertErrorsDataType = 'array';
-  public $insertErrors;
   /**
    * @var string
    */

@@ -29,7 +29,6 @@ class AsymmetricSignRequest extends \Google\Model
   public $dataCrc32c;
   protected $digestType = Digest::class;
   protected $digestDataType = '';
-  public $digest;
   /**
    * @var string
    */

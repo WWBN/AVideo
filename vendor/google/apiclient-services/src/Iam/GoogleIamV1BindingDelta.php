@@ -25,7 +25,6 @@ class GoogleIamV1BindingDelta extends \Google\Model
   public $action;
   protected $conditionType = GoogleTypeExpr::class;
   protected $conditionDataType = '';
-  public $condition;
   /**
    * @var string
    */

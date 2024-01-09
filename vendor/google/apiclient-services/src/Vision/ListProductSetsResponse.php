@@ -26,7 +26,6 @@ class ListProductSetsResponse extends \Google\Collection
   public $nextPageToken;
   protected $productSetsType = ProductSet::class;
   protected $productSetsDataType = 'array';
-  public $productSets;
 
   /**
    * @param string

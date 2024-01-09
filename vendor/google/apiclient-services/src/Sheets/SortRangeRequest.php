@@ -22,10 +22,8 @@ class SortRangeRequest extends \Google\Collection
   protected $collection_key = 'sortSpecs';
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
-  public $range;
   protected $sortSpecsType = SortSpec::class;
   protected $sortSpecsDataType = 'array';
-  public $sortSpecs;
 
   /**
    * @param GridRange

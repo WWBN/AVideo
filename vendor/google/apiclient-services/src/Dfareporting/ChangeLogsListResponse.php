@@ -22,7 +22,6 @@ class ChangeLogsListResponse extends \Google\Collection
   protected $collection_key = 'changeLogs';
   protected $changeLogsType = ChangeLog::class;
   protected $changeLogsDataType = 'array';
-  public $changeLogs;
   /**
    * @var string
    */

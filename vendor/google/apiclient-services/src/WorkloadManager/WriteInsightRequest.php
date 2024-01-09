@@ -21,7 +21,6 @@ class WriteInsightRequest extends \Google\Model
 {
   protected $insightType = Insight::class;
   protected $insightDataType = '';
-  public $insight;
   /**
    * @var string
    */

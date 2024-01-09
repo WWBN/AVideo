@@ -21,7 +21,6 @@ class RevertZoneResponse extends \Google\Model
 {
   protected $zoneType = Zone::class;
   protected $zoneDataType = '';
-  public $zone;
 
   /**
    * @param Zone

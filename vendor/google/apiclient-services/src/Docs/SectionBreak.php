@@ -22,7 +22,6 @@ class SectionBreak extends \Google\Collection
   protected $collection_key = 'suggestedInsertionIds';
   protected $sectionStyleType = SectionStyle::class;
   protected $sectionStyleDataType = '';
-  public $sectionStyle;
   /**
    * @var string[]
    */

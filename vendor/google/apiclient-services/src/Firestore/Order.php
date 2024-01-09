@@ -25,7 +25,6 @@ class Order extends \Google\Model
   public $direction;
   protected $fieldType = FieldReference::class;
   protected $fieldDataType = '';
-  public $field;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class GoogleCloudDatalabelingV1alpha1LabelVideoClassificationOperationMetadata e
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
-  public $basicConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1alpha1HumanAnnotationConfig

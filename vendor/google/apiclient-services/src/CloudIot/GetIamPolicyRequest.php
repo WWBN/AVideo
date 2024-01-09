@@ -21,7 +21,6 @@ class GetIamPolicyRequest extends \Google\Model
 {
   protected $optionsType = GetPolicyOptions::class;
   protected $optionsDataType = '';
-  public $options;
 
   /**
    * @param GetPolicyOptions

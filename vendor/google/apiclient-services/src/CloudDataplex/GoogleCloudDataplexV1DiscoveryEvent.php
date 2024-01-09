@@ -21,21 +21,18 @@ class GoogleCloudDataplexV1DiscoveryEvent extends \Google\Model
 {
   protected $actionType = GoogleCloudDataplexV1DiscoveryEventActionDetails::class;
   protected $actionDataType = '';
-  public $action;
   /**
    * @var string
    */
   public $assetId;
   protected $configType = GoogleCloudDataplexV1DiscoveryEventConfigDetails::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */
   public $dataLocation;
   protected $entityType = GoogleCloudDataplexV1DiscoveryEventEntityDetails::class;
   protected $entityDataType = '';
-  public $entity;
   /**
    * @var string
    */
@@ -46,7 +43,6 @@ class GoogleCloudDataplexV1DiscoveryEvent extends \Google\Model
   public $message;
   protected $partitionType = GoogleCloudDataplexV1DiscoveryEventPartitionDetails::class;
   protected $partitionDataType = '';
-  public $partition;
   /**
    * @var string
    */

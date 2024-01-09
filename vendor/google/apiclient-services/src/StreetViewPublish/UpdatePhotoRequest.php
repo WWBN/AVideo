@@ -21,7 +21,6 @@ class UpdatePhotoRequest extends \Google\Model
 {
   protected $photoType = Photo::class;
   protected $photoDataType = '';
-  public $photo;
   /**
    * @var string
    */

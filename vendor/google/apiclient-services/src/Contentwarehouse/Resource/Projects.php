@@ -40,6 +40,8 @@ class Projects extends \Google\Service\Resource
    * @param string $resource Required. REQUIRED: The resource for which the policy
    * is being requested. Format for document:
    * projects/{project_number}/locations/{location}/documents/{document_id}.
+   * Format for collection:
+   * projects/{project_number}/locations/{location}/collections/{collection_id}.
    * Format for project: projects/{project_number}.
    * @param GoogleCloudContentwarehouseV1FetchAclRequest $postBody
    * @param array $optParams Optional parameters.
@@ -58,6 +60,8 @@ class Projects extends \Google\Service\Resource
    * @param string $resource Required. REQUIRED: The resource for which the policy
    * is being requested. Format for document:
    * projects/{project_number}/locations/{location}/documents/{document_id}.
+   * Format for collection:
+   * projects/{project_number}/locations/{location}/collections/{collection_id}.
    * Format for project: projects/{project_number}.
    * @param GoogleCloudContentwarehouseV1SetAclRequest $postBody
    * @param array $optParams Optional parameters.

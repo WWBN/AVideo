@@ -22,7 +22,6 @@ class GoogleCloudDatalabelingV1beta1ListDatasetsResponse extends \Google\Collect
   protected $collection_key = 'datasets';
   protected $datasetsType = GoogleCloudDatalabelingV1beta1Dataset::class;
   protected $datasetsDataType = 'array';
-  public $datasets;
   /**
    * @var string
    */

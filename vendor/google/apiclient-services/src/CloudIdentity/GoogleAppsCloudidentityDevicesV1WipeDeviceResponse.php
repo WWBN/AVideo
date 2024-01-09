@@ -21,7 +21,6 @@ class GoogleAppsCloudidentityDevicesV1WipeDeviceResponse extends \Google\Model
 {
   protected $deviceType = GoogleAppsCloudidentityDevicesV1Device::class;
   protected $deviceDataType = '';
-  public $device;
 
   /**
    * @param GoogleAppsCloudidentityDevicesV1Device

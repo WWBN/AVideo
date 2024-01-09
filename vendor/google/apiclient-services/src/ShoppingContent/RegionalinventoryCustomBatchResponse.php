@@ -22,7 +22,6 @@ class RegionalinventoryCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = RegionalinventoryCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
   /**
    * @var string
    */

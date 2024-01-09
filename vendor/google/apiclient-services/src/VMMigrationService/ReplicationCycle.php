@@ -19,7 +19,7 @@ namespace Google\Service\VMMigrationService;
 
 class ReplicationCycle extends \Google\Collection
 {
-  protected $collection_key = 'steps';
+  protected $collection_key = 'warnings';
   /**
    * @var int
    */
@@ -30,7 +30,6 @@ class ReplicationCycle extends \Google\Collection
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -49,11 +48,12 @@ class ReplicationCycle extends \Google\Collection
   public $state;
   protected $stepsType = CycleStep::class;
   protected $stepsDataType = 'array';
-  public $steps;
   /**
    * @var string
    */
   public $totalPauseDuration;
+  protected $warningsType = MigrationWarning::class;
+  protected $warningsDataType = 'array';
 
   /**
    * @param int
@@ -180,6 +180,20 @@ class ReplicationCycle extends \Google\Collection
   public function getTotalPauseDuration()
   {
     return $this->totalPauseDuration;
+  }
+  /**
+   * @param MigrationWarning[]
+   */
+  public function setWarnings($warnings)
+  {
+    $this->warnings = $warnings;
+  }
+  /**
+   * @return MigrationWarning[]
+   */
+  public function getWarnings()
+  {
+    return $this->warnings;
   }
 }
 

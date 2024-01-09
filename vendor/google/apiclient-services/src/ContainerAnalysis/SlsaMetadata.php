@@ -33,7 +33,6 @@ class SlsaMetadata extends \Google\Model
   public $buildStartedOn;
   protected $completenessType = SlsaCompleteness::class;
   protected $completenessDataType = '';
-  public $completeness;
   /**
    * @var bool
    */

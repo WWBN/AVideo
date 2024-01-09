@@ -21,7 +21,6 @@ class CompleteVerificationResponse extends \Google\Model
 {
   protected $verificationType = Verification::class;
   protected $verificationDataType = '';
-  public $verification;
 
   /**
    * @param Verification

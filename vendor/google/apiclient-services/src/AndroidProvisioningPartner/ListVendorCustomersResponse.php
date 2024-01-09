@@ -22,7 +22,6 @@ class ListVendorCustomersResponse extends \Google\Collection
   protected $collection_key = 'customers';
   protected $customersType = Company::class;
   protected $customersDataType = 'array';
-  public $customers;
   /**
    * @var string
    */

@@ -20,6 +20,8 @@ namespace Google\Service\Webfonts;
 class Webfont extends \Google\Collection
 {
   protected $collection_key = 'variants';
+  protected $axesType = Axis::class;
+  protected $axesDataType = 'array';
   /**
    * @var string
    */
@@ -41,6 +43,10 @@ class Webfont extends \Google\Collection
    */
   public $lastModified;
   /**
+   * @var string
+   */
+  public $menu;
+  /**
    * @var string[]
    */
   public $subsets;
@@ -53,6 +59,20 @@ class Webfont extends \Google\Collection
    */
   public $version;
 
+  /**
+   * @param Axis[]
+   */
+  public function setAxes($axes)
+  {
+    $this->axes = $axes;
+  }
+  /**
+   * @return Axis[]
+   */
+  public function getAxes()
+  {
+    return $this->axes;
+  }
   /**
    * @param string
    */
@@ -122,6 +142,20 @@ class Webfont extends \Google\Collection
   public function getLastModified()
   {
     return $this->lastModified;
+  }
+  /**
+   * @param string
+   */
+  public function setMenu($menu)
+  {
+    $this->menu = $menu;
+  }
+  /**
+   * @return string
+   */
+  public function getMenu()
+  {
+    return $this->menu;
   }
   /**
    * @param string[]

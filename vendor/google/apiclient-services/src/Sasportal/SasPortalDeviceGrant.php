@@ -30,7 +30,6 @@ class SasPortalDeviceGrant extends \Google\Collection
   public $expireTime;
   protected $frequencyRangeType = SasPortalFrequencyRange::class;
   protected $frequencyRangeDataType = '';
-  public $frequencyRange;
   /**
    * @var string
    */
@@ -42,7 +41,6 @@ class SasPortalDeviceGrant extends \Google\Collection
   public $maxEirp;
   protected $moveListType = SasPortalDpaMoveList::class;
   protected $moveListDataType = 'array';
-  public $moveList;
   /**
    * @var string
    */

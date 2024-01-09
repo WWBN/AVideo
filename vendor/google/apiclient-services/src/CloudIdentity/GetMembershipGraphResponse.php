@@ -22,10 +22,8 @@ class GetMembershipGraphResponse extends \Google\Collection
   protected $collection_key = 'groups';
   protected $adjacencyListType = MembershipAdjacencyList::class;
   protected $adjacencyListDataType = 'array';
-  public $adjacencyList;
   protected $groupsType = Group::class;
   protected $groupsDataType = 'array';
-  public $groups;
 
   /**
    * @param MembershipAdjacencyList[]

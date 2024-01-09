@@ -22,7 +22,6 @@ class TrawlerClientServiceInfoClientLabels extends \Google\Collection
   protected $collection_key = 'values';
   protected $labelsDeprecatedType = TrawlerClientServiceInfoClientLabelsClientLabelValues::class;
   protected $labelsDeprecatedDataType = 'map';
-  public $labelsDeprecated;
   /**
    * @var string
    */

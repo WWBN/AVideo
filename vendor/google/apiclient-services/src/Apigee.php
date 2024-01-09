@@ -89,6 +89,7 @@ class Apigee extends \Google\Service
   public $organizations_environments_queries;
   public $organizations_environments_references;
   public $organizations_environments_resourcefiles;
+  public $organizations_environments_securityIncidents;
   public $organizations_environments_securityReports;
   public $organizations_environments_securityStats;
   public $organizations_environments_sharedflows_deployments;
@@ -2965,6 +2966,48 @@ class Apigee extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->organizations_environments_securityIncidents = new Apigee\Resource\OrganizationsEnvironmentsSecurityIncidents(
+        $this,
+        $this->serviceName,
+        'securityIncidents',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/securityIncidents',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

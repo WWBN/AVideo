@@ -22,7 +22,6 @@ class GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponse extends
   protected $collection_key = 'unreachable';
   protected $appConnectionDetailsType = GoogleCloudBeyondcorpAppconnectionsV1ResolveAppConnectionsResponseAppConnectionDetails::class;
   protected $appConnectionDetailsDataType = 'array';
-  public $appConnectionDetails;
   /**
    * @var string
    */

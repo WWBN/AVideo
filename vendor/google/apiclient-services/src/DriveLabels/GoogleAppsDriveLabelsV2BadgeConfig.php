@@ -21,7 +21,6 @@ class GoogleAppsDriveLabelsV2BadgeConfig extends \Google\Model
 {
   protected $colorType = GoogleTypeColor::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var string
    */

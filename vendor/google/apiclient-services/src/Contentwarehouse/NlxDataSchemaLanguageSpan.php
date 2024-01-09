@@ -22,13 +22,10 @@ class NlxDataSchemaLanguageSpan extends \Google\Collection
   protected $collection_key = 'languageCode';
   protected $bytesType = MultiscalePointerSpan::class;
   protected $bytesDataType = '';
-  public $bytes;
   protected $charactersType = MultiscalePointerSpan::class;
   protected $charactersDataType = '';
-  public $characters;
   protected $documentType = MultiscalePointerIndex::class;
   protected $documentDataType = '';
-  public $document;
   /**
    * @var string[]
    */

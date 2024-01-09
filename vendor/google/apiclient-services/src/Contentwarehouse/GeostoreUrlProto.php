@@ -25,7 +25,6 @@ class GeostoreUrlProto extends \Google\Model
   public $language;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var int
    */

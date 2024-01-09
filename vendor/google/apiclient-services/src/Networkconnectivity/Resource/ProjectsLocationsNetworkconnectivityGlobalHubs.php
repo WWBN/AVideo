@@ -138,8 +138,7 @@ class ProjectsLocationsNetworkconnectivityGlobalHubs extends \Google\Service\Res
    * @param string $parent Required. The parent resource's name.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter An expression that filters the results listed in the
-   * response.
+   * @opt_param string filter An expression that filters the list of results.
    * @opt_param string orderBy Sort the results by a certain order.
    * @opt_param int pageSize The maximum number of results per page to return.
    * @opt_param string pageToken The page token.

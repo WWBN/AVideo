@@ -22,7 +22,6 @@ class GoogleAssistantEmbeddedV1Alarms extends \Google\Collection
   protected $collection_key = 'alarms';
   protected $alarmsType = GoogleAssistantEmbeddedV1Alarm::class;
   protected $alarmsDataType = 'array';
-  public $alarms;
   /**
    * @var string
    */

@@ -21,18 +21,15 @@ class EnterpriseCrmFrontendsEventbusProtoParameterValueType extends \Google\Mode
 {
   protected $booleanArrayType = EnterpriseCrmFrontendsEventbusProtoBooleanParameterArray::class;
   protected $booleanArrayDataType = '';
-  public $booleanArray;
   /**
    * @var bool
    */
   public $booleanValue;
   protected $doubleArrayType = EnterpriseCrmFrontendsEventbusProtoDoubleParameterArray::class;
   protected $doubleArrayDataType = '';
-  public $doubleArray;
   public $doubleValue;
   protected $intArrayType = EnterpriseCrmFrontendsEventbusProtoIntParameterArray::class;
   protected $intArrayDataType = '';
-  public $intArray;
   /**
    * @var string
    */
@@ -43,17 +40,14 @@ class EnterpriseCrmFrontendsEventbusProtoParameterValueType extends \Google\Mode
   public $jsonValue;
   protected $protoArrayType = EnterpriseCrmFrontendsEventbusProtoProtoParameterArray::class;
   protected $protoArrayDataType = '';
-  public $protoArray;
   /**
    * @var array[]
    */
   public $protoValue;
   protected $serializedObjectValueType = EnterpriseCrmFrontendsEventbusProtoSerializedObjectParameter::class;
   protected $serializedObjectValueDataType = '';
-  public $serializedObjectValue;
   protected $stringArrayType = EnterpriseCrmFrontendsEventbusProtoStringParameterArray::class;
   protected $stringArrayDataType = '';
-  public $stringArray;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class CounterOptions extends \Google\Collection
   protected $collection_key = 'customFields';
   protected $customFieldsType = CustomField::class;
   protected $customFieldsDataType = 'array';
-  public $customFields;
   /**
    * @var string
    */

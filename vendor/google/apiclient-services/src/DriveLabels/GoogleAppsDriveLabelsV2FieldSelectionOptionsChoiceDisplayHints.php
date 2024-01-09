@@ -21,14 +21,12 @@ class GoogleAppsDriveLabelsV2FieldSelectionOptionsChoiceDisplayHints extends \Go
 {
   protected $badgeColorsType = GoogleAppsDriveLabelsV2BadgeColors::class;
   protected $badgeColorsDataType = '';
-  public $badgeColors;
   /**
    * @var string
    */
   public $badgePriority;
   protected $darkBadgeColorsType = GoogleAppsDriveLabelsV2BadgeColors::class;
   protected $darkBadgeColorsDataType = '';
-  public $darkBadgeColors;
   /**
    * @var bool
    */

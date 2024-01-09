@@ -38,10 +38,8 @@ class OrderShipment extends \Google\Collection
   public $id;
   protected $lineItemsType = OrderShipmentLineItemShipment::class;
   protected $lineItemsDataType = 'array';
-  public $lineItems;
   protected $scheduledDeliveryDetailsType = OrderShipmentScheduledDeliveryDetails::class;
   protected $scheduledDeliveryDetailsDataType = '';
-  public $scheduledDeliveryDetails;
   /**
    * @var string
    */

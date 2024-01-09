@@ -95,9 +95,9 @@ class Accounts extends \Google\Service\Resource
    * returned. The maximum value is 10000; values above 10000 will be coerced to
    * 10000.
    * @opt_param string pageToken A page token, received from a previous
-   * `ListAccounts` call. Provide this to retrieve the subsequent page. When
-   * paginating, all other parameters provided to `ListAccounts` must match the
-   * call that provided the page token.
+   * `ListChildAccounts` call. Provide this to retrieve the subsequent page. When
+   * paginating, all other parameters provided to `ListChildAccounts` must match
+   * the call that provided the page token.
    * @return ListChildAccountsResponse
    */
   public function listChildAccounts($parent, $optParams = [])

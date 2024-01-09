@@ -22,10 +22,8 @@ class ScopedRoutesConfigDump extends \Google\Collection
   protected $collection_key = 'inlineScopedRouteConfigs';
   protected $dynamicScopedRouteConfigsType = DynamicScopedRouteConfigs::class;
   protected $dynamicScopedRouteConfigsDataType = 'array';
-  public $dynamicScopedRouteConfigs;
   protected $inlineScopedRouteConfigsType = InlineScopedRouteConfigs::class;
   protected $inlineScopedRouteConfigsDataType = 'array';
-  public $inlineScopedRouteConfigs;
 
   /**
    * @param DynamicScopedRouteConfigs[]

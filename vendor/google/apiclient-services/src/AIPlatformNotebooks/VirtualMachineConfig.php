@@ -28,7 +28,7 @@ class VirtualMachineConfig extends \Google\Collection
   public $bootImage;
   protected $containerImagesType = ContainerImage::class;
   protected $containerImagesDataType = 'array';
-  public $containerImages;
+  public $containerImages = [];
   protected $dataDiskType = LocalDisk::class;
   protected $dataDiskDataType = '';
   public $dataDisk;
@@ -38,7 +38,7 @@ class VirtualMachineConfig extends \Google\Collection
   /**
    * @var string[]
    */
-  public $guestAttributes;
+  public $guestAttributes = [];
   /**
    * @var bool
    */
@@ -46,7 +46,7 @@ class VirtualMachineConfig extends \Google\Collection
   /**
    * @var string[]
    */
-  public $labels;
+  public $labels = [];
   /**
    * @var string
    */
@@ -54,7 +54,7 @@ class VirtualMachineConfig extends \Google\Collection
   /**
    * @var string[]
    */
-  public $metadata;
+  public $metadata = [];
   /**
    * @var string
    */
@@ -77,7 +77,7 @@ class VirtualMachineConfig extends \Google\Collection
   /**
    * @var string[]
    */
-  public $tags;
+  public $tags = [];
   /**
    * @var string
    */

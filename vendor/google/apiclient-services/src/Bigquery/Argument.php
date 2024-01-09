@@ -25,7 +25,6 @@ class Argument extends \Google\Model
   public $argumentKind;
   protected $dataTypeType = StandardSqlDataType::class;
   protected $dataTypeDataType = '';
-  public $dataType;
   /**
    * @var string
    */

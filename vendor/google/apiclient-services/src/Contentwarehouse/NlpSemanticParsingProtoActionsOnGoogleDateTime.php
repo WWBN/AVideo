@@ -21,16 +21,12 @@ class NlpSemanticParsingProtoActionsOnGoogleDateTime extends \Google\Model
 {
   protected $dateType = GoogleTypeDate::class;
   protected $dateDataType = '';
-  public $date;
   protected $propertyType = NlpSemanticParsingProtoActionsOnGoogleDateTimeProperty::class;
   protected $propertyDataType = '';
-  public $property;
   protected $timeType = GoogleTypeTimeOfDay::class;
   protected $timeDataType = '';
-  public $time;
   protected $timeZoneType = GoogleTypeTimeZone::class;
   protected $timeZoneDataType = '';
-  public $timeZone;
 
   /**
    * @param GoogleTypeDate

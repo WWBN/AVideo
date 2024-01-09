@@ -34,9 +34,9 @@ class ProjectsLocationsDataScansJobs extends \Google\Service\Resource
    * Gets a DataScanJob resource. (jobs.get)
    *
    * @param string $name Required. The resource name of the DataScanJob: projects/
-   * {project}/locations/{location_id}/dataScans/{data_scan_id}/dataScanJobs/{data
-   * _scan_job_id} where project refers to a project_id or project_number and
-   * location_id refers to a GCP region.
+   * {project}/locations/{location_id}/dataScans/{data_scan_id}/jobs/{data_scan_jo
+   * b_id} where project refers to a project_id or project_number and location_id
+   * refers to a GCP region.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string view Optional. Select the DataScanJob view to return.

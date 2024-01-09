@@ -41,7 +41,7 @@ class ProjectsLocationsDatasetsHl7V2StoresMessages extends \Google\Service\Resou
    * an MLLP adapter is configured to listen to a Pub/Sub topic, the adapter
    * transmits the message when a notification is received. (messages.create)
    *
-   * @param string $parent The name of the dataset this message belongs to.
+   * @param string $parent The name of the HL7v2 store this message belongs to.
    * @param CreateMessageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Message

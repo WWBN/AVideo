@@ -70,6 +70,21 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
+   * Gets a model. (models.get)
+   *
+   * @param string $name Required. The resource name of the Model to get. Format:
+   * `projects/{project_number}/locations/{location_id}/catalogs/{catalog}/models/
+   * {model_id}`
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudRetailV2Model
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], GoogleCloudRetailV2Model::class);
+  }
+  /**
    * Lists all the models linked to this event store.
    * (models.listProjectsLocationsCatalogsModels)
    *

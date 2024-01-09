@@ -22,7 +22,6 @@ class Building extends \Google\Collection
   protected $collection_key = 'floorNames';
   protected $addressType = BuildingAddress::class;
   protected $addressDataType = '';
-  public $address;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class Building extends \Google\Collection
   public $buildingName;
   protected $coordinatesType = BuildingCoordinates::class;
   protected $coordinatesDataType = '';
-  public $coordinates;
   /**
    * @var string
    */

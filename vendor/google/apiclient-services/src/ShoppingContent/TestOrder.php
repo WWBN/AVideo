@@ -22,7 +22,6 @@ class TestOrder extends \Google\Collection
   protected $collection_key = 'promotions';
   protected $deliveryDetailsType = TestOrderDeliveryDetails::class;
   protected $deliveryDetailsDataType = '';
-  public $deliveryDetails;
   /**
    * @var bool
    */
@@ -33,14 +32,12 @@ class TestOrder extends \Google\Collection
   public $kind;
   protected $lineItemsType = TestOrderLineItem::class;
   protected $lineItemsDataType = 'array';
-  public $lineItems;
   /**
    * @var string
    */
   public $notificationMode;
   protected $pickupDetailsType = TestOrderPickupDetails::class;
   protected $pickupDetailsDataType = '';
-  public $pickupDetails;
   /**
    * @var string
    */
@@ -59,10 +56,8 @@ class TestOrder extends \Google\Collection
   public $predefinedPickupDetails;
   protected $promotionsType = OrderPromotion::class;
   protected $promotionsDataType = 'array';
-  public $promotions;
   protected $shippingCostType = Price::class;
   protected $shippingCostDataType = '';
-  public $shippingCost;
   /**
    * @var string
    */

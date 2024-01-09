@@ -30,7 +30,6 @@ class ExecutionError extends \Google\Collection
   public $errorType;
   protected $scriptStackTraceElementsType = ScriptStackTraceElement::class;
   protected $scriptStackTraceElementsDataType = 'array';
-  public $scriptStackTraceElements;
 
   /**
    * @param string

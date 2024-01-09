@@ -17,8 +17,13 @@
 
 namespace Google\Service\Baremetalsolution;
 
-class Volume extends \Google\Model
+class Volume extends \Google\Collection
 {
+  protected $collection_key = 'instances';
+  /**
+   * @var bool
+   */
+  public $attached;
   /**
    * @var string
    */
@@ -43,6 +48,10 @@ class Volume extends \Google\Model
    * @var string
    */
   public $id;
+  /**
+   * @var string[]
+   */
+  public $instances;
   /**
    * @var string[]
    */
@@ -93,7 +102,6 @@ class Volume extends \Google\Model
   public $snapshotEnabled;
   protected $snapshotReservationDetailType = SnapshotReservationDetail::class;
   protected $snapshotReservationDetailDataType = '';
-  public $snapshotReservationDetail;
   /**
    * @var string
    */
@@ -115,6 +123,20 @@ class Volume extends \Google\Model
    */
   public $workloadProfile;
 
+  /**
+   * @param bool
+   */
+  public function setAttached($attached)
+  {
+    $this->attached = $attached;
+  }
+  /**
+   * @return bool
+   */
+  public function getAttached()
+  {
+    return $this->attached;
+  }
   /**
    * @param string
    */
@@ -198,6 +220,20 @@ class Volume extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param string[]
+   */
+  public function setInstances($instances)
+  {
+    $this->instances = $instances;
+  }
+  /**
+   * @return string[]
+   */
+  public function getInstances()
+  {
+    return $this->instances;
   }
   /**
    * @param string[]

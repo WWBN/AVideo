@@ -25,17 +25,14 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $aaeNotificationSourceSupported;
   protected $acpSupportType = AssistantApiAssistantContinuedPresenceSupport::class;
   protected $acpSupportDataType = '';
-  public $acpSupport;
   protected $actionV2SupportedFeaturesType = AssistantApiActionV2SupportedFeatures::class;
   protected $actionV2SupportedFeaturesDataType = '';
-  public $actionV2SupportedFeatures;
   /**
    * @var bool
    */
   public $alarmTimerManagerApiSupported;
   protected $appControlSupportType = AssistantApiAppControlSupport::class;
   protected $appControlSupportDataType = '';
-  public $appControlSupport;
   /**
    * @var bool
    */
@@ -63,6 +60,10 @@ class AssistantApiSupportedFeatures extends \Google\Model
   /**
    * @var bool
    */
+  public $confirmationBeforeReadingMultipleMessagesSupported;
+  /**
+   * @var bool
+   */
   public $crossDeviceBroadcastSupported;
   /**
    * @var string
@@ -82,10 +83,8 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $duoGroupCallingSupported;
   protected $fitnessFeatureSupportType = AssistantApiFitnessFeatureSupport::class;
   protected $fitnessFeatureSupportDataType = '';
-  public $fitnessFeatureSupport;
   protected $fluidActionsSupportType = AssistantApiFluidActionsSupport::class;
   protected $fluidActionsSupportDataType = '';
-  public $fluidActionsSupport;
   /**
    * @var bool
    */
@@ -108,7 +107,6 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $immersiveCanvasConfirmationMessageSupported;
   protected $immersiveCanvasSupportType = AssistantApiImmersiveCanvasSupport::class;
   protected $immersiveCanvasSupportDataType = '';
-  public $immersiveCanvasSupport;
   /**
    * @var bool
    */
@@ -121,6 +119,10 @@ class AssistantApiSupportedFeatures extends \Google\Model
    * @var bool
    */
   public $isPairedPhoneNeededForComms;
+  /**
+   * @var bool
+   */
+  public $justInTimeSupported;
   /**
    * @var string
    */
@@ -143,7 +145,6 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $masqueradeModeSupported;
   protected $mediaControlSupportType = AssistantApiMediaControlSupport::class;
   protected $mediaControlSupportDataType = '';
-  public $mediaControlSupport;
   /**
    * @var string
    */
@@ -186,7 +187,6 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $shLockScreenSupported;
   protected $signInMethodType = AssistantApiSignInMethod::class;
   protected $signInMethodDataType = '';
-  public $signInMethod;
   /**
    * @var bool
    */
@@ -201,10 +201,8 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $soliGestureDetectionSupported;
   protected $suggestionsSupportType = AssistantApiSuggestionsSupport::class;
   protected $suggestionsSupportDataType = '';
-  public $suggestionsSupport;
   protected $sunriseFeaturesSupportType = AssistantApiSunriseFeaturesSupport::class;
   protected $sunriseFeaturesSupportDataType = '';
-  public $sunriseFeaturesSupport;
   /**
    * @var bool
    */
@@ -215,7 +213,6 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public $thirdPartyGuiSupported;
   protected $transactionFeaturesSupportType = AssistantApiTransactionFeaturesSupport::class;
   protected $transactionFeaturesSupportDataType = '';
-  public $transactionFeaturesSupport;
   /**
    * @var string
    */
@@ -398,6 +395,20 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public function getClientOpResultBatchingSupported()
   {
     return $this->clientOpResultBatchingSupported;
+  }
+  /**
+   * @param bool
+   */
+  public function setConfirmationBeforeReadingMultipleMessagesSupported($confirmationBeforeReadingMultipleMessagesSupported)
+  {
+    $this->confirmationBeforeReadingMultipleMessagesSupported = $confirmationBeforeReadingMultipleMessagesSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getConfirmationBeforeReadingMultipleMessagesSupported()
+  {
+    return $this->confirmationBeforeReadingMultipleMessagesSupported;
   }
   /**
    * @param bool
@@ -622,6 +633,20 @@ class AssistantApiSupportedFeatures extends \Google\Model
   public function getIsPairedPhoneNeededForComms()
   {
     return $this->isPairedPhoneNeededForComms;
+  }
+  /**
+   * @param bool
+   */
+  public function setJustInTimeSupported($justInTimeSupported)
+  {
+    $this->justInTimeSupported = $justInTimeSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getJustInTimeSupported()
+  {
+    return $this->justInTimeSupported;
   }
   /**
    * @param string

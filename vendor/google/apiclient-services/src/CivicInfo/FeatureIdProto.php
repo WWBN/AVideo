@@ -29,7 +29,6 @@ class FeatureIdProto extends \Google\Model
   public $fprint;
   protected $temporaryDataType = MessageSet::class;
   protected $temporaryDataDataType = '';
-  public $temporaryData;
 
   /**
    * @param string

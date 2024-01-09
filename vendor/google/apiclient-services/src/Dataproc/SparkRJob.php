@@ -34,7 +34,6 @@ class SparkRJob extends \Google\Collection
   public $fileUris;
   protected $loggingConfigType = LoggingConfig::class;
   protected $loggingConfigDataType = '';
-  public $loggingConfig;
   /**
    * @var string
    */

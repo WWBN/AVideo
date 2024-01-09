@@ -25,7 +25,6 @@ class GoogleCloudContentwarehouseV1InvalidRule extends \Google\Model
   public $error;
   protected $ruleType = GoogleCloudContentwarehouseV1Rule::class;
   protected $ruleDataType = '';
-  public $rule;
 
   /**
    * @param string

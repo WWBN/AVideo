@@ -26,7 +26,6 @@ class BatchGetValuesByDataFilterResponse extends \Google\Collection
   public $spreadsheetId;
   protected $valueRangesType = MatchedValueRange::class;
   protected $valueRangesDataType = 'array';
-  public $valueRanges;
 
   /**
    * @param string

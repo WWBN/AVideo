@@ -22,7 +22,6 @@ class AppMakerSqlSetupNotification extends \Google\Collection
   protected $collection_key = 'requestInfo';
   protected $requestInfoType = RequestInfo::class;
   protected $requestInfoDataType = 'array';
-  public $requestInfo;
 
   /**
    * @param RequestInfo[]

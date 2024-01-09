@@ -28,6 +28,10 @@ class GoogleCloudRecaptchaenterpriseV1AndroidKeySettings extends \Google\Collect
    * @var string[]
    */
   public $allowedPackageNames;
+  /**
+   * @var bool
+   */
+  public $supportNonGoogleAppStoreDistribution;
 
   /**
    * @param bool
@@ -56,6 +60,20 @@ class GoogleCloudRecaptchaenterpriseV1AndroidKeySettings extends \Google\Collect
   public function getAllowedPackageNames()
   {
     return $this->allowedPackageNames;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportNonGoogleAppStoreDistribution($supportNonGoogleAppStoreDistribution)
+  {
+    $this->supportNonGoogleAppStoreDistribution = $supportNonGoogleAppStoreDistribution;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportNonGoogleAppStoreDistribution()
+  {
+    return $this->supportNonGoogleAppStoreDistribution;
   }
 }
 

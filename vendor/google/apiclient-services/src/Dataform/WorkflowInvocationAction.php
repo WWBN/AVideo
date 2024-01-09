@@ -21,24 +21,20 @@ class WorkflowInvocationAction extends \Google\Model
 {
   protected $bigqueryActionType = BigQueryAction::class;
   protected $bigqueryActionDataType = '';
-  public $bigqueryAction;
   protected $canonicalTargetType = Target::class;
   protected $canonicalTargetDataType = '';
-  public $canonicalTarget;
   /**
    * @var string
    */
   public $failureReason;
   protected $invocationTimingType = Interval::class;
   protected $invocationTimingDataType = '';
-  public $invocationTiming;
   /**
    * @var string
    */
   public $state;
   protected $targetType = Target::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param BigQueryAction

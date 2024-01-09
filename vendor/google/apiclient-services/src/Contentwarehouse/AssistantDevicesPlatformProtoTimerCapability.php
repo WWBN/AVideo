@@ -21,10 +21,8 @@ class AssistantDevicesPlatformProtoTimerCapability extends \Google\Model
 {
   protected $maxSupportedExtendedTimerDurationType = AssistantApiDuration::class;
   protected $maxSupportedExtendedTimerDurationDataType = '';
-  public $maxSupportedExtendedTimerDuration;
   protected $maxSupportedTimerDurationType = AssistantApiDuration::class;
   protected $maxSupportedTimerDurationDataType = '';
-  public $maxSupportedTimerDuration;
   /**
    * @var int
    */

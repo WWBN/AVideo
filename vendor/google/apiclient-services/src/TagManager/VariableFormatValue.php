@@ -25,16 +25,12 @@ class VariableFormatValue extends \Google\Model
   public $caseConversionType;
   protected $convertFalseToValueType = Parameter::class;
   protected $convertFalseToValueDataType = '';
-  public $convertFalseToValue;
   protected $convertNullToValueType = Parameter::class;
   protected $convertNullToValueDataType = '';
-  public $convertNullToValue;
   protected $convertTrueToValueType = Parameter::class;
   protected $convertTrueToValueDataType = '';
-  public $convertTrueToValue;
   protected $convertUndefinedToValueType = Parameter::class;
   protected $convertUndefinedToValueDataType = '';
-  public $convertUndefinedToValue;
 
   /**
    * @param string

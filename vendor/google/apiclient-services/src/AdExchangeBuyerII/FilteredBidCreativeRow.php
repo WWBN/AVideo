@@ -21,14 +21,12 @@ class FilteredBidCreativeRow extends \Google\Model
 {
   protected $bidCountType = MetricValue::class;
   protected $bidCountDataType = '';
-  public $bidCount;
   /**
    * @var string
    */
   public $creativeId;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
-  public $rowDimensions;
 
   /**
    * @param MetricValue

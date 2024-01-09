@@ -21,10 +21,8 @@ class SocialGraphApiProtoPhotoOverlay extends \Google\Model
 {
   protected $relativePositionType = SocialGraphApiProtoRelativePosition::class;
   protected $relativePositionDataType = '';
-  public $relativePosition;
   protected $relativeScaleType = SocialGraphApiProtoRelativeScale::class;
   protected $relativeScaleDataType = '';
-  public $relativeScale;
 
   /**
    * @param SocialGraphApiProtoRelativePosition

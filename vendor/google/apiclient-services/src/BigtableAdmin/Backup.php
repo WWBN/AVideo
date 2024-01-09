@@ -21,7 +21,6 @@ class Backup extends \Google\Model
 {
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = '';
-  public $encryptionInfo;
   /**
    * @var string
    */

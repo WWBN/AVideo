@@ -21,7 +21,6 @@ class GoogleCloudDocumentaiV1DocumentPageLayout extends \Google\Model
 {
   protected $boundingPolyType = GoogleCloudDocumentaiV1BoundingPoly::class;
   protected $boundingPolyDataType = '';
-  public $boundingPoly;
   /**
    * @var float
    */
@@ -32,7 +31,6 @@ class GoogleCloudDocumentaiV1DocumentPageLayout extends \Google\Model
   public $orientation;
   protected $textAnchorType = GoogleCloudDocumentaiV1DocumentTextAnchor::class;
   protected $textAnchorDataType = '';
-  public $textAnchor;
 
   /**
    * @param GoogleCloudDocumentaiV1BoundingPoly

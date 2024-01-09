@@ -22,10 +22,8 @@ class DisksScopedList extends \Google\Collection
   protected $collection_key = 'disks';
   protected $disksType = Disk::class;
   protected $disksDataType = 'array';
-  public $disks;
   protected $warningType = DisksScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param Disk[]

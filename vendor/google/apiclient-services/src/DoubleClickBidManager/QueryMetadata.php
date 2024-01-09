@@ -22,7 +22,6 @@ class QueryMetadata extends \Google\Collection
   protected $collection_key = 'shareEmailAddress';
   protected $dataRangeType = DataRange::class;
   protected $dataRangeDataType = '';
-  public $dataRange;
   /**
    * @var string
    */

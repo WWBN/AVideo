@@ -26,13 +26,10 @@ class UpdateCellsRequest extends \Google\Collection
   public $fields;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
-  public $range;
   protected $rowsType = RowData::class;
   protected $rowsDataType = 'array';
-  public $rows;
   protected $startType = GridCoordinate::class;
   protected $startDataType = '';
-  public $start;
 
   /**
    * @param string

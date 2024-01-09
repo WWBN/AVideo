@@ -21,10 +21,8 @@ class SubmissionHistory extends \Google\Model
 {
   protected $gradeHistoryType = GradeHistory::class;
   protected $gradeHistoryDataType = '';
-  public $gradeHistory;
   protected $stateHistoryType = StateHistory::class;
   protected $stateHistoryDataType = '';
-  public $stateHistory;
 
   /**
    * @param GradeHistory

@@ -21,7 +21,6 @@ class ProductMatchDimension extends \Google\Model
 {
   protected $customLabelType = CustomLabel::class;
   protected $customLabelDataType = '';
-  public $customLabel;
   /**
    * @var string
    */

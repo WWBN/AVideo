@@ -21,7 +21,6 @@ class CreateManagedShortLinkRequest extends \Google\Model
 {
   protected $dynamicLinkInfoType = DynamicLinkInfo::class;
   protected $dynamicLinkInfoDataType = '';
-  public $dynamicLinkInfo;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class CreateManagedShortLinkRequest extends \Google\Model
   public $sdkVersion;
   protected $suffixType = Suffix::class;
   protected $suffixDataType = '';
-  public $suffix;
 
   /**
    * @param DynamicLinkInfo

@@ -22,7 +22,6 @@ class OfficialPagesQuerySet extends \Google\Collection
   protected $collection_key = 'queryCountryLanguageFingerprints';
   protected $queriesType = OfficialPagesOfficialKey::class;
   protected $queriesDataType = 'array';
-  public $queries;
   /**
    * @var string[]
    */

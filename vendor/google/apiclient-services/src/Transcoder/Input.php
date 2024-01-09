@@ -25,7 +25,6 @@ class Input extends \Google\Model
   public $key;
   protected $preprocessingConfigType = PreprocessingConfig::class;
   protected $preprocessingConfigDataType = '';
-  public $preprocessingConfig;
   /**
    * @var string
    */

@@ -37,7 +37,6 @@ class AssistantApiAudioOutput extends \Google\Model
   public $quality;
   protected $volumePropertiesType = AssistantApiVolumeProperties::class;
   protected $volumePropertiesDataType = '';
-  public $volumeProperties;
 
   /**
    * @param string

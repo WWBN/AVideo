@@ -21,7 +21,6 @@ class NlpSemanticParsingModelsDevice extends \Google\Model
 {
   protected $deviceNameType = NlpSemanticParsingModelsDeviceName::class;
   protected $deviceNameDataType = '';
-  public $deviceName;
   /**
    * @var string
    */

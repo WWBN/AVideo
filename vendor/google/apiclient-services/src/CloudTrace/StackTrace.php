@@ -21,7 +21,6 @@ class StackTrace extends \Google\Model
 {
   protected $stackFramesType = StackFrames::class;
   protected $stackFramesDataType = '';
-  public $stackFrames;
   /**
    * @var string
    */

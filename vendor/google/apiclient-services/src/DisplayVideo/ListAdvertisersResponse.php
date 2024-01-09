@@ -22,7 +22,6 @@ class ListAdvertisersResponse extends \Google\Collection
   protected $collection_key = 'advertisers';
   protected $advertisersType = Advertiser::class;
   protected $advertisersDataType = 'array';
-  public $advertisers;
   /**
    * @var string
    */

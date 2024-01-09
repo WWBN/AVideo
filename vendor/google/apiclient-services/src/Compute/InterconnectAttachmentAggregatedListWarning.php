@@ -26,7 +26,6 @@ class InterconnectAttachmentAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = InterconnectAttachmentAggregatedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

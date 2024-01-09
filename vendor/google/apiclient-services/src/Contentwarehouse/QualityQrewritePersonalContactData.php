@@ -22,7 +22,6 @@ class QualityQrewritePersonalContactData extends \Google\Collection
   protected $collection_key = 'relationshipMemory';
   protected $accountProvenanceType = QualityQrewriteAccountProvenance::class;
   protected $accountProvenanceDataType = '';
-  public $accountProvenance;
   /**
    * @var array[]
    */
@@ -82,7 +81,6 @@ class QualityQrewritePersonalContactData extends \Google\Collection
   public $lookupNameSource;
   protected $matchSignalType = AssistantVerticalsCommonContactMatchSignal::class;
   protected $matchSignalDataType = '';
-  public $matchSignal;
   /**
    * @var string
    */
@@ -93,13 +91,10 @@ class QualityQrewritePersonalContactData extends \Google\Collection
   public $matchedRecognitionAlternateName;
   protected $personDataType = AppsPeopleOzExternalMergedpeopleapiPerson::class;
   protected $personDataDataType = '';
-  public $personData;
   protected $personalContactDataLogType = AssistantLogsCommunicationPersonalContactDataLog::class;
   protected $personalContactDataLogDataType = '';
-  public $personalContactDataLog;
   protected $pkgPersonType = NlpSemanticParsingQRefAnnotation::class;
   protected $pkgPersonDataType = '';
-  public $pkgPerson;
   /**
    * @var string
    */
@@ -114,10 +109,8 @@ class QualityQrewritePersonalContactData extends \Google\Collection
   public $recognitionAlternateSource;
   protected $relationshipLexicalInfoType = CopleyLexicalMetadata::class;
   protected $relationshipLexicalInfoDataType = '';
-  public $relationshipLexicalInfo;
   protected $relationshipMemoryType = QualityQrewriteRelationshipMemoryData::class;
   protected $relationshipMemoryDataType = 'array';
-  public $relationshipMemory;
   /**
    * @var string
    */

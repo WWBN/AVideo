@@ -21,7 +21,6 @@ class TestSuiteOverview extends \Google\Model
 {
   protected $elapsedTimeType = Duration::class;
   protected $elapsedTimeDataType = '';
-  public $elapsedTime;
   /**
    * @var int
    */
@@ -48,7 +47,6 @@ class TestSuiteOverview extends \Google\Model
   public $totalCount;
   protected $xmlSourceType = FileReference::class;
   protected $xmlSourceDataType = '';
-  public $xmlSource;
 
   /**
    * @param Duration

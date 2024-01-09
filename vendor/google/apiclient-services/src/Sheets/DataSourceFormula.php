@@ -21,7 +21,6 @@ class DataSourceFormula extends \Google\Model
 {
   protected $dataExecutionStatusType = DataExecutionStatus::class;
   protected $dataExecutionStatusDataType = '';
-  public $dataExecutionStatus;
   /**
    * @var string
    */

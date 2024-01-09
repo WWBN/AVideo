@@ -1677,6 +1677,10 @@ class Directory extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'includeIndirectRoleAssignments' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'maxResults' => [
                   'location' => 'query',
                   'type' => 'integer',

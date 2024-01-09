@@ -22,10 +22,8 @@ class AndroidRoboTest extends \Google\Collection
   protected $collection_key = 'startingIntents';
   protected $appApkType = FileReference::class;
   protected $appApkDataType = '';
-  public $appApk;
   protected $appBundleType = AppBundle::class;
   protected $appBundleDataType = '';
-  public $appBundle;
   /**
    * @var string
    */
@@ -44,17 +42,14 @@ class AndroidRoboTest extends \Google\Collection
   public $maxSteps;
   protected $roboDirectivesType = RoboDirective::class;
   protected $roboDirectivesDataType = 'array';
-  public $roboDirectives;
   /**
    * @var string
    */
   public $roboMode;
   protected $roboScriptType = FileReference::class;
   protected $roboScriptDataType = '';
-  public $roboScript;
   protected $startingIntentsType = RoboStartingIntent::class;
   protected $startingIntentsDataType = 'array';
-  public $startingIntents;
 
   /**
    * @param FileReference

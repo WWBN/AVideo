@@ -22,7 +22,6 @@ class QualitySitemapCoClickTargetDoc extends \Google\Collection
   protected $collection_key = 'coClickByLocale';
   protected $coClickByLocaleType = QualitySitemapCoClickTargetDocCoClickByLocale::class;
   protected $coClickByLocaleDataType = 'array';
-  public $coClickByLocale;
   /**
    * @var string
    */

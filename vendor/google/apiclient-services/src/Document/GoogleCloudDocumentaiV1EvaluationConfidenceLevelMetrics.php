@@ -25,7 +25,6 @@ class GoogleCloudDocumentaiV1EvaluationConfidenceLevelMetrics extends \Google\Mo
   public $confidenceLevel;
   protected $metricsType = GoogleCloudDocumentaiV1EvaluationMetrics::class;
   protected $metricsDataType = '';
-  public $metrics;
 
   /**
    * @param float

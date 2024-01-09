@@ -22,7 +22,6 @@ class Condition extends \Google\Collection
   protected $collection_key = 'parameter';
   protected $parameterType = Parameter::class;
   protected $parameterDataType = 'array';
-  public $parameter;
   /**
    * @var string
    */

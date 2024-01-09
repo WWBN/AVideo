@@ -26,7 +26,6 @@ class RegionsListResponse extends \Google\Collection
   public $kind;
   protected $regionsType = Region::class;
   protected $regionsDataType = 'array';
-  public $regions;
 
   /**
    * @param string

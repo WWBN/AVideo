@@ -22,10 +22,8 @@ class AppsPeopleOzExternalMergedpeopleapiYoutubeExtendedData extends \Google\Col
   protected $collection_key = 'channelData';
   protected $channelDataType = AppsPeopleOzExternalMergedpeopleapiChannelData::class;
   protected $channelDataDataType = 'array';
-  public $channelData;
   protected $failureType = AppsPeopleOzExternalMergedpeopleapiProductProfileFailure::class;
   protected $failureDataType = '';
-  public $failure;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiChannelData[]

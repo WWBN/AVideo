@@ -21,7 +21,6 @@ class AppsPeopleOzExternalMergedpeopleapiGPayExtendedData extends \Google\Model
 {
   protected $failureType = AppsPeopleOzExternalMergedpeopleapiProductProfileFailure::class;
   protected $failureDataType = '';
-  public $failure;
   /**
    * @var string
    */

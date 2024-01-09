@@ -22,7 +22,6 @@ class ModifyAttachmentsRequest extends \Google\Collection
   protected $collection_key = 'addAttachments';
   protected $addAttachmentsType = Attachment::class;
   protected $addAttachmentsDataType = 'array';
-  public $addAttachments;
 
   /**
    * @param Attachment[]

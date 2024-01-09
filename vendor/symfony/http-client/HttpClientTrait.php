@@ -547,7 +547,7 @@ trait HttpClientTrait
             }
 
             // https://tools.ietf.org/html/rfc3986#section-3.3
-            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()*+,;=:@%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
+            $parts[$part] = preg_replace_callback("#[^-A-Za-z0-9._~!$&/'()[\]*+,;=:@{}%]++#", function ($m) { return rawurlencode($m[0]); }, $parts[$part]);
         }
 
         return [
@@ -621,6 +621,23 @@ trait HttpClientTrait
         $queryArray = [];
 
         if ($queryString) {
+            if (str_contains($queryString, '%')) {
+                // https://tools.ietf.org/html/rfc3986#section-2.3 + some chars not encoded by browsers
+                $queryString = strtr($queryString, [
+                    '%21' => '!',
+                    '%24' => '$',
+                    '%28' => '(',
+                    '%29' => ')',
+                    '%2A' => '*',
+                    '%2F' => '/',
+                    '%3A' => ':',
+                    '%3B' => ';',
+                    '%40' => '@',
+                    '%5B' => '[',
+                    '%5D' => ']',
+                ]);
+            }
+
             foreach (explode('&', $queryString) as $v) {
                 $queryArray[rawurldecode(explode('=', $v, 2)[0])] = $v;
             }
@@ -634,16 +651,7 @@ trait HttpClientTrait
      */
     private static function getProxy(?string $proxy, array $url, ?string $noProxy): ?array
     {
-        if (null === $proxy) {
-            // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
-            $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
-
-            if ('https:' === $url['scheme']) {
-                $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
-            }
-        }
-
-        if (null === $proxy) {
+        if (null === $proxy = self::getProxyUrl($proxy, $url)) {
             return null;
         }
 
@@ -669,6 +677,22 @@ trait HttpClientTrait
             'auth' => isset($proxy['user']) ? 'Basic '.base64_encode(rawurldecode($proxy['user']).':'.rawurldecode($proxy['pass'] ?? '')) : null,
             'no_proxy' => $noProxy,
         ];
+    }
+
+    private static function getProxyUrl(?string $proxy, array $url): ?string
+    {
+        if (null !== $proxy) {
+            return $proxy;
+        }
+
+        // Ignore HTTP_PROXY except on the CLI to work around httpoxy set of vulnerabilities
+        $proxy = $_SERVER['http_proxy'] ?? (\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) ? $_SERVER['HTTP_PROXY'] ?? null : null) ?? $_SERVER['all_proxy'] ?? $_SERVER['ALL_PROXY'] ?? null;
+
+        if ('https:' === $url['scheme']) {
+            $proxy = $_SERVER['https_proxy'] ?? $_SERVER['HTTPS_PROXY'] ?? $proxy;
+        }
+
+        return $proxy;
     }
 
     private static function shouldBuffer(array $headers): bool

@@ -36,6 +36,10 @@ class GoogleCloudDiscoveryengineV1betaDocumentInfo extends \Google\Collection
    * @var int
    */
   public $quantity;
+  /**
+   * @var string
+   */
+  public $uri;
 
   /**
    * @param string
@@ -92,6 +96,20 @@ class GoogleCloudDiscoveryengineV1betaDocumentInfo extends \Google\Collection
   public function getQuantity()
   {
     return $this->quantity;
+  }
+  /**
+   * @param string
+   */
+  public function setUri($uri)
+  {
+    $this->uri = $uri;
+  }
+  /**
+   * @return string
+   */
+  public function getUri()
+  {
+    return $this->uri;
   }
 }
 

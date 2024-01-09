@@ -26,7 +26,6 @@ class PosListResponse extends \Google\Collection
   public $kind;
   protected $resourcesType = PosStore::class;
   protected $resourcesDataType = 'array';
-  public $resources;
 
   /**
    * @param string

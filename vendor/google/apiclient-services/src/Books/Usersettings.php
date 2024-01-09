@@ -25,10 +25,8 @@ class Usersettings extends \Google\Model
   public $kind;
   protected $notesExportType = UsersettingsNotesExport::class;
   protected $notesExportDataType = '';
-  public $notesExport;
   protected $notificationType = UsersettingsNotification::class;
   protected $notificationDataType = '';
-  public $notification;
 
   /**
    * @param string

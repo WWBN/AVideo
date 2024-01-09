@@ -26,7 +26,6 @@ class DisksScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = DisksScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

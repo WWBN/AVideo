@@ -37,7 +37,6 @@ class ImageProperties extends \Google\Model
   public $contrast;
   protected $cropPropertiesType = CropProperties::class;
   protected $cropPropertiesDataType = '';
-  public $cropProperties;
   /**
    * @var string
    */

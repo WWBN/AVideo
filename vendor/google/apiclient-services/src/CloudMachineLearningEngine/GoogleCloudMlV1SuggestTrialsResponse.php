@@ -34,7 +34,6 @@ class GoogleCloudMlV1SuggestTrialsResponse extends \Google\Collection
   public $studyState;
   protected $trialsType = GoogleCloudMlV1Trial::class;
   protected $trialsDataType = 'array';
-  public $trials;
 
   /**
    * @param string

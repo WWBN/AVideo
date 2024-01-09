@@ -19,31 +19,15 @@ namespace Google\Service\Contentwarehouse;
 
 class GoogleAssistantAccessoryV1DeviceConfig extends \Google\Model
 {
-  protected $deviceBuildType = GoogleAssistantEmbeddedV1DeviceBuild::class;
-  protected $deviceBuildDataType = '';
-  public $deviceBuild;
   protected $deviceModelCapabilitiesOverrideType = GoogleAssistantEmbeddedV1DeviceModelCapabilitiesOverride::class;
   protected $deviceModelCapabilitiesOverrideDataType = '';
-  public $deviceModelCapabilitiesOverride;
   /**
    * @var string
    */
   public $heterodyneToken;
+  protected $surfaceIdentityType = GoogleAssistantEmbeddedV1SurfaceIdentity::class;
+  protected $surfaceIdentityDataType = '';
 
-  /**
-   * @param GoogleAssistantEmbeddedV1DeviceBuild
-   */
-  public function setDeviceBuild(GoogleAssistantEmbeddedV1DeviceBuild $deviceBuild)
-  {
-    $this->deviceBuild = $deviceBuild;
-  }
-  /**
-   * @return GoogleAssistantEmbeddedV1DeviceBuild
-   */
-  public function getDeviceBuild()
-  {
-    return $this->deviceBuild;
-  }
   /**
    * @param GoogleAssistantEmbeddedV1DeviceModelCapabilitiesOverride
    */
@@ -71,6 +55,20 @@ class GoogleAssistantAccessoryV1DeviceConfig extends \Google\Model
   public function getHeterodyneToken()
   {
     return $this->heterodyneToken;
+  }
+  /**
+   * @param GoogleAssistantEmbeddedV1SurfaceIdentity
+   */
+  public function setSurfaceIdentity(GoogleAssistantEmbeddedV1SurfaceIdentity $surfaceIdentity)
+  {
+    $this->surfaceIdentity = $surfaceIdentity;
+  }
+  /**
+   * @return GoogleAssistantEmbeddedV1SurfaceIdentity
+   */
+  public function getSurfaceIdentity()
+  {
+    return $this->surfaceIdentity;
   }
 }
 

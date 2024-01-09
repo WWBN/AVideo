@@ -90,8 +90,7 @@ class Images extends \Google\Service\Resource
     return $this->call('deprecate', [$params], Operation::class);
   }
   /**
-   * Returns the specified image. Gets a list of available images by making a
-   * list() request. (images.get)
+   * Returns the specified image. (images.get)
    *
    * @param string $project Project ID for this request.
    * @param string $image Name of the image resource to return.

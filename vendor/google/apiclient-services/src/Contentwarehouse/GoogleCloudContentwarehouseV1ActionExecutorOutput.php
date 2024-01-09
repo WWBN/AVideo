@@ -22,7 +22,6 @@ class GoogleCloudContentwarehouseV1ActionExecutorOutput extends \Google\Collecti
   protected $collection_key = 'ruleActionsPairs';
   protected $ruleActionsPairsType = GoogleCloudContentwarehouseV1RuleActionsPair::class;
   protected $ruleActionsPairsDataType = 'array';
-  public $ruleActionsPairs;
 
   /**
    * @param GoogleCloudContentwarehouseV1RuleActionsPair[]

@@ -20,10 +20,28 @@ namespace Google\Service\Vault;
 class MailOptions extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $clientSideEncryptedOption;
+  /**
    * @var bool
    */
   public $excludeDrafts;
 
+  /**
+   * @param string
+   */
+  public function setClientSideEncryptedOption($clientSideEncryptedOption)
+  {
+    $this->clientSideEncryptedOption = $clientSideEncryptedOption;
+  }
+  /**
+   * @return string
+   */
+  public function getClientSideEncryptedOption()
+  {
+    return $this->clientSideEncryptedOption;
+  }
   /**
    * @param bool
    */

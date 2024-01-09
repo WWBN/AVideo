@@ -30,7 +30,6 @@ class VideoAbuseReportReasonListResponse extends \Google\Collection
   public $eventId;
   protected $itemsType = VideoAbuseReportReason::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

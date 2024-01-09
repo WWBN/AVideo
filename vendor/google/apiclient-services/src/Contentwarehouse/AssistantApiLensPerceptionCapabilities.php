@@ -37,7 +37,6 @@ class AssistantApiLensPerceptionCapabilities extends \Google\Model
   public $isLensPostCaptureAvailable;
   protected $lensCapabilitiesType = AssistantApiLensPerceptionCapabilitiesLensCapabilities::class;
   protected $lensCapabilitiesDataType = '';
-  public $lensCapabilities;
 
   /**
    * @param bool

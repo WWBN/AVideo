@@ -21,13 +21,12 @@ class SocialCommonSegment extends \Google\Model
 {
   protected $formattingType = SocialCommonFormatting::class;
   protected $formattingDataType = '';
-  public $formatting;
   protected $hashtagDataType = SocialCommonHashtagData::class;
   protected $hashtagDataDataType = '';
-  public $hashtagData;
   protected $linkDataType = SocialCommonLinkData::class;
   protected $linkDataDataType = '';
-  public $linkData;
+  protected $searchLinkDataType = SocialCommonSearchLinkData::class;
+  protected $searchLinkDataDataType = '';
   /**
    * @var string
    */
@@ -38,7 +37,6 @@ class SocialCommonSegment extends \Google\Model
   public $type;
   protected $userMentionDataType = SocialCommonUserMentionData::class;
   protected $userMentionDataDataType = '';
-  public $userMentionData;
 
   /**
    * @param SocialCommonFormatting
@@ -81,6 +79,20 @@ class SocialCommonSegment extends \Google\Model
   public function getLinkData()
   {
     return $this->linkData;
+  }
+  /**
+   * @param SocialCommonSearchLinkData
+   */
+  public function setSearchLinkData(SocialCommonSearchLinkData $searchLinkData)
+  {
+    $this->searchLinkData = $searchLinkData;
+  }
+  /**
+   * @return SocialCommonSearchLinkData
+   */
+  public function getSearchLinkData()
+  {
+    return $this->searchLinkData;
   }
   /**
    * @param string

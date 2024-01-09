@@ -22,12 +22,9 @@ class GeostorePriceListSectionProto extends \Google\Collection
   protected $collection_key = 'nameInfo';
   protected $callToActionType = GeostoreCallToActionProto::class;
   protected $callToActionDataType = '';
-  public $callToAction;
   protected $foodItemType = GeostoreFoodMenuItemProto::class;
   protected $foodItemDataType = 'array';
-  public $foodItem;
   protected $itemDataType = 'array';
-  public $item;
   /**
    * @var string[]
    */
@@ -38,10 +35,8 @@ class GeostorePriceListSectionProto extends \Google\Collection
   public $language;
   protected $mediaType = GeostoreMediaItemProto::class;
   protected $mediaDataType = 'array';
-  public $media;
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
-  public $nameInfo;
 
   /**
    * @param GeostoreCallToActionProto

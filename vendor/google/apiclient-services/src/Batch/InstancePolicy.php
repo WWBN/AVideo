@@ -22,13 +22,10 @@ class InstancePolicy extends \Google\Collection
   protected $collection_key = 'disks';
   protected $acceleratorsType = Accelerator::class;
   protected $acceleratorsDataType = 'array';
-  public $accelerators;
   protected $bootDiskType = Disk::class;
   protected $bootDiskDataType = '';
-  public $bootDisk;
   protected $disksType = AttachedDisk::class;
   protected $disksDataType = 'array';
-  public $disks;
   /**
    * @var string
    */

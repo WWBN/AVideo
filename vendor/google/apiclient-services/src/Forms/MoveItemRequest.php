@@ -21,10 +21,8 @@ class MoveItemRequest extends \Google\Model
 {
   protected $newLocationType = Location::class;
   protected $newLocationDataType = '';
-  public $newLocation;
   protected $originalLocationType = Location::class;
   protected $originalLocationDataType = '';
-  public $originalLocation;
 
   /**
    * @param Location

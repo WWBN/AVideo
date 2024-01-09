@@ -38,6 +38,10 @@ class GitRepoSource extends \Google\Model
   /**
    * @var string
    */
+  public $repository;
+  /**
+   * @var string
+   */
   public $uri;
 
   /**
@@ -95,6 +99,20 @@ class GitRepoSource extends \Google\Model
   public function getRepoType()
   {
     return $this->repoType;
+  }
+  /**
+   * @param string
+   */
+  public function setRepository($repository)
+  {
+    $this->repository = $repository;
+  }
+  /**
+   * @return string
+   */
+  public function getRepository()
+  {
+    return $this->repository;
   }
   /**
    * @param string

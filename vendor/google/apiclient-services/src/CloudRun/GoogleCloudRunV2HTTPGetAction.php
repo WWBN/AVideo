@@ -22,7 +22,6 @@ class GoogleCloudRunV2HTTPGetAction extends \Google\Collection
   protected $collection_key = 'httpHeaders';
   protected $httpHeadersType = GoogleCloudRunV2HTTPHeader::class;
   protected $httpHeadersDataType = 'array';
-  public $httpHeaders;
   /**
    * @var string
    */

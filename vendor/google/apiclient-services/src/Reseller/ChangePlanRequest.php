@@ -37,7 +37,6 @@ class ChangePlanRequest extends \Google\Model
   public $purchaseOrderId;
   protected $seatsType = Seats::class;
   protected $seatsDataType = '';
-  public $seats;
 
   /**
    * @param string

@@ -29,7 +29,6 @@ class QueryParameterTypeStructTypes extends \Google\Model
   public $name;
   protected $typeType = QueryParameterType::class;
   protected $typeDataType = '';
-  public $type;
 
   /**
    * @param string

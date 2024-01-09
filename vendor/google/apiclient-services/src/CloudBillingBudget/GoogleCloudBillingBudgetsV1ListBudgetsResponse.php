@@ -22,7 +22,6 @@ class GoogleCloudBillingBudgetsV1ListBudgetsResponse extends \Google\Collection
   protected $collection_key = 'budgets';
   protected $budgetsType = GoogleCloudBillingBudgetsV1Budget::class;
   protected $budgetsDataType = 'array';
-  public $budgets;
   /**
    * @var string
    */

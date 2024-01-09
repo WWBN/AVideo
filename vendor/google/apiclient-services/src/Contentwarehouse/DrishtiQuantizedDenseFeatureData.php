@@ -22,10 +22,8 @@ class DrishtiQuantizedDenseFeatureData extends \Google\Collection
   protected $collection_key = 'value';
   protected $extraType = DrishtiFeatureExtra::class;
   protected $extraDataType = 'array';
-  public $extra;
   protected $generalExtraType = DrishtiFeatureExtra::class;
   protected $generalExtraDataType = '';
-  public $generalExtra;
   /**
    * @var string[]
    */

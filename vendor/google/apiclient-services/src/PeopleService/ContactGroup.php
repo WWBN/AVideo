@@ -22,7 +22,6 @@ class ContactGroup extends \Google\Collection
   protected $collection_key = 'memberResourceNames';
   protected $clientDataType = GroupClientData::class;
   protected $clientDataDataType = 'array';
-  public $clientData;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class ContactGroup extends \Google\Collection
   public $memberResourceNames;
   protected $metadataType = ContactGroupMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

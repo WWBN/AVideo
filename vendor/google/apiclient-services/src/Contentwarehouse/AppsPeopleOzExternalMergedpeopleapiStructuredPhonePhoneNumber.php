@@ -25,7 +25,6 @@ class AppsPeopleOzExternalMergedpeopleapiStructuredPhonePhoneNumber extends \Goo
   public $e164;
   protected $i18nDataType = AppsPeopleOzExternalMergedpeopleapiStructuredPhonePhoneNumberI18nData::class;
   protected $i18nDataDataType = '';
-  public $i18nData;
 
   /**
    * @param string

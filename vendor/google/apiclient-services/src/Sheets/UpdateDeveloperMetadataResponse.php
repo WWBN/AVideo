@@ -22,7 +22,6 @@ class UpdateDeveloperMetadataResponse extends \Google\Collection
   protected $collection_key = 'developerMetadata';
   protected $developerMetadataType = DeveloperMetadata::class;
   protected $developerMetadataDataType = 'array';
-  public $developerMetadata;
 
   /**
    * @param DeveloperMetadata[]

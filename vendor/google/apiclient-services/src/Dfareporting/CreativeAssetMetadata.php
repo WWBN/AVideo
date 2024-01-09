@@ -22,27 +22,22 @@ class CreativeAssetMetadata extends \Google\Collection
   protected $collection_key = 'warnedValidationRules';
   protected $assetIdentifierType = CreativeAssetId::class;
   protected $assetIdentifierDataType = '';
-  public $assetIdentifier;
   protected $clickTagsType = ClickTag::class;
   protected $clickTagsDataType = 'array';
-  public $clickTags;
   protected $counterCustomEventsType = CreativeCustomEvent::class;
   protected $counterCustomEventsDataType = 'array';
-  public $counterCustomEvents;
   /**
    * @var string[]
    */
   public $detectedFeatures;
   protected $exitCustomEventsType = CreativeCustomEvent::class;
   protected $exitCustomEventsDataType = 'array';
-  public $exitCustomEvents;
   /**
    * @var string
    */
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
-  public $idDimensionValue;
   /**
    * @var string
    */
@@ -53,7 +48,6 @@ class CreativeAssetMetadata extends \Google\Collection
   public $richMedia;
   protected $timerCustomEventsType = CreativeCustomEvent::class;
   protected $timerCustomEventsDataType = 'array';
-  public $timerCustomEvents;
   /**
    * @var string[]
    */

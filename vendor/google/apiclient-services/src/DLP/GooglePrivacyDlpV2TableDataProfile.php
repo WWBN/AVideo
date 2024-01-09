@@ -22,14 +22,12 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
   protected $collection_key = 'predictedInfoTypes';
   protected $configSnapshotType = GooglePrivacyDlpV2DataProfileConfigSnapshot::class;
   protected $configSnapshotDataType = '';
-  public $configSnapshot;
   /**
    * @var string
    */
   public $createTime;
   protected $dataRiskLevelType = GooglePrivacyDlpV2DataRiskLevel::class;
   protected $dataRiskLevelDataType = '';
-  public $dataRiskLevel;
   /**
    * @var string
    */
@@ -68,17 +66,14 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
   public $name;
   protected $otherInfoTypesType = GooglePrivacyDlpV2OtherInfoTypeSummary::class;
   protected $otherInfoTypesDataType = 'array';
-  public $otherInfoTypes;
   protected $predictedInfoTypesType = GooglePrivacyDlpV2InfoTypeSummary::class;
   protected $predictedInfoTypesDataType = 'array';
-  public $predictedInfoTypes;
   /**
    * @var string
    */
   public $profileLastGenerated;
   protected $profileStatusType = GooglePrivacyDlpV2ProfileStatus::class;
   protected $profileStatusDataType = '';
-  public $profileStatus;
   /**
    * @var string
    */
@@ -101,7 +96,6 @@ class GooglePrivacyDlpV2TableDataProfile extends \Google\Collection
   public $scannedColumnCount;
   protected $sensitivityScoreType = GooglePrivacyDlpV2SensitivityScore::class;
   protected $sensitivityScoreDataType = '';
-  public $sensitivityScore;
   /**
    * @var string
    */

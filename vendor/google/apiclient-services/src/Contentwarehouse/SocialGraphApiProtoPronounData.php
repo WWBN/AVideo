@@ -22,7 +22,6 @@ class SocialGraphApiProtoPronounData extends \Google\Collection
   protected $collection_key = 'pronounEntry';
   protected $pronounEntryType = SocialGraphApiProtoPronounEntry::class;
   protected $pronounEntryDataType = 'array';
-  public $pronounEntry;
 
   /**
    * @param SocialGraphApiProtoPronounEntry[]

@@ -21,7 +21,6 @@ class WonderCardDelete extends \Google\Model
 {
   protected $messageMappingsType = WonderMessageMapping::class;
   protected $messageMappingsDataType = 'map';
-  public $messageMappings;
   /**
    * @var string
    */

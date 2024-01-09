@@ -26,7 +26,6 @@ class Rule extends \Google\Collection
   public $action;
   protected $conditionsType = Condition::class;
   protected $conditionsDataType = 'array';
-  public $conditions;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class Rule extends \Google\Collection
   public $ins;
   protected $logConfigsType = LogConfig::class;
   protected $logConfigsDataType = 'array';
-  public $logConfigs;
   /**
    * @var string[]
    */

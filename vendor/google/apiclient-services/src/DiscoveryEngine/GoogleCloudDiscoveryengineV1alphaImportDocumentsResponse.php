@@ -22,10 +22,8 @@ class GoogleCloudDiscoveryengineV1alphaImportDocumentsResponse extends \Google\C
   protected $collection_key = 'errorSamples';
   protected $errorConfigType = GoogleCloudDiscoveryengineV1alphaImportErrorConfig::class;
   protected $errorConfigDataType = '';
-  public $errorConfig;
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
-  public $errorSamples;
 
   /**
    * @param GoogleCloudDiscoveryengineV1alphaImportErrorConfig

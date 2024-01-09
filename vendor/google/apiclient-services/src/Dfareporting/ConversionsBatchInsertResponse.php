@@ -30,7 +30,6 @@ class ConversionsBatchInsertResponse extends \Google\Collection
   public $kind;
   protected $statusType = ConversionStatus::class;
   protected $statusDataType = 'array';
-  public $status;
 
   /**
    * @param bool

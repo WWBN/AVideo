@@ -22,7 +22,6 @@ class GoogleChromeManagementV1StorageStatusReport extends \Google\Collection
   protected $collection_key = 'disk';
   protected $diskType = GoogleChromeManagementV1DiskInfo::class;
   protected $diskDataType = 'array';
-  public $disk;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class GoogleCloudAdvisorynotificationsV1Csv extends \Google\Collection
   protected $collection_key = 'headers';
   protected $dataRowsType = GoogleCloudAdvisorynotificationsV1CsvCsvRow::class;
   protected $dataRowsDataType = 'array';
-  public $dataRows;
   /**
    * @var string[]
    */

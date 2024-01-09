@@ -21,7 +21,6 @@ class Link extends \Google\Model
 {
   protected $attributesType = Attributes::class;
   protected $attributesDataType = '';
-  public $attributes;
   /**
    * @var string
    */

@@ -26,7 +26,6 @@ class NotificationEndpointList extends \Google\Collection
   public $id;
   protected $itemsType = NotificationEndpoint::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class NotificationEndpointList extends \Google\Collection
   public $selfLink;
   protected $warningType = NotificationEndpointListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

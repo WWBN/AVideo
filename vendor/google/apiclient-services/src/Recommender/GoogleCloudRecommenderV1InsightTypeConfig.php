@@ -33,7 +33,6 @@ class GoogleCloudRecommenderV1InsightTypeConfig extends \Google\Model
   public $etag;
   protected $insightTypeGenerationConfigType = GoogleCloudRecommenderV1InsightTypeGenerationConfig::class;
   protected $insightTypeGenerationConfigDataType = '';
-  public $insightTypeGenerationConfig;
   /**
    * @var string
    */

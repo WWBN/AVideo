@@ -21,7 +21,6 @@ class Struct extends \Google\Model
 {
   protected $fieldsType = Value::class;
   protected $fieldsDataType = 'map';
-  public $fields;
 
   /**
    * @param Value[]

@@ -21,7 +21,6 @@ class ColorStyle extends \Google\Model
 {
   protected $rgbColorType = Color::class;
   protected $rgbColorDataType = '';
-  public $rgbColor;
   /**
    * @var string
    */

@@ -22,13 +22,10 @@ class AndroidDeviceCatalog extends \Google\Collection
   protected $collection_key = 'versions';
   protected $modelsType = AndroidModel::class;
   protected $modelsDataType = 'array';
-  public $models;
   protected $runtimeConfigurationType = AndroidRuntimeConfiguration::class;
   protected $runtimeConfigurationDataType = '';
-  public $runtimeConfiguration;
   protected $versionsType = AndroidVersion::class;
   protected $versionsDataType = 'array';
-  public $versions;
 
   /**
    * @param AndroidModel[]

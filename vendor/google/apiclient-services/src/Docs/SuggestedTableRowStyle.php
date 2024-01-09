@@ -21,10 +21,8 @@ class SuggestedTableRowStyle extends \Google\Model
 {
   protected $tableRowStyleType = TableRowStyle::class;
   protected $tableRowStyleDataType = '';
-  public $tableRowStyle;
   protected $tableRowStyleSuggestionStateType = TableRowStyleSuggestionState::class;
   protected $tableRowStyleSuggestionStateDataType = '';
-  public $tableRowStyleSuggestionState;
 
   /**
    * @param TableRowStyle

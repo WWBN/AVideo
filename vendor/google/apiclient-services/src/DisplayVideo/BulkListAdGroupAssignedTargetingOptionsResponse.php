@@ -26,7 +26,6 @@ class BulkListAdGroupAssignedTargetingOptionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $youtubeAdGroupAssignedTargetingOptionsType = YoutubeAdGroupAssignedTargetingOption::class;
   protected $youtubeAdGroupAssignedTargetingOptionsDataType = 'array';
-  public $youtubeAdGroupAssignedTargetingOptions;
 
   /**
    * @param string

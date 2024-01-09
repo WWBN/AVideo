@@ -21,10 +21,8 @@ class ResponsePolicyRulesUpdateResponse extends \Google\Model
 {
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   protected $responsePolicyRuleType = ResponsePolicyRule::class;
   protected $responsePolicyRuleDataType = '';
-  public $responsePolicyRule;
 
   /**
    * @param ResponseHeader

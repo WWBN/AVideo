@@ -27,13 +27,15 @@ class Membership extends \Google\Collection
   /**
    * @var string
    */
+  public $deliverySetting;
+  /**
+   * @var string
+   */
   public $name;
   protected $preferredMemberKeyType = EntityKey::class;
   protected $preferredMemberKeyDataType = '';
-  public $preferredMemberKey;
   protected $rolesType = MembershipRole::class;
   protected $rolesDataType = 'array';
-  public $roles;
   /**
    * @var string
    */
@@ -56,6 +58,20 @@ class Membership extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setDeliverySetting($deliverySetting)
+  {
+    $this->deliverySetting = $deliverySetting;
+  }
+  /**
+   * @return string
+   */
+  public function getDeliverySetting()
+  {
+    return $this->deliverySetting;
   }
   /**
    * @param string

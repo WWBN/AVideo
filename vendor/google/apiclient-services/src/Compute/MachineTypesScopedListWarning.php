@@ -26,7 +26,6 @@ class MachineTypesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = MachineTypesScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

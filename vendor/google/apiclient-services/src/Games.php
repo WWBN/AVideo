@@ -405,6 +405,16 @@ class Games extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'getMultipleApplicationPlayerIds' => [
+              'path' => 'games/v1/players/me/multipleApplicationPlayerIds',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'applicationIds' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
             ],'getScopedPlayerIds' => [
               'path' => 'games/v1/players/me/scopedIds',
               'httpMethod' => 'GET',

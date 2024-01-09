@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2CreateInspectTemplateRequest extends \Google\Model
 {
   protected $inspectTemplateType = GooglePrivacyDlpV2InspectTemplate::class;
   protected $inspectTemplateDataType = '';
-  public $inspectTemplate;
   /**
    * @var string
    */

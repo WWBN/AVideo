@@ -26,7 +26,6 @@ class LogBucket extends \Google\Collection
   public $analyticsEnabled;
   protected $cmekSettingsType = CmekSettings::class;
   protected $cmekSettingsDataType = '';
-  public $cmekSettings;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class LogBucket extends \Google\Collection
   public $description;
   protected $indexConfigsType = IndexConfig::class;
   protected $indexConfigsDataType = 'array';
-  public $indexConfigs;
   /**
    * @var string
    */

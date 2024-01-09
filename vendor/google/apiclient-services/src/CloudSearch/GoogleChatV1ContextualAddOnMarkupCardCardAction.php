@@ -25,7 +25,6 @@ class GoogleChatV1ContextualAddOnMarkupCardCardAction extends \Google\Model
   public $actionLabel;
   protected $onClickType = GoogleChatV1WidgetMarkupOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
 
   /**
    * @param string

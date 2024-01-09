@@ -25,7 +25,6 @@ class CreateLineRequest extends \Google\Model
   public $category;
   protected $elementPropertiesType = PageElementProperties::class;
   protected $elementPropertiesDataType = '';
-  public $elementProperties;
   /**
    * @var string
    */

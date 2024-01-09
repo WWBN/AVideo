@@ -22,7 +22,6 @@ class PublishRequest extends \Google\Collection
   protected $collection_key = 'messages';
   protected $messagesType = PubsubMessage::class;
   protected $messagesDataType = 'array';
-  public $messages;
 
   /**
    * @param PubsubMessage[]

@@ -22,13 +22,10 @@ class QuestionGroupItem extends \Google\Collection
   protected $collection_key = 'questions';
   protected $gridType = Grid::class;
   protected $gridDataType = '';
-  public $grid;
   protected $imageType = Image::class;
   protected $imageDataType = '';
-  public $image;
   protected $questionsType = Question::class;
   protected $questionsDataType = 'array';
-  public $questions;
 
   /**
    * @param Grid

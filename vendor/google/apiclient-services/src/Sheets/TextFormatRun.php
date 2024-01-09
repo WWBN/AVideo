@@ -21,7 +21,6 @@ class TextFormatRun extends \Google\Model
 {
   protected $formatType = TextFormat::class;
   protected $formatDataType = '';
-  public $format;
   /**
    * @var int
    */

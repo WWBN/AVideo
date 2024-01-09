@@ -26,7 +26,6 @@ class QueryWorkflowInvocationActionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $workflowInvocationActionsType = WorkflowInvocationAction::class;
   protected $workflowInvocationActionsDataType = 'array';
-  public $workflowInvocationActions;
 
   /**
    * @param string

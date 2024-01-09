@@ -21,10 +21,8 @@ class IntHparamSearchSpace extends \Google\Model
 {
   protected $candidatesType = IntCandidates::class;
   protected $candidatesDataType = '';
-  public $candidates;
   protected $rangeType = IntRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param IntCandidates

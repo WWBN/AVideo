@@ -34,7 +34,6 @@ class UrlMapTest extends \Google\Collection
   public $expectedRedirectResponseCode;
   protected $headersType = UrlMapTestHeader::class;
   protected $headersDataType = 'array';
-  public $headers;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class ConferenceSolution extends \Google\Model
   public $iconUri;
   protected $keyType = ConferenceSolutionKey::class;
   protected $keyDataType = '';
-  public $key;
   /**
    * @var string
    */

@@ -33,7 +33,6 @@ class RewriteResponse extends \Google\Model
   public $objectSize;
   protected $resourceType = StorageObject::class;
   protected $resourceDataType = '';
-  public $resource;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class EnterpriseCrmFrontendsEventbusProtoParameterMapEntry extends \Google\Model
 {
   protected $keyType = EnterpriseCrmFrontendsEventbusProtoParameterMapField::class;
   protected $keyDataType = '';
-  public $key;
   protected $valueType = EnterpriseCrmFrontendsEventbusProtoParameterMapField::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param EnterpriseCrmFrontendsEventbusProtoParameterMapField

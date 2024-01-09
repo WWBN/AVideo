@@ -21,7 +21,6 @@ class UpdateSubscriptionRequest extends \Google\Model
 {
   protected $subscriptionType = Subscription::class;
   protected $subscriptionDataType = '';
-  public $subscription;
   /**
    * @var string
    */

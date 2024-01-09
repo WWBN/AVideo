@@ -22,7 +22,6 @@ class Creative extends \Google\Collection
   protected $collection_key = 'transcodes';
   protected $additionalDimensionsType = Dimensions::class;
   protected $additionalDimensionsDataType = 'array';
-  public $additionalDimensions;
   /**
    * @var string
    */
@@ -33,21 +32,18 @@ class Creative extends \Google\Collection
   public $appendedTag;
   protected $assetsType = AssetAssociation::class;
   protected $assetsDataType = 'array';
-  public $assets;
   /**
    * @var string
    */
   public $cmPlacementId;
   protected $cmTrackingAdType = CmTrackingAd::class;
   protected $cmTrackingAdDataType = '';
-  public $cmTrackingAd;
   /**
    * @var string[]
    */
   public $companionCreativeIds;
   protected $counterEventsType = CounterEvent::class;
   protected $counterEventsDataType = 'array';
-  public $counterEvents;
   /**
    * @var string
    */
@@ -66,7 +62,6 @@ class Creative extends \Google\Collection
   public $creativeType;
   protected $dimensionsType = Dimensions::class;
   protected $dimensionsDataType = '';
-  public $dimensions;
   /**
    * @var string
    */
@@ -81,7 +76,6 @@ class Creative extends \Google\Collection
   public $entityStatus;
   protected $exitEventsType = ExitEvent::class;
   protected $exitEventsDataType = 'array';
-  public $exitEvents;
   /**
    * @var bool
    */
@@ -132,14 +126,12 @@ class Creative extends \Google\Collection
   public $notes;
   protected $obaIconType = ObaIcon::class;
   protected $obaIconDataType = '';
-  public $obaIcon;
   /**
    * @var bool
    */
   public $oggAudio;
   protected $progressOffsetType = AudioVideoOffset::class;
   protected $progressOffsetDataType = '';
-  public $progressOffset;
   /**
    * @var bool
    */
@@ -154,10 +146,8 @@ class Creative extends \Google\Collection
   public $requirePingForAttribution;
   protected $reviewStatusType = ReviewStatusInfo::class;
   protected $reviewStatusDataType = '';
-  public $reviewStatus;
   protected $skipOffsetType = AudioVideoOffset::class;
   protected $skipOffsetDataType = '';
-  public $skipOffset;
   /**
    * @var bool
    */
@@ -168,20 +158,16 @@ class Creative extends \Google\Collection
   public $thirdPartyTag;
   protected $thirdPartyUrlsType = ThirdPartyUrl::class;
   protected $thirdPartyUrlsDataType = 'array';
-  public $thirdPartyUrls;
   protected $timerEventsType = TimerEvent::class;
   protected $timerEventsDataType = 'array';
-  public $timerEvents;
   /**
    * @var string[]
    */
   public $trackerUrls;
   protected $transcodesType = Transcode::class;
   protected $transcodesDataType = 'array';
-  public $transcodes;
   protected $universalAdIdType = UniversalAdId::class;
   protected $universalAdIdDataType = '';
-  public $universalAdId;
   /**
    * @var string
    */

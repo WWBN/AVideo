@@ -65,7 +65,7 @@ class ProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations extends
    * @param array $optParams Optional parameters.
    *
    * @opt_param string etag If set, the request will be rejected if the latest
-   * version of the workstation on the server does not have this etag.
+   * version of the workstation on the server does not have this ETag.
    * @opt_param bool validateOnly If set, validate the request and preview the
    * review, but do not actually apply it.
    * @return Operation
@@ -136,8 +136,9 @@ class ProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations extends
     return $this->call('getIamPolicy', [$params], Policy::class);
   }
   /**
-   * Returns all Workstations using the specified config. (workstations.listProjec
-   * tsLocationsWorkstationClustersWorkstationConfigsWorkstations)
+   * Returns all Workstations using the specified workstation configuration. (work
+   * stations.listProjectsLocationsWorkstationClustersWorkstationConfigsWorkstatio
+   * ns)
    *
    * @param string $parent Required. Parent resource name.
    * @param array $optParams Optional parameters.
@@ -154,8 +155,9 @@ class ProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations extends
     return $this->call('list', [$params], ListWorkstationsResponse::class);
   }
   /**
-   * Returns all Workstations using the specified config on which the caller has
-   * the "workstations.workstations.use" permission. (workstations.listUsable)
+   * Returns all workstations using the specified workstation configuration on
+   * which the caller has the "workstations.workstations.use" permission.
+   * (workstations.listUsable)
    *
    * @param string $parent Required. Parent resource name.
    * @param array $optParams Optional parameters.
@@ -178,10 +180,11 @@ class ProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations extends
    * @param Workstation $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool allowMissing If set, and the config is not found, a new
-   * config will be created. In this situation, update_mask is ignored.
+   * @opt_param bool allowMissing If set and the workstation configuration is not
+   * found, a new workstation configuration is created. In this situation,
+   * update_mask is ignored.
    * @opt_param string updateMask Required. Mask specifying which fields in the
-   * config should be updated.
+   * workstation configuration should be updated.
    * @opt_param bool validateOnly If set, validate the request and preview the
    * review, but do not actually apply it.
    * @return Operation

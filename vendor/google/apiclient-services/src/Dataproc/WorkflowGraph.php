@@ -22,7 +22,6 @@ class WorkflowGraph extends \Google\Collection
   protected $collection_key = 'nodes';
   protected $nodesType = WorkflowNode::class;
   protected $nodesDataType = 'array';
-  public $nodes;
 
   /**
    * @param WorkflowNode[]

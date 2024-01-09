@@ -26,7 +26,6 @@ class GoogleCloudApigeeV1ListTraceConfigOverridesResponse extends \Google\Collec
   public $nextPageToken;
   protected $traceConfigOverridesType = GoogleCloudApigeeV1TraceConfigOverride::class;
   protected $traceConfigOverridesDataType = 'array';
-  public $traceConfigOverrides;
 
   /**
    * @param string

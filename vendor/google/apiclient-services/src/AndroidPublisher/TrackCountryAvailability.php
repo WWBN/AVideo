@@ -22,7 +22,6 @@ class TrackCountryAvailability extends \Google\Collection
   protected $collection_key = 'countries';
   protected $countriesType = TrackTargetedCountry::class;
   protected $countriesDataType = 'array';
-  public $countries;
   /**
    * @var bool
    */

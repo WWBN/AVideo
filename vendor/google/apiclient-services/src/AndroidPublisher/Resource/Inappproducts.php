@@ -31,7 +31,7 @@ use Google\Service\AndroidPublisher\InappproductsListResponse;
 class Inappproducts extends \Google\Service\Resource
 {
   /**
-   * Deletes an in-app product (i.e. a managed product or a subscriptions).
+   * Deletes an in-app product (i.e. a managed product or a subscription).
    * (inappproducts.delete)
    *
    * @param string $packageName Package name of the app.
@@ -60,7 +60,7 @@ class Inappproducts extends \Google\Service\Resource
     return $this->call('get', [$params], InAppProduct::class);
   }
   /**
-   * Creates an in-app product (i.e. a managed product or a subscriptions).
+   * Creates an in-app product (i.e. a managed product or a subscription).
    * (inappproducts.insert)
    *
    * @param string $packageName Package name of the app.
@@ -92,7 +92,7 @@ class Inappproducts extends \Google\Service\Resource
    * @opt_param string maxResults Deprecated and ignored. The page size is
    * determined by the server.
    * @opt_param string startIndex Deprecated and ignored. Set the `token`
-   * parameter to rertieve the next page.
+   * parameter to retrieve the next page.
    * @opt_param string token Pagination token. If empty, list starts at the first
    * product.
    * @return InappproductsListResponse
@@ -104,7 +104,7 @@ class Inappproducts extends \Google\Service\Resource
     return $this->call('list', [$params], InappproductsListResponse::class);
   }
   /**
-   * Patches an in-app product (i.e. a managed product or a subscriptions).
+   * Patches an in-app product (i.e. a managed product or a subscription).
    * (inappproducts.patch)
    *
    * @param string $packageName Package name of the app.
@@ -125,7 +125,7 @@ class Inappproducts extends \Google\Service\Resource
     return $this->call('patch', [$params], InAppProduct::class);
   }
   /**
-   * Updates an in-app product (i.e. a managed product or a subscriptions).
+   * Updates an in-app product (i.e. a managed product or a subscription).
    * (inappproducts.update)
    *
    * @param string $packageName Package name of the app.

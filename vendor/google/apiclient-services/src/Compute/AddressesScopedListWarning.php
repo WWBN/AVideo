@@ -26,7 +26,6 @@ class AddressesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = AddressesScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

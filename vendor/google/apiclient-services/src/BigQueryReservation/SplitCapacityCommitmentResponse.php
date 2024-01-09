@@ -21,10 +21,8 @@ class SplitCapacityCommitmentResponse extends \Google\Model
 {
   protected $firstType = CapacityCommitment::class;
   protected $firstDataType = '';
-  public $first;
   protected $secondType = CapacityCommitment::class;
   protected $secondDataType = '';
-  public $second;
 
   /**
    * @param CapacityCommitment

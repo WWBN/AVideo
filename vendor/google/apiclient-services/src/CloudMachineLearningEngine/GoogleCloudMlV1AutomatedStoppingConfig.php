@@ -21,10 +21,8 @@ class GoogleCloudMlV1AutomatedStoppingConfig extends \Google\Model
 {
   protected $decayCurveStoppingConfigType = GoogleCloudMlV1AutomatedStoppingConfigDecayCurveAutomatedStoppingConfig::class;
   protected $decayCurveStoppingConfigDataType = '';
-  public $decayCurveStoppingConfig;
   protected $medianAutomatedStoppingConfigType = GoogleCloudMlV1AutomatedStoppingConfigMedianAutomatedStoppingConfig::class;
   protected $medianAutomatedStoppingConfigDataType = '';
-  public $medianAutomatedStoppingConfig;
 
   /**
    * @param GoogleCloudMlV1AutomatedStoppingConfigDecayCurveAutomatedStoppingConfig

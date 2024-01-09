@@ -25,10 +25,8 @@ class Statement extends \Google\Model
   public $relation;
   protected $sourceType = Asset::class;
   protected $sourceDataType = '';
-  public $source;
   protected $targetType = Asset::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param string

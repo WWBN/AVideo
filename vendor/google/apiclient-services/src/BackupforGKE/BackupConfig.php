@@ -25,7 +25,6 @@ class BackupConfig extends \Google\Model
   public $allNamespaces;
   protected $encryptionKeyType = EncryptionKey::class;
   protected $encryptionKeyDataType = '';
-  public $encryptionKey;
   /**
    * @var bool
    */
@@ -36,10 +35,8 @@ class BackupConfig extends \Google\Model
   public $includeVolumeData;
   protected $selectedApplicationsType = NamespacedNames::class;
   protected $selectedApplicationsDataType = '';
-  public $selectedApplications;
   protected $selectedNamespacesType = Namespaces::class;
   protected $selectedNamespacesDataType = '';
-  public $selectedNamespaces;
 
   /**
    * @param bool

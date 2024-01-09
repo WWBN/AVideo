@@ -21,10 +21,8 @@ class QualitySnippetsTruncationSnippetBoldedRange extends \Google\Model
 {
   protected $beginType = QualitySnippetsTruncationSnippetBoldedRangePosition::class;
   protected $beginDataType = '';
-  public $begin;
   protected $endType = QualitySnippetsTruncationSnippetBoldedRangePosition::class;
   protected $endDataType = '';
-  public $end;
   /**
    * @var string
    */

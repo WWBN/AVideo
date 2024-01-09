@@ -22,14 +22,16 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   protected $collection_key = 'destinationConfigs';
   protected $authConfigType = GoogleCloudConnectorsV1AuthConfig::class;
   protected $authConfigDataType = '';
-  public $authConfig;
   protected $configVariablesType = GoogleCloudConnectorsV1ConfigVariable::class;
   protected $configVariablesDataType = 'array';
-  public $configVariables;
   /**
    * @var string
    */
   public $connectorVersion;
+  /**
+   * @var string
+   */
+  public $connectorVersionLaunchStage;
   /**
    * @var string
    */
@@ -40,7 +42,6 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public $description;
   protected $destinationConfigsType = GoogleCloudConnectorsV1DestinationConfig::class;
   protected $destinationConfigsDataType = 'array';
-  public $destinationConfigs;
   /**
    * @var string
    */
@@ -55,14 +56,14 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public $labels;
   protected $lockConfigType = GoogleCloudConnectorsV1LockConfig::class;
   protected $lockConfigDataType = '';
-  public $lockConfig;
+  protected $logConfigType = GoogleCloudConnectorsV1LogConfig::class;
+  protected $logConfigDataType = '';
   /**
    * @var string
    */
   public $name;
   protected $nodeConfigType = GoogleCloudConnectorsV1NodeConfig::class;
   protected $nodeConfigDataType = '';
-  public $nodeConfig;
   /**
    * @var string
    */
@@ -71,9 +72,14 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
    * @var string
    */
   public $serviceDirectory;
+  protected $sslConfigType = GoogleCloudConnectorsV1SslConfig::class;
+  protected $sslConfigDataType = '';
   protected $statusType = GoogleCloudConnectorsV1ConnectionStatus::class;
   protected $statusDataType = '';
-  public $status;
+  /**
+   * @var string
+   */
+  public $subscriptionType;
   /**
    * @var bool
    */
@@ -124,6 +130,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getConnectorVersion()
   {
     return $this->connectorVersion;
+  }
+  /**
+   * @param string
+   */
+  public function setConnectorVersionLaunchStage($connectorVersionLaunchStage)
+  {
+    $this->connectorVersionLaunchStage = $connectorVersionLaunchStage;
+  }
+  /**
+   * @return string
+   */
+  public function getConnectorVersionLaunchStage()
+  {
+    return $this->connectorVersionLaunchStage;
   }
   /**
    * @param string
@@ -224,6 +244,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
     return $this->lockConfig;
   }
   /**
+   * @param GoogleCloudConnectorsV1LogConfig
+   */
+  public function setLogConfig(GoogleCloudConnectorsV1LogConfig $logConfig)
+  {
+    $this->logConfig = $logConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1LogConfig
+   */
+  public function getLogConfig()
+  {
+    return $this->logConfig;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -280,6 +314,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
     return $this->serviceDirectory;
   }
   /**
+   * @param GoogleCloudConnectorsV1SslConfig
+   */
+  public function setSslConfig(GoogleCloudConnectorsV1SslConfig $sslConfig)
+  {
+    $this->sslConfig = $sslConfig;
+  }
+  /**
+   * @return GoogleCloudConnectorsV1SslConfig
+   */
+  public function getSslConfig()
+  {
+    return $this->sslConfig;
+  }
+  /**
    * @param GoogleCloudConnectorsV1ConnectionStatus
    */
   public function setStatus(GoogleCloudConnectorsV1ConnectionStatus $status)
@@ -292,6 +340,20 @@ class GoogleCloudConnectorsV1Connection extends \Google\Collection
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param string
+   */
+  public function setSubscriptionType($subscriptionType)
+  {
+    $this->subscriptionType = $subscriptionType;
+  }
+  /**
+   * @return string
+   */
+  public function getSubscriptionType()
+  {
+    return $this->subscriptionType;
   }
   /**
    * @param bool

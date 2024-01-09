@@ -22,7 +22,6 @@ class ListInvitationsResponse extends \Google\Collection
   protected $collection_key = 'invitations';
   protected $invitationsType = Invitation::class;
   protected $invitationsDataType = 'array';
-  public $invitations;
   /**
    * @var string
    */

@@ -17,8 +17,9 @@
 
 namespace Google\Service\Cloudchannel;
 
-class GoogleCloudChannelV1FetchReportResultsRequest extends \Google\Model
+class GoogleCloudChannelV1FetchReportResultsRequest extends \Google\Collection
 {
+  protected $collection_key = 'partitionKeys';
   /**
    * @var int
    */
@@ -27,6 +28,10 @@ class GoogleCloudChannelV1FetchReportResultsRequest extends \Google\Model
    * @var string
    */
   public $pageToken;
+  /**
+   * @var string[]
+   */
+  public $partitionKeys;
 
   /**
    * @param int
@@ -55,6 +60,20 @@ class GoogleCloudChannelV1FetchReportResultsRequest extends \Google\Model
   public function getPageToken()
   {
     return $this->pageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setPartitionKeys($partitionKeys)
+  {
+    $this->partitionKeys = $partitionKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getPartitionKeys()
+  {
+    return $this->partitionKeys;
   }
 }
 

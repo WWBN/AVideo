@@ -22,7 +22,6 @@ class DirectorySitesListResponse extends \Google\Collection
   protected $collection_key = 'directorySites';
   protected $directorySitesType = DirectorySite::class;
   protected $directorySitesDataType = 'array';
-  public $directorySites;
   /**
    * @var string
    */

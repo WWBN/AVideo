@@ -21,10 +21,8 @@ class SecurityPolicyRuleMatcher extends \Google\Model
 {
   protected $configType = SecurityPolicyRuleMatcherConfig::class;
   protected $configDataType = '';
-  public $config;
   protected $exprType = Expr::class;
   protected $exprDataType = '';
-  public $expr;
   /**
    * @var string
    */

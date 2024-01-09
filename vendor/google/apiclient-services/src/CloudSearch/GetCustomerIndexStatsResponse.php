@@ -26,7 +26,6 @@ class GetCustomerIndexStatsResponse extends \Google\Collection
   public $averageIndexedItemCount;
   protected $statsType = CustomerIndexStats::class;
   protected $statsDataType = 'array';
-  public $stats;
 
   /**
    * @param string

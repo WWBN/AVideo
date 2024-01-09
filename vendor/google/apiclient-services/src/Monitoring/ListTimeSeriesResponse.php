@@ -22,14 +22,12 @@ class ListTimeSeriesResponse extends \Google\Collection
   protected $collection_key = 'timeSeries';
   protected $executionErrorsType = Status::class;
   protected $executionErrorsDataType = 'array';
-  public $executionErrors;
   /**
    * @var string
    */
   public $nextPageToken;
   protected $timeSeriesType = TimeSeries::class;
   protected $timeSeriesDataType = 'array';
-  public $timeSeries;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class AuditConfig extends \Google\Collection
   protected $collection_key = 'auditLogConfigs';
   protected $auditLogConfigsType = AuditLogConfig::class;
   protected $auditLogConfigsDataType = 'array';
-  public $auditLogConfigs;
   /**
    * @var string
    */

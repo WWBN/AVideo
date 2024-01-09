@@ -21,14 +21,12 @@ class Event extends \Google\Model
 {
   protected $dateType = Date::class;
   protected $dateDataType = '';
-  public $date;
   /**
    * @var string
    */
   public $formattedType;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

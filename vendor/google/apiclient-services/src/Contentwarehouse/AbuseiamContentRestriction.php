@@ -22,10 +22,8 @@ class AbuseiamContentRestriction extends \Google\Collection
   protected $collection_key = 'userVerdict';
   protected $adminVerdictType = AbuseiamVerdict::class;
   protected $adminVerdictDataType = 'array';
-  public $adminVerdict;
   protected $userVerdictType = AbuseiamVerdict::class;
   protected $userVerdictDataType = 'array';
-  public $userVerdict;
 
   /**
    * @param AbuseiamVerdict[]

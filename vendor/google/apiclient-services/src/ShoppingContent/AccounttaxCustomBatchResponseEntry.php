@@ -21,14 +21,12 @@ class AccounttaxCustomBatchResponseEntry extends \Google\Model
 {
   protected $accountTaxType = AccountTax::class;
   protected $accountTaxDataType = '';
-  public $accountTax;
   /**
    * @var string
    */
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
-  public $errors;
   /**
    * @var string
    */

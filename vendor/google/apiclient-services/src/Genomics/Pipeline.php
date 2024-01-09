@@ -22,17 +22,14 @@ class Pipeline extends \Google\Collection
   protected $collection_key = 'actions';
   protected $actionsType = Action::class;
   protected $actionsDataType = 'array';
-  public $actions;
   protected $encryptedEnvironmentType = Secret::class;
   protected $encryptedEnvironmentDataType = '';
-  public $encryptedEnvironment;
   /**
    * @var string[]
    */
   public $environment;
   protected $resourcesType = Resources::class;
   protected $resourcesDataType = '';
-  public $resources;
   /**
    * @var string
    */

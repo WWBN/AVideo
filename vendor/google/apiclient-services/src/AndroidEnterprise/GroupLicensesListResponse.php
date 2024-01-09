@@ -22,7 +22,6 @@ class GroupLicensesListResponse extends \Google\Collection
   protected $collection_key = 'groupLicense';
   protected $groupLicenseType = GroupLicense::class;
   protected $groupLicenseDataType = 'array';
-  public $groupLicense;
 
   /**
    * @param GroupLicense[]

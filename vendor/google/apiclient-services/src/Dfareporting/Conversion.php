@@ -19,14 +19,13 @@ namespace Google\Service\Dfareporting;
 
 class Conversion extends \Google\Collection
 {
-  protected $collection_key = 'encryptedUserIdCandidates';
+  protected $collection_key = 'userIdentifiers';
   /**
    * @var bool
    */
   public $childDirectedTreatment;
   protected $customVariablesType = CustomFloodlightVariable::class;
   protected $customVariablesDataType = 'array';
-  public $customVariables;
   /**
    * @var string
    */
@@ -91,6 +90,8 @@ class Conversion extends \Google\Collection
    * @var bool
    */
   public $treatmentForUnderage;
+  protected $userIdentifiersType = UserIdentifier::class;
+  protected $userIdentifiersDataType = 'array';
   public $value;
 
   /**
@@ -344,6 +345,20 @@ class Conversion extends \Google\Collection
   public function getTreatmentForUnderage()
   {
     return $this->treatmentForUnderage;
+  }
+  /**
+   * @param UserIdentifier[]
+   */
+  public function setUserIdentifiers($userIdentifiers)
+  {
+    $this->userIdentifiers = $userIdentifiers;
+  }
+  /**
+   * @return UserIdentifier[]
+   */
+  public function getUserIdentifiers()
+  {
+    return $this->userIdentifiers;
   }
   public function setValue($value)
   {

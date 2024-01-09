@@ -22,7 +22,6 @@ class BatchGetPhotosResponse extends \Google\Collection
   protected $collection_key = 'results';
   protected $resultsType = PhotoResponse::class;
   protected $resultsDataType = 'array';
-  public $results;
 
   /**
    * @param PhotoResponse[]

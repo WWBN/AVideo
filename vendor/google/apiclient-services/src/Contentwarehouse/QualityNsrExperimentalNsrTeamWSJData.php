@@ -21,7 +21,6 @@ class QualityNsrExperimentalNsrTeamWSJData extends \Google\Model
 {
   protected $experimentalNsrTeamDataType = QualityNsrExperimentalNsrTeamData::class;
   protected $experimentalNsrTeamDataDataType = '';
-  public $experimentalNsrTeamData;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class ListNamespacesResponse extends \Google\Collection
   protected $collection_key = 'namespaces';
   protected $namespacesType = ServicedirectoryNamespace::class;
   protected $namespacesDataType = 'array';
-  public $namespaces;
   /**
    * @var string
    */

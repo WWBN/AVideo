@@ -22,7 +22,6 @@ class IndexingDocjoinerServingTimeClusterIds extends \Google\Collection
   protected $collection_key = 'clusterId';
   protected $clusterIdType = IndexingDocjoinerServingTimeClusterId::class;
   protected $clusterIdDataType = 'array';
-  public $clusterId;
 
   /**
    * @param IndexingDocjoinerServingTimeClusterId[]

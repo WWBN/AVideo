@@ -21,10 +21,8 @@ class AppsPeopleOzExternalMergedpeopleapiContactStateInfo extends \Google\Model
 {
   protected $contactStateType = SocialGraphApiProtoContactState::class;
   protected $contactStateDataType = '';
-  public $contactState;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
 
   /**
    * @param SocialGraphApiProtoContactState

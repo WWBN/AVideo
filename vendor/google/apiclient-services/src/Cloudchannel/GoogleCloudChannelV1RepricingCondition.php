@@ -21,7 +21,6 @@ class GoogleCloudChannelV1RepricingCondition extends \Google\Model
 {
   protected $skuGroupConditionType = GoogleCloudChannelV1SkuGroupCondition::class;
   protected $skuGroupConditionDataType = '';
-  public $skuGroupCondition;
 
   /**
    * @param GoogleCloudChannelV1SkuGroupCondition

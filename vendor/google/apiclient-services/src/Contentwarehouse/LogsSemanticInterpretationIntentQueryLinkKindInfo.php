@@ -21,7 +21,6 @@ class LogsSemanticInterpretationIntentQueryLinkKindInfo extends \Google\Model
 {
   protected $flagsType = LogsSemanticInterpretationIntentQueryLinkKindFlags::class;
   protected $flagsDataType = '';
-  public $flags;
   /**
    * @var string
    */

@@ -155,6 +155,10 @@ class RulesetStandardLibrary
      */
     public function parseUrl($url)
     {
+        if (is_null($url)) {
+            return null;
+        }
+
         $parsed = parse_url($url);
 
         if ($parsed === false || !empty($parsed['query'])) {
@@ -315,7 +319,7 @@ class RulesetStandardLibrary
         }
 
         $result = call_user_func_array(
-            ['Aws\EndpointV2\Ruleset\RulesetStandardLibrary', $funcName],
+            [RulesetStandardLibrary::class, $funcName],
             $funcArgs
         );
 

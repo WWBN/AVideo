@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2QuoteInfo extends \Google\Model
 {
   protected $dateTimeType = GooglePrivacyDlpV2DateTime::class;
   protected $dateTimeDataType = '';
-  public $dateTime;
 
   /**
    * @param GooglePrivacyDlpV2DateTime

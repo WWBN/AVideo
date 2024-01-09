@@ -22,7 +22,6 @@ class VideoThumbnailsFrameFileList extends \Google\Collection
   protected $collection_key = 'frameFiles';
   protected $frameFilesType = VideoThumbnailsFrameFile::class;
   protected $frameFilesDataType = 'array';
-  public $frameFiles;
 
   /**
    * @param VideoThumbnailsFrameFile[]

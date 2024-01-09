@@ -20,12 +20,8 @@ namespace Google\Service\Contentwarehouse;
 class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends \Google\Collection
 {
   protected $collection_key = 'extractProcessorInfos';
-  protected $classifySplitProcessorInfosType = GoogleCloudContentwarehouseV1ProcessorInfo::class;
-  protected $classifySplitProcessorInfosDataType = '';
-  public $classifySplitProcessorInfos;
   protected $extractProcessorInfosType = GoogleCloudContentwarehouseV1ProcessorInfo::class;
   protected $extractProcessorInfosDataType = 'array';
-  public $extractProcessorInfos;
   /**
    * @var string
    */
@@ -34,21 +30,9 @@ class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends 
    * @var string
    */
   public $processorResultsFolderPath;
+  protected $splitClassifyProcessorInfoType = GoogleCloudContentwarehouseV1ProcessorInfo::class;
+  protected $splitClassifyProcessorInfoDataType = '';
 
-  /**
-   * @param GoogleCloudContentwarehouseV1ProcessorInfo
-   */
-  public function setClassifySplitProcessorInfos(GoogleCloudContentwarehouseV1ProcessorInfo $classifySplitProcessorInfos)
-  {
-    $this->classifySplitProcessorInfos = $classifySplitProcessorInfos;
-  }
-  /**
-   * @return GoogleCloudContentwarehouseV1ProcessorInfo
-   */
-  public function getClassifySplitProcessorInfos()
-  {
-    return $this->classifySplitProcessorInfos;
-  }
   /**
    * @param GoogleCloudContentwarehouseV1ProcessorInfo[]
    */
@@ -90,6 +74,20 @@ class GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline extends 
   public function getProcessorResultsFolderPath()
   {
     return $this->processorResultsFolderPath;
+  }
+  /**
+   * @param GoogleCloudContentwarehouseV1ProcessorInfo
+   */
+  public function setSplitClassifyProcessorInfo(GoogleCloudContentwarehouseV1ProcessorInfo $splitClassifyProcessorInfo)
+  {
+    $this->splitClassifyProcessorInfo = $splitClassifyProcessorInfo;
+  }
+  /**
+   * @return GoogleCloudContentwarehouseV1ProcessorInfo
+   */
+  public function getSplitClassifyProcessorInfo()
+  {
+    return $this->splitClassifyProcessorInfo;
   }
 }
 

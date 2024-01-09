@@ -21,14 +21,12 @@ class NlpSemanticParsingLocalVicinityLocation extends \Google\Model
 {
   protected $baseType = NlpSemanticParsingLocalLocation::class;
   protected $baseDataType = '';
-  public $base;
   /**
    * @var string
    */
   public $connector;
   protected $extentType = NlpSemanticParsingLocalExtent::class;
   protected $extentDataType = '';
-  public $extent;
 
   /**
    * @param NlpSemanticParsingLocalLocation

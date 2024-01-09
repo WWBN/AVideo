@@ -21,10 +21,8 @@ class GoogleCloudDiscoveryengineLoggingErrorContext extends \Google\Model
 {
   protected $httpRequestType = GoogleCloudDiscoveryengineLoggingHttpRequestContext::class;
   protected $httpRequestDataType = '';
-  public $httpRequest;
   protected $reportLocationType = GoogleCloudDiscoveryengineLoggingSourceLocation::class;
   protected $reportLocationDataType = '';
-  public $reportLocation;
 
   /**
    * @param GoogleCloudDiscoveryengineLoggingHttpRequestContext

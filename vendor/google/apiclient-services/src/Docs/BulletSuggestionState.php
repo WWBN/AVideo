@@ -29,7 +29,6 @@ class BulletSuggestionState extends \Google\Model
   public $nestingLevelSuggested;
   protected $textStyleSuggestionStateType = TextStyleSuggestionState::class;
   protected $textStyleSuggestionStateDataType = '';
-  public $textStyleSuggestionState;
 
   /**
    * @param bool

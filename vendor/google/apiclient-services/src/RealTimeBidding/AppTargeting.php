@@ -21,10 +21,8 @@ class AppTargeting extends \Google\Model
 {
   protected $mobileAppCategoryTargetingType = NumericTargetingDimension::class;
   protected $mobileAppCategoryTargetingDataType = '';
-  public $mobileAppCategoryTargeting;
   protected $mobileAppTargetingType = StringTargetingDimension::class;
   protected $mobileAppTargetingDataType = '';
-  public $mobileAppTargeting;
 
   /**
    * @param NumericTargetingDimension

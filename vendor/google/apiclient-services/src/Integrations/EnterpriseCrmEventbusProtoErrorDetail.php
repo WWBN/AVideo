@@ -21,7 +21,6 @@ class EnterpriseCrmEventbusProtoErrorDetail extends \Google\Model
 {
   protected $errorCodeType = CrmlogErrorCode::class;
   protected $errorCodeDataType = '';
-  public $errorCode;
   /**
    * @var string
    */

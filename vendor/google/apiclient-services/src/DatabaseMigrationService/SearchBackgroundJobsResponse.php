@@ -22,7 +22,6 @@ class SearchBackgroundJobsResponse extends \Google\Collection
   protected $collection_key = 'jobs';
   protected $jobsType = BackgroundJobLogEntry::class;
   protected $jobsDataType = 'array';
-  public $jobs;
 
   /**
    * @param BackgroundJobLogEntry[]

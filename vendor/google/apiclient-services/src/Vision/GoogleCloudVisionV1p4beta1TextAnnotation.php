@@ -22,7 +22,6 @@ class GoogleCloudVisionV1p4beta1TextAnnotation extends \Google\Collection
   protected $collection_key = 'pages';
   protected $pagesType = GoogleCloudVisionV1p4beta1Page::class;
   protected $pagesDataType = 'array';
-  public $pages;
   /**
    * @var string
    */

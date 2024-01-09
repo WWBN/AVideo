@@ -21,10 +21,8 @@ class Straggler extends \Google\Model
 {
   protected $batchStragglerType = StragglerInfo::class;
   protected $batchStragglerDataType = '';
-  public $batchStraggler;
   protected $streamingStragglerType = StreamingStragglerInfo::class;
   protected $streamingStragglerDataType = '';
-  public $streamingStraggler;
 
   /**
    * @param StragglerInfo

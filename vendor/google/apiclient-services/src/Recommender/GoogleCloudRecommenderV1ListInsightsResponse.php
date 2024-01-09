@@ -22,7 +22,6 @@ class GoogleCloudRecommenderV1ListInsightsResponse extends \Google\Collection
   protected $collection_key = 'insights';
   protected $insightsType = GoogleCloudRecommenderV1Insight::class;
   protected $insightsDataType = 'array';
-  public $insights;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class GoogleCloudBeyondcorpAppconnectorsV1ListAppConnectorsResponse extends \Goo
   protected $collection_key = 'unreachable';
   protected $appConnectorsType = GoogleCloudBeyondcorpAppconnectorsV1AppConnector::class;
   protected $appConnectorsDataType = 'array';
-  public $appConnectors;
   /**
    * @var string
    */

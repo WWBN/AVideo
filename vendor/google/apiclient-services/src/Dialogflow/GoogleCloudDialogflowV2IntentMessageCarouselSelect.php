@@ -22,7 +22,6 @@ class GoogleCloudDialogflowV2IntentMessageCarouselSelect extends \Google\Collect
   protected $collection_key = 'items';
   protected $itemsType = GoogleCloudDialogflowV2IntentMessageCarouselSelectItem::class;
   protected $itemsDataType = 'array';
-  public $items;
 
   /**
    * @param GoogleCloudDialogflowV2IntentMessageCarouselSelectItem[]

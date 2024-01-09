@@ -22,7 +22,6 @@ class UpdateCcRecipients extends \Google\Collection
   protected $collection_key = 'ccRecipients';
   protected $ccRecipientsType = Recipient::class;
   protected $ccRecipientsDataType = 'array';
-  public $ccRecipients;
 
   /**
    * @param Recipient[]

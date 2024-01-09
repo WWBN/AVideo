@@ -42,7 +42,6 @@ class TlsRoute extends \Google\Collection
   public $name;
   protected $rulesType = TlsRouteRouteRule::class;
   protected $rulesDataType = 'array';
-  public $rules;
   /**
    * @var string
    */

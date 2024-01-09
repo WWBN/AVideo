@@ -30,10 +30,6 @@ class Model extends \Google\Model
   /**
    * @var string
    */
-  public $deployTime;
-  /**
-   * @var string
-   */
   public $displayName;
   /**
    * @var string
@@ -91,20 +87,6 @@ class Model extends \Google\Model
   public function getDataset()
   {
     return $this->dataset;
-  }
-  /**
-   * @param string
-   */
-  public function setDeployTime($deployTime)
-  {
-    $this->deployTime = $deployTime;
-  }
-  /**
-   * @return string
-   */
-  public function getDeployTime()
-  {
-    return $this->deployTime;
   }
   /**
    * @param string

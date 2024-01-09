@@ -33,10 +33,8 @@ class CommentThread extends \Google\Model
   public $kind;
   protected $repliesType = CommentThreadReplies::class;
   protected $repliesDataType = '';
-  public $replies;
   protected $snippetType = CommentThreadSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
 
   /**
    * @param string

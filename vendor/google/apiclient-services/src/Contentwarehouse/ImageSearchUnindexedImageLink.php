@@ -21,10 +21,8 @@ class ImageSearchUnindexedImageLink extends \Google\Model
 {
   protected $amarnaStatusType = ImageRepositoryAmarnaStatus::class;
   protected $amarnaStatusDataType = '';
-  public $amarnaStatus;
   protected $crawlStatusInfoType = ImageRepositoryCrawlStatusInfo::class;
   protected $crawlStatusInfoDataType = '';
-  public $crawlStatusInfo;
   /**
    * @var string
    */

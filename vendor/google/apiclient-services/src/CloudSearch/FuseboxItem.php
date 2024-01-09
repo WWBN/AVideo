@@ -21,54 +21,44 @@ class FuseboxItem extends \Google\Model
 {
   protected $attributesType = Attributes::class;
   protected $attributesDataType = '';
-  public $attributes;
   /**
    * @var string
    */
   public $creationTimeMicroseconds;
   protected $historyType = History::class;
   protected $historyDataType = '';
-  public $history;
   protected $itemKeyType = MultiKey::class;
   protected $itemKeyDataType = '';
-  public $itemKey;
   protected $labelsType = Labels::class;
   protected $labelsDataType = '';
-  public $labels;
   /**
    * @var string
    */
   public $lastModificationTimeUs;
   protected $lockerReferencesType = References::class;
   protected $lockerReferencesDataType = '';
-  public $lockerReferences;
   protected $matchInfoType = MatchInfo::class;
   protected $matchInfoDataType = '';
-  public $matchInfo;
   protected $partsType = ItemParts::class;
   protected $partsDataType = '';
-  public $parts;
   /**
    * @var string
    */
   public $readTs;
   protected $referencesType = References::class;
   protected $referencesDataType = '';
-  public $references;
   /**
    * @var string
    */
   public $snippet;
   protected $threadKeyType = MultiKey::class;
   protected $threadKeyDataType = '';
-  public $threadKey;
   /**
    * @var string
    */
   public $threadLocator;
   protected $triggersType = Triggers::class;
   protected $triggersDataType = '';
-  public $triggers;
   /**
    * @var string
    */

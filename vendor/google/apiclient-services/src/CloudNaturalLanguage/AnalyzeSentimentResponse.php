@@ -22,14 +22,12 @@ class AnalyzeSentimentResponse extends \Google\Collection
   protected $collection_key = 'sentences';
   protected $documentSentimentType = Sentiment::class;
   protected $documentSentimentDataType = '';
-  public $documentSentiment;
   /**
    * @var string
    */
   public $language;
   protected $sentencesType = Sentence::class;
   protected $sentencesDataType = 'array';
-  public $sentences;
 
   /**
    * @param Sentiment

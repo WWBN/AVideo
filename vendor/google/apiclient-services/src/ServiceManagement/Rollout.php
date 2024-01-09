@@ -29,7 +29,6 @@ class Rollout extends \Google\Model
   public $createdBy;
   protected $deleteServiceStrategyType = DeleteServiceStrategy::class;
   protected $deleteServiceStrategyDataType = '';
-  public $deleteServiceStrategy;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class Rollout extends \Google\Model
   public $status;
   protected $trafficPercentStrategyType = TrafficPercentStrategy::class;
   protected $trafficPercentStrategyDataType = '';
-  public $trafficPercentStrategy;
 
   /**
    * @param string

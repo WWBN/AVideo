@@ -22,7 +22,6 @@ class GoogleFirebaseAppcheckV1PublicJwkSet extends \Google\Collection
   protected $collection_key = 'keys';
   protected $keysType = GoogleFirebaseAppcheckV1PublicJwk::class;
   protected $keysDataType = 'array';
-  public $keys;
 
   /**
    * @param GoogleFirebaseAppcheckV1PublicJwk[]

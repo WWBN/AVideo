@@ -21,10 +21,8 @@ class AuxiliaryServicesConfig extends \Google\Model
 {
   protected $metastoreConfigType = MetastoreConfig::class;
   protected $metastoreConfigDataType = '';
-  public $metastoreConfig;
   protected $sparkHistoryServerConfigType = SparkHistoryServerConfig::class;
   protected $sparkHistoryServerConfigDataType = '';
-  public $sparkHistoryServerConfig;
 
   /**
    * @param MetastoreConfig

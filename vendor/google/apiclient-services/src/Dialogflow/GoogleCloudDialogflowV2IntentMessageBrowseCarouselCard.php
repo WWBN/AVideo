@@ -26,7 +26,6 @@ class GoogleCloudDialogflowV2IntentMessageBrowseCarouselCard extends \Google\Col
   public $imageDisplayOptions;
   protected $itemsType = GoogleCloudDialogflowV2IntentMessageBrowseCarouselCardBrowseCarouselCardItem::class;
   protected $itemsDataType = 'array';
-  public $items;
 
   /**
    * @param string

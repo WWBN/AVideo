@@ -38,6 +38,10 @@ class Options extends \Google\Model
   /**
    * @var bool
    */
+  public $includeDenyPolicyAnalysis;
+  /**
+   * @var bool
+   */
   public $outputGroupEdges;
   /**
    * @var bool
@@ -99,6 +103,20 @@ class Options extends \Google\Model
   public function getExpandRoles()
   {
     return $this->expandRoles;
+  }
+  /**
+   * @param bool
+   */
+  public function setIncludeDenyPolicyAnalysis($includeDenyPolicyAnalysis)
+  {
+    $this->includeDenyPolicyAnalysis = $includeDenyPolicyAnalysis;
+  }
+  /**
+   * @return bool
+   */
+  public function getIncludeDenyPolicyAnalysis()
+  {
+    return $this->includeDenyPolicyAnalysis;
   }
   /**
    * @param bool

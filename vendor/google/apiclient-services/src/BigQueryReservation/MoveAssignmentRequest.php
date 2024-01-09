@@ -22,8 +22,26 @@ class MoveAssignmentRequest extends \Google\Model
   /**
    * @var string
    */
+  public $assignmentId;
+  /**
+   * @var string
+   */
   public $destinationId;
 
+  /**
+   * @param string
+   */
+  public function setAssignmentId($assignmentId)
+  {
+    $this->assignmentId = $assignmentId;
+  }
+  /**
+   * @return string
+   */
+  public function getAssignmentId()
+  {
+    return $this->assignmentId;
+  }
   /**
    * @param string
    */

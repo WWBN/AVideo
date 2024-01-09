@@ -22,7 +22,6 @@ class FlagsListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Flag::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

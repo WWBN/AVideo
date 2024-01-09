@@ -21,7 +21,6 @@ class Membership extends \Google\Model
 {
   protected $authorityType = Authority::class;
   protected $authorityDataType = '';
-  public $authority;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class Membership extends \Google\Model
   public $description;
   protected $endpointType = MembershipEndpoint::class;
   protected $endpointDataType = '';
-  public $endpoint;
   /**
    * @var string
    */
@@ -49,13 +47,14 @@ class Membership extends \Google\Model
    * @var string
    */
   public $lastConnectionTime;
+  protected $monitoringConfigType = MonitoringConfig::class;
+  protected $monitoringConfigDataType = '';
   /**
    * @var string
    */
   public $name;
   protected $stateType = MembershipState::class;
   protected $stateDataType = '';
-  public $state;
   /**
    * @var string
    */
@@ -176,6 +175,20 @@ class Membership extends \Google\Model
   public function getLastConnectionTime()
   {
     return $this->lastConnectionTime;
+  }
+  /**
+   * @param MonitoringConfig
+   */
+  public function setMonitoringConfig(MonitoringConfig $monitoringConfig)
+  {
+    $this->monitoringConfig = $monitoringConfig;
+  }
+  /**
+   * @return MonitoringConfig
+   */
+  public function getMonitoringConfig()
+  {
+    return $this->monitoringConfig;
   }
   /**
    * @param string

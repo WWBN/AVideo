@@ -22,27 +22,21 @@ class RepositoryWebrefGeoMetadataProto extends \Google\Collection
   protected $collection_key = 'wpLocation';
   protected $addressType = GeostoreAddressProto::class;
   protected $addressDataType = '';
-  public $address;
   protected $addressSynonymsType = RepositoryWebrefGeoMetadataProtoAddressSynonym::class;
   protected $addressSynonymsDataType = 'array';
-  public $addressSynonyms;
   public $areaKm2;
   protected $boundType = GeostoreRectProto::class;
   protected $boundDataType = '';
-  public $bound;
   /**
    * @var string
    */
   public $countryCode;
   protected $locationType = GeostorePointProto::class;
   protected $locationDataType = '';
-  public $location;
   protected $nameType = GeostoreNameProto::class;
   protected $nameDataType = '';
-  public $name;
   protected $oysterIdType = GeostoreFeatureIdProto::class;
   protected $oysterIdDataType = '';
-  public $oysterId;
   /**
    * @var int
    */
@@ -53,7 +47,6 @@ class RepositoryWebrefGeoMetadataProto extends \Google\Collection
   public $timezone;
   protected $wpLocationType = RepositoryWebrefWikipediaGeocode::class;
   protected $wpLocationDataType = 'array';
-  public $wpLocation;
 
   /**
    * @param GeostoreAddressProto

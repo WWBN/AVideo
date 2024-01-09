@@ -21,7 +21,6 @@ class ClearAppsDataStatus extends \Google\Model
 {
   protected $resultsType = PerAppResult::class;
   protected $resultsDataType = 'map';
-  public $results;
 
   /**
    * @param PerAppResult[]

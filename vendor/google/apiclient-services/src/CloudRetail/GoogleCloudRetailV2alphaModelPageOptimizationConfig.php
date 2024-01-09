@@ -26,7 +26,6 @@ class GoogleCloudRetailV2alphaModelPageOptimizationConfig extends \Google\Collec
   public $pageOptimizationEventType;
   protected $panelsType = GoogleCloudRetailV2alphaModelPageOptimizationConfigPanel::class;
   protected $panelsDataType = 'array';
-  public $panels;
   /**
    * @var string
    */

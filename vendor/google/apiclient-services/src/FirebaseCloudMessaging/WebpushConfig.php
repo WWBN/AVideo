@@ -25,7 +25,6 @@ class WebpushConfig extends \Google\Model
   public $data;
   protected $fcmOptionsType = WebpushFcmOptions::class;
   protected $fcmOptionsDataType = '';
-  public $fcmOptions;
   /**
    * @var string[]
    */

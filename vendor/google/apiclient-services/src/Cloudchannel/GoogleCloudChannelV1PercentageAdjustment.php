@@ -21,7 +21,6 @@ class GoogleCloudChannelV1PercentageAdjustment extends \Google\Model
 {
   protected $percentageType = GoogleTypeDecimal::class;
   protected $percentageDataType = '';
-  public $percentage;
 
   /**
    * @param GoogleTypeDecimal

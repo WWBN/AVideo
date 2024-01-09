@@ -25,7 +25,6 @@ class EmbeddedObjectPosition extends \Google\Model
   public $newSheet;
   protected $overlayPositionType = OverlayPosition::class;
   protected $overlayPositionDataType = '';
-  public $overlayPosition;
   /**
    * @var int
    */

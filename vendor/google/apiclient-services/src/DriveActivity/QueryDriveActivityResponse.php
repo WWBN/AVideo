@@ -22,7 +22,6 @@ class QueryDriveActivityResponse extends \Google\Collection
   protected $collection_key = 'activities';
   protected $activitiesType = DriveActivity::class;
   protected $activitiesDataType = 'array';
-  public $activities;
   /**
    * @var string
    */

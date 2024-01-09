@@ -22,7 +22,6 @@ class DownloadAccesses extends \Google\Collection
   protected $collection_key = 'downloadAccessList';
   protected $downloadAccessListType = DownloadAccessRestriction::class;
   protected $downloadAccessListDataType = 'array';
-  public $downloadAccessList;
   /**
    * @var string
    */

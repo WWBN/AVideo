@@ -21,7 +21,6 @@ class ResourceIssue extends \Google\Model
 {
   protected $blockedResourceType = BlockedResource::class;
   protected $blockedResourceDataType = '';
-  public $blockedResource;
 
   /**
    * @param BlockedResource

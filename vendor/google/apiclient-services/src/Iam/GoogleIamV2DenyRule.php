@@ -22,7 +22,6 @@ class GoogleIamV2DenyRule extends \Google\Collection
   protected $collection_key = 'exceptionPrincipals';
   protected $denialConditionType = GoogleTypeExpr::class;
   protected $denialConditionDataType = '';
-  public $denialCondition;
   /**
    * @var string[]
    */

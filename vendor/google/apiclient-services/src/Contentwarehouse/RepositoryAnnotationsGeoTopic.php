@@ -22,10 +22,8 @@ class RepositoryAnnotationsGeoTopic extends \Google\Collection
   protected $collection_key = 'componentScores';
   protected $addressType = GeostoreAddressProto::class;
   protected $addressDataType = '';
-  public $address;
   protected $componentScoresType = RepositoryAnnotationsGeoTopicalityScore::class;
   protected $componentScoresDataType = 'array';
-  public $componentScores;
   /**
    * @var float
    */
@@ -56,7 +54,6 @@ class RepositoryAnnotationsGeoTopic extends \Google\Collection
   public $normalizedScore;
   protected $oysterIdType = GeostoreFeatureIdProto::class;
   protected $oysterIdDataType = '';
-  public $oysterId;
   /**
    * @var int
    */

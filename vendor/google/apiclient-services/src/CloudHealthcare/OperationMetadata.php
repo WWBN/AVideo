@@ -29,7 +29,6 @@ class OperationMetadata extends \Google\Model
   public $cancelRequested;
   protected $counterType = ProgressCounter::class;
   protected $counterDataType = '';
-  public $counter;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class ProjectsDisableXpnResourceRequest extends \Google\Model
 {
   protected $xpnResourceType = XpnResourceId::class;
   protected $xpnResourceDataType = '';
-  public $xpnResource;
 
   /**
    * @param XpnResourceId

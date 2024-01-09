@@ -22,7 +22,6 @@ class RemarketingAudiences extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = RemarketingAudience::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var int
    */

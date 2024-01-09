@@ -43,6 +43,8 @@ class GoogleAdsSearchads360V0CommonSegments extends \Google\Model
    * @var string
    */
   public $device;
+  protected $keywordType = GoogleAdsSearchads360V0CommonKeyword::class;
+  protected $keywordDataType = '';
   /**
    * @var string
    */
@@ -143,6 +145,20 @@ class GoogleAdsSearchads360V0CommonSegments extends \Google\Model
   public function getDevice()
   {
     return $this->device;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonKeyword
+   */
+  public function setKeyword(GoogleAdsSearchads360V0CommonKeyword $keyword)
+  {
+    $this->keyword = $keyword;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonKeyword
+   */
+  public function getKeyword()
+  {
+    return $this->keyword;
   }
   /**
    * @param string

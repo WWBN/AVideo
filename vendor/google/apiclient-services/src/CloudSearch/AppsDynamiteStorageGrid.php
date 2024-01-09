@@ -22,17 +22,14 @@ class AppsDynamiteStorageGrid extends \Google\Collection
   protected $collection_key = 'items';
   protected $borderStyleType = AppsDynamiteStorageBorderStyle::class;
   protected $borderStyleDataType = '';
-  public $borderStyle;
   /**
    * @var int
    */
   public $columnCount;
   protected $itemsType = AppsDynamiteStorageGridGridItem::class;
   protected $itemsDataType = 'array';
-  public $items;
   protected $onClickType = AppsDynamiteStorageOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

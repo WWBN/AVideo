@@ -21,10 +21,8 @@ class PageProperties extends \Google\Model
 {
   protected $colorSchemeType = ColorScheme::class;
   protected $colorSchemeDataType = '';
-  public $colorScheme;
   protected $pageBackgroundFillType = PageBackgroundFill::class;
   protected $pageBackgroundFillDataType = '';
-  public $pageBackgroundFill;
 
   /**
    * @param ColorScheme

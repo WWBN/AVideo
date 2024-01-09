@@ -22,6 +22,7 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaExecuteIntegration
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaListIntegrationsResponse;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest;
 use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegrationsResponse;
+use Google\Service\Integrations\GoogleProtobufEmpty;
 
 /**
  * The "integrations" collection of methods.
@@ -33,6 +34,19 @@ use Google\Service\Integrations\GoogleCloudIntegrationsV1alphaScheduleIntegratio
  */
 class ProjectsLocationsProductsIntegrations extends \Google\Service\Resource
 {
+  /**
+   * Delete the selected integration and all versions inside (integrations.delete)
+   *
+   * @param string $name Required. The location resource of the request.
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
   /**
    * Executes integrations synchronously by passing the trigger id in the request
    * body. The request is not returned until the requested executions are either

@@ -22,7 +22,6 @@ class GoogleFirebaseAppcheckV1BatchGetRecaptchaV3ConfigsResponse extends \Google
   protected $collection_key = 'configs';
   protected $configsType = GoogleFirebaseAppcheckV1RecaptchaV3Config::class;
   protected $configsDataType = 'array';
-  public $configs;
 
   /**
    * @param GoogleFirebaseAppcheckV1RecaptchaV3Config[]

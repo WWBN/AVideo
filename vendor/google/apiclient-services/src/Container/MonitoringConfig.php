@@ -21,10 +21,8 @@ class MonitoringConfig extends \Google\Model
 {
   protected $componentConfigType = MonitoringComponentConfig::class;
   protected $componentConfigDataType = '';
-  public $componentConfig;
   protected $managedPrometheusConfigType = ManagedPrometheusConfig::class;
   protected $managedPrometheusConfigDataType = '';
-  public $managedPrometheusConfig;
 
   /**
    * @param MonitoringComponentConfig

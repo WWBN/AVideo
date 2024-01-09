@@ -22,7 +22,6 @@ class GoogleAssistantEmbeddedV1FitnessActivities extends \Google\Collection
   protected $collection_key = 'fitnessActivities';
   protected $fitnessActivitiesType = GoogleAssistantEmbeddedV1FitnessActivity::class;
   protected $fitnessActivitiesDataType = 'array';
-  public $fitnessActivities;
 
   /**
    * @param GoogleAssistantEmbeddedV1FitnessActivity[]

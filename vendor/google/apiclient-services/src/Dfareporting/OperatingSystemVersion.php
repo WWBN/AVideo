@@ -41,7 +41,6 @@ class OperatingSystemVersion extends \Google\Model
   public $name;
   protected $operatingSystemType = OperatingSystem::class;
   protected $operatingSystemDataType = '';
-  public $operatingSystem;
 
   /**
    * @param string

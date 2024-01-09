@@ -22,7 +22,6 @@ class ListDnsAuthorizationsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $dnsAuthorizationsType = DnsAuthorization::class;
   protected $dnsAuthorizationsDataType = 'array';
-  public $dnsAuthorizations;
   /**
    * @var string
    */

@@ -50,7 +50,6 @@ class FreeListingsProgramStatusRegionStatus extends \Google\Collection
   public $reviewIneligibilityReasonDescription;
   protected $reviewIneligibilityReasonDetailsType = FreeListingsProgramStatusReviewIneligibilityReasonDetails::class;
   protected $reviewIneligibilityReasonDetailsDataType = '';
-  public $reviewIneligibilityReasonDetails;
   /**
    * @var string[]
    */

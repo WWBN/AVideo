@@ -21,10 +21,8 @@ class Annotation extends \Google\Model
 {
   protected $attributesType = Attributes::class;
   protected $attributesDataType = '';
-  public $attributes;
   protected $descriptionType = TruncatableString::class;
   protected $descriptionDataType = '';
-  public $description;
 
   /**
    * @param Attributes

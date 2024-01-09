@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3ListDeploymentsResponse extends \Google\Collectio
   protected $collection_key = 'deployments';
   protected $deploymentsType = GoogleCloudDialogflowCxV3Deployment::class;
   protected $deploymentsDataType = 'array';
-  public $deployments;
   /**
    * @var string
    */

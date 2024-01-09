@@ -22,14 +22,12 @@ class ManagedZonesListResponse extends \Google\Collection
   protected $collection_key = 'managedZones';
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   /**
    * @var string
    */
   public $kind;
   protected $managedZonesType = ManagedZone::class;
   protected $managedZonesDataType = 'array';
-  public $managedZones;
   /**
    * @var string
    */

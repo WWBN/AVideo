@@ -25,7 +25,6 @@ class HmacKey extends \Google\Model
   public $kind;
   protected $metadataType = HmacKeyMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

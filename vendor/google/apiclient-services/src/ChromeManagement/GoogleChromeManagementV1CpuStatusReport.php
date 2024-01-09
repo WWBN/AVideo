@@ -22,7 +22,6 @@ class GoogleChromeManagementV1CpuStatusReport extends \Google\Collection
   protected $collection_key = 'cpuTemperatureInfo';
   protected $cpuTemperatureInfoType = GoogleChromeManagementV1CpuTemperatureInfo::class;
   protected $cpuTemperatureInfoDataType = 'array';
-  public $cpuTemperatureInfo;
   /**
    * @var int
    */

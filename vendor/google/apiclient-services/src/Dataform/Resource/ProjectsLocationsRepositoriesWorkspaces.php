@@ -31,6 +31,7 @@ use Google\Service\Dataform\MoveDirectoryRequest;
 use Google\Service\Dataform\MoveDirectoryResponse;
 use Google\Service\Dataform\MoveFileRequest;
 use Google\Service\Dataform\MoveFileResponse;
+use Google\Service\Dataform\Policy;
 use Google\Service\Dataform\PullGitCommitsRequest;
 use Google\Service\Dataform\PushGitCommitsRequest;
 use Google\Service\Dataform\QueryDirectoryContentsResponse;
@@ -38,6 +39,9 @@ use Google\Service\Dataform\ReadFileResponse;
 use Google\Service\Dataform\RemoveDirectoryRequest;
 use Google\Service\Dataform\RemoveFileRequest;
 use Google\Service\Dataform\ResetWorkspaceChangesRequest;
+use Google\Service\Dataform\SetIamPolicyRequest;
+use Google\Service\Dataform\TestIamPermissionsRequest;
+use Google\Service\Dataform\TestIamPermissionsResponse;
 use Google\Service\Dataform\Workspace;
 use Google\Service\Dataform\WriteFileRequest;
 use Google\Service\Dataform\WriteFileResponse;
@@ -159,6 +163,36 @@ class ProjectsLocationsRepositoriesWorkspaces extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Workspace::class);
+  }
+  /**
+   * Gets the access control policy for a resource. Returns an empty policy if the
+   * resource exists and does not have a policy set. (workspaces.getIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int options.requestedPolicyVersion Optional. The maximum policy
+   * version that will be used to format the policy. Valid values are 0, 1, and 3.
+   * Requests specifying an invalid value will be rejected. Requests for policies
+   * with any conditional role bindings must specify version 3. Policies with no
+   * conditional role bindings may specify any valid value or leave the field
+   * unset. The policy in the response might use the policy version that you
+   * specified, or it might use a lower policy version. For example, if you
+   * specify version 3, but the policy has no conditional role bindings, the
+   * response uses version 1. To learn which resources support conditions in their
+   * IAM policies, see the [IAM
+   * documentation](https://cloud.google.com/iam/help/conditions/resource-
+   * policies).
+   * @return Policy
+   */
+  public function getIamPolicy($resource, $optParams = [])
+  {
+    $params = ['resource' => $resource];
+    $params = array_merge($params, $optParams);
+    return $this->call('getIamPolicy', [$params], Policy::class);
   }
   /**
    * Installs dependency NPM packages (inside a Workspace).
@@ -358,6 +392,47 @@ class ProjectsLocationsRepositoriesWorkspaces extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('reset', [$params], DataformEmpty::class);
+  }
+  /**
+   * Sets the access control policy on the specified resource. Replaces any
+   * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
+   * `PERMISSION_DENIED` errors. (workspaces.setIamPolicy)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy is being
+   * specified. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param SetIamPolicyRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Policy
+   */
+  public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('setIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Returns permissions that a caller has on the specified resource. If the
+   * resource does not exist, this will return an empty set of permissions, not a
+   * `NOT_FOUND` error. Note: This operation is designed to be used for building
+   * permission-aware UIs and command-line tools, not for authorization checking.
+   * This operation may "fail open" without warning.
+   * (workspaces.testIamPermissions)
+   *
+   * @param string $resource REQUIRED: The resource for which the policy detail is
+   * being requested. See [Resource
+   * names](https://cloud.google.com/apis/design/resource_names) for the
+   * appropriate value for this field.
+   * @param TestIamPermissionsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return TestIamPermissionsResponse
+   */
+  public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
+  {
+    $params = ['resource' => $resource, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
   }
   /**
    * Writes to a file (inside a Workspace). (workspaces.writeFile)

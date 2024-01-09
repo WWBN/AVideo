@@ -26,7 +26,6 @@ class TargetVpnGatewayList extends \Google\Collection
   public $id;
   protected $itemsType = TargetVpnGateway::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class TargetVpnGatewayList extends \Google\Collection
   public $selfLink;
   protected $warningType = TargetVpnGatewayListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

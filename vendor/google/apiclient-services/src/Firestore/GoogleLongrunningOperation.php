@@ -25,7 +25,6 @@ class GoogleLongrunningOperation extends \Google\Model
   public $done;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var array[]
    */

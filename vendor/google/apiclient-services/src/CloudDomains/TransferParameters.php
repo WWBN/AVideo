@@ -46,7 +46,6 @@ class TransferParameters extends \Google\Collection
   public $transferLockState;
   protected $yearlyPriceType = Money::class;
   protected $yearlyPriceDataType = '';
-  public $yearlyPrice;
 
   /**
    * @param string

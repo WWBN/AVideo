@@ -25,7 +25,6 @@ class KeyValue extends \Google\Model
   public $bottomLabel;
   protected $buttonType = Button::class;
   protected $buttonDataType = '';
-  public $button;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class KeyValue extends \Google\Model
   public $contentMultiline;
   protected $endIconType = IconImage::class;
   protected $endIconDataType = '';
-  public $endIcon;
   /**
    * @var string
    */
@@ -55,13 +53,10 @@ class KeyValue extends \Google\Model
   public $imageStyle;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   protected $startIconType = IconImage::class;
   protected $startIconDataType = '';
-  public $startIcon;
   protected $switchWidgetType = SwitchWidget::class;
   protected $switchWidgetDataType = '';
-  public $switchWidget;
   /**
    * @var string
    */

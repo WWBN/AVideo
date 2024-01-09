@@ -65,7 +65,21 @@ class Webfonts extends \Google\Service
               'path' => 'v1/webfonts',
               'httpMethod' => 'GET',
               'parameters' => [
+                'capability' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'family' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
                 'sort' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'subset' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

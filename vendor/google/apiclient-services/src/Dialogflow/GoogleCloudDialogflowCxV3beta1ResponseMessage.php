@@ -25,32 +25,24 @@ class GoogleCloudDialogflowCxV3beta1ResponseMessage extends \Google\Model
   public $channel;
   protected $conversationSuccessType = GoogleCloudDialogflowCxV3beta1ResponseMessageConversationSuccess::class;
   protected $conversationSuccessDataType = '';
-  public $conversationSuccess;
   protected $endInteractionType = GoogleCloudDialogflowCxV3beta1ResponseMessageEndInteraction::class;
   protected $endInteractionDataType = '';
-  public $endInteraction;
   protected $liveAgentHandoffType = GoogleCloudDialogflowCxV3beta1ResponseMessageLiveAgentHandoff::class;
   protected $liveAgentHandoffDataType = '';
-  public $liveAgentHandoff;
   protected $mixedAudioType = GoogleCloudDialogflowCxV3beta1ResponseMessageMixedAudio::class;
   protected $mixedAudioDataType = '';
-  public $mixedAudio;
   protected $outputAudioTextType = GoogleCloudDialogflowCxV3beta1ResponseMessageOutputAudioText::class;
   protected $outputAudioTextDataType = '';
-  public $outputAudioText;
   /**
    * @var array[]
    */
   public $payload;
   protected $playAudioType = GoogleCloudDialogflowCxV3beta1ResponseMessagePlayAudio::class;
   protected $playAudioDataType = '';
-  public $playAudio;
   protected $telephonyTransferCallType = GoogleCloudDialogflowCxV3beta1ResponseMessageTelephonyTransferCall::class;
   protected $telephonyTransferCallDataType = '';
-  public $telephonyTransferCall;
   protected $textType = GoogleCloudDialogflowCxV3beta1ResponseMessageText::class;
   protected $textDataType = '';
-  public $text;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class ListCreativeStatusBreakdownByCreativeResponse extends \Google\Collection
   protected $collection_key = 'filteredBidCreativeRows';
   protected $filteredBidCreativeRowsType = FilteredBidCreativeRow::class;
   protected $filteredBidCreativeRowsDataType = 'array';
-  public $filteredBidCreativeRows;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class CustomViewabilityMetric extends \Google\Model
 {
   protected $configurationType = CustomViewabilityMetricConfiguration::class;
   protected $configurationDataType = '';
-  public $configuration;
   /**
    * @var string
    */

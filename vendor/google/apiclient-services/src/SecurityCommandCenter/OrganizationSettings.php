@@ -21,7 +21,6 @@ class OrganizationSettings extends \Google\Model
 {
   protected $assetDiscoveryConfigType = AssetDiscoveryConfig::class;
   protected $assetDiscoveryConfigDataType = '';
-  public $assetDiscoveryConfig;
   /**
    * @var bool
    */

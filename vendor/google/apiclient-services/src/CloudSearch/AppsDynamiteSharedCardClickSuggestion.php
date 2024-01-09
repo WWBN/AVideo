@@ -25,7 +25,6 @@ class AppsDynamiteSharedCardClickSuggestion extends \Google\Model
   public $actionId;
   protected $suggestionMessageIdType = MessageId::class;
   protected $suggestionMessageIdDataType = '';
-  public $suggestionMessageId;
 
   /**
    * @param string

@@ -26,7 +26,6 @@ class InstancesListServerCasResponse extends \Google\Collection
   public $activeVersion;
   protected $certsType = SslCert::class;
   protected $certsDataType = 'array';
-  public $certs;
   /**
    * @var string
    */

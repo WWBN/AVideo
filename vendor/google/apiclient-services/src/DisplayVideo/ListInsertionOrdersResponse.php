@@ -22,7 +22,6 @@ class ListInsertionOrdersResponse extends \Google\Collection
   protected $collection_key = 'insertionOrders';
   protected $insertionOrdersType = InsertionOrder::class;
   protected $insertionOrdersDataType = 'array';
-  public $insertionOrders;
   /**
    * @var string
    */

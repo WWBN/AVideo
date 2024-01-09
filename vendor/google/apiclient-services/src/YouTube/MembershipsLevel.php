@@ -33,7 +33,6 @@ class MembershipsLevel extends \Google\Model
   public $kind;
   protected $snippetType = MembershipsLevelSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
 
   /**
    * @param string

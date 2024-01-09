@@ -25,7 +25,6 @@ class CloudWorkspaceId extends \Google\Model
   public $name;
   protected $repoIdType = RepoId::class;
   protected $repoIdDataType = '';
-  public $repoId;
 
   /**
    * @param string

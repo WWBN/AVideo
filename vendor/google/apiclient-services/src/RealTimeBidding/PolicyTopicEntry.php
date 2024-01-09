@@ -22,11 +22,14 @@ class PolicyTopicEntry extends \Google\Collection
   protected $collection_key = 'evidences';
   protected $evidencesType = PolicyTopicEvidence::class;
   protected $evidencesDataType = 'array';
-  public $evidences;
   /**
    * @var string
    */
   public $helpCenterUrl;
+  /**
+   * @var bool
+   */
+  public $missingCertificate;
   /**
    * @var string
    */
@@ -59,6 +62,20 @@ class PolicyTopicEntry extends \Google\Collection
   public function getHelpCenterUrl()
   {
     return $this->helpCenterUrl;
+  }
+  /**
+   * @param bool
+   */
+  public function setMissingCertificate($missingCertificate)
+  {
+    $this->missingCertificate = $missingCertificate;
+  }
+  /**
+   * @return bool
+   */
+  public function getMissingCertificate()
+  {
+    return $this->missingCertificate;
   }
   /**
    * @param string

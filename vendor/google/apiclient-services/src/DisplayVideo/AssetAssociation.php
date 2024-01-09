@@ -21,7 +21,6 @@ class AssetAssociation extends \Google\Model
 {
   protected $assetType = Asset::class;
   protected $assetDataType = '';
-  public $asset;
   /**
    * @var string
    */

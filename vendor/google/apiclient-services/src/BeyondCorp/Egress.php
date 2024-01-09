@@ -21,7 +21,6 @@ class Egress extends \Google\Model
 {
   protected $peeredVpcType = PeeredVpc::class;
   protected $peeredVpcDataType = '';
-  public $peeredVpc;
 
   /**
    * @param PeeredVpc

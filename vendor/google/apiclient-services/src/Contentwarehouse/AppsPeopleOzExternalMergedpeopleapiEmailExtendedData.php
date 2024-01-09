@@ -21,7 +21,6 @@ class AppsPeopleOzExternalMergedpeopleapiEmailExtendedData extends \Google\Model
 {
   protected $internalExternalType = PeoplestackFlexorgsProtoInternalExternal::class;
   protected $internalExternalDataType = '';
-  public $internalExternal;
   /**
    * @var bool
    */

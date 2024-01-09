@@ -17,6 +17,7 @@
 
 namespace Google\Service\CloudKMS\Resource;
 
+use Google\Service\CloudKMS\EkmConfig;
 use Google\Service\CloudKMS\GenerateRandomBytesRequest;
 use Google\Service\CloudKMS\GenerateRandomBytesResponse;
 use Google\Service\CloudKMS\ListLocationsResponse;
@@ -62,6 +63,20 @@ class ProjectsLocations extends \Google\Service\Resource
     return $this->call('get', [$params], Location::class);
   }
   /**
+   * Returns the EkmConfig singleton resource for a given project and location.
+   * (locations.getEkmConfig)
+   *
+   * @param string $name Required. The name of the EkmConfig to get.
+   * @param array $optParams Optional parameters.
+   * @return EkmConfig
+   */
+  public function getEkmConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getEkmConfig', [$params], EkmConfig::class);
+  }
+  /**
    * Lists information about the supported locations for this service.
    * (locations.listProjectsLocations)
    *
@@ -83,6 +98,25 @@ class ProjectsLocations extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListLocationsResponse::class);
+  }
+  /**
+   * Updates the EkmConfig singleton resource for a given project and location.
+   * (locations.updateEkmConfig)
+   *
+   * @param string $name Output only. The resource name for the EkmConfig in the
+   * format `projects/locations/ekmConfig`.
+   * @param EkmConfig $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. List of fields to be updated in this
+   * request.
+   * @return EkmConfig
+   */
+  public function updateEkmConfig($name, EkmConfig $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateEkmConfig', [$params], EkmConfig::class);
   }
 }
 

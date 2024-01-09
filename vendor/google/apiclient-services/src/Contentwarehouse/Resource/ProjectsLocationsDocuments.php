@@ -28,6 +28,7 @@ use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1ListLinkedSourc
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1ListLinkedSourcesResponse;
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1ListLinkedTargetsRequest;
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1ListLinkedTargetsResponse;
+use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1LockDocumentRequest;
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1SearchDocumentsRequest;
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1SearchDocumentsResponse;
 use Google\Service\Contentwarehouse\GoogleCloudContentwarehouseV1SetAclRequest;
@@ -87,6 +88,8 @@ class ProjectsLocationsDocuments extends \Google\Service\Resource
    * @param string $resource Required. REQUIRED: The resource for which the policy
    * is being requested. Format for document:
    * projects/{project_number}/locations/{location}/documents/{document_id}.
+   * Format for collection:
+   * projects/{project_number}/locations/{location}/collections/{collection_id}.
    * Format for project: projects/{project_number}.
    * @param GoogleCloudContentwarehouseV1FetchAclRequest $postBody
    * @param array $optParams Optional parameters.
@@ -149,6 +152,22 @@ class ProjectsLocationsDocuments extends \Google\Service\Resource
     return $this->call('linkedTargets', [$params], GoogleCloudContentwarehouseV1ListLinkedTargetsResponse::class);
   }
   /**
+   * Lock the document so the document cannot be updated by other users.
+   * (documents.lock)
+   *
+   * @param string $name Required. The name of the document to lock. Format:
+   * projects/{project_number}/locations/{location}/documents/{document}.
+   * @param GoogleCloudContentwarehouseV1LockDocumentRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudContentwarehouseV1Document
+   */
+  public function lock($name, GoogleCloudContentwarehouseV1LockDocumentRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('lock', [$params], GoogleCloudContentwarehouseV1Document::class);
+  }
+  /**
    * Updates a document. Returns INVALID_ARGUMENT if the name of the document is
    * non-empty and does not equal the existing name. (documents.patch)
    *
@@ -190,6 +209,8 @@ class ProjectsLocationsDocuments extends \Google\Service\Resource
    * @param string $resource Required. REQUIRED: The resource for which the policy
    * is being requested. Format for document:
    * projects/{project_number}/locations/{location}/documents/{document_id}.
+   * Format for collection:
+   * projects/{project_number}/locations/{location}/collections/{collection_id}.
    * Format for project: projects/{project_number}.
    * @param GoogleCloudContentwarehouseV1SetAclRequest $postBody
    * @param array $optParams Optional parameters.

@@ -25,10 +25,8 @@ class FilterSpec extends \Google\Model
   public $columnIndex;
   protected $dataSourceColumnReferenceType = DataSourceColumnReference::class;
   protected $dataSourceColumnReferenceDataType = '';
-  public $dataSourceColumnReference;
   protected $filterCriteriaType = FilterCriteria::class;
   protected $filterCriteriaDataType = '';
-  public $filterCriteria;
 
   /**
    * @param int

@@ -22,7 +22,6 @@ class GoogleIdentityAccesscontextmanagerV1Condition extends \Google\Collection
   protected $collection_key = 'requiredAccessLevels';
   protected $devicePolicyType = GoogleIdentityAccesscontextmanagerV1DevicePolicy::class;
   protected $devicePolicyDataType = '';
-  public $devicePolicy;
   /**
    * @var string[]
    */

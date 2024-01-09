@@ -25,7 +25,6 @@ class GoogleCloudApigeeV1SchemaSchemaElement extends \Google\Model
   public $name;
   protected $propertiesType = GoogleCloudApigeeV1SchemaSchemaProperty::class;
   protected $propertiesDataType = '';
-  public $properties;
 
   /**
    * @param string

@@ -31,6 +31,8 @@ class VerifyChallengeResponseResult extends \Google\Model
    * @var string
    */
   public $deviceSignal;
+  protected $deviceSignalsType = DeviceSignals::class;
+  protected $deviceSignalsDataType = '';
   /**
    * @var string
    */
@@ -85,6 +87,20 @@ class VerifyChallengeResponseResult extends \Google\Model
   public function getDeviceSignal()
   {
     return $this->deviceSignal;
+  }
+  /**
+   * @param DeviceSignals
+   */
+  public function setDeviceSignals(DeviceSignals $deviceSignals)
+  {
+    $this->deviceSignals = $deviceSignals;
+  }
+  /**
+   * @return DeviceSignals
+   */
+  public function getDeviceSignals()
+  {
+    return $this->deviceSignals;
   }
   /**
    * @param string

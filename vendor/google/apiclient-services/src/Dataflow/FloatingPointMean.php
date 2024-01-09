@@ -21,7 +21,6 @@ class FloatingPointMean extends \Google\Model
 {
   protected $countType = SplitInt64::class;
   protected $countDataType = '';
-  public $count;
   public $sum;
 
   /**

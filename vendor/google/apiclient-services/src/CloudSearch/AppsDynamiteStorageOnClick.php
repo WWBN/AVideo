@@ -21,16 +21,12 @@ class AppsDynamiteStorageOnClick extends \Google\Model
 {
   protected $actionType = AppsDynamiteStorageAction::class;
   protected $actionDataType = '';
-  public $action;
   protected $hostAppActionType = HostAppActionMarkup::class;
   protected $hostAppActionDataType = '';
-  public $hostAppAction;
   protected $openDynamicLinkActionType = AppsDynamiteStorageAction::class;
   protected $openDynamicLinkActionDataType = '';
-  public $openDynamicLinkAction;
   protected $openLinkType = AppsDynamiteStorageOpenLink::class;
   protected $openLinkDataType = '';
-  public $openLink;
 
   /**
    * @param AppsDynamiteStorageAction

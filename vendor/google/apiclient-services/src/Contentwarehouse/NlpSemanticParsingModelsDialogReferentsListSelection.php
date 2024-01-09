@@ -21,7 +21,6 @@ class NlpSemanticParsingModelsDialogReferentsListSelection extends \Google\Model
 {
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   /**
    * @var string
    */

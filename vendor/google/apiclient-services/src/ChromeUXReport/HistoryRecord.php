@@ -22,13 +22,10 @@ class HistoryRecord extends \Google\Collection
   protected $collection_key = 'collectionPeriods';
   protected $collectionPeriodsType = CollectionPeriod::class;
   protected $collectionPeriodsDataType = 'array';
-  public $collectionPeriods;
   protected $keyType = HistoryKey::class;
   protected $keyDataType = '';
-  public $key;
   protected $metricsType = MetricTimeseries::class;
   protected $metricsDataType = 'map';
-  public $metrics;
 
   /**
    * @param CollectionPeriod[]

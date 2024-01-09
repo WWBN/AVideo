@@ -21,10 +21,8 @@ class CompensationRange extends \Google\Model
 {
   protected $maxCompensationType = Money::class;
   protected $maxCompensationDataType = '';
-  public $maxCompensation;
   protected $minCompensationType = Money::class;
   protected $minCompensationDataType = '';
-  public $minCompensation;
 
   /**
    * @param Money

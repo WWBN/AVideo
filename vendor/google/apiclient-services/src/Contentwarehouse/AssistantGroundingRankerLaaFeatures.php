@@ -17,20 +17,19 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class AssistantGroundingRankerLaaFeatures extends \Google\Model
+class AssistantGroundingRankerLaaFeatures extends \Google\Collection
 {
+  protected $collection_key = 'features';
   protected $bindingSetType = AssistantGroundingRankerLaaFeaturesBindingSet::class;
   protected $bindingSetDataType = '';
-  public $bindingSet;
   protected $communicationEndpointType = AssistantGroundingRankerLaaFeaturesCommunicationEndpoint::class;
   protected $communicationEndpointDataType = '';
-  public $communicationEndpoint;
   protected $contactType = AssistantGroundingRankerLaaFeaturesContact::class;
   protected $contactDataType = '';
-  public $contact;
+  protected $featuresType = AssistantGroundingRankerLaaFeature::class;
+  protected $featuresDataType = 'array';
   protected $providerType = AssistantGroundingRankerLaaFeaturesProvider::class;
   protected $providerDataType = '';
-  public $provider;
 
   /**
    * @param AssistantGroundingRankerLaaFeaturesBindingSet
@@ -73,6 +72,20 @@ class AssistantGroundingRankerLaaFeatures extends \Google\Model
   public function getContact()
   {
     return $this->contact;
+  }
+  /**
+   * @param AssistantGroundingRankerLaaFeature[]
+   */
+  public function setFeatures($features)
+  {
+    $this->features = $features;
+  }
+  /**
+   * @return AssistantGroundingRankerLaaFeature[]
+   */
+  public function getFeatures()
+  {
+    return $this->features;
   }
   /**
    * @param AssistantGroundingRankerLaaFeaturesProvider

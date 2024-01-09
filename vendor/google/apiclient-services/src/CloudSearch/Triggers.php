@@ -22,7 +22,6 @@ class Triggers extends \Google\Collection
   protected $collection_key = 'triggers';
   protected $triggersType = Trigger::class;
   protected $triggersDataType = 'array';
-  public $triggers;
 
   /**
    * @param Trigger[]

@@ -21,10 +21,8 @@ class GeostoreGeopoliticalGeometryProto extends \Google\Model
 {
   protected $restOfWorldPolygonType = GeostorePolygonProto::class;
   protected $restOfWorldPolygonDataType = '';
-  public $restOfWorldPolygon;
   protected $selfPolygonType = GeostorePolygonProto::class;
   protected $selfPolygonDataType = '';
-  public $selfPolygon;
 
   /**
    * @param GeostorePolygonProto

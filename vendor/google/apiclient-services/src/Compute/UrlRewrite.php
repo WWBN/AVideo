@@ -27,6 +27,10 @@ class UrlRewrite extends \Google\Model
    * @var string
    */
   public $pathPrefixRewrite;
+  /**
+   * @var string
+   */
+  public $pathTemplateRewrite;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class UrlRewrite extends \Google\Model
   public function getPathPrefixRewrite()
   {
     return $this->pathPrefixRewrite;
+  }
+  /**
+   * @param string
+   */
+  public function setPathTemplateRewrite($pathTemplateRewrite)
+  {
+    $this->pathTemplateRewrite = $pathTemplateRewrite;
+  }
+  /**
+   * @return string
+   */
+  public function getPathTemplateRewrite()
+  {
+    return $this->pathTemplateRewrite;
   }
 }
 

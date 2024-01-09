@@ -99,8 +99,9 @@ class ProjectsSchemas extends \Google\Service\Resource
    * schema@c7cfa2a8`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string revisionId Required. The revision ID to roll back to. It
-   * must be a revision of the same schema. Example: c7cfa2a8
+   * @opt_param string revisionId Optional. This field is deprecated and should
+   * not be used for specifying the revision ID. The revision ID should be
+   * specified via the `name` parameter.
    * @return Schema
    */
   public function deleteRevision($name, $optParams = [])

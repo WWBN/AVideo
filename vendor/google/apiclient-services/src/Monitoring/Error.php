@@ -25,7 +25,6 @@ class Error extends \Google\Model
   public $pointCount;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param int

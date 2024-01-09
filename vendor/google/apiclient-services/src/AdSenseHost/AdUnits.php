@@ -26,7 +26,6 @@ class AdUnits extends \Google\Collection
   public $etag;
   protected $itemsType = AdUnit::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

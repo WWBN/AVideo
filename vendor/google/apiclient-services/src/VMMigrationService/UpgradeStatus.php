@@ -21,7 +21,6 @@ class UpgradeStatus extends \Google\Model
 {
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */

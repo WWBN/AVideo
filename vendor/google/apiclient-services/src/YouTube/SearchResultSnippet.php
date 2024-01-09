@@ -41,7 +41,6 @@ class SearchResultSnippet extends \Google\Model
   public $publishedAt;
   protected $thumbnailsType = ThumbnailDetails::class;
   protected $thumbnailsDataType = '';
-  public $thumbnails;
   /**
    * @var string
    */

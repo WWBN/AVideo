@@ -25,7 +25,6 @@ class X509Extension extends \Google\Model
   public $critical;
   protected $objectIdType = ObjectId::class;
   protected $objectIdDataType = '';
-  public $objectId;
   /**
    * @var string
    */

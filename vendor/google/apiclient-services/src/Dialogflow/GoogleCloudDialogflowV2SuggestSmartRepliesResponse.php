@@ -30,7 +30,6 @@ class GoogleCloudDialogflowV2SuggestSmartRepliesResponse extends \Google\Collect
   public $latestMessage;
   protected $smartReplyAnswersType = GoogleCloudDialogflowV2SmartReplyAnswer::class;
   protected $smartReplyAnswersDataType = 'array';
-  public $smartReplyAnswers;
 
   /**
    * @param int

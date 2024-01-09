@@ -26,7 +26,6 @@ class Links extends \Google\Collection
   public $droppedLinksCount;
   protected $linkType = Link::class;
   protected $linkDataType = 'array';
-  public $link;
 
   /**
    * @param int

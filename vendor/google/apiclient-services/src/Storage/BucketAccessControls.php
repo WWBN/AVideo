@@ -22,7 +22,6 @@ class BucketAccessControls extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = BucketAccessControl::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

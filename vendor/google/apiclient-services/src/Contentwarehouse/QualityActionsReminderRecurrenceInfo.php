@@ -25,7 +25,6 @@ class QualityActionsReminderRecurrenceInfo extends \Google\Model
   public $clientId;
   protected $recurrenceType = AssistantApiRecurrence::class;
   protected $recurrenceDataType = '';
-  public $recurrence;
   /**
    * @var string
    */

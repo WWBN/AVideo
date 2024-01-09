@@ -26,7 +26,6 @@ class SystemUpdate extends \Google\Collection
   public $endMinutes;
   protected $freezePeriodsType = FreezePeriod::class;
   protected $freezePeriodsDataType = 'array';
-  public $freezePeriods;
   /**
    * @var int
    */

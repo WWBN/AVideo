@@ -22,7 +22,6 @@ class RepositoryWebrefPersonalizationContextOutputs extends \Google\Collection
   protected $collection_key = 'outputs';
   protected $outputsType = RepositoryWebrefPersonalizationContextOutput::class;
   protected $outputsDataType = 'array';
-  public $outputs;
 
   /**
    * @param RepositoryWebrefPersonalizationContextOutput[]

@@ -21,7 +21,6 @@ class GcRule extends \Google\Model
 {
   protected $intersectionType = Intersection::class;
   protected $intersectionDataType = '';
-  public $intersection;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class GcRule extends \Google\Model
   public $maxNumVersions;
   protected $unionType = Union::class;
   protected $unionDataType = '';
-  public $union;
 
   /**
    * @param Intersection

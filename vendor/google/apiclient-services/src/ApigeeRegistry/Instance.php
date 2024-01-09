@@ -21,10 +21,8 @@ class Instance extends \Google\Model
 {
   protected $buildType = Build::class;
   protected $buildDataType = '';
-  public $build;
   protected $configType = Config::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */

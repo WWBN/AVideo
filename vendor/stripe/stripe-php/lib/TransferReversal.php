@@ -5,26 +5,23 @@
 namespace Stripe;
 
 /**
- * <a href="https://stripe.com/docs/connect">Stripe Connect</a> platforms can
- * reverse transfers made to a connected account, either entirely or partially, and
- * can also specify whether to refund any related application fees. Transfer
- * reversals add to the platform's balance and subtract from the destination
- * account's balance.
+ * <a href="https://stripe.com/docs/connect">Stripe Connect</a> platforms can reverse transfers made to a
+ * connected account, either entirely or partially, and can also specify whether
+ * to refund any related application fees. Transfer reversals add to the
+ * platform's balance and subtract from the destination account's balance.
  *
- * Reversing a transfer that was made for a <a
- * href="/docs/connect/destination-charges">destination charge</a> is allowed only
- * up to the amount of the charge. It is possible to reverse a <a
- * href="https://stripe.com/docs/connect/charges-transfers#transfer-options">transfer_group</a>
+ * Reversing a transfer that was made for a <a href="/docs/connect/destination-charges">destination
+ * charge</a> is allowed only up to the amount of
+ * the charge. It is possible to reverse a
+ * <a href="https://stripe.com/docs/connect/separate-charges-and-transfers#transfer-options">transfer_group</a>
  * transfer only if the destination account has enough balance to cover the
  * reversal.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/connect/charges-transfers#reversing-transfers">Reversing
- * Transfers</a>.
+ * Related guide: <a href="https://stripe.com/docs/connect/separate-charges-and-transfers#reversing-transfers">Reversing transfers</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
- * @property int $amount Amount, in %s.
+ * @property int $amount Amount, in cents (or local equivalent).
  * @property null|string|\Stripe\BalanceTransaction $balance_transaction Balance transaction that describes the impact on your account balance.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property string $currency Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase. Must be a <a href="https://stripe.com/docs/currencies">supported currency</a>.

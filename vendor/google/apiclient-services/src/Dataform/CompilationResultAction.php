@@ -21,26 +21,20 @@ class CompilationResultAction extends \Google\Model
 {
   protected $assertionType = Assertion::class;
   protected $assertionDataType = '';
-  public $assertion;
   protected $canonicalTargetType = Target::class;
   protected $canonicalTargetDataType = '';
-  public $canonicalTarget;
   protected $declarationType = Declaration::class;
   protected $declarationDataType = '';
-  public $declaration;
   /**
    * @var string
    */
   public $filePath;
   protected $operationsType = Operations::class;
   protected $operationsDataType = '';
-  public $operations;
   protected $relationType = Relation::class;
   protected $relationDataType = '';
-  public $relation;
   protected $targetType = Target::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param Assertion

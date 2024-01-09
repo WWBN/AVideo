@@ -22,7 +22,6 @@ class TenantProjectPolicy extends \Google\Collection
   protected $collection_key = 'policyBindings';
   protected $policyBindingsType = PolicyBinding::class;
   protected $policyBindingsDataType = 'array';
-  public $policyBindings;
 
   /**
    * @param PolicyBinding[]

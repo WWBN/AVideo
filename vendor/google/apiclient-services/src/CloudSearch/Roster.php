@@ -25,7 +25,6 @@ class Roster extends \Google\Model
   public $avatarUrl;
   protected $idType = RosterId::class;
   protected $idDataType = '';
-  public $id;
   /**
    * @var bool
    */
@@ -48,7 +47,6 @@ class Roster extends \Google\Model
   public $rosterState;
   protected $segmentedMembershipCountsType = AppsDynamiteSharedSegmentedMembershipCounts::class;
   protected $segmentedMembershipCountsDataType = '';
-  public $segmentedMembershipCounts;
 
   /**
    * @param string

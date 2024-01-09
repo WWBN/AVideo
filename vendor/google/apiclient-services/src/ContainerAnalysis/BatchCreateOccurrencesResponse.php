@@ -22,7 +22,6 @@ class BatchCreateOccurrencesResponse extends \Google\Collection
   protected $collection_key = 'occurrences';
   protected $occurrencesType = Occurrence::class;
   protected $occurrencesDataType = 'array';
-  public $occurrences;
 
   /**
    * @param Occurrence[]

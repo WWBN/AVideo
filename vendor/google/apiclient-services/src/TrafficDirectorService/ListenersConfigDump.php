@@ -22,10 +22,8 @@ class ListenersConfigDump extends \Google\Collection
   protected $collection_key = 'staticListeners';
   protected $dynamicListenersType = DynamicListener::class;
   protected $dynamicListenersDataType = 'array';
-  public $dynamicListeners;
   protected $staticListenersType = StaticListener::class;
   protected $staticListenersDataType = 'array';
-  public $staticListeners;
   /**
    * @var string
    */

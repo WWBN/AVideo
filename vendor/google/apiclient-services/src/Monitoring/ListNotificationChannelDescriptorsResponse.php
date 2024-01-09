@@ -22,7 +22,6 @@ class ListNotificationChannelDescriptorsResponse extends \Google\Collection
   protected $collection_key = 'channelDescriptors';
   protected $channelDescriptorsType = NotificationChannelDescriptor::class;
   protected $channelDescriptorsDataType = 'array';
-  public $channelDescriptors;
   /**
    * @var string
    */

@@ -26,7 +26,6 @@ class GoogleCloudMlV1AutoScaling extends \Google\Collection
   public $maxNodes;
   protected $metricsType = GoogleCloudMlV1MetricSpec::class;
   protected $metricsDataType = 'array';
-  public $metrics;
   /**
    * @var int
    */

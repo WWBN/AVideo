@@ -21,7 +21,6 @@ class PieChartSpec extends \Google\Model
 {
   protected $domainType = ChartData::class;
   protected $domainDataType = '';
-  public $domain;
   /**
    * @var string
    */
@@ -29,7 +28,6 @@ class PieChartSpec extends \Google\Model
   public $pieHole;
   protected $seriesType = ChartData::class;
   protected $seriesDataType = '';
-  public $series;
   /**
    * @var bool
    */

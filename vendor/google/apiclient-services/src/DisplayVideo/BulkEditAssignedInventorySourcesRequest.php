@@ -26,7 +26,6 @@ class BulkEditAssignedInventorySourcesRequest extends \Google\Collection
   public $advertiserId;
   protected $createdAssignedInventorySourcesType = AssignedInventorySource::class;
   protected $createdAssignedInventorySourcesDataType = 'array';
-  public $createdAssignedInventorySources;
   /**
    * @var string[]
    */

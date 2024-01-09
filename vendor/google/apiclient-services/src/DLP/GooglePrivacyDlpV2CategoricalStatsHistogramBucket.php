@@ -30,7 +30,6 @@ class GooglePrivacyDlpV2CategoricalStatsHistogramBucket extends \Google\Collecti
   public $bucketValueCount;
   protected $bucketValuesType = GooglePrivacyDlpV2ValueFrequency::class;
   protected $bucketValuesDataType = 'array';
-  public $bucketValues;
   /**
    * @var string
    */

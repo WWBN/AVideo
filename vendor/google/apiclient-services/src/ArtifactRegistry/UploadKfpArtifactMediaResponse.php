@@ -21,7 +21,6 @@ class UploadKfpArtifactMediaResponse extends \Google\Model
 {
   protected $operationType = Operation::class;
   protected $operationDataType = '';
-  public $operation;
 
   /**
    * @param Operation

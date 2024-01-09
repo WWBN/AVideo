@@ -26,7 +26,6 @@ class InterconnectAttachmentAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = InterconnectAttachmentsScopedList::class;
   protected $itemsDataType = 'map';
-  public $items;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class InterconnectAttachmentAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = InterconnectAttachmentAggregatedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

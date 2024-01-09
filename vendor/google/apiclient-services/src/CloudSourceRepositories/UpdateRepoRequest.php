@@ -21,7 +21,6 @@ class UpdateRepoRequest extends \Google\Model
 {
   protected $repoType = Repo::class;
   protected $repoDataType = '';
-  public $repo;
   /**
    * @var string
    */

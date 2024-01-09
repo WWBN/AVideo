@@ -49,7 +49,6 @@ class Field extends \Google\Model
   public $nullable;
   protected $referenceType = Reference::class;
   protected $referenceDataType = '';
-  public $reference;
 
   /**
    * @param array[]

@@ -21,7 +21,6 @@ class Environment extends \Google\Model
 {
   protected $encryptedVariablesType = KMSEnvMap::class;
   protected $encryptedVariablesDataType = '';
-  public $encryptedVariables;
   /**
    * @var string[]
    */

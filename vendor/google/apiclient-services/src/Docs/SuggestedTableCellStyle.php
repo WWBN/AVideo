@@ -21,10 +21,8 @@ class SuggestedTableCellStyle extends \Google\Model
 {
   protected $tableCellStyleType = TableCellStyle::class;
   protected $tableCellStyleDataType = '';
-  public $tableCellStyle;
   protected $tableCellStyleSuggestionStateType = TableCellStyleSuggestionState::class;
   protected $tableCellStyleSuggestionStateDataType = '';
-  public $tableCellStyleSuggestionState;
 
   /**
    * @param TableCellStyle

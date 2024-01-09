@@ -26,7 +26,6 @@ class ListUsableSubnetworksResponse extends \Google\Collection
   public $nextPageToken;
   protected $subnetworksType = UsableSubnetwork::class;
   protected $subnetworksDataType = 'array';
-  public $subnetworks;
 
   /**
    * @param string

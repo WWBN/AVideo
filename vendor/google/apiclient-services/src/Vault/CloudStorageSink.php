@@ -22,7 +22,6 @@ class CloudStorageSink extends \Google\Collection
   protected $collection_key = 'files';
   protected $filesType = CloudStorageFile::class;
   protected $filesDataType = 'array';
-  public $files;
 
   /**
    * @param CloudStorageFile[]

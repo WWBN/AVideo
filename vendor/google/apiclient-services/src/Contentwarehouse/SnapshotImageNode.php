@@ -21,7 +21,6 @@ class SnapshotImageNode extends \Google\Model
 {
   protected $boundingBoxType = SnapshotBox::class;
   protected $boundingBoxDataType = '';
-  public $boundingBox;
   /**
    * @var bool
    */

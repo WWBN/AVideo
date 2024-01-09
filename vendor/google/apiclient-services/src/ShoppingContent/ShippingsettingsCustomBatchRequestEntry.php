@@ -37,7 +37,6 @@ class ShippingsettingsCustomBatchRequestEntry extends \Google\Model
   public $method;
   protected $shippingSettingsType = ShippingSettings::class;
   protected $shippingSettingsDataType = '';
-  public $shippingSettings;
 
   /**
    * @param string

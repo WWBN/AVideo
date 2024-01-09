@@ -22,10 +22,8 @@ class KnowledgeAnswersIntentQueryArgumentProvenanceCurrentQuery extends \Google\
   protected $collection_key = 'evalData';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = 'array';
-  public $evalData;
   protected $neuralLocationAnnotatorType = KnowledgeAnswersIntentQueryArgumentProvenanceNeuralLocationAnnotator::class;
   protected $neuralLocationAnnotatorDataType = '';
-  public $neuralLocationAnnotator;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData[]

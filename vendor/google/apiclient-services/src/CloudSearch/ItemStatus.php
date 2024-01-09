@@ -26,10 +26,8 @@ class ItemStatus extends \Google\Collection
   public $code;
   protected $processingErrorsType = ProcessingError::class;
   protected $processingErrorsDataType = 'array';
-  public $processingErrors;
   protected $repositoryErrorsType = RepositoryError::class;
   protected $repositoryErrorsDataType = 'array';
-  public $repositoryErrors;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class BatchGetDocumentsResponse extends \Google\Model
 {
   protected $foundType = Document::class;
   protected $foundDataType = '';
-  public $found;
   /**
    * @var string
    */

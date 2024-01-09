@@ -22,7 +22,6 @@ class SnippetExtraInfo extends \Google\Collection
   protected $collection_key = 'candidateInfo';
   protected $candidateInfoType = SnippetExtraInfoSnippetCandidateInfo::class;
   protected $candidateInfoDataType = 'array';
-  public $candidateInfo;
   /**
    * @var bool
    */
@@ -41,7 +40,6 @@ class SnippetExtraInfo extends \Google\Collection
   public $snippetBrainSelectedCandidateIndex;
   protected $snippetsbrainModelInfoType = SnippetExtraInfoSnippetsBrainModelInfo::class;
   protected $snippetsbrainModelInfoDataType = '';
-  public $snippetsbrainModelInfo;
 
   /**
    * @param SnippetExtraInfoSnippetCandidateInfo[]

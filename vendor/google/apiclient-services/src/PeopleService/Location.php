@@ -41,7 +41,6 @@ class Location extends \Google\Model
   public $floorSection;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

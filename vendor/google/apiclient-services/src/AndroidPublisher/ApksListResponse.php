@@ -22,7 +22,6 @@ class ApksListResponse extends \Google\Collection
   protected $collection_key = 'apks';
   protected $apksType = Apk::class;
   protected $apksDataType = 'array';
-  public $apks;
   /**
    * @var string
    */

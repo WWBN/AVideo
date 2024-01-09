@@ -21,7 +21,6 @@ class SqlInstancesVerifyExternalSyncSettingsRequest extends \Google\Model
 {
   protected $mysqlSyncConfigType = MySqlSyncConfig::class;
   protected $mysqlSyncConfigDataType = '';
-  public $mysqlSyncConfig;
   /**
    * @var string
    */

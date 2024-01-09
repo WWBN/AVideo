@@ -25,7 +25,6 @@ class GoogleAdsSearchads360V0ResourcesConversionAction extends \Google\Model
   public $appId;
   protected $attributionModelSettingsType = GoogleAdsSearchads360V0ResourcesConversionActionAttributionModelSettings::class;
   protected $attributionModelSettingsDataType = '';
-  public $attributionModelSettings;
   /**
    * @var string
    */
@@ -40,7 +39,6 @@ class GoogleAdsSearchads360V0ResourcesConversionAction extends \Google\Model
   public $creationTime;
   protected $floodlightSettingsType = GoogleAdsSearchads360V0ResourcesConversionActionFloodlightSettings::class;
   protected $floodlightSettingsDataType = '';
-  public $floodlightSettings;
   /**
    * @var string
    */
@@ -79,7 +77,6 @@ class GoogleAdsSearchads360V0ResourcesConversionAction extends \Google\Model
   public $type;
   protected $valueSettingsType = GoogleAdsSearchads360V0ResourcesConversionActionValueSettings::class;
   protected $valueSettingsDataType = '';
-  public $valueSettings;
 
   /**
    * @param string

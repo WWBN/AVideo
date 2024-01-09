@@ -21,7 +21,6 @@ class NlpSemanticParsingModelsMediaPodcast extends \Google\Model
 {
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   /**
    * @var bool
    */
@@ -32,7 +31,6 @@ class NlpSemanticParsingModelsMediaPodcast extends \Google\Model
   public $normalizedText;
   protected $qrefType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefDataType = '';
-  public $qref;
   /**
    * @var string
    */

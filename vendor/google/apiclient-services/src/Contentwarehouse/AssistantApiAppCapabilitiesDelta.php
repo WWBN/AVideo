@@ -21,10 +21,8 @@ class AssistantApiAppCapabilitiesDelta extends \Google\Model
 {
   protected $appIntegrationsSettingsType = AssistantApiAppIntegrationsSettings::class;
   protected $appIntegrationsSettingsDataType = '';
-  public $appIntegrationsSettings;
   protected $providerDeltaType = AssistantApiCoreTypesProviderDelta::class;
   protected $providerDeltaDataType = '';
-  public $providerDelta;
 
   /**
    * @param AssistantApiAppIntegrationsSettings

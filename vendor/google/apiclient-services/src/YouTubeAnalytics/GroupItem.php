@@ -21,7 +21,6 @@ class GroupItem extends \Google\Model
 {
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
-  public $errors;
   /**
    * @var string
    */
@@ -40,7 +39,6 @@ class GroupItem extends \Google\Model
   public $kind;
   protected $resourceType = GroupItemResource::class;
   protected $resourceDataType = '';
-  public $resource;
 
   /**
    * @param Errors

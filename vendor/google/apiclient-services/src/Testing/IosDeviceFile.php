@@ -25,7 +25,6 @@ class IosDeviceFile extends \Google\Model
   public $bundleId;
   protected $contentType = FileReference::class;
   protected $contentDataType = '';
-  public $content;
   /**
    * @var string
    */

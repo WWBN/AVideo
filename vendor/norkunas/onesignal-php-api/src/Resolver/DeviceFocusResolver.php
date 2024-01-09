@@ -8,9 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeviceFocusResolver implements ResolverInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         return (new OptionsResolver())

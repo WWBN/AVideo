@@ -21,13 +21,10 @@ class SapDiscovery extends \Google\Model
 {
   protected $applicationLayerType = SapDiscoveryComponent::class;
   protected $applicationLayerDataType = '';
-  public $applicationLayer;
   protected $databaseLayerType = SapDiscoveryComponent::class;
   protected $databaseLayerDataType = '';
-  public $databaseLayer;
   protected $metadataType = SapDiscoveryMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

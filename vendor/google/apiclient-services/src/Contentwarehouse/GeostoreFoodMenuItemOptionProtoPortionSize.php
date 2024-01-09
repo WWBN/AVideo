@@ -26,7 +26,6 @@ class GeostoreFoodMenuItemOptionProtoPortionSize extends \Google\Collection
   public $quantity;
   protected $unitType = GeostorePriceListNameInfoProto::class;
   protected $unitDataType = 'array';
-  public $unit;
 
   /**
    * @param int

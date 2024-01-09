@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3beta1BatchRunTestCasesResponse extends \Google\Co
   protected $collection_key = 'results';
   protected $resultsType = GoogleCloudDialogflowCxV3beta1TestCaseResult::class;
   protected $resultsDataType = 'array';
-  public $results;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1TestCaseResult[]

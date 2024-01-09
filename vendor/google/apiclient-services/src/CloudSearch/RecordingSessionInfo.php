@@ -29,7 +29,6 @@ class RecordingSessionInfo extends \Google\Model
   public $recordingSessionId;
   protected $sessionStateInfoType = SessionStateInfo::class;
   protected $sessionStateInfoDataType = '';
-  public $sessionStateInfo;
 
   /**
    * @param string

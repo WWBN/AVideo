@@ -22,14 +22,12 @@ class GoogleChromeManagementV1TelemetryUserDevice extends \Google\Collection
   protected $collection_key = 'peripheralsReport';
   protected $audioStatusReportType = GoogleChromeManagementV1AudioStatusReport::class;
   protected $audioStatusReportDataType = 'array';
-  public $audioStatusReport;
   /**
    * @var string
    */
   public $deviceId;
   protected $peripheralsReportType = GoogleChromeManagementV1PeripheralsReport::class;
   protected $peripheralsReportDataType = 'array';
-  public $peripheralsReport;
 
   /**
    * @param GoogleChromeManagementV1AudioStatusReport[]

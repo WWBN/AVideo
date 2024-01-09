@@ -30,7 +30,6 @@ class ListOtherContactsResponse extends \Google\Collection
   public $nextSyncToken;
   protected $otherContactsType = Person::class;
   protected $otherContactsDataType = 'array';
-  public $otherContacts;
   /**
    * @var int
    */

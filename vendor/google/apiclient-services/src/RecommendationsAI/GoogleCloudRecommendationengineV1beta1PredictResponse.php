@@ -42,7 +42,6 @@ class GoogleCloudRecommendationengineV1beta1PredictResponse extends \Google\Coll
   public $recommendationToken;
   protected $resultsType = GoogleCloudRecommendationengineV1beta1PredictResponsePredictionResult::class;
   protected $resultsDataType = 'array';
-  public $results;
 
   /**
    * @param bool

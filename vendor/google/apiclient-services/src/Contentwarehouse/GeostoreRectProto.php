@@ -21,10 +21,8 @@ class GeostoreRectProto extends \Google\Model
 {
   protected $hiType = GeostorePointProto::class;
   protected $hiDataType = '';
-  public $hi;
   protected $loType = GeostorePointProto::class;
   protected $loDataType = '';
-  public $lo;
 
   /**
    * @param GeostorePointProto

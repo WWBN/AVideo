@@ -26,7 +26,6 @@ class ListTagBindingsResponse extends \Google\Collection
   public $nextPageToken;
   protected $tagBindingsType = TagBinding::class;
   protected $tagBindingsDataType = 'array';
-  public $tagBindings;
 
   /**
    * @param string

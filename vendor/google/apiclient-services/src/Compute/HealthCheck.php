@@ -33,20 +33,16 @@ class HealthCheck extends \Google\Model
   public $description;
   protected $grpcHealthCheckType = GRPCHealthCheck::class;
   protected $grpcHealthCheckDataType = '';
-  public $grpcHealthCheck;
   /**
    * @var int
    */
   public $healthyThreshold;
   protected $http2HealthCheckType = HTTP2HealthCheck::class;
   protected $http2HealthCheckDataType = '';
-  public $http2HealthCheck;
   protected $httpHealthCheckType = HTTPHealthCheck::class;
   protected $httpHealthCheckDataType = '';
-  public $httpHealthCheck;
   protected $httpsHealthCheckType = HTTPSHealthCheck::class;
   protected $httpsHealthCheckDataType = '';
-  public $httpsHealthCheck;
   /**
    * @var string
    */
@@ -57,7 +53,6 @@ class HealthCheck extends \Google\Model
   public $kind;
   protected $logConfigType = HealthCheckLogConfig::class;
   protected $logConfigDataType = '';
-  public $logConfig;
   /**
    * @var string
    */
@@ -72,10 +67,8 @@ class HealthCheck extends \Google\Model
   public $selfLink;
   protected $sslHealthCheckType = SSLHealthCheck::class;
   protected $sslHealthCheckDataType = '';
-  public $sslHealthCheck;
   protected $tcpHealthCheckType = TCPHealthCheck::class;
   protected $tcpHealthCheckDataType = '';
-  public $tcpHealthCheck;
   /**
    * @var int
    */

@@ -21,10 +21,8 @@ class GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData extends \Goog
 {
   protected $testDocumentsType = GoogleCloudDocumentaiV1BatchDocumentsInputConfig::class;
   protected $testDocumentsDataType = '';
-  public $testDocuments;
   protected $trainingDocumentsType = GoogleCloudDocumentaiV1BatchDocumentsInputConfig::class;
   protected $trainingDocumentsDataType = '';
-  public $trainingDocuments;
 
   /**
    * @param GoogleCloudDocumentaiV1BatchDocumentsInputConfig

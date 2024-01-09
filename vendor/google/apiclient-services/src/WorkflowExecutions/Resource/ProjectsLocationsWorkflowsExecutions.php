@@ -98,7 +98,7 @@ class ProjectsLocationsWorkflowsExecutions extends \Google\Service\Resource
    * [Executions.ListExecutions] results. The following fields are supported for
    * filtering: executionID, state, startTime, endTime, duration,
    * workflowRevisionID, stepName, and label.
-   * @opt_param string orderBy Optional. The orderding applied to the
+   * @opt_param string orderBy Optional. The ordering applied to the
    * [Executions.ListExecutions] results. By default the ordering is based on
    * descending start time. The following fields are supported for order by:
    * executionID, startTime, endTime, duration, state, and workflowRevisionID.
@@ -110,7 +110,8 @@ class ProjectsLocationsWorkflowsExecutions extends \Google\Service\Resource
    * @opt_param string pageToken A page token, received from a previous
    * `ListExecutions` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `ListExecutions` must match the
-   * call that provided the page token.
+   * call that provided the page token. Note that pagination is applied to dynamic
+   * data. The list of executions returned can change between page requests.
    * @opt_param string view Optional. A view defining which fields should be
    * filled in the returned executions. The API will default to the BASIC view.
    * @return ListExecutionsResponse

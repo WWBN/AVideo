@@ -25,6 +25,10 @@ class AssistantApiMessageCapabilities extends \Google\Collection
    */
   public $fallbackToTetheredDeviceAppCapabilities;
   /**
+   * @var bool
+   */
+  public $preferTargetingPrimaryDevice;
+  /**
    * @var string[]
    */
   public $supportedRecipientTypes;
@@ -42,6 +46,20 @@ class AssistantApiMessageCapabilities extends \Google\Collection
   public function getFallbackToTetheredDeviceAppCapabilities()
   {
     return $this->fallbackToTetheredDeviceAppCapabilities;
+  }
+  /**
+   * @param bool
+   */
+  public function setPreferTargetingPrimaryDevice($preferTargetingPrimaryDevice)
+  {
+    $this->preferTargetingPrimaryDevice = $preferTargetingPrimaryDevice;
+  }
+  /**
+   * @return bool
+   */
+  public function getPreferTargetingPrimaryDevice()
+  {
+    return $this->preferTargetingPrimaryDevice;
   }
   /**
    * @param string[]

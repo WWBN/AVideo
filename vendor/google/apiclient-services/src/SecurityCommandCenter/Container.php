@@ -26,7 +26,6 @@ class Container extends \Google\Collection
   public $imageId;
   protected $labelsType = Label::class;
   protected $labelsDataType = 'array';
-  public $labels;
   /**
    * @var string
    */

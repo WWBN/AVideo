@@ -30,7 +30,6 @@ class GoogleCloudApigeeV1AsyncQueryResultView extends \Google\Collection
   public $error;
   protected $metadataType = GoogleCloudApigeeV1QueryMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var array[]
    */

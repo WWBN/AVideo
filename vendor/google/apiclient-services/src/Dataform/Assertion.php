@@ -22,17 +22,14 @@ class Assertion extends \Google\Collection
   protected $collection_key = 'tags';
   protected $dependencyTargetsType = Target::class;
   protected $dependencyTargetsDataType = 'array';
-  public $dependencyTargets;
   /**
    * @var bool
    */
   public $disabled;
   protected $parentActionType = Target::class;
   protected $parentActionDataType = '';
-  public $parentAction;
   protected $relationDescriptorType = RelationDescriptor::class;
   protected $relationDescriptorDataType = '';
-  public $relationDescriptor;
   /**
    * @var string
    */

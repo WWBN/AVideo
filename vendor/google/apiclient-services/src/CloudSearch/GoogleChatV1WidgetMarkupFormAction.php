@@ -26,7 +26,6 @@ class GoogleChatV1WidgetMarkupFormAction extends \Google\Collection
   public $actionMethodName;
   protected $parametersType = GoogleChatV1WidgetMarkupFormActionActionParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
 
   /**
    * @param string

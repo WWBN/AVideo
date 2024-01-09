@@ -19,9 +19,10 @@ namespace Google\Service\CloudDeploy;
 
 class Phase extends \Google\Model
 {
+  protected $childRolloutJobsType = ChildRolloutJobs::class;
+  protected $childRolloutJobsDataType = '';
   protected $deploymentJobsType = DeploymentJobs::class;
   protected $deploymentJobsDataType = '';
-  public $deploymentJobs;
   /**
    * @var string
    */
@@ -29,8 +30,26 @@ class Phase extends \Google\Model
   /**
    * @var string
    */
+  public $skipMessage;
+  /**
+   * @var string
+   */
   public $state;
 
+  /**
+   * @param ChildRolloutJobs
+   */
+  public function setChildRolloutJobs(ChildRolloutJobs $childRolloutJobs)
+  {
+    $this->childRolloutJobs = $childRolloutJobs;
+  }
+  /**
+   * @return ChildRolloutJobs
+   */
+  public function getChildRolloutJobs()
+  {
+    return $this->childRolloutJobs;
+  }
   /**
    * @param DeploymentJobs
    */
@@ -58,6 +77,20 @@ class Phase extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param string
+   */
+  public function setSkipMessage($skipMessage)
+  {
+    $this->skipMessage = $skipMessage;
+  }
+  /**
+   * @return string
+   */
+  public function getSkipMessage()
+  {
+    return $this->skipMessage;
   }
   /**
    * @param string

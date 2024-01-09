@@ -25,7 +25,6 @@ class OperationMetadata extends \Google\Model
   public $apiVersion;
   protected $contactCenterType = ContactCenter::class;
   protected $contactCenterDataType = '';
-  public $contactCenter;
   /**
    * @var string
    */

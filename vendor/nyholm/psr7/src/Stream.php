@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Nyholm\Psr7;
 
 use Psr\Http\Message\StreamInterface;
-use Symfony\Component\Debug\ErrorHandler as SymfonyLegacyErrorHandler;
-use Symfony\Component\ErrorHandler\ErrorHandler as SymfonyErrorHandler;
 
 /**
  * @author Michael Dowling and contributors to guzzlehttp/psr7
@@ -17,6 +15,8 @@ use Symfony\Component\ErrorHandler\ErrorHandler as SymfonyErrorHandler;
  */
 class Stream implements StreamInterface
 {
+    use StreamTrait;
+
     /** @var resource|null A resource reference */
     private $stream;
 
@@ -51,8 +51,20 @@ class Stream implements StreamInterface
         ],
     ];
 
-    private function __construct()
+    /**
+     * @param resource $body
+     */
+    public function __construct($body)
     {
+        if (!\is_resource($body)) {
+            throw new \InvalidArgumentException('First argument to Stream::__construct() must be resource');
+        }
+
+        $this->stream = $body;
+        $meta = \stream_get_meta_data($this->stream);
+        $this->seekable = $meta['seekable'] && 0 === \fseek($this->stream, 0, \SEEK_CUR);
+        $this->readable = isset(self::READ_WRITE_HASH['read'][$meta['mode']]);
+        $this->writable = isset(self::READ_WRITE_HASH['write'][$meta['mode']]);
     }
 
     /**
@@ -69,23 +81,21 @@ class Stream implements StreamInterface
         }
 
         if (\is_string($body)) {
-            $resource = \fopen('php://temp', 'rw+');
-            \fwrite($resource, $body);
-            $body = $resource;
+            if (200000 <= \strlen($body)) {
+                $body = self::openZvalStream($body);
+            } else {
+                $resource = \fopen('php://memory', 'r+');
+                \fwrite($resource, $body);
+                \fseek($resource, 0);
+                $body = $resource;
+            }
         }
 
-        if (\is_resource($body)) {
-            $new = new self();
-            $new->stream = $body;
-            $meta = \stream_get_meta_data($new->stream);
-            $new->seekable = $meta['seekable'] && 0 === \fseek($new->stream, 0, \SEEK_CUR);
-            $new->readable = isset(self::READ_WRITE_HASH['read'][$meta['mode']]);
-            $new->writable = isset(self::READ_WRITE_HASH['write'][$meta['mode']]);
-
-            return $new;
+        if (!\is_resource($body)) {
+            throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface');
         }
 
-        throw new \InvalidArgumentException('First argument to Stream::create() must be a string, resource or StreamInterface.');
+        return new self($body);
     }
 
     /**
@@ -94,35 +104,6 @@ class Stream implements StreamInterface
     public function __destruct()
     {
         $this->close();
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        try {
-            if ($this->isSeekable()) {
-                $this->seek(0);
-            }
-
-            return $this->getContents();
-        } catch (\Throwable $e) {
-            if (\PHP_VERSION_ID >= 70400) {
-                throw $e;
-            }
-
-            if (\is_array($errorHandler = \set_error_handler('var_dump'))) {
-                $errorHandler = $errorHandler[0] ?? null;
-            }
-            \restore_error_handler();
-
-            if ($e instanceof \Error || $errorHandler instanceof SymfonyErrorHandler || $errorHandler instanceof SymfonyLegacyErrorHandler) {
-                return \trigger_error((string) $e, \E_USER_ERROR);
-            }
-
-            return '';
-        }
     }
 
     public function close(): void
@@ -279,11 +260,19 @@ class Stream implements StreamInterface
             throw new \RuntimeException('Stream is detached');
         }
 
-        if (false === $contents = @\stream_get_contents($this->stream)) {
-            throw new \RuntimeException('Unable to read stream contents: ' . (\error_get_last()['message'] ?? ''));
-        }
+        $exception = null;
 
-        return $contents;
+        \set_error_handler(static function ($type, $message) use (&$exception) {
+            throw $exception = new \RuntimeException('Unable to read stream contents: ' . $message);
+        });
+
+        try {
+            return \stream_get_contents($this->stream);
+        } catch (\Throwable $e) {
+            throw $e === $exception ? $e : new \RuntimeException('Unable to read stream contents: ' . $e->getMessage(), 0, $e);
+        } finally {
+            \restore_error_handler();
+        }
     }
 
     /**
@@ -291,6 +280,10 @@ class Stream implements StreamInterface
      */
     public function getMetadata($key = null)
     {
+        if (null !== $key && !\is_string($key)) {
+            throw new \InvalidArgumentException('Metadata key must be a string');
+        }
+
         if (!isset($this->stream)) {
             return $key ? null : [];
         }
@@ -302,5 +295,105 @@ class Stream implements StreamInterface
         }
 
         return $meta[$key] ?? null;
+    }
+
+    private static function openZvalStream(string $body)
+    {
+        static $wrapper;
+
+        $wrapper ?? \stream_wrapper_register('Nyholm-Psr7-Zval', $wrapper = \get_class(new class() {
+            public $context;
+
+            private $data;
+            private $position = 0;
+
+            public function stream_open(): bool
+            {
+                $this->data = \stream_context_get_options($this->context)['Nyholm-Psr7-Zval']['data'];
+                \stream_context_set_option($this->context, 'Nyholm-Psr7-Zval', 'data', null);
+
+                return true;
+            }
+
+            public function stream_read(int $count): string
+            {
+                $result = \substr($this->data, $this->position, $count);
+                $this->position += \strlen($result);
+
+                return $result;
+            }
+
+            public function stream_write(string $data): int
+            {
+                $this->data = \substr_replace($this->data, $data, $this->position, \strlen($data));
+                $this->position += \strlen($data);
+
+                return \strlen($data);
+            }
+
+            public function stream_tell(): int
+            {
+                return $this->position;
+            }
+
+            public function stream_eof(): bool
+            {
+                return \strlen($this->data) <= $this->position;
+            }
+
+            public function stream_stat(): array
+            {
+                return [
+                    'mode' => 33206, // POSIX_S_IFREG | 0666
+                    'nlink' => 1,
+                    'rdev' => -1,
+                    'size' => \strlen($this->data),
+                    'blksize' => -1,
+                    'blocks' => -1,
+                ];
+            }
+
+            public function stream_seek(int $offset, int $whence): bool
+            {
+                if (\SEEK_SET === $whence && (0 <= $offset && \strlen($this->data) >= $offset)) {
+                    $this->position = $offset;
+                } elseif (\SEEK_CUR === $whence && 0 <= $offset) {
+                    $this->position += $offset;
+                } elseif (\SEEK_END === $whence && (0 > $offset && 0 <= $offset = \strlen($this->data) + $offset)) {
+                    $this->position = $offset;
+                } else {
+                    return false;
+                }
+
+                return true;
+            }
+
+            public function stream_set_option(): bool
+            {
+                return true;
+            }
+
+            public function stream_truncate(int $new_size): bool
+            {
+                if ($new_size) {
+                    $this->data = \substr($this->data, 0, $new_size);
+                    $this->position = \min($this->position, $new_size);
+                } else {
+                    $this->data = '';
+                    $this->position = 0;
+                }
+
+                return true;
+            }
+        }));
+
+        $context = \stream_context_create(['Nyholm-Psr7-Zval' => ['data' => $body]]);
+
+        if (!$stream = @\fopen('Nyholm-Psr7-Zval://', 'r+', false, $context)) {
+            \stream_wrapper_register('Nyholm-Psr7-Zval', $wrapper);
+            $stream = \fopen('Nyholm-Psr7-Zval://', 'r+', false, $context);
+        }
+
+        return $stream;
     }
 }

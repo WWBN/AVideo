@@ -22,7 +22,6 @@ class GoogleFirestoreAdminV1ListFieldsResponse extends \Google\Collection
   protected $collection_key = 'fields';
   protected $fieldsType = GoogleFirestoreAdminV1Field::class;
   protected $fieldsDataType = 'array';
-  public $fields;
   /**
    * @var string
    */

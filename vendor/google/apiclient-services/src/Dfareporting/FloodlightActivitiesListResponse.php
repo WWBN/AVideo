@@ -22,7 +22,6 @@ class FloodlightActivitiesListResponse extends \Google\Collection
   protected $collection_key = 'floodlightActivities';
   protected $floodlightActivitiesType = FloodlightActivity::class;
   protected $floodlightActivitiesDataType = 'array';
-  public $floodlightActivities;
   /**
    * @var string
    */

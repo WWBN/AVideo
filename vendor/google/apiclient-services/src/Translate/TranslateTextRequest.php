@@ -26,7 +26,6 @@ class TranslateTextRequest extends \Google\Collection
   public $contents;
   protected $glossaryConfigType = TranslateTextGlossaryConfig::class;
   protected $glossaryConfigDataType = '';
-  public $glossaryConfig;
   /**
    * @var string[]
    */

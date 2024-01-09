@@ -26,7 +26,6 @@ class Certificate extends \Google\Collection
   public $expireTime;
   protected $issuingCertificateType = Certificate::class;
   protected $issuingCertificateDataType = '';
-  public $issuingCertificate;
   /**
    * @var string
    */

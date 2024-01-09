@@ -102,7 +102,8 @@ class ProjectsMetricDescriptors extends \Google\Service\Resource
    * custom metrics (https://cloud.google.com/monitoring/custom-metrics):
    * metric.type = starts_with("custom.googleapis.com/")
    * @opt_param int pageSize A positive number that is the maximum number of
-   * results to return.
+   * results to return. The default and maximum value is 10,000. If a page_size <=
+   * 0 or > 10,000 is submitted, will instead return a maximum of 10,000 results.
    * @opt_param string pageToken If this field is not empty then it must contain
    * the nextPageToken value returned by a previous call to this method. Using
    * this field causes the method to return additional results from the previous

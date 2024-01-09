@@ -22,7 +22,6 @@ class GeostoreBusinessChainProto extends \Google\Collection
   protected $collection_key = 'canonicalGconcepts';
   protected $canonicalGconceptsType = GeostoreCanonicalGConceptProto::class;
   protected $canonicalGconceptsDataType = 'array';
-  public $canonicalGconcepts;
 
   /**
    * @param GeostoreCanonicalGConceptProto[]

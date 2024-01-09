@@ -34,7 +34,6 @@ class RepositoryWebrefMentionRatings extends \Google\Collection
   public $mentionMatch;
   protected $singleMentionRatingType = RepositoryWebrefMentionRatingsSingleMentionRating::class;
   protected $singleMentionRatingDataType = 'array';
-  public $singleMentionRating;
 
   /**
    * @param string

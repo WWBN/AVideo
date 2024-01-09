@@ -21,7 +21,6 @@ class DetachTrustRequest extends \Google\Model
 {
   protected $trustType = Trust::class;
   protected $trustDataType = '';
-  public $trust;
 
   /**
    * @param Trust

@@ -22,10 +22,8 @@ class NlpSciencelitCitationData extends \Google\Collection
   protected $collection_key = 'author';
   protected $articleIdType = NlpSciencelitArticleId::class;
   protected $articleIdDataType = 'array';
-  public $articleId;
   protected $authorType = NlpSciencelitAuthor::class;
   protected $authorDataType = 'array';
-  public $author;
   /**
    * @var string
    */
@@ -40,7 +38,6 @@ class NlpSciencelitCitationData extends \Google\Collection
   public $reference;
   protected $scholarCitationType = ScienceCitation::class;
   protected $scholarCitationDataType = '';
-  public $scholarCitation;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class WriteInstruction extends \Google\Model
 {
   protected $inputType = InstructionInput::class;
   protected $inputDataType = '';
-  public $input;
   protected $sinkType = Sink::class;
   protected $sinkDataType = '';
-  public $sink;
 
   /**
    * @param InstructionInput

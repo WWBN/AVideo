@@ -21,7 +21,6 @@ class HotKeyDebuggingInfo extends \Google\Model
 {
   protected $detectedHotKeysType = HotKeyInfo::class;
   protected $detectedHotKeysDataType = 'map';
-  public $detectedHotKeys;
 
   /**
    * @param HotKeyInfo[]

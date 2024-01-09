@@ -58,7 +58,7 @@ class FoldersLogs extends \Google\Service\Resource
    * Lists the logs in projects, organizations, folders, or billing accounts. Only
    * logs that have entries are listed. (logs.listFoldersLogs)
    *
-   * @param string $parent Required. The resource name that owns the logs:
+   * @param string $parent Required. The resource name to list logs for:
    * projects/[PROJECT_ID] organizations/[ORGANIZATION_ID]
    * billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID]
    * @param array $optParams Optional parameters.
@@ -70,14 +70,15 @@ class FoldersLogs extends \Google\Service\Resource
    * batch of results from the preceding call to this method. pageToken must be
    * the value of nextPageToken from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
-   * @opt_param string resourceNames Optional. The resource name that owns the
-   * logs: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views
-   * /[VIEW_ID] organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[B
-   * UCKET_ID]/views/[VIEW_ID] billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOC
-   * ATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] folders/[FOLDER_ID]/locations/[
-   * LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]To support legacy queries, it
+   * @opt_param string resourceNames Optional. List of resource names to list logs
+   * for: projects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/
+   * [VIEW_ID] organizations/[ORGANIZATION_ID]/locations/[LOCATION_ID]/buckets/[BU
+   * CKET_ID]/views/[VIEW_ID] billingAccounts/[BILLING_ACCOUNT_ID]/locations/[LOCA
+   * TION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID] folders/[FOLDER_ID]/locations/[L
+   * OCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]To support legacy queries, it
    * could also be: projects/[PROJECT_ID] organizations/[ORGANIZATION_ID]
-   * billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID]
+   * billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID]The resource name in
+   * the parent field is added to this list.
    * @return ListLogsResponse
    */
   public function listFoldersLogs($parent, $optParams = [])

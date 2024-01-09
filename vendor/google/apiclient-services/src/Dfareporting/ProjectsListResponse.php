@@ -30,7 +30,6 @@ class ProjectsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $projectsType = Project::class;
   protected $projectsDataType = 'array';
-  public $projects;
 
   /**
    * @param string

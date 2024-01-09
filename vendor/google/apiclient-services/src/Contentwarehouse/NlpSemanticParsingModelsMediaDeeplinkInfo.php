@@ -50,7 +50,6 @@ class NlpSemanticParsingModelsMediaDeeplinkInfo extends \Google\Collection
   public $offer;
   protected $paidOfferDetailType = NlpSemanticParsingModelsMediaPaidOfferDetail::class;
   protected $paidOfferDetailDataType = 'array';
-  public $paidOfferDetail;
   /**
    * @var string[]
    */
@@ -66,14 +65,12 @@ class NlpSemanticParsingModelsMediaDeeplinkInfo extends \Google\Collection
   public $tag;
   protected $validTimeWindowType = NlpSemanticParsingModelsMediaDeeplinkInfoTimeWindow::class;
   protected $validTimeWindowDataType = '';
-  public $validTimeWindow;
   /**
    * @var string
    */
   public $vuiId;
   protected $youtubeDeeplinkInfoType = NlpSemanticParsingModelsMediaYouTubeDeeplinkInfo::class;
   protected $youtubeDeeplinkInfoDataType = '';
-  public $youtubeDeeplinkInfo;
 
   /**
    * @param string

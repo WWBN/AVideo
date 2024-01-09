@@ -22,7 +22,6 @@ class PollingLocation extends \Google\Collection
   protected $collection_key = 'sources';
   protected $addressType = SimpleAddressType::class;
   protected $addressDataType = '';
-  public $address;
   /**
    * @var string
    */
@@ -43,7 +42,6 @@ class PollingLocation extends \Google\Collection
   public $pollingHours;
   protected $sourcesType = Source::class;
   protected $sourcesDataType = 'array';
-  public $sources;
   /**
    * @var string
    */

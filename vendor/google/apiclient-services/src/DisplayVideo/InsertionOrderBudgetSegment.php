@@ -29,7 +29,6 @@ class InsertionOrderBudgetSegment extends \Google\Model
   public $campaignBudgetId;
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
-  public $dateRange;
   /**
    * @var string
    */

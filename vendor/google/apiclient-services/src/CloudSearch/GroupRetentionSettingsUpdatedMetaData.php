@@ -21,10 +21,8 @@ class GroupRetentionSettingsUpdatedMetaData extends \Google\Model
 {
   protected $initiatorType = UserId::class;
   protected $initiatorDataType = '';
-  public $initiator;
   protected $retentionSettingsType = AppsDynamiteSharedRetentionSettings::class;
   protected $retentionSettingsDataType = '';
-  public $retentionSettings;
 
   /**
    * @param UserId

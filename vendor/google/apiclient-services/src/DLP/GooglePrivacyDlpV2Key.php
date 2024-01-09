@@ -22,10 +22,8 @@ class GooglePrivacyDlpV2Key extends \Google\Collection
   protected $collection_key = 'path';
   protected $partitionIdType = GooglePrivacyDlpV2PartitionId::class;
   protected $partitionIdDataType = '';
-  public $partitionId;
   protected $pathType = GooglePrivacyDlpV2PathElement::class;
   protected $pathDataType = 'array';
-  public $path;
 
   /**
    * @param GooglePrivacyDlpV2PartitionId

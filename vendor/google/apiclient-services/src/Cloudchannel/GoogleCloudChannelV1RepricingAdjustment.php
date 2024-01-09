@@ -21,7 +21,6 @@ class GoogleCloudChannelV1RepricingAdjustment extends \Google\Model
 {
   protected $percentageAdjustmentType = GoogleCloudChannelV1PercentageAdjustment::class;
   protected $percentageAdjustmentDataType = '';
-  public $percentageAdjustment;
 
   /**
    * @param GoogleCloudChannelV1PercentageAdjustment

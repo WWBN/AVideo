@@ -21,13 +21,10 @@ class GradientRule extends \Google\Model
 {
   protected $maxpointType = InterpolationPoint::class;
   protected $maxpointDataType = '';
-  public $maxpoint;
   protected $midpointType = InterpolationPoint::class;
   protected $midpointDataType = '';
-  public $midpoint;
   protected $minpointType = InterpolationPoint::class;
   protected $minpointDataType = '';
-  public $minpoint;
 
   /**
    * @param InterpolationPoint

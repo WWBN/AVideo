@@ -33,7 +33,6 @@ class ValidateMessageRequest extends \Google\Model
   public $name;
   protected $schemaType = Schema::class;
   protected $schemaDataType = '';
-  public $schema;
 
   /**
    * @param string

@@ -22,14 +22,12 @@ class AnalyzeOrgPoliciesResponse extends \Google\Collection
   protected $collection_key = 'orgPolicyResults';
   protected $constraintType = AnalyzerOrgPolicyConstraint::class;
   protected $constraintDataType = '';
-  public $constraint;
   /**
    * @var string
    */
   public $nextPageToken;
   protected $orgPolicyResultsType = OrgPolicyResult::class;
   protected $orgPolicyResultsDataType = 'array';
-  public $orgPolicyResults;
 
   /**
    * @param AnalyzerOrgPolicyConstraint

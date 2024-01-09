@@ -21,7 +21,6 @@ class TestExecution extends \Google\Model
 {
   protected $environmentType = Environment::class;
   protected $environmentDataType = '';
-  public $environment;
   /**
    * @var string
    */
@@ -36,24 +35,20 @@ class TestExecution extends \Google\Model
   public $projectId;
   protected $shardType = Shard::class;
   protected $shardDataType = '';
-  public $shard;
   /**
    * @var string
    */
   public $state;
   protected $testDetailsType = TestDetails::class;
   protected $testDetailsDataType = '';
-  public $testDetails;
   protected $testSpecificationType = TestSpecification::class;
   protected $testSpecificationDataType = '';
-  public $testSpecification;
   /**
    * @var string
    */
   public $timestamp;
   protected $toolResultsStepType = ToolResultsStep::class;
   protected $toolResultsStepDataType = '';
-  public $toolResultsStep;
 
   /**
    * @param Environment

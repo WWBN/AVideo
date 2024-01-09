@@ -25,7 +25,6 @@ class PublishContainerVersionResponse extends \Google\Model
   public $compilerError;
   protected $containerVersionType = ContainerVersion::class;
   protected $containerVersionDataType = '';
-  public $containerVersion;
 
   /**
    * @param bool

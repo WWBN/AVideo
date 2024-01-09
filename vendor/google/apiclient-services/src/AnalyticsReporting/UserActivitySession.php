@@ -22,7 +22,6 @@ class UserActivitySession extends \Google\Collection
   protected $collection_key = 'activities';
   protected $activitiesType = Activity::class;
   protected $activitiesDataType = 'array';
-  public $activities;
   /**
    * @var string
    */

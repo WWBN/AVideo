@@ -22,14 +22,12 @@ class ConsentArtifact extends \Google\Collection
   protected $collection_key = 'consentContentScreenshots';
   protected $consentContentScreenshotsType = Image::class;
   protected $consentContentScreenshotsDataType = 'array';
-  public $consentContentScreenshots;
   /**
    * @var string
    */
   public $consentContentVersion;
   protected $guardianSignatureType = Signature::class;
   protected $guardianSignatureDataType = '';
-  public $guardianSignature;
   /**
    * @var string[]
    */
@@ -44,10 +42,8 @@ class ConsentArtifact extends \Google\Collection
   public $userId;
   protected $userSignatureType = Signature::class;
   protected $userSignatureDataType = '';
-  public $userSignature;
   protected $witnessSignatureType = Signature::class;
   protected $witnessSignatureDataType = '';
-  public $witnessSignature;
 
   /**
    * @param Image[]

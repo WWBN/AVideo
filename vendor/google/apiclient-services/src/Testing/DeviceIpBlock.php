@@ -21,7 +21,6 @@ class DeviceIpBlock extends \Google\Model
 {
   protected $addedDateType = Date::class;
   protected $addedDateDataType = '';
-  public $addedDate;
   /**
    * @var string
    */

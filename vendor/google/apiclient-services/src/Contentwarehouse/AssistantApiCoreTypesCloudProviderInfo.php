@@ -21,7 +21,6 @@ class AssistantApiCoreTypesCloudProviderInfo extends \Google\Model
 {
   protected $agentStyleType = AssistantApiCoreTypesCloudProviderInfoAgentStyle::class;
   protected $agentStyleDataType = '';
-  public $agentStyle;
   /**
    * @var string
    */

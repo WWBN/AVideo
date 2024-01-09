@@ -22,7 +22,6 @@ class BulkUpdateLineItemsResponse extends \Google\Collection
   protected $collection_key = 'updatedLineItemIds';
   protected $errorsType = Status::class;
   protected $errorsDataType = 'array';
-  public $errors;
   /**
    * @var string[]
    */

@@ -22,7 +22,6 @@ class GooglePrivacyDlpV2FindingLimits extends \Google\Collection
   protected $collection_key = 'maxFindingsPerInfoType';
   protected $maxFindingsPerInfoTypeType = GooglePrivacyDlpV2InfoTypeLimit::class;
   protected $maxFindingsPerInfoTypeDataType = 'array';
-  public $maxFindingsPerInfoType;
   /**
    * @var int
    */

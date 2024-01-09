@@ -21,7 +21,6 @@ class AppBundle extends \Google\Model
 {
   protected $bundleLocationType = FileReference::class;
   protected $bundleLocationDataType = '';
-  public $bundleLocation;
 
   /**
    * @param FileReference

@@ -22,7 +22,6 @@ class UpdateDeviceMetadataInBatchRequest extends \Google\Collection
   protected $collection_key = 'updates';
   protected $updatesType = UpdateMetadataArguments::class;
   protected $updatesDataType = 'array';
-  public $updates;
 
   /**
    * @param UpdateMetadataArguments[]

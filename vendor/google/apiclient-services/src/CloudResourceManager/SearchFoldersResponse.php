@@ -22,7 +22,6 @@ class SearchFoldersResponse extends \Google\Collection
   protected $collection_key = 'folders';
   protected $foldersType = Folder::class;
   protected $foldersDataType = 'array';
-  public $folders;
   /**
    * @var string
    */

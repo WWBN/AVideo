@@ -22,7 +22,6 @@ class Route extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $asPathsType = RouteAsPath::class;
   protected $asPathsDataType = 'array';
-  public $asPaths;
   /**
    * @var string
    */
@@ -101,7 +100,6 @@ class Route extends \Google\Collection
   public $tags;
   protected $warningsType = RouteWarnings::class;
   protected $warningsDataType = 'array';
-  public $warnings;
 
   /**
    * @param RouteAsPath[]

@@ -22,7 +22,15 @@ class Workflow extends \Google\Model
   /**
    * @var string
    */
+  public $callLogLevel;
+  /**
+   * @var string
+   */
   public $createTime;
+  /**
+   * @var string
+   */
+  public $cryptoKeyName;
   /**
    * @var string
    */
@@ -55,11 +63,27 @@ class Workflow extends \Google\Model
    * @var string
    */
   public $state;
+  protected $stateErrorType = StateError::class;
+  protected $stateErrorDataType = '';
   /**
    * @var string
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setCallLogLevel($callLogLevel)
+  {
+    $this->callLogLevel = $callLogLevel;
+  }
+  /**
+   * @return string
+   */
+  public function getCallLogLevel()
+  {
+    return $this->callLogLevel;
+  }
   /**
    * @param string
    */
@@ -73,6 +97,20 @@ class Workflow extends \Google\Model
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCryptoKeyName($cryptoKeyName)
+  {
+    $this->cryptoKeyName = $cryptoKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getCryptoKeyName()
+  {
+    return $this->cryptoKeyName;
   }
   /**
    * @param string
@@ -185,6 +223,20 @@ class Workflow extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param StateError
+   */
+  public function setStateError(StateError $stateError)
+  {
+    $this->stateError = $stateError;
+  }
+  /**
+   * @return StateError
+   */
+  public function getStateError()
+  {
+    return $this->stateError;
   }
   /**
    * @param string

@@ -21,17 +21,14 @@ class GoogleCloudOrgpolicyV2Policy extends \Google\Model
 {
   protected $alternateType = GoogleCloudOrgpolicyV2AlternatePolicySpec::class;
   protected $alternateDataType = '';
-  public $alternate;
   protected $dryRunSpecType = GoogleCloudOrgpolicyV2PolicySpec::class;
   protected $dryRunSpecDataType = '';
-  public $dryRunSpec;
   /**
    * @var string
    */
   public $name;
   protected $specType = GoogleCloudOrgpolicyV2PolicySpec::class;
   protected $specDataType = '';
-  public $spec;
 
   /**
    * @param GoogleCloudOrgpolicyV2AlternatePolicySpec

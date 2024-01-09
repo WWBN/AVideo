@@ -22,7 +22,6 @@ class GoogleCloudChannelV1CheckCloudIdentityAccountsExistResponse extends \Googl
   protected $collection_key = 'cloudIdentityAccounts';
   protected $cloudIdentityAccountsType = GoogleCloudChannelV1CloudIdentityCustomerAccount::class;
   protected $cloudIdentityAccountsDataType = 'array';
-  public $cloudIdentityAccounts;
 
   /**
    * @param GoogleCloudChannelV1CloudIdentityCustomerAccount[]

@@ -22,10 +22,8 @@ class ShardSummary extends \Google\Collection
   protected $collection_key = 'runs';
   protected $runsType = StepSummary::class;
   protected $runsDataType = 'array';
-  public $runs;
   protected $shardResultType = MergedResult::class;
   protected $shardResultDataType = '';
-  public $shardResult;
 
   /**
    * @param StepSummary[]

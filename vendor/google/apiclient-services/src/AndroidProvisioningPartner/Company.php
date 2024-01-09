@@ -34,7 +34,6 @@ class Company extends \Google\Collection
   public $companyName;
   protected $googleWorkspaceAccountType = GoogleWorkspaceAccount::class;
   protected $googleWorkspaceAccountDataType = '';
-  public $googleWorkspaceAccount;
   /**
    * @var string
    */

@@ -35,6 +35,14 @@ class KnowledgeAnswersIntentQueryGroundingSignals extends \Google\Model
    */
   public $pgrpOutputFormat;
   /**
+   * @var string
+   */
+  public $provenance;
+  /**
+   * @var string
+   */
+  public $sentiment;
+  /**
    * @var bool
    */
   public $usesGroundingBox;
@@ -122,6 +130,34 @@ class KnowledgeAnswersIntentQueryGroundingSignals extends \Google\Model
   public function getPgrpOutputFormat()
   {
     return $this->pgrpOutputFormat;
+  }
+  /**
+   * @param string
+   */
+  public function setProvenance($provenance)
+  {
+    $this->provenance = $provenance;
+  }
+  /**
+   * @return string
+   */
+  public function getProvenance()
+  {
+    return $this->provenance;
+  }
+  /**
+   * @param string
+   */
+  public function setSentiment($sentiment)
+  {
+    $this->sentiment = $sentiment;
+  }
+  /**
+   * @return string
+   */
+  public function getSentiment()
+  {
+    return $this->sentiment;
   }
   /**
    * @param bool

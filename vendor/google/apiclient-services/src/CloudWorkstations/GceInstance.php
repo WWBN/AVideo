@@ -20,13 +20,14 @@ namespace Google\Service\CloudWorkstations;
 class GceInstance extends \Google\Collection
 {
   protected $collection_key = 'tags';
+  protected $acceleratorsType = Accelerator::class;
+  protected $acceleratorsDataType = 'array';
   /**
    * @var int
    */
   public $bootDiskSizeGb;
   protected $confidentialInstanceConfigType = GceConfidentialInstanceConfig::class;
   protected $confidentialInstanceConfigDataType = '';
-  public $confidentialInstanceConfig;
   /**
    * @var bool
    */
@@ -40,17 +41,34 @@ class GceInstance extends \Google\Collection
    */
   public $poolSize;
   /**
+   * @var int
+   */
+  public $pooledInstances;
+  /**
    * @var string
    */
   public $serviceAccount;
   protected $shieldedInstanceConfigType = GceShieldedInstanceConfig::class;
   protected $shieldedInstanceConfigDataType = '';
-  public $shieldedInstanceConfig;
   /**
    * @var string[]
    */
   public $tags;
 
+  /**
+   * @param Accelerator[]
+   */
+  public function setAccelerators($accelerators)
+  {
+    $this->accelerators = $accelerators;
+  }
+  /**
+   * @return Accelerator[]
+   */
+  public function getAccelerators()
+  {
+    return $this->accelerators;
+  }
   /**
    * @param int
    */
@@ -120,6 +138,20 @@ class GceInstance extends \Google\Collection
   public function getPoolSize()
   {
     return $this->poolSize;
+  }
+  /**
+   * @param int
+   */
+  public function setPooledInstances($pooledInstances)
+  {
+    $this->pooledInstances = $pooledInstances;
+  }
+  /**
+   * @return int
+   */
+  public function getPooledInstances()
+  {
+    return $this->pooledInstances;
   }
   /**
    * @param string

@@ -53,10 +53,8 @@ class GoogleCloudApigeeV1Environment extends \Google\Model
   public $name;
   protected $nodeConfigType = GoogleCloudApigeeV1NodeConfig::class;
   protected $nodeConfigDataType = '';
-  public $nodeConfig;
   protected $propertiesType = GoogleCloudApigeeV1Properties::class;
   protected $propertiesDataType = '';
-  public $properties;
   /**
    * @var string
    */

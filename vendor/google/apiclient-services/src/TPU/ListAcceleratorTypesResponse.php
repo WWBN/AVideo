@@ -22,7 +22,6 @@ class ListAcceleratorTypesResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $acceleratorTypesType = AcceleratorType::class;
   protected $acceleratorTypesDataType = 'array';
-  public $acceleratorTypes;
   /**
    * @var string
    */

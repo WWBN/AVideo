@@ -22,7 +22,6 @@ class RepositoryAnnotationsRdfaBreadcrumbs extends \Google\Collection
   protected $collection_key = 'crumb';
   protected $crumbType = RepositoryAnnotationsRdfaCrumb::class;
   protected $crumbDataType = 'array';
-  public $crumb;
   /**
    * @var string
    */

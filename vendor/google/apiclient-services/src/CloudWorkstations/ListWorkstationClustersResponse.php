@@ -30,7 +30,6 @@ class ListWorkstationClustersResponse extends \Google\Collection
   public $unreachable;
   protected $workstationClustersType = WorkstationCluster::class;
   protected $workstationClustersDataType = 'array';
-  public $workstationClusters;
 
   /**
    * @param string

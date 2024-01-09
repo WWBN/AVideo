@@ -22,7 +22,6 @@ class ListDeviceConfigVersionsResponse extends \Google\Collection
   protected $collection_key = 'deviceConfigs';
   protected $deviceConfigsType = DeviceConfig::class;
   protected $deviceConfigsDataType = 'array';
-  public $deviceConfigs;
 
   /**
    * @param DeviceConfig[]

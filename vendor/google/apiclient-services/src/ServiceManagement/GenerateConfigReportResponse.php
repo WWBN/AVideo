@@ -22,10 +22,8 @@ class GenerateConfigReportResponse extends \Google\Collection
   protected $collection_key = 'diagnostics';
   protected $changeReportsType = ChangeReport::class;
   protected $changeReportsDataType = 'array';
-  public $changeReports;
   protected $diagnosticsType = Diagnostic::class;
   protected $diagnosticsDataType = 'array';
-  public $diagnostics;
   /**
    * @var string
    */

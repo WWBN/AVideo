@@ -33,7 +33,6 @@ class AudioAd extends \Google\Model
   public $trackingUrl;
   protected $videoType = YoutubeVideoDetails::class;
   protected $videoDataType = '';
-  public $video;
 
   /**
    * @param string

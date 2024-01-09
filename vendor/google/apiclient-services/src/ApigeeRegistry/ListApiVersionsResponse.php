@@ -22,7 +22,6 @@ class ListApiVersionsResponse extends \Google\Collection
   protected $collection_key = 'apiVersions';
   protected $apiVersionsType = ApiVersion::class;
   protected $apiVersionsDataType = 'array';
-  public $apiVersions;
   /**
    * @var string
    */

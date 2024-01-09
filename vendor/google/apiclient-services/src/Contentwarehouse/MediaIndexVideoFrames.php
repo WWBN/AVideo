@@ -22,7 +22,6 @@ class MediaIndexVideoFrames extends \Google\Collection
   protected $collection_key = 'videoFrames';
   protected $videoFramesType = MediaIndexVideoFrame::class;
   protected $videoFramesDataType = 'array';
-  public $videoFrames;
 
   /**
    * @param MediaIndexVideoFrame[]

@@ -22,7 +22,6 @@ class GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse extends \Google\Co
   protected $collection_key = 'evaluations';
   protected $evaluationsType = GoogleCloudDatalabelingV1beta1Evaluation::class;
   protected $evaluationsDataType = 'array';
-  public $evaluations;
   /**
    * @var string
    */

@@ -21,13 +21,10 @@ class ServiceItem extends \Google\Model
 {
   protected $freeFormServiceItemType = FreeFormServiceItem::class;
   protected $freeFormServiceItemDataType = '';
-  public $freeFormServiceItem;
   protected $priceType = Money::class;
   protected $priceDataType = '';
-  public $price;
   protected $structuredServiceItemType = StructuredServiceItem::class;
   protected $structuredServiceItemDataType = '';
-  public $structuredServiceItem;
 
   /**
    * @param FreeFormServiceItem

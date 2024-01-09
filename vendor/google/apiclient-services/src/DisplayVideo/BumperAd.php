@@ -21,7 +21,6 @@ class BumperAd extends \Google\Model
 {
   protected $commonInStreamAttributeType = CommonInStreamAttribute::class;
   protected $commonInStreamAttributeDataType = '';
-  public $commonInStreamAttribute;
 
   /**
    * @param CommonInStreamAttribute

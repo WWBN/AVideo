@@ -25,7 +25,6 @@ class GoodocParagraphDroppedCap extends \Google\Model
   ];
   protected $boxType = GoodocBoundingBox::class;
   protected $boxDataType = '';
-  public $box;
   /**
    * @var int
    */

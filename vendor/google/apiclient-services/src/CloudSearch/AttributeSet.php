@@ -30,7 +30,6 @@ class AttributeSet extends \Google\Collection
   public $attributeValue;
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
-  public $messageKeys;
 
   /**
    * @param string

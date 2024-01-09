@@ -22,7 +22,6 @@ class ListNegativeKeywordListsResponse extends \Google\Collection
   protected $collection_key = 'negativeKeywordLists';
   protected $negativeKeywordListsType = NegativeKeywordList::class;
   protected $negativeKeywordListsDataType = 'array';
-  public $negativeKeywordLists;
   /**
    * @var string
    */

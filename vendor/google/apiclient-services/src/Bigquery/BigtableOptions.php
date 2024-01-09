@@ -22,7 +22,6 @@ class BigtableOptions extends \Google\Collection
   protected $collection_key = 'columnFamilies';
   protected $columnFamiliesType = BigtableColumnFamily::class;
   protected $columnFamiliesDataType = 'array';
-  public $columnFamilies;
   /**
    * @var bool
    */

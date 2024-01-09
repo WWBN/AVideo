@@ -22,7 +22,6 @@ class PostgresqlRdbms extends \Google\Collection
   protected $collection_key = 'postgresqlSchemas';
   protected $postgresqlSchemasType = PostgresqlSchema::class;
   protected $postgresqlSchemasDataType = 'array';
-  public $postgresqlSchemas;
 
   /**
    * @param PostgresqlSchema[]

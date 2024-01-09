@@ -21,10 +21,8 @@ class GoogleCloudDatalabelingV1beta1OutputConfig extends \Google\Model
 {
   protected $gcsDestinationType = GoogleCloudDatalabelingV1beta1GcsDestination::class;
   protected $gcsDestinationDataType = '';
-  public $gcsDestination;
   protected $gcsFolderDestinationType = GoogleCloudDatalabelingV1beta1GcsFolderDestination::class;
   protected $gcsFolderDestinationDataType = '';
-  public $gcsFolderDestination;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1GcsDestination

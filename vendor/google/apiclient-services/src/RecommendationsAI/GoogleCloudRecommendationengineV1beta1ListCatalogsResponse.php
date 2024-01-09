@@ -22,7 +22,6 @@ class GoogleCloudRecommendationengineV1beta1ListCatalogsResponse extends \Google
   protected $collection_key = 'catalogs';
   protected $catalogsType = GoogleCloudRecommendationengineV1beta1Catalog::class;
   protected $catalogsDataType = 'array';
-  public $catalogs;
   /**
    * @var string
    */

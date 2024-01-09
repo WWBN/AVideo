@@ -21,7 +21,6 @@ class InventorySourceDisplayCreativeConfig extends \Google\Model
 {
   protected $creativeSizeType = Dimensions::class;
   protected $creativeSizeDataType = '';
-  public $creativeSize;
 
   /**
    * @param Dimensions

@@ -27,6 +27,10 @@ class ParameterMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $groupName;
+  /**
+   * @var string
+   */
   public $helpText;
   /**
    * @var bool
@@ -45,6 +49,14 @@ class ParameterMetadata extends \Google\Collection
    */
   public $paramType;
   /**
+   * @var string
+   */
+  public $parentName;
+  /**
+   * @var string[]
+   */
+  public $parentTriggerValues;
+  /**
    * @var string[]
    */
   public $regexes;
@@ -62,6 +74,20 @@ class ParameterMetadata extends \Google\Collection
   public function getCustomMetadata()
   {
     return $this->customMetadata;
+  }
+  /**
+   * @param string
+   */
+  public function setGroupName($groupName)
+  {
+    $this->groupName = $groupName;
+  }
+  /**
+   * @return string
+   */
+  public function getGroupName()
+  {
+    return $this->groupName;
   }
   /**
    * @param string
@@ -132,6 +158,34 @@ class ParameterMetadata extends \Google\Collection
   public function getParamType()
   {
     return $this->paramType;
+  }
+  /**
+   * @param string
+   */
+  public function setParentName($parentName)
+  {
+    $this->parentName = $parentName;
+  }
+  /**
+   * @return string
+   */
+  public function getParentName()
+  {
+    return $this->parentName;
+  }
+  /**
+   * @param string[]
+   */
+  public function setParentTriggerValues($parentTriggerValues)
+  {
+    $this->parentTriggerValues = $parentTriggerValues;
+  }
+  /**
+   * @return string[]
+   */
+  public function getParentTriggerValues()
+  {
+    return $this->parentTriggerValues;
   }
   /**
    * @param string[]

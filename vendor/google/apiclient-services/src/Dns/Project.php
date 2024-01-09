@@ -33,7 +33,6 @@ class Project extends \Google\Model
   public $number;
   protected $quotaType = Quota::class;
   protected $quotaDataType = '';
-  public $quota;
 
   /**
    * @param string

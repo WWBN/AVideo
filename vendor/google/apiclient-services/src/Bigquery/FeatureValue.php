@@ -21,7 +21,6 @@ class FeatureValue extends \Google\Model
 {
   protected $categoricalValueType = CategoricalValue::class;
   protected $categoricalValueDataType = '';
-  public $categoricalValue;
   /**
    * @var string
    */

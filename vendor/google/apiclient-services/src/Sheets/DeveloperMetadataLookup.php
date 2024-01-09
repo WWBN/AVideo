@@ -37,7 +37,6 @@ class DeveloperMetadataLookup extends \Google\Model
   public $metadataKey;
   protected $metadataLocationType = DeveloperMetadataLocation::class;
   protected $metadataLocationDataType = '';
-  public $metadataLocation;
   /**
    * @var string
    */

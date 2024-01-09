@@ -27,7 +27,6 @@ class StudentSubmission extends \Google\Collection
   public $assignedGrade;
   protected $assignmentSubmissionType = AssignmentSubmission::class;
   protected $assignmentSubmissionDataType = '';
-  public $assignmentSubmission;
   /**
    * @var bool
    */
@@ -59,17 +58,14 @@ class StudentSubmission extends \Google\Collection
   public $late;
   protected $multipleChoiceSubmissionType = MultipleChoiceSubmission::class;
   protected $multipleChoiceSubmissionDataType = '';
-  public $multipleChoiceSubmission;
   protected $shortAnswerSubmissionType = ShortAnswerSubmission::class;
   protected $shortAnswerSubmissionDataType = '';
-  public $shortAnswerSubmission;
   /**
    * @var string
    */
   public $state;
   protected $submissionHistoryType = SubmissionHistory::class;
   protected $submissionHistoryDataType = 'array';
-  public $submissionHistory;
   /**
    * @var string
    */

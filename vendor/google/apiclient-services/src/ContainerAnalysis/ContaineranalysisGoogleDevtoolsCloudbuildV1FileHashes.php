@@ -22,7 +22,6 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1FileHashes extends \Google\Coll
   protected $collection_key = 'fileHash';
   protected $fileHashType = ContaineranalysisGoogleDevtoolsCloudbuildV1Hash::class;
   protected $fileHashDataType = 'array';
-  public $fileHash;
 
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1Hash[]

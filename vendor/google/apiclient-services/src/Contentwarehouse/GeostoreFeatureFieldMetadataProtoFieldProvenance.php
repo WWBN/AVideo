@@ -22,10 +22,8 @@ class GeostoreFeatureFieldMetadataProtoFieldProvenance extends \Google\Collectio
   protected $collection_key = 'fieldPath';
   protected $fieldPathType = GeostoreStableFieldPathProto::class;
   protected $fieldPathDataType = 'array';
-  public $fieldPath;
   protected $provenanceType = GeostoreProvenanceProto::class;
   protected $provenanceDataType = '';
-  public $provenance;
 
   /**
    * @param GeostoreStableFieldPathProto[]

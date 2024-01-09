@@ -21,14 +21,14 @@ class Insight extends \Google\Model
 {
   protected $sapDiscoveryType = SapDiscovery::class;
   protected $sapDiscoveryDataType = '';
-  public $sapDiscovery;
   protected $sapValidationType = SapValidation::class;
   protected $sapValidationDataType = '';
-  public $sapValidation;
   /**
    * @var string
    */
   public $sentTime;
+  protected $sqlserverValidationType = SqlserverValidation::class;
+  protected $sqlserverValidationDataType = '';
 
   /**
    * @param SapDiscovery
@@ -71,6 +71,20 @@ class Insight extends \Google\Model
   public function getSentTime()
   {
     return $this->sentTime;
+  }
+  /**
+   * @param SqlserverValidation
+   */
+  public function setSqlserverValidation(SqlserverValidation $sqlserverValidation)
+  {
+    $this->sqlserverValidation = $sqlserverValidation;
+  }
+  /**
+   * @return SqlserverValidation
+   */
+  public function getSqlserverValidation()
+  {
+    return $this->sqlserverValidation;
   }
 }
 

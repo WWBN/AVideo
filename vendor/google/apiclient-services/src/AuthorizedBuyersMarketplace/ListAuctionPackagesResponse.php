@@ -22,7 +22,6 @@ class ListAuctionPackagesResponse extends \Google\Collection
   protected $collection_key = 'auctionPackages';
   protected $auctionPackagesType = AuctionPackage::class;
   protected $auctionPackagesDataType = 'array';
-  public $auctionPackages;
   /**
    * @var string
    */

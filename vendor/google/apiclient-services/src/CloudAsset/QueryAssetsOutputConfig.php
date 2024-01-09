@@ -21,7 +21,6 @@ class QueryAssetsOutputConfig extends \Google\Model
 {
   protected $bigqueryDestinationType = GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
-  public $bigqueryDestination;
 
   /**
    * @param GoogleCloudAssetV1QueryAssetsOutputConfigBigQueryDestination

@@ -21,7 +21,6 @@ class GoogleCloudApigeeV1DeploymentChangeReportRoutingConflict extends \Google\M
 {
   protected $conflictingDeploymentType = GoogleCloudApigeeV1DeploymentChangeReportRoutingDeployment::class;
   protected $conflictingDeploymentDataType = '';
-  public $conflictingDeployment;
   /**
    * @var string
    */

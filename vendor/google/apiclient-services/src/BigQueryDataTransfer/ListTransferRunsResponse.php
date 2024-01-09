@@ -26,7 +26,6 @@ class ListTransferRunsResponse extends \Google\Collection
   public $nextPageToken;
   protected $transferRunsType = TransferRun::class;
   protected $transferRunsDataType = 'array';
-  public $transferRuns;
 
   /**
    * @param string

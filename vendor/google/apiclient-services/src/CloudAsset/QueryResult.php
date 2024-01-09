@@ -30,7 +30,6 @@ class QueryResult extends \Google\Collection
   public $rows;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
-  public $schema;
   /**
    * @var string
    */

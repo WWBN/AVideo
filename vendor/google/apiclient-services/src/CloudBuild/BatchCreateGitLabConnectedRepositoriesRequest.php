@@ -22,7 +22,6 @@ class BatchCreateGitLabConnectedRepositoriesRequest extends \Google\Collection
   protected $collection_key = 'requests';
   protected $requestsType = CreateGitLabConnectedRepositoryRequest::class;
   protected $requestsDataType = 'array';
-  public $requests;
 
   /**
    * @param CreateGitLabConnectedRepositoryRequest[]

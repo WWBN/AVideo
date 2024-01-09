@@ -21,7 +21,6 @@ class SubscriptionPurchasesDeferRequest extends \Google\Model
 {
   protected $deferralInfoType = SubscriptionDeferralInfo::class;
   protected $deferralInfoDataType = '';
-  public $deferralInfo;
 
   /**
    * @param SubscriptionDeferralInfo

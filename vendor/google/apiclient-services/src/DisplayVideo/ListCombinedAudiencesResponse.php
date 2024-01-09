@@ -22,7 +22,6 @@ class ListCombinedAudiencesResponse extends \Google\Collection
   protected $collection_key = 'combinedAudiences';
   protected $combinedAudiencesType = CombinedAudience::class;
   protected $combinedAudiencesDataType = 'array';
-  public $combinedAudiences;
   /**
    * @var string
    */

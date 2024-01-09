@@ -25,7 +25,6 @@ class AppsDynamiteSharedDocument extends \Google\Model
   public $fileId;
   protected $justificationType = AppsDynamiteSharedJustification::class;
   protected $justificationDataType = '';
-  public $justification;
   /**
    * @var string
    */

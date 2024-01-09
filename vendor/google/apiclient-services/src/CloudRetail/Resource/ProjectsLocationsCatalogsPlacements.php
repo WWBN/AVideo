@@ -65,7 +65,7 @@ class ProjectsLocationsCatalogsPlacements extends \Google\Service\Resource
    * ervingConfigs/default_serving_config` or the name of the legacy placement
    * resource, such as `projects/locations/global/catalogs/default_catalog/placeme
    * nts/default_search`. This field is used to identify the serving config name
-   * and the set of models that will be used to make the search.
+   * and the set of models that are used to make the search.
    * @param GoogleCloudRetailV2SearchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2SearchResponse

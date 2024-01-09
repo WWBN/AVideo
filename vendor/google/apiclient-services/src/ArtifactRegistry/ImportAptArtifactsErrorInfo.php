@@ -21,10 +21,8 @@ class ImportAptArtifactsErrorInfo extends \Google\Model
 {
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   protected $gcsSourceType = ImportAptArtifactsGcsSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
 
   /**
    * @param Status

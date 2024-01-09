@@ -21,7 +21,6 @@ class MetricRange extends \Google\Model
 {
   protected $rangeType = GoogleMonitoringV3Range::class;
   protected $rangeDataType = '';
-  public $range;
   /**
    * @var string
    */

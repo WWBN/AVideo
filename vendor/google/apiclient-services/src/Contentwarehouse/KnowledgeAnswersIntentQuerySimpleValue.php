@@ -26,7 +26,6 @@ class KnowledgeAnswersIntentQuerySimpleValue extends \Google\Model
   public $doubleValue;
   protected $identifierType = KnowledgeAnswersIntentQueryIdentifier::class;
   protected $identifierDataType = '';
-  public $identifier;
   /**
    * @var string
    */

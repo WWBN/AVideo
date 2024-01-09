@@ -21,7 +21,6 @@ class AppsDynamiteStorageOpenLink extends \Google\Model
 {
   protected $appUriType = AppsDynamiteStorageOpenLinkAppUri::class;
   protected $appUriDataType = '';
-  public $appUri;
   /**
    * @var string
    */

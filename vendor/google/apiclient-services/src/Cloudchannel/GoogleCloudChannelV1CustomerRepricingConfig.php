@@ -25,7 +25,6 @@ class GoogleCloudChannelV1CustomerRepricingConfig extends \Google\Model
   public $name;
   protected $repricingConfigType = GoogleCloudChannelV1RepricingConfig::class;
   protected $repricingConfigDataType = '';
-  public $repricingConfig;
   /**
    * @var string
    */

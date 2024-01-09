@@ -33,7 +33,6 @@ class Metadata extends \Google\Model
   public $buildStartedOn;
   protected $completenessType = Completeness::class;
   protected $completenessDataType = '';
-  public $completeness;
   /**
    * @var bool
    */

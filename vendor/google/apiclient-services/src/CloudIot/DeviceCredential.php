@@ -25,7 +25,6 @@ class DeviceCredential extends \Google\Model
   public $expirationTime;
   protected $publicKeyType = PublicKeyCredential::class;
   protected $publicKeyDataType = '';
-  public $publicKey;
 
   /**
    * @param string

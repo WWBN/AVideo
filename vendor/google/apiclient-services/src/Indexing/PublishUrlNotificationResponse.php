@@ -21,7 +21,6 @@ class PublishUrlNotificationResponse extends \Google\Model
 {
   protected $urlNotificationMetadataType = UrlNotificationMetadata::class;
   protected $urlNotificationMetadataDataType = '';
-  public $urlNotificationMetadata;
 
   /**
    * @param UrlNotificationMetadata

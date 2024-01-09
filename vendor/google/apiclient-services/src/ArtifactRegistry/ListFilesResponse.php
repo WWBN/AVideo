@@ -22,7 +22,6 @@ class ListFilesResponse extends \Google\Collection
   protected $collection_key = 'files';
   protected $filesType = GoogleDevtoolsArtifactregistryV1File::class;
   protected $filesDataType = 'array';
-  public $files;
   /**
    * @var string
    */

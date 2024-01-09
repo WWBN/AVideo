@@ -33,7 +33,6 @@ class AllocationSpecificSKUReservation extends \Google\Model
   public $inUseCount;
   protected $instancePropertiesType = AllocationSpecificSKUAllocationReservedInstanceProperties::class;
   protected $instancePropertiesDataType = '';
-  public $instanceProperties;
   /**
    * @var string
    */

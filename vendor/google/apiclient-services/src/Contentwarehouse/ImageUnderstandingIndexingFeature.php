@@ -30,7 +30,6 @@ class ImageUnderstandingIndexingFeature extends \Google\Collection
   public $floatValue;
   protected $imageTemplateType = PhotosVisionObjectrecImageTemplate::class;
   protected $imageTemplateDataType = '';
-  public $imageTemplate;
   /**
    * @var int[]
    */

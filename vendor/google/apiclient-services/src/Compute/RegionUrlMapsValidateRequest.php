@@ -21,7 +21,6 @@ class RegionUrlMapsValidateRequest extends \Google\Model
 {
   protected $resourceType = UrlMap::class;
   protected $resourceDataType = '';
-  public $resource;
 
   /**
    * @param UrlMap

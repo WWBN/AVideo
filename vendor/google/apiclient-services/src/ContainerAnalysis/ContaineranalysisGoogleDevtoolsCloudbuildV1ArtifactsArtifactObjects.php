@@ -30,7 +30,6 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsArtifactObjects extend
   public $paths;
   protected $timingType = ContaineranalysisGoogleDevtoolsCloudbuildV1TimeSpan::class;
   protected $timingDataType = '';
-  public $timing;
 
   /**
    * @param string

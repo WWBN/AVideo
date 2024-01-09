@@ -22,13 +22,10 @@ class NodePool extends \Google\Collection
   protected $collection_key = 'locations';
   protected $autoscalingType = NodePoolAutoscaling::class;
   protected $autoscalingDataType = '';
-  public $autoscaling;
   protected $conditionsType = StatusCondition::class;
   protected $conditionsDataType = 'array';
-  public $conditions;
   protected $configType = NodeConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */
@@ -47,20 +44,16 @@ class NodePool extends \Google\Collection
   public $locations;
   protected $managementType = NodeManagement::class;
   protected $managementDataType = '';
-  public $management;
   protected $maxPodsConstraintType = MaxPodsConstraint::class;
   protected $maxPodsConstraintDataType = '';
-  public $maxPodsConstraint;
   /**
    * @var string
    */
   public $name;
   protected $networkConfigType = NodeNetworkConfig::class;
   protected $networkConfigDataType = '';
-  public $networkConfig;
   protected $placementPolicyType = PlacementPolicy::class;
   protected $placementPolicyDataType = '';
-  public $placementPolicy;
   /**
    * @var int
    */
@@ -79,10 +72,8 @@ class NodePool extends \Google\Collection
   public $statusMessage;
   protected $updateInfoType = UpdateInfo::class;
   protected $updateInfoDataType = '';
-  public $updateInfo;
   protected $upgradeSettingsType = UpgradeSettings::class;
   protected $upgradeSettingsDataType = '';
-  public $upgradeSettings;
   /**
    * @var string
    */

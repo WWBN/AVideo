@@ -22,7 +22,6 @@ class RepositoryWebrefLightweightTokensPerNameLightweightToken extends \Google\C
   protected $collection_key = 'matchedLightweightToken';
   protected $matchedLightweightTokenType = RepositoryWebrefLightweightTokensMatchedLightweightToken::class;
   protected $matchedLightweightTokenDataType = 'array';
-  public $matchedLightweightToken;
 
   /**
    * @param RepositoryWebrefLightweightTokensMatchedLightweightToken[]

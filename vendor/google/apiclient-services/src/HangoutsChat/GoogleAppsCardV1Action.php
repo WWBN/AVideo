@@ -34,7 +34,6 @@ class GoogleAppsCardV1Action extends \Google\Collection
   public $loadIndicator;
   protected $parametersType = GoogleAppsCardV1ActionParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
   /**
    * @var bool
    */

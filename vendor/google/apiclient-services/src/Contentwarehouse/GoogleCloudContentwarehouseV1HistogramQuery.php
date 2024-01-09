@@ -21,7 +21,6 @@ class GoogleCloudContentwarehouseV1HistogramQuery extends \Google\Model
 {
   protected $filtersType = GoogleCloudContentwarehouseV1HistogramQueryPropertyNameFilter::class;
   protected $filtersDataType = '';
-  public $filters;
   /**
    * @var string
    */

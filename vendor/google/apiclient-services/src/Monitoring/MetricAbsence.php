@@ -22,7 +22,6 @@ class MetricAbsence extends \Google\Collection
   protected $collection_key = 'aggregations';
   protected $aggregationsType = Aggregation::class;
   protected $aggregationsDataType = 'array';
-  public $aggregations;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class MetricAbsence extends \Google\Collection
   public $filter;
   protected $triggerType = Trigger::class;
   protected $triggerDataType = '';
-  public $trigger;
 
   /**
    * @param Aggregation[]

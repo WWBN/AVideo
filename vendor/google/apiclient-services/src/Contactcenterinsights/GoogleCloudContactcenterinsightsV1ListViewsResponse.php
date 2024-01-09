@@ -26,7 +26,6 @@ class GoogleCloudContactcenterinsightsV1ListViewsResponse extends \Google\Collec
   public $nextPageToken;
   protected $viewsType = GoogleCloudContactcenterinsightsV1View::class;
   protected $viewsDataType = 'array';
-  public $views;
 
   /**
    * @param string

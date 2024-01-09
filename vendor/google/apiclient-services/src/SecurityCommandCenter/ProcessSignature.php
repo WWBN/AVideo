@@ -21,10 +21,8 @@ class ProcessSignature extends \Google\Model
 {
   protected $memoryHashSignatureType = MemoryHashSignature::class;
   protected $memoryHashSignatureDataType = '';
-  public $memoryHashSignature;
   protected $yaraRuleSignatureType = YaraRuleSignature::class;
   protected $yaraRuleSignatureDataType = '';
-  public $yaraRuleSignature;
 
   /**
    * @param MemoryHashSignature

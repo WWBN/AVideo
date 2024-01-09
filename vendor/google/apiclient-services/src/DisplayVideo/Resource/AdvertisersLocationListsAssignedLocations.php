@@ -104,10 +104,12 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
    *
    * @opt_param string filter Allows filtering by location list assignment fields.
    * Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by the logical operator `OR`. *
-   * A restriction has the form of `{field} {operator} {value}`. * The operator
-   * must be `EQUALS (=)`. * Supported fields: - `assignedLocationId` The length
-   * of this field should be no more than 500 characters.
+   * restrictions. * Restrictions can be combined by the `OR` logical operator. *
+   * A restriction has the form of `{field} {operator} {value}`. * All fields must
+   * use the `EQUALS (=)` operator. Supported fields: * `assignedLocationId` The
+   * length of this field should be no more than 500 characters. Reference our
+   * [filter `LIST` requests](/display-video/api/guides/how-tos/filters) guide for
+   * more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `assignedLocationId` (default) The default sorting order is ascending.
    * To specify descending order for a field, a suffix " desc" should be added to

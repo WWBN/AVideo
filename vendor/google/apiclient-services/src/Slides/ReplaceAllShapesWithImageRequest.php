@@ -22,7 +22,6 @@ class ReplaceAllShapesWithImageRequest extends \Google\Collection
   protected $collection_key = 'pageObjectIds';
   protected $containsTextType = SubstringMatchCriteria::class;
   protected $containsTextDataType = '';
-  public $containsText;
   /**
    * @var string
    */

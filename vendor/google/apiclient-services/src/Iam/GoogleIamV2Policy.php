@@ -50,7 +50,6 @@ class GoogleIamV2Policy extends \Google\Collection
   public $name;
   protected $rulesType = GoogleIamV2PolicyRule::class;
   protected $rulesDataType = 'array';
-  public $rules;
   /**
    * @var string
    */

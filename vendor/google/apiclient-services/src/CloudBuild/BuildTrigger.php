@@ -22,17 +22,14 @@ class BuildTrigger extends \Google\Collection
   protected $collection_key = 'tags';
   protected $approvalConfigType = ApprovalConfig::class;
   protected $approvalConfigDataType = '';
-  public $approvalConfig;
   /**
    * @var bool
    */
   public $autodetect;
   protected $bitbucketServerTriggerConfigType = BitbucketServerTriggerConfig::class;
   protected $bitbucketServerTriggerConfigDataType = '';
-  public $bitbucketServerTriggerConfig;
   protected $buildType = Build::class;
   protected $buildDataType = '';
-  public $build;
   /**
    * @var string
    */
@@ -59,13 +56,10 @@ class BuildTrigger extends \Google\Collection
   public $filter;
   protected $gitFileSourceType = GitFileSource::class;
   protected $gitFileSourceDataType = '';
-  public $gitFileSource;
   protected $githubType = GitHubEventsConfig::class;
   protected $githubDataType = '';
-  public $github;
   protected $gitlabEnterpriseEventsConfigType = GitLabEventsConfig::class;
   protected $gitlabEnterpriseEventsConfigDataType = '';
-  public $gitlabEnterpriseEventsConfig;
   /**
    * @var string
    */
@@ -88,10 +82,8 @@ class BuildTrigger extends \Google\Collection
   public $name;
   protected $pubsubConfigType = PubsubConfig::class;
   protected $pubsubConfigDataType = '';
-  public $pubsubConfig;
   protected $repositoryEventConfigType = RepositoryEventConfig::class;
   protected $repositoryEventConfigDataType = '';
-  public $repositoryEventConfig;
   /**
    * @var string
    */
@@ -102,7 +94,6 @@ class BuildTrigger extends \Google\Collection
   public $serviceAccount;
   protected $sourceToBuildType = GitRepoSource::class;
   protected $sourceToBuildDataType = '';
-  public $sourceToBuild;
   /**
    * @var string[]
    */
@@ -113,10 +104,8 @@ class BuildTrigger extends \Google\Collection
   public $tags;
   protected $triggerTemplateType = RepoSource::class;
   protected $triggerTemplateDataType = '';
-  public $triggerTemplate;
   protected $webhookConfigType = WebhookConfig::class;
   protected $webhookConfigDataType = '';
-  public $webhookConfig;
 
   /**
    * @param ApprovalConfig

@@ -22,6 +22,10 @@ class GoogleCloudApigeeV1ApiCategoryData extends \Google\Model
   /**
    * @var string
    */
+  public $gcpResource;
+  /**
+   * @var string
+   */
   public $id;
   /**
    * @var string
@@ -36,6 +40,20 @@ class GoogleCloudApigeeV1ApiCategoryData extends \Google\Model
    */
   public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setGcpResource($gcpResource)
+  {
+    $this->gcpResource = $gcpResource;
+  }
+  /**
+   * @return string
+   */
+  public function getGcpResource()
+  {
+    return $this->gcpResource;
+  }
   /**
    * @param string
    */

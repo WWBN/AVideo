@@ -21,7 +21,6 @@ class AddFilterViewResponse extends \Google\Model
 {
   protected $filterType = FilterView::class;
   protected $filterDataType = '';
-  public $filter;
 
   /**
    * @param FilterView

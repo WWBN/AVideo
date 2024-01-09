@@ -26,7 +26,6 @@ class GoogleCloudDialogflowCxV3ListTestCasesResponse extends \Google\Collection
   public $nextPageToken;
   protected $testCasesType = GoogleCloudDialogflowCxV3TestCase::class;
   protected $testCasesDataType = 'array';
-  public $testCases;
 
   /**
    * @param string

@@ -29,7 +29,6 @@ class GooglePrivacyDlpV2TransformationLocation extends \Google\Model
   public $findingId;
   protected $recordTransformationType = GooglePrivacyDlpV2RecordTransformation::class;
   protected $recordTransformationDataType = '';
-  public $recordTransformation;
 
   /**
    * @param string

@@ -25,7 +25,6 @@ class GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverageTransition ex
   public $covered;
   protected $transitionRouteType = GoogleCloudDialogflowCxV3TransitionRoute::class;
   protected $transitionRouteDataType = '';
-  public $transitionRoute;
 
   /**
    * @param bool

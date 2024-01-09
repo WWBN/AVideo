@@ -19,6 +19,8 @@ namespace Google\Service\CloudSearch;
 
 class DlpScanSummary extends \Google\Model
 {
+  protected $dlpActionType = DlpAction::class;
+  protected $dlpActionDataType = '';
   /**
    * @var string
    */
@@ -31,7 +33,25 @@ class DlpScanSummary extends \Google\Model
    * @var string
    */
   public $scanOutcome;
+  /**
+   * @var string
+   */
+  public $scanTrigger;
 
+  /**
+   * @param DlpAction
+   */
+  public function setDlpAction(DlpAction $dlpAction)
+  {
+    $this->dlpAction = $dlpAction;
+  }
+  /**
+   * @return DlpAction
+   */
+  public function getDlpAction()
+  {
+    return $this->dlpAction;
+  }
   /**
    * @param string
    */
@@ -73,6 +93,20 @@ class DlpScanSummary extends \Google\Model
   public function getScanOutcome()
   {
     return $this->scanOutcome;
+  }
+  /**
+   * @param string
+   */
+  public function setScanTrigger($scanTrigger)
+  {
+    $this->scanTrigger = $scanTrigger;
+  }
+  /**
+   * @return string
+   */
+  public function getScanTrigger()
+  {
+    return $this->scanTrigger;
   }
 }
 

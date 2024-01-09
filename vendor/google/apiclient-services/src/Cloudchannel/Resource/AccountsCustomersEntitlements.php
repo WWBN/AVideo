@@ -24,6 +24,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1ChangeParametersRequest;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1ChangeRenewalSettingsRequest;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1CreateEntitlementRequest;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1Entitlement;
+use Google\Service\Cloudchannel\GoogleCloudChannelV1ListEntitlementChangesResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1ListEntitlementsResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1Offer;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1StartPaidServiceRequest;
@@ -267,6 +268,42 @@ class AccountsCustomersEntitlements extends \Google\Service\Resource
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudChannelV1ListEntitlementsResponse::class);
+  }
+  /**
+   * List entitlement history. Possible error codes: * PERMISSION_DENIED: The
+   * reseller account making the request and the provided reseller account are
+   * different. * INVALID_ARGUMENT: Missing or invalid required fields in the
+   * request. * NOT_FOUND: The parent resource doesn't exist. Usually the result
+   * of an invalid name parameter. * INTERNAL: Any non-user error related to a
+   * technical issue in the backend. In this case, contact CloudChannel support. *
+   * UNKNOWN: Any non-user error related to a technical issue in the backend. In
+   * this case, contact Cloud Channel support. Return value: List of
+   * EntitlementChanges. (entitlements.listEntitlementChanges)
+   *
+   * @param string $parent Required. The resource name of the entitlement for
+   * which to list entitlement changes. The `-` wildcard may be used to match
+   * entitlements across a customer. Formats: *
+   * accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id} *
+   * accounts/{account_id}/customers/{customer_id}/entitlements/-
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. Filters applied to the list results.
+   * @opt_param int pageSize Optional. The maximum number of entitlement changes
+   * to return. The service may return fewer than this value. If unspecified,
+   * returns at most 10 entitlement changes. The maximum value is 50; the server
+   * will coerce values above 50.
+   * @opt_param string pageToken Optional. A page token, received from a previous
+   * CloudChannelService.ListEntitlementChanges call. Provide this to retrieve the
+   * subsequent page. When paginating, all other parameters provided to
+   * CloudChannelService.ListEntitlementChanges must match the call that provided
+   * the page token.
+   * @return GoogleCloudChannelV1ListEntitlementChangesResponse
+   */
+  public function listEntitlementChanges($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('listEntitlementChanges', [$params], GoogleCloudChannelV1ListEntitlementChangesResponse::class);
   }
   /**
    * Returns the requested Offer resource. Possible error codes: *

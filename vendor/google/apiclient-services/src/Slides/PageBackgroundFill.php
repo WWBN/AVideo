@@ -25,10 +25,8 @@ class PageBackgroundFill extends \Google\Model
   public $propertyState;
   protected $solidFillType = SolidFill::class;
   protected $solidFillDataType = '';
-  public $solidFill;
   protected $stretchedPictureFillType = StretchedPictureFill::class;
   protected $stretchedPictureFillDataType = '';
-  public $stretchedPictureFill;
 
   /**
    * @param string

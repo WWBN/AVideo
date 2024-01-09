@@ -21,7 +21,6 @@ class GoogleCloudVisionV1p4beta1CropHint extends \Google\Model
 {
   protected $boundingPolyType = GoogleCloudVisionV1p4beta1BoundingPoly::class;
   protected $boundingPolyDataType = '';
-  public $boundingPoly;
   /**
    * @var float
    */

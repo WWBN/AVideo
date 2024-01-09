@@ -22,17 +22,16 @@ class IamPolicyAnalysis extends \Google\Collection
   protected $collection_key = 'nonCriticalErrors';
   protected $analysisQueryType = IamPolicyAnalysisQuery::class;
   protected $analysisQueryDataType = '';
-  public $analysisQuery;
   protected $analysisResultsType = IamPolicyAnalysisResult::class;
   protected $analysisResultsDataType = 'array';
-  public $analysisResults;
+  protected $deniedAccessesType = DeniedAccess::class;
+  protected $deniedAccessesDataType = 'array';
   /**
    * @var bool
    */
   public $fullyExplored;
   protected $nonCriticalErrorsType = IamPolicyAnalysisState::class;
   protected $nonCriticalErrorsDataType = 'array';
-  public $nonCriticalErrors;
 
   /**
    * @param IamPolicyAnalysisQuery
@@ -61,6 +60,20 @@ class IamPolicyAnalysis extends \Google\Collection
   public function getAnalysisResults()
   {
     return $this->analysisResults;
+  }
+  /**
+   * @param DeniedAccess[]
+   */
+  public function setDeniedAccesses($deniedAccesses)
+  {
+    $this->deniedAccesses = $deniedAccesses;
+  }
+  /**
+   * @return DeniedAccess[]
+   */
+  public function getDeniedAccesses()
+  {
+    return $this->deniedAccesses;
   }
   /**
    * @param bool

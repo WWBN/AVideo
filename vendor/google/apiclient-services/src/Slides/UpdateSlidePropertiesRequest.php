@@ -29,7 +29,6 @@ class UpdateSlidePropertiesRequest extends \Google\Model
   public $objectId;
   protected $slidePropertiesType = SlideProperties::class;
   protected $slidePropertiesDataType = '';
-  public $slideProperties;
 
   /**
    * @param string

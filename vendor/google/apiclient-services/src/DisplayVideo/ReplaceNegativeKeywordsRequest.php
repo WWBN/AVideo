@@ -22,7 +22,6 @@ class ReplaceNegativeKeywordsRequest extends \Google\Collection
   protected $collection_key = 'newNegativeKeywords';
   protected $newNegativeKeywordsType = NegativeKeyword::class;
   protected $newNegativeKeywordsDataType = 'array';
-  public $newNegativeKeywords;
 
   /**
    * @param NegativeKeyword[]

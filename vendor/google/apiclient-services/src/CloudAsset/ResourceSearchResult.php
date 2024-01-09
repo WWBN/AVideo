@@ -30,7 +30,6 @@ class ResourceSearchResult extends \Google\Collection
   public $assetType;
   protected $attachedResourcesType = AttachedResource::class;
   protected $attachedResourcesDataType = 'array';
-  public $attachedResources;
   /**
    * @var string
    */
@@ -89,7 +88,6 @@ class ResourceSearchResult extends \Google\Collection
   public $project;
   protected $relationshipsType = RelatedResources::class;
   protected $relationshipsDataType = 'map';
-  public $relationships;
   /**
    * @var string
    */
@@ -112,7 +110,6 @@ class ResourceSearchResult extends \Google\Collection
   public $updateTime;
   protected $versionedResourcesType = VersionedResource::class;
   protected $versionedResourcesDataType = 'array';
-  public $versionedResources;
 
   /**
    * @param array[]

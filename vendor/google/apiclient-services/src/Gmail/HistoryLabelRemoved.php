@@ -26,7 +26,6 @@ class HistoryLabelRemoved extends \Google\Collection
   public $labelIds;
   protected $messageType = Message::class;
   protected $messageDataType = '';
-  public $message;
 
   /**
    * @param string[]

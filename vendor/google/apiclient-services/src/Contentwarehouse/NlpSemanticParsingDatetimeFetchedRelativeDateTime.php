@@ -38,17 +38,14 @@ class NlpSemanticParsingDatetimeFetchedRelativeDateTime extends \Google\Collecti
   public $ordinal;
   protected $rangeType = NlpSemanticParsingDatetimeRange::class;
   protected $rangeDataType = '';
-  public $range;
   /**
    * @var string
    */
   public $rangeModifier;
   protected $relativeRangeType = NlpSemanticParsingDatetimeResolutionProperties::class;
   protected $relativeRangeDataType = '';
-  public $relativeRange;
   protected $targetType = NlpSemanticParsingDatetimeTargetToFetch::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param string

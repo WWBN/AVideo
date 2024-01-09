@@ -22,7 +22,6 @@ class ImageRepositoryShoppingProductInformation extends \Google\Collection
   protected $collection_key = 'productSets';
   protected $productSetsType = ImageRepositoryShoppingProductInformationVersionedProductInformationSet::class;
   protected $productSetsDataType = 'array';
-  public $productSets;
 
   /**
    * @param ImageRepositoryShoppingProductInformationVersionedProductInformationSet[]

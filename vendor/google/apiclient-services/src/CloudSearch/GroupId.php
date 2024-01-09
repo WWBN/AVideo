@@ -21,10 +21,8 @@ class GroupId extends \Google\Model
 {
   protected $dmIdType = DmId::class;
   protected $dmIdDataType = '';
-  public $dmId;
   protected $spaceIdType = SpaceId::class;
   protected $spaceIdDataType = '';
-  public $spaceId;
 
   /**
    * @param DmId

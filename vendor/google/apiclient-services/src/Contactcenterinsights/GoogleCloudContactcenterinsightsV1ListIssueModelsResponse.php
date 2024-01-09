@@ -22,7 +22,6 @@ class GoogleCloudContactcenterinsightsV1ListIssueModelsResponse extends \Google\
   protected $collection_key = 'issueModels';
   protected $issueModelsType = GoogleCloudContactcenterinsightsV1IssueModel::class;
   protected $issueModelsDataType = 'array';
-  public $issueModels;
 
   /**
    * @param GoogleCloudContactcenterinsightsV1IssueModel[]

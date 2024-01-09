@@ -26,7 +26,6 @@ class Results extends \Google\Collection
   public $artifactManifest;
   protected $artifactTimingType = TimeSpan::class;
   protected $artifactTimingDataType = '';
-  public $artifactTiming;
   /**
    * @var string[]
    */
@@ -37,17 +36,16 @@ class Results extends \Google\Collection
   public $buildStepOutputs;
   protected $imagesType = BuiltImage::class;
   protected $imagesDataType = 'array';
-  public $images;
   protected $mavenArtifactsType = UploadedMavenArtifact::class;
   protected $mavenArtifactsDataType = 'array';
-  public $mavenArtifacts;
+  protected $npmPackagesType = UploadedNpmPackage::class;
+  protected $npmPackagesDataType = 'array';
   /**
    * @var string
    */
   public $numArtifacts;
   protected $pythonPackagesType = UploadedPythonPackage::class;
   protected $pythonPackagesDataType = 'array';
-  public $pythonPackages;
 
   /**
    * @param string
@@ -132,6 +130,20 @@ class Results extends \Google\Collection
   public function getMavenArtifacts()
   {
     return $this->mavenArtifacts;
+  }
+  /**
+   * @param UploadedNpmPackage[]
+   */
+  public function setNpmPackages($npmPackages)
+  {
+    $this->npmPackages = $npmPackages;
+  }
+  /**
+   * @return UploadedNpmPackage[]
+   */
+  public function getNpmPackages()
+  {
+    return $this->npmPackages;
   }
   /**
    * @param string

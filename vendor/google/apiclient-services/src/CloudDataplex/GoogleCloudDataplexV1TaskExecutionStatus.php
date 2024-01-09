@@ -21,7 +21,6 @@ class GoogleCloudDataplexV1TaskExecutionStatus extends \Google\Model
 {
   protected $latestJobType = GoogleCloudDataplexV1Job::class;
   protected $latestJobDataType = '';
-  public $latestJob;
   /**
    * @var string
    */

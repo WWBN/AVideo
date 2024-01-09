@@ -21,7 +21,6 @@ class Bullet extends \Google\Model
 {
   protected $bulletStyleType = TextStyle::class;
   protected $bulletStyleDataType = '';
-  public $bulletStyle;
   /**
    * @var string
    */

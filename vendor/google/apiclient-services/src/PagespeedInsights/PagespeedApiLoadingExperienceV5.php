@@ -34,7 +34,6 @@ class PagespeedApiLoadingExperienceV5 extends \Google\Model
   public $initialUrl;
   protected $metricsType = UserPageLoadMetricV5::class;
   protected $metricsDataType = 'map';
-  public $metrics;
   /**
    * @var bool
    */

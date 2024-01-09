@@ -21,7 +21,6 @@ class GeostorePoliticalProto extends \Google\Model
 {
   protected $capitalType = GeostoreFeatureIdProto::class;
   protected $capitalDataType = '';
-  public $capital;
   public $grossDomesticProductUsdMillions;
   /**
    * @var float

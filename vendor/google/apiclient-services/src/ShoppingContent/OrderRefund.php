@@ -25,7 +25,6 @@ class OrderRefund extends \Google\Model
   public $actor;
   protected $amountType = Price::class;
   protected $amountDataType = '';
-  public $amount;
   /**
    * @var string
    */

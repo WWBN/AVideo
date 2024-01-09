@@ -30,7 +30,6 @@ class SiteVerificationWebResourceResource extends \Google\Collection
   public $owners;
   protected $siteType = SiteVerificationWebResourceResourceSite::class;
   protected $siteDataType = '';
-  public $site;
 
   /**
    * @param string

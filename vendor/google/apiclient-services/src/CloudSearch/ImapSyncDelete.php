@@ -21,7 +21,6 @@ class ImapSyncDelete extends \Google\Model
 {
   protected $mappingsType = FolderAttribute::class;
   protected $mappingsDataType = '';
-  public $mappings;
   /**
    * @var string
    */

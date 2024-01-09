@@ -22,10 +22,8 @@ class AssistantLogsDefaultDevicesLog extends \Google\Collection
   protected $collection_key = 'nearbyDefaultDevices';
   protected $localDefaultDevicesType = AssistantLogsDefaultDeviceLog::class;
   protected $localDefaultDevicesDataType = '';
-  public $localDefaultDevices;
   protected $nearbyDefaultDevicesType = AssistantLogsDefaultDeviceLog::class;
   protected $nearbyDefaultDevicesDataType = 'array';
-  public $nearbyDefaultDevices;
 
   /**
    * @param AssistantLogsDefaultDeviceLog

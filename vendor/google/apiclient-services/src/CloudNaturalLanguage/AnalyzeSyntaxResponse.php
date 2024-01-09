@@ -26,10 +26,8 @@ class AnalyzeSyntaxResponse extends \Google\Collection
   public $language;
   protected $sentencesType = Sentence::class;
   protected $sentencesDataType = 'array';
-  public $sentences;
   protected $tokensType = Token::class;
   protected $tokensDataType = 'array';
-  public $tokens;
 
   /**
    * @param string

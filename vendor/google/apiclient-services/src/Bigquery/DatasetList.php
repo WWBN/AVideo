@@ -22,7 +22,6 @@ class DatasetList extends \Google\Collection
   protected $collection_key = 'datasets';
   protected $datasetsType = DatasetListDatasets::class;
   protected $datasetsDataType = 'array';
-  public $datasets;
   /**
    * @var string
    */

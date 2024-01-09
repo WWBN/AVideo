@@ -30,7 +30,6 @@ class ListVolumeSnapshotsResponse extends \Google\Collection
   public $unreachable;
   protected $volumeSnapshotsType = VolumeSnapshot::class;
   protected $volumeSnapshotsDataType = 'array';
-  public $volumeSnapshots;
 
   /**
    * @param string

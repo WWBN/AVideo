@@ -26,7 +26,6 @@ class GoogleCloudDataplexV1ListTasksResponse extends \Google\Collection
   public $nextPageToken;
   protected $tasksType = GoogleCloudDataplexV1Task::class;
   protected $tasksDataType = 'array';
-  public $tasks;
   /**
    * @var string[]
    */

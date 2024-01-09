@@ -26,7 +26,6 @@ class ListViewsResponse extends \Google\Collection
   public $nextPageToken;
   protected $viewsType = LogView::class;
   protected $viewsDataType = 'array';
-  public $views;
 
   /**
    * @param string

@@ -21,10 +21,8 @@ class AssistantApiSettingsDeviceSupervisionSettings extends \Google\Model
 {
   protected $downtimeSettingsType = AssistantApiSettingsDeviceDowntimeSettings::class;
   protected $downtimeSettingsDataType = '';
-  public $downtimeSettings;
   protected $featureFiltersType = AssistantApiSettingsDeviceFeatureFilters::class;
   protected $featureFiltersDataType = '';
-  public $featureFilters;
 
   /**
    * @param AssistantApiSettingsDeviceDowntimeSettings

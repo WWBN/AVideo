@@ -25,7 +25,6 @@ class NlxDataSchemaTokenDependencyEdge extends \Google\Model
   public $deprel;
   protected $headType = MultiscalePointerIndex::class;
   protected $headDataType = '';
-  public $head;
 
   /**
    * @param string

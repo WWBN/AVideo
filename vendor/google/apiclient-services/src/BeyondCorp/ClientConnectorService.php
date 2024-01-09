@@ -29,10 +29,8 @@ class ClientConnectorService extends \Google\Model
   public $displayName;
   protected $egressType = Egress::class;
   protected $egressDataType = '';
-  public $egress;
   protected $ingressType = Ingress::class;
   protected $ingressDataType = '';
-  public $ingress;
   /**
    * @var string
    */

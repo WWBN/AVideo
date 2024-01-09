@@ -21,7 +21,6 @@ class QualityQrewriteContactCalendarName extends \Google\Model
 {
   protected $contactType = NlpSemanticParsingModelsPersonPerson::class;
   protected $contactDataType = '';
-  public $contact;
 
   /**
    * @param NlpSemanticParsingModelsPersonPerson

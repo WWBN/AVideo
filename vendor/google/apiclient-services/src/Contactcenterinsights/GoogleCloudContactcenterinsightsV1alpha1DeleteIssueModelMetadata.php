@@ -29,7 +29,6 @@ class GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelMetadata extends \
   public $endTime;
   protected $requestType = GoogleCloudContactcenterinsightsV1alpha1DeleteIssueModelRequest::class;
   protected $requestDataType = '';
-  public $request;
 
   /**
    * @param string

@@ -23,6 +23,7 @@ use Google\Service\Cloudchannel\GoogleCloudChannelV1ListCustomersResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1ListPurchasableOffersResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1ListPurchasableSkusResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1ProvisionCloudIdentityRequest;
+use Google\Service\Cloudchannel\GoogleCloudChannelV1QueryEligibleBillingAccountsResponse;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1TransferEntitlementsRequest;
 use Google\Service\Cloudchannel\GoogleCloudChannelV1TransferEntitlementsToGoogleRequest;
 use Google\Service\Cloudchannel\GoogleLongrunningOperation;
@@ -268,6 +269,31 @@ class AccountsCustomers extends \Google\Service\Resource
     $params = ['customer' => $customer, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('provisionCloudIdentity', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Lists the billing accounts that are eligible to purchase particular SKUs for
+   * a given customer. Possible error codes: * PERMISSION_DENIED: The customer
+   * doesn't belong to the reseller. * INVALID_ARGUMENT: Required request
+   * parameters are missing or invalid. Return value: Based on the provided list
+   * of SKUs, returns a list of SKU groups that must be purchased using the same
+   * billing account and the billing accounts eligible to purchase each SKU group.
+   * (customers.queryEligibleBillingAccounts)
+   *
+   * @param string $customer Required. The resource name of the customer to list
+   * eligible billing accounts for. Format:
+   * accounts/{account_id}/customers/{customer_id}.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string skus Required. List of SKUs to list eligible billing
+   * accounts for. At least one SKU is required. Format:
+   * products/{product_id}/skus/{sku_id}.
+   * @return GoogleCloudChannelV1QueryEligibleBillingAccountsResponse
+   */
+  public function queryEligibleBillingAccounts($customer, $optParams = [])
+  {
+    $params = ['customer' => $customer];
+    $params = array_merge($params, $optParams);
+    return $this->call('queryEligibleBillingAccounts', [$params], GoogleCloudChannelV1QueryEligibleBillingAccountsResponse::class);
   }
   /**
    * Transfers customer entitlements to new reseller. Possible error codes: *

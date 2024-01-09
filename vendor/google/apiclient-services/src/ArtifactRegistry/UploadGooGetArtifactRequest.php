@@ -17,9 +17,9 @@
 
 namespace Google\Service\ArtifactRegistry;
 
-class UploadGooGetArtifactRequest extends \Google\Model
+class UploadGoogetArtifactRequest extends \Google\Model
 {
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(UploadGooGetArtifactRequest::class, 'Google_Service_ArtifactRegistry_UploadGooGetArtifactRequest');
+class_alias(UploadGoogetArtifactRequest::class, 'Google_Service_ArtifactRegistry_UploadGoogetArtifactRequest');

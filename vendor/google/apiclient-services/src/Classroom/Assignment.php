@@ -21,7 +21,6 @@ class Assignment extends \Google\Model
 {
   protected $studentWorkFolderType = DriveFolder::class;
   protected $studentWorkFolderDataType = '';
-  public $studentWorkFolder;
 
   /**
    * @param DriveFolder

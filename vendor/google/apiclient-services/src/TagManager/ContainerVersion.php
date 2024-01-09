@@ -26,13 +26,10 @@ class ContainerVersion extends \Google\Collection
   public $accountId;
   protected $builtInVariableType = BuiltInVariable::class;
   protected $builtInVariableDataType = 'array';
-  public $builtInVariable;
   protected $clientType = Client::class;
   protected $clientDataType = 'array';
-  public $client;
   protected $containerType = Container::class;
   protected $containerDataType = '';
-  public $container;
   /**
    * @var string
    */
@@ -43,7 +40,6 @@ class ContainerVersion extends \Google\Collection
   public $containerVersionId;
   protected $customTemplateType = CustomTemplate::class;
   protected $customTemplateDataType = 'array';
-  public $customTemplate;
   /**
    * @var bool
    */
@@ -58,10 +54,8 @@ class ContainerVersion extends \Google\Collection
   public $fingerprint;
   protected $folderType = Folder::class;
   protected $folderDataType = 'array';
-  public $folder;
   protected $gtagConfigType = GtagConfig::class;
   protected $gtagConfigDataType = 'array';
-  public $gtagConfig;
   /**
    * @var string
    */
@@ -72,20 +66,16 @@ class ContainerVersion extends \Google\Collection
   public $path;
   protected $tagType = Tag::class;
   protected $tagDataType = 'array';
-  public $tag;
   /**
    * @var string
    */
   public $tagManagerUrl;
   protected $triggerType = Trigger::class;
   protected $triggerDataType = 'array';
-  public $trigger;
   protected $variableType = Variable::class;
   protected $variableDataType = 'array';
-  public $variable;
   protected $zoneType = Zone::class;
   protected $zoneDataType = 'array';
-  public $zone;
 
   /**
    * @param string

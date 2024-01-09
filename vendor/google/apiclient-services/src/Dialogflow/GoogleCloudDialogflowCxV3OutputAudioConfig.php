@@ -29,7 +29,6 @@ class GoogleCloudDialogflowCxV3OutputAudioConfig extends \Google\Model
   public $sampleRateHertz;
   protected $synthesizeSpeechConfigType = GoogleCloudDialogflowCxV3SynthesizeSpeechConfig::class;
   protected $synthesizeSpeechConfigDataType = '';
-  public $synthesizeSpeechConfig;
 
   /**
    * @param string

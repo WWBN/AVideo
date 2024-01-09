@@ -26,7 +26,6 @@ class ProductFeedData extends \Google\Collection
   public $isFeedDisabled;
   protected $productMatchDimensionsType = ProductMatchDimension::class;
   protected $productMatchDimensionsDataType = 'array';
-  public $productMatchDimensions;
   /**
    * @var string
    */

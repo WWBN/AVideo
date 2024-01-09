@@ -22,7 +22,6 @@ class ListNetworkUsageResponse extends \Google\Collection
   protected $collection_key = 'networks';
   protected $networksType = NetworkUsage::class;
   protected $networksDataType = 'array';
-  public $networks;
 
   /**
    * @param NetworkUsage[]

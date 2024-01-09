@@ -21,7 +21,6 @@ class PatchRollout extends \Google\Model
 {
   protected $disruptionBudgetType = FixedOrPercent::class;
   protected $disruptionBudgetDataType = '';
-  public $disruptionBudget;
   /**
    * @var string
    */

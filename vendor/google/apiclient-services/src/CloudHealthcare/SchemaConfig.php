@@ -21,7 +21,6 @@ class SchemaConfig extends \Google\Model
 {
   protected $lastUpdatedPartitionConfigType = TimePartitioning::class;
   protected $lastUpdatedPartitionConfigDataType = '';
-  public $lastUpdatedPartitionConfig;
   /**
    * @var string
    */

@@ -26,7 +26,6 @@ class ZoneListWarning extends \Google\Collection
   public $code;
   protected $dataType = ZoneListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

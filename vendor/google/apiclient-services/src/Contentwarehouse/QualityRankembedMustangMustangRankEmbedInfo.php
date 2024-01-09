@@ -21,7 +21,6 @@ class QualityRankembedMustangMustangRankEmbedInfo extends \Google\Model
 {
   protected $compressedDocumentEmbeddingType = QualityRankembedMustangMustangRankEmbedInfoCompressedEmbedding::class;
   protected $compressedDocumentEmbeddingDataType = '';
-  public $compressedDocumentEmbedding;
   /**
    * @var string
    */

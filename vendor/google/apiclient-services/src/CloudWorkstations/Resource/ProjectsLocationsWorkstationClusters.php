@@ -57,7 +57,7 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string etag If set, the request will be rejected if the latest
-   * version of the workstation cluster on the server does not have this etag.
+   * version of the workstation cluster on the server does not have this ETag.
    * @opt_param bool force If set, any workstation configurations and workstations
    * in the workstation cluster are also deleted. Otherwise, the request only
    * works if the workstation cluster has no configurations or workstations.

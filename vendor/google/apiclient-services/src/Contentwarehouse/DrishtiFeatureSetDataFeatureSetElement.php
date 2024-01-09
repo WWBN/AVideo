@@ -19,29 +19,39 @@ namespace Google\Service\Contentwarehouse;
 
 class DrishtiFeatureSetDataFeatureSetElement extends \Google\Model
 {
+  protected $compressedType = DrishtiCompressedFeature::class;
+  protected $compressedDataType = '';
   protected $denseType = DrishtiDenseFeatureData::class;
   protected $denseDataType = '';
-  public $dense;
   protected $indexedType = DrishtiIndexedFeatureData::class;
   protected $indexedDataType = '';
-  public $indexed;
   /**
    * @var string
    */
   public $name;
   protected $quantizedType = DrishtiQuantizedDenseFeatureData::class;
   protected $quantizedDataType = '';
-  public $quantized;
   protected $quantizedByteDenseType = DrishtiQuantizedByteDenseFeatureData::class;
   protected $quantizedByteDenseDataType = '';
-  public $quantizedByteDense;
   protected $quantizedByteIndexedType = DrishtiQuantizedByteIndexedFeatureData::class;
   protected $quantizedByteIndexedDataType = '';
-  public $quantizedByteIndexed;
   protected $sparseType = DrishtiSparseFeatureData::class;
   protected $sparseDataType = '';
-  public $sparse;
 
+  /**
+   * @param DrishtiCompressedFeature
+   */
+  public function setCompressed(DrishtiCompressedFeature $compressed)
+  {
+    $this->compressed = $compressed;
+  }
+  /**
+   * @return DrishtiCompressedFeature
+   */
+  public function getCompressed()
+  {
+    return $this->compressed;
+  }
   /**
    * @param DrishtiDenseFeatureData
    */

@@ -26,7 +26,6 @@ class InsertionOrderBudget extends \Google\Collection
   public $automationType;
   protected $budgetSegmentsType = InsertionOrderBudgetSegment::class;
   protected $budgetSegmentsDataType = 'array';
-  public $budgetSegments;
   /**
    * @var string
    */

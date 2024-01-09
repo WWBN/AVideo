@@ -22,7 +22,6 @@ class PoliciesListResponse extends \Google\Collection
   protected $collection_key = 'policies';
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class PoliciesListResponse extends \Google\Collection
   public $nextPageToken;
   protected $policiesType = Policy::class;
   protected $policiesDataType = 'array';
-  public $policies;
 
   /**
    * @param ResponseHeader

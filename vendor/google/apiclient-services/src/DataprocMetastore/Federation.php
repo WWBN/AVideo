@@ -21,7 +21,6 @@ class Federation extends \Google\Model
 {
   protected $backendMetastoresType = BackendMetastore::class;
   protected $backendMetastoresDataType = 'map';
-  public $backendMetastores;
   /**
    * @var string
    */

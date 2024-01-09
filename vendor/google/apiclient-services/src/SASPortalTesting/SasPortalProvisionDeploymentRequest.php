@@ -19,6 +19,43 @@ namespace Google\Service\SASPortalTesting;
 
 class SasPortalProvisionDeploymentRequest extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $newDeploymentDisplayName;
+  /**
+   * @var string
+   */
+  public $newOrganizationDisplayName;
+
+  /**
+   * @param string
+   */
+  public function setNewDeploymentDisplayName($newDeploymentDisplayName)
+  {
+    $this->newDeploymentDisplayName = $newDeploymentDisplayName;
+  }
+  /**
+   * @return string
+   */
+  public function getNewDeploymentDisplayName()
+  {
+    return $this->newDeploymentDisplayName;
+  }
+  /**
+   * @param string
+   */
+  public function setNewOrganizationDisplayName($newOrganizationDisplayName)
+  {
+    $this->newOrganizationDisplayName = $newOrganizationDisplayName;
+  }
+  /**
+   * @return string
+   */
+  public function getNewOrganizationDisplayName()
+  {
+    return $this->newOrganizationDisplayName;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

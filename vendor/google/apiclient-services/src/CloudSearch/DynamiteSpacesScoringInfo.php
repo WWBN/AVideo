@@ -33,6 +33,7 @@ class DynamiteSpacesScoringInfo extends \Google\Model
    * @var string
    */
   public $lastReadTimestampSecs;
+  public $memberCountScore;
   public $memberMetadataCount;
   public $messageScore;
   /**
@@ -123,6 +124,14 @@ class DynamiteSpacesScoringInfo extends \Google\Model
   public function getLastReadTimestampSecs()
   {
     return $this->lastReadTimestampSecs;
+  }
+  public function setMemberCountScore($memberCountScore)
+  {
+    $this->memberCountScore = $memberCountScore;
+  }
+  public function getMemberCountScore()
+  {
+    return $this->memberCountScore;
   }
   public function setMemberMetadataCount($memberMetadataCount)
   {

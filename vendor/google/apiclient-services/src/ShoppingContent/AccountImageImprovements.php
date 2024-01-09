@@ -21,7 +21,6 @@ class AccountImageImprovements extends \Google\Model
 {
   protected $accountImageImprovementsSettingsType = AccountImageImprovementsSettings::class;
   protected $accountImageImprovementsSettingsDataType = '';
-  public $accountImageImprovementsSettings;
   /**
    * @var bool
    */

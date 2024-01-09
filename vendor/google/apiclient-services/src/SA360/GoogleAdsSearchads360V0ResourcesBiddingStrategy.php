@@ -33,17 +33,14 @@ class GoogleAdsSearchads360V0ResourcesBiddingStrategy extends \Google\Model
   public $effectiveCurrencyCode;
   protected $enhancedCpcType = GoogleAdsSearchads360V0CommonEnhancedCpc::class;
   protected $enhancedCpcDataType = '';
-  public $enhancedCpc;
   /**
    * @var string
    */
   public $id;
   protected $maximizeConversionValueType = GoogleAdsSearchads360V0CommonMaximizeConversionValue::class;
   protected $maximizeConversionValueDataType = '';
-  public $maximizeConversionValue;
   protected $maximizeConversionsType = GoogleAdsSearchads360V0CommonMaximizeConversions::class;
   protected $maximizeConversionsDataType = '';
-  public $maximizeConversions;
   /**
    * @var string
    */
@@ -62,19 +59,14 @@ class GoogleAdsSearchads360V0ResourcesBiddingStrategy extends \Google\Model
   public $status;
   protected $targetCpaType = GoogleAdsSearchads360V0CommonTargetCpa::class;
   protected $targetCpaDataType = '';
-  public $targetCpa;
   protected $targetImpressionShareType = GoogleAdsSearchads360V0CommonTargetImpressionShare::class;
   protected $targetImpressionShareDataType = '';
-  public $targetImpressionShare;
   protected $targetOutrankShareType = GoogleAdsSearchads360V0CommonTargetOutrankShare::class;
   protected $targetOutrankShareDataType = '';
-  public $targetOutrankShare;
   protected $targetRoasType = GoogleAdsSearchads360V0CommonTargetRoas::class;
   protected $targetRoasDataType = '';
-  public $targetRoas;
   protected $targetSpendType = GoogleAdsSearchads360V0CommonTargetSpend::class;
   protected $targetSpendDataType = '';
-  public $targetSpend;
   /**
    * @var string
    */

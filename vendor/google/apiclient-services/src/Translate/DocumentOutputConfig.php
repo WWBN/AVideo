@@ -21,7 +21,6 @@ class DocumentOutputConfig extends \Google\Model
 {
   protected $gcsDestinationType = GcsDestination::class;
   protected $gcsDestinationDataType = '';
-  public $gcsDestination;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class GoogleCloudAdvisorynotificationsV1MessageBody extends \Google\Model
 {
   protected $textType = GoogleCloudAdvisorynotificationsV1Text::class;
   protected $textDataType = '';
-  public $text;
 
   /**
    * @param GoogleCloudAdvisorynotificationsV1Text

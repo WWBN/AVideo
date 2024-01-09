@@ -94,7 +94,6 @@ class Snapshot extends \Google\Collection
   public $selfLink;
   protected $snapshotEncryptionKeyType = CustomerEncryptionKey::class;
   protected $snapshotEncryptionKeyDataType = '';
-  public $snapshotEncryptionKey;
   /**
    * @var string
    */
@@ -105,7 +104,6 @@ class Snapshot extends \Google\Collection
   public $sourceDisk;
   protected $sourceDiskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $sourceDiskEncryptionKeyDataType = '';
-  public $sourceDiskEncryptionKey;
   /**
    * @var string
    */

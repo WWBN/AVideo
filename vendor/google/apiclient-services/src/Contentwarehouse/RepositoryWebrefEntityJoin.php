@@ -22,40 +22,28 @@ class RepositoryWebrefEntityJoin extends \Google\Collection
   protected $collection_key = 'representation';
   protected $annotatedEntityIdType = RepositoryWebrefWebrefEntityId::class;
   protected $annotatedEntityIdDataType = '';
-  public $annotatedEntityId;
   protected $cdocType = RepositoryWebrefSimplifiedCompositeDoc::class;
   protected $cdocDataType = 'array';
-  public $cdoc;
   protected $contextNameInfoType = RepositoryWebrefGlobalNameInfo::class;
   protected $contextNameInfoDataType = 'array';
-  public $contextNameInfo;
   protected $debugInfoType = RepositoryWebrefEntityDebugInfo::class;
   protected $debugInfoDataType = 'array';
-  public $debugInfo;
   protected $enricherAnnotatorProfileType = RepositoryWebrefAnnotatorProfile::class;
   protected $enricherAnnotatorProfileDataType = '';
-  public $enricherAnnotatorProfile;
   protected $enricherDebugDataType = RepositoryWebrefEnricherDebugData::class;
   protected $enricherDebugDataDataType = '';
-  public $enricherDebugData;
   protected $extraDataType = RepositoryWebrefExtraMetadata::class;
   protected $extraDataDataType = '';
-  public $extraData;
   protected $humanRatingsType = RepositoryWebrefHumanRatings::class;
   protected $humanRatingsDataType = '';
-  public $humanRatings;
   protected $linkInfoType = RepositoryWebrefGlobalLinkInfo::class;
   protected $linkInfoDataType = 'array';
-  public $linkInfo;
   protected $nameInfoType = RepositoryWebrefGlobalNameInfo::class;
   protected $nameInfoDataType = 'array';
-  public $nameInfo;
   protected $refconNameInfoType = RepositoryWebrefRefconRefconNameInfo::class;
   protected $refconNameInfoDataType = 'array';
-  public $refconNameInfo;
   protected $representationType = RepositoryWebrefDomainSpecificRepresentation::class;
   protected $representationDataType = 'array';
-  public $representation;
 
   /**
    * @param RepositoryWebrefWebrefEntityId

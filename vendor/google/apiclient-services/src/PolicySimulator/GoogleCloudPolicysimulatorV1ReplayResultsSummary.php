@@ -33,10 +33,8 @@ class GoogleCloudPolicysimulatorV1ReplayResultsSummary extends \Google\Model
   public $logCount;
   protected $newestDateType = GoogleTypeDate::class;
   protected $newestDateDataType = '';
-  public $newestDate;
   protected $oldestDateType = GoogleTypeDate::class;
   protected $oldestDateDataType = '';
-  public $oldestDate;
   /**
    * @var int
    */

@@ -22,7 +22,6 @@ class SerialPipeline extends \Google\Collection
   protected $collection_key = 'stages';
   protected $stagesType = Stage::class;
   protected $stagesDataType = 'array';
-  public $stages;
 
   /**
    * @param Stage[]

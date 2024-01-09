@@ -22,7 +22,6 @@ class Manifest extends \Google\Collection
   protected $collection_key = 'imports';
   protected $configType = ConfigFile::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class Manifest extends \Google\Collection
   public $id;
   protected $importsType = ImportFile::class;
   protected $importsDataType = 'array';
-  public $imports;
   /**
    * @var string
    */

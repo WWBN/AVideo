@@ -22,7 +22,6 @@ class ListClientsResponse extends \Google\Collection
   protected $collection_key = 'client';
   protected $clientType = Client::class;
   protected $clientDataType = 'array';
-  public $client;
   /**
    * @var string
    */

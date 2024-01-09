@@ -21,10 +21,8 @@ class GoogleCloudChannelV1ProvisionCloudIdentityRequest extends \Google\Model
 {
   protected $cloudIdentityInfoType = GoogleCloudChannelV1CloudIdentityInfo::class;
   protected $cloudIdentityInfoDataType = '';
-  public $cloudIdentityInfo;
   protected $userType = GoogleCloudChannelV1AdminUser::class;
   protected $userDataType = '';
-  public $user;
   /**
    * @var bool
    */

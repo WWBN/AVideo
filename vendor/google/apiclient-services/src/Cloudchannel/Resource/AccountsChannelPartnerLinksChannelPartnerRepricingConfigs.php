@@ -121,7 +121,7 @@ class AccountsChannelPartnerLinksChannelPartnerRepricingConfigs extends \Google\
    * to technical issues in the backend. In this case, contact Cloud Channel
    * support. Return Value: If successful, the ChannelPartnerRepricingConfig
    * resources. The data for each resource is displayed in the ascending order of:
-   * * channel partner ID * RepricingConfig.effective_invoice_month *
+   * * Channel Partner ID * RepricingConfig.effective_invoice_month *
    * ChannelPartnerRepricingConfig.update_time If unsuccessful, returns an error.
    * (channelPartnerRepricingConfigs.listAccountsChannelPartnerLinksChannelPartner
    * RepricingConfigs)

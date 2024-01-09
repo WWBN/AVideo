@@ -21,7 +21,6 @@ class GoogleInternalAppsWaldoV1alphaUpcomingOooContext extends \Google\Model
 {
   protected $timeRangeType = GoogleInternalAppsWaldoV1alphaTimeRange::class;
   protected $timeRangeDataType = '';
-  public $timeRange;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaTimeRange

@@ -25,7 +25,6 @@ class Translation extends \Google\Model
   public $detectedLanguageCode;
   protected $glossaryConfigType = TranslateTextGlossaryConfig::class;
   protected $glossaryConfigDataType = '';
-  public $glossaryConfig;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class LiveBroadcast extends \Google\Model
 {
   protected $contentDetailsType = LiveBroadcastContentDetails::class;
   protected $contentDetailsDataType = '';
-  public $contentDetails;
   /**
    * @var string
    */
@@ -36,13 +35,10 @@ class LiveBroadcast extends \Google\Model
   public $kind;
   protected $snippetType = LiveBroadcastSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
   protected $statisticsType = LiveBroadcastStatistics::class;
   protected $statisticsDataType = '';
-  public $statistics;
   protected $statusType = LiveBroadcastStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param LiveBroadcastContentDetails

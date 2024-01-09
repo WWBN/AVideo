@@ -21,14 +21,12 @@ class NetworkConfiguration extends \Google\Model
 {
   protected $downRuleType = TrafficRule::class;
   protected $downRuleDataType = '';
-  public $downRule;
   /**
    * @var string
    */
   public $id;
   protected $upRuleType = TrafficRule::class;
   protected $upRuleDataType = '';
-  public $upRule;
 
   /**
    * @param TrafficRule

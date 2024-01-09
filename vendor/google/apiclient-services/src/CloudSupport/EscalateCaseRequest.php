@@ -21,7 +21,6 @@ class EscalateCaseRequest extends \Google\Model
 {
   protected $escalationType = Escalation::class;
   protected $escalationDataType = '';
-  public $escalation;
 
   /**
    * @param Escalation

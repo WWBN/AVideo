@@ -22,7 +22,6 @@ class BillingProfilesListResponse extends \Google\Collection
   protected $collection_key = 'billingProfiles';
   protected $billingProfilesType = BillingProfile::class;
   protected $billingProfilesDataType = 'array';
-  public $billingProfiles;
   /**
    * @var string
    */

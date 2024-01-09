@@ -34,7 +34,7 @@ class LocalDisk extends \Google\Collection
   public $deviceName;
   protected $guestOsFeaturesType = RuntimeGuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
-  public $guestOsFeatures;
+  public $guestOsFeatures = [];
   /**
    * @var int
    */
@@ -53,7 +53,7 @@ class LocalDisk extends \Google\Collection
   /**
    * @var string[]
    */
-  public $licenses;
+  public $licenses = [];
   /**
    * @var string
    */

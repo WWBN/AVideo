@@ -17,10 +17,13 @@
 
 namespace Google\Service\DataprocMetastore\Resource;
 
+use Google\Service\DataprocMetastore\AlterMetadataResourceLocationRequest;
 use Google\Service\DataprocMetastore\ExportMetadataRequest;
 use Google\Service\DataprocMetastore\ListServicesResponse;
+use Google\Service\DataprocMetastore\MoveTableToDatabaseRequest;
 use Google\Service\DataprocMetastore\Operation;
 use Google\Service\DataprocMetastore\Policy;
+use Google\Service\DataprocMetastore\QueryMetadataRequest;
 use Google\Service\DataprocMetastore\RestoreServiceRequest;
 use Google\Service\DataprocMetastore\Service;
 use Google\Service\DataprocMetastore\SetIamPolicyRequest;
@@ -37,6 +40,25 @@ use Google\Service\DataprocMetastore\TestIamPermissionsResponse;
  */
 class ProjectsLocationsServices extends \Google\Service\Resource
 {
+  /**
+   * Alter metadata resource location. The metadata resource can be a database,
+   * table, or partition. This functionality only updates the parent directory for
+   * the respective metadata resource and does not transfer any existing data to
+   * the new location. (services.alterLocation)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to mutate metadata, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param AlterMetadataResourceLocationRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function alterLocation($service, AlterMetadataResourceLocationRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('alterLocation', [$params], Operation::class);
+  }
   /**
    * Creates a metastore service in a project and location. (services.create)
    *
@@ -185,6 +207,22 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     return $this->call('list', [$params], ListServicesResponse::class);
   }
   /**
+   * Move a table to another database. (services.moveTableToDatabase)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to mutate metadata, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param MoveTableToDatabaseRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function moveTableToDatabase($service, MoveTableToDatabaseRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('moveTableToDatabase', [$params], Operation::class);
+  }
+  /**
    * Updates the parameters of a single service. (services.patch)
    *
    * @param string $name Immutable. The relative resource name of the metastore
@@ -213,6 +251,22 @@ class ProjectsLocationsServices extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Query DPMS metadata. (services.queryMetadata)
+   *
+   * @param string $service Required. The relative resource name of the metastore
+   * service to query metadata, in the following
+   * format:projects/{project_id}/locations/{location_id}/services/{service_id}.
+   * @param QueryMetadataRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function queryMetadata($service, QueryMetadataRequest $postBody, $optParams = [])
+  {
+    $params = ['service' => $service, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('queryMetadata', [$params], Operation::class);
   }
   /**
    * Restores a service from a backup. (services.restore)

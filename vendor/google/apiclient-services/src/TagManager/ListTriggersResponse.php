@@ -26,7 +26,6 @@ class ListTriggersResponse extends \Google\Collection
   public $nextPageToken;
   protected $triggerType = Trigger::class;
   protected $triggerDataType = 'array';
-  public $trigger;
 
   /**
    * @param string

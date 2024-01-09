@@ -38,14 +38,12 @@ class GoogleCloudDialogflowV2QueryResult extends \Google\Collection
   public $diagnosticInfo;
   protected $fulfillmentMessagesType = GoogleCloudDialogflowV2IntentMessage::class;
   protected $fulfillmentMessagesDataType = 'array';
-  public $fulfillmentMessages;
   /**
    * @var string
    */
   public $fulfillmentText;
   protected $intentType = GoogleCloudDialogflowV2Intent::class;
   protected $intentDataType = '';
-  public $intent;
   /**
    * @var float
    */
@@ -56,7 +54,6 @@ class GoogleCloudDialogflowV2QueryResult extends \Google\Collection
   public $languageCode;
   protected $outputContextsType = GoogleCloudDialogflowV2Context::class;
   protected $outputContextsDataType = 'array';
-  public $outputContexts;
   /**
    * @var array[]
    */
@@ -67,7 +64,6 @@ class GoogleCloudDialogflowV2QueryResult extends \Google\Collection
   public $queryText;
   protected $sentimentAnalysisResultType = GoogleCloudDialogflowV2SentimentAnalysisResult::class;
   protected $sentimentAnalysisResultDataType = '';
-  public $sentimentAnalysisResult;
   /**
    * @var float
    */

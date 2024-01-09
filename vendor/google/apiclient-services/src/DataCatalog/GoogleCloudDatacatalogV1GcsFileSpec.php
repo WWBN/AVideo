@@ -25,7 +25,6 @@ class GoogleCloudDatacatalogV1GcsFileSpec extends \Google\Model
   public $filePath;
   protected $gcsTimestampsType = GoogleCloudDatacatalogV1SystemTimestamps::class;
   protected $gcsTimestampsDataType = '';
-  public $gcsTimestamps;
   /**
    * @var string
    */

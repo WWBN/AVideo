@@ -22,7 +22,6 @@ class GkeNodeConfig extends \Google\Collection
   protected $collection_key = 'accelerators';
   protected $acceleratorsType = GkeNodePoolAcceleratorConfig::class;
   protected $acceleratorsDataType = 'array';
-  public $accelerators;
   /**
    * @var string
    */

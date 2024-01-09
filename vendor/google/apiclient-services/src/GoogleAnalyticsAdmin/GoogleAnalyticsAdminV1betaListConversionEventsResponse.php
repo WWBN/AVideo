@@ -22,7 +22,6 @@ class GoogleAnalyticsAdminV1betaListConversionEventsResponse extends \Google\Col
   protected $collection_key = 'conversionEvents';
   protected $conversionEventsType = GoogleAnalyticsAdminV1betaConversionEvent::class;
   protected $conversionEventsDataType = 'array';
-  public $conversionEvents;
   /**
    * @var string
    */

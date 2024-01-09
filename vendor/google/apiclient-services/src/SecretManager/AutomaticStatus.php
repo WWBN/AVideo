@@ -21,7 +21,6 @@ class AutomaticStatus extends \Google\Model
 {
   protected $customerManagedEncryptionType = CustomerManagedEncryptionStatus::class;
   protected $customerManagedEncryptionDataType = '';
-  public $customerManagedEncryption;
 
   /**
    * @param CustomerManagedEncryptionStatus

@@ -34,7 +34,6 @@ class AppsDynamiteStorageAction extends \Google\Collection
   public $loadIndicator;
   protected $parametersType = AppsDynamiteStorageActionActionParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
   /**
    * @var bool
    */

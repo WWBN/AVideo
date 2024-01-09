@@ -22,7 +22,6 @@ class Anchors extends \Google\Collection
   protected $collection_key = 'redundantanchorinfo';
   protected $anchorType = AnchorsAnchor::class;
   protected $anchorDataType = 'array';
-  public $anchor;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class Anchors extends \Google\Collection
   public $redundantAnchorsDropped;
   protected $redundantanchorinfoType = AnchorsRedundantAnchorInfo::class;
   protected $redundantanchorinfoDataType = 'array';
-  public $redundantanchorinfo;
   /**
    * @var string
    */

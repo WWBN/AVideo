@@ -21,10 +21,8 @@ class Specification extends \Google\Model
 {
   protected $androidTestType = AndroidTest::class;
   protected $androidTestDataType = '';
-  public $androidTest;
   protected $iosTestType = IosTest::class;
   protected $iosTestDataType = '';
-  public $iosTest;
 
   /**
    * @param AndroidTest

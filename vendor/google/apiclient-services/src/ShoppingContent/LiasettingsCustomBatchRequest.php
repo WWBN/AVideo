@@ -22,7 +22,6 @@ class LiasettingsCustomBatchRequest extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = LiasettingsCustomBatchRequestEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
 
   /**
    * @param LiasettingsCustomBatchRequestEntry[]

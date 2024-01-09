@@ -22,7 +22,6 @@ class AccountsAuthInfoResponse extends \Google\Collection
   protected $collection_key = 'accountIdentifiers';
   protected $accountIdentifiersType = AccountIdentifier::class;
   protected $accountIdentifiersDataType = 'array';
-  public $accountIdentifiers;
   /**
    * @var string
    */

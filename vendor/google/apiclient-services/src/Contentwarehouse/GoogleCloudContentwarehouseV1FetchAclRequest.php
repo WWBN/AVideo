@@ -25,7 +25,6 @@ class GoogleCloudContentwarehouseV1FetchAclRequest extends \Google\Model
   public $projectOwner;
   protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
   protected $requestMetadataDataType = '';
-  public $requestMetadata;
 
   /**
    * @param bool

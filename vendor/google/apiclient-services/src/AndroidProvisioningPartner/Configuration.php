@@ -52,6 +52,10 @@ class Configuration extends \Google\Model
    */
   public $dpcResourcePath;
   /**
+   * @var string
+   */
+  public $forcedResetTime;
+  /**
    * @var bool
    */
   public $isDefault;
@@ -171,6 +175,20 @@ class Configuration extends \Google\Model
   public function getDpcResourcePath()
   {
     return $this->dpcResourcePath;
+  }
+  /**
+   * @param string
+   */
+  public function setForcedResetTime($forcedResetTime)
+  {
+    $this->forcedResetTime = $forcedResetTime;
+  }
+  /**
+   * @return string
+   */
+  public function getForcedResetTime()
+  {
+    return $this->forcedResetTime;
   }
   /**
    * @param bool

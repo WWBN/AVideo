@@ -21,10 +21,8 @@ class DeviceFile extends \Google\Model
 {
   protected $obbFileType = ObbFile::class;
   protected $obbFileDataType = '';
-  public $obbFile;
   protected $regularFileType = RegularFile::class;
   protected $regularFileDataType = '';
-  public $regularFile;
 
   /**
    * @param ObbFile

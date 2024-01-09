@@ -30,7 +30,6 @@ class LiveChatMessageListResponse extends \Google\Collection
   public $eventId;
   protected $itemsType = LiveChatMessage::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -45,14 +44,12 @@ class LiveChatMessageListResponse extends \Google\Collection
   public $offlineAt;
   protected $pageInfoType = PageInfo::class;
   protected $pageInfoDataType = '';
-  public $pageInfo;
   /**
    * @var string
    */
   public $pollingIntervalMillis;
   protected $tokenPaginationType = TokenPagination::class;
   protected $tokenPaginationDataType = '';
-  public $tokenPagination;
   /**
    * @var string
    */

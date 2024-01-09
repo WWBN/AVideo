@@ -30,13 +30,10 @@ class AssistantApiScreenCapabilities extends \Google\Collection
   public $inputType;
   protected $maskType = AssistantApiScreenCapabilitiesMask::class;
   protected $maskDataType = '';
-  public $mask;
   protected $protoLayoutTargetedSchemaType = AssistantApiScreenCapabilitiesProtoLayoutVersion::class;
   protected $protoLayoutTargetedSchemaDataType = '';
-  public $protoLayoutTargetedSchema;
   protected $resolutionType = AssistantApiScreenCapabilitiesResolution::class;
   protected $resolutionDataType = '';
-  public $resolution;
   /**
    * @var bool
    */

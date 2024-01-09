@@ -33,7 +33,6 @@ class LiveChatBan extends \Google\Model
   public $kind;
   protected $snippetType = LiveChatBanSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
 
   /**
    * @param string

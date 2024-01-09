@@ -21,16 +21,12 @@ class AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedData extends \Google\Mod
 {
   protected $nameDisplayOptionsType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataNameDisplayOptions::class;
   protected $nameDisplayOptionsDataType = '';
-  public $nameDisplayOptions;
   protected $photosCompareDataType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataPhotosCompareData::class;
   protected $photosCompareDataDataType = '';
-  public $photosCompareData;
   protected $profileEditabilityType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataProfileEditability::class;
   protected $profileEditabilityDataType = '';
-  public $profileEditability;
   protected $profileNameModificationHistoryType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataProfileNameModificationHistory::class;
   protected $profileNameModificationHistoryDataType = '';
-  public $profileNameModificationHistory;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataNameDisplayOptions

@@ -22,7 +22,6 @@ class CompositeDocLiveExperimentInfo extends \Google\Collection
   protected $collection_key = 'perLiveExperimentInfo';
   protected $perLiveExperimentInfoType = CompositeDocLiveExperimentInfoPerLiveExperimentInfo::class;
   protected $perLiveExperimentInfoDataType = 'array';
-  public $perLiveExperimentInfo;
 
   /**
    * @param CompositeDocLiveExperimentInfoPerLiveExperimentInfo[]

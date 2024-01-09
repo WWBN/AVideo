@@ -25,7 +25,6 @@ class LiveChatModeratorSnippet extends \Google\Model
   public $liveChatId;
   protected $moderatorDetailsType = ChannelProfileDetails::class;
   protected $moderatorDetailsDataType = '';
-  public $moderatorDetails;
 
   /**
    * @param string

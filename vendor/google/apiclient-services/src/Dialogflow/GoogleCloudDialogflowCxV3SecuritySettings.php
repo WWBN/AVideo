@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3SecuritySettings extends \Google\Collection
   protected $collection_key = 'purgeDataTypes';
   protected $audioExportSettingsType = GoogleCloudDialogflowCxV3SecuritySettingsAudioExportSettings::class;
   protected $audioExportSettingsDataType = '';
-  public $audioExportSettings;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class GoogleCloudDialogflowCxV3SecuritySettings extends \Google\Collection
   public $displayName;
   protected $insightsExportSettingsType = GoogleCloudDialogflowCxV3SecuritySettingsInsightsExportSettings::class;
   protected $insightsExportSettingsDataType = '';
-  public $insightsExportSettings;
   /**
    * @var string
    */

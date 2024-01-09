@@ -21,7 +21,6 @@ class AddSlicerRequest extends \Google\Model
 {
   protected $slicerType = Slicer::class;
   protected $slicerDataType = '';
-  public $slicer;
 
   /**
    * @param Slicer

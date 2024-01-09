@@ -21,10 +21,8 @@ class GoogleCloudDatacatalogV1DatabaseTableSpec extends \Google\Model
 {
   protected $databaseViewSpecType = GoogleCloudDatacatalogV1DatabaseTableSpecDatabaseViewSpec::class;
   protected $databaseViewSpecDataType = '';
-  public $databaseViewSpec;
   protected $dataplexTableType = GoogleCloudDatacatalogV1DataplexTableSpec::class;
   protected $dataplexTableDataType = '';
-  public $dataplexTable;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class PolicyViolationInfo extends \Google\Model
 {
   protected $orgPolicyViolationInfoType = OrgPolicyViolationInfo::class;
   protected $orgPolicyViolationInfoDataType = '';
-  public $orgPolicyViolationInfo;
 
   /**
    * @param OrgPolicyViolationInfo

@@ -22,7 +22,6 @@ class BasicChartSpec extends \Google\Collection
   protected $collection_key = 'series';
   protected $axisType = BasicChartAxis::class;
   protected $axisDataType = 'array';
-  public $axis;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class BasicChartSpec extends \Google\Collection
   public $compareMode;
   protected $domainsType = BasicChartDomain::class;
   protected $domainsDataType = 'array';
-  public $domains;
   /**
    * @var int
    */
@@ -52,7 +50,6 @@ class BasicChartSpec extends \Google\Collection
   public $lineSmoothing;
   protected $seriesType = BasicChartSeries::class;
   protected $seriesDataType = 'array';
-  public $series;
   /**
    * @var string
    */
@@ -63,7 +60,6 @@ class BasicChartSpec extends \Google\Collection
   public $threeDimensional;
   protected $totalDataLabelType = DataLabel::class;
   protected $totalDataLabelDataType = '';
-  public $totalDataLabel;
 
   /**
    * @param BasicChartAxis[]

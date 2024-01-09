@@ -21,7 +21,6 @@ class CrawlerChangerateUrlChangerate extends \Google\Model
 {
   protected $approximatedPosteriorType = CrawlerChangerateMultipleComponentDistribution::class;
   protected $approximatedPosteriorDataType = '';
-  public $approximatedPosterior;
   public $averageChangeSignificance;
   /**
    * @var int

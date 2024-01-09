@@ -22,7 +22,6 @@ class ListCryptoKeyVersionsResponse extends \Google\Collection
   protected $collection_key = 'cryptoKeyVersions';
   protected $cryptoKeyVersionsType = CryptoKeyVersion::class;
   protected $cryptoKeyVersionsDataType = 'array';
-  public $cryptoKeyVersions;
   /**
    * @var string
    */

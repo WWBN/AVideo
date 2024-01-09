@@ -22,7 +22,6 @@ class ListActiveBreakpointsResponse extends \Google\Collection
   protected $collection_key = 'breakpoints';
   protected $breakpointsType = Breakpoint::class;
   protected $breakpointsDataType = 'array';
-  public $breakpoints;
   /**
    * @var string
    */

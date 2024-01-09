@@ -45,6 +45,14 @@ class GoogleCloudDialogflowV3alpha1TurnSignals extends \Google\Collection
    */
   public $reachedEndPage;
   /**
+   * @var float
+   */
+  public $sentimentMagnitude;
+  /**
+   * @var float
+   */
+  public $sentimentScore;
+  /**
    * @var bool
    */
   public $triggeredAbandonmentEvent;
@@ -140,6 +148,34 @@ class GoogleCloudDialogflowV3alpha1TurnSignals extends \Google\Collection
   public function getReachedEndPage()
   {
     return $this->reachedEndPage;
+  }
+  /**
+   * @param float
+   */
+  public function setSentimentMagnitude($sentimentMagnitude)
+  {
+    $this->sentimentMagnitude = $sentimentMagnitude;
+  }
+  /**
+   * @return float
+   */
+  public function getSentimentMagnitude()
+  {
+    return $this->sentimentMagnitude;
+  }
+  /**
+   * @param float
+   */
+  public function setSentimentScore($sentimentScore)
+  {
+    $this->sentimentScore = $sentimentScore;
+  }
+  /**
+   * @return float
+   */
+  public function getSentimentScore()
+  {
+    return $this->sentimentScore;
   }
   /**
    * @param bool

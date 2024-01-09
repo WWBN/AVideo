@@ -21,7 +21,6 @@ class NodeGroupMaintenanceWindow extends \Google\Model
 {
   protected $maintenanceDurationType = Duration::class;
   protected $maintenanceDurationDataType = '';
-  public $maintenanceDuration;
   /**
    * @var string
    */

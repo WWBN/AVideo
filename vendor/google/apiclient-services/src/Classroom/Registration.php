@@ -21,14 +21,12 @@ class Registration extends \Google\Model
 {
   protected $cloudPubsubTopicType = CloudPubsubTopic::class;
   protected $cloudPubsubTopicDataType = '';
-  public $cloudPubsubTopic;
   /**
    * @var string
    */
   public $expiryTime;
   protected $feedType = Feed::class;
   protected $feedDataType = '';
-  public $feed;
   /**
    * @var string
    */

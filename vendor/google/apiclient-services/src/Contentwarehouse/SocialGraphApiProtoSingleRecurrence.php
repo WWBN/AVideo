@@ -21,7 +21,6 @@ class SocialGraphApiProtoSingleRecurrence extends \Google\Model
 {
   protected $dateType = GoogleTypeDate::class;
   protected $dateDataType = '';
-  public $date;
 
   /**
    * @param GoogleTypeDate

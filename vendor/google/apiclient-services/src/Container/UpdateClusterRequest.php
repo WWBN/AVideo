@@ -33,7 +33,6 @@ class UpdateClusterRequest extends \Google\Model
   public $projectId;
   protected $updateType = ClusterUpdate::class;
   protected $updateDataType = '';
-  public $update;
   /**
    * @var string
    */

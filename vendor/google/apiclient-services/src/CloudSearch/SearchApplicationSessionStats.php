@@ -21,7 +21,6 @@ class SearchApplicationSessionStats extends \Google\Model
 {
   protected $dateType = Date::class;
   protected $dateDataType = '';
-  public $date;
   /**
    * @var string
    */

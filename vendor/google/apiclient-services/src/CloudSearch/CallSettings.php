@@ -46,6 +46,10 @@ class CallSettings extends \Google\Model
   /**
    * @var bool
    */
+  public $coActivityLock;
+  /**
+   * @var bool
+   */
   public $cseEnabled;
   /**
    * @var bool
@@ -147,6 +151,20 @@ class CallSettings extends \Google\Model
   public function getChatLock()
   {
     return $this->chatLock;
+  }
+  /**
+   * @param bool
+   */
+  public function setCoActivityLock($coActivityLock)
+  {
+    $this->coActivityLock = $coActivityLock;
+  }
+  /**
+   * @return bool
+   */
+  public function getCoActivityLock()
+  {
+    return $this->coActivityLock;
   }
   /**
    * @param bool

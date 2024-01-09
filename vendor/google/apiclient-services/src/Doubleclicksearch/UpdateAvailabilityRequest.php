@@ -22,7 +22,6 @@ class UpdateAvailabilityRequest extends \Google\Collection
   protected $collection_key = 'availabilities';
   protected $availabilitiesType = Availability::class;
   protected $availabilitiesDataType = 'array';
-  public $availabilities;
 
   /**
    * @param Availability[]

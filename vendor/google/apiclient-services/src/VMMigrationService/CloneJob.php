@@ -22,7 +22,6 @@ class CloneJob extends \Google\Collection
   protected $collection_key = 'steps';
   protected $computeEngineTargetDetailsType = ComputeEngineTargetDetails::class;
   protected $computeEngineTargetDetailsDataType = '';
-  public $computeEngineTargetDetails;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class CloneJob extends \Google\Collection
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -48,7 +46,6 @@ class CloneJob extends \Google\Collection
   public $stateTime;
   protected $stepsType = CloneStep::class;
   protected $stepsDataType = 'array';
-  public $steps;
 
   /**
    * @param ComputeEngineTargetDetails

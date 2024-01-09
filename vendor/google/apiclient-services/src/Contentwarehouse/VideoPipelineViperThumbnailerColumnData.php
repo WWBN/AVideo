@@ -22,10 +22,8 @@ class VideoPipelineViperThumbnailerColumnData extends \Google\Collection
   protected $collection_key = 'frameBlobRefs';
   protected $frameBlobRefsType = BlobstoreBlobRef::class;
   protected $frameBlobRefsDataType = 'array';
-  public $frameBlobRefs;
   protected $frameFileListType = VideoThumbnailsFrameFileList::class;
   protected $frameFileListDataType = '';
-  public $frameFileList;
   /**
    * @var string
    */

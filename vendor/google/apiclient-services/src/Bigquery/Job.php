@@ -24,7 +24,6 @@ class Job extends \Google\Model
   ];
   protected $configurationType = JobConfiguration::class;
   protected $configurationDataType = '';
-  public $configuration;
   /**
    * @var string
    */
@@ -35,7 +34,6 @@ class Job extends \Google\Model
   public $id;
   protected $jobReferenceType = JobReference::class;
   protected $jobReferenceDataType = '';
-  public $jobReference;
   /**
    * @var string
    */
@@ -46,10 +44,8 @@ class Job extends \Google\Model
   public $selfLink;
   protected $statisticsType = JobStatistics::class;
   protected $statisticsDataType = '';
-  public $statistics;
   protected $statusType = JobStatus::class;
   protected $statusDataType = '';
-  public $status;
   /**
    * @var string
    */

@@ -37,10 +37,8 @@ class GoogleCloudBeyondcorpAppconnectorsV1AppConnector extends \Google\Model
   public $name;
   protected $principalInfoType = GoogleCloudBeyondcorpAppconnectorsV1AppConnectorPrincipalInfo::class;
   protected $principalInfoDataType = '';
-  public $principalInfo;
   protected $resourceInfoType = GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo::class;
   protected $resourceInfoDataType = '';
-  public $resourceInfo;
   /**
    * @var string
    */

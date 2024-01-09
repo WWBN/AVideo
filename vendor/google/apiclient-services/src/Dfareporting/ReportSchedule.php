@@ -48,6 +48,10 @@ class ReportSchedule extends \Google\Collection
    * @var string
    */
   public $startDate;
+  /**
+   * @var string
+   */
+  public $timezone;
 
   /**
    * @param bool
@@ -146,6 +150,20 @@ class ReportSchedule extends \Google\Collection
   public function getStartDate()
   {
     return $this->startDate;
+  }
+  /**
+   * @param string
+   */
+  public function setTimezone($timezone)
+  {
+    $this->timezone = $timezone;
+  }
+  /**
+   * @return string
+   */
+  public function getTimezone()
+  {
+    return $this->timezone;
   }
 }
 

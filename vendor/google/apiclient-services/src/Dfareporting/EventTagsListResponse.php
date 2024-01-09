@@ -22,7 +22,6 @@ class EventTagsListResponse extends \Google\Collection
   protected $collection_key = 'eventTags';
   protected $eventTagsType = EventTag::class;
   protected $eventTagsDataType = 'array';
-  public $eventTags;
   /**
    * @var string
    */

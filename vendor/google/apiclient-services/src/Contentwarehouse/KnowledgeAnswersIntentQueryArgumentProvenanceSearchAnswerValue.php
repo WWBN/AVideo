@@ -21,7 +21,6 @@ class KnowledgeAnswersIntentQueryArgumentProvenanceSearchAnswerValue extends \Go
 {
   protected $eventIdType = EventIdMessage::class;
   protected $eventIdDataType = '';
-  public $eventId;
   /**
    * @var int
    */

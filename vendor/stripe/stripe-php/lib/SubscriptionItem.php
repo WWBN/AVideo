@@ -5,8 +5,8 @@
 namespace Stripe;
 
 /**
- * Subscription items allow you to create customer subscriptions with more than one
- * plan, making it easy to represent complex billing relationships.
+ * Subscription items allow you to create customer subscriptions with more than
+ * one plan, making it easy to represent complex billing relationships.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -33,7 +33,7 @@ class SubscriptionItem extends ApiResource
     const PATH_USAGE_RECORDS = '/usage_records';
 
     /**
-     * @param null|string $id the ID of the subscription item on which to create the usage record
+     * @param string $id the ID of the subscription item on which to create the usage record
      * @param null|array $params
      * @param null|array|string $opts
      *
@@ -45,7 +45,6 @@ class SubscriptionItem extends ApiResource
     {
         return self::_createNestedResource($id, static::PATH_USAGE_RECORDS, $params, $opts);
     }
-
     const PATH_USAGE_RECORD_SUMMARIES = '/usage_record_summaries';
 
     /**

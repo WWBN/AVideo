@@ -21,7 +21,6 @@ class ResourcePolicyResourceStatus extends \Google\Model
 {
   protected $instanceSchedulePolicyType = ResourcePolicyResourceStatusInstanceSchedulePolicyStatus::class;
   protected $instanceSchedulePolicyDataType = '';
-  public $instanceSchedulePolicy;
 
   /**
    * @param ResourcePolicyResourceStatusInstanceSchedulePolicyStatus

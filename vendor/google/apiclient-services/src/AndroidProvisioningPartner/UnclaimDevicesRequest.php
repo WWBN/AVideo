@@ -22,7 +22,6 @@ class UnclaimDevicesRequest extends \Google\Collection
   protected $collection_key = 'unclaims';
   protected $unclaimsType = PartnerUnclaim::class;
   protected $unclaimsDataType = 'array';
-  public $unclaims;
 
   /**
    * @param PartnerUnclaim[]

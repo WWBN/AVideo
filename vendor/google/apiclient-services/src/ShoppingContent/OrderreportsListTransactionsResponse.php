@@ -30,7 +30,6 @@ class OrderreportsListTransactionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $transactionsType = OrderReportTransaction::class;
   protected $transactionsDataType = 'array';
-  public $transactions;
 
   /**
    * @param string

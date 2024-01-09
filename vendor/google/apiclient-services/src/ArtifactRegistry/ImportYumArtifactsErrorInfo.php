@@ -21,10 +21,8 @@ class ImportYumArtifactsErrorInfo extends \Google\Model
 {
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   protected $gcsSourceType = ImportYumArtifactsGcsSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
 
   /**
    * @param Status

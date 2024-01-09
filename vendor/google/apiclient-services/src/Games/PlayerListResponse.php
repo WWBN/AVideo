@@ -22,7 +22,6 @@ class PlayerListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Player::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

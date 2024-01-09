@@ -135,8 +135,11 @@ class SpacesMessages extends \Google\Service\Resource
     return $this->call('get', [$params], Message::class);
   }
   /**
-   * Updates a message. For example usage, see [Update a message](https://develope
-   * rs.google.com/chat/api/guides/crudl/messages#update_a_message). Requires
+   * Updates a message. There's a difference between `patch` and `update` methods.
+   * The `patch` method uses a `patch` request while the `update` method uses a
+   * `put` request. We recommend using the `patch` method. For example usage, see
+   * [Update a message](https://developers.google.com/chat/api/guides/crudl/messag
+   * es#update_a_message). Requires
    * [authentication](https://developers.google.com/chat/api/guides/auth/). Fully
    * supports [service account
    * authentication](https://developers.google.com/chat/api/guides/auth/service-
@@ -170,8 +173,11 @@ class SpacesMessages extends \Google\Service\Resource
     return $this->call('patch', [$params], Message::class);
   }
   /**
-   * Updates a message. For example usage, see [Update a message](https://develope
-   * rs.google.com/chat/api/guides/crudl/messages#update_a_message). Requires
+   * Updates a message. There's a difference between `patch` and `update` methods.
+   * The `patch` method uses a `patch` request while the `update` method uses a
+   * `put` request. We recommend using the `patch` method. For example usage, see
+   * [Update a message](https://developers.google.com/chat/api/guides/crudl/messag
+   * es#update_a_message). Requires
    * [authentication](https://developers.google.com/chat/api/guides/auth/). Fully
    * supports [service account
    * authentication](https://developers.google.com/chat/api/guides/auth/service-

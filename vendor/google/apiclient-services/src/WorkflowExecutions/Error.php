@@ -29,7 +29,6 @@ class Error extends \Google\Model
   public $payload;
   protected $stackTraceType = StackTrace::class;
   protected $stackTraceDataType = '';
-  public $stackTrace;
 
   /**
    * @param string

@@ -30,14 +30,12 @@ class GoogleCloudMlV1ContainerSpec extends \Google\Collection
   public $command;
   protected $envType = GoogleCloudMlV1EnvVar::class;
   protected $envDataType = 'array';
-  public $env;
   /**
    * @var string
    */
   public $image;
   protected $portsType = GoogleCloudMlV1ContainerPort::class;
   protected $portsDataType = 'array';
-  public $ports;
 
   /**
    * @param string[]

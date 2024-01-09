@@ -26,7 +26,6 @@ class ListCollectionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = Collection::class;
   protected $resourcesDataType = 'array';
-  public $resources;
 
   /**
    * @param string

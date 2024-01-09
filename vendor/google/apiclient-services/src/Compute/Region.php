@@ -26,7 +26,6 @@ class Region extends \Google\Collection
   public $creationTimestamp;
   protected $deprecatedType = DeprecationStatus::class;
   protected $deprecatedDataType = '';
-  public $deprecated;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class Region extends \Google\Collection
   public $name;
   protected $quotasType = Quota::class;
   protected $quotasDataType = 'array';
-  public $quotas;
   /**
    * @var string
    */

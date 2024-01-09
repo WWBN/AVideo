@@ -22,7 +22,6 @@ class Policy extends \Google\Collection
   protected $collection_key = 'networks';
   protected $alternativeNameServerConfigType = PolicyAlternativeNameServerConfig::class;
   protected $alternativeNameServerConfigDataType = '';
-  public $alternativeNameServerConfig;
   /**
    * @var string
    */
@@ -49,7 +48,6 @@ class Policy extends \Google\Collection
   public $name;
   protected $networksType = PolicyNetwork::class;
   protected $networksDataType = 'array';
-  public $networks;
 
   /**
    * @param PolicyAlternativeNameServerConfig

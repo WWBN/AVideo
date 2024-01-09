@@ -26,7 +26,6 @@ class ServerNetworkTemplate extends \Google\Collection
   public $applicableInstanceTypes;
   protected $logicalInterfacesType = GoogleCloudBaremetalsolutionV2ServerNetworkTemplateLogicalInterface::class;
   protected $logicalInterfacesDataType = 'array';
-  public $logicalInterfaces;
   /**
    * @var string
    */

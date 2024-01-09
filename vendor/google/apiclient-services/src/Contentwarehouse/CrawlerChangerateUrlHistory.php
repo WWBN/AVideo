@@ -22,10 +22,8 @@ class CrawlerChangerateUrlHistory extends \Google\Collection
   protected $collection_key = 'change';
   protected $changeType = CrawlerChangerateUrlChange::class;
   protected $changeDataType = 'array';
-  public $change;
   protected $latestVersionType = CrawlerChangerateUrlVersion::class;
   protected $latestVersionDataType = '';
-  public $latestVersion;
   /**
    * @var string
    */

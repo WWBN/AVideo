@@ -26,7 +26,6 @@ class Activities extends \Google\Collection
   public $etag;
   protected $itemsType = Activity::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

@@ -27,6 +27,10 @@ class GoogleCloudRunV2ResourceRequirements extends \Google\Model
    * @var string[]
    */
   public $limits;
+  /**
+   * @var bool
+   */
+  public $startupCpuBoost;
 
   /**
    * @param bool
@@ -55,6 +59,20 @@ class GoogleCloudRunV2ResourceRequirements extends \Google\Model
   public function getLimits()
   {
     return $this->limits;
+  }
+  /**
+   * @param bool
+   */
+  public function setStartupCpuBoost($startupCpuBoost)
+  {
+    $this->startupCpuBoost = $startupCpuBoost;
+  }
+  /**
+   * @return bool
+   */
+  public function getStartupCpuBoost()
+  {
+    return $this->startupCpuBoost;
   }
 }
 

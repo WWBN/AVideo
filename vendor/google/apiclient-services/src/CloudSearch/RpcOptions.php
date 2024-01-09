@@ -21,7 +21,6 @@ class RpcOptions extends \Google\Model
 {
   protected $requestExtensionsType = MessageSet::class;
   protected $requestExtensionsDataType = '';
-  public $requestExtensions;
 
   /**
    * @param MessageSet

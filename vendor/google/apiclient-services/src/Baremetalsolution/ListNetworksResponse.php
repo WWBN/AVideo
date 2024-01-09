@@ -22,7 +22,6 @@ class ListNetworksResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $networksType = Network::class;
   protected $networksDataType = 'array';
-  public $networks;
   /**
    * @var string
    */

@@ -25,10 +25,8 @@ class Instance extends \Google\Model
   public $acquisitionUri;
   protected $androidInstanceType = InstanceAndroidDetails::class;
   protected $androidInstanceDataType = '';
-  public $androidInstance;
   protected $iosInstanceType = InstanceIosDetails::class;
   protected $iosInstanceDataType = '';
-  public $iosInstance;
   /**
    * @var string
    */
@@ -51,7 +49,6 @@ class Instance extends \Google\Model
   public $turnBasedPlay;
   protected $webInstanceType = InstanceWebDetails::class;
   protected $webInstanceDataType = '';
-  public $webInstance;
 
   /**
    * @param string

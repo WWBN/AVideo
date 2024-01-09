@@ -25,10 +25,8 @@ class GitLabConnectedRepository extends \Google\Model
   public $parent;
   protected $repoType = GitLabRepositoryId::class;
   protected $repoDataType = '';
-  public $repo;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param string

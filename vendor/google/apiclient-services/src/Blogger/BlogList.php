@@ -22,10 +22,8 @@ class BlogList extends \Google\Collection
   protected $collection_key = 'items';
   protected $blogUserInfosType = BlogUserInfo::class;
   protected $blogUserInfosDataType = 'array';
-  public $blogUserInfos;
   protected $itemsType = Blog::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

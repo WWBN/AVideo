@@ -22,7 +22,6 @@ class ListEkmConnectionsResponse extends \Google\Collection
   protected $collection_key = 'ekmConnections';
   protected $ekmConnectionsType = EkmConnection::class;
   protected $ekmConnectionsDataType = 'array';
-  public $ekmConnections;
   /**
    * @var string
    */

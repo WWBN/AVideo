@@ -89,43 +89,39 @@ class AdvertisersCreatives extends \Google\Service\Resource
    * creatives for.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Allows filtering by creative properties. Supported
+   * @opt_param string filter Allows filtering by creative fields. Supported
    * syntax: * Filter expressions are made up of one or more restrictions. *
-   * Restriction for the same field must be combined by `OR`. * Restriction for
-   * different fields must be combined by `AND`. * Between `(` and `)` there can
-   * only be restrictions combined by `OR` for the same field. * A restriction has
-   * the form of `{field} {operator} {value}`. * The operator must be `EQUALS (=)`
-   * for the following fields: - `entityStatus` - `creativeType`. - `dimensions` -
-   * `minDuration` - `maxDuration` - `approvalStatus` - `exchangeReviewStatus` -
-   * `dynamic` - `creativeId` * The operator must be `HAS (:)` for the following
-   * fields: - `lineItemIds` * The operator must be `GREATER THAN OR EQUAL TO
-   * (>=)` or `LESS THAN OR EQUAL TO (<=)` for the following fields: -
-   * `updateTime` (input in ISO 8601 format, or YYYY-MM-DDTHH:MM:SSZ) * For
-   * `entityStatus`, `minDuration`, `maxDuration`, `updateTime`, and `dynamic`,
-   * there may be at most one restriction. * For `dimensions`, the value is in the
-   * form of `"{width}x{height}"`. * For `exchangeReviewStatus`, the value is in
-   * the form of `{exchange}-{reviewStatus}`. * For `minDuration` and
-   * `maxDuration`, the value is in the form of `"{duration}s"`. Only seconds are
-   * supported with millisecond granularity. * For `updateTime`, a creative
-   * resource's field value reflects the last time that a creative has been
-   * updated, which includes updates made by the system (e.g. creative review
-   * updates). * There may be multiple `lineItemIds` restrictions in order to
-   * search against multiple possible line item IDs. * There may be multiple
-   * `creativeId` restrictions in order to search against multiple possible
-   * creative IDs. Examples: * All native creatives:
+   * Restrictions can be combined by `AND` or `OR` logical operators. A sequence
+   * of restrictions implicitly uses `AND`. * A restriction has the form of
+   * `{field} {operator} {value}`. * The `lineItemIds` field must use the `HAS
+   * (:)` operator. * The `updateTime` field must use the `GREATER THAN OR EQUAL
+   * TO (>=)` or `LESS THAN OR EQUAL TO (<=)` operators. * All other fields must
+   * use the `EQUALS (=)` operator. * For `entityStatus`, `minDuration`,
+   * `maxDuration`, `updateTime`, and `dynamic` fields, there may be at most one
+   * restriction. Supported Fields: * `approvalStatus` * `creativeId` *
+   * `creativeType` * `dimensions` (input in the form of `{width}x{height}`) *
+   * `dynamic` * `entityStatus` * `exchangeReviewStatus` (input in the form of
+   * `{exchange}-{reviewStatus}`) * `lineItemIds` * `maxDuration` (input in the
+   * form of `{duration}s`. Only seconds are supported) * `minDuration` (input in
+   * the form of `{duration}s`. Only seconds are supported) * `updateTime` (input
+   * in ISO 8601 format, or `YYYY-MM-DDTHH:MM:SSZ`) Notes: * For `updateTime`, a
+   * creative resource's field value reflects the last time that a creative has
+   * been updated, which includes updates made by the system (e.g. creative review
+   * updates). Examples: * All native creatives:
    * `creativeType="CREATIVE_TYPE_NATIVE"` * All active creatives with 300x400 or
    * 50x100 dimensions: `entityStatus="ENTITY_STATUS_ACTIVE" AND
    * (dimensions="300x400" OR dimensions="50x100")` * All dynamic creatives that
    * are approved by AdX or AppNexus, with a minimum duration of 5 seconds and
-   * 200ms. `dynamic="true" AND minDuration="5.2s" AND (exchangeReviewStatus
+   * 200ms: `dynamic="true" AND minDuration="5.2s" AND (exchangeReviewStatus
    * ="EXCHANGE_GOOGLE_AD_MANAGER-REVIEW_STATUS_APPROVED" OR exchangeReviewStatus
    * ="EXCHANGE_APPNEXUS-REVIEW_STATUS_APPROVED")` * All video creatives that are
    * associated with line item ID 1 or 2: `creativeType="CREATIVE_TYPE_VIDEO" AND
    * (lineItemIds:1 OR lineItemIds:2)` * Find creatives by multiple creative IDs:
    * `creativeId=1 OR creativeId=2` * All creatives with an update time greater
-   * than or equal to `2020-11-04T18:54:47Z (format of ISO 8601)`:
+   * than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
    * `updateTime>="2020-11-04T18:54:47Z"` The length of this field should be no
-   * more than 500 characters.
+   * more than 500 characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `creativeId` (default) * `createTime` * `mediaDuration` * `dimensions`
    * (sorts by width first, then by height) The default sorting order is

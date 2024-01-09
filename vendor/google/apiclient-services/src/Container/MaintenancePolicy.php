@@ -25,7 +25,6 @@ class MaintenancePolicy extends \Google\Model
   public $resourceVersion;
   protected $windowType = MaintenanceWindow::class;
   protected $windowDataType = '';
-  public $window;
 
   /**
    * @param string

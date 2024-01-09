@@ -29,7 +29,6 @@ class MutationResult extends \Google\Model
   public $createTime;
   protected $keyType = Key::class;
   protected $keyDataType = '';
-  public $key;
   /**
    * @var string
    */

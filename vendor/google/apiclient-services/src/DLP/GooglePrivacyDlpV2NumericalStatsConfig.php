@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2NumericalStatsConfig extends \Google\Model
 {
   protected $fieldType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldDataType = '';
-  public $field;
 
   /**
    * @param GooglePrivacyDlpV2FieldId

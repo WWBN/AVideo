@@ -21,7 +21,6 @@ class CollectdValueError extends \Google\Model
 {
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var int
    */

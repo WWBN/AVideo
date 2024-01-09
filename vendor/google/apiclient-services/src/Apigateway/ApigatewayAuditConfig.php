@@ -22,7 +22,6 @@ class ApigatewayAuditConfig extends \Google\Collection
   protected $collection_key = 'auditLogConfigs';
   protected $auditLogConfigsType = ApigatewayAuditLogConfig::class;
   protected $auditLogConfigsDataType = 'array';
-  public $auditLogConfigs;
   /**
    * @var string
    */

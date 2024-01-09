@@ -21,7 +21,6 @@ class Job extends \Google\Model
 {
   protected $appEngineHttpTargetType = AppEngineHttpTarget::class;
   protected $appEngineHttpTargetDataType = '';
-  public $appEngineHttpTarget;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class Job extends \Google\Model
   public $description;
   protected $httpTargetType = HttpTarget::class;
   protected $httpTargetDataType = '';
-  public $httpTarget;
   /**
    * @var string
    */
@@ -43,10 +41,8 @@ class Job extends \Google\Model
   public $name;
   protected $pubsubTargetType = PubsubTarget::class;
   protected $pubsubTargetDataType = '';
-  public $pubsubTarget;
   protected $retryConfigType = RetryConfig::class;
   protected $retryConfigDataType = '';
-  public $retryConfig;
   /**
    * @var string
    */
@@ -61,7 +57,6 @@ class Job extends \Google\Model
   public $state;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
   /**
    * @var string
    */

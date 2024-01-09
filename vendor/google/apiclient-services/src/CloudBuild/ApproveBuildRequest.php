@@ -21,7 +21,6 @@ class ApproveBuildRequest extends \Google\Model
 {
   protected $approvalResultType = ApprovalResult::class;
   protected $approvalResultDataType = '';
-  public $approvalResult;
 
   /**
    * @param ApprovalResult

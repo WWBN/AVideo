@@ -120,9 +120,11 @@ class V1 extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask The field mask specifying which IAP settings
-   * should be updated. If omitted, the all of the settings are updated. See
+   * should be updated. If omitted, then all of the settings are updated. See
    * https://developers.google.com/protocol-
-   * buffers/docs/reference/google.protobuf#fieldmask
+   * buffers/docs/reference/google.protobuf#fieldmask. Note: All IAP reauth
+   * settings must always be set together, using the field mask:
+   * `iapSettings.accessSettings.reauthSettings`.
    * @return IapSettings
    */
   public function updateIapSettings($name, IapSettings $postBody, $optParams = [])

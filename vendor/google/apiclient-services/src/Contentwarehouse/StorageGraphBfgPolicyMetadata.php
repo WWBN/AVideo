@@ -19,7 +19,7 @@ namespace Google\Service\Contentwarehouse;
 
 class StorageGraphBfgPolicyMetadata extends \Google\Collection
 {
-  protected $collection_key = 'legalRemovalRegions';
+  protected $collection_key = 'policyDataScopeKeys';
   /**
    * @var string
    */
@@ -30,20 +30,20 @@ class StorageGraphBfgPolicyMetadata extends \Google\Collection
   public $availabilityStartTimestamp;
   protected $legalAllowedRegionsType = KeGovernanceTypedRegions::class;
   protected $legalAllowedRegionsDataType = 'array';
-  public $legalAllowedRegions;
   protected $legalRemovalRegionsType = KeGovernanceTypedRegions::class;
   protected $legalRemovalRegionsDataType = 'array';
-  public $legalRemovalRegions;
   protected $lmsPolicyMetadataType = StorageGraphBfgLmsPolicyMetadata::class;
   protected $lmsPolicyMetadataDataType = '';
-  public $lmsPolicyMetadata;
+  /**
+   * @var int[]
+   */
+  public $policyDataScopeKeys;
   /**
    * @var string
    */
   public $policySourceType;
   protected $umpPolicyMetadataType = StorageGraphBfgUmpPolicyMetadata::class;
   protected $umpPolicyMetadataDataType = '';
-  public $umpPolicyMetadata;
 
   /**
    * @param string
@@ -114,6 +114,20 @@ class StorageGraphBfgPolicyMetadata extends \Google\Collection
   public function getLmsPolicyMetadata()
   {
     return $this->lmsPolicyMetadata;
+  }
+  /**
+   * @param int[]
+   */
+  public function setPolicyDataScopeKeys($policyDataScopeKeys)
+  {
+    $this->policyDataScopeKeys = $policyDataScopeKeys;
+  }
+  /**
+   * @return int[]
+   */
+  public function getPolicyDataScopeKeys()
+  {
+    return $this->policyDataScopeKeys;
   }
   /**
    * @param string

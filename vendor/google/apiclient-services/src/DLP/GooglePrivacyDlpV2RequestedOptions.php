@@ -21,10 +21,8 @@ class GooglePrivacyDlpV2RequestedOptions extends \Google\Model
 {
   protected $jobConfigType = GooglePrivacyDlpV2InspectJobConfig::class;
   protected $jobConfigDataType = '';
-  public $jobConfig;
   protected $snapshotInspectTemplateType = GooglePrivacyDlpV2InspectTemplate::class;
   protected $snapshotInspectTemplateDataType = '';
-  public $snapshotInspectTemplate;
 
   /**
    * @param GooglePrivacyDlpV2InspectJobConfig

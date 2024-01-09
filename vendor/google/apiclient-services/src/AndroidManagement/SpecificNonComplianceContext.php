@@ -21,10 +21,8 @@ class SpecificNonComplianceContext extends \Google\Model
 {
   protected $oncWifiContextType = OncWifiContext::class;
   protected $oncWifiContextDataType = '';
-  public $oncWifiContext;
   protected $passwordPoliciesContextType = PasswordPoliciesContext::class;
   protected $passwordPoliciesContextDataType = '';
-  public $passwordPoliciesContext;
 
   /**
    * @param OncWifiContext

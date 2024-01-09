@@ -33,7 +33,6 @@ class GoogleCloudConnectorsV1ConfigVariable extends \Google\Model
   public $key;
   protected $secretValueType = GoogleCloudConnectorsV1Secret::class;
   protected $secretValueDataType = '';
-  public $secretValue;
   /**
    * @var string
    */

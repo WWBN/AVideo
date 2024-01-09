@@ -20,6 +20,7 @@ namespace Google\Service\Baremetalsolution\Resource;
 use Google\Service\Baremetalsolution\ListNfsSharesResponse;
 use Google\Service\Baremetalsolution\NfsShare;
 use Google\Service\Baremetalsolution\Operation;
+use Google\Service\Baremetalsolution\RenameNfsShareRequest;
 
 /**
  * The "nfsShares" collection of methods.
@@ -108,6 +109,23 @@ class ProjectsLocationsNfsShares extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * RenameNfsShare sets a new name for an nfsshare. Use with caution, previous
+   * names become immediately invalidated. (nfsShares.rename)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * nfsshare. Format:
+   * projects/{project}/locations/{location}/nfsshares/{nfsshare}
+   * @param RenameNfsShareRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return NfsShare
+   */
+  public function rename($name, RenameNfsShareRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rename', [$params], NfsShare::class);
   }
 }
 

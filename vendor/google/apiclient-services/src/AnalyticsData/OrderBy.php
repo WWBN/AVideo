@@ -25,13 +25,10 @@ class OrderBy extends \Google\Model
   public $desc;
   protected $dimensionType = DimensionOrderBy::class;
   protected $dimensionDataType = '';
-  public $dimension;
   protected $metricType = MetricOrderBy::class;
   protected $metricDataType = '';
-  public $metric;
   protected $pivotType = PivotOrderBy::class;
   protected $pivotDataType = '';
-  public $pivot;
 
   /**
    * @param bool

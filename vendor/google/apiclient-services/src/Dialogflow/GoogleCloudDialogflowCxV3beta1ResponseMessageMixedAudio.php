@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3beta1ResponseMessageMixedAudio extends \Google\Co
   protected $collection_key = 'segments';
   protected $segmentsType = GoogleCloudDialogflowCxV3beta1ResponseMessageMixedAudioSegment::class;
   protected $segmentsDataType = 'array';
-  public $segments;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1ResponseMessageMixedAudioSegment[]

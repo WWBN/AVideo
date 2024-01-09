@@ -21,10 +21,8 @@ class JobResult extends \Google\Model
 {
   protected $jobType = Job::class;
   protected $jobDataType = '';
-  public $job;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param Job

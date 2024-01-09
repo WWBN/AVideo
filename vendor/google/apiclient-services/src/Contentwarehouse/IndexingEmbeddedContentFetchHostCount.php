@@ -22,7 +22,6 @@ class IndexingEmbeddedContentFetchHostCount extends \Google\Collection
   protected $collection_key = 'counter';
   protected $counterType = IndexingEmbeddedContentFetchHostCountCounter::class;
   protected $counterDataType = 'array';
-  public $counter;
   /**
    * @var string
    */

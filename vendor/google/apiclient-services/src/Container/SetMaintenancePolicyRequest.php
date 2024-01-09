@@ -25,7 +25,6 @@ class SetMaintenancePolicyRequest extends \Google\Model
   public $clusterId;
   protected $maintenancePolicyType = MaintenancePolicy::class;
   protected $maintenancePolicyDataType = '';
-  public $maintenancePolicy;
   /**
    * @var string
    */

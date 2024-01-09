@@ -22,7 +22,6 @@ class GoogleAnalyticsAdminV1betaListCustomMetricsResponse extends \Google\Collec
   protected $collection_key = 'customMetrics';
   protected $customMetricsType = GoogleAnalyticsAdminV1betaCustomMetric::class;
   protected $customMetricsDataType = 'array';
-  public $customMetrics;
   /**
    * @var string
    */

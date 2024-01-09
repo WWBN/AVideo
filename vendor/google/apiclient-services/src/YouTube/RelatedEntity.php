@@ -21,7 +21,6 @@ class RelatedEntity extends \Google\Model
 {
   protected $entityType = Entity::class;
   protected $entityDataType = '';
-  public $entity;
 
   /**
    * @param Entity

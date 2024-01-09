@@ -21,7 +21,6 @@ class QualityTimebasedLastSignificantUpdate extends \Google\Model
 {
   protected $adjustmentInfoType = QualityTimebasedLastSignificantUpdateAdjustments::class;
   protected $adjustmentInfoDataType = '';
-  public $adjustmentInfo;
   /**
    * @var string
    */

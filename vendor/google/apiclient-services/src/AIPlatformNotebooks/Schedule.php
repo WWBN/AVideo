@@ -45,7 +45,7 @@ class Schedule extends \Google\Collection
   public $name;
   protected $recentExecutionsType = Execution::class;
   protected $recentExecutionsDataType = 'array';
-  public $recentExecutions;
+  public $recentExecutions = [];
   /**
    * @var string
    */

@@ -16,9 +16,6 @@ class NotificationHistoryResolver implements ResolverInterface
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         return (new OptionsResolver())

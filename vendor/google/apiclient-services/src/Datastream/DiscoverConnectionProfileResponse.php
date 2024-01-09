@@ -21,13 +21,10 @@ class DiscoverConnectionProfileResponse extends \Google\Model
 {
   protected $mysqlRdbmsType = MysqlRdbms::class;
   protected $mysqlRdbmsDataType = '';
-  public $mysqlRdbms;
   protected $oracleRdbmsType = OracleRdbms::class;
   protected $oracleRdbmsDataType = '';
-  public $oracleRdbms;
   protected $postgresqlRdbmsType = PostgresqlRdbms::class;
   protected $postgresqlRdbmsDataType = '';
-  public $postgresqlRdbms;
 
   /**
    * @param MysqlRdbms

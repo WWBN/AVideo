@@ -21,13 +21,10 @@ class EnvironmentMatrix extends \Google\Model
 {
   protected $androidDeviceListType = AndroidDeviceList::class;
   protected $androidDeviceListDataType = '';
-  public $androidDeviceList;
   protected $androidMatrixType = AndroidMatrix::class;
   protected $androidMatrixDataType = '';
-  public $androidMatrix;
   protected $iosDeviceListType = IosDeviceList::class;
   protected $iosDeviceListDataType = '';
-  public $iosDeviceList;
 
   /**
    * @param AndroidDeviceList

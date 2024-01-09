@@ -25,7 +25,6 @@ class AutoText extends \Google\Model
   public $content;
   protected $styleType = TextStyle::class;
   protected $styleDataType = '';
-  public $style;
   /**
    * @var string
    */

@@ -45,7 +45,6 @@ class OperationMetadata extends \Google\Model
   public $target;
   protected $validationResultType = ValidationResult::class;
   protected $validationResultDataType = '';
-  public $validationResult;
   /**
    * @var string
    */

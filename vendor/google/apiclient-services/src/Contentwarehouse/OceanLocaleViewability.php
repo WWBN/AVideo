@@ -21,7 +21,6 @@ class OceanLocaleViewability extends \Google\Model
 {
   protected $accessRightsType = OceanVolumeAccessRights::class;
   protected $accessRightsDataType = '';
-  public $accessRights;
   /**
    * @var bool
    */
@@ -68,13 +67,10 @@ class OceanLocaleViewability extends \Google\Model
   public $clientId;
   protected $computedAccessRightsType = OceanVolumeComputedAccessRights::class;
   protected $computedAccessRightsDataType = '';
-  public $computedAccessRights;
   protected $datesType = OceanLocaleViewabilityDates::class;
   protected $datesDataType = '';
-  public $dates;
   protected $displayDetailsType = OceanVolumeDisplayDetails::class;
   protected $displayDetailsDataType = '';
-  public $displayDetails;
   /**
    * @var bool
    */
@@ -93,7 +89,6 @@ class OceanLocaleViewability extends \Google\Model
   public $publicDomain;
   protected $sourcedetailsType = OceanLocaleViewabilitySourceDetails::class;
   protected $sourcedetailsDataType = '';
-  public $sourcedetails;
   /**
    * @var string
    */

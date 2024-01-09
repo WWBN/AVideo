@@ -192,8 +192,7 @@ class BackendServices extends \Google\Service\Resource
     return $this->call('deleteSignedUrlKey', [$params], Operation::class);
   }
   /**
-   * Returns the specified BackendService resource. Gets a list of available
-   * backend services. (backendServices.get)
+   * Returns the specified BackendService resource. (backendServices.get)
    *
    * @param string $project Project ID for this request.
    * @param string $backendService Name of the BackendService resource to return.

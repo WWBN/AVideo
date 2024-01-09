@@ -21,10 +21,8 @@ class AssistantLogsLowConfidenceTargetDeviceLog extends \Google\Model
 {
   protected $fallbackDeviceLogType = AssistantLogsDeviceInfoLog::class;
   protected $fallbackDeviceLogDataType = '';
-  public $fallbackDeviceLog;
   protected $lowConfTargetDeviceLogType = AssistantLogsDeviceInfoLog::class;
   protected $lowConfTargetDeviceLogDataType = '';
-  public $lowConfTargetDeviceLog;
 
   /**
    * @param AssistantLogsDeviceInfoLog

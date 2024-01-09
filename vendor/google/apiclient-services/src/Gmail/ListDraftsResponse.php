@@ -22,7 +22,6 @@ class ListDraftsResponse extends \Google\Collection
   protected $collection_key = 'drafts';
   protected $draftsType = Draft::class;
   protected $draftsDataType = 'array';
-  public $drafts;
   /**
    * @var string
    */

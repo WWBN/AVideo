@@ -22,7 +22,6 @@ class GeostoreOntologyRawGConceptInstanceContainerProto extends \Google\Collecti
   protected $collection_key = 'instance';
   protected $instanceType = GeostoreOntologyRawGConceptInstanceProto::class;
   protected $instanceDataType = 'array';
-  public $instance;
 
   /**
    * @param GeostoreOntologyRawGConceptInstanceProto[]

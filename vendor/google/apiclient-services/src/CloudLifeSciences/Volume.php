@@ -21,13 +21,10 @@ class Volume extends \Google\Model
 {
   protected $existingDiskType = ExistingDisk::class;
   protected $existingDiskDataType = '';
-  public $existingDisk;
   protected $nfsMountType = NFSMount::class;
   protected $nfsMountDataType = '';
-  public $nfsMount;
   protected $persistentDiskType = PersistentDisk::class;
   protected $persistentDiskDataType = '';
-  public $persistentDisk;
   /**
    * @var string
    */

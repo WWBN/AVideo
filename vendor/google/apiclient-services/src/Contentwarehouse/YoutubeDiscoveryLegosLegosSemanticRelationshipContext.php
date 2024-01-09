@@ -21,7 +21,6 @@ class YoutubeDiscoveryLegosLegosSemanticRelationshipContext extends \Google\Mode
 {
   protected $subjectType = YoutubeDiscoveryLegosLegosEntity::class;
   protected $subjectDataType = '';
-  public $subject;
   /**
    * @var string
    */

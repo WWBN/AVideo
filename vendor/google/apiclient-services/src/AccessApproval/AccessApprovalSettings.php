@@ -34,7 +34,6 @@ class AccessApprovalSettings extends \Google\Collection
   public $enrolledAncestor;
   protected $enrolledServicesType = EnrolledService::class;
   protected $enrolledServicesDataType = 'array';
-  public $enrolledServices;
   /**
    * @var bool
    */
@@ -47,6 +46,14 @@ class AccessApprovalSettings extends \Google\Collection
    * @var string[]
    */
   public $notificationEmails;
+  /**
+   * @var bool
+   */
+  public $preferNoBroadApprovalRequests;
+  /**
+   * @var int
+   */
+  public $preferredRequestExpirationDays;
 
   /**
    * @param string
@@ -145,6 +152,34 @@ class AccessApprovalSettings extends \Google\Collection
   public function getNotificationEmails()
   {
     return $this->notificationEmails;
+  }
+  /**
+   * @param bool
+   */
+  public function setPreferNoBroadApprovalRequests($preferNoBroadApprovalRequests)
+  {
+    $this->preferNoBroadApprovalRequests = $preferNoBroadApprovalRequests;
+  }
+  /**
+   * @return bool
+   */
+  public function getPreferNoBroadApprovalRequests()
+  {
+    return $this->preferNoBroadApprovalRequests;
+  }
+  /**
+   * @param int
+   */
+  public function setPreferredRequestExpirationDays($preferredRequestExpirationDays)
+  {
+    $this->preferredRequestExpirationDays = $preferredRequestExpirationDays;
+  }
+  /**
+   * @return int
+   */
+  public function getPreferredRequestExpirationDays()
+  {
+    return $this->preferredRequestExpirationDays;
   }
 }
 

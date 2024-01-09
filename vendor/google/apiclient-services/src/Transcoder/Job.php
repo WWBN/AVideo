@@ -21,7 +21,6 @@ class Job extends \Google\Model
 {
   protected $configType = JobConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class Job extends \Google\Model
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -41,6 +39,10 @@ class Job extends \Google\Model
    * @var string[]
    */
   public $labels;
+  /**
+   * @var string
+   */
+  public $mode;
   /**
    * @var string
    */
@@ -149,6 +151,20 @@ class Job extends \Google\Model
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param string
+   */
+  public function setMode($mode)
+  {
+    $this->mode = $mode;
+  }
+  /**
+   * @return string
+   */
+  public function getMode()
+  {
+    return $this->mode;
   }
   /**
    * @param string

@@ -26,7 +26,6 @@ class GoogleCloudIntegrationsV1alphaListRuntimeActionSchemasResponse extends \Go
   public $nextPageToken;
   protected $runtimeActionSchemasType = GoogleCloudIntegrationsV1alphaRuntimeActionSchema::class;
   protected $runtimeActionSchemasDataType = 'array';
-  public $runtimeActionSchemas;
 
   /**
    * @param string

@@ -21,9 +21,6 @@ class NotificationResolver implements ResolverInterface
         $this->config = $config;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         return (new OptionsResolver())
@@ -61,6 +58,8 @@ class NotificationResolver implements ResolverInterface
             ->setAllowedTypes('included_segments', 'array')
             ->setDefined('excluded_segments')
             ->setAllowedTypes('excluded_segments', 'array')
+            ->setDefined('include_subscription_ids')
+            ->setAllowedTypes('include_subscription_ids', 'array')
             ->setDefined('include_player_ids')
             ->setAllowedTypes('include_player_ids', 'array')
             ->setDefined('include_ios_tokens')
@@ -74,6 +73,8 @@ class NotificationResolver implements ResolverInterface
             ->setAllowedValues('channel_for_external_user_ids', ['push', 'email'])
             ->setDefined('include_email_tokens')
             ->setAllowedTypes('include_email_tokens', 'array')
+            ->setDefined('include_phone_numbers')
+            ->setAllowedTypes('include_phone_numbers', 'array')
             ->setDefined('include_wp_uris')
             ->setAllowedTypes('include_wp_uris', 'array')
             ->setDefined('include_wp_wns_uris')
@@ -84,6 +85,11 @@ class NotificationResolver implements ResolverInterface
             ->setAllowedTypes('include_chrome_reg_ids', 'array')
             ->setDefined('include_chrome_web_reg_ids')
             ->setAllowedTypes('include_chrome_web_reg_ids', 'array')
+            ->setDefined('include_aliases')
+            ->setAllowedTypes('include_aliases', 'array')
+            ->setDefined('target_channel')
+            ->setAllowedTypes('target_channel', 'string')
+            ->setAllowedValues('target_channel', ['push', 'email', 'sms'])
             ->setDefined('app_ids')
             ->setAllowedTypes('app_ids', 'array')
             ->setDefined('filters')
@@ -216,6 +222,8 @@ class NotificationResolver implements ResolverInterface
             ->setAllowedTypes('summary_arg', 'string')
             ->setDefined('summary_arg_count')
             ->setAllowedTypes('summary_arg_count', 'int')
+            ->setDefined('ios_interruption_level')
+            ->setAllowedTypes('ios_interruption_level', 'string')
             ->setDefined('ttl')
             ->setAllowedTypes('ttl', 'int')
             ->setDefined('priority')
@@ -260,7 +268,7 @@ class NotificationResolver implements ResolverInterface
     }
 
     /**
-     * @param mixed $value
+     * @param mixed $value Url value to filter
      */
     private function filterUrl($value): bool
     {

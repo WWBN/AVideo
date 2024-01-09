@@ -22,7 +22,6 @@ class IndexingDupsLocalizedLocalizedClusterTargetLinkLink extends \Google\Collec
   protected $collection_key = 'annotationSourceInfo';
   protected $annotationSourceInfoType = IndexingDupsLocalizedLocalizedClusterTargetLinkLinkAnnotationSourceInfo::class;
   protected $annotationSourceInfoDataType = 'array';
-  public $annotationSourceInfo;
   /**
    * @var bool
    */

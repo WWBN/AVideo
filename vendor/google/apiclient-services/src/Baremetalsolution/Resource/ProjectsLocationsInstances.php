@@ -150,7 +150,8 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * RenameInstance sets a new name for an instance. (instances.rename)
+   * RenameInstance sets a new name for an instance. Use with caution, previous
+   * names become immediately invalidated. (instances.rename)
    *
    * @param string $name Required. The `name` field is used to identify the
    * instance. Format:

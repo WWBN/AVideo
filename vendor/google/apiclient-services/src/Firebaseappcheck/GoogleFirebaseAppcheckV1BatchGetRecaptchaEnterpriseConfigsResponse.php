@@ -22,7 +22,6 @@ class GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse extends
   protected $collection_key = 'configs';
   protected $configsType = GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig::class;
   protected $configsDataType = 'array';
-  public $configs;
 
   /**
    * @param GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig[]

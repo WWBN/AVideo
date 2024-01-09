@@ -26,7 +26,6 @@ class ListPackagesResponse extends \Google\Collection
   public $nextPageToken;
   protected $packagesType = Package::class;
   protected $packagesDataType = 'array';
-  public $packages;
 
   /**
    * @param string

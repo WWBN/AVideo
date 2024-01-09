@@ -22,7 +22,6 @@ class BatchCreatePermissionsRequest extends \Google\Collection
   protected $collection_key = 'requests';
   protected $requestsType = CreatePermissionRequest::class;
   protected $requestsDataType = 'array';
-  public $requests;
 
   /**
    * @param CreatePermissionRequest[]

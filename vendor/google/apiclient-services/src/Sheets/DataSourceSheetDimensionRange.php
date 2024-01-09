@@ -22,7 +22,6 @@ class DataSourceSheetDimensionRange extends \Google\Collection
   protected $collection_key = 'columnReferences';
   protected $columnReferencesType = DataSourceColumnReference::class;
   protected $columnReferencesDataType = 'array';
-  public $columnReferences;
   /**
    * @var int
    */

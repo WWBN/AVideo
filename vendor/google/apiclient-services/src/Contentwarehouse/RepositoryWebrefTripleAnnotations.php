@@ -22,7 +22,6 @@ class RepositoryWebrefTripleAnnotations extends \Google\Collection
   protected $collection_key = 'annotations';
   protected $annotationsType = RepositoryWebrefTripleAnnotation::class;
   protected $annotationsDataType = 'array';
-  public $annotations;
 
   /**
    * @param RepositoryWebrefTripleAnnotation[]

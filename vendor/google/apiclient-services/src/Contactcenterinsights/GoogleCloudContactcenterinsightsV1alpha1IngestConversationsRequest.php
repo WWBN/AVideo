@@ -21,17 +21,14 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
 {
   protected $conversationConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig::class;
   protected $conversationConfigDataType = '';
-  public $conversationConfig;
   protected $gcsSourceType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestGcsSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
   /**
    * @var string
    */
   public $parent;
   protected $transcriptObjectConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig::class;
   protected $transcriptObjectConfigDataType = '';
-  public $transcriptObjectConfig;
 
   /**
    * @param GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestConversationConfig

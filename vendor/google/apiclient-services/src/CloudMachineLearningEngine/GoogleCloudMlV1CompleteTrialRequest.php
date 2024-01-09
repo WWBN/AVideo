@@ -21,7 +21,6 @@ class GoogleCloudMlV1CompleteTrialRequest extends \Google\Model
 {
   protected $finalMeasurementType = GoogleCloudMlV1Measurement::class;
   protected $finalMeasurementDataType = '';
-  public $finalMeasurement;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class CategoricalValue extends \Google\Collection
   protected $collection_key = 'categoryCounts';
   protected $categoryCountsType = CategoryCount::class;
   protected $categoryCountsDataType = 'array';
-  public $categoryCounts;
 
   /**
    * @param CategoryCount[]

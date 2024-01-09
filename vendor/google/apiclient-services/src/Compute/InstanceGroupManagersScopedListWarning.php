@@ -26,7 +26,6 @@ class InstanceGroupManagersScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = InstanceGroupManagersScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

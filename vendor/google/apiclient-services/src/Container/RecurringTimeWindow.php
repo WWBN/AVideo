@@ -25,7 +25,6 @@ class RecurringTimeWindow extends \Google\Model
   public $recurrence;
   protected $windowType = TimeWindow::class;
   protected $windowDataType = '';
-  public $window;
 
   /**
    * @param string

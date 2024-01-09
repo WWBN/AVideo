@@ -26,10 +26,8 @@ class BatchUpdateDocumentResponse extends \Google\Collection
   public $documentId;
   protected $repliesType = Response::class;
   protected $repliesDataType = 'array';
-  public $replies;
   protected $writeControlType = WriteControl::class;
   protected $writeControlDataType = '';
-  public $writeControl;
 
   /**
    * @param string

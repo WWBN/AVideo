@@ -22,7 +22,6 @@ class GoogleIamV1AuditConfig extends \Google\Collection
   protected $collection_key = 'auditLogConfigs';
   protected $auditLogConfigsType = GoogleIamV1AuditLogConfig::class;
   protected $auditLogConfigsDataType = 'array';
-  public $auditLogConfigs;
   /**
    * @var string
    */

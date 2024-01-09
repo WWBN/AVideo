@@ -22,10 +22,8 @@ class GrpcRouteRouteMatch extends \Google\Collection
   protected $collection_key = 'headers';
   protected $headersType = GrpcRouteHeaderMatch::class;
   protected $headersDataType = 'array';
-  public $headers;
   protected $methodType = GrpcRouteMethodMatch::class;
   protected $methodDataType = '';
-  public $method;
 
   /**
    * @param GrpcRouteHeaderMatch[]

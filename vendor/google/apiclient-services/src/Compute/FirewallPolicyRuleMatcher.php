@@ -19,22 +19,80 @@ namespace Google\Service\Compute;
 
 class FirewallPolicyRuleMatcher extends \Google\Collection
 {
-  protected $collection_key = 'srcSecureTags';
+  protected $collection_key = 'srcThreatIntelligences';
+  /**
+   * @var string[]
+   */
+  public $destAddressGroups;
+  /**
+   * @var string[]
+   */
+  public $destFqdns;
   /**
    * @var string[]
    */
   public $destIpRanges;
+  /**
+   * @var string[]
+   */
+  public $destRegionCodes;
+  /**
+   * @var string[]
+   */
+  public $destThreatIntelligences;
   protected $layer4ConfigsType = FirewallPolicyRuleMatcherLayer4Config::class;
   protected $layer4ConfigsDataType = 'array';
-  public $layer4Configs;
+  /**
+   * @var string[]
+   */
+  public $srcAddressGroups;
+  /**
+   * @var string[]
+   */
+  public $srcFqdns;
   /**
    * @var string[]
    */
   public $srcIpRanges;
+  /**
+   * @var string[]
+   */
+  public $srcRegionCodes;
   protected $srcSecureTagsType = FirewallPolicyRuleSecureTag::class;
   protected $srcSecureTagsDataType = 'array';
-  public $srcSecureTags;
+  /**
+   * @var string[]
+   */
+  public $srcThreatIntelligences;
 
+  /**
+   * @param string[]
+   */
+  public function setDestAddressGroups($destAddressGroups)
+  {
+    $this->destAddressGroups = $destAddressGroups;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDestAddressGroups()
+  {
+    return $this->destAddressGroups;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDestFqdns($destFqdns)
+  {
+    $this->destFqdns = $destFqdns;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDestFqdns()
+  {
+    return $this->destFqdns;
+  }
   /**
    * @param string[]
    */
@@ -48,6 +106,34 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   public function getDestIpRanges()
   {
     return $this->destIpRanges;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDestRegionCodes($destRegionCodes)
+  {
+    $this->destRegionCodes = $destRegionCodes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDestRegionCodes()
+  {
+    return $this->destRegionCodes;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDestThreatIntelligences($destThreatIntelligences)
+  {
+    $this->destThreatIntelligences = $destThreatIntelligences;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDestThreatIntelligences()
+  {
+    return $this->destThreatIntelligences;
   }
   /**
    * @param FirewallPolicyRuleMatcherLayer4Config[]
@@ -66,6 +152,34 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   /**
    * @param string[]
    */
+  public function setSrcAddressGroups($srcAddressGroups)
+  {
+    $this->srcAddressGroups = $srcAddressGroups;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSrcAddressGroups()
+  {
+    return $this->srcAddressGroups;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSrcFqdns($srcFqdns)
+  {
+    $this->srcFqdns = $srcFqdns;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSrcFqdns()
+  {
+    return $this->srcFqdns;
+  }
+  /**
+   * @param string[]
+   */
   public function setSrcIpRanges($srcIpRanges)
   {
     $this->srcIpRanges = $srcIpRanges;
@@ -76,6 +190,20 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   public function getSrcIpRanges()
   {
     return $this->srcIpRanges;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSrcRegionCodes($srcRegionCodes)
+  {
+    $this->srcRegionCodes = $srcRegionCodes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSrcRegionCodes()
+  {
+    return $this->srcRegionCodes;
   }
   /**
    * @param FirewallPolicyRuleSecureTag[]
@@ -90,6 +218,20 @@ class FirewallPolicyRuleMatcher extends \Google\Collection
   public function getSrcSecureTags()
   {
     return $this->srcSecureTags;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSrcThreatIntelligences($srcThreatIntelligences)
+  {
+    $this->srcThreatIntelligences = $srcThreatIntelligences;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSrcThreatIntelligences()
+  {
+    return $this->srcThreatIntelligences;
   }
 }
 

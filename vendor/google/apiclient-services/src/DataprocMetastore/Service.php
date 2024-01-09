@@ -33,24 +33,20 @@ class Service extends \Google\Model
   public $databaseType;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
-  public $encryptionConfig;
   /**
    * @var string
    */
   public $endpointUri;
   protected $hiveMetastoreConfigType = HiveMetastoreConfig::class;
   protected $hiveMetastoreConfigDataType = '';
-  public $hiveMetastoreConfig;
   /**
    * @var string[]
    */
   public $labels;
   protected $maintenanceWindowType = MaintenanceWindow::class;
   protected $maintenanceWindowDataType = '';
-  public $maintenanceWindow;
   protected $metadataManagementActivityType = MetadataManagementActivity::class;
   protected $metadataManagementActivityDataType = '';
-  public $metadataManagementActivity;
   /**
    * @var string
    */
@@ -61,7 +57,6 @@ class Service extends \Google\Model
   public $network;
   protected $networkConfigType = NetworkConfig::class;
   protected $networkConfigDataType = '';
-  public $networkConfig;
   /**
    * @var int
    */
@@ -70,6 +65,8 @@ class Service extends \Google\Model
    * @var string
    */
   public $releaseChannel;
+  protected $scalingConfigType = ScalingConfig::class;
+  protected $scalingConfigDataType = '';
   /**
    * @var string
    */
@@ -80,7 +77,6 @@ class Service extends \Google\Model
   public $stateMessage;
   protected $telemetryConfigType = TelemetryConfig::class;
   protected $telemetryConfigDataType = '';
-  public $telemetryConfig;
   /**
    * @var string
    */
@@ -289,6 +285,20 @@ class Service extends \Google\Model
   public function getReleaseChannel()
   {
     return $this->releaseChannel;
+  }
+  /**
+   * @param ScalingConfig
+   */
+  public function setScalingConfig(ScalingConfig $scalingConfig)
+  {
+    $this->scalingConfig = $scalingConfig;
+  }
+  /**
+   * @return ScalingConfig
+   */
+  public function getScalingConfig()
+  {
+    return $this->scalingConfig;
   }
   /**
    * @param string

@@ -21,7 +21,6 @@ class GoogleCloudDatacatalogV1ReplaceTaxonomyRequest extends \Google\Model
 {
   protected $serializedTaxonomyType = GoogleCloudDatacatalogV1SerializedTaxonomy::class;
   protected $serializedTaxonomyDataType = '';
-  public $serializedTaxonomy;
 
   /**
    * @param GoogleCloudDatacatalogV1SerializedTaxonomy

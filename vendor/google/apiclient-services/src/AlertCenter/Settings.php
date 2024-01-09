@@ -22,7 +22,6 @@ class Settings extends \Google\Collection
   protected $collection_key = 'notifications';
   protected $notificationsType = Notification::class;
   protected $notificationsDataType = 'array';
-  public $notifications;
 
   /**
    * @param Notification[]

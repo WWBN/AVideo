@@ -30,47 +30,38 @@ class YoutubeAdGroupAd extends \Google\Collection
   public $adGroupId;
   protected $adUrlsType = AdUrl::class;
   protected $adUrlsDataType = 'array';
-  public $adUrls;
   /**
    * @var string
    */
   public $advertiserId;
   protected $audioAdType = AudioAd::class;
   protected $audioAdDataType = '';
-  public $audioAd;
   protected $bumperAdType = BumperAd::class;
   protected $bumperAdDataType = '';
-  public $bumperAd;
   /**
    * @var string
    */
   public $displayName;
   protected $displayVideoSourceAdType = DisplayVideoSourceAd::class;
   protected $displayVideoSourceAdDataType = '';
-  public $displayVideoSourceAd;
   /**
    * @var string
    */
   public $entityStatus;
   protected $inStreamAdType = InStreamAd::class;
   protected $inStreamAdDataType = '';
-  public $inStreamAd;
   protected $mastheadAdType = MastheadAd::class;
   protected $mastheadAdDataType = '';
-  public $mastheadAd;
   /**
    * @var string
    */
   public $name;
   protected $nonSkippableAdType = NonSkippableAd::class;
   protected $nonSkippableAdDataType = '';
-  public $nonSkippableAd;
   protected $videoDiscoverAdType = VideoDiscoveryAd::class;
   protected $videoDiscoverAdDataType = '';
-  public $videoDiscoverAd;
   protected $videoPerformanceAdType = VideoPerformanceAd::class;
   protected $videoPerformanceAdDataType = '';
-  public $videoPerformanceAd;
 
   /**
    * @param string

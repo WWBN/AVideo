@@ -47,15 +47,15 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
    * Creates a new migration job in a given project and location.
    * (migrationJobs.create)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * migration jobs.
    * @param MigrationJob $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string migrationJobId Required. The ID of the instance to create.
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
@@ -75,9 +75,9 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
    * @opt_param bool force The destination CloudSQL connection profile is always
    * deleted with the migration job. In case of force delete, the destination
    * CloudSQL replica database is also deleted.
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
@@ -151,7 +151,7 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
    * Lists migration jobs in a given project and location.
    * (migrationJobs.listProjectsLocationsMigrationJobs)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * migrationJobs.
    * @param array $optParams Optional parameters.
    *
@@ -169,7 +169,7 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
    * @opt_param int pageSize The maximum number of migration jobs to return. The
    * service may return fewer than this value. If unspecified, at most 50
    * migration jobs will be returned. The maximum value is 1000; values above 1000
-   * will be coerced to 1000.
+   * are coerced to 1000.
    * @opt_param string pageToken The nextPageToken value received in the previous
    * call to migrationJobs.list, used in the subsequent request to retrieve the
    * next page of results. On first call this should be left blank. When
@@ -192,13 +192,13 @@ class ProjectsLocationsMigrationJobs extends \Google\Service\Resource
    * @param MigrationJob $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the migration job resource by the update.
+   * fields to be overwritten by the update in the conversion workspace resource.
    * @return Operation
    */
   public function patch($name, MigrationJob $postBody, $optParams = [])

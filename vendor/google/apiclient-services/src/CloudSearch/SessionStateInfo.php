@@ -21,10 +21,8 @@ class SessionStateInfo extends \Google\Model
 {
   protected $ackInfoType = AckInfo::class;
   protected $ackInfoDataType = '';
-  public $ackInfo;
   protected $languageConfigType = LanguageConfig::class;
   protected $languageConfigDataType = '';
-  public $languageConfig;
   /**
    * @var string
    */

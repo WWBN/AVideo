@@ -33,7 +33,6 @@ class AuthorizationInfo extends \Google\Model
   public $resource;
   protected $resourceAttributesType = ServicecontrolResource::class;
   protected $resourceAttributesDataType = '';
-  public $resourceAttributes;
 
   /**
    * @param bool

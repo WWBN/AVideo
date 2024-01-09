@@ -27,10 +27,8 @@ class NlpSaftReferent extends \Google\Collection
   public $explicitness;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
-  public $info;
   protected $phraseType = NlpSaftPhrase::class;
   protected $phraseDataType = '';
-  public $phrase;
   public $prominence;
   /**
    * @var string
@@ -38,7 +36,6 @@ class NlpSaftReferent extends \Google\Collection
   public $role;
   protected $tokenType = NlpSaftToken::class;
   protected $tokenDataType = 'array';
-  public $token;
 
   public function setDistance($distance)
   {

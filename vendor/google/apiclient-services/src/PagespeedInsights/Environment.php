@@ -21,6 +21,10 @@ class Environment extends \Google\Model
 {
   public $benchmarkIndex;
   /**
+   * @var string[]
+   */
+  public $credits;
+  /**
    * @var string
    */
   public $hostUserAgent;
@@ -36,6 +40,20 @@ class Environment extends \Google\Model
   public function getBenchmarkIndex()
   {
     return $this->benchmarkIndex;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCredits($credits)
+  {
+    $this->credits = $credits;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCredits()
+  {
+    return $this->credits;
   }
   /**
    * @param string

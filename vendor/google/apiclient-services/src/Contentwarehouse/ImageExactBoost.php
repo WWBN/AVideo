@@ -22,7 +22,6 @@ class ImageExactBoost extends \Google\Collection
   protected $collection_key = 'navquery';
   protected $navqueryType = ImageExactBoostNavQuery::class;
   protected $navqueryDataType = 'array';
-  public $navquery;
 
   /**
    * @param ImageExactBoostNavQuery[]

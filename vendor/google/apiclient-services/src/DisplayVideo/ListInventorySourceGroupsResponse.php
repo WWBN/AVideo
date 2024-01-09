@@ -22,7 +22,6 @@ class ListInventorySourceGroupsResponse extends \Google\Collection
   protected $collection_key = 'inventorySourceGroups';
   protected $inventorySourceGroupsType = InventorySourceGroup::class;
   protected $inventorySourceGroupsDataType = 'array';
-  public $inventorySourceGroups;
   /**
    * @var string
    */

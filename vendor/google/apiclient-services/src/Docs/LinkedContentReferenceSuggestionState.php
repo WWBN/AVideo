@@ -21,7 +21,6 @@ class LinkedContentReferenceSuggestionState extends \Google\Model
 {
   protected $sheetsChartReferenceSuggestionStateType = SheetsChartReferenceSuggestionState::class;
   protected $sheetsChartReferenceSuggestionStateDataType = '';
-  public $sheetsChartReferenceSuggestionState;
 
   /**
    * @param SheetsChartReferenceSuggestionState

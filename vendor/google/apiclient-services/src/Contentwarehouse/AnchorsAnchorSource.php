@@ -22,7 +22,6 @@ class AnchorsAnchorSource extends \Google\Collection
   protected $collection_key = 'pageTags';
   protected $additionalInfoType = Proto2BridgeMessageSet::class;
   protected $additionalInfoDataType = '';
-  public $additionalInfo;
   /**
    * @var int
    */

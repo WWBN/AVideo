@@ -38,7 +38,6 @@ class AnalyzerOrgPolicy extends \Google\Collection
   public $reset;
   protected $rulesType = GoogleCloudAssetV1Rule::class;
   protected $rulesDataType = 'array';
-  public $rules;
 
   /**
    * @param string

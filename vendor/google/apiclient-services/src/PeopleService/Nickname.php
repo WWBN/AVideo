@@ -21,7 +21,6 @@ class Nickname extends \Google\Model
 {
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

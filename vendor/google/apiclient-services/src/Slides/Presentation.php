@@ -22,20 +22,16 @@ class Presentation extends \Google\Collection
   protected $collection_key = 'slides';
   protected $layoutsType = Page::class;
   protected $layoutsDataType = 'array';
-  public $layouts;
   /**
    * @var string
    */
   public $locale;
   protected $mastersType = Page::class;
   protected $mastersDataType = 'array';
-  public $masters;
   protected $notesMasterType = Page::class;
   protected $notesMasterDataType = '';
-  public $notesMaster;
   protected $pageSizeType = Size::class;
   protected $pageSizeDataType = '';
-  public $pageSize;
   /**
    * @var string
    */
@@ -46,7 +42,6 @@ class Presentation extends \Google\Collection
   public $revisionId;
   protected $slidesType = Page::class;
   protected $slidesDataType = 'array';
-  public $slides;
   /**
    * @var string
    */

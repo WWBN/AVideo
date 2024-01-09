@@ -30,7 +30,6 @@ class LabelAdded extends \Google\Collection
   public $labelName;
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
-  public $messageKeys;
   /**
    * @var string
    */

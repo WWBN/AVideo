@@ -26,17 +26,14 @@ class LineItem extends \Google\Collection
   public $advertiserId;
   protected $bidStrategyType = BiddingStrategy::class;
   protected $bidStrategyDataType = '';
-  public $bidStrategy;
   protected $budgetType = LineItemBudget::class;
   protected $budgetDataType = '';
-  public $budget;
   /**
    * @var string
    */
   public $campaignId;
   protected $conversionCountingType = ConversionCountingConfig::class;
   protected $conversionCountingDataType = '';
-  public $conversionCounting;
   /**
    * @var string[]
    */
@@ -55,17 +52,14 @@ class LineItem extends \Google\Collection
   public $excludeNewExchanges;
   protected $flightType = LineItemFlight::class;
   protected $flightDataType = '';
-  public $flight;
   protected $frequencyCapType = FrequencyCap::class;
   protected $frequencyCapDataType = '';
-  public $frequencyCap;
   /**
    * @var string
    */
   public $insertionOrderId;
   protected $integrationDetailsType = IntegrationDetails::class;
   protected $integrationDetailsDataType = '';
-  public $integrationDetails;
   /**
    * @var string
    */
@@ -76,27 +70,22 @@ class LineItem extends \Google\Collection
   public $lineItemType;
   protected $mobileAppType = MobileApp::class;
   protected $mobileAppDataType = '';
-  public $mobileApp;
   /**
    * @var string
    */
   public $name;
   protected $pacingType = Pacing::class;
   protected $pacingDataType = '';
-  public $pacing;
   protected $partnerCostsType = PartnerCost::class;
   protected $partnerCostsDataType = 'array';
-  public $partnerCosts;
   protected $partnerRevenueModelType = PartnerRevenueModel::class;
   protected $partnerRevenueModelDataType = '';
-  public $partnerRevenueModel;
   /**
    * @var string
    */
   public $reservationType;
   protected $targetingExpansionType = TargetingExpansionConfig::class;
   protected $targetingExpansionDataType = '';
-  public $targetingExpansion;
   /**
    * @var string
    */
@@ -107,7 +96,6 @@ class LineItem extends \Google\Collection
   public $warningMessages;
   protected $youtubeAndPartnersSettingsType = YoutubeAndPartnersSettings::class;
   protected $youtubeAndPartnersSettingsDataType = '';
-  public $youtubeAndPartnersSettings;
 
   /**
    * @param string

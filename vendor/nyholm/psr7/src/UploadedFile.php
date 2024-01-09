@@ -58,7 +58,7 @@ class UploadedFile implements UploadedFileInterface
     public function __construct($streamOrFile, $size, $errorStatus, $clientFilename = null, $clientMediaType = null)
     {
         if (false === \is_int($errorStatus) || !isset(self::ERRORS[$errorStatus])) {
-            throw new \InvalidArgumentException('Upload file error status must be an integer value and one of the "UPLOAD_ERR_*" constants.');
+            throw new \InvalidArgumentException('Upload file error status must be an integer value and one of the "UPLOAD_ERR_*" constants');
         }
 
         if (false === \is_int($size)) {

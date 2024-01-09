@@ -23,17 +23,13 @@ class GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfo extends \Goo
   public $distinctRatio;
   protected $doubleProfileType = GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoDoubleFieldInfo::class;
   protected $doubleProfileDataType = '';
-  public $doubleProfile;
   protected $integerProfileType = GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoIntegerFieldInfo::class;
   protected $integerProfileDataType = '';
-  public $integerProfile;
   public $nullRatio;
   protected $stringProfileType = GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoStringFieldInfo::class;
   protected $stringProfileDataType = '';
-  public $stringProfile;
   protected $topNValuesType = GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue::class;
   protected $topNValuesDataType = 'array';
-  public $topNValues;
 
   public function setDistinctRatio($distinctRatio)
   {

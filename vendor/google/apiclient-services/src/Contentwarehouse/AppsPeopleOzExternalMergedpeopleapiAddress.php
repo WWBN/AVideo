@@ -49,14 +49,12 @@ class AppsPeopleOzExternalMergedpeopleapiAddress extends \Google\Model
   public $locality;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $poBox;
   protected $pointSpecType = AppsPeopleOzExternalMergedpeopleapiPointSpec::class;
   protected $pointSpecDataType = '';
-  public $pointSpec;
   /**
    * @var string
    */

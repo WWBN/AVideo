@@ -29,7 +29,6 @@ class ActivityContentDetailsPlaylistItem extends \Google\Model
   public $playlistItemId;
   protected $resourceIdType = ResourceId::class;
   protected $resourceIdDataType = '';
-  public $resourceId;
 
   /**
    * @param string

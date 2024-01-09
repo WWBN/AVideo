@@ -21,7 +21,6 @@ class NlpSemanticParsingProtoActionsOnGoogleSlotMap extends \Google\Model
 {
   protected $slotsType = NlpSemanticParsingProtoActionsOnGoogleAogSlot::class;
   protected $slotsDataType = 'map';
-  public $slots;
 
   /**
    * @param NlpSemanticParsingProtoActionsOnGoogleAogSlot[]

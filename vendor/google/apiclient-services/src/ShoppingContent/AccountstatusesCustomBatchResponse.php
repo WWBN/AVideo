@@ -22,7 +22,6 @@ class AccountstatusesCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = AccountstatusesCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
   /**
    * @var string
    */

@@ -38,7 +38,6 @@ class DataSource extends \Google\Collection
   public $indexingServiceAccounts;
   protected $itemsVisibilityType = GSuitePrincipal::class;
   protected $itemsVisibilityDataType = 'array';
-  public $itemsVisibility;
   /**
    * @var string
    */

@@ -22,47 +22,38 @@ class DatabaseEntity extends \Google\Collection
   protected $collection_key = 'mappings';
   protected $databaseFunctionType = FunctionEntity::class;
   protected $databaseFunctionDataType = '';
-  public $databaseFunction;
   protected $databasePackageType = PackageEntity::class;
   protected $databasePackageDataType = '';
-  public $databasePackage;
   /**
    * @var string
    */
   public $entityType;
   protected $mappingsType = EntityMapping::class;
   protected $mappingsDataType = 'array';
-  public $mappings;
   /**
    * @var string
    */
   public $parentEntity;
   protected $schemaType = SchemaEntity::class;
   protected $schemaDataType = '';
-  public $schema;
   protected $sequenceType = SequenceEntity::class;
   protected $sequenceDataType = '';
-  public $sequence;
   /**
    * @var string
    */
   public $shortName;
   protected $storedProcedureType = StoredProcedureEntity::class;
   protected $storedProcedureDataType = '';
-  public $storedProcedure;
   protected $synonymType = SynonymEntity::class;
   protected $synonymDataType = '';
-  public $synonym;
   protected $tableType = TableEntity::class;
   protected $tableDataType = '';
-  public $table;
   /**
    * @var string
    */
   public $tree;
   protected $viewType = ViewEntity::class;
   protected $viewDataType = '';
-  public $view;
 
   /**
    * @param FunctionEntity

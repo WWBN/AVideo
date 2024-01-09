@@ -25,12 +25,15 @@ class ReadRequest extends \Google\Collection
    */
   public $columns;
   /**
+   * @var bool
+   */
+  public $dataBoostEnabled;
+  /**
    * @var string
    */
   public $index;
   protected $keySetType = KeySet::class;
   protected $keySetDataType = '';
-  public $keySet;
   /**
    * @var string
    */
@@ -41,7 +44,6 @@ class ReadRequest extends \Google\Collection
   public $partitionToken;
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
-  public $requestOptions;
   /**
    * @var string
    */
@@ -52,7 +54,6 @@ class ReadRequest extends \Google\Collection
   public $table;
   protected $transactionType = TransactionSelector::class;
   protected $transactionDataType = '';
-  public $transaction;
 
   /**
    * @param string[]
@@ -67,6 +68,20 @@ class ReadRequest extends \Google\Collection
   public function getColumns()
   {
     return $this->columns;
+  }
+  /**
+   * @param bool
+   */
+  public function setDataBoostEnabled($dataBoostEnabled)
+  {
+    $this->dataBoostEnabled = $dataBoostEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getDataBoostEnabled()
+  {
+    return $this->dataBoostEnabled;
   }
   /**
    * @param string

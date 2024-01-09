@@ -25,7 +25,6 @@ class ImportResourcesRequest extends \Google\Model
   public $contentStructure;
   protected $gcsSourceType = GoogleCloudHealthcareV1FhirGcsSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
 
   /**
    * @param string

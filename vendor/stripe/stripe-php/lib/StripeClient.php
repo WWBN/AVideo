@@ -1,14 +1,15 @@
 <?php
 
-// File generated from our OpenAPI spec
-
 namespace Stripe;
 
 /**
  * Client used to send requests to Stripe's API.
  *
+ * @property \Stripe\Service\OAuthService $oauth
+ * // The beginning of the section generated from our OpenAPI spec
  * @property \Stripe\Service\AccountLinkService $accountLinks
  * @property \Stripe\Service\AccountService $accounts
+ * @property \Stripe\Service\AccountSessionService $accountSessions
  * @property \Stripe\Service\ApplePayDomainService $applePayDomains
  * @property \Stripe\Service\ApplicationFeeService $applicationFees
  * @property \Stripe\Service\Apps\AppsServiceFactory $apps
@@ -17,6 +18,7 @@ namespace Stripe;
  * @property \Stripe\Service\BillingPortal\BillingPortalServiceFactory $billingPortal
  * @property \Stripe\Service\ChargeService $charges
  * @property \Stripe\Service\Checkout\CheckoutServiceFactory $checkout
+ * @property \Stripe\Service\Climate\ClimateServiceFactory $climate
  * @property \Stripe\Service\CountrySpecService $countrySpecs
  * @property \Stripe\Service\CouponService $coupons
  * @property \Stripe\Service\CreditNoteService $creditNotes
@@ -33,9 +35,10 @@ namespace Stripe;
  * @property \Stripe\Service\InvoiceService $invoices
  * @property \Stripe\Service\Issuing\IssuingServiceFactory $issuing
  * @property \Stripe\Service\MandateService $mandates
- * @property \Stripe\Service\OAuthService $oauth
  * @property \Stripe\Service\PaymentIntentService $paymentIntents
  * @property \Stripe\Service\PaymentLinkService $paymentLinks
+ * @property \Stripe\Service\PaymentMethodConfigurationService $paymentMethodConfigurations
+ * @property \Stripe\Service\PaymentMethodDomainService $paymentMethodDomains
  * @property \Stripe\Service\PaymentMethodService $paymentMethods
  * @property \Stripe\Service\PayoutService $payouts
  * @property \Stripe\Service\PlanService $plans
@@ -53,8 +56,9 @@ namespace Stripe;
  * @property \Stripe\Service\Sigma\SigmaServiceFactory $sigma
  * @property \Stripe\Service\SourceService $sources
  * @property \Stripe\Service\SubscriptionItemService $subscriptionItems
- * @property \Stripe\Service\SubscriptionScheduleService $subscriptionSchedules
  * @property \Stripe\Service\SubscriptionService $subscriptions
+ * @property \Stripe\Service\SubscriptionScheduleService $subscriptionSchedules
+ * @property \Stripe\Service\Tax\TaxServiceFactory $tax
  * @property \Stripe\Service\TaxCodeService $taxCodes
  * @property \Stripe\Service\TaxRateService $taxRates
  * @property \Stripe\Service\Terminal\TerminalServiceFactory $terminal
@@ -64,6 +68,7 @@ namespace Stripe;
  * @property \Stripe\Service\TransferService $transfers
  * @property \Stripe\Service\Treasury\TreasuryServiceFactory $treasury
  * @property \Stripe\Service\WebhookEndpointService $webhookEndpoints
+ * // The end of the section generated from our OpenAPI spec
  */
 class StripeClient extends BaseStripeClient
 {
@@ -74,10 +79,15 @@ class StripeClient extends BaseStripeClient
 
     public function __get($name)
     {
+        return $this->getService($name);
+    }
+
+    public function getService($name)
+    {
         if (null === $this->coreServiceFactory) {
             $this->coreServiceFactory = new \Stripe\Service\CoreServiceFactory($this);
         }
 
-        return $this->coreServiceFactory->__get($name);
+        return $this->coreServiceFactory->getService($name);
     }
 }

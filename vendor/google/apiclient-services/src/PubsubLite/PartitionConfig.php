@@ -21,7 +21,6 @@ class PartitionConfig extends \Google\Model
 {
   protected $capacityType = Capacity::class;
   protected $capacityDataType = '';
-  public $capacity;
   /**
    * @var string
    */

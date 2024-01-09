@@ -29,7 +29,6 @@ class ImageKeyValue extends \Google\Model
   public $iconUrl;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

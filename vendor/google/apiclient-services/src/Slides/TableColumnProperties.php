@@ -21,7 +21,6 @@ class TableColumnProperties extends \Google\Model
 {
   protected $columnWidthType = Dimension::class;
   protected $columnWidthDataType = '';
-  public $columnWidth;
 
   /**
    * @param Dimension

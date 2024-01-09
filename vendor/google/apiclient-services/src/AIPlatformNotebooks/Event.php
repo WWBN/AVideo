@@ -22,7 +22,7 @@ class Event extends \Google\Model
   /**
    * @var string[]
    */
-  public $details;
+  public $details = [];
   /**
    * @var string
    */

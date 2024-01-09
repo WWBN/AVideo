@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Nyholm\Psr7;
 
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -40,8 +41,15 @@ trait RequestTrait
         return $target;
     }
 
-    public function withRequestTarget($requestTarget): self
+    /**
+     * @return static
+     */
+    public function withRequestTarget($requestTarget): RequestInterface
     {
+        if (!\is_string($requestTarget)) {
+            throw new \InvalidArgumentException('Request target must be a string');
+        }
+
         if (\preg_match('#\s#', $requestTarget)) {
             throw new \InvalidArgumentException('Invalid request target provided; cannot contain whitespace');
         }
@@ -57,7 +65,10 @@ trait RequestTrait
         return $this->method;
     }
 
-    public function withMethod($method): self
+    /**
+     * @return static
+     */
+    public function withMethod($method): RequestInterface
     {
         if (!\is_string($method)) {
             throw new \InvalidArgumentException('Method must be a string');
@@ -74,7 +85,10 @@ trait RequestTrait
         return $this->uri;
     }
 
-    public function withUri(UriInterface $uri, $preserveHost = false): self
+    /**
+     * @return static
+     */
+    public function withUri(UriInterface $uri, $preserveHost = false): RequestInterface
     {
         if ($uri === $this->uri) {
             return $this;

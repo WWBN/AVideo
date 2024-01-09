@@ -21,7 +21,6 @@ class SecurityPolicyAdvancedOptionsConfig extends \Google\Model
 {
   protected $jsonCustomConfigType = SecurityPolicyAdvancedOptionsConfigJsonCustomConfig::class;
   protected $jsonCustomConfigDataType = '';
-  public $jsonCustomConfig;
   /**
    * @var string
    */

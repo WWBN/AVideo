@@ -21,36 +21,28 @@ class ClientLibrarySettings extends \Google\Model
 {
   protected $cppSettingsType = CppSettings::class;
   protected $cppSettingsDataType = '';
-  public $cppSettings;
   protected $dotnetSettingsType = DotnetSettings::class;
   protected $dotnetSettingsDataType = '';
-  public $dotnetSettings;
   protected $goSettingsType = GoSettings::class;
   protected $goSettingsDataType = '';
-  public $goSettings;
   protected $javaSettingsType = JavaSettings::class;
   protected $javaSettingsDataType = '';
-  public $javaSettings;
   /**
    * @var string
    */
   public $launchStage;
   protected $nodeSettingsType = NodeSettings::class;
   protected $nodeSettingsDataType = '';
-  public $nodeSettings;
   protected $phpSettingsType = PhpSettings::class;
   protected $phpSettingsDataType = '';
-  public $phpSettings;
   protected $pythonSettingsType = PythonSettings::class;
   protected $pythonSettingsDataType = '';
-  public $pythonSettings;
   /**
    * @var bool
    */
   public $restNumericEnums;
   protected $rubySettingsType = RubySettings::class;
   protected $rubySettingsDataType = '';
-  public $rubySettings;
   /**
    * @var string
    */

@@ -32,12 +32,12 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
    * @var string
    */
   public $description;
+  protected $errorCatcherConfigsType = GoogleCloudIntegrationsV1alphaErrorCatcherConfig::class;
+  protected $errorCatcherConfigsDataType = 'array';
   protected $integrationParametersType = GoogleCloudIntegrationsV1alphaIntegrationParameter::class;
   protected $integrationParametersDataType = 'array';
-  public $integrationParameters;
   protected $integrationParametersInternalType = EnterpriseCrmFrontendsEventbusProtoWorkflowParameters::class;
   protected $integrationParametersInternalDataType = '';
-  public $integrationParametersInternal;
   /**
    * @var string
    */
@@ -61,6 +61,10 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   /**
    * @var string
    */
+  public $runAsServiceAccount;
+  /**
+   * @var string
+   */
   public $snapshotNumber;
   /**
    * @var string
@@ -72,19 +76,14 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   public $status;
   protected $taskConfigsType = GoogleCloudIntegrationsV1alphaTaskConfig::class;
   protected $taskConfigsDataType = 'array';
-  public $taskConfigs;
   protected $taskConfigsInternalType = EnterpriseCrmFrontendsEventbusProtoTaskConfig::class;
   protected $taskConfigsInternalDataType = 'array';
-  public $taskConfigsInternal;
   protected $teardownType = EnterpriseCrmEventbusProtoTeardown::class;
   protected $teardownDataType = '';
-  public $teardown;
   protected $triggerConfigsType = GoogleCloudIntegrationsV1alphaTriggerConfig::class;
   protected $triggerConfigsDataType = 'array';
-  public $triggerConfigs;
   protected $triggerConfigsInternalType = EnterpriseCrmFrontendsEventbusProtoTriggerConfig::class;
   protected $triggerConfigsInternalDataType = 'array';
-  public $triggerConfigsInternal;
   /**
    * @var string
    */
@@ -135,6 +134,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param GoogleCloudIntegrationsV1alphaErrorCatcherConfig[]
+   */
+  public function setErrorCatcherConfigs($errorCatcherConfigs)
+  {
+    $this->errorCatcherConfigs = $errorCatcherConfigs;
+  }
+  /**
+   * @return GoogleCloudIntegrationsV1alphaErrorCatcherConfig[]
+   */
+  public function getErrorCatcherConfigs()
+  {
+    return $this->errorCatcherConfigs;
   }
   /**
    * @param GoogleCloudIntegrationsV1alphaIntegrationParameter[]
@@ -233,6 +246,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationVersion extends \Google\Collectio
   public function getParentTemplateId()
   {
     return $this->parentTemplateId;
+  }
+  /**
+   * @param string
+   */
+  public function setRunAsServiceAccount($runAsServiceAccount)
+  {
+    $this->runAsServiceAccount = $runAsServiceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getRunAsServiceAccount()
+  {
+    return $this->runAsServiceAccount;
   }
   /**
    * @param string

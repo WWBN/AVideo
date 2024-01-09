@@ -21,13 +21,10 @@ class NlpLoggingQRewriteClientCallPathInfo extends \Google\Model
 {
   protected $qrewriteCandidateIdType = QualityQrewriteCandidateId::class;
   protected $qrewriteCandidateIdDataType = '';
-  public $qrewriteCandidateId;
   protected $qusCandidateIdType = QualityQrewriteCandidateId::class;
   protected $qusCandidateIdDataType = '';
-  public $qusCandidateId;
   protected $qusClientCallPathInfoType = NlpLoggingQusClientCallPathInfo::class;
   protected $qusClientCallPathInfoDataType = '';
-  public $qusClientCallPathInfo;
   /**
    * @var string
    */

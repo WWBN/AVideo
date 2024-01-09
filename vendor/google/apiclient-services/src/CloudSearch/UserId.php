@@ -29,7 +29,6 @@ class UserId extends \Google\Model
   public $id;
   protected $originAppIdType = AppId::class;
   protected $originAppIdDataType = '';
-  public $originAppId;
   /**
    * @var string
    */

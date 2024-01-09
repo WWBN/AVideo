@@ -21,10 +21,8 @@ class LiveStream extends \Google\Model
 {
   protected $cdnType = CdnSettings::class;
   protected $cdnDataType = '';
-  public $cdn;
   protected $contentDetailsType = LiveStreamContentDetails::class;
   protected $contentDetailsDataType = '';
-  public $contentDetails;
   /**
    * @var string
    */
@@ -39,10 +37,8 @@ class LiveStream extends \Google\Model
   public $kind;
   protected $snippetType = LiveStreamSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
   protected $statusType = LiveStreamStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param CdnSettings

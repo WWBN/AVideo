@@ -22,7 +22,6 @@ class CustomListGroup extends \Google\Collection
   protected $collection_key = 'settings';
   protected $settingsType = CustomListTargetingSetting::class;
   protected $settingsDataType = 'array';
-  public $settings;
 
   /**
    * @param CustomListTargetingSetting[]

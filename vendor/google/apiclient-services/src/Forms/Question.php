@@ -21,16 +21,12 @@ class Question extends \Google\Model
 {
   protected $choiceQuestionType = ChoiceQuestion::class;
   protected $choiceQuestionDataType = '';
-  public $choiceQuestion;
   protected $dateQuestionType = DateQuestion::class;
   protected $dateQuestionDataType = '';
-  public $dateQuestion;
   protected $fileUploadQuestionType = FileUploadQuestion::class;
   protected $fileUploadQuestionDataType = '';
-  public $fileUploadQuestion;
   protected $gradingType = Grading::class;
   protected $gradingDataType = '';
-  public $grading;
   /**
    * @var string
    */
@@ -41,16 +37,12 @@ class Question extends \Google\Model
   public $required;
   protected $rowQuestionType = RowQuestion::class;
   protected $rowQuestionDataType = '';
-  public $rowQuestion;
   protected $scaleQuestionType = ScaleQuestion::class;
   protected $scaleQuestionDataType = '';
-  public $scaleQuestion;
   protected $textQuestionType = TextQuestion::class;
   protected $textQuestionDataType = '';
-  public $textQuestion;
   protected $timeQuestionType = TimeQuestion::class;
   protected $timeQuestionDataType = '';
-  public $timeQuestion;
 
   /**
    * @param ChoiceQuestion

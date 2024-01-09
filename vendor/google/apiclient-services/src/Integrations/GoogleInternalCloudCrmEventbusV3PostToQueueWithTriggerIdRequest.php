@@ -29,7 +29,6 @@ class GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest extends \G
   public $ignoreErrorIfNoActiveWorkflow;
   protected $parametersType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
-  public $parameters;
   /**
    * @var string
    */
@@ -38,6 +37,10 @@ class GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest extends \G
    * @var string
    */
   public $requestId;
+  /**
+   * @var string
+   */
+  public $resourceName;
   /**
    * @var string
    */
@@ -124,6 +127,20 @@ class GoogleInternalCloudCrmEventbusV3PostToQueueWithTriggerIdRequest extends \G
   public function getRequestId()
   {
     return $this->requestId;
+  }
+  /**
+   * @param string
+   */
+  public function setResourceName($resourceName)
+  {
+    $this->resourceName = $resourceName;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceName()
+  {
+    return $this->resourceName;
   }
   /**
    * @param string

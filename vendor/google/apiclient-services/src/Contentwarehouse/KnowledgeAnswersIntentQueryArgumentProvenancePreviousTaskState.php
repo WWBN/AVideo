@@ -26,7 +26,6 @@ class KnowledgeAnswersIntentQueryArgumentProvenancePreviousTaskState extends \Go
   public $argumentName;
   protected $currentQueryEvalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $currentQueryEvalDataDataType = 'array';
-  public $currentQueryEvalData;
   /**
    * @var string
    */
@@ -37,10 +36,8 @@ class KnowledgeAnswersIntentQueryArgumentProvenancePreviousTaskState extends \Go
   public $intentName;
   protected $listCandidateType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousTaskStateListCandidate::class;
   protected $listCandidateDataType = '';
-  public $listCandidate;
   protected $previousFunctionCallType = KnowledgeAnswersIntentQueryArgumentProvenancePreviousTaskStatePreviousFunctionCall::class;
   protected $previousFunctionCallDataType = '';
-  public $previousFunctionCall;
 
   /**
    * @param string[]

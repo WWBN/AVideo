@@ -22,7 +22,6 @@ class GeostoreOperationsProto extends \Google\Collection
   protected $collection_key = 'temporaryClosure';
   protected $temporaryClosureType = GeostoreTemporaryClosureProto::class;
   protected $temporaryClosureDataType = 'array';
-  public $temporaryClosure;
 
   /**
    * @param GeostoreTemporaryClosureProto[]

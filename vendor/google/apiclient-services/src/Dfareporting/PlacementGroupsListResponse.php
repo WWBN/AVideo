@@ -30,7 +30,6 @@ class PlacementGroupsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $placementGroupsType = PlacementGroup::class;
   protected $placementGroupsDataType = 'array';
-  public $placementGroups;
 
   /**
    * @param string

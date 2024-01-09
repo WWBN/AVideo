@@ -21,14 +21,12 @@ class LaunchFlexTemplateParameter extends \Google\Model
 {
   protected $containerSpecType = ContainerSpec::class;
   protected $containerSpecDataType = '';
-  public $containerSpec;
   /**
    * @var string
    */
   public $containerSpecGcsPath;
   protected $environmentType = FlexTemplateRuntimeEnvironment::class;
   protected $environmentDataType = '';
-  public $environment;
   /**
    * @var string
    */

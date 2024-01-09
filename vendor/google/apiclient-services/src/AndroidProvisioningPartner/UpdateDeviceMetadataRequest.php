@@ -21,7 +21,6 @@ class UpdateDeviceMetadataRequest extends \Google\Model
 {
   protected $deviceMetadataType = DeviceMetadata::class;
   protected $deviceMetadataDataType = '';
-  public $deviceMetadata;
 
   /**
    * @param DeviceMetadata

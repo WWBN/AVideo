@@ -22,10 +22,8 @@ class MediaIndexVideoCoreSignals extends \Google\Collection
   protected $collection_key = 'videoFrames';
   protected $centroidType = MediaIndexVideoCentroid::class;
   protected $centroidDataType = '';
-  public $centroid;
   protected $videoFramesType = MediaIndexVideoFrame::class;
   protected $videoFramesDataType = 'array';
-  public $videoFrames;
 
   /**
    * @param MediaIndexVideoCentroid

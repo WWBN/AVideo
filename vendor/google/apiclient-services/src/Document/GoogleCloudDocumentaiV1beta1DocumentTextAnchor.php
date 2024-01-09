@@ -26,7 +26,6 @@ class GoogleCloudDocumentaiV1beta1DocumentTextAnchor extends \Google\Collection
   public $content;
   protected $textSegmentsType = GoogleCloudDocumentaiV1beta1DocumentTextAnchorTextSegment::class;
   protected $textSegmentsDataType = 'array';
-  public $textSegments;
 
   /**
    * @param string

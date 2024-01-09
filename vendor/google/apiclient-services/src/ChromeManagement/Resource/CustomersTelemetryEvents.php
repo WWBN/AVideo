@@ -39,8 +39,10 @@ class CustomersTelemetryEvents extends \Google\Service\Resource
    * @opt_param string filter Optional. Only include resources that match the
    * filter. Supported filter fields: - device_id - user_id - device_org_unit_id -
    * user_org_unit_id - timestamp - event_type The "timestamp" filter accepts
-   * either Epoch milliseconds or RFC 3339 formatted time surrounded by simple
-   * double quotes.
+   * either the Unix Epoch milliseconds format or the RFC3339 UTC "Zulu" format
+   * with nanosecond resolution and up to nine fractional digits. Both formats
+   * should be surrounded by simple double quotes. Examples:
+   * "2014-10-02T15:01:23Z", "2014-10-02T15:01:23.045123456Z", "1679283943823".
    * @opt_param int pageSize Optional. Maximum number of results to return.
    * Default value is 100. Maximum value is 1000.
    * @opt_param string pageToken Optional. Token to specify next page in the list.

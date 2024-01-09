@@ -22,7 +22,6 @@ class FatcatCompactTaxonomicClassification extends \Google\Collection
   protected $collection_key = 'category';
   protected $categoryType = FatcatCompactTaxonomicClassificationCategory::class;
   protected $categoryDataType = 'array';
-  public $category;
   /**
    * @var string
    */

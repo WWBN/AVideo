@@ -115,8 +115,7 @@ class BackendBuckets extends \Google\Service\Resource
     return $this->call('deleteSignedUrlKey', [$params], Operation::class);
   }
   /**
-   * Returns the specified BackendBucket resource. Gets a list of available
-   * backend buckets by making a list() request. (backendBuckets.get)
+   * Returns the specified BackendBucket resource. (backendBuckets.get)
    *
    * @param string $project Project ID for this request.
    * @param string $backendBucket Name of the BackendBucket resource to return.

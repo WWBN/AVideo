@@ -43,6 +43,10 @@ class SparkOptions extends \Google\Collection
   /**
    * @var string
    */
+  public $mainClass;
+  /**
+   * @var string
+   */
   public $mainFileUri;
   /**
    * @var string[]
@@ -126,6 +130,20 @@ class SparkOptions extends \Google\Collection
   public function getJarUris()
   {
     return $this->jarUris;
+  }
+  /**
+   * @param string
+   */
+  public function setMainClass($mainClass)
+  {
+    $this->mainClass = $mainClass;
+  }
+  /**
+   * @return string
+   */
+  public function getMainClass()
+  {
+    return $this->mainClass;
   }
   /**
    * @param string

@@ -22,7 +22,6 @@ class ConnectionTypesListResponse extends \Google\Collection
   protected $collection_key = 'connectionTypes';
   protected $connectionTypesType = ConnectionType::class;
   protected $connectionTypesDataType = 'array';
-  public $connectionTypes;
   /**
    * @var string
    */

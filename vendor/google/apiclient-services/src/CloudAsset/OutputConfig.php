@@ -21,10 +21,8 @@ class OutputConfig extends \Google\Model
 {
   protected $bigqueryDestinationType = BigQueryDestination::class;
   protected $bigqueryDestinationDataType = '';
-  public $bigqueryDestination;
   protected $gcsDestinationType = GcsDestination::class;
   protected $gcsDestinationDataType = '';
-  public $gcsDestination;
 
   /**
    * @param BigQueryDestination

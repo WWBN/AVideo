@@ -21,7 +21,6 @@ class SubmitJobRequest extends \Google\Model
 {
   protected $jobType = Job::class;
   protected $jobDataType = '';
-  public $job;
   /**
    * @var string
    */

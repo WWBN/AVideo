@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2RecordSuppression extends \Google\Model
 {
   protected $conditionType = GooglePrivacyDlpV2RecordCondition::class;
   protected $conditionDataType = '';
-  public $condition;
 
   /**
    * @param GooglePrivacyDlpV2RecordCondition

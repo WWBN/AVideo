@@ -21,19 +21,14 @@ class RepositoryWebrefSubSegmentIndex extends \Google\Model
 {
   protected $anchorIndexType = RepositoryWebrefAnchorIndices::class;
   protected $anchorIndexDataType = '';
-  public $anchorIndex;
   protected $genericIndexType = RepositoryWebrefGenericIndices::class;
   protected $genericIndexDataType = '';
-  public $genericIndex;
   protected $imageQueryIndexType = RepositoryWebrefImageQueryIndices::class;
   protected $imageQueryIndexDataType = '';
-  public $imageQueryIndex;
   protected $jgnIndexType = RepositoryWebrefJuggernautIndices::class;
   protected $jgnIndexDataType = '';
-  public $jgnIndex;
   protected $queryIndexType = RepositoryWebrefQueryIndices::class;
   protected $queryIndexDataType = '';
-  public $queryIndex;
 
   /**
    * @param RepositoryWebrefAnchorIndices

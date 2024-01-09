@@ -22,10 +22,8 @@ class PointData extends \Google\Collection
   protected $collection_key = 'values';
   protected $timeIntervalType = TimeInterval::class;
   protected $timeIntervalDataType = '';
-  public $timeInterval;
   protected $valuesType = TypedValue::class;
   protected $valuesDataType = 'array';
-  public $values;
 
   /**
    * @param TimeInterval

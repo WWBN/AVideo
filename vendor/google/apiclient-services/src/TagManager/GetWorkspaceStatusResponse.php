@@ -22,10 +22,8 @@ class GetWorkspaceStatusResponse extends \Google\Collection
   protected $collection_key = 'workspaceChange';
   protected $mergeConflictType = MergeConflict::class;
   protected $mergeConflictDataType = 'array';
-  public $mergeConflict;
   protected $workspaceChangeType = Entity::class;
   protected $workspaceChangeDataType = 'array';
-  public $workspaceChange;
 
   /**
    * @param MergeConflict[]

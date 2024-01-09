@@ -21,14 +21,12 @@ class VerificationOption extends \Google\Model
 {
   protected $addressDataType = AddressVerificationData::class;
   protected $addressDataDataType = '';
-  public $addressData;
   /**
    * @var string
    */
   public $announcement;
   protected $emailDataType = EmailVerificationData::class;
   protected $emailDataDataType = '';
-  public $emailData;
   /**
    * @var string
    */

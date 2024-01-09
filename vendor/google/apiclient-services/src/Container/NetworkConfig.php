@@ -25,10 +25,8 @@ class NetworkConfig extends \Google\Model
   public $datapathProvider;
   protected $defaultSnatStatusType = DefaultSnatStatus::class;
   protected $defaultSnatStatusDataType = '';
-  public $defaultSnatStatus;
   protected $dnsConfigType = DNSConfig::class;
   protected $dnsConfigDataType = '';
-  public $dnsConfig;
   /**
    * @var bool
    */
@@ -39,7 +37,6 @@ class NetworkConfig extends \Google\Model
   public $enableL4ilbSubsetting;
   protected $gatewayApiConfigType = GatewayAPIConfig::class;
   protected $gatewayApiConfigDataType = '';
-  public $gatewayApiConfig;
   /**
    * @var string
    */
@@ -50,7 +47,6 @@ class NetworkConfig extends \Google\Model
   public $privateIpv6GoogleAccess;
   protected $serviceExternalIpsConfigType = ServiceExternalIPsConfig::class;
   protected $serviceExternalIpsConfigDataType = '';
-  public $serviceExternalIpsConfig;
   /**
    * @var string
    */

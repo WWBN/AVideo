@@ -61,7 +61,6 @@ class CustomMetric extends \Google\Model
   public $name;
   protected $parentLinkType = CustomMetricParentLink::class;
   protected $parentLinkDataType = '';
-  public $parentLink;
   /**
    * @var string
    */

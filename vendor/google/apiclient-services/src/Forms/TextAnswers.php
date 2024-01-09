@@ -22,7 +22,6 @@ class TextAnswers extends \Google\Collection
   protected $collection_key = 'answers';
   protected $answersType = TextAnswer::class;
   protected $answersDataType = 'array';
-  public $answers;
 
   /**
    * @param TextAnswer[]

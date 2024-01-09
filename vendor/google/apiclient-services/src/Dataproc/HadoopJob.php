@@ -38,7 +38,6 @@ class HadoopJob extends \Google\Collection
   public $jarFileUris;
   protected $loggingConfigType = LoggingConfig::class;
   protected $loggingConfigDataType = '';
-  public $loggingConfig;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class OSPolicyResourceFileResource extends \Google\Model
   public $content;
   protected $fileType = OSPolicyResourceFile::class;
   protected $fileDataType = '';
-  public $file;
   /**
    * @var string
    */

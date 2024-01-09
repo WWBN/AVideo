@@ -21,7 +21,6 @@ class MendelDebugInput extends \Google\Model
 {
   protected $namespacedDebugInputType = NamespacedDebugInput::class;
   protected $namespacedDebugInputDataType = 'map';
-  public $namespacedDebugInput;
 
   /**
    * @param NamespacedDebugInput[]

@@ -30,7 +30,6 @@ class RepositoryWebrefCompactFlatPropertyValue extends \Google\Collection
   public $propertyName;
   protected $valueType = RepositoryWebrefCompactKgValue::class;
   protected $valueDataType = 'array';
-  public $value;
 
   /**
    * @param string[]

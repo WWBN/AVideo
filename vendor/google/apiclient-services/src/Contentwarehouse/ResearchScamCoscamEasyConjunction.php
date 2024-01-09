@@ -22,7 +22,6 @@ class ResearchScamCoscamEasyConjunction extends \Google\Collection
   protected $collection_key = 'disjunctions';
   protected $disjunctionsType = ResearchScamCoscamEasyDisjunction::class;
   protected $disjunctionsDataType = 'array';
-  public $disjunctions;
 
   /**
    * @param ResearchScamCoscamEasyDisjunction[]

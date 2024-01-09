@@ -17,7 +17,7 @@
 
 namespace Google\Service\ArtifactRegistry;
 
-class UploadGooGetArtifactMediaResponse extends \Google\Model
+class UploadGoogetArtifactMediaResponse extends \Google\Model
 {
   protected $operationType = Operation::class;
   protected $operationDataType = '';
@@ -39,4 +39,4 @@ class UploadGooGetArtifactMediaResponse extends \Google\Model
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(UploadGooGetArtifactMediaResponse::class, 'Google_Service_ArtifactRegistry_UploadGooGetArtifactMediaResponse');
+class_alias(UploadGoogetArtifactMediaResponse::class, 'Google_Service_ArtifactRegistry_UploadGoogetArtifactMediaResponse');

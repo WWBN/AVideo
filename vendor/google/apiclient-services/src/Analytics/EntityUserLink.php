@@ -21,7 +21,6 @@ class EntityUserLink extends \Google\Model
 {
   protected $entityType = EntityUserLinkEntity::class;
   protected $entityDataType = '';
-  public $entity;
   /**
    * @var string
    */
@@ -32,14 +31,12 @@ class EntityUserLink extends \Google\Model
   public $kind;
   protected $permissionsType = EntityUserLinkPermissions::class;
   protected $permissionsDataType = '';
-  public $permissions;
   /**
    * @var string
    */
   public $selfLink;
   protected $userRefType = UserRef::class;
   protected $userRefDataType = '';
-  public $userRef;
 
   /**
    * @param EntityUserLinkEntity

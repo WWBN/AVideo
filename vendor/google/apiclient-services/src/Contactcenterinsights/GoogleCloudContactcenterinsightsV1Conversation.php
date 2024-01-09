@@ -26,17 +26,14 @@ class GoogleCloudContactcenterinsightsV1Conversation extends \Google\Collection
   public $agentId;
   protected $callMetadataType = GoogleCloudContactcenterinsightsV1ConversationCallMetadata::class;
   protected $callMetadataDataType = '';
-  public $callMetadata;
   /**
    * @var string
    */
   public $createTime;
   protected $dataSourceType = GoogleCloudContactcenterinsightsV1ConversationDataSource::class;
   protected $dataSourceDataType = '';
-  public $dataSource;
   protected $dialogflowIntentsType = GoogleCloudContactcenterinsightsV1DialogflowIntent::class;
   protected $dialogflowIntentsDataType = 'map';
-  public $dialogflowIntents;
   /**
    * @var string
    */
@@ -55,7 +52,8 @@ class GoogleCloudContactcenterinsightsV1Conversation extends \Google\Collection
   public $languageCode;
   protected $latestAnalysisType = GoogleCloudContactcenterinsightsV1Analysis::class;
   protected $latestAnalysisDataType = '';
-  public $latestAnalysis;
+  protected $latestSummaryType = GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData::class;
+  protected $latestSummaryDataType = '';
   /**
    * @var string
    */
@@ -70,14 +68,12 @@ class GoogleCloudContactcenterinsightsV1Conversation extends \Google\Collection
   public $obfuscatedUserId;
   protected $runtimeAnnotationsType = GoogleCloudContactcenterinsightsV1RuntimeAnnotation::class;
   protected $runtimeAnnotationsDataType = 'array';
-  public $runtimeAnnotations;
   /**
    * @var string
    */
   public $startTime;
   protected $transcriptType = GoogleCloudContactcenterinsightsV1ConversationTranscript::class;
   protected $transcriptDataType = '';
-  public $transcript;
   /**
    * @var string
    */
@@ -230,6 +226,20 @@ class GoogleCloudContactcenterinsightsV1Conversation extends \Google\Collection
   public function getLatestAnalysis()
   {
     return $this->latestAnalysis;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData
+   */
+  public function setLatestSummary(GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData $latestSummary)
+  {
+    $this->latestSummary = $latestSummary;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1ConversationSummarizationSuggestionData
+   */
+  public function getLatestSummary()
+  {
+    return $this->latestSummary;
   }
   /**
    * @param string

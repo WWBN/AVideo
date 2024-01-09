@@ -102,11 +102,13 @@ class PartnersChannelsSites extends \Google\Service\Resource
    * @opt_param string advertiserId The ID of the advertiser that owns the parent
    * channel.
    * @opt_param string filter Allows filtering by site fields. Supported syntax: *
-   * Filter expressions for site currently can only contain at most one *
+   * Filter expressions for site retrieval can only contain at most one
    * restriction. * A restriction has the form of `{field} {operator} {value}`. *
-   * The operator must be `CONTAINS (:)`. * Supported fields: - `urlOrAppId`
+   * All fields must use the `HAS (:)` operator. Supported fields: * `urlOrAppId`
    * Examples: * All sites for which the URL or app ID contains "google":
-   * `urlOrAppId : "google"`
+   * `urlOrAppId : "google"` The length of this field should be no more than 500
+   * characters. Reference our [filter `LIST` requests](/display-video/api/guides
+   * /how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `urlOrAppId` (default) The default sorting order is ascending. To
    * specify descending order for a field, a suffix " desc" should be added to the

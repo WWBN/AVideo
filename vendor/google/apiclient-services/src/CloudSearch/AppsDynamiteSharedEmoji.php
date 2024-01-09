@@ -21,7 +21,6 @@ class AppsDynamiteSharedEmoji extends \Google\Model
 {
   protected $customEmojiType = AppsDynamiteSharedCustomEmoji::class;
   protected $customEmojiDataType = '';
-  public $customEmoji;
   /**
    * @var string
    */

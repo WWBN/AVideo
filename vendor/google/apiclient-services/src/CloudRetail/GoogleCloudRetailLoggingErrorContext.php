@@ -21,10 +21,8 @@ class GoogleCloudRetailLoggingErrorContext extends \Google\Model
 {
   protected $httpRequestType = GoogleCloudRetailLoggingHttpRequestContext::class;
   protected $httpRequestDataType = '';
-  public $httpRequest;
   protected $reportLocationType = GoogleCloudRetailLoggingSourceLocation::class;
   protected $reportLocationDataType = '';
-  public $reportLocation;
 
   /**
    * @param GoogleCloudRetailLoggingHttpRequestContext

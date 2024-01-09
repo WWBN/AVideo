@@ -26,10 +26,8 @@ class LocalizedProperty extends \Google\Collection
   public $default;
   protected $defaultLanguageType = LanguageTag::class;
   protected $defaultLanguageDataType = '';
-  public $defaultLanguage;
   protected $localizedType = LocalizedString::class;
   protected $localizedDataType = 'array';
-  public $localized;
 
   /**
    * @param string

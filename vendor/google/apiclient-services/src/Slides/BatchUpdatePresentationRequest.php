@@ -22,10 +22,8 @@ class BatchUpdatePresentationRequest extends \Google\Collection
   protected $collection_key = 'requests';
   protected $requestsType = Request::class;
   protected $requestsDataType = 'array';
-  public $requests;
   protected $writeControlType = WriteControl::class;
   protected $writeControlDataType = '';
-  public $writeControl;
 
   /**
    * @param Request[]

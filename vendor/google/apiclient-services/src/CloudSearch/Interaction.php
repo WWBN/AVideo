@@ -25,7 +25,6 @@ class Interaction extends \Google\Model
   public $interactionTime;
   protected $principalType = Principal::class;
   protected $principalDataType = '';
-  public $principal;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class DSSEAttestationOccurrence extends \Google\Model
 {
   protected $envelopeType = Envelope::class;
   protected $envelopeDataType = '';
-  public $envelope;
   protected $statementType = InTotoStatement::class;
   protected $statementDataType = '';
-  public $statement;
 
   /**
    * @param Envelope

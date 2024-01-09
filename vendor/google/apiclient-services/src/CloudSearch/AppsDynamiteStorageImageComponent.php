@@ -25,10 +25,8 @@ class AppsDynamiteStorageImageComponent extends \Google\Model
   public $altText;
   protected $borderStyleType = AppsDynamiteStorageBorderStyle::class;
   protected $borderStyleDataType = '';
-  public $borderStyle;
   protected $cropStyleType = AppsDynamiteStorageImageCropStyle::class;
   protected $cropStyleDataType = '';
-  public $cropStyle;
   /**
    * @var string
    */

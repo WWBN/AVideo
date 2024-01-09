@@ -21,7 +21,6 @@ class GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequest
 {
   protected $constraintsType = GoogleSecuritySafebrowsingV4FetchThreatListUpdatesRequestListUpdateRequestConstraints::class;
   protected $constraintsDataType = '';
-  public $constraints;
   /**
    * @var string
    */

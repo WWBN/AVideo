@@ -21,7 +21,6 @@ class ReviewsReplyResponse extends \Google\Model
 {
   protected $resultType = ReviewReplyResult::class;
   protected $resultDataType = '';
-  public $result;
 
   /**
    * @param ReviewReplyResult

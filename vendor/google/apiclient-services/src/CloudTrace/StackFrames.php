@@ -26,7 +26,6 @@ class StackFrames extends \Google\Collection
   public $droppedFramesCount;
   protected $frameType = StackFrame::class;
   protected $frameDataType = 'array';
-  public $frame;
 
   /**
    * @param int

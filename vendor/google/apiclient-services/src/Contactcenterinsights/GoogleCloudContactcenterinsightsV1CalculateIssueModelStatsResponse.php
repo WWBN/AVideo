@@ -21,7 +21,6 @@ class GoogleCloudContactcenterinsightsV1CalculateIssueModelStatsResponse extends
 {
   protected $currentStatsType = GoogleCloudContactcenterinsightsV1IssueModelLabelStats::class;
   protected $currentStatsDataType = '';
-  public $currentStats;
 
   /**
    * @param GoogleCloudContactcenterinsightsV1IssueModelLabelStats

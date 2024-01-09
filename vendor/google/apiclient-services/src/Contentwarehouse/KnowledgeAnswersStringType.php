@@ -21,7 +21,6 @@ class KnowledgeAnswersStringType extends \Google\Model
 {
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
   /**
    * @var bool
    */

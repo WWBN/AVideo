@@ -21,13 +21,10 @@ class OracleSourceConfig extends \Google\Model
 {
   protected $dropLargeObjectsType = DropLargeObjects::class;
   protected $dropLargeObjectsDataType = '';
-  public $dropLargeObjects;
   protected $excludeObjectsType = OracleRdbms::class;
   protected $excludeObjectsDataType = '';
-  public $excludeObjects;
   protected $includeObjectsType = OracleRdbms::class;
   protected $includeObjectsDataType = '';
-  public $includeObjects;
   /**
    * @var int
    */
@@ -38,7 +35,6 @@ class OracleSourceConfig extends \Google\Model
   public $maxConcurrentCdcTasks;
   protected $streamLargeObjectsType = StreamLargeObjects::class;
   protected $streamLargeObjectsDataType = '';
-  public $streamLargeObjects;
 
   /**
    * @param DropLargeObjects

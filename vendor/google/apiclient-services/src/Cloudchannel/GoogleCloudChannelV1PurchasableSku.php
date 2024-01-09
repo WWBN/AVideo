@@ -21,7 +21,6 @@ class GoogleCloudChannelV1PurchasableSku extends \Google\Model
 {
   protected $skuType = GoogleCloudChannelV1Sku::class;
   protected $skuDataType = '';
-  public $sku;
 
   /**
    * @param GoogleCloudChannelV1Sku

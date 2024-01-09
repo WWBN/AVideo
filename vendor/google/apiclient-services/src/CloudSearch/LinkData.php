@@ -21,7 +21,6 @@ class LinkData extends \Google\Model
 {
   protected $attachmentType = SocialCommonAttachmentAttachment::class;
   protected $attachmentDataType = '';
-  public $attachment;
   /**
    * @var string
    */

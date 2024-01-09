@@ -21,7 +21,6 @@ class SheetsChartProperties extends \Google\Model
 {
   protected $chartImagePropertiesType = ImageProperties::class;
   protected $chartImagePropertiesDataType = '';
-  public $chartImageProperties;
 
   /**
    * @param ImageProperties

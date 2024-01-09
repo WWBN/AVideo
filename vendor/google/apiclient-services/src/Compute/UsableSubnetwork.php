@@ -50,7 +50,6 @@ class UsableSubnetwork extends \Google\Collection
   public $role;
   protected $secondaryIpRangesType = UsableSubnetworkSecondaryRange::class;
   protected $secondaryIpRangesDataType = 'array';
-  public $secondaryIpRanges;
   /**
    * @var string
    */

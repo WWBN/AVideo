@@ -26,7 +26,6 @@ class CloneContext extends \Google\Collection
   public $allocatedIpRange;
   protected $binLogCoordinatesType = BinLogCoordinates::class;
   protected $binLogCoordinatesDataType = '';
-  public $binLogCoordinates;
   /**
    * @var string[]
    */
@@ -47,6 +46,10 @@ class CloneContext extends \Google\Collection
    * @var string
    */
   public $pointInTime;
+  /**
+   * @var string
+   */
+  public $preferredZone;
 
   /**
    * @param string
@@ -145,6 +148,20 @@ class CloneContext extends \Google\Collection
   public function getPointInTime()
   {
     return $this->pointInTime;
+  }
+  /**
+   * @param string
+   */
+  public function setPreferredZone($preferredZone)
+  {
+    $this->preferredZone = $preferredZone;
+  }
+  /**
+   * @return string
+   */
+  public function getPreferredZone()
+  {
+    return $this->preferredZone;
   }
 }
 

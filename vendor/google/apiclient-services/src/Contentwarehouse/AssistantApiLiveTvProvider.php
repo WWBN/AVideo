@@ -21,7 +21,6 @@ class AssistantApiLiveTvProvider extends \Google\Model
 {
   protected $providerInfoType = AssistantApiCoreTypesProvider::class;
   protected $providerInfoDataType = '';
-  public $providerInfo;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class ListBusinessCallsInsightsResponse extends \Google\Collection
   protected $collection_key = 'businessCallsInsights';
   protected $businessCallsInsightsType = BusinessCallsInsights::class;
   protected $businessCallsInsightsDataType = 'array';
-  public $businessCallsInsights;
   /**
    * @var string
    */

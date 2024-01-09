@@ -26,7 +26,6 @@ class ServiceAttachmentList extends \Google\Collection
   public $id;
   protected $itemsType = ServiceAttachment::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class ServiceAttachmentList extends \Google\Collection
   public $selfLink;
   protected $warningType = ServiceAttachmentListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

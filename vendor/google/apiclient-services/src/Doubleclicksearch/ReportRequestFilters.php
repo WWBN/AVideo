@@ -22,7 +22,6 @@ class ReportRequestFilters extends \Google\Collection
   protected $collection_key = 'values';
   protected $columnType = ReportApiColumnSpec::class;
   protected $columnDataType = '';
-  public $column;
   /**
    * @var string
    */

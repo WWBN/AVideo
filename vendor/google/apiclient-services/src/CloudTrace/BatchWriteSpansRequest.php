@@ -22,7 +22,6 @@ class BatchWriteSpansRequest extends \Google\Collection
   protected $collection_key = 'spans';
   protected $spansType = Span::class;
   protected $spansDataType = 'array';
-  public $spans;
 
   /**
    * @param Span[]

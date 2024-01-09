@@ -21,7 +21,6 @@ class EndpointMatcher extends \Google\Model
 {
   protected $metadataLabelMatcherType = EndpointMatcherMetadataLabelMatcher::class;
   protected $metadataLabelMatcherDataType = '';
-  public $metadataLabelMatcher;
 
   /**
    * @param EndpointMatcherMetadataLabelMatcher

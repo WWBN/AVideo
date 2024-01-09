@@ -42,7 +42,6 @@ class GoogleCloudRetailV2ServingConfig extends \Google\Collection
   public $doNotAssociateControlIds;
   protected $dynamicFacetSpecType = GoogleCloudRetailV2SearchRequestDynamicFacetSpec::class;
   protected $dynamicFacetSpecDataType = '';
-  public $dynamicFacetSpec;
   /**
    * @var string
    */
@@ -73,7 +72,6 @@ class GoogleCloudRetailV2ServingConfig extends \Google\Collection
   public $onewaySynonymsControlIds;
   protected $personalizationSpecType = GoogleCloudRetailV2SearchRequestPersonalizationSpec::class;
   protected $personalizationSpecDataType = '';
-  public $personalizationSpec;
   /**
    * @var string
    */

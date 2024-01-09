@@ -22,7 +22,6 @@ class OracleSchema extends \Google\Collection
   protected $collection_key = 'oracleTables';
   protected $oracleTablesType = OracleTable::class;
   protected $oracleTablesDataType = 'array';
-  public $oracleTables;
   /**
    * @var string
    */

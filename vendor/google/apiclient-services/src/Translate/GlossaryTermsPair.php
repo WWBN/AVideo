@@ -21,10 +21,8 @@ class GlossaryTermsPair extends \Google\Model
 {
   protected $sourceTermType = GlossaryTerm::class;
   protected $sourceTermDataType = '';
-  public $sourceTerm;
   protected $targetTermType = GlossaryTerm::class;
   protected $targetTermDataType = '';
-  public $targetTerm;
 
   /**
    * @param GlossaryTerm

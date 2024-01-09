@@ -24,7 +24,6 @@ class PlayerLeaderboardScore extends \Google\Model
   ];
   protected $friendsRankType = LeaderboardScoreRank::class;
   protected $friendsRankDataType = '';
-  public $friendsRank;
   /**
    * @var string
    */
@@ -35,7 +34,6 @@ class PlayerLeaderboardScore extends \Google\Model
   public $leaderboardId;
   protected $publicRankType = LeaderboardScoreRank::class;
   protected $publicRankDataType = '';
-  public $publicRank;
   /**
    * @var string
    */
@@ -50,7 +48,6 @@ class PlayerLeaderboardScore extends \Google\Model
   public $scoreValue;
   protected $socialRankType = LeaderboardScoreRank::class;
   protected $socialRankDataType = '';
-  public $socialRank;
   /**
    * @var string
    */

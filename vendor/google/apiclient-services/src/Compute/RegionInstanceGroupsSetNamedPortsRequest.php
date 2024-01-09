@@ -26,7 +26,6 @@ class RegionInstanceGroupsSetNamedPortsRequest extends \Google\Collection
   public $fingerprint;
   protected $namedPortsType = NamedPort::class;
   protected $namedPortsDataType = 'array';
-  public $namedPorts;
 
   /**
    * @param string

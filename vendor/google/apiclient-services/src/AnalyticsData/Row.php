@@ -22,10 +22,8 @@ class Row extends \Google\Collection
   protected $collection_key = 'metricValues';
   protected $dimensionValuesType = DimensionValue::class;
   protected $dimensionValuesDataType = 'array';
-  public $dimensionValues;
   protected $metricValuesType = MetricValue::class;
   protected $metricValuesDataType = 'array';
-  public $metricValues;
 
   /**
    * @param DimensionValue[]

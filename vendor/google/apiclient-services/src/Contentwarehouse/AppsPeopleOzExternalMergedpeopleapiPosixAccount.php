@@ -53,7 +53,6 @@ class AppsPeopleOzExternalMergedpeopleapiPosixAccount extends \Google\Model
   public $homeDirectory;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

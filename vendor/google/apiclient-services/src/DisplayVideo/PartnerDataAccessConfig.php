@@ -21,7 +21,6 @@ class PartnerDataAccessConfig extends \Google\Model
 {
   protected $sdfConfigType = SdfConfig::class;
   protected $sdfConfigDataType = '';
-  public $sdfConfig;
 
   /**
    * @param SdfConfig

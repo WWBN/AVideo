@@ -22,7 +22,6 @@ class ListImageVersionsResponse extends \Google\Collection
   protected $collection_key = 'imageVersions';
   protected $imageVersionsType = ImageVersion::class;
   protected $imageVersionsDataType = 'array';
-  public $imageVersions;
   /**
    * @var string
    */

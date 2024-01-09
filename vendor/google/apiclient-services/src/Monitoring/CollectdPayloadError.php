@@ -22,14 +22,12 @@ class CollectdPayloadError extends \Google\Collection
   protected $collection_key = 'valueErrors';
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var int
    */
   public $index;
   protected $valueErrorsType = CollectdValueError::class;
   protected $valueErrorsDataType = 'array';
-  public $valueErrors;
 
   /**
    * @param Status

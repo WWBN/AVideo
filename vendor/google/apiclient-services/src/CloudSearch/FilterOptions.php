@@ -21,7 +21,6 @@ class FilterOptions extends \Google\Model
 {
   protected $filterType = Filter::class;
   protected $filterDataType = '';
-  public $filter;
   /**
    * @var string
    */

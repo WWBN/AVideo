@@ -22,13 +22,10 @@ class DeliveryTime extends \Google\Collection
   protected $collection_key = 'warehouseBasedDeliveryTimes';
   protected $cutoffTimeType = CutoffTime::class;
   protected $cutoffTimeDataType = '';
-  public $cutoffTime;
   protected $handlingBusinessDayConfigType = BusinessDayConfig::class;
   protected $handlingBusinessDayConfigDataType = '';
-  public $handlingBusinessDayConfig;
   protected $holidayCutoffsType = HolidayCutoff::class;
   protected $holidayCutoffsDataType = 'array';
-  public $holidayCutoffs;
   /**
    * @var string
    */
@@ -47,13 +44,10 @@ class DeliveryTime extends \Google\Collection
   public $minTransitTimeInDays;
   protected $transitBusinessDayConfigType = BusinessDayConfig::class;
   protected $transitBusinessDayConfigDataType = '';
-  public $transitBusinessDayConfig;
   protected $transitTimeTableType = TransitTable::class;
   protected $transitTimeTableDataType = '';
-  public $transitTimeTable;
   protected $warehouseBasedDeliveryTimesType = WarehouseBasedDeliveryTime::class;
   protected $warehouseBasedDeliveryTimesDataType = 'array';
-  public $warehouseBasedDeliveryTimes;
 
   /**
    * @param CutoffTime

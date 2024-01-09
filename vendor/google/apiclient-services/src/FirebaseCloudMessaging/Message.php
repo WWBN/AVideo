@@ -21,10 +21,8 @@ class Message extends \Google\Model
 {
   protected $androidType = AndroidConfig::class;
   protected $androidDataType = '';
-  public $android;
   protected $apnsType = ApnsConfig::class;
   protected $apnsDataType = '';
-  public $apns;
   /**
    * @var string
    */
@@ -35,14 +33,12 @@ class Message extends \Google\Model
   public $data;
   protected $fcmOptionsType = FcmOptions::class;
   protected $fcmOptionsDataType = '';
-  public $fcmOptions;
   /**
    * @var string
    */
   public $name;
   protected $notificationType = Notification::class;
   protected $notificationDataType = '';
-  public $notification;
   /**
    * @var string
    */
@@ -53,7 +49,6 @@ class Message extends \Google\Model
   public $topic;
   protected $webpushType = WebpushConfig::class;
   protected $webpushDataType = '';
-  public $webpush;
 
   /**
    * @param AndroidConfig

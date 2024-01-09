@@ -25,7 +25,6 @@ class PosCustomBatchRequestEntry extends \Google\Model
   public $batchId;
   protected $inventoryType = PosInventory::class;
   protected $inventoryDataType = '';
-  public $inventory;
   /**
    * @var string
    */
@@ -36,10 +35,8 @@ class PosCustomBatchRequestEntry extends \Google\Model
   public $method;
   protected $saleType = PosSale::class;
   protected $saleDataType = '';
-  public $sale;
   protected $storeType = PosStore::class;
   protected $storeDataType = '';
-  public $store;
   /**
    * @var string
    */

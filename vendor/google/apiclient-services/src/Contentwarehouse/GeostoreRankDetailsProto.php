@@ -22,7 +22,6 @@ class GeostoreRankDetailsProto extends \Google\Collection
   protected $collection_key = 'signal';
   protected $signalType = GeostoreRankSignalProto::class;
   protected $signalDataType = 'array';
-  public $signal;
   /**
    * @var string
    */

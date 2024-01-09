@@ -21,7 +21,6 @@ class AddNamedRangeResponse extends \Google\Model
 {
   protected $namedRangeType = NamedRange::class;
   protected $namedRangeDataType = '';
-  public $namedRange;
 
   /**
    * @param NamedRange

@@ -22,7 +22,6 @@ class SupportedLanguages extends \Google\Collection
   protected $collection_key = 'languages';
   protected $languagesType = SupportedLanguage::class;
   protected $languagesDataType = 'array';
-  public $languages;
 
   /**
    * @param SupportedLanguage[]

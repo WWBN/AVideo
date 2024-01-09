@@ -33,7 +33,6 @@ class GoogleCloudApigeeV1CanaryEvaluation extends \Google\Model
   public $endTime;
   protected $metricLabelsType = GoogleCloudApigeeV1CanaryEvaluationMetricLabels::class;
   protected $metricLabelsDataType = '';
-  public $metricLabels;
   /**
    * @var string
    */

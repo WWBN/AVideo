@@ -25,7 +25,6 @@ class GooglePrivacyDlpV2Value extends \Google\Model
   public $booleanValue;
   protected $dateValueType = GoogleTypeDate::class;
   protected $dateValueDataType = '';
-  public $dateValue;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class GooglePrivacyDlpV2Value extends \Google\Model
   public $stringValue;
   protected $timeValueType = GoogleTypeTimeOfDay::class;
   protected $timeValueDataType = '';
-  public $timeValue;
   /**
    * @var string
    */

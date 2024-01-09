@@ -22,7 +22,6 @@ class ResourceFilter extends \Google\Collection
   protected $collection_key = 'scopes';
   protected $gceInstanceFilterType = GceInstanceFilter::class;
   protected $gceInstanceFilterDataType = '';
-  public $gceInstanceFilter;
   /**
    * @var string[]
    */

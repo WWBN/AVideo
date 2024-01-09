@@ -22,7 +22,6 @@ class ListModelsResponse extends \Google\Collection
   protected $collection_key = 'models';
   protected $modelsType = Model::class;
   protected $modelsDataType = 'array';
-  public $models;
   /**
    * @var string
    */

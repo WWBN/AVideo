@@ -30,7 +30,6 @@ class I18nLanguageListResponse extends \Google\Collection
   public $eventId;
   protected $itemsType = I18nLanguage::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

@@ -21,14 +21,12 @@ class GoogleChromeManagementV1AppDetails extends \Google\Model
 {
   protected $androidAppInfoType = GoogleChromeManagementV1AndroidAppInfo::class;
   protected $androidAppInfoDataType = '';
-  public $androidAppInfo;
   /**
    * @var string
    */
   public $appId;
   protected $chromeAppInfoType = GoogleChromeManagementV1ChromeAppInfo::class;
   protected $chromeAppInfoDataType = '';
-  public $chromeAppInfo;
   /**
    * @var string
    */
@@ -87,7 +85,6 @@ class GoogleChromeManagementV1AppDetails extends \Google\Model
   public $revisionId;
   protected $serviceErrorType = GoogleRpcStatus::class;
   protected $serviceErrorDataType = '';
-  public $serviceError;
   /**
    * @var string
    */

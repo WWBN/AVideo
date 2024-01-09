@@ -25,7 +25,6 @@ class KnowledgeGraphQualifier extends \Google\Model
   public $pred;
   protected $valueType = KnowledgeGraphTripleObj::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class GoogleCloudDialogflowCxV3ImportDocumentsOperationMetadata extends \Google\
 {
   protected $genericMetadataType = GoogleCloudDialogflowCxV3GenericKnowledgeOperationMetadata::class;
   protected $genericMetadataDataType = '';
-  public $genericMetadata;
 
   /**
    * @param GoogleCloudDialogflowCxV3GenericKnowledgeOperationMetadata

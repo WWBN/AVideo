@@ -22,10 +22,8 @@ class CandlestickChartSpec extends \Google\Collection
   protected $collection_key = 'data';
   protected $dataType = CandlestickData::class;
   protected $dataDataType = 'array';
-  public $data;
   protected $domainType = CandlestickDomain::class;
   protected $domainDataType = '';
-  public $domain;
 
   /**
    * @param CandlestickData[]

@@ -21,13 +21,10 @@ class GoogleInternalAppsWaldoV1alphaUserLocation extends \Google\Model
 {
   protected $customLocationType = GoogleInternalAppsWaldoV1alphaCustomLocation::class;
   protected $customLocationDataType = '';
-  public $customLocation;
   protected $homeLocationType = GoogleInternalAppsWaldoV1alphaHomeLocation::class;
   protected $homeLocationDataType = '';
-  public $homeLocation;
   protected $officeLocationType = GoogleInternalAppsWaldoV1alphaOfficeLocation::class;
   protected $officeLocationDataType = '';
-  public $officeLocation;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaCustomLocation

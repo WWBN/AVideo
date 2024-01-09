@@ -33,7 +33,6 @@ class ReturnaddressCustomBatchRequestEntry extends \Google\Model
   public $method;
   protected $returnAddressType = ReturnAddress::class;
   protected $returnAddressDataType = '';
-  public $returnAddress;
   /**
    * @var string
    */

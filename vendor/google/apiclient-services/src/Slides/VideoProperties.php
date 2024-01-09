@@ -33,7 +33,6 @@ class VideoProperties extends \Google\Model
   public $mute;
   protected $outlineType = Outline::class;
   protected $outlineDataType = '';
-  public $outline;
   /**
    * @var string
    */

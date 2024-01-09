@@ -34,10 +34,8 @@ class StorageGraphBfgLmsPolicyMetadata extends \Google\Collection
   public $modificationsAllowed;
   protected $regionsAllowedType = KeGovernanceTypedRegions::class;
   protected $regionsAllowedDataType = '';
-  public $regionsAllowed;
   protected $regionsDisallowedType = KeGovernanceTypedRegions::class;
   protected $regionsDisallowedDataType = '';
-  public $regionsDisallowed;
   /**
    * @var bool
    */

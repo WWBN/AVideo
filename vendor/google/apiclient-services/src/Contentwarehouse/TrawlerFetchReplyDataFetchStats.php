@@ -36,14 +36,12 @@ class TrawlerFetchReplyDataFetchStats extends \Google\Model
   public $botOverheadMS;
   protected $clientControlflowStatsType = TrawlerFetchReplyDataFetchStatsClientStateStats::class;
   protected $clientControlflowStatsDataType = '';
-  public $clientControlflowStats;
   /**
    * @var int
    */
   public $connectTimeMs;
   protected $controlflowStatsType = TrawlerFetchReplyDataFetchStatsStateStats::class;
   protected $controlflowStatsDataType = '';
-  public $controlflowStats;
   /**
    * @var int
    */

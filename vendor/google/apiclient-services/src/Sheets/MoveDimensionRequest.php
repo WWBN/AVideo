@@ -25,7 +25,6 @@ class MoveDimensionRequest extends \Google\Model
   public $destinationIndex;
   protected $sourceType = DimensionRange::class;
   protected $sourceDataType = '';
-  public $source;
 
   /**
    * @param int

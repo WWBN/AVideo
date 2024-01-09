@@ -26,7 +26,6 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $argumentComposingMid;
   protected $attributeSignalsType = KnowledgeAnswersIntentQueryAttributeSignal::class;
   protected $attributeSignalsDataType = 'array';
-  public $attributeSignals;
   /**
    * @var string
    */
@@ -37,17 +36,14 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $confidenceLevel;
   protected $dedupedFuncallsType = KnowledgeAnswersIntentQueryFunctionCall::class;
   protected $dedupedFuncallsDataType = 'array';
-  public $dedupedFuncalls;
   protected $expressionStatusType = NlpSemanticParsingExpressionStatus::class;
   protected $expressionStatusDataType = '';
-  public $expressionStatus;
   /**
    * @var string
    */
   public $freefolksTrigger;
   protected $groundingSignalsType = KnowledgeAnswersIntentQueryGroundingSignals::class;
   protected $groundingSignalsDataType = '';
-  public $groundingSignals;
   /**
    * @var bool
    */
@@ -62,7 +58,6 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $intentComposingMid;
   protected $intentProvenanceType = KnowledgeAnswersIntentQueryArgumentProvenance::class;
   protected $intentProvenanceDataType = 'array';
-  public $intentProvenance;
   /**
    * @var string[]
    */
@@ -89,7 +84,6 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $isUiCompositionIntent;
   protected $localSignalsType = KnowledgeAnswersIntentQueryLocalSignals::class;
   protected $localSignalsDataType = '';
-  public $localSignals;
   /**
    * @var string
    */
@@ -100,24 +94,22 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $parsedDueToExperiment;
   protected $parsingSignalsType = KnowledgeAnswersIntentQueryParsingSignals::class;
   protected $parsingSignalsDataType = '';
-  public $parsingSignals;
   /**
    * @var float
    */
   public $prefulfillmentRankingScore;
   protected $prefulfillmentSignalsType = AssistantPrefulfillmentRankerPrefulfillmentSignals::class;
   protected $prefulfillmentSignalsDataType = '';
-  public $prefulfillmentSignals;
   protected $referentialResolutionType = KnowledgeAnswersDialogReferentialResolution::class;
   protected $referentialResolutionDataType = '';
-  public $referentialResolution;
   /**
    * @var string
    */
   public $refxSummaryNodeId;
+  protected $responseMeaningSignalsType = KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals::class;
+  protected $responseMeaningSignalsDataType = '';
   protected $resultSupportType = UniversalsearchNewPackerKnowledgeResultSupport::class;
   protected $resultSupportDataType = 'array';
-  public $resultSupport;
   /**
    * @var string
    */
@@ -128,10 +120,8 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public $selectedByPrefulfillmentRanking;
   protected $shoppingIdsType = KnowledgeAnswersIntentQueryShoppingIds::class;
   protected $shoppingIdsDataType = '';
-  public $shoppingIds;
   protected $signalsFallbackIntentsType = KnowledgeAnswersIntentQuerySignalComputationFallbackIntent::class;
   protected $signalsFallbackIntentsDataType = 'array';
-  public $signalsFallbackIntents;
 
   /**
    * @param string
@@ -496,6 +486,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public function getRefxSummaryNodeId()
   {
     return $this->refxSummaryNodeId;
+  }
+  /**
+   * @param KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals
+   */
+  public function setResponseMeaningSignals(KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals $responseMeaningSignals)
+  {
+    $this->responseMeaningSignals = $responseMeaningSignals;
+  }
+  /**
+   * @return KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals
+   */
+  public function getResponseMeaningSignals()
+  {
+    return $this->responseMeaningSignals;
   }
   /**
    * @param UniversalsearchNewPackerKnowledgeResultSupport[]

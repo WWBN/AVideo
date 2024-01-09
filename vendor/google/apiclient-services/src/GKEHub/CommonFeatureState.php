@@ -21,13 +21,10 @@ class CommonFeatureState extends \Google\Model
 {
   protected $appdevexperienceType = AppDevExperienceFeatureState::class;
   protected $appdevexperienceDataType = '';
-  public $appdevexperience;
   protected $fleetobservabilityType = FleetObservabilityFeatureState::class;
   protected $fleetobservabilityDataType = '';
-  public $fleetobservability;
   protected $stateType = FeatureState::class;
   protected $stateDataType = '';
-  public $state;
 
   /**
    * @param AppDevExperienceFeatureState

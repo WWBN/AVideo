@@ -21,7 +21,6 @@ class UpdateEmbeddedObjectPositionResponse extends \Google\Model
 {
   protected $positionType = EmbeddedObjectPosition::class;
   protected $positionDataType = '';
-  public $position;
 
   /**
    * @param EmbeddedObjectPosition

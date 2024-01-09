@@ -22,17 +22,14 @@ class DeviceTierConfig extends \Google\Collection
   protected $collection_key = 'userCountrySets';
   protected $deviceGroupsType = DeviceGroup::class;
   protected $deviceGroupsDataType = 'array';
-  public $deviceGroups;
   /**
    * @var string
    */
   public $deviceTierConfigId;
   protected $deviceTierSetType = DeviceTierSet::class;
   protected $deviceTierSetDataType = '';
-  public $deviceTierSet;
   protected $userCountrySetsType = UserCountrySet::class;
   protected $userCountrySetsDataType = 'array';
-  public $userCountrySets;
 
   /**
    * @param DeviceGroup[]

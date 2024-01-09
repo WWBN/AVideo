@@ -26,7 +26,6 @@ class SegmentSequenceStep extends \Google\Collection
   public $matchType;
   protected $orFiltersForSegmentType = OrFiltersForSegment::class;
   protected $orFiltersForSegmentDataType = 'array';
-  public $orFiltersForSegment;
 
   /**
    * @param string

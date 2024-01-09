@@ -24,10 +24,8 @@ class BlogUserInfo extends \Google\Model
   ];
   protected $blogType = Blog::class;
   protected $blogDataType = '';
-  public $blog;
   protected $blogUserInfoType = BlogPerUserInfo::class;
   protected $blogUserInfoDataType = '';
-  public $blogUserInfo;
   /**
    * @var string
    */

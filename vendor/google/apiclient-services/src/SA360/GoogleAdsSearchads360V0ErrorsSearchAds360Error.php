@@ -21,20 +21,16 @@ class GoogleAdsSearchads360V0ErrorsSearchAds360Error extends \Google\Model
 {
   protected $detailsType = GoogleAdsSearchads360V0ErrorsErrorDetails::class;
   protected $detailsDataType = '';
-  public $details;
   protected $errorCodeType = GoogleAdsSearchads360V0ErrorsErrorCode::class;
   protected $errorCodeDataType = '';
-  public $errorCode;
   protected $locationType = GoogleAdsSearchads360V0ErrorsErrorLocation::class;
   protected $locationDataType = '';
-  public $location;
   /**
    * @var string
    */
   public $message;
   protected $triggerType = GoogleAdsSearchads360V0CommonValue::class;
   protected $triggerDataType = '';
-  public $trigger;
 
   /**
    * @param GoogleAdsSearchads360V0ErrorsErrorDetails

@@ -21,7 +21,6 @@ class LocationPolicyLocation extends \Google\Model
 {
   protected $constraintsType = LocationPolicyLocationConstraints::class;
   protected $constraintsDataType = '';
-  public $constraints;
   /**
    * @var string
    */

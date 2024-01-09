@@ -25,10 +25,8 @@ class HtmlrenderWebkitHeadlessProtoFrameResizeEvent extends \Google\Model
   public $resizeType;
   protected $visibleRectAfterResizeType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $visibleRectAfterResizeDataType = '';
-  public $visibleRectAfterResize;
   protected $visibleRectBeforeResizeType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $visibleRectBeforeResizeDataType = '';
-  public $visibleRectBeforeResize;
 
   /**
    * @param string

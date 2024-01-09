@@ -26,7 +26,6 @@ class ListVersionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $versionsType = Version::class;
   protected $versionsDataType = 'array';
-  public $versions;
 
   /**
    * @param string

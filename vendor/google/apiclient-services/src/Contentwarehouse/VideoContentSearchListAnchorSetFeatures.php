@@ -25,20 +25,16 @@ class VideoContentSearchListAnchorSetFeatures extends \Google\Model
   public $aggregatedSpanText;
   protected $anchorSetSpanScoreStatsType = VideoContentSearchMetricStats::class;
   protected $anchorSetSpanScoreStatsDataType = '';
-  public $anchorSetSpanScoreStats;
   protected $babelMatchScoreStatsType = VideoContentSearchMetricStats::class;
   protected $babelMatchScoreStatsDataType = '';
-  public $babelMatchScoreStats;
   protected $contextTokenCountStatsType = VideoContentSearchMetricStats::class;
   protected $contextTokenCountStatsDataType = '';
-  public $contextTokenCountStats;
   /**
    * @var float
    */
   public $durationSpanRatio;
   protected $durationToPredictedTimeMsStatsType = VideoContentSearchMetricStats::class;
   protected $durationToPredictedTimeMsStatsDataType = '';
-  public $durationToPredictedTimeMsStats;
   /**
    * @var string
    */
@@ -61,13 +57,10 @@ class VideoContentSearchListAnchorSetFeatures extends \Google\Model
   public $postFilteringListDescriptionItemsSize;
   protected $pretriggerScoreStatsType = VideoContentSearchMetricStats::class;
   protected $pretriggerScoreStatsDataType = '';
-  public $pretriggerScoreStats;
   protected $spanTokenCountRatioStatsType = VideoContentSearchMetricStats::class;
   protected $spanTokenCountRatioStatsDataType = '';
-  public $spanTokenCountRatioStats;
   protected $spanTokenCountStatsType = VideoContentSearchMetricStats::class;
   protected $spanTokenCountStatsDataType = '';
-  public $spanTokenCountStats;
 
   /**
    * @param string

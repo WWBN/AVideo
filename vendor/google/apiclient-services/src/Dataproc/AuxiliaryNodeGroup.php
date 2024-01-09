@@ -21,7 +21,6 @@ class AuxiliaryNodeGroup extends \Google\Model
 {
   protected $nodeGroupType = NodeGroup::class;
   protected $nodeGroupDataType = '';
-  public $nodeGroup;
   /**
    * @var string
    */

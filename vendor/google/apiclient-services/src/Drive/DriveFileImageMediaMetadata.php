@@ -69,7 +69,6 @@ class DriveFileImageMediaMetadata extends \Google\Model
   public $lens;
   protected $locationType = DriveFileImageMediaMetadataLocation::class;
   protected $locationDataType = '';
-  public $location;
   /**
    * @var float
    */

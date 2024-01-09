@@ -25,7 +25,6 @@ class RegisterDebuggeeResponse extends \Google\Model
   public $agentId;
   protected $debuggeeType = Debuggee::class;
   protected $debuggeeDataType = '';
-  public $debuggee;
 
   /**
    * @param string

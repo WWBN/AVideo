@@ -25,14 +25,12 @@ class OSPolicyResourceFile extends \Google\Model
   public $allowInsecure;
   protected $gcsType = OSPolicyResourceFileGcs::class;
   protected $gcsDataType = '';
-  public $gcs;
   /**
    * @var string
    */
   public $localPath;
   protected $remoteType = OSPolicyResourceFileRemote::class;
   protected $remoteDataType = '';
-  public $remote;
 
   /**
    * @param bool

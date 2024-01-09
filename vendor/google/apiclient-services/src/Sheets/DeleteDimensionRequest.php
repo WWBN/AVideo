@@ -21,7 +21,6 @@ class DeleteDimensionRequest extends \Google\Model
 {
   protected $rangeType = DimensionRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param DimensionRange

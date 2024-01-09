@@ -25,7 +25,6 @@ class GeostoreTimezoneProto extends \Google\Model
   public $id;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
-  public $metadata;
 
   /**
    * @param string

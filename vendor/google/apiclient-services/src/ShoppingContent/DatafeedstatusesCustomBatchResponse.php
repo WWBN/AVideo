@@ -22,7 +22,6 @@ class DatafeedstatusesCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = DatafeedstatusesCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
   /**
    * @var string
    */

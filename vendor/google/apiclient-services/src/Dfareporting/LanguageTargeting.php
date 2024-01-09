@@ -22,7 +22,6 @@ class LanguageTargeting extends \Google\Collection
   protected $collection_key = 'languages';
   protected $languagesType = Language::class;
   protected $languagesDataType = 'array';
-  public $languages;
 
   /**
    * @param Language[]

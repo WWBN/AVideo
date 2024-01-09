@@ -26,14 +26,12 @@ class WorkflowConfig extends \Google\Collection
   public $cronSchedule;
   protected $invocationConfigType = InvocationConfig::class;
   protected $invocationConfigDataType = '';
-  public $invocationConfig;
   /**
    * @var string
    */
   public $name;
   protected $recentScheduledExecutionRecordsType = ScheduledExecutionRecord::class;
   protected $recentScheduledExecutionRecordsDataType = 'array';
-  public $recentScheduledExecutionRecords;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class InputFile extends \Google\Model
 {
   protected $gcsSourceType = GcsInputSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
   /**
    * @var string
    */

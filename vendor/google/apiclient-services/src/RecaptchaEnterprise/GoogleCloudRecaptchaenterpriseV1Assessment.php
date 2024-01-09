@@ -21,26 +21,24 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
 {
   protected $accountDefenderAssessmentType = GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessment::class;
   protected $accountDefenderAssessmentDataType = '';
-  public $accountDefenderAssessment;
   protected $accountVerificationType = GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo::class;
   protected $accountVerificationDataType = '';
-  public $accountVerification;
   protected $eventType = GoogleCloudRecaptchaenterpriseV1Event::class;
   protected $eventDataType = '';
-  public $event;
+  protected $firewallPolicyAssessmentType = GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment::class;
+  protected $firewallPolicyAssessmentDataType = '';
+  protected $fraudPreventionAssessmentType = GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment::class;
+  protected $fraudPreventionAssessmentDataType = '';
   /**
    * @var string
    */
   public $name;
   protected $privatePasswordLeakVerificationType = GoogleCloudRecaptchaenterpriseV1PrivatePasswordLeakVerification::class;
   protected $privatePasswordLeakVerificationDataType = '';
-  public $privatePasswordLeakVerification;
   protected $riskAnalysisType = GoogleCloudRecaptchaenterpriseV1RiskAnalysis::class;
   protected $riskAnalysisDataType = '';
-  public $riskAnalysis;
   protected $tokenPropertiesType = GoogleCloudRecaptchaenterpriseV1TokenProperties::class;
   protected $tokenPropertiesDataType = '';
-  public $tokenProperties;
 
   /**
    * @param GoogleCloudRecaptchaenterpriseV1AccountDefenderAssessment
@@ -83,6 +81,34 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   public function getEvent()
   {
     return $this->event;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment
+   */
+  public function setFirewallPolicyAssessment(GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment $firewallPolicyAssessment)
+  {
+    $this->firewallPolicyAssessment = $firewallPolicyAssessment;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1FirewallPolicyAssessment
+   */
+  public function getFirewallPolicyAssessment()
+  {
+    return $this->firewallPolicyAssessment;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment
+   */
+  public function setFraudPreventionAssessment(GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment $fraudPreventionAssessment)
+  {
+    $this->fraudPreventionAssessment = $fraudPreventionAssessment;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment
+   */
+  public function getFraudPreventionAssessment()
+  {
+    return $this->fraudPreventionAssessment;
   }
   /**
    * @param string

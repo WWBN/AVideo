@@ -22,7 +22,6 @@ class ListCourseWorkMaterialResponse extends \Google\Collection
   protected $collection_key = 'courseWorkMaterial';
   protected $courseWorkMaterialType = CourseWorkMaterial::class;
   protected $courseWorkMaterialDataType = 'array';
-  public $courseWorkMaterial;
   /**
    * @var string
    */

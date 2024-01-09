@@ -22,7 +22,6 @@ class HtmlrenderWebkitHeadlessProtoRenderExtensionResult extends \Google\Collect
   protected $collection_key = 'consoleLogEntry';
   protected $consoleLogEntryType = HtmlrenderWebkitHeadlessProtoConsoleLogEntry::class;
   protected $consoleLogEntryDataType = 'array';
-  public $consoleLogEntry;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class DeliverySchedule extends \Google\Model
 {
   protected $frequencyCapType = FrequencyCap::class;
   protected $frequencyCapDataType = '';
-  public $frequencyCap;
   /**
    * @var bool
    */

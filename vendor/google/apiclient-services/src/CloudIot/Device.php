@@ -26,13 +26,10 @@ class Device extends \Google\Collection
   public $blocked;
   protected $configType = DeviceConfig::class;
   protected $configDataType = '';
-  public $config;
   protected $credentialsType = DeviceCredential::class;
   protected $credentialsDataType = 'array';
-  public $credentials;
   protected $gatewayConfigType = GatewayConfig::class;
   protected $gatewayConfigDataType = '';
-  public $gatewayConfig;
   /**
    * @var string
    */
@@ -47,7 +44,6 @@ class Device extends \Google\Collection
   public $lastConfigSendTime;
   protected $lastErrorStatusType = Status::class;
   protected $lastErrorStatusDataType = '';
-  public $lastErrorStatus;
   /**
    * @var string
    */
@@ -82,7 +78,6 @@ class Device extends \Google\Collection
   public $numId;
   protected $stateType = DeviceState::class;
   protected $stateDataType = '';
-  public $state;
 
   /**
    * @param bool

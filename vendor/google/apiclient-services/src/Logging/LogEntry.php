@@ -21,7 +21,6 @@ class LogEntry extends \Google\Model
 {
   protected $httpRequestType = HttpRequest::class;
   protected $httpRequestDataType = '';
-  public $httpRequest;
   /**
    * @var string
    */
@@ -40,10 +39,8 @@ class LogEntry extends \Google\Model
   public $logName;
   protected $metadataType = MonitoredResourceMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $operationType = LogEntryOperation::class;
   protected $operationDataType = '';
-  public $operation;
   /**
    * @var array[]
    */
@@ -54,21 +51,18 @@ class LogEntry extends \Google\Model
   public $receiveTimestamp;
   protected $resourceType = MonitoredResource::class;
   protected $resourceDataType = '';
-  public $resource;
   /**
    * @var string
    */
   public $severity;
   protected $sourceLocationType = LogEntrySourceLocation::class;
   protected $sourceLocationDataType = '';
-  public $sourceLocation;
   /**
    * @var string
    */
   public $spanId;
   protected $splitType = LogSplit::class;
   protected $splitDataType = '';
-  public $split;
   /**
    * @var string
    */

@@ -22,20 +22,16 @@ class GoogleCloudContentwarehouseV1PropertyDefinition extends \Google\Collection
   protected $collection_key = 'schemaSources';
   protected $dateTimeTypeOptionsType = GoogleCloudContentwarehouseV1DateTimeTypeOptions::class;
   protected $dateTimeTypeOptionsDataType = '';
-  public $dateTimeTypeOptions;
   /**
    * @var string
    */
   public $displayName;
   protected $enumTypeOptionsType = GoogleCloudContentwarehouseV1EnumTypeOptions::class;
   protected $enumTypeOptionsDataType = '';
-  public $enumTypeOptions;
   protected $floatTypeOptionsType = GoogleCloudContentwarehouseV1FloatTypeOptions::class;
   protected $floatTypeOptionsDataType = '';
-  public $floatTypeOptions;
   protected $integerTypeOptionsType = GoogleCloudContentwarehouseV1IntegerTypeOptions::class;
   protected $integerTypeOptionsDataType = '';
-  public $integerTypeOptions;
   /**
    * @var bool
    */
@@ -58,27 +54,22 @@ class GoogleCloudContentwarehouseV1PropertyDefinition extends \Google\Collection
   public $isSearchable;
   protected $mapTypeOptionsType = GoogleCloudContentwarehouseV1MapTypeOptions::class;
   protected $mapTypeOptionsDataType = '';
-  public $mapTypeOptions;
   /**
    * @var string
    */
   public $name;
   protected $propertyTypeOptionsType = GoogleCloudContentwarehouseV1PropertyTypeOptions::class;
   protected $propertyTypeOptionsDataType = '';
-  public $propertyTypeOptions;
   /**
    * @var string
    */
   public $retrievalImportance;
   protected $schemaSourcesType = GoogleCloudContentwarehouseV1PropertyDefinitionSchemaSource::class;
   protected $schemaSourcesDataType = 'array';
-  public $schemaSources;
   protected $textTypeOptionsType = GoogleCloudContentwarehouseV1TextTypeOptions::class;
   protected $textTypeOptionsDataType = '';
-  public $textTypeOptions;
   protected $timestampTypeOptionsType = GoogleCloudContentwarehouseV1TimestampTypeOptions::class;
   protected $timestampTypeOptionsDataType = '';
-  public $timestampTypeOptions;
 
   /**
    * @param GoogleCloudContentwarehouseV1DateTimeTypeOptions

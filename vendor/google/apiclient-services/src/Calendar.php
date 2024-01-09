@@ -604,6 +604,11 @@ class Calendar extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'eventTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
                 'iCalUID' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -812,6 +817,11 @@ class Calendar extends \Google\Service
                 'alwaysIncludeEmail' => [
                   'location' => 'query',
                   'type' => 'boolean',
+                ],
+                'eventTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
                 ],
                 'iCalUID' => [
                   'location' => 'query',

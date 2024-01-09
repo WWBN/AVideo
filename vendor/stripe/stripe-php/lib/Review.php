@@ -5,11 +5,10 @@
 namespace Stripe;
 
 /**
- * Reviews can be used to supplement automated fraud detection with human
- * expertise.
+ * Reviews can be used to supplement automated fraud detection with human expertise.
  *
- * Learn more about <a href="/radar">Radar</a> and reviewing payments <a
- * href="https://stripe.com/docs/radar/reviews">here</a>.
+ * Learn more about <a href="/radar">Radar</a> and reviewing payments
+ * <a href="https://stripe.com/docs/radar/reviews">here</a>.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -32,6 +31,15 @@ class Review extends ApiResource
 
     use ApiOperations\All;
     use ApiOperations\Retrieve;
+
+    const CLOSED_REASON_APPROVED = 'approved';
+    const CLOSED_REASON_DISPUTED = 'disputed';
+    const CLOSED_REASON_REDACTED = 'redacted';
+    const CLOSED_REASON_REFUNDED = 'refunded';
+    const CLOSED_REASON_REFUNDED_AS_FRAUD = 'refunded_as_fraud';
+
+    const OPENED_REASON_MANUAL = 'manual';
+    const OPENED_REASON_RULE = 'rule';
 
     /**
      * Possible string representations of the current, the opening or the closure reason of the review.

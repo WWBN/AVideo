@@ -17,7 +17,7 @@
 
 namespace Google\Service\ArtifactRegistry;
 
-class ImportGooGetArtifactsGcsSource extends \Google\Collection
+class ImportGoogetArtifactsGcsSource extends \Google\Collection
 {
   protected $collection_key = 'uris';
   /**
@@ -60,4 +60,4 @@ class ImportGooGetArtifactsGcsSource extends \Google\Collection
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(ImportGooGetArtifactsGcsSource::class, 'Google_Service_ArtifactRegistry_ImportGooGetArtifactsGcsSource');
+class_alias(ImportGoogetArtifactsGcsSource::class, 'Google_Service_ArtifactRegistry_ImportGoogetArtifactsGcsSource');

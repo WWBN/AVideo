@@ -21,7 +21,6 @@ class Account extends \Google\Model
 {
   protected $childLinkType = AccountChildLink::class;
   protected $childLinkDataType = '';
-  public $childLink;
   /**
    * @var string
    */
@@ -40,7 +39,6 @@ class Account extends \Google\Model
   public $name;
   protected $permissionsType = AccountPermissions::class;
   protected $permissionsDataType = '';
-  public $permissions;
   /**
    * @var string
    */

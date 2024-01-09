@@ -25,7 +25,6 @@ class EnterpriseCrmEventbusProtoField extends \Google\Model
   public $cardinality;
   protected $defaultValueType = EnterpriseCrmEventbusProtoParameterValueType::class;
   protected $defaultValueDataType = '';
-  public $defaultValue;
   /**
    * @var string
    */
@@ -40,7 +39,6 @@ class EnterpriseCrmEventbusProtoField extends \Google\Model
   public $referenceKey;
   protected $transformExpressionType = EnterpriseCrmEventbusProtoTransformExpression::class;
   protected $transformExpressionDataType = '';
-  public $transformExpression;
 
   /**
    * @param string

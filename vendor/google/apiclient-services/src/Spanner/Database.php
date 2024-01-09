@@ -36,19 +36,24 @@ class Database extends \Google\Collection
    * @var string
    */
   public $earliestVersionTime;
+  /**
+   * @var bool
+   */
+  public $enableDropProtection;
   protected $encryptionConfigType = EncryptionConfig::class;
   protected $encryptionConfigDataType = '';
-  public $encryptionConfig;
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = 'array';
-  public $encryptionInfo;
   /**
    * @var string
    */
   public $name;
+  /**
+   * @var bool
+   */
+  public $reconciling;
   protected $restoreInfoType = RestoreInfo::class;
   protected $restoreInfoDataType = '';
-  public $restoreInfo;
   /**
    * @var string
    */
@@ -115,6 +120,20 @@ class Database extends \Google\Collection
     return $this->earliestVersionTime;
   }
   /**
+   * @param bool
+   */
+  public function setEnableDropProtection($enableDropProtection)
+  {
+    $this->enableDropProtection = $enableDropProtection;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableDropProtection()
+  {
+    return $this->enableDropProtection;
+  }
+  /**
    * @param EncryptionConfig
    */
   public function setEncryptionConfig(EncryptionConfig $encryptionConfig)
@@ -155,6 +174,20 @@ class Database extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param bool
+   */
+  public function setReconciling($reconciling)
+  {
+    $this->reconciling = $reconciling;
+  }
+  /**
+   * @return bool
+   */
+  public function getReconciling()
+  {
+    return $this->reconciling;
   }
   /**
    * @param RestoreInfo

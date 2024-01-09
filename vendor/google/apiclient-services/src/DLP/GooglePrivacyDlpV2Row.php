@@ -22,7 +22,6 @@ class GooglePrivacyDlpV2Row extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = GooglePrivacyDlpV2Value::class;
   protected $valuesDataType = 'array';
-  public $values;
 
   /**
    * @param GooglePrivacyDlpV2Value[]

@@ -26,7 +26,10 @@ class WorkstationCluster extends \Google\Collection
   public $annotations;
   protected $conditionsType = Status::class;
   protected $conditionsDataType = 'array';
-  public $conditions;
+  /**
+   * @var string
+   */
+  public $controlPlaneIp;
   /**
    * @var string
    */
@@ -61,7 +64,6 @@ class WorkstationCluster extends \Google\Collection
   public $network;
   protected $privateClusterConfigType = PrivateClusterConfig::class;
   protected $privateClusterConfigDataType = '';
-  public $privateClusterConfig;
   /**
    * @var bool
    */
@@ -106,6 +108,20 @@ class WorkstationCluster extends \Google\Collection
   public function getConditions()
   {
     return $this->conditions;
+  }
+  /**
+   * @param string
+   */
+  public function setControlPlaneIp($controlPlaneIp)
+  {
+    $this->controlPlaneIp = $controlPlaneIp;
+  }
+  /**
+   * @return string
+   */
+  public function getControlPlaneIp()
+  {
+    return $this->controlPlaneIp;
   }
   /**
    * @param string

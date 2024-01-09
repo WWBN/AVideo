@@ -22,7 +22,6 @@ class ReplaceSitesResponse extends \Google\Collection
   protected $collection_key = 'sites';
   protected $sitesType = Site::class;
   protected $sitesDataType = 'array';
-  public $sites;
 
   /**
    * @param Site[]

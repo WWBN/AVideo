@@ -22,7 +22,6 @@ class EnterpriseCrmEventbusProtoNextTask extends \Google\Collection
   protected $collection_key = 'combinedConditions';
   protected $combinedConditionsType = EnterpriseCrmEventbusProtoCombinedCondition::class;
   protected $combinedConditionsDataType = 'array';
-  public $combinedConditions;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class GoogleCloudRecommendationengineV1beta1Catalog extends \Google\Model
 {
   protected $catalogItemLevelConfigType = GoogleCloudRecommendationengineV1beta1CatalogItemLevelConfig::class;
   protected $catalogItemLevelConfigDataType = '';
-  public $catalogItemLevelConfig;
   /**
    * @var string
    */

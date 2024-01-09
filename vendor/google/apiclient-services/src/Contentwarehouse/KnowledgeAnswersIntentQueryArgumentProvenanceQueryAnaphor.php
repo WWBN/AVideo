@@ -22,7 +22,6 @@ class KnowledgeAnswersIntentQueryArgumentProvenanceQueryAnaphor extends \Google\
   protected $collection_key = 'evalData';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = 'array';
-  public $evalData;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData[]

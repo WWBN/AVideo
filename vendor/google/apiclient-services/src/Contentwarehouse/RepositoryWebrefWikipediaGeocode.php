@@ -21,7 +21,6 @@ class RepositoryWebrefWikipediaGeocode extends \Google\Model
 {
   protected $locationType = GeostorePointProto::class;
   protected $locationDataType = '';
-  public $location;
   /**
    * @var string
    */

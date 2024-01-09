@@ -160,8 +160,8 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool allowMissing If set to true, and if the Service does not
-   * exist, it will create a new one. Caller must have both create and update
-   * permissions for this call if this is set to true.
+   * exist, it will create a new one. The caller must have 'run.services.create'
+   * permissions if this is set to true and the Service does not exist.
    * @opt_param bool validateOnly Indicates that the request should be validated
    * and default values populated, without persisting the request or updating any
    * resources.

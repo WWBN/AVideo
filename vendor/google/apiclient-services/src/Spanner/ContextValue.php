@@ -21,7 +21,6 @@ class ContextValue extends \Google\Model
 {
   protected $labelType = LocalizedString::class;
   protected $labelDataType = '';
-  public $label;
   /**
    * @var string
    */

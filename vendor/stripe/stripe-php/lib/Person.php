@@ -7,21 +7,15 @@ namespace Stripe;
 /**
  * This is an object representing a person associated with a Stripe account.
  *
- * A platform cannot access a Standard or Express account's persons after the
- * account starts onboarding, such as after generating an account link for the
- * account. See the <a
- * href="https://stripe.com/docs/connect/standard-accounts">Standard onboarding</a>
- * or <a href="https://stripe.com/docs/connect/express-accounts">Express onboarding
- * documentation</a> for information about platform pre-filling and account
- * onboarding steps.
+ * A platform cannot access a Standard or Express account's persons after the account starts onboarding, such as after generating an account link for the account.
+ * See the <a href="https://stripe.com/docs/connect/standard-accounts">Standard onboarding</a> or <a href="https://stripe.com/docs/connect/express-accounts">Express onboarding documentation</a> for information about platform prefilling and account onboarding steps.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/connect/identity-verification-api#person-information">Handling
- * Identity Verification with the API</a>.
+ * Related guide: <a href="https://stripe.com/docs/connect/handling-api-verification#person-information">Handling identity verification with the API</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property null|string $account The account the person is associated with.
+ * @property null|\Stripe\StripeObject $additional_tos_acceptances
  * @property null|\Stripe\StripeObject $address
  * @property null|\Stripe\StripeObject $address_kana The Kana variation of the person's address (Japan only).
  * @property null|\Stripe\StripeObject $address_kanji The Kanji variation of the person's address (Japan only).
@@ -32,9 +26,9 @@ namespace Stripe;
  * @property null|string $first_name_kana The Kana variation of the person's first name (Japan only).
  * @property null|string $first_name_kanji The Kanji variation of the person's first name (Japan only).
  * @property null|string[] $full_name_aliases A list of alternate names or aliases that the person is known by.
- * @property null|\Stripe\StripeObject $future_requirements Information about the upcoming new requirements for this person, including what information needs to be collected, and by when.
+ * @property null|\Stripe\StripeObject $future_requirements Information about the <a href="https://stripe.com/docs/connect/custom-accounts/future-requirements">upcoming new requirements for this person</a>, including what information needs to be collected, and by when.
  * @property null|string $gender The person's gender (International regulations require either &quot;male&quot; or &quot;female&quot;).
- * @property null|bool $id_number_provided Whether the person's <code>id_number</code> was provided.
+ * @property null|bool $id_number_provided Whether the person's <code>id_number</code> was provided. True if either the full ID number was provided or if only the required part of the ID number was provided (ex. last four of an individual's SSN for the US indicated by <code>ssn_last_4_provided</code>).
  * @property null|bool $id_number_secondary_provided Whether the person's <code>id_number_secondary</code> was provided.
  * @property null|string $last_name The person's last name.
  * @property null|string $last_name_kana The Kana variation of the person's last name (Japan only).

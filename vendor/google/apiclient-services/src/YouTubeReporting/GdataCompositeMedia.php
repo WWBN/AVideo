@@ -25,7 +25,6 @@ class GdataCompositeMedia extends \Google\Model
   public $blobRef;
   protected $blobstore2InfoType = GdataBlobstore2Info::class;
   protected $blobstore2InfoDataType = '';
-  public $blobstore2Info;
   /**
    * @var string
    */
@@ -48,7 +47,6 @@ class GdataCompositeMedia extends \Google\Model
   public $md5Hash;
   protected $objectIdType = GdataObjectId::class;
   protected $objectIdDataType = '';
-  public $objectId;
   /**
    * @var string
    */

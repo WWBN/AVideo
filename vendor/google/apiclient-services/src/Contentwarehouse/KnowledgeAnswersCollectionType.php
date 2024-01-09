@@ -26,7 +26,6 @@ class KnowledgeAnswersCollectionType extends \Google\Collection
   public $collection;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
 
   /**
    * @param string[]

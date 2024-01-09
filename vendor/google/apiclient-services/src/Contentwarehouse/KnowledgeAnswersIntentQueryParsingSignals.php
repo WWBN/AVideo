@@ -30,7 +30,6 @@ class KnowledgeAnswersIntentQueryParsingSignals extends \Google\Model
   public $inQueryMaxEffectiveArgSpanLength;
   protected $qrewriteCallPathInfoType = NlpLoggingQRewriteClientCallPathInfo::class;
   protected $qrewriteCallPathInfoDataType = '';
-  public $qrewriteCallPathInfo;
   /**
    * @var string
    */

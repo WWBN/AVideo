@@ -38,7 +38,7 @@ class Disk extends \Google\Collection
   public $diskSizeGb;
   protected $guestOsFeaturesType = GuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
-  public $guestOsFeatures;
+  public $guestOsFeatures = [];
   /**
    * @var string
    */
@@ -54,7 +54,7 @@ class Disk extends \Google\Collection
   /**
    * @var string[]
    */
-  public $licenses;
+  public $licenses = [];
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class OtherRegionsSubscriptionOfferPhaseConfig extends \Google\Model
 {
   protected $absoluteDiscountsType = OtherRegionsSubscriptionOfferPhasePrices::class;
   protected $absoluteDiscountsDataType = '';
-  public $absoluteDiscounts;
   protected $otherRegionsPricesType = OtherRegionsSubscriptionOfferPhasePrices::class;
   protected $otherRegionsPricesDataType = '';
-  public $otherRegionsPrices;
   public $relativeDiscount;
 
   /**

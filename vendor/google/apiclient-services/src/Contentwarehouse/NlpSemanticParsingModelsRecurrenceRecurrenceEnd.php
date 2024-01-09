@@ -25,10 +25,8 @@ class NlpSemanticParsingModelsRecurrenceRecurrenceEnd extends \Google\Model
   public $autoRenew;
   protected $autoRenewUntilType = NlpSemanticParsingDateTimeAnnotation::class;
   protected $autoRenewUntilDataType = '';
-  public $autoRenewUntil;
   protected $endDateTimeType = NlpSemanticParsingDateTimeAnnotation::class;
   protected $endDateTimeDataType = '';
-  public $endDateTime;
   /**
    * @var string
    */

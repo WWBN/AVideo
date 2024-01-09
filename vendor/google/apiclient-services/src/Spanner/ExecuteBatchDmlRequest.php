@@ -22,17 +22,14 @@ class ExecuteBatchDmlRequest extends \Google\Collection
   protected $collection_key = 'statements';
   protected $requestOptionsType = RequestOptions::class;
   protected $requestOptionsDataType = '';
-  public $requestOptions;
   /**
    * @var string
    */
   public $seqno;
   protected $statementsType = Statement::class;
   protected $statementsDataType = 'array';
-  public $statements;
   protected $transactionType = TransactionSelector::class;
   protected $transactionDataType = '';
-  public $transaction;
 
   /**
    * @param RequestOptions

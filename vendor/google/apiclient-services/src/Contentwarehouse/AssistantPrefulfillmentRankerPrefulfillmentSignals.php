@@ -44,10 +44,17 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
    * @var bool
    */
   public $fulfillableDominantMedia;
+  /**
+   * @var bool
+   */
+  public $generatedByLegacyAquaDomain;
   public $groundabilityScore;
   protected $groundingProviderFeaturesType = AssistantGroundingRankerGroundingProviderFeatures::class;
   protected $groundingProviderFeaturesDataType = '';
-  public $groundingProviderFeatures;
+  /**
+   * @var bool
+   */
+  public $hasAnswerGroup;
   /**
    * @var float
    */
@@ -59,21 +66,48 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public $intentNameAuisScore;
   public $intentNameAuisScoreExp;
   /**
+   * @var float
+   */
+  public $intentNamePauis;
+  /**
    * @var bool
    */
   public $isFeasible;
+  /**
+   * @var bool
+   */
+  public $isFullyGrounded;
+  /**
+   * @var bool
+   */
+  public $isMediaControlIntent;
+  /**
+   * @var bool
+   */
+  public $isPlayGenericMusic;
+  /**
+   * @var bool
+   */
+  public $isPodcastIntent;
+  /**
+   * @var bool
+   */
+  public $isVideoIntent;
   /**
    * @var int
    */
   public $kscorerRank;
   protected $laaFeaturesType = AssistantGroundingRankerLaaFeatures::class;
   protected $laaFeaturesDataType = '';
-  public $laaFeatures;
   /**
    * @var bool
    */
   public $maskCandidateLevelFeatures;
   public $maxHgrScoreAcrossBindingSets;
+  /**
+   * @var int
+   */
+  public $nspRank;
   /**
    * @var float
    */
@@ -84,6 +118,14 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public $numGroundedArgs;
   public $numVariables;
   public $numVariablesGrounded;
+  /**
+   * @var int
+   */
+  public $parsingScoreMse8BucketId;
+  /**
+   * @var string
+   */
+  public $phase;
   public $pq2tVsAssistantIbstCosine;
   public $pq2tVsIbstCosine;
   /**
@@ -93,7 +135,15 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   /**
    * @var string
    */
+  public $rankerName;
+  /**
+   * @var string
+   */
   public $searchDispatch;
+  /**
+   * @var string
+   */
+  public $subIntentType;
   /**
    * @var float
    */
@@ -195,6 +245,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   {
     return $this->fulfillableDominantMedia;
   }
+  /**
+   * @param bool
+   */
+  public function setGeneratedByLegacyAquaDomain($generatedByLegacyAquaDomain)
+  {
+    $this->generatedByLegacyAquaDomain = $generatedByLegacyAquaDomain;
+  }
+  /**
+   * @return bool
+   */
+  public function getGeneratedByLegacyAquaDomain()
+  {
+    return $this->generatedByLegacyAquaDomain;
+  }
   public function setGroundabilityScore($groundabilityScore)
   {
     $this->groundabilityScore = $groundabilityScore;
@@ -216,6 +280,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public function getGroundingProviderFeatures()
   {
     return $this->groundingProviderFeatures;
+  }
+  /**
+   * @param bool
+   */
+  public function setHasAnswerGroup($hasAnswerGroup)
+  {
+    $this->hasAnswerGroup = $hasAnswerGroup;
+  }
+  /**
+   * @return bool
+   */
+  public function getHasAnswerGroup()
+  {
+    return $this->hasAnswerGroup;
   }
   /**
    * @param float
@@ -262,6 +340,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
     return $this->intentNameAuisScoreExp;
   }
   /**
+   * @param float
+   */
+  public function setIntentNamePauis($intentNamePauis)
+  {
+    $this->intentNamePauis = $intentNamePauis;
+  }
+  /**
+   * @return float
+   */
+  public function getIntentNamePauis()
+  {
+    return $this->intentNamePauis;
+  }
+  /**
    * @param bool
    */
   public function setIsFeasible($isFeasible)
@@ -274,6 +366,76 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public function getIsFeasible()
   {
     return $this->isFeasible;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsFullyGrounded($isFullyGrounded)
+  {
+    $this->isFullyGrounded = $isFullyGrounded;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsFullyGrounded()
+  {
+    return $this->isFullyGrounded;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsMediaControlIntent($isMediaControlIntent)
+  {
+    $this->isMediaControlIntent = $isMediaControlIntent;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsMediaControlIntent()
+  {
+    return $this->isMediaControlIntent;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsPlayGenericMusic($isPlayGenericMusic)
+  {
+    $this->isPlayGenericMusic = $isPlayGenericMusic;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsPlayGenericMusic()
+  {
+    return $this->isPlayGenericMusic;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsPodcastIntent($isPodcastIntent)
+  {
+    $this->isPodcastIntent = $isPodcastIntent;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsPodcastIntent()
+  {
+    return $this->isPodcastIntent;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsVideoIntent($isVideoIntent)
+  {
+    $this->isVideoIntent = $isVideoIntent;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsVideoIntent()
+  {
+    return $this->isVideoIntent;
   }
   /**
    * @param int
@@ -324,6 +486,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public function getMaxHgrScoreAcrossBindingSets()
   {
     return $this->maxHgrScoreAcrossBindingSets;
+  }
+  /**
+   * @param int
+   */
+  public function setNspRank($nspRank)
+  {
+    $this->nspRank = $nspRank;
+  }
+  /**
+   * @return int
+   */
+  public function getNspRank()
+  {
+    return $this->nspRank;
   }
   /**
    * @param float
@@ -387,6 +563,34 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   {
     return $this->numVariablesGrounded;
   }
+  /**
+   * @param int
+   */
+  public function setParsingScoreMse8BucketId($parsingScoreMse8BucketId)
+  {
+    $this->parsingScoreMse8BucketId = $parsingScoreMse8BucketId;
+  }
+  /**
+   * @return int
+   */
+  public function getParsingScoreMse8BucketId()
+  {
+    return $this->parsingScoreMse8BucketId;
+  }
+  /**
+   * @param string
+   */
+  public function setPhase($phase)
+  {
+    $this->phase = $phase;
+  }
+  /**
+   * @return string
+   */
+  public function getPhase()
+  {
+    return $this->phase;
+  }
   public function setPq2tVsAssistantIbstCosine($pq2tVsAssistantIbstCosine)
   {
     $this->pq2tVsAssistantIbstCosine = $pq2tVsAssistantIbstCosine;
@@ -420,6 +624,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   /**
    * @param string
    */
+  public function setRankerName($rankerName)
+  {
+    $this->rankerName = $rankerName;
+  }
+  /**
+   * @return string
+   */
+  public function getRankerName()
+  {
+    return $this->rankerName;
+  }
+  /**
+   * @param string
+   */
   public function setSearchDispatch($searchDispatch)
   {
     $this->searchDispatch = $searchDispatch;
@@ -430,6 +648,20 @@ class AssistantPrefulfillmentRankerPrefulfillmentSignals extends \Google\Model
   public function getSearchDispatch()
   {
     return $this->searchDispatch;
+  }
+  /**
+   * @param string
+   */
+  public function setSubIntentType($subIntentType)
+  {
+    $this->subIntentType = $subIntentType;
+  }
+  /**
+   * @return string
+   */
+  public function getSubIntentType()
+  {
+    return $this->subIntentType;
   }
   /**
    * @param float

@@ -21,13 +21,10 @@ class NlpSemanticParsingLocalCompoundLocation extends \Google\Model
 {
   protected $joinerType = NlpSemanticParsingLocalJoiner::class;
   protected $joinerDataType = '';
-  public $joiner;
   protected $location1Type = NlpSemanticParsingLocalLocation::class;
   protected $location1DataType = '';
-  public $location1;
   protected $location2Type = NlpSemanticParsingLocalLocation::class;
   protected $location2DataType = '';
-  public $location2;
 
   /**
    * @param NlpSemanticParsingLocalJoiner

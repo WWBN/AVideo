@@ -26,7 +26,6 @@ class BulkEditSitesRequest extends \Google\Collection
   public $advertiserId;
   protected $createdSitesType = Site::class;
   protected $createdSitesDataType = 'array';
-  public $createdSites;
   /**
    * @var string[]
    */

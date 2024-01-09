@@ -21,7 +21,6 @@ class RepositoryWebrefAnnotationRatings extends \Google\Model
 {
   protected $docLevelRelevanceRatingsType = RepositoryWebrefDocLevelRelevanceRatings::class;
   protected $docLevelRelevanceRatingsDataType = '';
-  public $docLevelRelevanceRatings;
 
   /**
    * @param RepositoryWebrefDocLevelRelevanceRatings

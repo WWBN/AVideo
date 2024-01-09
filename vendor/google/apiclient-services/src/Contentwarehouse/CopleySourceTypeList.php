@@ -22,7 +22,6 @@ class CopleySourceTypeList extends \Google\Collection
   protected $collection_key = 'sourceTypeMetadata';
   protected $sourceTypeMetadataType = CopleySourceTypeMetadata::class;
   protected $sourceTypeMetadataDataType = 'array';
-  public $sourceTypeMetadata;
 
   /**
    * @param CopleySourceTypeMetadata[]

@@ -34,7 +34,6 @@ class TemplateParameter extends \Google\Collection
   public $name;
   protected $validationType = ParameterValidation::class;
   protected $validationDataType = '';
-  public $validation;
 
   /**
    * @param string

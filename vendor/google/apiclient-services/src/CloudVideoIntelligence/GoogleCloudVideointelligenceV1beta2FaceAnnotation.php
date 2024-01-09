@@ -22,10 +22,8 @@ class GoogleCloudVideointelligenceV1beta2FaceAnnotation extends \Google\Collecti
   protected $collection_key = 'segments';
   protected $framesType = GoogleCloudVideointelligenceV1beta2FaceFrame::class;
   protected $framesDataType = 'array';
-  public $frames;
   protected $segmentsType = GoogleCloudVideointelligenceV1beta2FaceSegment::class;
   protected $segmentsDataType = 'array';
-  public $segments;
   /**
    * @var string
    */

@@ -21,19 +21,14 @@ class ThumbnailDetails extends \Google\Model
 {
   protected $defaultType = Thumbnail::class;
   protected $defaultDataType = '';
-  public $default;
   protected $highType = Thumbnail::class;
   protected $highDataType = '';
-  public $high;
   protected $maxresType = Thumbnail::class;
   protected $maxresDataType = '';
-  public $maxres;
   protected $mediumType = Thumbnail::class;
   protected $mediumDataType = '';
-  public $medium;
   protected $standardType = Thumbnail::class;
   protected $standardDataType = '';
-  public $standard;
 
   /**
    * @param Thumbnail

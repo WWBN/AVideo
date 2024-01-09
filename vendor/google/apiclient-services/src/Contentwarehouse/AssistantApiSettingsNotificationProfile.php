@@ -21,7 +21,6 @@ class AssistantApiSettingsNotificationProfile extends \Google\Model
 {
   protected $alloNotificationProfileType = AssistantApiSettingsNotificationProfileAlloNotificationProfile::class;
   protected $alloNotificationProfileDataType = '';
-  public $alloNotificationProfile;
 
   /**
    * @param AssistantApiSettingsNotificationProfileAlloNotificationProfile

@@ -30,14 +30,12 @@ class RegisterDomainRequest extends \Google\Collection
   public $domainNotices;
   protected $registrationType = Registration::class;
   protected $registrationDataType = '';
-  public $registration;
   /**
    * @var bool
    */
   public $validateOnly;
   protected $yearlyPriceType = Money::class;
   protected $yearlyPriceDataType = '';
-  public $yearlyPrice;
 
   /**
    * @param string[]

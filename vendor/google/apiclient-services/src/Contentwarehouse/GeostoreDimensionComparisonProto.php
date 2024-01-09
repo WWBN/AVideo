@@ -25,7 +25,6 @@ class GeostoreDimensionComparisonProto extends \Google\Model
   public $comparisonOperator;
   protected $dimensionWithUnitType = GeostoreDimensionProto::class;
   protected $dimensionWithUnitDataType = '';
-  public $dimensionWithUnit;
 
   /**
    * @param string

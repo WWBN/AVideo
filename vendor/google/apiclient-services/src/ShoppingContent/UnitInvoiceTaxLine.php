@@ -21,7 +21,6 @@ class UnitInvoiceTaxLine extends \Google\Model
 {
   protected $taxAmountType = Price::class;
   protected $taxAmountDataType = '';
-  public $taxAmount;
   /**
    * @var string
    */

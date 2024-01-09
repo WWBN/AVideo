@@ -32,7 +32,7 @@ abstract class AbstractApi
     }
 
     /**
-     * @param mixed $value
+     * @param mixed $value String content with which to populate the stream
      *
      * @phpstan-param int<1, max> $maxDepth
      */

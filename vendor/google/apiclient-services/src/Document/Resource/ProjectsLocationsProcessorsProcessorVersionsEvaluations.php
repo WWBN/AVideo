@@ -55,8 +55,8 @@ class ProjectsLocationsProcessorsProcessorVersionsEvaluations extends \Google\Se
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The standard list page size. If unspecified, at most
-   * 5 evaluations will be returned. The maximum value is 100; values above 100
-   * will be coerced to 100.
+   * `5` evaluations are returned. The maximum value is `100`. Values above `100`
+   * are coerced to `100`.
    * @opt_param string pageToken A page token, received from a previous
    * `ListEvaluations` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudDocumentaiV1ListEvaluationsResponse

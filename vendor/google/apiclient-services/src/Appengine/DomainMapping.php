@@ -30,10 +30,8 @@ class DomainMapping extends \Google\Collection
   public $name;
   protected $resourceRecordsType = ResourceRecord::class;
   protected $resourceRecordsDataType = 'array';
-  public $resourceRecords;
   protected $sslSettingsType = SslSettings::class;
   protected $sslSettingsDataType = '';
-  public $sslSettings;
 
   /**
    * @param string

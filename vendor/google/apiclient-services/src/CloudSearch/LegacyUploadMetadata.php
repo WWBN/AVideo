@@ -25,7 +25,6 @@ class LegacyUploadMetadata extends \Google\Model
   public $legacyUniqueId;
   protected $uploadMetadataType = UploadMetadata::class;
   protected $uploadMetadataDataType = '';
-  public $uploadMetadata;
 
   /**
    * @param string

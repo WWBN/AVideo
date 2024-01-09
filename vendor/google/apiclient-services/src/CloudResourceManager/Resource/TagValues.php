@@ -115,6 +115,26 @@ class TagValues extends \Google\Service\Resource
     return $this->call('getIamPolicy', [$params], Policy::class);
   }
   /**
+   * Retrieves a TagValue by its namespaced name. This method will return
+   * `PERMISSION_DENIED` if the value does not exist or the user does not have
+   * permission to view it. (tagValues.getNamespaced)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string name Required. A namespaced tag value name in the following
+   * format: `{parentId}/{tagKeyShort}/{tagValueShort}` Examples: - `42/foo/abc`
+   * for a value with short name "abc" under the key with short name "foo" under
+   * the organization with ID 42 - `r2-d2/bar/xyz` for a value with short name
+   * "xyz" under the key with short name "bar" under the project with ID "r2-d2"
+   * @return TagValue
+   */
+  public function getNamespaced($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('getNamespaced', [$params], TagValue::class);
+  }
+  /**
    * Lists all TagValues for a specific TagKey. (tagValues.listTagValues)
    *
    * @param array $optParams Optional parameters.

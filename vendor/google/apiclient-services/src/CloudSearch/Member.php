@@ -21,10 +21,8 @@ class Member extends \Google\Model
 {
   protected $rosterType = Roster::class;
   protected $rosterDataType = '';
-  public $roster;
   protected $userType = User::class;
   protected $userDataType = '';
-  public $user;
 
   /**
    * @param Roster

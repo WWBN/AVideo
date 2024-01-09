@@ -22,7 +22,6 @@ class SecurityPolicyRuleHttpHeaderAction extends \Google\Collection
   protected $collection_key = 'requestHeadersToAdds';
   protected $requestHeadersToAddsType = SecurityPolicyRuleHttpHeaderActionHttpHeaderOption::class;
   protected $requestHeadersToAddsDataType = 'array';
-  public $requestHeadersToAdds;
 
   /**
    * @param SecurityPolicyRuleHttpHeaderActionHttpHeaderOption[]

@@ -19,9 +19,12 @@ namespace Google\Service\DatabaseMigrationService;
 
 class MigrationJob extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $cmekKeyName;
   protected $conversionWorkspaceType = ConversionWorkspaceInfo::class;
   protected $conversionWorkspaceDataType = '';
-  public $conversionWorkspace;
   /**
    * @var string
    */
@@ -32,14 +35,12 @@ class MigrationJob extends \Google\Model
   public $destination;
   protected $destinationDatabaseType = DatabaseType::class;
   protected $destinationDatabaseDataType = '';
-  public $destinationDatabase;
   /**
    * @var string
    */
   public $displayName;
   protected $dumpFlagsType = DumpFlags::class;
   protected $dumpFlagsDataType = '';
-  public $dumpFlags;
   /**
    * @var string
    */
@@ -54,7 +55,6 @@ class MigrationJob extends \Google\Model
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -73,21 +73,18 @@ class MigrationJob extends \Google\Model
   public $phase;
   protected $reverseSshConnectivityType = ReverseSshConnectivity::class;
   protected $reverseSshConnectivityDataType = '';
-  public $reverseSshConnectivity;
   /**
    * @var string
    */
   public $source;
   protected $sourceDatabaseType = DatabaseType::class;
   protected $sourceDatabaseDataType = '';
-  public $sourceDatabase;
   /**
    * @var string
    */
   public $state;
   protected $staticIpConnectivityType = StaticIpConnectivity::class;
   protected $staticIpConnectivityDataType = '';
-  public $staticIpConnectivity;
   /**
    * @var string
    */
@@ -98,8 +95,21 @@ class MigrationJob extends \Google\Model
   public $updateTime;
   protected $vpcPeeringConnectivityType = VpcPeeringConnectivity::class;
   protected $vpcPeeringConnectivityDataType = '';
-  public $vpcPeeringConnectivity;
 
+  /**
+   * @param string
+   */
+  public function setCmekKeyName($cmekKeyName)
+  {
+    $this->cmekKeyName = $cmekKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getCmekKeyName()
+  {
+    return $this->cmekKeyName;
+  }
   /**
    * @param ConversionWorkspaceInfo
    */

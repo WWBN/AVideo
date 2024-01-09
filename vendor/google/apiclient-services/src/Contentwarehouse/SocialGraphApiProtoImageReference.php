@@ -22,8 +22,26 @@ class SocialGraphApiProtoImageReference extends \Google\Model
   /**
    * @var string
    */
+  public $contentVersion;
+  /**
+   * @var string
+   */
   public $mediaId;
 
+  /**
+   * @param string
+   */
+  public function setContentVersion($contentVersion)
+  {
+    $this->contentVersion = $contentVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getContentVersion()
+  {
+    return $this->contentVersion;
+  }
   /**
    * @param string
    */

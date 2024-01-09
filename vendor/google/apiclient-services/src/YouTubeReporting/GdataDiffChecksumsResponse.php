@@ -21,14 +21,12 @@ class GdataDiffChecksumsResponse extends \Google\Model
 {
   protected $checksumsLocationType = GdataCompositeMedia::class;
   protected $checksumsLocationDataType = '';
-  public $checksumsLocation;
   /**
    * @var string
    */
   public $chunkSizeBytes;
   protected $objectLocationType = GdataCompositeMedia::class;
   protected $objectLocationDataType = '';
-  public $objectLocation;
   /**
    * @var string
    */

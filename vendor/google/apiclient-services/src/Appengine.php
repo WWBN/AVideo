@@ -81,7 +81,12 @@ class Appengine extends \Google\Service
             'create' => [
               'path' => 'v1/apps',
               'httpMethod' => 'POST',
-              'parameters' => [],
+              'parameters' => [
+                'parent' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'get' => [
               'path' => 'v1/apps/{appsId}',
               'httpMethod' => 'GET',
@@ -849,7 +854,22 @@ class Appengine extends \Google\Service
         'applications',
         [
           'methods' => [
-            'get' => [
+            'create' => [
+              'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'projectsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'locationsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
               'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}',
               'httpMethod' => 'GET',
               'parameters' => [

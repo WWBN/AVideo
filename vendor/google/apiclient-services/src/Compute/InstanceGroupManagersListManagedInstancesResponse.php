@@ -22,7 +22,6 @@ class InstanceGroupManagersListManagedInstancesResponse extends \Google\Collecti
   protected $collection_key = 'managedInstances';
   protected $managedInstancesType = ManagedInstance::class;
   protected $managedInstancesDataType = 'array';
-  public $managedInstances;
   /**
    * @var string
    */

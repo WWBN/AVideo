@@ -22,7 +22,6 @@ class NlpMeaningMeaningRemodelings extends \Google\Collection
   protected $collection_key = 'remodeling';
   protected $remodelingType = NlpMeaningMeaningRemodeling::class;
   protected $remodelingDataType = 'array';
-  public $remodeling;
 
   /**
    * @param NlpMeaningMeaningRemodeling[]

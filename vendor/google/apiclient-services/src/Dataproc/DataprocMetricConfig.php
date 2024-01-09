@@ -22,7 +22,6 @@ class DataprocMetricConfig extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $metricsType = Metric::class;
   protected $metricsDataType = 'array';
-  public $metrics;
 
   /**
    * @param Metric[]

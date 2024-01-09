@@ -21,7 +21,6 @@ class DSSEAttestationNote extends \Google\Model
 {
   protected $hintType = DSSEHint::class;
   protected $hintDataType = '';
-  public $hint;
 
   /**
    * @param DSSEHint

@@ -81,7 +81,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\BankAccount|\Stripe\Card|\Stripe\Source>
+     * @return \Stripe\Collection<\Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source>
      */
     public function allSources($parentId, $params = null, $opts = null)
     {
@@ -149,7 +149,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Customer
+     * @return \Stripe\FundingInstructions
      */
     public function createFundingInstructions($id, $params = null, $opts = null)
     {
@@ -171,7 +171,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
     public function createSource($parentId, $params = null, $opts = null)
     {
@@ -179,7 +179,7 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
-     * Creates a new <code>TaxID</code> object for a customer.
+     * Creates a new <code>tax_id</code> object for a customer.
      *
      * @param string $parentId
      * @param null|array $params
@@ -220,7 +220,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Customer
+     * @return \Stripe\Discount
      */
     public function deleteDiscount($id, $params = null, $opts = null)
     {
@@ -228,6 +228,8 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Delete a specified source for a given customer.
+     *
      * @param string $parentId
      * @param string $id
      * @param null|array $params
@@ -235,7 +237,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
     public function deleteSource($parentId, $id, $params = null, $opts = null)
     {
@@ -243,7 +245,7 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
-     * Deletes an existing <code>TaxID</code> object.
+     * Deletes an existing <code>tax_id</code> object.
      *
      * @param string $parentId
      * @param string $id
@@ -337,7 +339,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Customer
+     * @return \Stripe\PaymentMethod
      */
     public function retrievePaymentMethod($parentId, $id, $params = null, $opts = null)
     {
@@ -354,7 +356,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
     public function retrieveSource($parentId, $id, $params = null, $opts = null)
     {
@@ -362,7 +364,7 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
-     * Retrieves the <code>TaxID</code> object with the given identifier.
+     * Retrieves the <code>tax_id</code> object with the given identifier.
      *
      * @param string $parentId
      * @param string $id
@@ -461,6 +463,8 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Update a specified source for a given customer.
+     *
      * @param string $parentId
      * @param string $id
      * @param null|array $params
@@ -468,7 +472,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
     public function updateSource($parentId, $id, $params = null, $opts = null)
     {
@@ -476,6 +480,8 @@ class CustomerService extends \Stripe\Service\AbstractService
     }
 
     /**
+     * Verify a specified bank account for a given customer.
+     *
      * @param string $parentId
      * @param string $id
      * @param null|array $params
@@ -483,7 +489,7 @@ class CustomerService extends \Stripe\Service\AbstractService
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\BankAccount|\Stripe\Card|\Stripe\Source
+     * @return \Stripe\Account|\Stripe\BankAccount|\Stripe\Card|\Stripe\Source
      */
     public function verifySource($parentId, $id, $params = null, $opts = null)
     {

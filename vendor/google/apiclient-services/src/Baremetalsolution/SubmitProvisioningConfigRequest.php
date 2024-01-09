@@ -25,7 +25,6 @@ class SubmitProvisioningConfigRequest extends \Google\Model
   public $email;
   protected $provisioningConfigType = ProvisioningConfig::class;
   protected $provisioningConfigDataType = '';
-  public $provisioningConfig;
 
   /**
    * @param string

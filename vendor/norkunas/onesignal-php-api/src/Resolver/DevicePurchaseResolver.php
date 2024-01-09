@@ -8,9 +8,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DevicePurchaseResolver implements ResolverInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         $data = (new OptionsResolver())

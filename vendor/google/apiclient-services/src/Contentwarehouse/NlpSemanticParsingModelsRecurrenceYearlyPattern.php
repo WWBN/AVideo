@@ -22,7 +22,6 @@ class NlpSemanticParsingModelsRecurrenceYearlyPattern extends \Google\Collection
   protected $collection_key = 'yearMonth';
   protected $monthlyPatternType = NlpSemanticParsingModelsRecurrenceMonthlyPattern::class;
   protected $monthlyPatternDataType = '';
-  public $monthlyPattern;
   /**
    * @var string[]
    */

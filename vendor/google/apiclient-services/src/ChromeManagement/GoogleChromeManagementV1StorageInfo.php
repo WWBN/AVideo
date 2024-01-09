@@ -30,7 +30,6 @@ class GoogleChromeManagementV1StorageInfo extends \Google\Collection
   public $totalDiskBytes;
   protected $volumeType = GoogleChromeManagementV1StorageInfoDiskVolume::class;
   protected $volumeDataType = 'array';
-  public $volume;
 
   /**
    * @param string

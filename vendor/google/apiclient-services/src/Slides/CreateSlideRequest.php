@@ -30,10 +30,8 @@ class CreateSlideRequest extends \Google\Collection
   public $objectId;
   protected $placeholderIdMappingsType = LayoutPlaceholderIdMapping::class;
   protected $placeholderIdMappingsDataType = 'array';
-  public $placeholderIdMappings;
   protected $slideLayoutReferenceType = LayoutReference::class;
   protected $slideLayoutReferenceDataType = '';
-  public $slideLayoutReference;
 
   /**
    * @param int

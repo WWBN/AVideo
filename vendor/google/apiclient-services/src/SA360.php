@@ -105,16 +105,6 @@ class SA360 extends \Google\Service
                   'required' => true,
                 ],
               ],
-            ],'searchStream' => [
-              'path' => 'v0/customers/{+customerId}/searchAds360:searchStream',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'customerId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
             ],
           ]
         ]

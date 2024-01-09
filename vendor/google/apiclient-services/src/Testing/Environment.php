@@ -21,10 +21,8 @@ class Environment extends \Google\Model
 {
   protected $androidDeviceType = AndroidDevice::class;
   protected $androidDeviceDataType = '';
-  public $androidDevice;
   protected $iosDeviceType = IosDevice::class;
   protected $iosDeviceDataType = '';
-  public $iosDevice;
 
   /**
    * @param AndroidDevice

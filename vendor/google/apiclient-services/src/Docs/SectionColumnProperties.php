@@ -21,10 +21,8 @@ class SectionColumnProperties extends \Google\Model
 {
   protected $paddingEndType = Dimension::class;
   protected $paddingEndDataType = '';
-  public $paddingEnd;
   protected $widthType = Dimension::class;
   protected $widthDataType = '';
-  public $width;
 
   /**
    * @param Dimension

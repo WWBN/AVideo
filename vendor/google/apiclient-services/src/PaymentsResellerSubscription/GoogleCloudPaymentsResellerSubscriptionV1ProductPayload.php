@@ -21,10 +21,8 @@ class GoogleCloudPaymentsResellerSubscriptionV1ProductPayload extends \Google\Mo
 {
   protected $googleOnePayloadType = GoogleCloudPaymentsResellerSubscriptionV1GoogleOnePayload::class;
   protected $googleOnePayloadDataType = '';
-  public $googleOnePayload;
   protected $youtubePayloadType = GoogleCloudPaymentsResellerSubscriptionV1YoutubePayload::class;
   protected $youtubePayloadDataType = '';
-  public $youtubePayload;
 
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1GoogleOnePayload

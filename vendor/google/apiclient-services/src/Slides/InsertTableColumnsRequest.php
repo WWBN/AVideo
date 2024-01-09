@@ -21,7 +21,6 @@ class InsertTableColumnsRequest extends \Google\Model
 {
   protected $cellLocationType = TableCellLocation::class;
   protected $cellLocationDataType = '';
-  public $cellLocation;
   /**
    * @var bool
    */

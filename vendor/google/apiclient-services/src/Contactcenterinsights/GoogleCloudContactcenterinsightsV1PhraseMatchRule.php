@@ -21,7 +21,6 @@ class GoogleCloudContactcenterinsightsV1PhraseMatchRule extends \Google\Model
 {
   protected $configType = GoogleCloudContactcenterinsightsV1PhraseMatchRuleConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var bool
    */

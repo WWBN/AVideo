@@ -37,7 +37,6 @@ class EndpointPolicy extends \Google\Model
   public $description;
   protected $endpointMatcherType = EndpointMatcher::class;
   protected $endpointMatcherDataType = '';
-  public $endpointMatcher;
   /**
    * @var string[]
    */
@@ -52,7 +51,6 @@ class EndpointPolicy extends \Google\Model
   public $serverTlsPolicy;
   protected $trafficPortSelectorType = TrafficPortSelector::class;
   protected $trafficPortSelectorDataType = '';
-  public $trafficPortSelector;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class QueryRequestPayload extends \Google\Collection
   protected $collection_key = 'devices';
   protected $devicesType = AgentDeviceId::class;
   protected $devicesDataType = 'array';
-  public $devices;
 
   /**
    * @param AgentDeviceId[]

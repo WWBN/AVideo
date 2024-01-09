@@ -39,18 +39,18 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * Creates a new connection profile in a given project and location.
    * (connectionProfiles.create)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * connection profiles.
    * @param ConnectionProfile $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string connectionProfileId Required. The connection profile
    * identifier.
-   * @opt_param string requestId Optional. A unique id used to identify the
-   * request. If the server receives two requests with the same id, then the
-   * second request will be ignored. It is recommended to always set this value to
-   * a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9),
-   * underscores (_), and hyphens (-). The maximum length is 40 characters.
+   * @opt_param string requestId Optional. A unique ID used to identify the
+   * request. If the server receives two requests with the same ID, then the
+   * second request is ignored. It is recommended to always set this value to a
+   * UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores
+   * (_), and hyphens (-). The maximum length is 40 characters.
    * @opt_param bool skipValidation Optional. Create the connection profile
    * without validating it. The default is false. Only supported for Oracle
    * connection profiles.
@@ -76,9 +76,9 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    *
    * @opt_param bool force In case of force delete, the CloudSQL replica database
    * is also deleted (only for CloudSQL connection profile).
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
@@ -137,7 +137,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * Retrieves a list of all connection profiles in a given project and location.
    * (connectionProfiles.listProjectsLocationsConnectionProfiles)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * connection profiles.
    * @param array $optParams Optional parameters.
    *
@@ -155,7 +155,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @opt_param int pageSize The maximum number of connection profiles to return.
    * The service may return fewer than this value. If unspecified, at most 50
    * connection profiles will be returned. The maximum value is 1000; values above
-   * 1000 will be coerced to 1000.
+   * 1000 are coerced to 1000.
    * @opt_param string pageToken A page token, received from a previous
    * `ListConnectionProfiles` call. Provide this to retrieve the subsequent page.
    * When paginating, all other parameters provided to `ListConnectionProfiles`
@@ -178,16 +178,16 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @param ConnectionProfile $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId Optional. A unique id used to identify the
-   * request. If the server receives two requests with the same id, then the
-   * second request will be ignored. It is recommended to always set this value to
-   * a UUID. The id must contain only letters (a-z, A-Z), numbers (0-9),
-   * underscores (_), and hyphens (-). The maximum length is 40 characters.
+   * @opt_param string requestId Optional. A unique ID used to identify the
+   * request. If the server receives two requests with the same ID, then the
+   * second request is ignored. It is recommended to always set this value to a
+   * UUID. The ID must contain only letters (a-z, A-Z), numbers (0-9), underscores
+   * (_), and hyphens (-). The maximum length is 40 characters.
    * @opt_param bool skipValidation Optional. Update the connection profile
    * without validating it. The default is false. Only supported for Oracle
    * connection profiles.
    * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the connection profile resource by the update.
+   * fields to be overwritten by the update in the conversion workspace resource.
    * @opt_param bool validateOnly Optional. Only validate the connection profile,
    * but don't update any resources. The default is false. Only supported for
    * Oracle connection profiles.

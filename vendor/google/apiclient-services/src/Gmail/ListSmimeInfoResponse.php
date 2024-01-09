@@ -22,7 +22,6 @@ class ListSmimeInfoResponse extends \Google\Collection
   protected $collection_key = 'smimeInfo';
   protected $smimeInfoType = SmimeInfo::class;
   protected $smimeInfoDataType = 'array';
-  public $smimeInfo;
 
   /**
    * @param SmimeInfo[]

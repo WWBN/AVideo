@@ -34,7 +34,6 @@ class TrawlerClientServiceInfo extends \Google\Collection
   public $serviceClientID;
   protected $clientLabelsType = TrawlerClientServiceInfoClientLabels::class;
   protected $clientLabelsDataType = 'array';
-  public $clientLabels;
 
   /**
    * @param string

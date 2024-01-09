@@ -21,14 +21,12 @@ class GooglePrivacyDlpV2Condition extends \Google\Model
 {
   protected $fieldType = GooglePrivacyDlpV2FieldId::class;
   protected $fieldDataType = '';
-  public $field;
   /**
    * @var string
    */
   public $operator;
   protected $valueType = GooglePrivacyDlpV2Value::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param GooglePrivacyDlpV2FieldId

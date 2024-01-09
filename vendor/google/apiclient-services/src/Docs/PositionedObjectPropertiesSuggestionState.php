@@ -21,10 +21,8 @@ class PositionedObjectPropertiesSuggestionState extends \Google\Model
 {
   protected $embeddedObjectSuggestionStateType = EmbeddedObjectSuggestionState::class;
   protected $embeddedObjectSuggestionStateDataType = '';
-  public $embeddedObjectSuggestionState;
   protected $positioningSuggestionStateType = PositionedObjectPositioningSuggestionState::class;
   protected $positioningSuggestionStateDataType = '';
-  public $positioningSuggestionState;
 
   /**
    * @param EmbeddedObjectSuggestionState

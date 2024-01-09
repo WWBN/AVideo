@@ -21,10 +21,8 @@ class WorkerStatus extends \Google\Model
 {
   protected $attachedDisksType = DiskStatus::class;
   protected $attachedDisksDataType = 'map';
-  public $attachedDisks;
   protected $bootDiskType = DiskStatus::class;
   protected $bootDiskDataType = '';
-  public $bootDisk;
   /**
    * @var string
    */

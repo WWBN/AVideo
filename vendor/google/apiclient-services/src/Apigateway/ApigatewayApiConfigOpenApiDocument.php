@@ -21,7 +21,6 @@ class ApigatewayApiConfigOpenApiDocument extends \Google\Model
 {
   protected $documentType = ApigatewayApiConfigFile::class;
   protected $documentDataType = '';
-  public $document;
 
   /**
    * @param ApigatewayApiConfigFile

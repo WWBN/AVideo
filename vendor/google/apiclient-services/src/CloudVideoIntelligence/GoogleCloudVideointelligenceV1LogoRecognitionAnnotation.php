@@ -22,13 +22,10 @@ class GoogleCloudVideointelligenceV1LogoRecognitionAnnotation extends \Google\Co
   protected $collection_key = 'tracks';
   protected $entityType = GoogleCloudVideointelligenceV1Entity::class;
   protected $entityDataType = '';
-  public $entity;
   protected $segmentsType = GoogleCloudVideointelligenceV1VideoSegment::class;
   protected $segmentsDataType = 'array';
-  public $segments;
   protected $tracksType = GoogleCloudVideointelligenceV1Track::class;
   protected $tracksDataType = 'array';
-  public $tracks;
 
   /**
    * @param GoogleCloudVideointelligenceV1Entity

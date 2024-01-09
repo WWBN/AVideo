@@ -21,7 +21,6 @@ class Connection extends \Google\Model
 {
   protected $targetType = PhotoId::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param PhotoId

@@ -21,7 +21,6 @@ class StackTraceElement extends \Google\Model
 {
   protected $positionType = Position::class;
   protected $positionDataType = '';
-  public $position;
   /**
    * @var string
    */

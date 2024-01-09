@@ -26,17 +26,14 @@ class RuleViolationInfo extends \Google\Collection
   public $dataSource;
   protected $matchInfoType = MatchInfo::class;
   protected $matchInfoDataType = 'array';
-  public $matchInfo;
   /**
    * @var string[]
    */
   public $recipients;
   protected $resourceInfoType = ResourceInfo::class;
   protected $resourceInfoDataType = '';
-  public $resourceInfo;
   protected $ruleInfoType = RuleInfo::class;
   protected $ruleInfoDataType = '';
-  public $ruleInfo;
   /**
    * @var string[]
    */
@@ -47,7 +44,6 @@ class RuleViolationInfo extends \Google\Collection
   public $trigger;
   protected $triggeredActionInfoType = ActionInfo::class;
   protected $triggeredActionInfoDataType = 'array';
-  public $triggeredActionInfo;
   /**
    * @var string[]
    */

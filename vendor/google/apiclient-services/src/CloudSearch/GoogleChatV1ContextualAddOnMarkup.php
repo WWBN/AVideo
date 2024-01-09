@@ -22,7 +22,6 @@ class GoogleChatV1ContextualAddOnMarkup extends \Google\Collection
   protected $collection_key = 'cards';
   protected $cardsType = GoogleChatV1ContextualAddOnMarkupCard::class;
   protected $cardsDataType = 'array';
-  public $cards;
 
   /**
    * @param GoogleChatV1ContextualAddOnMarkupCard[]

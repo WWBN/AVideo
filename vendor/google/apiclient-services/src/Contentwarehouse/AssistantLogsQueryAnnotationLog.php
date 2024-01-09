@@ -22,22 +22,16 @@ class AssistantLogsQueryAnnotationLog extends \Google\Collection
   protected $collection_key = 'structureAnnotations';
   protected $deviceAnnotationType = AssistantLogsDeviceAnnotationLog::class;
   protected $deviceAnnotationDataType = '';
-  public $deviceAnnotation;
   protected $deviceAnnotationsType = AssistantLogsDeviceAnnotationLog::class;
   protected $deviceAnnotationsDataType = 'array';
-  public $deviceAnnotations;
   protected $providerAnnotationType = AssistantLogsProviderAnnotationLog::class;
   protected $providerAnnotationDataType = '';
-  public $providerAnnotation;
   protected $roomAnnotationType = AssistantLogsRoomAnnotationLog::class;
   protected $roomAnnotationDataType = '';
-  public $roomAnnotation;
   protected $roomAnnotationsType = AssistantLogsRoomAnnotationLog::class;
   protected $roomAnnotationsDataType = 'array';
-  public $roomAnnotations;
   protected $structureAnnotationsType = AssistantLogsStructureAnnotationLog::class;
   protected $structureAnnotationsDataType = 'array';
-  public $structureAnnotations;
 
   /**
    * @param AssistantLogsDeviceAnnotationLog

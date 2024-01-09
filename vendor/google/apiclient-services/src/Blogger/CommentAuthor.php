@@ -29,7 +29,6 @@ class CommentAuthor extends \Google\Model
   public $id;
   protected $imageType = CommentAuthorImage::class;
   protected $imageDataType = '';
-  public $image;
   /**
    * @var string
    */

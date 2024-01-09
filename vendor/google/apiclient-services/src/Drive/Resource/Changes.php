@@ -97,7 +97,8 @@ class Changes extends \Google\Service\Resource
     return $this->call('list', [$params], ChangeList::class);
   }
   /**
-   * Subscribes to changes for a user. (changes.watch)
+   * Subscribes to changes for a user. To use this method, you must include the
+   * pageToken query parameter. (changes.watch)
    *
    * @param string $pageToken The token for continuing a previous list request on
    * the next page. This should be set to the value of 'nextPageToken' from the

@@ -26,7 +26,6 @@ class GoogleAnalyticsAdminV1betaListPropertiesResponse extends \Google\Collectio
   public $nextPageToken;
   protected $propertiesType = GoogleAnalyticsAdminV1betaProperty::class;
   protected $propertiesDataType = 'array';
-  public $properties;
 
   /**
    * @param string

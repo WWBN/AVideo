@@ -38,6 +38,10 @@ class GitFileSource extends \Google\Model
   /**
    * @var string
    */
+  public $repository;
+  /**
+   * @var string
+   */
   public $revision;
   /**
    * @var string
@@ -99,6 +103,20 @@ class GitFileSource extends \Google\Model
   public function getRepoType()
   {
     return $this->repoType;
+  }
+  /**
+   * @param string
+   */
+  public function setRepository($repository)
+  {
+    $this->repository = $repository;
+  }
+  /**
+   * @return string
+   */
+  public function getRepository()
+  {
+    return $this->repository;
   }
   /**
    * @param string

@@ -21,7 +21,6 @@ class ValidateTrustRequest extends \Google\Model
 {
   protected $trustType = Trust::class;
   protected $trustDataType = '';
-  public $trust;
 
   /**
    * @param Trust

@@ -21,10 +21,8 @@ class GoogleChatV1WidgetMarkupOnClick extends \Google\Model
 {
   protected $actionType = GoogleChatV1WidgetMarkupFormAction::class;
   protected $actionDataType = '';
-  public $action;
   protected $openLinkType = GoogleChatV1WidgetMarkupOpenLink::class;
   protected $openLinkDataType = '';
-  public $openLink;
 
   /**
    * @param GoogleChatV1WidgetMarkupFormAction

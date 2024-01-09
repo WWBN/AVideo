@@ -26,13 +26,10 @@ class Campaign extends \Google\Collection
   public $advertiserId;
   protected $campaignBudgetsType = CampaignBudget::class;
   protected $campaignBudgetsDataType = 'array';
-  public $campaignBudgets;
   protected $campaignFlightType = CampaignFlight::class;
   protected $campaignFlightDataType = '';
-  public $campaignFlight;
   protected $campaignGoalType = CampaignGoal::class;
   protected $campaignGoalDataType = '';
-  public $campaignGoal;
   /**
    * @var string
    */
@@ -47,7 +44,6 @@ class Campaign extends \Google\Collection
   public $entityStatus;
   protected $frequencyCapType = FrequencyCap::class;
   protected $frequencyCapDataType = '';
-  public $frequencyCap;
   /**
    * @var string
    */

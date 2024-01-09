@@ -25,7 +25,6 @@ class TrawlerLoggedVPCDestination extends \Google\Model
   public $cloudRegion;
   protected $vnidType = NetFabricRpcVirtualNetworkId::class;
   protected $vnidDataType = '';
-  public $vnid;
 
   /**
    * @param string

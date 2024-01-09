@@ -21,7 +21,6 @@ class Attachment extends \Google\Model
 {
   protected $attachmentDataRefType = AttachmentDataRef::class;
   protected $attachmentDataRefDataType = '';
-  public $attachmentDataRef;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class Attachment extends \Google\Model
   public $downloadUri;
   protected $driveDataRefType = DriveDataRef::class;
   protected $driveDataRefDataType = '';
-  public $driveDataRef;
   /**
    * @var string
    */

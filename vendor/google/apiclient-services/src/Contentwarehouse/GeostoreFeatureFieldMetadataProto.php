@@ -22,7 +22,6 @@ class GeostoreFeatureFieldMetadataProto extends \Google\Collection
   protected $collection_key = 'fieldProvenance';
   protected $fieldProvenanceType = GeostoreFeatureFieldMetadataProtoFieldProvenance::class;
   protected $fieldProvenanceDataType = 'array';
-  public $fieldProvenance;
 
   /**
    * @param GeostoreFeatureFieldMetadataProtoFieldProvenance[]

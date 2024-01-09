@@ -21,7 +21,6 @@ class OpaqueColor extends \Google\Model
 {
   protected $rgbColorType = RgbColor::class;
   protected $rgbColorDataType = '';
-  public $rgbColor;
   /**
    * @var string
    */

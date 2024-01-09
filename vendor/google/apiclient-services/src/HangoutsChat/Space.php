@@ -37,7 +37,6 @@ class Space extends \Google\Model
   public $singleUserBotDm;
   protected $spaceDetailsType = SpaceDetails::class;
   protected $spaceDetailsDataType = '';
-  public $spaceDetails;
   /**
    * @var string
    */

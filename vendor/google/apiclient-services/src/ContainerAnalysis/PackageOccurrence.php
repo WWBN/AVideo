@@ -30,10 +30,8 @@ class PackageOccurrence extends \Google\Collection
   public $cpeUri;
   protected $licenseType = License::class;
   protected $licenseDataType = '';
-  public $license;
   protected $locationType = Location::class;
   protected $locationDataType = 'array';
-  public $location;
   /**
    * @var string
    */
@@ -44,7 +42,6 @@ class PackageOccurrence extends \Google\Collection
   public $packageType;
   protected $versionType = Version::class;
   protected $versionDataType = '';
-  public $version;
 
   /**
    * @param string

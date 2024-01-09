@@ -17,20 +17,20 @@
 
 namespace Google\Service\ArtifactRegistry;
 
-class ImportGooGetArtifactsRequest extends \Google\Model
+class ImportGoogetArtifactsRequest extends \Google\Model
 {
-  protected $gcsSourceType = ImportGooGetArtifactsGcsSource::class;
+  protected $gcsSourceType = ImportGoogetArtifactsGcsSource::class;
   protected $gcsSourceDataType = '';
 
   /**
-   * @param ImportGooGetArtifactsGcsSource
+   * @param ImportGoogetArtifactsGcsSource
    */
-  public function setGcsSource(ImportGooGetArtifactsGcsSource $gcsSource)
+  public function setGcsSource(ImportGoogetArtifactsGcsSource $gcsSource)
   {
     $this->gcsSource = $gcsSource;
   }
   /**
-   * @return ImportGooGetArtifactsGcsSource
+   * @return ImportGoogetArtifactsGcsSource
    */
   public function getGcsSource()
   {
@@ -39,4 +39,4 @@ class ImportGooGetArtifactsRequest extends \Google\Model
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(ImportGooGetArtifactsRequest::class, 'Google_Service_ArtifactRegistry_ImportGooGetArtifactsRequest');
+class_alias(ImportGoogetArtifactsRequest::class, 'Google_Service_ArtifactRegistry_ImportGoogetArtifactsRequest');

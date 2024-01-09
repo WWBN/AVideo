@@ -21,7 +21,6 @@ class PullGitCommitsRequest extends \Google\Model
 {
   protected $authorType = CommitAuthor::class;
   protected $authorDataType = '';
-  public $author;
   /**
    * @var string
    */

@@ -33,7 +33,6 @@ class CommentThreadSnippet extends \Google\Model
   public $isPublic;
   protected $topLevelCommentType = Comment::class;
   protected $topLevelCommentDataType = '';
-  public $topLevelComment;
   /**
    * @var string
    */

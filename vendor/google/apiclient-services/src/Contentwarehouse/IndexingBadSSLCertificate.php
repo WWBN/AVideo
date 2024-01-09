@@ -21,7 +21,6 @@ class IndexingBadSSLCertificate extends \Google\Model
 {
   protected $badSslCertificateType = TrawlerSSLCertificateInfo::class;
   protected $badSslCertificateDataType = '';
-  public $badSslCertificate;
   /**
    * @var string
    */

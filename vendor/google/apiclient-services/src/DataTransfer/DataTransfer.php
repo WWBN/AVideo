@@ -22,7 +22,6 @@ class DataTransfer extends \Google\Collection
   protected $collection_key = 'applicationDataTransfers';
   protected $applicationDataTransfersType = ApplicationDataTransfer::class;
   protected $applicationDataTransfersDataType = 'array';
-  public $applicationDataTransfers;
   /**
    * @var string
    */

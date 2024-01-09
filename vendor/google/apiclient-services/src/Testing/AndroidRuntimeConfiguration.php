@@ -22,10 +22,8 @@ class AndroidRuntimeConfiguration extends \Google\Collection
   protected $collection_key = 'orientations';
   protected $localesType = Locale::class;
   protected $localesDataType = 'array';
-  public $locales;
   protected $orientationsType = Orientation::class;
   protected $orientationsDataType = 'array';
-  public $orientations;
 
   /**
    * @param Locale[]

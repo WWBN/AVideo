@@ -37,13 +37,10 @@ class Spoke extends \Google\Model
   public $labels;
   protected $linkedInterconnectAttachmentsType = LinkedInterconnectAttachments::class;
   protected $linkedInterconnectAttachmentsDataType = '';
-  public $linkedInterconnectAttachments;
   protected $linkedRouterApplianceInstancesType = LinkedRouterApplianceInstances::class;
   protected $linkedRouterApplianceInstancesDataType = '';
-  public $linkedRouterApplianceInstances;
   protected $linkedVpnTunnelsType = LinkedVpnTunnels::class;
   protected $linkedVpnTunnelsDataType = '';
-  public $linkedVpnTunnels;
   /**
    * @var string
    */

@@ -41,9 +41,9 @@ class CaseClassifications extends \Google\Service\Resource
    * request.
    * @opt_param string pageToken A token identifying the page of results to
    * return. If unspecified, the first page is retrieved.
-   * @opt_param string query An expression written in the Cloud filter language.
-   * If non-empty, then only cases whose fields match the filter are returned. If
-   * empty, then no messages are filtered out.
+   * @opt_param string query An expression written in the Google Cloud filter
+   * language. If non-empty, then only cases whose fields match the filter are
+   * returned. If empty, then no messages are filtered out.
    * @return SearchCaseClassificationsResponse
    */
   public function search($optParams = [])

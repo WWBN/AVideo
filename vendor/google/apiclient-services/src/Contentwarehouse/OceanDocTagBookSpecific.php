@@ -34,7 +34,6 @@ class OceanDocTagBookSpecific extends \Google\Collection
   public $numRatingHalfStars;
   protected $numberingrangeType = OceanDocTagBookSpecificNumberingRange::class;
   protected $numberingrangeDataType = 'array';
-  public $numberingrange;
   /**
    * @var string
    */

@@ -37,7 +37,6 @@ class GoogleCloudApigeeV1RuntimeTraceConfigOverride extends \Google\Model
   public $revisionId;
   protected $samplingConfigType = GoogleCloudApigeeV1RuntimeTraceSamplingConfig::class;
   protected $samplingConfigDataType = '';
-  public $samplingConfig;
   /**
    * @var string
    */

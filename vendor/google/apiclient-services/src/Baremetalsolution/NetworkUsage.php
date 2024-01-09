@@ -22,7 +22,6 @@ class NetworkUsage extends \Google\Collection
   protected $collection_key = 'usedIps';
   protected $networkType = Network::class;
   protected $networkDataType = '';
-  public $network;
   /**
    * @var string[]
    */

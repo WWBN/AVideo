@@ -21,7 +21,6 @@ class GoogleCloudDatacatalogV1DataSourceConnectionSpec extends \Google\Model
 {
   protected $bigqueryConnectionSpecType = GoogleCloudDatacatalogV1BigQueryConnectionSpec::class;
   protected $bigqueryConnectionSpecDataType = '';
-  public $bigqueryConnectionSpec;
 
   /**
    * @param GoogleCloudDatacatalogV1BigQueryConnectionSpec

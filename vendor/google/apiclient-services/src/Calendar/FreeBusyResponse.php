@@ -21,10 +21,8 @@ class FreeBusyResponse extends \Google\Model
 {
   protected $calendarsType = FreeBusyCalendar::class;
   protected $calendarsDataType = 'map';
-  public $calendars;
   protected $groupsType = FreeBusyGroup::class;
   protected $groupsDataType = 'map';
-  public $groups;
   /**
    * @var string
    */

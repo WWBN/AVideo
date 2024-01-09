@@ -22,7 +22,6 @@ class GoogleCloudRecaptchaenterpriseV1AccountVerificationInfo extends \Google\Co
   protected $collection_key = 'endpoints';
   protected $endpointsType = GoogleCloudRecaptchaenterpriseV1EndpointVerificationInfo::class;
   protected $endpointsDataType = 'array';
-  public $endpoints;
   /**
    * @var string
    */

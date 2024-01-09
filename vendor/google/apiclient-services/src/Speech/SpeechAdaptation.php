@@ -22,17 +22,14 @@ class SpeechAdaptation extends \Google\Collection
   protected $collection_key = 'phraseSets';
   protected $abnfGrammarType = ABNFGrammar::class;
   protected $abnfGrammarDataType = '';
-  public $abnfGrammar;
   protected $customClassesType = CustomClass::class;
   protected $customClassesDataType = 'array';
-  public $customClasses;
   /**
    * @var string[]
    */
   public $phraseSetReferences;
   protected $phraseSetsType = PhraseSet::class;
   protected $phraseSetsDataType = 'array';
-  public $phraseSets;
 
   /**
    * @param ABNFGrammar

@@ -22,10 +22,8 @@ class OperationsScopedList extends \Google\Collection
   protected $collection_key = 'operations';
   protected $operationsType = Operation::class;
   protected $operationsDataType = 'array';
-  public $operations;
   protected $warningType = OperationsScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param Operation[]

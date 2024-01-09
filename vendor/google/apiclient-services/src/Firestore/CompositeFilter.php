@@ -22,7 +22,6 @@ class CompositeFilter extends \Google\Collection
   protected $collection_key = 'filters';
   protected $filtersType = Filter::class;
   protected $filtersDataType = 'array';
-  public $filters;
   /**
    * @var string
    */

@@ -29,7 +29,6 @@ class BuiltImage extends \Google\Model
   public $name;
   protected $pushTimingType = TimeSpan::class;
   protected $pushTimingDataType = '';
-  public $pushTiming;
 
   /**
    * @param string

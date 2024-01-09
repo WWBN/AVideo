@@ -47,7 +47,7 @@ if (!interface_exists(HttplugInterface::class)) {
 }
 
 if (!interface_exists(RequestFactory::class)) {
-    throw new \LogicException('You cannot use "Symfony\Component\HttpClient\HttplugClient" as the "php-http/message-factory" package is not installed. Try running "composer require nyholm/psr7".');
+    throw new \LogicException('You cannot use "Symfony\Component\HttpClient\HttplugClient" as the "php-http/message-factory" package is not installed. Try running "composer require php-http/message-factory".');
 }
 
 /**
@@ -101,7 +101,7 @@ final class HttplugClient implements HttplugInterface, HttpAsyncClient, RequestF
     public function sendRequest(RequestInterface $request): Psr7ResponseInterface
     {
         try {
-            return $this->waitLoop->createPsr7Response($this->sendPsr7Request($request));
+            return HttplugWaitLoop::createPsr7Response($this->responseFactory, $this->streamFactory, $this->client, $this->sendPsr7Request($request), true);
         } catch (TransportExceptionInterface $e) {
             throw new NetworkException($e->getMessage(), $request, $e);
         }

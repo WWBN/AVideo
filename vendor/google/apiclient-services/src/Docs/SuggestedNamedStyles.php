@@ -21,10 +21,8 @@ class SuggestedNamedStyles extends \Google\Model
 {
   protected $namedStylesType = NamedStyles::class;
   protected $namedStylesDataType = '';
-  public $namedStyles;
   protected $namedStylesSuggestionStateType = NamedStylesSuggestionState::class;
   protected $namedStylesSuggestionStateDataType = '';
-  public $namedStylesSuggestionState;
 
   /**
    * @param NamedStyles

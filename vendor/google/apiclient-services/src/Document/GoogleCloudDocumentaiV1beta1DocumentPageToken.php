@@ -22,16 +22,14 @@ class GoogleCloudDocumentaiV1beta1DocumentPageToken extends \Google\Collection
   protected $collection_key = 'detectedLanguages';
   protected $detectedBreakType = GoogleCloudDocumentaiV1beta1DocumentPageTokenDetectedBreak::class;
   protected $detectedBreakDataType = '';
-  public $detectedBreak;
   protected $detectedLanguagesType = GoogleCloudDocumentaiV1beta1DocumentPageDetectedLanguage::class;
   protected $detectedLanguagesDataType = 'array';
-  public $detectedLanguages;
   protected $layoutType = GoogleCloudDocumentaiV1beta1DocumentPageLayout::class;
   protected $layoutDataType = '';
-  public $layout;
   protected $provenanceType = GoogleCloudDocumentaiV1beta1DocumentProvenance::class;
   protected $provenanceDataType = '';
-  public $provenance;
+  protected $styleInfoType = GoogleCloudDocumentaiV1beta1DocumentPageTokenStyleInfo::class;
+  protected $styleInfoDataType = '';
 
   /**
    * @param GoogleCloudDocumentaiV1beta1DocumentPageTokenDetectedBreak
@@ -88,6 +86,20 @@ class GoogleCloudDocumentaiV1beta1DocumentPageToken extends \Google\Collection
   public function getProvenance()
   {
     return $this->provenance;
+  }
+  /**
+   * @param GoogleCloudDocumentaiV1beta1DocumentPageTokenStyleInfo
+   */
+  public function setStyleInfo(GoogleCloudDocumentaiV1beta1DocumentPageTokenStyleInfo $styleInfo)
+  {
+    $this->styleInfo = $styleInfo;
+  }
+  /**
+   * @return GoogleCloudDocumentaiV1beta1DocumentPageTokenStyleInfo
+   */
+  public function getStyleInfo()
+  {
+    return $this->styleInfo;
   }
 }
 

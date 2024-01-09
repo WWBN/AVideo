@@ -22,7 +22,6 @@ class ClusterResourceRestoreScope extends \Google\Collection
   protected $collection_key = 'selectedGroupKinds';
   protected $selectedGroupKindsType = GroupKind::class;
   protected $selectedGroupKindsDataType = 'array';
-  public $selectedGroupKinds;
 
   /**
    * @param GroupKind[]

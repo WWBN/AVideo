@@ -21,7 +21,6 @@ class GeostoreFieldMetadataProto extends \Google\Model
 {
   protected $internalType = GeostoreInternalFieldMetadataProto::class;
   protected $internalDataType = '';
-  public $internal;
 
   /**
    * @param GeostoreInternalFieldMetadataProto

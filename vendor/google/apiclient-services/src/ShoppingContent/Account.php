@@ -26,28 +26,26 @@ class Account extends \Google\Collection
   public $accountManagement;
   protected $adsLinksType = AccountAdsLink::class;
   protected $adsLinksDataType = 'array';
-  public $adsLinks;
   /**
    * @var bool
    */
   public $adultContent;
   protected $automaticImprovementsType = AccountAutomaticImprovements::class;
   protected $automaticImprovementsDataType = '';
-  public $automaticImprovements;
   /**
    * @var string[]
    */
   public $automaticLabelIds;
   protected $businessInformationType = AccountBusinessInformation::class;
   protected $businessInformationDataType = '';
-  public $businessInformation;
+  protected $conversionSettingsType = AccountConversionSettings::class;
+  protected $conversionSettingsDataType = '';
   /**
    * @var string
    */
   public $cssId;
   protected $googleMyBusinessLinkType = AccountGoogleMyBusinessLink::class;
   protected $googleMyBusinessLinkDataType = '';
-  public $googleMyBusinessLink;
   /**
    * @var string
    */
@@ -70,14 +68,12 @@ class Account extends \Google\Collection
   public $sellerId;
   protected $usersType = AccountUser::class;
   protected $usersDataType = 'array';
-  public $users;
   /**
    * @var string
    */
   public $websiteUrl;
   protected $youtubeChannelLinksType = AccountYouTubeChannelLink::class;
   protected $youtubeChannelLinksDataType = 'array';
-  public $youtubeChannelLinks;
 
   /**
    * @param string
@@ -162,6 +158,20 @@ class Account extends \Google\Collection
   public function getBusinessInformation()
   {
     return $this->businessInformation;
+  }
+  /**
+   * @param AccountConversionSettings
+   */
+  public function setConversionSettings(AccountConversionSettings $conversionSettings)
+  {
+    $this->conversionSettings = $conversionSettings;
+  }
+  /**
+   * @return AccountConversionSettings
+   */
+  public function getConversionSettings()
+  {
+    return $this->conversionSettings;
   }
   /**
    * @param string

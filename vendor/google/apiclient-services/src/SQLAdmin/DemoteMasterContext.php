@@ -29,7 +29,6 @@ class DemoteMasterContext extends \Google\Model
   public $masterInstanceName;
   protected $replicaConfigurationType = DemoteMasterConfiguration::class;
   protected $replicaConfigurationDataType = '';
-  public $replicaConfiguration;
   /**
    * @var bool
    */

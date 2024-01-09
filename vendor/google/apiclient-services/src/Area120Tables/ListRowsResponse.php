@@ -26,7 +26,6 @@ class ListRowsResponse extends \Google\Collection
   public $nextPageToken;
   protected $rowsType = Row::class;
   protected $rowsDataType = 'array';
-  public $rows;
 
   /**
    * @param string

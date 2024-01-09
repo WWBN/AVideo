@@ -33,7 +33,6 @@ class StatusProto extends \Google\Model
   public $message;
   protected $messageSetType = MessageSet::class;
   protected $messageSetDataType = '';
-  public $messageSet;
   /**
    * @var string
    */

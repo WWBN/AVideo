@@ -21,7 +21,6 @@ class VideoContentSearchOCRText extends \Google\Model
 {
   protected $ocrFeatureType = VideoContentSearchOnScreenTextFeature::class;
   protected $ocrFeatureDataType = '';
-  public $ocrFeature;
   /**
    * @var string
    */

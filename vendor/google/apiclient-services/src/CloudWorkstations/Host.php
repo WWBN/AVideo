@@ -21,7 +21,6 @@ class Host extends \Google\Model
 {
   protected $gceInstanceType = GceInstance::class;
   protected $gceInstanceDataType = '';
-  public $gceInstance;
 
   /**
    * @param GceInstance

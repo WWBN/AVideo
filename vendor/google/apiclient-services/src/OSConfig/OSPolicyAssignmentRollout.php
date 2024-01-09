@@ -21,7 +21,6 @@ class OSPolicyAssignmentRollout extends \Google\Model
 {
   protected $disruptionBudgetType = FixedOrPercent::class;
   protected $disruptionBudgetDataType = '';
-  public $disruptionBudget;
   /**
    * @var string
    */

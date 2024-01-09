@@ -26,10 +26,8 @@ class User extends \Google\Collection
   public $avatarUrl;
   protected $blockRelationshipType = AppsDynamiteSharedUserBlockRelationship::class;
   protected $blockRelationshipDataType = '';
-  public $blockRelationship;
   protected $botInfoType = BotInfo::class;
   protected $botInfoDataType = '';
-  public $botInfo;
   /**
    * @var bool
    */
@@ -48,7 +46,6 @@ class User extends \Google\Collection
   public $gender;
   protected $idType = UserId::class;
   protected $idDataType = '';
-  public $id;
   /**
    * @var bool
    */
@@ -63,10 +60,8 @@ class User extends \Google\Collection
   public $name;
   protected $organizationInfoType = AppsDynamiteSharedOrganizationInfo::class;
   protected $organizationInfoDataType = '';
-  public $organizationInfo;
   protected $phoneNumberType = AppsDynamiteSharedPhoneNumber::class;
   protected $phoneNumberDataType = 'array';
-  public $phoneNumber;
   /**
    * @var string
    */

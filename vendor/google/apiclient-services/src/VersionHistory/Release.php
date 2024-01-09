@@ -30,7 +30,6 @@ class Release extends \Google\Model
   public $name;
   protected $servingType = Interval::class;
   protected $servingDataType = '';
-  public $serving;
   /**
    * @var string
    */

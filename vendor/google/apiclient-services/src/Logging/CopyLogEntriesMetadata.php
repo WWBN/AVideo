@@ -33,7 +33,6 @@ class CopyLogEntriesMetadata extends \Google\Model
   public $progress;
   protected $requestType = CopyLogEntriesRequest::class;
   protected $requestDataType = '';
-  public $request;
   /**
    * @var string
    */

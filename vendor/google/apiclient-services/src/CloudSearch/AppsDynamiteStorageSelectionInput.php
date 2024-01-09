@@ -22,7 +22,6 @@ class AppsDynamiteStorageSelectionInput extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = AppsDynamiteStorageSelectionInputSelectionItem::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class AppsDynamiteStorageSelectionInput extends \Google\Collection
   public $name;
   protected $onChangeActionType = AppsDynamiteStorageAction::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var string
    */

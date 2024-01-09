@@ -22,7 +22,6 @@ class GoogleCloudDataplexV1ListDataAttributeBindingsResponse extends \Google\Col
   protected $collection_key = 'unreachableLocations';
   protected $dataAttributeBindingsType = GoogleCloudDataplexV1DataAttributeBinding::class;
   protected $dataAttributeBindingsDataType = 'array';
-  public $dataAttributeBindings;
   /**
    * @var string
    */

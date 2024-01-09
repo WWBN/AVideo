@@ -21,10 +21,8 @@ class GroupDetailsUpdatedMetadata extends \Google\Model
 {
   protected $newGroupDetailsType = AppsDynamiteSharedGroupDetails::class;
   protected $newGroupDetailsDataType = '';
-  public $newGroupDetails;
   protected $prevGroupDetailsType = AppsDynamiteSharedGroupDetails::class;
   protected $prevGroupDetailsDataType = '';
-  public $prevGroupDetails;
 
   /**
    * @param AppsDynamiteSharedGroupDetails

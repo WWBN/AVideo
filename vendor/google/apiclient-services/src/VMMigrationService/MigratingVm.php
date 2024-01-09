@@ -22,17 +22,16 @@ class MigratingVm extends \Google\Collection
   protected $collection_key = 'recentCutoverJobs';
   protected $awsSourceVmDetailsType = AwsSourceVmDetails::class;
   protected $awsSourceVmDetailsDataType = '';
-  public $awsSourceVmDetails;
   protected $computeEngineTargetDefaultsType = ComputeEngineTargetDefaults::class;
   protected $computeEngineTargetDefaultsDataType = '';
-  public $computeEngineTargetDefaults;
   /**
    * @var string
    */
   public $createTime;
   protected $currentSyncInfoType = ReplicationCycle::class;
   protected $currentSyncInfoDataType = '';
-  public $currentSyncInfo;
+  protected $cutoverForecastType = CutoverForecast::class;
+  protected $cutoverForecastDataType = '';
   /**
    * @var string
    */
@@ -43,7 +42,6 @@ class MigratingVm extends \Google\Collection
   public $displayName;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -52,22 +50,20 @@ class MigratingVm extends \Google\Collection
    * @var string[]
    */
   public $labels;
+  protected $lastReplicationCycleType = ReplicationCycle::class;
+  protected $lastReplicationCycleDataType = '';
   protected $lastSyncType = ReplicationSync::class;
   protected $lastSyncDataType = '';
-  public $lastSync;
   /**
    * @var string
    */
   public $name;
   protected $policyType = SchedulePolicy::class;
   protected $policyDataType = '';
-  public $policy;
   protected $recentCloneJobsType = CloneJob::class;
   protected $recentCloneJobsDataType = 'array';
-  public $recentCloneJobs;
   protected $recentCutoverJobsType = CutoverJob::class;
   protected $recentCutoverJobsDataType = 'array';
-  public $recentCutoverJobs;
   /**
    * @var string
    */
@@ -142,6 +138,20 @@ class MigratingVm extends \Google\Collection
     return $this->currentSyncInfo;
   }
   /**
+   * @param CutoverForecast
+   */
+  public function setCutoverForecast(CutoverForecast $cutoverForecast)
+  {
+    $this->cutoverForecast = $cutoverForecast;
+  }
+  /**
+   * @return CutoverForecast
+   */
+  public function getCutoverForecast()
+  {
+    return $this->cutoverForecast;
+  }
+  /**
    * @param string
    */
   public function setDescription($description)
@@ -210,6 +220,20 @@ class MigratingVm extends \Google\Collection
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param ReplicationCycle
+   */
+  public function setLastReplicationCycle(ReplicationCycle $lastReplicationCycle)
+  {
+    $this->lastReplicationCycle = $lastReplicationCycle;
+  }
+  /**
+   * @return ReplicationCycle
+   */
+  public function getLastReplicationCycle()
+  {
+    return $this->lastReplicationCycle;
   }
   /**
    * @param ReplicationSync

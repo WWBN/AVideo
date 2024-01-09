@@ -22,13 +22,10 @@ class ServingRestriction extends \Google\Collection
   protected $collection_key = 'disapprovalReasons';
   protected $contextsType = ServingContext::class;
   protected $contextsDataType = 'array';
-  public $contexts;
   protected $disapprovalType = Disapproval::class;
   protected $disapprovalDataType = '';
-  public $disapproval;
   protected $disapprovalReasonsType = Disapproval::class;
   protected $disapprovalReasonsDataType = 'array';
-  public $disapprovalReasons;
   /**
    * @var string
    */

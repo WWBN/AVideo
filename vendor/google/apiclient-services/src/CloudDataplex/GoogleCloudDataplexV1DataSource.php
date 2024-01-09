@@ -23,6 +23,10 @@ class GoogleCloudDataplexV1DataSource extends \Google\Model
    * @var string
    */
   public $entity;
+  /**
+   * @var string
+   */
+  public $resource;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleCloudDataplexV1DataSource extends \Google\Model
   public function getEntity()
   {
     return $this->entity;
+  }
+  /**
+   * @param string
+   */
+  public function setResource($resource)
+  {
+    $this->resource = $resource;
+  }
+  /**
+   * @return string
+   */
+  public function getResource()
+  {
+    return $this->resource;
   }
 }
 

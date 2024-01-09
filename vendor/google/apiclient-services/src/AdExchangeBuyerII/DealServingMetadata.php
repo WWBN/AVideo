@@ -21,7 +21,6 @@ class DealServingMetadata extends \Google\Model
 {
   protected $dealPauseStatusType = DealPauseStatus::class;
   protected $dealPauseStatusDataType = '';
-  public $dealPauseStatus;
 
   /**
    * @param DealPauseStatus

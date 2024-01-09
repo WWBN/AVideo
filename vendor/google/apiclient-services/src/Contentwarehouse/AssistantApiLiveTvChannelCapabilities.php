@@ -22,7 +22,6 @@ class AssistantApiLiveTvChannelCapabilities extends \Google\Collection
   protected $collection_key = 'channelsByProvider';
   protected $channelsByProviderType = AssistantApiLiveTvChannelCapabilitiesChannelsByProvider::class;
   protected $channelsByProviderDataType = 'array';
-  public $channelsByProvider;
 
   /**
    * @param AssistantApiLiveTvChannelCapabilitiesChannelsByProvider[]

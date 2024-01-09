@@ -21,7 +21,6 @@ class AssistantApiCoreTypesProviderDelta extends \Google\Model
 {
   protected $androidAppInfoDeltaType = AssistantApiCoreTypesAndroidAppInfoDelta::class;
   protected $androidAppInfoDeltaDataType = '';
-  public $androidAppInfoDelta;
   /**
    * @var string
    */

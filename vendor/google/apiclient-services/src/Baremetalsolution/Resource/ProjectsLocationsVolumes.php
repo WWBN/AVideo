@@ -20,6 +20,7 @@ namespace Google\Service\Baremetalsolution\Resource;
 use Google\Service\Baremetalsolution\EvictVolumeRequest;
 use Google\Service\Baremetalsolution\ListVolumesResponse;
 use Google\Service\Baremetalsolution\Operation;
+use Google\Service\Baremetalsolution\RenameVolumeRequest;
 use Google\Service\Baremetalsolution\ResizeVolumeRequest;
 use Google\Service\Baremetalsolution\Volume;
 
@@ -101,6 +102,22 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * RenameVolume sets a new name for a volume. Use with caution, previous names
+   * become immediately invalidated. (volumes.rename)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * volume. Format: projects/{project}/locations/{location}/volumes/{volume}
+   * @param RenameVolumeRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Volume
+   */
+  public function rename($name, RenameVolumeRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rename', [$params], Volume::class);
   }
   /**
    * Emergency Volume resize. (volumes.resize)

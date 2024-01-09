@@ -33,7 +33,6 @@ class GamesNumberFormatConfiguration extends \Google\Model
   public $numberFormatType;
   protected $suffixType = GamesNumberAffixConfiguration::class;
   protected $suffixDataType = '';
-  public $suffix;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class UnaryFilter extends \Google\Model
 {
   protected $fieldType = FieldReference::class;
   protected $fieldDataType = '';
-  public $field;
   /**
    * @var string
    */

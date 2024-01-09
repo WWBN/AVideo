@@ -21,13 +21,10 @@ class GoogleCloudDocumentaiV1beta3TrainProcessorVersionMetadata extends \Google\
 {
   protected $commonMetadataType = GoogleCloudDocumentaiV1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
-  public $commonMetadata;
   protected $testDatasetValidationType = GoogleCloudDocumentaiV1beta3TrainProcessorVersionMetadataDatasetValidation::class;
   protected $testDatasetValidationDataType = '';
-  public $testDatasetValidation;
   protected $trainingDatasetValidationType = GoogleCloudDocumentaiV1beta3TrainProcessorVersionMetadataDatasetValidation::class;
   protected $trainingDatasetValidationDataType = '';
-  public $trainingDatasetValidation;
 
   /**
    * @param GoogleCloudDocumentaiV1beta3CommonOperationMetadata

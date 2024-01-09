@@ -30,13 +30,10 @@ class HparamTuningTrial extends \Google\Model
   public $evalLoss;
   protected $evaluationMetricsType = EvaluationMetrics::class;
   protected $evaluationMetricsDataType = '';
-  public $evaluationMetrics;
   protected $hparamTuningEvaluationMetricsType = EvaluationMetrics::class;
   protected $hparamTuningEvaluationMetricsDataType = '';
-  public $hparamTuningEvaluationMetrics;
   protected $hparamsType = TrainingOptions::class;
   protected $hparamsDataType = '';
-  public $hparams;
   /**
    * @var string
    */

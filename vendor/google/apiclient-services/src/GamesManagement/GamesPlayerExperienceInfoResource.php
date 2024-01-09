@@ -25,14 +25,12 @@ class GamesPlayerExperienceInfoResource extends \Google\Model
   public $currentExperiencePoints;
   protected $currentLevelType = GamesPlayerLevelResource::class;
   protected $currentLevelDataType = '';
-  public $currentLevel;
   /**
    * @var string
    */
   public $lastLevelUpTimestampMillis;
   protected $nextLevelType = GamesPlayerLevelResource::class;
   protected $nextLevelDataType = '';
-  public $nextLevel;
 
   /**
    * @param string

@@ -29,7 +29,6 @@ class InstanceManagedByIgmErrorInstanceActionDetails extends \Google\Model
   public $instance;
   protected $versionType = ManagedInstanceVersion::class;
   protected $versionDataType = '';
-  public $version;
 
   /**
    * @param string

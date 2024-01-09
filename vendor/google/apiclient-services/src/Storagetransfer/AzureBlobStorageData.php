@@ -21,7 +21,6 @@ class AzureBlobStorageData extends \Google\Model
 {
   protected $azureCredentialsType = AzureCredentials::class;
   protected $azureCredentialsDataType = '';
-  public $azureCredentials;
   /**
    * @var string
    */

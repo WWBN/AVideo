@@ -22,7 +22,6 @@ class ListGlossariesResponse extends \Google\Collection
   protected $collection_key = 'glossaries';
   protected $glossariesType = Glossary::class;
   protected $glossariesDataType = 'array';
-  public $glossaries;
   /**
    * @var string
    */

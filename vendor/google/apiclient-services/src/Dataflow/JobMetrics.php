@@ -26,7 +26,6 @@ class JobMetrics extends \Google\Collection
   public $metricTime;
   protected $metricsType = MetricUpdate::class;
   protected $metricsDataType = 'array';
-  public $metrics;
 
   /**
    * @param string

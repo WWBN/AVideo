@@ -26,7 +26,6 @@ class GoogleCloudChannelV1ListTransferableOffersResponse extends \Google\Collect
   public $nextPageToken;
   protected $transferableOffersType = GoogleCloudChannelV1TransferableOffer::class;
   protected $transferableOffersDataType = 'array';
-  public $transferableOffers;
 
   /**
    * @param string

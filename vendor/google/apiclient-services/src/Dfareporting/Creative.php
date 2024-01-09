@@ -38,7 +38,6 @@ class Creative extends \Google\Collection
   public $adTagKeys;
   protected $additionalSizesType = Size::class;
   protected $additionalSizesDataType = 'array';
-  public $additionalSizes;
   /**
    * @var string
    */
@@ -73,7 +72,6 @@ class Creative extends \Google\Collection
   public $backgroundColor;
   protected $backupImageClickThroughUrlType = CreativeClickThroughUrl::class;
   protected $backupImageClickThroughUrlDataType = '';
-  public $backupImageClickThroughUrl;
   /**
    * @var string[]
    */
@@ -84,10 +82,8 @@ class Creative extends \Google\Collection
   public $backupImageReportingLabel;
   protected $backupImageTargetWindowType = TargetWindow::class;
   protected $backupImageTargetWindowDataType = '';
-  public $backupImageTargetWindow;
   protected $clickTagsType = ClickTag::class;
   protected $clickTagsDataType = 'array';
-  public $clickTags;
   /**
    * @var string
    */
@@ -106,16 +102,12 @@ class Creative extends \Google\Collection
   public $convertFlashToHtml5;
   protected $counterCustomEventsType = CreativeCustomEvent::class;
   protected $counterCustomEventsDataType = 'array';
-  public $counterCustomEvents;
   protected $creativeAssetSelectionType = CreativeAssetSelection::class;
   protected $creativeAssetSelectionDataType = '';
-  public $creativeAssetSelection;
   protected $creativeAssetsType = CreativeAsset::class;
   protected $creativeAssetsDataType = 'array';
-  public $creativeAssets;
   protected $creativeFieldAssignmentsType = CreativeFieldAssignment::class;
   protected $creativeFieldAssignmentsDataType = 'array';
-  public $creativeFieldAssignments;
   /**
    * @var string[]
    */
@@ -126,10 +118,8 @@ class Creative extends \Google\Collection
   public $dynamicAssetSelection;
   protected $exitCustomEventsType = CreativeCustomEvent::class;
   protected $exitCustomEventsDataType = 'array';
-  public $exitCustomEvents;
   protected $fsCommandType = FsCommand::class;
   protected $fsCommandDataType = '';
-  public $fsCommand;
   /**
    * @var string
    */
@@ -144,14 +134,12 @@ class Creative extends \Google\Collection
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
-  public $idDimensionValue;
   /**
    * @var string
    */
   public $kind;
   protected $lastModifiedInfoType = LastModifiedInfo::class;
   protected $lastModifiedInfoDataType = '';
-  public $lastModifiedInfo;
   /**
    * @var string
    */
@@ -170,14 +158,12 @@ class Creative extends \Google\Collection
   public $name;
   protected $obaIconType = ObaIcon::class;
   protected $obaIconDataType = '';
-  public $obaIcon;
   /**
    * @var string
    */
   public $overrideCss;
   protected $progressOffsetType = VideoOffset::class;
   protected $progressOffsetDataType = '';
-  public $progressOffset;
   /**
    * @var string
    */
@@ -188,7 +174,6 @@ class Creative extends \Google\Collection
   public $renderingId;
   protected $renderingIdDimensionValueType = DimensionValue::class;
   protected $renderingIdDimensionValueDataType = '';
-  public $renderingIdDimensionValue;
   /**
    * @var string
    */
@@ -199,10 +184,8 @@ class Creative extends \Google\Collection
   public $requiredFlashVersion;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
-  public $size;
   protected $skipOffsetType = VideoOffset::class;
   protected $skipOffsetDataType = '';
-  public $skipOffset;
   /**
    * @var bool
    */
@@ -241,10 +224,8 @@ class Creative extends \Google\Collection
   public $thirdPartyRichMediaImpressionsUrl;
   protected $thirdPartyUrlsType = ThirdPartyTrackingUrl::class;
   protected $thirdPartyUrlsDataType = 'array';
-  public $thirdPartyUrls;
   protected $timerCustomEventsType = CreativeCustomEvent::class;
   protected $timerCustomEventsDataType = 'array';
-  public $timerCustomEvents;
   /**
    * @var string
    */
@@ -255,7 +236,6 @@ class Creative extends \Google\Collection
   public $type;
   protected $universalAdIdType = UniversalAdId::class;
   protected $universalAdIdDataType = '';
-  public $universalAdId;
   /**
    * @var int
    */

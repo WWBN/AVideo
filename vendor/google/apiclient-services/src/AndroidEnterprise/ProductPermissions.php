@@ -22,7 +22,6 @@ class ProductPermissions extends \Google\Collection
   protected $collection_key = 'permission';
   protected $permissionType = ProductPermission::class;
   protected $permissionDataType = 'array';
-  public $permission;
   /**
    * @var string
    */

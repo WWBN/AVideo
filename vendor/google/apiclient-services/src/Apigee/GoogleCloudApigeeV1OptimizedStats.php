@@ -24,7 +24,6 @@ class GoogleCloudApigeeV1OptimizedStats extends \Google\Model
   ];
   protected $responseType = GoogleCloudApigeeV1OptimizedStatsResponse::class;
   protected $responseDataType = '';
-  public $response;
 
   /**
    * @param GoogleCloudApigeeV1OptimizedStatsResponse

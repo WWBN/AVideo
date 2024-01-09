@@ -22,7 +22,6 @@ class Table extends \Google\Collection
   protected $collection_key = 'savedViews';
   protected $columnsType = ColumnDescription::class;
   protected $columnsDataType = 'array';
-  public $columns;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class Table extends \Google\Collection
   public $name;
   protected $savedViewsType = SavedView::class;
   protected $savedViewsDataType = 'array';
-  public $savedViews;
   /**
    * @var string
    */

@@ -35,6 +35,10 @@ class GceRegionalPersistentDisk extends \Google\Model
    * @var int
    */
   public $sizeGb;
+  /**
+   * @var string
+   */
+  public $sourceSnapshot;
 
   /**
    * @param string
@@ -91,6 +95,20 @@ class GceRegionalPersistentDisk extends \Google\Model
   public function getSizeGb()
   {
     return $this->sizeGb;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceSnapshot($sourceSnapshot)
+  {
+    $this->sourceSnapshot = $sourceSnapshot;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceSnapshot()
+  {
+    return $this->sourceSnapshot;
   }
 }
 

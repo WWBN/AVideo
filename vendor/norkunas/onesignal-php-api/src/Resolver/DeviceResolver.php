@@ -19,9 +19,6 @@ class DeviceResolver implements ResolverInterface
         $this->isNewDevice = $isNewDevice;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         $resolver = (new OptionsResolver())

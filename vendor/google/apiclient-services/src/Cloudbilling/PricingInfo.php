@@ -21,7 +21,6 @@ class PricingInfo extends \Google\Model
 {
   protected $aggregationInfoType = AggregationInfo::class;
   protected $aggregationInfoDataType = '';
-  public $aggregationInfo;
   public $currencyConversionRate;
   /**
    * @var string
@@ -29,7 +28,6 @@ class PricingInfo extends \Google\Model
   public $effectiveTime;
   protected $pricingExpressionType = PricingExpression::class;
   protected $pricingExpressionDataType = '';
-  public $pricingExpression;
   /**
    * @var string
    */

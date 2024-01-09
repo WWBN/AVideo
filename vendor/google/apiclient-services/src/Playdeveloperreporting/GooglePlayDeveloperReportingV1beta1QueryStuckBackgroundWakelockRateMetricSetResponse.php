@@ -26,7 +26,6 @@ class GooglePlayDeveloperReportingV1beta1QueryStuckBackgroundWakelockRateMetricS
   public $nextPageToken;
   protected $rowsType = GooglePlayDeveloperReportingV1beta1MetricsRow::class;
   protected $rowsDataType = 'array';
-  public $rows;
 
   /**
    * @param string

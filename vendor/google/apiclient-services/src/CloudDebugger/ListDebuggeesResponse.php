@@ -22,7 +22,6 @@ class ListDebuggeesResponse extends \Google\Collection
   protected $collection_key = 'debuggees';
   protected $debuggeesType = Debuggee::class;
   protected $debuggeesDataType = 'array';
-  public $debuggees;
 
   /**
    * @param Debuggee[]

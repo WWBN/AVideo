@@ -23,6 +23,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildOptions extends \Google\Co
   /**
    * @var string
    */
+  public $defaultLogsBucketBehavior;
+  /**
+   * @var string
+   */
   public $diskSizeGb;
   /**
    * @var bool
@@ -46,7 +50,6 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildOptions extends \Google\Co
   public $machineType;
   protected $poolType = ContaineranalysisGoogleDevtoolsCloudbuildV1BuildOptionsPoolOption::class;
   protected $poolDataType = '';
-  public $pool;
   /**
    * @var string
    */
@@ -65,12 +68,25 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildOptions extends \Google\Co
   public $substitutionOption;
   protected $volumesType = ContaineranalysisGoogleDevtoolsCloudbuildV1Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
   /**
    * @var string
    */
   public $workerPool;
 
+  /**
+   * @param string
+   */
+  public function setDefaultLogsBucketBehavior($defaultLogsBucketBehavior)
+  {
+    $this->defaultLogsBucketBehavior = $defaultLogsBucketBehavior;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultLogsBucketBehavior()
+  {
+    return $this->defaultLogsBucketBehavior;
+  }
   /**
    * @param string
    */

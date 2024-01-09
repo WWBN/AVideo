@@ -21,7 +21,6 @@ class AutoscalingPolicyScaleInControl extends \Google\Model
 {
   protected $maxScaledInReplicasType = FixedOrPercent::class;
   protected $maxScaledInReplicasDataType = '';
-  public $maxScaledInReplicas;
   /**
    * @var int
    */

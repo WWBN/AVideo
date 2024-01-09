@@ -21,13 +21,10 @@ class IndexingDupsLocalizedLocalizedClusterTargetLink extends \Google\Model
 {
   protected $linkDataType = IndexingDupsLocalizedLocalizedClusterTargetLinkLink::class;
   protected $linkDataDataType = '';
-  public $linkData;
   protected $metaDataType = IndexingDupsLocalizedLocalizedClusterTargetLinkMetadata::class;
   protected $metaDataDataType = '';
-  public $metaData;
   protected $targetDocDataType = IndexingDupsLocalizedLocalizedClusterTargetLinkTargetDocData::class;
   protected $targetDocDataDataType = '';
-  public $targetDocData;
   /**
    * @var string
    */

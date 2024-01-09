@@ -21,7 +21,6 @@ class Declaration extends \Google\Model
 {
   protected $relationDescriptorType = RelationDescriptor::class;
   protected $relationDescriptorDataType = '';
-  public $relationDescriptor;
 
   /**
    * @param RelationDescriptor

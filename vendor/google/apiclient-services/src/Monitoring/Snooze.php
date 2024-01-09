@@ -21,14 +21,12 @@ class Snooze extends \Google\Model
 {
   protected $criteriaType = Criteria::class;
   protected $criteriaDataType = '';
-  public $criteria;
   /**
    * @var string
    */
   public $displayName;
   protected $intervalType = TimeInterval::class;
   protected $intervalDataType = '';
-  public $interval;
   /**
    * @var string
    */

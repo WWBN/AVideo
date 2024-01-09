@@ -30,10 +30,8 @@ class JobStatus extends \Google\Collection
   public $state;
   protected $statusEventsType = StatusEvent::class;
   protected $statusEventsDataType = 'array';
-  public $statusEvents;
   protected $taskGroupsType = TaskGroupStatus::class;
   protected $taskGroupsDataType = 'map';
-  public $taskGroups;
 
   /**
    * @param string

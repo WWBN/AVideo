@@ -22,7 +22,6 @@ class Track extends \Google\Collection
   protected $collection_key = 'releases';
   protected $releasesType = TrackRelease::class;
   protected $releasesDataType = 'array';
-  public $releases;
   /**
    * @var string
    */

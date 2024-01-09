@@ -21,20 +21,16 @@ class Advertiser extends \Google\Model
 {
   protected $adServerConfigType = AdvertiserAdServerConfig::class;
   protected $adServerConfigDataType = '';
-  public $adServerConfig;
   /**
    * @var string
    */
   public $advertiserId;
   protected $billingConfigType = AdvertiserBillingConfig::class;
   protected $billingConfigDataType = '';
-  public $billingConfig;
   protected $creativeConfigType = AdvertiserCreativeConfig::class;
   protected $creativeConfigDataType = '';
-  public $creativeConfig;
   protected $dataAccessConfigType = AdvertiserDataAccessConfig::class;
   protected $dataAccessConfigDataType = '';
-  public $dataAccessConfig;
   /**
    * @var string
    */
@@ -45,10 +41,8 @@ class Advertiser extends \Google\Model
   public $entityStatus;
   protected $generalConfigType = AdvertiserGeneralConfig::class;
   protected $generalConfigDataType = '';
-  public $generalConfig;
   protected $integrationDetailsType = IntegrationDetails::class;
   protected $integrationDetailsDataType = '';
-  public $integrationDetails;
   /**
    * @var string
    */
@@ -63,7 +57,6 @@ class Advertiser extends \Google\Model
   public $prismaEnabled;
   protected $servingConfigType = AdvertiserTargetingConfig::class;
   protected $servingConfigDataType = '';
-  public $servingConfig;
   /**
    * @var string
    */

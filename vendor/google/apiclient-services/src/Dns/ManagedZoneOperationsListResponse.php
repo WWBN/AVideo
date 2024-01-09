@@ -22,7 +22,6 @@ class ManagedZoneOperationsListResponse extends \Google\Collection
   protected $collection_key = 'operations';
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class ManagedZoneOperationsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $operationsType = Operation::class;
   protected $operationsDataType = 'array';
-  public $operations;
 
   /**
    * @param ResponseHeader

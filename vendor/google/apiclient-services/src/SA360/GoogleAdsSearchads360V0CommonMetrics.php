@@ -119,6 +119,7 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public $valuePerAllConversionsByConversionDate;
   public $valuePerConversion;
   public $valuePerConversionsByConversionDate;
+  public $visits;
 
   public function setAbsoluteTopImpressionPercentage($absoluteTopImpressionPercentage)
   {
@@ -713,6 +714,14 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public function getValuePerConversionsByConversionDate()
   {
     return $this->valuePerConversionsByConversionDate;
+  }
+  public function setVisits($visits)
+  {
+    $this->visits = $visits;
+  }
+  public function getVisits()
+  {
+    return $this->visits;
   }
 }
 

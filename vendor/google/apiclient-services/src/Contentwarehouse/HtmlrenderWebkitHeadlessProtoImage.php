@@ -33,7 +33,6 @@ class HtmlrenderWebkitHeadlessProtoImage extends \Google\Model
   public $pageNumber;
   protected $viewportType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $viewportDataType = '';
-  public $viewport;
   /**
    * @var int
    */

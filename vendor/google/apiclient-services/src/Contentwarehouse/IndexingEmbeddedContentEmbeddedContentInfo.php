@@ -30,10 +30,8 @@ class IndexingEmbeddedContentEmbeddedContentInfo extends \Google\Collection
   public $convertedContents;
   protected $embeddedLinksInfoType = IndexingEmbeddedContentEmbeddedLinksInfo::class;
   protected $embeddedLinksInfoDataType = '';
-  public $embeddedLinksInfo;
   protected $headlessResponseType = HtmlrenderWebkitHeadlessProtoRenderResponse::class;
   protected $headlessResponseDataType = '';
-  public $headlessResponse;
   /**
    * @var bool
    */
@@ -44,27 +42,21 @@ class IndexingEmbeddedContentEmbeddedContentInfo extends \Google\Collection
   public $originalEncoding;
   protected $rawRedirectInfoType = IndexingConverterRawRedirectInfo::class;
   protected $rawRedirectInfoDataType = '';
-  public $rawRedirectInfo;
   protected $referencedResourceType = HtmlrenderWebkitHeadlessProtoReferencedResource::class;
   protected $referencedResourceDataType = 'array';
-  public $referencedResource;
   protected $renderedSnapshotType = HtmlrenderWebkitHeadlessProtoImage::class;
   protected $renderedSnapshotDataType = '';
-  public $renderedSnapshot;
   /**
    * @var string
    */
   public $renderedSnapshotImage;
   protected $renderedSnapshotMetadataType = SnapshotSnapshotMetadata::class;
   protected $renderedSnapshotMetadataDataType = '';
-  public $renderedSnapshotMetadata;
   public $renderedSnapshotQualityScore;
   protected $renderingOutputMetadataType = IndexingEmbeddedContentRenderingOutputMetadata::class;
   protected $renderingOutputMetadataDataType = '';
-  public $renderingOutputMetadata;
   protected $richcontentDataType = IndexingConverterRichContentData::class;
   protected $richcontentDataDataType = '';
-  public $richcontentData;
 
   /**
    * @param string

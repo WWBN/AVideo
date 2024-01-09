@@ -21,7 +21,6 @@ class QueryRequestInput extends \Google\Model
 {
   protected $payloadType = QueryRequestPayload::class;
   protected $payloadDataType = '';
-  public $payload;
 
   /**
    * @param QueryRequestPayload

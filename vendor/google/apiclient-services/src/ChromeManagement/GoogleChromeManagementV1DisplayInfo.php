@@ -24,6 +24,10 @@ class GoogleChromeManagementV1DisplayInfo extends \Google\Model
    */
   public $deviceId;
   /**
+   * @var string
+   */
+  public $displayName;
+  /**
    * @var bool
    */
   public $isInternal;
@@ -53,6 +57,20 @@ class GoogleChromeManagementV1DisplayInfo extends \Google\Model
   public function getDeviceId()
   {
     return $this->deviceId;
+  }
+  /**
+   * @param string
+   */
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  /**
+   * @return string
+   */
+  public function getDisplayName()
+  {
+    return $this->displayName;
   }
   /**
    * @param bool

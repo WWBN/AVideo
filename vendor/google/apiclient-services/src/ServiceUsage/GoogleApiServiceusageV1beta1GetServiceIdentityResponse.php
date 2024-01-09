@@ -21,7 +21,6 @@ class GoogleApiServiceusageV1beta1GetServiceIdentityResponse extends \Google\Mod
 {
   protected $identityType = GoogleApiServiceusageV1beta1ServiceIdentity::class;
   protected $identityDataType = '';
-  public $identity;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class VideoFileMasteringDisplayMetadata extends \Google\Model
 {
   protected $blueType = VideoFileMasteringDisplayMetadataCIE1931Coordinate::class;
   protected $blueDataType = '';
-  public $blue;
   protected $greenType = VideoFileMasteringDisplayMetadataCIE1931Coordinate::class;
   protected $greenDataType = '';
-  public $green;
   /**
    * @var float
    */
@@ -35,10 +33,8 @@ class VideoFileMasteringDisplayMetadata extends \Google\Model
   public $minLuminance;
   protected $redType = VideoFileMasteringDisplayMetadataCIE1931Coordinate::class;
   protected $redDataType = '';
-  public $red;
   protected $whitePointType = VideoFileMasteringDisplayMetadataCIE1931Coordinate::class;
   protected $whitePointDataType = '';
-  public $whitePoint;
 
   /**
    * @param VideoFileMasteringDisplayMetadataCIE1931Coordinate

@@ -22,13 +22,10 @@ class ErrorContext extends \Google\Collection
   protected $collection_key = 'sourceReferences';
   protected $httpRequestType = HttpRequestContext::class;
   protected $httpRequestDataType = '';
-  public $httpRequest;
   protected $reportLocationType = SourceLocation::class;
   protected $reportLocationDataType = '';
-  public $reportLocation;
   protected $sourceReferencesType = SourceReference::class;
   protected $sourceReferencesDataType = 'array';
-  public $sourceReferences;
   /**
    * @var string
    */

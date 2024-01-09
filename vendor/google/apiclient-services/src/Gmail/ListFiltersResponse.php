@@ -22,7 +22,6 @@ class ListFiltersResponse extends \Google\Collection
   protected $collection_key = 'filter';
   protected $filterType = Filter::class;
   protected $filterDataType = 'array';
-  public $filter;
 
   /**
    * @param Filter[]

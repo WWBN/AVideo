@@ -22,10 +22,8 @@ class GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateRespon
   protected $collection_key = 'removals';
   protected $additionsType = GoogleSecuritySafebrowsingV4ThreatEntrySet::class;
   protected $additionsDataType = 'array';
-  public $additions;
   protected $checksumType = GoogleSecuritySafebrowsingV4Checksum::class;
   protected $checksumDataType = '';
-  public $checksum;
   /**
    * @var string
    */
@@ -36,7 +34,6 @@ class GoogleSecuritySafebrowsingV4FetchThreatListUpdatesResponseListUpdateRespon
   public $platformType;
   protected $removalsType = GoogleSecuritySafebrowsingV4ThreatEntrySet::class;
   protected $removalsDataType = 'array';
-  public $removals;
   /**
    * @var string
    */

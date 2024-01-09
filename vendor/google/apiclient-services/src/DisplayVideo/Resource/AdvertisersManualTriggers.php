@@ -34,7 +34,10 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
 {
   /**
    * Activates a manual trigger. Each activation of the manual trigger must be at
-   * least 5 minutes apart, otherwise an error will be returned.
+   * least 5 minutes apart, otherwise an error will be returned. **Warning:** Line
+   * Items using manual triggers will stop serving in Display & Video 360 on **May
+   * 17, 2023**. Read our [feature deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
    * (manualTriggers.activate)
    *
    * @param string $advertiserId Required. The ID of the advertiser that the
@@ -52,7 +55,10 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   }
   /**
    * Creates a new manual trigger. Returns the newly created manual trigger if
-   * successful. (manualTriggers.create)
+   * successful. **Warning:** Line Items using manual triggers will stop serving
+   * in Display & Video 360 on **May 17, 2023**. Read our [feature deprecation
+   * announcement](/display-video/api/deprecations#features.manual_triggers) for
+   * more information. (manualTriggers.create)
    *
    * @param string $advertiserId Required. Immutable. The unique ID of the
    * advertiser that the manual trigger belongs to.
@@ -67,7 +73,11 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
     return $this->call('create', [$params], ManualTrigger::class);
   }
   /**
-   * Deactivates a manual trigger. (manualTriggers.deactivate)
+   * Deactivates a manual trigger. **Warning:** Line Items using manual triggers
+   * will stop serving in Display & Video 360 on **May 17, 2023**. Read our
+   * [feature deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
+   * (manualTriggers.deactivate)
    *
    * @param string $advertiserId Required. The ID of the advertiser that the
    * manual trigger belongs.
@@ -84,7 +94,11 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
     return $this->call('deactivate', [$params], ManualTrigger::class);
   }
   /**
-   * Gets a manual trigger. (manualTriggers.get)
+   * Gets a manual trigger. **Warning:** Line Items using manual triggers will
+   * stop serving in Display & Video 360 on **May 17, 2023**. Read our [feature
+   * deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
+   * (manualTriggers.get)
    *
    * @param string $advertiserId Required. The ID of the advertiser this manual
    * trigger belongs to.
@@ -101,20 +115,26 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   /**
    * Lists manual triggers that are accessible to the current user for a given
    * advertiser ID. The order is defined by the order_by parameter. A single
-   * advertiser_id is required. (manualTriggers.listAdvertisersManualTriggers)
+   * advertiser_id is required. **Warning:** Line Items using manual triggers will
+   * stop serving in Display & Video 360 on **May 17, 2023**. Read our [feature
+   * deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
+   * (manualTriggers.listAdvertisersManualTriggers)
    *
    * @param string $advertiserId Required. The ID of the advertiser that the
    * fetched manual triggers belong to.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Allows filtering by manual trigger properties.
-   * Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by `AND` or `OR` logical
-   * operators. A sequence of restrictions implicitly uses `AND`. * A restriction
-   * has the form of `{field} {operator} {value}`. * The operator must be `EQUALS
-   * (=)`. * Supported fields: - `displayName` - `state` Examples: * All active
+   * @opt_param string filter Allows filtering by manual trigger fields. Supported
+   * syntax: * Filter expressions are made up of one or more restrictions. *
+   * Restrictions can be combined by `AND` or `OR` logical operators. A sequence
+   * of restrictions implicitly uses `AND`. * A restriction has the form of
+   * `{field} {operator} {value}`. * All fields must use the `EQUALS (=)`
+   * operator. Supported fields: * `displayName` * `state` Examples: * All active
    * manual triggers under an advertiser: `state="ACTIVE"` The length of this
-   * field should be no more than 500 characters.
+   * field should be no more than 500 characters. Reference our [filter `LIST`
+   * requests](/display-video/api/guides/how-tos/filters) guide for more
+   * information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` (default) * `state` The default sorting order is
    * ascending. To specify descending order for a field, a suffix "desc" should be
@@ -135,7 +155,10 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   }
   /**
    * Updates a manual trigger. Returns the updated manual trigger if successful.
-   * (manualTriggers.patch)
+   * **Warning:** Line Items using manual triggers will stop serving in Display &
+   * Video 360 on **May 17, 2023**. Read our [feature deprecation announcement
+   * ](/display-video/api/deprecations#features.manual_triggers) for more
+   * information. (manualTriggers.patch)
    *
    * @param string $advertiserId Required. Immutable. The unique ID of the
    * advertiser that the manual trigger belongs to.

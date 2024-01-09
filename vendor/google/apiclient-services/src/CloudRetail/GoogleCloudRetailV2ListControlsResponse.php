@@ -22,7 +22,6 @@ class GoogleCloudRetailV2ListControlsResponse extends \Google\Collection
   protected $collection_key = 'controls';
   protected $controlsType = GoogleCloudRetailV2Control::class;
   protected $controlsDataType = 'array';
-  public $controls;
   /**
    * @var string
    */

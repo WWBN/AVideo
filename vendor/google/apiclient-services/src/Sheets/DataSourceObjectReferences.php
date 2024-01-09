@@ -22,7 +22,6 @@ class DataSourceObjectReferences extends \Google\Collection
   protected $collection_key = 'references';
   protected $referencesType = DataSourceObjectReference::class;
   protected $referencesDataType = 'array';
-  public $references;
 
   /**
    * @param DataSourceObjectReference[]

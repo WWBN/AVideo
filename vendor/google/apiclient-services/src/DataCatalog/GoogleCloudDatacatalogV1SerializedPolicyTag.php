@@ -22,7 +22,6 @@ class GoogleCloudDatacatalogV1SerializedPolicyTag extends \Google\Collection
   protected $collection_key = 'childPolicyTags';
   protected $childPolicyTagsType = GoogleCloudDatacatalogV1SerializedPolicyTag::class;
   protected $childPolicyTagsDataType = 'array';
-  public $childPolicyTags;
   /**
    * @var string
    */

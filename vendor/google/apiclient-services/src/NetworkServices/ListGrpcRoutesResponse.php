@@ -22,7 +22,6 @@ class ListGrpcRoutesResponse extends \Google\Collection
   protected $collection_key = 'grpcRoutes';
   protected $grpcRoutesType = GrpcRoute::class;
   protected $grpcRoutesDataType = 'array';
-  public $grpcRoutes;
   /**
    * @var string
    */

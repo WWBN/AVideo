@@ -22,7 +22,6 @@ class StandardSqlStructType extends \Google\Collection
   protected $collection_key = 'fields';
   protected $fieldsType = StandardSqlField::class;
   protected $fieldsDataType = 'array';
-  public $fields;
 
   /**
    * @param StandardSqlField[]

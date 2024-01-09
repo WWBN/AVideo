@@ -46,7 +46,6 @@ class Promotion extends \Google\Collection
   public $freeGiftItemId;
   protected $freeGiftValueType = PriceAmount::class;
   protected $freeGiftValueDataType = '';
-  public $freeGiftValue;
   /**
    * @var string
    */
@@ -81,24 +80,20 @@ class Promotion extends \Google\Collection
   public $limitQuantity;
   protected $limitValueType = PriceAmount::class;
   protected $limitValueDataType = '';
-  public $limitValue;
   /**
    * @var string
    */
   public $longTitle;
   protected $minimumPurchaseAmountType = PriceAmount::class;
   protected $minimumPurchaseAmountDataType = '';
-  public $minimumPurchaseAmount;
   /**
    * @var int
    */
   public $minimumPurchaseQuantity;
   protected $moneyBudgetType = PriceAmount::class;
   protected $moneyBudgetDataType = '';
-  public $moneyBudget;
   protected $moneyOffAmountType = PriceAmount::class;
   protected $moneyOffAmountDataType = '';
-  public $moneyOffAmount;
   /**
    * @var string
    */
@@ -133,21 +128,18 @@ class Promotion extends \Google\Collection
   public $promotionDisplayDates;
   protected $promotionDisplayTimePeriodType = TimePeriod::class;
   protected $promotionDisplayTimePeriodDataType = '';
-  public $promotionDisplayTimePeriod;
   /**
    * @var string
    */
   public $promotionEffectiveDates;
   protected $promotionEffectiveTimePeriodType = TimePeriod::class;
   protected $promotionEffectiveTimePeriodDataType = '';
-  public $promotionEffectiveTimePeriod;
   /**
    * @var string
    */
   public $promotionId;
   protected $promotionStatusType = PromotionPromotionStatus::class;
   protected $promotionStatusDataType = '';
-  public $promotionStatus;
   /**
    * @var string
    */

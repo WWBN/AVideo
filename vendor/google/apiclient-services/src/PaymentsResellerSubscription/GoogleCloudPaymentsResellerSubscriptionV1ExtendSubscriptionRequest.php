@@ -21,7 +21,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1ExtendSubscriptionRequest extends
 {
   protected $extensionType = GoogleCloudPaymentsResellerSubscriptionV1Extension::class;
   protected $extensionDataType = '';
-  public $extension;
   /**
    * @var string
    */

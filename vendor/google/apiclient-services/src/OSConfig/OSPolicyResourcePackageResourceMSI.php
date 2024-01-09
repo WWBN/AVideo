@@ -26,7 +26,6 @@ class OSPolicyResourcePackageResourceMSI extends \Google\Collection
   public $properties;
   protected $sourceType = OSPolicyResourceFile::class;
   protected $sourceDataType = '';
-  public $source;
 
   /**
    * @param string[]

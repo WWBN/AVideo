@@ -21,7 +21,6 @@ class SocialGraphApiProtoLimitedProfileNameSettings extends \Google\Model
 {
   protected $partialNameOptionsType = SocialGraphApiProtoPartialNameOptions::class;
   protected $partialNameOptionsDataType = '';
-  public $partialNameOptions;
   /**
    * @var string
    */

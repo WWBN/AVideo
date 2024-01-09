@@ -22,7 +22,6 @@ class ImagesDeleteAllResponse extends \Google\Collection
   protected $collection_key = 'deleted';
   protected $deletedType = Image::class;
   protected $deletedDataType = 'array';
-  public $deleted;
 
   /**
    * @param Image[]

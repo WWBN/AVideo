@@ -21,17 +21,14 @@ class GoogleCloudDocumentaiV1DocumentEntityNormalizedValue extends \Google\Model
 {
   protected $addressValueType = GoogleTypePostalAddress::class;
   protected $addressValueDataType = '';
-  public $addressValue;
   /**
    * @var bool
    */
   public $booleanValue;
   protected $dateValueType = GoogleTypeDate::class;
   protected $dateValueDataType = '';
-  public $dateValue;
   protected $datetimeValueType = GoogleTypeDateTime::class;
   protected $datetimeValueDataType = '';
-  public $datetimeValue;
   /**
    * @var float
    */
@@ -42,7 +39,6 @@ class GoogleCloudDocumentaiV1DocumentEntityNormalizedValue extends \Google\Model
   public $integerValue;
   protected $moneyValueType = GoogleTypeMoney::class;
   protected $moneyValueDataType = '';
-  public $moneyValue;
   /**
    * @var string
    */

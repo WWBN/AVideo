@@ -22,7 +22,6 @@ class GeostoreLaneProto extends \Google\Collection
   protected $collection_key = 'stopLine';
   protected $boundingMarkerType = GeostoreBoundingMarkerProto::class;
   protected $boundingMarkerDataType = 'array';
-  public $boundingMarker;
   /**
    * @var string
    */
@@ -33,10 +32,8 @@ class GeostoreLaneProto extends \Google\Collection
   public $distanceToNextLane;
   protected $flowType = GeostoreFlowLineProto::class;
   protected $flowDataType = '';
-  public $flow;
   protected $laneConnectionType = GeostoreLaneProtoLaneConnection::class;
   protected $laneConnectionDataType = 'array';
-  public $laneConnection;
   /**
    * @var string
    */
@@ -59,17 +56,14 @@ class GeostoreLaneProto extends \Google\Collection
   public $laneToken;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $restrictionType = GeostoreRestrictionProto::class;
   protected $restrictionDataType = 'array';
-  public $restriction;
   /**
    * @var bool
    */
   public $shared;
   protected $stopLineType = GeostoreFeatureIdProto::class;
   protected $stopLineDataType = 'array';
-  public $stopLine;
   /**
    * @var string
    */

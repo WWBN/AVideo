@@ -25,7 +25,6 @@ class ExtendedValue extends \Google\Model
   public $boolValue;
   protected $errorValueType = ErrorValue::class;
   protected $errorValueDataType = '';
-  public $errorValue;
   /**
    * @var string
    */

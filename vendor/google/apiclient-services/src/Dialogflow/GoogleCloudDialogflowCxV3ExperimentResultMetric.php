@@ -21,7 +21,6 @@ class GoogleCloudDialogflowCxV3ExperimentResultMetric extends \Google\Model
 {
   protected $confidenceIntervalType = GoogleCloudDialogflowCxV3ExperimentResultConfidenceInterval::class;
   protected $confidenceIntervalDataType = '';
-  public $confidenceInterval;
   public $count;
   /**
    * @var string

@@ -21,7 +21,6 @@ class UnitInvoiceAdditionalCharge extends \Google\Model
 {
   protected $additionalChargeAmountType = Amount::class;
   protected $additionalChargeAmountDataType = '';
-  public $additionalChargeAmount;
   /**
    * @var string
    */

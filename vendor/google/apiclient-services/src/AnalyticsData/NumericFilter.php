@@ -25,7 +25,6 @@ class NumericFilter extends \Google\Model
   public $operation;
   protected $valueType = NumericValue::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param string

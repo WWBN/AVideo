@@ -22,7 +22,6 @@ class VideoYoutubeCommentsClassificationProtoYouTubeCommentSmartReply extends \G
   protected $collection_key = 'smartSuggestions';
   protected $smartSuggestionsType = VideoYoutubeCommentsClassificationProtoSmartSuggestion::class;
   protected $smartSuggestionsDataType = 'array';
-  public $smartSuggestions;
   /**
    * @var string
    */

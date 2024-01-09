@@ -22,7 +22,6 @@ class Page extends \Google\Collection
   protected $collection_key = 'blocks';
   protected $blocksType = Block::class;
   protected $blocksDataType = 'array';
-  public $blocks;
   /**
    * @var float
    */
@@ -33,7 +32,6 @@ class Page extends \Google\Collection
   public $height;
   protected $propertyType = TextProperty::class;
   protected $propertyDataType = '';
-  public $property;
   /**
    * @var int
    */

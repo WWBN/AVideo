@@ -58,8 +58,7 @@ class RegionHealthChecks extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified HealthCheck resource. Gets a list of available health
-   * checks by making a list() request. (regionHealthChecks.get)
+   * Returns the specified HealthCheck resource. (regionHealthChecks.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.

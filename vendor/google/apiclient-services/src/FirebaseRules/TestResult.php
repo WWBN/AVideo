@@ -26,20 +26,16 @@ class TestResult extends \Google\Collection
   public $debugMessages;
   protected $errorPositionType = SourcePosition::class;
   protected $errorPositionDataType = '';
-  public $errorPosition;
   protected $expressionReportsType = ExpressionReport::class;
   protected $expressionReportsDataType = 'array';
-  public $expressionReports;
   protected $functionCallsType = FunctionCall::class;
   protected $functionCallsDataType = 'array';
-  public $functionCalls;
   /**
    * @var string
    */
   public $state;
   protected $visitedExpressionsType = VisitedExpression::class;
   protected $visitedExpressionsDataType = 'array';
-  public $visitedExpressions;
 
   /**
    * @param string[]

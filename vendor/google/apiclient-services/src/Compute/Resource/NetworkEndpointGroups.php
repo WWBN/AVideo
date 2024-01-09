@@ -202,9 +202,7 @@ class NetworkEndpointGroups extends \Google\Service\Resource
     return $this->call('detachNetworkEndpoints', [$params], Operation::class);
   }
   /**
-   * Returns the specified network endpoint group. Gets a list of available
-   * network endpoint groups by making a list() request.
-   * (networkEndpointGroups.get)
+   * Returns the specified network endpoint group. (networkEndpointGroups.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone where the network endpoint group is

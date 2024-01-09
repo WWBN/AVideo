@@ -22,7 +22,6 @@ class InstancesSetMachineResourcesRequest extends \Google\Collection
   protected $collection_key = 'guestAccelerators';
   protected $guestAcceleratorsType = AcceleratorConfig::class;
   protected $guestAcceleratorsDataType = 'array';
-  public $guestAccelerators;
 
   /**
    * @param AcceleratorConfig[]

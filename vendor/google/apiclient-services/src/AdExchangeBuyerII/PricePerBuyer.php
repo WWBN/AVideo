@@ -26,10 +26,8 @@ class PricePerBuyer extends \Google\Collection
   public $advertiserIds;
   protected $buyerType = Buyer::class;
   protected $buyerDataType = '';
-  public $buyer;
   protected $priceType = Price::class;
   protected $priceDataType = '';
-  public $price;
 
   /**
    * @param string[]

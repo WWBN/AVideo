@@ -23,6 +23,10 @@ class BuildOptions extends \Google\Collection
   /**
    * @var string
    */
+  public $defaultLogsBucketBehavior;
+  /**
+   * @var string
+   */
   public $diskSizeGb;
   /**
    * @var bool
@@ -46,7 +50,6 @@ class BuildOptions extends \Google\Collection
   public $machineType;
   protected $poolType = PoolOption::class;
   protected $poolDataType = '';
-  public $pool;
   /**
    * @var string
    */
@@ -65,12 +68,25 @@ class BuildOptions extends \Google\Collection
   public $substitutionOption;
   protected $volumesType = Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
   /**
    * @var string
    */
   public $workerPool;
 
+  /**
+   * @param string
+   */
+  public function setDefaultLogsBucketBehavior($defaultLogsBucketBehavior)
+  {
+    $this->defaultLogsBucketBehavior = $defaultLogsBucketBehavior;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultLogsBucketBehavior()
+  {
+    return $this->defaultLogsBucketBehavior;
+  }
   /**
    * @param string
    */

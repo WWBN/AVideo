@@ -21,14 +21,12 @@ class AnnotateTextRequest extends \Google\Model
 {
   protected $documentType = Document::class;
   protected $documentDataType = '';
-  public $document;
   /**
    * @var string
    */
   public $encodingType;
   protected $featuresType = Features::class;
   protected $featuresDataType = '';
-  public $features;
 
   /**
    * @param Document

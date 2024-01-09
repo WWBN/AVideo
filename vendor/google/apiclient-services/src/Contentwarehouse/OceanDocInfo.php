@@ -21,7 +21,6 @@ class OceanDocInfo extends \Google\Model
 {
   protected $docTagType = OceanDocTag::class;
   protected $docTagDataType = '';
-  public $docTag;
 
   /**
    * @param OceanDocTag

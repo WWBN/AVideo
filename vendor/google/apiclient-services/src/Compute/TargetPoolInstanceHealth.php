@@ -22,7 +22,6 @@ class TargetPoolInstanceHealth extends \Google\Collection
   protected $collection_key = 'healthStatus';
   protected $healthStatusType = HealthStatus::class;
   protected $healthStatusDataType = 'array';
-  public $healthStatus;
   /**
    * @var string
    */

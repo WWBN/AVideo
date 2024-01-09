@@ -22,7 +22,6 @@ class ListApiDeploymentsResponse extends \Google\Collection
   protected $collection_key = 'apiDeployments';
   protected $apiDeploymentsType = ApiDeployment::class;
   protected $apiDeploymentsDataType = 'array';
-  public $apiDeployments;
   /**
    * @var string
    */

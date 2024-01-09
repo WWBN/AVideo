@@ -21,7 +21,6 @@ class UpdateTextStyleRequest extends \Google\Model
 {
   protected $cellLocationType = TableCellLocation::class;
   protected $cellLocationDataType = '';
-  public $cellLocation;
   /**
    * @var string
    */
@@ -32,10 +31,8 @@ class UpdateTextStyleRequest extends \Google\Model
   public $objectId;
   protected $styleType = TextStyle::class;
   protected $styleDataType = '';
-  public $style;
   protected $textRangeType = Range::class;
   protected $textRangeDataType = '';
-  public $textRange;
 
   /**
    * @param TableCellLocation

@@ -30,7 +30,6 @@ class GoogleCloudDialogflowCxV3TransitionRouteGroup extends \Google\Collection
   public $name;
   protected $transitionRoutesType = GoogleCloudDialogflowCxV3TransitionRoute::class;
   protected $transitionRoutesDataType = 'array';
-  public $transitionRoutes;
 
   /**
    * @param string

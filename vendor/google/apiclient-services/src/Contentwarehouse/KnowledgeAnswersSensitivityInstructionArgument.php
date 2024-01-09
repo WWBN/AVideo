@@ -21,16 +21,12 @@ class KnowledgeAnswersSensitivityInstructionArgument extends \Google\Model
 {
   protected $evalType = KnowledgeAnswersSensitivityArgumentEvalPolicy::class;
   protected $evalDataType = '';
-  public $eval;
   protected $loggingType = KnowledgeAnswersSensitivityLoggingPolicy::class;
   protected $loggingDataType = '';
-  public $logging;
   protected $servingType = KnowledgeAnswersSensitivityServingPolicy::class;
   protected $servingDataType = '';
-  public $serving;
   protected $storageType = KnowledgeAnswersSensitivityStoragePolicy::class;
   protected $storageDataType = '';
-  public $storage;
 
   /**
    * @param KnowledgeAnswersSensitivityArgumentEvalPolicy

@@ -25,7 +25,6 @@ class Account extends \Google\Model
   public $accountId;
   protected $featuresType = AccountFeatures::class;
   protected $featuresDataType = '';
-  public $features;
   /**
    * @var string
    */

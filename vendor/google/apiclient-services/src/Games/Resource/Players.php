@@ -17,6 +17,7 @@
 
 namespace Google\Service\Games\Resource;
 
+use Google\Service\Games\GetMultipleApplicationPlayerIdsResponse;
 use Google\Service\Games\Player;
 use Google\Service\Games\PlayerListResponse;
 use Google\Service\Games\ScopedPlayerIds;
@@ -51,6 +52,24 @@ class Players extends \Google\Service\Resource
     $params = ['playerId' => $playerId];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Player::class);
+  }
+  /**
+   * Get the application player ids for the currently authenticated player across
+   * all requested games by the same developer as the calling application. This
+   * will only return ids for players that actually have an id (scoped or
+   * otherwise) with that game. (players.getMultipleApplicationPlayerIds)
+   *
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string applicationIds Required. The application IDs from the
+   * Google Play developer console for the games to return scoped ids for.
+   * @return GetMultipleApplicationPlayerIdsResponse
+   */
+  public function getMultipleApplicationPlayerIds($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('getMultipleApplicationPlayerIds', [$params], GetMultipleApplicationPlayerIdsResponse::class);
   }
   /**
    * Retrieves scoped player identifiers for currently authenticated user.

@@ -21,10 +21,8 @@ class GeostoreTimeIntervalProto extends \Google\Model
 {
   protected $beginType = GeostoreTimeEndpointProto::class;
   protected $beginDataType = '';
-  public $begin;
   protected $endType = GeostoreTimeEndpointProto::class;
   protected $endDataType = '';
-  public $end;
   /**
    * @var bool
    */

@@ -21,10 +21,8 @@ class CountArtifactsResponse extends \Google\Model
 {
   protected $groupsCountResultType = GroupsCountResult::class;
   protected $groupsCountResultDataType = '';
-  public $groupsCountResult;
   protected $mailCountResultType = MailCountResult::class;
   protected $mailCountResultDataType = '';
-  public $mailCountResult;
   /**
    * @var string
    */

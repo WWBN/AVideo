@@ -33,7 +33,6 @@ class SourceResultCount extends \Google\Model
   public $resultCountExact;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
-  public $source;
 
   /**
    * @param bool

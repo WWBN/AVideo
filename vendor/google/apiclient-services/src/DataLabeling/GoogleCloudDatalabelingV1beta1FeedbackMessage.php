@@ -37,10 +37,8 @@ class GoogleCloudDatalabelingV1beta1FeedbackMessage extends \Google\Model
   public $name;
   protected $operatorFeedbackMetadataType = GoogleCloudDatalabelingV1beta1OperatorFeedbackMetadata::class;
   protected $operatorFeedbackMetadataDataType = '';
-  public $operatorFeedbackMetadata;
   protected $requesterFeedbackMetadataType = GoogleCloudDatalabelingV1beta1RequesterFeedbackMetadata::class;
   protected $requesterFeedbackMetadataDataType = '';
-  public $requesterFeedbackMetadata;
 
   /**
    * @param string

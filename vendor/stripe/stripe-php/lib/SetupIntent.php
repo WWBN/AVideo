@@ -5,45 +5,33 @@
 namespace Stripe;
 
 /**
- * A SetupIntent guides you through the process of setting up and saving a
- * customer's payment credentials for future payments. For example, you could use a
- * SetupIntent to set up and save your customer's card without immediately
- * collecting a payment. Later, you can use <a
- * href="https://stripe.com/docs/api#payment_intents">PaymentIntents</a> to drive
- * the payment flow.
+ * A SetupIntent guides you through the process of setting up and saving a customer's payment credentials for future payments.
+ * For example, you can use a SetupIntent to set up and save your customer's card without immediately collecting a payment.
+ * Later, you can use <a href="https://stripe.com/docs/api#payment_intents">PaymentIntents</a> to drive the payment flow.
  *
- * Create a SetupIntent as soon as you're ready to collect your customer's payment
- * credentials. Do not maintain long-lived, unconfirmed SetupIntents as they may no
- * longer be valid. The SetupIntent then transitions through multiple <a
- * href="https://stripe.com/docs/payments/intents#intent-statuses">statuses</a> as
- * it guides you through the setup process.
+ * Create a SetupIntent when you're ready to collect your customer's payment credentials.
+ * Don't maintain long-lived, unconfirmed SetupIntents because they might not be valid.
+ * The SetupIntent transitions through multiple <a href="https://stripe.com/docs/payments/intents#intent-statuses">statuses</a> as it guides
+ * you through the setup process.
  *
- * Successful SetupIntents result in payment credentials that are optimized for
- * future payments. For example, cardholders in <a
- * href="/guides/strong-customer-authentication">certain regions</a> may need to be
- * run through <a
- * href="https://stripe.com/docs/strong-customer-authentication">Strong Customer
- * Authentication</a> at the time of payment method collection in order to
- * streamline later <a
- * href="https://stripe.com/docs/payments/setup-intents">off-session payments</a>.
- * If the SetupIntent is used with a <a
- * href="https://stripe.com/docs/api#setup_intent_object-customer">Customer</a>,
- * upon success, it will automatically attach the resulting payment method to that
- * Customer. We recommend using SetupIntents or <a
- * href="https://stripe.com/docs/api#payment_intent_object-setup_future_usage">setup_future_usage</a>
- * on PaymentIntents to save payment methods in order to prevent saving invalid or
- * unoptimized payment methods.
+ * Successful SetupIntents result in payment credentials that are optimized for future payments.
+ * For example, cardholders in <a href="/guides/strong-customer-authentication">certain regions</a> might need to be run through
+ * <a href="https://stripe.com/docs/strong-customer-authentication">Strong Customer Authentication</a> during payment method collection
+ * to streamline later <a href="https://stripe.com/docs/payments/setup-intents">off-session payments</a>.
+ * If you use the SetupIntent with a <a href="https://stripe.com/docs/api#setup_intent_object-customer">Customer</a>,
+ * it automatically attaches the resulting payment method to that Customer after successful setup.
+ * We recommend using SetupIntents or <a href="https://stripe.com/docs/api#payment_intent_object-setup_future_usage">setup_future_usage</a> on
+ * PaymentIntents to save payment methods to prevent saving invalid or unoptimized payment methods.
  *
- * By using SetupIntents, you ensure that your customers experience the minimum set
- * of required friction, even as regulations change over time.
+ * By using SetupIntents, you can reduce friction for your customers, even as regulations change over time.
  *
- * Related guide: <a href="https://stripe.com/docs/payments/setup-intents">Setup
- * Intents API</a>.
+ * Related guide: <a href="https://stripe.com/docs/payments/setup-intents">Setup Intents API</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property null|string|\Stripe\StripeObject $application ID of the Connect application that created the SetupIntent.
  * @property null|bool $attach_to_self <p>If present, the SetupIntent's payment method will be attached to the in-context Stripe Account.</p><p>It can only be used for this Stripe Account’s own money movement flows like InboundTransfer and OutboundTransfers. It cannot be set to true when setting up a PaymentMethod for a Customer, and defaults to false when attaching a PaymentMethod to a Customer.</p>
+ * @property null|\Stripe\StripeObject $automatic_payment_methods Settings for dynamic payment methods compatible with this Setup Intent
  * @property null|string $cancellation_reason Reason for cancellation of this SetupIntent, one of <code>abandoned</code>, <code>requested_by_customer</code>, or <code>duplicate</code>.
  * @property null|string $client_secret <p>The client secret of this SetupIntent. Used for client-side retrieval using a publishable key.</p><p>The client secret can be used to complete payment setup from your frontend. It should not be stored, logged, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.</p>
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
@@ -58,7 +46,8 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $next_action If present, this property tells you what actions you need to take in order for your customer to continue payment setup.
  * @property null|string|\Stripe\Account $on_behalf_of The account (if any) for which the setup is intended.
  * @property null|string|\Stripe\PaymentMethod $payment_method ID of the payment method used with this SetupIntent.
- * @property null|\Stripe\StripeObject $payment_method_options Payment-method-specific configuration for this SetupIntent.
+ * @property null|\Stripe\StripeObject $payment_method_configuration_details Information about the payment method configuration used for this Setup Intent.
+ * @property null|\Stripe\StripeObject $payment_method_options Payment method-specific configuration for this SetupIntent.
  * @property string[] $payment_method_types The list of payment method types (e.g. card) that this SetupIntent is allowed to set up.
  * @property null|string|\Stripe\Mandate $single_use_mandate ID of the single_use Mandate generated by the SetupIntent.
  * @property string $status <a href="https://stripe.com/docs/payments/intents#intent-statuses">Status</a> of this SetupIntent, one of <code>requires_payment_method</code>, <code>requires_confirmation</code>, <code>requires_action</code>, <code>processing</code>, <code>canceled</code>, or <code>succeeded</code>.
@@ -72,6 +61,10 @@ class SetupIntent extends ApiResource
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+
+    const CANCELLATION_REASON_ABANDONED = 'abandoned';
+    const CANCELLATION_REASON_DUPLICATE = 'duplicate';
+    const CANCELLATION_REASON_REQUESTED_BY_CUSTOMER = 'requested_by_customer';
 
     const STATUS_CANCELED = 'canceled';
     const STATUS_PROCESSING = 'processing';

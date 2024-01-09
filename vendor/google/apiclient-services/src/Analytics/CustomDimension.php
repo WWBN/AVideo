@@ -49,7 +49,6 @@ class CustomDimension extends \Google\Model
   public $name;
   protected $parentLinkType = CustomDimensionParentLink::class;
   protected $parentLinkDataType = '';
-  public $parentLink;
   /**
    * @var string
    */

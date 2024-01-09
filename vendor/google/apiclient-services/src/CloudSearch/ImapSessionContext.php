@@ -37,10 +37,8 @@ class ImapSessionContext extends \Google\Model
   public $os;
   protected $osVersionType = OsVersion::class;
   protected $osVersionDataType = '';
-  public $osVersion;
   protected $possiblyTrimmedModelType = PossiblyTrimmedModel::class;
   protected $possiblyTrimmedModelDataType = '';
-  public $possiblyTrimmedModel;
 
   /**
    * @param string

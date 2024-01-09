@@ -21,10 +21,8 @@ class SuggestedInlineObjectProperties extends \Google\Model
 {
   protected $inlineObjectPropertiesType = InlineObjectProperties::class;
   protected $inlineObjectPropertiesDataType = '';
-  public $inlineObjectProperties;
   protected $inlineObjectPropertiesSuggestionStateType = InlineObjectPropertiesSuggestionState::class;
   protected $inlineObjectPropertiesSuggestionStateDataType = '';
-  public $inlineObjectPropertiesSuggestionState;
 
   /**
    * @param InlineObjectProperties

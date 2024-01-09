@@ -22,7 +22,6 @@ class Parameters extends \Google\Collection
   protected $collection_key = 'metrics';
   protected $filtersType = FilterPair::class;
   protected $filtersDataType = 'array';
-  public $filters;
   /**
    * @var string[]
    */
@@ -33,7 +32,6 @@ class Parameters extends \Google\Collection
   public $metrics;
   protected $optionsType = Options::class;
   protected $optionsDataType = '';
-  public $options;
   /**
    * @var string
    */

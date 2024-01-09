@@ -21,7 +21,6 @@ class ScopeFeatureState extends \Google\Model
 {
   protected $stateType = FeatureState::class;
   protected $stateDataType = '';
-  public $state;
 
   /**
    * @param FeatureState

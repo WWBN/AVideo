@@ -22,7 +22,6 @@ class ListChannelConnectionsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $channelConnectionsType = ChannelConnection::class;
   protected $channelConnectionsDataType = 'array';
-  public $channelConnections;
   /**
    * @var string
    */

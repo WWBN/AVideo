@@ -22,7 +22,6 @@ class KnowledgeAnswersIntentQueryArgPath extends \Google\Collection
   protected $collection_key = 'components';
   protected $componentsType = KnowledgeAnswersIntentQueryArgPathComponent::class;
   protected $componentsDataType = 'array';
-  public $components;
 
   /**
    * @param KnowledgeAnswersIntentQueryArgPathComponent[]

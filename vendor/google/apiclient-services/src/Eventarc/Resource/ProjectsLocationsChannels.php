@@ -45,7 +45,7 @@ class ProjectsLocationsChannels extends \Google\Service\Resource
    *
    * @opt_param string channelId Required. The user-provided ID to be assigned to
    * the channel.
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */
@@ -61,7 +61,7 @@ class ProjectsLocationsChannels extends \Google\Service\Resource
    * @param string $name Required. The name of the channel to be deleted.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */
@@ -150,7 +150,7 @@ class ProjectsLocationsChannels extends \Google\Service\Resource
    * @opt_param string updateMask The fields to be updated; only fields explicitly
    * provided are updated. If no field mask is provided, all provided fields in
    * the request are updated. To update all fields, provide a field mask of "*".
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */

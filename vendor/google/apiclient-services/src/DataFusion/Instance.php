@@ -22,21 +22,18 @@ class Instance extends \Google\Collection
   protected $collection_key = 'disabledReason';
   protected $acceleratorsType = Accelerator::class;
   protected $acceleratorsDataType = 'array';
-  public $accelerators;
   /**
    * @var string
    */
   public $apiEndpoint;
   protected $availableVersionType = Version::class;
   protected $availableVersionDataType = 'array';
-  public $availableVersion;
   /**
    * @var string
    */
   public $createTime;
   protected $cryptoKeyConfigType = CryptoKeyConfig::class;
   protected $cryptoKeyConfigDataType = '';
-  public $cryptoKeyConfig;
   /**
    * @var string
    */
@@ -71,7 +68,6 @@ class Instance extends \Google\Collection
   public $enableZoneSeparation;
   protected $eventPublishConfigType = EventPublishConfig::class;
   protected $eventPublishConfigDataType = '';
-  public $eventPublishConfig;
   /**
    * @var string
    */
@@ -86,7 +82,6 @@ class Instance extends \Google\Collection
   public $name;
   protected $networkConfigType = NetworkConfig::class;
   protected $networkConfigDataType = '';
-  public $networkConfig;
   /**
    * @var string[]
    */
@@ -99,6 +94,10 @@ class Instance extends \Google\Collection
    * @var bool
    */
   public $privateInstance;
+  /**
+   * @var bool
+   */
+  public $satisfiesPzs;
   /**
    * @var string
    */
@@ -429,6 +428,20 @@ class Instance extends \Google\Collection
   public function getPrivateInstance()
   {
     return $this->privateInstance;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
   }
   /**
    * @param string

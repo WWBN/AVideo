@@ -21,7 +21,6 @@ class CreatePhraseSetRequest extends \Google\Model
 {
   protected $phraseSetType = PhraseSet::class;
   protected $phraseSetDataType = '';
-  public $phraseSet;
   /**
    * @var string
    */

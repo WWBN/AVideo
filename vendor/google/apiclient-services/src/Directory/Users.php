@@ -41,7 +41,6 @@ class Users extends \Google\Collection
   public $triggerEvent;
   protected $usersType = User::class;
   protected $usersDataType = 'array';
-  public $users;
 
   /**
    * @param string

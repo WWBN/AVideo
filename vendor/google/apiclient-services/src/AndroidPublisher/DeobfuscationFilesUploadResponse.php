@@ -21,7 +21,6 @@ class DeobfuscationFilesUploadResponse extends \Google\Model
 {
   protected $deobfuscationFileType = DeobfuscationFile::class;
   protected $deobfuscationFileDataType = '';
-  public $deobfuscationFile;
 
   /**
    * @param DeobfuscationFile

@@ -21,7 +21,6 @@ class Flight extends \Google\Model
 {
   protected $departureDateType = Date::class;
   protected $departureDateDataType = '';
-  public $departureDate;
   /**
    * @var string
    */

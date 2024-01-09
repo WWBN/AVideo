@@ -45,7 +45,6 @@ class SeriesSeries extends \Google\Model
   public $seriesId;
   protected $seriesSubscriptionReleaseInfoType = SeriesSeriesSeriesSubscriptionReleaseInfo::class;
   protected $seriesSubscriptionReleaseInfoDataType = '';
-  public $seriesSubscriptionReleaseInfo;
   /**
    * @var string
    */

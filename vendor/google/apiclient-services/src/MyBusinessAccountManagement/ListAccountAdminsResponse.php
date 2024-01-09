@@ -22,7 +22,6 @@ class ListAccountAdminsResponse extends \Google\Collection
   protected $collection_key = 'accountAdmins';
   protected $accountAdminsType = Admin::class;
   protected $accountAdminsDataType = 'array';
-  public $accountAdmins;
 
   /**
    * @param Admin[]

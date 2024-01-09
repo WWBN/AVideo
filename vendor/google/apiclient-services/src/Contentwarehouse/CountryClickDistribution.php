@@ -23,7 +23,6 @@ class CountryClickDistribution extends \Google\Collection
   public $confidence;
   protected $itemType = CountryClickDistributionItem::class;
   protected $itemDataType = 'array';
-  public $item;
   public $total;
 
   public function setConfidence($confidence)

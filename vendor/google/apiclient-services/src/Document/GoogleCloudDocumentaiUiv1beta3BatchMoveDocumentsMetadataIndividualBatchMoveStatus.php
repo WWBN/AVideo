@@ -21,10 +21,8 @@ class GoogleCloudDocumentaiUiv1beta3BatchMoveDocumentsMetadataIndividualBatchMov
 {
   protected $documentIdType = GoogleCloudDocumentaiUiv1beta3DocumentId::class;
   protected $documentIdDataType = '';
-  public $documentId;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3DocumentId

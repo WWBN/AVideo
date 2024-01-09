@@ -21,25 +21,18 @@ class AppsDynamiteStorageColumnsColumnWidgets extends \Google\Model
 {
   protected $buttonListType = AppsDynamiteStorageButtonList::class;
   protected $buttonListDataType = '';
-  public $buttonList;
   protected $dateTimePickerType = AppsDynamiteStorageDateTimePicker::class;
   protected $dateTimePickerDataType = '';
-  public $dateTimePicker;
   protected $decoratedTextType = AppsDynamiteStorageDecoratedText::class;
   protected $decoratedTextDataType = '';
-  public $decoratedText;
   protected $imageType = AppsDynamiteStorageImage::class;
   protected $imageDataType = '';
-  public $image;
   protected $selectionInputType = AppsDynamiteStorageSelectionInput::class;
   protected $selectionInputDataType = '';
-  public $selectionInput;
   protected $textInputType = AppsDynamiteStorageTextInput::class;
   protected $textInputDataType = '';
-  public $textInput;
   protected $textParagraphType = AppsDynamiteStorageTextParagraph::class;
   protected $textParagraphDataType = '';
-  public $textParagraph;
 
   /**
    * @param AppsDynamiteStorageButtonList

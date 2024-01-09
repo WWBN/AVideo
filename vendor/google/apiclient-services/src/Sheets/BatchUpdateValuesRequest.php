@@ -22,7 +22,6 @@ class BatchUpdateValuesRequest extends \Google\Collection
   protected $collection_key = 'data';
   protected $dataType = ValueRange::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var bool
    */

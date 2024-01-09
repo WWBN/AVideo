@@ -21,7 +21,6 @@ class Task extends \Google\Model
 {
   protected $appEngineHttpRequestType = AppEngineHttpRequest::class;
   protected $appEngineHttpRequestDataType = '';
-  public $appEngineHttpRequest;
   /**
    * @var string
    */
@@ -36,13 +35,10 @@ class Task extends \Google\Model
   public $dispatchDeadline;
   protected $firstAttemptType = Attempt::class;
   protected $firstAttemptDataType = '';
-  public $firstAttempt;
   protected $httpRequestType = HttpRequest::class;
   protected $httpRequestDataType = '';
-  public $httpRequest;
   protected $lastAttemptType = Attempt::class;
   protected $lastAttemptDataType = '';
-  public $lastAttempt;
   /**
    * @var string
    */

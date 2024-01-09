@@ -5,9 +5,8 @@
 namespace Stripe;
 
 /**
- * A Quote is a way to model prices that you'd like to provide to a customer. Once
- * accepted, it will automatically create an invoice, subscription or subscription
- * schedule.
+ * A Quote is a way to model prices that you'd like to provide to a customer.
+ * Once accepted, it will automatically create an invoice, subscription or subscription schedule.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -15,7 +14,7 @@ namespace Stripe;
  * @property int $amount_total Total after discounts and taxes are applied.
  * @property null|string|\Stripe\StripeObject $application ID of the Connect Application that created the quote.
  * @property null|int $application_fee_amount The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner's Stripe account. Only applicable if there are no line items with recurring prices on the quote.
- * @property null|float $application_fee_percent A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice subtotal that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.
+ * @property null|float $application_fee_percent A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account. Only applicable if there are line items with recurring prices on the quote.
  * @property \Stripe\StripeObject $automatic_tax
  * @property string $collection_method Either <code>charge_automatically</code>, or <code>send_invoice</code>. When charging automatically, Stripe will attempt to pay invoices at the end of the subscription cycle or on finalization using the default payment method attached to the subscription or customer. When sending an invoice, Stripe will email your customer an invoice with payment instructions and mark the subscription as <code>active</code>. Defaults to <code>charge_automatically</code>.
  * @property \Stripe\StripeObject $computed
@@ -30,7 +29,7 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $from_quote Details of the quote that was cloned. See the <a href="https://stripe.com/docs/quotes/clone">cloning documentation</a> for more details.
  * @property null|string $header A header that will be displayed on the quote PDF.
  * @property null|string|\Stripe\Invoice $invoice The invoice that was created from this quote.
- * @property null|\Stripe\StripeObject $invoice_settings All invoices will be billed using the specified settings.
+ * @property \Stripe\StripeObject $invoice_settings
  * @property null|\Stripe\Collection<\Stripe\LineItem> $line_items A list of items the customer is being quoted for.
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property \Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
@@ -61,24 +60,6 @@ class Quote extends ApiResource
     const STATUS_CANCELED = 'canceled';
     const STATUS_DRAFT = 'draft';
     const STATUS_OPEN = 'open';
-
-    /**
-     * @param callable $readBodyChunkCallable
-     * @param null|array $params
-     * @param null|array|string $opts
-     *
-     * @throws \Stripe\Exception\ApiErrorException if the request fails
-     */
-    public function pdf($readBodyChunkCallable, $params = null, $opts = null)
-    {
-        $opts = \Stripe\Util\RequestOptions::parse($opts);
-        if (null === $opts->apiBase) {
-            $opts->apiBase = Stripe::$apiUploadBase;
-        }
-
-        $url = $this->instanceUrl() . '/pdf';
-        $this->_requestStream('get', $url, $readBodyChunkCallable, $params, $opts);
-    }
 
     /**
      * @param null|array $params
@@ -138,7 +119,7 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of line items
      */
     public static function allComputedUpfrontLineItems($id, $params = null, $opts = null)
     {
@@ -157,7 +138,7 @@ class Quote extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of line items
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {
@@ -167,5 +148,24 @@ class Quote extends ApiResource
         $obj->setLastResponse($response);
 
         return $obj;
+    }
+
+    /**
+     * @param callable $readBodyChunkCallable
+     * @param null|array $params
+     * @param null|array|string $opts
+     *
+     * @throws \Stripe\Exception\ApiErrorException if the request fails
+     *
+     * @return void
+     */
+    public function pdf($readBodyChunkCallable, $params = null, $opts = null)
+    {
+        $opts = \Stripe\Util\RequestOptions::parse($opts);
+        if (!isset($opts->apiBase)) {
+            $opts->apiBase = \Stripe\Stripe::$apiUploadBase;
+        }
+        $url = $this->instanceUrl() . '/pdf';
+        $this->_requestStream('get', $url, $readBodyChunkCallable, $params, $opts);
     }
 }

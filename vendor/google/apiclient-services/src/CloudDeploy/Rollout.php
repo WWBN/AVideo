@@ -35,6 +35,10 @@ class Rollout extends \Google\Collection
   /**
    * @var string
    */
+  public $controllerRollout;
+  /**
+   * @var string
+   */
   public $createTime;
   /**
    * @var string
@@ -74,14 +78,12 @@ class Rollout extends \Google\Collection
   public $labels;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $name;
   protected $phasesType = Phase::class;
   protected $phasesDataType = 'array';
-  public $phases;
   /**
    * @var string
    */
@@ -136,6 +138,20 @@ class Rollout extends \Google\Collection
   public function getApproveTime()
   {
     return $this->approveTime;
+  }
+  /**
+   * @param string
+   */
+  public function setControllerRollout($controllerRollout)
+  {
+    $this->controllerRollout = $controllerRollout;
+  }
+  /**
+   * @return string
+   */
+  public function getControllerRollout()
+  {
+    return $this->controllerRollout;
   }
   /**
    * @param string

@@ -21,10 +21,8 @@ class IntegerMean extends \Google\Model
 {
   protected $countType = SplitInt64::class;
   protected $countDataType = '';
-  public $count;
   protected $sumType = SplitInt64::class;
   protected $sumDataType = '';
-  public $sum;
 
   /**
    * @param SplitInt64

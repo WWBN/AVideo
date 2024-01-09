@@ -26,7 +26,6 @@ class AssistantApiSettingsDeviceFeatureFilters extends \Google\Collection
   public $enabled;
   protected $featureFiltersType = AssistantApiSettingsFeatureFilters::class;
   protected $featureFiltersDataType = '';
-  public $featureFilters;
   /**
    * @var string[]
    */

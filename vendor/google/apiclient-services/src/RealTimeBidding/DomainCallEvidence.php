@@ -22,7 +22,6 @@ class DomainCallEvidence extends \Google\Collection
   protected $collection_key = 'topHttpCallDomains';
   protected $topHttpCallDomainsType = DomainCalls::class;
   protected $topHttpCallDomainsDataType = 'array';
-  public $topHttpCallDomains;
   /**
    * @var int
    */

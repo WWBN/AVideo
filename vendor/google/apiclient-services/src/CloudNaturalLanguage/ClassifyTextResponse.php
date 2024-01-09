@@ -22,7 +22,6 @@ class ClassifyTextResponse extends \Google\Collection
   protected $collection_key = 'categories';
   protected $categoriesType = ClassificationCategory::class;
   protected $categoriesDataType = 'array';
-  public $categories;
 
   /**
    * @param ClassificationCategory[]

@@ -25,13 +25,10 @@ class IndexItemRequest extends \Google\Model
   public $connectorName;
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
-  public $debugOptions;
   protected $indexItemOptionsType = IndexItemOptions::class;
   protected $indexItemOptionsDataType = '';
-  public $indexItemOptions;
   protected $itemType = Item::class;
   protected $itemDataType = '';
-  public $item;
   /**
    * @var string
    */

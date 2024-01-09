@@ -21,10 +21,8 @@ class BidResponseWithoutBidsStatusRow extends \Google\Model
 {
   protected $impressionCountType = MetricValue::class;
   protected $impressionCountDataType = '';
-  public $impressionCount;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
-  public $rowDimensions;
   /**
    * @var string
    */

@@ -22,30 +22,26 @@ class GooglePrivacyDlpV2CustomInfoType extends \Google\Collection
   protected $collection_key = 'detectionRules';
   protected $detectionRulesType = GooglePrivacyDlpV2DetectionRule::class;
   protected $detectionRulesDataType = 'array';
-  public $detectionRules;
   protected $dictionaryType = GooglePrivacyDlpV2Dictionary::class;
   protected $dictionaryDataType = '';
-  public $dictionary;
   /**
    * @var string
    */
   public $exclusionType;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
-  public $infoType;
   /**
    * @var string
    */
   public $likelihood;
   protected $regexType = GooglePrivacyDlpV2Regex::class;
   protected $regexDataType = '';
-  public $regex;
+  protected $sensitivityScoreType = GooglePrivacyDlpV2SensitivityScore::class;
+  protected $sensitivityScoreDataType = '';
   protected $storedTypeType = GooglePrivacyDlpV2StoredType::class;
   protected $storedTypeDataType = '';
-  public $storedType;
   protected $surrogateTypeType = GooglePrivacyDlpV2SurrogateType::class;
   protected $surrogateTypeDataType = '';
-  public $surrogateType;
 
   /**
    * @param GooglePrivacyDlpV2DetectionRule[]
@@ -130,6 +126,20 @@ class GooglePrivacyDlpV2CustomInfoType extends \Google\Collection
   public function getRegex()
   {
     return $this->regex;
+  }
+  /**
+   * @param GooglePrivacyDlpV2SensitivityScore
+   */
+  public function setSensitivityScore(GooglePrivacyDlpV2SensitivityScore $sensitivityScore)
+  {
+    $this->sensitivityScore = $sensitivityScore;
+  }
+  /**
+   * @return GooglePrivacyDlpV2SensitivityScore
+   */
+  public function getSensitivityScore()
+  {
+    return $this->sensitivityScore;
   }
   /**
    * @param GooglePrivacyDlpV2StoredType

@@ -25,7 +25,6 @@ class GoogleChatV1WidgetMarkupKeyValue extends \Google\Model
   public $bottomLabel;
   protected $buttonType = GoogleChatV1WidgetMarkupButton::class;
   protected $buttonDataType = '';
-  public $button;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class GoogleChatV1WidgetMarkupKeyValue extends \Google\Model
   public $iconUrl;
   protected $onClickType = GoogleChatV1WidgetMarkupOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

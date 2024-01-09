@@ -62,7 +62,6 @@ class AwsVmDetails extends \Google\Collection
   public $powerState;
   protected $securityGroupsType = AwsSecurityGroup::class;
   protected $securityGroupsDataType = 'array';
-  public $securityGroups;
   /**
    * @var string
    */

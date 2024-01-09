@@ -21,7 +21,6 @@ class AssistantVerticalsHomeautomationProtoAttribute extends \Google\Model
 {
   protected $structureBasedRoutineType = AssistantVerticalsHomeautomationProtoCommonStructureBasedRoutine::class;
   protected $structureBasedRoutineDataType = '';
-  public $structureBasedRoutine;
 
   /**
    * @param AssistantVerticalsHomeautomationProtoCommonStructureBasedRoutine

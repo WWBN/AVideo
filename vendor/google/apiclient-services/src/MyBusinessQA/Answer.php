@@ -21,7 +21,6 @@ class Answer extends \Google\Model
 {
   protected $authorType = Author::class;
   protected $authorDataType = '';
-  public $author;
   /**
    * @var string
    */

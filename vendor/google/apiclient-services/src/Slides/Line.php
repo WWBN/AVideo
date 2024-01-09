@@ -25,7 +25,6 @@ class Line extends \Google\Model
   public $lineCategory;
   protected $linePropertiesType = LineProperties::class;
   protected $linePropertiesDataType = '';
-  public $lineProperties;
   /**
    * @var string
    */

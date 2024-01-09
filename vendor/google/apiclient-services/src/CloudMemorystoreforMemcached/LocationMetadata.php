@@ -21,7 +21,6 @@ class LocationMetadata extends \Google\Model
 {
   protected $availableZonesType = ZoneMetadata::class;
   protected $availableZonesDataType = 'map';
-  public $availableZones;
 
   /**
    * @param ZoneMetadata[]

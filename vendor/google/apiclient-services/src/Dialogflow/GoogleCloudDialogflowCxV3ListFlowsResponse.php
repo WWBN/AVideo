@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3ListFlowsResponse extends \Google\Collection
   protected $collection_key = 'flows';
   protected $flowsType = GoogleCloudDialogflowCxV3Flow::class;
   protected $flowsDataType = 'array';
-  public $flows;
   /**
    * @var string
    */

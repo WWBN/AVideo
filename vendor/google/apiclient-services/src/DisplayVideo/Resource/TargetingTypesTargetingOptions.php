@@ -89,20 +89,22 @@ class TargetingTypesTargetingOptions extends \Google\Service\Resource
    *
    * @opt_param string advertiserId Required. The Advertiser this request is being
    * made in the context of.
-   * @opt_param string filter Allows filtering by targeting option properties.
+   * @opt_param string filter Allows filtering by targeting option fields.
    * Supported syntax: * Filter expressions are made up of one or more
    * restrictions. * Restrictions can be combined by `OR` logical operators. * A
-   * restriction has the form of `{field} {operator} {value}`. * The operator must
-   * be "=" (equal sign). * Supported fields: - `carrierAndIspDetails.type` -
-   * `geoRegionDetails.geoRegionType` - `targetingOptionId` Examples: * All `GEO
-   * REGION` targeting options that belong to sub type `GEO_REGION_TYPE_COUNTRY`
-   * or `GEO_REGION_TYPE_STATE`:
+   * restriction has the form of `{field} {operator} {value}`. * All fields must
+   * use the `EQUALS (=)` operator. Supported fields: *
+   * `carrierAndIspDetails.type` * `geoRegionDetails.geoRegionType` *
+   * `targetingOptionId` Examples: * All `GEO REGION` targeting options that
+   * belong to sub type `GEO_REGION_TYPE_COUNTRY` or `GEO_REGION_TYPE_STATE`:
    * `geoRegionDetails.geoRegionType="GEO_REGION_TYPE_COUNTRY" OR
    * geoRegionDetails.geoRegionType="GEO_REGION_TYPE_STATE"` * All `CARRIER AND
    * ISP` targeting options that belong to sub type
    * `CARRIER_AND_ISP_TYPE_CARRIER`:
-   * `carrierAndIspDetails.type="CARRIER_AND_ISP_TYPE_CARRIER"`. The length of
-   * this field should be no more than 500 characters.
+   * `carrierAndIspDetails.type="CARRIER_AND_ISP_TYPE_CARRIER"` The length of this
+   * field should be no more than 500 characters. Reference our [filter `LIST`
+   * requests](/display-video/api/guides/how-tos/filters) guide for more
+   * information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `targetingOptionId` (default) The default sorting order is ascending.
    * To specify descending order for a field, a suffix "desc" should be added to

@@ -22,7 +22,6 @@ class FetchInstanceProvisioningSettingsResponse extends \Google\Collection
   protected $collection_key = 'images';
   protected $imagesType = OSImage::class;
   protected $imagesDataType = 'array';
-  public $images;
 
   /**
    * @param OSImage[]

@@ -21,7 +21,6 @@ class VideoContent extends \Google\Model
 {
   protected $videoMetadataType = VideoMetadata::class;
   protected $videoMetadataDataType = '';
-  public $videoMetadata;
   /**
    * @var string
    */

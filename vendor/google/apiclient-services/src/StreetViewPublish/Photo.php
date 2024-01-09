@@ -26,7 +26,6 @@ class Photo extends \Google\Collection
   public $captureTime;
   protected $connectionsType = Connection::class;
   protected $connectionsDataType = 'array';
-  public $connections;
   /**
    * @var string
    */
@@ -37,13 +36,10 @@ class Photo extends \Google\Collection
   public $mapsPublishStatus;
   protected $photoIdType = PhotoId::class;
   protected $photoIdDataType = '';
-  public $photoId;
   protected $placesType = Place::class;
   protected $placesDataType = 'array';
-  public $places;
   protected $poseType = Pose::class;
   protected $poseDataType = '';
-  public $pose;
   /**
    * @var string
    */
@@ -58,7 +54,6 @@ class Photo extends \Google\Collection
   public $transferStatus;
   protected $uploadReferenceType = UploadRef::class;
   protected $uploadReferenceDataType = '';
-  public $uploadReference;
   /**
    * @var string
    */

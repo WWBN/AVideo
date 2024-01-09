@@ -25,7 +25,6 @@ class OrderreturnsRefundOperation extends \Google\Model
   public $fullRefund;
   protected $partialRefundType = OrderreturnsPartialRefund::class;
   protected $partialRefundDataType = '';
-  public $partialRefund;
   /**
    * @var string
    */

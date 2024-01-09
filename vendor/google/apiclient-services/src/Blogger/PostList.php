@@ -26,7 +26,6 @@ class PostList extends \Google\Collection
   public $etag;
   protected $itemsType = Post::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

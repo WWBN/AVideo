@@ -22,7 +22,6 @@ class RepositoryWebrefDocLevelRelevanceRatings extends \Google\Collection
   protected $collection_key = 'perDocRelevanceRatings';
   protected $perDocRelevanceRatingsType = RepositoryWebrefPerDocRelevanceRatings::class;
   protected $perDocRelevanceRatingsDataType = 'array';
-  public $perDocRelevanceRatings;
 
   /**
    * @param RepositoryWebrefPerDocRelevanceRatings[]

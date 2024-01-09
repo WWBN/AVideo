@@ -26,7 +26,6 @@ class SasPortalListNodesResponse extends \Google\Collection
   public $nextPageToken;
   protected $nodesType = SasPortalNode::class;
   protected $nodesDataType = 'array';
-  public $nodes;
 
   /**
    * @param string

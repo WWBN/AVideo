@@ -33,7 +33,6 @@ class RecurringSchedule extends \Google\Model
   public $lastExecuteTime;
   protected $monthlyType = MonthlySchedule::class;
   protected $monthlyDataType = '';
-  public $monthly;
   /**
    * @var string
    */
@@ -44,13 +43,10 @@ class RecurringSchedule extends \Google\Model
   public $startTime;
   protected $timeOfDayType = TimeOfDay::class;
   protected $timeOfDayDataType = '';
-  public $timeOfDay;
   protected $timeZoneType = TimeZone::class;
   protected $timeZoneDataType = '';
-  public $timeZone;
   protected $weeklyType = WeeklySchedule::class;
   protected $weeklyDataType = '';
-  public $weekly;
 
   /**
    * @param string

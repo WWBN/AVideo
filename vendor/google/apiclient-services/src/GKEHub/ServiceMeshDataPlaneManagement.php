@@ -22,7 +22,6 @@ class ServiceMeshDataPlaneManagement extends \Google\Collection
   protected $collection_key = 'details';
   protected $detailsType = ServiceMeshStatusDetails::class;
   protected $detailsDataType = 'array';
-  public $details;
   /**
    * @var string
    */

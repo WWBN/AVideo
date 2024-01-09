@@ -19,6 +19,8 @@ namespace Google\Service\CloudDeploy;
 
 class DeployJobRun extends \Google\Model
 {
+  protected $artifactType = DeployArtifact::class;
+  protected $artifactDataType = '';
   /**
    * @var string
    */
@@ -33,8 +35,21 @@ class DeployJobRun extends \Google\Model
   public $failureMessage;
   protected $metadataType = DeployJobRunMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
 
+  /**
+   * @param DeployArtifact
+   */
+  public function setArtifact(DeployArtifact $artifact)
+  {
+    $this->artifact = $artifact;
+  }
+  /**
+   * @return DeployArtifact
+   */
+  public function getArtifact()
+  {
+    return $this->artifact;
+  }
   /**
    * @param string
    */

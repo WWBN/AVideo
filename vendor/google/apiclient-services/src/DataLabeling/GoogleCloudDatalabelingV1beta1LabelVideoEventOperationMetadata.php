@@ -21,7 +21,6 @@ class GoogleCloudDatalabelingV1beta1LabelVideoEventOperationMetadata extends \Go
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1beta1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
-  public $basicConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1HumanAnnotationConfig

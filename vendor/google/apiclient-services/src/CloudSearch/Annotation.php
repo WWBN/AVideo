@@ -21,41 +21,38 @@ class Annotation extends \Google\Model
 {
   protected $babelPlaceholderMetadataType = BabelPlaceholderMetadata::class;
   protected $babelPlaceholderMetadataDataType = '';
-  public $babelPlaceholderMetadata;
   protected $cardCapabilityMetadataType = CardCapabilityMetadata::class;
   protected $cardCapabilityMetadataDataType = '';
-  public $cardCapabilityMetadata;
   /**
    * @var string
    */
   public $chipRenderType;
+  protected $componentSearchInfoType = AppsDynamiteSharedMessageComponentSearchInfo::class;
+  protected $componentSearchInfoDataType = '';
   protected $consentedAppUnfurlMetadataType = ConsentedAppUnfurlMetadata::class;
   protected $consentedAppUnfurlMetadataDataType = '';
-  public $consentedAppUnfurlMetadata;
   protected $customEmojiMetadataType = CustomEmojiMetadata::class;
   protected $customEmojiMetadataDataType = '';
-  public $customEmojiMetadata;
   protected $dataLossPreventionMetadataType = DataLossPreventionMetadata::class;
   protected $dataLossPreventionMetadataDataType = '';
-  public $dataLossPreventionMetadata;
   protected $driveMetadataType = DriveMetadata::class;
   protected $driveMetadataDataType = '';
-  public $driveMetadata;
   protected $formatMetadataType = FormatMetadata::class;
   protected $formatMetadataDataType = '';
-  public $formatMetadata;
   protected $groupRetentionSettingsUpdatedType = GroupRetentionSettingsUpdatedMetaData::class;
   protected $groupRetentionSettingsUpdatedDataType = '';
-  public $groupRetentionSettingsUpdated;
   protected $gsuiteIntegrationMetadataType = GsuiteIntegrationMetadata::class;
   protected $gsuiteIntegrationMetadataDataType = '';
-  public $gsuiteIntegrationMetadata;
   protected $incomingWebhookChangedMetadataType = IncomingWebhookChangedMetadata::class;
   protected $incomingWebhookChangedMetadataDataType = '';
-  public $incomingWebhookChangedMetadata;
+  /**
+   * @var string
+   */
+  public $inlineRenderFormat;
   protected $integrationConfigUpdatedType = IntegrationConfigUpdatedMetadata::class;
   protected $integrationConfigUpdatedDataType = '';
-  public $integrationConfigUpdated;
+  protected $interactionDataType = InteractionData::class;
+  protected $interactionDataDataType = '';
   /**
    * @var int
    */
@@ -66,23 +63,18 @@ class Annotation extends \Google\Model
   public $localId;
   protected $membershipChangedType = MembershipChangedMetadata::class;
   protected $membershipChangedDataType = '';
-  public $membershipChanged;
   protected $readReceiptsSettingsMetadataType = ReadReceiptsSettingsUpdatedMetadata::class;
   protected $readReceiptsSettingsMetadataDataType = '';
-  public $readReceiptsSettingsMetadata;
   protected $requiredMessageFeaturesMetadataType = RequiredMessageFeaturesMetadata::class;
   protected $requiredMessageFeaturesMetadataDataType = '';
-  public $requiredMessageFeaturesMetadata;
   protected $roomUpdatedType = RoomUpdatedMetadata::class;
   protected $roomUpdatedDataType = '';
-  public $roomUpdated;
   /**
    * @var bool
    */
   public $serverInvalidated;
   protected $slashCommandMetadataType = SlashCommandMetadata::class;
   protected $slashCommandMetadataDataType = '';
-  public $slashCommandMetadata;
   /**
    * @var int
    */
@@ -97,19 +89,14 @@ class Annotation extends \Google\Model
   public $uniqueId;
   protected $uploadMetadataType = UploadMetadata::class;
   protected $uploadMetadataDataType = '';
-  public $uploadMetadata;
   protected $urlMetadataType = UrlMetadata::class;
   protected $urlMetadataDataType = '';
-  public $urlMetadata;
   protected $userMentionMetadataType = UserMentionMetadata::class;
   protected $userMentionMetadataDataType = '';
-  public $userMentionMetadata;
   protected $videoCallMetadataType = VideoCallMetadata::class;
   protected $videoCallMetadataDataType = '';
-  public $videoCallMetadata;
   protected $youtubeMetadataType = YoutubeMetadata::class;
   protected $youtubeMetadataDataType = '';
-  public $youtubeMetadata;
 
   /**
    * @param BabelPlaceholderMetadata
@@ -152,6 +139,20 @@ class Annotation extends \Google\Model
   public function getChipRenderType()
   {
     return $this->chipRenderType;
+  }
+  /**
+   * @param AppsDynamiteSharedMessageComponentSearchInfo
+   */
+  public function setComponentSearchInfo(AppsDynamiteSharedMessageComponentSearchInfo $componentSearchInfo)
+  {
+    $this->componentSearchInfo = $componentSearchInfo;
+  }
+  /**
+   * @return AppsDynamiteSharedMessageComponentSearchInfo
+   */
+  public function getComponentSearchInfo()
+  {
+    return $this->componentSearchInfo;
   }
   /**
    * @param ConsentedAppUnfurlMetadata
@@ -266,6 +267,20 @@ class Annotation extends \Google\Model
     return $this->incomingWebhookChangedMetadata;
   }
   /**
+   * @param string
+   */
+  public function setInlineRenderFormat($inlineRenderFormat)
+  {
+    $this->inlineRenderFormat = $inlineRenderFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getInlineRenderFormat()
+  {
+    return $this->inlineRenderFormat;
+  }
+  /**
    * @param IntegrationConfigUpdatedMetadata
    */
   public function setIntegrationConfigUpdated(IntegrationConfigUpdatedMetadata $integrationConfigUpdated)
@@ -278,6 +293,20 @@ class Annotation extends \Google\Model
   public function getIntegrationConfigUpdated()
   {
     return $this->integrationConfigUpdated;
+  }
+  /**
+   * @param InteractionData
+   */
+  public function setInteractionData(InteractionData $interactionData)
+  {
+    $this->interactionData = $interactionData;
+  }
+  /**
+   * @return InteractionData
+   */
+  public function getInteractionData()
+  {
+    return $this->interactionData;
   }
   /**
    * @param int

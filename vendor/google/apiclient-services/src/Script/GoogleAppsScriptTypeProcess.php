@@ -42,6 +42,10 @@ class GoogleAppsScriptTypeProcess extends \Google\Model
   /**
    * @var string
    */
+  public $runtimeVersion;
+  /**
+   * @var string
+   */
   public $startTime;
   /**
    * @var string
@@ -117,6 +121,20 @@ class GoogleAppsScriptTypeProcess extends \Google\Model
   public function getProjectName()
   {
     return $this->projectName;
+  }
+  /**
+   * @param string
+   */
+  public function setRuntimeVersion($runtimeVersion)
+  {
+    $this->runtimeVersion = $runtimeVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getRuntimeVersion()
+  {
+    return $this->runtimeVersion;
   }
   /**
    * @param string

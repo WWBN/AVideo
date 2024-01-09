@@ -21,7 +21,6 @@ class GoogleCloudVideointelligenceV1p3beta1RecognizedCelebrity extends \Google\M
 {
   protected $celebrityType = GoogleCloudVideointelligenceV1p3beta1Celebrity::class;
   protected $celebrityDataType = '';
-  public $celebrity;
   /**
    * @var float
    */

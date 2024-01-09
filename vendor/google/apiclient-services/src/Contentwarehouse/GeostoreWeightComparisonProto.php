@@ -29,7 +29,6 @@ class GeostoreWeightComparisonProto extends \Google\Model
   public $comparisonOperator;
   protected $weightWithUnitType = GeostoreWeightProto::class;
   protected $weightWithUnitDataType = '';
-  public $weightWithUnit;
 
   /**
    * @param string

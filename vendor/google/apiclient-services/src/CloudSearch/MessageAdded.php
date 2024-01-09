@@ -30,7 +30,6 @@ class MessageAdded extends \Google\Collection
   public $labelIds;
   protected $messageKeyType = MultiKey::class;
   protected $messageKeyDataType = '';
-  public $messageKey;
   /**
    * @var string[]
    */

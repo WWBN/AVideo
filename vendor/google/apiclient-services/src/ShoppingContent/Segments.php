@@ -73,7 +73,6 @@ class Segments extends \Google\Model
   public $customerCountryCode;
   protected $dateType = Date::class;
   protected $dateDataType = '';
-  public $date;
   /**
    * @var string
    */
@@ -108,7 +107,6 @@ class Segments extends \Google\Model
   public $title;
   protected $weekType = Date::class;
   protected $weekDataType = '';
-  public $week;
 
   /**
    * @param string

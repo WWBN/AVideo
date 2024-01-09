@@ -26,7 +26,6 @@ class GoogleCloudContentwarehouseV1QAResult extends \Google\Collection
   public $confidenceScore;
   protected $highlightsType = GoogleCloudContentwarehouseV1QAResultHighlight::class;
   protected $highlightsDataType = 'array';
-  public $highlights;
 
   /**
    * @param float

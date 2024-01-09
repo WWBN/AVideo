@@ -21,7 +21,6 @@ class DictlayerdataDictWordsSensesSynonyms extends \Google\Model
 {
   protected $sourceType = DictlayerdataDictWordsSensesSynonymsSource::class;
   protected $sourceDataType = '';
-  public $source;
   /**
    * @var string
    */

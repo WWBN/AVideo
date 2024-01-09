@@ -21,7 +21,6 @@ class VideoContentSearchCaptionSpanAnchorSetFeatures extends \Google\Model
 {
   protected $anchorSetDolphinScoreStatsType = VideoContentSearchMetricStats::class;
   protected $anchorSetDolphinScoreStatsDataType = '';
-  public $anchorSetDolphinScoreStats;
 
   /**
    * @param VideoContentSearchMetricStats

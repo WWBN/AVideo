@@ -26,7 +26,6 @@ class GoogleCloudApigeeV1SecurityProfile extends \Google\Collection
   public $displayName;
   protected $environmentsType = GoogleCloudApigeeV1SecurityProfileEnvironment::class;
   protected $environmentsDataType = 'array';
-  public $environments;
   /**
    * @var int
    */
@@ -57,7 +56,6 @@ class GoogleCloudApigeeV1SecurityProfile extends \Google\Collection
   public $revisionUpdateTime;
   protected $scoringConfigsType = GoogleCloudApigeeV1SecurityProfileScoringConfig::class;
   protected $scoringConfigsDataType = 'array';
-  public $scoringConfigs;
 
   /**
    * @param string

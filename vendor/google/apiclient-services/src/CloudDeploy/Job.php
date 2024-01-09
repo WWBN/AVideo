@@ -19,9 +19,12 @@ namespace Google\Service\CloudDeploy;
 
 class Job extends \Google\Model
 {
+  protected $advanceChildRolloutJobType = AdvanceChildRolloutJob::class;
+  protected $advanceChildRolloutJobDataType = '';
+  protected $createChildRolloutJobType = CreateChildRolloutJob::class;
+  protected $createChildRolloutJobDataType = '';
   protected $deployJobType = DeployJob::class;
   protected $deployJobDataType = '';
-  public $deployJob;
   /**
    * @var string
    */
@@ -33,11 +36,42 @@ class Job extends \Google\Model
   /**
    * @var string
    */
+  public $skipMessage;
+  /**
+   * @var string
+   */
   public $state;
   protected $verifyJobType = VerifyJob::class;
   protected $verifyJobDataType = '';
-  public $verifyJob;
 
+  /**
+   * @param AdvanceChildRolloutJob
+   */
+  public function setAdvanceChildRolloutJob(AdvanceChildRolloutJob $advanceChildRolloutJob)
+  {
+    $this->advanceChildRolloutJob = $advanceChildRolloutJob;
+  }
+  /**
+   * @return AdvanceChildRolloutJob
+   */
+  public function getAdvanceChildRolloutJob()
+  {
+    return $this->advanceChildRolloutJob;
+  }
+  /**
+   * @param CreateChildRolloutJob
+   */
+  public function setCreateChildRolloutJob(CreateChildRolloutJob $createChildRolloutJob)
+  {
+    $this->createChildRolloutJob = $createChildRolloutJob;
+  }
+  /**
+   * @return CreateChildRolloutJob
+   */
+  public function getCreateChildRolloutJob()
+  {
+    return $this->createChildRolloutJob;
+  }
   /**
    * @param DeployJob
    */
@@ -79,6 +113,20 @@ class Job extends \Google\Model
   public function getJobRun()
   {
     return $this->jobRun;
+  }
+  /**
+   * @param string
+   */
+  public function setSkipMessage($skipMessage)
+  {
+    $this->skipMessage = $skipMessage;
+  }
+  /**
+   * @return string
+   */
+  public function getSkipMessage()
+  {
+    return $this->skipMessage;
   }
   /**
    * @param string

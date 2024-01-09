@@ -46,10 +46,8 @@ class JobConfigurationExtract extends \Google\Collection
   public $printHeader;
   protected $sourceModelType = ModelReference::class;
   protected $sourceModelDataType = '';
-  public $sourceModel;
   protected $sourceTableType = TableReference::class;
   protected $sourceTableDataType = '';
-  public $sourceTable;
   /**
    * @var bool
    */

@@ -29,7 +29,6 @@ class BudgetSummary extends \Google\Model
   public $preTaxAmountMicros;
   protected $prismaCpeCodeType = PrismaCpeCode::class;
   protected $prismaCpeCodeDataType = '';
-  public $prismaCpeCode;
   /**
    * @var string
    */

@@ -30,7 +30,6 @@ class GoogleCloudDatacatalogV1TagField extends \Google\Model
   public $doubleValue;
   protected $enumValueType = GoogleCloudDatacatalogV1TagFieldEnumValue::class;
   protected $enumValueDataType = '';
-  public $enumValue;
   /**
    * @var int
    */

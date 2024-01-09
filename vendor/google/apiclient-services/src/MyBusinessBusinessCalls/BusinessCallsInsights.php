@@ -21,7 +21,6 @@ class BusinessCallsInsights extends \Google\Model
 {
   protected $aggregateMetricsType = AggregateMetrics::class;
   protected $aggregateMetricsDataType = '';
-  public $aggregateMetrics;
   /**
    * @var string
    */

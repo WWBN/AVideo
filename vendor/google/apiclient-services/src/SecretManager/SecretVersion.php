@@ -41,7 +41,6 @@ class SecretVersion extends \Google\Model
   public $name;
   protected $replicationStatusType = ReplicationStatus::class;
   protected $replicationStatusDataType = '';
-  public $replicationStatus;
   /**
    * @var string
    */

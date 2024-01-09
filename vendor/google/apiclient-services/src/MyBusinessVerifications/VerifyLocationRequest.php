@@ -21,7 +21,6 @@ class VerifyLocationRequest extends \Google\Model
 {
   protected $contextType = ServiceBusinessContext::class;
   protected $contextDataType = '';
-  public $context;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class VerifyLocationRequest extends \Google\Model
   public $phoneNumber;
   protected $tokenType = VerificationToken::class;
   protected $tokenDataType = '';
-  public $token;
 
   /**
    * @param ServiceBusinessContext

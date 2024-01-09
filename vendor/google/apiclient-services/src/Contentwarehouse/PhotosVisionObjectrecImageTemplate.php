@@ -30,10 +30,8 @@ class PhotosVisionObjectrecImageTemplate extends \Google\Collection
   public $corpus;
   protected $geoLocationType = PhotosVisionObjectrecGeoLocation::class;
   protected $geoLocationDataType = '';
-  public $geoLocation;
   protected $globalFeatureType = PhotosVisionObjectrecGlobalFeature::class;
   protected $globalFeatureDataType = 'array';
-  public $globalFeature;
   /**
    * @var int
    */
@@ -68,10 +66,8 @@ class PhotosVisionObjectrecImageTemplate extends \Google\Collection
   public $opaqueData;
   protected $roiType = PhotosVisionObjectrecROI::class;
   protected $roiDataType = '';
-  public $roi;
   protected $subsetType = PhotosVisionObjectrecImageTemplateSubSet::class;
   protected $subsetDataType = 'array';
-  public $subset;
   /**
    * @var string
    */

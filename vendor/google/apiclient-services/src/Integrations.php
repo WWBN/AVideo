@@ -943,7 +943,17 @@ class Integrations extends \Google\Service
         'integrations',
         [
           'methods' => [
-            'execute' => [
+            'delete' => [
+              'path' => 'v1alpha/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'execute' => [
               'path' => 'v1alpha/{+name}:execute',
               'httpMethod' => 'POST',
               'parameters' => [

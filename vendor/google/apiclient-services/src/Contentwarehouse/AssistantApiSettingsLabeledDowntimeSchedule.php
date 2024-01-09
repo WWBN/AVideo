@@ -25,7 +25,6 @@ class AssistantApiSettingsLabeledDowntimeSchedule extends \Google\Model
   public $displayName;
   protected $scheduleType = AssistantApiSettingsDowntimeSchedule::class;
   protected $scheduleDataType = '';
-  public $schedule;
 
   /**
    * @param string

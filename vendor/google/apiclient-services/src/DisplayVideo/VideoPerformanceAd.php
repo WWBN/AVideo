@@ -26,7 +26,6 @@ class VideoPerformanceAd extends \Google\Collection
   public $actionButtonLabels;
   protected $companionBannersType = ImageAsset::class;
   protected $companionBannersDataType = 'array';
-  public $companionBanners;
   /**
    * @var string[]
    */
@@ -65,7 +64,6 @@ class VideoPerformanceAd extends \Google\Collection
   public $trackingUrl;
   protected $videosType = YoutubeVideoDetails::class;
   protected $videosDataType = 'array';
-  public $videos;
 
   /**
    * @param string[]

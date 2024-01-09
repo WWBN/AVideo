@@ -131,8 +131,7 @@ class TargetInstances extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified TargetInstance resource. Gets a list of available
-   * target instances by making a list() request. (targetInstances.get)
+   * Returns the specified TargetInstance resource. (targetInstances.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone Name of the zone scoping this request.

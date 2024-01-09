@@ -22,7 +22,6 @@ class OrderreturnsCreateOrderReturnRequest extends \Google\Collection
   protected $collection_key = 'lineItems';
   protected $lineItemsType = OrderreturnsLineItem::class;
   protected $lineItemsDataType = 'array';
-  public $lineItems;
   /**
    * @var string
    */

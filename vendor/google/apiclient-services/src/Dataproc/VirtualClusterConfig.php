@@ -21,10 +21,8 @@ class VirtualClusterConfig extends \Google\Model
 {
   protected $auxiliaryServicesConfigType = AuxiliaryServicesConfig::class;
   protected $auxiliaryServicesConfigDataType = '';
-  public $auxiliaryServicesConfig;
   protected $kubernetesClusterConfigType = KubernetesClusterConfig::class;
   protected $kubernetesClusterConfigDataType = '';
-  public $kubernetesClusterConfig;
   /**
    * @var string
    */

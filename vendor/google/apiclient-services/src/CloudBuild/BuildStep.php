@@ -58,7 +58,6 @@ class BuildStep extends \Google\Collection
   public $name;
   protected $pullTimingType = TimeSpan::class;
   protected $pullTimingDataType = '';
-  public $pullTiming;
   /**
    * @var string
    */
@@ -77,10 +76,8 @@ class BuildStep extends \Google\Collection
   public $timeout;
   protected $timingType = TimeSpan::class;
   protected $timingDataType = '';
-  public $timing;
   protected $volumesType = Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
   /**
    * @var string[]
    */

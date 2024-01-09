@@ -66,8 +66,7 @@ class Snapshots extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified Snapshot resource. Gets a list of available snapshots
-   * by making a list() request. (snapshots.get)
+   * Returns the specified Snapshot resource. (snapshots.get)
    *
    * @param string $project Project ID for this request.
    * @param string $snapshot Name of the Snapshot resource to return.

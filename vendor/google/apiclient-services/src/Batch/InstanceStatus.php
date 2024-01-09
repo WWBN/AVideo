@@ -21,7 +21,6 @@ class InstanceStatus extends \Google\Model
 {
   protected $bootDiskType = Disk::class;
   protected $bootDiskDataType = '';
-  public $bootDisk;
   /**
    * @var string
    */

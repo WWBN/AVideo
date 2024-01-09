@@ -21,7 +21,6 @@ class DiscoverConnectionProfileRequest extends \Google\Model
 {
   protected $connectionProfileType = ConnectionProfile::class;
   protected $connectionProfileDataType = '';
-  public $connectionProfile;
   /**
    * @var string
    */
@@ -36,13 +35,10 @@ class DiscoverConnectionProfileRequest extends \Google\Model
   public $hierarchyDepth;
   protected $mysqlRdbmsType = MysqlRdbms::class;
   protected $mysqlRdbmsDataType = '';
-  public $mysqlRdbms;
   protected $oracleRdbmsType = OracleRdbms::class;
   protected $oracleRdbmsDataType = '';
-  public $oracleRdbms;
   protected $postgresqlRdbmsType = PostgresqlRdbms::class;
   protected $postgresqlRdbmsDataType = '';
-  public $postgresqlRdbms;
 
   /**
    * @param ConnectionProfile

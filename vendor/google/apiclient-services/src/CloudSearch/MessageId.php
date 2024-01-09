@@ -25,7 +25,6 @@ class MessageId extends \Google\Model
   public $messageId;
   protected $parentIdType = MessageParentId::class;
   protected $parentIdDataType = '';
-  public $parentId;
 
   /**
    * @param string

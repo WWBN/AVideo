@@ -38,7 +38,6 @@ class Certificate extends \Google\Collection
   public $labels;
   protected $managedType = ManagedCertificate::class;
   protected $managedDataType = '';
-  public $managed;
   /**
    * @var string
    */
@@ -57,7 +56,6 @@ class Certificate extends \Google\Collection
   public $scope;
   protected $selfManagedType = SelfManagedCertificate::class;
   protected $selfManagedDataType = '';
-  public $selfManaged;
   /**
    * @var string
    */

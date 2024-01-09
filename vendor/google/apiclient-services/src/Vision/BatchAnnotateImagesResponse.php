@@ -22,7 +22,6 @@ class BatchAnnotateImagesResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = AnnotateImageResponse::class;
   protected $responsesDataType = 'array';
-  public $responses;
 
   /**
    * @param AnnotateImageResponse[]

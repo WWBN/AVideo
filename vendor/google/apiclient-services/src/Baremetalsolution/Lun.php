@@ -17,8 +17,9 @@
 
 namespace Google\Service\Baremetalsolution;
 
-class Lun extends \Google\Model
+class Lun extends \Google\Collection
 {
+  protected $collection_key = 'instances';
   /**
    * @var bool
    */
@@ -31,6 +32,10 @@ class Lun extends \Google\Model
    * @var string
    */
   public $id;
+  /**
+   * @var string[]
+   */
+  public $instances;
   /**
    * @var string
    */
@@ -105,6 +110,20 @@ class Lun extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param string[]
+   */
+  public function setInstances($instances)
+  {
+    $this->instances = $instances;
+  }
+  /**
+   * @return string[]
+   */
+  public function getInstances()
+  {
+    return $this->instances;
   }
   /**
    * @param string

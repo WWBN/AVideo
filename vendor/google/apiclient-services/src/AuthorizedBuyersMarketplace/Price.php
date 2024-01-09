@@ -21,7 +21,6 @@ class Price extends \Google\Model
 {
   protected $amountType = Money::class;
   protected $amountDataType = '';
-  public $amount;
   /**
    * @var string
    */

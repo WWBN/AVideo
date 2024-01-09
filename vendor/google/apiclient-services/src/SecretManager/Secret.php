@@ -46,13 +46,10 @@ class Secret extends \Google\Collection
   public $name;
   protected $replicationType = Replication::class;
   protected $replicationDataType = '';
-  public $replication;
   protected $rotationType = Rotation::class;
   protected $rotationDataType = '';
-  public $rotation;
   protected $topicsType = Topic::class;
   protected $topicsDataType = 'array';
-  public $topics;
   /**
    * @var string
    */

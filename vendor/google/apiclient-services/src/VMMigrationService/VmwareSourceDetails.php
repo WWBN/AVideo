@@ -26,6 +26,10 @@ class VmwareSourceDetails extends \Google\Model
   /**
    * @var string
    */
+  public $resolvedVcenterHost;
+  /**
+   * @var string
+   */
   public $thumbprint;
   /**
    * @var string
@@ -49,6 +53,20 @@ class VmwareSourceDetails extends \Google\Model
   public function getPassword()
   {
     return $this->password;
+  }
+  /**
+   * @param string
+   */
+  public function setResolvedVcenterHost($resolvedVcenterHost)
+  {
+    $this->resolvedVcenterHost = $resolvedVcenterHost;
+  }
+  /**
+   * @return string
+   */
+  public function getResolvedVcenterHost()
+  {
+    return $this->resolvedVcenterHost;
   }
   /**
    * @param string

@@ -34,7 +34,6 @@ class QualitySalientTermsDocData extends \Google\Collection
   public $language;
   protected $signalDataType = QualitySalientTermsSignalData::class;
   protected $signalDataDataType = 'array';
-  public $signalData;
   /**
    * @var float
    */

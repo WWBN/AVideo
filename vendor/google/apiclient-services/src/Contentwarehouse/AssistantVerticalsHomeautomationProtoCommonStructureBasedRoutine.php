@@ -54,7 +54,6 @@ class AssistantVerticalsHomeautomationProtoCommonStructureBasedRoutine extends \
   public $structureId;
   protected $triggersType = AssistantVerticalsHomeautomationProtoCommonStructureBasedRoutineTrigger::class;
   protected $triggersDataType = 'array';
-  public $triggers;
   /**
    * @var string
    */

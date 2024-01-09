@@ -26,7 +26,6 @@ class ListUserInvitationsResponse extends \Google\Collection
   public $nextPageToken;
   protected $userInvitationsType = UserInvitation::class;
   protected $userInvitationsDataType = 'array';
-  public $userInvitations;
 
   /**
    * @param string

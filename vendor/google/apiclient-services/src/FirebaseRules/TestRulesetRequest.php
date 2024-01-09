@@ -21,10 +21,8 @@ class TestRulesetRequest extends \Google\Model
 {
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
-  public $source;
   protected $testSuiteType = TestSuite::class;
   protected $testSuiteDataType = '';
-  public $testSuite;
 
   /**
    * @param Source

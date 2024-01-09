@@ -22,7 +22,6 @@ class QualityQrewriteCandidateId extends \Google\Collection
   protected $collection_key = 'field';
   protected $fieldType = QualityQrewriteCandidateIdField::class;
   protected $fieldDataType = 'array';
-  public $field;
 
   /**
    * @param QualityQrewriteCandidateIdField[]

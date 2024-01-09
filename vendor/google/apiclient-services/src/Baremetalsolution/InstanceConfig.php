@@ -26,7 +26,6 @@ class InstanceConfig extends \Google\Collection
   public $accountNetworksEnabled;
   protected $clientNetworkType = NetworkAddress::class;
   protected $clientNetworkDataType = '';
-  public $clientNetwork;
   /**
    * @var bool
    */
@@ -41,7 +40,6 @@ class InstanceConfig extends \Google\Collection
   public $instanceType;
   protected $logicalInterfacesType = GoogleCloudBaremetalsolutionV2LogicalInterface::class;
   protected $logicalInterfacesDataType = 'array';
-  public $logicalInterfaces;
   /**
    * @var string
    */
@@ -60,7 +58,6 @@ class InstanceConfig extends \Google\Collection
   public $osImage;
   protected $privateNetworkType = NetworkAddress::class;
   protected $privateNetworkDataType = '';
-  public $privateNetwork;
   /**
    * @var string
    */

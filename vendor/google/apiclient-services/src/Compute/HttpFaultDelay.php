@@ -21,7 +21,6 @@ class HttpFaultDelay extends \Google\Model
 {
   protected $fixedDelayType = Duration::class;
   protected $fixedDelayDataType = '';
-  public $fixedDelay;
   public $percentage;
 
   /**

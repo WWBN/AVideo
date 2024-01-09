@@ -21,10 +21,8 @@ class AbsoluteDateRange extends \Google\Model
 {
   protected $endDateType = Date::class;
   protected $endDateDataType = '';
-  public $endDate;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
-  public $startDate;
 
   /**
    * @param Date

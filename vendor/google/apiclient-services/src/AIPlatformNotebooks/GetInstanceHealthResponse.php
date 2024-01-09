@@ -22,7 +22,7 @@ class GetInstanceHealthResponse extends \Google\Model
   /**
    * @var string[]
    */
-  public $healthInfo;
+  public $healthInfo = [];
   /**
    * @var string
    */

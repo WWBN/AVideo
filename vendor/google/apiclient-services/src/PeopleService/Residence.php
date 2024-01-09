@@ -25,7 +25,6 @@ class Residence extends \Google\Model
   public $current;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

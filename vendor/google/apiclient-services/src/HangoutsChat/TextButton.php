@@ -21,7 +21,6 @@ class TextButton extends \Google\Model
 {
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

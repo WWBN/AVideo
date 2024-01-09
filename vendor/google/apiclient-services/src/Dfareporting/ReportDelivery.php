@@ -34,7 +34,6 @@ class ReportDelivery extends \Google\Collection
   public $message;
   protected $recipientsType = Recipient::class;
   protected $recipientsDataType = 'array';
-  public $recipients;
 
   /**
    * @param bool

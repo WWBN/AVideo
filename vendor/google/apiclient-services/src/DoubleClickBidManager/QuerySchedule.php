@@ -21,7 +21,6 @@ class QuerySchedule extends \Google\Model
 {
   protected $endDateType = Date::class;
   protected $endDateDataType = '';
-  public $endDate;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class QuerySchedule extends \Google\Model
   public $nextRunTimezoneCode;
   protected $startDateType = Date::class;
   protected $startDateDataType = '';
-  public $startDate;
 
   /**
    * @param Date

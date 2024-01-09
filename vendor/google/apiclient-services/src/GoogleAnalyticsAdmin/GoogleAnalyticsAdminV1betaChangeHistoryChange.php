@@ -29,10 +29,8 @@ class GoogleAnalyticsAdminV1betaChangeHistoryChange extends \Google\Model
   public $resource;
   protected $resourceAfterChangeType = GoogleAnalyticsAdminV1betaChangeHistoryChangeChangeHistoryResource::class;
   protected $resourceAfterChangeDataType = '';
-  public $resourceAfterChange;
   protected $resourceBeforeChangeType = GoogleAnalyticsAdminV1betaChangeHistoryChangeChangeHistoryResource::class;
   protected $resourceBeforeChangeDataType = '';
-  public $resourceBeforeChange;
 
   /**
    * @param string

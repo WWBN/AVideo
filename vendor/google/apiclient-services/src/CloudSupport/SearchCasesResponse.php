@@ -22,7 +22,6 @@ class SearchCasesResponse extends \Google\Collection
   protected $collection_key = 'cases';
   protected $casesType = CloudsupportCase::class;
   protected $casesDataType = 'array';
-  public $cases;
   /**
    * @var string
    */

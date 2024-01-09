@@ -35,7 +35,13 @@ class Webfonts extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string capability Controls the font urls in `Webfont.files`, by
+   * default, static ttf fonts are sent.
+   * @opt_param string family Filters by Webfont.family, using literal match. If
+   * not set, returns all families
    * @opt_param string sort Enables sorting of the list.
+   * @opt_param string subset Filters by Webfont.subset, if subset is found in
+   * Webfont.subsets. If not set, returns all families.
    * @return WebfontList
    */
   public function listWebfonts($optParams = [])

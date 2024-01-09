@@ -30,7 +30,6 @@ class NonSdkApi extends \Google\Collection
   public $exampleStackTraces;
   protected $insightsType = NonSdkApiInsight::class;
   protected $insightsDataType = 'array';
-  public $insights;
   /**
    * @var int
    */

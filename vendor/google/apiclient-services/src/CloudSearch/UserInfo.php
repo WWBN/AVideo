@@ -45,7 +45,6 @@ class UserInfo extends \Google\Model
   public $updaterToShowName;
   protected $updaterToShowUserIdType = UserId::class;
   protected $updaterToShowUserIdDataType = '';
-  public $updaterToShowUserId;
 
   /**
    * @param string

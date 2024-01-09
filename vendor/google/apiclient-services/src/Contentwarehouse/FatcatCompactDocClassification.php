@@ -22,10 +22,8 @@ class FatcatCompactDocClassification extends \Google\Collection
   protected $collection_key = 'taxonomic';
   protected $binaryType = FatcatCompactBinaryClassification::class;
   protected $binaryDataType = 'array';
-  public $binary;
   protected $clustersType = FatcatCompactRephilClusters::class;
   protected $clustersDataType = '';
-  public $clusters;
   /**
    * @var string
    */
@@ -40,7 +38,6 @@ class FatcatCompactDocClassification extends \Google\Collection
   public $rephilModelId;
   protected $taxonomicType = FatcatCompactTaxonomicClassification::class;
   protected $taxonomicDataType = 'array';
-  public $taxonomic;
   /**
    * @var string
    */

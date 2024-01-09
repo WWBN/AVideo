@@ -22,7 +22,6 @@ class ListPeeredDnsDomainsResponse extends \Google\Collection
   protected $collection_key = 'peeredDnsDomains';
   protected $peeredDnsDomainsType = PeeredDnsDomain::class;
   protected $peeredDnsDomainsDataType = 'array';
-  public $peeredDnsDomains;
 
   /**
    * @param PeeredDnsDomain[]

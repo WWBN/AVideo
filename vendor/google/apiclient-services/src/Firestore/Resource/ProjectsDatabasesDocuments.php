@@ -290,7 +290,8 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
     return $this->call('listDocuments', [$params], ListDocumentsResponse::class);
   }
   /**
-   * Listens to changes. (documents.listen)
+   * Listens to changes. This method is only available via gRPC or WebChannel (not
+   * REST). (documents.listen)
    *
    * @param string $database Required. The database name. In the format:
    * `projects/{project_id}/databases/{database_id}`.
@@ -404,7 +405,8 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
     return $this->call('runQuery', [$params], RunQueryResponse::class);
   }
   /**
-   * Streams batches of document updates and deletes, in order. (documents.write)
+   * Streams batches of document updates and deletes, in order. This method is
+   * only available via gRPC or WebChannel (not REST). (documents.write)
    *
    * @param string $database Required. The database name. In the format:
    * `projects/{project_id}/databases/{database_id}`. This is only required in the

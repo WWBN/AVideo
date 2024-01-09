@@ -22,7 +22,6 @@ class GoogleCloudDatacatalogV1ImportEntriesMetadata extends \Google\Collection
   protected $collection_key = 'errors';
   protected $errorsType = Status::class;
   protected $errorsDataType = 'array';
-  public $errors;
   /**
    * @var string
    */

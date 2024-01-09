@@ -25,6 +25,8 @@ class TrawlerHostBucketDataUrlList extends \Google\Model
         "isListForUrl" => "IsListForUrl",
         "numCurrentFetches" => "NumCurrentFetches",
         "numUrls" => "NumUrls",
+        "partnerTotalCapacityQps" => "PartnerTotalCapacityQps",
+        "partnerTotalUsedQps" => "PartnerTotalUsedQps",
         "requestType" => "RequestType",
         "requestorFp" => "RequestorFp",
   ];
@@ -48,6 +50,14 @@ class TrawlerHostBucketDataUrlList extends \Google\Model
    * @var int
    */
   public $numUrls;
+  /**
+   * @var float
+   */
+  public $partnerTotalCapacityQps;
+  /**
+   * @var float
+   */
+  public $partnerTotalUsedQps;
   /**
    * @var string
    */
@@ -126,6 +136,34 @@ class TrawlerHostBucketDataUrlList extends \Google\Model
   public function getNumUrls()
   {
     return $this->numUrls;
+  }
+  /**
+   * @param float
+   */
+  public function setPartnerTotalCapacityQps($partnerTotalCapacityQps)
+  {
+    $this->partnerTotalCapacityQps = $partnerTotalCapacityQps;
+  }
+  /**
+   * @return float
+   */
+  public function getPartnerTotalCapacityQps()
+  {
+    return $this->partnerTotalCapacityQps;
+  }
+  /**
+   * @param float
+   */
+  public function setPartnerTotalUsedQps($partnerTotalUsedQps)
+  {
+    $this->partnerTotalUsedQps = $partnerTotalUsedQps;
+  }
+  /**
+   * @return float
+   */
+  public function getPartnerTotalUsedQps()
+  {
+    return $this->partnerTotalUsedQps;
   }
   /**
    * @param string

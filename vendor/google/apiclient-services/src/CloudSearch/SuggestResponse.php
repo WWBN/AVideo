@@ -22,7 +22,6 @@ class SuggestResponse extends \Google\Collection
   protected $collection_key = 'suggestResults';
   protected $suggestResultsType = SuggestResult::class;
   protected $suggestResultsDataType = 'array';
-  public $suggestResults;
 
   /**
    * @param SuggestResult[]

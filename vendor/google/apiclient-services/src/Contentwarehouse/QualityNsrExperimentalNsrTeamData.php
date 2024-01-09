@@ -22,7 +22,6 @@ class QualityNsrExperimentalNsrTeamData extends \Google\Collection
   protected $collection_key = 'versionedSignals';
   protected $versionedSignalsType = QualityNsrExperimentalNsrTeamScoringSignal::class;
   protected $versionedSignalsDataType = 'array';
-  public $versionedSignals;
 
   /**
    * @param QualityNsrExperimentalNsrTeamScoringSignal[]

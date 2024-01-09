@@ -21,7 +21,6 @@ class DeleteDeveloperMetadataRequest extends \Google\Model
 {
   protected $dataFilterType = DataFilter::class;
   protected $dataFilterDataType = '';
-  public $dataFilter;
 
   /**
    * @param DataFilter

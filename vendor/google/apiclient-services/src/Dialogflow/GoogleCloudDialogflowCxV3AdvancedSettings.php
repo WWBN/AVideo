@@ -21,10 +21,8 @@ class GoogleCloudDialogflowCxV3AdvancedSettings extends \Google\Model
 {
   protected $audioExportGcsDestinationType = GoogleCloudDialogflowCxV3GcsDestination::class;
   protected $audioExportGcsDestinationDataType = '';
-  public $audioExportGcsDestination;
   protected $loggingSettingsType = GoogleCloudDialogflowCxV3AdvancedSettingsLoggingSettings::class;
   protected $loggingSettingsDataType = '';
-  public $loggingSettings;
 
   /**
    * @param GoogleCloudDialogflowCxV3GcsDestination

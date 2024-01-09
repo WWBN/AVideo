@@ -22,7 +22,6 @@ class RepositoryWebrefRangeAnnotations extends \Google\Collection
   protected $collection_key = 'segmentMentions';
   protected $segmentMentionsType = RepositoryWebrefSegmentMentions::class;
   protected $segmentMentionsDataType = 'array';
-  public $segmentMentions;
   /**
    * @var string
    */

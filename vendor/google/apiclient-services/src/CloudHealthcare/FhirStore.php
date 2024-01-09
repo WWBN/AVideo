@@ -50,13 +50,12 @@ class FhirStore extends \Google\Collection
   public $name;
   protected $notificationConfigType = NotificationConfig::class;
   protected $notificationConfigDataType = '';
-  public $notificationConfig;
+  protected $notificationConfigsType = FhirNotificationConfig::class;
+  protected $notificationConfigsDataType = 'array';
   protected $streamConfigsType = StreamConfig::class;
   protected $streamConfigsDataType = 'array';
-  public $streamConfigs;
   protected $validationConfigType = ValidationConfig::class;
   protected $validationConfigDataType = '';
-  public $validationConfig;
   /**
    * @var string
    */
@@ -173,6 +172,20 @@ class FhirStore extends \Google\Collection
   public function getNotificationConfig()
   {
     return $this->notificationConfig;
+  }
+  /**
+   * @param FhirNotificationConfig[]
+   */
+  public function setNotificationConfigs($notificationConfigs)
+  {
+    $this->notificationConfigs = $notificationConfigs;
+  }
+  /**
+   * @return FhirNotificationConfig[]
+   */
+  public function getNotificationConfigs()
+  {
+    return $this->notificationConfigs;
   }
   /**
    * @param StreamConfig[]

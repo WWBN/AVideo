@@ -42,7 +42,6 @@ class HtmlrenderWebkitHeadlessProtoDocument extends \Google\Collection
   public $contentWidth;
   protected $domTreeNodeType = HtmlrenderWebkitHeadlessProtoDOMTreeNode::class;
   protected $domTreeNodeDataType = 'array';
-  public $domTreeNode;
   /**
    * @var string
    */
@@ -54,23 +53,17 @@ class HtmlrenderWebkitHeadlessProtoDocument extends \Google\Collection
   public $javascriptTimeOfDay;
   protected $redirectHopType = HtmlrenderWebkitHeadlessProtoRedirectHop::class;
   protected $redirectHopDataType = 'array';
-  public $redirectHop;
   protected $referencedResourceType = HtmlrenderWebkitHeadlessProtoReferencedResource::class;
   protected $referencedResourceDataType = 'array';
-  public $referencedResource;
   protected $renderEventType = HtmlrenderWebkitHeadlessProtoRenderEvent::class;
   protected $renderEventDataType = 'array';
-  public $renderEvent;
   protected $renderStyleType = HtmlrenderWebkitHeadlessProtoStyle::class;
   protected $renderStyleDataType = 'array';
-  public $renderStyle;
   protected $renderTreeNodeType = HtmlrenderWebkitHeadlessProtoRenderTreeNode::class;
   protected $renderTreeNodeDataType = 'array';
-  public $renderTreeNode;
   public $renderTreeQualityScore;
   protected $renderedContentAreaType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $renderedContentAreaDataType = '';
-  public $renderedContentArea;
   /**
    * @var int
    */
@@ -90,7 +83,6 @@ class HtmlrenderWebkitHeadlessProtoDocument extends \Google\Collection
   public $uri;
   protected $viewportType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $viewportDataType = '';
-  public $viewport;
 
   /**
    * @param string

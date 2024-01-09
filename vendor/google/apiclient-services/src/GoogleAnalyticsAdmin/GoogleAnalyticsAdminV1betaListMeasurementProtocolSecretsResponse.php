@@ -22,7 +22,6 @@ class GoogleAnalyticsAdminV1betaListMeasurementProtocolSecretsResponse extends \
   protected $collection_key = 'measurementProtocolSecrets';
   protected $measurementProtocolSecretsType = GoogleAnalyticsAdminV1betaMeasurementProtocolSecret::class;
   protected $measurementProtocolSecretsDataType = 'array';
-  public $measurementProtocolSecrets;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class KnowledgeAnswersIntentQueryCoreference extends \Google\Model
 {
   protected $argPathType = KnowledgeAnswersIntentQueryArgPath::class;
   protected $argPathDataType = '';
-  public $argPath;
 
   /**
    * @param KnowledgeAnswersIntentQueryArgPath

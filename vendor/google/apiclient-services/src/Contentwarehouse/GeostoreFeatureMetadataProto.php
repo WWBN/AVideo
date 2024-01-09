@@ -29,16 +29,12 @@ class GeostoreFeatureMetadataProto extends \Google\Model
   public $coreVersionToken;
   protected $featureReplacementInfoType = GeostoreFeatureReplacementInfoProto::class;
   protected $featureReplacementInfoDataType = '';
-  public $featureReplacementInfo;
   protected $fieldMetadataType = GeostoreFeatureFieldMetadataProto::class;
   protected $fieldMetadataDataType = '';
-  public $fieldMetadata;
   protected $forwardingsType = GeostoreFeatureIdForwardingsProto::class;
   protected $forwardingsDataType = '';
-  public $forwardings;
   protected $historyType = GeostoreFeatureHistoryMetadataProto::class;
   protected $historyDataType = '';
-  public $history;
   /**
    * @var string
    */

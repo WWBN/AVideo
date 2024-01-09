@@ -136,7 +136,7 @@ class ProjectsLocationsDataScans extends \Google\Service\Resource
    * @opt_param string orderBy Optional. Order by fields (name or create_time) for
    * the result. If not specified, the ordering is undefined.
    * @opt_param int pageSize Optional. Maximum number of dataScans to return. The
-   * service may return fewer than this value. If unspecified, at most 10 scans
+   * service may return fewer than this value. If unspecified, at most 500 scans
    * will be returned. The maximum value is 1000; values above 1000 will be
    * coerced to 1000.
    * @opt_param string pageToken Optional. Page token received from a previous

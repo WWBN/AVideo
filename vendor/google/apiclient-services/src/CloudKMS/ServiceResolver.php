@@ -30,7 +30,6 @@ class ServiceResolver extends \Google\Collection
   public $hostname;
   protected $serverCertificatesType = Certificate::class;
   protected $serverCertificatesDataType = 'array';
-  public $serverCertificates;
   /**
    * @var string
    */

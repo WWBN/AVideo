@@ -26,17 +26,14 @@ class ColumnDescription extends \Google\Collection
   public $dataType;
   protected $dateDetailsType = DateDetails::class;
   protected $dateDetailsDataType = '';
-  public $dateDetails;
   /**
    * @var string
    */
   public $id;
   protected $labelsType = LabeledItem::class;
   protected $labelsDataType = 'array';
-  public $labels;
   protected $lookupDetailsType = LookupDetails::class;
   protected $lookupDetailsDataType = '';
-  public $lookupDetails;
   /**
    * @var bool
    */
@@ -51,7 +48,6 @@ class ColumnDescription extends \Google\Collection
   public $readonly;
   protected $relationshipDetailsType = RelationshipDetails::class;
   protected $relationshipDetailsDataType = '';
-  public $relationshipDetails;
 
   /**
    * @param string

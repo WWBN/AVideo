@@ -21,14 +21,12 @@ class GoogleAppsCardV1TextInput extends \Google\Model
 {
   protected $autoCompleteActionType = GoogleAppsCardV1Action::class;
   protected $autoCompleteActionDataType = '';
-  public $autoCompleteAction;
   /**
    * @var string
    */
   public $hintText;
   protected $initialSuggestionsType = GoogleAppsCardV1Suggestions::class;
   protected $initialSuggestionsDataType = '';
-  public $initialSuggestions;
   /**
    * @var string
    */
@@ -39,7 +37,6 @@ class GoogleAppsCardV1TextInput extends \Google\Model
   public $name;
   protected $onChangeActionType = GoogleAppsCardV1Action::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var string
    */

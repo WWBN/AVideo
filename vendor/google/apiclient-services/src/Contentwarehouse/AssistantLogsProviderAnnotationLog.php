@@ -21,10 +21,46 @@ class AssistantLogsProviderAnnotationLog extends \Google\Collection
 {
   protected $collection_key = 'packageNames';
   /**
+   * @var string
+   */
+  public $lang;
+  /**
+   * @var string[]
+   */
+  public $localizedNames;
+  /**
    * @var string[]
    */
   public $packageNames;
 
+  /**
+   * @param string
+   */
+  public function setLang($lang)
+  {
+    $this->lang = $lang;
+  }
+  /**
+   * @return string
+   */
+  public function getLang()
+  {
+    return $this->lang;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLocalizedNames($localizedNames)
+  {
+    $this->localizedNames = $localizedNames;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLocalizedNames()
+  {
+    return $this->localizedNames;
+  }
   /**
    * @param string[]
    */

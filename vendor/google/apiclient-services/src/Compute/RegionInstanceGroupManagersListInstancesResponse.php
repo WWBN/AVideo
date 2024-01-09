@@ -22,7 +22,6 @@ class RegionInstanceGroupManagersListInstancesResponse extends \Google\Collectio
   protected $collection_key = 'managedInstances';
   protected $managedInstancesType = ManagedInstance::class;
   protected $managedInstancesDataType = 'array';
-  public $managedInstances;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class IndexUnusedReason extends \Google\Model
   ];
   protected $baseTableType = TableReference::class;
   protected $baseTableDataType = '';
-  public $baseTable;
   /**
    * @var string
    */

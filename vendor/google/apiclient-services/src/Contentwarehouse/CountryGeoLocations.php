@@ -22,7 +22,6 @@ class CountryGeoLocations extends \Google\Collection
   protected $collection_key = 'geoLocation';
   protected $geoLocationType = CountryGeoLocation::class;
   protected $geoLocationDataType = 'array';
-  public $geoLocation;
   /**
    * @var bool
    */

@@ -29,30 +29,24 @@ class TargetingTemplate extends \Google\Model
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
-  public $advertiserIdDimensionValue;
   protected $dayPartTargetingType = DayPartTargeting::class;
   protected $dayPartTargetingDataType = '';
-  public $dayPartTargeting;
   protected $geoTargetingType = GeoTargeting::class;
   protected $geoTargetingDataType = '';
-  public $geoTargeting;
   /**
    * @var string
    */
   public $id;
   protected $keyValueTargetingExpressionType = KeyValueTargetingExpression::class;
   protected $keyValueTargetingExpressionDataType = '';
-  public $keyValueTargetingExpression;
   /**
    * @var string
    */
   public $kind;
   protected $languageTargetingType = LanguageTargeting::class;
   protected $languageTargetingDataType = '';
-  public $languageTargeting;
   protected $listTargetingExpressionType = ListTargetingExpression::class;
   protected $listTargetingExpressionDataType = '';
-  public $listTargetingExpression;
   /**
    * @var string
    */
@@ -63,7 +57,6 @@ class TargetingTemplate extends \Google\Model
   public $subaccountId;
   protected $technologyTargetingType = TechnologyTargeting::class;
   protected $technologyTargetingDataType = '';
-  public $technologyTargeting;
 
   /**
    * @param string

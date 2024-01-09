@@ -45,17 +45,14 @@ class PatchJob extends \Google\Model
   public $errorMessage;
   protected $instanceDetailsSummaryType = PatchJobInstanceDetailsSummary::class;
   protected $instanceDetailsSummaryDataType = '';
-  public $instanceDetailsSummary;
   protected $instanceFilterType = PatchInstanceFilter::class;
   protected $instanceFilterDataType = '';
-  public $instanceFilter;
   /**
    * @var string
    */
   public $name;
   protected $patchConfigType = PatchConfig::class;
   protected $patchConfigDataType = '';
-  public $patchConfig;
   /**
    * @var string
    */
@@ -63,7 +60,6 @@ class PatchJob extends \Google\Model
   public $percentComplete;
   protected $rolloutType = PatchRollout::class;
   protected $rolloutDataType = '';
-  public $rollout;
   /**
    * @var string
    */

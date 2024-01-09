@@ -21,10 +21,8 @@ class GoogleCloudChannelV1RunReportJobResponse extends \Google\Model
 {
   protected $reportJobType = GoogleCloudChannelV1ReportJob::class;
   protected $reportJobDataType = '';
-  public $reportJob;
   protected $reportMetadataType = GoogleCloudChannelV1ReportResultsMetadata::class;
   protected $reportMetadataDataType = '';
-  public $reportMetadata;
 
   /**
    * @param GoogleCloudChannelV1ReportJob

@@ -22,7 +22,6 @@ class MySqlSyncConfig extends \Google\Collection
   protected $collection_key = 'initialSyncFlags';
   protected $initialSyncFlagsType = SyncFlags::class;
   protected $initialSyncFlagsDataType = 'array';
-  public $initialSyncFlags;
 
   /**
    * @param SyncFlags[]

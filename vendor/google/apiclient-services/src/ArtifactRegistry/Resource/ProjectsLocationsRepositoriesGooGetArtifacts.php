@@ -17,38 +17,58 @@
 
 namespace Google\Service\ArtifactRegistry\Resource;
 
-use Google\Service\ArtifactRegistry\ImportGooGetArtifactsRequest;
+use Google\Service\ArtifactRegistry\ImportGoogetArtifactsRequest;
 use Google\Service\ArtifactRegistry\Operation;
+use Google\Service\ArtifactRegistry\UploadGoogetArtifactMediaResponse;
+use Google\Service\ArtifactRegistry\UploadGoogetArtifactRequest;
 
 /**
- * The "gooGetArtifacts" collection of methods.
+ * The "googetArtifacts" collection of methods.
  * Typical usage is:
  *  <code>
  *   $artifactregistryService = new Google\Service\ArtifactRegistry(...);
- *   $gooGetArtifacts = $artifactregistryService->gooGetArtifacts;
+ *   $googetArtifacts = $artifactregistryService->projects_locations_repositories_googetArtifacts;
  *  </code>
  */
-class ProjectsLocationsRepositoriesGooGetArtifacts extends \Google\Service\Resource
+class ProjectsLocationsRepositoriesGoogetArtifacts extends \Google\Service\Resource
 {
   /**
    * Imports GooGet artifacts. The returned Operation will complete once the
    * resources are imported. Package, Version, and File resources are created
    * based on the imported artifacts. Imported artifacts that conflict with
-   * existing resources are ignored. (gooGetArtifacts.import)
+   * existing resources are ignored. (googetArtifacts.import)
    *
    * @param string $parent The name of the parent resource where the artifacts
    * will be imported.
-   * @param ImportGooGetArtifactsRequest $postBody
+   * @param ImportGoogetArtifactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
    */
-  public function import($parent, ImportGooGetArtifactsRequest $postBody, $optParams = [])
+  public function import($parent, ImportGoogetArtifactsRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('import', [$params], Operation::class);
   }
+  /**
+   * Directly uploads a GooGet artifact. The returned Operation will complete once
+   * the resources are uploaded. Package, Version, and File resources are created
+   * based on the imported artifact. Imported artifacts that conflict with
+   * existing resources are ignored. (googetArtifacts.upload)
+   *
+   * @param string $parent The name of the parent resource where the artifacts
+   * will be uploaded.
+   * @param UploadGoogetArtifactRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return UploadGoogetArtifactMediaResponse
+   */
+  public function upload($parent, UploadGoogetArtifactRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('upload', [$params], UploadGoogetArtifactMediaResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.
-class_alias(ProjectsLocationsRepositoriesGooGetArtifacts::class, 'Google_Service_ArtifactRegistry_Resource_ProjectsLocationsRepositoriesGooGetArtifacts');
+class_alias(ProjectsLocationsRepositoriesGoogetArtifacts::class, 'Google_Service_ArtifactRegistry_Resource_ProjectsLocationsRepositoriesGoogetArtifacts');

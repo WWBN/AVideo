@@ -22,7 +22,6 @@ class SearchFirebaseAppsResponse extends \Google\Collection
   protected $collection_key = 'apps';
   protected $appsType = FirebaseAppInfo::class;
   protected $appsDataType = 'array';
-  public $apps;
   /**
    * @var string
    */

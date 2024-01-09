@@ -22,7 +22,6 @@ class ListFilteredBidsResponse extends \Google\Collection
   protected $collection_key = 'creativeStatusRows';
   protected $creativeStatusRowsType = CreativeStatusRow::class;
   protected $creativeStatusRowsDataType = 'array';
-  public $creativeStatusRows;
   /**
    * @var string
    */

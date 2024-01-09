@@ -25,7 +25,6 @@ class CloudWorkspaceSourceContext extends \Google\Model
   public $snapshotId;
   protected $workspaceIdType = CloudWorkspaceId::class;
   protected $workspaceIdDataType = '';
-  public $workspaceId;
 
   /**
    * @param string

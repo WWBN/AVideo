@@ -22,7 +22,6 @@ class ListAvailableVersionsResponse extends \Google\Collection
   protected $collection_key = 'availableVersions';
   protected $availableVersionsType = Version::class;
   protected $availableVersionsDataType = 'array';
-  public $availableVersions;
   /**
    * @var string
    */

@@ -37,14 +37,12 @@ class NlpSemanticParsingModelsMediaCastDeviceAnnotation extends \Google\Model
   public $deviceId;
   protected $deviceIdentifierType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdentifierDataType = '';
-  public $deviceIdentifier;
   /**
    * @var string
    */
   public $name;
   protected $quantificationType = NlpSemanticParsingModelsMediaQuantification::class;
   protected $quantificationDataType = '';
-  public $quantification;
 
   /**
    * @param string

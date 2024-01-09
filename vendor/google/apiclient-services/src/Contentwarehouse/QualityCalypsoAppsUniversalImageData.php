@@ -22,13 +22,10 @@ class QualityCalypsoAppsUniversalImageData extends \Google\Collection
   protected $collection_key = 'screenshot';
   protected $enhancedImageType = QualityCalypsoAppsUniversalImage::class;
   protected $enhancedImageDataType = '';
-  public $enhancedImage;
   protected $featureGraphicType = QualityCalypsoAppsUniversalImage::class;
   protected $featureGraphicDataType = '';
-  public $featureGraphic;
   protected $screenshotType = QualityCalypsoAppsUniversalImage::class;
   protected $screenshotDataType = 'array';
-  public $screenshot;
 
   /**
    * @param QualityCalypsoAppsUniversalImage

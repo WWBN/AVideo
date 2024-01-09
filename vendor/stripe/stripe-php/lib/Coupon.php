@@ -6,14 +6,8 @@ namespace Stripe;
 
 /**
  * A coupon contains information about a percent-off or amount-off discount you
- * might want to apply to a customer. Coupons may be applied to <a
- * href="https://stripe.com/docs/api#subscriptions">subscriptions</a>, <a
- * href="https://stripe.com/docs/api#invoices">invoices</a>, <a
- * href="https://stripe.com/docs/api/checkout/sessions">checkout sessions</a>, <a
- * href="https://stripe.com/docs/api#quotes">quotes</a>, and more. Coupons do not
- * work with conventional one-off <a
- * href="https://stripe.com/docs/api#create_charge">charges</a> or <a
- * href="https://stripe.com/docs/api/payment_intents">payment intents</a>.
+ * might want to apply to a customer. Coupons may be applied to <a href="https://stripe.com/docs/api#subscriptions">subscriptions</a>, <a href="https://stripe.com/docs/api#invoices">invoices</a>,
+ * <a href="https://stripe.com/docs/api/checkout/sessions">checkout sessions</a>, <a href="https://stripe.com/docs/api#quotes">quotes</a>, and more. Coupons do not work with conventional one-off <a href="https://stripe.com/docs/api#create_charge">charges</a> or <a href="https://stripe.com/docs/api/payment_intents">payment intents</a>.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -28,7 +22,7 @@ namespace Stripe;
  * @property null|int $max_redemptions Maximum number of times this coupon can be redeemed, in total, across all customers, before it is no longer valid.
  * @property null|\Stripe\StripeObject $metadata Set of <a href="https://stripe.com/docs/api/metadata">key-value pairs</a> that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
  * @property null|string $name Name of the coupon displayed to customers on for instance invoices or receipts.
- * @property null|float $percent_off Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a %s100 invoice %s50 instead.
+ * @property null|float $percent_off Percent that will be taken off the subtotal of any invoices for this customer for the duration of the coupon. For example, a coupon with percent_off of 50 will make a $ (or local equivalent)100 invoice $ (or local equivalent)50 instead.
  * @property null|int $redeem_by Date after which the coupon can no longer be redeemed.
  * @property int $times_redeemed Number of times this coupon has been applied to a customer.
  * @property bool $valid Taking account of the above properties, whether this coupon can still be applied to a customer.
@@ -42,4 +36,8 @@ class Coupon extends ApiResource
     use ApiOperations\Delete;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+
+    const DURATION_FOREVER = 'forever';
+    const DURATION_ONCE = 'once';
+    const DURATION_REPEATING = 'repeating';
 }

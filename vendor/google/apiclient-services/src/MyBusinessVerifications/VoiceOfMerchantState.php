@@ -21,7 +21,6 @@ class VoiceOfMerchantState extends \Google\Model
 {
   protected $complyWithGuidelinesType = ComplyWithGuidelines::class;
   protected $complyWithGuidelinesDataType = '';
-  public $complyWithGuidelines;
   /**
    * @var bool
    */
@@ -32,13 +31,10 @@ class VoiceOfMerchantState extends \Google\Model
   public $hasVoiceOfMerchant;
   protected $resolveOwnershipConflictType = ResolveOwnershipConflict::class;
   protected $resolveOwnershipConflictDataType = '';
-  public $resolveOwnershipConflict;
   protected $verifyType = Verify::class;
   protected $verifyDataType = '';
-  public $verify;
   protected $waitForVoiceOfMerchantType = WaitForVoiceOfMerchant::class;
   protected $waitForVoiceOfMerchantDataType = '';
-  public $waitForVoiceOfMerchant;
 
   /**
    * @param ComplyWithGuidelines

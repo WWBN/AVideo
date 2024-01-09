@@ -30,10 +30,8 @@ class GoogleCloudPaymentsResellerSubscriptionV1Promotion extends \Google\Collect
   public $endTime;
   protected $freeTrialDurationType = GoogleCloudPaymentsResellerSubscriptionV1Duration::class;
   protected $freeTrialDurationDataType = '';
-  public $freeTrialDuration;
   protected $introductoryPricingDetailsType = GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetails::class;
   protected $introductoryPricingDetailsDataType = '';
-  public $introductoryPricingDetails;
   /**
    * @var string
    */
@@ -52,7 +50,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1Promotion extends \Google\Collect
   public $startTime;
   protected $titlesType = GoogleTypeLocalizedText::class;
   protected $titlesDataType = 'array';
-  public $titles;
 
   /**
    * @param string[]

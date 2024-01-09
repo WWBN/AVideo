@@ -605,6 +605,15 @@ class CloudResourceManager extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getNamespaced' => [
+              'path' => 'v3/tagKeys/namespaced',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'list' => [
               'path' => 'v3/tagKeys',
               'httpMethod' => 'GET',
@@ -715,6 +724,15 @@ class CloudResourceManager extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'getNamespaced' => [
+              'path' => 'v3/tagValues/namespaced',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'list' => [

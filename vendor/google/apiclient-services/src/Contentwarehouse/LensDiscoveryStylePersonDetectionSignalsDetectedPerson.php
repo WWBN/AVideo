@@ -21,7 +21,6 @@ class LensDiscoveryStylePersonDetectionSignalsDetectedPerson extends \Google\Mod
 {
   protected $boundingBoxType = LensDiscoveryStyleBoundingBox::class;
   protected $boundingBoxDataType = '';
-  public $boundingBox;
 
   /**
    * @param LensDiscoveryStyleBoundingBox

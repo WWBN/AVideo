@@ -21,10 +21,8 @@ class PerfEnvironment extends \Google\Model
 {
   protected $cpuInfoType = CPUInfo::class;
   protected $cpuInfoDataType = '';
-  public $cpuInfo;
   protected $memoryInfoType = MemoryInfo::class;
   protected $memoryInfoDataType = '';
-  public $memoryInfo;
 
   /**
    * @param CPUInfo

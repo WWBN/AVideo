@@ -21,10 +21,8 @@ class Report extends \Google\Model
 {
   protected $columnHeaderType = ColumnHeader::class;
   protected $columnHeaderDataType = '';
-  public $columnHeader;
   protected $dataType = ReportData::class;
   protected $dataDataType = '';
-  public $data;
   /**
    * @var string
    */

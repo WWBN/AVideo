@@ -22,23 +22,18 @@ class GeostoreComposableItemProto extends \Google\Collection
   protected $collection_key = 'nameInfo';
   protected $callToActionType = GeostoreCallToActionProto::class;
   protected $callToActionDataType = '';
-  public $callToAction;
   protected $jobMetadataType = GeostoreJobMetadata::class;
   protected $jobMetadataDataType = '';
-  public $jobMetadata;
   protected $mediaType = GeostoreMediaItemProto::class;
   protected $mediaDataType = 'array';
-  public $media;
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
-  public $nameInfo;
   /**
    * @var string
    */
   public $offered;
   protected $priceType = GeostorePriceRangeProto::class;
   protected $priceDataType = '';
-  public $price;
   /**
    * @var string
    */

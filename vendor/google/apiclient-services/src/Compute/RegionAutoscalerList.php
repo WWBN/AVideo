@@ -26,7 +26,6 @@ class RegionAutoscalerList extends \Google\Collection
   public $id;
   protected $itemsType = Autoscaler::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class RegionAutoscalerList extends \Google\Collection
   public $selfLink;
   protected $warningType = RegionAutoscalerListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

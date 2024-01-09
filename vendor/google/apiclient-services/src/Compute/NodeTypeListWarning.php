@@ -26,7 +26,6 @@ class NodeTypeListWarning extends \Google\Collection
   public $code;
   protected $dataType = NodeTypeListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

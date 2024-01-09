@@ -34,7 +34,6 @@ class Container extends \Google\Collection
   public $domainName;
   protected $featuresType = ContainerFeatures::class;
   protected $featuresDataType = '';
-  public $features;
   /**
    * @var string
    */

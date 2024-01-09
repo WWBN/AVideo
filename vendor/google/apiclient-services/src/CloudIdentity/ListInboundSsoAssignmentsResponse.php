@@ -22,7 +22,6 @@ class ListInboundSsoAssignmentsResponse extends \Google\Collection
   protected $collection_key = 'inboundSsoAssignments';
   protected $inboundSsoAssignmentsType = InboundSsoAssignment::class;
   protected $inboundSsoAssignmentsDataType = 'array';
-  public $inboundSsoAssignments;
   /**
    * @var string
    */

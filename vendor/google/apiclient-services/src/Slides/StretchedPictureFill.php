@@ -25,7 +25,6 @@ class StretchedPictureFill extends \Google\Model
   public $contentUrl;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
-  public $size;
 
   /**
    * @param string

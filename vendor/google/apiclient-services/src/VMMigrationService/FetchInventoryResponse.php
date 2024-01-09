@@ -21,7 +21,6 @@ class FetchInventoryResponse extends \Google\Model
 {
   protected $awsVmsType = AwsVmsDetails::class;
   protected $awsVmsDataType = '';
-  public $awsVms;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class FetchInventoryResponse extends \Google\Model
   public $updateTime;
   protected $vmwareVmsType = VmwareVmsDetails::class;
   protected $vmwareVmsDataType = '';
-  public $vmwareVms;
 
   /**
    * @param AwsVmsDetails

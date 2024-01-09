@@ -34,10 +34,8 @@ class SourceInstanceProperties extends \Google\Collection
   public $description;
   protected $disksType = SavedAttachedDisk::class;
   protected $disksDataType = 'array';
-  public $disks;
   protected $guestAcceleratorsType = AcceleratorConfig::class;
   protected $guestAcceleratorsDataType = 'array';
-  public $guestAccelerators;
   /**
    * @var string
    */
@@ -52,23 +50,18 @@ class SourceInstanceProperties extends \Google\Collection
   public $machineType;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $minCpuPlatform;
   protected $networkInterfacesType = NetworkInterface::class;
   protected $networkInterfacesDataType = 'array';
-  public $networkInterfaces;
   protected $schedulingType = Scheduling::class;
   protected $schedulingDataType = '';
-  public $scheduling;
   protected $serviceAccountsType = ServiceAccount::class;
   protected $serviceAccountsDataType = 'array';
-  public $serviceAccounts;
   protected $tagsType = Tags::class;
   protected $tagsDataType = '';
-  public $tags;
 
   /**
    * @param bool

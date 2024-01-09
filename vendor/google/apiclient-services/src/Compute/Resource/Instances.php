@@ -340,8 +340,7 @@ class Instances extends \Google\Service\Resource
     return $this->call('detachDisk', [$params], Operation::class);
   }
   /**
-   * Returns the specified Instance resource. Gets a list of available instances
-   * by making a list() request. (instances.get)
+   * Returns the specified Instance resource. (instances.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone for this request.
@@ -1118,6 +1117,17 @@ class Instances extends \Google\Service\Resource
    * @param string $zone The name of the zone for this request.
    * @param string $instance Name of the instance scoping this request.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId An optional request ID to identify requests.
+   * Specify a unique request ID so that if you must retry your request, the
+   * server will know to ignore the request if it has already been completed. For
+   * example, consider a situation where you make an initial request and the
+   * request times out. If you make the request again with the same request ID,
+   * the server can check if original operation with the same request ID was
+   * received, and if so, will ignore the second request. This prevents clients
+   * from accidentally creating duplicate commitments. The request ID must be a
+   * valid UUID with the exception that zero UUID is not supported (
+   * 00000000-0000-0000-0000-000000000000).
    * @return Operation
    */
   public function simulateMaintenanceEvent($project, $zone, $instance, $optParams = [])

@@ -21,7 +21,6 @@ class ScheduledExecutionRecord extends \Google\Model
 {
   protected $errorStatusType = Status::class;
   protected $errorStatusDataType = '';
-  public $errorStatus;
   /**
    * @var string
    */

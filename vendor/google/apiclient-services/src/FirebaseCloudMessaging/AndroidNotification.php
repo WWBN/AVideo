@@ -74,7 +74,6 @@ class AndroidNotification extends \Google\Collection
   public $image;
   protected $lightSettingsType = LightSettings::class;
   protected $lightSettingsDataType = '';
-  public $lightSettings;
   /**
    * @var bool
    */
@@ -87,6 +86,10 @@ class AndroidNotification extends \Google\Collection
    * @var string
    */
   public $notificationPriority;
+  /**
+   * @var string
+   */
+  public $proxy;
   /**
    * @var string
    */
@@ -361,6 +364,20 @@ class AndroidNotification extends \Google\Collection
   public function getNotificationPriority()
   {
     return $this->notificationPriority;
+  }
+  /**
+   * @param string
+   */
+  public function setProxy($proxy)
+  {
+    $this->proxy = $proxy;
+  }
+  /**
+   * @return string
+   */
+  public function getProxy()
+  {
+    return $this->proxy;
   }
   /**
    * @param string

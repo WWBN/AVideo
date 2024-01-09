@@ -26,7 +26,6 @@ class HttpHealthCheckList extends \Google\Collection
   public $id;
   protected $itemsType = HttpHealthCheck::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class HttpHealthCheckList extends \Google\Collection
   public $selfLink;
   protected $warningType = HttpHealthCheckListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

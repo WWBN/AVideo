@@ -74,9 +74,8 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @opt_param string offerId Required. The ID to use for the offer. For the
    * requirements on this format, see the documentation of the offer_id field on
    * the SubscriptionOffer resource.
-   * @opt_param string regionsVersion.version Required. A string representing
-   * version of the available regions being used for the specified resource. The
-   * current version is 2022/02.
+   * @opt_param string regionsVersion.version Required. The latest version is
+   * 2022/02.
    * @return SubscriptionOffer
    */
   public function create($packageName, $productId, $basePlanId, SubscriptionOffer $postBody, $optParams = [])
@@ -189,9 +188,8 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param SubscriptionOffer $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string regionsVersion.version Required. A string representing
-   * version of the available regions being used for the specified resource. The
-   * current version is 2022/02.
+   * @opt_param string regionsVersion.version Required. The latest version is
+   * 2022/02.
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return SubscriptionOffer
    */

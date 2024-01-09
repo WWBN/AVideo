@@ -75,7 +75,7 @@ class Spaces extends \Google\Service\Resource
    * @opt_param int pageSize Optional. The maximum number of spaces to return. The
    * service may return fewer than this value. If unspecified, at most 100 spaces
    * are returned. The maximum value is 1000; values above 1000 are coerced to
-   * 1000. Negative values return an INVALID_ARGUMENT error.
+   * 1000. Negative values return an `INVALID_ARGUMENT` error.
    * @opt_param string pageToken Optional. A page token, received from a previous
    * list spaces call. Provide this to retrieve the subsequent page. When
    * paginating, the filter value should match the call that provided the page

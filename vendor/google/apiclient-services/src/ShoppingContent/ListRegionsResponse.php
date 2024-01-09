@@ -26,7 +26,6 @@ class ListRegionsResponse extends \Google\Collection
   public $nextPageToken;
   protected $regionsType = Region::class;
   protected $regionsDataType = 'array';
-  public $regions;
 
   /**
    * @param string

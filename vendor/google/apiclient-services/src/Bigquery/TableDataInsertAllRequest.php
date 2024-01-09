@@ -30,7 +30,6 @@ class TableDataInsertAllRequest extends \Google\Collection
   public $kind;
   protected $rowsType = TableDataInsertAllRequestRows::class;
   protected $rowsDataType = 'array';
-  public $rows;
   /**
    * @var bool
    */

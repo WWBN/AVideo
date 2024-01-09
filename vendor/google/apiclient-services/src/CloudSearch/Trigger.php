@@ -41,24 +41,20 @@ class Trigger extends \Google\Model
   public $fireTimeUs;
   protected $jobsettedServerSpecType = JobsettedServerSpec::class;
   protected $jobsettedServerSpecDataType = '';
-  public $jobsettedServerSpec;
   /**
    * @var string
    */
   public $key;
   protected $rpcOptionsType = RpcOptions::class;
   protected $rpcOptionsDataType = '';
-  public $rpcOptions;
   /**
    * @var string
    */
   public $sliceFireTimeUs;
   protected $triggerActionType = TriggerAction::class;
   protected $triggerActionDataType = '';
-  public $triggerAction;
   protected $triggerKeyType = TriggerKey::class;
   protected $triggerKeyDataType = '';
-  public $triggerKey;
 
   /**
    * @param string

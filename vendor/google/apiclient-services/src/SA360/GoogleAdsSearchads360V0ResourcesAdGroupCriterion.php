@@ -19,14 +19,13 @@ namespace Google\Service\SA360;
 
 class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collection
 {
-  protected $collection_key = 'finalUrls';
+  protected $collection_key = 'labels';
   /**
    * @var string
    */
   public $adGroup;
   protected $ageRangeType = GoogleAdsSearchads360V0CommonAgeRangeInfo::class;
   protected $ageRangeDataType = '';
-  public $ageRange;
   public $bidModifier;
   /**
    * @var string
@@ -35,11 +34,19 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   /**
    * @var string
    */
+  public $creationTime;
+  /**
+   * @var string
+   */
   public $criterionId;
   /**
    * @var string
    */
   public $effectiveCpcBidMicros;
+  /**
+   * @var string
+   */
+  public $engineId;
   /**
    * @var string
    */
@@ -54,20 +61,26 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public $finalUrls;
   protected $genderType = GoogleAdsSearchads360V0CommonGenderInfo::class;
   protected $genderDataType = '';
-  public $gender;
   protected $keywordType = GoogleAdsSearchads360V0CommonKeywordInfo::class;
   protected $keywordDataType = '';
-  public $keyword;
+  /**
+   * @var string[]
+   */
+  public $labels;
   /**
    * @var string
    */
   public $lastModifiedTime;
   protected $listingGroupType = GoogleAdsSearchads360V0CommonListingGroupInfo::class;
   protected $listingGroupDataType = '';
-  public $listingGroup;
+  protected $locationType = GoogleAdsSearchads360V0CommonLocationInfo::class;
+  protected $locationDataType = '';
+  /**
+   * @var bool
+   */
+  public $negative;
   protected $qualityInfoType = GoogleAdsSearchads360V0ResourcesAdGroupCriterionQualityInfo::class;
   protected $qualityInfoDataType = '';
-  public $qualityInfo;
   /**
    * @var string
    */
@@ -84,9 +97,10 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
    * @var string
    */
   public $type;
+  protected $userListType = GoogleAdsSearchads360V0CommonUserListInfo::class;
+  protected $userListDataType = '';
   protected $webpageType = GoogleAdsSearchads360V0CommonWebpageInfo::class;
   protected $webpageDataType = '';
-  public $webpage;
 
   /**
    * @param string
@@ -141,6 +155,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   /**
    * @param string
    */
+  public function setCreationTime($creationTime)
+  {
+    $this->creationTime = $creationTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreationTime()
+  {
+    return $this->creationTime;
+  }
+  /**
+   * @param string
+   */
   public function setCriterionId($criterionId)
   {
     $this->criterionId = $criterionId;
@@ -165,6 +193,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public function getEffectiveCpcBidMicros()
   {
     return $this->effectiveCpcBidMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setEngineId($engineId)
+  {
+    $this->engineId = $engineId;
+  }
+  /**
+   * @return string
+   */
+  public function getEngineId()
+  {
+    return $this->engineId;
   }
   /**
    * @param string
@@ -237,6 +279,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
     return $this->keyword;
   }
   /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
+  }
+  /**
    * @param string
    */
   public function setLastModifiedTime($lastModifiedTime)
@@ -263,6 +319,34 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public function getListingGroup()
   {
     return $this->listingGroup;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonLocationInfo
+   */
+  public function setLocation(GoogleAdsSearchads360V0CommonLocationInfo $location)
+  {
+    $this->location = $location;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonLocationInfo
+   */
+  public function getLocation()
+  {
+    return $this->location;
+  }
+  /**
+   * @param bool
+   */
+  public function setNegative($negative)
+  {
+    $this->negative = $negative;
+  }
+  /**
+   * @return bool
+   */
+  public function getNegative()
+  {
+    return $this->negative;
   }
   /**
    * @param GoogleAdsSearchads360V0ResourcesAdGroupCriterionQualityInfo
@@ -333,6 +417,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public function getType()
   {
     return $this->type;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonUserListInfo
+   */
+  public function setUserList(GoogleAdsSearchads360V0CommonUserListInfo $userList)
+  {
+    $this->userList = $userList;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonUserListInfo
+   */
+  public function getUserList()
+  {
+    return $this->userList;
   }
   /**
    * @param GoogleAdsSearchads360V0CommonWebpageInfo

@@ -33,6 +33,7 @@ class DynamiteMessagesScoringInfo extends \Google\Model
    * @var bool
    */
   public $creatorInSearcherContactList;
+  public $crowdingMultiplier;
   /**
    * @var string
    */
@@ -111,6 +112,14 @@ class DynamiteMessagesScoringInfo extends \Google\Model
   public function getCreatorInSearcherContactList()
   {
     return $this->creatorInSearcherContactList;
+  }
+  public function setCrowdingMultiplier($crowdingMultiplier)
+  {
+    $this->crowdingMultiplier = $crowdingMultiplier;
+  }
+  public function getCrowdingMultiplier()
+  {
+    return $this->crowdingMultiplier;
   }
   /**
    * @param string

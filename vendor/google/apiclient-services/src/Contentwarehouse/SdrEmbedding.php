@@ -22,7 +22,6 @@ class SdrEmbedding extends \Google\Collection
   protected $collection_key = 'values';
   protected $compressedEmbeddingsType = QualityRankembedMustangMustangRankEmbedInfo::class;
   protected $compressedEmbeddingsDataType = '';
-  public $compressedEmbeddings;
   /**
    * @var float[]
    */

@@ -25,7 +25,6 @@ class AutoscalingEvent extends \Google\Model
   public $currentNumWorkers;
   protected $descriptionType = StructuredMessage::class;
   protected $descriptionDataType = '';
-  public $description;
   /**
    * @var string
    */

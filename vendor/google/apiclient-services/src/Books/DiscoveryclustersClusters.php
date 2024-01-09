@@ -25,7 +25,6 @@ class DiscoveryclustersClusters extends \Google\Collection
   ];
   protected $bannerWithContentContainerType = DiscoveryclustersClustersBannerWithContentContainer::class;
   protected $bannerWithContentContainerDataType = '';
-  public $bannerWithContentContainer;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class DiscoveryclustersClusters extends \Google\Collection
   public $uid;
   protected $volumesType = Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
 
   /**
    * @param DiscoveryclustersClustersBannerWithContentContainer

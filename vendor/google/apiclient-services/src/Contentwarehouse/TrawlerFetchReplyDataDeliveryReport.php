@@ -22,7 +22,6 @@ class TrawlerFetchReplyDataDeliveryReport extends \Google\Collection
   protected $collection_key = 'events';
   protected $eventsType = TrawlerEvent::class;
   protected $eventsDataType = 'array';
-  public $events;
   /**
    * @var string
    */

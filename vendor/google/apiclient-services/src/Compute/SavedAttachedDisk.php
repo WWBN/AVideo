@@ -34,7 +34,6 @@ class SavedAttachedDisk extends \Google\Collection
   public $deviceName;
   protected $diskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $diskEncryptionKeyDataType = '';
-  public $diskEncryptionKey;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class SavedAttachedDisk extends \Google\Collection
   public $diskType;
   protected $guestOsFeaturesType = GuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
-  public $guestOsFeatures;
   /**
    * @var int
    */

@@ -22,7 +22,6 @@ class MetadataFilter extends \Google\Collection
   protected $collection_key = 'filterLabels';
   protected $filterLabelsType = MetadataFilterLabelMatch::class;
   protected $filterLabelsDataType = 'array';
-  public $filterLabels;
   /**
    * @var string
    */

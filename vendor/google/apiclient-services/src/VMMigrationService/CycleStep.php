@@ -25,13 +25,10 @@ class CycleStep extends \Google\Model
   public $endTime;
   protected $initializingReplicationType = InitializingReplicationStep::class;
   protected $initializingReplicationDataType = '';
-  public $initializingReplication;
   protected $postProcessingType = PostProcessingStep::class;
   protected $postProcessingDataType = '';
-  public $postProcessing;
   protected $replicatingType = ReplicatingStep::class;
   protected $replicatingDataType = '';
-  public $replicating;
   /**
    * @var string
    */

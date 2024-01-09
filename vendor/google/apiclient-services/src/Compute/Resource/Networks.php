@@ -88,8 +88,7 @@ class Networks extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified network. Gets a list of available networks by making a
-   * list() request. (networks.get)
+   * Returns the specified network. (networks.get)
    *
    * @param string $project Project ID for this request.
    * @param string $network Name of the network to return.

@@ -21,13 +21,10 @@ class GenerateMediationReportResponse extends \Google\Model
 {
   protected $footerType = ReportFooter::class;
   protected $footerDataType = '';
-  public $footer;
   protected $headerType = ReportHeader::class;
   protected $headerDataType = '';
-  public $header;
   protected $rowType = ReportRow::class;
   protected $rowDataType = '';
-  public $row;
 
   /**
    * @param ReportFooter

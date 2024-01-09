@@ -22,13 +22,10 @@ class MediaIndexRegion extends \Google\Collection
   protected $collection_key = 'starburstTokensV5';
   protected $boundingBoxType = MediaIndexBoundingbox::class;
   protected $boundingBoxDataType = '';
-  public $boundingBox;
   protected $entityFieldsType = MediaIndexEntityField::class;
   protected $entityFieldsDataType = 'array';
-  public $entityFields;
   protected $labelsType = MediaIndexSparseFloatVector::class;
   protected $labelsDataType = '';
-  public $labels;
   /**
    * @var string
    */
@@ -63,10 +60,8 @@ class MediaIndexRegion extends \Google\Collection
   public $starburstTokensV5;
   protected $starburstV4Type = ImageContentStarburstVersionGroup::class;
   protected $starburstV4DataType = '';
-  public $starburstV4;
   protected $starburstV5Type = ImageContentStarburstVersionGroup::class;
   protected $starburstV5DataType = '';
-  public $starburstV5;
 
   /**
    * @param MediaIndexBoundingbox

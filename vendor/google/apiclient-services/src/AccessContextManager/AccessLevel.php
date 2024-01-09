@@ -21,10 +21,8 @@ class AccessLevel extends \Google\Model
 {
   protected $basicType = BasicLevel::class;
   protected $basicDataType = '';
-  public $basic;
   protected $customType = CustomLevel::class;
   protected $customDataType = '';
-  public $custom;
   /**
    * @var string
    */

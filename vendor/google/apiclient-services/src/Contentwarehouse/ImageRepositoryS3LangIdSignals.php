@@ -29,10 +29,8 @@ class ImageRepositoryS3LangIdSignals extends \Google\Model
   public $endSec;
   protected $langidResultType = SpeechS3LanguageIdentificationResult::class;
   protected $langidResultDataType = '';
-  public $langidResult;
   protected $languageIdentificationType = VideoTimedtextS4ALIResults::class;
   protected $languageIdentificationDataType = '';
-  public $languageIdentification;
   /**
    * @var string
    */

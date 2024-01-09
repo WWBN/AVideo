@@ -21,10 +21,8 @@ class GoogleCloudWebriskV1ThreatEntryRemovals extends \Google\Model
 {
   protected $rawIndicesType = GoogleCloudWebriskV1RawIndices::class;
   protected $rawIndicesDataType = '';
-  public $rawIndices;
   protected $riceIndicesType = GoogleCloudWebriskV1RiceDeltaEncoding::class;
   protected $riceIndicesDataType = '';
-  public $riceIndices;
 
   /**
    * @param GoogleCloudWebriskV1RawIndices

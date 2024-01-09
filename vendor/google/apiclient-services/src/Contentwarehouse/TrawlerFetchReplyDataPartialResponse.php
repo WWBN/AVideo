@@ -37,7 +37,6 @@ class TrawlerFetchReplyDataPartialResponse extends \Google\Model
   public $chunkNumber;
   protected $contentRangeType = TrawlerContentRangeInfo::class;
   protected $contentRangeDataType = '';
-  public $contentRange;
   /**
    * @var string
    */

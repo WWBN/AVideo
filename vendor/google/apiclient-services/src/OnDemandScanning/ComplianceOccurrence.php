@@ -26,7 +26,6 @@ class ComplianceOccurrence extends \Google\Collection
   public $nonComplianceReason;
   protected $nonCompliantFilesType = NonCompliantFile::class;
   protected $nonCompliantFilesDataType = 'array';
-  public $nonCompliantFiles;
 
   /**
    * @param string

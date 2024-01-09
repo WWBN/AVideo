@@ -21,7 +21,6 @@ class UpdateTopicRequest extends \Google\Model
 {
   protected $topicType = Topic::class;
   protected $topicDataType = '';
-  public $topic;
   /**
    * @var string
    */

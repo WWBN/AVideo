@@ -22,7 +22,6 @@ class ResourcePolicyWeeklyCycle extends \Google\Collection
   protected $collection_key = 'dayOfWeeks';
   protected $dayOfWeeksType = ResourcePolicyWeeklyCycleDayOfWeek::class;
   protected $dayOfWeeksDataType = 'array';
-  public $dayOfWeeks;
 
   /**
    * @param ResourcePolicyWeeklyCycleDayOfWeek[]

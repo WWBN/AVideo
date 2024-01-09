@@ -26,7 +26,6 @@ class ShippingsettingsGetSupportedPickupServicesResponse extends \Google\Collect
   public $kind;
   protected $pickupServicesType = PickupServicesPickupService::class;
   protected $pickupServicesDataType = 'array';
-  public $pickupServices;
 
   /**
    * @param string

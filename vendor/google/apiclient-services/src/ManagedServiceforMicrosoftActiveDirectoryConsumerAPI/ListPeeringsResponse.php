@@ -26,7 +26,6 @@ class ListPeeringsResponse extends \Google\Collection
   public $nextPageToken;
   protected $peeringsType = Peering::class;
   protected $peeringsDataType = 'array';
-  public $peerings;
   /**
    * @var string[]
    */

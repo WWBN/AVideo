@@ -22,10 +22,8 @@ class AcceleratorTypesScopedList extends \Google\Collection
   protected $collection_key = 'acceleratorTypes';
   protected $acceleratorTypesType = AcceleratorType::class;
   protected $acceleratorTypesDataType = 'array';
-  public $acceleratorTypes;
   protected $warningType = AcceleratorTypesScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param AcceleratorType[]

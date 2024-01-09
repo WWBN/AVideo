@@ -22,7 +22,6 @@ class ListFeedsResponse extends \Google\Collection
   protected $collection_key = 'feeds';
   protected $feedsType = Feed::class;
   protected $feedsDataType = 'array';
-  public $feeds;
 
   /**
    * @param Feed[]

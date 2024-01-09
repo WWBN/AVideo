@@ -21,17 +21,14 @@ class AppsPeopleOzExternalMergedpeopleapiEvent extends \Google\Model
 {
   protected $calendarDayType = GoogleTypeDate::class;
   protected $calendarDayDataType = '';
-  public $calendarDay;
   /**
    * @var string
    */
   public $formattedType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $promptType = SocialGraphApiProtoPrompt::class;
   protected $promptDataType = '';
-  public $prompt;
   /**
    * @var string
    */

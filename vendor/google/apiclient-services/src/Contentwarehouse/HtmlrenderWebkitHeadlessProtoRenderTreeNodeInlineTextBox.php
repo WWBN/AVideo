@@ -21,7 +21,6 @@ class HtmlrenderWebkitHeadlessProtoRenderTreeNodeInlineTextBox extends \Google\M
 {
   protected $boxType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $boxDataType = '';
-  public $box;
   /**
    * @var string
    */

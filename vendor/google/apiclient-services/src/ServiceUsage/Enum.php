@@ -20,24 +20,39 @@ namespace Google\Service\ServiceUsage;
 class Enum extends \Google\Collection
 {
   protected $collection_key = 'options';
+  /**
+   * @var string
+   */
+  public $edition;
   protected $enumvalueType = EnumValue::class;
   protected $enumvalueDataType = 'array';
-  public $enumvalue;
   /**
    * @var string
    */
   public $name;
   protected $optionsType = Option::class;
   protected $optionsDataType = 'array';
-  public $options;
   protected $sourceContextType = SourceContext::class;
   protected $sourceContextDataType = '';
-  public $sourceContext;
   /**
    * @var string
    */
   public $syntax;
 
+  /**
+   * @param string
+   */
+  public function setEdition($edition)
+  {
+    $this->edition = $edition;
+  }
+  /**
+   * @return string
+   */
+  public function getEdition()
+  {
+    return $this->edition;
+  }
   /**
    * @param EnumValue[]
    */

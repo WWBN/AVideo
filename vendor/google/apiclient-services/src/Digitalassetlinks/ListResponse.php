@@ -34,7 +34,6 @@ class ListResponse extends \Google\Collection
   public $maxAge;
   protected $statementsType = Statement::class;
   protected $statementsDataType = 'array';
-  public $statements;
 
   /**
    * @param string

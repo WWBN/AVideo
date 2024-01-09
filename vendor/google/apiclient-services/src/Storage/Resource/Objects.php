@@ -281,6 +281,8 @@ class Objects extends \Google\Service\Resource
    * @opt_param bool includeTrailingDelimiter If true, objects that end in exactly
    * one instance of delimiter will have their metadata included in items in
    * addition to prefixes.
+   * @opt_param string matchGlob Filter results to objects and prefixes that match
+   * this glob pattern.
    * @opt_param string maxResults Maximum number of items plus prefixes to return
    * in a single page of responses. As duplicate prefixes are omitted, fewer total
    * results may be returned than requested. The service will use this parameter

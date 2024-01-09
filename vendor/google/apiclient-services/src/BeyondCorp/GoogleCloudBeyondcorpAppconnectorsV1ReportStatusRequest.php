@@ -25,7 +25,6 @@ class GoogleCloudBeyondcorpAppconnectorsV1ReportStatusRequest extends \Google\Mo
   public $requestId;
   protected $resourceInfoType = GoogleCloudBeyondcorpAppconnectorsV1ResourceInfo::class;
   protected $resourceInfoDataType = '';
-  public $resourceInfo;
   /**
    * @var bool
    */

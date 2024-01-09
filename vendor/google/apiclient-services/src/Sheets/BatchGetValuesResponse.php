@@ -26,7 +26,6 @@ class BatchGetValuesResponse extends \Google\Collection
   public $spreadsheetId;
   protected $valueRangesType = ValueRange::class;
   protected $valueRangesDataType = 'array';
-  public $valueRanges;
 
   /**
    * @param string

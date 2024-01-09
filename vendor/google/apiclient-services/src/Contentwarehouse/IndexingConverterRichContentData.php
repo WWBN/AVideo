@@ -22,7 +22,6 @@ class IndexingConverterRichContentData extends \Google\Collection
   protected $collection_key = 'range';
   protected $rangeType = IndexingConverterRichContentDataRange::class;
   protected $rangeDataType = 'array';
-  public $range;
 
   /**
    * @param IndexingConverterRichContentDataRange[]

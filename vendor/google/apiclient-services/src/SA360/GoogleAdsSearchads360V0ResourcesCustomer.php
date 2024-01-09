@@ -33,7 +33,10 @@ class GoogleAdsSearchads360V0ResourcesCustomer extends \Google\Model
   public $autoTaggingEnabled;
   protected $conversionTrackingSettingType = GoogleAdsSearchads360V0ResourcesConversionTrackingSetting::class;
   protected $conversionTrackingSettingDataType = '';
-  public $conversionTrackingSetting;
+  /**
+   * @var string
+   */
+  public $creationTime;
   /**
    * @var string
    */
@@ -44,7 +47,6 @@ class GoogleAdsSearchads360V0ResourcesCustomer extends \Google\Model
   public $descriptiveName;
   protected $doubleClickCampaignManagerSettingType = GoogleAdsSearchads360V0ResourcesDoubleClickCampaignManagerSetting::class;
   protected $doubleClickCampaignManagerSettingDataType = '';
-  public $doubleClickCampaignManagerSetting;
   /**
    * @var string
    */
@@ -137,6 +139,20 @@ class GoogleAdsSearchads360V0ResourcesCustomer extends \Google\Model
   public function getConversionTrackingSetting()
   {
     return $this->conversionTrackingSetting;
+  }
+  /**
+   * @param string
+   */
+  public function setCreationTime($creationTime)
+  {
+    $this->creationTime = $creationTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreationTime()
+  {
+    return $this->creationTime;
   }
   /**
    * @param string

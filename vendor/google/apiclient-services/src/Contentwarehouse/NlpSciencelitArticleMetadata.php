@@ -22,16 +22,12 @@ class NlpSciencelitArticleMetadata extends \Google\Collection
   protected $collection_key = 'url';
   protected $abstractType = NlpSciencelitTokenizedText::class;
   protected $abstractDataType = '';
-  public $abstract;
   protected $articleIdType = NlpSciencelitArticleId::class;
   protected $articleIdDataType = 'array';
-  public $articleId;
   protected $authorType = NlpSciencelitAuthor::class;
   protected $authorDataType = 'array';
-  public $author;
   protected $datasetType = NlpSciencelitDataset::class;
   protected $datasetDataType = 'array';
-  public $dataset;
   /**
    * @var string
    */
@@ -42,7 +38,6 @@ class NlpSciencelitArticleMetadata extends \Google\Collection
   public $deleted;
   protected $headingType = NlpSciencelitMeshHeading::class;
   protected $headingDataType = 'array';
-  public $heading;
   /**
    * @var string
    */
@@ -73,10 +68,8 @@ class NlpSciencelitArticleMetadata extends \Google\Collection
   public $pmid;
   protected $publicationTypeType = NlpSciencelitPublicationType::class;
   protected $publicationTypeDataType = 'array';
-  public $publicationType;
   protected $scamRestrictTokensType = ResearchScamV3Restrict::class;
   protected $scamRestrictTokensDataType = '';
-  public $scamRestrictTokens;
   /**
    * @var string
    */

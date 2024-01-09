@@ -21,7 +21,6 @@ class ActivityContentDetailsBulletin extends \Google\Model
 {
   protected $resourceIdType = ResourceId::class;
   protected $resourceIdDataType = '';
-  public $resourceId;
 
   /**
    * @param ResourceId

@@ -21,7 +21,6 @@ class ToolExecutionStep extends \Google\Model
 {
   protected $toolExecutionType = ToolExecution::class;
   protected $toolExecutionDataType = '';
-  public $toolExecution;
 
   /**
    * @param ToolExecution

@@ -21,7 +21,6 @@ class GoogleCloudApigeeV1DeveloperBalanceWallet extends \Google\Model
 {
   protected $balanceType = GoogleTypeMoney::class;
   protected $balanceDataType = '';
-  public $balance;
   /**
    * @var string
    */

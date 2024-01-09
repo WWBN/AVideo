@@ -22,7 +22,6 @@ class IosDeviceList extends \Google\Collection
   protected $collection_key = 'iosDevices';
   protected $iosDevicesType = IosDevice::class;
   protected $iosDevicesDataType = 'array';
-  public $iosDevices;
 
   /**
    * @param IosDevice[]

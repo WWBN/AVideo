@@ -22,7 +22,7 @@ class RestrictedExportConfig extends \Google\Model
   /**
    * @var bool
    */
-  public $restrictDirectTableAccess;
+  public $enabled;
   /**
    * @var bool
    */
@@ -31,16 +31,16 @@ class RestrictedExportConfig extends \Google\Model
   /**
    * @param bool
    */
-  public function setRestrictDirectTableAccess($restrictDirectTableAccess)
+  public function setEnabled($enabled)
   {
-    $this->restrictDirectTableAccess = $restrictDirectTableAccess;
+    $this->enabled = $enabled;
   }
   /**
    * @return bool
    */
-  public function getRestrictDirectTableAccess()
+  public function getEnabled()
   {
-    return $this->restrictDirectTableAccess;
+    return $this->enabled;
   }
   /**
    * @param bool

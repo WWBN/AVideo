@@ -29,7 +29,6 @@ class NotificationEndpoint extends \Google\Model
   public $description;
   protected $grpcSettingsType = NotificationEndpointGrpcSettings::class;
   protected $grpcSettingsDataType = '';
-  public $grpcSettings;
   /**
    * @var string
    */

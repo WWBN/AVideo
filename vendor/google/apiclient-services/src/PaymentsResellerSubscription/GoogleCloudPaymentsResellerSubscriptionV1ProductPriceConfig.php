@@ -21,7 +21,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1ProductPriceConfig extends \Googl
 {
   protected $amountType = GoogleCloudPaymentsResellerSubscriptionV1Amount::class;
   protected $amountDataType = '';
-  public $amount;
   /**
    * @var string
    */

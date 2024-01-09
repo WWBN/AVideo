@@ -21,7 +21,6 @@ class GoogleCloudApigeeV1ScoreComponentRecommendationAction extends \Google\Mode
 {
   protected $actionContextType = GoogleCloudApigeeV1ScoreComponentRecommendationActionActionContext::class;
   protected $actionContextDataType = '';
-  public $actionContext;
   /**
    * @var string
    */

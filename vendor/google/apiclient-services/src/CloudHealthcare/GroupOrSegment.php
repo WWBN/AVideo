@@ -21,10 +21,8 @@ class GroupOrSegment extends \Google\Model
 {
   protected $groupType = SchemaGroup::class;
   protected $groupDataType = '';
-  public $group;
   protected $segmentType = SchemaSegment::class;
   protected $segmentDataType = '';
-  public $segment;
 
   /**
    * @param SchemaGroup

@@ -22,14 +22,12 @@ class ReportRequest extends \Google\Collection
   protected $collection_key = 'orderBy';
   protected $columnsType = ReportApiColumnSpec::class;
   protected $columnsDataType = 'array';
-  public $columns;
   /**
    * @var string
    */
   public $downloadFormat;
   protected $filtersType = ReportRequestFilters::class;
   protected $filtersDataType = 'array';
-  public $filters;
   /**
    * @var bool
    */
@@ -44,10 +42,8 @@ class ReportRequest extends \Google\Collection
   public $maxRowsPerFile;
   protected $orderByType = ReportRequestOrderBy::class;
   protected $orderByDataType = 'array';
-  public $orderBy;
   protected $reportScopeType = ReportRequestReportScope::class;
   protected $reportScopeDataType = '';
-  public $reportScope;
   /**
    * @var string
    */
@@ -66,7 +62,6 @@ class ReportRequest extends \Google\Collection
   public $statisticsCurrency;
   protected $timeRangeType = ReportRequestTimeRange::class;
   protected $timeRangeDataType = '';
-  public $timeRange;
   /**
    * @var bool
    */

@@ -70,14 +70,15 @@ class Partners extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Allows filtering by partner properties. Supported
+   * @opt_param string filter Allows filtering by partner fields. Supported
    * syntax: * Filter expressions are made up of one or more restrictions. *
    * Restrictions can be combined by `AND` or `OR` logical operators. A sequence
    * of restrictions implicitly uses `AND`. * A restriction has the form of
-   * `{field} {operator} {value}`. * The operator must be `EQUALS (=)`. *
-   * Supported fields: - `entityStatus` Examples: * All active partners:
+   * `{field} {operator} {value}`. * All fields must use the `EQUALS (=)`
+   * operator. Supported fields: * `entityStatus` Examples: * All active partners:
    * `entityStatus="ENTITY_STATUS_ACTIVE"` The length of this field should be no
-   * more than 500 characters.
+   * more than 500 characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` The default sorting order is ascending. To specify
    * descending order for a field, a suffix "desc" should be added to the field

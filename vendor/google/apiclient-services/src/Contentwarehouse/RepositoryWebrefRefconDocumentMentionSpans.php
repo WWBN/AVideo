@@ -22,7 +22,6 @@ class RepositoryWebrefRefconDocumentMentionSpans extends \Google\Collection
   protected $collection_key = 'mentionSpan';
   protected $mentionSpanType = RepositoryWebrefRefconMentionSpans::class;
   protected $mentionSpanDataType = 'array';
-  public $mentionSpan;
 
   /**
    * @param RepositoryWebrefRefconMentionSpans[]

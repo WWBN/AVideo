@@ -21,7 +21,6 @@ class RetrieveRegisterParametersResponse extends \Google\Model
 {
   protected $registerParametersType = RegisterParameters::class;
   protected $registerParametersDataType = '';
-  public $registerParameters;
 
   /**
    * @param RegisterParameters

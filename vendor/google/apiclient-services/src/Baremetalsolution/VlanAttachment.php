@@ -37,7 +37,6 @@ class VlanAttachment extends \Google\Model
   public $peerVlanId;
   protected $qosPolicyType = QosPolicy::class;
   protected $qosPolicyDataType = '';
-  public $qosPolicy;
   /**
    * @var string
    */

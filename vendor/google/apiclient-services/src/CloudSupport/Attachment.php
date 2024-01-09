@@ -25,7 +25,6 @@ class Attachment extends \Google\Model
   public $createTime;
   protected $creatorType = Actor::class;
   protected $creatorDataType = '';
-  public $creator;
   /**
    * @var string
    */

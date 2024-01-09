@@ -21,10 +21,8 @@ class ReplicationStatus extends \Google\Model
 {
   protected $automaticType = AutomaticStatus::class;
   protected $automaticDataType = '';
-  public $automatic;
   protected $userManagedType = UserManagedStatus::class;
   protected $userManagedDataType = '';
-  public $userManaged;
 
   /**
    * @param AutomaticStatus

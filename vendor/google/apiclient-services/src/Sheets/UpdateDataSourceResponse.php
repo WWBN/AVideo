@@ -21,10 +21,8 @@ class UpdateDataSourceResponse extends \Google\Model
 {
   protected $dataExecutionStatusType = DataExecutionStatus::class;
   protected $dataExecutionStatusDataType = '';
-  public $dataExecutionStatus;
   protected $dataSourceType = DataSource::class;
   protected $dataSourceDataType = '';
-  public $dataSource;
 
   /**
    * @param DataExecutionStatus

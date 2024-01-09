@@ -190,10 +190,11 @@ an intermittent network problem:
 [Idempotency keys][idempotency-keys] are added to requests to guarantee that
 retries are safe.
 
-### Request latency telemetry
+### Telemetry
 
-By default, the library sends request latency telemetry to Stripe. These
-numbers help Stripe improve the overall latency of its API for all users.
+By default, the library sends telemetry to Stripe regarding request latency and feature usage. These
+numbers help Stripe improve the overall latency of its API for all users, and
+improve popular features.
 
 You can disable this behavior if you prefer:
 
@@ -246,7 +247,7 @@ background terminal ([stripe-mock's README][stripe-mock] also contains
 instructions for installing via Homebrew and other methods):
 
 ```bash
-go get -u github.com/stripe/stripe-mock
+go install github.com/stripe/stripe-mock@latest
 stripe-mock
 ```
 

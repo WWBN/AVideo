@@ -22,7 +22,6 @@ class Menu extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = MenuItem::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class Menu extends \Google\Collection
   public $name;
   protected $onChangeType = FormAction::class;
   protected $onChangeDataType = '';
-  public $onChange;
 
   /**
    * @param MenuItem[]

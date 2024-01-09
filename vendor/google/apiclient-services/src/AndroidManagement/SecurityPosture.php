@@ -26,7 +26,6 @@ class SecurityPosture extends \Google\Collection
   public $devicePosture;
   protected $postureDetailsType = PostureDetail::class;
   protected $postureDetailsDataType = 'array';
-  public $postureDetails;
 
   /**
    * @param string

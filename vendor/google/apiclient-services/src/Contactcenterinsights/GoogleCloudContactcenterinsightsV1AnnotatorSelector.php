@@ -56,6 +56,12 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
    * @var bool
    */
   public $runSilenceAnnotator;
+  /**
+   * @var bool
+   */
+  public $runSummarizationAnnotator;
+  protected $summarizationConfigType = GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig::class;
+  protected $summarizationConfigDataType = '';
 
   /**
    * @param string[]
@@ -182,6 +188,34 @@ class GoogleCloudContactcenterinsightsV1AnnotatorSelector extends \Google\Collec
   public function getRunSilenceAnnotator()
   {
     return $this->runSilenceAnnotator;
+  }
+  /**
+   * @param bool
+   */
+  public function setRunSummarizationAnnotator($runSummarizationAnnotator)
+  {
+    $this->runSummarizationAnnotator = $runSummarizationAnnotator;
+  }
+  /**
+   * @return bool
+   */
+  public function getRunSummarizationAnnotator()
+  {
+    return $this->runSummarizationAnnotator;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig
+   */
+  public function setSummarizationConfig(GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig $summarizationConfig)
+  {
+    $this->summarizationConfig = $summarizationConfig;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1AnnotatorSelectorSummarizationConfig
+   */
+  public function getSummarizationConfig()
+  {
+    return $this->summarizationConfig;
   }
 }
 

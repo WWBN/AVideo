@@ -22,7 +22,6 @@ class AppsDynamiteStorageOpenLinkAppUriIntent extends \Google\Collection
   protected $collection_key = 'extraData';
   protected $extraDataType = AppsDynamiteStorageOpenLinkAppUriIntentExtraData::class;
   protected $extraDataDataType = 'array';
-  public $extraData;
   /**
    * @var string
    */

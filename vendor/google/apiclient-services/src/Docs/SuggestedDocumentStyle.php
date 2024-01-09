@@ -21,10 +21,8 @@ class SuggestedDocumentStyle extends \Google\Model
 {
   protected $documentStyleType = DocumentStyle::class;
   protected $documentStyleDataType = '';
-  public $documentStyle;
   protected $documentStyleSuggestionStateType = DocumentStyleSuggestionState::class;
   protected $documentStyleSuggestionStateDataType = '';
-  public $documentStyleSuggestionState;
 
   /**
    * @param DocumentStyle

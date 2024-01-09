@@ -29,7 +29,6 @@ class BigQueryDestination extends \Google\Model
   public $force;
   protected $partitionSpecType = PartitionSpec::class;
   protected $partitionSpecDataType = '';
-  public $partitionSpec;
   /**
    * @var bool
    */

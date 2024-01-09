@@ -12,7 +12,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
-        'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'e69f7f6ee287b969198c3c9d6777bd38' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '972fda704d680a3a53c68e34e193cb22' => __DIR__ . '/..' . '/react/promise-timer/src/functions_include.php',
@@ -126,7 +125,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         'H' => 
         array (
             'Hybridauth\\' => 11,
-            'Http\\Message\\' => 13,
         ),
         'G' => 
         array (
@@ -152,6 +150,7 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         ),
         'B' => 
         array (
+            'Bunny\\Storage\\' => 14,
             'Brick\\Math\\' => 11,
             'BackblazeB2\\' => 12,
         ),
@@ -331,8 +330,8 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -394,10 +393,6 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         array (
             0 => __DIR__ . '/..' . '/hybridauth/hybridauth/src',
         ),
-        'Http\\Message\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/php-http/message-factory/src',
-        ),
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -437,6 +432,10 @@ class ComposerStaticInitc3a61dba26daada128f5891f1a57c504
         'Carbon\\' => 
         array (
             0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
+        'Bunny\\Storage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/bunnycdn/storage/src',
         ),
         'Brick\\Math\\' => 
         array (

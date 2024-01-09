@@ -22,7 +22,6 @@ class VolumeLayerInfo extends \Google\Collection
   protected $collection_key = 'layers';
   protected $layersType = VolumeLayerInfoLayers::class;
   protected $layersDataType = 'array';
-  public $layers;
 
   /**
    * @param VolumeLayerInfoLayers[]

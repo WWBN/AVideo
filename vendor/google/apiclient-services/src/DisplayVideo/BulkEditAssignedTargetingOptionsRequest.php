@@ -22,10 +22,8 @@ class BulkEditAssignedTargetingOptionsRequest extends \Google\Collection
   protected $collection_key = 'lineItemIds';
   protected $createRequestsType = CreateAssignedTargetingOptionsRequest::class;
   protected $createRequestsDataType = 'array';
-  public $createRequests;
   protected $deleteRequestsType = DeleteAssignedTargetingOptionsRequest::class;
   protected $deleteRequestsDataType = 'array';
-  public $deleteRequests;
   /**
    * @var string[]
    */

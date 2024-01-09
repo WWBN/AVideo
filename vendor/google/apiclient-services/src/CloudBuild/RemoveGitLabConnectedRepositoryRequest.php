@@ -21,7 +21,6 @@ class RemoveGitLabConnectedRepositoryRequest extends \Google\Model
 {
   protected $connectedRepositoryType = GitLabRepositoryId::class;
   protected $connectedRepositoryDataType = '';
-  public $connectedRepository;
 
   /**
    * @param GitLabRepositoryId

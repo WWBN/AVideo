@@ -25,10 +25,8 @@ class SegmentFilter extends \Google\Model
   public $not;
   protected $sequenceSegmentType = SequenceSegment::class;
   protected $sequenceSegmentDataType = '';
-  public $sequenceSegment;
   protected $simpleSegmentType = SimpleSegment::class;
   protected $simpleSegmentDataType = '';
-  public $simpleSegment;
 
   /**
    * @param bool

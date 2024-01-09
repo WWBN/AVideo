@@ -25,7 +25,6 @@ class CompositeDocLiveExperimentInfoPerLiveExperimentInfo extends \Google\Model
   public $experimentId;
   protected $partialCdocType = CompositeDoc::class;
   protected $partialCdocDataType = '';
-  public $partialCdoc;
 
   /**
    * @param string

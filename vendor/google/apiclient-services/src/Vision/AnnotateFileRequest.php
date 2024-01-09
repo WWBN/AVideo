@@ -22,13 +22,10 @@ class AnnotateFileRequest extends \Google\Collection
   protected $collection_key = 'pages';
   protected $featuresType = Feature::class;
   protected $featuresDataType = 'array';
-  public $features;
   protected $imageContextType = ImageContext::class;
   protected $imageContextDataType = '';
-  public $imageContext;
   protected $inputConfigType = InputConfig::class;
   protected $inputConfigDataType = '';
-  public $inputConfig;
   /**
    * @var int[]
    */

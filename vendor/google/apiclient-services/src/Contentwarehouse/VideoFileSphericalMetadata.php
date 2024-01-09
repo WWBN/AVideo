@@ -21,19 +21,14 @@ class VideoFileSphericalMetadata extends \Google\Model
 {
   protected $clampedOptimalFovBoundsType = VideoFileSphericalMetadataFOVBounds::class;
   protected $clampedOptimalFovBoundsDataType = '';
-  public $clampedOptimalFovBounds;
   protected $cubemapType = VideoFileSphericalMetadataCubemapProjection::class;
   protected $cubemapDataType = '';
-  public $cubemap;
   protected $deprecatedCroppedAreaType = VideoFileSphericalMetadataCroppedArea::class;
   protected $deprecatedCroppedAreaDataType = '';
-  public $deprecatedCroppedArea;
   protected $deprecatedInitialViewType = VideoFileSphericalMetadataViewDirection::class;
   protected $deprecatedInitialViewDataType = '';
-  public $deprecatedInitialView;
   protected $equirectType = VideoFileSphericalMetadataEquirectProjection::class;
   protected $equirectDataType = '';
-  public $equirect;
   /**
    * @var int
    */
@@ -44,17 +39,14 @@ class VideoFileSphericalMetadata extends \Google\Model
   public $fullPanoWidthPixels;
   protected $meshType = VideoFileSphericalMetadataMeshProjection::class;
   protected $meshDataType = '';
-  public $mesh;
   /**
    * @var string
    */
   public $metadataSource;
   protected $optimalFovBoundsType = VideoFileSphericalMetadataFOVBounds::class;
   protected $optimalFovBoundsDataType = '';
-  public $optimalFovBounds;
   protected $poseType = VideoFileSphericalMetadataPose::class;
   protected $poseDataType = '';
-  public $pose;
   /**
    * @var string
    */

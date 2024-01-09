@@ -21,7 +21,6 @@ class GoogleCloudDatacatalogV1EntryGroup extends \Google\Model
 {
   protected $dataCatalogTimestampsType = GoogleCloudDatacatalogV1SystemTimestamps::class;
   protected $dataCatalogTimestampsDataType = '';
-  public $dataCatalogTimestamps;
   /**
    * @var string
    */

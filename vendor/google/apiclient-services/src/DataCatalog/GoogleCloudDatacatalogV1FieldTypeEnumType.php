@@ -22,7 +22,6 @@ class GoogleCloudDatacatalogV1FieldTypeEnumType extends \Google\Collection
   protected $collection_key = 'allowedValues';
   protected $allowedValuesType = GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValue::class;
   protected $allowedValuesDataType = 'array';
-  public $allowedValues;
 
   /**
    * @param GoogleCloudDatacatalogV1FieldTypeEnumTypeEnumValue[]

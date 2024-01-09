@@ -21,10 +21,8 @@ class ExecStep extends \Google\Model
 {
   protected $linuxExecStepConfigType = ExecStepConfig::class;
   protected $linuxExecStepConfigDataType = '';
-  public $linuxExecStepConfig;
   protected $windowsExecStepConfigType = ExecStepConfig::class;
   protected $windowsExecStepConfigDataType = '';
-  public $windowsExecStepConfig;
 
   /**
    * @param ExecStepConfig

@@ -21,7 +21,6 @@ class Copy extends \Google\Model
 {
   protected $originalObjectType = TargetReference::class;
   protected $originalObjectDataType = '';
-  public $originalObject;
 
   /**
    * @param TargetReference

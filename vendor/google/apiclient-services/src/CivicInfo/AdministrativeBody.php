@@ -33,7 +33,6 @@ class AdministrativeBody extends \Google\Collection
   public $ballotInfoUrl;
   protected $correspondenceAddressType = SimpleAddressType::class;
   protected $correspondenceAddressDataType = '';
-  public $correspondenceAddress;
   /**
    * @var string
    */
@@ -48,7 +47,6 @@ class AdministrativeBody extends \Google\Collection
   public $electionNoticeUrl;
   protected $electionOfficialsType = ElectionOfficial::class;
   protected $electionOfficialsDataType = 'array';
-  public $electionOfficials;
   /**
    * @var string
    */
@@ -71,7 +69,6 @@ class AdministrativeBody extends \Google\Collection
   public $name;
   protected $physicalAddressType = SimpleAddressType::class;
   protected $physicalAddressDataType = '';
-  public $physicalAddress;
   /**
    * @var string[]
    */

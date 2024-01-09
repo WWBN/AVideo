@@ -22,7 +22,6 @@ class UpdateBccRecipients extends \Google\Collection
   protected $collection_key = 'bccRecipients';
   protected $bccRecipientsType = Recipient::class;
   protected $bccRecipientsDataType = 'array';
-  public $bccRecipients;
 
   /**
    * @param Recipient[]

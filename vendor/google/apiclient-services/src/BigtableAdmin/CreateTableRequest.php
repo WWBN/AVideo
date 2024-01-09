@@ -22,10 +22,8 @@ class CreateTableRequest extends \Google\Collection
   protected $collection_key = 'initialSplits';
   protected $initialSplitsType = Split::class;
   protected $initialSplitsDataType = 'array';
-  public $initialSplits;
   protected $tableType = Table::class;
   protected $tableDataType = '';
-  public $table;
   /**
    * @var string
    */

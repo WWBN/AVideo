@@ -22,13 +22,10 @@ class GroupedResult extends \Google\Collection
   protected $collection_key = 'results';
   protected $boundingPolyType = BoundingPoly::class;
   protected $boundingPolyDataType = '';
-  public $boundingPoly;
   protected $objectAnnotationsType = ObjectAnnotation::class;
   protected $objectAnnotationsDataType = 'array';
-  public $objectAnnotations;
   protected $resultsType = Result::class;
   protected $resultsDataType = 'array';
-  public $results;
 
   /**
    * @param BoundingPoly

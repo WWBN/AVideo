@@ -22,23 +22,18 @@ class BasePlan extends \Google\Collection
   protected $collection_key = 'regionalConfigs';
   protected $autoRenewingBasePlanTypeType = AutoRenewingBasePlanType::class;
   protected $autoRenewingBasePlanTypeDataType = '';
-  public $autoRenewingBasePlanType;
   /**
    * @var string
    */
   public $basePlanId;
   protected $offerTagsType = OfferTag::class;
   protected $offerTagsDataType = 'array';
-  public $offerTags;
   protected $otherRegionsConfigType = OtherRegionsBasePlanConfig::class;
   protected $otherRegionsConfigDataType = '';
-  public $otherRegionsConfig;
   protected $prepaidBasePlanTypeType = PrepaidBasePlanType::class;
   protected $prepaidBasePlanTypeDataType = '';
-  public $prepaidBasePlanType;
   protected $regionalConfigsType = RegionalBasePlanConfig::class;
   protected $regionalConfigsDataType = 'array';
-  public $regionalConfigs;
   /**
    * @var string
    */

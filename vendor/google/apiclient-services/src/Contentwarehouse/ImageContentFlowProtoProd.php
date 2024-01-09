@@ -22,7 +22,6 @@ class ImageContentFlowProtoProd extends \Google\Collection
   protected $collection_key = 'starburst';
   protected $starburstType = ImageContentStarburstVersionGroup::class;
   protected $starburstDataType = 'array';
-  public $starburst;
 
   /**
    * @param ImageContentStarburstVersionGroup[]

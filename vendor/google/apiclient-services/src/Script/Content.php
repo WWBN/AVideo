@@ -22,7 +22,6 @@ class Content extends \Google\Collection
   protected $collection_key = 'files';
   protected $filesType = ScriptFile::class;
   protected $filesDataType = 'array';
-  public $files;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class CheckDataAccessRequest extends \Google\Model
 {
   protected $consentListType = ConsentList::class;
   protected $consentListDataType = '';
-  public $consentList;
   /**
    * @var string
    */

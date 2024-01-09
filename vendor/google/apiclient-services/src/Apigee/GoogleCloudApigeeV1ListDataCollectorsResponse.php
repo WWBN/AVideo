@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ListDataCollectorsResponse extends \Google\Collection
   protected $collection_key = 'dataCollectors';
   protected $dataCollectorsType = GoogleCloudApigeeV1DataCollector::class;
   protected $dataCollectorsDataType = 'array';
-  public $dataCollectors;
   /**
    * @var string
    */

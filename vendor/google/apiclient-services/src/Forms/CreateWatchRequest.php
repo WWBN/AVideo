@@ -21,7 +21,6 @@ class CreateWatchRequest extends \Google\Model
 {
   protected $watchType = Watch::class;
   protected $watchDataType = '';
-  public $watch;
   /**
    * @var string
    */

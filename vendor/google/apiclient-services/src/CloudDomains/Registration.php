@@ -22,14 +22,12 @@ class Registration extends \Google\Collection
   protected $collection_key = 'supportedPrivacy';
   protected $contactSettingsType = ContactSettings::class;
   protected $contactSettingsDataType = '';
-  public $contactSettings;
   /**
    * @var string
    */
   public $createTime;
   protected $dnsSettingsType = DnsSettings::class;
   protected $dnsSettingsDataType = '';
-  public $dnsSettings;
   /**
    * @var string
    */
@@ -48,14 +46,12 @@ class Registration extends \Google\Collection
   public $labels;
   protected $managementSettingsType = ManagementSettings::class;
   protected $managementSettingsDataType = '';
-  public $managementSettings;
   /**
    * @var string
    */
   public $name;
   protected $pendingContactSettingsType = ContactSettings::class;
   protected $pendingContactSettingsDataType = '';
-  public $pendingContactSettings;
   /**
    * @var string
    */

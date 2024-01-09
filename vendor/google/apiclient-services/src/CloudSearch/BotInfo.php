@@ -26,7 +26,6 @@ class BotInfo extends \Google\Collection
   public $appAllowlistStatus;
   protected $appIdType = AppId::class;
   protected $appIdDataType = '';
-  public $appId;
   /**
    * @var string
    */
@@ -57,7 +56,6 @@ class BotInfo extends \Google\Collection
   public $supportHomeScreen;
   protected $supportUrlsType = SupportUrls::class;
   protected $supportUrlsDataType = '';
-  public $supportUrls;
   /**
    * @var string[]
    */

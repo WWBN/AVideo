@@ -21,7 +21,6 @@ class ServiceBusinessContext extends \Google\Model
 {
   protected $addressType = PostalAddress::class;
   protected $addressDataType = '';
-  public $address;
 
   /**
    * @param PostalAddress

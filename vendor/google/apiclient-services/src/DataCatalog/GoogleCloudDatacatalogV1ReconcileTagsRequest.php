@@ -30,7 +30,6 @@ class GoogleCloudDatacatalogV1ReconcileTagsRequest extends \Google\Collection
   public $tagTemplate;
   protected $tagsType = GoogleCloudDatacatalogV1Tag::class;
   protected $tagsDataType = 'array';
-  public $tags;
 
   /**
    * @param bool

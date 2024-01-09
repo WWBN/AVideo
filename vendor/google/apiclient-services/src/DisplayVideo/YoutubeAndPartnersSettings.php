@@ -22,14 +22,12 @@ class YoutubeAndPartnersSettings extends \Google\Collection
   protected $collection_key = 'relatedVideoIds';
   protected $biddingStrategyType = YoutubeAndPartnersBiddingStrategy::class;
   protected $biddingStrategyDataType = '';
-  public $biddingStrategy;
   /**
    * @var string
    */
   public $contentCategory;
   protected $inventorySourceSettingsType = YoutubeAndPartnersInventorySourceConfig::class;
   protected $inventorySourceSettingsDataType = '';
-  public $inventorySourceSettings;
   /**
    * @var string
    */
@@ -44,16 +42,12 @@ class YoutubeAndPartnersSettings extends \Google\Collection
   public $relatedVideoIds;
   protected $targetFrequencyType = TargetFrequency::class;
   protected $targetFrequencyDataType = '';
-  public $targetFrequency;
   protected $thirdPartyMeasurementSettingsType = YoutubeAndPartnersThirdPartyMeasurementSettings::class;
   protected $thirdPartyMeasurementSettingsDataType = '';
-  public $thirdPartyMeasurementSettings;
   protected $videoAdSequenceSettingsType = VideoAdSequenceSettings::class;
   protected $videoAdSequenceSettingsDataType = '';
-  public $videoAdSequenceSettings;
   protected $viewFrequencyCapType = FrequencyCap::class;
   protected $viewFrequencyCapDataType = '';
-  public $viewFrequencyCap;
 
   /**
    * @param YoutubeAndPartnersBiddingStrategy

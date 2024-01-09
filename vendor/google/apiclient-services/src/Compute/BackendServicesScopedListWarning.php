@@ -26,7 +26,6 @@ class BackendServicesScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = BackendServicesScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

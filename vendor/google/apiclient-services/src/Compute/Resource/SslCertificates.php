@@ -130,8 +130,7 @@ class SslCertificates extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified SslCertificate resource. Gets a list of available SSL
-   * certificates by making a list() request. (sslCertificates.get)
+   * Returns the specified SslCertificate resource. (sslCertificates.get)
    *
    * @param string $project Project ID for this request.
    * @param string $sslCertificate Name of the SslCertificate resource to return.

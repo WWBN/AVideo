@@ -22,14 +22,12 @@ class AppsPeopleOzExternalMergedpeopleapiPlayGamesExtendedData extends \Google\C
   protected $collection_key = 'achievements';
   protected $achievementsType = AppsPeopleOzExternalMergedpeopleapiPlayGamesExtendedDataAchievement::class;
   protected $achievementsDataType = 'array';
-  public $achievements;
   /**
    * @var string
    */
   public $avatarImageUrl;
   protected $failureType = AppsPeopleOzExternalMergedpeopleapiProductProfileFailure::class;
   protected $failureDataType = '';
-  public $failure;
   /**
    * @var string
    */

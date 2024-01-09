@@ -30,7 +30,6 @@ class ListUptimeCheckConfigsResponse extends \Google\Collection
   public $totalSize;
   protected $uptimeCheckConfigsType = UptimeCheckConfig::class;
   protected $uptimeCheckConfigsDataType = 'array';
-  public $uptimeCheckConfigs;
 
   /**
    * @param string

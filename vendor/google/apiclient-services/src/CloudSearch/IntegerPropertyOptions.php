@@ -21,7 +21,6 @@ class IntegerPropertyOptions extends \Google\Model
 {
   protected $integerFacetingOptionsType = IntegerFacetingOptions::class;
   protected $integerFacetingOptionsDataType = '';
-  public $integerFacetingOptions;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class IntegerPropertyOptions extends \Google\Model
   public $minimumValue;
   protected $operatorOptionsType = IntegerOperatorOptions::class;
   protected $operatorOptionsDataType = '';
-  public $operatorOptions;
   /**
    * @var string
    */

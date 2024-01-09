@@ -30,7 +30,6 @@ class NodeGroup extends \Google\Collection
   public $name;
   protected $nodeGroupConfigType = InstanceGroupConfig::class;
   protected $nodeGroupConfigDataType = '';
-  public $nodeGroupConfig;
   /**
    * @var string[]
    */

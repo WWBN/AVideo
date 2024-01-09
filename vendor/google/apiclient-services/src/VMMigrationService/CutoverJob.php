@@ -22,7 +22,6 @@ class CutoverJob extends \Google\Collection
   protected $collection_key = 'steps';
   protected $computeEngineTargetDetailsType = ComputeEngineTargetDetails::class;
   protected $computeEngineTargetDetailsDataType = '';
-  public $computeEngineTargetDetails;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class CutoverJob extends \Google\Collection
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -56,7 +54,6 @@ class CutoverJob extends \Google\Collection
   public $stateTime;
   protected $stepsType = CutoverStep::class;
   protected $stepsDataType = 'array';
-  public $steps;
 
   /**
    * @param ComputeEngineTargetDetails

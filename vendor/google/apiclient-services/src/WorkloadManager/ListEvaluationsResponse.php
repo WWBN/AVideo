@@ -22,7 +22,6 @@ class ListEvaluationsResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $evaluationsType = Evaluation::class;
   protected $evaluationsDataType = 'array';
-  public $evaluations;
   /**
    * @var string
    */

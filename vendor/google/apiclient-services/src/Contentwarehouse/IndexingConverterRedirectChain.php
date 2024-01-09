@@ -22,7 +22,6 @@ class IndexingConverterRedirectChain extends \Google\Collection
   protected $collection_key = 'hop';
   protected $hopType = IndexingConverterRedirectChainHop::class;
   protected $hopDataType = 'array';
-  public $hop;
 
   /**
    * @param IndexingConverterRedirectChainHop[]

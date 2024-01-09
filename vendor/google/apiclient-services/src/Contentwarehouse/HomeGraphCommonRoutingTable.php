@@ -22,7 +22,6 @@ class HomeGraphCommonRoutingTable extends \Google\Collection
   protected $collection_key = 'supportedRoutes';
   protected $supportedRoutesType = HomeGraphCommonRoute::class;
   protected $supportedRoutesDataType = 'array';
-  public $supportedRoutes;
 
   /**
    * @param HomeGraphCommonRoute[]

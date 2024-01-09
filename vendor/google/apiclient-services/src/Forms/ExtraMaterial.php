@@ -21,10 +21,8 @@ class ExtraMaterial extends \Google\Model
 {
   protected $linkType = TextLink::class;
   protected $linkDataType = '';
-  public $link;
   protected $videoType = VideoLink::class;
   protected $videoDataType = '';
-  public $video;
 
   /**
    * @param TextLink

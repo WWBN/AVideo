@@ -25,7 +25,6 @@ class AppsDynamiteStorageCardCardAction extends \Google\Model
   public $actionLabel;
   protected $onClickType = AppsDynamiteStorageOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
 
   /**
    * @param string

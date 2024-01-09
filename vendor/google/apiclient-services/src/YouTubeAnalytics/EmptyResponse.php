@@ -21,7 +21,6 @@ class EmptyResponse extends \Google\Model
 {
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
-  public $errors;
 
   /**
    * @param Errors

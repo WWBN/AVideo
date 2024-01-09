@@ -20,7 +20,6 @@ namespace Google\Service\Docs;
 class TableColumnProperties extends \Google\Model
 {
   protected $widthDataType = '';
-  public $width;
   /**
    * @var string
    */

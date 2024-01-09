@@ -56,7 +56,9 @@ class Accounts extends \Google\Service\Resource
     return $this->call('authinfo', [$params], AccountsAuthInfoResponse::class);
   }
   /**
-   * Claims the website of a Merchant Center sub-account. (accounts.claimwebsite)
+   * Claims the website of a Merchant Center sub-account. Merchant accounts with
+   * approved third-party CSSs aren't required to claim a website.
+   * (accounts.claimwebsite)
    *
    * @param string $merchantId The ID of the managing account. If this parameter
    * is not the same as accountId, then this account must be a multi-client

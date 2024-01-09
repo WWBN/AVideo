@@ -30,10 +30,8 @@ class GoogleCloudContactcenterinsightsV1ExportInsightsDataMetadata extends \Goog
   public $endTime;
   protected $partialErrorsType = GoogleRpcStatus::class;
   protected $partialErrorsDataType = 'array';
-  public $partialErrors;
   protected $requestType = GoogleCloudContactcenterinsightsV1ExportInsightsDataRequest::class;
   protected $requestDataType = '';
-  public $request;
 
   /**
    * @param string

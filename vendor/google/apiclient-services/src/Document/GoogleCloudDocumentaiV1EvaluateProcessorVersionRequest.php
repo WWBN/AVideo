@@ -21,7 +21,6 @@ class GoogleCloudDocumentaiV1EvaluateProcessorVersionRequest extends \Google\Mod
 {
   protected $evaluationDocumentsType = GoogleCloudDocumentaiV1BatchDocumentsInputConfig::class;
   protected $evaluationDocumentsDataType = '';
-  public $evaluationDocuments;
 
   /**
    * @param GoogleCloudDocumentaiV1BatchDocumentsInputConfig

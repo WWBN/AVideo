@@ -21,7 +21,6 @@ class Item extends \Google\Model
 {
   protected $availablePackageType = SoftwarePackage::class;
   protected $availablePackageDataType = '';
-  public $availablePackage;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class Item extends \Google\Model
   public $id;
   protected $installedPackageType = SoftwarePackage::class;
   protected $installedPackageDataType = '';
-  public $installedPackage;
   /**
    * @var string
    */

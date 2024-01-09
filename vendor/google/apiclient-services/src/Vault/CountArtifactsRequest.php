@@ -21,7 +21,6 @@ class CountArtifactsRequest extends \Google\Model
 {
   protected $queryType = Query::class;
   protected $queryDataType = '';
-  public $query;
   /**
    * @var string
    */

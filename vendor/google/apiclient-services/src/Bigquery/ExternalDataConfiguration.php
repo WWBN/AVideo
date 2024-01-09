@@ -26,10 +26,8 @@ class ExternalDataConfiguration extends \Google\Collection
   public $autodetect;
   protected $avroOptionsType = AvroOptions::class;
   protected $avroOptionsDataType = '';
-  public $avroOptions;
   protected $bigtableOptionsType = BigtableOptions::class;
   protected $bigtableOptionsDataType = '';
-  public $bigtableOptions;
   /**
    * @var string
    */
@@ -40,17 +38,14 @@ class ExternalDataConfiguration extends \Google\Collection
   public $connectionId;
   protected $csvOptionsType = CsvOptions::class;
   protected $csvOptionsDataType = '';
-  public $csvOptions;
   /**
    * @var string[]
    */
   public $decimalTargetTypes;
   protected $googleSheetsOptionsType = GoogleSheetsOptions::class;
   protected $googleSheetsOptionsDataType = '';
-  public $googleSheetsOptions;
   protected $hivePartitioningOptionsType = HivePartitioningOptions::class;
   protected $hivePartitioningOptionsDataType = '';
-  public $hivePartitioningOptions;
   /**
    * @var bool
    */
@@ -69,14 +64,12 @@ class ExternalDataConfiguration extends \Google\Collection
   public $objectMetadata;
   protected $parquetOptionsType = ParquetOptions::class;
   protected $parquetOptionsDataType = '';
-  public $parquetOptions;
   /**
    * @var string
    */
   public $referenceFileSchemaUri;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
-  public $schema;
   /**
    * @var string
    */

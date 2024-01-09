@@ -34,7 +34,6 @@ class OrgPolicyViolationInfo extends \Google\Collection
   public $resourceType;
   protected $violationInfoType = ViolationInfo::class;
   protected $violationInfoDataType = 'array';
-  public $violationInfo;
 
   /**
    * @param array[]

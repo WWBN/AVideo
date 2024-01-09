@@ -21,10 +21,8 @@ class GoogleSecuritySafebrowsingV4FindThreatMatchesRequest extends \Google\Model
 {
   protected $clientType = GoogleSecuritySafebrowsingV4ClientInfo::class;
   protected $clientDataType = '';
-  public $client;
   protected $threatInfoType = GoogleSecuritySafebrowsingV4ThreatInfo::class;
   protected $threatInfoDataType = '';
-  public $threatInfo;
 
   /**
    * @param GoogleSecuritySafebrowsingV4ClientInfo

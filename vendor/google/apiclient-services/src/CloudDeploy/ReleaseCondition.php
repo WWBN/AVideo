@@ -21,10 +21,8 @@ class ReleaseCondition extends \Google\Model
 {
   protected $releaseReadyConditionType = ReleaseReadyCondition::class;
   protected $releaseReadyConditionDataType = '';
-  public $releaseReadyCondition;
   protected $skaffoldSupportedConditionType = SkaffoldSupportedCondition::class;
   protected $skaffoldSupportedConditionDataType = '';
-  public $skaffoldSupportedCondition;
 
   /**
    * @param ReleaseReadyCondition

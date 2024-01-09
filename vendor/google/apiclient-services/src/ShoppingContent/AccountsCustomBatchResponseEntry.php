@@ -21,14 +21,12 @@ class AccountsCustomBatchResponseEntry extends \Google\Model
 {
   protected $accountType = Account::class;
   protected $accountDataType = '';
-  public $account;
   /**
    * @var string
    */
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
-  public $errors;
   /**
    * @var string
    */

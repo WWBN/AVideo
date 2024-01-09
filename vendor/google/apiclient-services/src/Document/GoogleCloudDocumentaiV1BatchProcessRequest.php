@@ -21,10 +21,8 @@ class GoogleCloudDocumentaiV1BatchProcessRequest extends \Google\Model
 {
   protected $documentOutputConfigType = GoogleCloudDocumentaiV1DocumentOutputConfig::class;
   protected $documentOutputConfigDataType = '';
-  public $documentOutputConfig;
   protected $inputDocumentsType = GoogleCloudDocumentaiV1BatchDocumentsInputConfig::class;
   protected $inputDocumentsDataType = '';
-  public $inputDocuments;
   /**
    * @var bool
    */

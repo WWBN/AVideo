@@ -21,7 +21,6 @@ class Source extends \Google\Model
 {
   protected $awsType = AwsSourceDetails::class;
   protected $awsDataType = '';
-  public $aws;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class Source extends \Google\Model
   public $updateTime;
   protected $vmwareType = VmwareSourceDetails::class;
   protected $vmwareDataType = '';
-  public $vmware;
 
   /**
    * @param AwsSourceDetails

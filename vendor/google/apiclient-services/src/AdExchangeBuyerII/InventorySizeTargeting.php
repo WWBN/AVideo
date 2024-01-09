@@ -22,10 +22,8 @@ class InventorySizeTargeting extends \Google\Collection
   protected $collection_key = 'targetedInventorySizes';
   protected $excludedInventorySizesType = AdSize::class;
   protected $excludedInventorySizesDataType = 'array';
-  public $excludedInventorySizes;
   protected $targetedInventorySizesType = AdSize::class;
   protected $targetedInventorySizesDataType = 'array';
-  public $targetedInventorySizes;
 
   /**
    * @param AdSize[]

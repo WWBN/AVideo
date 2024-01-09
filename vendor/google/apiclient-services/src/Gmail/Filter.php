@@ -21,10 +21,8 @@ class Filter extends \Google\Model
 {
   protected $actionType = FilterAction::class;
   protected $actionDataType = '';
-  public $action;
   protected $criteriaType = FilterCriteria::class;
   protected $criteriaDataType = '';
-  public $criteria;
   /**
    * @var string
    */

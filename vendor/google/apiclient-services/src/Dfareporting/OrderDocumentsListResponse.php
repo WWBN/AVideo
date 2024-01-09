@@ -30,7 +30,6 @@ class OrderDocumentsListResponse extends \Google\Collection
   public $nextPageToken;
   protected $orderDocumentsType = OrderDocument::class;
   protected $orderDocumentsDataType = 'array';
-  public $orderDocuments;
 
   /**
    * @param string

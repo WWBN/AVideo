@@ -26,7 +26,6 @@ class ListRegistrationsResponse extends \Google\Collection
   public $nextPageToken;
   protected $registrationsType = Registration::class;
   protected $registrationsDataType = 'array';
-  public $registrations;
 
   /**
    * @param string

@@ -22,26 +22,8 @@ class Challenge extends \Google\Model
   /**
    * @var string
    */
-  public $alternativeChallenge;
-  /**
-   * @var string
-   */
   public $challenge;
 
-  /**
-   * @param string
-   */
-  public function setAlternativeChallenge($alternativeChallenge)
-  {
-    $this->alternativeChallenge = $alternativeChallenge;
-  }
-  /**
-   * @return string
-   */
-  public function getAlternativeChallenge()
-  {
-    return $this->alternativeChallenge;
-  }
   /**
    * @param string
    */

@@ -22,7 +22,6 @@ class AchievementDefinitionsListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = AchievementDefinition::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

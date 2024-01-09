@@ -25,7 +25,6 @@ class PropertyOrder extends \Google\Model
   public $direction;
   protected $propertyType = PropertyReference::class;
   protected $propertyDataType = '';
-  public $property;
 
   /**
    * @param string

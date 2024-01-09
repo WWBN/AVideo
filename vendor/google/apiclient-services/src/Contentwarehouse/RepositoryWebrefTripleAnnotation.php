@@ -34,17 +34,14 @@ class RepositoryWebrefTripleAnnotation extends \Google\Collection
   public $kgVerified;
   protected $mentionsType = RepositoryWebrefTripleMention::class;
   protected $mentionsDataType = 'array';
-  public $mentions;
   /**
    * @var string[]
    */
   public $predMid;
   protected $stuffType = Proto2BridgeMessageSet::class;
   protected $stuffDataType = '';
-  public $stuff;
   protected $tripleType = KnowledgeGraphTriple::class;
   protected $tripleDataType = '';
-  public $triple;
 
   /**
    * @param float

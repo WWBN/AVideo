@@ -26,7 +26,6 @@ class CustomDataSource extends \Google\Collection
   public $accountId;
   protected $childLinkType = CustomDataSourceChildLink::class;
   protected $childLinkDataType = '';
-  public $childLink;
   /**
    * @var string
    */
@@ -53,7 +52,6 @@ class CustomDataSource extends \Google\Collection
   public $name;
   protected $parentLinkType = CustomDataSourceParentLink::class;
   protected $parentLinkDataType = '';
-  public $parentLink;
   /**
    * @var string[]
    */

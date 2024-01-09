@@ -33,7 +33,6 @@ class RefreshDataSourceRequest extends \Google\Model
   public $isAll;
   protected $referencesType = DataSourceObjectReferences::class;
   protected $referencesDataType = '';
-  public $references;
 
   /**
    * @param string

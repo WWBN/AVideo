@@ -25,14 +25,12 @@ class ProductsCustomBatchResponseEntry extends \Google\Model
   public $batchId;
   protected $errorsType = Errors::class;
   protected $errorsDataType = '';
-  public $errors;
   /**
    * @var string
    */
   public $kind;
   protected $productType = Product::class;
   protected $productDataType = '';
-  public $product;
 
   /**
    * @param string

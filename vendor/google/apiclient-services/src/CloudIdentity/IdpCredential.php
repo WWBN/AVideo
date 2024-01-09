@@ -21,14 +21,12 @@ class IdpCredential extends \Google\Model
 {
   protected $dsaKeyInfoType = DsaPublicKeyInfo::class;
   protected $dsaKeyInfoDataType = '';
-  public $dsaKeyInfo;
   /**
    * @var string
    */
   public $name;
   protected $rsaKeyInfoType = RsaPublicKeyInfo::class;
   protected $rsaKeyInfoDataType = '';
-  public $rsaKeyInfo;
   /**
    * @var string
    */

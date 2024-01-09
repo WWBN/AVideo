@@ -188,14 +188,12 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
   public $largeStoreHitLocation;
   protected $multiverseClientIdentifierType = TrawlerMultiverseClientIdentifier::class;
   protected $multiverseClientIdentifierDataType = '';
-  public $multiverseClientIdentifier;
   /**
    * @var string
    */
   public $numDroppedReplies;
   protected $originalClientParamsType = TrawlerOriginalClientParams::class;
   protected $originalClientParamsDataType = '';
-  public $originalClientParams;
   /**
    * @var string
    */
@@ -210,7 +208,6 @@ class TrawlerTrawlerPrivateFetchReplyData extends \Google\Model
   public $tier;
   protected $vpcDestinationType = TrawlerLoggedVPCDestination::class;
   protected $vpcDestinationDataType = '';
-  public $vpcDestination;
 
   /**
    * @param string

@@ -35,8 +35,9 @@ class Entries extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string fullyQualifiedName Fully qualified name (FQN) of the
-   * resource. FQNs take two forms: * For non-regionalized resources:
+   * @opt_param string fullyQualifiedName [Fully Qualified Name
+   * (FQN)](https://cloud.google.com//data-catalog/docs/fully-qualified-names) of
+   * the resource. FQNs take two forms: * For non-regionalized resources:
    * `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}` * For
    * regionalized resources:
    * `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`

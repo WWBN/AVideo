@@ -42,7 +42,6 @@ class MastheadAd extends \Google\Collection
   public $callToActionTrackingUrl;
   protected $companionYoutubeVideosType = YoutubeVideoDetails::class;
   protected $companionYoutubeVideosDataType = 'array';
-  public $companionYoutubeVideos;
   /**
    * @var string
    */
@@ -57,7 +56,6 @@ class MastheadAd extends \Google\Collection
   public $showChannelArt;
   protected $videoType = YoutubeVideoDetails::class;
   protected $videoDataType = '';
-  public $video;
   /**
    * @var string
    */

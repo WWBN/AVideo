@@ -22,10 +22,8 @@ class MoveAnalysisResult extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $blockersType = MoveImpact::class;
   protected $blockersDataType = 'array';
-  public $blockers;
   protected $warningsType = MoveImpact::class;
   protected $warningsDataType = 'array';
-  public $warnings;
 
   /**
    * @param MoveImpact[]

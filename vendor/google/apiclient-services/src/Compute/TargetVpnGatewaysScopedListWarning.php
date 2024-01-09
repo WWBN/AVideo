@@ -26,7 +26,6 @@ class TargetVpnGatewaysScopedListWarning extends \Google\Collection
   public $code;
   protected $dataType = TargetVpnGatewaysScopedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

@@ -21,17 +21,14 @@ class RRSetRoutingPolicy extends \Google\Model
 {
   protected $geoType = RRSetRoutingPolicyGeoPolicy::class;
   protected $geoDataType = '';
-  public $geo;
   /**
    * @var string
    */
   public $kind;
   protected $primaryBackupType = RRSetRoutingPolicyPrimaryBackupPolicy::class;
   protected $primaryBackupDataType = '';
-  public $primaryBackup;
   protected $wrrType = RRSetRoutingPolicyWrrPolicy::class;
   protected $wrrDataType = '';
-  public $wrr;
 
   /**
    * @param RRSetRoutingPolicyGeoPolicy

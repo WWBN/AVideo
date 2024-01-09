@@ -29,7 +29,6 @@ class GuestAttributes extends \Google\Model
   public $queryPath;
   protected $queryValueType = GuestAttributesValue::class;
   protected $queryValueDataType = '';
-  public $queryValue;
   /**
    * @var string
    */

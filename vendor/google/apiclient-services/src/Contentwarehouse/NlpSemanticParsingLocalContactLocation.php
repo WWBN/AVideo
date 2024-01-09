@@ -20,10 +20,8 @@ namespace Google\Service\Contentwarehouse;
 class NlpSemanticParsingLocalContactLocation extends \Google\Model
 {
   protected $contactDataType = '';
-  public $contact;
   protected $contactTypeType = NlpSemanticParsingModelsCommunicationPhoneType::class;
   protected $contactTypeDataType = '';
-  public $contactType;
 
   /**
    * @param NlpSemanticParsingModelsCommunicationRecipient

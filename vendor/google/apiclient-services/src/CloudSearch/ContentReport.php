@@ -25,13 +25,10 @@ class ContentReport extends \Google\Model
   public $reportCreateTimestamp;
   protected $reportJustificationType = ContentReportJustification::class;
   protected $reportJustificationDataType = '';
-  public $reportJustification;
   protected $reportTypeType = AppsDynamiteSharedContentReportType::class;
   protected $reportTypeDataType = '';
-  public $reportType;
   protected $reporterUserIdType = UserId::class;
   protected $reporterUserIdDataType = '';
-  public $reporterUserId;
   /**
    * @var string
    */

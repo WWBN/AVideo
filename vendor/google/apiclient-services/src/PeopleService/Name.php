@@ -45,7 +45,6 @@ class Name extends \Google\Model
   public $honorificSuffix;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

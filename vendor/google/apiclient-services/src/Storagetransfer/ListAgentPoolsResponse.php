@@ -22,7 +22,6 @@ class ListAgentPoolsResponse extends \Google\Collection
   protected $collection_key = 'agentPools';
   protected $agentPoolsType = AgentPool::class;
   protected $agentPoolsDataType = 'array';
-  public $agentPools;
   /**
    * @var string
    */

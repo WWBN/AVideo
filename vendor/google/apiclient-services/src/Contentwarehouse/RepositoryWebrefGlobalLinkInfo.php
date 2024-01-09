@@ -34,7 +34,6 @@ class RepositoryWebrefGlobalLinkInfo extends \Google\Collection
   public $targetMid;
   protected $variantInfoType = RepositoryWebrefLinkInfo::class;
   protected $variantInfoDataType = 'array';
-  public $variantInfo;
 
   /**
    * @param string

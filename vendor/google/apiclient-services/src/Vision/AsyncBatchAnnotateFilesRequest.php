@@ -26,7 +26,6 @@ class AsyncBatchAnnotateFilesRequest extends \Google\Collection
   public $parent;
   protected $requestsType = AsyncAnnotateFileRequest::class;
   protected $requestsDataType = 'array';
-  public $requests;
 
   /**
    * @param string

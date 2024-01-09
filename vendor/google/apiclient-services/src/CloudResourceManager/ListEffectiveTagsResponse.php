@@ -22,7 +22,6 @@ class ListEffectiveTagsResponse extends \Google\Collection
   protected $collection_key = 'effectiveTags';
   protected $effectiveTagsType = EffectiveTag::class;
   protected $effectiveTagsDataType = 'array';
-  public $effectiveTags;
   /**
    * @var string
    */

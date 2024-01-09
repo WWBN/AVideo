@@ -22,7 +22,6 @@ class AppsDynamiteSharedAssistantFeedbackContext extends \Google\Collection
   protected $collection_key = 'feedbackChips';
   protected $feedbackChipsType = AppsDynamiteSharedAssistantFeedbackContextFeedbackChip::class;
   protected $feedbackChipsDataType = 'array';
-  public $feedbackChips;
   /**
    * @var string
    */

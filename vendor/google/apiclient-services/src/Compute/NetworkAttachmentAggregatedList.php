@@ -25,7 +25,6 @@ class NetworkAttachmentAggregatedList extends \Google\Model
   public $id;
   protected $itemsType = NetworkAttachmentsScopedList::class;
   protected $itemsDataType = 'map';
-  public $items;
   /**
    * @var string
    */
@@ -40,7 +39,6 @@ class NetworkAttachmentAggregatedList extends \Google\Model
   public $selfLink;
   protected $warningType = NetworkAttachmentAggregatedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

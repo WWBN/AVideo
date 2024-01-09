@@ -21,7 +21,6 @@ class ConnectionCredential extends \Google\Model
 {
   protected $cloudSqlType = CloudSqlCredential::class;
   protected $cloudSqlDataType = '';
-  public $cloudSql;
 
   /**
    * @param CloudSqlCredential

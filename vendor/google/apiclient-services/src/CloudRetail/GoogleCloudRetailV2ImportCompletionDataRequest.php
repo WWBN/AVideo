@@ -21,7 +21,6 @@ class GoogleCloudRetailV2ImportCompletionDataRequest extends \Google\Model
 {
   protected $inputConfigType = GoogleCloudRetailV2CompletionDataInputConfig::class;
   protected $inputConfigDataType = '';
-  public $inputConfig;
   /**
    * @var string
    */

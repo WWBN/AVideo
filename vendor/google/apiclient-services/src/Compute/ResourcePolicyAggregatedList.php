@@ -30,7 +30,6 @@ class ResourcePolicyAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = ResourcePoliciesScopedList::class;
   protected $itemsDataType = 'map';
-  public $items;
   /**
    * @var string
    */
@@ -49,7 +48,6 @@ class ResourcePolicyAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = ResourcePolicyAggregatedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class EntityList extends \Google\Collection
   protected $collection_key = 'headers';
   protected $entitiesType = Entity::class;
   protected $entitiesDataType = 'array';
-  public $entities;
   /**
    * @var string[]
    */

@@ -21,7 +21,6 @@ class OrderReportDisbursement extends \Google\Model
 {
   protected $disbursementAmountType = Price::class;
   protected $disbursementAmountDataType = '';
-  public $disbursementAmount;
   /**
    * @var string
    */

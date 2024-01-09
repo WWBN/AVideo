@@ -22,7 +22,6 @@ class ListScreenshotClustersResponse extends \Google\Collection
   protected $collection_key = 'clusters';
   protected $clustersType = ScreenshotCluster::class;
   protected $clustersDataType = 'array';
-  public $clusters;
 
   /**
    * @param ScreenshotCluster[]

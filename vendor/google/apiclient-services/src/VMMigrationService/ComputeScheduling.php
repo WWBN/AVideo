@@ -26,7 +26,6 @@ class ComputeScheduling extends \Google\Collection
   public $minNodeCpus;
   protected $nodeAffinitiesType = SchedulingNodeAffinity::class;
   protected $nodeAffinitiesDataType = 'array';
-  public $nodeAffinities;
   /**
    * @var string
    */

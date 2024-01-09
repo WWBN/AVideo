@@ -21,7 +21,6 @@ class LineItemAssignedTargetingOption extends \Google\Model
 {
   protected $assignedTargetingOptionType = AssignedTargetingOption::class;
   protected $assignedTargetingOptionDataType = '';
-  public $assignedTargetingOption;
   /**
    * @var string
    */

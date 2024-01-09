@@ -22,7 +22,6 @@ class WebAppsListResponse extends \Google\Collection
   protected $collection_key = 'webApp';
   protected $webAppType = WebApp::class;
   protected $webAppDataType = 'array';
-  public $webApp;
 
   /**
    * @param WebApp[]

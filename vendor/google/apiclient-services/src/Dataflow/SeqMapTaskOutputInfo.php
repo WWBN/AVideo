@@ -21,7 +21,6 @@ class SeqMapTaskOutputInfo extends \Google\Model
 {
   protected $sinkType = Sink::class;
   protected $sinkDataType = '';
-  public $sink;
   /**
    * @var string
    */

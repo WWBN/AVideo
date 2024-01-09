@@ -21,6 +21,10 @@ class StorageGraphBfgLivegraphProvenanceMetadata extends \Google\Collection
 {
   protected $collection_key = 'triangulationKey';
   /**
+   * @var string[]
+   */
+  public $directWriteRecordIds;
+  /**
    * @var string
    */
   public $lgInternalWriterId;
@@ -37,6 +41,20 @@ class StorageGraphBfgLivegraphProvenanceMetadata extends \Google\Collection
    */
   public $weakData;
 
+  /**
+   * @param string[]
+   */
+  public function setDirectWriteRecordIds($directWriteRecordIds)
+  {
+    $this->directWriteRecordIds = $directWriteRecordIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDirectWriteRecordIds()
+  {
+    return $this->directWriteRecordIds;
+  }
   /**
    * @param string
    */

@@ -25,7 +25,6 @@ class GqlQueryParameter extends \Google\Model
   public $cursor;
   protected $valueType = Value::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param string

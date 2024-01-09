@@ -25,10 +25,8 @@ class DayPart extends \Google\Model
   public $dayOfWeek;
   protected $endTimeType = TimeOfDay::class;
   protected $endTimeDataType = '';
-  public $endTime;
   protected $startTimeType = TimeOfDay::class;
   protected $startTimeDataType = '';
-  public $startTime;
 
   /**
    * @param string

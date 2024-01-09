@@ -33,7 +33,6 @@ class VideoCategory extends \Google\Model
   public $kind;
   protected $snippetType = VideoCategorySnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
 
   /**
    * @param string

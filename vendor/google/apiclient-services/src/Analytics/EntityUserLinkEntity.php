@@ -21,13 +21,10 @@ class EntityUserLinkEntity extends \Google\Model
 {
   protected $accountRefType = AccountRef::class;
   protected $accountRefDataType = '';
-  public $accountRef;
   protected $profileRefType = ProfileRef::class;
   protected $profileRefDataType = '';
-  public $profileRef;
   protected $webPropertyRefType = WebPropertyRef::class;
   protected $webPropertyRefDataType = '';
-  public $webPropertyRef;
 
   /**
    * @param AccountRef

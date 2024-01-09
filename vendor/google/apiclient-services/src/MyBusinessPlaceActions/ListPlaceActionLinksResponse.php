@@ -26,7 +26,6 @@ class ListPlaceActionLinksResponse extends \Google\Collection
   public $nextPageToken;
   protected $placeActionLinksType = PlaceActionLink::class;
   protected $placeActionLinksDataType = 'array';
-  public $placeActionLinks;
 
   /**
    * @param string

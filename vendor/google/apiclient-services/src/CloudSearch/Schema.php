@@ -22,7 +22,6 @@ class Schema extends \Google\Collection
   protected $collection_key = 'operationIds';
   protected $objectDefinitionsType = ObjectDefinition::class;
   protected $objectDefinitionsDataType = 'array';
-  public $objectDefinitions;
   /**
    * @var string[]
    */

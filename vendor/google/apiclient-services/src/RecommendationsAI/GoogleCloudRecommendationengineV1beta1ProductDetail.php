@@ -37,7 +37,6 @@ class GoogleCloudRecommendationengineV1beta1ProductDetail extends \Google\Model
   public $id;
   protected $itemAttributesType = GoogleCloudRecommendationengineV1beta1FeatureMap::class;
   protected $itemAttributesDataType = '';
-  public $itemAttributes;
   /**
    * @var float
    */

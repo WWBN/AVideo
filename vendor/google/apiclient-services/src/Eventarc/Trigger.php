@@ -26,21 +26,22 @@ class Trigger extends \Google\Collection
   public $channel;
   protected $conditionsType = StateCondition::class;
   protected $conditionsDataType = 'map';
-  public $conditions;
   /**
    * @var string
    */
   public $createTime;
   protected $destinationType = Destination::class;
   protected $destinationDataType = '';
-  public $destination;
   /**
    * @var string
    */
   public $etag;
+  /**
+   * @var string
+   */
+  public $eventDataContentType;
   protected $eventFiltersType = EventFilter::class;
   protected $eventFiltersDataType = 'array';
-  public $eventFilters;
   /**
    * @var string[]
    */
@@ -55,7 +56,6 @@ class Trigger extends \Google\Collection
   public $serviceAccount;
   protected $transportType = Transport::class;
   protected $transportDataType = '';
-  public $transport;
   /**
    * @var string
    */
@@ -134,6 +134,20 @@ class Trigger extends \Google\Collection
   public function getEtag()
   {
     return $this->etag;
+  }
+  /**
+   * @param string
+   */
+  public function setEventDataContentType($eventDataContentType)
+  {
+    $this->eventDataContentType = $eventDataContentType;
+  }
+  /**
+   * @return string
+   */
+  public function getEventDataContentType()
+  {
+    return $this->eventDataContentType;
   }
   /**
    * @param EventFilter[]

@@ -29,10 +29,8 @@ class OrderCustomer extends \Google\Model
   public $invoiceReceivingEmail;
   protected $loyaltyInfoType = OrderCustomerLoyaltyInfo::class;
   protected $loyaltyInfoDataType = '';
-  public $loyaltyInfo;
   protected $marketingRightsInfoType = OrderCustomerMarketingRightsInfo::class;
   protected $marketingRightsInfoDataType = '';
-  public $marketingRightsInfo;
 
   /**
    * @param string

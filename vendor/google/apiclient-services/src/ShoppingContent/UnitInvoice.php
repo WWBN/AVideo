@@ -22,13 +22,10 @@ class UnitInvoice extends \Google\Collection
   protected $collection_key = 'unitPriceTaxes';
   protected $additionalChargesType = UnitInvoiceAdditionalCharge::class;
   protected $additionalChargesDataType = 'array';
-  public $additionalCharges;
   protected $unitPriceType = Price::class;
   protected $unitPriceDataType = '';
-  public $unitPrice;
   protected $unitPriceTaxesType = UnitInvoiceTaxLine::class;
   protected $unitPriceTaxesDataType = 'array';
-  public $unitPriceTaxes;
 
   /**
    * @param UnitInvoiceAdditionalCharge[]

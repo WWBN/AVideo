@@ -21,7 +21,6 @@ class AppsDynamiteStorageOpenLinkAppUri extends \Google\Model
 {
   protected $androidIntentType = AppsDynamiteStorageOpenLinkAppUriIntent::class;
   protected $androidIntentDataType = '';
-  public $androidIntent;
   /**
    * @var string
    */

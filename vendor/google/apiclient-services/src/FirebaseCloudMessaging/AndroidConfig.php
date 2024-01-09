@@ -33,10 +33,8 @@ class AndroidConfig extends \Google\Model
   public $directBootOk;
   protected $fcmOptionsType = AndroidFcmOptions::class;
   protected $fcmOptionsDataType = '';
-  public $fcmOptions;
   protected $notificationType = AndroidNotification::class;
   protected $notificationDataType = '';
-  public $notification;
   /**
    * @var string
    */

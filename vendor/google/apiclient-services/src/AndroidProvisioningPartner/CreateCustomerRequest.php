@@ -21,7 +21,6 @@ class CreateCustomerRequest extends \Google\Model
 {
   protected $customerType = Company::class;
   protected $customerDataType = '';
-  public $customer;
 
   /**
    * @param Company

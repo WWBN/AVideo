@@ -22,10 +22,8 @@ class NetworkEndpointGroupsScopedList extends \Google\Collection
   protected $collection_key = 'networkEndpointGroups';
   protected $networkEndpointGroupsType = NetworkEndpointGroup::class;
   protected $networkEndpointGroupsDataType = 'array';
-  public $networkEndpointGroups;
   protected $warningType = NetworkEndpointGroupsScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param NetworkEndpointGroup[]

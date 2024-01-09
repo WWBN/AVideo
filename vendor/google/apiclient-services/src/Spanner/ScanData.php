@@ -21,7 +21,6 @@ class ScanData extends \Google\Model
 {
   protected $dataType = VisualizationData::class;
   protected $dataDataType = '';
-  public $data;
   /**
    * @var string
    */

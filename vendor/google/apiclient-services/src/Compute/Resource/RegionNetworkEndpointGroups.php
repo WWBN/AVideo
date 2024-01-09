@@ -62,8 +62,7 @@ class RegionNetworkEndpointGroups extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified network endpoint group. Gets a list of available
-   * network endpoint groups by making a list() request.
+   * Returns the specified network endpoint group.
    * (regionNetworkEndpointGroups.get)
    *
    * @param string $project Project ID for this request.

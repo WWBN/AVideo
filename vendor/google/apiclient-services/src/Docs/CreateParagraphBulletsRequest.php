@@ -25,7 +25,6 @@ class CreateParagraphBulletsRequest extends \Google\Model
   public $bulletPreset;
   protected $rangeType = Range::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param string

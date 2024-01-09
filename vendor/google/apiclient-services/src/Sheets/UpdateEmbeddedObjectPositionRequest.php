@@ -25,7 +25,6 @@ class UpdateEmbeddedObjectPositionRequest extends \Google\Model
   public $fields;
   protected $newPositionType = EmbeddedObjectPosition::class;
   protected $newPositionDataType = '';
-  public $newPosition;
   /**
    * @var int
    */

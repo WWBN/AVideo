@@ -139,7 +139,9 @@ class ProjectsNotificationChannels extends \Google\Service\Resource
     return $this->call('getVerificationCode', [$params], GetNotificationChannelVerificationCodeResponse::class);
   }
   /**
-   * Lists the notification channels that have been created for the project.
+   * Lists the notification channels that have been created for the project. To
+   * list the types of notification channels that are supported, use the
+   * ListNotificationChannelDescriptors method.
    * (notificationChannels.listProjectsNotificationChannels)
    *
    * @param string $name Required. The project

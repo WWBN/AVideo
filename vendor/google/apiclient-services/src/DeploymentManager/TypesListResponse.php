@@ -26,7 +26,6 @@ class TypesListResponse extends \Google\Collection
   public $nextPageToken;
   protected $typesType = Type::class;
   protected $typesDataType = 'array';
-  public $types;
 
   /**
    * @param string

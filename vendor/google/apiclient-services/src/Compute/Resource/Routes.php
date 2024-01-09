@@ -57,8 +57,7 @@ class Routes extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified Route resource. Gets a list of available routes by
-   * making a list() request. (routes.get)
+   * Returns the specified Route resource. (routes.get)
    *
    * @param string $project Project ID for this request.
    * @param string $route Name of the Route resource to return.

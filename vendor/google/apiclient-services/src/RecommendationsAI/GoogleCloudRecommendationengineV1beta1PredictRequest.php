@@ -45,7 +45,6 @@ class GoogleCloudRecommendationengineV1beta1PredictRequest extends \Google\Model
   public $params;
   protected $userEventType = GoogleCloudRecommendationengineV1beta1UserEvent::class;
   protected $userEventDataType = '';
-  public $userEvent;
 
   /**
    * @param bool

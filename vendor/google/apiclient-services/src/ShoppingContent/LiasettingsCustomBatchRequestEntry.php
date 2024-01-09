@@ -45,7 +45,6 @@ class LiasettingsCustomBatchRequestEntry extends \Google\Model
   public $gmbEmail;
   protected $liaSettingsType = LiaSettings::class;
   protected $liaSettingsDataType = '';
-  public $liaSettings;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class GooglePrivacyDlpV2DataProfilePubSubMessage extends \Google\Model
   public $event;
   protected $profileType = GooglePrivacyDlpV2TableDataProfile::class;
   protected $profileDataType = '';
-  public $profile;
 
   /**
    * @param string

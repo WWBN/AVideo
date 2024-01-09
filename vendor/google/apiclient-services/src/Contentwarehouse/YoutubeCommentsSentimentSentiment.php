@@ -22,7 +22,6 @@ class YoutubeCommentsSentimentSentiment extends \Google\Collection
   protected $collection_key = 'entitySentiment';
   protected $entitySentimentType = YoutubeCommentsSentimentSentimentEntitySentimentAnnotation::class;
   protected $entitySentimentDataType = 'array';
-  public $entitySentiment;
   /**
    * @var float
    */

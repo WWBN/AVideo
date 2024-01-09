@@ -33,7 +33,6 @@ class RepositoryWebrefTaskData extends \Google\Model
   public $projectId;
   protected $taskDetailsType = RepositoryWebrefTaskDetails::class;
   protected $taskDetailsDataType = '';
-  public $taskDetails;
   /**
    * @var string
    */

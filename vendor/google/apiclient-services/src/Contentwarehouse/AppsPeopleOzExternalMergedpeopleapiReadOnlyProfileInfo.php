@@ -19,20 +19,17 @@ namespace Google\Service\Contentwarehouse;
 
 class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Collection
 {
-  protected $collection_key = 'ownerUserType';
+  protected $collection_key = 'unjoinedEmailCertificates';
   protected $accountEmailType = AppsPeopleOzExternalMergedpeopleapiAccountEmail::class;
   protected $accountEmailDataType = '';
-  public $accountEmail;
   /**
    * @var string[]
    */
   public $blockType;
   protected $customerInfoType = AppsPeopleOzExternalMergedpeopleapiCustomerInfo::class;
   protected $customerInfoDataType = '';
-  public $customerInfo;
   protected $domainInfoType = AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfoDomainInfo::class;
   protected $domainInfoDataType = '';
-  public $domainInfo;
   /**
    * @var bool
    */
@@ -43,7 +40,6 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   public $incomingBlockType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
@@ -62,7 +58,8 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   public $plusPageType;
   protected $profileOwnerStatsType = AppsPeopleOzExternalMergedpeopleapiProfileOwnerStats::class;
   protected $profileOwnerStatsDataType = '';
-  public $profileOwnerStats;
+  protected $unjoinedEmailCertificatesType = AppsPeopleOzExternalMergedpeopleapiEmail::class;
+  protected $unjoinedEmailCertificatesDataType = 'array';
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiAccountEmail
@@ -231,6 +228,20 @@ class AppsPeopleOzExternalMergedpeopleapiReadOnlyProfileInfo extends \Google\Col
   public function getProfileOwnerStats()
   {
     return $this->profileOwnerStats;
+  }
+  /**
+   * @param AppsPeopleOzExternalMergedpeopleapiEmail[]
+   */
+  public function setUnjoinedEmailCertificates($unjoinedEmailCertificates)
+  {
+    $this->unjoinedEmailCertificates = $unjoinedEmailCertificates;
+  }
+  /**
+   * @return AppsPeopleOzExternalMergedpeopleapiEmail[]
+   */
+  public function getUnjoinedEmailCertificates()
+  {
+    return $this->unjoinedEmailCertificates;
   }
 }
 

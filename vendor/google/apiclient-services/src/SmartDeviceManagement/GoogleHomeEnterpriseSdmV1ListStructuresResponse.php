@@ -26,7 +26,6 @@ class GoogleHomeEnterpriseSdmV1ListStructuresResponse extends \Google\Collection
   public $nextPageToken;
   protected $structuresType = GoogleHomeEnterpriseSdmV1Structure::class;
   protected $structuresDataType = 'array';
-  public $structures;
 
   /**
    * @param string

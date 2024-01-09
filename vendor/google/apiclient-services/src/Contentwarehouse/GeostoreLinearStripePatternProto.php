@@ -22,7 +22,6 @@ class GeostoreLinearStripePatternProto extends \Google\Collection
   protected $collection_key = 'line';
   protected $lineType = GeostorePhysicalLineProto::class;
   protected $lineDataType = 'array';
-  public $line;
 
   /**
    * @param GeostorePhysicalLineProto[]

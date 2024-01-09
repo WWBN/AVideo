@@ -26,7 +26,6 @@ class PageList extends \Google\Collection
   public $etag;
   protected $itemsType = Page::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

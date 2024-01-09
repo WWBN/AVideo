@@ -21,7 +21,6 @@ class Reservation extends \Google\Model
 {
   protected $autoscaleType = Autoscale::class;
   protected $autoscaleDataType = '';
-  public $autoscale;
   /**
    * @var string
    */

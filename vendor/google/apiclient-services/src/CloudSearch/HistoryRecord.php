@@ -21,32 +21,24 @@ class HistoryRecord extends \Google\Model
 {
   protected $clientContextType = ClientContext::class;
   protected $clientContextDataType = '';
-  public $clientContext;
   protected $filterUpdateType = FilterUpdate::class;
   protected $filterUpdateDataType = '';
-  public $filterUpdate;
   protected $imapUpdateType = ImapUpdate::class;
   protected $imapUpdateDataType = '';
-  public $imapUpdate;
   protected $labelUpdateType = LabelUpdate::class;
   protected $labelUpdateDataType = '';
-  public $labelUpdate;
   protected $prefUpdateType = PrefUpdate::class;
   protected $prefUpdateDataType = '';
-  public $prefUpdate;
   /**
    * @var string
    */
   public $recordId;
   protected $threadUpdateType = ThreadUpdate::class;
   protected $threadUpdateDataType = '';
-  public $threadUpdate;
   protected $transactionContextType = TransactionContext::class;
   protected $transactionContextDataType = '';
-  public $transactionContext;
   protected $txnDebugInfoType = TransactionDebugInfo::class;
   protected $txnDebugInfoDataType = '';
-  public $txnDebugInfo;
   /**
    * @var string
    */

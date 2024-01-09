@@ -22,7 +22,6 @@ class ModifyColumnFamiliesRequest extends \Google\Collection
   protected $collection_key = 'modifications';
   protected $modificationsType = Modification::class;
   protected $modificationsDataType = 'array';
-  public $modifications;
 
   /**
    * @param Modification[]

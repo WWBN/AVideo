@@ -21,7 +21,6 @@ class SecurityPoliciesWafConfig extends \Google\Model
 {
   protected $wafRulesType = PreconfiguredWafSet::class;
   protected $wafRulesDataType = '';
-  public $wafRules;
 
   /**
    * @param PreconfiguredWafSet

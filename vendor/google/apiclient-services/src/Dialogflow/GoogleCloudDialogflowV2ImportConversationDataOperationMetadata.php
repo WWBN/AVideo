@@ -30,7 +30,6 @@ class GoogleCloudDialogflowV2ImportConversationDataOperationMetadata extends \Go
   public $createTime;
   protected $partialFailuresType = GoogleRpcStatus::class;
   protected $partialFailuresDataType = 'array';
-  public $partialFailures;
 
   /**
    * @param string

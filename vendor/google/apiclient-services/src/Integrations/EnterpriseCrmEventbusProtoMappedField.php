@@ -21,10 +21,8 @@ class EnterpriseCrmEventbusProtoMappedField extends \Google\Model
 {
   protected $inputFieldType = EnterpriseCrmEventbusProtoField::class;
   protected $inputFieldDataType = '';
-  public $inputField;
   protected $outputFieldType = EnterpriseCrmEventbusProtoField::class;
   protected $outputFieldDataType = '';
-  public $outputField;
 
   /**
    * @param EnterpriseCrmEventbusProtoField

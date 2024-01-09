@@ -26,7 +26,6 @@ class GetCustomerSearchApplicationStatsResponse extends \Google\Collection
   public $averageSearchApplicationCount;
   protected $statsType = CustomerSearchApplicationStats::class;
   protected $statsDataType = 'array';
-  public $stats;
 
   /**
    * @param string

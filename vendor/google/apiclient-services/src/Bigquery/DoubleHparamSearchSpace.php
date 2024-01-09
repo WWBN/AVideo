@@ -21,10 +21,8 @@ class DoubleHparamSearchSpace extends \Google\Model
 {
   protected $candidatesType = DoubleCandidates::class;
   protected $candidatesDataType = '';
-  public $candidates;
   protected $rangeType = DoubleRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param DoubleCandidates

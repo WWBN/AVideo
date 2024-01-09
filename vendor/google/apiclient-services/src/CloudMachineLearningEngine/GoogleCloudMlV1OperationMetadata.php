@@ -53,7 +53,6 @@ class GoogleCloudMlV1OperationMetadata extends \Google\Model
   public $startTime;
   protected $versionType = GoogleCloudMlV1Version::class;
   protected $versionDataType = '';
-  public $version;
 
   /**
    * @param string

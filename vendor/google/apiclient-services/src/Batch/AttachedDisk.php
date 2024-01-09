@@ -29,7 +29,6 @@ class AttachedDisk extends \Google\Model
   public $existingDisk;
   protected $newDiskType = Disk::class;
   protected $newDiskDataType = '';
-  public $newDisk;
 
   /**
    * @param string

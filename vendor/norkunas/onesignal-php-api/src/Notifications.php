@@ -42,7 +42,8 @@ class Notifications extends AbstractApi
      *
      * @param int $limit  How many notifications to return (max 50)
      * @param int $offset Results offset (results are sorted by ID)
-     * @param int $kind   Kind of notifications returned. Default (not set) is all notification types
+     *
+     * @phpstan-param int $kind   Kind of notifications returned. Default (not set) is all notification types
      */
     public function getAll(int $limit = null, int $offset = null/* , int $kind = null */): array
     {

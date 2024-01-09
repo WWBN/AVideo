@@ -22,14 +22,12 @@ class FreebasePropertyValue extends \Google\Collection
   protected $collection_key = 'value';
   protected $propertyType = FreebaseId::class;
   protected $propertyDataType = '';
-  public $property;
   /**
    * @var string
    */
   public $totalValueCount;
   protected $valueType = FreebaseValue::class;
   protected $valueDataType = 'array';
-  public $value;
   /**
    * @var string
    */

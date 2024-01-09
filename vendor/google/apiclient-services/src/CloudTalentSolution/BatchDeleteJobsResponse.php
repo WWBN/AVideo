@@ -22,7 +22,6 @@ class BatchDeleteJobsResponse extends \Google\Collection
   protected $collection_key = 'jobResults';
   protected $jobResultsType = JobResult::class;
   protected $jobResultsDataType = 'array';
-  public $jobResults;
 
   /**
    * @param JobResult[]

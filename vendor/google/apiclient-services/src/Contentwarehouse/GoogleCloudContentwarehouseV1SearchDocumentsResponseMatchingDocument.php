@@ -21,10 +21,8 @@ class GoogleCloudContentwarehouseV1SearchDocumentsResponseMatchingDocument exten
 {
   protected $documentType = GoogleCloudContentwarehouseV1Document::class;
   protected $documentDataType = '';
-  public $document;
   protected $qaResultType = GoogleCloudContentwarehouseV1QAResult::class;
   protected $qaResultDataType = '';
-  public $qaResult;
   /**
    * @var string
    */

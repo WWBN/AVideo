@@ -22,7 +22,7 @@ class ReportInstanceInfoRequest extends \Google\Model
   /**
    * @var string[]
    */
-  public $metadata;
+  public $metadata = [];
   /**
    * @var string
    */

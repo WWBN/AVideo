@@ -22,7 +22,6 @@ class DimensionFilterClause extends \Google\Collection
   protected $collection_key = 'filters';
   protected $filtersType = DimensionFilter::class;
   protected $filtersDataType = 'array';
-  public $filters;
   /**
    * @var string
    */

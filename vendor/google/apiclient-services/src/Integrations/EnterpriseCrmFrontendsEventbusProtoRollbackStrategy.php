@@ -22,7 +22,6 @@ class EnterpriseCrmFrontendsEventbusProtoRollbackStrategy extends \Google\Collec
   protected $collection_key = 'taskNumbersToRollback';
   protected $parametersType = EnterpriseCrmFrontendsEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
-  public $parameters;
   /**
    * @var string
    */

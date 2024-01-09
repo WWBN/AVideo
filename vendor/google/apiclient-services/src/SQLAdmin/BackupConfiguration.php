@@ -21,7 +21,6 @@ class BackupConfiguration extends \Google\Model
 {
   protected $backupRetentionSettingsType = BackupRetentionSettings::class;
   protected $backupRetentionSettingsDataType = '';
-  public $backupRetentionSettings;
   /**
    * @var bool
    */

@@ -38,7 +38,6 @@ class DataSourceParameter extends \Google\Collection
   public $displayName;
   protected $fieldsType = DataSourceParameter::class;
   protected $fieldsDataType = 'array';
-  public $fields;
   /**
    * @var bool
    */

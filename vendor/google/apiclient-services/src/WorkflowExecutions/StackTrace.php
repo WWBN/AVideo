@@ -22,7 +22,6 @@ class StackTrace extends \Google\Collection
   protected $collection_key = 'elements';
   protected $elementsType = StackTraceElement::class;
   protected $elementsDataType = 'array';
-  public $elements;
 
   /**
    * @param StackTraceElement[]

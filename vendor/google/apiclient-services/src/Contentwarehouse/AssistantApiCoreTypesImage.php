@@ -29,7 +29,6 @@ class AssistantApiCoreTypesImage extends \Google\Model
   public $appIconIdentifier;
   protected $badgeImageType = AssistantApiCoreTypesImage::class;
   protected $badgeImageDataType = '';
-  public $badgeImage;
   /**
    * @var string
    */

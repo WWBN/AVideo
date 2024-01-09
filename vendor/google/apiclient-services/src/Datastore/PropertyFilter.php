@@ -25,10 +25,8 @@ class PropertyFilter extends \Google\Model
   public $op;
   protected $propertyType = PropertyReference::class;
   protected $propertyDataType = '';
-  public $property;
   protected $valueType = Value::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param string

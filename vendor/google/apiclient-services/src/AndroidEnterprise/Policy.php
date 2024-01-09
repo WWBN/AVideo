@@ -30,14 +30,12 @@ class Policy extends \Google\Collection
   public $deviceReportPolicy;
   protected $maintenanceWindowType = MaintenanceWindow::class;
   protected $maintenanceWindowDataType = '';
-  public $maintenanceWindow;
   /**
    * @var string
    */
   public $productAvailabilityPolicy;
   protected $productPolicyType = ProductPolicy::class;
   protected $productPolicyDataType = 'array';
-  public $productPolicy;
 
   /**
    * @param string

@@ -26,7 +26,6 @@ class RouteList extends \Google\Collection
   public $id;
   protected $itemsType = Route::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class RouteList extends \Google\Collection
   public $selfLink;
   protected $warningType = RouteListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

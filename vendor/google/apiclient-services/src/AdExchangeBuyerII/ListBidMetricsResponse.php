@@ -22,7 +22,6 @@ class ListBidMetricsResponse extends \Google\Collection
   protected $collection_key = 'bidMetricsRows';
   protected $bidMetricsRowsType = BidMetricsRow::class;
   protected $bidMetricsRowsDataType = 'array';
-  public $bidMetricsRows;
   /**
    * @var string
    */

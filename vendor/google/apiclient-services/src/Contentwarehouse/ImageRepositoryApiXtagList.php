@@ -22,7 +22,6 @@ class ImageRepositoryApiXtagList extends \Google\Collection
   protected $collection_key = 'xtags';
   protected $xtagsType = ImageRepositoryApiXtag::class;
   protected $xtagsDataType = 'array';
-  public $xtags;
 
   /**
    * @param ImageRepositoryApiXtag[]

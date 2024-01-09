@@ -49,7 +49,6 @@ class RepositoryWebrefPerDocRelevanceRating extends \Google\Model
   public $raterCanUnderstandTopic;
   protected $taskDetailsType = RepositoryWebrefTaskDetails::class;
   protected $taskDetailsDataType = '';
-  public $taskDetails;
   /**
    * @var string
    */

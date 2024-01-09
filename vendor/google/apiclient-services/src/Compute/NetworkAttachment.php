@@ -22,7 +22,6 @@ class NetworkAttachment extends \Google\Collection
   protected $collection_key = 'subnetworks';
   protected $connectionEndpointsType = NetworkAttachmentConnectedEndpoint::class;
   protected $connectionEndpointsDataType = 'array';
-  public $connectionEndpoints;
   /**
    * @var string
    */

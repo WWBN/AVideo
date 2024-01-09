@@ -21,7 +21,6 @@ class ClickTag extends \Google\Model
 {
   protected $clickThroughUrlType = CreativeClickThroughUrl::class;
   protected $clickThroughUrlDataType = '';
-  public $clickThroughUrl;
   /**
    * @var string
    */

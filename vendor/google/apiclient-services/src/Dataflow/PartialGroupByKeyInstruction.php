@@ -22,7 +22,6 @@ class PartialGroupByKeyInstruction extends \Google\Collection
   protected $collection_key = 'sideInputs';
   protected $inputType = InstructionInput::class;
   protected $inputDataType = '';
-  public $input;
   /**
    * @var array[]
    */
@@ -37,7 +36,6 @@ class PartialGroupByKeyInstruction extends \Google\Collection
   public $originalCombineValuesStepName;
   protected $sideInputsType = SideInputInfo::class;
   protected $sideInputsDataType = 'array';
-  public $sideInputs;
   /**
    * @var array[]
    */

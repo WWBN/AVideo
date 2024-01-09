@@ -25,7 +25,6 @@ class CreateRowRequest extends \Google\Model
   public $parent;
   protected $rowType = Row::class;
   protected $rowDataType = '';
-  public $row;
   /**
    * @var string
    */

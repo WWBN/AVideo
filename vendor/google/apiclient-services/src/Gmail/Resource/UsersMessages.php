@@ -103,8 +103,7 @@ class UsersMessages extends \Google\Service\Resource
    * scanning and classification similar to receiving via SMTP. This method
    * doesn't perform SPF checks, so it might not work for some spam messages, such
    * as those attempting to perform domain spoofing. This method does not send a
-   * message. Note: This function doesn't trigger forwarding rules or filters set
-   * up by the user. (messages.import)
+   * message. (messages.import)
    *
    * @param string $userId The user's email address. The special value `me` can be
    * used to indicate the authenticated user.
@@ -161,7 +160,10 @@ class UsersMessages extends \Google\Service\Resource
    * @opt_param bool includeSpamTrash Include messages from `SPAM` and `TRASH` in
    * the results.
    * @opt_param string labelIds Only return messages with labels that match all of
-   * the specified label IDs.
+   * the specified label IDs. Messages in a thread might have labels that other
+   * messages in the same thread don't have. To learn more, see [Manage labels on
+   * messages and threads](https://developers.google.com/gmail/api/guides/labels#m
+   * anage_labels_on_messages_threads).
    * @opt_param string maxResults Maximum number of messages to return. This field
    * defaults to 100. The maximum allowed value for this field is 500.
    * @opt_param string pageToken Page token to retrieve a specific page of results

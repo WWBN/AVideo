@@ -19,8 +19,6 @@ namespace Google\Service\SA360\Resource;
 
 use Google\Service\SA360\GoogleAdsSearchads360V0ServicesSearchSearchAds360Request;
 use Google\Service\SA360\GoogleAdsSearchads360V0ServicesSearchSearchAds360Response;
-use Google\Service\SA360\GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamRequest;
-use Google\Service\SA360\GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamResponse;
 
 /**
  * The "searchAds360" collection of methods.
@@ -48,23 +46,6 @@ class CustomersSearchAds360 extends \Google\Service\Resource
     $params = ['customerId' => $customerId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('search', [$params], GoogleAdsSearchads360V0ServicesSearchSearchAds360Response::class);
-  }
-  /**
-   * Returns all rows that match the search stream query. List of thrown errors:
-   * [AuthenticationError]() [AuthorizationError]() [HeaderError]()
-   * [InternalError]() [QueryError]() [QuotaError]() [RequestError]()
-   * (searchAds360.searchStream)
-   *
-   * @param string $customerId Required. The ID of the customer being queried.
-   * @param GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamResponse
-   */
-  public function searchStream($customerId, GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamRequest $postBody, $optParams = [])
-  {
-    $params = ['customerId' => $customerId, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('searchStream', [$params], GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamResponse::class);
   }
 }
 

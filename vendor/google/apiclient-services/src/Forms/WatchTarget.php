@@ -21,7 +21,6 @@ class WatchTarget extends \Google\Model
 {
   protected $topicType = CloudPubsubTopic::class;
   protected $topicDataType = '';
-  public $topic;
 
   /**
    * @param CloudPubsubTopic

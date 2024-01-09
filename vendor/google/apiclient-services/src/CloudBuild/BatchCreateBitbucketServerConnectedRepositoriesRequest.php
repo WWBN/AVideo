@@ -22,7 +22,6 @@ class BatchCreateBitbucketServerConnectedRepositoriesRequest extends \Google\Col
   protected $collection_key = 'requests';
   protected $requestsType = CreateBitbucketServerConnectedRepositoryRequest::class;
   protected $requestsDataType = 'array';
-  public $requests;
 
   /**
    * @param CreateBitbucketServerConnectedRepositoryRequest[]

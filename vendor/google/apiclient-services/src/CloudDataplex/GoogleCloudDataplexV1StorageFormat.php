@@ -25,17 +25,14 @@ class GoogleCloudDataplexV1StorageFormat extends \Google\Model
   public $compressionFormat;
   protected $csvType = GoogleCloudDataplexV1StorageFormatCsvOptions::class;
   protected $csvDataType = '';
-  public $csv;
   /**
    * @var string
    */
   public $format;
   protected $icebergType = GoogleCloudDataplexV1StorageFormatIcebergOptions::class;
   protected $icebergDataType = '';
-  public $iceberg;
   protected $jsonType = GoogleCloudDataplexV1StorageFormatJsonOptions::class;
   protected $jsonDataType = '';
-  public $json;
   /**
    * @var string
    */

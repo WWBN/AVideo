@@ -21,7 +21,6 @@ class GoogleCloudDocumentaiV1DeployProcessorVersionMetadata extends \Google\Mode
 {
   protected $commonMetadataType = GoogleCloudDocumentaiV1CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
-  public $commonMetadata;
 
   /**
    * @param GoogleCloudDocumentaiV1CommonOperationMetadata

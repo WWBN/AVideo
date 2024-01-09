@@ -22,7 +22,6 @@ class CrawlerChangerateMultipleComponentDistribution extends \Google\Collection
   protected $collection_key = 'components';
   protected $componentsType = CrawlerChangerateSingleComponentDistribution::class;
   protected $componentsDataType = 'array';
-  public $components;
 
   /**
    * @param CrawlerChangerateSingleComponentDistribution[]

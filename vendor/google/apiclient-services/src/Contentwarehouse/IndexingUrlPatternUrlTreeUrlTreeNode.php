@@ -41,10 +41,8 @@ class IndexingUrlPatternUrlTreeUrlTreeNode extends \Google\Model
   public $patternId;
   protected $payloadType = Proto2BridgeMessageSet::class;
   protected $payloadDataType = '';
-  public $payload;
   protected $splittingFeatureType = IndexingUrlPatternUrlTreeUrlFeature::class;
   protected $splittingFeatureDataType = '';
-  public $splittingFeature;
   public $splittingFeatureScore;
 
   /**

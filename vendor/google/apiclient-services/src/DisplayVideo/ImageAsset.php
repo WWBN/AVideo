@@ -25,7 +25,6 @@ class ImageAsset extends \Google\Model
   public $fileSize;
   protected $fullSizeType = Dimensions::class;
   protected $fullSizeDataType = '';
-  public $fullSize;
   /**
    * @var string
    */

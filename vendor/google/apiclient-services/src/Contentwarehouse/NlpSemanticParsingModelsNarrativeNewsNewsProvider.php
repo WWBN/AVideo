@@ -21,10 +21,8 @@ class NlpSemanticParsingModelsNarrativeNewsNewsProvider extends \Google\Model
 {
   protected $dataType = QualityActionsNewsProviderAnnotationData::class;
   protected $dataDataType = '';
-  public $data;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   /**
    * @var string
    */

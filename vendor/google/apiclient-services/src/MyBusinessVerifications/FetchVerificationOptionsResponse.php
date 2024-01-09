@@ -22,7 +22,6 @@ class FetchVerificationOptionsResponse extends \Google\Collection
   protected $collection_key = 'options';
   protected $optionsType = VerificationOption::class;
   protected $optionsDataType = 'array';
-  public $options;
 
   /**
    * @param VerificationOption[]

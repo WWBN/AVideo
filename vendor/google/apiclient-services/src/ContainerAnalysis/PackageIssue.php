@@ -30,14 +30,12 @@ class PackageIssue extends \Google\Collection
   public $affectedPackage;
   protected $affectedVersionType = Version::class;
   protected $affectedVersionDataType = '';
-  public $affectedVersion;
   /**
    * @var string
    */
   public $effectiveSeverity;
   protected $fileLocationType = GrafeasV1FileLocation::class;
   protected $fileLocationDataType = 'array';
-  public $fileLocation;
   /**
    * @var bool
    */
@@ -52,7 +50,6 @@ class PackageIssue extends \Google\Collection
   public $fixedPackage;
   protected $fixedVersionType = Version::class;
   protected $fixedVersionDataType = '';
-  public $fixedVersion;
   /**
    * @var string
    */

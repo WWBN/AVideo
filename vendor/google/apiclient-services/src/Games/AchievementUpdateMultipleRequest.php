@@ -26,7 +26,6 @@ class AchievementUpdateMultipleRequest extends \Google\Collection
   public $kind;
   protected $updatesType = AchievementUpdateRequest::class;
   protected $updatesDataType = 'array';
-  public $updates;
 
   /**
    * @param string

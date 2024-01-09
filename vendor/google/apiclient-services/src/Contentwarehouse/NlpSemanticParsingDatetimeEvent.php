@@ -25,7 +25,6 @@ class NlpSemanticParsingDatetimeEvent extends \Google\Model
   public $holiday;
   protected $moonEventType = NlpSemanticParsingDatetimeMoonEventInfo::class;
   protected $moonEventDataType = '';
-  public $moonEvent;
   /**
    * @var string
    */

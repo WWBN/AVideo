@@ -22,7 +22,6 @@ class TransformSummary extends \Google\Collection
   protected $collection_key = 'outputCollectionName';
   protected $displayDataType = DisplayData::class;
   protected $displayDataDataType = 'array';
-  public $displayData;
   /**
    * @var string
    */

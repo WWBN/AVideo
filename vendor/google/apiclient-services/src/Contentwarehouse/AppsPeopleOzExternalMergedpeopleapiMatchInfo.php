@@ -22,7 +22,6 @@ class AppsPeopleOzExternalMergedpeopleapiMatchInfo extends \Google\Collection
   protected $collection_key = 'match';
   protected $matchType = AppsPeopleOzExternalMergedpeopleapiMatchInfoLookupTokenMatch::class;
   protected $matchDataType = 'array';
-  public $match;
   /**
    * @var string
    */

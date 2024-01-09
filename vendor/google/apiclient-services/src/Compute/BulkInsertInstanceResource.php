@@ -25,10 +25,8 @@ class BulkInsertInstanceResource extends \Google\Model
   public $count;
   protected $instancePropertiesType = InstanceProperties::class;
   protected $instancePropertiesDataType = '';
-  public $instanceProperties;
   protected $locationPolicyType = LocationPolicy::class;
   protected $locationPolicyDataType = '';
-  public $locationPolicy;
   /**
    * @var string
    */
@@ -39,7 +37,6 @@ class BulkInsertInstanceResource extends \Google\Model
   public $namePattern;
   protected $perInstancePropertiesType = BulkInsertInstanceResourcePerInstanceProperties::class;
   protected $perInstancePropertiesDataType = 'map';
-  public $perInstanceProperties;
   /**
    * @var string
    */

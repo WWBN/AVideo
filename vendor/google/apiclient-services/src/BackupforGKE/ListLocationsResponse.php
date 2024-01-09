@@ -22,7 +22,6 @@ class ListLocationsResponse extends \Google\Collection
   protected $collection_key = 'locations';
   protected $locationsType = Location::class;
   protected $locationsDataType = 'array';
-  public $locations;
   /**
    * @var string
    */

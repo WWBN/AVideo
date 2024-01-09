@@ -21,7 +21,6 @@ class AffectedMembership extends \Google\Model
 {
   protected $affectedMemberType = MemberId::class;
   protected $affectedMemberDataType = '';
-  public $affectedMember;
   /**
    * @var string
    */

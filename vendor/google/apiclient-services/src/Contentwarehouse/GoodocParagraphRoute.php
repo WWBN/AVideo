@@ -28,17 +28,14 @@ class GoodocParagraphRoute extends \Google\Collection
   ];
   protected $endPointType = GoodocRoutePoint::class;
   protected $endPointDataType = '';
-  public $endPoint;
   protected $startPointType = GoodocRoutePoint::class;
   protected $startPointDataType = '';
-  public $startPoint;
   /**
    * @var int
    */
   public $weight;
   protected $wordType = GoodocWord::class;
   protected $wordDataType = 'array';
-  public $word;
 
   /**
    * @param GoodocRoutePoint

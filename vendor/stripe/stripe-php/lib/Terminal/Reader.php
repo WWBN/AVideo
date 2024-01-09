@@ -7,9 +7,7 @@ namespace Stripe\Terminal;
 /**
  * A Reader represents a physical device for accepting payment details.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/terminal/payments/connect-reader">Connecting to a
- * Reader</a>.
+ * Related guide: <a href="https://stripe.com/docs/terminal/payments/connect-reader">Connecting to a reader</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -33,6 +31,13 @@ class Reader extends \Stripe\ApiResource
     use \Stripe\ApiOperations\Delete;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+
+    const DEVICE_TYPE_BBPOS_CHIPPER2X = 'bbpos_chipper2x';
+    const DEVICE_TYPE_BBPOS_WISEPAD3 = 'bbpos_wisepad3';
+    const DEVICE_TYPE_BBPOS_WISEPOS_E = 'bbpos_wisepos_e';
+    const DEVICE_TYPE_SIMULATED_WISEPOS_E = 'simulated_wisepos_e';
+    const DEVICE_TYPE_STRIPE_M2 = 'stripe_m2';
+    const DEVICE_TYPE_VERIFONE_P400 = 'verifone_P400';
 
     /**
      * @param null|array $params

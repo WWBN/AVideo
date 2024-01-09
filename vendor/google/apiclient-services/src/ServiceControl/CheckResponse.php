@@ -25,7 +25,6 @@ class CheckResponse extends \Google\Model
   public $headers;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param string[]

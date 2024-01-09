@@ -21,7 +21,6 @@ class GoogleCloudIntegrationsV1alphaUploadIntegrationVersionResponse extends \Go
 {
   protected $integrationVersionType = GoogleCloudIntegrationsV1alphaIntegrationVersion::class;
   protected $integrationVersionDataType = '';
-  public $integrationVersion;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaIntegrationVersion

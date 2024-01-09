@@ -21,7 +21,6 @@ class TableListTables extends \Google\Model
 {
   protected $clusteringType = Clustering::class;
   protected $clusteringDataType = '';
-  public $clustering;
   /**
    * @var string
    */
@@ -48,20 +47,16 @@ class TableListTables extends \Google\Model
   public $labels;
   protected $rangePartitioningType = RangePartitioning::class;
   protected $rangePartitioningDataType = '';
-  public $rangePartitioning;
   protected $tableReferenceType = TableReference::class;
   protected $tableReferenceDataType = '';
-  public $tableReference;
   protected $timePartitioningType = TimePartitioning::class;
   protected $timePartitioningDataType = '';
-  public $timePartitioning;
   /**
    * @var string
    */
   public $type;
   protected $viewType = TableListTablesView::class;
   protected $viewDataType = '';
-  public $view;
 
   /**
    * @param Clustering

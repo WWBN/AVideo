@@ -45,7 +45,7 @@ class ProjectsLocationsTriggers extends \Google\Service\Resource
    *
    * @opt_param string triggerId Required. The user-provided ID to be assigned to
    * the trigger.
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */
@@ -65,7 +65,7 @@ class ProjectsLocationsTriggers extends \Google\Service\Resource
    * the request will succeed but no action will be taken on the server.
    * @opt_param string etag If provided, the trigger will only be deleted if the
    * etag matches the current etag on the resource.
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */
@@ -160,7 +160,7 @@ class ProjectsLocationsTriggers extends \Google\Service\Resource
    * @opt_param string updateMask The fields to be updated; only fields explicitly
    * provided are updated. If no field mask is provided, all provided fields in
    * the request are updated. To update all fields, provide a field mask of "*".
-   * @opt_param bool validateOnly Required. If set, validate the request and
+   * @opt_param bool validateOnly Optional. If set, validate the request and
    * preview the review, but do not post it.
    * @return GoogleLongrunningOperation
    */

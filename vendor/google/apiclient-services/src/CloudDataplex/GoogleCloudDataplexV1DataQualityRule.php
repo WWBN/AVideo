@@ -33,29 +33,21 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   public $ignoreNull;
   protected $nonNullExpectationType = GoogleCloudDataplexV1DataQualityRuleNonNullExpectation::class;
   protected $nonNullExpectationDataType = '';
-  public $nonNullExpectation;
   protected $rangeExpectationType = GoogleCloudDataplexV1DataQualityRuleRangeExpectation::class;
   protected $rangeExpectationDataType = '';
-  public $rangeExpectation;
   protected $regexExpectationType = GoogleCloudDataplexV1DataQualityRuleRegexExpectation::class;
   protected $regexExpectationDataType = '';
-  public $regexExpectation;
   protected $rowConditionExpectationType = GoogleCloudDataplexV1DataQualityRuleRowConditionExpectation::class;
   protected $rowConditionExpectationDataType = '';
-  public $rowConditionExpectation;
   protected $setExpectationType = GoogleCloudDataplexV1DataQualityRuleSetExpectation::class;
   protected $setExpectationDataType = '';
-  public $setExpectation;
   protected $statisticRangeExpectationType = GoogleCloudDataplexV1DataQualityRuleStatisticRangeExpectation::class;
   protected $statisticRangeExpectationDataType = '';
-  public $statisticRangeExpectation;
   protected $tableConditionExpectationType = GoogleCloudDataplexV1DataQualityRuleTableConditionExpectation::class;
   protected $tableConditionExpectationDataType = '';
-  public $tableConditionExpectation;
   public $threshold;
   protected $uniquenessExpectationType = GoogleCloudDataplexV1DataQualityRuleUniquenessExpectation::class;
   protected $uniquenessExpectationDataType = '';
-  public $uniquenessExpectation;
 
   /**
    * @param string

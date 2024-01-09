@@ -21,7 +21,6 @@ class SocialGraphApiProtoDecorationOverlay extends \Google\Model
 {
   protected $overlayType = SocialGraphApiProtoPhotoOverlay::class;
   protected $overlayDataType = '';
-  public $overlay;
   /**
    * @var string
    */

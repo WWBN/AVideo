@@ -26,7 +26,6 @@ class GoodocSummaryStats extends \Google\Collection
   public $estimatedFontSizes;
   protected $fontSizeHistogramType = GoodocFontSizeStats::class;
   protected $fontSizeHistogramDataType = 'array';
-  public $fontSizeHistogram;
   /**
    * @var int
    */
@@ -61,16 +60,12 @@ class GoodocSummaryStats extends \Google\Collection
   public $medianBlockSpace;
   protected $medianEvenPrintedBoxType = GoodocBoundingBox::class;
   protected $medianEvenPrintedBoxDataType = '';
-  public $medianEvenPrintedBox;
   protected $medianFullEvenPrintedBoxType = GoodocBoundingBox::class;
   protected $medianFullEvenPrintedBoxDataType = '';
-  public $medianFullEvenPrintedBox;
   protected $medianFullOddPrintedBoxType = GoodocBoundingBox::class;
   protected $medianFullOddPrintedBoxDataType = '';
-  public $medianFullOddPrintedBox;
   protected $medianFullPrintedBoxType = GoodocBoundingBox::class;
   protected $medianFullPrintedBoxDataType = '';
-  public $medianFullPrintedBox;
   /**
    * @var int
    */
@@ -93,7 +88,6 @@ class GoodocSummaryStats extends \Google\Collection
   public $medianLineSpan;
   protected $medianOddPrintedBoxType = GoodocBoundingBox::class;
   protected $medianOddPrintedBoxDataType = '';
-  public $medianOddPrintedBox;
   /**
    * @var int
    */
@@ -104,7 +98,6 @@ class GoodocSummaryStats extends \Google\Collection
   public $medianParagraphSpace;
   protected $medianPrintedBoxType = GoodocBoundingBox::class;
   protected $medianPrintedBoxDataType = '';
-  public $medianPrintedBox;
   /**
    * @var int
    */

@@ -21,10 +21,8 @@ class PlacementTargeting extends \Google\Model
 {
   protected $mobileApplicationTargetingType = MobileApplicationTargeting::class;
   protected $mobileApplicationTargetingDataType = '';
-  public $mobileApplicationTargeting;
   protected $uriTargetingType = UriTargeting::class;
   protected $uriTargetingDataType = '';
-  public $uriTargeting;
 
   /**
    * @param MobileApplicationTargeting

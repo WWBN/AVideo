@@ -22,7 +22,6 @@ class ValidationResult extends \Google\Collection
   protected $collection_key = 'validations';
   protected $validationsType = Validation::class;
   protected $validationsDataType = 'array';
-  public $validations;
 
   /**
    * @param Validation[]

@@ -26,7 +26,6 @@ class Notice extends \Google\Collection
   public $description;
   protected $linksType = Link::class;
   protected $linksDataType = 'array';
-  public $links;
   /**
    * @var string
    */

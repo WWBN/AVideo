@@ -21,7 +21,6 @@ class NlpSemanticParsingModelsShoppingAssistantProductPhrase extends \Google\Mod
 {
   protected $metadataType = NlpSemanticParsingModelsShoppingAssistantProduct::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class AppsDynamiteSharedJustificationPerson extends \Google\Model
   public $isRecipient;
   protected $userType = UserId::class;
   protected $userDataType = '';
-  public $user;
 
   /**
    * @param bool

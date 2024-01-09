@@ -38,7 +38,6 @@ class Asset extends \Google\Collection
   public $displayName;
   protected $formatsType = Format::class;
   protected $formatsDataType = 'array';
-  public $formats;
   /**
    * @var bool
    */
@@ -57,13 +56,10 @@ class Asset extends \Google\Collection
   public $name;
   protected $presentationParamsType = PresentationParams::class;
   protected $presentationParamsDataType = '';
-  public $presentationParams;
   protected $remixInfoType = RemixInfo::class;
   protected $remixInfoDataType = '';
-  public $remixInfo;
   protected $thumbnailType = PolyFile::class;
   protected $thumbnailDataType = '';
-  public $thumbnail;
   /**
    * @var string
    */

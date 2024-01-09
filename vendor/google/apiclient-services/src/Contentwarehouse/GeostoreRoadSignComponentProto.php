@@ -21,7 +21,6 @@ class GeostoreRoadSignComponentProto extends \Google\Model
 {
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
-  public $featureId;
   /**
    * @var int
    */
@@ -40,7 +39,6 @@ class GeostoreRoadSignComponentProto extends \Google\Model
   public $routeDirection;
   protected $textType = GeostoreNameProto::class;
   protected $textDataType = '';
-  public $text;
   /**
    * @var string
    */

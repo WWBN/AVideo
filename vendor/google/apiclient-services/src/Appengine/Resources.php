@@ -29,7 +29,6 @@ class Resources extends \Google\Collection
   public $memoryGb;
   protected $volumesType = Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
 
   public function setCpu($cpu)
   {

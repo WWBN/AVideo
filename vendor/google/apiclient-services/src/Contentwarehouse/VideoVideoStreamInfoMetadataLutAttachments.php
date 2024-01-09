@@ -22,7 +22,6 @@ class VideoVideoStreamInfoMetadataLutAttachments extends \Google\Collection
   protected $collection_key = 'lut';
   protected $lutType = VideoVideoStreamInfoMetadataLutAttachmentsLut3D::class;
   protected $lutDataType = 'array';
-  public $lut;
 
   /**
    * @param VideoVideoStreamInfoMetadataLutAttachmentsLut3D[]

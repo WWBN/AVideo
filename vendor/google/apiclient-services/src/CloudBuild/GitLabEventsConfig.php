@@ -21,7 +21,6 @@ class GitLabEventsConfig extends \Google\Model
 {
   protected $gitlabConfigType = GitLabConfig::class;
   protected $gitlabConfigDataType = '';
-  public $gitlabConfig;
   /**
    * @var string
    */
@@ -32,10 +31,8 @@ class GitLabEventsConfig extends \Google\Model
   public $projectNamespace;
   protected $pullRequestType = PullRequestFilter::class;
   protected $pullRequestDataType = '';
-  public $pullRequest;
   protected $pushType = PushFilter::class;
   protected $pushDataType = '';
-  public $push;
 
   /**
    * @param GitLabConfig

@@ -20,6 +20,8 @@ namespace Google\Service\CloudSearch;
 class Presenter extends \Google\Collection
 {
   protected $collection_key = 'copresenterDeviceIds';
+  protected $annotationInfoType = AnnotationInfo::class;
+  protected $annotationInfoDataType = '';
   /**
    * @var string
    */
@@ -33,6 +35,20 @@ class Presenter extends \Google\Collection
    */
   public $presenterDeviceId;
 
+  /**
+   * @param AnnotationInfo
+   */
+  public function setAnnotationInfo(AnnotationInfo $annotationInfo)
+  {
+    $this->annotationInfo = $annotationInfo;
+  }
+  /**
+   * @return AnnotationInfo
+   */
+  public function getAnnotationInfo()
+  {
+    return $this->annotationInfo;
+  }
   /**
    * @param string
    */

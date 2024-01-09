@@ -21,10 +21,8 @@ class GoogleIdentityAccesscontextmanagerV1AccessLevel extends \Google\Model
 {
   protected $basicType = GoogleIdentityAccesscontextmanagerV1BasicLevel::class;
   protected $basicDataType = '';
-  public $basic;
   protected $customType = GoogleIdentityAccesscontextmanagerV1CustomLevel::class;
   protected $customDataType = '';
-  public $custom;
   /**
    * @var string
    */

@@ -29,7 +29,6 @@ class AppsPeopleOzExternalMergedpeopleapiName extends \Google\Model
   public $displayNameLastFirst;
   protected $displayNameSourceType = SocialGraphApiProtoDisplayNameSource::class;
   protected $displayNameSourceDataType = '';
-  public $displayNameSource;
   /**
    * @var string
    */
@@ -52,14 +51,12 @@ class AppsPeopleOzExternalMergedpeopleapiName extends \Google\Model
   public $honorificSuffix;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $middleName;
   protected $pronunciationsType = SocialGraphApiProtoPronunciations::class;
   protected $pronunciationsDataType = '';
-  public $pronunciations;
   /**
    * @var string
    */

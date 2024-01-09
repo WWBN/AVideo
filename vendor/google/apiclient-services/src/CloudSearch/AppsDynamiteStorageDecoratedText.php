@@ -25,22 +25,16 @@ class AppsDynamiteStorageDecoratedText extends \Google\Model
   public $bottomLabel;
   protected $buttonType = AppsDynamiteStorageButton::class;
   protected $buttonDataType = '';
-  public $button;
   protected $endIconType = AppsDynamiteStorageIcon::class;
   protected $endIconDataType = '';
-  public $endIcon;
   protected $iconType = AppsDynamiteStorageIcon::class;
   protected $iconDataType = '';
-  public $icon;
   protected $onClickType = AppsDynamiteStorageOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   protected $startIconType = AppsDynamiteStorageIcon::class;
   protected $startIconDataType = '';
-  public $startIcon;
   protected $switchControlType = AppsDynamiteStorageDecoratedTextSwitchControl::class;
   protected $switchControlDataType = '';
-  public $switchControl;
   /**
    * @var string
    */

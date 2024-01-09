@@ -26,7 +26,14 @@ class CustomClass extends \Google\Collection
   public $customClassId;
   protected $itemsType = ClassItem::class;
   protected $itemsDataType = 'array';
-  public $items;
+  /**
+   * @var string
+   */
+  public $kmsKeyName;
+  /**
+   * @var string
+   */
+  public $kmsKeyVersionName;
   /**
    * @var string
    */
@@ -59,6 +66,34 @@ class CustomClass extends \Google\Collection
   public function getItems()
   {
     return $this->items;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyName($kmsKeyName)
+  {
+    $this->kmsKeyName = $kmsKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyName()
+  {
+    return $this->kmsKeyName;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyVersionName($kmsKeyVersionName)
+  {
+    $this->kmsKeyVersionName = $kmsKeyVersionName;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyVersionName()
+  {
+    return $this->kmsKeyVersionName;
   }
   /**
    * @param string

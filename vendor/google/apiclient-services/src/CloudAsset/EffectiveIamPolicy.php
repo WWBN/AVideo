@@ -26,7 +26,6 @@ class EffectiveIamPolicy extends \Google\Collection
   public $fullResourceName;
   protected $policiesType = PolicyInfo::class;
   protected $policiesDataType = 'array';
-  public $policies;
 
   /**
    * @param string

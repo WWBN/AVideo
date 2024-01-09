@@ -25,7 +25,6 @@ class Task extends \Google\Model
   public $name;
   protected $statusType = TaskStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param string

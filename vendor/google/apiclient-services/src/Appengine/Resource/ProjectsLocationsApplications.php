@@ -18,6 +18,7 @@
 namespace Google\Service\Appengine\Resource;
 
 use Google\Service\Appengine\Application;
+use Google\Service\Appengine\Operation;
 
 /**
  * The "applications" collection of methods.
@@ -29,6 +30,29 @@ use Google\Service\Appengine\Application;
  */
 class ProjectsLocationsApplications extends \Google\Service\Resource
 {
+  /**
+   * Creates an App Engine application for a Google Cloud Platform project.
+   * Required fields: id - The ID of the target Cloud Platform project. location -
+   * The region (https://cloud.google.com/appengine/docs/locations) where you want
+   * the App Engine application located.For more information about App Engine
+   * applications, see Managing Projects, Applications, and Billing
+   * (https://cloud.google.com/appengine/docs/standard/python/console/).
+   * (applications.create)
+   *
+   * @param string $projectsId Part of `parent`. The project and location in which
+   * the application should be created, specified in the format projects/locations
+   * @param string $locationsId Part of `parent`. See documentation of
+   * `projectsId`.
+   * @param Application $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function create($projectsId, $locationsId, Application $postBody, $optParams = [])
+  {
+    $params = ['projectsId' => $projectsId, 'locationsId' => $locationsId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Operation::class);
+  }
   /**
    * Gets information about an application. (applications.get)
    *

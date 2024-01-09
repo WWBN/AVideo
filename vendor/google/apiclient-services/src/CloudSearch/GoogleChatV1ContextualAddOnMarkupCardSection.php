@@ -26,7 +26,6 @@ class GoogleChatV1ContextualAddOnMarkupCardSection extends \Google\Collection
   public $header;
   protected $widgetsType = GoogleChatV1WidgetMarkup::class;
   protected $widgetsDataType = 'array';
-  public $widgets;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class ImportInstanceRequest extends \Google\Model
 {
   protected $inputConfigType = InputConfig::class;
   protected $inputConfigDataType = '';
-  public $inputConfig;
 
   /**
    * @param InputConfig

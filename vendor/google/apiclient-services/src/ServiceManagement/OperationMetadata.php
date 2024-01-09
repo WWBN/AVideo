@@ -34,7 +34,6 @@ class OperationMetadata extends \Google\Collection
   public $startTime;
   protected $stepsType = Step::class;
   protected $stepsDataType = 'array';
-  public $steps;
 
   /**
    * @param int

@@ -21,10 +21,8 @@ class GooglePrivacyDlpV2ContentItem extends \Google\Model
 {
   protected $byteItemType = GooglePrivacyDlpV2ByteContentItem::class;
   protected $byteItemDataType = '';
-  public $byteItem;
   protected $tableType = GooglePrivacyDlpV2Table::class;
   protected $tableDataType = '';
-  public $table;
   /**
    * @var string
    */

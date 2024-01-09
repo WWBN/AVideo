@@ -21,7 +21,6 @@ class ProductsApproveRequest extends \Google\Model
 {
   protected $approvalUrlInfoType = ApprovalUrlInfo::class;
   protected $approvalUrlInfoDataType = '';
-  public $approvalUrlInfo;
   /**
    * @var string
    */

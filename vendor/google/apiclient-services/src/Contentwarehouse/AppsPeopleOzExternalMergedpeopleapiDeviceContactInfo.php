@@ -22,14 +22,12 @@ class AppsPeopleOzExternalMergedpeopleapiDeviceContactInfo extends \Google\Colle
   protected $collection_key = 'rawContactInfo';
   protected $deviceContactMetadataType = AppsPeopleOzExternalMergedpeopleapiDeviceContactExtraMetadata::class;
   protected $deviceContactMetadataDataType = '';
-  public $deviceContactMetadata;
   /**
    * @var bool
    */
   public $hasCrossDeviceData;
   protected $idType = AppsPeopleOzExternalMergedpeopleapiDeviceContactId::class;
   protected $idDataType = '';
-  public $id;
   /**
    * @var string
    */
@@ -40,7 +38,6 @@ class AppsPeopleOzExternalMergedpeopleapiDeviceContactInfo extends \Google\Colle
   public $lookupKey;
   protected $rawContactInfoType = AppsPeopleOzExternalMergedpeopleapiRawDeviceContactInfo::class;
   protected $rawContactInfoDataType = 'array';
-  public $rawContactInfo;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiDeviceContactExtraMetadata

@@ -26,7 +26,6 @@ class CreativeAssetSelection extends \Google\Collection
   public $defaultAssetId;
   protected $rulesType = Rule::class;
   protected $rulesDataType = 'array';
-  public $rules;
 
   /**
    * @param string

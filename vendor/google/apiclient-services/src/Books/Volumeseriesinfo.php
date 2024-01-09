@@ -34,7 +34,6 @@ class Volumeseriesinfo extends \Google\Collection
   public $shortSeriesBookTitle;
   protected $volumeSeriesType = VolumeseriesinfoVolumeSeries::class;
   protected $volumeSeriesDataType = 'array';
-  public $volumeSeries;
 
   /**
    * @param string

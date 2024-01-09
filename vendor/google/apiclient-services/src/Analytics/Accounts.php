@@ -22,7 +22,6 @@ class Accounts extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Account::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var int
    */

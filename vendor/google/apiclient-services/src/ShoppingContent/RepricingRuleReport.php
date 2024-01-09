@@ -22,17 +22,14 @@ class RepricingRuleReport extends \Google\Collection
   protected $collection_key = 'inapplicableProducts';
   protected $buyboxWinningRuleStatsType = RepricingRuleReportBuyboxWinningRuleStats::class;
   protected $buyboxWinningRuleStatsDataType = '';
-  public $buyboxWinningRuleStats;
   protected $dateType = Date::class;
   protected $dateDataType = '';
-  public $date;
   /**
    * @var string[]
    */
   public $impactedProducts;
   protected $inapplicabilityDetailsType = InapplicabilityDetails::class;
   protected $inapplicabilityDetailsDataType = 'array';
-  public $inapplicabilityDetails;
   /**
    * @var string[]
    */
@@ -47,7 +44,6 @@ class RepricingRuleReport extends \Google\Collection
   public $ruleId;
   protected $totalGmvType = PriceAmount::class;
   protected $totalGmvDataType = '';
-  public $totalGmv;
   /**
    * @var string
    */

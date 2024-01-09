@@ -22,7 +22,6 @@ class NonSdkApiUsageViolationReport extends \Google\Collection
   protected $collection_key = 'exampleApis';
   protected $exampleApisType = NonSdkApi::class;
   protected $exampleApisDataType = 'array';
-  public $exampleApis;
   /**
    * @var int
    */

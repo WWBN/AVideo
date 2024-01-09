@@ -22,14 +22,12 @@ class MessagePart extends \Google\Collection
   protected $collection_key = 'parts';
   protected $bodyType = MessagePartBody::class;
   protected $bodyDataType = '';
-  public $body;
   /**
    * @var string
    */
   public $filename;
   protected $headersType = MessagePartHeader::class;
   protected $headersDataType = 'array';
-  public $headers;
   /**
    * @var string
    */
@@ -40,7 +38,6 @@ class MessagePart extends \Google\Collection
   public $partId;
   protected $partsType = MessagePart::class;
   protected $partsDataType = 'array';
-  public $parts;
 
   /**
    * @param MessagePartBody

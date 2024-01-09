@@ -26,7 +26,6 @@ class ListTopicResponse extends \Google\Collection
   public $nextPageToken;
   protected $topicType = Topic::class;
   protected $topicDataType = 'array';
-  public $topic;
 
   /**
    * @param string

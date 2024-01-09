@@ -19,6 +19,7 @@ namespace Google\Service\Compute\Resource;
 
 use Google\Service\Compute\Address;
 use Google\Service\Compute\AddressList;
+use Google\Service\Compute\GlobalAddressesMoveRequest;
 use Google\Service\Compute\GlobalSetLabelsRequest;
 use Google\Service\Compute\Operation;
 
@@ -58,8 +59,7 @@ class GlobalAddresses extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified address resource. Gets a list of available addresses by
-   * making a list() request. (globalAddresses.get)
+   * Returns the specified address resource. (globalAddresses.get)
    *
    * @param string $project Project ID for this request.
    * @param string $address Name of the address resource to return.
@@ -161,6 +161,33 @@ class GlobalAddresses extends \Google\Service\Resource
     $params = ['project' => $project];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], AddressList::class);
+  }
+  /**
+   * Moves the specified address resource from one project to another project.
+   * (globalAddresses.move)
+   *
+   * @param string $project Source project ID which the Address is moved from.
+   * @param string $address Name of the address resource to move.
+   * @param GlobalAddressesMoveRequest $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId An optional request ID to identify requests.
+   * Specify a unique request ID so that if you must retry your request, the
+   * server will know to ignore the request if it has already been completed. For
+   * example, consider a situation where you make an initial request and the
+   * request times out. If you make the request again with the same request ID,
+   * the server can check if original operation with the same request ID was
+   * received, and if so, will ignore the second request. This prevents clients
+   * from accidentally creating duplicate commitments. The request ID must be a
+   * valid UUID with the exception that zero UUID is not supported (
+   * 00000000-0000-0000-0000-000000000000).
+   * @return Operation
+   */
+  public function move($project, $address, GlobalAddressesMoveRequest $postBody, $optParams = [])
+  {
+    $params = ['project' => $project, 'address' => $address, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], Operation::class);
   }
   /**
    * Sets the labels on a GlobalAddress. To learn more about labels, read the

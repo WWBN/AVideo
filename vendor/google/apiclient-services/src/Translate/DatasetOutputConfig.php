@@ -21,7 +21,6 @@ class DatasetOutputConfig extends \Google\Model
 {
   protected $gcsDestinationType = GcsOutputDestination::class;
   protected $gcsDestinationDataType = '';
-  public $gcsDestination;
 
   /**
    * @param GcsOutputDestination

@@ -22,7 +22,6 @@ class EnterpriseCrmEventbusProtoEventBusProperties extends \Google\Collection
   protected $collection_key = 'properties';
   protected $propertiesType = EnterpriseCrmEventbusProtoPropertyEntry::class;
   protected $propertiesDataType = 'array';
-  public $properties;
 
   /**
    * @param EnterpriseCrmEventbusProtoPropertyEntry[]

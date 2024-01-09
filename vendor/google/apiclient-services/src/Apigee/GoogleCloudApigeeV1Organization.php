@@ -22,11 +22,18 @@ class GoogleCloudApigeeV1Organization extends \Google\Collection
   protected $collection_key = 'environments';
   protected $addonsConfigType = GoogleCloudApigeeV1AddonsConfig::class;
   protected $addonsConfigDataType = '';
-  public $addonsConfig;
   /**
    * @var string
    */
   public $analyticsRegion;
+  /**
+   * @var string
+   */
+  public $apiConsumerDataEncryptionKeyName;
+  /**
+   * @var string
+   */
+  public $apiConsumerDataLocation;
   /**
    * @var string
    */
@@ -47,6 +54,10 @@ class GoogleCloudApigeeV1Organization extends \Google\Collection
    * @var string
    */
   public $caCertificate;
+  /**
+   * @var string
+   */
+  public $controlPlaneEncryptionKeyName;
   /**
    * @var string
    */
@@ -89,7 +100,6 @@ class GoogleCloudApigeeV1Organization extends \Google\Collection
   public $projectId;
   protected $propertiesType = GoogleCloudApigeeV1Properties::class;
   protected $propertiesDataType = '';
-  public $properties;
   /**
    * @var string
    */
@@ -138,6 +148,34 @@ class GoogleCloudApigeeV1Organization extends \Google\Collection
   public function getAnalyticsRegion()
   {
     return $this->analyticsRegion;
+  }
+  /**
+   * @param string
+   */
+  public function setApiConsumerDataEncryptionKeyName($apiConsumerDataEncryptionKeyName)
+  {
+    $this->apiConsumerDataEncryptionKeyName = $apiConsumerDataEncryptionKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getApiConsumerDataEncryptionKeyName()
+  {
+    return $this->apiConsumerDataEncryptionKeyName;
+  }
+  /**
+   * @param string
+   */
+  public function setApiConsumerDataLocation($apiConsumerDataLocation)
+  {
+    $this->apiConsumerDataLocation = $apiConsumerDataLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getApiConsumerDataLocation()
+  {
+    return $this->apiConsumerDataLocation;
   }
   /**
    * @param string
@@ -208,6 +246,20 @@ class GoogleCloudApigeeV1Organization extends \Google\Collection
   public function getCaCertificate()
   {
     return $this->caCertificate;
+  }
+  /**
+   * @param string
+   */
+  public function setControlPlaneEncryptionKeyName($controlPlaneEncryptionKeyName)
+  {
+    $this->controlPlaneEncryptionKeyName = $controlPlaneEncryptionKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getControlPlaneEncryptionKeyName()
+  {
+    return $this->controlPlaneEncryptionKeyName;
   }
   /**
    * @param string

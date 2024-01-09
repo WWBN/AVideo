@@ -25,20 +25,16 @@ class Mutation extends \Google\Model
   public $baseVersion;
   protected $deleteType = Key::class;
   protected $deleteDataType = '';
-  public $delete;
   protected $insertType = Entity::class;
   protected $insertDataType = '';
-  public $insert;
   protected $updateType = Entity::class;
   protected $updateDataType = '';
-  public $update;
   /**
    * @var string
    */
   public $updateTime;
   protected $upsertType = Entity::class;
   protected $upsertDataType = '';
-  public $upsert;
 
   /**
    * @param string

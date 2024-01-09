@@ -34,31 +34,28 @@ class Service extends \Google\Collection
   public $deliveryCountry;
   protected $deliveryTimeType = DeliveryTime::class;
   protected $deliveryTimeDataType = '';
-  public $deliveryTime;
   /**
    * @var string
    */
   public $eligibility;
   protected $minimumOrderValueType = Price::class;
   protected $minimumOrderValueDataType = '';
-  public $minimumOrderValue;
   protected $minimumOrderValueTableType = MinimumOrderValueTable::class;
   protected $minimumOrderValueTableDataType = '';
-  public $minimumOrderValueTable;
   /**
    * @var string
    */
   public $name;
   protected $pickupServiceType = PickupCarrierService::class;
   protected $pickupServiceDataType = '';
-  public $pickupService;
   protected $rateGroupsType = RateGroup::class;
   protected $rateGroupsDataType = 'array';
-  public $rateGroups;
   /**
    * @var string
    */
   public $shipmentType;
+  protected $storeConfigType = ServiceStoreConfig::class;
+  protected $storeConfigDataType = '';
 
   /**
    * @param bool
@@ -213,6 +210,20 @@ class Service extends \Google\Collection
   public function getShipmentType()
   {
     return $this->shipmentType;
+  }
+  /**
+   * @param ServiceStoreConfig
+   */
+  public function setStoreConfig(ServiceStoreConfig $storeConfig)
+  {
+    $this->storeConfig = $storeConfig;
+  }
+  /**
+   * @return ServiceStoreConfig
+   */
+  public function getStoreConfig()
+  {
+    return $this->storeConfig;
   }
 }
 

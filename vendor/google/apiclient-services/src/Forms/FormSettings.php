@@ -21,7 +21,6 @@ class FormSettings extends \Google\Model
 {
   protected $quizSettingsType = QuizSettings::class;
   protected $quizSettingsDataType = '';
-  public $quizSettings;
 
   /**
    * @param QuizSettings

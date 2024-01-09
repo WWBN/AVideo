@@ -21,7 +21,6 @@ class AppsDynamiteSharedCalendarEventAnnotationDataCalendarEventTime extends \Go
 {
   protected $allDayType = Date::class;
   protected $allDayDataType = '';
-  public $allDay;
   /**
    * @var string
    */

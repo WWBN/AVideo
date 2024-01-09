@@ -19,32 +19,51 @@ namespace Google\Service\Contentwarehouse;
 
 class GoogleCloudContentwarehouseV1ExportToCdwPipeline extends \Google\Collection
 {
-  protected $collection_key = 'documentIds';
+  protected $collection_key = 'documents';
+  /**
+   * @var string
+   */
+  public $docAiDataset;
   /**
    * @var string[]
    */
-  public $documentIds;
+  public $documents;
   /**
    * @var string
    */
   public $exportFolderPath;
-  protected $processorInfoType = GoogleCloudContentwarehouseV1ProcessorInfo::class;
-  protected $processorInfoDataType = '';
-  public $processorInfo;
+  /**
+   * @var float
+   */
+  public $trainingSplitRatio;
 
+  /**
+   * @param string
+   */
+  public function setDocAiDataset($docAiDataset)
+  {
+    $this->docAiDataset = $docAiDataset;
+  }
+  /**
+   * @return string
+   */
+  public function getDocAiDataset()
+  {
+    return $this->docAiDataset;
+  }
   /**
    * @param string[]
    */
-  public function setDocumentIds($documentIds)
+  public function setDocuments($documents)
   {
-    $this->documentIds = $documentIds;
+    $this->documents = $documents;
   }
   /**
    * @return string[]
    */
-  public function getDocumentIds()
+  public function getDocuments()
   {
-    return $this->documentIds;
+    return $this->documents;
   }
   /**
    * @param string
@@ -61,18 +80,18 @@ class GoogleCloudContentwarehouseV1ExportToCdwPipeline extends \Google\Collectio
     return $this->exportFolderPath;
   }
   /**
-   * @param GoogleCloudContentwarehouseV1ProcessorInfo
+   * @param float
    */
-  public function setProcessorInfo(GoogleCloudContentwarehouseV1ProcessorInfo $processorInfo)
+  public function setTrainingSplitRatio($trainingSplitRatio)
   {
-    $this->processorInfo = $processorInfo;
+    $this->trainingSplitRatio = $trainingSplitRatio;
   }
   /**
-   * @return GoogleCloudContentwarehouseV1ProcessorInfo
+   * @return float
    */
-  public function getProcessorInfo()
+  public function getTrainingSplitRatio()
   {
-    return $this->processorInfo;
+    return $this->trainingSplitRatio;
   }
 }
 

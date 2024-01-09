@@ -30,6 +30,10 @@ class DocumentationRule extends \Google\Model
   /**
    * @var string
    */
+  public $disableReplacementWords;
+  /**
+   * @var string
+   */
   public $selector;
 
   /**
@@ -59,6 +63,20 @@ class DocumentationRule extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setDisableReplacementWords($disableReplacementWords)
+  {
+    $this->disableReplacementWords = $disableReplacementWords;
+  }
+  /**
+   * @return string
+   */
+  public function getDisableReplacementWords()
+  {
+    return $this->disableReplacementWords;
   }
   /**
    * @param string

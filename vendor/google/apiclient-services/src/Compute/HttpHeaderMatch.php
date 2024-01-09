@@ -41,7 +41,6 @@ class HttpHeaderMatch extends \Google\Model
   public $presentMatch;
   protected $rangeMatchType = Int64RangeMatch::class;
   protected $rangeMatchDataType = '';
-  public $rangeMatch;
   /**
    * @var string
    */

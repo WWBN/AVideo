@@ -21,10 +21,8 @@ class IapSettings extends \Google\Model
 {
   protected $accessSettingsType = AccessSettings::class;
   protected $accessSettingsDataType = '';
-  public $accessSettings;
   protected $applicationSettingsType = ApplicationSettings::class;
   protected $applicationSettingsDataType = '';
-  public $applicationSettings;
   /**
    * @var string
    */

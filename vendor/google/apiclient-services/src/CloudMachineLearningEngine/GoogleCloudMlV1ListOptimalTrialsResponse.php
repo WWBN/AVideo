@@ -22,7 +22,6 @@ class GoogleCloudMlV1ListOptimalTrialsResponse extends \Google\Collection
   protected $collection_key = 'trials';
   protected $trialsType = GoogleCloudMlV1Trial::class;
   protected $trialsDataType = 'array';
-  public $trials;
 
   /**
    * @param GoogleCloudMlV1Trial[]

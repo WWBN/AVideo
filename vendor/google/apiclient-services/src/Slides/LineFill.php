@@ -21,7 +21,6 @@ class LineFill extends \Google\Model
 {
   protected $solidFillType = SolidFill::class;
   protected $solidFillDataType = '';
-  public $solidFill;
 
   /**
    * @param SolidFill

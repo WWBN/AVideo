@@ -21,10 +21,8 @@ class AppsPeopleOzExternalMergedpeopleapiNamePronunciationAudioMetadataInfo exte
 {
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $namePronunciationAudioMetadataType = SocialGraphApiProtoNamePronunciationAudioMetadata::class;
   protected $namePronunciationAudioMetadataDataType = '';
-  public $namePronunciationAudioMetadata;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata

@@ -34,7 +34,6 @@ class Ad extends \Google\Collection
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
-  public $advertiserIdDimensionValue;
   /**
    * @var bool
    */
@@ -49,13 +48,10 @@ class Ad extends \Google\Collection
   public $campaignId;
   protected $campaignIdDimensionValueType = DimensionValue::class;
   protected $campaignIdDimensionValueDataType = '';
-  public $campaignIdDimensionValue;
   protected $clickThroughUrlType = ClickThroughUrl::class;
   protected $clickThroughUrlDataType = '';
-  public $clickThroughUrl;
   protected $clickThroughUrlSuffixPropertiesType = ClickThroughUrlSuffixProperties::class;
   protected $clickThroughUrlSuffixPropertiesDataType = '';
-  public $clickThroughUrlSuffixProperties;
   /**
    * @var string
    */
@@ -66,22 +62,16 @@ class Ad extends \Google\Collection
   public $compatibility;
   protected $createInfoType = LastModifiedInfo::class;
   protected $createInfoDataType = '';
-  public $createInfo;
   protected $creativeGroupAssignmentsType = CreativeGroupAssignment::class;
   protected $creativeGroupAssignmentsDataType = 'array';
-  public $creativeGroupAssignments;
   protected $creativeRotationType = CreativeRotation::class;
   protected $creativeRotationDataType = '';
-  public $creativeRotation;
   protected $dayPartTargetingType = DayPartTargeting::class;
   protected $dayPartTargetingDataType = '';
-  public $dayPartTargeting;
   protected $defaultClickThroughEventTagPropertiesType = DefaultClickThroughEventTagProperties::class;
   protected $defaultClickThroughEventTagPropertiesDataType = '';
-  public $defaultClickThroughEventTagProperties;
   protected $deliveryScheduleType = DeliverySchedule::class;
   protected $deliveryScheduleDataType = '';
-  public $deliverySchedule;
   /**
    * @var bool
    */
@@ -92,43 +82,34 @@ class Ad extends \Google\Collection
   public $endTime;
   protected $eventTagOverridesType = EventTagOverride::class;
   protected $eventTagOverridesDataType = 'array';
-  public $eventTagOverrides;
   protected $geoTargetingType = GeoTargeting::class;
   protected $geoTargetingDataType = '';
-  public $geoTargeting;
   /**
    * @var string
    */
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
-  public $idDimensionValue;
   protected $keyValueTargetingExpressionType = KeyValueTargetingExpression::class;
   protected $keyValueTargetingExpressionDataType = '';
-  public $keyValueTargetingExpression;
   /**
    * @var string
    */
   public $kind;
   protected $languageTargetingType = LanguageTargeting::class;
   protected $languageTargetingDataType = '';
-  public $languageTargeting;
   protected $lastModifiedInfoType = LastModifiedInfo::class;
   protected $lastModifiedInfoDataType = '';
-  public $lastModifiedInfo;
   /**
    * @var string
    */
   public $name;
   protected $placementAssignmentsType = PlacementAssignment::class;
   protected $placementAssignmentsDataType = 'array';
-  public $placementAssignments;
   protected $remarketingListExpressionType = ListTargetingExpression::class;
   protected $remarketingListExpressionDataType = '';
-  public $remarketingListExpression;
   protected $sizeType = Size::class;
   protected $sizeDataType = '';
-  public $size;
   /**
    * @var bool
    */
@@ -151,7 +132,6 @@ class Ad extends \Google\Collection
   public $targetingTemplateId;
   protected $technologyTargetingType = TechnologyTargeting::class;
   protected $technologyTargetingDataType = '';
-  public $technologyTargeting;
   /**
    * @var string
    */

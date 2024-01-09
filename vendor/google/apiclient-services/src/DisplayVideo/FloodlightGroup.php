@@ -21,7 +21,6 @@ class FloodlightGroup extends \Google\Model
 {
   protected $activeViewConfigType = ActiveViewVideoViewabilityMetricConfig::class;
   protected $activeViewConfigDataType = '';
-  public $activeViewConfig;
   /**
    * @var array[]
    */
@@ -36,7 +35,6 @@ class FloodlightGroup extends \Google\Model
   public $floodlightGroupId;
   protected $lookbackWindowType = LookbackWindow::class;
   protected $lookbackWindowDataType = '';
-  public $lookbackWindow;
   /**
    * @var string
    */

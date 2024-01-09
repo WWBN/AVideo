@@ -29,7 +29,6 @@ class UnsampledReport extends \Google\Model
   public $accountId;
   protected $cloudStorageDownloadDetailsType = UnsampledReportCloudStorageDownloadDetails::class;
   protected $cloudStorageDownloadDetailsDataType = '';
-  public $cloudStorageDownloadDetails;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class UnsampledReport extends \Google\Model
   public $downloadType;
   protected $driveDownloadDetailsType = UnsampledReportDriveDownloadDetails::class;
   protected $driveDownloadDetailsDataType = '';
-  public $driveDownloadDetails;
   /**
    * @var string
    */

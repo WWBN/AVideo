@@ -23,6 +23,10 @@ class ProductViewItemIssueItemIssueType extends \Google\Model
    * @var string
    */
   public $canonicalAttribute;
+  /**
+   * @var string
+   */
+  public $code;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class ProductViewItemIssueItemIssueType extends \Google\Model
   public function getCanonicalAttribute()
   {
     return $this->canonicalAttribute;
+  }
+  /**
+   * @param string
+   */
+  public function setCode($code)
+  {
+    $this->code = $code;
+  }
+  /**
+   * @return string
+   */
+  public function getCode()
+  {
+    return $this->code;
   }
 }
 

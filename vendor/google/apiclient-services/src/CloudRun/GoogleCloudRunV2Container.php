@@ -28,32 +28,30 @@ class GoogleCloudRunV2Container extends \Google\Collection
    * @var string[]
    */
   public $command;
+  /**
+   * @var string[]
+   */
+  public $dependsOn;
   protected $envType = GoogleCloudRunV2EnvVar::class;
   protected $envDataType = 'array';
-  public $env;
   /**
    * @var string
    */
   public $image;
   protected $livenessProbeType = GoogleCloudRunV2Probe::class;
   protected $livenessProbeDataType = '';
-  public $livenessProbe;
   /**
    * @var string
    */
   public $name;
   protected $portsType = GoogleCloudRunV2ContainerPort::class;
   protected $portsDataType = 'array';
-  public $ports;
   protected $resourcesType = GoogleCloudRunV2ResourceRequirements::class;
   protected $resourcesDataType = '';
-  public $resources;
   protected $startupProbeType = GoogleCloudRunV2Probe::class;
   protected $startupProbeDataType = '';
-  public $startupProbe;
   protected $volumeMountsType = GoogleCloudRunV2VolumeMount::class;
   protected $volumeMountsDataType = 'array';
-  public $volumeMounts;
   /**
    * @var string
    */
@@ -86,6 +84,20 @@ class GoogleCloudRunV2Container extends \Google\Collection
   public function getCommand()
   {
     return $this->command;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDependsOn($dependsOn)
+  {
+    $this->dependsOn = $dependsOn;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDependsOn()
+  {
+    return $this->dependsOn;
   }
   /**
    * @param GoogleCloudRunV2EnvVar[]

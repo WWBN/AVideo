@@ -21,14 +21,12 @@ class Location extends \Google\Model
 {
   protected $latLngType = LatLng::class;
   protected $latLngDataType = '';
-  public $latLng;
   /**
    * @var string
    */
   public $locationType;
   protected $postalAddressType = PostalAddress::class;
   protected $postalAddressDataType = '';
-  public $postalAddress;
   public $radiusMiles;
 
   /**

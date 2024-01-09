@@ -22,7 +22,6 @@ class ListLikedAssetsResponse extends \Google\Collection
   protected $collection_key = 'assets';
   protected $assetsType = Asset::class;
   protected $assetsDataType = 'array';
-  public $assets;
   /**
    * @var string
    */

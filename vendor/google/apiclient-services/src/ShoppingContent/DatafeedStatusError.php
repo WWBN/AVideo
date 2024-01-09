@@ -30,7 +30,6 @@ class DatafeedStatusError extends \Google\Collection
   public $count;
   protected $examplesType = DatafeedStatusExample::class;
   protected $examplesDataType = 'array';
-  public $examples;
   /**
    * @var string
    */

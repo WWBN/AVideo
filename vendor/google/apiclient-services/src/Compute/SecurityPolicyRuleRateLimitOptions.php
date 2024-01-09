@@ -17,15 +17,15 @@
 
 namespace Google\Service\Compute;
 
-class SecurityPolicyRuleRateLimitOptions extends \Google\Model
+class SecurityPolicyRuleRateLimitOptions extends \Google\Collection
 {
+  protected $collection_key = 'enforceOnKeyConfigs';
   /**
    * @var int
    */
   public $banDurationSec;
   protected $banThresholdType = SecurityPolicyRuleRateLimitOptionsThreshold::class;
   protected $banThresholdDataType = '';
-  public $banThreshold;
   /**
    * @var string
    */
@@ -34,6 +34,8 @@ class SecurityPolicyRuleRateLimitOptions extends \Google\Model
    * @var string
    */
   public $enforceOnKey;
+  protected $enforceOnKeyConfigsType = SecurityPolicyRuleRateLimitOptionsEnforceOnKeyConfig::class;
+  protected $enforceOnKeyConfigsDataType = 'array';
   /**
    * @var string
    */
@@ -44,10 +46,8 @@ class SecurityPolicyRuleRateLimitOptions extends \Google\Model
   public $exceedAction;
   protected $exceedRedirectOptionsType = SecurityPolicyRuleRedirectOptions::class;
   protected $exceedRedirectOptionsDataType = '';
-  public $exceedRedirectOptions;
   protected $rateLimitThresholdType = SecurityPolicyRuleRateLimitOptionsThreshold::class;
   protected $rateLimitThresholdDataType = '';
-  public $rateLimitThreshold;
 
   /**
    * @param int
@@ -104,6 +104,20 @@ class SecurityPolicyRuleRateLimitOptions extends \Google\Model
   public function getEnforceOnKey()
   {
     return $this->enforceOnKey;
+  }
+  /**
+   * @param SecurityPolicyRuleRateLimitOptionsEnforceOnKeyConfig[]
+   */
+  public function setEnforceOnKeyConfigs($enforceOnKeyConfigs)
+  {
+    $this->enforceOnKeyConfigs = $enforceOnKeyConfigs;
+  }
+  /**
+   * @return SecurityPolicyRuleRateLimitOptionsEnforceOnKeyConfig[]
+   */
+  public function getEnforceOnKeyConfigs()
+  {
+    return $this->enforceOnKeyConfigs;
   }
   /**
    * @param string

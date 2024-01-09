@@ -21,10 +21,8 @@ class CustomerSettings extends \Google\Model
 {
   protected $auditLoggingSettingsType = AuditLoggingSettings::class;
   protected $auditLoggingSettingsDataType = '';
-  public $auditLoggingSettings;
   protected $vpcSettingsType = VPCSettings::class;
   protected $vpcSettingsDataType = '';
-  public $vpcSettings;
 
   /**
    * @param AuditLoggingSettings

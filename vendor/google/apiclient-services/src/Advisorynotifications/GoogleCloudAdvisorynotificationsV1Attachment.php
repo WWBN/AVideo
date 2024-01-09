@@ -21,7 +21,6 @@ class GoogleCloudAdvisorynotificationsV1Attachment extends \Google\Model
 {
   protected $csvType = GoogleCloudAdvisorynotificationsV1Csv::class;
   protected $csvDataType = '';
-  public $csv;
   /**
    * @var string
    */

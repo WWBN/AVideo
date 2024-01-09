@@ -31,8 +31,7 @@ use Google\Service\Compute\ZoneList;
 class Zones extends \Google\Service\Resource
 {
   /**
-   * Returns the specified Zone resource. Gets a list of available zones by making
-   * a list() request. (zones.get)
+   * Returns the specified Zone resource. (zones.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone Name of the zone resource to return.

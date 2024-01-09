@@ -25,14 +25,12 @@ class Ruleset extends \Google\Model
   public $createTime;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $name;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
-  public $source;
 
   /**
    * @param string

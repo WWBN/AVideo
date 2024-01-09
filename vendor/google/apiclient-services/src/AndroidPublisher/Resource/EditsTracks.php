@@ -35,7 +35,8 @@ class EditsTracks extends \Google\Service\Resource
    *
    * @param string $packageName Package name of the app.
    * @param string $editId Identifier of the edit.
-   * @param string $track Identifier of the track.
+   * @param string $track Identifier of the track. [More on track
+   * name](https://developers.google.com/android-publisher/tracks#ff-track-name)
    * @param array $optParams Optional parameters.
    * @return Track
    */
@@ -64,7 +65,8 @@ class EditsTracks extends \Google\Service\Resource
    *
    * @param string $packageName Package name of the app.
    * @param string $editId Identifier of the edit.
-   * @param string $track Identifier of the track.
+   * @param string $track Identifier of the track. [More on track
+   * name](https://developers.google.com/android-publisher/tracks#ff-track-name)
    * @param Track $postBody
    * @param array $optParams Optional parameters.
    * @return Track
@@ -80,7 +82,8 @@ class EditsTracks extends \Google\Service\Resource
    *
    * @param string $packageName Package name of the app.
    * @param string $editId Identifier of the edit.
-   * @param string $track Identifier of the track.
+   * @param string $track Identifier of the track. [More on track
+   * name](https://developers.google.com/android-publisher/tracks#ff-track-name)
    * @param Track $postBody
    * @param array $optParams Optional parameters.
    * @return Track

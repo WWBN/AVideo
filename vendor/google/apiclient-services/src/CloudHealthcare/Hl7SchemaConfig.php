@@ -22,10 +22,8 @@ class Hl7SchemaConfig extends \Google\Collection
   protected $collection_key = 'version';
   protected $messageSchemaConfigsType = SchemaGroup::class;
   protected $messageSchemaConfigsDataType = 'map';
-  public $messageSchemaConfigs;
   protected $versionType = VersionSource::class;
   protected $versionDataType = 'array';
-  public $version;
 
   /**
    * @param SchemaGroup[]

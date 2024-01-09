@@ -22,7 +22,6 @@ class GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetai
   protected $collection_key = 'introductoryPricingSpecs';
   protected $introductoryPricingSpecsType = GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetailsIntroductoryPricingSpec::class;
   protected $introductoryPricingSpecsDataType = 'array';
-  public $introductoryPricingSpecs;
 
   /**
    * @param GoogleCloudPaymentsResellerSubscriptionV1PromotionIntroductoryPricingDetailsIntroductoryPricingSpec[]

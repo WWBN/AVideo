@@ -21,7 +21,6 @@ class GoogleCloudDatacatalogV1ModifyEntryContactsRequest extends \Google\Model
 {
   protected $contactsType = GoogleCloudDatacatalogV1Contacts::class;
   protected $contactsDataType = '';
-  public $contacts;
 
   /**
    * @param GoogleCloudDatacatalogV1Contacts

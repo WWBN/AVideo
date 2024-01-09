@@ -22,7 +22,6 @@ class ListOrgDataExchangesResponse extends \Google\Collection
   protected $collection_key = 'dataExchanges';
   protected $dataExchangesType = DataExchange::class;
   protected $dataExchangesDataType = 'array';
-  public $dataExchanges;
   /**
    * @var string
    */

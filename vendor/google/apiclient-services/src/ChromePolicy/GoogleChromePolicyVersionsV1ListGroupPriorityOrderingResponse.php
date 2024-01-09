@@ -28,9 +28,12 @@ class GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse extends \Goo
    * @var string
    */
   public $policyNamespace;
+  /**
+   * @var string
+   */
+  public $policySchema;
   protected $policyTargetKeyType = GoogleChromePolicyVersionsV1PolicyTargetKey::class;
   protected $policyTargetKeyDataType = '';
-  public $policyTargetKey;
 
   /**
    * @param string[]
@@ -59,6 +62,20 @@ class GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse extends \Goo
   public function getPolicyNamespace()
   {
     return $this->policyNamespace;
+  }
+  /**
+   * @param string
+   */
+  public function setPolicySchema($policySchema)
+  {
+    $this->policySchema = $policySchema;
+  }
+  /**
+   * @return string
+   */
+  public function getPolicySchema()
+  {
+    return $this->policySchema;
   }
   /**
    * @param GoogleChromePolicyVersionsV1PolicyTargetKey

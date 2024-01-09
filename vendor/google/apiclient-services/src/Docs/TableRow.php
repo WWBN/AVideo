@@ -38,13 +38,10 @@ class TableRow extends \Google\Collection
   public $suggestedInsertionIds;
   protected $suggestedTableRowStyleChangesType = SuggestedTableRowStyle::class;
   protected $suggestedTableRowStyleChangesDataType = 'map';
-  public $suggestedTableRowStyleChanges;
   protected $tableCellsType = TableCell::class;
   protected $tableCellsDataType = 'array';
-  public $tableCells;
   protected $tableRowStyleType = TableRowStyle::class;
   protected $tableRowStyleDataType = '';
-  public $tableRowStyle;
 
   /**
    * @param int

@@ -26,7 +26,6 @@ class Destination extends \Google\Collection
   public $hosts;
   protected $httpHeaderMatchType = HttpHeaderMatch::class;
   protected $httpHeaderMatchDataType = '';
-  public $httpHeaderMatch;
   /**
    * @var string[]
    */

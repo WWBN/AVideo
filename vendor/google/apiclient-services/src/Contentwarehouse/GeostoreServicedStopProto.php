@@ -21,7 +21,6 @@ class GeostoreServicedStopProto extends \Google\Model
 {
   protected $idType = GeostoreFeatureIdProto::class;
   protected $idDataType = '';
-  public $id;
   /**
    * @var int
    */

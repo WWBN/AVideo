@@ -33,7 +33,6 @@ class GoogleCloudDialogflowV2Message extends \Google\Model
   public $languageCode;
   protected $messageAnnotationType = GoogleCloudDialogflowV2MessageAnnotation::class;
   protected $messageAnnotationDataType = '';
-  public $messageAnnotation;
   /**
    * @var string
    */
@@ -52,7 +51,6 @@ class GoogleCloudDialogflowV2Message extends \Google\Model
   public $sendTime;
   protected $sentimentAnalysisType = GoogleCloudDialogflowV2SentimentAnalysisResult::class;
   protected $sentimentAnalysisDataType = '';
-  public $sentimentAnalysis;
 
   /**
    * @param string

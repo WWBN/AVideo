@@ -22,14 +22,16 @@ class CloudsupportCase extends \Google\Collection
   protected $collection_key = 'subscriberEmailAddresses';
   protected $classificationType = CaseClassification::class;
   protected $classificationDataType = '';
-  public $classification;
+  /**
+   * @var string
+   */
+  public $contactEmail;
   /**
    * @var string
    */
   public $createTime;
   protected $creatorType = Actor::class;
   protected $creatorDataType = '';
-  public $creator;
   /**
    * @var string
    */
@@ -92,6 +94,20 @@ class CloudsupportCase extends \Google\Collection
   public function getClassification()
   {
     return $this->classification;
+  }
+  /**
+   * @param string
+   */
+  public function setContactEmail($contactEmail)
+  {
+    $this->contactEmail = $contactEmail;
+  }
+  /**
+   * @return string
+   */
+  public function getContactEmail()
+  {
+    return $this->contactEmail;
   }
   /**
    * @param string

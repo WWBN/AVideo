@@ -26,24 +26,20 @@ class JobStatistics extends \Google\Collection
   public $completionRatio;
   protected $copyType = JobStatistics5::class;
   protected $copyDataType = '';
-  public $copy;
   /**
    * @var string
    */
   public $creationTime;
   protected $dataMaskingStatisticsType = DataMaskingStatistics::class;
   protected $dataMaskingStatisticsDataType = '';
-  public $dataMaskingStatistics;
   /**
    * @var string
    */
   public $endTime;
   protected $extractType = JobStatistics4::class;
   protected $extractDataType = '';
-  public $extract;
   protected $loadType = JobStatistics3::class;
   protected $loadDataType = '';
-  public $load;
   /**
    * @var string
    */
@@ -54,27 +50,22 @@ class JobStatistics extends \Google\Collection
   public $parentJobId;
   protected $queryType = JobStatistics2::class;
   protected $queryDataType = '';
-  public $query;
   /**
    * @var string[]
    */
   public $quotaDeferments;
   protected $reservationUsageType = JobStatisticsReservationUsage::class;
   protected $reservationUsageDataType = 'array';
-  public $reservationUsage;
   /**
    * @var string
    */
   public $reservationId;
   protected $rowLevelSecurityStatisticsType = RowLevelSecurityStatistics::class;
   protected $rowLevelSecurityStatisticsDataType = '';
-  public $rowLevelSecurityStatistics;
   protected $scriptStatisticsType = ScriptStatistics::class;
   protected $scriptStatisticsDataType = '';
-  public $scriptStatistics;
   protected $sessionInfoType = SessionInfo::class;
   protected $sessionInfoDataType = '';
-  public $sessionInfo;
   /**
    * @var string
    */
@@ -89,7 +80,6 @@ class JobStatistics extends \Google\Collection
   public $totalSlotMs;
   protected $transactionInfoType = TransactionInfo::class;
   protected $transactionInfoDataType = '';
-  public $transactionInfo;
 
   public function setCompletionRatio($completionRatio)
   {

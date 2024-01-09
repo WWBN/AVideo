@@ -22,7 +22,6 @@ class AppGateway extends \Google\Collection
   protected $collection_key = 'allocatedConnections';
   protected $allocatedConnectionsType = AllocatedConnection::class;
   protected $allocatedConnectionsDataType = 'array';
-  public $allocatedConnections;
   /**
    * @var string
    */

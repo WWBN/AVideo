@@ -22,7 +22,6 @@ class BrowsersListResponse extends \Google\Collection
   protected $collection_key = 'browsers';
   protected $browsersType = Browser::class;
   protected $browsersDataType = 'array';
-  public $browsers;
   /**
    * @var string
    */

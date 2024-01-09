@@ -26,7 +26,6 @@ class AnalyzePackagesRequestV1 extends \Google\Collection
   public $includeOsvData;
   protected $packagesType = PackageData::class;
   protected $packagesDataType = 'array';
-  public $packages;
   /**
    * @var string
    */

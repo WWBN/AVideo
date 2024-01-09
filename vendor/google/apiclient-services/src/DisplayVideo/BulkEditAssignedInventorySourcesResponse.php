@@ -22,7 +22,6 @@ class BulkEditAssignedInventorySourcesResponse extends \Google\Collection
   protected $collection_key = 'assignedInventorySources';
   protected $assignedInventorySourcesType = AssignedInventorySource::class;
   protected $assignedInventorySourcesDataType = 'array';
-  public $assignedInventorySources;
 
   /**
    * @param AssignedInventorySource[]

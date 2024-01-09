@@ -26,11 +26,11 @@ class ListRuntimesResponse extends \Google\Collection
   public $nextPageToken;
   protected $runtimesType = Runtime::class;
   protected $runtimesDataType = 'array';
-  public $runtimes;
+  public $runtimes = [];
   /**
    * @var string[]
    */
-  public $unreachable;
+  public $unreachable = [];
 
   /**
    * @param string

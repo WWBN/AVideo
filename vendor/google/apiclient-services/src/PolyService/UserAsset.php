@@ -21,7 +21,6 @@ class UserAsset extends \Google\Model
 {
   protected $assetType = Asset::class;
   protected $assetDataType = '';
-  public $asset;
 
   /**
    * @param Asset

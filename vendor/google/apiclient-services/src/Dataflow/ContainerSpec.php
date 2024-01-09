@@ -21,7 +21,6 @@ class ContainerSpec extends \Google\Model
 {
   protected $defaultEnvironmentType = FlexTemplateRuntimeEnvironment::class;
   protected $defaultEnvironmentDataType = '';
-  public $defaultEnvironment;
   /**
    * @var string
    */
@@ -40,10 +39,8 @@ class ContainerSpec extends \Google\Model
   public $imageRepositoryUsernameSecretId;
   protected $metadataType = TemplateMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $sdkInfoType = SDKInfo::class;
   protected $sdkInfoDataType = '';
-  public $sdkInfo;
 
   /**
    * @param FlexTemplateRuntimeEnvironment

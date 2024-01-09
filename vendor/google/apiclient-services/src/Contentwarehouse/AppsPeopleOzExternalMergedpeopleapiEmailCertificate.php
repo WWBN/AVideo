@@ -25,10 +25,8 @@ class AppsPeopleOzExternalMergedpeopleapiEmailCertificate extends \Google\Model
   public $configurationName;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $statusType = AppsPeopleOzExternalMergedpeopleapiEmailCertificateCertificateStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param string

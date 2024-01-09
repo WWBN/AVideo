@@ -25,7 +25,6 @@ class TableCellBackgroundFill extends \Google\Model
   public $propertyState;
   protected $solidFillType = SolidFill::class;
   protected $solidFillDataType = '';
-  public $solidFill;
 
   /**
    * @param string

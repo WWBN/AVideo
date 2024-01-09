@@ -26,7 +26,6 @@ class Access extends \Google\Collection
   public $callerIp;
   protected $callerIpGeoType = Geolocation::class;
   protected $callerIpGeoDataType = '';
-  public $callerIpGeo;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class Access extends \Google\Collection
   public $principalSubject;
   protected $serviceAccountDelegationInfoType = ServiceAccountDelegationInfo::class;
   protected $serviceAccountDelegationInfoDataType = 'array';
-  public $serviceAccountDelegationInfo;
   /**
    * @var string
    */

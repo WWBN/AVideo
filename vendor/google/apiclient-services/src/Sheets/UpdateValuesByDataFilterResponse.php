@@ -21,7 +21,6 @@ class UpdateValuesByDataFilterResponse extends \Google\Model
 {
   protected $dataFilterType = DataFilter::class;
   protected $dataFilterDataType = '';
-  public $dataFilter;
   /**
    * @var int
    */
@@ -32,7 +31,6 @@ class UpdateValuesByDataFilterResponse extends \Google\Model
   public $updatedColumns;
   protected $updatedDataType = ValueRange::class;
   protected $updatedDataDataType = '';
-  public $updatedData;
   /**
    * @var string
    */

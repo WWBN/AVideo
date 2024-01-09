@@ -21,7 +21,6 @@ class CreateInstanceRequest extends \Google\Model
 {
   protected $instanceType = Instance::class;
   protected $instanceDataType = '';
-  public $instance;
   /**
    * @var string
    */

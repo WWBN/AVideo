@@ -28,7 +28,6 @@ class TriggerPubsubExecutionRequest extends \Google\Model
   public $gCPCloudEventsMode;
   protected $messageType = PubsubMessage::class;
   protected $messageDataType = '';
-  public $message;
   /**
    * @var string
    */

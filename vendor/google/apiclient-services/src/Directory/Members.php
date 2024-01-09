@@ -30,7 +30,6 @@ class Members extends \Google\Collection
   public $kind;
   protected $membersType = Member::class;
   protected $membersDataType = 'array';
-  public $members;
   /**
    * @var string
    */

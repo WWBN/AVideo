@@ -29,7 +29,6 @@ class Location extends \Google\Model
   public $path;
   protected $versionType = Version::class;
   protected $versionDataType = '';
-  public $version;
 
   /**
    * @param string

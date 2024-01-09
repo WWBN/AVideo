@@ -21,10 +21,8 @@ class GoogleCloudIntegrationsV1alphaParameterMapEntry extends \Google\Model
 {
   protected $keyType = GoogleCloudIntegrationsV1alphaParameterMapField::class;
   protected $keyDataType = '';
-  public $key;
   protected $valueType = GoogleCloudIntegrationsV1alphaParameterMapField::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaParameterMapField

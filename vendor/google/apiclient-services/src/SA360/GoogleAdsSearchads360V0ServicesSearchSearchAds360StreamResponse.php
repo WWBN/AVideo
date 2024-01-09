@@ -22,7 +22,6 @@ class GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamResponse extends \G
   protected $collection_key = 'results';
   protected $customColumnHeadersType = GoogleAdsSearchads360V0ServicesCustomColumnHeader::class;
   protected $customColumnHeadersDataType = 'array';
-  public $customColumnHeaders;
   /**
    * @var string
    */
@@ -33,10 +32,8 @@ class GoogleAdsSearchads360V0ServicesSearchSearchAds360StreamResponse extends \G
   public $requestId;
   protected $resultsType = GoogleAdsSearchads360V0ServicesSearchAds360Row::class;
   protected $resultsDataType = 'array';
-  public $results;
   protected $summaryRowType = GoogleAdsSearchads360V0ServicesSearchAds360Row::class;
   protected $summaryRowDataType = '';
-  public $summaryRow;
 
   /**
    * @param GoogleAdsSearchads360V0ServicesCustomColumnHeader[]

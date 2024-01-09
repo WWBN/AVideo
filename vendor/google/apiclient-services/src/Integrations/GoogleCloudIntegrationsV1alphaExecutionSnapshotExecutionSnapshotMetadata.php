@@ -34,6 +34,10 @@ class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata e
   /**
    * @var string
    */
+  public $taskLabel;
+  /**
+   * @var string
+   */
   public $taskNumber;
 
   /**
@@ -77,6 +81,20 @@ class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata e
   public function getTaskAttempt()
   {
     return $this->taskAttempt;
+  }
+  /**
+   * @param string
+   */
+  public function setTaskLabel($taskLabel)
+  {
+    $this->taskLabel = $taskLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getTaskLabel()
+  {
+    return $this->taskLabel;
   }
   /**
    * @param string

@@ -25,14 +25,12 @@ class PersonResponse extends \Google\Model
   public $httpStatusCode;
   protected $personType = Person::class;
   protected $personDataType = '';
-  public $person;
   /**
    * @var string
    */
   public $requestedResourceName;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param int

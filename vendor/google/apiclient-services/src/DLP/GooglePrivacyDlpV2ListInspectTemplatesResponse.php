@@ -22,7 +22,6 @@ class GooglePrivacyDlpV2ListInspectTemplatesResponse extends \Google\Collection
   protected $collection_key = 'inspectTemplates';
   protected $inspectTemplatesType = GooglePrivacyDlpV2InspectTemplate::class;
   protected $inspectTemplatesDataType = 'array';
-  public $inspectTemplates;
   /**
    * @var string
    */

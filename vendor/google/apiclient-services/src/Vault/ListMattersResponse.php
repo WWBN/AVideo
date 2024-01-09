@@ -22,7 +22,6 @@ class ListMattersResponse extends \Google\Collection
   protected $collection_key = 'matters';
   protected $mattersType = Matter::class;
   protected $mattersDataType = 'array';
-  public $matters;
   /**
    * @var string
    */

@@ -37,14 +37,12 @@ class Policies extends \Google\Model
   public $allInclusiveOnlyException;
   protected $checkinTimeType = TimeOfDay::class;
   protected $checkinTimeDataType = '';
-  public $checkinTime;
   /**
    * @var string
    */
   public $checkinTimeException;
   protected $checkoutTimeType = TimeOfDay::class;
   protected $checkoutTimeDataType = '';
-  public $checkoutTime;
   /**
    * @var string
    */
@@ -75,7 +73,6 @@ class Policies extends \Google\Model
   public $maxKidsStayFreeCountException;
   protected $paymentOptionsType = PaymentOptions::class;
   protected $paymentOptionsDataType = '';
-  public $paymentOptions;
   /**
    * @var bool
    */

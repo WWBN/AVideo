@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3ExperimentResultVersionMetrics extends \Google\Co
   protected $collection_key = 'metrics';
   protected $metricsType = GoogleCloudDialogflowCxV3ExperimentResultMetric::class;
   protected $metricsDataType = 'array';
-  public $metrics;
   /**
    * @var int
    */

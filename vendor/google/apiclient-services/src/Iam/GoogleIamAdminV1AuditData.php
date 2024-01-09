@@ -21,7 +21,6 @@ class GoogleIamAdminV1AuditData extends \Google\Model
 {
   protected $permissionDeltaType = GoogleIamAdminV1AuditDataPermissionDelta::class;
   protected $permissionDeltaDataType = '';
-  public $permissionDelta;
 
   /**
    * @param GoogleIamAdminV1AuditDataPermissionDelta

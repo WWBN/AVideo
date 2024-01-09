@@ -21,7 +21,6 @@ class LaunchFlexTemplateRequest extends \Google\Model
 {
   protected $launchParameterType = LaunchFlexTemplateParameter::class;
   protected $launchParameterDataType = '';
-  public $launchParameter;
   /**
    * @var bool
    */

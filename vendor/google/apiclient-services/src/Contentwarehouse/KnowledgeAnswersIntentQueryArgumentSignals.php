@@ -30,19 +30,14 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $allowedFuzzyMatch;
   protected $annotatedRelationshipType = LogsSemanticInterpretationIntentQueryWebrefEntityRelationship::class;
   protected $annotatedRelationshipDataType = 'array';
-  public $annotatedRelationship;
   protected $annotationLayerSignalsType = KnowledgeAnswersIntentQueryAnnotationLayerSignals::class;
   protected $annotationLayerSignalsDataType = '';
-  public $annotationLayerSignals;
   protected $chainIdType = LocalsearchChainId::class;
   protected $chainIdDataType = 'array';
-  public $chainId;
   protected $clusterInfoType = QualityViewsExtractionClusterInfo::class;
   protected $clusterInfoDataType = '';
-  public $clusterInfo;
   protected $collectionMembershipType = KnowledgeAnswersIntentQueryCollectionMembership::class;
   protected $collectionMembershipDataType = 'array';
-  public $collectionMembership;
   /**
    * @var string
    */
@@ -61,10 +56,8 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $entityNumber;
   protected $entityRelationshipType = NlpSemanticParsingQRefAnnotationEntityRelationship::class;
   protected $entityRelationshipDataType = 'array';
-  public $entityRelationship;
   protected $expressionStatusType = NlpSemanticParsingExpressionStatus::class;
   protected $expressionStatusDataType = '';
-  public $expressionStatus;
   /**
    * @var bool
    */
@@ -79,7 +72,6 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $gaiaId;
   protected $groundingSignalsType = KnowledgeAnswersIntentQueryGroundingSignals::class;
   protected $groundingSignalsDataType = '';
-  public $groundingSignals;
   /**
    * @var string
    */
@@ -110,16 +102,12 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $isNimbleAnnotation;
   protected $locationType = GeostorePointProto::class;
   protected $locationDataType = '';
-  public $location;
   protected $locationMarkersSignalsType = KnowledgeAnswersIntentQueryLocationMarkersSignals::class;
   protected $locationMarkersSignalsDataType = '';
-  public $locationMarkersSignals;
   protected $mediaEntitySignalsType = KnowledgeAnswersIntentQueryMediaEntitySignals::class;
   protected $mediaEntitySignalsDataType = '';
-  public $mediaEntitySignals;
   protected $mergedImpliedEntityType = KnowledgeAnswersIntentQueryImpliedEntity::class;
   protected $mergedImpliedEntityDataType = 'array';
-  public $mergedImpliedEntity;
   /**
    * @var string
    */
@@ -130,23 +118,18 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $multipleHorizontalListSelectionMatches;
   protected $muninSignalsType = KnowledgeAnswersIntentQueryMuninSignals::class;
   protected $muninSignalsDataType = '';
-  public $muninSignals;
   protected $onDeviceAnnotationSignalsType = KnowledgeAnswersIntentQueryOnDeviceAnnotationSignals::class;
   protected $onDeviceAnnotationSignalsDataType = '';
-  public $onDeviceAnnotationSignals;
   protected $oysterIdType = GeostoreFeatureIdProto::class;
   protected $oysterIdDataType = '';
-  public $oysterId;
   /**
    * @var string[]
    */
   public $parsedDueToExperiment;
   protected $personalEntityType = KnowledgeAnswersIntentQueryPersonalEntity::class;
   protected $personalEntityDataType = 'array';
-  public $personalEntity;
   protected $provenanceType = KnowledgeAnswersIntentQueryArgumentProvenance::class;
   protected $provenanceDataType = 'array';
-  public $provenance;
   /**
    * @var float
    */
@@ -161,10 +144,8 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public $rawQueryText;
   protected $relatedEntityType = NlpSemanticParsingRelatedEntity::class;
   protected $relatedEntityDataType = 'array';
-  public $relatedEntity;
   protected $relatednessSignalsType = KnowledgeAnswersIntentQueryRelatednessSignals::class;
   protected $relatednessSignalsDataType = '';
-  public $relatednessSignals;
   /**
    * @var bool
    */
@@ -173,24 +154,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
    * @var bool
    */
   public $resolvedFromPronoun;
+  protected $responseMeaningSignalsType = KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals::class;
+  protected $responseMeaningSignalsDataType = '';
   protected $resultSupportType = UniversalsearchNewPackerKnowledgeResultSupport::class;
   protected $resultSupportDataType = 'array';
-  public $resultSupport;
   protected $saftSignalsType = KnowledgeAnswersIntentQuerySaftSignals::class;
   protected $saftSignalsDataType = '';
-  public $saftSignals;
   protected $shoppingIdsType = KnowledgeAnswersIntentQueryShoppingIds::class;
   protected $shoppingIdsDataType = '';
-  public $shoppingIds;
   protected $supportTransferRulesType = LogsSemanticInterpretationIntentQuerySupportTransferRule::class;
   protected $supportTransferRulesDataType = 'array';
-  public $supportTransferRules;
   protected $supportTransferSignalsType = KnowledgeAnswersIntentQuerySupportTransferSignals::class;
   protected $supportTransferSignalsDataType = '';
-  public $supportTransferSignals;
   protected $ungroundedValueTypeType = KnowledgeAnswersValueType::class;
   protected $ungroundedValueTypeDataType = '';
-  public $ungroundedValueType;
   /**
    * @var string
    */
@@ -801,6 +778,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public function getResolvedFromPronoun()
   {
     return $this->resolvedFromPronoun;
+  }
+  /**
+   * @param KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals
+   */
+  public function setResponseMeaningSignals(KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals $responseMeaningSignals)
+  {
+    $this->responseMeaningSignals = $responseMeaningSignals;
+  }
+  /**
+   * @return KnowledgeAnswersIntentQueryResponseMeaningSignalsResponseMeaningSignals
+   */
+  public function getResponseMeaningSignals()
+  {
+    return $this->responseMeaningSignals;
   }
   /**
    * @param UniversalsearchNewPackerKnowledgeResultSupport[]

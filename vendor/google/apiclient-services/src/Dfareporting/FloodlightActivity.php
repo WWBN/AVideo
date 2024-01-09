@@ -30,7 +30,6 @@ class FloodlightActivity extends \Google\Collection
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
-  public $advertiserIdDimensionValue;
   /**
    * @var bool
    */
@@ -45,7 +44,6 @@ class FloodlightActivity extends \Google\Collection
   public $countingMethod;
   protected $defaultTagsType = FloodlightActivityDynamicTag::class;
   protected $defaultTagsDataType = 'array';
-  public $defaultTags;
   /**
    * @var string
    */
@@ -72,7 +70,6 @@ class FloodlightActivity extends \Google\Collection
   public $floodlightConfigurationId;
   protected $floodlightConfigurationIdDimensionValueType = DimensionValue::class;
   protected $floodlightConfigurationIdDimensionValueDataType = '';
-  public $floodlightConfigurationIdDimensionValue;
   /**
    * @var string
    */
@@ -83,7 +80,6 @@ class FloodlightActivity extends \Google\Collection
   public $id;
   protected $idDimensionValueType = DimensionValue::class;
   protected $idDimensionValueDataType = '';
-  public $idDimensionValue;
   /**
    * @var string
    */
@@ -98,7 +94,6 @@ class FloodlightActivity extends \Google\Collection
   public $notes;
   protected $publisherTagsType = FloodlightActivityPublisherDynamicTag::class;
   protected $publisherTagsDataType = 'array';
-  public $publisherTags;
   /**
    * @var bool
    */

@@ -22,7 +22,6 @@ class BulkEditNegativeKeywordsResponse extends \Google\Collection
   protected $collection_key = 'negativeKeywords';
   protected $negativeKeywordsType = NegativeKeyword::class;
   protected $negativeKeywordsDataType = 'array';
-  public $negativeKeywords;
 
   /**
    * @param NegativeKeyword[]

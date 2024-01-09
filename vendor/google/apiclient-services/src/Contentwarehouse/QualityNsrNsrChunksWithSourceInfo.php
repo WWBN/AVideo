@@ -21,7 +21,6 @@ class QualityNsrNsrChunksWithSourceInfo extends \Google\Model
 {
   protected $nsrChunksType = QualityNsrNsrChunksProto::class;
   protected $nsrChunksDataType = '';
-  public $nsrChunks;
   /**
    * @var string
    */

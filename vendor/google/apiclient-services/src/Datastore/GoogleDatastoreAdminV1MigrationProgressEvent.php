@@ -21,10 +21,8 @@ class GoogleDatastoreAdminV1MigrationProgressEvent extends \Google\Model
 {
   protected $prepareStepDetailsType = GoogleDatastoreAdminV1PrepareStepDetails::class;
   protected $prepareStepDetailsDataType = '';
-  public $prepareStepDetails;
   protected $redirectWritesStepDetailsType = GoogleDatastoreAdminV1RedirectWritesStepDetails::class;
   protected $redirectWritesStepDetailsDataType = '';
-  public $redirectWritesStepDetails;
   /**
    * @var string
    */

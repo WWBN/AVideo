@@ -21,7 +21,6 @@ class GerritSourceContext extends \Google\Model
 {
   protected $aliasContextType = AliasContext::class;
   protected $aliasContextDataType = '';
-  public $aliasContext;
   /**
    * @var string
    */

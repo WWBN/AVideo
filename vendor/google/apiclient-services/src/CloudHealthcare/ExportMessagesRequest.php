@@ -25,7 +25,6 @@ class ExportMessagesRequest extends \Google\Model
   public $endTime;
   protected $gcsDestinationType = GcsDestination::class;
   protected $gcsDestinationDataType = '';
-  public $gcsDestination;
   /**
    * @var string
    */

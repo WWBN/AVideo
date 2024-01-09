@@ -26,7 +26,6 @@ class ListServerTlsPoliciesResponse extends \Google\Collection
   public $nextPageToken;
   protected $serverTlsPoliciesType = ServerTlsPolicy::class;
   protected $serverTlsPoliciesDataType = 'array';
-  public $serverTlsPolicies;
 
   /**
    * @param string

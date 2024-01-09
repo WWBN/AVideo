@@ -22,7 +22,6 @@ class BatchGetEffectiveIamPoliciesResponse extends \Google\Collection
   protected $collection_key = 'policyResults';
   protected $policyResultsType = EffectiveIamPolicy::class;
   protected $policyResultsDataType = 'array';
-  public $policyResults;
 
   /**
    * @param EffectiveIamPolicy[]

@@ -21,7 +21,6 @@ class Query extends \Google\Model
 {
   protected $accountInfoType = AccountInfo::class;
   protected $accountInfoDataType = '';
-  public $accountInfo;
   /**
    * @var string
    */
@@ -32,44 +31,36 @@ class Query extends \Google\Model
   public $dataScope;
   protected $driveOptionsType = DriveOptions::class;
   protected $driveOptionsDataType = '';
-  public $driveOptions;
   /**
    * @var string
    */
   public $endTime;
   protected $hangoutsChatInfoType = HangoutsChatInfo::class;
   protected $hangoutsChatInfoDataType = '';
-  public $hangoutsChatInfo;
   protected $hangoutsChatOptionsType = HangoutsChatOptions::class;
   protected $hangoutsChatOptionsDataType = '';
-  public $hangoutsChatOptions;
   protected $mailOptionsType = MailOptions::class;
   protected $mailOptionsDataType = '';
-  public $mailOptions;
   /**
    * @var string
    */
   public $method;
   protected $orgUnitInfoType = OrgUnitInfo::class;
   protected $orgUnitInfoDataType = '';
-  public $orgUnitInfo;
   /**
    * @var string
    */
   public $searchMethod;
   protected $sharedDriveInfoType = SharedDriveInfo::class;
   protected $sharedDriveInfoDataType = '';
-  public $sharedDriveInfo;
   protected $sitesUrlInfoType = SitesUrlInfo::class;
   protected $sitesUrlInfoDataType = '';
-  public $sitesUrlInfo;
   /**
    * @var string
    */
   public $startTime;
   protected $teamDriveInfoType = TeamDriveInfo::class;
   protected $teamDriveInfoDataType = '';
-  public $teamDriveInfo;
   /**
    * @var string
    */
@@ -80,7 +71,6 @@ class Query extends \Google\Model
   public $timeZone;
   protected $voiceOptionsType = VoiceOptions::class;
   protected $voiceOptionsDataType = '';
-  public $voiceOptions;
 
   /**
    * @param AccountInfo

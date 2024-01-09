@@ -21,7 +21,6 @@ class SocialGraphApiProtoContactState extends \Google\Model
 {
   protected $deletionContextType = SocialGraphApiProtoContactDeletionContext::class;
   protected $deletionContextDataType = '';
-  public $deletionContext;
   /**
    * @var string
    */

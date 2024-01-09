@@ -22,7 +22,6 @@ class OperationMetadataV1 extends \Google\Collection
   protected $collection_key = 'warning';
   protected $createVersionMetadataType = CreateVersionMetadataV1::class;
   protected $createVersionMetadataDataType = '';
-  public $createVersionMetadata;
   /**
    * @var string
    */

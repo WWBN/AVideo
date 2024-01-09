@@ -21,16 +21,16 @@ class DeidentifyConfig extends \Google\Model
 {
   protected $dicomType = DicomConfig::class;
   protected $dicomDataType = '';
-  public $dicom;
   protected $fhirType = FhirConfig::class;
   protected $fhirDataType = '';
-  public $fhir;
   protected $imageType = ImageConfig::class;
   protected $imageDataType = '';
-  public $image;
   protected $textType = TextConfig::class;
   protected $textDataType = '';
-  public $text;
+  /**
+   * @var bool
+   */
+  public $useRegionalDataProcessing;
 
   /**
    * @param DicomConfig
@@ -87,6 +87,20 @@ class DeidentifyConfig extends \Google\Model
   public function getText()
   {
     return $this->text;
+  }
+  /**
+   * @param bool
+   */
+  public function setUseRegionalDataProcessing($useRegionalDataProcessing)
+  {
+    $this->useRegionalDataProcessing = $useRegionalDataProcessing;
+  }
+  /**
+   * @return bool
+   */
+  public function getUseRegionalDataProcessing()
+  {
+    return $this->useRegionalDataProcessing;
   }
 }
 

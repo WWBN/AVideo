@@ -17,8 +17,13 @@
 
 namespace Google\Service\Bigquery;
 
-class HivePartitioningOptions extends \Google\Model
+class HivePartitioningOptions extends \Google\Collection
 {
+  protected $collection_key = 'fields';
+  /**
+   * @var string[]
+   */
+  public $fields;
   /**
    * @var string
    */
@@ -32,6 +37,20 @@ class HivePartitioningOptions extends \Google\Model
    */
   public $sourceUriPrefix;
 
+  /**
+   * @param string[]
+   */
+  public function setFields($fields)
+  {
+    $this->fields = $fields;
+  }
+  /**
+   * @return string[]
+   */
+  public function getFields()
+  {
+    return $this->fields;
+  }
   /**
    * @param string
    */

@@ -21,10 +21,8 @@ class MatchInfo extends \Google\Model
 {
   protected $predefinedDetectorType = PredefinedDetectorInfo::class;
   protected $predefinedDetectorDataType = '';
-  public $predefinedDetector;
   protected $userDefinedDetectorType = UserDefinedDetectorInfo::class;
   protected $userDefinedDetectorDataType = '';
-  public $userDefinedDetector;
 
   /**
    * @param PredefinedDetectorInfo

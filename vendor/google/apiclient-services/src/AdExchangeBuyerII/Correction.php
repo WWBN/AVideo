@@ -22,7 +22,6 @@ class Correction extends \Google\Collection
   protected $collection_key = 'details';
   protected $contextsType = ServingContext::class;
   protected $contextsDataType = 'array';
-  public $contexts;
   /**
    * @var string[]
    */

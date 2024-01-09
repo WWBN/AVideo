@@ -25,7 +25,6 @@ class StandardSqlField extends \Google\Model
   public $name;
   protected $typeType = StandardSqlDataType::class;
   protected $typeDataType = '';
-  public $type;
 
   /**
    * @param string

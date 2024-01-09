@@ -21,16 +21,12 @@ class Material extends \Google\Model
 {
   protected $driveFileType = SharedDriveFile::class;
   protected $driveFileDataType = '';
-  public $driveFile;
   protected $formType = Form::class;
   protected $formDataType = '';
-  public $form;
   protected $linkType = Link::class;
   protected $linkDataType = '';
-  public $link;
   protected $youtubeVideoType = YouTubeVideo::class;
   protected $youtubeVideoDataType = '';
-  public $youtubeVideo;
 
   /**
    * @param SharedDriveFile

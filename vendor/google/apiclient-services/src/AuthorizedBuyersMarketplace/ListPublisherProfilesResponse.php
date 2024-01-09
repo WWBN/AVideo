@@ -26,7 +26,6 @@ class ListPublisherProfilesResponse extends \Google\Collection
   public $nextPageToken;
   protected $publisherProfilesType = PublisherProfile::class;
   protected $publisherProfilesDataType = 'array';
-  public $publisherProfiles;
 
   /**
    * @param string

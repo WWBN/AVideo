@@ -22,7 +22,6 @@ class MetricMatrix extends \Google\Collection
   protected $collection_key = 'rows';
   protected $rowsType = MetricMatrixRow::class;
   protected $rowsDataType = 'array';
-  public $rows;
 
   /**
    * @param MetricMatrixRow[]

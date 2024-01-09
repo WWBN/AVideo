@@ -25,7 +25,6 @@ class AddConditionalFormatRuleRequest extends \Google\Model
   public $index;
   protected $ruleType = ConditionalFormatRule::class;
   protected $ruleDataType = '';
-  public $rule;
 
   /**
    * @param int

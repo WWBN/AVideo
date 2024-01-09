@@ -26,7 +26,6 @@ class HealthChecksAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = HealthChecksScopedList::class;
   protected $itemsDataType = 'map';
-  public $items;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class HealthChecksAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = HealthChecksAggregatedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

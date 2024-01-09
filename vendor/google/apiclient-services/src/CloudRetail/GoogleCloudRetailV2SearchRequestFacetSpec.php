@@ -30,7 +30,6 @@ class GoogleCloudRetailV2SearchRequestFacetSpec extends \Google\Collection
   public $excludedFilterKeys;
   protected $facetKeyType = GoogleCloudRetailV2SearchRequestFacetSpecFacetKey::class;
   protected $facetKeyDataType = '';
-  public $facetKey;
   /**
    * @var int
    */

@@ -22,7 +22,6 @@ class ListReturnPolicyOnlineResponse extends \Google\Collection
   protected $collection_key = 'returnPolicies';
   protected $returnPoliciesType = ReturnPolicyOnline::class;
   protected $returnPoliciesDataType = 'array';
-  public $returnPolicies;
 
   /**
    * @param ReturnPolicyOnline[]

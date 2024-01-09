@@ -22,7 +22,6 @@ class CountriesListResponse extends \Google\Collection
   protected $collection_key = 'countries';
   protected $countriesType = Country::class;
   protected $countriesDataType = 'array';
-  public $countries;
   /**
    * @var string
    */

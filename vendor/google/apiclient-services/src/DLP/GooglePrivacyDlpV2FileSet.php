@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2FileSet extends \Google\Model
 {
   protected $regexFileSetType = GooglePrivacyDlpV2CloudStorageRegexFileSet::class;
   protected $regexFileSetDataType = '';
-  public $regexFileSet;
   /**
    * @var string
    */

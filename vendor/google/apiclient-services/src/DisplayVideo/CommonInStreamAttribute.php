@@ -29,7 +29,6 @@ class CommonInStreamAttribute extends \Google\Model
   public $actionHeadline;
   protected $companionBannerType = ImageAsset::class;
   protected $companionBannerDataType = '';
-  public $companionBanner;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class CommonInStreamAttribute extends \Google\Model
   public $trackingUrl;
   protected $videoType = YoutubeVideoDetails::class;
   protected $videoDataType = '';
-  public $video;
 
   /**
    * @param string

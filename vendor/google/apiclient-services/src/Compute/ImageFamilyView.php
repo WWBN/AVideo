@@ -21,7 +21,6 @@ class ImageFamilyView extends \Google\Model
 {
   protected $imageType = Image::class;
   protected $imageDataType = '';
-  public $image;
 
   /**
    * @param Image

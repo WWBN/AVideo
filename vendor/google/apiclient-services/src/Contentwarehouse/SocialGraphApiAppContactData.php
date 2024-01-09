@@ -22,7 +22,6 @@ class SocialGraphApiAppContactData extends \Google\Collection
   protected $collection_key = 'data';
   protected $dataType = SocialGraphApiDataColumn::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

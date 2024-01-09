@@ -22,7 +22,6 @@ class ListNodePoolsResponse extends \Google\Collection
   protected $collection_key = 'nodePools';
   protected $nodePoolsType = NodePool::class;
   protected $nodePoolsDataType = 'array';
-  public $nodePools;
 
   /**
    * @param NodePool[]

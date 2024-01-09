@@ -26,7 +26,6 @@ class PartitionQueryResponse extends \Google\Collection
   public $nextPageToken;
   protected $partitionsType = Cursor::class;
   protected $partitionsDataType = 'array';
-  public $partitions;
 
   /**
    * @param string

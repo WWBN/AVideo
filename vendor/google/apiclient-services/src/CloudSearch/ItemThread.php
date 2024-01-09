@@ -22,31 +22,26 @@ class ItemThread extends \Google\Collection
   protected $collection_key = 'item';
   protected $clusterInfoType = ClusterInfo::class;
   protected $clusterInfoDataType = '';
-  public $clusterInfo;
   protected $itemType = FuseboxItem::class;
   protected $itemDataType = 'array';
-  public $item;
   /**
    * @var string
    */
   public $lastItemId;
   protected $matchInfoType = FuseboxItemThreadMatchInfo::class;
   protected $matchInfoDataType = '';
-  public $matchInfo;
   /**
    * @var string
    */
   public $snippet;
   protected $threadKeyType = MultiKey::class;
   protected $threadKeyDataType = '';
-  public $threadKey;
   /**
    * @var string
    */
   public $threadLocator;
   protected $topicStateType = TopicState::class;
   protected $topicStateDataType = '';
-  public $topicState;
   /**
    * @var string
    */

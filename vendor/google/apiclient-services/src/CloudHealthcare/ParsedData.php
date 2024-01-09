@@ -22,7 +22,6 @@ class ParsedData extends \Google\Collection
   protected $collection_key = 'segments';
   protected $segmentsType = Segment::class;
   protected $segmentsDataType = 'array';
-  public $segments;
 
   /**
    * @param Segment[]

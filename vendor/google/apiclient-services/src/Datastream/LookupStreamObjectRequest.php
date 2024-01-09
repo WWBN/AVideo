@@ -21,7 +21,6 @@ class LookupStreamObjectRequest extends \Google\Model
 {
   protected $sourceObjectIdentifierType = SourceObjectIdentifier::class;
   protected $sourceObjectIdentifierDataType = '';
-  public $sourceObjectIdentifier;
 
   /**
    * @param SourceObjectIdentifier

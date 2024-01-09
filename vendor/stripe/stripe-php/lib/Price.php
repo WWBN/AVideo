@@ -5,23 +5,12 @@
 namespace Stripe;
 
 /**
- * Prices define the unit cost, currency, and (optional) billing cycle for both
- * recurring and one-time purchases of products. <a
- * href="https://stripe.com/docs/api#products">Products</a> help you track
- * inventory or provisioning, and prices help you track payment terms. Different
- * physical goods or levels of service should be represented by products, and
- * pricing options should be represented by prices. This approach lets you change
- * prices without having to change your provisioning scheme.
+ * Prices define the unit cost, currency, and (optional) billing cycle for both recurring and one-time purchases of products.
+ * <a href="https://stripe.com/docs/api#products">Products</a> help you track inventory or provisioning, and prices help you track payment terms. Different physical goods or levels of service should be represented by products, and pricing options should be represented by prices. This approach lets you change prices without having to change your provisioning scheme.
  *
- * For example, you might have a single &quot;gold&quot; product that has prices
- * for $10/month, $100/year, and €9 once.
+ * For example, you might have a single &quot;gold&quot; product that has prices for $10/month, $100/year, and €9 once.
  *
- * Related guides: <a
- * href="https://stripe.com/docs/billing/subscriptions/set-up-subscription">Set up
- * a subscription</a>, <a
- * href="https://stripe.com/docs/billing/invoices/create">create an invoice</a>,
- * and more about <a
- * href="https://stripe.com/docs/products-prices/overview">products and prices</a>.
+ * Related guides: <a href="https://stripe.com/docs/billing/subscriptions/set-up-subscription">Set up a subscription</a>, <a href="https://stripe.com/docs/billing/invoices/create">create an invoice</a>, and more about <a href="https://stripe.com/docs/products-prices/overview">products and prices</a>.
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -37,13 +26,13 @@ namespace Stripe;
  * @property null|string $nickname A brief description of the price, hidden from customers.
  * @property string|\Stripe\Product $product The ID of the product this price is associated with.
  * @property null|\Stripe\StripeObject $recurring The recurring components of a price such as <code>interval</code> and <code>usage_type</code>.
- * @property null|string $tax_behavior Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of <code>inclusive</code>, <code>exclusive</code>, or <code>unspecified</code>. Once specified as either <code>inclusive</code> or <code>exclusive</code>, it cannot be changed.
+ * @property null|string $tax_behavior Only required if a <a href="https://stripe.com/docs/tax/products-prices-tax-categories-tax-behavior#setting-a-default-tax-behavior-(recommended)">default tax behavior</a> was not provided in the Stripe Tax settings. Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of <code>inclusive</code>, <code>exclusive</code>, or <code>unspecified</code>. Once specified as either <code>inclusive</code> or <code>exclusive</code>, it cannot be changed.
  * @property null|\Stripe\StripeObject[] $tiers Each element represents a pricing tier. This parameter requires <code>billing_scheme</code> to be set to <code>tiered</code>. See also the documentation for <code>billing_scheme</code>.
  * @property null|string $tiers_mode Defines if the tiering price should be <code>graduated</code> or <code>volume</code> based. In <code>volume</code>-based tiering, the maximum quantity within a period determines the per unit price. In <code>graduated</code> tiering, pricing can change as the quantity grows.
  * @property null|\Stripe\StripeObject $transform_quantity Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with <code>tiers</code>.
  * @property string $type One of <code>one_time</code> or <code>recurring</code> depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
- * @property null|int $unit_amount The unit amount in %s to be charged, represented as a whole integer if possible. Only set if <code>billing_scheme=per_unit</code>.
- * @property null|string $unit_amount_decimal The unit amount in %s to be charged, represented as a decimal string with at most 12 decimal places. Only set if <code>billing_scheme=per_unit</code>.
+ * @property null|int $unit_amount The unit amount in cents (or local equivalent) to be charged, represented as a whole integer if possible. Only set if <code>billing_scheme=per_unit</code>.
+ * @property null|string $unit_amount_decimal The unit amount in cents (or local equivalent) to be charged, represented as a decimal string with at most 12 decimal places. Only set if <code>billing_scheme=per_unit</code>.
  */
 class Price extends ApiResource
 {
@@ -74,7 +63,7 @@ class Price extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\SearchResult<Price> the price search results
+     * @return \Stripe\SearchResult<\Stripe\Price> the price search results
      */
     public static function search($params = null, $opts = null)
     {

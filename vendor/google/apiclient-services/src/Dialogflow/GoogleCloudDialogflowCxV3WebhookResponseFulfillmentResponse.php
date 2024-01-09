@@ -26,7 +26,6 @@ class GoogleCloudDialogflowCxV3WebhookResponseFulfillmentResponse extends \Googl
   public $mergeBehavior;
   protected $messagesType = GoogleCloudDialogflowCxV3ResponseMessage::class;
   protected $messagesDataType = 'array';
-  public $messages;
 
   /**
    * @param string

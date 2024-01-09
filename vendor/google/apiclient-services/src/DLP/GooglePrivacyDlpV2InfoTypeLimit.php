@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2InfoTypeLimit extends \Google\Model
 {
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
-  public $infoType;
   /**
    * @var int
    */

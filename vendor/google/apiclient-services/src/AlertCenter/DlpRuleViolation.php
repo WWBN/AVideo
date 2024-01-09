@@ -21,7 +21,6 @@ class DlpRuleViolation extends \Google\Model
 {
   protected $ruleViolationInfoType = RuleViolationInfo::class;
   protected $ruleViolationInfoDataType = '';
-  public $ruleViolationInfo;
 
   /**
    * @param RuleViolationInfo

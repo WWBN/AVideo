@@ -22,7 +22,6 @@ class EntityAnnotation extends \Google\Collection
   protected $collection_key = 'properties';
   protected $boundingPolyType = BoundingPoly::class;
   protected $boundingPolyDataType = '';
-  public $boundingPoly;
   /**
    * @var float
    */
@@ -37,14 +36,12 @@ class EntityAnnotation extends \Google\Collection
   public $locale;
   protected $locationsType = LocationInfo::class;
   protected $locationsDataType = 'array';
-  public $locations;
   /**
    * @var string
    */
   public $mid;
   protected $propertiesType = Property::class;
   protected $propertiesDataType = 'array';
-  public $properties;
   /**
    * @var float
    */

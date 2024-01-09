@@ -21,7 +21,6 @@ class EncryptionInfo extends \Google\Model
 {
   protected $encryptionStatusType = Status::class;
   protected $encryptionStatusDataType = '';
-  public $encryptionStatus;
   /**
    * @var string
    */

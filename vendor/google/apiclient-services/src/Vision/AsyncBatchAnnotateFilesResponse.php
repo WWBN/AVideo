@@ -22,7 +22,6 @@ class AsyncBatchAnnotateFilesResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = AsyncAnnotateFileResponse::class;
   protected $responsesDataType = 'array';
-  public $responses;
 
   /**
    * @param AsyncAnnotateFileResponse[]

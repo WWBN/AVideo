@@ -22,7 +22,6 @@ class DescribeDatabaseEntitiesResponse extends \Google\Collection
   protected $collection_key = 'databaseEntities';
   protected $databaseEntitiesType = DatabaseEntity::class;
   protected $databaseEntitiesDataType = 'array';
-  public $databaseEntities;
   /**
    * @var string
    */

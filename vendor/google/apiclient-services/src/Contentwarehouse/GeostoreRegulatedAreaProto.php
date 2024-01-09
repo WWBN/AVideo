@@ -22,7 +22,6 @@ class GeostoreRegulatedAreaProto extends \Google\Collection
   protected $collection_key = 'restriction';
   protected $restrictionType = GeostoreRestrictionProto::class;
   protected $restrictionDataType = 'array';
-  public $restriction;
 
   /**
    * @param GeostoreRestrictionProto[]

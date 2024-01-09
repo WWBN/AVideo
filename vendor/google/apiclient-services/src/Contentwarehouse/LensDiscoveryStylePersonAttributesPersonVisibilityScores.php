@@ -26,7 +26,6 @@ class LensDiscoveryStylePersonAttributesPersonVisibilityScores extends \Google\C
   public $discretizedPersonVisibilityScore;
   protected $personVisibilityPredictionsType = LensDiscoveryStylePersonAttributesPersonVisibilityScoresPersonVisibilityPrediction::class;
   protected $personVisibilityPredictionsDataType = 'array';
-  public $personVisibilityPredictions;
 
   /**
    * @param int

@@ -21,7 +21,6 @@ class UrlMap extends \Google\Model
 {
   protected $apiEndpointType = ApiEndpointHandler::class;
   protected $apiEndpointDataType = '';
-  public $apiEndpoint;
   /**
    * @var string
    */
@@ -36,14 +35,12 @@ class UrlMap extends \Google\Model
   public $redirectHttpResponseCode;
   protected $scriptType = ScriptHandler::class;
   protected $scriptDataType = '';
-  public $script;
   /**
    * @var string
    */
   public $securityLevel;
   protected $staticFilesType = StaticFilesHandler::class;
   protected $staticFilesDataType = '';
-  public $staticFiles;
   /**
    * @var string
    */

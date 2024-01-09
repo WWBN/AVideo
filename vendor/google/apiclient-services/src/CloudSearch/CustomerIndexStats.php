@@ -22,10 +22,8 @@ class CustomerIndexStats extends \Google\Collection
   protected $collection_key = 'itemCountByStatus';
   protected $dateType = Date::class;
   protected $dateDataType = '';
-  public $date;
   protected $itemCountByStatusType = ItemCountByStatus::class;
   protected $itemCountByStatusDataType = 'array';
-  public $itemCountByStatus;
 
   /**
    * @param Date

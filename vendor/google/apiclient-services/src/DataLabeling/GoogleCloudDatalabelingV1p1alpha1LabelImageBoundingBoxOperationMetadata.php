@@ -21,7 +21,6 @@ class GoogleCloudDatalabelingV1p1alpha1LabelImageBoundingBoxOperationMetadata ex
 {
   protected $basicConfigType = GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig::class;
   protected $basicConfigDataType = '';
-  public $basicConfig;
 
   /**
    * @param GoogleCloudDatalabelingV1p1alpha1HumanAnnotationConfig

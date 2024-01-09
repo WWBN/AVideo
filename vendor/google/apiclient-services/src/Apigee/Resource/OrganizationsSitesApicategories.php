@@ -19,7 +19,7 @@ namespace Google\Service\Apigee\Resource;
 
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiCategory;
 use Google\Service\Apigee\GoogleCloudApigeeV1ApiCategoryData;
-use Google\Service\Apigee\GoogleCloudApigeeV1ApiResponseWrapper;
+use Google\Service\Apigee\GoogleCloudApigeeV1DeleteResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListApiCategoriesResponse;
 
 /**
@@ -54,13 +54,13 @@ class OrganizationsSitesApicategories extends \Google\Service\Resource
    * structure in your request:
    * `organizations/{org}/sites/{site}/apicategories/{apicategory}`
    * @param array $optParams Optional parameters.
-   * @return GoogleCloudApigeeV1ApiResponseWrapper
+   * @return GoogleCloudApigeeV1DeleteResponse
    */
   public function delete($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
-    return $this->call('delete', [$params], GoogleCloudApigeeV1ApiResponseWrapper::class);
+    return $this->call('delete', [$params], GoogleCloudApigeeV1DeleteResponse::class);
   }
   /**
    * Gets a category on the portal. (apicategories.get)

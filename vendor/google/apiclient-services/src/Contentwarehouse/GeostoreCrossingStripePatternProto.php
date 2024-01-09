@@ -22,14 +22,12 @@ class GeostoreCrossingStripePatternProto extends \Google\Collection
   protected $collection_key = 'color';
   protected $borderLineType = GeostorePhysicalLineProto::class;
   protected $borderLineDataType = '';
-  public $borderLine;
   /**
    * @var string
    */
   public $borderPattern;
   protected $colorType = GeostorePaintedElementLogicalColorProto::class;
   protected $colorDataType = 'array';
-  public $color;
   /**
    * @var string
    */

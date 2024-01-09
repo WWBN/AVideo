@@ -21,7 +21,6 @@ class ValidateSchemaRequest extends \Google\Model
 {
   protected $schemaType = Schema::class;
   protected $schemaDataType = '';
-  public $schema;
 
   /**
    * @param Schema

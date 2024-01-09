@@ -26,7 +26,25 @@ class CoActivity extends \Google\Model
   /**
    * @var string
    */
+  public $addOnId;
+  protected $addOnStartingStateType = AddOnStartingState::class;
+  protected $addOnStartingStateDataType = '';
+  /**
+   * @var string
+   */
   public $coActivityApp;
+  /**
+   * @var string
+   */
+  public $initiatorDeviceId;
+  /**
+   * @var string
+   */
+  public $presentationDeviceId;
+  /**
+   * @var string
+   */
+  public $projectNumber;
 
   /**
    * @param string
@@ -45,6 +63,34 @@ class CoActivity extends \Google\Model
   /**
    * @param string
    */
+  public function setAddOnId($addOnId)
+  {
+    $this->addOnId = $addOnId;
+  }
+  /**
+   * @return string
+   */
+  public function getAddOnId()
+  {
+    return $this->addOnId;
+  }
+  /**
+   * @param AddOnStartingState
+   */
+  public function setAddOnStartingState(AddOnStartingState $addOnStartingState)
+  {
+    $this->addOnStartingState = $addOnStartingState;
+  }
+  /**
+   * @return AddOnStartingState
+   */
+  public function getAddOnStartingState()
+  {
+    return $this->addOnStartingState;
+  }
+  /**
+   * @param string
+   */
   public function setCoActivityApp($coActivityApp)
   {
     $this->coActivityApp = $coActivityApp;
@@ -55,6 +101,48 @@ class CoActivity extends \Google\Model
   public function getCoActivityApp()
   {
     return $this->coActivityApp;
+  }
+  /**
+   * @param string
+   */
+  public function setInitiatorDeviceId($initiatorDeviceId)
+  {
+    $this->initiatorDeviceId = $initiatorDeviceId;
+  }
+  /**
+   * @return string
+   */
+  public function getInitiatorDeviceId()
+  {
+    return $this->initiatorDeviceId;
+  }
+  /**
+   * @param string
+   */
+  public function setPresentationDeviceId($presentationDeviceId)
+  {
+    $this->presentationDeviceId = $presentationDeviceId;
+  }
+  /**
+   * @return string
+   */
+  public function getPresentationDeviceId()
+  {
+    return $this->presentationDeviceId;
+  }
+  /**
+   * @param string
+   */
+  public function setProjectNumber($projectNumber)
+  {
+    $this->projectNumber = $projectNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectNumber()
+  {
+    return $this->projectNumber;
   }
 }
 

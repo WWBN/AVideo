@@ -22,7 +22,6 @@ class GoogleCloudDialogflowV2BatchUpdateEntityTypesResponse extends \Google\Coll
   protected $collection_key = 'entityTypes';
   protected $entityTypesType = GoogleCloudDialogflowV2EntityType::class;
   protected $entityTypesDataType = 'array';
-  public $entityTypes;
 
   /**
    * @param GoogleCloudDialogflowV2EntityType[]

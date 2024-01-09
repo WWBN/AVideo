@@ -21,7 +21,6 @@ class AppsDynamiteSharedTasksAnnotationDataAssigneeChange extends \Google\Model
 {
   protected $oldAssigneeType = UserId::class;
   protected $oldAssigneeDataType = '';
-  public $oldAssignee;
 
   /**
    * @param UserId

@@ -21,7 +21,6 @@ class GenerateServiceIdentityResponse extends \Google\Model
 {
   protected $identityType = ServiceIdentity::class;
   protected $identityDataType = '';
-  public $identity;
 
   /**
    * @param ServiceIdentity

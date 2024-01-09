@@ -26,7 +26,6 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Results extends \Google\Collect
   public $artifactManifest;
   protected $artifactTimingType = ContaineranalysisGoogleDevtoolsCloudbuildV1TimeSpan::class;
   protected $artifactTimingDataType = '';
-  public $artifactTiming;
   /**
    * @var string[]
    */
@@ -37,17 +36,16 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Results extends \Google\Collect
   public $buildStepOutputs;
   protected $imagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1BuiltImage::class;
   protected $imagesDataType = 'array';
-  public $images;
   protected $mavenArtifactsType = ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedMavenArtifact::class;
   protected $mavenArtifactsDataType = 'array';
-  public $mavenArtifacts;
+  protected $npmPackagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedNpmPackage::class;
+  protected $npmPackagesDataType = 'array';
   /**
    * @var string
    */
   public $numArtifacts;
   protected $pythonPackagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedPythonPackage::class;
   protected $pythonPackagesDataType = 'array';
-  public $pythonPackages;
 
   /**
    * @param string
@@ -132,6 +130,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Results extends \Google\Collect
   public function getMavenArtifacts()
   {
     return $this->mavenArtifacts;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedNpmPackage[]
+   */
+  public function setNpmPackages($npmPackages)
+  {
+    $this->npmPackages = $npmPackages;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1UploadedNpmPackage[]
+   */
+  public function getNpmPackages()
+  {
+    return $this->npmPackages;
   }
   /**
    * @param string

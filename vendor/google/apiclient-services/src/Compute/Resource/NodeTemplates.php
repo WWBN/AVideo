@@ -135,8 +135,7 @@ class NodeTemplates extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified node template. Gets a list of available node templates
-   * by making a list() request. (nodeTemplates.get)
+   * Returns the specified node template. (nodeTemplates.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region The name of the region for this request.

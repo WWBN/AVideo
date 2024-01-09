@@ -22,7 +22,6 @@ class Promotion extends \Google\Collection
   protected $collection_key = 'bodyLines';
   protected $bodyLinesType = PromotionBodyLines::class;
   protected $bodyLinesDataType = 'array';
-  public $bodyLines;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class Promotion extends \Google\Collection
   public $htmlTitle;
   protected $imageType = PromotionImage::class;
   protected $imageDataType = '';
-  public $image;
   /**
    * @var string
    */

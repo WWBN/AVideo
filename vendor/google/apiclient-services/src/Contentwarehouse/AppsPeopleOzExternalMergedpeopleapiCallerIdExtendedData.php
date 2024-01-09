@@ -21,7 +21,6 @@ class AppsPeopleOzExternalMergedpeopleapiCallerIdExtendedData extends \Google\Mo
 {
   protected $callerIdSourceType = AppsPeopleOzExternalMergedpeopleapiCallerIdExtendedDataCallerIdSource::class;
   protected $callerIdSourceDataType = '';
-  public $callerIdSource;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiCallerIdExtendedDataCallerIdSource

@@ -74,6 +74,9 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * must be specified to the second and include a time zone.
    * @opt_param string _type String of comma-delimited FHIR resource types. If
    * provided, only resources of the specified resource type(s) are returned.
+   * Specifying multiple `_type` parameters isn't supported. For example, the
+   * result of `_type=Observation&_type=Encounter` is undefined. Use
+   * `_type=Observation,Encounter` instead.
    * @opt_param string end The response includes records prior to the end date.
    * The date uses the format YYYY-MM-DD. If no end date is provided, all records
    * subsequent to the start date are in scope.
@@ -426,18 +429,20 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * (R4). Supported search result parameters: `_sort`, `_count`, `_include`,
    * `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum
    * number of search results returned defaults to 100, which can be overridden by
-   * the `_count` parameter up to a maximum limit of 1000. If there are additional
-   * results, the returned `Bundle` contains a link of `relation` "next", which
-   * has a `_page_token` parameter for an opaque pagination token that can be used
-   * to retrieve the next page. Resources with a total size larger than 5MB or a
-   * field count larger than 50,000 might not be fully searchable as the server
-   * might trim its generated search index in those cases. Note: FHIR resources
-   * are indexed asynchronously, so there might be a slight delay between the time
-   * a resource is created or changes and when the change is reflected in search
-   * results. For samples and detailed information, see [Searching for FHIR
-   * resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and
-   * [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-
-   * tos/fhir-advanced-search). (fhir.search)
+   * the `_count` parameter up to a maximum limit of 1000. The server might return
+   * fewer resources than requested to prevent excessively large responses. If
+   * there are additional results, the returned `Bundle` contains a link of
+   * `relation` "next", which has a `_page_token` parameter for an opaque
+   * pagination token that can be used to retrieve the next page. Resources with a
+   * total size larger than 5MB or a field count larger than 50,000 might not be
+   * fully searchable as the server might trim its generated search index in those
+   * cases. Note: FHIR resources are indexed asynchronously, so there might be a
+   * slight delay between the time a resource is created or changes and when the
+   * change is reflected in search results. For samples and detailed information,
+   * see [Searching for FHIR resources](https://cloud.google.com/healthcare/docs
+   * /how-tos/fhir-search) and [Advanced FHIR search
+   * features](https://cloud.google.com/healthcare/docs/how-tos/fhir-advanced-
+   * search). (fhir.search)
    *
    * @param string $parent Name of the FHIR store to retrieve resources from.
    * @param SearchResourcesRequest $postBody
@@ -487,18 +492,20 @@ class ProjectsLocationsDatasetsFhirStoresFhir extends \Google\Service\Resource
    * (R4). Supported search result parameters: `_sort`, `_count`, `_include`,
    * `_revinclude`, `_summary=text`, `_summary=data`, and `_elements`. The maximum
    * number of search results returned defaults to 100, which can be overridden by
-   * the `_count` parameter up to a maximum limit of 1000. If there are additional
-   * results, the returned `Bundle` contains a link of `relation` "next", which
-   * has a `_page_token` parameter for an opaque pagination token that can be used
-   * to retrieve the next page. Resources with a total size larger than 5MB or a
-   * field count larger than 50,000 might not be fully searchable as the server
-   * might trim its generated search index in those cases. Note: FHIR resources
-   * are indexed asynchronously, so there might be a slight delay between the time
-   * a resource is created or changes and when the change is reflected in search
-   * results. For samples and detailed information, see [Searching for FHIR
-   * resources](https://cloud.google.com/healthcare/docs/how-tos/fhir-search) and
-   * [Advanced FHIR search features](https://cloud.google.com/healthcare/docs/how-
-   * tos/fhir-advanced-search). (fhir.searchType)
+   * the `_count` parameter up to a maximum limit of 1000. The server might return
+   * fewer resources than requested to prevent excessively large responses. If
+   * there are additional results, the returned `Bundle` contains a link of
+   * `relation` "next", which has a `_page_token` parameter for an opaque
+   * pagination token that can be used to retrieve the next page. Resources with a
+   * total size larger than 5MB or a field count larger than 50,000 might not be
+   * fully searchable as the server might trim its generated search index in those
+   * cases. Note: FHIR resources are indexed asynchronously, so there might be a
+   * slight delay between the time a resource is created or changes and when the
+   * change is reflected in search results. For samples and detailed information,
+   * see [Searching for FHIR resources](https://cloud.google.com/healthcare/docs
+   * /how-tos/fhir-search) and [Advanced FHIR search
+   * features](https://cloud.google.com/healthcare/docs/how-tos/fhir-advanced-
+   * search). (fhir.searchType)
    *
    * @param string $parent Name of the FHIR store to retrieve resources from.
    * @param string $resourceType The FHIR resource type to search, such as Patient

@@ -22,7 +22,6 @@ class Group extends \Google\Collection
   protected $collection_key = 'children';
   protected $childrenType = PageElement::class;
   protected $childrenDataType = 'array';
-  public $children;
 
   /**
    * @param PageElement[]

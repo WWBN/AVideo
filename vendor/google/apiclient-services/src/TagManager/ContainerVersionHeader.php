@@ -66,6 +66,10 @@ class ContainerVersionHeader extends \Google\Model
   /**
    * @var string
    */
+  public $numTransformations;
+  /**
+   * @var string
+   */
   public $numTriggers;
   /**
    * @var string
@@ -233,6 +237,20 @@ class ContainerVersionHeader extends \Google\Model
   public function getNumTags()
   {
     return $this->numTags;
+  }
+  /**
+   * @param string
+   */
+  public function setNumTransformations($numTransformations)
+  {
+    $this->numTransformations = $numTransformations;
+  }
+  /**
+   * @return string
+   */
+  public function getNumTransformations()
+  {
+    return $this->numTransformations;
   }
   /**
    * @param string

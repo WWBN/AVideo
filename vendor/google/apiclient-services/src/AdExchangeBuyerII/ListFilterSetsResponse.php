@@ -22,7 +22,6 @@ class ListFilterSetsResponse extends \Google\Collection
   protected $collection_key = 'filterSets';
   protected $filterSetsType = FilterSet::class;
   protected $filterSetsDataType = 'array';
-  public $filterSets;
   /**
    * @var string
    */

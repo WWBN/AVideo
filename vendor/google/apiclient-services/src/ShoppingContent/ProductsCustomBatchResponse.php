@@ -22,7 +22,6 @@ class ProductsCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = ProductsCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
   /**
    * @var string
    */

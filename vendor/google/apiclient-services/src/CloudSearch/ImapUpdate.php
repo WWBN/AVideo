@@ -21,7 +21,6 @@ class ImapUpdate extends \Google\Model
 {
   protected $imapUidsReassignType = ImapUidsReassign::class;
   protected $imapUidsReassignDataType = '';
-  public $imapUidsReassign;
 
   /**
    * @param ImapUidsReassign

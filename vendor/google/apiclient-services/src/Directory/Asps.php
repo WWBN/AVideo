@@ -26,7 +26,6 @@ class Asps extends \Google\Collection
   public $etag;
   protected $itemsType = Asp::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

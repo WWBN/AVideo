@@ -21,7 +21,6 @@ class IndexingSignalAggregatorUrlPatternSignalsPriorSignal extends \Google\Model
 {
   protected $aggregatedScoreType = IndexingSignalAggregatorAggregatedScore::class;
   protected $aggregatedScoreDataType = '';
-  public $aggregatedScore;
   /**
    * @var string
    */

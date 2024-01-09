@@ -5,12 +5,9 @@
 namespace Stripe;
 
 /**
- * A subscription schedule allows you to create and manage the lifecycle of a
- * subscription by predefining expected changes.
+ * A subscription schedule allows you to create and manage the lifecycle of a subscription by predefining expected changes.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/billing/subscriptions/subscription-schedules">Subscription
- * Schedules</a>.
+ * Related guide: <a href="https://stripe.com/docs/billing/subscriptions/subscription-schedules">Subscription schedules</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -39,6 +36,17 @@ class SubscriptionSchedule extends ApiResource
     use ApiOperations\Create;
     use ApiOperations\Retrieve;
     use ApiOperations\Update;
+
+    const END_BEHAVIOR_CANCEL = 'cancel';
+    const END_BEHAVIOR_NONE = 'none';
+    const END_BEHAVIOR_RELEASE = 'release';
+    const END_BEHAVIOR_RENEW = 'renew';
+
+    const STATUS_ACTIVE = 'active';
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_COMPLETED = 'completed';
+    const STATUS_NOT_STARTED = 'not_started';
+    const STATUS_RELEASED = 'released';
 
     /**
      * @param null|array $params

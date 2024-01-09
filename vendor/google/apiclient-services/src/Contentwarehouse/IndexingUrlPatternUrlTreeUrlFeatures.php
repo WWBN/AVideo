@@ -22,7 +22,6 @@ class IndexingUrlPatternUrlTreeUrlFeatures extends \Google\Collection
   protected $collection_key = 'feature';
   protected $featureType = IndexingUrlPatternUrlTreeUrlFeature::class;
   protected $featureDataType = 'array';
-  public $feature;
 
   /**
    * @param IndexingUrlPatternUrlTreeUrlFeature[]

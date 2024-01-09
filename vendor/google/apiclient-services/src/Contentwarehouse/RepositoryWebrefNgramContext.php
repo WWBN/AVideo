@@ -22,7 +22,6 @@ class RepositoryWebrefNgramContext extends \Google\Collection
   protected $collection_key = 'mention';
   protected $mentionType = RepositoryWebrefNgramMention::class;
   protected $mentionDataType = 'array';
-  public $mention;
   /**
    * @var string
    */

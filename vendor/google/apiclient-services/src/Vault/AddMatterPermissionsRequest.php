@@ -25,7 +25,6 @@ class AddMatterPermissionsRequest extends \Google\Model
   public $ccMe;
   protected $matterPermissionType = MatterPermission::class;
   protected $matterPermissionDataType = '';
-  public $matterPermission;
   /**
    * @var bool
    */

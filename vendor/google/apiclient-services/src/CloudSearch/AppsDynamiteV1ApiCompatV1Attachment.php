@@ -34,7 +34,6 @@ class AppsDynamiteV1ApiCompatV1Attachment extends \Google\Collection
   ];
   protected $actionsType = AppsDynamiteV1ApiCompatV1Action::class;
   protected $actionsDataType = 'array';
-  public $actions;
   /**
    * @var string
    */
@@ -65,7 +64,6 @@ class AppsDynamiteV1ApiCompatV1Attachment extends \Google\Collection
   public $fallback;
   protected $fieldsType = AppsDynamiteV1ApiCompatV1Field::class;
   protected $fieldsDataType = 'array';
-  public $fields;
   /**
    * @var string
    */

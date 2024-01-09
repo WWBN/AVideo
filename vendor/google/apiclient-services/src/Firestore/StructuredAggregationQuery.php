@@ -22,10 +22,8 @@ class StructuredAggregationQuery extends \Google\Collection
   protected $collection_key = 'aggregations';
   protected $aggregationsType = Aggregation::class;
   protected $aggregationsDataType = 'array';
-  public $aggregations;
   protected $structuredQueryType = StructuredQuery::class;
   protected $structuredQueryDataType = '';
-  public $structuredQuery;
 
   /**
    * @param Aggregation[]

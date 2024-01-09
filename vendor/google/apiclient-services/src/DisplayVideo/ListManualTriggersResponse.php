@@ -22,7 +22,6 @@ class ListManualTriggersResponse extends \Google\Collection
   protected $collection_key = 'manualTriggers';
   protected $manualTriggersType = ManualTrigger::class;
   protected $manualTriggersDataType = 'array';
-  public $manualTriggers;
   /**
    * @var string
    */

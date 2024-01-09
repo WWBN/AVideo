@@ -22,17 +22,14 @@ class VideoContentSearchListAnchorFeatures extends \Google\Collection
   protected $collection_key = 'matchScores';
   protected $babelMatchType = VideoContentSearchTextMatchInfo::class;
   protected $babelMatchDataType = '';
-  public $babelMatch;
   protected $descriptionSpanInfoType = VideoContentSearchDescriptionSpanInfo::class;
   protected $descriptionSpanInfoDataType = '';
-  public $descriptionSpanInfo;
   /**
    * @var int
    */
   public $listItemIndex;
   protected $matchScoresType = VideoContentSearchMatchScores::class;
   protected $matchScoresDataType = 'array';
-  public $matchScores;
   /**
    * @var float
    */

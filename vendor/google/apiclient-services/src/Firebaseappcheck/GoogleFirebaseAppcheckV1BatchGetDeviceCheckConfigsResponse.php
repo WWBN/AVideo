@@ -22,7 +22,6 @@ class GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse extends \Google
   protected $collection_key = 'configs';
   protected $configsType = GoogleFirebaseAppcheckV1DeviceCheckConfig::class;
   protected $configsDataType = 'array';
-  public $configs;
 
   /**
    * @param GoogleFirebaseAppcheckV1DeviceCheckConfig[]

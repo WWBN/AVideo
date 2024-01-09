@@ -33,7 +33,6 @@ class PrimaryInstanceSettings extends \Google\Model
   public $labels;
   protected $machineConfigType = MachineConfig::class;
   protected $machineConfigDataType = '';
-  public $machineConfig;
   /**
    * @var string
    */

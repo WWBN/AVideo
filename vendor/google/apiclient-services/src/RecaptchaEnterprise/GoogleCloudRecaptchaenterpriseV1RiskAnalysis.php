@@ -23,12 +23,30 @@ class GoogleCloudRecaptchaenterpriseV1RiskAnalysis extends \Google\Collection
   /**
    * @var string[]
    */
+  public $extendedVerdictReasons;
+  /**
+   * @var string[]
+   */
   public $reasons;
   /**
    * @var float
    */
   public $score;
 
+  /**
+   * @param string[]
+   */
+  public function setExtendedVerdictReasons($extendedVerdictReasons)
+  {
+    $this->extendedVerdictReasons = $extendedVerdictReasons;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExtendedVerdictReasons()
+  {
+    return $this->extendedVerdictReasons;
+  }
   /**
    * @param string[]
    */

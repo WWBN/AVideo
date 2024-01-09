@@ -25,7 +25,6 @@ class GoogleFactcheckingFactchecktoolsV1alpha1ClaimReview extends \Google\Model
   public $languageCode;
   protected $publisherType = GoogleFactcheckingFactchecktoolsV1alpha1Publisher::class;
   protected $publisherDataType = '';
-  public $publisher;
   /**
    * @var string
    */

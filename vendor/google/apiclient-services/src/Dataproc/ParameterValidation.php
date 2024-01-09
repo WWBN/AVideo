@@ -21,10 +21,8 @@ class ParameterValidation extends \Google\Model
 {
   protected $regexType = RegexValidation::class;
   protected $regexDataType = '';
-  public $regex;
   protected $valuesType = ValueValidation::class;
   protected $valuesDataType = '';
-  public $values;
 
   /**
    * @param RegexValidation

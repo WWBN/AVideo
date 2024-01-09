@@ -22,7 +22,6 @@ class TrackRelease extends \Google\Collection
   protected $collection_key = 'versionCodes';
   protected $countryTargetingType = CountryTargeting::class;
   protected $countryTargetingDataType = '';
-  public $countryTargeting;
   /**
    * @var int
    */
@@ -33,7 +32,6 @@ class TrackRelease extends \Google\Collection
   public $name;
   protected $releaseNotesType = LocalizedText::class;
   protected $releaseNotesDataType = 'array';
-  public $releaseNotes;
   /**
    * @var string
    */

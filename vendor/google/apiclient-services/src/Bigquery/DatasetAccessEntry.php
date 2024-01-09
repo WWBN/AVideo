@@ -22,7 +22,6 @@ class DatasetAccessEntry extends \Google\Collection
   protected $collection_key = 'targetTypes';
   protected $datasetType = DatasetReference::class;
   protected $datasetDataType = '';
-  public $dataset;
   /**
    * @var string[]
    */

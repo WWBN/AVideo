@@ -21,13 +21,10 @@ class LogConfig extends \Google\Model
 {
   protected $cloudAuditType = LogConfigCloudAuditOptions::class;
   protected $cloudAuditDataType = '';
-  public $cloudAudit;
   protected $counterType = LogConfigCounterOptions::class;
   protected $counterDataType = '';
-  public $counter;
   protected $dataAccessType = LogConfigDataAccessOptions::class;
   protected $dataAccessDataType = '';
-  public $dataAccess;
 
   /**
    * @param LogConfigCloudAuditOptions

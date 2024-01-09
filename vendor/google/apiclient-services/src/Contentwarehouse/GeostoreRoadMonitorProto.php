@@ -22,7 +22,6 @@ class GeostoreRoadMonitorProto extends \Google\Collection
   protected $collection_key = 'monitoredRoad';
   protected $monitoredRoadType = GeostoreFeatureIdProto::class;
   protected $monitoredRoadDataType = 'array';
-  public $monitoredRoad;
 
   /**
    * @param GeostoreFeatureIdProto[]

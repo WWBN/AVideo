@@ -31,6 +31,10 @@ class TagBinding extends \Google\Model
    * @var string
    */
   public $tagValue;
+  /**
+   * @var string
+   */
+  public $tagValueNamespacedName;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class TagBinding extends \Google\Model
   public function getTagValue()
   {
     return $this->tagValue;
+  }
+  /**
+   * @param string
+   */
+  public function setTagValueNamespacedName($tagValueNamespacedName)
+  {
+    $this->tagValueNamespacedName = $tagValueNamespacedName;
+  }
+  /**
+   * @return string
+   */
+  public function getTagValueNamespacedName()
+  {
+    return $this->tagValueNamespacedName;
   }
 }
 

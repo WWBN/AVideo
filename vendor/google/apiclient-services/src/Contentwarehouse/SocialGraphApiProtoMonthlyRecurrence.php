@@ -21,10 +21,8 @@ class SocialGraphApiProtoMonthlyRecurrence extends \Google\Model
 {
   protected $monthlyDayRecurrenceType = SocialGraphApiProtoMonthlyDayRecurrence::class;
   protected $monthlyDayRecurrenceDataType = '';
-  public $monthlyDayRecurrence;
   protected $monthlyWeekdayRecurrenceType = SocialGraphApiProtoMonthlyWeekdayRecurrence::class;
   protected $monthlyWeekdayRecurrenceDataType = '';
-  public $monthlyWeekdayRecurrence;
 
   /**
    * @param SocialGraphApiProtoMonthlyDayRecurrence

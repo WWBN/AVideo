@@ -707,6 +707,32 @@ class CloudIdentity extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'searchDirectGroups' => [
+              'path' => 'v1/{+parent}/memberships:searchDirectGroups',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'query' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'searchTransitiveGroups' => [
               'path' => 'v1/{+parent}/memberships:searchTransitiveGroups',
               'httpMethod' => 'GET',

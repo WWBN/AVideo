@@ -22,7 +22,6 @@ class VideoContentSearchVideoMultimodalTopicFeatures extends \Google\Collection
   protected $collection_key = 'frameStarburstData';
   protected $frameStarburstDataType = VideoContentSearchFrameStarburstData::class;
   protected $frameStarburstDataDataType = 'array';
-  public $frameStarburstData;
 
   /**
    * @param VideoContentSearchFrameStarburstData[]

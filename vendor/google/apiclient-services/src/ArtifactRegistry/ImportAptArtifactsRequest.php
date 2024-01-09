@@ -21,7 +21,6 @@ class ImportAptArtifactsRequest extends \Google\Model
 {
   protected $gcsSourceType = ImportAptArtifactsGcsSource::class;
   protected $gcsSourceDataType = '';
-  public $gcsSource;
 
   /**
    * @param ImportAptArtifactsGcsSource

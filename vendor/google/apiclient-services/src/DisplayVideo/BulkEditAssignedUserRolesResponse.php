@@ -22,7 +22,6 @@ class BulkEditAssignedUserRolesResponse extends \Google\Collection
   protected $collection_key = 'createdAssignedUserRoles';
   protected $createdAssignedUserRolesType = AssignedUserRole::class;
   protected $createdAssignedUserRolesDataType = 'array';
-  public $createdAssignedUserRoles;
 
   /**
    * @param AssignedUserRole[]

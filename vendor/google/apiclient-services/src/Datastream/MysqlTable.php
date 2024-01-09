@@ -22,7 +22,6 @@ class MysqlTable extends \Google\Collection
   protected $collection_key = 'mysqlColumns';
   protected $mysqlColumnsType = MysqlColumn::class;
   protected $mysqlColumnsDataType = 'array';
-  public $mysqlColumns;
   /**
    * @var string
    */

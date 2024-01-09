@@ -26,7 +26,6 @@ class InstanceGroupList extends \Google\Collection
   public $id;
   protected $itemsType = InstanceGroup::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class InstanceGroupList extends \Google\Collection
   public $selfLink;
   protected $warningType = InstanceGroupListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

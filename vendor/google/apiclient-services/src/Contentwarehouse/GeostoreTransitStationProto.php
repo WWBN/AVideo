@@ -22,7 +22,6 @@ class GeostoreTransitStationProto extends \Google\Collection
   protected $collection_key = 'agencies';
   protected $agenciesType = GeostoreFeatureIdProto::class;
   protected $agenciesDataType = 'array';
-  public $agencies;
 
   /**
    * @param GeostoreFeatureIdProto[]

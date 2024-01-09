@@ -22,7 +22,6 @@ class AppsPeopleOzExternalMergedpeopleapiAdditionalContainerInfo extends \Google
   protected $collection_key = 'rawDeviceContactInfo';
   protected $rawDeviceContactInfoType = AppsPeopleOzExternalMergedpeopleapiRawDeviceContactInfo::class;
   protected $rawDeviceContactInfoDataType = 'array';
-  public $rawDeviceContactInfo;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiRawDeviceContactInfo[]

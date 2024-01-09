@@ -21,7 +21,6 @@ class InstancesDemoteMasterRequest extends \Google\Model
 {
   protected $demoteMasterContextType = DemoteMasterContext::class;
   protected $demoteMasterContextDataType = '';
-  public $demoteMasterContext;
 
   /**
    * @param DemoteMasterContext

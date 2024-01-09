@@ -21,7 +21,6 @@ class AssistantGroundingRankerLaaFeaturesProvider extends \Google\Model
 {
   protected $assistantInteractionFeaturesType = AssistantGroundingRankerAssistantInteractionFeatures::class;
   protected $assistantInteractionFeaturesDataType = '';
-  public $assistantInteractionFeatures;
 
   /**
    * @param AssistantGroundingRankerAssistantInteractionFeatures

@@ -21,10 +21,8 @@ class GeostoreCurveConnectionProto extends \Google\Model
 {
   protected $bezierParamsType = GeostoreCurveConnectionProtoBezierParams::class;
   protected $bezierParamsDataType = '';
-  public $bezierParams;
   protected $circleParamsType = GeostoreCurveConnectionProtoCircleParams::class;
   protected $circleParamsDataType = '';
-  public $circleParams;
   /**
    * @var string
    */

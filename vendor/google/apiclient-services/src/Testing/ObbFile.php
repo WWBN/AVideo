@@ -21,7 +21,6 @@ class ObbFile extends \Google\Model
 {
   protected $obbType = FileReference::class;
   protected $obbDataType = '';
-  public $obb;
   /**
    * @var string
    */

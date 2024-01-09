@@ -21,7 +21,6 @@ class CommitCursorRequest extends \Google\Model
 {
   protected $cursorType = Cursor::class;
   protected $cursorDataType = '';
-  public $cursor;
   /**
    * @var string
    */

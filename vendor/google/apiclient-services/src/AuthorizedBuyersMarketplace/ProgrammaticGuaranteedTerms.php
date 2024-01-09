@@ -21,7 +21,6 @@ class ProgrammaticGuaranteedTerms extends \Google\Model
 {
   protected $fixedPriceType = Price::class;
   protected $fixedPriceDataType = '';
-  public $fixedPrice;
   /**
    * @var string
    */

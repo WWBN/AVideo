@@ -21,7 +21,6 @@ class UrlMapsValidateResponse extends \Google\Model
 {
   protected $resultType = UrlMapValidationResult::class;
   protected $resultDataType = '';
-  public $result;
 
   /**
    * @param UrlMapValidationResult

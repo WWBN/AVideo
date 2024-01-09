@@ -21,10 +21,8 @@ class GoogleCloudChannelV1SubscriberEvent extends \Google\Model
 {
   protected $customerEventType = GoogleCloudChannelV1CustomerEvent::class;
   protected $customerEventDataType = '';
-  public $customerEvent;
   protected $entitlementEventType = GoogleCloudChannelV1EntitlementEvent::class;
   protected $entitlementEventDataType = '';
-  public $entitlementEvent;
 
   /**
    * @param GoogleCloudChannelV1CustomerEvent

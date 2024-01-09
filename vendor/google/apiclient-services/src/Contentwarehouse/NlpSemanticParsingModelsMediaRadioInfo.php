@@ -21,10 +21,8 @@ class NlpSemanticParsingModelsMediaRadioInfo extends \Google\Model
 {
   protected $frequencyType = NlpSemanticParsingModelsMediaFrequency::class;
   protected $frequencyDataType = '';
-  public $frequency;
   protected $locationType = NlpSemanticParsingModelsMediaLatLng::class;
   protected $locationDataType = '';
-  public $location;
   public $popularity;
 
   /**

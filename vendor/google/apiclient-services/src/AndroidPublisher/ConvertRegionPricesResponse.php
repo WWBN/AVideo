@@ -21,10 +21,8 @@ class ConvertRegionPricesResponse extends \Google\Model
 {
   protected $convertedOtherRegionsPriceType = ConvertedOtherRegionsPrice::class;
   protected $convertedOtherRegionsPriceDataType = '';
-  public $convertedOtherRegionsPrice;
   protected $convertedRegionPricesType = ConvertedRegionPrice::class;
   protected $convertedRegionPricesDataType = 'map';
-  public $convertedRegionPrices;
 
   /**
    * @param ConvertedOtherRegionsPrice

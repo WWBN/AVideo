@@ -21,10 +21,8 @@ class AllowedKeyType extends \Google\Model
 {
   protected $ellipticCurveType = EcKeyType::class;
   protected $ellipticCurveDataType = '';
-  public $ellipticCurve;
   protected $rsaType = RsaKeyType::class;
   protected $rsaDataType = '';
-  public $rsa;
 
   /**
    * @param EcKeyType

@@ -26,7 +26,6 @@ class BiReservation extends \Google\Collection
   public $name;
   protected $preferredTablesType = TableReference::class;
   protected $preferredTablesDataType = 'array';
-  public $preferredTables;
   /**
    * @var string
    */

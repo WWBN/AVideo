@@ -22,7 +22,6 @@ class ListConnectionProfilesResponse extends \Google\Collection
   protected $collection_key = 'unreachable';
   protected $connectionProfilesType = ConnectionProfile::class;
   protected $connectionProfilesDataType = 'array';
-  public $connectionProfiles;
   /**
    * @var string
    */

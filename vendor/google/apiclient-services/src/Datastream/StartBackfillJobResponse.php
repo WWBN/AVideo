@@ -21,7 +21,6 @@ class StartBackfillJobResponse extends \Google\Model
 {
   protected $objectType = StreamObject::class;
   protected $objectDataType = '';
-  public $object;
 
   /**
    * @param StreamObject

@@ -26,7 +26,6 @@ class ListTcpRoutesResponse extends \Google\Collection
   public $nextPageToken;
   protected $tcpRoutesType = TcpRoute::class;
   protected $tcpRoutesDataType = 'array';
-  public $tcpRoutes;
 
   /**
    * @param string

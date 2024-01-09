@@ -25,7 +25,6 @@ class MasterAuth extends \Google\Model
   public $clientCertificate;
   protected $clientCertificateConfigType = ClientCertificateConfig::class;
   protected $clientCertificateConfigDataType = '';
-  public $clientCertificateConfig;
   /**
    * @var string
    */

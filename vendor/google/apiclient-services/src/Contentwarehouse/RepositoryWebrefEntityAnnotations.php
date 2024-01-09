@@ -26,13 +26,10 @@ class RepositoryWebrefEntityAnnotations extends \Google\Collection
   public $confidenceScore;
   protected $debugInfoType = RepositoryWebrefAnnotationDebugInfo::class;
   protected $debugInfoDataType = '';
-  public $debugInfo;
   protected $detailedEntityScoresType = RepositoryWebrefDetailedEntityScores::class;
   protected $detailedEntityScoresDataType = '';
-  public $detailedEntityScores;
   protected $explainedRangeInfoType = RepositoryWebrefExplainedRangeInfo::class;
   protected $explainedRangeInfoDataType = '';
-  public $explainedRangeInfo;
   /**
    * @var bool
    */
@@ -43,7 +40,6 @@ class RepositoryWebrefEntityAnnotations extends \Google\Collection
   public $isResolution;
   protected $segmentMentionsType = RepositoryWebrefSegmentMentions::class;
   protected $segmentMentionsDataType = 'array';
-  public $segmentMentions;
   /**
    * @var int
    */

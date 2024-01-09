@@ -22,7 +22,6 @@ class Project extends \Google\Collection
   protected $collection_key = 'quotas';
   protected $commonInstanceMetadataType = Metadata::class;
   protected $commonInstanceMetadataDataType = '';
-  public $commonInstanceMetadata;
   /**
    * @var string
    */
@@ -57,14 +56,12 @@ class Project extends \Google\Collection
   public $name;
   protected $quotasType = Quota::class;
   protected $quotasDataType = 'array';
-  public $quotas;
   /**
    * @var string
    */
   public $selfLink;
   protected $usageExportLocationType = UsageExportLocation::class;
   protected $usageExportLocationDataType = '';
-  public $usageExportLocation;
   /**
    * @var string
    */

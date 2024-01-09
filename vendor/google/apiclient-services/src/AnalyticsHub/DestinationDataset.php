@@ -21,7 +21,6 @@ class DestinationDataset extends \Google\Model
 {
   protected $datasetReferenceType = DestinationDatasetReference::class;
   protected $datasetReferenceDataType = '';
-  public $datasetReference;
   /**
    * @var string
    */

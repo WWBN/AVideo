@@ -25,7 +25,6 @@ class NlpMeaningSemanticTypeNameMeaningRemodelings extends \Google\Model
   public $name;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
 
   /**
    * @param string

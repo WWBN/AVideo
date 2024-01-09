@@ -54,7 +54,6 @@ class PublicAdvertisedPrefix extends \Google\Collection
   public $name;
   protected $publicDelegatedPrefixsType = PublicAdvertisedPrefixPublicDelegatedPrefix::class;
   protected $publicDelegatedPrefixsDataType = 'array';
-  public $publicDelegatedPrefixs;
   /**
    * @var string
    */

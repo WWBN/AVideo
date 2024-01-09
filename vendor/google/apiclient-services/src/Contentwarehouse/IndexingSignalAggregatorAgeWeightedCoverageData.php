@@ -51,7 +51,6 @@ class IndexingSignalAggregatorAgeWeightedCoverageData extends \Google\Model
   public $impressions;
   protected $intervalDataType = IndexingSignalAggregatorAdaptiveIntervalData::class;
   protected $intervalDataDataType = '';
-  public $intervalData;
   /**
    * @var int
    */

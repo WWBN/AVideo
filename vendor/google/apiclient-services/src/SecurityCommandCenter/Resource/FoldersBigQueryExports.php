@@ -41,9 +41,9 @@ class FoldersBigQueryExports extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string bigQueryExportId Required. Unique identifier provided by
-   * the client within the parent scope. It must consist of lower case letters,
-   * numbers, and hyphen, with the first character a letter, the last a letter or
-   * a number, and a 63 character maximum.
+   * the client within the parent scope. It must consist of only lowercase
+   * letters, numbers, and hyphens, must start with a letter, must end with either
+   * a letter or a number, and must be 63 characters or less.
    * @return GoogleCloudSecuritycenterV1BigQueryExport
    */
   public function create($parent, GoogleCloudSecuritycenterV1BigQueryExport $postBody, $optParams = [])

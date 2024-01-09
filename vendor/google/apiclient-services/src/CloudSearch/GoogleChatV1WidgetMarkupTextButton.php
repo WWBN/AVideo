@@ -21,7 +21,6 @@ class GoogleChatV1WidgetMarkupTextButton extends \Google\Model
 {
   protected $onClickType = GoogleChatV1WidgetMarkupOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class Finding extends \Google\Collection
   protected $collection_key = 'processes';
   protected $accessType = Access::class;
   protected $accessDataType = '';
-  public $access;
   /**
    * @var string
    */
@@ -31,25 +30,24 @@ class Finding extends \Google\Collection
    * @var string
    */
   public $category;
+  protected $cloudDlpDataProfileType = CloudDlpDataProfile::class;
+  protected $cloudDlpDataProfileDataType = '';
+  protected $cloudDlpInspectionType = CloudDlpInspection::class;
+  protected $cloudDlpInspectionDataType = '';
   protected $compliancesType = Compliance::class;
   protected $compliancesDataType = 'array';
-  public $compliances;
   protected $connectionsType = Connection::class;
   protected $connectionsDataType = 'array';
-  public $connections;
   protected $contactsType = ContactDetails::class;
   protected $contactsDataType = 'map';
-  public $contacts;
   protected $containersType = Container::class;
   protected $containersDataType = 'array';
-  public $containers;
   /**
    * @var string
    */
   public $createTime;
   protected $databaseType = Database::class;
   protected $databaseDataType = '';
-  public $database;
   /**
    * @var string
    */
@@ -60,36 +58,32 @@ class Finding extends \Google\Collection
   public $eventTime;
   protected $exfiltrationType = Exfiltration::class;
   protected $exfiltrationDataType = '';
-  public $exfiltration;
   protected $externalSystemsType = GoogleCloudSecuritycenterV1ExternalSystem::class;
   protected $externalSystemsDataType = 'map';
-  public $externalSystems;
   /**
    * @var string
    */
   public $externalUri;
   protected $filesType = SecuritycenterFile::class;
   protected $filesDataType = 'array';
-  public $files;
   /**
    * @var string
    */
   public $findingClass;
   protected $iamBindingsType = IamBinding::class;
   protected $iamBindingsDataType = 'array';
-  public $iamBindings;
   protected $indicatorType = Indicator::class;
   protected $indicatorDataType = '';
-  public $indicator;
   protected $kernelRootkitType = KernelRootkit::class;
   protected $kernelRootkitDataType = '';
-  public $kernelRootkit;
   protected $kubernetesType = Kubernetes::class;
   protected $kubernetesDataType = '';
-  public $kubernetes;
   protected $mitreAttackType = MitreAttack::class;
   protected $mitreAttackDataType = '';
-  public $mitreAttack;
+  /**
+   * @var string
+   */
+  public $moduleName;
   /**
    * @var string
    */
@@ -120,14 +114,12 @@ class Finding extends \Google\Collection
   public $parentDisplayName;
   protected $processesType = Process::class;
   protected $processesDataType = 'array';
-  public $processes;
   /**
    * @var string
    */
   public $resourceName;
   protected $securityMarksType = SecurityMarks::class;
   protected $securityMarksDataType = '';
-  public $securityMarks;
   /**
    * @var string
    */
@@ -142,7 +134,6 @@ class Finding extends \Google\Collection
   public $state;
   protected $vulnerabilityType = Vulnerability::class;
   protected $vulnerabilityDataType = '';
-  public $vulnerability;
 
   /**
    * @param Access
@@ -185,6 +176,34 @@ class Finding extends \Google\Collection
   public function getCategory()
   {
     return $this->category;
+  }
+  /**
+   * @param CloudDlpDataProfile
+   */
+  public function setCloudDlpDataProfile(CloudDlpDataProfile $cloudDlpDataProfile)
+  {
+    $this->cloudDlpDataProfile = $cloudDlpDataProfile;
+  }
+  /**
+   * @return CloudDlpDataProfile
+   */
+  public function getCloudDlpDataProfile()
+  {
+    return $this->cloudDlpDataProfile;
+  }
+  /**
+   * @param CloudDlpInspection
+   */
+  public function setCloudDlpInspection(CloudDlpInspection $cloudDlpInspection)
+  {
+    $this->cloudDlpInspection = $cloudDlpInspection;
+  }
+  /**
+   * @return CloudDlpInspection
+   */
+  public function getCloudDlpInspection()
+  {
+    return $this->cloudDlpInspection;
   }
   /**
    * @param Compliance[]
@@ -437,6 +456,20 @@ class Finding extends \Google\Collection
   public function getMitreAttack()
   {
     return $this->mitreAttack;
+  }
+  /**
+   * @param string
+   */
+  public function setModuleName($moduleName)
+  {
+    $this->moduleName = $moduleName;
+  }
+  /**
+   * @return string
+   */
+  public function getModuleName()
+  {
+    return $this->moduleName;
   }
   /**
    * @param string

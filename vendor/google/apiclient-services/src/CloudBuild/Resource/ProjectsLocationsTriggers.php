@@ -126,6 +126,9 @@ class ProjectsLocationsTriggers extends \Google\Service\Resource
    * @opt_param string projectId Required. ID of the project that owns the
    * trigger.
    * @opt_param string triggerId Required. ID of the `BuildTrigger` to update.
+   * @opt_param string updateMask Update mask for the resource. If this is set,
+   * the server will only update the fields specified in the field mask.
+   * Otherwise, a full update of the mutable resource fields will be performed.
    * @return BuildTrigger
    */
   public function patch($resourceName, BuildTrigger $postBody, $optParams = [])

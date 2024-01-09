@@ -21,7 +21,6 @@ class ActionResponse extends \Google\Model
 {
   protected $dialogActionType = DialogAction::class;
   protected $dialogActionDataType = '';
-  public $dialogAction;
   /**
    * @var string
    */

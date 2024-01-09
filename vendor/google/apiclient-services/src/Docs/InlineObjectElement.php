@@ -34,10 +34,8 @@ class InlineObjectElement extends \Google\Collection
   public $suggestedInsertionIds;
   protected $suggestedTextStyleChangesType = SuggestedTextStyle::class;
   protected $suggestedTextStyleChangesDataType = 'map';
-  public $suggestedTextStyleChanges;
   protected $textStyleType = TextStyle::class;
   protected $textStyleDataType = '';
-  public $textStyle;
 
   /**
    * @param string

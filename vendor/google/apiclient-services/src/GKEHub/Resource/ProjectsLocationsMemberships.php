@@ -82,6 +82,9 @@ class ProjectsLocationsMemberships extends \Google\Service\Resource
    * `projects/locations/memberships`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool force Optional. If set to true, any subresource from this
+   * Membership will also be deleted. Otherwise, the request will only work if the
+   * Membership has no subresource.
    * @opt_param string requestId Optional. A request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
    * server will know to ignore the request if it has already been completed. The

@@ -22,7 +22,6 @@ class GeostoreFoodMenuItemOptionProtoIngredient extends \Google\Collection
   protected $collection_key = 'nameInfo';
   protected $nameInfoType = GeostorePriceListNameInfoProto::class;
   protected $nameInfoDataType = 'array';
-  public $nameInfo;
 
   /**
    * @param GeostorePriceListNameInfoProto[]

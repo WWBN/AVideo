@@ -22,7 +22,6 @@ class Filters extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Filter::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var int
    */

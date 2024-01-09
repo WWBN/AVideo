@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ListOfDevelopersResponse extends \Google\Collection
   protected $collection_key = 'developer';
   protected $developerType = GoogleCloudApigeeV1Developer::class;
   protected $developerDataType = 'array';
-  public $developer;
 
   /**
    * @param GoogleCloudApigeeV1Developer[]

@@ -24,10 +24,6 @@ class GoogleInternalAppsWaldoV1alphaDoNotDisturb extends \Google\Model
    */
   public $committedUntil;
   /**
-   * @var bool
-   */
-  public $committedUntilIsMixed;
-  /**
    * @var string
    */
   public $nextAvailable;
@@ -49,20 +45,6 @@ class GoogleInternalAppsWaldoV1alphaDoNotDisturb extends \Google\Model
   public function getCommittedUntil()
   {
     return $this->committedUntil;
-  }
-  /**
-   * @param bool
-   */
-  public function setCommittedUntilIsMixed($committedUntilIsMixed)
-  {
-    $this->committedUntilIsMixed = $committedUntilIsMixed;
-  }
-  /**
-   * @return bool
-   */
-  public function getCommittedUntilIsMixed()
-  {
-    return $this->committedUntilIsMixed;
   }
   /**
    * @param string

@@ -21,13 +21,10 @@ class BiddingStrategy extends \Google\Model
 {
   protected $fixedBidType = FixedBidStrategy::class;
   protected $fixedBidDataType = '';
-  public $fixedBid;
   protected $maximizeSpendAutoBidType = MaximizeSpendBidStrategy::class;
   protected $maximizeSpendAutoBidDataType = '';
-  public $maximizeSpendAutoBid;
   protected $performanceGoalAutoBidType = PerformanceGoalBidStrategy::class;
   protected $performanceGoalAutoBidDataType = '';
-  public $performanceGoalAutoBid;
 
   /**
    * @param FixedBidStrategy

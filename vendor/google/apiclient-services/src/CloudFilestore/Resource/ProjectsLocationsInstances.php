@@ -21,6 +21,7 @@ use Google\Service\CloudFilestore\Instance;
 use Google\Service\CloudFilestore\ListInstancesResponse;
 use Google\Service\CloudFilestore\Operation;
 use Google\Service\CloudFilestore\RestoreInstanceRequest;
+use Google\Service\CloudFilestore\RevertInstanceRequest;
 
 /**
  * The "instances" collection of methods.
@@ -148,6 +149,23 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('restore', [$params], Operation::class);
+  }
+  /**
+   * Revert an existing instance's file system to a specified snapshot.
+   * (instances.revert)
+   *
+   * @param string $name Required.
+   * projects/{project_id}/locations/{location_id}/instances/{instance_id}. The
+   * resource name of the instance, in the format
+   * @param RevertInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   */
+  public function revert($name, RevertInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('revert', [$params], Operation::class);
   }
 }
 

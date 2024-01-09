@@ -21,7 +21,6 @@ class GoogleCloudDatalabelingV1beta1CreateAnnotationSpecSetRequest extends \Goog
 {
   protected $annotationSpecSetType = GoogleCloudDatalabelingV1beta1AnnotationSpecSet::class;
   protected $annotationSpecSetDataType = '';
-  public $annotationSpecSet;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1AnnotationSpecSet

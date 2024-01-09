@@ -21,13 +21,10 @@ class Endpoint extends \Google\Model
 {
   protected $appEngineVersionType = AppEngineVersionEndpoint::class;
   protected $appEngineVersionDataType = '';
-  public $appEngineVersion;
   protected $cloudFunctionType = CloudFunctionEndpoint::class;
   protected $cloudFunctionDataType = '';
-  public $cloudFunction;
   protected $cloudRunRevisionType = CloudRunRevisionEndpoint::class;
   protected $cloudRunRevisionDataType = '';
-  public $cloudRunRevision;
   /**
    * @var string
    */

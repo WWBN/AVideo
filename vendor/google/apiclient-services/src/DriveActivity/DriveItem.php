@@ -21,16 +21,12 @@ class DriveItem extends \Google\Model
 {
   protected $driveFileType = DriveFile::class;
   protected $driveFileDataType = '';
-  public $driveFile;
   protected $driveFolderType = DriveFolder::class;
   protected $driveFolderDataType = '';
-  public $driveFolder;
   protected $fileType = DriveactivityFile::class;
   protected $fileDataType = '';
-  public $file;
   protected $folderType = Folder::class;
   protected $folderDataType = '';
-  public $folder;
   /**
    * @var string
    */
@@ -41,7 +37,6 @@ class DriveItem extends \Google\Model
   public $name;
   protected $ownerType = Owner::class;
   protected $ownerDataType = '';
-  public $owner;
   /**
    * @var string
    */

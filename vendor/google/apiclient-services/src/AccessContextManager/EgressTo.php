@@ -26,7 +26,6 @@ class EgressTo extends \Google\Collection
   public $externalResources;
   protected $operationsType = ApiOperation::class;
   protected $operationsDataType = 'array';
-  public $operations;
   /**
    * @var string[]
    */

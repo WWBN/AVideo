@@ -25,7 +25,6 @@ class AssistantVerticalsHomeautomationProtoPhysicalLocation extends \Google\Mode
   public $address;
   protected $geoLocationType = GoogleTypeLatLng::class;
   protected $geoLocationDataType = '';
-  public $geoLocation;
 
   /**
    * @param string

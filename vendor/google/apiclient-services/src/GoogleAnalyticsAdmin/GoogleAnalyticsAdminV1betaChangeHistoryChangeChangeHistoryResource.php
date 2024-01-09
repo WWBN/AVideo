@@ -21,28 +21,20 @@ class GoogleAnalyticsAdminV1betaChangeHistoryChangeChangeHistoryResource extends
 {
   protected $accountType = GoogleAnalyticsAdminV1betaAccount::class;
   protected $accountDataType = '';
-  public $account;
   protected $conversionEventType = GoogleAnalyticsAdminV1betaConversionEvent::class;
   protected $conversionEventDataType = '';
-  public $conversionEvent;
   protected $dataRetentionSettingsType = GoogleAnalyticsAdminV1betaDataRetentionSettings::class;
   protected $dataRetentionSettingsDataType = '';
-  public $dataRetentionSettings;
   protected $dataStreamType = GoogleAnalyticsAdminV1betaDataStream::class;
   protected $dataStreamDataType = '';
-  public $dataStream;
   protected $firebaseLinkType = GoogleAnalyticsAdminV1betaFirebaseLink::class;
   protected $firebaseLinkDataType = '';
-  public $firebaseLink;
   protected $googleAdsLinkType = GoogleAnalyticsAdminV1betaGoogleAdsLink::class;
   protected $googleAdsLinkDataType = '';
-  public $googleAdsLink;
   protected $measurementProtocolSecretType = GoogleAnalyticsAdminV1betaMeasurementProtocolSecret::class;
   protected $measurementProtocolSecretDataType = '';
-  public $measurementProtocolSecret;
   protected $propertyType = GoogleAnalyticsAdminV1betaProperty::class;
   protected $propertyDataType = '';
-  public $property;
 
   /**
    * @param GoogleAnalyticsAdminV1betaAccount

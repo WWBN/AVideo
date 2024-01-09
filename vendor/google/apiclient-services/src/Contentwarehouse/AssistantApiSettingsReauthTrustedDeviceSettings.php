@@ -21,7 +21,6 @@ class AssistantApiSettingsReauthTrustedDeviceSettings extends \Google\Model
 {
   protected $trustSettingsForClientType = AssistantApiSettingsReauthTrustedDeviceSettingsTrustSettings::class;
   protected $trustSettingsForClientDataType = 'map';
-  public $trustSettingsForClient;
 
   /**
    * @param AssistantApiSettingsReauthTrustedDeviceSettingsTrustSettings[]

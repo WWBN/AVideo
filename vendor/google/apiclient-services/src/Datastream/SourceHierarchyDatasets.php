@@ -21,7 +21,6 @@ class SourceHierarchyDatasets extends \Google\Model
 {
   protected $datasetTemplateType = DatasetTemplate::class;
   protected $datasetTemplateDataType = '';
-  public $datasetTemplate;
 
   /**
    * @param DatasetTemplate

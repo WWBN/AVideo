@@ -21,7 +21,6 @@ class GooglePlayDeveloperReportingV1beta1AnrRateMetricSet extends \Google\Model
 {
   protected $freshnessInfoType = GooglePlayDeveloperReportingV1beta1FreshnessInfo::class;
   protected $freshnessInfoDataType = '';
-  public $freshnessInfo;
   /**
    * @var string
    */

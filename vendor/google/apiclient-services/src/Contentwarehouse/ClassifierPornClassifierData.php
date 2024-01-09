@@ -22,7 +22,6 @@ class ClassifierPornClassifierData extends \Google\Collection
   protected $collection_key = 'classification';
   protected $classificationType = ClassifierPornClassifierDataClassification::class;
   protected $classificationDataType = 'array';
-  public $classification;
   /**
    * @var bool
    */

@@ -22,45 +22,34 @@ class ThreadUpdate extends \Google\Collection
   protected $collection_key = 'preState';
   protected $attributeRemovedType = AttributeRemoved::class;
   protected $attributeRemovedDataType = '';
-  public $attributeRemoved;
   protected $attributeSetType = AttributeSet::class;
   protected $attributeSetDataType = '';
-  public $attributeSet;
   protected $labelAddedType = LabelAdded::class;
   protected $labelAddedDataType = '';
-  public $labelAdded;
   protected $labelRemovedType = LabelRemoved::class;
   protected $labelRemovedDataType = '';
-  public $labelRemoved;
   /**
    * @var string
    */
   public $lastHistoryRecordId;
   protected $messageAddedType = MessageAdded::class;
   protected $messageAddedDataType = '';
-  public $messageAdded;
   protected $messageDeletedType = MessageDeleted::class;
   protected $messageDeletedDataType = '';
-  public $messageDeleted;
   protected $originalThreadKeyType = MultiKey::class;
   protected $originalThreadKeyDataType = '';
-  public $originalThreadKey;
   protected $preStateType = PreState::class;
   protected $preStateDataType = 'array';
-  public $preState;
   protected $threadKeyType = MultiKey::class;
   protected $threadKeyDataType = '';
-  public $threadKey;
   protected $threadKeySetType = ThreadKeySet::class;
   protected $threadKeySetDataType = '';
-  public $threadKeySet;
   /**
    * @var string
    */
   public $threadLocator;
   protected $topicStateUpdateType = TopicStateUpdate::class;
   protected $topicStateUpdateDataType = '';
-  public $topicStateUpdate;
 
   /**
    * @param AttributeRemoved

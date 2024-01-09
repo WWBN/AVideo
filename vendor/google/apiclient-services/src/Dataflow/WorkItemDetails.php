@@ -30,10 +30,8 @@ class WorkItemDetails extends \Google\Collection
   public $endTime;
   protected $metricsType = MetricUpdate::class;
   protected $metricsDataType = 'array';
-  public $metrics;
   protected $progressType = ProgressTimeseries::class;
   protected $progressDataType = '';
-  public $progress;
   /**
    * @var string
    */
@@ -44,7 +42,6 @@ class WorkItemDetails extends \Google\Collection
   public $state;
   protected $stragglerInfoType = StragglerInfo::class;
   protected $stragglerInfoDataType = '';
-  public $stragglerInfo;
   /**
    * @var string
    */

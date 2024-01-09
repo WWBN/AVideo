@@ -34,7 +34,6 @@ class UpdateTableColumnPropertiesRequest extends \Google\Collection
   public $objectId;
   protected $tableColumnPropertiesType = TableColumnProperties::class;
   protected $tableColumnPropertiesDataType = '';
-  public $tableColumnProperties;
 
   /**
    * @param int[]

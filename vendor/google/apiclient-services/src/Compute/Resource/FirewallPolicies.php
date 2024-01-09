@@ -288,7 +288,9 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param string pageToken Specifies a page token to use. Set `pageToken` to
    * the `nextPageToken` returned by a previous list request to get the next page
    * of results.
-   * @opt_param string parentId Parent ID for this request.
+   * @opt_param string parentId Parent ID for this request. The ID can be either
+   * be "folders/[FOLDER_ID]" if the parent is a folder or
+   * "organizations/[ORGANIZATION_ID]" if the parent is an organization.
    * @opt_param bool returnPartialSuccess Opt-in for partial success behavior
    * which provides partial results in case of failure. The default value is
    * false.
@@ -322,7 +324,9 @@ class FirewallPolicies extends \Google\Service\Resource
    * @param string $firewallPolicy Name of the firewall policy to update.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string parentId The new parent of the firewall policy.
+   * @opt_param string parentId The new parent of the firewall policy. The ID can
+   * be either be "folders/[FOLDER_ID]" if the parent is a folder or
+   * "organizations/[ORGANIZATION_ID]" if the parent is an organization.
    * @opt_param string requestId An optional request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
    * server will know to ignore the request if it has already been completed. For

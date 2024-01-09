@@ -22,7 +22,6 @@ class ManagedZoneDnsSecConfig extends \Google\Collection
   protected $collection_key = 'defaultKeySpecs';
   protected $defaultKeySpecsType = DnsKeySpec::class;
   protected $defaultKeySpecsDataType = 'array';
-  public $defaultKeySpecs;
   /**
    * @var string
    */

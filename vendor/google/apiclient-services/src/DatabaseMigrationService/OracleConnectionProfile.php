@@ -25,7 +25,6 @@ class OracleConnectionProfile extends \Google\Model
   public $databaseService;
   protected $forwardSshConnectivityType = ForwardSshTunnelConnectivity::class;
   protected $forwardSshConnectivityDataType = '';
-  public $forwardSshConnectivity;
   /**
    * @var string
    */
@@ -44,10 +43,8 @@ class OracleConnectionProfile extends \Google\Model
   public $port;
   protected $privateConnectivityType = PrivateConnectivity::class;
   protected $privateConnectivityDataType = '';
-  public $privateConnectivity;
   protected $staticServiceIpConnectivityType = StaticServiceIpConnectivity::class;
   protected $staticServiceIpConnectivityDataType = '';
-  public $staticServiceIpConnectivity;
   /**
    * @var string
    */

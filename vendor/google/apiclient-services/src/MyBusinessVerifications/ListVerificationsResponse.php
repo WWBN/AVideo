@@ -26,7 +26,6 @@ class ListVerificationsResponse extends \Google\Collection
   public $nextPageToken;
   protected $verificationsType = Verification::class;
   protected $verificationsDataType = 'array';
-  public $verifications;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class GoogleCloudRecommendationengineV1beta1CatalogItem extends \Google\Collecti
   protected $collection_key = 'tags';
   protected $categoryHierarchiesType = GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchy::class;
   protected $categoryHierarchiesDataType = 'array';
-  public $categoryHierarchies;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class GoogleCloudRecommendationengineV1beta1CatalogItem extends \Google\Collecti
   public $id;
   protected $itemAttributesType = GoogleCloudRecommendationengineV1beta1FeatureMap::class;
   protected $itemAttributesDataType = '';
-  public $itemAttributes;
   /**
    * @var string
    */
@@ -44,7 +42,6 @@ class GoogleCloudRecommendationengineV1beta1CatalogItem extends \Google\Collecti
   public $languageCode;
   protected $productMetadataType = GoogleCloudRecommendationengineV1beta1ProductCatalogItem::class;
   protected $productMetadataDataType = '';
-  public $productMetadata;
   /**
    * @var string[]
    */

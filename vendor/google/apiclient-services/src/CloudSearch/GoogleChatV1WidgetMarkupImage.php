@@ -26,7 +26,6 @@ class GoogleChatV1WidgetMarkupImage extends \Google\Model
   public $imageUrl;
   protected $onClickType = GoogleChatV1WidgetMarkupOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
 
   public function setAspectRatio($aspectRatio)
   {

@@ -38,7 +38,6 @@ class GoogleCloudRetailV2SearchResponseSearchResult extends \Google\Collection
   public $personalLabels;
   protected $productType = GoogleCloudRetailV2Product::class;
   protected $productDataType = '';
-  public $product;
   /**
    * @var array[]
    */

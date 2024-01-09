@@ -21,7 +21,6 @@ class GoogleCloudVisionV1p4beta1ColorInfo extends \Google\Model
 {
   protected $colorType = Color::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var float
    */

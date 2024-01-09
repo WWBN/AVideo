@@ -26,7 +26,6 @@ class GoogleChromePolicyVersionsV1DefineNetworkResponse extends \Google\Collecti
   public $networkId;
   protected $settingsType = GoogleChromePolicyVersionsV1NetworkSetting::class;
   protected $settingsDataType = 'array';
-  public $settings;
   /**
    * @var string
    */

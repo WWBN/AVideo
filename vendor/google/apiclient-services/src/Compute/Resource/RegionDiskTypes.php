@@ -31,8 +31,7 @@ use Google\Service\Compute\RegionDiskTypeList;
 class RegionDiskTypes extends \Google\Service\Resource
 {
   /**
-   * Returns the specified regional disk type. Gets a list of available disk types
-   * by making a list() request. (regionDiskTypes.get)
+   * Returns the specified regional disk type. (regionDiskTypes.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region The name of the region for this request.

@@ -21,7 +21,6 @@ class DeleteTableRowRequest extends \Google\Model
 {
   protected $tableCellLocationType = TableCellLocation::class;
   protected $tableCellLocationDataType = '';
-  public $tableCellLocation;
 
   /**
    * @param TableCellLocation

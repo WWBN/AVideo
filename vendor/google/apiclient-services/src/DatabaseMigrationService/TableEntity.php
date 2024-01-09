@@ -22,24 +22,20 @@ class TableEntity extends \Google\Collection
   protected $collection_key = 'triggers';
   protected $columnsType = ColumnEntity::class;
   protected $columnsDataType = 'array';
-  public $columns;
   /**
    * @var string
    */
   public $comment;
   protected $constraintsType = ConstraintEntity::class;
   protected $constraintsDataType = 'array';
-  public $constraints;
   /**
    * @var array[]
    */
   public $customFeatures;
   protected $indicesType = IndexEntity::class;
   protected $indicesDataType = 'array';
-  public $indices;
   protected $triggersType = TriggerEntity::class;
   protected $triggersDataType = 'array';
-  public $triggers;
 
   /**
    * @param ColumnEntity[]

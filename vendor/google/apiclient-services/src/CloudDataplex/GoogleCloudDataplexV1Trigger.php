@@ -21,10 +21,8 @@ class GoogleCloudDataplexV1Trigger extends \Google\Model
 {
   protected $onDemandType = GoogleCloudDataplexV1TriggerOnDemand::class;
   protected $onDemandDataType = '';
-  public $onDemand;
   protected $scheduleType = GoogleCloudDataplexV1TriggerSchedule::class;
   protected $scheduleDataType = '';
-  public $schedule;
 
   /**
    * @param GoogleCloudDataplexV1TriggerOnDemand

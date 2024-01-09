@@ -33,7 +33,6 @@ class SlideProperties extends \Google\Model
   public $masterObjectId;
   protected $notesPageType = Page::class;
   protected $notesPageDataType = '';
-  public $notesPage;
 
   /**
    * @param bool

@@ -21,10 +21,8 @@ class AppsPeopleOzExternalMergedpeopleapiPointSpec extends \Google\Model
 {
   protected $boundsType = GeostoreRectProto::class;
   protected $boundsDataType = '';
-  public $bounds;
   protected $pointType = GeostorePointProto::class;
   protected $pointDataType = '';
-  public $point;
   /**
    * @var string
    */

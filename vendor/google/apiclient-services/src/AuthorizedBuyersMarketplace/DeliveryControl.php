@@ -34,7 +34,6 @@ class DeliveryControl extends \Google\Collection
   public $deliveryRateType;
   protected $frequencyCapType = FrequencyCap::class;
   protected $frequencyCapDataType = 'array';
-  public $frequencyCap;
   /**
    * @var string
    */

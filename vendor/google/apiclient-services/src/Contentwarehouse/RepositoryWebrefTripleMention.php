@@ -21,7 +21,6 @@ class RepositoryWebrefTripleMention extends \Google\Model
 {
   protected $predMentionType = RepositoryWebrefSegmentMention::class;
   protected $predMentionDataType = '';
-  public $predMention;
   /**
    * @var int
    */
@@ -36,13 +35,10 @@ class RepositoryWebrefTripleMention extends \Google\Model
   public $scopeFprint;
   protected $stuffType = Proto2BridgeMessageSet::class;
   protected $stuffDataType = '';
-  public $stuff;
   protected $subMentionType = RepositoryWebrefSegmentMention::class;
   protected $subMentionDataType = '';
-  public $subMention;
   protected $valueMentionType = RepositoryWebrefSegmentMention::class;
   protected $valueMentionDataType = '';
-  public $valueMention;
 
   /**
    * @param RepositoryWebrefSegmentMention

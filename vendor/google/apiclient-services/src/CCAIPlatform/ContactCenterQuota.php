@@ -17,8 +17,9 @@
 
 namespace Google\Service\CCAIPlatform;
 
-class ContactCenterQuota extends \Google\Model
+class ContactCenterQuota extends \Google\Collection
 {
+  protected $collection_key = 'quotas';
   /**
    * @var int
    */
@@ -27,6 +28,8 @@ class ContactCenterQuota extends \Google\Model
    * @var int
    */
   public $contactCenterCountSum;
+  protected $quotasType = Quota::class;
+  protected $quotasDataType = 'array';
 
   /**
    * @param int
@@ -55,6 +58,20 @@ class ContactCenterQuota extends \Google\Model
   public function getContactCenterCountSum()
   {
     return $this->contactCenterCountSum;
+  }
+  /**
+   * @param Quota[]
+   */
+  public function setQuotas($quotas)
+  {
+    $this->quotas = $quotas;
+  }
+  /**
+   * @return Quota[]
+   */
+  public function getQuotas()
+  {
+    return $this->quotas;
   }
 }
 

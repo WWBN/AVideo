@@ -22,7 +22,6 @@ class ListImportJobsResponse extends \Google\Collection
   protected $collection_key = 'importJobs';
   protected $importJobsType = ImportJob::class;
   protected $importJobsDataType = 'array';
-  public $importJobs;
   /**
    * @var string
    */

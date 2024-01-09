@@ -22,7 +22,6 @@ class EventReminders extends \Google\Collection
   protected $collection_key = 'overrides';
   protected $overridesType = EventReminder::class;
   protected $overridesDataType = 'array';
-  public $overrides;
   /**
    * @var bool
    */

@@ -22,7 +22,6 @@ class DoubleMatcher extends \Google\Model
   public $exact;
   protected $rangeType = DoubleRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   public function setExact($exact)
   {

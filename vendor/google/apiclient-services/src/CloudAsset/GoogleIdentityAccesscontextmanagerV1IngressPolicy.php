@@ -21,10 +21,8 @@ class GoogleIdentityAccesscontextmanagerV1IngressPolicy extends \Google\Model
 {
   protected $ingressFromType = GoogleIdentityAccesscontextmanagerV1IngressFrom::class;
   protected $ingressFromDataType = '';
-  public $ingressFrom;
   protected $ingressToType = GoogleIdentityAccesscontextmanagerV1IngressTo::class;
   protected $ingressToDataType = '';
-  public $ingressTo;
 
   /**
    * @param GoogleIdentityAccesscontextmanagerV1IngressFrom

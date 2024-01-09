@@ -22,7 +22,6 @@ class GoogleCloudAssetV1GovernedContainer extends \Google\Collection
   protected $collection_key = 'policyBundle';
   protected $consolidatedPolicyType = AnalyzerOrgPolicy::class;
   protected $consolidatedPolicyDataType = '';
-  public $consolidatedPolicy;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class GoogleCloudAssetV1GovernedContainer extends \Google\Collection
   public $parent;
   protected $policyBundleType = AnalyzerOrgPolicy::class;
   protected $policyBundleDataType = 'array';
-  public $policyBundle;
 
   /**
    * @param AnalyzerOrgPolicy

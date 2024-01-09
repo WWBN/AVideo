@@ -29,7 +29,6 @@ class GoogleCloudContactcenterinsightsV1IssueModel extends \Google\Model
   public $displayName;
   protected $inputDataConfigType = GoogleCloudContactcenterinsightsV1IssueModelInputDataConfig::class;
   protected $inputDataConfigDataType = '';
-  public $inputDataConfig;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class GoogleCloudContactcenterinsightsV1IssueModel extends \Google\Model
   public $state;
   protected $trainingStatsType = GoogleCloudContactcenterinsightsV1IssueModelLabelStats::class;
   protected $trainingStatsDataType = '';
-  public $trainingStats;
   /**
    * @var string
    */

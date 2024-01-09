@@ -21,7 +21,6 @@ class ResolveServiceResponse extends \Google\Model
 {
   protected $serviceType = Service::class;
   protected $serviceDataType = '';
-  public $service;
 
   /**
    * @param Service

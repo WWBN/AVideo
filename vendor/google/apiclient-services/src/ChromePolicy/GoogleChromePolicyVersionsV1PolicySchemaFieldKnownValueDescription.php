@@ -17,12 +17,15 @@
 
 namespace Google\Service\ChromePolicy;
 
-class GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription extends \Google\Model
+class GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription extends \Google\Collection
 {
+  protected $collection_key = 'fieldDependencies';
   /**
    * @var string
    */
   public $description;
+  protected $fieldDependenciesType = GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies::class;
+  protected $fieldDependenciesDataType = 'array';
   /**
    * @var string
    */
@@ -41,6 +44,20 @@ class GoogleChromePolicyVersionsV1PolicySchemaFieldKnownValueDescription extends
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies[]
+   */
+  public function setFieldDependencies($fieldDependencies)
+  {
+    $this->fieldDependencies = $fieldDependencies;
+  }
+  /**
+   * @return GoogleChromePolicyVersionsV1PolicySchemaFieldDependencies[]
+   */
+  public function getFieldDependencies()
+  {
+    return $this->fieldDependencies;
   }
   /**
    * @param string

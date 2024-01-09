@@ -21,7 +21,6 @@ class DeidentifyDatasetRequest extends \Google\Model
 {
   protected $configType = DeidentifyConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */

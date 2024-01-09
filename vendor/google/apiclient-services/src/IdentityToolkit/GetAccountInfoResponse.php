@@ -26,7 +26,6 @@ class GetAccountInfoResponse extends \Google\Collection
   public $kind;
   protected $usersType = UserInfo::class;
   protected $usersDataType = 'array';
-  public $users;
 
   /**
    * @param string

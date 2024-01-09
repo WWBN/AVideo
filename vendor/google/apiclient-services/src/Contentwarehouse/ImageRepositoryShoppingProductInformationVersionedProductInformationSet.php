@@ -26,7 +26,6 @@ class ImageRepositoryShoppingProductInformationVersionedProductInformationSet ex
   public $modelType;
   protected $productsType = ImageRepositoryShoppingProductInformationProductInformation::class;
   protected $productsDataType = 'array';
-  public $products;
   /**
    * @var int
    */

@@ -33,7 +33,6 @@ class Transcode extends \Google\Model
   public $bitRateKbps;
   protected $dimensionsType = Dimensions::class;
   protected $dimensionsDataType = '';
-  public $dimensions;
   /**
    * @var string
    */

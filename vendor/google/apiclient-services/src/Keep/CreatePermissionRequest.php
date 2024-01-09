@@ -25,7 +25,6 @@ class CreatePermissionRequest extends \Google\Model
   public $parent;
   protected $permissionType = Permission::class;
   protected $permissionDataType = '';
-  public $permission;
 
   /**
    * @param string

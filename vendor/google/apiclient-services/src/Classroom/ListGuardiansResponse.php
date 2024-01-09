@@ -22,7 +22,6 @@ class ListGuardiansResponse extends \Google\Collection
   protected $collection_key = 'guardians';
   protected $guardiansType = Guardian::class;
   protected $guardiansDataType = 'array';
-  public $guardians;
   /**
    * @var string
    */

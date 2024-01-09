@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2DatastoreKey extends \Google\Model
 {
   protected $entityKeyType = GooglePrivacyDlpV2Key::class;
   protected $entityKeyDataType = '';
-  public $entityKey;
 
   /**
    * @param GooglePrivacyDlpV2Key

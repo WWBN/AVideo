@@ -21,7 +21,6 @@ class ResearchScienceSearchScholarlyArticle extends \Google\Model
 {
   protected $citationType = ScienceCitation::class;
   protected $citationDataType = '';
-  public $citation;
   /**
    * @var string
    */

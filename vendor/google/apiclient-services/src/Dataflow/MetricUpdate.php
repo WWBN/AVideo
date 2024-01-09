@@ -49,7 +49,6 @@ class MetricUpdate extends \Google\Model
   public $meanSum;
   protected $nameType = MetricStructuredName::class;
   protected $nameDataType = '';
-  public $name;
   /**
    * @var array
    */

@@ -22,7 +22,6 @@ class AppsExtensionsMarkupCalendarClientActionMarkupAddAttachmentsActionMarkup e
   protected $collection_key = 'addonAttachments';
   protected $addonAttachmentsType = AppsExtensionsMarkupCalendarClientActionMarkupAddAttachmentsActionMarkupAddonAttachment::class;
   protected $addonAttachmentsDataType = 'array';
-  public $addonAttachments;
 
   /**
    * @param AppsExtensionsMarkupCalendarClientActionMarkupAddAttachmentsActionMarkupAddonAttachment[]

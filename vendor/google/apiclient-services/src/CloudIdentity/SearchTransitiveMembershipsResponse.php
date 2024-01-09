@@ -22,7 +22,6 @@ class SearchTransitiveMembershipsResponse extends \Google\Collection
   protected $collection_key = 'memberships';
   protected $membershipsType = MemberRelation::class;
   protected $membershipsDataType = 'array';
-  public $memberships;
   /**
    * @var string
    */

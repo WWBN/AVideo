@@ -21,10 +21,8 @@ class ImportContext extends \Google\Model
 {
   protected $bakImportOptionsType = ImportContextBakImportOptions::class;
   protected $bakImportOptionsDataType = '';
-  public $bakImportOptions;
   protected $csvImportOptionsType = ImportContextCsvImportOptions::class;
   protected $csvImportOptionsDataType = '';
-  public $csvImportOptions;
   /**
    * @var string
    */

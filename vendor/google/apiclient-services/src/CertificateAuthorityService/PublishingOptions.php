@@ -20,6 +20,10 @@ namespace Google\Service\CertificateAuthorityService;
 class PublishingOptions extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $encodingFormat;
+  /**
    * @var bool
    */
   public $publishCaCert;
@@ -28,6 +32,20 @@ class PublishingOptions extends \Google\Model
    */
   public $publishCrl;
 
+  /**
+   * @param string
+   */
+  public function setEncodingFormat($encodingFormat)
+  {
+    $this->encodingFormat = $encodingFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getEncodingFormat()
+  {
+    return $this->encodingFormat;
+  }
   /**
    * @param bool
    */

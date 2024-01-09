@@ -25,7 +25,6 @@ class Value extends \Google\Model
   public $booleanValue;
   protected $dateValueType = Date::class;
   protected $dateValueDataType = '';
-  public $dateValue;
   public $doubleValue;
   /**
    * @var string

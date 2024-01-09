@@ -22,23 +22,18 @@ class Page extends \Google\Collection
   protected $collection_key = 'pageElements';
   protected $layoutPropertiesType = LayoutProperties::class;
   protected $layoutPropertiesDataType = '';
-  public $layoutProperties;
   protected $masterPropertiesType = MasterProperties::class;
   protected $masterPropertiesDataType = '';
-  public $masterProperties;
   protected $notesPropertiesType = NotesProperties::class;
   protected $notesPropertiesDataType = '';
-  public $notesProperties;
   /**
    * @var string
    */
   public $objectId;
   protected $pageElementsType = PageElement::class;
   protected $pageElementsDataType = 'array';
-  public $pageElements;
   protected $pagePropertiesType = PageProperties::class;
   protected $pagePropertiesDataType = '';
-  public $pageProperties;
   /**
    * @var string
    */
@@ -49,7 +44,6 @@ class Page extends \Google\Collection
   public $revisionId;
   protected $slidePropertiesType = SlideProperties::class;
   protected $slidePropertiesDataType = '';
-  public $slideProperties;
 
   /**
    * @param LayoutProperties

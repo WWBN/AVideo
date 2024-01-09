@@ -192,8 +192,7 @@ class TargetPools extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified target pool. Gets a list of available target pools by
-   * making a list() request. (targetPools.get)
+   * Returns the specified target pool. (targetPools.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region scoping this request.

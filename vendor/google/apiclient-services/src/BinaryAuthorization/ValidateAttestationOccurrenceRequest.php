@@ -21,7 +21,6 @@ class ValidateAttestationOccurrenceRequest extends \Google\Model
 {
   protected $attestationType = AttestationOccurrence::class;
   protected $attestationDataType = '';
-  public $attestation;
   /**
    * @var string
    */

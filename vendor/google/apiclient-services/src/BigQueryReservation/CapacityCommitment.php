@@ -33,7 +33,6 @@ class CapacityCommitment extends \Google\Model
   public $edition;
   protected $failureStatusType = Status::class;
   protected $failureStatusDataType = '';
-  public $failureStatus;
   /**
    * @var bool
    */

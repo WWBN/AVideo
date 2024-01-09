@@ -21,7 +21,6 @@ class RunQueryRequest extends \Google\Model
 {
   protected $dataRangeType = DataRange::class;
   protected $dataRangeDataType = '';
-  public $dataRange;
 
   /**
    * @param DataRange

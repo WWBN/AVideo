@@ -19,16 +19,29 @@ namespace Google\Service\ContainerAnalysis;
 
 class ContaineranalysisGoogleDevtoolsCloudbuildV1Source extends \Google\Model
 {
+  protected $gitSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource::class;
+  protected $gitSourceDataType = '';
   protected $repoSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource::class;
   protected $repoSourceDataType = '';
-  public $repoSource;
   protected $storageSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource::class;
   protected $storageSourceDataType = '';
-  public $storageSource;
   protected $storageSourceManifestType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSourceManifest::class;
   protected $storageSourceManifestDataType = '';
-  public $storageSourceManifest;
 
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource
+   */
+  public function setGitSource(ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource $gitSource)
+  {
+    $this->gitSource = $gitSource;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource
+   */
+  public function getGitSource()
+  {
+    return $this->gitSource;
+  }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource
    */

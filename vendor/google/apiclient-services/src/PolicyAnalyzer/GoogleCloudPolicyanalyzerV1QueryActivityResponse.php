@@ -22,7 +22,6 @@ class GoogleCloudPolicyanalyzerV1QueryActivityResponse extends \Google\Collectio
   protected $collection_key = 'activities';
   protected $activitiesType = GoogleCloudPolicyanalyzerV1Activity::class;
   protected $activitiesDataType = 'array';
-  public $activities;
   /**
    * @var string
    */

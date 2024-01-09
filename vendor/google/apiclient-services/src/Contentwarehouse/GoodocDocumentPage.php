@@ -49,7 +49,6 @@ class GoodocDocumentPage extends \Google\Collection
   public $horizontalDpi;
   protected $labelType = GoodocLabel::class;
   protected $labelDataType = '';
-  public $label;
   public $pornScore;
   /**
    * @var int
@@ -65,17 +64,14 @@ class GoodocDocumentPage extends \Google\Collection
   public $width;
   protected $blockType = GoodocDocumentPageBlock::class;
   protected $blockDataType = 'array';
-  public $block;
   protected $mergedpageinfoType = GoodocDocumentPageMergedPageInfo::class;
   protected $mergedpageinfoDataType = 'array';
-  public $mergedpageinfo;
   /**
    * @var bool
    */
   public $postOcrConfidence;
   protected $statsType = GoodocSummaryStats::class;
   protected $statsDataType = '';
-  public $stats;
 
   /**
    * @param int

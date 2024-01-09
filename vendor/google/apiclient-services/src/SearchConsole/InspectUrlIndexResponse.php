@@ -21,7 +21,6 @@ class InspectUrlIndexResponse extends \Google\Model
 {
   protected $inspectionResultType = UrlInspectionResult::class;
   protected $inspectionResultDataType = '';
-  public $inspectionResult;
 
   /**
    * @param UrlInspectionResult

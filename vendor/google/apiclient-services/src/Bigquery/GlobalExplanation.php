@@ -26,7 +26,6 @@ class GlobalExplanation extends \Google\Collection
   public $classLabel;
   protected $explanationsType = Explanation::class;
   protected $explanationsDataType = 'array';
-  public $explanations;
 
   /**
    * @param string

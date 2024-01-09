@@ -22,7 +22,6 @@ class GoogleCloudMlV1ListModelsResponse extends \Google\Collection
   protected $collection_key = 'models';
   protected $modelsType = GoogleCloudMlV1Model::class;
   protected $modelsDataType = 'array';
-  public $models;
   /**
    * @var string
    */

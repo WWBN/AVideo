@@ -29,14 +29,14 @@ class SecurityPolicyRule extends \Google\Model
   public $description;
   protected $headerActionType = SecurityPolicyRuleHttpHeaderAction::class;
   protected $headerActionDataType = '';
-  public $headerAction;
   /**
    * @var string
    */
   public $kind;
   protected $matchType = SecurityPolicyRuleMatcher::class;
   protected $matchDataType = '';
-  public $match;
+  protected $preconfiguredWafConfigType = SecurityPolicyRulePreconfiguredWafConfig::class;
+  protected $preconfiguredWafConfigDataType = '';
   /**
    * @var bool
    */
@@ -47,10 +47,8 @@ class SecurityPolicyRule extends \Google\Model
   public $priority;
   protected $rateLimitOptionsType = SecurityPolicyRuleRateLimitOptions::class;
   protected $rateLimitOptionsDataType = '';
-  public $rateLimitOptions;
   protected $redirectOptionsType = SecurityPolicyRuleRedirectOptions::class;
   protected $redirectOptionsDataType = '';
-  public $redirectOptions;
 
   /**
    * @param string
@@ -121,6 +119,20 @@ class SecurityPolicyRule extends \Google\Model
   public function getMatch()
   {
     return $this->match;
+  }
+  /**
+   * @param SecurityPolicyRulePreconfiguredWafConfig
+   */
+  public function setPreconfiguredWafConfig(SecurityPolicyRulePreconfiguredWafConfig $preconfiguredWafConfig)
+  {
+    $this->preconfiguredWafConfig = $preconfiguredWafConfig;
+  }
+  /**
+   * @return SecurityPolicyRulePreconfiguredWafConfig
+   */
+  public function getPreconfiguredWafConfig()
+  {
+    return $this->preconfiguredWafConfig;
   }
   /**
    * @param bool

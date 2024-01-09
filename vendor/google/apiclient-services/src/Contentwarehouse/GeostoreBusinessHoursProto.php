@@ -21,10 +21,8 @@ class GeostoreBusinessHoursProto extends \Google\Model
 {
   protected $dataType = BusinessHours::class;
   protected $dataDataType = '';
-  public $data;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
-  public $metadata;
 
   /**
    * @param BusinessHours

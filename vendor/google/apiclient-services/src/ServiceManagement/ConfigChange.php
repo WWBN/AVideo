@@ -22,7 +22,6 @@ class ConfigChange extends \Google\Collection
   protected $collection_key = 'advices';
   protected $advicesType = Advice::class;
   protected $advicesDataType = 'array';
-  public $advices;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class DeleteTableColumnRequest extends \Google\Model
 {
   protected $tableCellLocationType = TableCellLocation::class;
   protected $tableCellLocationDataType = '';
-  public $tableCellLocation;
 
   /**
    * @param TableCellLocation

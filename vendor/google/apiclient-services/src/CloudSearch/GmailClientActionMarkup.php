@@ -21,16 +21,12 @@ class GmailClientActionMarkup extends \Google\Model
 {
   protected $addonComposeUiActionMarkupType = AddonComposeUiActionMarkup::class;
   protected $addonComposeUiActionMarkupDataType = '';
-  public $addonComposeUiActionMarkup;
   protected $openCreatedDraftActionMarkupType = OpenCreatedDraftActionMarkup::class;
   protected $openCreatedDraftActionMarkupDataType = '';
-  public $openCreatedDraftActionMarkup;
   protected $taskActionType = TaskActionMarkup::class;
   protected $taskActionDataType = '';
-  public $taskAction;
   protected $updateDraftActionMarkupType = UpdateDraftActionMarkup::class;
   protected $updateDraftActionMarkupDataType = '';
-  public $updateDraftActionMarkup;
 
   /**
    * @param AddonComposeUiActionMarkup

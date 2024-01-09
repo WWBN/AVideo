@@ -30,7 +30,6 @@ class AppsPeopleOzExternalMergedpeopleapiIdentityInfo extends \Google\Collection
   public $previousPersonId;
   protected $sourceIdsType = AppsPeopleOzExternalMergedpeopleapiSourceIdentity::class;
   protected $sourceIdsDataType = 'array';
-  public $sourceIds;
 
   /**
    * @param string[]

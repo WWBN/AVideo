@@ -22,14 +22,12 @@ class ComplianceRule extends \Google\Collection
   protected $collection_key = 'packageNamesToDisable';
   protected $apiLevelConditionType = ApiLevelCondition::class;
   protected $apiLevelConditionDataType = '';
-  public $apiLevelCondition;
   /**
    * @var bool
    */
   public $disableApps;
   protected $nonComplianceDetailConditionType = NonComplianceDetailCondition::class;
   protected $nonComplianceDetailConditionDataType = '';
-  public $nonComplianceDetailCondition;
   /**
    * @var string[]
    */

@@ -25,7 +25,6 @@ class Attribute extends \Google\Model
   public $name;
   protected $valueType = CaribouAttributeValue::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param string

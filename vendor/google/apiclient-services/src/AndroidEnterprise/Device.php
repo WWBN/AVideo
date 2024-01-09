@@ -26,13 +26,39 @@ class Device extends \Google\Model
   /**
    * @var string
    */
+  public $device;
+  /**
+   * @var string
+   */
+  public $latestBuildFingerprint;
+  /**
+   * @var string
+   */
+  public $maker;
+  /**
+   * @var string
+   */
   public $managementType;
+  /**
+   * @var string
+   */
+  public $model;
   protected $policyType = Policy::class;
   protected $policyDataType = '';
-  public $policy;
+  /**
+   * @var string
+   */
+  public $product;
   protected $reportType = DeviceReport::class;
   protected $reportDataType = '';
-  public $report;
+  /**
+   * @var string
+   */
+  public $retailBrand;
+  /**
+   * @var int
+   */
+  public $sdkVersion;
 
   /**
    * @param string
@@ -51,6 +77,48 @@ class Device extends \Google\Model
   /**
    * @param string
    */
+  public function setDevice($device)
+  {
+    $this->device = $device;
+  }
+  /**
+   * @return string
+   */
+  public function getDevice()
+  {
+    return $this->device;
+  }
+  /**
+   * @param string
+   */
+  public function setLatestBuildFingerprint($latestBuildFingerprint)
+  {
+    $this->latestBuildFingerprint = $latestBuildFingerprint;
+  }
+  /**
+   * @return string
+   */
+  public function getLatestBuildFingerprint()
+  {
+    return $this->latestBuildFingerprint;
+  }
+  /**
+   * @param string
+   */
+  public function setMaker($maker)
+  {
+    $this->maker = $maker;
+  }
+  /**
+   * @return string
+   */
+  public function getMaker()
+  {
+    return $this->maker;
+  }
+  /**
+   * @param string
+   */
   public function setManagementType($managementType)
   {
     $this->managementType = $managementType;
@@ -61,6 +129,20 @@ class Device extends \Google\Model
   public function getManagementType()
   {
     return $this->managementType;
+  }
+  /**
+   * @param string
+   */
+  public function setModel($model)
+  {
+    $this->model = $model;
+  }
+  /**
+   * @return string
+   */
+  public function getModel()
+  {
+    return $this->model;
   }
   /**
    * @param Policy
@@ -77,6 +159,20 @@ class Device extends \Google\Model
     return $this->policy;
   }
   /**
+   * @param string
+   */
+  public function setProduct($product)
+  {
+    $this->product = $product;
+  }
+  /**
+   * @return string
+   */
+  public function getProduct()
+  {
+    return $this->product;
+  }
+  /**
    * @param DeviceReport
    */
   public function setReport(DeviceReport $report)
@@ -89,6 +185,34 @@ class Device extends \Google\Model
   public function getReport()
   {
     return $this->report;
+  }
+  /**
+   * @param string
+   */
+  public function setRetailBrand($retailBrand)
+  {
+    $this->retailBrand = $retailBrand;
+  }
+  /**
+   * @return string
+   */
+  public function getRetailBrand()
+  {
+    return $this->retailBrand;
+  }
+  /**
+   * @param int
+   */
+  public function setSdkVersion($sdkVersion)
+  {
+    $this->sdkVersion = $sdkVersion;
+  }
+  /**
+   * @return int
+   */
+  public function getSdkVersion()
+  {
+    return $this->sdkVersion;
   }
 }
 

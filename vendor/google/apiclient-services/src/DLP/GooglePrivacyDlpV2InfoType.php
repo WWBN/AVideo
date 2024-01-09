@@ -23,6 +23,8 @@ class GooglePrivacyDlpV2InfoType extends \Google\Model
    * @var string
    */
   public $name;
+  protected $sensitivityScoreType = GooglePrivacyDlpV2SensitivityScore::class;
+  protected $sensitivityScoreDataType = '';
   /**
    * @var string
    */
@@ -41,6 +43,20 @@ class GooglePrivacyDlpV2InfoType extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param GooglePrivacyDlpV2SensitivityScore
+   */
+  public function setSensitivityScore(GooglePrivacyDlpV2SensitivityScore $sensitivityScore)
+  {
+    $this->sensitivityScore = $sensitivityScore;
+  }
+  /**
+   * @return GooglePrivacyDlpV2SensitivityScore
+   */
+  public function getSensitivityScore()
+  {
+    return $this->sensitivityScore;
   }
   /**
    * @param string

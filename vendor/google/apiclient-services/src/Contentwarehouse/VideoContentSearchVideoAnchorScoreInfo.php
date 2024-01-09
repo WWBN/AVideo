@@ -22,23 +22,18 @@ class VideoContentSearchVideoAnchorScoreInfo extends \Google\Collection
   protected $collection_key = 'textSimilarityFeatures';
   protected $anchorCommonFeatureSetType = VideoContentSearchAnchorCommonFeatureSet::class;
   protected $anchorCommonFeatureSetDataType = '';
-  public $anchorCommonFeatureSet;
   protected $attachmentsType = Proto2BridgeMessageSet::class;
   protected $attachmentsDataType = '';
-  public $attachments;
   /**
    * @var string
    */
   public $babelCheckpointPath;
   protected $captionEntityAnchorFeaturesType = VideoContentSearchCaptionEntityAnchorFeatures::class;
   protected $captionEntityAnchorFeaturesDataType = '';
-  public $captionEntityAnchorFeatures;
   protected $captionSpanAnchorFeaturesType = VideoContentSearchCaptionSpanAnchorFeatures::class;
   protected $captionSpanAnchorFeaturesDataType = '';
-  public $captionSpanAnchorFeatures;
   protected $descriptionAnchorFeaturesType = VideoContentSearchDescriptionAnchorFeatures::class;
   protected $descriptionAnchorFeaturesDataType = '';
-  public $descriptionAnchorFeatures;
   /**
    * @var string[]
    */
@@ -49,60 +44,44 @@ class VideoContentSearchVideoAnchorScoreInfo extends \Google\Collection
   public $filtered;
   protected $generativeFeaturesType = VideoContentSearchGenerativePredictionFeatures::class;
   protected $generativeFeaturesDataType = 'array';
-  public $generativeFeatures;
   protected $instructionAnchorFeaturesType = VideoContentSearchInstructionAnchorFeatures::class;
   protected $instructionAnchorFeaturesDataType = '';
-  public $instructionAnchorFeatures;
   protected $instructionTrainingDataAnchorFeaturesType = VideoContentSearchInstructionTrainingDataAnchorFeatures::class;
   protected $instructionTrainingDataAnchorFeaturesDataType = '';
-  public $instructionTrainingDataAnchorFeatures;
   /**
    * @var string
    */
   public $labelLanguage;
   protected $labelTransformationType = VideoContentSearchVideoAnchorScoreInfoLabelTransformation::class;
   protected $labelTransformationDataType = 'array';
-  public $labelTransformation;
   protected $listAnchorFeaturesType = VideoContentSearchListAnchorFeatures::class;
   protected $listAnchorFeaturesDataType = '';
-  public $listAnchorFeatures;
   protected $listTrainingDataAnchorFeaturesType = VideoContentSearchListTrainingDataAnchorFeatures::class;
   protected $listTrainingDataAnchorFeaturesDataType = '';
-  public $listTrainingDataAnchorFeatures;
   protected $multimodalTopicFeaturesType = VideoContentSearchMultimodalTopicFeatures::class;
   protected $multimodalTopicFeaturesDataType = '';
-  public $multimodalTopicFeatures;
   protected $multimodalTopicTrainingFeaturesType = VideoContentSearchMultimodalTopicTrainingFeatures::class;
   protected $multimodalTopicTrainingFeaturesDataType = '';
-  public $multimodalTopicTrainingFeatures;
   /**
    * @var float[]
    */
   public $normalizedBabelEmbedding;
   protected $ocrAnchorFeatureType = VideoContentSearchOnScreenTextFeature::class;
   protected $ocrAnchorFeatureDataType = '';
-  public $ocrAnchorFeature;
   protected $ocrDescriptionTrainingDataAnchorFeaturesType = VideoContentSearchOcrDescriptionTrainingDataAnchorFeatures::class;
   protected $ocrDescriptionTrainingDataAnchorFeaturesDataType = '';
-  public $ocrDescriptionTrainingDataAnchorFeatures;
   protected $opinionsAnchorFeaturesType = VideoContentSearchShoppingOpinionsAnchorFeatures::class;
   protected $opinionsAnchorFeaturesDataType = '';
-  public $opinionsAnchorFeatures;
   protected $qnaAnchorFeaturesType = VideoContentSearchQnaAnchorFeatures::class;
   protected $qnaAnchorFeaturesDataType = '';
-  public $qnaAnchorFeatures;
   protected $ratingScoreType = VideoContentSearchVideoAnchorRatingScore::class;
   protected $ratingScoreDataType = '';
-  public $ratingScore;
   protected $safeSearchClassifierOutputType = ClassifierPornQueryMultiLabelClassifierOutput::class;
   protected $safeSearchClassifierOutputDataType = '';
-  public $safeSearchClassifierOutput;
   protected $textSimilarityFeaturesType = VideoContentSearchTextSimilarityFeatures::class;
   protected $textSimilarityFeaturesDataType = 'array';
-  public $textSimilarityFeatures;
   protected $thumbnailInfoType = VideoContentSearchAnchorThumbnailInfo::class;
   protected $thumbnailInfoDataType = '';
-  public $thumbnailInfo;
 
   /**
    * @param VideoContentSearchAnchorCommonFeatureSet

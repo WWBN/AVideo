@@ -30,7 +30,6 @@ class KnowledgeAnswersAttributeType extends \Google\Collection
   public $pivotEntitySlot;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
 
   /**
    * @param string[]

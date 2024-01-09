@@ -26,7 +26,6 @@ class ListTenancyUnitsResponse extends \Google\Collection
   public $nextPageToken;
   protected $tenancyUnitsType = TenancyUnit::class;
   protected $tenancyUnitsDataType = 'array';
-  public $tenancyUnits;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class ListApiSpecRevisionsResponse extends \Google\Collection
   protected $collection_key = 'apiSpecs';
   protected $apiSpecsType = ApiSpec::class;
   protected $apiSpecsDataType = 'array';
-  public $apiSpecs;
   /**
    * @var string
    */

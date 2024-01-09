@@ -21,7 +21,6 @@ class GoogleCloudDocumentaiV1beta3ReviewDocumentOperationMetadata extends \Googl
 {
   protected $commonMetadataType = GoogleCloudDocumentaiV1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
-  public $commonMetadata;
   /**
    * @var string
    */

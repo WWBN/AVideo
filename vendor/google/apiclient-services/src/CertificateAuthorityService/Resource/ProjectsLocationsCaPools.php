@@ -73,6 +73,11 @@ class ProjectsLocationsCaPools extends \Google\Service\Resource
    * `projects/locations/caPools`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool ignoreDependentResources Optional. This field allows this
+   * pool to be deleted even if it's being depended on by another resource.
+   * However, doing so may result in unintended and unrecoverable effects on any
+   * dependent resource(s) since the pool will no longer be able to issue
+   * certificates.
    * @opt_param string requestId Optional. An ID to identify requests. Specify a
    * unique request ID so that if you must retry your request, the server will
    * know to ignore the request if it has already been completed. The server will

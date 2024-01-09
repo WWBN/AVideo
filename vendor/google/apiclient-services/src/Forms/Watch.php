@@ -45,7 +45,6 @@ class Watch extends \Google\Model
   public $state;
   protected $targetType = WatchTarget::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class ComputeTimeCursorResponse extends \Google\Model
 {
   protected $cursorType = Cursor::class;
   protected $cursorDataType = '';
-  public $cursor;
 
   /**
    * @param Cursor

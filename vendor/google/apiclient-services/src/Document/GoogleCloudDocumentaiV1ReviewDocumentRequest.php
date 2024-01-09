@@ -21,14 +21,12 @@ class GoogleCloudDocumentaiV1ReviewDocumentRequest extends \Google\Model
 {
   protected $documentSchemaType = GoogleCloudDocumentaiV1DocumentSchema::class;
   protected $documentSchemaDataType = '';
-  public $documentSchema;
   /**
    * @var bool
    */
   public $enableSchemaValidation;
   protected $inlineDocumentType = GoogleCloudDocumentaiV1Document::class;
   protected $inlineDocumentDataType = '';
-  public $inlineDocument;
   /**
    * @var string
    */

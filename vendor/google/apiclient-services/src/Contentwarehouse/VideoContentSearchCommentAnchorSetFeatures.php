@@ -22,10 +22,8 @@ class VideoContentSearchCommentAnchorSetFeatures extends \Google\Collection
   protected $collection_key = 'replies';
   protected $repliesType = VideoContentSearchCommentAnchorSetFeaturesComment::class;
   protected $repliesDataType = 'array';
-  public $replies;
   protected $rootCommentType = VideoContentSearchCommentAnchorSetFeaturesComment::class;
   protected $rootCommentDataType = '';
-  public $rootComment;
 
   /**
    * @param VideoContentSearchCommentAnchorSetFeaturesComment[]

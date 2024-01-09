@@ -21,7 +21,6 @@ class OrderReportTransaction extends \Google\Model
 {
   protected $disbursementAmountType = Price::class;
   protected $disbursementAmountDataType = '';
-  public $disbursementAmount;
   /**
    * @var string
    */
@@ -48,7 +47,6 @@ class OrderReportTransaction extends \Google\Model
   public $orderId;
   protected $productAmountType = ProductAmount::class;
   protected $productAmountDataType = '';
-  public $productAmount;
   /**
    * @var string
    */

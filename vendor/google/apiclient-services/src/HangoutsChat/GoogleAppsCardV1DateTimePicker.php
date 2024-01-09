@@ -29,7 +29,6 @@ class GoogleAppsCardV1DateTimePicker extends \Google\Model
   public $name;
   protected $onChangeActionType = GoogleAppsCardV1Action::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var int
    */

@@ -22,7 +22,6 @@ class McfDataRows extends \Google\Collection
   protected $collection_key = 'conversionPathValue';
   protected $conversionPathValueType = McfDataRowsConversionPathValue::class;
   protected $conversionPathValueDataType = 'array';
-  public $conversionPathValue;
   /**
    * @var string
    */

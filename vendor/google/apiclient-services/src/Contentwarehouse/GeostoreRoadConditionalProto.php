@@ -22,10 +22,8 @@ class GeostoreRoadConditionalProto extends \Google\Collection
   protected $collection_key = 'vehicleType';
   protected $timeScheduleType = GeostoreTimeScheduleProto::class;
   protected $timeScheduleDataType = '';
-  public $timeSchedule;
   protected $vehicleAttributeType = GeostoreVehicleAttributeFilterProto::class;
   protected $vehicleAttributeDataType = '';
-  public $vehicleAttribute;
   /**
    * @var string[]
    */

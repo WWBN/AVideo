@@ -21,7 +21,6 @@ class AddBandingResponse extends \Google\Model
 {
   protected $bandedRangeType = BandedRange::class;
   protected $bandedRangeDataType = '';
-  public $bandedRange;
 
   /**
    * @param BandedRange

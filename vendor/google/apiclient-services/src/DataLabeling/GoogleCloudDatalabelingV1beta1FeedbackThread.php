@@ -21,7 +21,6 @@ class GoogleCloudDatalabelingV1beta1FeedbackThread extends \Google\Model
 {
   protected $feedbackThreadMetadataType = GoogleCloudDatalabelingV1beta1FeedbackThreadMetadata::class;
   protected $feedbackThreadMetadataDataType = '';
-  public $feedbackThreadMetadata;
   /**
    * @var string
    */

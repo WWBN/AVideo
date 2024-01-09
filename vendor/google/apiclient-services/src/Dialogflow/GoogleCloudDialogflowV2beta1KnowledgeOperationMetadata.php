@@ -21,7 +21,6 @@ class GoogleCloudDialogflowV2beta1KnowledgeOperationMetadata extends \Google\Mod
 {
   protected $exportOperationMetadataType = GoogleCloudDialogflowV2beta1ExportOperationMetadata::class;
   protected $exportOperationMetadataDataType = '';
-  public $exportOperationMetadata;
   /**
    * @var string
    */

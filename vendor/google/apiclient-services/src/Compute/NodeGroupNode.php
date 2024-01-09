@@ -22,20 +22,16 @@ class NodeGroupNode extends \Google\Collection
   protected $collection_key = 'instances';
   protected $acceleratorsType = AcceleratorConfig::class;
   protected $acceleratorsDataType = 'array';
-  public $accelerators;
   protected $consumedResourcesType = InstanceConsumptionInfo::class;
   protected $consumedResourcesDataType = '';
-  public $consumedResources;
   /**
    * @var string
    */
   public $cpuOvercommitType;
   protected $disksType = LocalDisk::class;
   protected $disksDataType = 'array';
-  public $disks;
   protected $instanceConsumptionDataType = InstanceConsumptionData::class;
   protected $instanceConsumptionDataDataType = 'array';
-  public $instanceConsumptionData;
   /**
    * @var string[]
    */
@@ -54,7 +50,6 @@ class NodeGroupNode extends \Google\Collection
   public $satisfiesPzs;
   protected $serverBindingType = ServerBinding::class;
   protected $serverBindingDataType = '';
-  public $serverBinding;
   /**
    * @var string
    */
@@ -65,7 +60,6 @@ class NodeGroupNode extends \Google\Collection
   public $status;
   protected $totalResourcesType = InstanceConsumptionInfo::class;
   protected $totalResourcesDataType = '';
-  public $totalResources;
 
   /**
    * @param AcceleratorConfig[]

@@ -22,7 +22,6 @@ class GoogleAdsHomeservicesLocalservicesV1SearchAccountReportsResponse extends \
   protected $collection_key = 'accountReports';
   protected $accountReportsType = GoogleAdsHomeservicesLocalservicesV1AccountReport::class;
   protected $accountReportsDataType = 'array';
-  public $accountReports;
   /**
    * @var string
    */

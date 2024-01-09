@@ -22,10 +22,8 @@ class IndexingDupsLocalizedLocalizedClusterTargetLinkSets extends \Google\Collec
   protected $collection_key = 'indirectTargetLink';
   protected $directTargetLinkType = IndexingDupsLocalizedLocalizedClusterTargetLink::class;
   protected $directTargetLinkDataType = 'array';
-  public $directTargetLink;
   protected $indirectTargetLinkType = IndexingDupsLocalizedLocalizedClusterTargetLink::class;
   protected $indirectTargetLinkDataType = 'array';
-  public $indirectTargetLink;
 
   /**
    * @param IndexingDupsLocalizedLocalizedClusterTargetLink[]

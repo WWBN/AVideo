@@ -21,10 +21,8 @@ class GdataDiffUploadRequest extends \Google\Model
 {
   protected $checksumsInfoType = GdataCompositeMedia::class;
   protected $checksumsInfoDataType = '';
-  public $checksumsInfo;
   protected $objectInfoType = GdataCompositeMedia::class;
   protected $objectInfoDataType = '';
-  public $objectInfo;
   /**
    * @var string
    */

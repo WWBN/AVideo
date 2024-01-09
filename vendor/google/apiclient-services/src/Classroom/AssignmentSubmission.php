@@ -22,7 +22,6 @@ class AssignmentSubmission extends \Google\Collection
   protected $collection_key = 'attachments';
   protected $attachmentsType = Attachment::class;
   protected $attachmentsDataType = 'array';
-  public $attachments;
 
   /**
    * @param Attachment[]

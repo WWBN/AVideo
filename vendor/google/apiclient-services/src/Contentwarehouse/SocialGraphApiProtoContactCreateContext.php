@@ -21,7 +21,6 @@ class SocialGraphApiProtoContactCreateContext extends \Google\Model
 {
   protected $mutationContextType = SocialGraphApiProtoContactMutationContext::class;
   protected $mutationContextDataType = '';
-  public $mutationContext;
 
   /**
    * @param SocialGraphApiProtoContactMutationContext

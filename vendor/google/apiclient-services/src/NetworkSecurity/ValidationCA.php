@@ -21,10 +21,8 @@ class ValidationCA extends \Google\Model
 {
   protected $certificateProviderInstanceType = CertificateProviderInstance::class;
   protected $certificateProviderInstanceDataType = '';
-  public $certificateProviderInstance;
   protected $grpcEndpointType = GoogleCloudNetworksecurityV1GrpcEndpoint::class;
   protected $grpcEndpointDataType = '';
-  public $grpcEndpoint;
 
   /**
    * @param CertificateProviderInstance

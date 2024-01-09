@@ -29,7 +29,6 @@ class AppsDynamiteStorageDecoratedTextSwitchControl extends \Google\Model
   public $name;
   protected $onChangeActionType = AppsDynamiteStorageAction::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var bool
    */

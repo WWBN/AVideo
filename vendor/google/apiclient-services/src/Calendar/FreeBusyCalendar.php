@@ -22,10 +22,8 @@ class FreeBusyCalendar extends \Google\Collection
   protected $collection_key = 'errors';
   protected $busyType = TimePeriod::class;
   protected $busyDataType = 'array';
-  public $busy;
   protected $errorsType = Error::class;
   protected $errorsDataType = 'array';
-  public $errors;
 
   /**
    * @param TimePeriod[]

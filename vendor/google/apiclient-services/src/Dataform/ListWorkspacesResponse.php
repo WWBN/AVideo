@@ -30,7 +30,6 @@ class ListWorkspacesResponse extends \Google\Collection
   public $unreachable;
   protected $workspacesType = Workspace::class;
   protected $workspacesDataType = 'array';
-  public $workspaces;
 
   /**
    * @param string

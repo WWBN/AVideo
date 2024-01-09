@@ -22,7 +22,6 @@ class ListDocumentsResponse extends \Google\Collection
   protected $collection_key = 'documents';
   protected $documentsType = Document::class;
   protected $documentsDataType = 'array';
-  public $documents;
   /**
    * @var string
    */

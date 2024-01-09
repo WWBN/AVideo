@@ -21,10 +21,8 @@ class ListFindingsResult extends \Google\Model
 {
   protected $findingType = Finding::class;
   protected $findingDataType = '';
-  public $finding;
   protected $resourceType = SecuritycenterResource::class;
   protected $resourceDataType = '';
-  public $resource;
   /**
    * @var string
    */

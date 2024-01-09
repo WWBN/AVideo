@@ -22,7 +22,6 @@ class YoutubeDiscoveryLegosLegosAnnotations extends \Google\Collection
   protected $collection_key = 'annotations';
   protected $annotationsType = YoutubeDiscoveryLegosLegosAnnotation::class;
   protected $annotationsDataType = 'array';
-  public $annotations;
 
   /**
    * @param YoutubeDiscoveryLegosLegosAnnotation[]

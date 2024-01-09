@@ -22,33 +22,28 @@ class SearchPolicyRankableSensitivity extends \Google\Collection
   protected $collection_key = 'accountProvenance';
   protected $accountProvenanceType = QualityQrewriteAccountProvenance::class;
   protected $accountProvenanceDataType = 'array';
-  public $accountProvenance;
   protected $attentionalEntityType = SearchPolicyRankableSensitivityAttentionalEntity::class;
   protected $attentionalEntityDataType = '';
-  public $attentionalEntity;
   /**
    * @var bool
    */
   public $dasherUser;
   protected $followonType = SearchPolicyRankableSensitivityFollowOn::class;
   protected $followonDataType = '';
-  public $followon;
+  protected $groundingProviderType = SearchPolicyRankableSensitivityGroundingProvider::class;
+  protected $groundingProviderDataType = '';
   protected $prefilterType = SearchPolicyRankableSensitivityPrefilter::class;
   protected $prefilterDataType = '';
-  public $prefilter;
   protected $quType = SearchPolicyRankableSensitivityQueryUnderstanding::class;
   protected $quDataType = '';
-  public $qu;
   /**
    * @var string
    */
   public $sensitivityMode;
   protected $syntheticIntentType = SearchPolicyRankableSensitivitySyntheticIntent::class;
   protected $syntheticIntentDataType = '';
-  public $syntheticIntent;
   protected $winningFulfillmentType = SearchPolicyRankableSensitivityFulfillment::class;
   protected $winningFulfillmentDataType = '';
-  public $winningFulfillment;
 
   /**
    * @param QualityQrewriteAccountProvenance[]
@@ -105,6 +100,20 @@ class SearchPolicyRankableSensitivity extends \Google\Collection
   public function getFollowon()
   {
     return $this->followon;
+  }
+  /**
+   * @param SearchPolicyRankableSensitivityGroundingProvider
+   */
+  public function setGroundingProvider(SearchPolicyRankableSensitivityGroundingProvider $groundingProvider)
+  {
+    $this->groundingProvider = $groundingProvider;
+  }
+  /**
+   * @return SearchPolicyRankableSensitivityGroundingProvider
+   */
+  public function getGroundingProvider()
+  {
+    return $this->groundingProvider;
   }
   /**
    * @param SearchPolicyRankableSensitivityPrefilter

@@ -34,7 +34,6 @@ class SapDiscoveryComponent extends \Google\Collection
   public $hostProject;
   protected $resourcesType = SapDiscoveryResource::class;
   protected $resourcesDataType = 'array';
-  public $resources;
   /**
    * @var string
    */

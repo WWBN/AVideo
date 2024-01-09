@@ -21,7 +21,6 @@ class RecordingInfo extends \Google\Model
 {
   protected $latestRecordingEventType = RecordingEvent::class;
   protected $latestRecordingEventDataType = '';
-  public $latestRecordingEvent;
   /**
    * @var string
    */

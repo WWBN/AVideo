@@ -21,7 +21,6 @@ class LiveStreamStatus extends \Google\Model
 {
   protected $healthStatusType = LiveStreamHealthStatus::class;
   protected $healthStatusDataType = '';
-  public $healthStatus;
   /**
    * @var string
    */

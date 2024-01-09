@@ -21,13 +21,11 @@ class RoomUpdatedMetadata extends \Google\Model
 {
   protected $groupDetailsMetadataType = GroupDetailsUpdatedMetadata::class;
   protected $groupDetailsMetadataDataType = '';
-  public $groupDetailsMetadata;
   /**
    * @var bool
    */
   public $groupLinkSharingEnabled;
   protected $initiatorDataType = '';
-  public $initiator;
   /**
    * @var string
    */
@@ -38,10 +36,8 @@ class RoomUpdatedMetadata extends \Google\Model
   public $name;
   protected $renameMetadataType = RoomRenameMetadata::class;
   protected $renameMetadataDataType = '';
-  public $renameMetadata;
   protected $visibilityType = AppsDynamiteSharedGroupVisibility::class;
   protected $visibilityDataType = '';
-  public $visibility;
 
   /**
    * @param GroupDetailsUpdatedMetadata

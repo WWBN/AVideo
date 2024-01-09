@@ -22,7 +22,6 @@ class Billing extends \Google\Collection
   protected $collection_key = 'consumerDestinations';
   protected $consumerDestinationsType = BillingDestination::class;
   protected $consumerDestinationsDataType = 'array';
-  public $consumerDestinations;
 
   /**
    * @param BillingDestination[]

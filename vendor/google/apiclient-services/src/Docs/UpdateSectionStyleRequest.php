@@ -25,10 +25,8 @@ class UpdateSectionStyleRequest extends \Google\Model
   public $fields;
   protected $rangeType = Range::class;
   protected $rangeDataType = '';
-  public $range;
   protected $sectionStyleType = SectionStyle::class;
   protected $sectionStyleDataType = '';
-  public $sectionStyle;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class ExchangeConfig extends \Google\Collection
   protected $collection_key = 'enabledExchanges';
   protected $enabledExchangesType = ExchangeConfigEnabledExchange::class;
   protected $enabledExchangesDataType = 'array';
-  public $enabledExchanges;
 
   /**
    * @param ExchangeConfigEnabledExchange[]

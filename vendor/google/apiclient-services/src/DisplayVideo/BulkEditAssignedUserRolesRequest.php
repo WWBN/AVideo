@@ -22,7 +22,6 @@ class BulkEditAssignedUserRolesRequest extends \Google\Collection
   protected $collection_key = 'deletedAssignedUserRoles';
   protected $createdAssignedUserRolesType = AssignedUserRole::class;
   protected $createdAssignedUserRolesDataType = 'array';
-  public $createdAssignedUserRoles;
   /**
    * @var string[]
    */

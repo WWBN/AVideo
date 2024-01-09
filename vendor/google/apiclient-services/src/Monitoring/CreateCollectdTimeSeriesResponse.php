@@ -22,10 +22,8 @@ class CreateCollectdTimeSeriesResponse extends \Google\Collection
   protected $collection_key = 'payloadErrors';
   protected $payloadErrorsType = CollectdPayloadError::class;
   protected $payloadErrorsDataType = 'array';
-  public $payloadErrors;
   protected $summaryType = CreateTimeSeriesSummary::class;
   protected $summaryDataType = '';
-  public $summary;
 
   /**
    * @param CollectdPayloadError[]

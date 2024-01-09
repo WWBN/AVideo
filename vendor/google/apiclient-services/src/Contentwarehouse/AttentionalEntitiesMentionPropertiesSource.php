@@ -21,13 +21,10 @@ class AttentionalEntitiesMentionPropertiesSource extends \Google\Model
 {
   protected $clientType = AttentionalEntitiesMentionPropertiesSourceClient::class;
   protected $clientDataType = '';
-  public $client;
   protected $systemType = AttentionalEntitiesMentionPropertiesSourceSystem::class;
   protected $systemDataType = '';
-  public $system;
   protected $userType = AttentionalEntitiesMentionPropertiesSourceUser::class;
   protected $userDataType = '';
-  public $user;
 
   /**
    * @param AttentionalEntitiesMentionPropertiesSourceClient

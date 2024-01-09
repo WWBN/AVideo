@@ -22,7 +22,6 @@ class GoogleCloudRetailV2ListModelsResponse extends \Google\Collection
   protected $collection_key = 'models';
   protected $modelsType = GoogleCloudRetailV2Model::class;
   protected $modelsDataType = 'array';
-  public $models;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class GooglePlayDeveloperReportingV1beta1ListAnomaliesResponse extends \Google\C
   protected $collection_key = 'anomalies';
   protected $anomaliesType = GooglePlayDeveloperReportingV1beta1Anomaly::class;
   protected $anomaliesDataType = 'array';
-  public $anomalies;
   /**
    * @var string
    */

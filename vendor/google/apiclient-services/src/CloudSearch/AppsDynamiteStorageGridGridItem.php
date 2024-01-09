@@ -25,7 +25,6 @@ class AppsDynamiteStorageGridGridItem extends \Google\Model
   public $id;
   protected $imageType = AppsDynamiteStorageImageComponent::class;
   protected $imageDataType = '';
-  public $image;
   /**
    * @var string
    */

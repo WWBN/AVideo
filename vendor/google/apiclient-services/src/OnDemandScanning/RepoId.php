@@ -21,7 +21,6 @@ class RepoId extends \Google\Model
 {
   protected $projectRepoIdType = ProjectRepoId::class;
   protected $projectRepoIdDataType = '';
-  public $projectRepoId;
   /**
    * @var string
    */

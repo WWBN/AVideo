@@ -22,7 +22,6 @@ class NetworkEndpointGroupsAttachEndpointsRequest extends \Google\Collection
   protected $collection_key = 'networkEndpoints';
   protected $networkEndpointsType = NetworkEndpoint::class;
   protected $networkEndpointsDataType = 'array';
-  public $networkEndpoints;
 
   /**
    * @param NetworkEndpoint[]

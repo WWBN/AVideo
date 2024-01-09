@@ -21,7 +21,6 @@ class QualityQrewriteRelationshipMemoryData extends \Google\Model
 {
   protected $contactPointerType = FocusBackendContactPointer::class;
   protected $contactPointerDataType = '';
-  public $contactPointer;
   /**
    * @var string
    */

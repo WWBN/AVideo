@@ -33,7 +33,6 @@ class ProvisioningQuota extends \Google\Model
   public $gcpService;
   protected $instanceQuotaType = InstanceQuota::class;
   protected $instanceQuotaDataType = '';
-  public $instanceQuota;
   /**
    * @var string
    */

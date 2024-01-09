@@ -26,7 +26,6 @@ class ListZonesResponse extends \Google\Collection
   public $nextPageToken;
   protected $zoneType = Zone::class;
   protected $zoneDataType = 'array';
-  public $zone;
 
   /**
    * @param string

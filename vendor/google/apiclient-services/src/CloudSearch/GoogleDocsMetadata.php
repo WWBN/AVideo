@@ -21,7 +21,6 @@ class GoogleDocsMetadata extends \Google\Model
 {
   protected $aclInfoType = AclInfo::class;
   protected $aclInfoDataType = '';
-  public $aclInfo;
   /**
    * @var string
    */
@@ -44,10 +43,8 @@ class GoogleDocsMetadata extends \Google\Model
   public $numViewers;
   protected $resultInfoType = GoogleDocsResultInfo::class;
   protected $resultInfoDataType = '';
-  public $resultInfo;
   protected $typeInfoType = TypeInfo::class;
   protected $typeInfoDataType = '';
-  public $typeInfo;
 
   /**
    * @param AclInfo

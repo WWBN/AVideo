@@ -21,7 +21,6 @@ class GoogleAppsScriptTypeWebAppEntryPoint extends \Google\Model
 {
   protected $entryPointConfigType = GoogleAppsScriptTypeWebAppConfig::class;
   protected $entryPointConfigDataType = '';
-  public $entryPointConfig;
   /**
    * @var string
    */

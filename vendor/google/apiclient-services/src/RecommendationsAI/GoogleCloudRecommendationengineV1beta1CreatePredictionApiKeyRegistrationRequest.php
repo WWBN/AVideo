@@ -21,7 +21,6 @@ class GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRe
 {
   protected $predictionApiKeyRegistrationType = GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration::class;
   protected $predictionApiKeyRegistrationDataType = '';
-  public $predictionApiKeyRegistration;
 
   /**
    * @param GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration

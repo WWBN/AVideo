@@ -150,8 +150,7 @@ class SslPolicies extends \Google\Service\Resource
     return $this->call('get', [$params], SslPolicy::class);
   }
   /**
-   * Returns the specified SSL policy resource. Gets a list of available SSL
-   * policies by making a list() request. (sslPolicies.insert)
+   * Returns the specified SSL policy resource. (sslPolicies.insert)
    *
    * @param string $project Project ID for this request.
    * @param SslPolicy $postBody

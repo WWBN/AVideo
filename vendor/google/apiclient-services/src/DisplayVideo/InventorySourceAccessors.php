@@ -21,10 +21,8 @@ class InventorySourceAccessors extends \Google\Model
 {
   protected $advertisersType = InventorySourceAccessorsAdvertiserAccessors::class;
   protected $advertisersDataType = '';
-  public $advertisers;
   protected $partnerType = InventorySourceAccessorsPartnerAccessor::class;
   protected $partnerDataType = '';
-  public $partner;
 
   /**
    * @param InventorySourceAccessorsAdvertiserAccessors

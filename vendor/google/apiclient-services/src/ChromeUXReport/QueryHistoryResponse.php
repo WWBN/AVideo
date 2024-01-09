@@ -21,10 +21,8 @@ class QueryHistoryResponse extends \Google\Model
 {
   protected $recordType = HistoryRecord::class;
   protected $recordDataType = '';
-  public $record;
   protected $urlNormalizationDetailsType = UrlNormalization::class;
   protected $urlNormalizationDetailsDataType = '';
-  public $urlNormalizationDetails;
 
   /**
    * @param HistoryRecord

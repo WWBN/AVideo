@@ -21,7 +21,6 @@ class UpdateDocumentStyleRequest extends \Google\Model
 {
   protected $documentStyleType = DocumentStyle::class;
   protected $documentStyleDataType = '';
-  public $documentStyle;
   /**
    * @var string
    */

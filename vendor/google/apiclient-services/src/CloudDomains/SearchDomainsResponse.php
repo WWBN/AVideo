@@ -22,7 +22,6 @@ class SearchDomainsResponse extends \Google\Collection
   protected $collection_key = 'registerParameters';
   protected $registerParametersType = RegisterParameters::class;
   protected $registerParametersDataType = 'array';
-  public $registerParameters;
 
   /**
    * @param RegisterParameters[]

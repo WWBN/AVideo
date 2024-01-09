@@ -77,11 +77,11 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * projects/{project}/locations/{location}/workflows/{workflow}
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string revisionId Optional. Optional. The revision of the workflow
-   * to retrieve. If the revision_id is empty, the latest revision is retrieved.
-   * The format is "000001-a4d", where the first 6 characters define the zero-
-   * padded decimal revision number. They are followed by a hyphen and 3
-   * hexadecimal characters. (go/wf_adr_clh_1)
+   * @opt_param string revisionId Optional. The revision of the workflow to
+   * retrieve. If the revision_id is empty, the latest revision is retrieved. The
+   * format is "000001-a4d", where the first six characters define the zero-padded
+   * decimal revision number. They are followed by a hyphen and three hexadecimal
+   * characters.
    * @return Workflow
    */
   public function get($name, $optParams = [])

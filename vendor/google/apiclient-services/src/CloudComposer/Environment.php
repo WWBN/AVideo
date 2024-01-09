@@ -21,7 +21,6 @@ class Environment extends \Google\Model
 {
   protected $configType = EnvironmentConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */

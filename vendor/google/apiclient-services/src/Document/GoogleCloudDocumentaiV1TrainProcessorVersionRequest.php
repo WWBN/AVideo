@@ -25,13 +25,10 @@ class GoogleCloudDocumentaiV1TrainProcessorVersionRequest extends \Google\Model
   public $baseProcessorVersion;
   protected $documentSchemaType = GoogleCloudDocumentaiV1DocumentSchema::class;
   protected $documentSchemaDataType = '';
-  public $documentSchema;
   protected $inputDataType = GoogleCloudDocumentaiV1TrainProcessorVersionRequestInputData::class;
   protected $inputDataDataType = '';
-  public $inputData;
   protected $processorVersionType = GoogleCloudDocumentaiV1ProcessorVersion::class;
   protected $processorVersionDataType = '';
-  public $processorVersion;
 
   /**
    * @param string

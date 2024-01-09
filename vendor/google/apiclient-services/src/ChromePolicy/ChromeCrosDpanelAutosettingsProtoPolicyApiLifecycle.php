@@ -30,7 +30,6 @@ class ChromeCrosDpanelAutosettingsProtoPolicyApiLifecycle extends \Google\Collec
   public $description;
   protected $endSupportType = GoogleTypeDate::class;
   protected $endSupportDataType = '';
-  public $endSupport;
   /**
    * @var string
    */

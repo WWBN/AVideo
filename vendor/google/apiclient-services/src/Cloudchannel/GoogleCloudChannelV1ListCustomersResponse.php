@@ -22,7 +22,6 @@ class GoogleCloudChannelV1ListCustomersResponse extends \Google\Collection
   protected $collection_key = 'customers';
   protected $customersType = GoogleCloudChannelV1Customer::class;
   protected $customersDataType = 'array';
-  public $customers;
   /**
    * @var string
    */

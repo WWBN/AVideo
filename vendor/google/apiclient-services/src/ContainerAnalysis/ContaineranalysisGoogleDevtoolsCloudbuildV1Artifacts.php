@@ -26,13 +26,12 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Artifacts extends \Google\Colle
   public $images;
   protected $mavenArtifactsType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsMavenArtifact::class;
   protected $mavenArtifactsDataType = 'array';
-  public $mavenArtifacts;
+  protected $npmPackagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsNpmPackage::class;
+  protected $npmPackagesDataType = 'array';
   protected $objectsType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsArtifactObjects::class;
   protected $objectsDataType = '';
-  public $objects;
   protected $pythonPackagesType = ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsPythonPackage::class;
   protected $pythonPackagesDataType = 'array';
-  public $pythonPackages;
 
   /**
    * @param string[]
@@ -61,6 +60,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Artifacts extends \Google\Colle
   public function getMavenArtifacts()
   {
     return $this->mavenArtifacts;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsNpmPackage[]
+   */
+  public function setNpmPackages($npmPackages)
+  {
+    $this->npmPackages = $npmPackages;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsNpmPackage[]
+   */
+  public function getNpmPackages()
+  {
+    return $this->npmPackages;
   }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1ArtifactsArtifactObjects

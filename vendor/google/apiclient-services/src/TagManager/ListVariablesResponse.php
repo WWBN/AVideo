@@ -26,7 +26,6 @@ class ListVariablesResponse extends \Google\Collection
   public $nextPageToken;
   protected $variableType = Variable::class;
   protected $variableDataType = 'array';
-  public $variable;
 
   /**
    * @param string

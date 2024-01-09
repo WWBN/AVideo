@@ -21,7 +21,6 @@ class GoogleCloudMemcacheV1LocationMetadata extends \Google\Model
 {
   protected $availableZonesType = GoogleCloudMemcacheV1ZoneMetadata::class;
   protected $availableZonesDataType = 'map';
-  public $availableZones;
 
   /**
    * @param GoogleCloudMemcacheV1ZoneMetadata[]

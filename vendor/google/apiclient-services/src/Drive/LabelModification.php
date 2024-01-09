@@ -22,7 +22,6 @@ class LabelModification extends \Google\Collection
   protected $collection_key = 'fieldModifications';
   protected $fieldModificationsType = LabelFieldModification::class;
   protected $fieldModificationsDataType = 'array';
-  public $fieldModifications;
   /**
    * @var string
    */

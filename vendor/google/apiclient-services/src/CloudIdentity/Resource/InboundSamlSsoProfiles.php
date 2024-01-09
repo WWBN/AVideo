@@ -85,10 +85,10 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    *
    * @opt_param string filter A [Common Expression
    * Language](https://github.com/google/cel-spec) expression to filter the
-   * results. The only currently-supported filter is filtering by customer. For
-   * example: `customer=="customers/C0123abc"`. Omitting the filter or specifying
-   * a filter of `customer=="customers/my_customer"` will return the profiles for
-   * the customer that the caller (authenticated user) belongs to.
+   * results. The only supported filter is filtering by customer. For example:
+   * `customer=="customers/C0123abc"`. Omitting the filter or specifying a filter
+   * of `customer=="customers/my_customer"` will return the profiles for the
+   * customer that the caller (authenticated user) belongs to.
    * @opt_param int pageSize The maximum number of InboundSamlSsoProfiles to
    * return. The service may return fewer than this value. If omitted (or
    * defaulted to zero) the server will use a sensible default. This default may

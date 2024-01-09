@@ -21,7 +21,6 @@ class GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials extends \Goog
 {
   protected $accessTokenType = GoogleCloudIntegrationsV1alphaAccessToken::class;
   protected $accessTokenDataType = '';
-  public $accessToken;
   /**
    * @var string
    */
@@ -48,7 +47,6 @@ class GoogleCloudIntegrationsV1alphaOAuth2ResourceOwnerCredentials extends \Goog
   public $tokenEndpoint;
   protected $tokenParamsType = GoogleCloudIntegrationsV1alphaParameterMap::class;
   protected $tokenParamsDataType = '';
-  public $tokenParams;
   /**
    * @var string
    */

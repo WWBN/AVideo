@@ -25,10 +25,8 @@ class IncomingWebhookChangedMetadata extends \Google\Model
   public $incomingWebhookName;
   protected $initiatorIdType = UserId::class;
   protected $initiatorIdDataType = '';
-  public $initiatorId;
   protected $initiatorProfileType = User::class;
   protected $initiatorProfileDataType = '';
-  public $initiatorProfile;
   /**
    * @var string
    */

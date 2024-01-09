@@ -21,10 +21,8 @@ class AssistantVerticalsHomeautomationProtoCommonStructureBasedRoutineTrigger ex
 {
   protected $eventTriggerType = AssistantVerticalsHomeautomationProtoCommonEventTrigger::class;
   protected $eventTriggerDataType = '';
-  public $eventTrigger;
   protected $voiceTriggerType = AssistantVerticalsHomeautomationProtoCommonVoiceTrigger::class;
   protected $voiceTriggerDataType = '';
-  public $voiceTrigger;
 
   /**
    * @param AssistantVerticalsHomeautomationProtoCommonEventTrigger

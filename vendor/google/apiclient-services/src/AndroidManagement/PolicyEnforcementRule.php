@@ -21,14 +21,12 @@ class PolicyEnforcementRule extends \Google\Model
 {
   protected $blockActionType = BlockAction::class;
   protected $blockActionDataType = '';
-  public $blockAction;
   /**
    * @var string
    */
   public $settingName;
   protected $wipeActionType = WipeAction::class;
   protected $wipeActionDataType = '';
-  public $wipeAction;
 
   /**
    * @param BlockAction

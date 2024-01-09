@@ -38,8 +38,9 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * only by the Discovery Engine API JavaScript pixel and Google Tag Manager.
    * Users should not call this method directly. (userEvents.collect)
    *
-   * @param string $parent Required. The parent DataStore resource name, such as
-   * `projects/{project}/locations/{location}/dataStores/{data_store}`.
+   * @param string $parent Required. The parent DataStore resource name, such as `
+   * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
+   * data_store}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string ets The event timestamp in milliseconds. This prevents
@@ -66,8 +67,9 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * possible for a subset of the items to be successfully inserted.
    * Operation.metadata is of type ImportMetadata. (userEvents.import)
    *
-   * @param string $parent Required. Parent DataStore resource name, of the form
-   * `projects/{project}/locations/{location}/dataStores/{data_store}`
+   * @param string $parent Required. Parent DataStore resource name, of the form `
+   * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
+   * data_store}`
    * @param GoogleCloudDiscoveryengineV1betaImportUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
@@ -81,8 +83,9 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
   /**
    * Writes a single user event. (userEvents.write)
    *
-   * @param string $parent Required. The parent DataStore resource name, such as
-   * `projects/{project}/locations/{location}/dataStores/{data_store}`.
+   * @param string $parent Required. The parent DataStore resource name, such as `
+   * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
+   * data_store}`.
    * @param GoogleCloudDiscoveryengineV1betaUserEvent $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1betaUserEvent

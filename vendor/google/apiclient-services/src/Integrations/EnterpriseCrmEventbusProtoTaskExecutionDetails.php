@@ -22,7 +22,6 @@ class EnterpriseCrmEventbusProtoTaskExecutionDetails extends \Google\Collection
   protected $collection_key = 'taskAttemptStats';
   protected $taskAttemptStatsType = EnterpriseCrmEventbusProtoTaskExecutionDetailsTaskAttemptStats::class;
   protected $taskAttemptStatsDataType = 'array';
-  public $taskAttemptStats;
   /**
    * @var string
    */

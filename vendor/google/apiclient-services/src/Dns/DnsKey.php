@@ -34,7 +34,6 @@ class DnsKey extends \Google\Collection
   public $description;
   protected $digestsType = DnsKeyDigest::class;
   protected $digestsDataType = 'array';
-  public $digests;
   /**
    * @var string
    */

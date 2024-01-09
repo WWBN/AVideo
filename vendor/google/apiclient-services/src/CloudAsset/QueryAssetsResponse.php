@@ -25,17 +25,14 @@ class QueryAssetsResponse extends \Google\Model
   public $done;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
   public $jobReference;
   protected $outputConfigType = QueryAssetsOutputConfig::class;
   protected $outputConfigDataType = '';
-  public $outputConfig;
   protected $queryResultType = QueryResult::class;
   protected $queryResultDataType = '';
-  public $queryResult;
 
   /**
    * @param bool

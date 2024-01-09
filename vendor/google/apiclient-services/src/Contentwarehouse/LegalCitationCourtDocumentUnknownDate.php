@@ -25,7 +25,6 @@ class LegalCitationCourtDocumentUnknownDate extends \Google\Model
   ];
   protected $dateType = LegalDate::class;
   protected $dateDataType = '';
-  public $date;
   /**
    * @var string
    */

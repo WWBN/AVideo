@@ -21,10 +21,8 @@ class EnvironmentConfig extends \Google\Model
 {
   protected $executionConfigType = ExecutionConfig::class;
   protected $executionConfigDataType = '';
-  public $executionConfig;
   protected $peripheralsConfigType = PeripheralsConfig::class;
   protected $peripheralsConfigDataType = '';
-  public $peripheralsConfig;
 
   /**
    * @param ExecutionConfig

@@ -22,7 +22,6 @@ class LogConfigCounterOptions extends \Google\Collection
   protected $collection_key = 'customFields';
   protected $customFieldsType = LogConfigCounterOptionsCustomField::class;
   protected $customFieldsDataType = 'array';
-  public $customFields;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class GoogleCloudVideointelligenceV1beta2FaceFrame extends \Google\Collection
   protected $collection_key = 'normalizedBoundingBoxes';
   protected $normalizedBoundingBoxesType = GoogleCloudVideointelligenceV1beta2NormalizedBoundingBox::class;
   protected $normalizedBoundingBoxesDataType = 'array';
-  public $normalizedBoundingBoxes;
   /**
    * @var string
    */

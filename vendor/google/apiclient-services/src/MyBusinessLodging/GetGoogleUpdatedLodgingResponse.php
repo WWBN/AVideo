@@ -25,7 +25,6 @@ class GetGoogleUpdatedLodgingResponse extends \Google\Model
   public $diffMask;
   protected $lodgingType = Lodging::class;
   protected $lodgingDataType = '';
-  public $lodging;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class GoogleLocation extends \Google\Model
 {
   protected $locationType = Location::class;
   protected $locationDataType = '';
-  public $location;
   /**
    * @var string
    */

@@ -25,17 +25,14 @@ class AppsDynamiteStorageButton extends \Google\Model
   public $altText;
   protected $colorType = Color::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var bool
    */
   public $disabled;
   protected $iconType = AppsDynamiteStorageIcon::class;
   protected $iconDataType = '';
-  public $icon;
   protected $onClickType = AppsDynamiteStorageOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
   /**
    * @var string
    */

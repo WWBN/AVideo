@@ -21,7 +21,6 @@ class IndexingMobileInterstitialsProtoInterstitialBasicInfo extends \Google\Mode
 {
   protected $absoluteBoxType = HtmlrenderWebkitHeadlessProtoBox::class;
   protected $absoluteBoxDataType = '';
-  public $absoluteBox;
   /**
    * @var string
    */

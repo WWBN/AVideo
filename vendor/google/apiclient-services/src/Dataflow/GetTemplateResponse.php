@@ -21,13 +21,10 @@ class GetTemplateResponse extends \Google\Model
 {
   protected $metadataType = TemplateMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $runtimeMetadataType = RuntimeMetadata::class;
   protected $runtimeMetadataDataType = '';
-  public $runtimeMetadata;
   protected $statusType = Status::class;
   protected $statusDataType = '';
-  public $status;
   /**
    * @var string
    */

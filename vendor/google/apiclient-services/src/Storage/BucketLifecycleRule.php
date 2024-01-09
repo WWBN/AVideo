@@ -21,10 +21,8 @@ class BucketLifecycleRule extends \Google\Model
 {
   protected $actionType = BucketLifecycleRuleAction::class;
   protected $actionDataType = '';
-  public $action;
   protected $conditionType = BucketLifecycleRuleCondition::class;
   protected $conditionDataType = '';
-  public $condition;
 
   /**
    * @param BucketLifecycleRuleAction

@@ -22,10 +22,8 @@ class DataSourceSpec extends \Google\Collection
   protected $collection_key = 'parameters';
   protected $bigQueryType = BigQueryDataSourceSpec::class;
   protected $bigQueryDataType = '';
-  public $bigQuery;
   protected $parametersType = DataSourceParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
 
   /**
    * @param BigQueryDataSourceSpec

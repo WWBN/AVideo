@@ -21,13 +21,10 @@ class CalendarClientActionMarkup extends \Google\Model
 {
   protected $addAttachmentsActionMarkupType = AppsExtensionsMarkupCalendarClientActionMarkupAddAttachmentsActionMarkup::class;
   protected $addAttachmentsActionMarkupDataType = '';
-  public $addAttachmentsActionMarkup;
   protected $editAttendeesActionMarkupType = AppsExtensionsMarkupCalendarClientActionMarkupEditAttendeesActionMarkup::class;
   protected $editAttendeesActionMarkupDataType = '';
-  public $editAttendeesActionMarkup;
   protected $editConferenceDataActionMarkupType = AppsExtensionsMarkupCalendarClientActionMarkupEditConferenceDataActionMarkup::class;
   protected $editConferenceDataActionMarkupDataType = '';
-  public $editConferenceDataActionMarkup;
 
   /**
    * @param AppsExtensionsMarkupCalendarClientActionMarkupAddAttachmentsActionMarkup

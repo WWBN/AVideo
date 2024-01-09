@@ -34,7 +34,6 @@ class GoogleCloudRecaptchaenterpriseV1AnnotateAssessmentRequest extends \Google\
   public $reasons;
   protected $transactionEventType = GoogleCloudRecaptchaenterpriseV1TransactionEvent::class;
   protected $transactionEventDataType = '';
-  public $transactionEvent;
 
   /**
    * @param string

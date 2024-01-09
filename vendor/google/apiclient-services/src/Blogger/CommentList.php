@@ -26,7 +26,6 @@ class CommentList extends \Google\Collection
   public $etag;
   protected $itemsType = Comment::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

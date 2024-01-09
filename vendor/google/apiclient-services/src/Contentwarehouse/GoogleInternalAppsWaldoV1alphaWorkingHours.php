@@ -22,7 +22,6 @@ class GoogleInternalAppsWaldoV1alphaWorkingHours extends \Google\Collection
   protected $collection_key = 'availableTime';
   protected $availableTimeType = GoogleInternalAppsWaldoV1alphaAvailabilityPeriod::class;
   protected $availableTimeDataType = 'array';
-  public $availableTime;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaAvailabilityPeriod[]

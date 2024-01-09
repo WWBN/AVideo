@@ -30,14 +30,12 @@ class Feed extends \Google\Collection
   public $assetTypes;
   protected $conditionType = Expr::class;
   protected $conditionDataType = '';
-  public $condition;
   /**
    * @var string
    */
   public $contentType;
   protected $feedOutputConfigType = FeedOutputConfig::class;
   protected $feedOutputConfigDataType = '';
-  public $feedOutputConfig;
   /**
    * @var string
    */

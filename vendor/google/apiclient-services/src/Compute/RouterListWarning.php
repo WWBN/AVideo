@@ -26,7 +26,6 @@ class RouterListWarning extends \Google\Collection
   public $code;
   protected $dataType = RouterListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

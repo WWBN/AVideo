@@ -26,14 +26,12 @@ class PreState extends \Google\Collection
   public $labelIds;
   protected $messageKeyType = MultiKey::class;
   protected $messageKeyDataType = '';
-  public $messageKey;
   /**
    * @var string[]
    */
   public $syncIds;
   protected $threadKeyType = MultiKey::class;
   protected $threadKeyDataType = '';
-  public $threadKey;
 
   /**
    * @param string[]

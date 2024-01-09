@@ -21,10 +21,8 @@ class EgressPolicy extends \Google\Model
 {
   protected $egressFromType = EgressFrom::class;
   protected $egressFromDataType = '';
-  public $egressFrom;
   protected $egressToType = EgressTo::class;
   protected $egressToDataType = '';
-  public $egressTo;
 
   /**
    * @param EgressFrom

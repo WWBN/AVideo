@@ -26,7 +26,6 @@ class ListInstanceConfigOperationsResponse extends \Google\Collection
   public $nextPageToken;
   protected $operationsType = Operation::class;
   protected $operationsDataType = 'array';
-  public $operations;
 
   /**
    * @param string

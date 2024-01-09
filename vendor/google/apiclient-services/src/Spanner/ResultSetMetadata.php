@@ -21,13 +21,10 @@ class ResultSetMetadata extends \Google\Model
 {
   protected $rowTypeType = StructType::class;
   protected $rowTypeDataType = '';
-  public $rowType;
   protected $transactionType = Transaction::class;
   protected $transactionDataType = '';
-  public $transaction;
   protected $undeclaredParametersType = StructType::class;
   protected $undeclaredParametersDataType = '';
-  public $undeclaredParameters;
 
   /**
    * @param StructType

@@ -22,7 +22,6 @@ class BatchCreatePermissionsResponse extends \Google\Collection
   protected $collection_key = 'permissions';
   protected $permissionsType = Permission::class;
   protected $permissionsDataType = 'array';
-  public $permissions;
 
   /**
    * @param Permission[]

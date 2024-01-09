@@ -25,7 +25,6 @@ class AdvertiserSdfConfig extends \Google\Model
   public $overridePartnerSdfConfig;
   protected $sdfConfigType = SdfConfig::class;
   protected $sdfConfigDataType = '';
-  public $sdfConfig;
 
   /**
    * @param bool

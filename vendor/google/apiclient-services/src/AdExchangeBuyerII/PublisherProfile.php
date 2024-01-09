@@ -58,7 +58,6 @@ class PublisherProfile extends \Google\Collection
   public $mediaKitUrl;
   protected $mobileAppsType = PublisherProfileMobileApplication::class;
   protected $mobileAppsDataType = 'array';
-  public $mobileApps;
   /**
    * @var string
    */
@@ -81,7 +80,6 @@ class PublisherProfile extends \Google\Collection
   public $samplePageUrl;
   protected $sellerType = Seller::class;
   protected $sellerDataType = '';
-  public $seller;
   /**
    * @var string[]
    */

@@ -26,7 +26,6 @@ class GoogleCloudDialogflowCxV3TransitionRouteGroupCoverage extends \Google\Coll
   public $coverageScore;
   protected $coveragesType = GoogleCloudDialogflowCxV3TransitionRouteGroupCoverageCoverage::class;
   protected $coveragesDataType = 'array';
-  public $coverages;
 
   /**
    * @param float

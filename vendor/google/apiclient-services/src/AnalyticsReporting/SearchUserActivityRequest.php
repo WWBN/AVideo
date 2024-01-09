@@ -26,7 +26,6 @@ class SearchUserActivityRequest extends \Google\Collection
   public $activityTypes;
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
-  public $dateRange;
   /**
    * @var int
    */
@@ -37,7 +36,6 @@ class SearchUserActivityRequest extends \Google\Collection
   public $pageToken;
   protected $userType = User::class;
   protected $userDataType = '';
-  public $user;
   /**
    * @var string
    */

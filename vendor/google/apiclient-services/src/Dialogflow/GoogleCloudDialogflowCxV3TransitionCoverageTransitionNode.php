@@ -21,10 +21,8 @@ class GoogleCloudDialogflowCxV3TransitionCoverageTransitionNode extends \Google\
 {
   protected $flowType = GoogleCloudDialogflowCxV3Flow::class;
   protected $flowDataType = '';
-  public $flow;
   protected $pageType = GoogleCloudDialogflowCxV3Page::class;
   protected $pageDataType = '';
-  public $page;
 
   /**
    * @param GoogleCloudDialogflowCxV3Flow

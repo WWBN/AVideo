@@ -25,20 +25,16 @@ class ValueMatcher extends \Google\Model
   public $boolMatch;
   protected $doubleMatchType = DoubleMatcher::class;
   protected $doubleMatchDataType = '';
-  public $doubleMatch;
   protected $listMatchType = ListMatcher::class;
   protected $listMatchDataType = '';
-  public $listMatch;
   protected $nullMatchType = NullMatch::class;
   protected $nullMatchDataType = '';
-  public $nullMatch;
   /**
    * @var bool
    */
   public $presentMatch;
   protected $stringMatchType = StringMatcher::class;
   protected $stringMatchDataType = '';
-  public $stringMatch;
 
   /**
    * @param bool

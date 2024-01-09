@@ -21,6 +21,7 @@ use Google\Service\Baremetalsolution\ListNetworkUsageResponse;
 use Google\Service\Baremetalsolution\ListNetworksResponse;
 use Google\Service\Baremetalsolution\Network;
 use Google\Service\Baremetalsolution\Operation;
+use Google\Service\Baremetalsolution\RenameNetworkRequest;
 
 /**
  * The "networks" collection of methods.
@@ -99,6 +100,22 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * RenameNetwork sets a new name for a network. Use with caution, previous names
+   * become immediately invalidated. (networks.rename)
+   *
+   * @param string $name Required. The `name` field is used to identify the
+   * network. Format: projects/{project}/locations/{location}/networks/{network}
+   * @param RenameNetworkRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Network
+   */
+  public function rename($name, RenameNetworkRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rename', [$params], Network::class);
   }
 }
 

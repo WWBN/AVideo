@@ -21,7 +21,6 @@ class GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest extends \Google\Mo
 {
   protected $accountType = GoogleAnalyticsAdminV1betaAccount::class;
   protected $accountDataType = '';
-  public $account;
   /**
    * @var string
    */

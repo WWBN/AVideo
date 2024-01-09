@@ -25,10 +25,8 @@ class TableBorderProperties extends \Google\Model
   public $dashStyle;
   protected $tableBorderFillType = TableBorderFill::class;
   protected $tableBorderFillDataType = '';
-  public $tableBorderFill;
   protected $weightType = Dimension::class;
   protected $weightDataType = '';
-  public $weight;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class ListEnvironmentsResponse extends \Google\Collection
   protected $collection_key = 'environments';
   protected $environmentsType = Environment::class;
   protected $environmentsDataType = 'array';
-  public $environments;
   /**
    * @var string
    */

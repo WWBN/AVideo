@@ -22,7 +22,6 @@ class ListFindingsResponse extends \Google\Collection
   protected $collection_key = 'listFindingsResults';
   protected $listFindingsResultsType = ListFindingsResult::class;
   protected $listFindingsResultsDataType = 'array';
-  public $listFindingsResults;
   /**
    * @var string
    */

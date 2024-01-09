@@ -29,7 +29,6 @@ class ClientContext extends \Google\Model
   public $clientType;
   protected $sessionContextType = SessionContext::class;
   protected $sessionContextDataType = '';
-  public $sessionContext;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class StructuredDataObject extends \Google\Collection
   protected $collection_key = 'properties';
   protected $propertiesType = NamedProperty::class;
   protected $propertiesDataType = 'array';
-  public $properties;
 
   /**
    * @param NamedProperty[]

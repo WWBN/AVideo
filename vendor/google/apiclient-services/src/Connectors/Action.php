@@ -22,14 +22,12 @@ class Action extends \Google\Collection
   protected $collection_key = 'resultMetadata';
   protected $inputParametersType = InputParameter::class;
   protected $inputParametersDataType = 'array';
-  public $inputParameters;
   /**
    * @var string
    */
   public $name;
   protected $resultMetadataType = ResultMetadata::class;
   protected $resultMetadataDataType = 'array';
-  public $resultMetadata;
 
   /**
    * @param InputParameter[]

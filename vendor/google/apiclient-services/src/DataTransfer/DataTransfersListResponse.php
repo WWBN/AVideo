@@ -22,7 +22,6 @@ class DataTransfersListResponse extends \Google\Collection
   protected $collection_key = 'dataTransfers';
   protected $dataTransfersType = DataTransfer::class;
   protected $dataTransfersDataType = 'array';
-  public $dataTransfers;
   /**
    * @var string
    */

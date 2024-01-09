@@ -93,10 +93,8 @@ class GuestUnitFeatures extends \Google\Model
   public $tierException;
   protected $totalLivingAreasType = LivingArea::class;
   protected $totalLivingAreasDataType = '';
-  public $totalLivingAreas;
   protected $viewsType = ViewsFromUnit::class;
   protected $viewsDataType = '';
-  public $views;
 
   /**
    * @param bool

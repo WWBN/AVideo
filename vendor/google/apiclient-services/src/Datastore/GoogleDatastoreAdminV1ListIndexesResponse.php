@@ -22,7 +22,6 @@ class GoogleDatastoreAdminV1ListIndexesResponse extends \Google\Collection
   protected $collection_key = 'indexes';
   protected $indexesType = GoogleDatastoreAdminV1Index::class;
   protected $indexesDataType = 'array';
-  public $indexes;
   /**
    * @var string
    */

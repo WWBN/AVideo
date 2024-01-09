@@ -5,13 +5,9 @@
 namespace Stripe\Issuing;
 
 /**
- * As a <a href="https://stripe.com/docs/issuing">card issuer</a>, you can dispute
- * transactions that the cardholder does not recognize, suspects to be fraudulent,
- * or has other issues with.
+ * As a <a href="https://stripe.com/docs/issuing">card issuer</a>, you can dispute transactions that the cardholder does not recognize, suspects to be fraudulent, or has other issues with.
  *
- * Related guide: <a
- * href="https://stripe.com/docs/issuing/purchases/disputes">Disputing
- * Transactions</a>
+ * Related guide: <a href="https://stripe.com/docs/issuing/purchases/disputes">Issuing disputes</a>
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
@@ -34,6 +30,12 @@ class Dispute extends \Stripe\ApiResource
     use \Stripe\ApiOperations\Create;
     use \Stripe\ApiOperations\Retrieve;
     use \Stripe\ApiOperations\Update;
+
+    const STATUS_EXPIRED = 'expired';
+    const STATUS_LOST = 'lost';
+    const STATUS_SUBMITTED = 'submitted';
+    const STATUS_UNSUBMITTED = 'unsubmitted';
+    const STATUS_WON = 'won';
 
     /**
      * @param null|array $params

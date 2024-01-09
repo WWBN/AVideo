@@ -26,7 +26,6 @@ class KnowledgeAnswersNormalizedStringType extends \Google\Collection
   public $normalizedValue;
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
 
   /**
    * @param string[]

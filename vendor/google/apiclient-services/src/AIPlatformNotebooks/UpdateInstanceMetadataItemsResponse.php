@@ -22,7 +22,7 @@ class UpdateInstanceMetadataItemsResponse extends \Google\Model
   /**
    * @var string[]
    */
-  public $items;
+  public $items = [];
 
   /**
    * @param string[]

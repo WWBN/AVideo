@@ -21,13 +21,10 @@ class Membership extends \Google\Model
 {
   protected $contactGroupMembershipType = ContactGroupMembership::class;
   protected $contactGroupMembershipDataType = '';
-  public $contactGroupMembership;
   protected $domainMembershipType = DomainMembership::class;
   protected $domainMembershipDataType = '';
-  public $domainMembership;
   protected $metadataType = FieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
 
   /**
    * @param ContactGroupMembership

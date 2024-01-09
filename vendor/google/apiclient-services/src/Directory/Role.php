@@ -50,7 +50,6 @@ class Role extends \Google\Collection
   public $roleName;
   protected $rolePrivilegesType = RoleRolePrivileges::class;
   protected $rolePrivilegesDataType = 'array';
-  public $rolePrivileges;
 
   /**
    * @param string

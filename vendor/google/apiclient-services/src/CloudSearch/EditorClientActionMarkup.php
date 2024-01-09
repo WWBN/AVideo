@@ -21,7 +21,6 @@ class EditorClientActionMarkup extends \Google\Model
 {
   protected $requestFileScopeForActiveDocumentType = RequestFileScopeForActiveDocument::class;
   protected $requestFileScopeForActiveDocumentDataType = '';
-  public $requestFileScopeForActiveDocument;
 
   /**
    * @param RequestFileScopeForActiveDocument

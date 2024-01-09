@@ -40,8 +40,12 @@ class WorkloadManager extends \Google\Service
 
   public $projects_locations;
   public $projects_locations_evaluations;
+  public $projects_locations_evaluations_executions;
+  public $projects_locations_evaluations_executions_results;
+  public $projects_locations_evaluations_executions_scannedResources;
   public $projects_locations_insights;
   public $projects_locations_operations;
+  public $projects_locations_rules;
 
   /**
    * Constructs the internal representation of the WorkloadManager service.
@@ -165,6 +169,134 @@ class WorkloadManager extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_evaluations_executions = new WorkloadManager\Resource\ProjectsLocationsEvaluationsExecutions(
+        $this,
+        $this->serviceName,
+        'executions',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/executions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'run' => [
+              'path' => 'v1/{+name}/executions:run',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_evaluations_executions_results = new WorkloadManager\Resource\ProjectsLocationsEvaluationsExecutionsResults(
+        $this,
+        $this->serviceName,
+        'results',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/results',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_evaluations_executions_scannedResources = new WorkloadManager\Resource\ProjectsLocationsEvaluationsExecutionsScannedResources(
+        $this,
+        $this->serviceName,
+        'scannedResources',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/scannedResources',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'rule' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_insights = new WorkloadManager\Resource\ProjectsLocationsInsights(
         $this,
         $this->serviceName,
@@ -226,6 +358,38 @@ class WorkloadManager extends \Google\Service
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_rules = new WorkloadManager\Resource\ProjectsLocationsRules(
+        $this,
+        $this->serviceName,
+        'rules',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/rules',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

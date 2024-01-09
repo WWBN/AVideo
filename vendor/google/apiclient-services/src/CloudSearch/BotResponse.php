@@ -21,7 +21,6 @@ class BotResponse extends \Google\Model
 {
   protected $botIdType = UserId::class;
   protected $botIdDataType = '';
-  public $botId;
   /**
    * @var string
    */

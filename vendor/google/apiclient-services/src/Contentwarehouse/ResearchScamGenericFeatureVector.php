@@ -26,7 +26,6 @@ class ResearchScamGenericFeatureVector extends \Google\Collection
   public $classLabel;
   protected $crowdingType = ResearchScamGenericFeatureVectorCrowding::class;
   protected $crowdingDataType = '';
-  public $crowding;
   /**
    * @var string
    */
@@ -62,7 +61,6 @@ class ResearchScamGenericFeatureVector extends \Google\Collection
   public $featureValueString;
   protected $fixedPointMetadataType = ResearchScamGenericFeatureVectorFixedPointMetadata::class;
   protected $fixedPointMetadataDataType = '';
-  public $fixedPointMetadata;
   /**
    * @var bool
    */
@@ -73,10 +71,8 @@ class ResearchScamGenericFeatureVector extends \Google\Collection
   public $normType;
   protected $queryMetadataType = ResearchScamQueryMetadata::class;
   protected $queryMetadataDataType = '';
-  public $queryMetadata;
   protected $restrictTokensType = ResearchScamGenericFeatureVectorRestrictTokens::class;
   protected $restrictTokensDataType = '';
-  public $restrictTokens;
   /**
    * @var int[]
    */

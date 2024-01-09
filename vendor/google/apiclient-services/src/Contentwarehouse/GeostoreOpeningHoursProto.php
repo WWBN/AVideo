@@ -22,10 +22,8 @@ class GeostoreOpeningHoursProto extends \Google\Collection
   protected $collection_key = 'exception';
   protected $exceptionType = GeostoreExceptionalHoursProto::class;
   protected $exceptionDataType = 'array';
-  public $exception;
   protected $regularHoursType = GeostoreBusinessHoursProto::class;
   protected $regularHoursDataType = '';
-  public $regularHours;
 
   /**
    * @param GeostoreExceptionalHoursProto[]

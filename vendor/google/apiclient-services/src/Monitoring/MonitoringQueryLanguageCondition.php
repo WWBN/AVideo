@@ -33,7 +33,6 @@ class MonitoringQueryLanguageCondition extends \Google\Model
   public $query;
   protected $triggerType = Trigger::class;
   protected $triggerDataType = '';
-  public $trigger;
 
   /**
    * @param string

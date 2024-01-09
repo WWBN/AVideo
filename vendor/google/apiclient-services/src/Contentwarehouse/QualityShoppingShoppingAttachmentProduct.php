@@ -22,7 +22,6 @@ class QualityShoppingShoppingAttachmentProduct extends \Google\Collection
   protected $collection_key = 'relevanceEmbedding';
   protected $aggregateRatingType = ShoppingWebentityShoppingAnnotationProductRating::class;
   protected $aggregateRatingDataType = '';
-  public $aggregateRating;
   /**
    * @var string
    */
@@ -37,10 +36,8 @@ class QualityShoppingShoppingAttachmentProduct extends \Google\Collection
   public $globalProductClusterId;
   protected $localeType = QualityShoppingShoppingAttachmentLocale::class;
   protected $localeDataType = '';
-  public $locale;
   protected $mokaFacetType = QualityShoppingShoppingAttachmentMokaFacetValue::class;
   protected $mokaFacetDataType = 'array';
-  public $mokaFacet;
   /**
    * @var string
    */
@@ -51,14 +48,16 @@ class QualityShoppingShoppingAttachmentProduct extends \Google\Collection
   public $nonDisplayableTitle;
   protected $offerType = QualityShoppingShoppingAttachmentOffer::class;
   protected $offerDataType = '';
-  public $offer;
   /**
    * @var string
    */
   public $outlinkDomainRelationship;
   protected $pblockType = QualityShoppingShoppingAttachmentPBlock::class;
   protected $pblockDataType = '';
-  public $pblock;
+  /**
+   * @var int[]
+   */
+  public $productBrowseonomyIds;
   /**
    * @var string
    */
@@ -66,7 +65,6 @@ class QualityShoppingShoppingAttachmentProduct extends \Google\Collection
   public $productPopularity;
   protected $relevanceEmbeddingType = QualityRankembedMustangMustangRankEmbedInfo::class;
   protected $relevanceEmbeddingDataType = 'array';
-  public $relevanceEmbedding;
   /**
    * @var string
    */
@@ -225,6 +223,20 @@ class QualityShoppingShoppingAttachmentProduct extends \Google\Collection
   public function getPblock()
   {
     return $this->pblock;
+  }
+  /**
+   * @param int[]
+   */
+  public function setProductBrowseonomyIds($productBrowseonomyIds)
+  {
+    $this->productBrowseonomyIds = $productBrowseonomyIds;
+  }
+  /**
+   * @return int[]
+   */
+  public function getProductBrowseonomyIds()
+  {
+    return $this->productBrowseonomyIds;
   }
   /**
    * @param string

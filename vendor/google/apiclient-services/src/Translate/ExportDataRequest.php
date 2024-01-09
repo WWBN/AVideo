@@ -21,7 +21,6 @@ class ExportDataRequest extends \Google\Model
 {
   protected $outputConfigType = DatasetOutputConfig::class;
   protected $outputConfigDataType = '';
-  public $outputConfig;
 
   /**
    * @param DatasetOutputConfig

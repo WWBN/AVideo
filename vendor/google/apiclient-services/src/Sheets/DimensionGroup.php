@@ -29,7 +29,6 @@ class DimensionGroup extends \Google\Model
   public $depth;
   protected $rangeType = DimensionRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param bool

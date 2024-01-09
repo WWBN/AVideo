@@ -21,16 +21,12 @@ class GoogleCloudDataplexV1DataScanJob extends \Google\Model
 {
   protected $dataProfileResultType = GoogleCloudDataplexV1DataProfileResult::class;
   protected $dataProfileResultDataType = '';
-  public $dataProfileResult;
   protected $dataProfileSpecType = GoogleCloudDataplexV1DataProfileSpec::class;
   protected $dataProfileSpecDataType = '';
-  public $dataProfileSpec;
   protected $dataQualityResultType = GoogleCloudDataplexV1DataQualityResult::class;
   protected $dataQualityResultDataType = '';
-  public $dataQualityResult;
   protected $dataQualitySpecType = GoogleCloudDataplexV1DataQualitySpec::class;
   protected $dataQualitySpecDataType = '';
-  public $dataQualitySpec;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class SasPortalDeviceConfig extends \Google\Collection
   protected $collection_key = 'measurementCapabilities';
   protected $airInterfaceType = SasPortalDeviceAirInterface::class;
   protected $airInterfaceDataType = '';
-  public $airInterface;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class SasPortalDeviceConfig extends \Google\Collection
   public $category;
   protected $installationParamsType = SasPortalInstallationParams::class;
   protected $installationParamsDataType = '';
-  public $installationParams;
   /**
    * @var bool
    */
@@ -44,7 +42,6 @@ class SasPortalDeviceConfig extends \Google\Collection
   public $measurementCapabilities;
   protected $modelType = SasPortalDeviceModel::class;
   protected $modelDataType = '';
-  public $model;
   /**
    * @var string
    */

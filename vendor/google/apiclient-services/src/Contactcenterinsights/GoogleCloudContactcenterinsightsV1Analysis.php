@@ -21,10 +21,8 @@ class GoogleCloudContactcenterinsightsV1Analysis extends \Google\Model
 {
   protected $analysisResultType = GoogleCloudContactcenterinsightsV1AnalysisResult::class;
   protected $analysisResultDataType = '';
-  public $analysisResult;
   protected $annotatorSelectorType = GoogleCloudContactcenterinsightsV1AnnotatorSelector::class;
   protected $annotatorSelectorDataType = '';
-  public $annotatorSelector;
   /**
    * @var string
    */

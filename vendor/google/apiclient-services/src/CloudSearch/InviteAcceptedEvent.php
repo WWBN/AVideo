@@ -22,7 +22,6 @@ class InviteAcceptedEvent extends \Google\Collection
   protected $collection_key = 'participantId';
   protected $participantIdType = StoredParticipantId::class;
   protected $participantIdDataType = 'array';
-  public $participantId;
 
   /**
    * @param StoredParticipantId[]

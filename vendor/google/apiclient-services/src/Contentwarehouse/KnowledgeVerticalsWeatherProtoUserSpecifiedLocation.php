@@ -21,10 +21,8 @@ class KnowledgeVerticalsWeatherProtoUserSpecifiedLocation extends \Google\Model
 {
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
-  public $featureId;
   protected $latLngType = GoogleTypeLatLng::class;
   protected $latLngDataType = '';
-  public $latLng;
   /**
    * @var string
    */

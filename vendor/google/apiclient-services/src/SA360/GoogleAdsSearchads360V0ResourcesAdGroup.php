@@ -17,8 +17,9 @@
 
 namespace Google\Service\SA360;
 
-class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
+class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Collection
 {
+  protected $collection_key = 'labels';
   /**
    * @var string
    */
@@ -30,7 +31,35 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   /**
    * @var string
    */
+  public $creationTime;
+  /**
+   * @var string
+   */
+  public $endDate;
+  /**
+   * @var string
+   */
+  public $engineId;
+  /**
+   * @var string
+   */
+  public $engineStatus;
+  /**
+   * @var string
+   */
   public $id;
+  /**
+   * @var string[]
+   */
+  public $labels;
+  /**
+   * @var string
+   */
+  public $languageCode;
+  /**
+   * @var string
+   */
+  public $lastModifiedTime;
   /**
    * @var string
    */
@@ -42,7 +71,13 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   /**
    * @var string
    */
+  public $startDate;
+  /**
+   * @var string
+   */
   public $status;
+  protected $targetingSettingType = GoogleAdsSearchads360V0CommonTargetingSetting::class;
+  protected $targetingSettingDataType = '';
   /**
    * @var string
    */
@@ -79,6 +114,62 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   /**
    * @param string
    */
+  public function setCreationTime($creationTime)
+  {
+    $this->creationTime = $creationTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreationTime()
+  {
+    return $this->creationTime;
+  }
+  /**
+   * @param string
+   */
+  public function setEndDate($endDate)
+  {
+    $this->endDate = $endDate;
+  }
+  /**
+   * @return string
+   */
+  public function getEndDate()
+  {
+    return $this->endDate;
+  }
+  /**
+   * @param string
+   */
+  public function setEngineId($engineId)
+  {
+    $this->engineId = $engineId;
+  }
+  /**
+   * @return string
+   */
+  public function getEngineId()
+  {
+    return $this->engineId;
+  }
+  /**
+   * @param string
+   */
+  public function setEngineStatus($engineStatus)
+  {
+    $this->engineStatus = $engineStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getEngineStatus()
+  {
+    return $this->engineStatus;
+  }
+  /**
+   * @param string
+   */
   public function setId($id)
   {
     $this->id = $id;
@@ -89,6 +180,48 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
+  }
+  /**
+   * @param string
+   */
+  public function setLanguageCode($languageCode)
+  {
+    $this->languageCode = $languageCode;
+  }
+  /**
+   * @return string
+   */
+  public function getLanguageCode()
+  {
+    return $this->languageCode;
+  }
+  /**
+   * @param string
+   */
+  public function setLastModifiedTime($lastModifiedTime)
+  {
+    $this->lastModifiedTime = $lastModifiedTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastModifiedTime()
+  {
+    return $this->lastModifiedTime;
   }
   /**
    * @param string
@@ -121,6 +254,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   /**
    * @param string
    */
+  public function setStartDate($startDate)
+  {
+    $this->startDate = $startDate;
+  }
+  /**
+   * @return string
+   */
+  public function getStartDate()
+  {
+    return $this->startDate;
+  }
+  /**
+   * @param string
+   */
   public function setStatus($status)
   {
     $this->status = $status;
@@ -131,6 +278,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroup extends \Google\Model
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonTargetingSetting
+   */
+  public function setTargetingSetting(GoogleAdsSearchads360V0CommonTargetingSetting $targetingSetting)
+  {
+    $this->targetingSetting = $targetingSetting;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonTargetingSetting
+   */
+  public function getTargetingSetting()
+  {
+    return $this->targetingSetting;
   }
   /**
    * @param string

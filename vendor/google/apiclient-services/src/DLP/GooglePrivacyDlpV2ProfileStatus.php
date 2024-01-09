@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2ProfileStatus extends \Google\Model
 {
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
-  public $status;
   /**
    * @var string
    */

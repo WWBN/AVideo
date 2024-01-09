@@ -21,7 +21,6 @@ class Account extends \Google\Model
 {
   protected $googleAutoType = GoogleAuto::class;
   protected $googleAutoDataType = '';
-  public $googleAuto;
 
   /**
    * @param GoogleAuto

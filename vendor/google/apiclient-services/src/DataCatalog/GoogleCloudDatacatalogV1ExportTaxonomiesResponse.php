@@ -22,7 +22,6 @@ class GoogleCloudDatacatalogV1ExportTaxonomiesResponse extends \Google\Collectio
   protected $collection_key = 'taxonomies';
   protected $taxonomiesType = GoogleCloudDatacatalogV1SerializedTaxonomy::class;
   protected $taxonomiesDataType = 'array';
-  public $taxonomies;
 
   /**
    * @param GoogleCloudDatacatalogV1SerializedTaxonomy[]

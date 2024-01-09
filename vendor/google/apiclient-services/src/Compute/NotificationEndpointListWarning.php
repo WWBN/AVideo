@@ -26,7 +26,6 @@ class NotificationEndpointListWarning extends \Google\Collection
   public $code;
   protected $dataType = NotificationEndpointListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

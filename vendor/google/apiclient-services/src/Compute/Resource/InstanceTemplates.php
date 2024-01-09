@@ -136,8 +136,7 @@ class InstanceTemplates extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified instance template. Gets a list of available instance
-   * templates by making a list() request. (instanceTemplates.get)
+   * Returns the specified instance template. (instanceTemplates.get)
    *
    * @param string $project Project ID for this request.
    * @param string $instanceTemplate The name of the instance template.

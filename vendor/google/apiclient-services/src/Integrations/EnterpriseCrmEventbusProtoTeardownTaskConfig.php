@@ -29,13 +29,10 @@ class EnterpriseCrmEventbusProtoTeardownTaskConfig extends \Google\Model
   public $name;
   protected $nextTeardownTaskType = EnterpriseCrmEventbusProtoNextTeardownTask::class;
   protected $nextTeardownTaskDataType = '';
-  public $nextTeardownTask;
   protected $parametersType = EnterpriseCrmEventbusProtoEventParameters::class;
   protected $parametersDataType = '';
-  public $parameters;
   protected $propertiesType = EnterpriseCrmEventbusProtoEventBusProperties::class;
   protected $propertiesDataType = '';
-  public $properties;
   /**
    * @var string
    */

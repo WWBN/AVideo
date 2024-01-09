@@ -21,10 +21,8 @@ class AnalyticsInfo extends \Google\Model
 {
   protected $googlePlayAnalyticsType = GooglePlayAnalytics::class;
   protected $googlePlayAnalyticsDataType = '';
-  public $googlePlayAnalytics;
   protected $itunesConnectAnalyticsType = ITunesConnectAnalytics::class;
   protected $itunesConnectAnalyticsDataType = '';
-  public $itunesConnectAnalytics;
 
   /**
    * @param GooglePlayAnalytics

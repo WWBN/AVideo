@@ -22,7 +22,6 @@ class GoalSetData extends \Google\Collection
   protected $collection_key = 'goals';
   protected $goalsType = GoalData::class;
   protected $goalsDataType = 'array';
-  public $goals;
 
   /**
    * @param GoalData[]

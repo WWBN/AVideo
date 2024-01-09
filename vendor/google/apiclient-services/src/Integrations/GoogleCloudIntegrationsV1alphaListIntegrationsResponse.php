@@ -22,7 +22,6 @@ class GoogleCloudIntegrationsV1alphaListIntegrationsResponse extends \Google\Col
   protected $collection_key = 'integrations';
   protected $integrationsType = GoogleCloudIntegrationsV1alphaIntegration::class;
   protected $integrationsDataType = 'array';
-  public $integrations;
   /**
    * @var string
    */

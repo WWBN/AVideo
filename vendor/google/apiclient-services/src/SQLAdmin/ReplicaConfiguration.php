@@ -29,7 +29,6 @@ class ReplicaConfiguration extends \Google\Model
   public $kind;
   protected $mysqlReplicaConfigurationType = MySqlReplicaConfiguration::class;
   protected $mysqlReplicaConfigurationDataType = '';
-  public $mysqlReplicaConfiguration;
 
   /**
    * @param bool

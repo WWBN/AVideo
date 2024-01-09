@@ -21,7 +21,6 @@ class VideoCallMetadata extends \Google\Model
 {
   protected $meetingSpaceType = MeetingSpace::class;
   protected $meetingSpaceDataType = '';
-  public $meetingSpace;
   /**
    * @var bool
    */

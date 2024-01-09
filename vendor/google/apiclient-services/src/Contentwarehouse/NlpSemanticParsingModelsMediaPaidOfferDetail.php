@@ -22,7 +22,6 @@ class NlpSemanticParsingModelsMediaPaidOfferDetail extends \Google\Collection
   protected $collection_key = 'cost';
   protected $costType = NlpSemanticParsingModelsMediaCost::class;
   protected $costDataType = 'array';
-  public $cost;
   /**
    * @var string
    */

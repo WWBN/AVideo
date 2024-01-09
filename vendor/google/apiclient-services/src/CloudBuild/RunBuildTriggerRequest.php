@@ -25,7 +25,6 @@ class RunBuildTriggerRequest extends \Google\Model
   public $projectId;
   protected $sourceType = RepoSource::class;
   protected $sourceDataType = '';
-  public $source;
   /**
    * @var string
    */

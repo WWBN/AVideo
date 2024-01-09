@@ -21,7 +21,6 @@ class DocumentStyleSuggestionState extends \Google\Model
 {
   protected $backgroundSuggestionStateType = BackgroundSuggestionState::class;
   protected $backgroundSuggestionStateDataType = '';
-  public $backgroundSuggestionState;
   /**
    * @var bool
    */
@@ -76,7 +75,6 @@ class DocumentStyleSuggestionState extends \Google\Model
   public $pageNumberStartSuggested;
   protected $pageSizeSuggestionStateType = SizeSuggestionState::class;
   protected $pageSizeSuggestionStateDataType = '';
-  public $pageSizeSuggestionState;
   /**
    * @var bool
    */

@@ -22,10 +22,8 @@ class GoogleCloudContentwarehouseV1RuleActionsPair extends \Google\Collection
   protected $collection_key = 'actionOutputs';
   protected $actionOutputsType = GoogleCloudContentwarehouseV1ActionOutput::class;
   protected $actionOutputsDataType = 'array';
-  public $actionOutputs;
   protected $ruleType = GoogleCloudContentwarehouseV1Rule::class;
   protected $ruleDataType = '';
-  public $rule;
 
   /**
    * @param GoogleCloudContentwarehouseV1ActionOutput[]

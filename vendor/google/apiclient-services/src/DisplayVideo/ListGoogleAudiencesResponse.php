@@ -22,7 +22,6 @@ class ListGoogleAudiencesResponse extends \Google\Collection
   protected $collection_key = 'googleAudiences';
   protected $googleAudiencesType = GoogleAudience::class;
   protected $googleAudiencesDataType = 'array';
-  public $googleAudiences;
   /**
    * @var string
    */

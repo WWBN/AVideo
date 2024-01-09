@@ -21,10 +21,8 @@ class GoogleCloudIntegrationsV1alphaSuspension extends \Google\Model
 {
   protected $approvalConfigType = GoogleCloudIntegrationsV1alphaSuspensionApprovalConfig::class;
   protected $approvalConfigDataType = '';
-  public $approvalConfig;
   protected $auditType = GoogleCloudIntegrationsV1alphaSuspensionAudit::class;
   protected $auditDataType = '';
-  public $audit;
   /**
    * @var string
    */
@@ -51,7 +49,6 @@ class GoogleCloudIntegrationsV1alphaSuspension extends \Google\Model
   public $state;
   protected $suspensionConfigType = EnterpriseCrmEventbusProtoSuspensionConfig::class;
   protected $suspensionConfigDataType = '';
-  public $suspensionConfig;
   /**
    * @var string
    */

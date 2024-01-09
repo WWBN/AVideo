@@ -33,7 +33,6 @@ class GoogleCloudContactcenterinsightsV1CalculateStatsResponse extends \Google\M
   public $conversationCount;
   protected $conversationCountTimeSeriesType = GoogleCloudContactcenterinsightsV1CalculateStatsResponseTimeSeries::class;
   protected $conversationCountTimeSeriesDataType = '';
-  public $conversationCountTimeSeries;
   /**
    * @var int[]
    */
@@ -44,7 +43,6 @@ class GoogleCloudContactcenterinsightsV1CalculateStatsResponse extends \Google\M
   public $issueMatches;
   protected $issueMatchesStatsType = GoogleCloudContactcenterinsightsV1IssueModelLabelStatsIssueStats::class;
   protected $issueMatchesStatsDataType = 'map';
-  public $issueMatchesStats;
   /**
    * @var int[]
    */

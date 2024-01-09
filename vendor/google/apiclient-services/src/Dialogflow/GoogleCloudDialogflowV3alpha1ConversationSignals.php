@@ -21,7 +21,6 @@ class GoogleCloudDialogflowV3alpha1ConversationSignals extends \Google\Model
 {
   protected $turnSignalsType = GoogleCloudDialogflowV3alpha1TurnSignals::class;
   protected $turnSignalsDataType = '';
-  public $turnSignals;
 
   /**
    * @param GoogleCloudDialogflowV3alpha1TurnSignals

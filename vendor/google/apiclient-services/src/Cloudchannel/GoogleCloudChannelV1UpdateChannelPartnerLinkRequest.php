@@ -21,7 +21,6 @@ class GoogleCloudChannelV1UpdateChannelPartnerLinkRequest extends \Google\Model
 {
   protected $channelPartnerLinkType = GoogleCloudChannelV1ChannelPartnerLink::class;
   protected $channelPartnerLinkDataType = '';
-  public $channelPartnerLink;
   /**
    * @var string
    */

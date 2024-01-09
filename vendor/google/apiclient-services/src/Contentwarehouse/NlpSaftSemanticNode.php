@@ -22,7 +22,6 @@ class NlpSaftSemanticNode extends \Google\Collection
   protected $collection_key = 'arc';
   protected $arcType = NlpSaftSemanticNodeArc::class;
   protected $arcDataType = 'array';
-  public $arc;
   /**
    * @var float
    */
@@ -41,7 +40,6 @@ class NlpSaftSemanticNode extends \Google\Collection
   public $implicit;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
-  public $info;
   /**
    * @var string
    */
@@ -56,7 +54,6 @@ class NlpSaftSemanticNode extends \Google\Collection
   public $mention;
   protected $phraseType = NlpSaftPhrase::class;
   protected $phraseDataType = '';
-  public $phrase;
   /**
    * @var string
    */

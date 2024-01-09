@@ -26,7 +26,6 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public $annotations;
   protected $containersType = GoogleCloudRunV2Container::class;
   protected $containersDataType = 'array';
-  public $containers;
   /**
    * @var string
    */
@@ -49,21 +48,22 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public $revision;
   protected $scalingType = GoogleCloudRunV2RevisionScaling::class;
   protected $scalingDataType = '';
-  public $scaling;
   /**
    * @var string
    */
   public $serviceAccount;
+  /**
+   * @var bool
+   */
+  public $sessionAffinity;
   /**
    * @var string
    */
   public $timeout;
   protected $volumesType = GoogleCloudRunV2Volume::class;
   protected $volumesDataType = 'array';
-  public $volumes;
   protected $vpcAccessType = GoogleCloudRunV2VpcAccess::class;
   protected $vpcAccessDataType = '';
-  public $vpcAccess;
 
   /**
    * @param string[]
@@ -190,6 +190,20 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public function getServiceAccount()
   {
     return $this->serviceAccount;
+  }
+  /**
+   * @param bool
+   */
+  public function setSessionAffinity($sessionAffinity)
+  {
+    $this->sessionAffinity = $sessionAffinity;
+  }
+  /**
+   * @return bool
+   */
+  public function getSessionAffinity()
+  {
+    return $this->sessionAffinity;
   }
   /**
    * @param string

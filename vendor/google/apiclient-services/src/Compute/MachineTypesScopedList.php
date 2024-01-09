@@ -22,10 +22,8 @@ class MachineTypesScopedList extends \Google\Collection
   protected $collection_key = 'machineTypes';
   protected $machineTypesType = MachineType::class;
   protected $machineTypesDataType = 'array';
-  public $machineTypes;
   protected $warningType = MachineTypesScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param MachineType[]

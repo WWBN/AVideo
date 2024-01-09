@@ -25,10 +25,8 @@ class Destination extends \Google\Model
   public $cloudFunction;
   protected $cloudRunType = CloudRun::class;
   protected $cloudRunDataType = '';
-  public $cloudRun;
   protected $gkeType = GKE::class;
   protected $gkeDataType = '';
-  public $gke;
   /**
    * @var string
    */

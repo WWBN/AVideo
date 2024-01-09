@@ -22,10 +22,8 @@ class ConversionsBatchInsertRequest extends \Google\Collection
   protected $collection_key = 'conversions';
   protected $conversionsType = Conversion::class;
   protected $conversionsDataType = 'array';
-  public $conversions;
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = '';
-  public $encryptionInfo;
   /**
    * @var string
    */

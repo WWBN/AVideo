@@ -29,7 +29,6 @@ class TableRange extends \Google\Model
   public $rowSpan;
   protected $tableCellLocationType = TableCellLocation::class;
   protected $tableCellLocationDataType = '';
-  public $tableCellLocation;
 
   /**
    * @param int

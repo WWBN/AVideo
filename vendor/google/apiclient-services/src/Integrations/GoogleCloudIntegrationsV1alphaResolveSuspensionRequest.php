@@ -21,7 +21,6 @@ class GoogleCloudIntegrationsV1alphaResolveSuspensionRequest extends \Google\Mod
 {
   protected $suspensionType = GoogleCloudIntegrationsV1alphaSuspension::class;
   protected $suspensionDataType = '';
-  public $suspension;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaSuspension

@@ -22,7 +22,6 @@ class ListIosAppsResponse extends \Google\Collection
   protected $collection_key = 'apps';
   protected $appsType = IosApp::class;
   protected $appsDataType = 'array';
-  public $apps;
   /**
    * @var string
    */

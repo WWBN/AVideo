@@ -39,7 +39,6 @@ class CloudSupport extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
-  public $attachments;
   public $caseClassifications;
   public $cases;
   public $cases_attachments;
@@ -62,26 +61,6 @@ class CloudSupport extends \Google\Service
     $this->version = 'v2beta';
     $this->serviceName = 'cloudsupport';
 
-    $this->attachments = new CloudSupport\Resource\Attachments(
-        $this,
-        $this->serviceName,
-        'attachments',
-        [
-          'methods' => [
-            'create' => [
-              'path' => 'v2beta/{+parent}/attachments',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
     $this->caseClassifications = new CloudSupport\Resource\CaseClassifications(
         $this,
         $this->serviceName,

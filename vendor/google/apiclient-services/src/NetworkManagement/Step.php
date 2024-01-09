@@ -21,77 +21,58 @@ class Step extends \Google\Model
 {
   protected $abortType = AbortInfo::class;
   protected $abortDataType = '';
-  public $abort;
   protected $appEngineVersionType = AppEngineVersionInfo::class;
   protected $appEngineVersionDataType = '';
-  public $appEngineVersion;
   /**
    * @var bool
    */
   public $causesDrop;
   protected $cloudFunctionType = CloudFunctionInfo::class;
   protected $cloudFunctionDataType = '';
-  public $cloudFunction;
   protected $cloudRunRevisionType = CloudRunRevisionInfo::class;
   protected $cloudRunRevisionDataType = '';
-  public $cloudRunRevision;
   protected $cloudSqlInstanceType = CloudSQLInstanceInfo::class;
   protected $cloudSqlInstanceDataType = '';
-  public $cloudSqlInstance;
   protected $deliverType = DeliverInfo::class;
   protected $deliverDataType = '';
-  public $deliver;
   /**
    * @var string
    */
   public $description;
   protected $dropType = DropInfo::class;
   protected $dropDataType = '';
-  public $drop;
   protected $endpointType = EndpointInfo::class;
   protected $endpointDataType = '';
-  public $endpoint;
   protected $firewallType = FirewallInfo::class;
   protected $firewallDataType = '';
-  public $firewall;
   protected $forwardType = ForwardInfo::class;
   protected $forwardDataType = '';
-  public $forward;
   protected $forwardingRuleType = ForwardingRuleInfo::class;
   protected $forwardingRuleDataType = '';
-  public $forwardingRule;
   protected $gkeMasterType = GKEMasterInfo::class;
   protected $gkeMasterDataType = '';
-  public $gkeMaster;
   protected $instanceType = InstanceInfo::class;
   protected $instanceDataType = '';
-  public $instance;
   protected $loadBalancerType = LoadBalancerInfo::class;
   protected $loadBalancerDataType = '';
-  public $loadBalancer;
   protected $networkType = NetworkInfo::class;
   protected $networkDataType = '';
-  public $network;
   /**
    * @var string
    */
   public $projectId;
   protected $routeType = RouteInfo::class;
   protected $routeDataType = '';
-  public $route;
   /**
    * @var string
    */
   public $state;
   protected $vpcConnectorType = VpcConnectorInfo::class;
   protected $vpcConnectorDataType = '';
-  public $vpcConnector;
   protected $vpnGatewayType = VpnGatewayInfo::class;
   protected $vpnGatewayDataType = '';
-  public $vpnGateway;
   protected $vpnTunnelType = VpnTunnelInfo::class;
   protected $vpnTunnelDataType = '';
-  public $vpnTunnel;
 
   /**
    * @param AbortInfo

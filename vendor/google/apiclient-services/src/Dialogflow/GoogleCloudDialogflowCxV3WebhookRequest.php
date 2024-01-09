@@ -24,32 +24,30 @@ class GoogleCloudDialogflowCxV3WebhookRequest extends \Google\Collection
    * @var string
    */
   public $detectIntentResponseId;
+  /**
+   * @var string
+   */
+  public $dtmfDigits;
   protected $fulfillmentInfoType = GoogleCloudDialogflowCxV3WebhookRequestFulfillmentInfo::class;
   protected $fulfillmentInfoDataType = '';
-  public $fulfillmentInfo;
   protected $intentInfoType = GoogleCloudDialogflowCxV3WebhookRequestIntentInfo::class;
   protected $intentInfoDataType = '';
-  public $intentInfo;
   /**
    * @var string
    */
   public $languageCode;
   protected $messagesType = GoogleCloudDialogflowCxV3ResponseMessage::class;
   protected $messagesDataType = 'array';
-  public $messages;
   protected $pageInfoType = GoogleCloudDialogflowCxV3PageInfo::class;
   protected $pageInfoDataType = '';
-  public $pageInfo;
   /**
    * @var array[]
    */
   public $payload;
   protected $sentimentAnalysisResultType = GoogleCloudDialogflowCxV3WebhookRequestSentimentAnalysisResult::class;
   protected $sentimentAnalysisResultDataType = '';
-  public $sentimentAnalysisResult;
   protected $sessionInfoType = GoogleCloudDialogflowCxV3SessionInfo::class;
   protected $sessionInfoDataType = '';
-  public $sessionInfo;
   /**
    * @var string
    */
@@ -80,6 +78,20 @@ class GoogleCloudDialogflowCxV3WebhookRequest extends \Google\Collection
   public function getDetectIntentResponseId()
   {
     return $this->detectIntentResponseId;
+  }
+  /**
+   * @param string
+   */
+  public function setDtmfDigits($dtmfDigits)
+  {
+    $this->dtmfDigits = $dtmfDigits;
+  }
+  /**
+   * @return string
+   */
+  public function getDtmfDigits()
+  {
+    return $this->dtmfDigits;
   }
   /**
    * @param GoogleCloudDialogflowCxV3WebhookRequestFulfillmentInfo

@@ -21,7 +21,6 @@ class DeidentifyFhirStoreRequest extends \Google\Model
 {
   protected $configType = DeidentifyConfig::class;
   protected $configDataType = '';
-  public $config;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class DeidentifyFhirStoreRequest extends \Google\Model
   public $gcsConfigUri;
   protected $resourceFilterType = FhirFilter::class;
   protected $resourceFilterDataType = '';
-  public $resourceFilter;
   /**
    * @var bool
    */

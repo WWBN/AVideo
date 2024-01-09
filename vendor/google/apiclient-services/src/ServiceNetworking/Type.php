@@ -20,9 +20,12 @@ namespace Google\Service\ServiceNetworking;
 class Type extends \Google\Collection
 {
   protected $collection_key = 'options';
+  /**
+   * @var string
+   */
+  public $edition;
   protected $fieldsType = Field::class;
   protected $fieldsDataType = 'array';
-  public $fields;
   /**
    * @var string
    */
@@ -33,15 +36,27 @@ class Type extends \Google\Collection
   public $oneofs;
   protected $optionsType = Option::class;
   protected $optionsDataType = 'array';
-  public $options;
   protected $sourceContextType = SourceContext::class;
   protected $sourceContextDataType = '';
-  public $sourceContext;
   /**
    * @var string
    */
   public $syntax;
 
+  /**
+   * @param string
+   */
+  public function setEdition($edition)
+  {
+    $this->edition = $edition;
+  }
+  /**
+   * @return string
+   */
+  public function getEdition()
+  {
+    return $this->edition;
+  }
   /**
    * @param Field[]
    */

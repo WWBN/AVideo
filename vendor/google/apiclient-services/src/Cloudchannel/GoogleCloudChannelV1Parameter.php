@@ -29,7 +29,6 @@ class GoogleCloudChannelV1Parameter extends \Google\Model
   public $name;
   protected $valueType = GoogleCloudChannelV1Value::class;
   protected $valueDataType = '';
-  public $value;
 
   /**
    * @param bool

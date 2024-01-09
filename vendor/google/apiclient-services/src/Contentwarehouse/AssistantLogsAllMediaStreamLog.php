@@ -22,10 +22,8 @@ class AssistantLogsAllMediaStreamLog extends \Google\Collection
   protected $collection_key = 'streams';
   protected $streamsType = AssistantLogsMediaStreamLog::class;
   protected $streamsDataType = 'array';
-  public $streams;
   protected $targetStreamType = AssistantLogsMediaStreamLog::class;
   protected $targetStreamDataType = '';
-  public $targetStream;
 
   /**
    * @param AssistantLogsMediaStreamLog[]

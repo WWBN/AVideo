@@ -25,7 +25,6 @@ class FreebaseMeasurementUnit extends \Google\Model
   public $power;
   protected $unitType = FreebaseId::class;
   protected $unitDataType = '';
-  public $unit;
   /**
    * @var string
    */

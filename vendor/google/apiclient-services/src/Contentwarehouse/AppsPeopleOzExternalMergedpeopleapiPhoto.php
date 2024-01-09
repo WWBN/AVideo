@@ -22,7 +22,6 @@ class AppsPeopleOzExternalMergedpeopleapiPhoto extends \Google\Collection
   protected $collection_key = 'htmlAttribution';
   protected $decorationType = SocialGraphApiProtoDecorationOverlay::class;
   protected $decorationDataType = 'array';
-  public $decoration;
   /**
    * @var string
    */
@@ -45,17 +44,14 @@ class AppsPeopleOzExternalMergedpeopleapiPhoto extends \Google\Collection
   public $isMonogram;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
   public $monogramBackground;
   protected $originalPhotoType = SocialGraphApiProtoImageReference::class;
   protected $originalPhotoDataType = '';
-  public $originalPhoto;
   protected $photoIdType = AppsPeopleOzExternalMergedpeopleapiPhotoPhotoStorageId::class;
   protected $photoIdDataType = '';
-  public $photoId;
   /**
    * @var string
    */

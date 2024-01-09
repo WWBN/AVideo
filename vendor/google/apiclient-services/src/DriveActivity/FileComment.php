@@ -33,7 +33,6 @@ class FileComment extends \Google\Model
   public $linkToDiscussion;
   protected $parentType = DriveItem::class;
   protected $parentDataType = '';
-  public $parent;
 
   /**
    * @param string

@@ -198,6 +198,12 @@ class ProjectsJobs extends \Google\Service\Resource
    * @opt_param string location The [regional endpoint]
    * (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints) that
    * contains this job.
+   * @opt_param string updateMask The list of fields to update relative to Job. If
+   * empty, only RequestedJobState will be considered for update. If the FieldMask
+   * is not empty and RequestedJobState is none/empty, The fields specified in the
+   * update mask will be the only ones considered for update. If both
+   * RequestedJobState and update_mask are specified, we will first handle
+   * RequestedJobState and then the update_mask fields.
    * @return Job
    */
   public function update($projectId, $jobId, Job $postBody, $optParams = [])

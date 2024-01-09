@@ -22,10 +22,8 @@ class InstancesScopedList extends \Google\Collection
   protected $collection_key = 'instances';
   protected $instancesType = Instance::class;
   protected $instancesDataType = 'array';
-  public $instances;
   protected $warningType = InstancesScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param Instance[]

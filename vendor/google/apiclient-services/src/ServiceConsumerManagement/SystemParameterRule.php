@@ -22,7 +22,6 @@ class SystemParameterRule extends \Google\Collection
   protected $collection_key = 'parameters';
   protected $parametersType = SystemParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
   /**
    * @var string
    */

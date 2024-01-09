@@ -21,7 +21,6 @@ class Transport extends \Google\Model
 {
   protected $pubsubType = Pubsub::class;
   protected $pubsubDataType = '';
-  public $pubsub;
 
   /**
    * @param Pubsub

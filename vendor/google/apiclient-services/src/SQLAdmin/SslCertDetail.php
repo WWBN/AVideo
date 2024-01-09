@@ -21,7 +21,6 @@ class SslCertDetail extends \Google\Model
 {
   protected $certInfoType = SslCert::class;
   protected $certInfoDataType = '';
-  public $certInfo;
   /**
    * @var string
    */

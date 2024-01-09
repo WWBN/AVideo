@@ -22,7 +22,6 @@ class GoogleFirebaseAppcheckV1ListDebugTokensResponse extends \Google\Collection
   protected $collection_key = 'debugTokens';
   protected $debugTokensType = GoogleFirebaseAppcheckV1DebugToken::class;
   protected $debugTokensDataType = 'array';
-  public $debugTokens;
   /**
    * @var string
    */

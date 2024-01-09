@@ -21,7 +21,6 @@ class GooglePrivacyDlpV2SaveFindings extends \Google\Model
 {
   protected $outputConfigType = GooglePrivacyDlpV2OutputStorageConfig::class;
   protected $outputConfigDataType = '';
-  public $outputConfig;
 
   /**
    * @param GooglePrivacyDlpV2OutputStorageConfig

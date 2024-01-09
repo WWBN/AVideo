@@ -53,10 +53,6 @@ class SmartphonePerDocData extends \Google\Model
   public $isWebErrorMobileContent;
   public $maximumFlashRatio;
   /**
-   * @var int
-   */
-  public $mobileFriendlyScore;
-  /**
    * @var bool
    */
   public $violatesMobileInterstitialPolicy;
@@ -166,20 +162,6 @@ class SmartphonePerDocData extends \Google\Model
   public function getMaximumFlashRatio()
   {
     return $this->maximumFlashRatio;
-  }
-  /**
-   * @param int
-   */
-  public function setMobileFriendlyScore($mobileFriendlyScore)
-  {
-    $this->mobileFriendlyScore = $mobileFriendlyScore;
-  }
-  /**
-   * @return int
-   */
-  public function getMobileFriendlyScore()
-  {
-    return $this->mobileFriendlyScore;
   }
   /**
    * @param bool

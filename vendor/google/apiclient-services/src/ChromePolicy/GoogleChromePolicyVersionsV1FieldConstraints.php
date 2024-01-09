@@ -21,7 +21,6 @@ class GoogleChromePolicyVersionsV1FieldConstraints extends \Google\Model
 {
   protected $numericRangeConstraintType = GoogleChromePolicyVersionsV1NumericRangeConstraint::class;
   protected $numericRangeConstraintDataType = '';
-  public $numericRangeConstraint;
 
   /**
    * @param GoogleChromePolicyVersionsV1NumericRangeConstraint

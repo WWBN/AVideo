@@ -21,17 +21,14 @@ class EntryPoint extends \Google\Model
 {
   protected $addOnType = GoogleAppsScriptTypeAddOnEntryPoint::class;
   protected $addOnDataType = '';
-  public $addOn;
   /**
    * @var string
    */
   public $entryPointType;
   protected $executionApiType = GoogleAppsScriptTypeExecutionApiEntryPoint::class;
   protected $executionApiDataType = '';
-  public $executionApi;
   protected $webAppType = GoogleAppsScriptTypeWebAppEntryPoint::class;
   protected $webAppDataType = '';
-  public $webApp;
 
   /**
    * @param GoogleAppsScriptTypeAddOnEntryPoint

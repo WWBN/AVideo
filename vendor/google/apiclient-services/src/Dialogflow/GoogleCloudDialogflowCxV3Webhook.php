@@ -29,14 +29,12 @@ class GoogleCloudDialogflowCxV3Webhook extends \Google\Model
   public $displayName;
   protected $genericWebServiceType = GoogleCloudDialogflowCxV3WebhookGenericWebService::class;
   protected $genericWebServiceDataType = '';
-  public $genericWebService;
   /**
    * @var string
    */
   public $name;
   protected $serviceDirectoryType = GoogleCloudDialogflowCxV3WebhookServiceDirectoryConfig::class;
   protected $serviceDirectoryDataType = '';
-  public $serviceDirectory;
   /**
    * @var string
    */

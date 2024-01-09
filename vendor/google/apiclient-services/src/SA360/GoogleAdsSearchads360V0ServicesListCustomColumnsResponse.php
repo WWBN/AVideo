@@ -22,7 +22,6 @@ class GoogleAdsSearchads360V0ServicesListCustomColumnsResponse extends \Google\C
   protected $collection_key = 'customColumns';
   protected $customColumnsType = GoogleAdsSearchads360V0ResourcesCustomColumn::class;
   protected $customColumnsDataType = 'array';
-  public $customColumns;
 
   /**
    * @param GoogleAdsSearchads360V0ResourcesCustomColumn[]

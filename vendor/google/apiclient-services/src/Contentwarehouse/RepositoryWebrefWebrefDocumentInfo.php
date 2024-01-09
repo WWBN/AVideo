@@ -22,13 +22,10 @@ class RepositoryWebrefWebrefDocumentInfo extends \Google\Collection
   protected $collection_key = 'webrefParsedContentSentence';
   protected $documentMetadataType = RepositoryWebrefDocumentMetadata::class;
   protected $documentMetadataDataType = '';
-  public $documentMetadata;
   protected $extensionsType = Proto2BridgeMessageSet::class;
   protected $extensionsDataType = '';
-  public $extensions;
   protected $outlinkInfosType = RepositoryWebrefWebrefOutlinkInfos::class;
   protected $outlinkInfosDataType = '';
-  public $outlinkInfos;
   /**
    * @var string[]
    */

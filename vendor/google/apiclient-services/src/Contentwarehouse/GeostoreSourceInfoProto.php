@@ -22,10 +22,8 @@ class GeostoreSourceInfoProto extends \Google\Collection
   protected $collection_key = 'rawData';
   protected $attributionUrlType = GeostoreUrlProto::class;
   protected $attributionUrlDataType = 'array';
-  public $attributionUrl;
   protected $collectionDateType = GeostoreDateTimeProto::class;
   protected $collectionDateDataType = '';
-  public $collectionDate;
   /**
    * @var string
    */
@@ -40,7 +38,6 @@ class GeostoreSourceInfoProto extends \Google\Collection
   public $gaiaId;
   protected $impersonationUserType = GeostoreUserProto::class;
   protected $impersonationUserDataType = '';
-  public $impersonationUser;
   /**
    * @var string
    */
@@ -55,20 +52,16 @@ class GeostoreSourceInfoProto extends \Google\Collection
   public $provider;
   protected $rawDataType = GeostoreRawDataProto::class;
   protected $rawDataDataType = 'array';
-  public $rawData;
   /**
    * @var string
    */
   public $release;
   protected $sourceIdType = GeostoreFeatureIdProto::class;
   protected $sourceIdDataType = '';
-  public $sourceId;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
-  public $temporaryData;
   protected $userType = GeostoreUserProto::class;
   protected $userDataType = '';
-  public $user;
 
   /**
    * @param GeostoreUrlProto[]

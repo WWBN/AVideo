@@ -21,10 +21,8 @@ class GoogleCloudRetailV2ImportProductsRequest extends \Google\Model
 {
   protected $errorsConfigType = GoogleCloudRetailV2ImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
-  public $errorsConfig;
   protected $inputConfigType = GoogleCloudRetailV2ProductInputConfig::class;
   protected $inputConfigDataType = '';
-  public $inputConfig;
   /**
    * @var string
    */

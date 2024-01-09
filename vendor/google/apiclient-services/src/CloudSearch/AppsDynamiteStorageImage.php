@@ -29,7 +29,6 @@ class AppsDynamiteStorageImage extends \Google\Model
   public $imageUrl;
   protected $onClickType = AppsDynamiteStorageOnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
 
   /**
    * @param string

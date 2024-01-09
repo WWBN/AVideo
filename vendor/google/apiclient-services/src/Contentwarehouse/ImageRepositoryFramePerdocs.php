@@ -22,7 +22,6 @@ class ImageRepositoryFramePerdocs extends \Google\Collection
   protected $collection_key = 'framePerdoc';
   protected $framePerdocType = ImageRepositoryFramePerdoc::class;
   protected $framePerdocDataType = 'array';
-  public $framePerdoc;
 
   /**
    * @param ImageRepositoryFramePerdoc[]

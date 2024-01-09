@@ -44,12 +44,12 @@ use Google\Service\DatabaseMigrationService\TestIamPermissionsResponse;
 class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
 {
   /**
-   * Apply draft tree onto a specific destination database
+   * Applies draft tree onto a specific destination database.
    * (conversionWorkspaces.apply)
    *
-   * @param string $name Required. Name of the conversion workspace resource to
-   * apply draft to destination for. in the form of: projects/{project}/locations/
-   * {location}/conversionWorkspaces/{conversion_workspace}.
+   * @param string $name Required. The name of the conversion workspace resource
+   * for which to apply the draft tree. Must be in the form of: projects/{project}
+   * /locations/{location}/conversionWorkspaces/{conversion_workspace}.
    * @param ApplyConversionWorkspaceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
@@ -97,16 +97,16 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * Creates a new conversion workspace in a given project and location.
    * (conversionWorkspaces.create)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * conversion workspaces.
    * @param ConversionWorkspace $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string conversionWorkspaceId Required. The ID of the conversion
    * workspace to create.
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
@@ -124,9 +124,9 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * delete.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
@@ -142,12 +142,12 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * (conversionWorkspaces.describeConversionWorkspaceRevisions)
    *
    * @param string $conversionWorkspace Required. Name of the conversion workspace
-   * resource whose revisions are listed. in the form of: projects/{project}/locat
-   * ions/{location}/conversionWorkspaces/{conversion_workspace}.
+   * resource whose revisions are listed. Must be in the form of: projects/{projec
+   * t}/locations/{location}/conversionWorkspaces/{conversion_workspace}.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string commitId Optional. Optional filter to request a specific
-   * commit id
+   * commit ID.
    * @return DescribeConversionWorkspaceRevisionsResponse
    */
   public function describeConversionWorkspaceRevisions($conversionWorkspace, $optParams = [])
@@ -157,24 +157,24 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
     return $this->call('describeConversionWorkspaceRevisions', [$params], DescribeConversionWorkspaceRevisionsResponse::class);
   }
   /**
-   * Use this method to describe the database entities tree for a specific
-   * conversion workspace and a specific tree type. The DB Entities are not a
-   * resource like conversion workspace or mapping rule, and they can not be
-   * created, updated or deleted like one. Instead they are simple data objects
-   * describing the structure of the client database.
-   * (conversionWorkspaces.describeDatabaseEntities)
+   * Describes the database entities tree for a specific conversion workspace and
+   * a specific tree type. Database entities are not resources like conversion
+   * workspaces or mapping rules, and they can't be created, updated or deleted.
+   * Instead, they are simple data objects describing the structure of the client
+   * database. (conversionWorkspaces.describeDatabaseEntities)
    *
    * @param string $conversionWorkspace Required. Name of the conversion workspace
-   * resource whose DB entities are described in the form of: projects/{project}/l
-   * ocations/{location}/conversionWorkspaces/{conversion_workspace}.
+   * resource whose database entities are described. Must be in the form of: proje
+   * cts/{project}/locations/{location}/conversionWorkspaces/{conversion_workspace
+   * }.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string commitId Request a specific commit id. If not specified,
+   * @opt_param string commitId Request a specific commit ID. If not specified,
    * the entities from the latest commit are returned.
    * @opt_param string filter Filter the returned entities based on AIP-160
    * standard.
    * @opt_param int pageSize The maximum number of entities to return. The service
-   * may return fewer than this value.
+   * may return fewer entities than the value specifies.
    * @opt_param string pageToken The nextPageToken value received in the previous
    * call to conversionWorkspace.describeDatabaseEntities, used in the subsequent
    * request to retrieve the next page of results. On first call this should be
@@ -242,7 +242,7 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * Lists conversion workspaces in a given project and location.
    * (conversionWorkspaces.listProjectsLocationsConversionWorkspaces)
    *
-   * @param string $parent Required. The parent, which owns this collection of
+   * @param string $parent Required. The parent which owns this collection of
    * conversion workspaces.
    * @param array $optParams Optional parameters.
    *
@@ -254,10 +254,10 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * workspaces created this year by specifying **createTime %gt;
    * 2020-01-01T00:00:00.000000000Z.** You can also filter nested fields. For
    * example, you could specify **source.version = "12.c.1"** to select all
-   * conversion workspaces with source database version equal to 12.c.1
+   * conversion workspaces with source database version equal to 12.c.1.
    * @opt_param int pageSize The maximum number of conversion workspaces to
    * return. The service may return fewer than this value. If unspecified, at most
-   * 50 sets will be returned.
+   * 50 sets are returned.
    * @opt_param string pageToken The nextPageToken value received in the previous
    * call to conversionWorkspaces.list, used in the subsequent request to retrieve
    * the next page of results. On first call this should be left blank. When
@@ -281,13 +281,13 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * @param ConversionWorkspace $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string requestId A unique id used to identify the request. If the
-   * server receives two requests with the same id, then the second request will
-   * be ignored. It is recommended to always set this value to a UUID. The id must
+   * @opt_param string requestId A unique ID used to identify the request. If the
+   * server receives two requests with the same ID, then the second request is
+   * ignored. It is recommended to always set this value to a UUID. The ID must
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @opt_param string updateMask Required. Field mask is used to specify the
-   * fields to be overwritten in the conversion workspace resource by the update.
+   * fields to be overwritten by the update in the conversion workspace resource.
    * @return Operation
    */
   public function patch($name, ConversionWorkspace $postBody, $optParams = [])
@@ -297,11 +297,11 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * Rollbacks a conversion workspace to the last committed spanshot.
+   * Rolls back a conversion workspace to the last committed snapshot.
    * (conversionWorkspaces.rollback)
    *
    * @param string $name Required. Name of the conversion workspace resource to
-   * rollback to.
+   * roll back to.
    * @param RollbackConversionWorkspaceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
@@ -313,25 +313,24 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
     return $this->call('rollback', [$params], Operation::class);
   }
   /**
-   * Use this method to search/list the background jobs for a specific conversion
-   * workspace. The background jobs are not a resource like conversion workspace
-   * or mapping rule, and they can not be created, updated or deleted like one.
-   * Instead they are a way to expose the data plane jobs log.
+   * Searches/lists the background jobs for a specific conversion workspace. The
+   * background jobs are not resources like conversion workspaces or mapping
+   * rules, and they can't be created, updated or deleted. Instead, they are a way
+   * to expose the data plane jobs log.
    * (conversionWorkspaces.searchBackgroundJobs)
    *
    * @param string $conversionWorkspace Required. Name of the conversion workspace
-   * resource whos jobs are listed. in the form of: projects/{project}/locations/{
-   * location}/conversionWorkspaces/{conversion_workspace}.
+   * resource whose jobs are listed, in the form of: projects/{project}/locations/
+   * {location}/conversionWorkspaces/{conversion_workspace}.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string completedUntilTime Optional. If supplied, will only return
-   * jobs that completed until (not including) the given timestamp.
+   * @opt_param string completedUntilTime Optional. If provided, only returns jobs
+   * that completed until (not including) the given timestamp.
    * @opt_param int maxSize Optional. The maximum number of jobs to return. The
    * service may return fewer than this value. If unspecified, at most 100 jobs
-   * will be returned. The maximum value is 100; values above 100 will be coerced
-   * to 100.
+   * are returned. The maximum value is 100; values above 100 are coerced to 100.
    * @opt_param bool returnMostRecentPerJobType Optional. Whether or not to return
-   * just the most recent job per job type
+   * just the most recent job per job type,
    * @return SearchBackgroundJobsResponse
    */
   public function searchBackgroundJobs($conversionWorkspace, $optParams = [])
@@ -345,7 +344,7 @@ class ProjectsLocationsConversionWorkspaces extends \Google\Service\Resource
    * (conversionWorkspaces.seed)
    *
    * @param string $name Name of the conversion workspace resource to seed with
-   * new database structure. in the form of: projects/{project}/locations/{locatio
+   * new database structure, in the form of: projects/{project}/locations/{locatio
    * n}/conversionWorkspaces/{conversion_workspace}.
    * @param SeedConversionWorkspaceRequest $postBody
    * @param array $optParams Optional parameters.

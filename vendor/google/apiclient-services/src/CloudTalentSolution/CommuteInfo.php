@@ -21,7 +21,6 @@ class CommuteInfo extends \Google\Model
 {
   protected $jobLocationType = Location::class;
   protected $jobLocationDataType = '';
-  public $jobLocation;
   /**
    * @var string
    */

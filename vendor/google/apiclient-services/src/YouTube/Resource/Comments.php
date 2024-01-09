@@ -110,8 +110,7 @@ class Comments extends \Google\Service\Resource
    * @param string $moderationStatus Specifies the requested moderation status.
    * Note, comments can be in statuses, which are not available through this call.
    * For example, this call does not allow to mark a comment as 'likely spam'.
-   * Valid values: MODERATION_STATUS_PUBLISHED, MODERATION_STATUS_HELD_FOR_REVIEW,
-   * MODERATION_STATUS_REJECTED.
+   * Valid values: 'heldForReview', 'published' or 'rejected'.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool banAuthor If set to true the author of the comment gets added

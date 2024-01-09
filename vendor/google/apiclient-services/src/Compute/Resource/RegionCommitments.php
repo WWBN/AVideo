@@ -105,8 +105,7 @@ class RegionCommitments extends \Google\Service\Resource
     return $this->call('aggregatedList', [$params], CommitmentAggregatedList::class);
   }
   /**
-   * Returns the specified commitment resource. Gets a list of available
-   * commitments by making a list() request. (regionCommitments.get)
+   * Returns the specified commitment resource. (regionCommitments.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region for this request.

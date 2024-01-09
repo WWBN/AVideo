@@ -25,7 +25,6 @@ class TimeWindow extends \Google\Model
   public $endTime;
   protected $maintenanceExclusionOptionsType = MaintenanceExclusionOptions::class;
   protected $maintenanceExclusionOptionsDataType = '';
-  public $maintenanceExclusionOptions;
   /**
    * @var string
    */

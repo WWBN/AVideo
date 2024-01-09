@@ -30,7 +30,6 @@ class VendingConsumerProtoTrustedGenomePolicy extends \Google\Collection
   public $policyType;
   protected $targetRegionType = VendingConsumerProtoTrustedGenomePolicyTargetRegion::class;
   protected $targetRegionDataType = 'array';
-  public $targetRegion;
 
   /**
    * @param string

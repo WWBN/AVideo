@@ -30,7 +30,6 @@ class KeySet extends \Google\Collection
   public $keys;
   protected $rangesType = KeyRange::class;
   protected $rangesDataType = 'array';
-  public $ranges;
 
   /**
    * @param bool

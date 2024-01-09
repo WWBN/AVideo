@@ -26,7 +26,6 @@ class GoogleCloudDocumentaiV1ListProcessorVersionsResponse extends \Google\Colle
   public $nextPageToken;
   protected $processorVersionsType = GoogleCloudDocumentaiV1ProcessorVersion::class;
   protected $processorVersionsDataType = 'array';
-  public $processorVersions;
 
   /**
    * @param string

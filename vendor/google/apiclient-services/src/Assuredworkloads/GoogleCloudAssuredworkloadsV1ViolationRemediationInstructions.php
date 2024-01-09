@@ -21,10 +21,8 @@ class GoogleCloudAssuredworkloadsV1ViolationRemediationInstructions extends \Goo
 {
   protected $consoleInstructionsType = GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsole::class;
   protected $consoleInstructionsDataType = '';
-  public $consoleInstructions;
   protected $gcloudInstructionsType = GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsGcloud::class;
   protected $gcloudInstructionsDataType = '';
-  public $gcloudInstructions;
 
   /**
    * @param GoogleCloudAssuredworkloadsV1ViolationRemediationInstructionsConsole

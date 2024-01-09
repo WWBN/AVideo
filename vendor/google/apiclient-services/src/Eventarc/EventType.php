@@ -30,7 +30,6 @@ class EventType extends \Google\Collection
   public $eventSchemaUri;
   protected $filteringAttributesType = FilteringAttribute::class;
   protected $filteringAttributesDataType = 'array';
-  public $filteringAttributes;
   /**
    * @var string
    */

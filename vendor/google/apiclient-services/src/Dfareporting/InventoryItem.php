@@ -26,7 +26,6 @@ class InventoryItem extends \Google\Collection
   public $accountId;
   protected $adSlotsType = AdSlot::class;
   protected $adSlotsDataType = 'array';
-  public $adSlots;
   /**
    * @var string
    */
@@ -57,7 +56,6 @@ class InventoryItem extends \Google\Collection
   public $kind;
   protected $lastModifiedInfoType = LastModifiedInfo::class;
   protected $lastModifiedInfoDataType = '';
-  public $lastModifiedInfo;
   /**
    * @var string
    */
@@ -76,7 +74,6 @@ class InventoryItem extends \Google\Collection
   public $placementStrategyId;
   protected $pricingType = Pricing::class;
   protected $pricingDataType = '';
-  public $pricing;
   /**
    * @var string
    */

@@ -25,7 +25,6 @@ class SuggestionProto extends \Google\Model
   public $helpUrl;
   protected $longMessageType = SafeHtmlProto::class;
   protected $longMessageDataType = '';
-  public $longMessage;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class SuggestionProto extends \Google\Model
   public $pseudoResourceId;
   protected $regionType = RegionProto::class;
   protected $regionDataType = '';
-  public $region;
   /**
    * @var string
    */
@@ -48,7 +46,6 @@ class SuggestionProto extends \Google\Model
   public $secondaryPriority;
   protected $shortMessageType = SafeHtmlProto::class;
   protected $shortMessageDataType = '';
-  public $shortMessage;
   /**
    * @var string
    */

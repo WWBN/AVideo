@@ -26,7 +26,6 @@ class ExchangedPeeringRoutesListWarning extends \Google\Collection
   public $code;
   protected $dataType = ExchangedPeeringRoutesListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

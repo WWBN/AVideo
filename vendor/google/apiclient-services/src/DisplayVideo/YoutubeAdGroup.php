@@ -34,7 +34,6 @@ class YoutubeAdGroup extends \Google\Collection
   public $advertiserId;
   protected $biddingStrategyType = YoutubeAndPartnersBiddingStrategy::class;
   protected $biddingStrategyDataType = '';
-  public $biddingStrategy;
   /**
    * @var string
    */
@@ -53,10 +52,8 @@ class YoutubeAdGroup extends \Google\Collection
   public $name;
   protected $productFeedDataType = ProductFeedData::class;
   protected $productFeedDataDataType = '';
-  public $productFeedData;
   protected $targetingExpansionType = TargetingExpansionConfig::class;
   protected $targetingExpansionDataType = '';
-  public $targetingExpansion;
   /**
    * @var string[]
    */

@@ -21,7 +21,6 @@ class MessageProps extends \Google\Model
 {
   protected $babelPropsType = BabelMessageProps::class;
   protected $babelPropsDataType = '';
-  public $babelProps;
 
   /**
    * @param BabelMessageProps

@@ -22,7 +22,6 @@ class GoogleCloudMlV1TrainingOutput extends \Google\Collection
   protected $collection_key = 'trials';
   protected $builtInAlgorithmOutputType = GoogleCloudMlV1BuiltInAlgorithmOutput::class;
   protected $builtInAlgorithmOutputDataType = '';
-  public $builtInAlgorithmOutput;
   /**
    * @var string
    */
@@ -42,7 +41,6 @@ class GoogleCloudMlV1TrainingOutput extends \Google\Collection
   public $isHyperparameterTuningJob;
   protected $trialsType = GoogleCloudMlV1HyperparameterOutput::class;
   protected $trialsDataType = 'array';
-  public $trials;
   /**
    * @var string[]
    */

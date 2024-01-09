@@ -22,14 +22,12 @@ class MachineType extends \Google\Collection
   protected $collection_key = 'scratchDisks';
   protected $acceleratorsType = MachineTypeAccelerators::class;
   protected $acceleratorsDataType = 'array';
-  public $accelerators;
   /**
    * @var string
    */
   public $creationTimestamp;
   protected $deprecatedType = DeprecationStatus::class;
   protected $deprecatedDataType = '';
-  public $deprecated;
   /**
    * @var string
    */
@@ -72,7 +70,6 @@ class MachineType extends \Google\Collection
   public $name;
   protected $scratchDisksType = MachineTypeScratchDisks::class;
   protected $scratchDisksDataType = 'array';
-  public $scratchDisks;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class SitemapsListResponse extends \Google\Collection
   protected $collection_key = 'sitemap';
   protected $sitemapType = WmxSitemap::class;
   protected $sitemapDataType = 'array';
-  public $sitemap;
 
   /**
    * @param WmxSitemap[]

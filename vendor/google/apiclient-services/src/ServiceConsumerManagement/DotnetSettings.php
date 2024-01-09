@@ -17,11 +17,31 @@
 
 namespace Google\Service\ServiceConsumerManagement;
 
-class DotnetSettings extends \Google\Model
+class DotnetSettings extends \Google\Collection
 {
+  protected $collection_key = 'ignoredResources';
   protected $commonType = CommonLanguageSettings::class;
   protected $commonDataType = '';
-  public $common;
+  /**
+   * @var string[]
+   */
+  public $forcedNamespaceAliases;
+  /**
+   * @var string[]
+   */
+  public $handwrittenSignatures;
+  /**
+   * @var string[]
+   */
+  public $ignoredResources;
+  /**
+   * @var string[]
+   */
+  public $renamedResources;
+  /**
+   * @var string[]
+   */
+  public $renamedServices;
 
   /**
    * @param CommonLanguageSettings
@@ -36,6 +56,76 @@ class DotnetSettings extends \Google\Model
   public function getCommon()
   {
     return $this->common;
+  }
+  /**
+   * @param string[]
+   */
+  public function setForcedNamespaceAliases($forcedNamespaceAliases)
+  {
+    $this->forcedNamespaceAliases = $forcedNamespaceAliases;
+  }
+  /**
+   * @return string[]
+   */
+  public function getForcedNamespaceAliases()
+  {
+    return $this->forcedNamespaceAliases;
+  }
+  /**
+   * @param string[]
+   */
+  public function setHandwrittenSignatures($handwrittenSignatures)
+  {
+    $this->handwrittenSignatures = $handwrittenSignatures;
+  }
+  /**
+   * @return string[]
+   */
+  public function getHandwrittenSignatures()
+  {
+    return $this->handwrittenSignatures;
+  }
+  /**
+   * @param string[]
+   */
+  public function setIgnoredResources($ignoredResources)
+  {
+    $this->ignoredResources = $ignoredResources;
+  }
+  /**
+   * @return string[]
+   */
+  public function getIgnoredResources()
+  {
+    return $this->ignoredResources;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRenamedResources($renamedResources)
+  {
+    $this->renamedResources = $renamedResources;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRenamedResources()
+  {
+    return $this->renamedResources;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRenamedServices($renamedServices)
+  {
+    $this->renamedServices = $renamedServices;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRenamedServices()
+  {
+    return $this->renamedServices;
   }
 }
 

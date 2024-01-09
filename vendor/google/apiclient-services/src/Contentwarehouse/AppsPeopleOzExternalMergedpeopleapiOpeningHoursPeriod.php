@@ -21,10 +21,8 @@ class AppsPeopleOzExternalMergedpeopleapiOpeningHoursPeriod extends \Google\Mode
 {
   protected $closeType = AppsPeopleOzExternalMergedpeopleapiOpeningHoursEndpoint::class;
   protected $closeDataType = '';
-  public $close;
   protected $openType = AppsPeopleOzExternalMergedpeopleapiOpeningHoursEndpoint::class;
   protected $openDataType = '';
-  public $open;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiOpeningHoursEndpoint

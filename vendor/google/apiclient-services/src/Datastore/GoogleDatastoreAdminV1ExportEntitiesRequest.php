@@ -21,7 +21,6 @@ class GoogleDatastoreAdminV1ExportEntitiesRequest extends \Google\Model
 {
   protected $entityFilterType = GoogleDatastoreAdminV1EntityFilter::class;
   protected $entityFilterDataType = '';
-  public $entityFilter;
   /**
    * @var string[]
    */

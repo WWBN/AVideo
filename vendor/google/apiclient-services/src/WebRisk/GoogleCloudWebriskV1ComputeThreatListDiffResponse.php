@@ -21,10 +21,8 @@ class GoogleCloudWebriskV1ComputeThreatListDiffResponse extends \Google\Model
 {
   protected $additionsType = GoogleCloudWebriskV1ThreatEntryAdditions::class;
   protected $additionsDataType = '';
-  public $additions;
   protected $checksumType = GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum::class;
   protected $checksumDataType = '';
-  public $checksum;
   /**
    * @var string
    */
@@ -35,7 +33,6 @@ class GoogleCloudWebriskV1ComputeThreatListDiffResponse extends \Google\Model
   public $recommendedNextDiff;
   protected $removalsType = GoogleCloudWebriskV1ThreatEntryRemovals::class;
   protected $removalsDataType = '';
-  public $removals;
   /**
    * @var string
    */

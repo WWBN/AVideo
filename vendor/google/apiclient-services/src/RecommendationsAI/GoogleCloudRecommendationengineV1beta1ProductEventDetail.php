@@ -30,13 +30,10 @@ class GoogleCloudRecommendationengineV1beta1ProductEventDetail extends \Google\C
   public $listId;
   protected $pageCategoriesType = GoogleCloudRecommendationengineV1beta1CatalogItemCategoryHierarchy::class;
   protected $pageCategoriesDataType = 'array';
-  public $pageCategories;
   protected $productDetailsType = GoogleCloudRecommendationengineV1beta1ProductDetail::class;
   protected $productDetailsDataType = 'array';
-  public $productDetails;
   protected $purchaseTransactionType = GoogleCloudRecommendationengineV1beta1PurchaseTransaction::class;
   protected $purchaseTransactionDataType = '';
-  public $purchaseTransaction;
   /**
    * @var string
    */

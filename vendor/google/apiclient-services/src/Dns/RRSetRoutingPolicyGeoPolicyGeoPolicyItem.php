@@ -22,7 +22,6 @@ class RRSetRoutingPolicyGeoPolicyGeoPolicyItem extends \Google\Collection
   protected $collection_key = 'signatureRrdatas';
   protected $healthCheckedTargetsType = RRSetRoutingPolicyHealthCheckTargets::class;
   protected $healthCheckedTargetsDataType = '';
-  public $healthCheckedTargets;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class LocationMetadata extends \Google\Collection
   protected $collection_key = 'supportedHiveMetastoreVersions';
   protected $supportedHiveMetastoreVersionsType = HiveMetastoreVersion::class;
   protected $supportedHiveMetastoreVersionsDataType = 'array';
-  public $supportedHiveMetastoreVersions;
 
   /**
    * @param HiveMetastoreVersion[]

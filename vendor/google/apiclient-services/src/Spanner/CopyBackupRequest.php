@@ -25,7 +25,6 @@ class CopyBackupRequest extends \Google\Model
   public $backupId;
   protected $encryptionConfigType = CopyBackupEncryptionConfig::class;
   protected $encryptionConfigDataType = '';
-  public $encryptionConfig;
   /**
    * @var string
    */

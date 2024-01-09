@@ -30,20 +30,16 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   public $createTime;
   protected $errorCodeType = CrmlogErrorCode::class;
   protected $errorCodeDataType = '';
-  public $errorCode;
   protected $errorsType = EnterpriseCrmEventbusProtoErrorDetail::class;
   protected $errorsDataType = 'array';
-  public $errors;
   protected $eventExecutionDetailsType = EnterpriseCrmFrontendsEventbusProtoEventExecutionDetails::class;
   protected $eventExecutionDetailsDataType = '';
-  public $eventExecutionDetails;
   /**
    * @var string
    */
   public $eventExecutionInfoId;
   protected $executionTraceInfoType = EnterpriseCrmEventbusProtoExecutionTraceInfo::class;
   protected $executionTraceInfoDataType = '';
-  public $executionTraceInfo;
   /**
    * @var string
    */
@@ -62,10 +58,8 @@ class EnterpriseCrmFrontendsEventbusProtoEventExecutionInfo extends \Google\Coll
   public $requestId;
   protected $requestParamsType = EnterpriseCrmFrontendsEventbusProtoEventParameters::class;
   protected $requestParamsDataType = '';
-  public $requestParams;
   protected $responseParamsType = EnterpriseCrmFrontendsEventbusProtoEventParameters::class;
   protected $responseParamsDataType = '';
-  public $responseParams;
   /**
    * @var string
    */

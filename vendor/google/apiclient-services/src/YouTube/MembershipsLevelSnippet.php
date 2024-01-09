@@ -25,7 +25,6 @@ class MembershipsLevelSnippet extends \Google\Model
   public $creatorChannelId;
   protected $levelDetailsType = LevelDetails::class;
   protected $levelDetailsDataType = '';
-  public $levelDetails;
 
   /**
    * @param string

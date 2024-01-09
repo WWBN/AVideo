@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ListEndpointAttachmentsResponse extends \Google\Collect
   protected $collection_key = 'endpointAttachments';
   protected $endpointAttachmentsType = GoogleCloudApigeeV1EndpointAttachment::class;
   protected $endpointAttachmentsDataType = 'array';
-  public $endpointAttachments;
   /**
    * @var string
    */

@@ -26,7 +26,6 @@ class ListSkusResponse extends \Google\Collection
   public $nextPageToken;
   protected $skusType = Sku::class;
   protected $skusDataType = 'array';
-  public $skus;
 
   /**
    * @param string

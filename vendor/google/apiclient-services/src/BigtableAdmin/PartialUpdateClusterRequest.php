@@ -21,7 +21,6 @@ class PartialUpdateClusterRequest extends \Google\Model
 {
   protected $clusterType = Cluster::class;
   protected $clusterDataType = '';
-  public $cluster;
   /**
    * @var string
    */

@@ -29,7 +29,6 @@ class GoogleCloudDataplexV1DataAttribute extends \Google\Model
   public $createTime;
   protected $dataAccessSpecType = GoogleCloudDataplexV1DataAccessSpec::class;
   protected $dataAccessSpecDataType = '';
-  public $dataAccessSpec;
   /**
    * @var string
    */
@@ -56,7 +55,6 @@ class GoogleCloudDataplexV1DataAttribute extends \Google\Model
   public $parentId;
   protected $resourceAccessSpecType = GoogleCloudDataplexV1ResourceAccessSpec::class;
   protected $resourceAccessSpecDataType = '';
-  public $resourceAccessSpec;
   /**
    * @var string
    */

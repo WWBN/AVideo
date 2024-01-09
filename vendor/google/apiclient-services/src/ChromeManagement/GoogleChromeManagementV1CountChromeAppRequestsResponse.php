@@ -26,7 +26,6 @@ class GoogleChromeManagementV1CountChromeAppRequestsResponse extends \Google\Col
   public $nextPageToken;
   protected $requestedAppsType = GoogleChromeManagementV1ChromeAppRequest::class;
   protected $requestedAppsDataType = 'array';
-  public $requestedApps;
   /**
    * @var int
    */

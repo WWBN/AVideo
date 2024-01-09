@@ -221,6 +221,16 @@ class Contactcenterinsights extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'upload' => [
+              'path' => 'v1/{+parent}/conversations:upload',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

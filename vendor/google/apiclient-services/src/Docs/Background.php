@@ -21,7 +21,6 @@ class Background extends \Google\Model
 {
   protected $colorType = OptionalColor::class;
   protected $colorDataType = '';
-  public $color;
 
   /**
    * @param OptionalColor

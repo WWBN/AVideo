@@ -26,6 +26,10 @@ class RoleAssignment extends \Google\Model
   /**
    * @var string
    */
+  public $assigneeType;
+  /**
+   * @var string
+   */
   public $etag;
   /**
    * @var string
@@ -61,6 +65,20 @@ class RoleAssignment extends \Google\Model
   public function getAssignedTo()
   {
     return $this->assignedTo;
+  }
+  /**
+   * @param string
+   */
+  public function setAssigneeType($assigneeType)
+  {
+    $this->assigneeType = $assigneeType;
+  }
+  /**
+   * @return string
+   */
+  public function getAssigneeType()
+  {
+    return $this->assigneeType;
   }
   /**
    * @param string

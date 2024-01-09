@@ -25,7 +25,6 @@ class TextRun extends \Google\Model
   public $content;
   protected $styleType = TextStyle::class;
   protected $styleDataType = '';
-  public $style;
 
   /**
    * @param string

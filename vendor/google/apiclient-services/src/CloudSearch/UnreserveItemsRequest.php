@@ -25,7 +25,6 @@ class UnreserveItemsRequest extends \Google\Model
   public $connectorName;
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
-  public $debugOptions;
   /**
    * @var string
    */

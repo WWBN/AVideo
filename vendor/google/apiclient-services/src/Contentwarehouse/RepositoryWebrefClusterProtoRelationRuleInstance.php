@@ -25,10 +25,8 @@ class RepositoryWebrefClusterProtoRelationRuleInstance extends \Google\Model
   public $role;
   protected $ruleType = RepositoryWebrefClusterProtoRelationRule::class;
   protected $ruleDataType = '';
-  public $rule;
   protected $targetType = RepositoryWebrefWebrefEntityId::class;
   protected $targetDataType = '';
-  public $target;
 
   /**
    * @param string

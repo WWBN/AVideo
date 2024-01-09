@@ -26,7 +26,6 @@ class PositionedObject extends \Google\Collection
   public $objectId;
   protected $positionedObjectPropertiesType = PositionedObjectProperties::class;
   protected $positionedObjectPropertiesDataType = '';
-  public $positionedObjectProperties;
   /**
    * @var string[]
    */
@@ -37,7 +36,6 @@ class PositionedObject extends \Google\Collection
   public $suggestedInsertionId;
   protected $suggestedPositionedObjectPropertiesChangesType = SuggestedPositionedObjectProperties::class;
   protected $suggestedPositionedObjectPropertiesChangesDataType = 'map';
-  public $suggestedPositionedObjectPropertiesChanges;
 
   /**
    * @param string

@@ -30,7 +30,6 @@ class AppsDynamiteSharedJustification extends \Google\Collection
   public $actionType;
   protected $documentOwnerType = AppsDynamiteSharedJustificationPerson::class;
   protected $documentOwnerDataType = '';
-  public $documentOwner;
   /**
    * @var string[]
    */

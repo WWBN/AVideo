@@ -21,7 +21,6 @@ class AppsPeopleOzExternalMergedpeopleapiRightOfPublicityState extends \Google\M
 {
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

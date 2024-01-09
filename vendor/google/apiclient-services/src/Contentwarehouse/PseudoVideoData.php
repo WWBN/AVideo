@@ -56,7 +56,6 @@ class PseudoVideoData extends \Google\Model
   public $s3ModelInfoLabel;
   protected $transcriptType = PseudoVideoDataTranscript::class;
   protected $transcriptDataType = '';
-  public $transcript;
 
   /**
    * @param string

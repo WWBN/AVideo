@@ -37,11 +37,6 @@ class RepositoryWebrefWebrefAttachmentMetadata extends \Google\Model
   public $lngE7;
   protected $oysterIdType = GeostoreFeatureIdProto::class;
   protected $oysterIdDataType = '';
-  public $oysterId;
-  /**
-   * @var int
-   */
-  public $singleTopicnessE2;
 
   /**
    * @param string
@@ -112,20 +107,6 @@ class RepositoryWebrefWebrefAttachmentMetadata extends \Google\Model
   public function getOysterId()
   {
     return $this->oysterId;
-  }
-  /**
-   * @param int
-   */
-  public function setSingleTopicnessE2($singleTopicnessE2)
-  {
-    $this->singleTopicnessE2 = $singleTopicnessE2;
-  }
-  /**
-   * @return int
-   */
-  public function getSingleTopicnessE2()
-  {
-    return $this->singleTopicnessE2;
   }
 }
 

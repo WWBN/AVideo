@@ -40,16 +40,21 @@ class SocialGraphWireProtoPeopleapiExtensionDynamiteExtendedData extends \Google
    */
   public $entityType;
   /**
+   * @var bool
+   */
+  public $isMembershipVisibleToCaller;
+  /**
    * @var string
    */
   public $memberCount;
   protected $organizationInfoType = AppsDynamiteSharedOrganizationInfo::class;
   protected $organizationInfoDataType = '';
-  public $organizationInfo;
   /**
    * @var string
    */
   public $presence;
+  protected $segmentedMembershipCountsType = AppsDynamiteSharedSegmentedMembershipCounts::class;
+  protected $segmentedMembershipCountsDataType = '';
 
   /**
    * @param string
@@ -122,6 +127,20 @@ class SocialGraphWireProtoPeopleapiExtensionDynamiteExtendedData extends \Google
     return $this->entityType;
   }
   /**
+   * @param bool
+   */
+  public function setIsMembershipVisibleToCaller($isMembershipVisibleToCaller)
+  {
+    $this->isMembershipVisibleToCaller = $isMembershipVisibleToCaller;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsMembershipVisibleToCaller()
+  {
+    return $this->isMembershipVisibleToCaller;
+  }
+  /**
    * @param string
    */
   public function setMemberCount($memberCount)
@@ -162,6 +181,20 @@ class SocialGraphWireProtoPeopleapiExtensionDynamiteExtendedData extends \Google
   public function getPresence()
   {
     return $this->presence;
+  }
+  /**
+   * @param AppsDynamiteSharedSegmentedMembershipCounts
+   */
+  public function setSegmentedMembershipCounts(AppsDynamiteSharedSegmentedMembershipCounts $segmentedMembershipCounts)
+  {
+    $this->segmentedMembershipCounts = $segmentedMembershipCounts;
+  }
+  /**
+   * @return AppsDynamiteSharedSegmentedMembershipCounts
+   */
+  public function getSegmentedMembershipCounts()
+  {
+    return $this->segmentedMembershipCounts;
   }
 }
 

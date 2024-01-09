@@ -21,7 +21,6 @@ class GoogleAppsDriveLabelsV2FieldSelectionOptionsChoiceProperties extends \Goog
 {
   protected $badgeConfigType = GoogleAppsDriveLabelsV2BadgeConfig::class;
   protected $badgeConfigDataType = '';
-  public $badgeConfig;
   /**
    * @var string
    */

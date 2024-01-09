@@ -25,7 +25,6 @@ class OrdersGetByMerchantOrderIdResponse extends \Google\Model
   public $kind;
   protected $orderType = Order::class;
   protected $orderDataType = '';
-  public $order;
 
   /**
    * @param string

@@ -20,10 +20,43 @@ namespace Google\Service\CloudHealthcare;
 class TextConfig extends \Google\Collection
 {
   protected $collection_key = 'transformations';
+  protected $additionalTransformationsType = InfoTypeTransformation::class;
+  protected $additionalTransformationsDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $excludeInfoTypes;
   protected $transformationsType = InfoTypeTransformation::class;
   protected $transformationsDataType = 'array';
-  public $transformations;
 
+  /**
+   * @param InfoTypeTransformation[]
+   */
+  public function setAdditionalTransformations($additionalTransformations)
+  {
+    $this->additionalTransformations = $additionalTransformations;
+  }
+  /**
+   * @return InfoTypeTransformation[]
+   */
+  public function getAdditionalTransformations()
+  {
+    return $this->additionalTransformations;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExcludeInfoTypes($excludeInfoTypes)
+  {
+    $this->excludeInfoTypes = $excludeInfoTypes;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExcludeInfoTypes()
+  {
+    return $this->excludeInfoTypes;
+  }
   /**
    * @param InfoTypeTransformation[]
    */

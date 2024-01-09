@@ -21,10 +21,8 @@ class Colors extends \Google\Model
 {
   protected $calendarType = ColorDefinition::class;
   protected $calendarDataType = 'map';
-  public $calendar;
   protected $eventType = ColorDefinition::class;
   protected $eventDataType = 'map';
-  public $event;
   /**
    * @var string
    */

@@ -55,12 +55,13 @@ class CustomLists extends \Google\Service\Resource
    * @opt_param string advertiserId The ID of the DV360 advertiser that has access
    * to the fetched custom lists.
    * @opt_param string filter Allows filtering by custom list fields. Supported
-   * syntax: * Filter expressions for custom lists currently can only contain at
-   * most one restriction. * A restriction has the form of `{field} {operator}
-   * {value}`. * The operator must be `CONTAINS (:)`. * Supported fields: -
-   * `displayName` Examples: * All custom lists for which the display name
-   * contains "Google": `displayName : "Google"`. The length of this field should
-   * be no more than 500 characters.
+   * syntax: * Filter expressions for custom lists can only contain at most one
+   * restriction. * A restriction has the form of `{field} {operator} {value}`. *
+   * All fields must use the `HAS (:)` operator. Supported fields: * `displayName`
+   * Examples: * All custom lists for which the display name contains "Google":
+   * `displayName:"Google"`. The length of this field should be no more than 500
+   * characters. Reference our [filter `LIST` requests](/display-video/api/guides
+   * /how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `customListId` (default) * `displayName` The default sorting order is
    * ascending. To specify descending order for a field, a suffix "desc" should be

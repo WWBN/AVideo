@@ -25,7 +25,6 @@ class MergeCellsRequest extends \Google\Model
   public $mergeType;
   protected $rangeType = GridRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param string

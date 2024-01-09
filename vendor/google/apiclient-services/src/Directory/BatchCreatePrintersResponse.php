@@ -22,10 +22,8 @@ class BatchCreatePrintersResponse extends \Google\Collection
   protected $collection_key = 'printers';
   protected $failuresType = FailureInfo::class;
   protected $failuresDataType = 'array';
-  public $failures;
   protected $printersType = Printer::class;
   protected $printersDataType = 'array';
-  public $printers;
 
   /**
    * @param FailureInfo[]

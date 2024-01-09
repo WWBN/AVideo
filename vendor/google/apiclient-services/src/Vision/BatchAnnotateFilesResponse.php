@@ -22,7 +22,6 @@ class BatchAnnotateFilesResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = AnnotateFileResponse::class;
   protected $responsesDataType = 'array';
-  public $responses;
 
   /**
    * @param AnnotateFileResponse[]

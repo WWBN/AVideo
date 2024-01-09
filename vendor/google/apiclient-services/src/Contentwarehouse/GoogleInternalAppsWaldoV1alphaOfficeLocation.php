@@ -31,6 +31,10 @@ class GoogleInternalAppsWaldoV1alphaOfficeLocation extends \Google\Model
    * @var string
    */
   public $experimentalFloorId;
+  /**
+   * @var string
+   */
+  public $label;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class GoogleInternalAppsWaldoV1alphaOfficeLocation extends \Google\Model
   public function getExperimentalFloorId()
   {
     return $this->experimentalFloorId;
+  }
+  /**
+   * @param string
+   */
+  public function setLabel($label)
+  {
+    $this->label = $label;
+  }
+  /**
+   * @return string
+   */
+  public function getLabel()
+  {
+    return $this->label;
   }
 }
 

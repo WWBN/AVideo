@@ -21,7 +21,6 @@ class NetworkEndpoint extends \Google\Model
 {
   protected $accessConfigType = AccessConfig::class;
   protected $accessConfigDataType = '';
-  public $accessConfig;
   /**
    * @var string
    */

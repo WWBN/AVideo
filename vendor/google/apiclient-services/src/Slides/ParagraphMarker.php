@@ -21,10 +21,8 @@ class ParagraphMarker extends \Google\Model
 {
   protected $bulletType = Bullet::class;
   protected $bulletDataType = '';
-  public $bullet;
   protected $styleType = ParagraphStyle::class;
   protected $styleDataType = '';
-  public $style;
 
   /**
    * @param Bullet

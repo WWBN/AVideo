@@ -21,13 +21,10 @@ class PipelineCondition extends \Google\Model
 {
   protected $pipelineReadyConditionType = PipelineReadyCondition::class;
   protected $pipelineReadyConditionDataType = '';
-  public $pipelineReadyCondition;
   protected $targetsPresentConditionType = TargetsPresentCondition::class;
   protected $targetsPresentConditionDataType = '';
-  public $targetsPresentCondition;
   protected $targetsTypeConditionType = TargetsTypeCondition::class;
   protected $targetsTypeConditionDataType = '';
-  public $targetsTypeCondition;
 
   /**
    * @param PipelineReadyCondition

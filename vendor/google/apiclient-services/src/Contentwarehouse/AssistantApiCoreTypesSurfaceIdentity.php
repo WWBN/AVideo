@@ -21,7 +21,6 @@ class AssistantApiCoreTypesSurfaceIdentity extends \Google\Model
 {
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
-  public $deviceId;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class AssistantApiCoreTypesSurfaceIdentity extends \Google\Model
   public $surfaceTypeString;
   protected $surfaceVersionType = AssistantApiCoreTypesSurfaceVersion::class;
   protected $surfaceVersionDataType = '';
-  public $surfaceVersion;
 
   /**
    * @param AssistantApiCoreTypesDeviceId

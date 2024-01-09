@@ -22,7 +22,6 @@ class GoogleCloudDatapipelinesV1ListJobsResponse extends \Google\Collection
   protected $collection_key = 'jobs';
   protected $jobsType = GoogleCloudDatapipelinesV1Job::class;
   protected $jobsDataType = 'array';
-  public $jobs;
   /**
    * @var string
    */

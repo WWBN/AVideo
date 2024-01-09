@@ -22,10 +22,8 @@ class ResourceUpdate extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $accessControlType = ResourceAccessControl::class;
   protected $accessControlDataType = '';
-  public $accessControl;
   protected $errorType = ResourceUpdateError::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -48,7 +46,6 @@ class ResourceUpdate extends \Google\Collection
   public $state;
   protected $warningsType = ResourceUpdateWarnings::class;
   protected $warningsDataType = 'array';
-  public $warnings;
 
   /**
    * @param ResourceAccessControl

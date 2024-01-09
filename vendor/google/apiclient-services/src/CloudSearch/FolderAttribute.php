@@ -22,7 +22,6 @@ class FolderAttribute extends \Google\Collection
   protected $collection_key = 'folder';
   protected $folderType = Folder::class;
   protected $folderDataType = 'array';
-  public $folder;
 
   /**
    * @param Folder[]

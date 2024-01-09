@@ -22,7 +22,6 @@ class ClaimDevicesRequest extends \Google\Collection
   protected $collection_key = 'claims';
   protected $claimsType = PartnerClaim::class;
   protected $claimsDataType = 'array';
-  public $claims;
 
   /**
    * @param PartnerClaim[]

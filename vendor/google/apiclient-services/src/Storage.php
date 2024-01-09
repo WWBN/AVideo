@@ -1117,6 +1117,10 @@ class Storage extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
+                'matchGlob' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'maxResults' => [
                   'location' => 'query',
                   'type' => 'integer',

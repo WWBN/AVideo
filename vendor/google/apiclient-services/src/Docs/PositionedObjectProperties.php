@@ -21,10 +21,8 @@ class PositionedObjectProperties extends \Google\Model
 {
   protected $embeddedObjectType = EmbeddedObject::class;
   protected $embeddedObjectDataType = '';
-  public $embeddedObject;
   protected $positioningType = PositionedObjectPositioning::class;
   protected $positioningDataType = '';
-  public $positioning;
 
   /**
    * @param EmbeddedObject

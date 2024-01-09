@@ -17,8 +17,9 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class QualityFringeFringeQueryPriorPerDocData extends \Google\Model
+class QualityFringeFringeQueryPriorPerDocData extends \Google\Collection
 {
+  protected $collection_key = 'sensitiveEntitiesIndices';
   /**
    * @var string
    */
@@ -59,6 +60,10 @@ class QualityFringeFringeQueryPriorPerDocData extends \Google\Model
    * @var string
    */
   public $encodedProximityScore;
+  /**
+   * @var int[]
+   */
+  public $sensitiveEntitiesIndices;
 
   /**
    * @param string
@@ -199,6 +204,20 @@ class QualityFringeFringeQueryPriorPerDocData extends \Google\Model
   public function getEncodedProximityScore()
   {
     return $this->encodedProximityScore;
+  }
+  /**
+   * @param int[]
+   */
+  public function setSensitiveEntitiesIndices($sensitiveEntitiesIndices)
+  {
+    $this->sensitiveEntitiesIndices = $sensitiveEntitiesIndices;
+  }
+  /**
+   * @return int[]
+   */
+  public function getSensitiveEntitiesIndices()
+  {
+    return $this->sensitiveEntitiesIndices;
   }
 }
 

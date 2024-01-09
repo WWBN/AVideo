@@ -26,7 +26,6 @@ class ListOperationsResponse extends \Google\Collection
   public $missingZones;
   protected $operationsType = Operation::class;
   protected $operationsDataType = 'array';
-  public $operations;
 
   /**
    * @param string[]

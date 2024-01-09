@@ -22,7 +22,6 @@ class OrFiltersForSegment extends \Google\Collection
   protected $collection_key = 'segmentFilterClauses';
   protected $segmentFilterClausesType = SegmentFilterClause::class;
   protected $segmentFilterClausesDataType = 'array';
-  public $segmentFilterClauses;
 
   /**
    * @param SegmentFilterClause[]

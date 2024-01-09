@@ -21,10 +21,8 @@ class EmbeddedObjectBorder extends \Google\Model
 {
   protected $colorType = Color::class;
   protected $colorDataType = '';
-  public $color;
   protected $colorStyleType = ColorStyle::class;
   protected $colorStyleDataType = '';
-  public $colorStyle;
 
   /**
    * @param Color

@@ -22,7 +22,6 @@ class GoogleCloudDatalabelingV1beta1Polyline extends \Google\Collection
   protected $collection_key = 'vertices';
   protected $verticesType = GoogleCloudDatalabelingV1beta1Vertex::class;
   protected $verticesDataType = 'array';
-  public $vertices;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1Vertex[]

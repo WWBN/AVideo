@@ -22,7 +22,6 @@ class GoogleCloudRetailV2ProductInlineSource extends \Google\Collection
   protected $collection_key = 'products';
   protected $productsType = GoogleCloudRetailV2Product::class;
   protected $productsDataType = 'array';
-  public $products;
 
   /**
    * @param GoogleCloudRetailV2Product[]

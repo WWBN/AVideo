@@ -27,6 +27,10 @@ class AccessKeyCredentials extends \Google\Model
    * @var string
    */
   public $secretAccessKey;
+  /**
+   * @var string
+   */
+  public $sessionToken;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class AccessKeyCredentials extends \Google\Model
   public function getSecretAccessKey()
   {
     return $this->secretAccessKey;
+  }
+  /**
+   * @param string
+   */
+  public function setSessionToken($sessionToken)
+  {
+    $this->sessionToken = $sessionToken;
+  }
+  /**
+   * @return string
+   */
+  public function getSessionToken()
+  {
+    return $this->sessionToken;
   }
 }
 

@@ -188,13 +188,21 @@ class Groups extends \Google\Service\Resource
    * or 500 for `GroupView.FULL`.
    * @opt_param string pageToken The `next_page_token` value returned from a
    * previous search request, if any.
-   * @opt_param string query Required. The search query. Must be specified in
-   * [Common Expression Language](https://opensource.google/projects/cel). May
-   * only contain equality operators on the parent and inclusion operators on
-   * labels (e.g., `parent == 'customers/{customer_id}' &&
-   * 'cloudidentity.googleapis.com/groups.discussion_forum' in labels`). The
-   * `customer_id` must begin with "C" (for example, 'C046psxkn'). [Find your
-   * customer ID.] (https://support.google.com/cloudidentity/answer/10070793)
+   * @opt_param string query Required. The search query. * Must be specified in
+   * [Common Expression Language](https://opensource.google/projects/cel). * Must
+   * contain equality operators on the parent, e.g. `parent ==
+   * 'customers/{customer_id}'`. The `customer_id` must begin with "C" (for
+   * example, 'C046psxkn'). [Find your customer ID.]
+   * (https://support.google.com/cloudidentity/answer/10070793) * Can contain
+   * optional inclusion operators on `labels` such as
+   * `'cloudidentity.googleapis.com/groups.discussion_forum' in labels`). * Can
+   * contain an optional equality operator on `domain_name`. e.g. `domain_name ==
+   * 'abc.com'` * Can contain optional `startsWith/contains/equality` operators on
+   * `group_key`, e.g. `group_key.startsWith('dev')`, `group_key.contains('dev'),
+   * group_key == 'dev@abc.com'` * Can contain optional
+   * `startsWith/contains/equality` operators on `display_name`, such as
+   * `display_name.startsWith('dev')` , `display_name.contains('dev')`,
+   * `display_name == 'dev'`
    * @opt_param string view The level of detail to be returned. If unspecified,
    * defaults to `View.BASIC`.
    * @return SearchGroupsResponse

@@ -26,7 +26,6 @@ class ResourceUpdateWarnings extends \Google\Collection
   public $code;
   protected $dataType = ResourceUpdateWarningsData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

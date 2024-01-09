@@ -21,7 +21,6 @@ class GoogleAppsDriveLabelsV2Lifecycle extends \Google\Model
 {
   protected $disabledPolicyType = GoogleAppsDriveLabelsV2LifecycleDisabledPolicy::class;
   protected $disabledPolicyDataType = '';
-  public $disabledPolicy;
   /**
    * @var bool
    */

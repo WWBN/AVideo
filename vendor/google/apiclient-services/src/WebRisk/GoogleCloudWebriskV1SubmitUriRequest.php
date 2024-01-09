@@ -21,7 +21,6 @@ class GoogleCloudWebriskV1SubmitUriRequest extends \Google\Model
 {
   protected $submissionType = GoogleCloudWebriskV1Submission::class;
   protected $submissionDataType = '';
-  public $submission;
 
   /**
    * @param GoogleCloudWebriskV1Submission

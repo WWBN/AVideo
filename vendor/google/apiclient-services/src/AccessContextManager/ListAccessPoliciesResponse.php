@@ -22,7 +22,6 @@ class ListAccessPoliciesResponse extends \Google\Collection
   protected $collection_key = 'accessPolicies';
   protected $accessPoliciesType = AccessPolicy::class;
   protected $accessPoliciesDataType = 'array';
-  public $accessPolicies;
   /**
    * @var string
    */

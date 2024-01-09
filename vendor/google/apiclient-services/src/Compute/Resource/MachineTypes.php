@@ -103,8 +103,7 @@ class MachineTypes extends \Google\Service\Resource
     return $this->call('aggregatedList', [$params], MachineTypeAggregatedList::class);
   }
   /**
-   * Returns the specified machine type. Gets a list of available machine types by
-   * making a list() request. (machineTypes.get)
+   * Returns the specified machine type. (machineTypes.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone for this request.

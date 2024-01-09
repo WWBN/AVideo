@@ -21,10 +21,8 @@ class GoogleCloudDatalabelingV1beta1EvaluationMetrics extends \Google\Model
 {
   protected $classificationMetricsType = GoogleCloudDatalabelingV1beta1ClassificationMetrics::class;
   protected $classificationMetricsDataType = '';
-  public $classificationMetrics;
   protected $objectDetectionMetricsType = GoogleCloudDatalabelingV1beta1ObjectDetectionMetrics::class;
   protected $objectDetectionMetricsDataType = '';
-  public $objectDetectionMetrics;
 
   /**
    * @param GoogleCloudDatalabelingV1beta1ClassificationMetrics

@@ -22,7 +22,6 @@ class ClientInfo extends \Google\Collection
   protected $collection_key = 'clientInfoDetails';
   protected $clientInfoDetailsType = ClientInfoDetail::class;
   protected $clientInfoDetailsDataType = 'array';
-  public $clientInfoDetails;
   /**
    * @var string
    */

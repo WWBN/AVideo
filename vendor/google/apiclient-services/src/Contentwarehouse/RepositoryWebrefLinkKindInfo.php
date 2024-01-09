@@ -21,7 +21,6 @@ class RepositoryWebrefLinkKindInfo extends \Google\Model
 {
   protected $flagsType = RepositoryWebrefLinkKindFlags::class;
   protected $flagsDataType = '';
-  public $flags;
   /**
    * @var string
    */

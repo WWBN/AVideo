@@ -41,7 +41,12 @@ class Playdeveloperreporting extends \Google\Service
   public $anomalies;
   public $vitals_anrrate;
   public $vitals_crashrate;
+  public $vitals_errors_counts;
+  public $vitals_errors_issues;
+  public $vitals_errors_reports;
   public $vitals_excessivewakeuprate;
+  public $vitals_slowrenderingrate;
+  public $vitals_slowstartrate;
   public $vitals_stuckbackgroundwakelockrate;
 
   /**
@@ -153,10 +158,324 @@ class Playdeveloperreporting extends \Google\Service
           ]
         ]
     );
+    $this->vitals_errors_counts = new Playdeveloperreporting\Resource\VitalsErrorsCounts(
+        $this,
+        $this->serviceName,
+        'counts',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1beta1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'query' => [
+              'path' => 'v1beta1/{+name}:query',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->vitals_errors_issues = new Playdeveloperreporting\Resource\VitalsErrorsIssues(
+        $this,
+        $this->serviceName,
+        'issues',
+        [
+          'methods' => [
+            'search' => [
+              'path' => 'v1beta1/{+parent}/errorIssues:search',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.hours' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.minutes' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.nanos' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.seconds' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.timeZone.id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.timeZone.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.utcOffset' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.hours' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.minutes' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.nanos' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.seconds' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.timeZone.id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.timeZone.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.utcOffset' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->vitals_errors_reports = new Playdeveloperreporting\Resource\VitalsErrorsReports(
+        $this,
+        $this->serviceName,
+        'reports',
+        [
+          'methods' => [
+            'search' => [
+              'path' => 'v1beta1/{+parent}/errorReports:search',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.hours' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.minutes' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.nanos' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.seconds' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.endTime.timeZone.id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.timeZone.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.utcOffset' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.endTime.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.day' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.hours' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.minutes' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.month' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.nanos' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.seconds' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'interval.startTime.timeZone.id' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.timeZone.version' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.utcOffset' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'interval.startTime.year' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->vitals_excessivewakeuprate = new Playdeveloperreporting\Resource\VitalsExcessivewakeuprate(
         $this,
         $this->serviceName,
         'excessivewakeuprate',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1beta1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'query' => [
+              'path' => 'v1beta1/{+name}:query',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->vitals_slowrenderingrate = new Playdeveloperreporting\Resource\VitalsSlowrenderingrate(
+        $this,
+        $this->serviceName,
+        'slowrenderingrate',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1beta1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'query' => [
+              'path' => 'v1beta1/{+name}:query',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->vitals_slowstartrate = new Playdeveloperreporting\Resource\VitalsSlowstartrate(
+        $this,
+        $this->serviceName,
+        'slowstartrate',
         [
           'methods' => [
             'get' => [

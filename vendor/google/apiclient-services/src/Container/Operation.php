@@ -22,7 +22,6 @@ class Operation extends \Google\Collection
   protected $collection_key = 'nodepoolConditions';
   protected $clusterConditionsType = StatusCondition::class;
   protected $clusterConditionsDataType = 'array';
-  public $clusterConditions;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class Operation extends \Google\Collection
   public $endTime;
   protected $errorType = Status::class;
   protected $errorDataType = '';
-  public $error;
   /**
    * @var string
    */
@@ -44,14 +42,12 @@ class Operation extends \Google\Collection
   public $name;
   protected $nodepoolConditionsType = StatusCondition::class;
   protected $nodepoolConditionsDataType = 'array';
-  public $nodepoolConditions;
   /**
    * @var string
    */
   public $operationType;
   protected $progressType = OperationProgress::class;
   protected $progressDataType = '';
-  public $progress;
   /**
    * @var string
    */

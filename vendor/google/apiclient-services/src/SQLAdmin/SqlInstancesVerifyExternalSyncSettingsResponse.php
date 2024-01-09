@@ -22,14 +22,12 @@ class SqlInstancesVerifyExternalSyncSettingsResponse extends \Google\Collection
   protected $collection_key = 'warnings';
   protected $errorsType = SqlExternalSyncSettingError::class;
   protected $errorsDataType = 'array';
-  public $errors;
   /**
    * @var string
    */
   public $kind;
   protected $warningsType = SqlExternalSyncSettingError::class;
   protected $warningsDataType = 'array';
-  public $warnings;
 
   /**
    * @param SqlExternalSyncSettingError[]

@@ -21,7 +21,6 @@ class ContactToCreate extends \Google\Model
 {
   protected $contactPersonType = Person::class;
   protected $contactPersonDataType = '';
-  public $contactPerson;
 
   /**
    * @param Person

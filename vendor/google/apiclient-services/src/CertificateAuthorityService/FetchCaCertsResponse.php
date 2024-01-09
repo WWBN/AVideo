@@ -22,7 +22,6 @@ class FetchCaCertsResponse extends \Google\Collection
   protected $collection_key = 'caCerts';
   protected $caCertsType = CertChain::class;
   protected $caCertsDataType = 'array';
-  public $caCerts;
 
   /**
    * @param CertChain[]

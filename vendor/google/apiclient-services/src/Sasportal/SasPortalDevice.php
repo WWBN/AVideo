@@ -22,13 +22,10 @@ class SasPortalDevice extends \Google\Collection
   protected $collection_key = 'grants';
   protected $activeConfigType = SasPortalDeviceConfig::class;
   protected $activeConfigDataType = '';
-  public $activeConfig;
   protected $currentChannelsType = SasPortalChannelWithScore::class;
   protected $currentChannelsDataType = 'array';
-  public $currentChannels;
   protected $deviceMetadataType = SasPortalDeviceMetadata::class;
   protected $deviceMetadataDataType = '';
-  public $deviceMetadata;
   /**
    * @var string
    */
@@ -39,17 +36,14 @@ class SasPortalDevice extends \Google\Collection
   public $fccId;
   protected $grantRangeAllowlistsType = SasPortalFrequencyRange::class;
   protected $grantRangeAllowlistsDataType = 'array';
-  public $grantRangeAllowlists;
   protected $grantsType = SasPortalDeviceGrant::class;
   protected $grantsDataType = 'array';
-  public $grants;
   /**
    * @var string
    */
   public $name;
   protected $preloadedConfigType = SasPortalDeviceConfig::class;
   protected $preloadedConfigDataType = '';
-  public $preloadedConfig;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class GooglePrivacyDlpV2ReidentifyContentResponse extends \Google\Model
 {
   protected $itemType = GooglePrivacyDlpV2ContentItem::class;
   protected $itemDataType = '';
-  public $item;
   protected $overviewType = GooglePrivacyDlpV2TransformationOverview::class;
   protected $overviewDataType = '';
-  public $overview;
 
   /**
    * @param GooglePrivacyDlpV2ContentItem

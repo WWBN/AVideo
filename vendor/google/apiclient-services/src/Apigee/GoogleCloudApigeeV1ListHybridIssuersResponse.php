@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ListHybridIssuersResponse extends \Google\Collection
   protected $collection_key = 'issuers';
   protected $issuersType = GoogleCloudApigeeV1ServiceIssuersMapping::class;
   protected $issuersDataType = 'array';
-  public $issuers;
 
   /**
    * @param GoogleCloudApigeeV1ServiceIssuersMapping[]

@@ -23,10 +23,6 @@ class LiveBroadcastStatistics extends \Google\Model
    * @var string
    */
   public $concurrentViewers;
-  /**
-   * @var string
-   */
-  public $totalChatCount;
 
   /**
    * @param string
@@ -41,20 +37,6 @@ class LiveBroadcastStatistics extends \Google\Model
   public function getConcurrentViewers()
   {
     return $this->concurrentViewers;
-  }
-  /**
-   * @param string
-   */
-  public function setTotalChatCount($totalChatCount)
-  {
-    $this->totalChatCount = $totalChatCount;
-  }
-  /**
-   * @return string
-   */
-  public function getTotalChatCount()
-  {
-    return $this->totalChatCount;
   }
 }
 

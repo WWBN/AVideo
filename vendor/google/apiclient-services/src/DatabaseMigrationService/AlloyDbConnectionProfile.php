@@ -25,7 +25,6 @@ class AlloyDbConnectionProfile extends \Google\Model
   public $clusterId;
   protected $settingsType = AlloyDbSettings::class;
   protected $settingsDataType = '';
-  public $settings;
 
   /**
    * @param string

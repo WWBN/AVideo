@@ -22,7 +22,7 @@ class VertexAIParameters extends \Google\Model
   /**
    * @var string[]
    */
-  public $env;
+  public $env = [];
   /**
    * @var string
    */

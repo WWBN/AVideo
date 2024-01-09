@@ -26,6 +26,10 @@ class GoogleCloudContentwarehouseV1GcsIngestPipeline extends \Google\Model
   /**
    * @var string
    */
+  public $processorResultsFolderPath;
+  /**
+   * @var string
+   */
   public $schemaName;
 
   /**
@@ -41,6 +45,20 @@ class GoogleCloudContentwarehouseV1GcsIngestPipeline extends \Google\Model
   public function getInputPath()
   {
     return $this->inputPath;
+  }
+  /**
+   * @param string
+   */
+  public function setProcessorResultsFolderPath($processorResultsFolderPath)
+  {
+    $this->processorResultsFolderPath = $processorResultsFolderPath;
+  }
+  /**
+   * @return string
+   */
+  public function getProcessorResultsFolderPath()
+  {
+    return $this->processorResultsFolderPath;
   }
   /**
    * @param string

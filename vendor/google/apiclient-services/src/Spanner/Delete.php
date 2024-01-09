@@ -21,7 +21,6 @@ class Delete extends \Google\Model
 {
   protected $keySetType = KeySet::class;
   protected $keySetDataType = '';
-  public $keySet;
   /**
    * @var string
    */

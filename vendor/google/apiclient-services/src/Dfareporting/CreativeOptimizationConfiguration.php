@@ -30,7 +30,6 @@ class CreativeOptimizationConfiguration extends \Google\Collection
   public $name;
   protected $optimizationActivitysType = OptimizationActivity::class;
   protected $optimizationActivitysDataType = 'array';
-  public $optimizationActivitys;
   /**
    * @var string
    */

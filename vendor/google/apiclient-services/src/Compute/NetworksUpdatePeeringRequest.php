@@ -21,7 +21,6 @@ class NetworksUpdatePeeringRequest extends \Google\Model
 {
   protected $networkPeeringType = NetworkPeering::class;
   protected $networkPeeringDataType = '';
-  public $networkPeering;
 
   /**
    * @param NetworkPeering

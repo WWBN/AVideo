@@ -26,7 +26,6 @@ class GoogleCloudDialogflowCxV3ValidationMessage extends \Google\Collection
   public $detail;
   protected $resourceNamesType = GoogleCloudDialogflowCxV3ResourceName::class;
   protected $resourceNamesDataType = 'array';
-  public $resourceNames;
   /**
    * @var string
    */

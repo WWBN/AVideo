@@ -53,7 +53,6 @@ class Database extends \Google\Model
   public $selfLink;
   protected $sqlserverDatabaseDetailsType = SqlServerDatabaseDetails::class;
   protected $sqlserverDatabaseDetailsDataType = '';
-  public $sqlserverDatabaseDetails;
 
   /**
    * @param string

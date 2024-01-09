@@ -25,7 +25,6 @@ class ResearchScienceSearchCitation extends \Google\Model
   public $citation;
   protected $safeHtmlCitationType = WebutilHtmlTypesSafeHtmlProto::class;
   protected $safeHtmlCitationDataType = '';
-  public $safeHtmlCitation;
 
   /**
    * @param string

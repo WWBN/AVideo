@@ -22,7 +22,6 @@ class SocialGraphApiProtoPronunciations extends \Google\Collection
   protected $collection_key = 'pronunciation';
   protected $pronunciationType = SocialGraphApiProtoPronunciation::class;
   protected $pronunciationDataType = 'array';
-  public $pronunciation;
 
   /**
    * @param SocialGraphApiProtoPronunciation[]

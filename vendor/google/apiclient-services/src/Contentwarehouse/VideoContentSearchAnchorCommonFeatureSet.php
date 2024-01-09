@@ -24,9 +24,16 @@ class VideoContentSearchAnchorCommonFeatureSet extends \Google\Collection
    * @var float
    */
   public $anchorQbstDistance;
+  /**
+   * @var float
+   */
+  public $asrAverageBabelSimilarityScore;
+  /**
+   * @var float
+   */
+  public $asrMaximumBabelSimilarityScore;
   protected $bleurtFeaturesType = VideoContentSearchBleurtFeatures::class;
   protected $bleurtFeaturesDataType = '';
-  public $bleurtFeatures;
   /**
    * @var float
    */
@@ -38,13 +45,19 @@ class VideoContentSearchAnchorCommonFeatureSet extends \Google\Collection
   /**
    * @var float
    */
+  public $descriptionAverageBabelSimilarityScore;
+  /**
+   * @var float
+   */
+  public $descriptionMaximumBabelSimilarityScore;
+  /**
+   * @var float
+   */
   public $dolphinDescriptivenessScore;
   protected $dolphinEnsembleScoreType = VideoContentSearchDolphinEnsembleScore::class;
   protected $dolphinEnsembleScoreDataType = 'array';
-  public $dolphinEnsembleScore;
   protected $dolphinFeaturesType = VideoContentSearchDolphinFeatures::class;
   protected $dolphinFeaturesDataType = '';
-  public $dolphinFeatures;
   /**
    * @var float
    */
@@ -71,13 +84,10 @@ class VideoContentSearchAnchorCommonFeatureSet extends \Google\Collection
   public $retentionScore;
   protected $saftDocumentType = NlpSaftDocument::class;
   protected $saftDocumentDataType = '';
-  public $saftDocument;
   protected $timedLabelFeaturesType = VideoContentSearchCaptionLabelFeatures::class;
   protected $timedLabelFeaturesDataType = 'array';
-  public $timedLabelFeatures;
   protected $timestampType = VideoContentSearchAnchorCommonFeatureSetLabelSpanTimestamp::class;
   protected $timestampDataType = 'array';
-  public $timestamp;
   /**
    * @var float
    */
@@ -96,6 +106,34 @@ class VideoContentSearchAnchorCommonFeatureSet extends \Google\Collection
   public function getAnchorQbstDistance()
   {
     return $this->anchorQbstDistance;
+  }
+  /**
+   * @param float
+   */
+  public function setAsrAverageBabelSimilarityScore($asrAverageBabelSimilarityScore)
+  {
+    $this->asrAverageBabelSimilarityScore = $asrAverageBabelSimilarityScore;
+  }
+  /**
+   * @return float
+   */
+  public function getAsrAverageBabelSimilarityScore()
+  {
+    return $this->asrAverageBabelSimilarityScore;
+  }
+  /**
+   * @param float
+   */
+  public function setAsrMaximumBabelSimilarityScore($asrMaximumBabelSimilarityScore)
+  {
+    $this->asrMaximumBabelSimilarityScore = $asrMaximumBabelSimilarityScore;
+  }
+  /**
+   * @return float
+   */
+  public function getAsrMaximumBabelSimilarityScore()
+  {
+    return $this->asrMaximumBabelSimilarityScore;
   }
   /**
    * @param VideoContentSearchBleurtFeatures
@@ -138,6 +176,34 @@ class VideoContentSearchAnchorCommonFeatureSet extends \Google\Collection
   public function getDescartesScoreWithTitle()
   {
     return $this->descartesScoreWithTitle;
+  }
+  /**
+   * @param float
+   */
+  public function setDescriptionAverageBabelSimilarityScore($descriptionAverageBabelSimilarityScore)
+  {
+    $this->descriptionAverageBabelSimilarityScore = $descriptionAverageBabelSimilarityScore;
+  }
+  /**
+   * @return float
+   */
+  public function getDescriptionAverageBabelSimilarityScore()
+  {
+    return $this->descriptionAverageBabelSimilarityScore;
+  }
+  /**
+   * @param float
+   */
+  public function setDescriptionMaximumBabelSimilarityScore($descriptionMaximumBabelSimilarityScore)
+  {
+    $this->descriptionMaximumBabelSimilarityScore = $descriptionMaximumBabelSimilarityScore;
+  }
+  /**
+   * @return float
+   */
+  public function getDescriptionMaximumBabelSimilarityScore()
+  {
+    return $this->descriptionMaximumBabelSimilarityScore;
   }
   /**
    * @param float

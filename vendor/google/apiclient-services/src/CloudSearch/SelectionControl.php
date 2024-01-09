@@ -22,7 +22,6 @@ class SelectionControl extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = SelectionItem::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class SelectionControl extends \Google\Collection
   public $name;
   protected $onChangeType = FormAction::class;
   protected $onChangeDataType = '';
-  public $onChange;
   /**
    * @var string
    */

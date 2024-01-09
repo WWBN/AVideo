@@ -26,7 +26,6 @@ class GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse extends \Google\
   public $nextPageToken;
   protected $protectedResourcesType = GoogleCloudKmsInventoryV1ProtectedResource::class;
   protected $protectedResourcesDataType = 'array';
-  public $protectedResources;
 
   /**
    * @param string

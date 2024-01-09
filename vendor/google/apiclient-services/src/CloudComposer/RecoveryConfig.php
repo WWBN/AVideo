@@ -21,7 +21,6 @@ class RecoveryConfig extends \Google\Model
 {
   protected $scheduledSnapshotsConfigType = ScheduledSnapshotsConfig::class;
   protected $scheduledSnapshotsConfigDataType = '';
-  public $scheduledSnapshotsConfig;
 
   /**
    * @param ScheduledSnapshotsConfig

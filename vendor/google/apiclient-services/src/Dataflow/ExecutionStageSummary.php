@@ -22,17 +22,14 @@ class ExecutionStageSummary extends \Google\Collection
   protected $collection_key = 'prerequisiteStage';
   protected $componentSourceType = ComponentSource::class;
   protected $componentSourceDataType = 'array';
-  public $componentSource;
   protected $componentTransformType = ComponentTransform::class;
   protected $componentTransformDataType = 'array';
-  public $componentTransform;
   /**
    * @var string
    */
   public $id;
   protected $inputSourceType = StageSource::class;
   protected $inputSourceDataType = 'array';
-  public $inputSource;
   /**
    * @var string
    */
@@ -43,7 +40,6 @@ class ExecutionStageSummary extends \Google\Collection
   public $name;
   protected $outputSourceType = StageSource::class;
   protected $outputSourceDataType = 'array';
-  public $outputSource;
   /**
    * @var string[]
    */

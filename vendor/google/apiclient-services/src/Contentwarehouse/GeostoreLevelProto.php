@@ -22,7 +22,6 @@ class GeostoreLevelProto extends \Google\Collection
   protected $collection_key = 'building';
   protected $buildingType = GeostoreFeatureIdProto::class;
   protected $buildingDataType = 'array';
-  public $building;
   /**
    * @var float
    */

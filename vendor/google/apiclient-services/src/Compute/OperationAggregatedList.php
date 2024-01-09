@@ -26,7 +26,6 @@ class OperationAggregatedList extends \Google\Collection
   public $id;
   protected $itemsType = OperationsScopedList::class;
   protected $itemsDataType = 'map';
-  public $items;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class OperationAggregatedList extends \Google\Collection
   public $unreachables;
   protected $warningType = OperationAggregatedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

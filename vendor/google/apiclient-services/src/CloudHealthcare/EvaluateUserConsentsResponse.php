@@ -26,7 +26,6 @@ class EvaluateUserConsentsResponse extends \Google\Collection
   public $nextPageToken;
   protected $resultsType = Result::class;
   protected $resultsDataType = 'array';
-  public $results;
 
   /**
    * @param string

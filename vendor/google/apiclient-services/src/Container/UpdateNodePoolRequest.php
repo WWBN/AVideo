@@ -26,47 +26,38 @@ class UpdateNodePoolRequest extends \Google\Collection
   public $clusterId;
   protected $confidentialNodesType = ConfidentialNodes::class;
   protected $confidentialNodesDataType = '';
-  public $confidentialNodes;
   /**
    * @var string
    */
   public $etag;
   protected $fastSocketType = FastSocket::class;
   protected $fastSocketDataType = '';
-  public $fastSocket;
   protected $gcfsConfigType = GcfsConfig::class;
   protected $gcfsConfigDataType = '';
-  public $gcfsConfig;
   protected $gvnicType = VirtualNIC::class;
   protected $gvnicDataType = '';
-  public $gvnic;
   /**
    * @var string
    */
   public $imageType;
   protected $kubeletConfigType = NodeKubeletConfig::class;
   protected $kubeletConfigDataType = '';
-  public $kubeletConfig;
   protected $labelsType = NodeLabels::class;
   protected $labelsDataType = '';
-  public $labels;
   protected $linuxNodeConfigType = LinuxNodeConfig::class;
   protected $linuxNodeConfigDataType = '';
-  public $linuxNodeConfig;
   /**
    * @var string[]
    */
   public $locations;
   protected $loggingConfigType = NodePoolLoggingConfig::class;
   protected $loggingConfigDataType = '';
-  public $loggingConfig;
   /**
    * @var string
    */
   public $name;
   protected $nodeNetworkConfigType = NodeNetworkConfig::class;
   protected $nodeNetworkConfigDataType = '';
-  public $nodeNetworkConfig;
   /**
    * @var string
    */
@@ -81,22 +72,16 @@ class UpdateNodePoolRequest extends \Google\Collection
   public $projectId;
   protected $resourceLabelsType = ResourceLabels::class;
   protected $resourceLabelsDataType = '';
-  public $resourceLabels;
   protected $tagsType = NetworkTags::class;
   protected $tagsDataType = '';
-  public $tags;
   protected $taintsType = NodeTaints::class;
   protected $taintsDataType = '';
-  public $taints;
   protected $upgradeSettingsType = UpgradeSettings::class;
   protected $upgradeSettingsDataType = '';
-  public $upgradeSettings;
   protected $windowsNodeConfigType = WindowsNodeConfig::class;
   protected $windowsNodeConfigDataType = '';
-  public $windowsNodeConfig;
   protected $workloadMetadataConfigType = WorkloadMetadataConfig::class;
   protected $workloadMetadataConfigDataType = '';
-  public $workloadMetadataConfig;
   /**
    * @var string
    */

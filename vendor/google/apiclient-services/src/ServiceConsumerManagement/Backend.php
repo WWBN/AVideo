@@ -22,7 +22,6 @@ class Backend extends \Google\Collection
   protected $collection_key = 'rules';
   protected $rulesType = BackendRule::class;
   protected $rulesDataType = 'array';
-  public $rules;
 
   /**
    * @param BackendRule[]

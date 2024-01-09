@@ -62,8 +62,7 @@ class MachineImages extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified machine image. Gets a list of available machine images
-   * by making a list() request. (machineImages.get)
+   * Returns the specified machine image. (machineImages.get)
    *
    * @param string $project Project ID for this request.
    * @param string $machineImage The name of the machine image.

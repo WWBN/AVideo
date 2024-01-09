@@ -22,10 +22,8 @@ class QualitySalientTermsSalientTermSet extends \Google\Collection
   protected $collection_key = 'salientTerm';
   protected $docDataType = QualitySalientTermsDocData::class;
   protected $docDataDataType = '';
-  public $docData;
   protected $salientTermType = QualitySalientTermsSalientTerm::class;
   protected $salientTermDataType = 'array';
-  public $salientTerm;
   /**
    * @var string
    */

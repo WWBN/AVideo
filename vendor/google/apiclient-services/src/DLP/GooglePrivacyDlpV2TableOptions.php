@@ -22,7 +22,6 @@ class GooglePrivacyDlpV2TableOptions extends \Google\Collection
   protected $collection_key = 'identifyingFields';
   protected $identifyingFieldsType = GooglePrivacyDlpV2FieldId::class;
   protected $identifyingFieldsDataType = 'array';
-  public $identifyingFields;
 
   /**
    * @param GooglePrivacyDlpV2FieldId[]

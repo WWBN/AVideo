@@ -26,7 +26,6 @@ class PolicyAlternativeNameServerConfig extends \Google\Collection
   public $kind;
   protected $targetNameServersType = PolicyAlternativeNameServerConfigTargetNameServer::class;
   protected $targetNameServersDataType = 'array';
-  public $targetNameServers;
 
   /**
    * @param string

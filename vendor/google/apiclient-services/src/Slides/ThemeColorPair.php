@@ -21,7 +21,6 @@ class ThemeColorPair extends \Google\Model
 {
   protected $colorType = RgbColor::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var string
    */

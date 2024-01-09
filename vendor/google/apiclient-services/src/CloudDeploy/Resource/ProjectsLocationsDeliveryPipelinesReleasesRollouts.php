@@ -17,8 +17,14 @@
 
 namespace Google\Service\CloudDeploy\Resource;
 
+use Google\Service\CloudDeploy\AdvanceRolloutRequest;
+use Google\Service\CloudDeploy\AdvanceRolloutResponse;
 use Google\Service\CloudDeploy\ApproveRolloutRequest;
 use Google\Service\CloudDeploy\ApproveRolloutResponse;
+use Google\Service\CloudDeploy\CancelRolloutRequest;
+use Google\Service\CloudDeploy\CancelRolloutResponse;
+use Google\Service\CloudDeploy\IgnoreJobRequest;
+use Google\Service\CloudDeploy\IgnoreJobResponse;
 use Google\Service\CloudDeploy\ListRolloutsResponse;
 use Google\Service\CloudDeploy\Operation;
 use Google\Service\CloudDeploy\RetryJobRequest;
@@ -36,6 +42,22 @@ use Google\Service\CloudDeploy\Rollout;
 class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service\Resource
 {
   /**
+   * Advances a Rollout in a given project and location. (rollouts.advance)
+   *
+   * @param string $name Required. Name of the Rollout. Format is
+   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
+   * releases/{release}/rollouts/{rollout}.
+   * @param AdvanceRolloutRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return AdvanceRolloutResponse
+   */
+  public function advance($name, AdvanceRolloutRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('advance', [$params], AdvanceRolloutResponse::class);
+  }
+  /**
    * Approves a Rollout. (rollouts.approve)
    *
    * @param string $name Required. Name of the Rollout. Format is
@@ -50,6 +72,22 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('approve', [$params], ApproveRolloutResponse::class);
+  }
+  /**
+   * Cancels a Rollout in a given project and location. (rollouts.cancel)
+   *
+   * @param string $name Required. Name of the Rollout. Format is
+   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
+   * releases/{release}/rollouts/{rollout}.
+   * @param CancelRolloutRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return CancelRolloutResponse
+   */
+  public function cancel($name, CancelRolloutRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancel', [$params], CancelRolloutResponse::class);
   }
   /**
    * Creates a new Rollout in a given project and location. (rollouts.create)
@@ -99,6 +137,22 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Rollout::class);
+  }
+  /**
+   * Ignores the specified Job in a Rollout. (rollouts.ignoreJob)
+   *
+   * @param string $rollout Required. Name of the Rollout. Format is
+   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
+   * releases/{release}/rollouts/{rollout}.
+   * @param IgnoreJobRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return IgnoreJobResponse
+   */
+  public function ignoreJob($rollout, IgnoreJobRequest $postBody, $optParams = [])
+  {
+    $params = ['rollout' => $rollout, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('ignoreJob', [$params], IgnoreJobResponse::class);
   }
   /**
    * Lists Rollouts in a given project and location.

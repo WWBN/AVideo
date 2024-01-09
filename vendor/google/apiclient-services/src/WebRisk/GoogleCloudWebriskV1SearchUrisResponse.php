@@ -21,7 +21,6 @@ class GoogleCloudWebriskV1SearchUrisResponse extends \Google\Model
 {
   protected $threatType = GoogleCloudWebriskV1SearchUrisResponseThreatUri::class;
   protected $threatDataType = '';
-  public $threat;
 
   /**
    * @param GoogleCloudWebriskV1SearchUrisResponseThreatUri

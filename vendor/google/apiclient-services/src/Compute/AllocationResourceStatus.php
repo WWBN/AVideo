@@ -21,7 +21,6 @@ class AllocationResourceStatus extends \Google\Model
 {
   protected $specificSkuAllocationType = AllocationResourceStatusSpecificSKUAllocation::class;
   protected $specificSkuAllocationDataType = '';
-  public $specificSkuAllocation;
 
   /**
    * @param AllocationResourceStatusSpecificSKUAllocation

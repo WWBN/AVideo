@@ -22,7 +22,6 @@ class TableCell extends \Google\Collection
   protected $collection_key = 'suggestedInsertionIds';
   protected $contentType = StructuralElement::class;
   protected $contentDataType = 'array';
-  public $content;
   /**
    * @var int
    */
@@ -41,10 +40,8 @@ class TableCell extends \Google\Collection
   public $suggestedInsertionIds;
   protected $suggestedTableCellStyleChangesType = SuggestedTableCellStyle::class;
   protected $suggestedTableCellStyleChangesDataType = 'map';
-  public $suggestedTableCellStyleChanges;
   protected $tableCellStyleType = TableCellStyle::class;
   protected $tableCellStyleDataType = '';
-  public $tableCellStyle;
 
   /**
    * @param StructuralElement[]

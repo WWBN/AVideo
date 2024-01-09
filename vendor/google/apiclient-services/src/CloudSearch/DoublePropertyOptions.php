@@ -21,7 +21,6 @@ class DoublePropertyOptions extends \Google\Model
 {
   protected $operatorOptionsType = DoubleOperatorOptions::class;
   protected $operatorOptionsDataType = '';
-  public $operatorOptions;
 
   /**
    * @param DoubleOperatorOptions

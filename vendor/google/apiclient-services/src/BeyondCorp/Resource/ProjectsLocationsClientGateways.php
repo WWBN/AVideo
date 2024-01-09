@@ -17,13 +17,10 @@
 
 namespace Google\Service\BeyondCorp\Resource;
 
-use Google\Service\BeyondCorp\ClientGateway;
 use Google\Service\BeyondCorp\GoogleIamV1Policy;
 use Google\Service\BeyondCorp\GoogleIamV1SetIamPolicyRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsRequest;
 use Google\Service\BeyondCorp\GoogleIamV1TestIamPermissionsResponse;
-use Google\Service\BeyondCorp\GoogleLongrunningOperation;
-use Google\Service\BeyondCorp\ListClientGatewaysResponse;
 
 /**
  * The "clientGateways" collection of methods.
@@ -35,78 +32,6 @@ use Google\Service\BeyondCorp\ListClientGatewaysResponse;
  */
 class ProjectsLocationsClientGateways extends \Google\Service\Resource
 {
-  /**
-   * Creates a new ClientGateway in a given project and location.
-   * (clientGateways.create)
-   *
-   * @param string $parent Required. Value for parent.
-   * @param ClientGateway $postBody
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string clientGatewayId Optional. User-settable client gateway
-   * resource ID. * Must start with a letter. * Must contain between 4-63
-   * characters from `/a-z-/`. * Must end with a number or a letter.
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes since the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param bool validateOnly Optional. If set, validates request by executing
-   * a dry-run which would not alter the resource in any way.
-   * @return GoogleLongrunningOperation
-   */
-  public function create($parent, ClientGateway $postBody, $optParams = [])
-  {
-    $params = ['parent' => $parent, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Deletes a single ClientGateway. (clientGateways.delete)
-   *
-   * @param string $name Required. Name of the resource
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string requestId Optional. An optional request ID to identify
-   * requests. Specify a unique request ID so that if you must retry your request,
-   * the server will know to ignore the request if it has already been completed.
-   * The server will guarantee that for at least 60 minutes after the first
-   * request. For example, consider a situation where you make an initial request
-   * and the request times out. If you make the request again with the same
-   * request ID, the server can check if original operation with the same request
-   * ID was received, and if so, will ignore the second request. This prevents
-   * clients from accidentally creating duplicate commitments. The request ID must
-   * be a valid UUID with the exception that zero UUID is not supported
-   * (00000000-0000-0000-0000-000000000000).
-   * @opt_param bool validateOnly Optional. If set, validates request by executing
-   * a dry-run which would not alter the resource in any way.
-   * @return GoogleLongrunningOperation
-   */
-  public function delete($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('delete', [$params], GoogleLongrunningOperation::class);
-  }
-  /**
-   * Gets details of a single ClientGateway. (clientGateways.get)
-   *
-   * @param string $name Required. Name of the resource
-   * @param array $optParams Optional parameters.
-   * @return ClientGateway
-   */
-  public function get($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], ClientGateway::class);
-  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (clientGateways.getIamPolicy)
@@ -136,28 +61,6 @@ class ProjectsLocationsClientGateways extends \Google\Service\Resource
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], GoogleIamV1Policy::class);
-  }
-  /**
-   * Lists ClientGateways in a given project and location.
-   * (clientGateways.listProjectsLocationsClientGateways)
-   *
-   * @param string $parent Required. Parent value for ListClientGatewaysRequest.
-   * @param array $optParams Optional parameters.
-   *
-   * @opt_param string filter Optional. Filtering results.
-   * @opt_param string orderBy Optional. Hint for how to order the results.
-   * @opt_param int pageSize Optional. Requested page size. Server may return
-   * fewer items than requested. If unspecified, server will pick an appropriate
-   * default.
-   * @opt_param string pageToken Optional. A token identifying a page of results
-   * the server should return.
-   * @return ListClientGatewaysResponse
-   */
-  public function listProjectsLocationsClientGateways($parent, $optParams = [])
-  {
-    $params = ['parent' => $parent];
-    $params = array_merge($params, $optParams);
-    return $this->call('list', [$params], ListClientGatewaysResponse::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any

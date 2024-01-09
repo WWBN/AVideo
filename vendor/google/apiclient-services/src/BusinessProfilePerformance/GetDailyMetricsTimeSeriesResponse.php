@@ -21,7 +21,6 @@ class GetDailyMetricsTimeSeriesResponse extends \Google\Model
 {
   protected $timeSeriesType = TimeSeries::class;
   protected $timeSeriesDataType = '';
-  public $timeSeries;
 
   /**
    * @param TimeSeries

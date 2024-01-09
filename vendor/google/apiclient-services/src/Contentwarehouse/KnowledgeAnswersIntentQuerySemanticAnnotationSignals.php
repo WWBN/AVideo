@@ -30,7 +30,6 @@ class KnowledgeAnswersIntentQuerySemanticAnnotationSignals extends \Google\Colle
   public $domain;
   protected $featuresType = KnowledgeAnswersIntentQuerySemanticAnnotationSignalsFeature::class;
   protected $featuresDataType = 'array';
-  public $features;
   public $score;
 
   /**

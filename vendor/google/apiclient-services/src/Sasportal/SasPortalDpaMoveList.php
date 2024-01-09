@@ -25,7 +25,6 @@ class SasPortalDpaMoveList extends \Google\Model
   public $dpaId;
   protected $frequencyRangeType = SasPortalFrequencyRange::class;
   protected $frequencyRangeDataType = '';
-  public $frequencyRange;
 
   /**
    * @param string

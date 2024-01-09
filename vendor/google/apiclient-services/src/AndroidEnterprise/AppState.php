@@ -22,7 +22,6 @@ class AppState extends \Google\Collection
   protected $collection_key = 'keyedAppState';
   protected $keyedAppStateType = KeyedAppState::class;
   protected $keyedAppStateDataType = 'array';
-  public $keyedAppState;
   /**
    * @var string
    */

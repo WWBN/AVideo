@@ -25,14 +25,12 @@ class Outline extends \Google\Model
   public $dashStyle;
   protected $outlineFillType = OutlineFill::class;
   protected $outlineFillDataType = '';
-  public $outlineFill;
   /**
    * @var string
    */
   public $propertyState;
   protected $weightType = Dimension::class;
   protected $weightDataType = '';
-  public $weight;
 
   /**
    * @param string

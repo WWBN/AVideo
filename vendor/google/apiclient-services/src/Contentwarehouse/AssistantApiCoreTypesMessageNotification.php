@@ -62,7 +62,6 @@ class AssistantApiCoreTypesMessageNotification extends \Google\Collection
   public $mimeType;
   protected $notificationEntriesType = AssistantApiCoreTypesMessageNotificationNotificationEntry::class;
   protected $notificationEntriesDataType = 'array';
-  public $notificationEntries;
   /**
    * @var string
    */
@@ -89,7 +88,6 @@ class AssistantApiCoreTypesMessageNotification extends \Google\Collection
   public $replyActionAvailable;
   protected $senderType = AssistantApiCoreTypesMessageNotificationPerson::class;
   protected $senderDataType = '';
-  public $sender;
   /**
    * @var string
    */

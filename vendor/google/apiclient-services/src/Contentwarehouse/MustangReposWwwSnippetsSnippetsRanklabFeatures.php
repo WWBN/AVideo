@@ -26,17 +26,14 @@ class MustangReposWwwSnippetsSnippetsRanklabFeatures extends \Google\Collection
   public $browserWidth;
   protected $candidatesType = MustangReposWwwSnippetsSnippetCandidate::class;
   protected $candidatesDataType = 'array';
-  public $candidates;
   protected $displaySnippetType = QualityPreviewRanklabSnippet::class;
   protected $displaySnippetDataType = '';
-  public $displaySnippet;
   /**
    * @var string
    */
   public $documentLanguage;
   protected $originalQueryTermCoveragesType = QualityPreviewSnippetQueryTermCoverageFeatures::class;
   protected $originalQueryTermCoveragesDataType = '';
-  public $originalQueryTermCoverages;
   /**
    * @var string
    */
@@ -51,7 +48,6 @@ class MustangReposWwwSnippetsSnippetsRanklabFeatures extends \Google\Collection
   public $snippetQueryTermCoverage;
   protected $snippetsType = QualityPreviewRanklabSnippet::class;
   protected $snippetsDataType = 'array';
-  public $snippets;
   /**
    * @var int
    */
@@ -66,7 +62,6 @@ class MustangReposWwwSnippetsSnippetsRanklabFeatures extends \Google\Collection
   public $titleSnippetQueryTermCoverage;
   protected $titlesType = QualityPreviewRanklabTitle::class;
   protected $titlesDataType = 'array';
-  public $titles;
 
   /**
    * @param int

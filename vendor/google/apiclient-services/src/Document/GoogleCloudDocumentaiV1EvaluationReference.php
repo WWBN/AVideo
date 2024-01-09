@@ -21,10 +21,8 @@ class GoogleCloudDocumentaiV1EvaluationReference extends \Google\Model
 {
   protected $aggregateMetricsType = GoogleCloudDocumentaiV1EvaluationMetrics::class;
   protected $aggregateMetricsDataType = '';
-  public $aggregateMetrics;
   protected $aggregateMetricsExactType = GoogleCloudDocumentaiV1EvaluationMetrics::class;
   protected $aggregateMetricsExactDataType = '';
-  public $aggregateMetricsExact;
   /**
    * @var string
    */

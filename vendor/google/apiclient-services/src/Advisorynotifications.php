@@ -23,7 +23,7 @@ use Google\Client;
  * Service definition for Advisorynotifications (v1).
  *
  * <p>
-</p>
+ * An API for accessing Advisory Notifications in Google Cloud</p>
  *
  * <p>
  * For more information about this service, see the API

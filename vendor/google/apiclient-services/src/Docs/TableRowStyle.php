@@ -21,7 +21,6 @@ class TableRowStyle extends \Google\Model
 {
   protected $minRowHeightType = Dimension::class;
   protected $minRowHeightDataType = '';
-  public $minRowHeight;
   /**
    * @var bool
    */

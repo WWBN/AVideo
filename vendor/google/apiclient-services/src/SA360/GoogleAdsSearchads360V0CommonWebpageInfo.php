@@ -22,7 +22,6 @@ class GoogleAdsSearchads360V0CommonWebpageInfo extends \Google\Collection
   protected $collection_key = 'conditions';
   protected $conditionsType = GoogleAdsSearchads360V0CommonWebpageConditionInfo::class;
   protected $conditionsDataType = 'array';
-  public $conditions;
   public $coveragePercentage;
   /**
    * @var string

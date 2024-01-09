@@ -22,7 +22,6 @@ class DeviceReport extends \Google\Collection
   protected $collection_key = 'appState';
   protected $appStateType = AppState::class;
   protected $appStateDataType = 'array';
-  public $appState;
   /**
    * @var string
    */

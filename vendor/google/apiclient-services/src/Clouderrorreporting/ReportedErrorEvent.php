@@ -21,7 +21,6 @@ class ReportedErrorEvent extends \Google\Model
 {
   protected $contextType = ErrorContext::class;
   protected $contextDataType = '';
-  public $context;
   /**
    * @var string
    */
@@ -32,7 +31,6 @@ class ReportedErrorEvent extends \Google\Model
   public $message;
   protected $serviceContextType = ServiceContext::class;
   protected $serviceContextDataType = '';
-  public $serviceContext;
 
   /**
    * @param ErrorContext

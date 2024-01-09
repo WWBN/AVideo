@@ -21,14 +21,12 @@ class AppsDynamiteStorageTextInput extends \Google\Model
 {
   protected $autoCompleteActionType = AppsDynamiteStorageAction::class;
   protected $autoCompleteActionDataType = '';
-  public $autoCompleteAction;
   /**
    * @var string
    */
   public $hintText;
   protected $initialSuggestionsType = AppsDynamiteStorageSuggestions::class;
   protected $initialSuggestionsDataType = '';
-  public $initialSuggestions;
   /**
    * @var string
    */
@@ -39,7 +37,6 @@ class AppsDynamiteStorageTextInput extends \Google\Model
   public $name;
   protected $onChangeActionType = AppsDynamiteStorageAction::class;
   protected $onChangeActionDataType = '';
-  public $onChangeAction;
   /**
    * @var string
    */

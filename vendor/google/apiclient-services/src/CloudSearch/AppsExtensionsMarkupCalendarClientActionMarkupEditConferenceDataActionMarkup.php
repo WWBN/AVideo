@@ -21,7 +21,6 @@ class AppsExtensionsMarkupCalendarClientActionMarkupEditConferenceDataActionMark
 {
   protected $conferenceDataType = AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkup::class;
   protected $conferenceDataDataType = '';
-  public $conferenceData;
 
   /**
    * @param AppsExtensionsMarkupCalendarClientActionMarkupConferenceDataMarkup

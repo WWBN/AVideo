@@ -203,8 +203,7 @@ class Disks extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns a specified persistent disk. Gets a list of available persistent
-   * disks by making a list() request. (disks.get)
+   * Returns the specified persistent disk. (disks.get)
    *
    * @param string $project Project ID for this request.
    * @param string $zone The name of the zone for this request.

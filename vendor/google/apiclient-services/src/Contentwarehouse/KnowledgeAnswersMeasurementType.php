@@ -21,7 +21,6 @@ class KnowledgeAnswersMeasurementType extends \Google\Model
 {
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
-  public $remodelings;
 
   /**
    * @param NlpMeaningMeaningRemodelings

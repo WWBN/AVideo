@@ -41,7 +41,6 @@ class MySqlConnectionProfile extends \Google\Model
   public $port;
   protected $sslType = SslConfig::class;
   protected $sslDataType = '';
-  public $ssl;
   /**
    * @var string
    */

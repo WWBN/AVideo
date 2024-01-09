@@ -9,9 +9,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DeviceSessionResolver implements ResolverInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function resolve(array $data): array
     {
         return (new OptionsResolver())

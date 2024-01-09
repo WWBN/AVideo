@@ -22,7 +22,6 @@ class StreamObject extends \Google\Collection
   protected $collection_key = 'errors';
   protected $backfillJobType = BackfillJob::class;
   protected $backfillJobDataType = '';
-  public $backfillJob;
   /**
    * @var string
    */
@@ -33,14 +32,12 @@ class StreamObject extends \Google\Collection
   public $displayName;
   protected $errorsType = Error::class;
   protected $errorsDataType = 'array';
-  public $errors;
   /**
    * @var string
    */
   public $name;
   protected $sourceObjectType = SourceObjectIdentifier::class;
   protected $sourceObjectDataType = '';
-  public $sourceObject;
   /**
    * @var string
    */

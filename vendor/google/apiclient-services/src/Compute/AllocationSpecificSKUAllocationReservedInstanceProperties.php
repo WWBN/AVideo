@@ -22,10 +22,8 @@ class AllocationSpecificSKUAllocationReservedInstanceProperties extends \Google\
   protected $collection_key = 'localSsds';
   protected $guestAcceleratorsType = AcceleratorConfig::class;
   protected $guestAcceleratorsDataType = 'array';
-  public $guestAccelerators;
   protected $localSsdsType = AllocationSpecificSKUAllocationAllocatedInstancePropertiesReservedDisk::class;
   protected $localSsdsDataType = 'array';
-  public $localSsds;
   /**
    * @var string
    */

@@ -21,10 +21,8 @@ class Deinterlace extends \Google\Model
 {
   protected $bwdifType = BwdifConfig::class;
   protected $bwdifDataType = '';
-  public $bwdif;
   protected $yadifType = YadifConfig::class;
   protected $yadifDataType = '';
-  public $yadif;
 
   /**
    * @param BwdifConfig

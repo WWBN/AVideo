@@ -21,7 +21,6 @@ class FindDevicesByDeviceIdentifierRequest extends \Google\Model
 {
   protected $deviceIdentifierType = DeviceIdentifier::class;
   protected $deviceIdentifierDataType = '';
-  public $deviceIdentifier;
   /**
    * @var string
    */

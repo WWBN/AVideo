@@ -30,7 +30,6 @@ class MetagameConfig extends \Google\Collection
   public $kind;
   protected $playerLevelsType = PlayerLevel::class;
   protected $playerLevelsDataType = 'array';
-  public $playerLevels;
 
   /**
    * @param int

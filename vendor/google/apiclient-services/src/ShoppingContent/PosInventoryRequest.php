@@ -33,7 +33,6 @@ class PosInventoryRequest extends \Google\Model
   public $itemId;
   protected $priceType = Price::class;
   protected $priceDataType = '';
-  public $price;
   /**
    * @var string
    */

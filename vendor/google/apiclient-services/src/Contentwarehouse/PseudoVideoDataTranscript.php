@@ -29,7 +29,6 @@ class PseudoVideoDataTranscript extends \Google\Collection
   public $text;
   protected $timestampType = PseudoVideoDataTranscriptTimestamp::class;
   protected $timestampDataType = 'array';
-  public $timestamp;
 
   /**
    * @param string

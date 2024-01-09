@@ -21,7 +21,6 @@ class GoogleCloudContentwarehouseV1RequestMetadata extends \Google\Model
 {
   protected $userInfoType = GoogleCloudContentwarehouseV1UserInfo::class;
   protected $userInfoDataType = '';
-  public $userInfo;
 
   /**
    * @param GoogleCloudContentwarehouseV1UserInfo

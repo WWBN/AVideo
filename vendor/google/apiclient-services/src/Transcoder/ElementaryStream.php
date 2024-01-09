@@ -21,17 +21,14 @@ class ElementaryStream extends \Google\Model
 {
   protected $audioStreamType = AudioStream::class;
   protected $audioStreamDataType = '';
-  public $audioStream;
   /**
    * @var string
    */
   public $key;
   protected $textStreamType = TextStream::class;
   protected $textStreamDataType = '';
-  public $textStream;
   protected $videoStreamType = VideoStream::class;
   protected $videoStreamDataType = '';
-  public $videoStream;
 
   /**
    * @param AudioStream

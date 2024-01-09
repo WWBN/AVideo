@@ -21,7 +21,6 @@ class AddTenantProjectRequest extends \Google\Model
 {
   protected $projectConfigType = TenantProjectConfig::class;
   protected $projectConfigDataType = '';
-  public $projectConfig;
   /**
    * @var string
    */

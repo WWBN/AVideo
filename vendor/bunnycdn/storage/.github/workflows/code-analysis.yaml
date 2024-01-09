@@ -1,0 +1,23 @@
+name: code analysis
+
+on:
+  push:
+
+jobs:
+  code-analysis:
+    name: code analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          tools: composer, php-cs-fixer, phpstan
+
+      - run: composer install --prefer-dist --no-progress
+
+      - run: php-cs-fixer fix --diff --dry-run -v
+
+      - run: phpstan

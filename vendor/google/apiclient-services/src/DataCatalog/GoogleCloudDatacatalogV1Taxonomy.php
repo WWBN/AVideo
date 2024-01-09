@@ -42,10 +42,8 @@ class GoogleCloudDatacatalogV1Taxonomy extends \Google\Collection
   public $policyTagCount;
   protected $serviceType = GoogleCloudDatacatalogV1TaxonomyService::class;
   protected $serviceDataType = '';
-  public $service;
   protected $taxonomyTimestampsType = GoogleCloudDatacatalogV1SystemTimestamps::class;
   protected $taxonomyTimestampsDataType = '';
-  public $taxonomyTimestamps;
 
   /**
    * @param string[]

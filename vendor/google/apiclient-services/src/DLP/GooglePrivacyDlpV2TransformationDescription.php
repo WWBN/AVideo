@@ -29,7 +29,6 @@ class GooglePrivacyDlpV2TransformationDescription extends \Google\Model
   public $description;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
-  public $infoType;
   /**
    * @var string
    */

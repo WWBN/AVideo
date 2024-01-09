@@ -21,14 +21,12 @@ class ServiceAccountDelegationInfo extends \Google\Model
 {
   protected $firstPartyPrincipalType = FirstPartyPrincipal::class;
   protected $firstPartyPrincipalDataType = '';
-  public $firstPartyPrincipal;
   /**
    * @var string
    */
   public $principalSubject;
   protected $thirdPartyPrincipalType = ThirdPartyPrincipal::class;
   protected $thirdPartyPrincipalDataType = '';
-  public $thirdPartyPrincipal;
 
   /**
    * @param FirstPartyPrincipal

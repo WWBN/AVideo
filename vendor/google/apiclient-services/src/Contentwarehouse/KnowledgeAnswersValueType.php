@@ -21,75 +21,48 @@ class KnowledgeAnswersValueType extends \Google\Model
 {
   protected $anyTypeType = KnowledgeAnswersAnyType::class;
   protected $anyTypeDataType = '';
-  public $anyType;
   protected $attributeTypeType = KnowledgeAnswersAttributeType::class;
   protected $attributeTypeDataType = '';
-  public $attributeType;
   protected $booleanTypeType = KnowledgeAnswersBooleanType::class;
   protected $booleanTypeDataType = '';
-  public $booleanType;
   protected $collectionTypeType = KnowledgeAnswersCollectionType::class;
   protected $collectionTypeDataType = '';
-  public $collectionType;
   protected $compoundTypeType = KnowledgeAnswersCompoundType::class;
   protected $compoundTypeDataType = '';
-  public $compoundType;
   protected $dateTypeType = KnowledgeAnswersDateType::class;
   protected $dateTypeDataType = '';
-  public $dateType;
   protected $dependencyTypeType = KnowledgeAnswersDependencyType::class;
   protected $dependencyTypeDataType = '';
-  public $dependencyType;
   protected $durationTypeType = KnowledgeAnswersDurationType::class;
   protected $durationTypeDataType = '';
-  public $durationType;
   protected $entityTypeType = KnowledgeAnswersEntityType::class;
   protected $entityTypeDataType = '';
-  public $entityType;
   /**
    * @var string
    */
   public $inputCompositionConfig;
   protected $measurementTypeType = KnowledgeAnswersMeasurementType::class;
   protected $measurementTypeDataType = '';
-  public $measurementType;
   protected $normalizedStringTypeType = KnowledgeAnswersNormalizedStringType::class;
   protected $normalizedStringTypeDataType = '';
-  public $normalizedStringType;
   protected $numberTypeType = KnowledgeAnswersNumberType::class;
   protected $numberTypeDataType = '';
-  public $numberType;
   protected $opaqueTypeType = KnowledgeAnswersOpaqueType::class;
   protected $opaqueTypeDataType = '';
-  public $opaqueType;
   protected $plexityRequirementType = KnowledgeAnswersPlexityRequirement::class;
   protected $plexityRequirementDataType = '';
-  public $plexityRequirement;
-  /**
-   * @var string
-   */
-  public $pluralityType;
   protected $polarQuestionTypeType = KnowledgeAnswersPolarQuestionType::class;
   protected $polarQuestionTypeDataType = '';
-  public $polarQuestionType;
   protected $semanticTypeType = KnowledgeAnswersSemanticType::class;
   protected $semanticTypeDataType = '';
-  public $semanticType;
   protected $stateOfAffairsTypeType = KnowledgeAnswersStateOfAffairsType::class;
   protected $stateOfAffairsTypeDataType = '';
-  public $stateOfAffairsType;
   protected $stringTypeType = KnowledgeAnswersStringType::class;
   protected $stringTypeDataType = '';
-  public $stringType;
   protected $timezoneTypeType = KnowledgeAnswersTimeZoneType::class;
   protected $timezoneTypeDataType = '';
-  public $timezoneType;
   protected $trackingNumberTypeType = KnowledgeAnswersTrackingNumberType::class;
   protected $trackingNumberTypeDataType = '';
-  public $trackingNumberType;
-  protected $withTraitType = KnowledgeAnswersTypeTrait::class;
-  protected $withTraitDataType = '';
-  public $withTrait;
 
   /**
    * @param KnowledgeAnswersAnyType
@@ -302,20 +275,6 @@ class KnowledgeAnswersValueType extends \Google\Model
     return $this->plexityRequirement;
   }
   /**
-   * @param string
-   */
-  public function setPluralityType($pluralityType)
-  {
-    $this->pluralityType = $pluralityType;
-  }
-  /**
-   * @return string
-   */
-  public function getPluralityType()
-  {
-    return $this->pluralityType;
-  }
-  /**
    * @param KnowledgeAnswersPolarQuestionType
    */
   public function setPolarQuestionType(KnowledgeAnswersPolarQuestionType $polarQuestionType)
@@ -398,20 +357,6 @@ class KnowledgeAnswersValueType extends \Google\Model
   public function getTrackingNumberType()
   {
     return $this->trackingNumberType;
-  }
-  /**
-   * @param KnowledgeAnswersTypeTrait
-   */
-  public function setWithTrait(KnowledgeAnswersTypeTrait $withTrait)
-  {
-    $this->withTrait = $withTrait;
-  }
-  /**
-   * @return KnowledgeAnswersTypeTrait
-   */
-  public function getWithTrait()
-  {
-    return $this->withTrait;
   }
 }
 

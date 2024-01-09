@@ -587,6 +587,10 @@ class Drive extends \Google\Service
               'path' => 'files/trash',
               'httpMethod' => 'DELETE',
               'parameters' => [
+                'driveId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'enforceSingleParent' => [
                   'location' => 'query',
                   'type' => 'boolean',

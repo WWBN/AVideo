@@ -21,7 +21,6 @@ class ReadInstruction extends \Google\Model
 {
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
-  public $source;
 
   /**
    * @param Source

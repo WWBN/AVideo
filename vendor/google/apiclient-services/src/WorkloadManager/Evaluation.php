@@ -38,10 +38,8 @@ class Evaluation extends \Google\Collection
   public $name;
   protected $resourceFilterType = ResourceFilter::class;
   protected $resourceFilterDataType = '';
-  public $resourceFilter;
   protected $resourceStatusType = ResourceStatus::class;
   protected $resourceStatusDataType = '';
-  public $resourceStatus;
   /**
    * @var string[]
    */
@@ -50,6 +48,10 @@ class Evaluation extends \Google\Collection
    * @var string[]
    */
   public $ruleVersions;
+  /**
+   * @var string
+   */
+  public $schedule;
   /**
    * @var string
    */
@@ -166,6 +168,20 @@ class Evaluation extends \Google\Collection
   public function getRuleVersions()
   {
     return $this->ruleVersions;
+  }
+  /**
+   * @param string
+   */
+  public function setSchedule($schedule)
+  {
+    $this->schedule = $schedule;
+  }
+  /**
+   * @return string
+   */
+  public function getSchedule()
+  {
+    return $this->schedule;
   }
   /**
    * @param string

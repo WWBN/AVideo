@@ -22,7 +22,6 @@ class OrderTrackingSignal extends \Google\Collection
   protected $collection_key = 'shippingInfo';
   protected $customerShippingFeeType = PriceAmount::class;
   protected $customerShippingFeeDataType = '';
-  public $customerShippingFee;
   /**
    * @var string
    */
@@ -33,14 +32,12 @@ class OrderTrackingSignal extends \Google\Collection
   public $deliveryRegionCode;
   protected $lineItemsType = OrderTrackingSignalLineItemDetails::class;
   protected $lineItemsDataType = 'array';
-  public $lineItems;
   /**
    * @var string
    */
   public $merchantId;
   protected $orderCreatedTimeType = DateTime::class;
   protected $orderCreatedTimeDataType = '';
-  public $orderCreatedTime;
   /**
    * @var string
    */
@@ -51,10 +48,8 @@ class OrderTrackingSignal extends \Google\Collection
   public $orderTrackingSignalId;
   protected $shipmentLineItemMappingType = OrderTrackingSignalShipmentLineItemMapping::class;
   protected $shipmentLineItemMappingDataType = 'array';
-  public $shipmentLineItemMapping;
   protected $shippingInfoType = OrderTrackingSignalShippingInfo::class;
   protected $shippingInfoDataType = 'array';
-  public $shippingInfo;
 
   /**
    * @param PriceAmount

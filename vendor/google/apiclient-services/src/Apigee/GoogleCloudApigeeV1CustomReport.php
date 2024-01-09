@@ -66,7 +66,6 @@ class GoogleCloudApigeeV1CustomReport extends \Google\Collection
   public $limit;
   protected $metricsType = GoogleCloudApigeeV1CustomReportMetric::class;
   protected $metricsDataType = 'array';
-  public $metrics;
   /**
    * @var string
    */
@@ -81,7 +80,6 @@ class GoogleCloudApigeeV1CustomReport extends \Google\Collection
   public $organization;
   protected $propertiesType = GoogleCloudApigeeV1ReportProperty::class;
   protected $propertiesDataType = 'array';
-  public $properties;
   /**
    * @var string[]
    */

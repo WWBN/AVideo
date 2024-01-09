@@ -26,7 +26,6 @@ class AllocateIdsRequest extends \Google\Collection
   public $databaseId;
   protected $keysType = Key::class;
   protected $keysDataType = 'array';
-  public $keys;
 
   /**
    * @param string

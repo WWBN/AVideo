@@ -21,7 +21,6 @@ class GoogleCloudChannelV1Product extends \Google\Model
 {
   protected $marketingInfoType = GoogleCloudChannelV1MarketingInfo::class;
   protected $marketingInfoDataType = '';
-  public $marketingInfo;
   /**
    * @var string
    */

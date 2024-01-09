@@ -22,7 +22,6 @@ class BulkListAssignedTargetingOptionsResponse extends \Google\Collection
   protected $collection_key = 'lineItemAssignedTargetingOptions';
   protected $lineItemAssignedTargetingOptionsType = LineItemAssignedTargetingOption::class;
   protected $lineItemAssignedTargetingOptionsDataType = 'array';
-  public $lineItemAssignedTargetingOptions;
   /**
    * @var string
    */

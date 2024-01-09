@@ -30,7 +30,6 @@ class Cluster extends \Google\Collection
   public $count;
   protected $featureValuesType = FeatureValue::class;
   protected $featureValuesDataType = 'array';
-  public $featureValues;
 
   /**
    * @param string

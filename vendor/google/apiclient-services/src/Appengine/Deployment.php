@@ -21,16 +21,12 @@ class Deployment extends \Google\Model
 {
   protected $cloudBuildOptionsType = CloudBuildOptions::class;
   protected $cloudBuildOptionsDataType = '';
-  public $cloudBuildOptions;
   protected $containerType = ContainerInfo::class;
   protected $containerDataType = '';
-  public $container;
   protected $filesType = FileInfo::class;
   protected $filesDataType = 'map';
-  public $files;
   protected $zipType = ZipInfo::class;
   protected $zipDataType = '';
-  public $zip;
 
   /**
    * @param CloudBuildOptions

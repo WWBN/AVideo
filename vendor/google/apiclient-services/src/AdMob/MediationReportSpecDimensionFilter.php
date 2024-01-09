@@ -25,7 +25,6 @@ class MediationReportSpecDimensionFilter extends \Google\Model
   public $dimension;
   protected $matchesAnyType = StringList::class;
   protected $matchesAnyDataType = '';
-  public $matchesAny;
 
   /**
    * @param string

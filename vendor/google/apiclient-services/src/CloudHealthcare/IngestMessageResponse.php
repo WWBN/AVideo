@@ -25,7 +25,6 @@ class IngestMessageResponse extends \Google\Model
   public $hl7Ack;
   protected $messageType = Message::class;
   protected $messageDataType = '';
-  public $message;
 
   /**
    * @param string

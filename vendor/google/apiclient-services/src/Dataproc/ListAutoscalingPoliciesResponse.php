@@ -26,7 +26,6 @@ class ListAutoscalingPoliciesResponse extends \Google\Collection
   public $nextPageToken;
   protected $policiesType = AutoscalingPolicy::class;
   protected $policiesDataType = 'array';
-  public $policies;
 
   /**
    * @param string

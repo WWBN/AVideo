@@ -173,6 +173,41 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
     return $this->call('list', [$params], ListDatabasesResponse::class);
   }
   /**
+   * Updates a Cloud Spanner database. The returned long-running operation can be
+   * used to track the progress of updating the database. If the named database
+   * does not exist, returns `NOT_FOUND`. While the operation is pending: * The
+   * database's reconciling field is set to true. * Cancelling the operation is
+   * best-effort. If the cancellation succeeds, the operation metadata's
+   * cancel_time is set, the updates are reverted, and the operation terminates
+   * with a `CANCELLED` status. * New UpdateDatabase requests will return a
+   * `FAILED_PRECONDITION` error until the pending operation is done (returns
+   * successfully or with error). * Reading the database via the API continues to
+   * give the pre-request values. Upon completion of the returned operation: * The
+   * new values are in effect and readable via the API. * The database's
+   * reconciling field becomes false. The returned long-running operation will
+   * have a name of the format `projects//instances//databases//operations/` and
+   * can be used to track the database modification. The metadata field type is
+   * UpdateDatabaseMetadata. The response field type is Database, if successful.
+   * (databases.patch)
+   *
+   * @param string $name Required. The name of the database. Values are of the
+   * form `projects//instances//databases/`, where `` is as specified in the
+   * `CREATE DATABASE` statement. This name can be passed to other API methods to
+   * identify the database.
+   * @param Database $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update.
+   * Currently, only `enable_drop_protection` field can be updated.
+   * @return Operation
+   */
+  public function patch($name, Database $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
    * Create a new database by restoring from a completed backup. The new database
    * must be in the same project and in an instance with the same instance
    * configuration as the instance containing the backup. The returned database

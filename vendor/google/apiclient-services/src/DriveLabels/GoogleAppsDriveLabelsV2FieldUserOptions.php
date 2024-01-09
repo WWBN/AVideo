@@ -21,7 +21,6 @@ class GoogleAppsDriveLabelsV2FieldUserOptions extends \Google\Model
 {
   protected $listOptionsType = GoogleAppsDriveLabelsV2FieldListOptions::class;
   protected $listOptionsDataType = '';
-  public $listOptions;
 
   /**
    * @param GoogleAppsDriveLabelsV2FieldListOptions

@@ -26,7 +26,6 @@ class ReplaceAllShapesWithSheetsChartRequest extends \Google\Collection
   public $chartId;
   protected $containsTextType = SubstringMatchCriteria::class;
   protected $containsTextDataType = '';
-  public $containsText;
   /**
    * @var string
    */

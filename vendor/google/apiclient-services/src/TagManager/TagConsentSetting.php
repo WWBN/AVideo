@@ -25,7 +25,6 @@ class TagConsentSetting extends \Google\Model
   public $consentStatus;
   protected $consentTypeType = Parameter::class;
   protected $consentTypeDataType = '';
-  public $consentType;
 
   /**
    * @param string

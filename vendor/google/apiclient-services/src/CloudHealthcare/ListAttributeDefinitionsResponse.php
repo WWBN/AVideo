@@ -22,7 +22,6 @@ class ListAttributeDefinitionsResponse extends \Google\Collection
   protected $collection_key = 'attributeDefinitions';
   protected $attributeDefinitionsType = AttributeDefinition::class;
   protected $attributeDefinitionsDataType = 'array';
-  public $attributeDefinitions;
   /**
    * @var string
    */

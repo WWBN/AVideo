@@ -38,7 +38,6 @@ class Action extends \Google\Collection
   public $containerName;
   protected $credentialsType = Secret::class;
   protected $credentialsDataType = '';
-  public $credentials;
   /**
    * @var bool
    */
@@ -53,7 +52,6 @@ class Action extends \Google\Collection
   public $enableFuse;
   protected $encryptedEnvironmentType = Secret::class;
   protected $encryptedEnvironmentDataType = '';
-  public $encryptedEnvironment;
   /**
    * @var string
    */
@@ -76,7 +74,6 @@ class Action extends \Google\Collection
   public $labels;
   protected $mountsType = Mount::class;
   protected $mountsDataType = 'array';
-  public $mounts;
   /**
    * @var string
    */

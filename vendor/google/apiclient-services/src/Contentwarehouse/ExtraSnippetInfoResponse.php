@@ -22,13 +22,10 @@ class ExtraSnippetInfoResponse extends \Google\Collection
   protected $collection_key = 'tidbit';
   protected $matchinfoType = ExtraSnippetInfoResponseMatchInfo::class;
   protected $matchinfoDataType = '';
-  public $matchinfo;
   protected $querysubitemType = ExtraSnippetInfoResponseQuerySubitem::class;
   protected $querysubitemDataType = 'array';
-  public $querysubitem;
   protected $tidbitType = ExtraSnippetInfoResponseTidbit::class;
   protected $tidbitDataType = 'array';
-  public $tidbit;
 
   /**
    * @param ExtraSnippetInfoResponseMatchInfo

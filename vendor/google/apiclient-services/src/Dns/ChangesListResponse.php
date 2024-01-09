@@ -22,10 +22,8 @@ class ChangesListResponse extends \Google\Collection
   protected $collection_key = 'changes';
   protected $changesType = Change::class;
   protected $changesDataType = 'array';
-  public $changes;
   protected $headerType = ResponseHeader::class;
   protected $headerDataType = '';
-  public $header;
   /**
    * @var string
    */

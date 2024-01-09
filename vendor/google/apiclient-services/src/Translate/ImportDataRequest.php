@@ -21,7 +21,6 @@ class ImportDataRequest extends \Google\Model
 {
   protected $inputConfigType = DatasetInputConfig::class;
   protected $inputConfigDataType = '';
-  public $inputConfig;
 
   /**
    * @param DatasetInputConfig

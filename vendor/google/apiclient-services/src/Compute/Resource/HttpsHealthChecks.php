@@ -58,8 +58,7 @@ class HttpsHealthChecks extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified HttpsHealthCheck resource. Gets a list of available
-   * HTTPS health checks by making a list() request. (httpsHealthChecks.get)
+   * Returns the specified HttpsHealthCheck resource. (httpsHealthChecks.get)
    *
    * @param string $project Project ID for this request.
    * @param string $httpsHealthCheck Name of the HttpsHealthCheck resource to

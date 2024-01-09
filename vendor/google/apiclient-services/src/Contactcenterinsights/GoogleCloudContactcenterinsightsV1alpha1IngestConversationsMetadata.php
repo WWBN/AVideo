@@ -30,13 +30,10 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadata extend
   public $endTime;
   protected $ingestConversationsStatsType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsMetadataIngestConversationsStats::class;
   protected $ingestConversationsStatsDataType = '';
-  public $ingestConversationsStats;
   protected $partialErrorsType = GoogleRpcStatus::class;
   protected $partialErrorsDataType = 'array';
-  public $partialErrors;
   protected $requestType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest::class;
   protected $requestDataType = '';
-  public $request;
 
   /**
    * @param string

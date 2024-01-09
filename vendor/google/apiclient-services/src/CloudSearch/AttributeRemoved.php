@@ -26,7 +26,6 @@ class AttributeRemoved extends \Google\Collection
   public $attributeId;
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
-  public $messageKeys;
 
   /**
    * @param string

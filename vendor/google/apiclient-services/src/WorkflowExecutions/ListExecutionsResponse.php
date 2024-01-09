@@ -22,7 +22,6 @@ class ListExecutionsResponse extends \Google\Collection
   protected $collection_key = 'executions';
   protected $executionsType = Execution::class;
   protected $executionsDataType = 'array';
-  public $executions;
   /**
    * @var string
    */

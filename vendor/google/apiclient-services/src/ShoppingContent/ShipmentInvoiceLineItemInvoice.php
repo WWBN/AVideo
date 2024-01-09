@@ -34,7 +34,6 @@ class ShipmentInvoiceLineItemInvoice extends \Google\Collection
   public $shipmentUnitIds;
   protected $unitInvoiceType = UnitInvoice::class;
   protected $unitInvoiceDataType = '';
-  public $unitInvoice;
 
   /**
    * @param string

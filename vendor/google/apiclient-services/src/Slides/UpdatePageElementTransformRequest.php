@@ -29,7 +29,6 @@ class UpdatePageElementTransformRequest extends \Google\Model
   public $objectId;
   protected $transformType = AffineTransform::class;
   protected $transformDataType = '';
-  public $transform;
 
   /**
    * @param string

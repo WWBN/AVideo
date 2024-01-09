@@ -22,10 +22,8 @@ class GooglePlayDeveloperReportingV1beta1Anomaly extends \Google\Collection
   protected $collection_key = 'dimensions';
   protected $dimensionsType = GooglePlayDeveloperReportingV1beta1DimensionValue::class;
   protected $dimensionsDataType = 'array';
-  public $dimensions;
   protected $metricType = GooglePlayDeveloperReportingV1beta1MetricValue::class;
   protected $metricDataType = '';
-  public $metric;
   /**
    * @var string
    */
@@ -36,7 +34,6 @@ class GooglePlayDeveloperReportingV1beta1Anomaly extends \Google\Collection
   public $name;
   protected $timelineSpecType = GooglePlayDeveloperReportingV1beta1TimelineSpec::class;
   protected $timelineSpecDataType = '';
-  public $timelineSpec;
 
   /**
    * @param GooglePlayDeveloperReportingV1beta1DimensionValue[]

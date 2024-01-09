@@ -38,10 +38,8 @@ class Table extends \Google\Collection
   public $suggestedInsertionIds;
   protected $tableRowsType = TableRow::class;
   protected $tableRowsDataType = 'array';
-  public $tableRows;
   protected $tableStyleType = TableStyle::class;
   protected $tableStyleDataType = '';
-  public $tableStyle;
 
   /**
    * @param int

@@ -25,7 +25,6 @@ class ApproximateProgress extends \Google\Model
   public $percentComplete;
   protected $positionType = Position::class;
   protected $positionDataType = '';
-  public $position;
   /**
    * @var string
    */

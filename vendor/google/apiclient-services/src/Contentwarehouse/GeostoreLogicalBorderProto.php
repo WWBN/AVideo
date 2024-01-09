@@ -22,7 +22,6 @@ class GeostoreLogicalBorderProto extends \Google\Collection
   protected $collection_key = 'borderSegment';
   protected $borderSegmentType = GeostoreFeatureIdProto::class;
   protected $borderSegmentDataType = 'array';
-  public $borderSegment;
   /**
    * @var string
    */

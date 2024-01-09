@@ -22,7 +22,6 @@ class GoogleCloudVisionV1p4beta1BatchAnnotateFilesResponse extends \Google\Colle
   protected $collection_key = 'responses';
   protected $responsesType = GoogleCloudVisionV1p4beta1AnnotateFileResponse::class;
   protected $responsesDataType = 'array';
-  public $responses;
 
   /**
    * @param GoogleCloudVisionV1p4beta1AnnotateFileResponse[]

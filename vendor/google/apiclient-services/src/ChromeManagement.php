@@ -301,66 +301,6 @@ class ChromeManagement extends \Google\Service
                   'type' => 'string',
                 ],
               ],
-            ],'countPrintJobsByPrinter' => [
-              'path' => 'v1/{+customer}/reports:countPrintJobsByPrinter',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'customer' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'orderBy' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'printerOrgUnitId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'countPrintJobsByUser' => [
-              'path' => 'v1/{+customer}/reports:countPrintJobsByUser',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'customer' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'filter' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'orderBy' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'printerOrgUnitId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
             ],'findInstalledAppDevices' => [
               'path' => 'v1/{+customer}/reports:findInstalledAppDevices',
               'httpMethod' => 'GET',

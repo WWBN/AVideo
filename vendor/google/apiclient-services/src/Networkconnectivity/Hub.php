@@ -38,7 +38,6 @@ class Hub extends \Google\Collection
   public $name;
   protected $routingVpcsType = RoutingVPC::class;
   protected $routingVpcsDataType = 'array';
-  public $routingVpcs;
   /**
    * @var string
    */

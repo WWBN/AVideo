@@ -21,7 +21,6 @@ class RepositoryWebrefPreprocessingNameVariantSignals extends \Google\Model
 {
   protected $scoresType = RepositoryWebrefPreprocessingNameEntityScores::class;
   protected $scoresDataType = '';
-  public $scores;
   /**
    * @var string
    */

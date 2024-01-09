@@ -22,7 +22,6 @@ class GoogleAdsSearchads360V0ErrorsSearchAds360Failure extends \Google\Collectio
   protected $collection_key = 'errors';
   protected $errorsType = GoogleAdsSearchads360V0ErrorsSearchAds360Error::class;
   protected $errorsDataType = 'array';
-  public $errors;
   /**
    * @var string
    */

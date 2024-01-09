@@ -42,7 +42,6 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   public $flowVersions;
   protected $geoLocationType = GoogleTypeLatLng::class;
   protected $geoLocationDataType = '';
-  public $geoLocation;
   /**
    * @var array[]
    */
@@ -53,7 +52,6 @@ class GoogleCloudDialogflowCxV3QueryParameters extends \Google\Collection
   public $payload;
   protected $sessionEntityTypesType = GoogleCloudDialogflowCxV3SessionEntityType::class;
   protected $sessionEntityTypesDataType = 'array';
-  public $sessionEntityTypes;
   /**
    * @var string
    */

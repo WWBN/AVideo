@@ -21,10 +21,8 @@ class SuggestedPositionedObjectProperties extends \Google\Model
 {
   protected $positionedObjectPropertiesType = PositionedObjectProperties::class;
   protected $positionedObjectPropertiesDataType = '';
-  public $positionedObjectProperties;
   protected $positionedObjectPropertiesSuggestionStateType = PositionedObjectPropertiesSuggestionState::class;
   protected $positionedObjectPropertiesSuggestionStateDataType = '';
-  public $positionedObjectPropertiesSuggestionState;
 
   /**
    * @param PositionedObjectProperties

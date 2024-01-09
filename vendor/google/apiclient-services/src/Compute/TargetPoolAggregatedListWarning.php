@@ -26,7 +26,6 @@ class TargetPoolAggregatedListWarning extends \Google\Collection
   public $code;
   protected $dataType = TargetPoolAggregatedListWarningData::class;
   protected $dataDataType = 'array';
-  public $data;
   /**
    * @var string
    */

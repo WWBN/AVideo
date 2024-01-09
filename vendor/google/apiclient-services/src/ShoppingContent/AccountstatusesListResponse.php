@@ -30,7 +30,6 @@ class AccountstatusesListResponse extends \Google\Collection
   public $nextPageToken;
   protected $resourcesType = AccountStatus::class;
   protected $resourcesDataType = 'array';
-  public $resources;
 
   /**
    * @param string

@@ -21,7 +21,6 @@ class SocialCommonAttachmentAttachment extends \Google\Model
 {
   protected $embedItemType = EmbedClientItem::class;
   protected $embedItemDataType = '';
-  public $embedItem;
   /**
    * @var string
    */

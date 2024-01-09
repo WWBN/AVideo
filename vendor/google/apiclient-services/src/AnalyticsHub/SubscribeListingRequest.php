@@ -21,7 +21,6 @@ class SubscribeListingRequest extends \Google\Model
 {
   protected $destinationDatasetType = DestinationDataset::class;
   protected $destinationDatasetDataType = '';
-  public $destinationDataset;
 
   /**
    * @param DestinationDataset

@@ -21,14 +21,12 @@ class NlpSemanticParsingProtoActionsOnGoogleSlotValueSingleValue extends \Google
 {
   protected $dateTimeValueType = NlpSemanticParsingProtoActionsOnGoogleDateTime::class;
   protected $dateTimeValueDataType = '';
-  public $dateTimeValue;
   /**
    * @var string
    */
   public $stringValue;
   protected $typeValueType = NlpSemanticParsingProtoActionsOnGoogleTypedValue::class;
   protected $typeValueDataType = '';
-  public $typeValue;
 
   /**
    * @param NlpSemanticParsingProtoActionsOnGoogleDateTime

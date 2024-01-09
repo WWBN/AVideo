@@ -21,7 +21,6 @@ class GenerateUploadUrlResponse extends \Google\Model
 {
   protected $storageSourceType = StorageSource::class;
   protected $storageSourceDataType = '';
-  public $storageSource;
   /**
    * @var string
    */

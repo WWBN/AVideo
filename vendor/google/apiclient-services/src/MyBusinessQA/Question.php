@@ -22,7 +22,6 @@ class Question extends \Google\Collection
   protected $collection_key = 'topAnswers';
   protected $authorType = Author::class;
   protected $authorDataType = '';
-  public $author;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class Question extends \Google\Collection
   public $text;
   protected $topAnswersType = Answer::class;
   protected $topAnswersDataType = 'array';
-  public $topAnswers;
   /**
    * @var int
    */

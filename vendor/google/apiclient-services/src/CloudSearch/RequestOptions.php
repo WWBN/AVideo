@@ -21,7 +21,6 @@ class RequestOptions extends \Google\Model
 {
   protected $debugOptionsType = DebugOptions::class;
   protected $debugOptionsDataType = '';
-  public $debugOptions;
   /**
    * @var string
    */

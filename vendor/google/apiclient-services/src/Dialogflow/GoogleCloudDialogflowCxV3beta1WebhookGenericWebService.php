@@ -27,7 +27,19 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebService extends \Google\Col
   /**
    * @var string
    */
+  public $httpMethod;
+  /**
+   * @var string[]
+   */
+  public $parameterMapping;
+  /**
+   * @var string
+   */
   public $password;
+  /**
+   * @var string
+   */
+  public $requestBody;
   /**
    * @var string[]
    */
@@ -40,6 +52,10 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebService extends \Google\Col
    * @var string
    */
   public $username;
+  /**
+   * @var string
+   */
+  public $webhookType;
 
   /**
    * @param string[]
@@ -58,6 +74,34 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebService extends \Google\Col
   /**
    * @param string
    */
+  public function setHttpMethod($httpMethod)
+  {
+    $this->httpMethod = $httpMethod;
+  }
+  /**
+   * @return string
+   */
+  public function getHttpMethod()
+  {
+    return $this->httpMethod;
+  }
+  /**
+   * @param string[]
+   */
+  public function setParameterMapping($parameterMapping)
+  {
+    $this->parameterMapping = $parameterMapping;
+  }
+  /**
+   * @return string[]
+   */
+  public function getParameterMapping()
+  {
+    return $this->parameterMapping;
+  }
+  /**
+   * @param string
+   */
   public function setPassword($password)
   {
     $this->password = $password;
@@ -68,6 +112,20 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebService extends \Google\Col
   public function getPassword()
   {
     return $this->password;
+  }
+  /**
+   * @param string
+   */
+  public function setRequestBody($requestBody)
+  {
+    $this->requestBody = $requestBody;
+  }
+  /**
+   * @return string
+   */
+  public function getRequestBody()
+  {
+    return $this->requestBody;
   }
   /**
    * @param string[]
@@ -110,6 +168,20 @@ class GoogleCloudDialogflowCxV3beta1WebhookGenericWebService extends \Google\Col
   public function getUsername()
   {
     return $this->username;
+  }
+  /**
+   * @param string
+   */
+  public function setWebhookType($webhookType)
+  {
+    $this->webhookType = $webhookType;
+  }
+  /**
+   * @return string
+   */
+  public function getWebhookType()
+  {
+    return $this->webhookType;
   }
 }
 

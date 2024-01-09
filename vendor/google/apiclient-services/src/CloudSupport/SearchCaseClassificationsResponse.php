@@ -22,7 +22,6 @@ class SearchCaseClassificationsResponse extends \Google\Collection
   protected $collection_key = 'caseClassifications';
   protected $caseClassificationsType = CaseClassification::class;
   protected $caseClassificationsDataType = 'array';
-  public $caseClassifications;
   /**
    * @var string
    */

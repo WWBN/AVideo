@@ -26,7 +26,6 @@ class Image extends \Google\Model
   public $imageUrl;
   protected $onClickType = OnClick::class;
   protected $onClickDataType = '';
-  public $onClick;
 
   public function setAspectRatio($aspectRatio)
   {

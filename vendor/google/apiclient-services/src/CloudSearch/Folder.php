@@ -26,7 +26,6 @@ class Folder extends \Google\Collection
   public $id;
   protected $messageType = ImapsyncFolderAttributeFolderMessage::class;
   protected $messageDataType = 'array';
-  public $message;
 
   /**
    * @param string

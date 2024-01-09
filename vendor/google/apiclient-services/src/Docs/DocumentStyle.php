@@ -21,7 +21,6 @@ class DocumentStyle extends \Google\Model
 {
   protected $backgroundType = Background::class;
   protected $backgroundDataType = '';
-  public $background;
   /**
    * @var string
    */
@@ -48,29 +47,22 @@ class DocumentStyle extends \Google\Model
   public $firstPageHeaderId;
   protected $marginBottomType = Dimension::class;
   protected $marginBottomDataType = '';
-  public $marginBottom;
   protected $marginFooterType = Dimension::class;
   protected $marginFooterDataType = '';
-  public $marginFooter;
   protected $marginHeaderType = Dimension::class;
   protected $marginHeaderDataType = '';
-  public $marginHeader;
   protected $marginLeftType = Dimension::class;
   protected $marginLeftDataType = '';
-  public $marginLeft;
   protected $marginRightType = Dimension::class;
   protected $marginRightDataType = '';
-  public $marginRight;
   protected $marginTopType = Dimension::class;
   protected $marginTopDataType = '';
-  public $marginTop;
   /**
    * @var int
    */
   public $pageNumberStart;
   protected $pageSizeType = Size::class;
   protected $pageSizeDataType = '';
-  public $pageSize;
   /**
    * @var bool
    */

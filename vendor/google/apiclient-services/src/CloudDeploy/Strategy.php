@@ -19,10 +19,25 @@ namespace Google\Service\CloudDeploy;
 
 class Strategy extends \Google\Model
 {
+  protected $canaryType = Canary::class;
+  protected $canaryDataType = '';
   protected $standardType = Standard::class;
   protected $standardDataType = '';
-  public $standard;
 
+  /**
+   * @param Canary
+   */
+  public function setCanary(Canary $canary)
+  {
+    $this->canary = $canary;
+  }
+  /**
+   * @return Canary
+   */
+  public function getCanary()
+  {
+    return $this->canary;
+  }
   /**
    * @param Standard
    */

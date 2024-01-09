@@ -22,7 +22,6 @@ class GeostoreElevationProto extends \Google\Model
   public $averageElevationMeters;
   protected $peakType = GeostorePeakProto::class;
   protected $peakDataType = '';
-  public $peak;
 
   public function setAverageElevationMeters($averageElevationMeters)
   {

@@ -34,6 +34,8 @@ class BackendRule extends \Google\Model
   public $jwtAudience;
   public $minDeadline;
   public $operationDeadline;
+  protected $overridesByRequestProtocolType = BackendRule::class;
+  protected $overridesByRequestProtocolDataType = 'map';
   /**
    * @var string
    */
@@ -112,6 +114,20 @@ class BackendRule extends \Google\Model
   public function getOperationDeadline()
   {
     return $this->operationDeadline;
+  }
+  /**
+   * @param BackendRule[]
+   */
+  public function setOverridesByRequestProtocol($overridesByRequestProtocol)
+  {
+    $this->overridesByRequestProtocol = $overridesByRequestProtocol;
+  }
+  /**
+   * @return BackendRule[]
+   */
+  public function getOverridesByRequestProtocol()
+  {
+    return $this->overridesByRequestProtocol;
   }
   /**
    * @param string

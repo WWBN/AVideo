@@ -25,7 +25,6 @@ class Value extends \Google\Model
   public $carrierRateName;
   protected $flatRateType = Price::class;
   protected $flatRateDataType = '';
-  public $flatRate;
   /**
    * @var bool
    */

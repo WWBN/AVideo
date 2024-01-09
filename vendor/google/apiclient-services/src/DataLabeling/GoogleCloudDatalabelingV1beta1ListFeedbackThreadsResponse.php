@@ -22,7 +22,6 @@ class GoogleCloudDatalabelingV1beta1ListFeedbackThreadsResponse extends \Google\
   protected $collection_key = 'feedbackThreads';
   protected $feedbackThreadsType = GoogleCloudDatalabelingV1beta1FeedbackThread::class;
   protected $feedbackThreadsDataType = 'array';
-  public $feedbackThreads;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class JobQuery extends \Google\Collection
   protected $collection_key = 'locationFilters';
   protected $commuteFilterType = CommuteFilter::class;
   protected $commuteFilterDataType = '';
-  public $commuteFilter;
   /**
    * @var string[]
    */
@@ -33,7 +32,6 @@ class JobQuery extends \Google\Collection
   public $companyDisplayNames;
   protected $compensationFilterType = CompensationFilter::class;
   protected $compensationFilterDataType = '';
-  public $compensationFilter;
   /**
    * @var string
    */
@@ -60,10 +58,8 @@ class JobQuery extends \Google\Collection
   public $languageCodes;
   protected $locationFiltersType = LocationFilter::class;
   protected $locationFiltersDataType = 'array';
-  public $locationFilters;
   protected $publishTimeRangeType = TimestampRange::class;
   protected $publishTimeRangeDataType = '';
-  public $publishTimeRange;
   /**
    * @var string
    */

@@ -22,7 +22,7 @@ class SetInstanceLabelsRequest extends \Google\Model
   /**
    * @var string[]
    */
-  public $labels;
+  public $labels = [];
 
   /**
    * @param string[]

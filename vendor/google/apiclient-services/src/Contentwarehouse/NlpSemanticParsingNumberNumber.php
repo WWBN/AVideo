@@ -21,10 +21,8 @@ class NlpSemanticParsingNumberNumber extends \Google\Model
 {
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   protected $fractionNumberType = NlpSemanticParsingNumberFractionNumber::class;
   protected $fractionNumberDataType = '';
-  public $fractionNumber;
   /**
    * @var bool
    */
@@ -43,7 +41,6 @@ class NlpSemanticParsingNumberNumber extends \Google\Model
   public $rawText;
   protected $simpleNumberType = NlpSemanticParsingNumberSimpleNumber::class;
   protected $simpleNumberDataType = '';
-  public $simpleNumber;
   /**
    * @var string
    */

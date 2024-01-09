@@ -22,7 +22,6 @@ class GclbTarget extends \Google\Collection
   protected $collection_key = 'ipConfigs';
   protected $ipConfigsType = IpConfig::class;
   protected $ipConfigsDataType = 'array';
-  public $ipConfigs;
   /**
    * @var string
    */

@@ -20,11 +20,16 @@ namespace Google\Service\Contentwarehouse;
 class ScienceCitationFundingExtractionInfo extends \Google\Model
 {
   protected $internal_gapi_mappings = [
+        "clearedFunding" => "ClearedFunding",
         "debugFundingTextBlock" => "DebugFundingTextBlock",
         "docPart" => "DocPart",
         "parseSection" => "ParseSection",
         "source" => "Source",
   ];
+  /**
+   * @var string
+   */
+  public $clearedFunding;
   /**
    * @var string
    */
@@ -42,6 +47,20 @@ class ScienceCitationFundingExtractionInfo extends \Google\Model
    */
   public $source;
 
+  /**
+   * @param string
+   */
+  public function setClearedFunding($clearedFunding)
+  {
+    $this->clearedFunding = $clearedFunding;
+  }
+  /**
+   * @return string
+   */
+  public function getClearedFunding()
+  {
+    return $this->clearedFunding;
+  }
   /**
    * @param string
    */

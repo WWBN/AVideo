@@ -21,7 +21,6 @@ class PersonalizationSettingsApiProtoLocalDiscoveryLocalDiscoverySettingsMetadat
 {
   protected $opaRecipesContextType = PersonalizationSettingsApiProtoLocalDiscoveryOpaRecipesContext::class;
   protected $opaRecipesContextDataType = '';
-  public $opaRecipesContext;
   /**
    * @var string
    */

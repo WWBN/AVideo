@@ -26,7 +26,6 @@ class ListPatchJobsResponse extends \Google\Collection
   public $nextPageToken;
   protected $patchJobsType = PatchJob::class;
   protected $patchJobsDataType = 'array';
-  public $patchJobs;
 
   /**
    * @param string

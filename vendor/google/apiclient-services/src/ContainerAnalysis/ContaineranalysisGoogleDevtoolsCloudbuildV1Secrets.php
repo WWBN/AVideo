@@ -22,10 +22,8 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1Secrets extends \Google\Collect
   protected $collection_key = 'secretManager';
   protected $inlineType = ContaineranalysisGoogleDevtoolsCloudbuildV1InlineSecret::class;
   protected $inlineDataType = 'array';
-  public $inline;
   protected $secretManagerType = ContaineranalysisGoogleDevtoolsCloudbuildV1SecretManagerSecret::class;
   protected $secretManagerDataType = 'array';
-  public $secretManager;
 
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1InlineSecret[]

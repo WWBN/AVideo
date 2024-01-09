@@ -33,7 +33,6 @@ class ReportStateAndNotificationRequest extends \Google\Model
   public $followUpToken;
   protected $payloadType = StateAndNotificationPayload::class;
   protected $payloadDataType = '';
-  public $payload;
   /**
    * @var string
    */

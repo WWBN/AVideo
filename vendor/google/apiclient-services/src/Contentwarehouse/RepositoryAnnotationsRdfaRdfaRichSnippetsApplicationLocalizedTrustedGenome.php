@@ -25,7 +25,6 @@ class RepositoryAnnotationsRdfaRdfaRichSnippetsApplicationLocalizedTrustedGenome
   public $language;
   protected $localizedTgType = VendingConsumerProtoTrustedGenomeAnnotation::class;
   protected $localizedTgDataType = '';
-  public $localizedTg;
 
   /**
    * @param string

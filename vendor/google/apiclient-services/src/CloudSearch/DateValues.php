@@ -22,7 +22,6 @@ class DateValues extends \Google\Collection
   protected $collection_key = 'values';
   protected $valuesType = Date::class;
   protected $valuesDataType = 'array';
-  public $values;
 
   /**
    * @param Date[]

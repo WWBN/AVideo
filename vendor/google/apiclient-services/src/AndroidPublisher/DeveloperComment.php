@@ -21,7 +21,6 @@ class DeveloperComment extends \Google\Model
 {
   protected $lastModifiedType = Timestamp::class;
   protected $lastModifiedDataType = '';
-  public $lastModified;
   /**
    * @var string
    */

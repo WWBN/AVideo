@@ -33,7 +33,6 @@ class CampaignBudget extends \Google\Model
   public $budgetUnit;
   protected $dateRangeType = DateRange::class;
   protected $dateRangeDataType = '';
-  public $dateRange;
   /**
    * @var string
    */
@@ -52,7 +51,6 @@ class CampaignBudget extends \Google\Model
   public $invoiceGroupingId;
   protected $prismaConfigType = PrismaConfig::class;
   protected $prismaConfigDataType = '';
-  public $prismaConfig;
 
   /**
    * @param string

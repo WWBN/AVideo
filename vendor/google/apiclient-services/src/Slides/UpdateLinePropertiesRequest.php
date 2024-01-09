@@ -25,7 +25,6 @@ class UpdateLinePropertiesRequest extends \Google\Model
   public $fields;
   protected $linePropertiesType = LineProperties::class;
   protected $linePropertiesDataType = '';
-  public $lineProperties;
   /**
    * @var string
    */

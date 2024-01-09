@@ -25,20 +25,16 @@ class LabelUpdate extends \Google\Model
   public $canonicalName;
   protected $labelCreatedType = LabelCreated::class;
   protected $labelCreatedDataType = '';
-  public $labelCreated;
   protected $labelDeletedType = LabelDeleted::class;
   protected $labelDeletedDataType = '';
-  public $labelDeleted;
   /**
    * @var string
    */
   public $labelId;
   protected $labelRenamedType = LabelRenamed::class;
   protected $labelRenamedDataType = '';
-  public $labelRenamed;
   protected $labelUpdatedType = LabelUpdated::class;
   protected $labelUpdatedDataType = '';
-  public $labelUpdated;
   /**
    * @var string
    */

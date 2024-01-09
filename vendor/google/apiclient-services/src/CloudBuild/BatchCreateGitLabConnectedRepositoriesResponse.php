@@ -22,7 +22,6 @@ class BatchCreateGitLabConnectedRepositoriesResponse extends \Google\Collection
   protected $collection_key = 'gitlabConnectedRepositories';
   protected $gitlabConnectedRepositoriesType = GitLabConnectedRepository::class;
   protected $gitlabConnectedRepositoriesDataType = 'array';
-  public $gitlabConnectedRepositories;
 
   /**
    * @param GitLabConnectedRepository[]

@@ -22,7 +22,6 @@ class Autoscaler extends \Google\Collection
   protected $collection_key = 'statusDetails';
   protected $autoscalingPolicyType = AutoscalingPolicy::class;
   protected $autoscalingPolicyDataType = '';
-  public $autoscalingPolicy;
   /**
    * @var string
    */
@@ -53,7 +52,6 @@ class Autoscaler extends \Google\Collection
   public $region;
   protected $scalingScheduleStatusType = ScalingScheduleStatus::class;
   protected $scalingScheduleStatusDataType = 'map';
-  public $scalingScheduleStatus;
   /**
    * @var string
    */
@@ -64,7 +62,6 @@ class Autoscaler extends \Google\Collection
   public $status;
   protected $statusDetailsType = AutoscalerStatusDetails::class;
   protected $statusDetailsDataType = 'array';
-  public $statusDetails;
   /**
    * @var string
    */

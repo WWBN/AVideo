@@ -22,10 +22,8 @@ class GoogleCloudRecommendationengineV1beta1ImportCatalogItemsResponse extends \
   protected $collection_key = 'errorSamples';
   protected $errorSamplesType = GoogleRpcStatus::class;
   protected $errorSamplesDataType = 'array';
-  public $errorSamples;
   protected $errorsConfigType = GoogleCloudRecommendationengineV1beta1ImportErrorsConfig::class;
   protected $errorsConfigDataType = '';
-  public $errorsConfig;
 
   /**
    * @param GoogleRpcStatus[]

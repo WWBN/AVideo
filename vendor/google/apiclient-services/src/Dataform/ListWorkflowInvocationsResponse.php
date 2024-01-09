@@ -30,7 +30,6 @@ class ListWorkflowInvocationsResponse extends \Google\Collection
   public $unreachable;
   protected $workflowInvocationsType = WorkflowInvocation::class;
   protected $workflowInvocationsDataType = 'array';
-  public $workflowInvocations;
 
   /**
    * @param string

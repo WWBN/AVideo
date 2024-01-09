@@ -21,7 +21,6 @@ class SocialGraphWireProtoPeopleapiExtensionAppsWaldoExtendedData extends \Googl
 {
   protected $availabilitiesType = GoogleInternalAppsWaldoV1alphaUserAvailabilities::class;
   protected $availabilitiesDataType = '';
-  public $availabilities;
 
   /**
    * @param GoogleInternalAppsWaldoV1alphaUserAvailabilities

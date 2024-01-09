@@ -30,7 +30,6 @@ class PrestoJob extends \Google\Collection
   public $continueOnFailure;
   protected $loggingConfigType = LoggingConfig::class;
   protected $loggingConfigDataType = '';
-  public $loggingConfig;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class PrestoJob extends \Google\Collection
   public $queryFileUri;
   protected $queryListType = QueryList::class;
   protected $queryListDataType = '';
-  public $queryList;
 
   /**
    * @param string[]

@@ -21,13 +21,12 @@ class GoogleCloudContentwarehouseV1RunPipelineRequest extends \Google\Model
 {
   protected $exportCdwPipelineType = GoogleCloudContentwarehouseV1ExportToCdwPipeline::class;
   protected $exportCdwPipelineDataType = '';
-  public $exportCdwPipeline;
   protected $gcsIngestPipelineType = GoogleCloudContentwarehouseV1GcsIngestPipeline::class;
   protected $gcsIngestPipelineDataType = '';
-  public $gcsIngestPipeline;
   protected $gcsIngestWithDocAiProcessorsPipelineType = GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline::class;
   protected $gcsIngestWithDocAiProcessorsPipelineDataType = '';
-  public $gcsIngestWithDocAiProcessorsPipeline;
+  protected $processWithDocAiPipelineType = GoogleCloudContentwarehouseV1ProcessWithDocAi::class;
+  protected $processWithDocAiPipelineDataType = '';
 
   /**
    * @param GoogleCloudContentwarehouseV1ExportToCdwPipeline
@@ -70,6 +69,20 @@ class GoogleCloudContentwarehouseV1RunPipelineRequest extends \Google\Model
   public function getGcsIngestWithDocAiProcessorsPipeline()
   {
     return $this->gcsIngestWithDocAiProcessorsPipeline;
+  }
+  /**
+   * @param GoogleCloudContentwarehouseV1ProcessWithDocAi
+   */
+  public function setProcessWithDocAiPipeline(GoogleCloudContentwarehouseV1ProcessWithDocAi $processWithDocAiPipeline)
+  {
+    $this->processWithDocAiPipeline = $processWithDocAiPipeline;
+  }
+  /**
+   * @return GoogleCloudContentwarehouseV1ProcessWithDocAi
+   */
+  public function getProcessWithDocAiPipeline()
+  {
+    return $this->processWithDocAiPipeline;
   }
 }
 

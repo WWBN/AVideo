@@ -25,7 +25,6 @@ class GoogleCloudVisionV1p3beta1ProductSearchResultsResult extends \Google\Model
   public $image;
   protected $productType = GoogleCloudVisionV1p3beta1Product::class;
   protected $productDataType = '';
-  public $product;
   /**
    * @var float
    */

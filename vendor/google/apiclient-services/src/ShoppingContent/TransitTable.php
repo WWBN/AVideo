@@ -26,7 +26,6 @@ class TransitTable extends \Google\Collection
   public $postalCodeGroupNames;
   protected $rowsType = TransitTableTransitTimeRow::class;
   protected $rowsDataType = 'array';
-  public $rows;
   /**
    * @var string[]
    */

@@ -21,7 +21,6 @@ class AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataPhotosCompareData ex
 {
   protected $diffDataType = AppsPeopleOzExternalMergedpeopleapiAboutMeExtendedDataPhotosCompareDataDiffData::class;
   protected $diffDataDataType = '';
-  public $diffData;
   /**
    * @var string
    */

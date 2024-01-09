@@ -33,7 +33,6 @@ class LiveChatSuperStickerDetails extends \Google\Model
   public $currency;
   protected $superStickerMetadataType = SuperStickerMetadata::class;
   protected $superStickerMetadataDataType = '';
-  public $superStickerMetadata;
   /**
    * @var string
    */

@@ -26,7 +26,6 @@ class CreativeRestrictions extends \Google\Collection
   public $creativeFormat;
   protected $creativeSpecificationsType = CreativeSpecification::class;
   protected $creativeSpecificationsDataType = 'array';
-  public $creativeSpecifications;
   /**
    * @var string
    */

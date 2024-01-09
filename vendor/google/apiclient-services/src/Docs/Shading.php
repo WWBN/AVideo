@@ -21,7 +21,6 @@ class Shading extends \Google\Model
 {
   protected $backgroundColorType = OptionalColor::class;
   protected $backgroundColorDataType = '';
-  public $backgroundColor;
 
   /**
    * @param OptionalColor

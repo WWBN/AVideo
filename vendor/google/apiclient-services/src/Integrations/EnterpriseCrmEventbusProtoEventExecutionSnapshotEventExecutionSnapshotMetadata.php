@@ -30,6 +30,10 @@ class EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMeta
   /**
    * @var string
    */
+  public $taskLabel;
+  /**
+   * @var string
+   */
   public $taskName;
   /**
    * @var string
@@ -63,6 +67,20 @@ class EnterpriseCrmEventbusProtoEventExecutionSnapshotEventExecutionSnapshotMeta
   public function getTaskAttemptNum()
   {
     return $this->taskAttemptNum;
+  }
+  /**
+   * @param string
+   */
+  public function setTaskLabel($taskLabel)
+  {
+    $this->taskLabel = $taskLabel;
+  }
+  /**
+   * @return string
+   */
+  public function getTaskLabel()
+  {
+    return $this->taskLabel;
   }
   /**
    * @param string

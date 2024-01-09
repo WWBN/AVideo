@@ -22,10 +22,8 @@ class GoogleCloudHealthcareV1ConsentPolicy extends \Google\Collection
   protected $collection_key = 'resourceAttributes';
   protected $authorizationRuleType = Expr::class;
   protected $authorizationRuleDataType = '';
-  public $authorizationRule;
   protected $resourceAttributesType = Attribute::class;
   protected $resourceAttributesDataType = 'array';
-  public $resourceAttributes;
 
   /**
    * @param Expr

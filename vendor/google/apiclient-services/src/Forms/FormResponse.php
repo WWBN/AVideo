@@ -21,7 +21,6 @@ class FormResponse extends \Google\Model
 {
   protected $answersType = Answer::class;
   protected $answersDataType = 'map';
-  public $answers;
   /**
    * @var string
    */

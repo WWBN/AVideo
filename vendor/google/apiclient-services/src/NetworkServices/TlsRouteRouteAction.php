@@ -22,7 +22,6 @@ class TlsRouteRouteAction extends \Google\Collection
   protected $collection_key = 'destinations';
   protected $destinationsType = TlsRouteRouteDestination::class;
   protected $destinationsDataType = 'array';
-  public $destinations;
 
   /**
    * @param TlsRouteRouteDestination[]

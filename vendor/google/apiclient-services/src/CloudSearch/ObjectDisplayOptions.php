@@ -22,7 +22,6 @@ class ObjectDisplayOptions extends \Google\Collection
   protected $collection_key = 'metalines';
   protected $metalinesType = Metaline::class;
   protected $metalinesDataType = 'array';
-  public $metalines;
   /**
    * @var string
    */

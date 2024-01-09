@@ -22,7 +22,6 @@ class GaData extends \Google\Collection
   protected $collection_key = 'rows';
   protected $columnHeadersType = GaDataColumnHeaders::class;
   protected $columnHeadersDataType = 'array';
-  public $columnHeaders;
   /**
    * @var bool
    */
@@ -33,7 +32,6 @@ class GaData extends \Google\Collection
   public $dataLastRefreshed;
   protected $dataTableType = GaDataDataTable::class;
   protected $dataTableDataType = '';
-  public $dataTable;
   /**
    * @var string
    */
@@ -56,10 +54,8 @@ class GaData extends \Google\Collection
   public $previousLink;
   protected $profileInfoType = GaDataProfileInfo::class;
   protected $profileInfoDataType = '';
-  public $profileInfo;
   protected $queryType = GaDataQuery::class;
   protected $queryDataType = '';
-  public $query;
   /**
    * @var string[]
    */

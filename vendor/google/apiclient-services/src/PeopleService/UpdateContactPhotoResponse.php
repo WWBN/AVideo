@@ -21,7 +21,6 @@ class UpdateContactPhotoResponse extends \Google\Model
 {
   protected $personType = Person::class;
   protected $personDataType = '';
-  public $person;
 
   /**
    * @param Person

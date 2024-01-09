@@ -30,10 +30,8 @@ class UpdateTableRowStyleRequest extends \Google\Collection
   public $rowIndices;
   protected $tableRowStyleType = TableRowStyle::class;
   protected $tableRowStyleDataType = '';
-  public $tableRowStyle;
   protected $tableStartLocationType = Location::class;
   protected $tableStartLocationDataType = '';
-  public $tableStartLocation;
 
   /**
    * @param string

@@ -26,20 +26,16 @@ class Table extends \Google\Collection
   public $columns;
   protected $horizontalBorderRowsType = TableBorderRow::class;
   protected $horizontalBorderRowsDataType = 'array';
-  public $horizontalBorderRows;
   /**
    * @var int
    */
   public $rows;
   protected $tableColumnsType = TableColumnProperties::class;
   protected $tableColumnsDataType = 'array';
-  public $tableColumns;
   protected $tableRowsType = TableRow::class;
   protected $tableRowsDataType = 'array';
-  public $tableRows;
   protected $verticalBorderRowsType = TableBorderRow::class;
   protected $verticalBorderRowsDataType = 'array';
-  public $verticalBorderRows;
 
   /**
    * @param int

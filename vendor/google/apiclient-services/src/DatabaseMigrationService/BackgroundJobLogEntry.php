@@ -19,6 +19,8 @@ namespace Google\Service\DatabaseMigrationService;
 
 class BackgroundJobLogEntry extends \Google\Model
 {
+  protected $applyJobDetailsType = ApplyJobDetails::class;
+  protected $applyJobDetailsDataType = '';
   /**
    * @var string
    */
@@ -27,6 +29,8 @@ class BackgroundJobLogEntry extends \Google\Model
    * @var string
    */
   public $completionState;
+  protected $convertJobDetailsType = ConvertJobDetails::class;
+  protected $convertJobDetailsDataType = '';
   /**
    * @var string
    */
@@ -37,7 +41,6 @@ class BackgroundJobLogEntry extends \Google\Model
   public $id;
   protected $importRulesJobDetailsType = ImportRulesJobDetails::class;
   protected $importRulesJobDetailsDataType = '';
-  public $importRulesJobDetails;
   /**
    * @var string
    */
@@ -48,12 +51,25 @@ class BackgroundJobLogEntry extends \Google\Model
   public $requestAutocommit;
   protected $seedJobDetailsType = SeedJobDetails::class;
   protected $seedJobDetailsDataType = '';
-  public $seedJobDetails;
   /**
    * @var string
    */
   public $startTime;
 
+  /**
+   * @param ApplyJobDetails
+   */
+  public function setApplyJobDetails(ApplyJobDetails $applyJobDetails)
+  {
+    $this->applyJobDetails = $applyJobDetails;
+  }
+  /**
+   * @return ApplyJobDetails
+   */
+  public function getApplyJobDetails()
+  {
+    return $this->applyJobDetails;
+  }
   /**
    * @param string
    */
@@ -81,6 +97,20 @@ class BackgroundJobLogEntry extends \Google\Model
   public function getCompletionState()
   {
     return $this->completionState;
+  }
+  /**
+   * @param ConvertJobDetails
+   */
+  public function setConvertJobDetails(ConvertJobDetails $convertJobDetails)
+  {
+    $this->convertJobDetails = $convertJobDetails;
+  }
+  /**
+   * @return ConvertJobDetails
+   */
+  public function getConvertJobDetails()
+  {
+    return $this->convertJobDetails;
   }
   /**
    * @param string

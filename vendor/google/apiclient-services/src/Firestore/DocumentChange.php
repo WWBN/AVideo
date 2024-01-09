@@ -22,7 +22,6 @@ class DocumentChange extends \Google\Collection
   protected $collection_key = 'targetIds';
   protected $documentType = Document::class;
   protected $documentDataType = '';
-  public $document;
   /**
    * @var int[]
    */

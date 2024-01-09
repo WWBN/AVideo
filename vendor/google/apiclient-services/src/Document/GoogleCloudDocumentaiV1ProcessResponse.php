@@ -21,10 +21,8 @@ class GoogleCloudDocumentaiV1ProcessResponse extends \Google\Model
 {
   protected $documentType = GoogleCloudDocumentaiV1Document::class;
   protected $documentDataType = '';
-  public $document;
   protected $humanReviewStatusType = GoogleCloudDocumentaiV1HumanReviewStatus::class;
   protected $humanReviewStatusDataType = '';
-  public $humanReviewStatus;
 
   /**
    * @param GoogleCloudDocumentaiV1Document

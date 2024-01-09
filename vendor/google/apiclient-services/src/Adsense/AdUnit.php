@@ -21,7 +21,6 @@ class AdUnit extends \Google\Model
 {
   protected $contentAdsSettingsType = ContentAdsSettings::class;
   protected $contentAdsSettingsDataType = '';
-  public $contentAdsSettings;
   /**
    * @var string
    */

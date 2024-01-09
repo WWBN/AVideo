@@ -25,7 +25,6 @@ class LogsSemanticInterpretationIntentQueryWebrefEntityRelationship extends \Goo
   public $entityIndex;
   protected $linkMetadataType = LogsSemanticInterpretationIntentQueryEntityLinkMetadata::class;
   protected $linkMetadataDataType = '';
-  public $linkMetadata;
   /**
    * @var float
    */

@@ -21,10 +21,8 @@ class AppsDynamiteSharedOrganizationInfo extends \Google\Model
 {
   protected $consumerInfoType = AppsDynamiteSharedOrganizationInfoConsumerInfo::class;
   protected $consumerInfoDataType = '';
-  public $consumerInfo;
   protected $customerInfoType = AppsDynamiteSharedOrganizationInfoCustomerInfo::class;
   protected $customerInfoDataType = '';
-  public $customerInfo;
 
   /**
    * @param AppsDynamiteSharedOrganizationInfoConsumerInfo

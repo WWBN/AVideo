@@ -22,21 +22,18 @@ class KeyRangeInfo extends \Google\Collection
   protected $collection_key = 'contextValues';
   protected $contextValuesType = ContextValue::class;
   protected $contextValuesDataType = 'array';
-  public $contextValues;
   /**
    * @var int
    */
   public $endKeyIndex;
   protected $infoType = LocalizedString::class;
   protected $infoDataType = '';
-  public $info;
   /**
    * @var string
    */
   public $keysCount;
   protected $metricType = LocalizedString::class;
   protected $metricDataType = '';
-  public $metric;
   /**
    * @var int
    */
@@ -47,7 +44,6 @@ class KeyRangeInfo extends \Google\Collection
   public $timeOffset;
   protected $unitType = LocalizedString::class;
   protected $unitDataType = '';
-  public $unit;
   /**
    * @var float
    */

@@ -22,10 +22,8 @@ class PacketMirroringsScopedList extends \Google\Collection
   protected $collection_key = 'packetMirrorings';
   protected $packetMirroringsType = PacketMirroring::class;
   protected $packetMirroringsDataType = 'array';
-  public $packetMirrorings;
   protected $warningType = PacketMirroringsScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param PacketMirroring[]

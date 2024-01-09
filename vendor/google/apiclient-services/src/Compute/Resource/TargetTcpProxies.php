@@ -132,8 +132,7 @@ class TargetTcpProxies extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified TargetTcpProxy resource. Gets a list of available
-   * target TCP proxies by making a list() request. (targetTcpProxies.get)
+   * Returns the specified TargetTcpProxy resource. (targetTcpProxies.get)
    *
    * @param string $project Project ID for this request.
    * @param string $targetTcpProxy Name of the TargetTcpProxy resource to return.

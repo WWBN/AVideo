@@ -117,7 +117,8 @@ class OrganizationsGcpUserAccessBindings extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. Only the fields specified in this mask
    * are updated. Because name and group_key cannot be changed, update_mask is
-   * required and must always be: update_mask { paths: "access_levels" }
+   * required and may only contain the following fields: `access_levels`,
+   * `dry_run_access_levels`. update_mask { paths: "access_levels" }
    * @return Operation
    */
   public function patch($name, GcpUserAccessBinding $postBody, $optParams = [])

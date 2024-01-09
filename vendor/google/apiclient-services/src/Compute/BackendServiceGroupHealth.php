@@ -26,7 +26,6 @@ class BackendServiceGroupHealth extends \Google\Collection
   public $annotations;
   protected $healthStatusType = HealthStatus::class;
   protected $healthStatusDataType = 'array';
-  public $healthStatus;
   /**
    * @var string
    */

@@ -34,7 +34,6 @@ class StreamingConfigTask extends \Google\Collection
   public $maxWorkItemCommitBytes;
   protected $streamingComputationConfigsType = StreamingComputationConfig::class;
   protected $streamingComputationConfigsDataType = 'array';
-  public $streamingComputationConfigs;
   /**
    * @var string[]
    */

@@ -21,7 +21,6 @@ class LocationInfo extends \Google\Model
 {
   protected $latLngType = LatLng::class;
   protected $latLngDataType = '';
-  public $latLng;
 
   /**
    * @param LatLng

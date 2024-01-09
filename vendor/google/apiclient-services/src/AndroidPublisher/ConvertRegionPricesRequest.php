@@ -21,7 +21,6 @@ class ConvertRegionPricesRequest extends \Google\Model
 {
   protected $priceType = Money::class;
   protected $priceDataType = '';
-  public $price;
 
   /**
    * @param Money

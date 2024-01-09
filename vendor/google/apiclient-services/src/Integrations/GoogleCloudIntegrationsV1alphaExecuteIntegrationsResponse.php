@@ -22,7 +22,6 @@ class GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse extends \Google\
   protected $collection_key = 'parameterEntries';
   protected $eventParametersType = EnterpriseCrmFrontendsEventbusProtoEventParameters::class;
   protected $eventParametersDataType = '';
-  public $eventParameters;
   /**
    * @var bool
    */
@@ -37,7 +36,6 @@ class GoogleCloudIntegrationsV1alphaExecuteIntegrationsResponse extends \Google\
   public $outputParameters;
   protected $parameterEntriesType = EnterpriseCrmFrontendsEventbusProtoParameterEntry::class;
   protected $parameterEntriesDataType = 'array';
-  public $parameterEntries;
 
   /**
    * @param EnterpriseCrmFrontendsEventbusProtoEventParameters

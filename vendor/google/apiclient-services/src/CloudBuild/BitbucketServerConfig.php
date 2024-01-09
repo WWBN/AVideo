@@ -26,7 +26,6 @@ class BitbucketServerConfig extends \Google\Collection
   public $apiKey;
   protected $connectedRepositoriesType = BitbucketServerRepositoryId::class;
   protected $connectedRepositoriesDataType = 'array';
-  public $connectedRepositories;
   /**
    * @var string
    */
@@ -45,7 +44,6 @@ class BitbucketServerConfig extends \Google\Collection
   public $peeredNetwork;
   protected $secretsType = BitbucketServerSecrets::class;
   protected $secretsDataType = '';
-  public $secrets;
   /**
    * @var string
    */

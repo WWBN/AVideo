@@ -22,7 +22,6 @@ class ListKeyRingsResponse extends \Google\Collection
   protected $collection_key = 'keyRings';
   protected $keyRingsType = KeyRing::class;
   protected $keyRingsDataType = 'array';
-  public $keyRings;
   /**
    * @var string
    */

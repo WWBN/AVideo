@@ -21,7 +21,6 @@ class LayoutPlaceholderIdMapping extends \Google\Model
 {
   protected $layoutPlaceholderType = Placeholder::class;
   protected $layoutPlaceholderDataType = '';
-  public $layoutPlaceholder;
   /**
    * @var string
    */

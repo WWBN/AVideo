@@ -21,7 +21,6 @@ class GoogleIamV2PolicyRule extends \Google\Model
 {
   protected $denyRuleType = GoogleIamV2DenyRule::class;
   protected $denyRuleDataType = '';
-  public $denyRule;
   /**
    * @var string
    */

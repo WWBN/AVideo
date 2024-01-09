@@ -26,7 +26,6 @@ class UsageReport extends \Google\Collection
   public $date;
   protected $entityType = UsageReportEntity::class;
   protected $entityDataType = '';
-  public $entity;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class UsageReport extends \Google\Collection
   public $kind;
   protected $parametersType = UsageReportParameters::class;
   protected $parametersDataType = 'array';
-  public $parameters;
 
   /**
    * @param string

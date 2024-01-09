@@ -30,7 +30,6 @@ class GoogleIdentityAccesscontextmanagerV1IngressFrom extends \Google\Collection
   public $identityType;
   protected $sourcesType = GoogleIdentityAccesscontextmanagerV1IngressSource::class;
   protected $sourcesDataType = 'array';
-  public $sources;
 
   /**
    * @param string[]

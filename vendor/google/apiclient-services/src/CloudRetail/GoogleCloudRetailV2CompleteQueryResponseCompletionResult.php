@@ -21,7 +21,6 @@ class GoogleCloudRetailV2CompleteQueryResponseCompletionResult extends \Google\M
 {
   protected $attributesType = GoogleCloudRetailV2CustomAttribute::class;
   protected $attributesDataType = 'map';
-  public $attributes;
   /**
    * @var string
    */

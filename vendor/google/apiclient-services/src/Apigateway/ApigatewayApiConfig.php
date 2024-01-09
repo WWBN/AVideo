@@ -34,21 +34,18 @@ class ApigatewayApiConfig extends \Google\Collection
   public $gatewayServiceAccount;
   protected $grpcServicesType = ApigatewayApiConfigGrpcServiceDefinition::class;
   protected $grpcServicesDataType = 'array';
-  public $grpcServices;
   /**
    * @var string[]
    */
   public $labels;
   protected $managedServiceConfigsType = ApigatewayApiConfigFile::class;
   protected $managedServiceConfigsDataType = 'array';
-  public $managedServiceConfigs;
   /**
    * @var string
    */
   public $name;
   protected $openapiDocumentsType = ApigatewayApiConfigOpenApiDocument::class;
   protected $openapiDocumentsDataType = 'array';
-  public $openapiDocuments;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class TestOrderDeliveryDetails extends \Google\Model
 {
   protected $addressType = TestOrderAddress::class;
   protected $addressDataType = '';
-  public $address;
   /**
    * @var bool
    */

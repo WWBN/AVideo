@@ -21,10 +21,8 @@ class NlpSaftAnnotatedPhrase extends \Google\Model
 {
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
-  public $info;
   protected $phraseType = NlpSaftPhrase::class;
   protected $phraseDataType = '';
-  public $phrase;
 
   /**
    * @param Proto2BridgeMessageSet

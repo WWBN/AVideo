@@ -284,6 +284,16 @@ class CloudFilestore extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'revert' => [
+              'path' => 'v1/{+name}:revert',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

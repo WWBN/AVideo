@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ScoreComponentRecommendation extends \Google\Collection
   protected $collection_key = 'actions';
   protected $actionsType = GoogleCloudApigeeV1ScoreComponentRecommendationAction::class;
   protected $actionsDataType = 'array';
-  public $actions;
   /**
    * @var string
    */

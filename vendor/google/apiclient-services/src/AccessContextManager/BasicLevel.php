@@ -26,7 +26,6 @@ class BasicLevel extends \Google\Collection
   public $combiningFunction;
   protected $conditionsType = Condition::class;
   protected $conditionsDataType = 'array';
-  public $conditions;
 
   /**
    * @param string

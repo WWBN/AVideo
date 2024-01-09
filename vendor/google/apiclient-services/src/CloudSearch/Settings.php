@@ -42,6 +42,10 @@ class Settings extends \Google\Model
   /**
    * @var bool
    */
+  public $coActivityLock;
+  /**
+   * @var bool
+   */
   public $cohostArtifactSharingEnabled;
   /**
    * @var bool
@@ -133,6 +137,20 @@ class Settings extends \Google\Model
   public function getChatLock()
   {
     return $this->chatLock;
+  }
+  /**
+   * @param bool
+   */
+  public function setCoActivityLock($coActivityLock)
+  {
+    $this->coActivityLock = $coActivityLock;
+  }
+  /**
+   * @return bool
+   */
+  public function getCoActivityLock()
+  {
+    return $this->coActivityLock;
   }
   /**
    * @param bool

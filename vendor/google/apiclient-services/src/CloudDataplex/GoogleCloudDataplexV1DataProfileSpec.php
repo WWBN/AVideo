@@ -19,6 +19,43 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1DataProfileSpec extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $rowFilter;
+  /**
+   * @var float
+   */
+  public $samplingPercent;
+
+  /**
+   * @param string
+   */
+  public function setRowFilter($rowFilter)
+  {
+    $this->rowFilter = $rowFilter;
+  }
+  /**
+   * @return string
+   */
+  public function getRowFilter()
+  {
+    return $this->rowFilter;
+  }
+  /**
+   * @param float
+   */
+  public function setSamplingPercent($samplingPercent)
+  {
+    $this->samplingPercent = $samplingPercent;
+  }
+  /**
+   * @return float
+   */
+  public function getSamplingPercent()
+  {
+    return $this->samplingPercent;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

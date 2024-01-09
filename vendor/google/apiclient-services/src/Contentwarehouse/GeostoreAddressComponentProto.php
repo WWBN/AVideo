@@ -22,7 +22,6 @@ class GeostoreAddressComponentProto extends \Google\Collection
   protected $collection_key = 'textAffix';
   protected $featureIdType = GeostoreFeatureIdProto::class;
   protected $featureIdDataType = '';
-  public $featureId;
   /**
    * @var int
    */
@@ -33,16 +32,12 @@ class GeostoreAddressComponentProto extends \Google\Collection
   public $index;
   protected $parsedNameType = GeostoreNameProto::class;
   protected $parsedNameDataType = 'array';
-  public $parsedName;
   protected $rangeType = GeostoreAddressRangeProto::class;
   protected $rangeDataType = '';
-  public $range;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
-  public $temporaryData;
   protected $textAffixType = GeostoreTextAffixProto::class;
   protected $textAffixDataType = 'array';
-  public $textAffix;
   /**
    * @var string
    */

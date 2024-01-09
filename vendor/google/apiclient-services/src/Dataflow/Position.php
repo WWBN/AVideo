@@ -25,7 +25,6 @@ class Position extends \Google\Model
   public $byteOffset;
   protected $concatPositionType = ConcatPosition::class;
   protected $concatPositionDataType = '';
-  public $concatPosition;
   /**
    * @var bool
    */

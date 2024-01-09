@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ListApiProductsResponse extends \Google\Collection
   protected $collection_key = 'apiProduct';
   protected $apiProductType = GoogleCloudApigeeV1ApiProduct::class;
   protected $apiProductDataType = 'array';
-  public $apiProduct;
 
   /**
    * @param GoogleCloudApigeeV1ApiProduct[]

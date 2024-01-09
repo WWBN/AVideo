@@ -21,7 +21,6 @@ class ChannelSection extends \Google\Model
 {
   protected $contentDetailsType = ChannelSectionContentDetails::class;
   protected $contentDetailsDataType = '';
-  public $contentDetails;
   /**
    * @var string
    */
@@ -36,13 +35,10 @@ class ChannelSection extends \Google\Model
   public $kind;
   protected $localizationsType = ChannelSectionLocalization::class;
   protected $localizationsDataType = 'map';
-  public $localizations;
   protected $snippetType = ChannelSectionSnippet::class;
   protected $snippetDataType = '';
-  public $snippet;
   protected $targetingType = ChannelSectionTargeting::class;
   protected $targetingDataType = '';
-  public $targeting;
 
   /**
    * @param ChannelSectionContentDetails

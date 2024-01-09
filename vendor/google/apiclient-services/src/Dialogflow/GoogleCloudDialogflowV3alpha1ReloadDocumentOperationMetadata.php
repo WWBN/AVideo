@@ -21,7 +21,6 @@ class GoogleCloudDialogflowV3alpha1ReloadDocumentOperationMetadata extends \Goog
 {
   protected $genericMetadataType = GoogleCloudDialogflowV3alpha1GenericKnowledgeOperationMetadata::class;
   protected $genericMetadataDataType = '';
-  public $genericMetadata;
 
   /**
    * @param GoogleCloudDialogflowV3alpha1GenericKnowledgeOperationMetadata

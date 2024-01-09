@@ -38,14 +38,12 @@ class MachineImage extends \Google\Collection
   public $id;
   protected $instancePropertiesType = InstanceProperties::class;
   protected $instancePropertiesDataType = '';
-  public $instanceProperties;
   /**
    * @var string
    */
   public $kind;
   protected $machineImageEncryptionKeyType = CustomerEncryptionKey::class;
   protected $machineImageEncryptionKeyDataType = '';
-  public $machineImageEncryptionKey;
   /**
    * @var string
    */
@@ -56,21 +54,18 @@ class MachineImage extends \Google\Collection
   public $satisfiesPzs;
   protected $savedDisksType = SavedDisk::class;
   protected $savedDisksDataType = 'array';
-  public $savedDisks;
   /**
    * @var string
    */
   public $selfLink;
   protected $sourceDiskEncryptionKeysType = SourceDiskEncryptionKey::class;
   protected $sourceDiskEncryptionKeysDataType = 'array';
-  public $sourceDiskEncryptionKeys;
   /**
    * @var string
    */
   public $sourceInstance;
   protected $sourceInstancePropertiesType = SourceInstanceProperties::class;
   protected $sourceInstancePropertiesDataType = '';
-  public $sourceInstanceProperties;
   /**
    * @var string
    */

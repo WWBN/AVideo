@@ -22,7 +22,6 @@ class ShippingsettingsCustomBatchResponse extends \Google\Collection
   protected $collection_key = 'entries';
   protected $entriesType = ShippingsettingsCustomBatchResponseEntry::class;
   protected $entriesDataType = 'array';
-  public $entries;
   /**
    * @var string
    */

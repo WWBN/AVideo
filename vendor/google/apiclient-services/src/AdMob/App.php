@@ -29,10 +29,8 @@ class App extends \Google\Model
   public $appId;
   protected $linkedAppInfoType = AppLinkedAppInfo::class;
   protected $linkedAppInfoDataType = '';
-  public $linkedAppInfo;
   protected $manualAppInfoType = AppManualAppInfo::class;
   protected $manualAppInfoDataType = '';
-  public $manualAppInfo;
   /**
    * @var string
    */

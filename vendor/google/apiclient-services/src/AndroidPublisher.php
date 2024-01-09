@@ -52,6 +52,7 @@ class AndroidPublisher extends \Google\Service
   public $edits_listings;
   public $edits_testers;
   public $edits_tracks;
+  public $externaltransactions;
   public $generatedapks;
   public $grants;
   public $inappproducts;
@@ -949,6 +950,50 @@ class AndroidPublisher extends \Google\Service
           ]
         ]
     );
+    $this->externaltransactions = new AndroidPublisher\Resource\Externaltransactions(
+        $this,
+        $this->serviceName,
+        'externaltransactions',
+        [
+          'methods' => [
+            'createexternaltransaction' => [
+              'path' => 'androidpublisher/v3/{+parent}/externalTransactions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'externalTransactionId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'getexternaltransaction' => [
+              'path' => 'androidpublisher/v3/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'refundexternaltransaction' => [
+              'path' => 'androidpublisher/v3/{+name}:refund',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->generatedapks = new AndroidPublisher\Resource\Generatedapks(
         $this,
         $this->serviceName,
@@ -1650,6 +1695,26 @@ class AndroidPublisher extends \Google\Service
           'methods' => [
             'acknowledge' => [
               'path' => 'androidpublisher/v3/applications/{packageName}/purchases/products/{productId}/tokens/{token}:acknowledge',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'packageName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'token' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'consume' => [
+              'path' => 'androidpublisher/v3/applications/{packageName}/purchases/products/{productId}/tokens/{token}:consume',
               'httpMethod' => 'POST',
               'parameters' => [
                 'packageName' => [

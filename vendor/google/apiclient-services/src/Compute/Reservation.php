@@ -49,7 +49,6 @@ class Reservation extends \Google\Model
   public $resourcePolicies;
   protected $resourceStatusType = AllocationResourceStatus::class;
   protected $resourceStatusDataType = '';
-  public $resourceStatus;
   /**
    * @var bool
    */
@@ -60,10 +59,8 @@ class Reservation extends \Google\Model
   public $selfLink;
   protected $shareSettingsType = ShareSettings::class;
   protected $shareSettingsDataType = '';
-  public $shareSettings;
   protected $specificReservationType = AllocationSpecificSKUReservation::class;
   protected $specificReservationDataType = '';
-  public $specificReservation;
   /**
    * @var bool
    */

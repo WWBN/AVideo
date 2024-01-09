@@ -64,7 +64,7 @@ class Instance extends \Google\Collection
   public $diskEncryption;
   protected $disksType = Disk::class;
   protected $disksDataType = 'array';
-  public $disks;
+  public $disks = [];
   /**
    * @var bool
    */
@@ -72,7 +72,7 @@ class Instance extends \Google\Collection
   /**
    * @var string[]
    */
-  public $instanceOwners;
+  public $instanceOwners = [];
   /**
    * @var string
    */
@@ -80,7 +80,7 @@ class Instance extends \Google\Collection
   /**
    * @var string[]
    */
-  public $labels;
+  public $labels = [];
   /**
    * @var string
    */
@@ -88,7 +88,7 @@ class Instance extends \Google\Collection
   /**
    * @var string[]
    */
-  public $metadata;
+  public $metadata = [];
   /**
    * @var string
    */
@@ -131,7 +131,7 @@ class Instance extends \Google\Collection
   /**
    * @var string[]
    */
-  public $serviceAccountScopes;
+  public $serviceAccountScopes = [];
   protected $shieldedInstanceConfigType = ShieldedInstanceConfig::class;
   protected $shieldedInstanceConfigDataType = '';
   public $shieldedInstanceConfig;
@@ -146,14 +146,14 @@ class Instance extends \Google\Collection
   /**
    * @var string[]
    */
-  public $tags;
+  public $tags = [];
   /**
    * @var string
    */
   public $updateTime;
   protected $upgradeHistoryType = UpgradeHistoryEntry::class;
   protected $upgradeHistoryDataType = 'array';
-  public $upgradeHistory;
+  public $upgradeHistory = [];
   protected $vmImageType = VmImage::class;
   protected $vmImageDataType = '';
   public $vmImage;

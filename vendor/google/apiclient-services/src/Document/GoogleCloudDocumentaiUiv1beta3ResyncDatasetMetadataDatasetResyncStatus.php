@@ -25,7 +25,6 @@ class GoogleCloudDocumentaiUiv1beta3ResyncDatasetMetadataDatasetResyncStatus ext
   public $datasetInconsistencyType;
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
-  public $status;
 
   /**
    * @param string

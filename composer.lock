@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "48bb318b21adcae713f23653ec2880c2",
+    "content-hash": "fb3ed281e7175ec62060473352041473",
     "packages": [
         {
             "name": "abraham/twitteroauth",
@@ -433,6 +433,54 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "bunnycdn/storage",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage.git",
+                "reference": "4f57caf033bca2255c1d75d369061902e2a32da5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BunnyWay/BunnyCDN.PHP.Storage/zipball/4f57caf033bca2255c1d75d369061902e2a32da5",
+                "reference": "4f57caf033bca2255c1d75d369061902e2a32da5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=8.0.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Bunny\\Storage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dejan Grofelnik Pelzel",
+                    "email": "dejan@bunnycdn.com"
+                }
+            ],
+            "description": "PHP library to interact with the BunnyCDN Storage API.",
+            "homepage": "https://bunny.net/storage/",
+            "keywords": [
+                "Bunny.net",
+                "bunnyCDN",
+                "media",
+                "storage"
+            ],
+            "support": {
+                "issues": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/issues",
+                "source": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/tree/2.0.0"
+            },
+            "time": "2023-12-14T13:40:23+00:00"
         },
         {
             "name": "cboden/ratchet",
@@ -6020,5 +6068,5 @@
     "platform-overrides": {
         "php": "7.3"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }

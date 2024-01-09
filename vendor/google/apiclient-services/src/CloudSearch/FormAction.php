@@ -30,7 +30,6 @@ class FormAction extends \Google\Collection
   public $loadIndicator;
   protected $parametersType = ActionParameter::class;
   protected $parametersDataType = 'array';
-  public $parameters;
   /**
    * @var bool
    */

@@ -22,7 +22,6 @@ class NlpSemanticParsingModelsOnDevice extends \Google\Collection
   protected $collection_key = 'device';
   protected $deviceType = NlpSemanticParsingModelsDevice::class;
   protected $deviceDataType = 'array';
-  public $device;
 
   /**
    * @param NlpSemanticParsingModelsDevice[]

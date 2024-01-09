@@ -22,7 +22,6 @@ class ImageRepositoryVenomStatus extends \Google\Collection
   protected $collection_key = 'settings';
   protected $aclType = VideoAssetsVenomACL::class;
   protected $aclDataType = '';
-  public $acl;
   /**
    * @var string
    */
@@ -49,17 +48,14 @@ class ImageRepositoryVenomStatus extends \Google\Collection
   public $reason;
   protected $settingsType = VideoAssetsVenomSettings::class;
   protected $settingsDataType = 'array';
-  public $settings;
   /**
    * @var string
    */
   public $state;
   protected $transitionType = VideoAssetsVenomTransition::class;
   protected $transitionDataType = '';
-  public $transition;
   protected $venomIdType = VideoAssetsVenomVideoId::class;
   protected $venomIdDataType = '';
-  public $venomId;
   /**
    * @var string
    */

@@ -37,7 +37,6 @@ class QualityNavboostCrapsFeatureCrapsData extends \Google\Model
   public $locationId;
   protected $signalsType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $signalsDataType = '';
-  public $signals;
 
   /**
    * @param string

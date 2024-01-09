@@ -22,7 +22,6 @@ class FileList extends \Google\Collection
   protected $collection_key = 'files';
   protected $filesType = DriveFile::class;
   protected $filesDataType = 'array';
-  public $files;
   /**
    * @var bool
    */

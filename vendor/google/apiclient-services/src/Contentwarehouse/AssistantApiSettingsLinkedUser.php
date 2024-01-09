@@ -34,7 +34,6 @@ class AssistantApiSettingsLinkedUser extends \Google\Collection
   public $gaiaId;
   protected $namesType = AppsPeopleOzExternalMergedpeopleapiName::class;
   protected $namesDataType = 'array';
-  public $names;
 
   /**
    * @param string

@@ -29,7 +29,6 @@ class CertificateIdentityConstraints extends \Google\Model
   public $allowSubjectPassthrough;
   protected $celExpressionType = Expr::class;
   protected $celExpressionDataType = '';
-  public $celExpression;
 
   /**
    * @param bool

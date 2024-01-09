@@ -22,7 +22,6 @@ class AssistantDevicesPlatformProtoCloudCapability extends \Google\Collection
   protected $collection_key = 'cloudEndpoints';
   protected $cloudEndpointsType = AssistantDevicesPlatformProtoCloudEndpoint::class;
   protected $cloudEndpointsDataType = 'array';
-  public $cloudEndpoints;
 
   /**
    * @param AssistantDevicesPlatformProtoCloudEndpoint[]

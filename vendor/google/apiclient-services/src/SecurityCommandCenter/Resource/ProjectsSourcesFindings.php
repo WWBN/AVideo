@@ -154,10 +154,11 @@ class ProjectsSourcesFindings extends \Google\Service\Resource
    * Creates or updates a finding. The corresponding source must exist for a
    * finding creation to succeed. (findings.patch)
    *
-   * @param string $name The relative resource name of this finding. See:
-   * https://cloud.google.com/apis/design/resource_names#relative_resource_name
-   * Example:
-   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}"
+   * @param string $name The [relative resource name](https://cloud.google.com/api
+   * s/design/resource_names#relative_resource_name) of the finding. Example:
+   * "organizations/{organization_id}/sources/{source_id}/findings/{finding_id}",
+   * "folders/{folder_id}/sources/{source_id}/findings/{finding_id}",
+   * "projects/{project_id}/sources/{source_id}/findings/{finding_id}".
    * @param Finding $postBody
    * @param array $optParams Optional parameters.
    *

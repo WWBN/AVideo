@@ -33,7 +33,6 @@ class GoogleCloudDialogflowCxV3WebhookRequestIntentInfo extends \Google\Model
   public $lastMatchedIntent;
   protected $parametersType = GoogleCloudDialogflowCxV3WebhookRequestIntentInfoIntentParameterValue::class;
   protected $parametersDataType = 'map';
-  public $parameters;
 
   /**
    * @param float

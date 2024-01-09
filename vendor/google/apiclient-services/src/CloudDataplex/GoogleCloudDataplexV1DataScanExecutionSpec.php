@@ -25,7 +25,6 @@ class GoogleCloudDataplexV1DataScanExecutionSpec extends \Google\Model
   public $field;
   protected $triggerType = GoogleCloudDataplexV1Trigger::class;
   protected $triggerDataType = '';
-  public $trigger;
 
   /**
    * @param string

@@ -22,7 +22,6 @@ class Source extends \Google\Collection
   protected $collection_key = 'files';
   protected $filesType = FirebaserulesFile::class;
   protected $filesDataType = 'array';
-  public $files;
 
   /**
    * @param FirebaserulesFile[]

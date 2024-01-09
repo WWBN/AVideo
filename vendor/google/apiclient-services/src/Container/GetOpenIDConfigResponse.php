@@ -30,7 +30,6 @@ class GetOpenIDConfigResponse extends \Google\Collection
   ];
   protected $cacheHeaderType = HttpCacheControlResponseHeader::class;
   protected $cacheHeaderDataType = '';
-  public $cacheHeader;
   /**
    * @var string[]
    */

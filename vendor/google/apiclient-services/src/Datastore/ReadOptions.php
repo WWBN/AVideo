@@ -21,7 +21,6 @@ class ReadOptions extends \Google\Model
 {
   protected $newTransactionType = TransactionOptions::class;
   protected $newTransactionDataType = '';
-  public $newTransaction;
   /**
    * @var string
    */

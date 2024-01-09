@@ -22,7 +22,6 @@ class GoogleCloudRetailV2SearchRequestBoostSpec extends \Google\Collection
   protected $collection_key = 'conditionBoostSpecs';
   protected $conditionBoostSpecsType = GoogleCloudRetailV2SearchRequestBoostSpecConditionBoostSpec::class;
   protected $conditionBoostSpecsDataType = 'array';
-  public $conditionBoostSpecs;
   /**
    * @var bool
    */

@@ -22,7 +22,6 @@ class BulkListInsertionOrderAssignedTargetingOptionsResponse extends \Google\Col
   protected $collection_key = 'assignedTargetingOptions';
   protected $assignedTargetingOptionsType = AssignedTargetingOption::class;
   protected $assignedTargetingOptionsDataType = 'array';
-  public $assignedTargetingOptions;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class GoogleAdsSearchads360V0ErrorsErrorDetails extends \Google\Model
 {
   protected $quotaErrorDetailsType = GoogleAdsSearchads360V0ErrorsQuotaErrorDetails::class;
   protected $quotaErrorDetailsDataType = '';
-  public $quotaErrorDetails;
   /**
    * @var string
    */

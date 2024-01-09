@@ -30,7 +30,6 @@ class ConnectivityTest extends \Google\Collection
   public $description;
   protected $destinationType = Endpoint::class;
   protected $destinationDataType = '';
-  public $destination;
   /**
    * @var string
    */
@@ -49,14 +48,12 @@ class ConnectivityTest extends \Google\Collection
   public $protocol;
   protected $reachabilityDetailsType = ReachabilityDetails::class;
   protected $reachabilityDetailsDataType = '';
-  public $reachabilityDetails;
   /**
    * @var string[]
    */
   public $relatedProjects;
   protected $sourceType = Endpoint::class;
   protected $sourceDataType = '';
-  public $source;
   /**
    * @var string
    */

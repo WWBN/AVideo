@@ -33,10 +33,8 @@ class HttpRequest extends \Google\Model
   public $httpMethod;
   protected $oauthTokenType = OAuthToken::class;
   protected $oauthTokenDataType = '';
-  public $oauthToken;
   protected $oidcTokenType = OidcToken::class;
   protected $oidcTokenDataType = '';
-  public $oidcToken;
   /**
    * @var string
    */

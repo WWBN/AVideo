@@ -22,7 +22,6 @@ class GetSearchApplicationQueryStatsResponse extends \Google\Collection
   protected $collection_key = 'stats';
   protected $statsType = SearchApplicationQueryStats::class;
   protected $statsDataType = 'array';
-  public $stats;
   /**
    * @var string
    */

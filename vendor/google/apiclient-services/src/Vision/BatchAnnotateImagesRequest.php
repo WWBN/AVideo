@@ -26,7 +26,6 @@ class BatchAnnotateImagesRequest extends \Google\Collection
   public $parent;
   protected $requestsType = AnnotateImageRequest::class;
   protected $requestsDataType = 'array';
-  public $requests;
 
   /**
    * @param string

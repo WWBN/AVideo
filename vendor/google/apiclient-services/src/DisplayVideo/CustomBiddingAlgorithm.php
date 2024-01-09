@@ -42,7 +42,6 @@ class CustomBiddingAlgorithm extends \Google\Collection
   public $entityStatus;
   protected $modelDetailsType = CustomBiddingModelDetails::class;
   protected $modelDetailsDataType = 'array';
-  public $modelDetails;
   /**
    * @var string
    */

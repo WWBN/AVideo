@@ -22,10 +22,8 @@ class DrishtiQuantizedByteIndexedFeatureData extends \Google\Collection
   protected $collection_key = 'index';
   protected $extraType = DrishtiFeatureExtra::class;
   protected $extraDataType = 'array';
-  public $extra;
   protected $generalExtraType = DrishtiFeatureExtra::class;
   protected $generalExtraDataType = '';
-  public $generalExtra;
   /**
    * @var string[]
    */

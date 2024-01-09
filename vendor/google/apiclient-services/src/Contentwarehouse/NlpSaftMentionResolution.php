@@ -21,7 +21,6 @@ class NlpSaftMentionResolution extends \Google\Model
 {
   protected $profileType = NlpSaftEntityProfile::class;
   protected $profileDataType = '';
-  public $profile;
   /**
    * @var string
    */

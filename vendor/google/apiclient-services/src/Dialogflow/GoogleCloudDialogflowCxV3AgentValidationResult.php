@@ -22,7 +22,6 @@ class GoogleCloudDialogflowCxV3AgentValidationResult extends \Google\Collection
   protected $collection_key = 'flowValidationResults';
   protected $flowValidationResultsType = GoogleCloudDialogflowCxV3FlowValidationResult::class;
   protected $flowValidationResultsDataType = 'array';
-  public $flowValidationResults;
   /**
    * @var string
    */

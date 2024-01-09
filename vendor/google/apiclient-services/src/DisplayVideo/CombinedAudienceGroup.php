@@ -22,7 +22,6 @@ class CombinedAudienceGroup extends \Google\Collection
   protected $collection_key = 'settings';
   protected $settingsType = CombinedAudienceTargetingSetting::class;
   protected $settingsDataType = 'array';
-  public $settings;
 
   /**
    * @param CombinedAudienceTargetingSetting[]

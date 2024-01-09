@@ -22,7 +22,6 @@ class SasPortalPolicy extends \Google\Collection
   protected $collection_key = 'assignments';
   protected $assignmentsType = SasPortalAssignment::class;
   protected $assignmentsDataType = 'array';
-  public $assignments;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class BulkEditAssignedLocationsResponse extends \Google\Collection
   protected $collection_key = 'assignedLocations';
   protected $assignedLocationsType = AssignedLocation::class;
   protected $assignedLocationsDataType = 'array';
-  public $assignedLocations;
 
   /**
    * @param AssignedLocation[]

@@ -26,7 +26,6 @@ class ListTagValuesResponse extends \Google\Collection
   public $nextPageToken;
   protected $tagValuesType = TagValue::class;
   protected $tagValuesDataType = 'array';
-  public $tagValues;
 
   /**
    * @param string

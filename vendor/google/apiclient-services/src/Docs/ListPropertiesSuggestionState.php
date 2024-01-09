@@ -22,7 +22,6 @@ class ListPropertiesSuggestionState extends \Google\Collection
   protected $collection_key = 'nestingLevelsSuggestionStates';
   protected $nestingLevelsSuggestionStatesType = NestingLevelSuggestionState::class;
   protected $nestingLevelsSuggestionStatesDataType = 'array';
-  public $nestingLevelsSuggestionStates;
 
   /**
    * @param NestingLevelSuggestionState[]

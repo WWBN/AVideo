@@ -21,7 +21,6 @@ class AppsDynamiteSharedCallMetadata extends \Google\Model
 {
   protected $meetMetadataType = AppsDynamiteSharedMeetMetadata::class;
   protected $meetMetadataDataType = '';
-  public $meetMetadata;
 
   /**
    * @param AppsDynamiteSharedMeetMetadata

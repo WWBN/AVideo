@@ -20,6 +20,7 @@ namespace Google\Service\CloudHealthcare\Resource;
 use Google\Service\CloudHealthcare\DeidentifyFhirStoreRequest;
 use Google\Service\CloudHealthcare\ExportResourcesRequest;
 use Google\Service\CloudHealthcare\FhirStore;
+use Google\Service\CloudHealthcare\FhirStoreMetrics;
 use Google\Service\CloudHealthcare\HealthcareEmpty;
 use Google\Service\CloudHealthcare\ImportResourcesRequest;
 use Google\Service\CloudHealthcare\ListFhirStoresResponse;
@@ -127,6 +128,19 @@ class ProjectsLocationsDatasetsFhirStores extends \Google\Service\Resource
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], FhirStore::class);
+  }
+  /**
+   * Gets metrics associated with the FHIR store. (fhirStores.getFHIRStoreMetrics)
+   *
+   * @param string $name The resource name of the FHIR store to get metrics for.
+   * @param array $optParams Optional parameters.
+   * @return FhirStoreMetrics
+   */
+  public function getFHIRStoreMetrics($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getFHIRStoreMetrics', [$params], FhirStoreMetrics::class);
   }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the

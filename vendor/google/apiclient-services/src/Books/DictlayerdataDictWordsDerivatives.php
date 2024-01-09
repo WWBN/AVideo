@@ -21,7 +21,6 @@ class DictlayerdataDictWordsDerivatives extends \Google\Model
 {
   protected $sourceType = DictlayerdataDictWordsDerivativesSource::class;
   protected $sourceDataType = '';
-  public $source;
   /**
    * @var string
    */

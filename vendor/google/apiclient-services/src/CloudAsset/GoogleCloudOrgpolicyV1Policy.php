@@ -21,7 +21,6 @@ class GoogleCloudOrgpolicyV1Policy extends \Google\Model
 {
   protected $booleanPolicyType = GoogleCloudOrgpolicyV1BooleanPolicy::class;
   protected $booleanPolicyDataType = '';
-  public $booleanPolicy;
   /**
    * @var string
    */
@@ -32,10 +31,8 @@ class GoogleCloudOrgpolicyV1Policy extends \Google\Model
   public $etag;
   protected $listPolicyType = GoogleCloudOrgpolicyV1ListPolicy::class;
   protected $listPolicyDataType = '';
-  public $listPolicy;
   protected $restoreDefaultType = GoogleCloudOrgpolicyV1RestoreDefault::class;
   protected $restoreDefaultDataType = '';
-  public $restoreDefault;
   /**
    * @var string
    */

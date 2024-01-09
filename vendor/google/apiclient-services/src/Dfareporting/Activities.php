@@ -22,7 +22,6 @@ class Activities extends \Google\Collection
   protected $collection_key = 'metricNames';
   protected $filtersType = DimensionValue::class;
   protected $filtersDataType = 'array';
-  public $filters;
   /**
    * @var string
    */

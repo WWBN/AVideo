@@ -29,7 +29,6 @@ class CreativeGroup extends \Google\Model
   public $advertiserId;
   protected $advertiserIdDimensionValueType = DimensionValue::class;
   protected $advertiserIdDimensionValueDataType = '';
-  public $advertiserIdDimensionValue;
   /**
    * @var int
    */

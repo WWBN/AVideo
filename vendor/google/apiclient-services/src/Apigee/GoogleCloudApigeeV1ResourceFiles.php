@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1ResourceFiles extends \Google\Collection
   protected $collection_key = 'resourceFile';
   protected $resourceFileType = GoogleCloudApigeeV1ResourceFile::class;
   protected $resourceFileDataType = 'array';
-  public $resourceFile;
 
   /**
    * @param GoogleCloudApigeeV1ResourceFile[]

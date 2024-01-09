@@ -22,10 +22,8 @@ class GoogleCloudIntegrationsV1alphaExecutionDetails extends \Google\Collection
   protected $collection_key = 'executionSnapshots';
   protected $attemptStatsType = GoogleCloudIntegrationsV1alphaAttemptStats::class;
   protected $attemptStatsDataType = 'array';
-  public $attemptStats;
   protected $executionSnapshotsType = GoogleCloudIntegrationsV1alphaExecutionSnapshot::class;
   protected $executionSnapshotsDataType = 'array';
-  public $executionSnapshots;
   /**
    * @var string
    */

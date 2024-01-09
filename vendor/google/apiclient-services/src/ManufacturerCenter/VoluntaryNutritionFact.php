@@ -26,7 +26,6 @@ class VoluntaryNutritionFact extends \Google\Model
   public $name;
   protected $valueType = FloatUnit::class;
   protected $valueDataType = '';
-  public $value;
 
   public function setDailyPercentage($dailyPercentage)
   {

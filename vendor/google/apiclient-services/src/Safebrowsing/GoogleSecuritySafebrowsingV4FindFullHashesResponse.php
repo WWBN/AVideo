@@ -22,7 +22,6 @@ class GoogleSecuritySafebrowsingV4FindFullHashesResponse extends \Google\Collect
   protected $collection_key = 'matches';
   protected $matchesType = GoogleSecuritySafebrowsingV4ThreatMatch::class;
   protected $matchesDataType = 'array';
-  public $matches;
   /**
    * @var string
    */

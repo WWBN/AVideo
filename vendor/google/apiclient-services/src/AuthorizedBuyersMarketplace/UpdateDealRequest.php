@@ -21,7 +21,6 @@ class UpdateDealRequest extends \Google\Model
 {
   protected $dealType = Deal::class;
   protected $dealDataType = '';
-  public $deal;
   /**
    * @var string
    */

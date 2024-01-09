@@ -26,7 +26,6 @@ class EventTrigger extends \Google\Collection
   public $channel;
   protected $eventFiltersType = EventFilter::class;
   protected $eventFiltersDataType = 'array';
-  public $eventFilters;
   /**
    * @var string
    */

@@ -62,10 +62,8 @@ class CompressedQualitySignals extends \Google\Collection
   public $exactMatchDomainDemotion;
   protected $experimentalNsrTeamDataType = QualityNsrExperimentalNsrTeamData::class;
   protected $experimentalNsrTeamDataDataType = '';
-  public $experimentalNsrTeamData;
   protected $experimentalNsrTeamWsjDataType = QualityNsrExperimentalNsrTeamWSJData::class;
   protected $experimentalNsrTeamWsjDataDataType = 'array';
-  public $experimentalNsrTeamWsjData;
   /**
    * @var float
    */
@@ -96,13 +94,10 @@ class CompressedQualitySignals extends \Google\Collection
   public $nsrOverrideBid;
   protected $nsrVersionedDataType = NSRVersionedItem::class;
   protected $nsrVersionedDataDataType = 'array';
-  public $nsrVersionedData;
   protected $pairwiseqScoringDataType = PairwiseQScoringData::class;
   protected $pairwiseqScoringDataDataType = '';
-  public $pairwiseqScoringData;
   protected $pairwiseqVersionedDataType = PairwiseQVersionedItem::class;
   protected $pairwiseqVersionedDataDataType = 'array';
-  public $pairwiseqVersionedData;
   /**
    * @var string
    */
@@ -113,7 +108,6 @@ class CompressedQualitySignals extends \Google\Collection
   public $pqData;
   protected $pqDataProtoType = QualityNsrPQData::class;
   protected $pqDataProtoDataType = '';
-  public $pqDataProto;
   /**
    * @var string
    */
@@ -133,6 +127,14 @@ class CompressedQualitySignals extends \Google\Collection
   /**
    * @var string
    */
+  public $productReviewPReviewPage;
+  /**
+   * @var string
+   */
+  public $productReviewPUhqPage;
+  /**
+   * @var string
+   */
   public $scamness;
   /**
    * @var string
@@ -144,7 +146,6 @@ class CompressedQualitySignals extends \Google\Collection
   public $siteAuthority;
   protected $topicEmbeddingsVersionedDataType = QualityAuthorityTopicEmbeddingsVersionedItem::class;
   protected $topicEmbeddingsVersionedDataDataType = 'array';
-  public $topicEmbeddingsVersionedData;
   /**
    * @var string
    */
@@ -559,6 +560,34 @@ class CompressedQualitySignals extends \Google\Collection
   public function getProductReviewPPromoteSite()
   {
     return $this->productReviewPPromoteSite;
+  }
+  /**
+   * @param string
+   */
+  public function setProductReviewPReviewPage($productReviewPReviewPage)
+  {
+    $this->productReviewPReviewPage = $productReviewPReviewPage;
+  }
+  /**
+   * @return string
+   */
+  public function getProductReviewPReviewPage()
+  {
+    return $this->productReviewPReviewPage;
+  }
+  /**
+   * @param string
+   */
+  public function setProductReviewPUhqPage($productReviewPUhqPage)
+  {
+    $this->productReviewPUhqPage = $productReviewPUhqPage;
+  }
+  /**
+   * @return string
+   */
+  public function getProductReviewPUhqPage()
+  {
+    return $this->productReviewPUhqPage;
   }
   /**
    * @param string

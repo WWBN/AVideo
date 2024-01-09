@@ -21,14 +21,12 @@ class GoogleCloudDataplexV1DataProfileResult extends \Google\Model
 {
   protected $profileType = GoogleCloudDataplexV1DataProfileResultProfile::class;
   protected $profileDataType = '';
-  public $profile;
   /**
    * @var string
    */
   public $rowCount;
   protected $scannedDataType = GoogleCloudDataplexV1ScannedData::class;
   protected $scannedDataDataType = '';
-  public $scannedData;
 
   /**
    * @param GoogleCloudDataplexV1DataProfileResultProfile

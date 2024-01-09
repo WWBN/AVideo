@@ -45,7 +45,6 @@ class RepositoryWebrefSupportTransferRule extends \Google\Model
   public $target;
   protected $targetCollectionType = RepositoryWebrefKGCollection::class;
   protected $targetCollectionDataType = '';
-  public $targetCollection;
   /**
    * @var string
    */

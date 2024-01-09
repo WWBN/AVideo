@@ -25,13 +25,10 @@ class PrefUpdate extends \Google\Model
   public $name;
   protected $preStateType = FuseboxPrefUpdatePreState::class;
   protected $preStateDataType = '';
-  public $preState;
   protected $prefDeletedType = PrefDeleted::class;
   protected $prefDeletedDataType = '';
-  public $prefDeleted;
   protected $prefWrittenType = PrefWritten::class;
   protected $prefWrittenDataType = '';
-  public $prefWritten;
 
   /**
    * @param string

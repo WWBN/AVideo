@@ -26,7 +26,6 @@ class TaskLists extends \Google\Collection
   public $etag;
   protected $itemsType = TaskList::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

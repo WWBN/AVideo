@@ -22,7 +22,6 @@ class DeviceTierSet extends \Google\Collection
   protected $collection_key = 'deviceTiers';
   protected $deviceTiersType = DeviceTier::class;
   protected $deviceTiersDataType = 'array';
-  public $deviceTiers;
 
   /**
    * @param DeviceTier[]

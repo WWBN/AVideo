@@ -25,7 +25,6 @@ class ColorStop extends \Google\Model
   public $alpha;
   protected $colorType = OpaqueColor::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var float
    */

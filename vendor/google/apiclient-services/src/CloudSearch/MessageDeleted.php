@@ -22,13 +22,10 @@ class MessageDeleted extends \Google\Collection
   protected $collection_key = 'wonderCardMappings';
   protected $imapSyncMappingsType = ImapSyncDelete::class;
   protected $imapSyncMappingsDataType = 'array';
-  public $imapSyncMappings;
   protected $messageKeysType = MultiKey::class;
   protected $messageKeysDataType = 'array';
-  public $messageKeys;
   protected $wonderCardMappingsType = WonderCardDelete::class;
   protected $wonderCardMappingsDataType = 'array';
-  public $wonderCardMappings;
 
   /**
    * @param ImapSyncDelete[]

@@ -21,7 +21,6 @@ class CreateBucketRequest extends \Google\Model
 {
   protected $bucketType = LogBucket::class;
   protected $bucketDataType = '';
-  public $bucket;
   /**
    * @var string
    */

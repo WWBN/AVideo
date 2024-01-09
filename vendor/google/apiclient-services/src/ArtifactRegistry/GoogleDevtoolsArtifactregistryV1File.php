@@ -30,7 +30,6 @@ class GoogleDevtoolsArtifactregistryV1File extends \Google\Collection
   public $fetchTime;
   protected $hashesType = Hash::class;
   protected $hashesDataType = 'array';
-  public $hashes;
   /**
    * @var string
    */

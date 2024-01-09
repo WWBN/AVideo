@@ -21,7 +21,6 @@ class BasicChartDomain extends \Google\Model
 {
   protected $domainType = ChartData::class;
   protected $domainDataType = '';
-  public $domain;
   /**
    * @var bool
    */

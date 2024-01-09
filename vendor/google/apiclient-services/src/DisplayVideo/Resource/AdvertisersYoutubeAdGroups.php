@@ -41,15 +41,16 @@ class AdvertisersYoutubeAdGroups extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Allows filtering by assigned targeting option
-   * properties. Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by the logical operator `OR` on
-   * the same field. * A restriction has the form of `{field} {operator} {value}`.
-   * * The operator must be `EQUALS (=)`. * Supported fields: - `targetingType`
-   * Examples: * AssignedTargetingOptions of targeting type
-   * TARGETING_TYPE_YOUTUBE_VIDEO or TARGETING_TYPE_YOUTUBE_CHANNEL
+   * fields. Supported syntax: * Filter expressions are made up of one or more
+   * restrictions. * Restrictions can be combined by the logical operator `OR`. *
+   * A restriction has the form of `{field} {operator} {value}`. * All fields must
+   * use the `EQUALS (=)` operator. Supported fields: * `targetingType` Examples:
+   * * `AssignedTargetingOption` resources of targeting type
+   * `TARGETING_TYPE_YOUTUBE_VIDEO` or `TARGETING_TYPE_YOUTUBE_CHANNEL`:
    * `targetingType="TARGETING_TYPE_YOUTUBE_VIDEO" OR
    * targetingType="TARGETING_TYPE_YOUTUBE_CHANNEL"` The length of this field
-   * should be no more than 500 characters.
+   * should be no more than 500 characters. Reference our [filter `LIST` requests
+   * ](/display-video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `youtubeAdGroupId` (default) * `assignedTargetingOption.targetingType`
    * The default sorting order is ascending. To specify descending order for a
@@ -96,18 +97,19 @@ class AdvertisersYoutubeAdGroups extends \Google\Service\Resource
    *
    * @opt_param string filter Allows filtering by custom YouTube ad group fields.
    * Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by `AND` and `OR`. Only the
-   * restrictions for * the same field can be combined by `OR`. A sequence of
-   * restrictions * implicitly uses `AND`. * A restriction has the form of
-   * `{field} {operator} {value}`. * The operator must be `EQUALS (=)`. *
-   * Supported properties: - `adGroupId` - `displayName` - `entityStatus` -
-   * `lineItemId` - `adGroupFormat` Examples: * All ad groups under an line item:
+   * restrictions. * Restrictions can be combined by `AND` and `OR`. A sequence of
+   * restrictions implicitly uses `AND`. * A restriction has the form of `{field}
+   * {operator} {value}`. * All fields must use the `EQUALS (=)` operator.
+   * Supported properties: * `adGroupId` * `displayName` * `entityStatus` *
+   * `lineItemId` * `adGroupFormat` Examples: * All ad groups under an line item:
    * `lineItemId="1234"` * All `ENTITY_STATUS_ACTIVE` or `ENTITY_STATUS_PAUSED`
-   * and `YOUTUBE_AND_PARTNERS_AD_GROUP_FORMAT_IN_STREAM` ad groups under an
+   * `YOUTUBE_AND_PARTNERS_AD_GROUP_FORMAT_IN_STREAM` ad groups under an
    * advertiser: `(entityStatus="ENTITY_STATUS_ACTIVE" OR
    * entityStatus="ENTITY_STATUS_PAUSED") AND
    * adGroupFormat="YOUTUBE_AND_PARTNERS_AD_GROUP_FORMAT_IN_STREAM"` The length of
-   * this field should be no more than 500 characters.
+   * this field should be no more than 500 characters. Reference our [filter
+   * `LIST` requests](/display-video/api/guides/how-tos/filters) guide for more
+   * information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` (default) * `entityStatus` The default sorting order is
    * ascending. To specify descending order for a field, a suffix "desc" should be

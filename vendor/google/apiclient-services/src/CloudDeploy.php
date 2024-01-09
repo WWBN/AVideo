@@ -356,8 +356,28 @@ class CloudDeploy extends \Google\Service
         'rollouts',
         [
           'methods' => [
-            'approve' => [
+            'advance' => [
+              'path' => 'v1/{+name}:advance',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'approve' => [
               'path' => 'v1/{+name}:approve',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'cancel' => [
+              'path' => 'v1/{+name}:cancel',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -397,6 +417,16 @@ class CloudDeploy extends \Google\Service
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'ignoreJob' => [
+              'path' => 'v1/{+rollout}:ignoreJob',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'rollout' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
@@ -482,6 +512,16 @@ class CloudDeploy extends \Google\Service
                 'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
+                ],
+              ],
+            ],'terminate' => [
+              'path' => 'v1/{+name}:terminate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
                 ],
               ],
             ],

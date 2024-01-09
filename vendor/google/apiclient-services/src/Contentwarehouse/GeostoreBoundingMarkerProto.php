@@ -21,7 +21,6 @@ class GeostoreBoundingMarkerProto extends \Google\Model
 {
   protected $boundingMarkerType = GeostoreFeatureIdProto::class;
   protected $boundingMarkerDataType = '';
-  public $boundingMarker;
   /**
    * @var string
    */

@@ -21,7 +21,6 @@ class GeostoreOntologyRawGConceptInstanceProto extends \Google\Model
 {
   protected $instanceType = GeostoreGConceptInstanceProto::class;
   protected $instanceDataType = '';
-  public $instance;
   /**
    * @var bool
    */

@@ -29,7 +29,6 @@ class PerInstanceConfig extends \Google\Model
   public $name;
   protected $preservedStateType = PreservedState::class;
   protected $preservedStateDataType = '';
-  public $preservedState;
   /**
    * @var string
    */

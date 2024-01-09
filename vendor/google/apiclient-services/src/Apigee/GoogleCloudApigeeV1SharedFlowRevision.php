@@ -22,7 +22,6 @@ class GoogleCloudApigeeV1SharedFlowRevision extends \Google\Collection
   protected $collection_key = 'sharedFlows';
   protected $configurationVersionType = GoogleCloudApigeeV1ConfigVersion::class;
   protected $configurationVersionDataType = '';
-  public $configurationVersion;
   /**
    * @var string
    */
@@ -57,7 +56,6 @@ class GoogleCloudApigeeV1SharedFlowRevision extends \Google\Collection
   public $policies;
   protected $resourceFilesType = GoogleCloudApigeeV1ResourceFiles::class;
   protected $resourceFilesDataType = '';
-  public $resourceFiles;
   /**
    * @var string[]
    */

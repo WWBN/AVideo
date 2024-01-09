@@ -25,7 +25,6 @@ class GoogleCloudDialogflowCxV3ExperimentDefinition extends \Google\Model
   public $condition;
   protected $versionVariantsType = GoogleCloudDialogflowCxV3VersionVariants::class;
   protected $versionVariantsDataType = '';
-  public $versionVariants;
 
   /**
    * @param string

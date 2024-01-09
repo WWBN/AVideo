@@ -21,10 +21,8 @@ class Button extends \Google\Model
 {
   protected $imageButtonType = ImageButton::class;
   protected $imageButtonDataType = '';
-  public $imageButton;
   protected $textButtonType = TextButton::class;
   protected $textButtonDataType = '';
-  public $textButton;
 
   /**
    * @param ImageButton

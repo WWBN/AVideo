@@ -25,17 +25,14 @@ class AppsPeopleOzExternalMergedpeopleapiPhone extends \Google\Model
   public $canonicalizedForm;
   protected $emergencyInfoType = AppsPeopleOzExternalMergedpeopleapiFieldEmergencyInfo::class;
   protected $emergencyInfoDataType = '';
-  public $emergencyInfo;
   protected $extendedDataType = AppsPeopleOzExternalMergedpeopleapiPhoneExtendedData::class;
   protected $extendedDataDataType = '';
-  public $extendedData;
   /**
    * @var string
    */
   public $formattedType;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

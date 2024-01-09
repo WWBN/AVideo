@@ -42,17 +42,14 @@ class Job extends \Google\Collection
   public $currentStateTime;
   protected $environmentType = Environment::class;
   protected $environmentDataType = '';
-  public $environment;
   protected $executionInfoType = JobExecutionInfo::class;
   protected $executionInfoDataType = '';
-  public $executionInfo;
   /**
    * @var string
    */
   public $id;
   protected $jobMetadataType = JobMetadata::class;
   protected $jobMetadataDataType = '';
-  public $jobMetadata;
   /**
    * @var string[]
    */
@@ -67,7 +64,6 @@ class Job extends \Google\Collection
   public $name;
   protected $pipelineDescriptionType = PipelineDescription::class;
   protected $pipelineDescriptionDataType = '';
-  public $pipelineDescription;
   /**
    * @var string
    */
@@ -84,20 +80,20 @@ class Job extends \Google\Collection
    * @var string
    */
   public $requestedState;
+  protected $runtimeUpdatableParamsType = RuntimeUpdatableParams::class;
+  protected $runtimeUpdatableParamsDataType = '';
   /**
    * @var bool
    */
   public $satisfiesPzs;
   protected $stageStatesType = ExecutionStageState::class;
   protected $stageStatesDataType = 'array';
-  public $stageStates;
   /**
    * @var string
    */
   public $startTime;
   protected $stepsType = Step::class;
   protected $stepsDataType = 'array';
-  public $steps;
   /**
    * @var string
    */
@@ -352,6 +348,20 @@ class Job extends \Google\Collection
   public function getRequestedState()
   {
     return $this->requestedState;
+  }
+  /**
+   * @param RuntimeUpdatableParams
+   */
+  public function setRuntimeUpdatableParams(RuntimeUpdatableParams $runtimeUpdatableParams)
+  {
+    $this->runtimeUpdatableParams = $runtimeUpdatableParams;
+  }
+  /**
+   * @return RuntimeUpdatableParams
+   */
+  public function getRuntimeUpdatableParams()
+  {
+    return $this->runtimeUpdatableParams;
   }
   /**
    * @param bool

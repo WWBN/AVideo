@@ -22,7 +22,6 @@ class CreateAssignedTargetingOptionsRequest extends \Google\Collection
   protected $collection_key = 'assignedTargetingOptions';
   protected $assignedTargetingOptionsType = AssignedTargetingOption::class;
   protected $assignedTargetingOptionsDataType = 'array';
-  public $assignedTargetingOptions;
   /**
    * @var string
    */

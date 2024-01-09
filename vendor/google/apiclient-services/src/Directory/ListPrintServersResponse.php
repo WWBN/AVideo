@@ -26,7 +26,6 @@ class ListPrintServersResponse extends \Google\Collection
   public $nextPageToken;
   protected $printServersType = PrintServer::class;
   protected $printServersDataType = 'array';
-  public $printServers;
 
   /**
    * @param string

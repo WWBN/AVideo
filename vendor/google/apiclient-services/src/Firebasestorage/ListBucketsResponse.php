@@ -22,7 +22,6 @@ class ListBucketsResponse extends \Google\Collection
   protected $collection_key = 'buckets';
   protected $bucketsType = Bucket::class;
   protected $bucketsDataType = 'array';
-  public $buckets;
   /**
    * @var string
    */

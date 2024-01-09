@@ -21,7 +21,6 @@ class KeyOperationAttestation extends \Google\Model
 {
   protected $certChainsType = CertificateChains::class;
   protected $certChainsDataType = '';
-  public $certChains;
   /**
    * @var string
    */

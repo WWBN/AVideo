@@ -34,7 +34,6 @@ class Source extends \Google\Collection
   public $doesNotNeedSplitting;
   protected $metadataType = SourceMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var array[]
    */

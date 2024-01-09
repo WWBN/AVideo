@@ -22,7 +22,6 @@ class GoogleChromeManagementV1NetworkInfo extends \Google\Collection
   protected $collection_key = 'networkDevices';
   protected $networkDevicesType = GoogleChromeManagementV1NetworkDevice::class;
   protected $networkDevicesDataType = 'array';
-  public $networkDevices;
 
   /**
    * @param GoogleChromeManagementV1NetworkDevice[]

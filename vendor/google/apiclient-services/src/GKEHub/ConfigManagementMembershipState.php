@@ -25,19 +25,14 @@ class ConfigManagementMembershipState extends \Google\Model
   public $clusterName;
   protected $configSyncStateType = ConfigManagementConfigSyncState::class;
   protected $configSyncStateDataType = '';
-  public $configSyncState;
   protected $hierarchyControllerStateType = ConfigManagementHierarchyControllerState::class;
   protected $hierarchyControllerStateDataType = '';
-  public $hierarchyControllerState;
   protected $membershipSpecType = ConfigManagementMembershipSpec::class;
   protected $membershipSpecDataType = '';
-  public $membershipSpec;
   protected $operatorStateType = ConfigManagementOperatorState::class;
   protected $operatorStateDataType = '';
-  public $operatorState;
   protected $policyControllerStateType = ConfigManagementPolicyControllerState::class;
   protected $policyControllerStateDataType = '';
-  public $policyControllerState;
 
   /**
    * @param string

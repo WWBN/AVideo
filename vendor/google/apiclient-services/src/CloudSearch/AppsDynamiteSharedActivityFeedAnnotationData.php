@@ -25,16 +25,12 @@ class AppsDynamiteSharedActivityFeedAnnotationData extends \Google\Model
   public $activityFeedMessageCreateTime;
   protected $activityFeedMessageIdType = MessageId::class;
   protected $activityFeedMessageIdDataType = '';
-  public $activityFeedMessageId;
   protected $chatItemType = AppsDynamiteSharedChatItem::class;
   protected $chatItemDataType = '';
-  public $chatItem;
   protected $sharedUserInfoType = UserInfo::class;
   protected $sharedUserInfoDataType = '';
-  public $sharedUserInfo;
   protected $userInfoType = AppsDynamiteSharedActivityFeedAnnotationDataUserInfo::class;
   protected $userInfoDataType = '';
-  public $userInfo;
 
   /**
    * @param string

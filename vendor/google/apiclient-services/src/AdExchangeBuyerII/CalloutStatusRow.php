@@ -25,10 +25,8 @@ class CalloutStatusRow extends \Google\Model
   public $calloutStatusId;
   protected $impressionCountType = MetricValue::class;
   protected $impressionCountDataType = '';
-  public $impressionCount;
   protected $rowDimensionsType = RowDimensions::class;
   protected $rowDimensionsDataType = '';
-  public $rowDimensions;
 
   /**
    * @param int

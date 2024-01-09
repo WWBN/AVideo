@@ -21,14 +21,12 @@ class GoogleCloudRetailV2CompletionConfig extends \Google\Model
 {
   protected $allowlistInputConfigType = GoogleCloudRetailV2CompletionDataInputConfig::class;
   protected $allowlistInputConfigDataType = '';
-  public $allowlistInputConfig;
   /**
    * @var bool
    */
   public $autoLearning;
   protected $denylistInputConfigType = GoogleCloudRetailV2CompletionDataInputConfig::class;
   protected $denylistInputConfigDataType = '';
-  public $denylistInputConfig;
   /**
    * @var string
    */
@@ -59,7 +57,6 @@ class GoogleCloudRetailV2CompletionConfig extends \Google\Model
   public $name;
   protected $suggestionsInputConfigType = GoogleCloudRetailV2CompletionDataInputConfig::class;
   protected $suggestionsInputConfigDataType = '';
-  public $suggestionsInputConfig;
 
   /**
    * @param GoogleCloudRetailV2CompletionDataInputConfig

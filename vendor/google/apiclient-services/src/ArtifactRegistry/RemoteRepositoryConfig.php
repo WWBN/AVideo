@@ -25,16 +25,12 @@ class RemoteRepositoryConfig extends \Google\Model
   public $description;
   protected $dockerRepositoryType = DockerRepository::class;
   protected $dockerRepositoryDataType = '';
-  public $dockerRepository;
   protected $mavenRepositoryType = MavenRepository::class;
   protected $mavenRepositoryDataType = '';
-  public $mavenRepository;
   protected $npmRepositoryType = NpmRepository::class;
   protected $npmRepositoryDataType = '';
-  public $npmRepository;
   protected $pythonRepositoryType = PythonRepository::class;
   protected $pythonRepositoryDataType = '';
-  public $pythonRepository;
 
   /**
    * @param string

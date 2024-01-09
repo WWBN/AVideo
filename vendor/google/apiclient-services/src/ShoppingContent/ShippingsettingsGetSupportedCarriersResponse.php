@@ -22,7 +22,6 @@ class ShippingsettingsGetSupportedCarriersResponse extends \Google\Collection
   protected $collection_key = 'carriers';
   protected $carriersType = CarriersCarrier::class;
   protected $carriersDataType = 'array';
-  public $carriers;
   /**
    * @var string
    */

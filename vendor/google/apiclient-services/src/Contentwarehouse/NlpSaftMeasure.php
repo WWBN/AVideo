@@ -23,10 +23,8 @@ class NlpSaftMeasure extends \Google\Model
   public $granularity;
   protected $infoType = Proto2BridgeMessageSet::class;
   protected $infoDataType = '';
-  public $info;
   protected $phraseType = NlpSaftPhrase::class;
   protected $phraseDataType = '';
-  public $phrase;
   /**
    * @var string
    */

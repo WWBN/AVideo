@@ -22,7 +22,6 @@ class ListRuntimesResponse extends \Google\Collection
   protected $collection_key = 'runtimes';
   protected $runtimesType = Runtime::class;
   protected $runtimesDataType = 'array';
-  public $runtimes;
 
   /**
    * @param Runtime[]

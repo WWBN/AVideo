@@ -25,7 +25,6 @@ class InsertDimensionRequest extends \Google\Model
   public $inheritFromBefore;
   protected $rangeType = DimensionRange::class;
   protected $rangeDataType = '';
-  public $range;
 
   /**
    * @param bool

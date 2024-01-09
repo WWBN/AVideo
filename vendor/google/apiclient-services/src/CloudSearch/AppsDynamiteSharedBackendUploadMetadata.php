@@ -17,8 +17,9 @@
 
 namespace Google\Service\CloudSearch;
 
-class AppsDynamiteSharedBackendUploadMetadata extends \Google\Model
+class AppsDynamiteSharedBackendUploadMetadata extends \Google\Collection
 {
+  protected $collection_key = 'experiment';
   /**
    * @var string
    */
@@ -41,20 +42,20 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Model
   public $dlpScanOutcome;
   protected $dlpScanSummaryType = DlpScanSummary::class;
   protected $dlpScanSummaryDataType = '';
-  public $dlpScanSummary;
+  /**
+   * @var string[]
+   */
+  public $experiment;
   protected $groupIdType = GroupId::class;
   protected $groupIdDataType = '';
-  public $groupId;
   /**
    * @var bool
    */
   public $isClientSideTranscodedVideo;
   protected $originalDimensionType = AppsDynamiteSharedDimension::class;
   protected $originalDimensionDataType = '';
-  public $originalDimension;
   protected $quoteReplyMessageIdType = MessageId::class;
   protected $quoteReplyMessageIdDataType = '';
-  public $quoteReplyMessageId;
   /**
    * @var string
    */
@@ -163,6 +164,20 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Model
   public function getDlpScanSummary()
   {
     return $this->dlpScanSummary;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExperiment($experiment)
+  {
+    $this->experiment = $experiment;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExperiment()
+  {
+    return $this->experiment;
   }
   /**
    * @param GroupId

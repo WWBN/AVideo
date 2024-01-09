@@ -21,7 +21,6 @@ class ConferenceParameters extends \Google\Model
 {
   protected $addOnParametersType = ConferenceParametersAddOnParameters::class;
   protected $addOnParametersDataType = '';
-  public $addOnParameters;
 
   /**
    * @param ConferenceParametersAddOnParameters

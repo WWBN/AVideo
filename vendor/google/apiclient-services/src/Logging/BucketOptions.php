@@ -21,13 +21,10 @@ class BucketOptions extends \Google\Model
 {
   protected $explicitBucketsType = Explicit::class;
   protected $explicitBucketsDataType = '';
-  public $explicitBuckets;
   protected $exponentialBucketsType = Exponential::class;
   protected $exponentialBucketsDataType = '';
-  public $exponentialBuckets;
   protected $linearBucketsType = Linear::class;
   protected $linearBucketsDataType = '';
-  public $linearBuckets;
 
   /**
    * @param Explicit

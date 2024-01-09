@@ -21,10 +21,8 @@ class PerformanceThreshold extends \Google\Model
 {
   protected $basicSliPerformanceType = BasicSli::class;
   protected $basicSliPerformanceDataType = '';
-  public $basicSliPerformance;
   protected $performanceType = RequestBasedSli::class;
   protected $performanceDataType = '';
-  public $performance;
   public $threshold;
 
   /**

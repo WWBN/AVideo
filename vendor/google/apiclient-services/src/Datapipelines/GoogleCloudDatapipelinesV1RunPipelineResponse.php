@@ -21,7 +21,6 @@ class GoogleCloudDatapipelinesV1RunPipelineResponse extends \Google\Model
 {
   protected $jobType = GoogleCloudDatapipelinesV1Job::class;
   protected $jobDataType = '';
-  public $job;
 
   /**
    * @param GoogleCloudDatapipelinesV1Job

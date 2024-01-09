@@ -21,17 +21,14 @@ class GoogleCloudDocumentaiV1Evaluation extends \Google\Model
 {
   protected $allEntitiesMetricsType = GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics::class;
   protected $allEntitiesMetricsDataType = '';
-  public $allEntitiesMetrics;
   /**
    * @var string
    */
   public $createTime;
   protected $documentCountersType = GoogleCloudDocumentaiV1EvaluationCounters::class;
   protected $documentCountersDataType = '';
-  public $documentCounters;
   protected $entityMetricsType = GoogleCloudDocumentaiV1EvaluationMultiConfidenceMetrics::class;
   protected $entityMetricsDataType = 'map';
-  public $entityMetrics;
   /**
    * @var string
    */

@@ -46,7 +46,6 @@ class TestFailure extends \Google\Collection
   public $expectedService;
   protected $headersType = UrlMapTestHeader::class;
   protected $headersDataType = 'array';
-  public $headers;
   /**
    * @var string
    */

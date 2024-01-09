@@ -21,10 +21,8 @@ class AssistantGroundingRankerLaaFeaturesContact extends \Google\Model
 {
   protected $assistantInteractionFeaturesType = AssistantGroundingRankerAssistantInteractionFeatures::class;
   protected $assistantInteractionFeaturesDataType = '';
-  public $assistantInteractionFeatures;
   protected $deviceContactAffinityFeaturesType = AssistantGroundingRankerDeviceContactAffinityFeatures::class;
   protected $deviceContactAffinityFeaturesDataType = '';
-  public $deviceContactAffinityFeatures;
 
   /**
    * @param AssistantGroundingRankerAssistantInteractionFeatures

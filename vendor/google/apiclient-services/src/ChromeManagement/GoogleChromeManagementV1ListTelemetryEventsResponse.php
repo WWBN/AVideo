@@ -26,7 +26,6 @@ class GoogleChromeManagementV1ListTelemetryEventsResponse extends \Google\Collec
   public $nextPageToken;
   protected $telemetryEventsType = GoogleChromeManagementV1TelemetryEvent::class;
   protected $telemetryEventsDataType = 'array';
-  public $telemetryEvents;
 
   /**
    * @param string

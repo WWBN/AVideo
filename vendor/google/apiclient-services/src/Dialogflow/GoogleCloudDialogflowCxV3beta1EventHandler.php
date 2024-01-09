@@ -37,7 +37,6 @@ class GoogleCloudDialogflowCxV3beta1EventHandler extends \Google\Model
   public $targetPage;
   protected $triggerFulfillmentType = GoogleCloudDialogflowCxV3beta1Fulfillment::class;
   protected $triggerFulfillmentDataType = '';
-  public $triggerFulfillment;
 
   /**
    * @param string

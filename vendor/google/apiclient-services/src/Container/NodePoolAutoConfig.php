@@ -21,7 +21,6 @@ class NodePoolAutoConfig extends \Google\Model
 {
   protected $networkTagsType = NetworkTags::class;
   protected $networkTagsDataType = '';
-  public $networkTags;
 
   /**
    * @param NetworkTags

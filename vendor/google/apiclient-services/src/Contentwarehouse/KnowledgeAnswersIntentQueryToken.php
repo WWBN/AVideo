@@ -22,7 +22,6 @@ class KnowledgeAnswersIntentQueryToken extends \Google\Collection
   protected $collection_key = 'synonyms';
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   /**
    * @var string
    */
@@ -49,7 +48,6 @@ class KnowledgeAnswersIntentQueryToken extends \Google\Collection
   public $provenanceLanguage;
   protected $synonymsType = KnowledgeAnswersIntentQueryTokenSynonym::class;
   protected $synonymsDataType = 'array';
-  public $synonyms;
 
   /**
    * @param NlpSemanticParsingAnnotationEvalData

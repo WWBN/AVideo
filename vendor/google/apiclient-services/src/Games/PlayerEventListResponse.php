@@ -22,7 +22,6 @@ class PlayerEventListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = PlayerEvent::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

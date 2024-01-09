@@ -21,7 +21,6 @@ class GoogleCloudDialogflowCxV3beta1ImportDocumentsOperationMetadata extends \Go
 {
   protected $genericMetadataType = GoogleCloudDialogflowCxV3beta1GenericKnowledgeOperationMetadata::class;
   protected $genericMetadataDataType = '';
-  public $genericMetadata;
 
   /**
    * @param GoogleCloudDialogflowCxV3beta1GenericKnowledgeOperationMetadata

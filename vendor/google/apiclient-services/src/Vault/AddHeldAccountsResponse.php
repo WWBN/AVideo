@@ -22,7 +22,6 @@ class AddHeldAccountsResponse extends \Google\Collection
   protected $collection_key = 'responses';
   protected $responsesType = AddHeldAccountResult::class;
   protected $responsesDataType = 'array';
-  public $responses;
 
   /**
    * @param AddHeldAccountResult[]

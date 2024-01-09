@@ -21,7 +21,6 @@ class ConfigureManagementSettingsRequest extends \Google\Model
 {
   protected $managementSettingsType = ManagementSettings::class;
   protected $managementSettingsDataType = '';
-  public $managementSettings;
   /**
    * @var string
    */

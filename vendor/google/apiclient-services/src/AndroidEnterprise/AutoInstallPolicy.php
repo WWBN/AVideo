@@ -22,7 +22,6 @@ class AutoInstallPolicy extends \Google\Collection
   protected $collection_key = 'autoInstallConstraint';
   protected $autoInstallConstraintType = AutoInstallConstraint::class;
   protected $autoInstallConstraintDataType = 'array';
-  public $autoInstallConstraint;
   /**
    * @var string
    */

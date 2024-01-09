@@ -21,7 +21,6 @@ class LaunchTemplateResponse extends \Google\Model
 {
   protected $jobType = Job::class;
   protected $jobDataType = '';
-  public $job;
 
   /**
    * @param Job

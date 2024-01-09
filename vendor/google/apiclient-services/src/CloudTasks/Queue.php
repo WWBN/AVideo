@@ -21,7 +21,6 @@ class Queue extends \Google\Model
 {
   protected $appEngineRoutingOverrideType = AppEngineRouting::class;
   protected $appEngineRoutingOverrideDataType = '';
-  public $appEngineRoutingOverride;
   /**
    * @var string
    */
@@ -32,13 +31,10 @@ class Queue extends \Google\Model
   public $purgeTime;
   protected $rateLimitsType = RateLimits::class;
   protected $rateLimitsDataType = '';
-  public $rateLimits;
   protected $retryConfigType = RetryConfig::class;
   protected $retryConfigDataType = '';
-  public $retryConfig;
   protected $stackdriverLoggingConfigType = StackdriverLoggingConfig::class;
   protected $stackdriverLoggingConfigDataType = '';
-  public $stackdriverLoggingConfig;
   /**
    * @var string
    */

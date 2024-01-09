@@ -41,7 +41,6 @@ class WebRisk extends \Google\Service
   public $hashes;
   public $projects_operations;
   public $projects_submissions;
-  public $projects_uris;
   public $threatLists;
   public $uris;
 
@@ -155,26 +154,6 @@ class WebRisk extends \Google\Service
           'methods' => [
             'create' => [
               'path' => 'v1/{+parent}/submissions',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->projects_uris = new WebRisk\Resource\ProjectsUris(
-        $this,
-        $this->serviceName,
-        'uris',
-        [
-          'methods' => [
-            'submit' => [
-              'path' => 'v1/{+parent}/uris:submit',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [

@@ -25,7 +25,6 @@ class DataSourceColumn extends \Google\Model
   public $formula;
   protected $referenceType = DataSourceColumnReference::class;
   protected $referenceDataType = '';
-  public $reference;
 
   /**
    * @param string

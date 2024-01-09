@@ -22,7 +22,6 @@ class ListDicomStoresResponse extends \Google\Collection
   protected $collection_key = 'dicomStores';
   protected $dicomStoresType = DicomStore::class;
   protected $dicomStoresDataType = 'array';
-  public $dicomStores;
   /**
    * @var string
    */

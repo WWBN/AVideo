@@ -38,6 +38,10 @@ class EffectiveTag extends \Google\Model
   /**
    * @var string
    */
+  public $tagKeyParentName;
+  /**
+   * @var string
+   */
   public $tagValue;
 
   /**
@@ -95,6 +99,20 @@ class EffectiveTag extends \Google\Model
   public function getTagKey()
   {
     return $this->tagKey;
+  }
+  /**
+   * @param string
+   */
+  public function setTagKeyParentName($tagKeyParentName)
+  {
+    $this->tagKeyParentName = $tagKeyParentName;
+  }
+  /**
+   * @return string
+   */
+  public function getTagKeyParentName()
+  {
+    return $this->tagKeyParentName;
   }
   /**
    * @param string

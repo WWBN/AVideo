@@ -21,7 +21,6 @@ class UpdateProjectConfigRequest extends \Google\Model
 {
   protected $projectConfigType = ProjectConfig::class;
   protected $projectConfigDataType = '';
-  public $projectConfig;
   /**
    * @var string
    */

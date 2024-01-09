@@ -21,10 +21,8 @@ class LatLngBounds extends \Google\Model
 {
   protected $northeastType = LatLng::class;
   protected $northeastDataType = '';
-  public $northeast;
   protected $southwestType = LatLng::class;
   protected $southwestDataType = '';
-  public $southwest;
 
   /**
    * @param LatLng

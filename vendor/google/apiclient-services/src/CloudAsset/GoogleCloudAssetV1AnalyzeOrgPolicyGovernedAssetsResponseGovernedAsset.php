@@ -22,16 +22,12 @@ class GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedAsset exte
   protected $collection_key = 'policyBundle';
   protected $consolidatedPolicyType = AnalyzerOrgPolicy::class;
   protected $consolidatedPolicyDataType = '';
-  public $consolidatedPolicy;
   protected $governedIamPolicyType = GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedIamPolicy::class;
   protected $governedIamPolicyDataType = '';
-  public $governedIamPolicy;
   protected $governedResourceType = GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedResource::class;
   protected $governedResourceDataType = '';
-  public $governedResource;
   protected $policyBundleType = AnalyzerOrgPolicy::class;
   protected $policyBundleDataType = 'array';
-  public $policyBundle;
 
   /**
    * @param AnalyzerOrgPolicy

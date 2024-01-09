@@ -21,7 +21,6 @@ class RemoveBitbucketServerConnectedRepositoryRequest extends \Google\Model
 {
   protected $connectedRepositoryType = BitbucketServerRepositoryId::class;
   protected $connectedRepositoryDataType = '';
-  public $connectedRepository;
 
   /**
    * @param BitbucketServerRepositoryId

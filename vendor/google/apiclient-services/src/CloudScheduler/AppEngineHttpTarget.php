@@ -21,7 +21,6 @@ class AppEngineHttpTarget extends \Google\Model
 {
   protected $appEngineRoutingType = AppEngineRouting::class;
   protected $appEngineRoutingDataType = '';
-  public $appEngineRouting;
   /**
    * @var string
    */

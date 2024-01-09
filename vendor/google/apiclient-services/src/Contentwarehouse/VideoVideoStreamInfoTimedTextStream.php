@@ -26,7 +26,6 @@ class VideoVideoStreamInfoTimedTextStream extends \Google\Collection
   public $codecId;
   protected $metadataType = VideoClipInfo::class;
   protected $metadataDataType = 'array';
-  public $metadata;
   /**
    * @var string
    */

@@ -22,7 +22,6 @@ class AppsDynamiteSharedFindDocumentSuggestion extends \Google\Collection
   protected $collection_key = 'documentSuggestions';
   protected $documentSuggestionsType = AppsDynamiteSharedDocument::class;
   protected $documentSuggestionsDataType = 'array';
-  public $documentSuggestions;
   /**
    * @var bool
    */

@@ -33,7 +33,6 @@ class Topic extends \Google\Model
   public $messageRetentionDuration;
   protected $messageStoragePolicyType = MessageStoragePolicy::class;
   protected $messageStoragePolicyDataType = '';
-  public $messageStoragePolicy;
   /**
    * @var string
    */
@@ -44,7 +43,6 @@ class Topic extends \Google\Model
   public $satisfiesPzs;
   protected $schemaSettingsType = SchemaSettings::class;
   protected $schemaSettingsDataType = '';
-  public $schemaSettings;
 
   /**
    * @param string

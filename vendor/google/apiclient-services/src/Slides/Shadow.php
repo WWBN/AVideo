@@ -29,10 +29,8 @@ class Shadow extends \Google\Model
   public $alpha;
   protected $blurRadiusType = Dimension::class;
   protected $blurRadiusDataType = '';
-  public $blurRadius;
   protected $colorType = OpaqueColor::class;
   protected $colorDataType = '';
-  public $color;
   /**
    * @var string
    */
@@ -43,7 +41,6 @@ class Shadow extends \Google\Model
   public $rotateWithShape;
   protected $transformType = AffineTransform::class;
   protected $transformDataType = '';
-  public $transform;
   /**
    * @var string
    */

@@ -22,8 +22,8 @@ class Stripe
     /** @var string The base URL for the Stripe API uploads endpoint. */
     public static $apiUploadBase = 'https://files.stripe.com';
 
-    /** @var null|string The version of the Stripe API to use for requests. */
-    public static $apiVersion = null;
+    /** @var string The version of the Stripe API to use for requests. */
+    public static $apiVersion = \Stripe\Util\ApiVersion::CURRENT;
 
     /** @var null|string The account ID for connected accounts requests. */
     public static $accountId = null;
@@ -58,7 +58,7 @@ class Stripe
     /** @var float Initial delay between retries, in seconds */
     private static $initialNetworkRetryDelay = 0.5;
 
-    const VERSION = '10.6.0';
+    const VERSION = '13.8.0';
 
     /**
      * @return string the API key used for requests
@@ -119,8 +119,7 @@ class Stripe
     }
 
     /**
-     * @return string The API version used for requests. null if we're using the
-     *    latest version.
+     * @return string the API version used for requests
      */
     public static function getApiVersion()
     {

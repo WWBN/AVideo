@@ -22,10 +22,8 @@ class Change extends \Google\Collection
   protected $collection_key = 'deletions';
   protected $additionsType = ResourceRecordSet::class;
   protected $additionsDataType = 'array';
-  public $additions;
   protected $deletionsType = ResourceRecordSet::class;
   protected $deletionsDataType = 'array';
-  public $deletions;
   /**
    * @var string
    */

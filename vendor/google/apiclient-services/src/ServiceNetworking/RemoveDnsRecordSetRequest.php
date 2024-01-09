@@ -25,7 +25,6 @@ class RemoveDnsRecordSetRequest extends \Google\Model
   public $consumerNetwork;
   protected $dnsRecordSetType = DnsRecordSet::class;
   protected $dnsRecordSetDataType = '';
-  public $dnsRecordSet;
   /**
    * @var string
    */

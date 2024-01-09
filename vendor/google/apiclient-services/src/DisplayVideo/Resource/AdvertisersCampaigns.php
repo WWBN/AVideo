@@ -89,23 +89,24 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * @param string $advertiserId The ID of the advertiser to list campaigns for.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Allows filtering by campaign properties. Supported
+   * @opt_param string filter Allows filtering by campaign fields. Supported
    * syntax: * Filter expressions are made up of one or more restrictions. *
    * Restrictions can be combined by `AND` or `OR` logical operators. A sequence
    * of restrictions implicitly uses `AND`. * A restriction has the form of
-   * `{field} {operator} {value}`. * The operator used on `updateTime` must be
-   * `GREATER THAN OR EQUAL TO (>=)` or `LESS THAN OR EQUAL TO (<=)`. * The
-   * operator must be `EQUALS (=)`. * Supported fields: - `campaignId` -
-   * `displayName` - `entityStatus` - `updateTime` (input in ISO 8601 format, or
-   * YYYY-MM-DDTHH:MM:SSZ) Examples: * All `ENTITY_STATUS_ACTIVE` or
+   * `{field} {operator} {value}`. * The `updateTime` field must use the `GREATER
+   * THAN OR EQUAL TO (>=)` or `LESS THAN OR EQUAL TO (<=)` operators. * All other
+   * fields must use the `EQUALS (=)` operator. Supported fields: * `campaignId` *
+   * `displayName` * `entityStatus` * `updateTime` (input in ISO 8601 format, or
+   * `YYYY-MM-DDTHH:MM:SSZ`) Examples: * All `ENTITY_STATUS_ACTIVE` or
    * `ENTITY_STATUS_PAUSED` campaigns under an advertiser:
    * `(entityStatus="ENTITY_STATUS_ACTIVE" OR
    * entityStatus="ENTITY_STATUS_PAUSED")` * All campaigns with an update time
-   * less than or equal to `2020-11-04T18:54:47Z (format of ISO 8601)`:
+   * less than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
    * `updateTime<="2020-11-04T18:54:47Z"` * All campaigns with an update time
-   * greater than or equal to `2020-11-04T18:54:47Z (format of ISO 8601)`:
+   * greater than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
    * `updateTime>="2020-11-04T18:54:47Z"` The length of this field should be no
-   * more than 500 characters.
+   * more than 500 characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` (default) * `entityStatus` * `updateTime` The default
    * sorting order is ascending. To specify descending order for a field, a suffix
@@ -135,17 +136,19 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Allows filtering by assigned targeting option
-   * properties. Supported syntax: * Filter expressions are made up of one or more
-   * restrictions. * Restrictions can be combined by the logical operator `OR` on
-   * the same field. * A restriction has the form of `{field} {operator} {value}`.
-   * * The operator must be `EQUALS (=)`. * Supported fields: - `targetingType` -
-   * `inheritance` Examples: * AssignedTargetingOptions of targeting type
-   * TARGETING_TYPE_LANGUAGE or TARGETING_TYPE_GENDER
+   * fields. Supported syntax: * Filter expressions are made up of one or more
+   * restrictions. * Restrictions can be combined by the `OR` logical operator. *
+   * A restriction has the form of `{field} {operator} {value}`. * All fields must
+   * use the `EQUALS (=)` operator. Supported fields: * `targetingType` *
+   * `inheritance` Examples: * `AssignedTargetingOption` resources of targeting
+   * type `TARGETING_TYPE_LANGUAGE` or `TARGETING_TYPE_GENDER`:
    * `targetingType="TARGETING_TYPE_LANGUAGE" OR
-   * targetingType="TARGETING_TYPE_GENDER"` * AssignedTargetingOptions with
-   * inheritance status of NOT_INHERITED or INHERITED_FROM_PARTNER
+   * targetingType="TARGETING_TYPE_GENDER"` * `AssignedTargetingOption` resources
+   * with inheritance status of `NOT_INHERITED` or `INHERITED_FROM_PARTNER`:
    * `inheritance="NOT_INHERITED" OR inheritance="INHERITED_FROM_PARTNER"` The
-   * length of this field should be no more than 500 characters.
+   * length of this field should be no more than 500 characters. Reference our
+   * [filter `LIST` requests](/display-video/api/guides/how-tos/filters) guide for
+   * more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `targetingType` (default) The default sorting order is ascending. To
    * specify descending order for a field, a suffix "desc" should be added to the

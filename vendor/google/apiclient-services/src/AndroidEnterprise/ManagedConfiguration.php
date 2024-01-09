@@ -22,14 +22,12 @@ class ManagedConfiguration extends \Google\Collection
   protected $collection_key = 'managedProperty';
   protected $configurationVariablesType = ConfigurationVariables::class;
   protected $configurationVariablesDataType = '';
-  public $configurationVariables;
   /**
    * @var string
    */
   public $kind;
   protected $managedPropertyType = ManagedProperty::class;
   protected $managedPropertyDataType = 'array';
-  public $managedProperty;
   /**
    * @var string
    */

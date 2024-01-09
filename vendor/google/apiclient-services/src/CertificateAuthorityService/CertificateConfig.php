@@ -21,13 +21,10 @@ class CertificateConfig extends \Google\Model
 {
   protected $publicKeyType = PublicKey::class;
   protected $publicKeyDataType = '';
-  public $publicKey;
   protected $subjectConfigType = SubjectConfig::class;
   protected $subjectConfigDataType = '';
-  public $subjectConfig;
   protected $x509ConfigType = X509Parameters::class;
   protected $x509ConfigDataType = '';
-  public $x509Config;
 
   /**
    * @param PublicKey

@@ -21,7 +21,6 @@ class Impersonation extends \Google\Model
 {
   protected $impersonatedUserType = User::class;
   protected $impersonatedUserDataType = '';
-  public $impersonatedUser;
 
   /**
    * @param User

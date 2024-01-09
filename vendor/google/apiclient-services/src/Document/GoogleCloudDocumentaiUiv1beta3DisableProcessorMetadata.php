@@ -21,7 +21,6 @@ class GoogleCloudDocumentaiUiv1beta3DisableProcessorMetadata extends \Google\Mod
 {
   protected $commonMetadataType = GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata::class;
   protected $commonMetadataDataType = '';
-  public $commonMetadata;
 
   /**
    * @param GoogleCloudDocumentaiUiv1beta3CommonOperationMetadata

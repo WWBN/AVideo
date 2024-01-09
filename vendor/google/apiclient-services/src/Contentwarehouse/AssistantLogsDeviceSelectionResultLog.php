@@ -22,10 +22,8 @@ class AssistantLogsDeviceSelectionResultLog extends \Google\Collection
   protected $collection_key = 'processorInfo';
   protected $ambiguousTargetDevicesType = AssistantLogsAmbiguousTargetDeviceLog::class;
   protected $ambiguousTargetDevicesDataType = '';
-  public $ambiguousTargetDevices;
   protected $deviceSelectionDecisionSummaryType = AssistantLogsMediaDeviceSelectionDecisionSummary::class;
   protected $deviceSelectionDecisionSummaryDataType = '';
-  public $deviceSelectionDecisionSummary;
   /**
    * @var string
    */
@@ -36,23 +34,18 @@ class AssistantLogsDeviceSelectionResultLog extends \Google\Collection
   public $finalLumosStage;
   protected $lowConfidenceTargetDeviceType = AssistantLogsLowConfidenceTargetDeviceLog::class;
   protected $lowConfidenceTargetDeviceDataType = '';
-  public $lowConfidenceTargetDevice;
   /**
    * @var string
    */
   public $mediaFocusSelectionErrorType;
   protected $processorInfoType = AssistantLogsLumosProcessorInfo::class;
   protected $processorInfoDataType = 'array';
-  public $processorInfo;
   protected $qualifiedDevicesType = AssistantLogsAmbiguousTargetDeviceLog::class;
   protected $qualifiedDevicesDataType = '';
-  public $qualifiedDevices;
   protected $singleTargetDeviceType = AssistantLogsDeviceInfoLog::class;
   protected $singleTargetDeviceDataType = '';
-  public $singleTargetDevice;
   protected $targetDeviceType = AssistantLogsTargetDeviceLog::class;
   protected $targetDeviceDataType = '';
-  public $targetDevice;
 
   /**
    * @param AssistantLogsAmbiguousTargetDeviceLog

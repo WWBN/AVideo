@@ -54,7 +54,6 @@ class AndroidModel extends \Google\Collection
   public $name;
   protected $perVersionInfoType = PerAndroidVersionInfo::class;
   protected $perVersionInfoDataType = 'array';
-  public $perVersionInfo;
   /**
    * @var int
    */

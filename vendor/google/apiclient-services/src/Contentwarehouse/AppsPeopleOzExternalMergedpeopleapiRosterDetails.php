@@ -22,13 +22,10 @@ class AppsPeopleOzExternalMergedpeopleapiRosterDetails extends \Google\Collectio
   protected $collection_key = 'abridgedRosterMemberships';
   protected $abridgedRosterMembershipsType = AppsPeopleOzExternalMergedpeopleapiRosterMember::class;
   protected $abridgedRosterMembershipsDataType = 'array';
-  public $abridgedRosterMemberships;
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   protected $rosterMemberCountType = AppsPeopleOzExternalMergedpeopleapiRosterMemberCount::class;
   protected $rosterMemberCountDataType = '';
-  public $rosterMemberCount;
 
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiRosterMember[]

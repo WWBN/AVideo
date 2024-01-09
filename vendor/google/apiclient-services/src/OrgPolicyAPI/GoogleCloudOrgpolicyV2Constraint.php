@@ -21,7 +21,6 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
 {
   protected $booleanConstraintType = GoogleCloudOrgpolicyV2ConstraintBooleanConstraint::class;
   protected $booleanConstraintDataType = '';
-  public $booleanConstraint;
   /**
    * @var string
    */
@@ -36,11 +35,14 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
   public $displayName;
   protected $listConstraintType = GoogleCloudOrgpolicyV2ConstraintListConstraint::class;
   protected $listConstraintDataType = '';
-  public $listConstraint;
   /**
    * @var string
    */
   public $name;
+  /**
+   * @var bool
+   */
+  public $supportsDryRun;
 
   /**
    * @param GoogleCloudOrgpolicyV2ConstraintBooleanConstraint
@@ -125,6 +127,20 @@ class GoogleCloudOrgpolicyV2Constraint extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportsDryRun($supportsDryRun)
+  {
+    $this->supportsDryRun = $supportsDryRun;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsDryRun()
+  {
+    return $this->supportsDryRun;
   }
 }
 

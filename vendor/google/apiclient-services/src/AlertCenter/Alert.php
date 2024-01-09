@@ -49,7 +49,6 @@ class Alert extends \Google\Model
   public $etag;
   protected $metadataType = AlertMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */

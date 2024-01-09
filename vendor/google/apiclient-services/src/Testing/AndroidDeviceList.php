@@ -22,7 +22,6 @@ class AndroidDeviceList extends \Google\Collection
   protected $collection_key = 'androidDevices';
   protected $androidDevicesType = AndroidDevice::class;
   protected $androidDevicesDataType = 'array';
-  public $androidDevices;
 
   /**
    * @param AndroidDevice[]

@@ -22,7 +22,6 @@ class GoogleCloudDatacatalogV1Schema extends \Google\Collection
   protected $collection_key = 'columns';
   protected $columnsType = GoogleCloudDatacatalogV1ColumnSchema::class;
   protected $columnsDataType = 'array';
-  public $columns;
 
   /**
    * @param GoogleCloudDatacatalogV1ColumnSchema[]

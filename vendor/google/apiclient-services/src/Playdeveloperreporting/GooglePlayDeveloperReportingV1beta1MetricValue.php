@@ -21,7 +21,8 @@ class GooglePlayDeveloperReportingV1beta1MetricValue extends \Google\Model
 {
   protected $decimalValueType = GoogleTypeDecimal::class;
   protected $decimalValueDataType = '';
-  public $decimalValue;
+  protected $decimalValueConfidenceIntervalType = GooglePlayDeveloperReportingV1beta1DecimalConfidenceInterval::class;
+  protected $decimalValueConfidenceIntervalDataType = '';
   /**
    * @var string
    */
@@ -40,6 +41,20 @@ class GooglePlayDeveloperReportingV1beta1MetricValue extends \Google\Model
   public function getDecimalValue()
   {
     return $this->decimalValue;
+  }
+  /**
+   * @param GooglePlayDeveloperReportingV1beta1DecimalConfidenceInterval
+   */
+  public function setDecimalValueConfidenceInterval(GooglePlayDeveloperReportingV1beta1DecimalConfidenceInterval $decimalValueConfidenceInterval)
+  {
+    $this->decimalValueConfidenceInterval = $decimalValueConfidenceInterval;
+  }
+  /**
+   * @return GooglePlayDeveloperReportingV1beta1DecimalConfidenceInterval
+   */
+  public function getDecimalValueConfidenceInterval()
+  {
+    return $this->decimalValueConfidenceInterval;
   }
   /**
    * @param string

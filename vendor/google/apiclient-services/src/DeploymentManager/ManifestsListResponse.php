@@ -22,7 +22,6 @@ class ManifestsListResponse extends \Google\Collection
   protected $collection_key = 'manifests';
   protected $manifestsType = Manifest::class;
   protected $manifestsDataType = 'array';
-  public $manifests;
   /**
    * @var string
    */

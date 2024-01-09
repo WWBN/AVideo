@@ -22,10 +22,8 @@ class InstanceTemplatesScopedList extends \Google\Collection
   protected $collection_key = 'instanceTemplates';
   protected $instanceTemplatesType = InstanceTemplate::class;
   protected $instanceTemplatesDataType = 'array';
-  public $instanceTemplates;
   protected $warningType = InstanceTemplatesScopedListWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param InstanceTemplate[]

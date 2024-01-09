@@ -26,10 +26,8 @@ class ServicePerimeterConfig extends \Google\Collection
   public $accessLevels;
   protected $egressPoliciesType = EgressPolicy::class;
   protected $egressPoliciesDataType = 'array';
-  public $egressPolicies;
   protected $ingressPoliciesType = IngressPolicy::class;
   protected $ingressPoliciesDataType = 'array';
-  public $ingressPolicies;
   /**
    * @var string[]
    */
@@ -40,7 +38,6 @@ class ServicePerimeterConfig extends \Google\Collection
   public $restrictedServices;
   protected $vpcAccessibleServicesType = VpcAccessibleServices::class;
   protected $vpcAccessibleServicesDataType = '';
-  public $vpcAccessibleServices;
 
   /**
    * @param string[]

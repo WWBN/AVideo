@@ -21,7 +21,6 @@ class BitbucketServerTriggerConfig extends \Google\Model
 {
   protected $bitbucketServerConfigType = BitbucketServerConfig::class;
   protected $bitbucketServerConfigDataType = '';
-  public $bitbucketServerConfig;
   /**
    * @var string
    */
@@ -32,10 +31,8 @@ class BitbucketServerTriggerConfig extends \Google\Model
   public $projectKey;
   protected $pullRequestType = PullRequestFilter::class;
   protected $pullRequestDataType = '';
-  public $pullRequest;
   protected $pushType = PushFilter::class;
   protected $pushDataType = '';
-  public $push;
   /**
    * @var string
    */

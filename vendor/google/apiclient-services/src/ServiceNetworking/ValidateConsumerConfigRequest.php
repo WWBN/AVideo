@@ -29,10 +29,8 @@ class ValidateConsumerConfigRequest extends \Google\Model
   public $consumerNetwork;
   protected $consumerProjectType = ConsumerProject::class;
   protected $consumerProjectDataType = '';
-  public $consumerProject;
   protected $rangeReservationType = RangeReservation::class;
   protected $rangeReservationDataType = '';
-  public $rangeReservation;
   /**
    * @var bool
    */

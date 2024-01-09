@@ -21,7 +21,6 @@ class ImageRepositoryVideoLinkIndexingInfo extends \Google\Model
 {
   protected $crawlStatusInfoType = ImageRepositoryCrawlStatusInfo::class;
   protected $crawlStatusInfoDataType = '';
-  public $crawlStatusInfo;
   /**
    * @var string
    */

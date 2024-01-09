@@ -22,7 +22,6 @@ class SasPortalListDevicesResponse extends \Google\Collection
   protected $collection_key = 'devices';
   protected $devicesType = SasPortalDevice::class;
   protected $devicesDataType = 'array';
-  public $devices;
   /**
    * @var string
    */

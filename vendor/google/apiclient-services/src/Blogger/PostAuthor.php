@@ -29,7 +29,6 @@ class PostAuthor extends \Google\Model
   public $id;
   protected $imageType = PostAuthorImage::class;
   protected $imageDataType = '';
-  public $image;
   /**
    * @var string
    */

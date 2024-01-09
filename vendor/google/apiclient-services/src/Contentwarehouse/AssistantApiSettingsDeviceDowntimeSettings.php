@@ -22,7 +22,6 @@ class AssistantApiSettingsDeviceDowntimeSettings extends \Google\Collection
   protected $collection_key = 'targets';
   protected $schedulesType = AssistantApiSettingsLabeledDowntimeSchedule::class;
   protected $schedulesDataType = 'array';
-  public $schedules;
   /**
    * @var string[]
    */

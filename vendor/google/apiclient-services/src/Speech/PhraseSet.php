@@ -27,10 +27,17 @@ class PhraseSet extends \Google\Collection
   /**
    * @var string
    */
+  public $kmsKeyName;
+  /**
+   * @var string
+   */
+  public $kmsKeyVersionName;
+  /**
+   * @var string
+   */
   public $name;
   protected $phrasesType = Phrase::class;
   protected $phrasesDataType = 'array';
-  public $phrases;
 
   /**
    * @param float
@@ -45,6 +52,34 @@ class PhraseSet extends \Google\Collection
   public function getBoost()
   {
     return $this->boost;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyName($kmsKeyName)
+  {
+    $this->kmsKeyName = $kmsKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyName()
+  {
+    return $this->kmsKeyName;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyVersionName($kmsKeyVersionName)
+  {
+    $this->kmsKeyVersionName = $kmsKeyVersionName;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyVersionName()
+  {
+    return $this->kmsKeyVersionName;
   }
   /**
    * @param string

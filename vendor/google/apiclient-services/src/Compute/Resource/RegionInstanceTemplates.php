@@ -59,8 +59,7 @@ class RegionInstanceTemplates extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified instance template. Gets a list of available instance
-   * templates by making a list() request. (regionInstanceTemplates.get)
+   * Returns the specified instance template. (regionInstanceTemplates.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region The name of the region for this request.

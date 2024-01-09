@@ -25,10 +25,8 @@ class UploadMetadata extends \Google\Model
   public $attachmentToken;
   protected $backendUploadMetadataType = AppsDynamiteSharedBackendUploadMetadata::class;
   protected $backendUploadMetadataDataType = '';
-  public $backendUploadMetadata;
   protected $clonedAuthorizedItemIdType = AuthorizedItemId::class;
   protected $clonedAuthorizedItemIdDataType = '';
-  public $clonedAuthorizedItemId;
   /**
    * @var string
    */
@@ -47,7 +45,6 @@ class UploadMetadata extends \Google\Model
   public $contentType;
   protected $dlpMetricsMetadataType = AppsDynamiteSharedDlpMetricsMetadata::class;
   protected $dlpMetricsMetadataDataType = '';
-  public $dlpMetricsMetadata;
   /**
    * @var string
    */
@@ -58,10 +55,8 @@ class UploadMetadata extends \Google\Model
   public $localId;
   protected $originalDimensionType = AppsDynamiteSharedDimension::class;
   protected $originalDimensionDataType = '';
-  public $originalDimension;
   protected $videoReferenceType = AppsDynamiteSharedVideoReference::class;
   protected $videoReferenceDataType = '';
-  public $videoReference;
   /**
    * @var string
    */

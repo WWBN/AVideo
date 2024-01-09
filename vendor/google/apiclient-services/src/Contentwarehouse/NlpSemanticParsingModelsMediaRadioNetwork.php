@@ -21,13 +21,10 @@ class NlpSemanticParsingModelsMediaRadioNetwork extends \Google\Model
 {
   protected $annotationListType = NlpSemanticParsingModelsMediaMediaAnnotationList::class;
   protected $annotationListDataType = '';
-  public $annotationList;
   protected $evalDataType = NlpSemanticParsingAnnotationEvalData::class;
   protected $evalDataDataType = '';
-  public $evalData;
   protected $qrefType = NlpSemanticParsingQRefAnnotation::class;
   protected $qrefDataType = '';
-  public $qref;
   /**
    * @var string
    */

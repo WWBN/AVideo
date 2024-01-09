@@ -38,7 +38,6 @@ class RegisterParameters extends \Google\Collection
   public $supportedPrivacy;
   protected $yearlyPriceType = Money::class;
   protected $yearlyPriceDataType = '';
-  public $yearlyPrice;
 
   /**
    * @param string

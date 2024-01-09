@@ -22,7 +22,6 @@ class AudienceSegmentGroup extends \Google\Collection
   protected $collection_key = 'audienceSegments';
   protected $audienceSegmentsType = AudienceSegment::class;
   protected $audienceSegmentsDataType = 'array';
-  public $audienceSegments;
   /**
    * @var string
    */

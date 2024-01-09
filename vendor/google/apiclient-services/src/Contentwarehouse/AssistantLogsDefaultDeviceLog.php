@@ -21,10 +21,8 @@ class AssistantLogsDefaultDeviceLog extends \Google\Model
 {
   protected $defaultSpeakerType = AssistantLogsDeviceInfoLog::class;
   protected $defaultSpeakerDataType = '';
-  public $defaultSpeaker;
   protected $defaultTvType = AssistantLogsDeviceInfoLog::class;
   protected $defaultTvDataType = '';
-  public $defaultTv;
   /**
    * @var string
    */

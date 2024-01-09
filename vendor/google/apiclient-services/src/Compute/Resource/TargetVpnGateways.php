@@ -132,8 +132,7 @@ class TargetVpnGateways extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified target VPN gateway. Gets a list of available target VPN
-   * gateways by making a list() request. (targetVpnGateways.get)
+   * Returns the specified target VPN gateway. (targetVpnGateways.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region for this request.

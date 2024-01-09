@@ -53,7 +53,6 @@ class EnrollmentToken extends \Google\Model
   public $qrCode;
   protected $userType = User::class;
   protected $userDataType = '';
-  public $user;
   /**
    * @var string
    */

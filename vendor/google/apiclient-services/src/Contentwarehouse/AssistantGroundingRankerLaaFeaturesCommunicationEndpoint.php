@@ -21,7 +21,6 @@ class AssistantGroundingRankerLaaFeaturesCommunicationEndpoint extends \Google\M
 {
   protected $assistantInteractionFeaturesType = AssistantGroundingRankerAssistantInteractionFeatures::class;
   protected $assistantInteractionFeaturesDataType = '';
-  public $assistantInteractionFeatures;
 
   /**
    * @param AssistantGroundingRankerAssistantInteractionFeatures

@@ -21,10 +21,8 @@ class AssistantApiGacsCapabilities extends \Google\Model
 {
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
-  public $deviceId;
   protected $responseConfigType = GoogleAssistantAccessoryV1ResponseConfig::class;
   protected $responseConfigDataType = '';
-  public $responseConfig;
   /**
    * @var string
    */

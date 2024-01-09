@@ -21,7 +21,6 @@ class UserInitiatedCancellation extends \Google\Model
 {
   protected $cancelSurveyResultType = CancelSurveyResult::class;
   protected $cancelSurveyResultDataType = '';
-  public $cancelSurveyResult;
   /**
    * @var string
    */

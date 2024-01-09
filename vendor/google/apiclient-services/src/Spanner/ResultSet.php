@@ -22,14 +22,12 @@ class ResultSet extends \Google\Collection
   protected $collection_key = 'rows';
   protected $metadataType = ResultSetMetadata::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var array[]
    */
   public $rows;
   protected $statsType = ResultSetStats::class;
   protected $statsDataType = '';
-  public $stats;
 
   /**
    * @param ResultSetMetadata

@@ -42,7 +42,6 @@ class QualityPreviewChosenSnippetInfo extends \Google\Collection
   public $source;
   protected $tidbitsType = QualityPreviewChosenSnippetInfoTidbitInfo::class;
   protected $tidbitsDataType = 'array';
-  public $tidbits;
   /**
    * @var bool
    */

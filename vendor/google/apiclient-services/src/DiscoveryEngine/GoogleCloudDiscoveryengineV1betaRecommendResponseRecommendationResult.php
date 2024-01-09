@@ -21,7 +21,6 @@ class GoogleCloudDiscoveryengineV1betaRecommendResponseRecommendationResult exte
 {
   protected $documentType = GoogleCloudDiscoveryengineV1betaDocument::class;
   protected $documentDataType = '';
-  public $document;
   /**
    * @var string
    */

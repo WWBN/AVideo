@@ -131,8 +131,7 @@ class VpnTunnels extends \Google\Service\Resource
     return $this->call('delete', [$params], Operation::class);
   }
   /**
-   * Returns the specified VpnTunnel resource. Gets a list of available VPN
-   * tunnels by making a list() request. (vpnTunnels.get)
+   * Returns the specified VpnTunnel resource. (vpnTunnels.get)
    *
    * @param string $project Project ID for this request.
    * @param string $region Name of the region for this request.

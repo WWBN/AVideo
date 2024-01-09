@@ -26,7 +26,6 @@ class LicensesListResponse extends \Google\Collection
   public $id;
   protected $itemsType = License::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */
@@ -37,7 +36,6 @@ class LicensesListResponse extends \Google\Collection
   public $selfLink;
   protected $warningType = LicensesListResponseWarning::class;
   protected $warningDataType = '';
-  public $warning;
 
   /**
    * @param string

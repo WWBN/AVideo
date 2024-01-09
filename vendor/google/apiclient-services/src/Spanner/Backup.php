@@ -34,7 +34,6 @@ class Backup extends \Google\Collection
   public $databaseDialect;
   protected $encryptionInfoType = EncryptionInfo::class;
   protected $encryptionInfoDataType = '';
-  public $encryptionInfo;
   /**
    * @var string
    */

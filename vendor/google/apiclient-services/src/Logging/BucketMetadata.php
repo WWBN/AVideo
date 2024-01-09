@@ -21,7 +21,6 @@ class BucketMetadata extends \Google\Model
 {
   protected $createBucketRequestType = CreateBucketRequest::class;
   protected $createBucketRequestDataType = '';
-  public $createBucketRequest;
   /**
    * @var string
    */
@@ -36,7 +35,6 @@ class BucketMetadata extends \Google\Model
   public $state;
   protected $updateBucketRequestType = UpdateBucketRequest::class;
   protected $updateBucketRequestDataType = '';
-  public $updateBucketRequest;
 
   /**
    * @param CreateBucketRequest

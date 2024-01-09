@@ -22,7 +22,6 @@ class OrdersShipLineItemsRequest extends \Google\Collection
   protected $collection_key = 'shipmentInfos';
   protected $lineItemsType = OrderShipmentLineItemShipment::class;
   protected $lineItemsDataType = 'array';
-  public $lineItems;
   /**
    * @var string
    */
@@ -33,7 +32,6 @@ class OrdersShipLineItemsRequest extends \Google\Collection
   public $shipmentGroupId;
   protected $shipmentInfosType = OrdersCustomBatchRequestEntryShipLineItemsShipmentInfo::class;
   protected $shipmentInfosDataType = 'array';
-  public $shipmentInfos;
 
   /**
    * @param OrderShipmentLineItemShipment[]

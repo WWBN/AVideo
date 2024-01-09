@@ -21,10 +21,8 @@ class GoogleCloudDataplexV1EnvironmentInfrastructureSpec extends \Google\Model
 {
   protected $computeType = GoogleCloudDataplexV1EnvironmentInfrastructureSpecComputeResources::class;
   protected $computeDataType = '';
-  public $compute;
   protected $osImageType = GoogleCloudDataplexV1EnvironmentInfrastructureSpecOsImageRuntime::class;
   protected $osImageDataType = '';
-  public $osImage;
 
   /**
    * @param GoogleCloudDataplexV1EnvironmentInfrastructureSpecComputeResources

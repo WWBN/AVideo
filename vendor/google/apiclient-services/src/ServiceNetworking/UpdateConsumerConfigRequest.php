@@ -21,7 +21,6 @@ class UpdateConsumerConfigRequest extends \Google\Model
 {
   protected $consumerConfigType = ConsumerConfig::class;
   protected $consumerConfigDataType = '';
-  public $consumerConfig;
 
   /**
    * @param ConsumerConfig

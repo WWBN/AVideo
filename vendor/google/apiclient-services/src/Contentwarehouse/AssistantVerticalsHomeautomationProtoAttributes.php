@@ -22,7 +22,6 @@ class AssistantVerticalsHomeautomationProtoAttributes extends \Google\Collection
   protected $collection_key = 'attributeProtos';
   protected $attributeProtosType = AssistantVerticalsHomeautomationProtoAttribute::class;
   protected $attributeProtosDataType = 'array';
-  public $attributeProtos;
 
   /**
    * @param AssistantVerticalsHomeautomationProtoAttribute[]

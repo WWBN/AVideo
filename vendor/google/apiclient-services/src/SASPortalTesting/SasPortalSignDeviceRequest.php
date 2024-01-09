@@ -21,7 +21,6 @@ class SasPortalSignDeviceRequest extends \Google\Model
 {
   protected $deviceType = SasPortalDevice::class;
   protected $deviceDataType = '';
-  public $device;
 
   /**
    * @param SasPortalDevice

@@ -125,6 +125,9 @@ class V1 extends \Google\Service\Resource
    * IamPolicyAnalysisQuery.access_selector is specified, the access section of
    * the result will be determined by the selector, and this flag is not allowed
    * to set. Default is false.
+   * @opt_param bool analysisQuery.options.includeDenyPolicyAnalysis Optional. If
+   * true, the response includes deny policy analysis results, and you can see
+   * which access tuples are denied. Default is false.
    * @opt_param bool analysisQuery.options.outputGroupEdges Optional. If true, the
    * result will output the relevant membership relationships between groups and
    * other groups, and between groups and principals. Default is false.
@@ -461,10 +464,10 @@ class V1 extends \Google\Service\Resource
    * assetType * project All the other fields such as repeated fields (e.g.,
    * `folders`) and non-primitive fields (e.g., `policy`) are not supported.
    * @opt_param int pageSize Optional. The page size for search result pagination.
-   * Page size is capped at 500 even if a larger value is given. If set to zero,
-   * server will pick an appropriate default. Returned results may be fewer than
-   * requested. When this happens, there could be more results as long as
-   * `next_page_token` is returned.
+   * Page size is capped at 500 even if a larger value is given. If set to zero or
+   * a negative value, server will pick an appropriate default. Returned results
+   * may be fewer than requested. When this happens, there could be more results
+   * as long as `next_page_token` is returned.
    * @opt_param string pageToken Optional. If present, retrieve the next batch of
    * results from the preceding call to this method. `page_token` must be the
    * value of `next_page_token` from the previous response. The values of all
@@ -547,10 +550,10 @@ class V1 extends \Google\Service\Resource
    * repeated fields (e.g., `networkTags`, `kmsKeys`), map fields (e.g., `labels`)
    * and struct fields (e.g., `additionalAttributes`) are not supported.
    * @opt_param int pageSize Optional. The page size for search result pagination.
-   * Page size is capped at 500 even if a larger value is given. If set to zero,
-   * server will pick an appropriate default. Returned results may be fewer than
-   * requested. When this happens, there could be more results as long as
-   * `next_page_token` is returned.
+   * Page size is capped at 500 even if a larger value is given. If set to zero or
+   * a negative value, server will pick an appropriate default. Returned results
+   * may be fewer than requested. When this happens, there could be more results
+   * as long as `next_page_token` is returned.
    * @opt_param string pageToken Optional. If present, then retrieve the next
    * batch of results from the preceding call to this method. `page_token` must be
    * the value of `next_page_token` from the previous response. The values of all

@@ -42,7 +42,6 @@ class AttributeMetadata extends \Google\Collection
   public $repeatable;
   protected $valueMetadataType = AttributeValueMetadata::class;
   protected $valueMetadataDataType = 'array';
-  public $valueMetadata;
   /**
    * @var string
    */

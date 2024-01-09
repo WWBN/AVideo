@@ -22,7 +22,7 @@ class RuntimeMetrics extends \Google\Model
   /**
    * @var string[]
    */
-  public $systemMetrics;
+  public $systemMetrics = [];
 
   /**
    * @param string[]

@@ -21,7 +21,6 @@ class CreateJobFromTemplateRequest extends \Google\Model
 {
   protected $environmentType = RuntimeEnvironment::class;
   protected $environmentDataType = '';
-  public $environment;
   /**
    * @var string
    */

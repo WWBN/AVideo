@@ -25,7 +25,6 @@ class GooglePlayDeveloperReportingV1beta1FreshnessInfoFreshness extends \Google\
   public $aggregationPeriod;
   protected $latestEndTimeType = GoogleTypeDateTime::class;
   protected $latestEndTimeDataType = '';
-  public $latestEndTime;
 
   /**
    * @param string

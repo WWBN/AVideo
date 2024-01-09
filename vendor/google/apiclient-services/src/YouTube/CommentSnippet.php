@@ -21,7 +21,6 @@ class CommentSnippet extends \Google\Model
 {
   protected $authorChannelIdType = CommentSnippetAuthorChannelId::class;
   protected $authorChannelIdDataType = '';
-  public $authorChannelId;
   /**
    * @var string
    */

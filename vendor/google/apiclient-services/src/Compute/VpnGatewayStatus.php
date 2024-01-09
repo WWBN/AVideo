@@ -22,7 +22,6 @@ class VpnGatewayStatus extends \Google\Collection
   protected $collection_key = 'vpnConnections';
   protected $vpnConnectionsType = VpnGatewayStatusVpnConnection::class;
   protected $vpnConnectionsDataType = 'array';
-  public $vpnConnections;
 
   /**
    * @param VpnGatewayStatusVpnConnection[]

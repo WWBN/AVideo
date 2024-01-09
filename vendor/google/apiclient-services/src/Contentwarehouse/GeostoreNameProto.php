@@ -30,7 +30,6 @@ class GeostoreNameProto extends \Google\Collection
   public $language;
   protected $metadataType = GeostoreFieldMetadataProto::class;
   protected $metadataDataType = '';
-  public $metadata;
   /**
    * @var string
    */
@@ -41,7 +40,6 @@ class GeostoreNameProto extends \Google\Collection
   public $shortText;
   protected $temporaryDataType = Proto2BridgeMessageSet::class;
   protected $temporaryDataDataType = '';
-  public $temporaryData;
   /**
    * @var string
    */

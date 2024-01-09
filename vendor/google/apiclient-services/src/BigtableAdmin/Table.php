@@ -21,10 +21,8 @@ class Table extends \Google\Model
 {
   protected $clusterStatesType = ClusterState::class;
   protected $clusterStatesDataType = 'map';
-  public $clusterStates;
   protected $columnFamiliesType = ColumnFamily::class;
   protected $columnFamiliesDataType = 'map';
-  public $columnFamilies;
   /**
    * @var bool
    */
@@ -39,10 +37,8 @@ class Table extends \Google\Model
   public $name;
   protected $restoreInfoType = RestoreInfo::class;
   protected $restoreInfoDataType = '';
-  public $restoreInfo;
   protected $statsType = TableStats::class;
   protected $statsDataType = '';
-  public $stats;
 
   /**
    * @param ClusterState[]

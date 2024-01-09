@@ -33,7 +33,7 @@ class Runtime extends \Google\Model
   /**
    * @var string[]
    */
-  public $labels;
+  public $labels = [];
   protected $metricsType = RuntimeMetrics::class;
   protected $metricsDataType = '';
   public $metrics;

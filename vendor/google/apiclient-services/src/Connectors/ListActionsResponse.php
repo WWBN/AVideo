@@ -22,7 +22,6 @@ class ListActionsResponse extends \Google\Collection
   protected $collection_key = 'unsupportedActionNames';
   protected $actionsType = Action::class;
   protected $actionsDataType = 'array';
-  public $actions;
   /**
    * @var string
    */

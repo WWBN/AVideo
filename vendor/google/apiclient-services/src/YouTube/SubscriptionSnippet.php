@@ -37,10 +37,8 @@ class SubscriptionSnippet extends \Google\Model
   public $publishedAt;
   protected $resourceIdType = ResourceId::class;
   protected $resourceIdDataType = '';
-  public $resourceId;
   protected $thumbnailsType = ThumbnailDetails::class;
   protected $thumbnailsDataType = '';
-  public $thumbnails;
   /**
    * @var string
    */

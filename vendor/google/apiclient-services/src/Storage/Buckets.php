@@ -22,7 +22,6 @@ class Buckets extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Bucket::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

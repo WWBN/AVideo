@@ -22,7 +22,6 @@ class OperationsListResponse extends \Google\Collection
   protected $collection_key = 'items';
   protected $itemsType = Operation::class;
   protected $itemsDataType = 'array';
-  public $items;
   /**
    * @var string
    */

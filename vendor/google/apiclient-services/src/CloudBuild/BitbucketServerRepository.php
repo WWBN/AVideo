@@ -37,7 +37,6 @@ class BitbucketServerRepository extends \Google\Model
   public $name;
   protected $repoIdType = BitbucketServerRepositoryId::class;
   protected $repoIdDataType = '';
-  public $repoId;
 
   /**
    * @param string

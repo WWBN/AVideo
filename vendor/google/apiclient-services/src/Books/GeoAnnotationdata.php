@@ -25,7 +25,6 @@ class GeoAnnotationdata extends \Google\Model
   public $annotationType;
   protected $dataType = Geolayerdata::class;
   protected $dataDataType = '';
-  public $data;
   /**
    * @var string
    */
