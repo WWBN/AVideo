@@ -25,12 +25,17 @@ $apiAccessKey = readline("Enter BunnyCDN Storage API Access Key: ");
 $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
 $storageZoneRegion = $parts[0]; // Replace with your storage zone region code
 
+_error_log("CDNStorage::put line ".__LINE__);
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
+_error_log("CDNStorage::put line ".__LINE__);
 
 $sql = "SELECT * FROM  videos WHERE 1=1 ORDER BY id ";
 $res = sqlDAL::readSql($sql, "", [], true);
+_error_log("CDNStorage::put line ".__LINE__);
 $fullData = sqlDAL::fetchAllAssoc($res);
+_error_log("CDNStorage::put line ".__LINE__);
 sqlDAL::close($res);
+_error_log("CDNStorage::put line ".__LINE__);
 
 if ($res != false) {
     $total = count($fullData);
