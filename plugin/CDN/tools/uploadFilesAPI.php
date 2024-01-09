@@ -56,13 +56,13 @@ if ($res != false) {
                     $remote_file = CDNStorage::filenameToRemotePath($value['local']['local_path']);
                     echo PHP_EOL.("CDNStorage::APIput {$value['local']['local_path']} {$remote_file} {$value['remote']['relative']}");
                     $client->upload($value['local']['local_path'], $remote_file);
+                    exit;
                 } else {
                     echo PHP_EOL.("CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}");
                 }
             } else {
                 echo PHP_EOL.("CDNStorage::APIput not valid local file {$value['local']['local_path']}");
             }
-            exit;
         }
 
     }
