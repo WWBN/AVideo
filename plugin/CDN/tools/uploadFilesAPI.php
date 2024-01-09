@@ -71,7 +71,7 @@ if ($res != false) {
                     $speed = $filesize / $timeTaken; // Bytes per second
                     $etaForCurrentFile = $totalSizeRemaining / $speed; // ETA in seconds
                     $totalTimeEstimated = $etaForCurrentFile*($total-$key);
-                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . @gmdate("H:i:s", $etaForCurrentFile). " Videos ETA: " . @gmdate("H:i:s", $totalTimeEstimated).PHP_EOL;
+                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . @gmdate("H:i:s", $etaForCurrentFile). " Videos ETA: " . @gmdate("d H:i:s", $totalTimeEstimated).PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}").PHP_EOL;
                 }
