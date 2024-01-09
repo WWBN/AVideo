@@ -56,7 +56,7 @@ if ($res != false) {
                 if (empty($value) || empty($value['remote']) || $filesize != $value['remote']['remote_filesize']) {
                     $remote_file = CDNStorage::filenameToRemotePath($value['local']['local_path']);
                     $startTime = microtime(true);
-                    echo ("$info2 CDNStorage::APIput {$value['local']['local_path']} {$remote_file} ".humanFileSize($filesize)).PHP_EOL;
+                    echo PHP_EOL.("$info2 CDNStorage::APIput {$value['local']['local_path']} {$remote_file} ".humanFileSize($filesize)).PHP_EOL;
                     $client->upload($value['local']['local_path'], $remote_file);
                     $endTime = microtime(true);    
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
