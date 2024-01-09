@@ -47,6 +47,11 @@ if ($res != false) {
         $totalFiles = count($list);
         echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ").PHP_EOL;
         $count = 0;
+        $totalSizeRemaining = array_sum(array_map(function($value) { 
+            return $value['isLocal'] ? filesize($value['local']['local_path']) : 0; 
+        }, $list));
+        
+        $totalTimeEstimated = 0;
         foreach ($list as $value) {
             $count++;
             $info2 = "{$info1}[{$totalFiles}, {$count}] ";
@@ -62,9 +67,12 @@ if ($res != false) {
                     $client->upload($value['local']['local_path'], $remote_file);
                     $endTime = microtime(true);    
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
+                    $totalSizeRemaining -= $filesize; // Update remaining size
                     $timeTakenFormated = number_format($timeTaken, 1);
                     $speed = $filesize / $timeTaken; // Bytes per second
-                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s".PHP_EOL;
+                    $etaForCurrentFile = $totalSizeRemaining / $speed; // ETA in seconds
+                    $totalTimeEstimated += $timeTaken;
+                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . gmdate("H:i:s", $etaForCurrentFile). " Videos ETA: " . gmdate("H:i:s", $totalTimeEstimated).PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}").PHP_EOL;
                 }
