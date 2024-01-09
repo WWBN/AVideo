@@ -18,10 +18,14 @@ if (!User::canStream()) {
     $obj->msg = __('Cannot stream');
     die(json_encode($obj));
 }
+$users_id = User::getId();
+$lives = LiveTransmitionHistory::getAllActiveFromUser($users_id);
 
-//$lives = LiveTransmitionHistory::getAllActiveFromUser(User::getId(), 10);
-$lives = LiveTransmitionHistory::getAllFromUser(User::getId(), false, false, 10);
-$restreamers = Live_restreams::getAllFromUser(User::getId());
+if(empty($lives)){
+    $lives = LiveTransmitionHistory::getAllFromUser($users_id, false, false, 1);
+}
+
+$restreamers = Live_restreams::getAllFromUser($users_id);
 
 foreach ($lives as $key => $value) {
     $lives[$key]['restream'] = array();
