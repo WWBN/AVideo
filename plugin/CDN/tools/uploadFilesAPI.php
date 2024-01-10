@@ -66,7 +66,7 @@ if ($res != false) {
                     try {
                         $client->upload($value['local']['local_path'], $remote_file);
                     } catch (\Throwable $th) {
-                        echo "$info2 CDNStorage::APIput Upload ERROR " . PHP_EOL;
+                        echo "$info2 CDNStorage::APIput Upload ERROR " .$th->getMessage() . PHP_EOL;
                     }
                     $endTime = microtime(true);
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
