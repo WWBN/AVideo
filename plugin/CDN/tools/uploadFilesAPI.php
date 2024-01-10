@@ -41,7 +41,7 @@ if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos").PHP_EOL;
     foreach ($fullData as $key => $row) {
-        $info1 = "[{$total}, {$key}] ";
+        $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
         $videos_id = $row['id'];
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
