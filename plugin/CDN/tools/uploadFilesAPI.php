@@ -25,7 +25,7 @@ $apiAccessKey = $cdnObj->storage_password;
 $storageZoneName = $cdnObj->storage_username; // Replace with your storage zone name
 $storageZoneRegion = trim(strtoupper($parts[0])); // Replace with your storage zone region code
 
-echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion ") . PHP_EOL;
+echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion [startFromIndex=$startFromIndex]") . PHP_EOL;
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
 echo ("CDNStorage::APIput line " . __LINE__) . PHP_EOL;
 
