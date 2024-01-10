@@ -152,7 +152,7 @@ $objectToReturnToParentIframe->posterURL = $poster;
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="<?php echo getURL('view/img/favicon.ico'); ?>">
+    <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
     <title><?php echo $objectToReturnToParentIframe->title; ?></title>
     <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
