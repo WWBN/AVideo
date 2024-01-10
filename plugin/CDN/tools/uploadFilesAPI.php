@@ -44,8 +44,8 @@ if ($res != false) {
         if($key<$startFromIndex){
             continue;
         }
-        $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
         $videos_id = $row['id'];
+        $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
         echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ") . PHP_EOL;
