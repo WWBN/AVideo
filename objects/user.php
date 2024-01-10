@@ -1529,6 +1529,7 @@ if (typeof gtag !== \"function\") {
         }
 
         if (
+            !empty($advancedCustomUser) &&
             $advancedCustomUser->forceLoginToBeTheEmail &&
             $advancedCustomUser->emailMustBeUnique &&
             filter_var($user, FILTER_VALIDATE_EMAIL)
@@ -1754,6 +1755,7 @@ if (typeof gtag !== \"function\") {
         $values[] = $user;
 
         if (
+            !empty($advancedCustomUser) &&
             $advancedCustomUser->forceLoginToBeTheEmail &&
             $advancedCustomUser->emailMustBeUnique &&
             filter_var($user, FILTER_VALIDATE_EMAIL)

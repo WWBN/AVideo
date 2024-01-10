@@ -49,15 +49,28 @@ function addView(videos_id, currentTime) {
     return true;
 }
 
+function addCurrentView() {
+    var vid = 0;
+    if(typeof mediaId !== 'undefined'){
+        vid = mediaId;
+    }else if(typeof videos_id !== 'undefined'){
+        vid = videos_id;
+    }
+    var time = Math.round(player.currentTime());     
+    addView(vid, time);
+}
+
 var isVideoAddViewCount = false;
+var doNotCountView = false;
 
 function _addView(videos_id, currentTime, seconds_watching_video) {
-    console.log('_addView 1', videos_id, currentTime, seconds_watching_video);
+    if(doNotCountView){
+        return false;
+    }
+
     if (isVideoAddViewCount) {
         return false;
     }
-    
-    console.log('_addView 2', videos_id, currentTime, seconds_watching_video);
     
     if (typeof PHPSESSID === 'undefined') {
         PHPSESSID = '';
@@ -70,7 +83,6 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
     }
 
     isVideoAddViewCount = true;
-    console.log('_addView 3', videos_id, currentTime, seconds_watching_video);
     url = addGetParam(url, 'PHPSESSID', PHPSESSID);
     // reset seconds_watching_video
     var seconds_watching_video_to_send = seconds_watching_video;
@@ -85,11 +97,9 @@ function _addView(videos_id, currentTime, seconds_watching_video) {
             seconds_watching_video: seconds_watching_video_to_send
         },
         success: function(response) {
-            console.log('_addView 4', response);
             $('.view-count' + videos_id).text(response.countHTML);
             PHPSESSID = response.session_id;
         }, complete: function(response) {
-            console.log('_addView 5', response);
             isVideoAddViewCount = false;
         }
     });
@@ -120,15 +130,14 @@ async function addViewFromCookie() {
         return false;
     }
     
-    var url = webSiteRootURL + 'objects/videoAddViewCount.json.php';
-    url = addGetParam(url, 'PHPSESSID', addView_PHPSESSID);
-    
     if (mediaId === addView_videos_id) {
         // it is the same video, play at the last moment
         forceCurrentTime = addView_playerCurrentTime;
     }
-    
+    var doNotCountViewOriginal = isVideoAddViewCount;
+    doNotCountView = false;
     _addView(addView_videos_id, addView_playerCurrentTime, addView_seconds_watching_video);
+    doNotCountView = doNotCountViewOriginal;
     
     setTimeout(function() {
         _addViewFromCookie_addingtime = false;
@@ -165,9 +174,9 @@ async function startAddViewCountInPlayer(){
         });
         
         player.on('timeupdate', function() {
-            var time = Math.round(this.currentTime());        
+            var time = Math.round(this.currentTime());     
             if (time === 0 || time % 30 === 0) {
-                addView(mediaId, time);
+                addCurrentView();
             }
         });
     } else {

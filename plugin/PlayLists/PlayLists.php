@@ -873,7 +873,7 @@ class PlayLists extends PluginAbstract
     }
 
 
-    static function scheduleLiveButton($playlists_id, $showLabel = true)
+    static function scheduleLiveButton($playlists_id, $showLabel = true, $class = 'btn btn-xs btn-default')
     {
         // can the user live?
         if (!User::canStream()) {
@@ -895,10 +895,7 @@ class PlayLists extends PluginAbstract
             $labelText = '';
         }
 
-        return "<button class=\"btn btn-xs btn-default\"
-        onclick=\"avideoModalIframe('$liveLink');\" 
-        data-toggle=\"tooltip\" title=\"$label\"  >
-        <i class=\"fas fa-broadcast-tower\"></i> $labelText</button>";
+        return "<button class=\"{$class}\" onclick=\"avideoModalIframe('$liveLink');\" data-toggle=\"tooltip\" title=\"$label\" ><i class=\"fas fa-broadcast-tower\"></i> $labelText</button>";
     }
 
     static function getVideosIdFromPlaylist($playlists_id)

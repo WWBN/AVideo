@@ -27,35 +27,36 @@ $objectToReturnToParentIframe->users_id = 0;
 $objectToReturnToParentIframe->key = '';
 
 $users_id = 0;
-if(!empty($_REQUEST['channelName'])){
+if (!empty($_REQUEST['channelName'])) {
     $user = User::getChannelOwner($_REQUEST['channelName']);
     $users_id = $user['id'];
 }
 
 $categories_id = 0;
-if(!empty($_REQUEST['catName'])){
+if (!empty($_REQUEST['catName'])) {
     $cat = Category::getCategoryByName($_REQUEST['catName']);
     $categories_id = $cat['id'];
 }
 
-function matchWithRequest($row){
+function matchWithRequest($row)
+{
     global $users_id, $categories_id;
-    if(!empty($row['users_id']) && !empty($users_id)){
+    if (!empty($row['users_id']) && !empty($users_id)) {
         return $row['users_id'] == $users_id;
     }
-    if(!empty($row['categories_id']) && !empty($categories_id)){
+    if (!empty($row['categories_id']) && !empty($categories_id)) {
         return $row['categories_id'] == $categories_id;
     }
     return true;
 }
 
 $liveFound = false;
-if(AVideoPlugin::isEnabledByName('PlayLists')){
+if (AVideoPlugin::isEnabledByName('PlayLists')) {
     // try to get a live that is not a scheduled playlist
     $lives = LiveTransmitionHistory::getActiveLives('', false);
     foreach ($lives as $key => $value) {
-        if(!Playlists_schedules::iskeyPlayListScheduled($value['key'])){
-            if(matchWithRequest($value)){
+        if (!Playlists_schedules::iskeyPlayListScheduled($value['key'])) {
+            if (matchWithRequest($value)) {
                 $liveVideo = $value;
                 $liveFound = true;
                 break;
@@ -70,21 +71,21 @@ if (!empty($liveVideo)) {
     setLiveKey($liveVideo['key'], $liveVideo['live_servers_id'], $liveVideo['live_index']);
     $poster = getURL(Live::getPosterImage($liveVideo['users_id'], $liveVideo['live_servers_id']));
     $m3u8 = Live::getM3U8File($liveVideo['key']);
-    if(!empty($m3u8)){
+    if (!empty($m3u8)) {
         $sources = "<source src=\"{$m3u8}\" type=\"application/x-mpegURL\">";
         $objectToReturnToParentIframe->isLive = true;
         $objectToReturnToParentIframe->title = Live::getTitleFromKey($liveVideo['key']);
-    
+
         $objectToReturnToParentIframe->duration = __('Live');
         $objectToReturnToParentIframe->videoHumanTime = __('Now');
         $objectToReturnToParentIframe->creator = User::getNameIdentificationById($liveVideo['users_id']);
-    
+
         $objectToReturnToParentIframe->mediaSession = Live::getMediaSession($liveVideo['key'], $liveVideo['live_servers_id']);
         $objectToReturnToParentIframe->live_transmitions_id = intval($liveVideo['live_transmitions_id']);
         $objectToReturnToParentIframe->live_transmitions_history_id = intval($liveVideo['live_transmitions_history_id']);
         $objectToReturnToParentIframe->users_id = intval($liveVideo['users_id']);
         $objectToReturnToParentIframe->key = $liveVideo['key'];
-    
+
         $liveFound = true;
     }
 }
@@ -94,16 +95,16 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
     $_POST['sort']['created'] = 'DESC';
     $liveVideo = LiveLinks::getAllActive(false, true, false, $users_id, $categories_id);
     $video = $liveVideo[0];
-    if(!empty($video['link']) && isValidURL($video['link'])){
+    if (!empty($video['link']) && isValidURL($video['link'])) {
         $poster = LiveLinks::getImage($video['id']);
         $sources = "<source src=\"{$video['link']}\" type=\"application/x-mpegURL\">";
         $objectToReturnToParentIframe->isLive = true;
         $objectToReturnToParentIframe->title = $video['title'];
-    
+
         $objectToReturnToParentIframe->duration = __('Live');
         $objectToReturnToParentIframe->videoHumanTime = __('Now');
         $objectToReturnToParentIframe->creator = User::getNameIdentificationById($video['users_id']);
-    
+
         $objectToReturnToParentIframe->mediaSession = LiveLinks::getMediaSession($video['id']);
         $objectToReturnToParentIframe->users_id = intval($video['users_id']);
         $liveFound = true;
@@ -121,9 +122,9 @@ if (!$liveFound) {
     $_GET['videos_id'] = $video['id'];
     $_REQUEST['videos_id'] = $video['id'];
     $poster = Video::getPoster($video['id']);
-    if($video['type']==Video::$videoTypeLinkVideo){
+    if ($video['type'] == Video::$videoTypeLinkVideo) {
         $sources = getSourceFromURL($video['videoLink']);
-    }else{
+    } else {
         $sources = getSources($video['filename']);
     }
     //var_dump($sources, $video['type'], Video::$videoTypeLinkVideo, $video['videoLink']);exit;
@@ -173,8 +174,15 @@ $objectToReturnToParentIframe->posterURL = $poster;
     echo AVideoPlugin::afterVideoJS();
     ?>
     <script>
+        <?php 
+            if(!empty($objectToReturnToParentIframe->videos_id)){
+                echo "var mediaId = {$objectToReturnToParentIframe->videos_id};";
+                echo "var videos_id = {$objectToReturnToParentIframe->videos_id};";
+            }
+        ?>
         var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
         var player;
+        var PHPSESSID = "<?php echo session_id(); ?>";
     </script>
     <?php
     echo AVideoPlugin::getHeadCode();
@@ -206,6 +214,7 @@ $objectToReturnToParentIframe->posterURL = $poster;
     include $global['systemRootPath'] . 'view/include/bootstrap.js.php';
     ?>
     <script src="<?php echo getURL('view/js/script.js'); ?>" type="text/javascript"></script>
+    <script src="<?php echo getURL('view/js/addView.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo getURL('node_modules/js-cookie/dist/js.cookie.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.js'); ?>" type="text/javascript"></script>
     <script src="<?php echo getURL('node_modules/sweetalert/dist/sweetalert.min.js'); ?>" type="text/javascript"></script>
@@ -245,6 +254,7 @@ $objectToReturnToParentIframe->posterURL = $poster;
                     break;
                 case 'playerUnmute':
                     player.muted(false);
+                    addCurrentView();
                     break;
                 case 'userInactive':
                     $('#mainVideo').removeClass('vjs-user-active');
@@ -256,15 +266,25 @@ $objectToReturnToParentIframe->posterURL = $poster;
             }
         });
         $(document).ready(function() {
+            doNotCountView = true;
             <?php
             echo PlayerSkins::getStartPlayerJS();
-            if(!empty($_REQUEST['muted'])){
+            if (!empty($_REQUEST['muted'])) {
                 echo 'player.muted(true);';
             }
             ?>
-            setTimeout(function(){
+            setTimeout(function() {
                 $('#videoDiv').fadeIn();
-            },1000);            
+                player.on('volumechange', function() {
+                    if (player.muted()) {
+                        doNotCountView = true;
+                        console.log('_addView doNotCountView 1', doNotCountView);
+                    } else {
+                        doNotCountView = false;
+                        console.log('_addView doNotCountView 2', doNotCountView);
+                    }
+                });
+            }, 1000);
             playerPlay(0);
         });
     </script>
