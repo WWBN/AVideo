@@ -14,7 +14,7 @@ $cdnObj = AVideoPlugin::getDataObjectIfEnabled('CDN');
 if (empty($cdnObj)) {
     return die('Plugin disabled');
 }
-
+$startFromIndex = intval(@$argv[1]);
 $_1hour = 3600;
 $_2hours = $_1hour * 2;
 ob_end_flush();
@@ -41,6 +41,9 @@ if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
     foreach ($fullData as $key => $row) {
+        if($key<$startFromIndex){
+            continue;
+        }
         $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
         $videos_id = $row['id'];
         $list = CDNStorage::getFilesListBoth($videos_id);
