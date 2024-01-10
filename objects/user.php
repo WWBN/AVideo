@@ -1371,8 +1371,15 @@ if (typeof gtag !== \"function\") {
             $user = new User($users_id);
             $birth_date = $user->getBirth_date();
         } else {
-            self::recreateLoginFromCookie();
-            $birth_date = $_SESSION['user']['birth_date'];
+            if(empty($_SESSION['user']['birth_date'])){
+                self::recreateLoginFromCookie();
+            }
+            if(!empty($_SESSION['user']['birth_date'])){
+                $birth_date = $_SESSION['user']['birth_date'];
+            }else{
+                $user = new User(User::getId());
+                $birth_date = $_SESSION['user']['birth_date'] = $user->getBirth_date();
+            }
         }
         return $birth_date;
     }
