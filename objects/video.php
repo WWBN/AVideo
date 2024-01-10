@@ -4279,7 +4279,7 @@ if (!class_exists('Video')) {
                 foreach ($global['avideo_resolutions'] as $value) {
                     // Match '_240' or 'res240' followed by a non-digit or at the end of the string
                     $pattern = "/(_{$value}|res{$value})(?=\D|$)/";
-                    $cleanName = preg_replace($pattern, '', $filename);
+                    $cleanName = preg_replace($pattern, '', $cleanName);
                 }
             }
 
