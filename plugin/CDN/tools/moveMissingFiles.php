@@ -26,7 +26,7 @@ set_time_limit($_2hours);
 ini_set('max_execution_time', $_2hours);
 
 $sort = @$argv[1];
-if(strtolower($sort) !== 'asc'){
+if(empty($sort) || strtolower($sort) !== 'asc'){
     $sort = 'DESC';
 }
 
