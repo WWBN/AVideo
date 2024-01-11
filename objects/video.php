@@ -1097,6 +1097,9 @@ if (!class_exists('Video')) {
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                 . " WHERE 1=1 ";
+            if(isForKidsSet()){
+                $sql .= " AND v.made_for_kids = 1 ";
+            }
             if ($activeUsersOnly) {
                 $sql .= " AND u.status = 'a' ";
             }
@@ -1471,6 +1474,10 @@ if (!class_exists('Video')) {
 
             $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' ";
 
+            if(isForKidsSet()){
+                $sql .= " AND made_for_kids = 1 ";
+            }
+
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 $sql .= " AND (";
                 $sql .= "v.id IN (select videos_id FROM tags_has_videos WHERE tags_id IN "
@@ -1564,6 +1571,9 @@ if (!class_exists('Video')) {
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 2=2 ";
 
+            if(isForKidsSet()){
+                $sql .= " AND made_for_kids = 1 ";
+            }
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
@@ -2273,6 +2283,10 @@ if (!class_exists('Video')) {
 
             $sql .= " WHERE 1=1 ";
 
+            if(isForKidsSet()){
+                $sql .= " AND made_for_kids = 1 ";
+            }
+
             if ($with_order_only) {
                 $sql .= " AND v.`order` IS NOT NULL ";
             }
@@ -2417,6 +2431,9 @@ if (!class_exists('Video')) {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
+            if(isForKidsSet()){
+                $sql .= " AND v.made_for_kids = 1 ";
+            }
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
@@ -2587,6 +2604,22 @@ if (!class_exists('Video')) {
             }
 
             return $numRows;
+        }
+
+        static function videoMadeForKidsExists() {
+            global $_videoMadeForKidsExists;
+            if(isset($_videoMadeForKidsExists)){
+                return $_videoMadeForKidsExists;
+            }
+            $sql = "SELECT 1 FROM `videos` v  WHERE v.`made_for_kids` = 1 ";            
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";            
+            $sql .= " LIMIT 1 ";
+
+            $res = sqlDAL::readSql($sql);
+            $video = sqlDAL::fetchAssoc($res);
+            $_videoMadeForKidsExists = $video ? true : false;
+            //var_dump($sql, $_videoMadeForKidsExists, $video);exit;
+            return $_videoMadeForKidsExists;
         }
 
         static function getSearchFieldsNames()

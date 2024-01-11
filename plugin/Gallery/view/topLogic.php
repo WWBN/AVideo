@@ -46,7 +46,7 @@ $debugLastGetVideoSQL = $lastGetVideoSQL;
 if (empty($video)) {
     $video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, true);
     $debugLastGetVideoSQL = $lastGetVideoSQL;
-}
+}//var_dump(!empty($video), debug_backtrace());exit;
 $total = 0;
 $totalPages = 0;
 $url = '';

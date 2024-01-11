@@ -62,6 +62,9 @@ class Cache extends PluginAbstract {
         } else {
             $obj->cacheDir .= 'notlogged_' . md5("notlogged" . $global['salt']) . DIRECTORY_SEPARATOR;
         }
+        if(!empty($_COOKIE['forKids'])){
+            $obj->cacheDir .= 'forkids' . DIRECTORY_SEPARATOR;
+        }
         $obj->cacheDir = fixPath($obj->cacheDir, true);
         if (!file_exists($obj->cacheDir)) {
             mkdir($obj->cacheDir, 0777, true);
@@ -88,14 +91,14 @@ class Cache extends PluginAbstract {
         $plugin = AVideoPlugin::loadPluginIfEnabled('User_Location');
         if (!empty($plugin)) {
             $location = User_Location::getThisUserLocation();
-            if (!empty($location['country_code'])) {
+            if (!empty($location['country_code']) && $location['country_code'] != '-') {
                 $dir = $location['country_code'] . DIRECTORY_SEPARATOR;
             }
         }
         if ($this->isFirstPage()) {
             $dir .= (isMobile() ? 'mobile' : 'desktop') . DIRECTORY_SEPARATOR;
         }
-        return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . @$_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : '') . (@$_SESSION['language']) . '.cache';
+        return $dir . User::getId() . "_{$compl}" . md5(@$_SESSION['channelName'] . $_SERVER['REQUEST_URI'] . @$_SERVER['HTTP_HOST']) . "_" . $session_id . "_" . (!empty($_SERVER['HTTPS']) ? 'a' : ''). (!empty($_COOKIE['forKids']) ? 'k' : '') . (@$_SESSION['language']) . '.cache';
     }
 
     private function isFirstPage() {
@@ -125,7 +128,6 @@ class Cache extends PluginAbstract {
         $isBot = isBot();
         if ($this->isBlacklisted() || $this->isFirstPage() || !class_exists('User') || !User::isLogged() || !empty($obj->enableCacheForLoggedUsers)) {
             $cacheName = $this->getFileName();
-
             if ($this->isFirstPage()) {
                 if (isMobile()) {
                     $cacheName = "mobile_{$cacheName}";
@@ -136,6 +138,7 @@ class Cache extends PluginAbstract {
                     $cacheName .= '_iframe';
                 }
             }
+            //var_dump(__LINE__, $cacheName);exit;
             /*
             $lifetime = $obj->cacheTimeInSeconds;
             if ($isBot && $lifetime < 3600) {

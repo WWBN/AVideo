@@ -36,9 +36,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                 <ol class="carousel-indicators" style="bottom: -25px;">
                     <?php
                     for ($i = 0; $i < count($videoRows); $i++) {
-                    ?><li data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $i === 0 ? "active" : ""; ?>" style="border-color: #DDD;"></li><?php
-                                                                                                                                                                                }
-                                                                                                                                                                                    ?>
+                    ?>
+                    <li data-target="#bigVideoCarousel" data-slide-to="<?php echo $i; ?>" class="<?php echo $i === 0 ? "active" : ""; ?>" style="border-color: #DDD;"></li>
+                    <?php
+                    }
+                    ?>
                 </ol>
             <?php
             }
@@ -142,11 +144,11 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
                                                         foreach ($videoRow['tags'] as $value2) {
                                                             if (!empty($value2->label) && $value2->label === __("Group")) {
                                                 ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
-                                                                                                                                                        }
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                            }
-                                                                                                                                                            ?>
+                                                                                                                                        }
+                                                                                                                                    }
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                                            ?>
                                             </div>
 
                                             <?php

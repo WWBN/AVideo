@@ -6690,6 +6690,7 @@ function _setcookie($cookieName, $value, $expires = 0)
         setcookie($cookieName, $value, (int) $expires, "/", $domain);
         setcookie($cookieName, $value, (int) $expires, "/", 'www.' . $domain);
     }
+    $_COOKIE[$cookieName]=$value;
 }
 
 function _unsetcookie($cookieName)
@@ -9457,7 +9458,7 @@ function getIncludeFileContent($filePath, $varsArray = [], $setCacheName = false
     //$return = "<!-- {$basename} start -->";
     $return = '';
     if (!empty($setCacheName)) {
-        $name = $filePath . '_' . User::getId() . '_' . getLanguage();
+        $name = $filePath . '_' . User::getId() . '_' . getLanguage(). '_'.(isForKidsSet()?'kids':'');
         if(is_string($setCacheName)){
             $name .= $setCacheName;
         }
@@ -10477,7 +10478,12 @@ function getValueOrBlank($array, $default=''){
 
 function getRequestUniqueString(){
     $text = getValueOrBlank(['app_bundle','ads_app_bundle', 'publisher_app_bundle']);
+    $text .= isForKidsSet()?'forKids':'';
     return $text;
+}
+
+function isForKidsSet(){
+    return !empty($_COOKIE['forKids']) || (!empty($_REQUEST['forKids']) && intval($_REQUEST['forKids']) > 0);
 }
 
 require_once __DIR__.'/functionSecurity.php';
