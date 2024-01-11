@@ -4029,7 +4029,7 @@ if (!class_exists('Video')) {
             }
             */
             $source = AVideoPlugin::modifyURL($source);
-
+            //var_dump($source);exit;
             //var_dump($type, $source);exit;
             $VideoGetSourceFile[$cacheName] = $source;
             return $VideoGetSourceFile[$cacheName];
