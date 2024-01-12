@@ -27,7 +27,6 @@ $storageZoneRegion = trim(strtoupper($parts[0]));
 
 echo ("CDNStorage::APIput line $apiAccessKey, $storageZoneName, $storageZoneRegion [startFromIndex=$startFromIndex]") . PHP_EOL;
 $client = new \Bunny\Storage\Client($apiAccessKey, $storageZoneName, $storageZoneRegion);
-echo ("CDNStorage::APIput line " . __LINE__) . PHP_EOL;
 
 $sql = "SELECT * FROM videos ORDER BY id";
 $res = sqlDAL::readSql($sql, "", [], true);
@@ -41,24 +40,24 @@ $secondsInAWeek = 7 * $secondsInADay;
 $secondsInAMonth = 30 * $secondsInADay;
 
 $totalProcessedTime = 0;
-$processedVideosCount = 0;
+$processedFilesCount = 0;
+
+$totalSpeed = 0;
 
 if ($res != false) {
-    $totalVideos = count($fullData);
-    echo ("CDNStorage::APIput found {$totalVideos} videos") . PHP_EOL;
+    $total = count($fullData);
+    echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
     foreach ($fullData as $key => $row) {
         if ($key < $startFromIndex) {
             continue;
         }
         $videos_id = $row['id'];
-        $info1 = "videos_id = $videos_id [{$totalVideos}, {$key}] ";
+        $info1 = "videos_id = $videos_id [{$total}, {$key}] ";
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
         echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ") . PHP_EOL;
-
-        foreach ($list as $value) {
-            $count++;
-            $info2 = "{$info1}[{$totalFiles}, {$count}] ";
+        foreach ($list as $key2 => $value) {
+            $info2 = "{$info1}[{$totalFiles}, {$key2}] ";
             if (empty($value['local'])) {
                 continue;
             }
@@ -76,13 +75,20 @@ if ($res != false) {
                     $endTime = microtime(true);
 
                     $timeTaken = $endTime - $startTime;
+                    $speed = $filesize/$timeTaken;
                     $totalProcessedTime += $timeTaken;
-                    $processedVideosCount++;
+                    $processedFilesCount++;
 
+                    $totalSpeed+= $speed;
+                    $averageSpeed = $totalSpeed / $processedFilesCount;
+                    
                     // Average time per video
-                    $averageTimePerVideo = $totalProcessedTime / $processedVideosCount;
-                    $remainingVideos = $totalVideos - $processedVideosCount;
-                    $etaForAllVideos = $averageTimePerVideo * $remainingVideos;
+                    $averageTimePerFile = $totalProcessedTime / $processedFilesCount;
+                    $remainingFilesInThisVideo = $totalFiles - $key2;
+                    $etaForThisVideo = $averageTimePerFile * $remainingFilesInThisVideo;
+
+                    $remainingVideos = $total - $key;
+                    $etaForAllVideos = ($averageTimePerFile * $totalFiles) * $remainingVideos;
 
                     // Convert the estimated time into a readable format
                     $months = floor($etaForAllVideos / $secondsInAMonth);
@@ -96,8 +102,9 @@ if ($res != false) {
                     $minutes = floor($minuteSeconds / $secondsInAMinute);
                     $remainingSeconds = (int)$minuteSeconds % $secondsInAMinute;
 
-                    $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
-                    echo "Processing video $videos_id completed. ETA for all videos: $ETA" . PHP_EOL;
+                    $thisFile = humanFileSize($speed) . "/s average: ".humanFileSize($speed) . "/s ".@gmdate("H:i:s", $etaForThisVideo);
+                    $ETAAllVideos = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds} ";
+                    echo "$info2 ETA for all videos: $ETAAllVideos" . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
                 }
