@@ -45,7 +45,7 @@ $processedVideosCount = 0;
 
 if ($res != false) {
     $totalVideos = count($fullData);
-    echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
+    echo ("CDNStorage::APIput found {$totalVideos} videos") . PHP_EOL;
     foreach ($fullData as $key => $row) {
         if ($key < $startFromIndex) {
             continue;
