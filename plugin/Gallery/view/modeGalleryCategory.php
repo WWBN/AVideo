@@ -17,6 +17,9 @@ if(empty($_GET['tagsid']) && !empty($_REQUEST['tags_id'])){
 $onlySuggested = $obj->CategoriesShowOnlySuggested;
 if(!empty(getSearchVar())){
     $onlySuggested = false;
+    echo '<!-- modeGalleryCategory start -->';
+}else{
+    echo '<!-- modeGalleryCategory onlySuggested start -->';
 }
 $sort = @$_POST['sort'];
 unset($_POST['sort']);
@@ -34,7 +37,6 @@ if (empty($categories)) {
 unsetCurrentPage();
 $_REQUEST['rowCount'] = $obj->CategoriesRowCount;
 ?>
-<!-- modeGalleryCategory start -->
 <div class="categoriesContainerItem">
     <?php
     //var_dump($categories);exit;

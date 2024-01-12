@@ -131,9 +131,9 @@ class User
 
     function setBirth_date($birth_date): void
     {
-        if(_empty($birth_date)){
+        if (_empty($birth_date)) {
             $this->birth_date = 'NULL';
-        }else{
+        } else {
             $time = strtotime($birth_date);
             $this->birth_date = date('Y/m/d', $time);
         }
@@ -817,7 +817,7 @@ if (typeof gtag !== \"function\") {
             }
             if (!_empty($this->birth_date)) {
                 $values[] = $this->birth_date;
-            }else{
+            } else {
                 $values[] = null;
             }
             $formats .= "s";
@@ -1125,9 +1125,14 @@ if (typeof gtag !== \"function\") {
     public const USER_NOT_FOUND = 2;
     public const CAPTCHA_ERROR = 3;
     public const REQUIRE2FA = 4;
+    public const SYSTEM_ERROR = 5;
 
     public function login($noPass = false, $encodedPass = false, $ignoreEmailVerification = false)
     {
+        if (!class_exists('AVideoPlugin')) {
+            _error_log("ERROR login($noPass, $encodedPass, $ignoreEmailVerification) " . json_encode(debug_backtrace()));
+            return self::SYSTEM_ERROR;
+        }
         if (User::isLogged()) {
             //_error_log('User:login is already logged '.json_encode($_SESSION['user']['id']));
             return self::USER_LOGGED;
@@ -1371,12 +1376,12 @@ if (typeof gtag !== \"function\") {
             $user = new User($users_id);
             $birth_date = $user->getBirth_date();
         } else {
-            if(empty($_SESSION['user']['birth_date'])){
+            if (empty($_SESSION['user']['birth_date'])) {
                 self::recreateLoginFromCookie();
             }
-            if(!empty($_SESSION['user']['birth_date'])){
+            if (!empty($_SESSION['user']['birth_date'])) {
                 $birth_date = $_SESSION['user']['birth_date'];
-            }else{
+            } else {
                 $user = new User(User::getId());
                 $birth_date = $_SESSION['user']['birth_date'] = $user->getBirth_date();
             }
@@ -1393,7 +1398,7 @@ if (typeof gtag !== \"function\") {
         $birth_date = new DateTime($birth_date);
         $current_date = new DateTime('now');
         $age = $current_date->diff($birth_date)->y;
-        if($age<0){
+        if ($age < 0) {
             return 0;
         }
         return $age;
@@ -3027,6 +3032,9 @@ if (typeof gtag !== \"function\") {
                         break;
                     case self::REQUIRE2FA:
                         _error_log("loginFromRequest REQUIRE2FA {$_REQUEST['user']}");
+                        break;
+                    case self::SYSTEM_ERROR:
+                        _error_log("loginFromRequest SYSTEM_ERROR {$_REQUEST['user']}");
                         break;
                     default:
                         _error_log("loginFromRequest UNDEFINED {$_REQUEST['user']}");

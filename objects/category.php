@@ -386,7 +386,11 @@ class Category
         }
 
         if ($onlyWithVideos) {
-            $sql .= " AND ((SELECT count(*) FROM videos v where v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
+            $sql .= " AND ((SELECT count(*) FROM videos v where 1=1 ";            
+            if(isForKidsSet()){
+                $sql .= " AND v.made_for_kids = 1 ";
+            }
+            $sql .= " AND v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
             if (AVideoPlugin::isEnabledByName("Live")) {
                 $sql .= " OR "
                     . " ("
@@ -404,6 +408,7 @@ class Category
             }
             $sql .= ")";
         }
+        
         if ($sameUserGroupAsMe) {
             //_error_log('getAllCategories getUserGroups');
             $users_groups = UserGroups::getUserGroups($sameUserGroupAsMe);
@@ -941,7 +946,11 @@ class Category
             $sql .= "AND parentId = 0 OR parentId = -1 ";
         }
         if ($onlyWithVideos) {
-            $sql .= " AND ((SELECT count(*) FROM videos v where v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id)) > 0  ";
+            $sql .= " AND ((SELECT count(*) FROM videos v where 1=1 ";            
+            if(isForKidsSet()){
+                $sql .= " AND v.made_for_kids = 1 ";
+            }
+            $sql .= " AND v.categories_id = c.id OR categories_id IN (SELECT id from categories where parentId = c.id AND id != c.id) ) > 0  ";
             if (AVideoPlugin::isEnabledByName("Live")) {
                 $sql .= " OR "
                     . " ("

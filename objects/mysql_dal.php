@@ -105,7 +105,7 @@ class sqlDAL
         // make sure it does not store autid transactions
         if(strpos($preparedStatement, 'CachesInDB')===false){
             $debug = debug_backtrace();
-            if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable") {
+            if (empty($debug[2]['class']) || $debug[2]['class'] !== "AuditTable" && class_exists('AVideoPlugin')) {
                 $audit = AVideoPlugin::loadPluginIfEnabled('Audit');
                 if (!empty($audit)) {
                     try {

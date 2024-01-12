@@ -40,15 +40,6 @@
             </li>
         <?php
         }
-        if (Video::videoMadeForKidsExists()) {
-        ?>
-            <li style="width: 100%;">
-                <?php
-                include $global['systemRootPath'] . 'view/include/forKids.php';
-                ?>
-            </li>
-        <?php
-        }
         ?>
     </ul>
 </li>

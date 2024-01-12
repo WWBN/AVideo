@@ -9,18 +9,15 @@ global $avideoLayout;
             if (empty($advancedCustom->doNotShowLeftHomeButton)) {
             ?>
                 <li>
-
                     <div>
                         <a href="<?php echo getHomePageURL(); ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
                             <span class="fa fa-home"></span>
                             <?php echo __("Home"); ?>
                         </a>
-
                     </div>
                 </li>
             <?php
             }
-
             if (AVideoPlugin::isEnabledByName("PlayLists") && PlayLists::showTVFeatures()) {
             ?>
                 <li>
@@ -65,6 +62,20 @@ global $avideoLayout;
                     </button>
                 </li>
                 <?php
+            }
+            if (Video::videoMadeForKidsExists()) {
+            ?>
+                <li>
+                    <hr>
+                </li>
+                <li>
+                    <div>
+                        <?php
+                        include $global['systemRootPath'] . 'view/include/forKids.php';
+                        ?>
+                    </div>
+                </li>
+            <?php
             }
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                 if (User::isLogged()) {
@@ -256,7 +267,7 @@ global $avideoLayout;
                                 <?php
                                 if (!empty($updateFiles)) {
                                 ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php }
-                                                                                                                ?>
+                                                                                                            ?>
                             </a>
                         </li>
                         <li>

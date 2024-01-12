@@ -1,9 +1,8 @@
 <style>
     .row-label {
         display: flex;
-        /* Enables Flexbox */
         align-items: center;
-        /* Centers items vertically */
+        justify-content: space-between;
     }
 
     .colorful-text {

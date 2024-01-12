@@ -213,6 +213,12 @@ if ($resp === User::USER_NOT_VERIFIED) {
     die(json_encode($object));
 }
 
+if ($resp === User::SYSTEM_ERROR) {
+    _error_log("login.json.php System error", AVideoLog::$ERROR);
+    $object->error = __("System error, check your logs");
+    die(json_encode($object));
+}
+
 if ($resp === User::CAPTCHA_ERROR) {
     _error_log("login.json.php invalid captcha");
     $object->error = __("Invalid Captcha");

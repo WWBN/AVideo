@@ -1052,7 +1052,7 @@ class CDNStorage
         $totalTime = time() - $modified;
         if ($totalTime > 300) {
             if ($totalTime > 10000) {
-                unlink($file);
+                @unlink($file);
                 return false;
             } else {
                 // if is laonger than 5 min say it is not moving
@@ -1071,7 +1071,7 @@ class CDNStorage
         $extension = strtolower($path_parts['extension']);
 
         if ($extension == 'ts') {
-            unlink($file_path);
+            @unlink($file_path);
         } elseif (in_array($extension, CDNStorage::$allowedFiles)) {
             file_put_contents($file_path, 'Dummy File');
         } else {
@@ -1301,7 +1301,7 @@ class CDNStorage
         if (empty($file_exists)) {
             $file_exists = CDNStorage::file_exists_on_cdn($relativeFilename);
             if (!$file_exists && isDummyFile($localFile)) {
-                unlink($localFile);
+                @unlink($localFile);
             } else if ($file_exists && !isDummyFile($localFile)) {
                 self::createDummy($localFile);
             }
@@ -1318,7 +1318,7 @@ class CDNStorage
             } else {
                 $filesize = filesize($localFile);
                 if (empty($filesize) || isDummyFile($localFile)) {
-                    unlink($localFile);
+                    @unlink($localFile);
                 } else if (!isDummyFile($localFile)) {
                     _error_log('convertCDNHLSVideoToDownlaod: Upload file to CDN ' . $localFile);
                     $client = CDNStorage::getStorageClient();

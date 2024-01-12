@@ -1472,7 +1472,7 @@ if (!class_exists('Video')) {
 
             $sql .= " UNION ";
 
-            $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='a' ";
+            $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='".Video::$statusActive."' ";
 
             if(isForKidsSet()){
                 $sql .= " AND made_for_kids = 1 ";
