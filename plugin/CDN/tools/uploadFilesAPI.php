@@ -52,7 +52,8 @@ $processedVideosCount = 0; // Number of videos processed
 if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
-    foreach ($fullData as $key => $row) {
+    foreach ($fullData as $key => $row) {        
+        $processedVideosCount++;
         if ($key < $startFromIndex) {
             continue;
         }
@@ -92,7 +93,6 @@ if ($res != false) {
 
                     $totalProcessedSize += $filesize; // Update the total processed size
                     $totalProcessedTime += $timeTaken; // Update the total processed time
-                    $processedVideosCount++;
                     // Calculate the average time per video
                     $averageTimePerVideo = $totalProcessedTime / $processedVideosCount;
                 
