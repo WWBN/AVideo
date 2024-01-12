@@ -27,17 +27,9 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? __("E-mail") : __("User"); ?></label>
-        <div class="col-md-8 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                <input id="inputUser" placeholder="<?php echo !empty($advancedCustomUser->forceLoginToBeTheEmail) ? "me@example.com" : __("User"); ?>" class="form-control" type="<?php echo empty($advancedCustomUser->forceLoginToBeTheEmail) ? "text" : "email" ?>" value="<?php echo $user->getUser(); ?>" required <?php echo (AVideoPlugin::isEnabledByName("LoginLDAP") || empty($advancedCustomUser->userCanChangeUsername)) ? "readonly" : ""; ?>>
-            </div>
-        </div>
-    </div>
-
+    <?php
+    include $global['systemRootPath'] . 'view/userBasicInfoUserAndEmail.php';
+    ?>
     <div class="form-group">
         <label class="col-md-4 control-label"><?php echo __("New Password"); ?></label>
         <div class="col-md-8 inputGroupContainer">
@@ -46,61 +38,11 @@
             ?>
         </div>
     </div>
-
     <div class="form-group">
         <label class="col-md-4 control-label"><?php echo __("Confirm New Password"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <?php
             getInputPassword("inputPasswordConfirm", 'class="form-control"  autocomplete="off"', __("Confirm New Password"));
-            ?>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-        <div class="col-md-6 inputGroupContainer">
-            <div class="input-group">
-                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                <input id="inputEmail" placeholder="<?php echo __("E-mail"); ?>" class="form-control" type="email" value="<?php echo $user->getEmail(); ?>" required <?php
-                                                                                                                                                                        if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-                                                                                                                                                                            echo "readonly";
-                                                                                                                                                                        }
-                                                                                                                                                                        ?>>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <?php
-            if ($user->getEmailVerified()) {
-            ?>
-                <span class="btn btn-success"><i class="fa fa-check"></i> <?php echo __("E-mail Verified"); ?></span>
-            <?php
-            } else {
-            ?>
-                <button class="btn btn-warning" id="verifyEmail"><i class="fa fa-envelope"></i> <?php echo __("Verify e-mail"); ?></button>
-
-                <script>
-                    $(document).ready(function() {
-
-                        $('#verifyEmail').click(function(e) {
-                            e.preventDefault();
-                            modal.showPleaseWait();
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $global['webSiteRootURL'] ?>objects/userVerifyEmail.php?users_id=<?php echo $user->getBdId(); ?>"
-                            }).done(function(response) {
-                                if (response.error) {
-                                    avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
-                                } else {
-                                    avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Verification Sent"); ?>", "success");
-                                }
-                                modal.hidePleaseWait();
-                            });
-                        });
-
-                    });
-                </script>
-            <?php
-            }
             ?>
         </div>
     </div>
@@ -157,9 +99,9 @@
             </label>
             <div class="col-md-8 inputGroupContainer">
                 <textarea class="form-control min-width: 100%; margin: 10px 0 20px 0;" rows="2" id="textAreaEmbed" readonly="readonly"><?php
-                    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
-                    echo htmlentities($code);
-                    ?></textarea>
+                                                                                                                                        $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
+                                                                                                                                        echo htmlentities($code);
+                                                                                                                                        ?></textarea>
             </div>
         </div>
     <?php
@@ -286,19 +228,6 @@
             });
         }
         $(document).ready(function() {
-
-            <?php
-            if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
-            ?>
-                $('#inputUser').on('keyup', function() {
-                    $('#inputEmail').val($(this).val());
-                });
-            <?php
-            }
-            ?>
-
-
-
             $('#updateUserForm').submit(function(evt) {
                 evt.preventDefault();
                 if (!isAnalytics()) {
