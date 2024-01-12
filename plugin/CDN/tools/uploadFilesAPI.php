@@ -37,11 +37,17 @@ echo ("CDNStorage::APIput line " . __LINE__) . PHP_EOL;
 sqlDAL::close($res);
 echo ("CDNStorage::APIput line " . __LINE__) . PHP_EOL;
 
+$secondsInAMinute = 60;
+$secondsInAnHour = 60 * $secondsInAMinute;
+$secondsInADay = 24 * $secondsInAnHour;
+$secondsInAWeek = 7 * $secondsInADay;
+$secondsInAMonth = 30 * $secondsInADay; // Approximate, varies by month
+
 if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
     foreach ($fullData as $key => $row) {
-        if($key<$startFromIndex){
+        if ($key < $startFromIndex) {
             continue;
         }
         $videos_id = $row['id'];
@@ -69,7 +75,7 @@ if ($res != false) {
                     try {
                         $client->upload($value['local']['local_path'], $remote_file);
                     } catch (\Throwable $th) {
-                        echo "$info2 CDNStorage::APIput Upload ERROR " .$th->getMessage() . PHP_EOL;
+                        echo "$info2 CDNStorage::APIput Upload ERROR " . $th->getMessage() . PHP_EOL;
                     }
                     $endTime = microtime(true);
                     $timeTaken = $endTime - $startTime; // Time taken in seconds
@@ -78,7 +84,21 @@ if ($res != false) {
                     $speed = $filesize / $timeTaken; // Bytes per second
                     $etaForCurrentFile = $totalSizeRemaining / $speed; // ETA in seconds
                     $totalTimeEstimated = $etaForCurrentFile * ($total - $key);
-                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . @gmdate("H:i:s", $etaForCurrentFile) . " Videos ETA: " . @gmdate("d H:i:s", $totalTimeEstimated) . PHP_EOL;
+
+                    $months = floor($totalTimeEstimated / $secondsInAMonth);
+                    $weekSeconds = $totalTimeEstimated % $secondsInAMonth;
+                    $weeks = floor($weekSeconds / $secondsInAWeek);
+                    $daySeconds = $weekSeconds % $secondsInAWeek;
+                    $days = floor($daySeconds / $secondsInADay);
+                    $hourSeconds = $daySeconds % $secondsInADay;
+                    $hours = floor($hourSeconds / $secondsInAnHour);
+                    $minuteSeconds = $hourSeconds % $secondsInAnHour;
+                    $minutes = floor($minuteSeconds / $secondsInAMinute);
+                    $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+
+                    $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
+
+                    echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . @gmdate("H:i:s", $etaForCurrentFile) . " Videos ETA: " . $ETA . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
                 }
