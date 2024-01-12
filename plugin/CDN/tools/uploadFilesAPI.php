@@ -92,8 +92,9 @@ if ($res != false) {
 
                     $totalProcessedSize += $filesize; // Update the total processed size
                     $totalProcessedTime += $timeTaken; // Update the total processed time
+                    $processedVideosCount++;
                     // Calculate the average time per video
-                    $averageTimePerVideo = $totalProcessedTime / $key;
+                    $averageTimePerVideo = $totalProcessedTime / $processedVideosCount;
                 
                     // Calculate the average speed so far (bytes per second)
                     $averageSpeed = $totalProcessedSize / $totalProcessedTime;
@@ -104,7 +105,7 @@ if ($res != false) {
                     // Estimate the time remaining for the rest of the videos
                     $remainingVideos = $total - $key;
                     $etaForAllVideos = $averageTimePerVideo * $remainingVideos;
-                    echo "averageTimePerVideo($averageTimePerVideo)[$totalProcessedTime / $key]: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
+                    echo "averageTimePerVideo($averageTimePerVideo)[$totalProcessedTime / $processedVideosCount]: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
 
                     // Convert the estimated time into a readable format
                     $months = floor($etaForAllVideos / $secondsInAMonth);
