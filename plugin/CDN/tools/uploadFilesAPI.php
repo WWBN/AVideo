@@ -52,7 +52,7 @@ $processedVideosCount = 0; // Number of videos processed
 if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
-    foreach ($fullData as $key => $row) {        
+    foreach ($fullData as $key => $row) {
         if ($key < $startFromIndex) {
             continue;
         }
@@ -95,7 +95,7 @@ if ($res != false) {
                     $processedVideosCount++;
                     // Calculate the average time per video
                     $averageTimePerVideo = $totalProcessedTime / $processedVideosCount;
-                
+
                     // Calculate the average speed so far (bytes per second)
                     $averageSpeed = $totalProcessedSize / $totalProcessedTime;
 
@@ -104,8 +104,8 @@ if ($res != false) {
 
                     // Estimate the time remaining for the rest of the videos
                     $remainingVideos = $total - $key;
-                    $etaForAllVideos = $averageTimePerVideo * $remainingVideos;
-                    echo "averageTimePerVideo($averageTimePerVideo)[$totalProcessedTime / $processedVideosCount]: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
+                    $etaForAllVideos = ($averageTimePerVideo * $totalFiles) * $remainingVideos;
+                    //echo "averageTimePerVideo($averageTimePerVideo)[$totalProcessedTime / $processedVideosCount]: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
 
                     // Convert the estimated time into a readable format
                     $months = floor($etaForAllVideos / $secondsInAMonth);
@@ -122,7 +122,7 @@ if ($res != false) {
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
 
                     echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ";
-                    echo @gmdate("H:i:s", $etaForCurrentFile) . ", " . humanFileSize($averageSpeed).'/s ';
+                    echo @gmdate("H:i:s", $etaForCurrentFile) . ", " . humanFileSize($averageSpeed) . '/s ';
                     echo "ETA: " . $ETA . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
