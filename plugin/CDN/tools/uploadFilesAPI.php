@@ -81,7 +81,7 @@ if ($res != false) {
 
                     $totalSpeed+= $speed;
                     $averageSpeed = $totalSpeed / $processedFilesCount;
-                    
+
                     // Average time per video
                     $averageTimePerFile = $totalProcessedTime / $processedFilesCount;
                     $remainingFilesInThisVideo = $totalFiles - $key2;
@@ -102,9 +102,9 @@ if ($res != false) {
                     $minutes = floor($minuteSeconds / $secondsInAMinute);
                     $remainingSeconds = (int)$minuteSeconds % $secondsInAMinute;
 
-                    $thisFile = humanFileSize($speed) . "/s average: ".humanFileSize($speed) . "/s ".@gmdate("H:i:s", $etaForThisVideo);
+                    $thisFile = humanFileSize($speed) . "/s average: ".humanFileSize($averageSpeed) . "/s ".@gmdate("H:i:s", $etaForThisVideo);
                     $ETAAllVideos = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds} ";
-                    echo "$info2 ETA for all videos: $ETAAllVideos" . PHP_EOL;
+                    echo "$info2 $thisFile ALL: $ETAAllVideos" . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
                 }
