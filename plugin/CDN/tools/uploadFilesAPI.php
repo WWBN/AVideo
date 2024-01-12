@@ -86,15 +86,15 @@ if ($res != false) {
                     $totalTimeEstimated = $etaForCurrentFile * ($total - $key);
 
                     $months = floor($totalTimeEstimated / $secondsInAMonth);
-                    $weekSeconds = $totalTimeEstimated % $secondsInAMonth;
+                    $weekSeconds = (int)$totalTimeEstimated % $secondsInAMonth;
                     $weeks = floor($weekSeconds / $secondsInAWeek);
-                    $daySeconds = $weekSeconds % $secondsInAWeek;
+                    $daySeconds = (int)$weekSeconds % $secondsInAWeek;
                     $days = floor($daySeconds / $secondsInADay);
-                    $hourSeconds = $daySeconds % $secondsInADay;
+                    $hourSeconds = (int)$daySeconds % $secondsInADay;
                     $hours = floor($hourSeconds / $secondsInAnHour);
-                    $minuteSeconds = $hourSeconds % $secondsInAnHour;
+                    $minuteSeconds = (int)$hourSeconds % $secondsInAnHour;
                     $minutes = floor($minuteSeconds / $secondsInAMinute);
-                    $remainingSeconds = $minuteSeconds % $secondsInAMinute;
+                    $remainingSeconds = (int)$minuteSeconds % $secondsInAMinute;
 
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
 
