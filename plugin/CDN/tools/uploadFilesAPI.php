@@ -104,7 +104,7 @@ if ($res != false) {
                     // Estimate the time remaining for the rest of the videos
                     $remainingVideos = $total - $key;
                     $etaForAllVideos = $averageTimePerVideo * $remainingVideos;
-
+                    echo "averageTimePerVideo: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
                     // Convert the estimated time into a readable format
                     $months = floor($etaForAllVideos / $secondsInAMonth);
                     $weekSeconds = (int)$etaForAllVideos % (int)$secondsInAMonth;
