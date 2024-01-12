@@ -43,6 +43,9 @@ $secondsInADay = 24 * $secondsInAnHour;
 $secondsInAWeek = 7 * $secondsInADay;
 $secondsInAMonth = 30 * $secondsInADay; // Approximate, varies by month
 
+$totalProcessedSize = 0; // Total size of files processed
+$totalProcessedTime = 0; // Total time taken to process the files
+
 if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
@@ -83,16 +86,25 @@ if ($res != false) {
                     $timeTakenFormated = number_format($timeTaken, 1);
                     $speed = $filesize / $timeTaken; // Bytes per second
                     $etaForCurrentFile = $totalSizeRemaining / $speed; // ETA in seconds
-                    $totalTimeEstimated = $etaForCurrentFile * ($total - $key);
 
-                    $months = floor($totalTimeEstimated / $secondsInAMonth);
-                    $weekSeconds = (int)$totalTimeEstimated % $secondsInAMonth;
+                    $totalProcessedSize += $filesize; // Update the total processed size
+                    $totalProcessedTime += $timeTaken; // Update the total processed time
+
+                    // Calculate the average speed so far (bytes per second)
+                    $averageSpeed = $totalProcessedSize / $totalProcessedTime;
+
+                    // Estimate the time remaining for the current file
+                    $etaForCurrentFile = ($totalSizeRemaining - $totalProcessedSize) / $averageSpeed;
+
+                    // Convert the estimated time into a readable format
+                    $months = floor($etaForCurrentFile / $secondsInAMonth);
+                    $weekSeconds = (int)$etaForCurrentFile % (int)$secondsInAMonth;
                     $weeks = floor($weekSeconds / $secondsInAWeek);
-                    $daySeconds = (int)$weekSeconds % $secondsInAWeek;
+                    $daySeconds = (int)$weekSeconds % (int)$secondsInAWeek;
                     $days = floor($daySeconds / $secondsInADay);
-                    $hourSeconds = (int)$daySeconds % $secondsInADay;
+                    $hourSeconds = (int)$daySeconds % (int)$secondsInADay;
                     $hours = floor($hourSeconds / $secondsInAnHour);
-                    $minuteSeconds = (int)$hourSeconds % $secondsInAnHour;
+                    $minuteSeconds = (int)$hourSeconds % (int)$secondsInAnHour;
                     $minutes = floor($minuteSeconds / $secondsInAMinute);
                     $remainingSeconds = (int)$minuteSeconds % $secondsInAMinute;
 
