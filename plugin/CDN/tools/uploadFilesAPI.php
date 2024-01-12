@@ -121,9 +121,9 @@ if ($res != false) {
 
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
 
-                    echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ";
-                    echo @gmdate("H:i:s", $etaForCurrentFile) . ", " . humanFileSize($averageSpeed) . '/s ';
-                    echo "ETA: " . $ETA . PHP_EOL;
+                    echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ".@gmdate("H:i:s", $etaForCurrentFile);
+                    echo  ", Average:" . humanFileSize($averageSpeed) . '/s ';
+                    echo "Final ETA: " . $ETA . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
                 }
