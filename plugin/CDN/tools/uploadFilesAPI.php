@@ -46,6 +46,9 @@ $secondsInAMonth = 30 * $secondsInADay; // Approximate, varies by month
 $totalProcessedSize = 0; // Total size of files processed
 $totalProcessedTime = 0; // Total time taken to process the files
 
+$totalProcessedTime = 0; // Total time taken to process videos
+$processedVideosCount = 0; // Number of videos processed
+
 if ($res != false) {
     $total = count($fullData);
     echo ("CDNStorage::APIput found {$total} videos") . PHP_EOL;
@@ -89,16 +92,23 @@ if ($res != false) {
 
                     $totalProcessedSize += $filesize; // Update the total processed size
                     $totalProcessedTime += $timeTaken; // Update the total processed time
-
+                    $processedVideosCount++;
+                    // Calculate the average time per video
+                    $averageTimePerVideo = $totalProcessedTime / $processedVideosCount;
+                
                     // Calculate the average speed so far (bytes per second)
                     $averageSpeed = $totalProcessedSize / $totalProcessedTime;
 
                     // Estimate the time remaining for the current file
                     $etaForCurrentFile = ($totalSizeRemaining - $totalProcessedSize) / $averageSpeed;
 
+                    // Estimate the time remaining for the rest of the videos
+                    $remainingVideos = $total - $processedVideosCount;
+                    $etaForAllVideos = $averageTimePerVideo * $remainingVideos;
+
                     // Convert the estimated time into a readable format
-                    $months = floor($etaForCurrentFile / $secondsInAMonth);
-                    $weekSeconds = (int)$etaForCurrentFile % (int)$secondsInAMonth;
+                    $months = floor($etaForAllVideos / $secondsInAMonth);
+                    $weekSeconds = (int)$etaForAllVideos % (int)$secondsInAMonth;
                     $weeks = floor($weekSeconds / $secondsInAWeek);
                     $daySeconds = (int)$weekSeconds % (int)$secondsInAWeek;
                     $days = floor($daySeconds / $secondsInADay);
@@ -109,6 +119,7 @@ if ($res != false) {
                     $remainingSeconds = (int)$minuteSeconds % $secondsInAMinute;
 
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
+                    
 
                     echo "$info2 CDNStorage::APIput Upload complete. $timeTakenFormated seconds, Speed: " . humanFileSize($speed) . "/s, files ETA: " . @gmdate("H:i:s", $etaForCurrentFile) . " Videos ETA: " . $ETA . PHP_EOL;
                 } else {
