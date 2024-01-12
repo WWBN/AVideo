@@ -101,10 +101,11 @@ if ($res != false) {
 
                     // Estimate the time remaining for the current file
                     $etaForCurrentFile = ($totalSizeRemaining - $totalProcessedSize) / $averageSpeed;
-
+                    
+                    $averageETAForThisVideo = ($averageTimePerVideo * $totalFiles);
                     // Estimate the time remaining for the rest of the videos
                     $remainingVideos = $total - $key;
-                    $etaForAllVideos = ($averageTimePerVideo * $totalFiles) * $remainingVideos;
+                    $etaForAllVideos = $averageETAForThisVideo * $remainingVideos;
                     //echo "averageTimePerVideo($averageTimePerVideo)[$totalProcessedTime / $processedVideosCount]: " . @gmdate("H:i:s", $averageTimePerVideo) . " remainingVideos: " . $remainingVideos . PHP_EOL;
 
                     // Convert the estimated time into a readable format
@@ -121,7 +122,7 @@ if ($res != false) {
 
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
 
-                    echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ".@gmdate("H:i:s", $etaForCurrentFile);
+                    echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ".@gmdate("H:i:s", $averageETAForThisVideo)."/".@gmdate("H:i:s", $etaForCurrentFile);
                     echo  ", Average: " . humanFileSize($averageSpeed) . '/s ';
                     echo "Final ETA: " . $ETA . PHP_EOL;
                 } else {
