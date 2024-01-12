@@ -56,8 +56,10 @@ if ($res != false) {
         $list = CDNStorage::getFilesListBoth($videos_id);
         $totalFiles = count($list);
         echo ("{$info1} CDNStorage::APIput found {$totalFiles} files for videos_id = $videos_id ") . PHP_EOL;
-        foreach ($list as $key2 => $value) {
-            $info2 = "{$info1}[{$totalFiles}, {$key2}] ";
+        $countFiles = 0;
+        foreach ($list as $value) {
+            $countFiles++;
+            $info2 = "{$info1}[{$totalFiles}, {$countFiles}] ";
             if (empty($value['local'])) {
                 continue;
             }
@@ -84,7 +86,7 @@ if ($res != false) {
 
                     // Average time per video
                     $averageTimePerFile = $totalProcessedTime / $processedFilesCount;
-                    $remainingFilesInThisVideo = $totalFiles - $key2;
+                    $remainingFilesInThisVideo = $totalFiles - $countFiles;
                     $etaForThisVideo = $averageTimePerFile * $remainingFilesInThisVideo;
 
                     $remainingVideos = $total - $key;
