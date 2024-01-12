@@ -77,7 +77,7 @@ if ($res != false) {
                 if (empty($value) || empty($value['remote']) || $filesize != $value['remote']['remote_filesize']) {
                     $remote_file = CDNStorage::filenameToRemotePath($value['local']['local_path']);
                     $startTime = microtime(true);
-                    echo PHP_EOL . ("$info2 CDNStorage::APIput {$value['local']['local_path']} {$remote_file} " . humanFileSize($filesize)) . PHP_EOL;
+                    echo PHP_EOL . ("$info2 {$remote_file} " . humanFileSize($filesize)) . PHP_EOL;
                     try {
                         $client->upload($value['local']['local_path'], $remote_file);
                     } catch (\Throwable $th) {
@@ -122,7 +122,7 @@ if ($res != false) {
                     $ETA = "{$months}m {$weeks}w {$days}d {$hours}:{$minutes}:{$remainingSeconds}";
 
                     echo "$info2 {$timeTakenFormated}s, " . humanFileSize($speed) . "/s ".@gmdate("H:i:s", $etaForCurrentFile);
-                    echo  ", Average:" . humanFileSize($averageSpeed) . '/s ';
+                    echo  ", Average: " . humanFileSize($averageSpeed) . '/s ';
                     echo "Final ETA: " . $ETA . PHP_EOL;
                 } else {
                     echo ("$info2 CDNStorage::APIput same size {$value['remote']['remote_filesize']} {$value['remote']['relative']}") . PHP_EOL;
