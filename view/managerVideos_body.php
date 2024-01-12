@@ -1877,8 +1877,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var tags = '';
                     <?php
                     if (Permissions::canAdminVideos()) {
+                        
                     ?>
-                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \">" + row.user + "</span>";
+                        var channelURL = webSiteRootURL+"view/channel.php?";
+                        channelURL = addQueryStringParameter(channelURL, 'channel_users_id', row.users_id);
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \"><a href=\""+channelURL+"\" target=\"_top\">" + row.user + "</span>";
                     <?php
                     }
                     ?>

@@ -4881,7 +4881,9 @@ function isChannel()
     if (!empty($isChannel) && !isVideo()) {
         $user_id = 0;
         if (empty($_GET['channelName'])) {
-            if (User::isLogged()) {
+            if (!empty($_GET['channel_users_id'])) {
+                $user_id = intval($_GET['channel_users_id']);
+            } else if (User::isLogged()) {
                 $user_id = User::getId();
             } else {
                 return false;
