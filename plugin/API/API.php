@@ -1022,6 +1022,7 @@ class API extends PluginAbstract
                     }
                     if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
+                        $rows[$key]['relatedVideos'][$key2]['sources'] = Video::getVideosPathsToSource($rows[$key]['relatedVideos'][$key2]['videos']);
                     }
                     if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
                         $rows[$key]['relatedVideos'][$key2]['videoLink'] = AVideoPlugin::modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink'], $value2['id']);
