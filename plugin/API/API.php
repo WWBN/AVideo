@@ -1198,11 +1198,11 @@ class API extends PluginAbstract
             if (!empty($_REQUEST['APISecret']) && !self::isAPISecretValid()) {
                 return new ApiObject("Secret does not match");
             }
-            $obj = new Video("", "", $parameters['videos_id']);
-            if (!$obj->userCanManageVideo()) {
+            $vid = new Video('', '', $parameters['videos_id'], true);
+            if (!$vid->userCanManageVideo()) {
                 return new ApiObject("User cannot manage the video");
             }
-            $id = $obj->delete();
+            $id = $vid->delete();
             return new ApiObject("", !$id, $id);
         } else {
             return new ApiObject("Video ID is required");
