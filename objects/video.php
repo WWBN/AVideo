@@ -2830,6 +2830,7 @@ if (!class_exists('Video')) {
             } else {
                 $this->removeVideoFiles();
             }
+            _error_log("Video delete id={$this->id} ".json_encode($resp));
             return $resp;
         }
 
