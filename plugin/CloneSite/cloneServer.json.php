@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');
 
 $videosDir = Video::getStoragePath() . "";
-$clonesDir = "{$videosDir}clones/";
+$clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 
 $resp = new stdClass();
@@ -79,7 +79,7 @@ $cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} ".
 _error_log("Clone: Dump to $sqlFile");
 exec($cmd . " 2>&1", $output, $return_val);
 if (!file_exists($sqlFile)) {
-    _error_log("Clone: error {$sqlFile} does not exists " . print_r($output, true));
+    _error_log("Clone: error {$sqlFile} does not exists " . json_encode($output));
 }else{
     _error_log("Clone: {$sqlFile} exists ");
 }
