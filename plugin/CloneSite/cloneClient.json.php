@@ -93,8 +93,6 @@ if (!empty($json->error)) {
 
 $log->add("Clone: Good start! the server has answered");
 
-
-
 $json->sqlFile = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $json->sqlFile)));
 foreach ($json->videoFiles as $key => $value) {
     $json->videoFiles[$key]->filename = str_replace("'", '', escapeshellarg(preg_replace('/[^a-z0-9_.-]/i', '', $value->filename)));
@@ -112,13 +110,27 @@ $objClone->cloneSiteURL = str_replace("'", '', escapeshellarg($objClone->cloneSi
 
 // get dump file
 $sqlFile = "{$clonesDir}{$json->sqlFile}";
-$cmd = "wget -O {$sqlFile} {$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
-$log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file");
+$sqlURL = "{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
+$cmd = "wget -O {$sqlFile} {$sqlURL}";
+$log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file [$cmd]");
 exec($cmd . " 2>&1", $output, $return_val);
 if ($return_val !== 0) {
     $log->add("Clone Error: " . print_r($output, true));
 }
-$log->add("Clone: Nice! we got the MySQL Dump file [{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}] " . humanFileSize(filesize($sqlFile)));
+
+if(!file_exists($sqlFile) || empty($sqlFile)){
+    $log->add("Clone Error: on download file, trying again" . print_r($output, true));
+    $content = url_get_contents($sqlURL);
+    if(!empty($content)){
+        _file_put_contents($sqlFile, $content);
+    }
+}
+
+if(file_exists($sqlFile) || empty($sqlFile)){
+    $log->add("Clone Error: on download file we will continue anyway");
+}else{
+    $log->add("Clone: Nice! we got the MySQL Dump file [{$sqlURL}] " . humanFileSize(filesize($sqlFile)));
+}
 
 /*
 //$log->add("Clone: MySQL Dump $file");
