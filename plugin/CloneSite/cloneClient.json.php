@@ -126,7 +126,7 @@ if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
     }
 }
 
-if(file_exists($sqlFile) || empty(filesize($sqlFile))){
+if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
     $log->add("Clone Error: on download file we will continue anyway");
 }else{
     $log->add("Clone: Nice! we got the MySQL Dump file [{$sqlURL}] " . humanFileSize(filesize($sqlFile)));
