@@ -118,7 +118,7 @@ if ($return_val !== 0) {
     $log->add("Clone Error: " . print_r($output, true));
 }
 
-if(!file_exists($sqlFile) || empty($sqlFile)){
+if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
     $log->add("Clone Error: on download file, trying again" . print_r($output, true));
     $content = url_get_contents($sqlURL);
     if(!empty($content)){
@@ -126,7 +126,7 @@ if(!file_exists($sqlFile) || empty($sqlFile)){
     }
 }
 
-if(file_exists($sqlFile) || empty($sqlFile)){
+if(file_exists($sqlFile) || empty(filesize($sqlFile))){
     $log->add("Clone Error: on download file we will continue anyway");
 }else{
     $log->add("Clone: Nice! we got the MySQL Dump file [{$sqlURL}] " . humanFileSize(filesize($sqlFile)));
