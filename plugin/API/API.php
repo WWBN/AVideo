@@ -1020,8 +1020,14 @@ class API extends PluginAbstract
                         $rows[$key]['relatedVideos'][$key2]['videoTags'] = Tags::getAllFromVideosId($value2['id']);
                         $rows[$key]['relatedVideos'][$key2]['videoTagsObject'] = Tags::getObjectFromVideosId($value2['id']);
                     }
-                    if ($rows[$key]['relatedVideos'][$key2]['type'] !== 'linkVideo') {
+                    if ($rows[$key]['relatedVideos'][$key2]['type'] !== Video::$videoTypeLinkVideo) {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
+                    }else if(preg_match('/m3u8/', $rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                        $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['url'] = $rows[$key]['relatedVideos'][$key2]['videoLink'];
+                        $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['url_noCDN'] = $rows[$key]['relatedVideos'][$key2]['videoLink'];
+                        $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['type'] = 'video';
+                        $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['format'] = 'm3u8';
+                        $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['resolution'] = 'auto';
                     }
                     if(!empty($rows[$key]['relatedVideos'][$key2]['videos'])){
                         $rows[$key]['relatedVideos'][$key2]['sources'] = Video::getVideosPathsToSource($rows[$key]['relatedVideos'][$key2]['videos']);
