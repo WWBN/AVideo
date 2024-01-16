@@ -79,7 +79,7 @@ $cmd = "mysqldump -u {$mysqlUser} -p'{$mysqlPass}' --host {$mysqlHost} ".
 _error_log("Clone: Dump to $sqlFile");
 exec($cmd . " 2>&1", $output, $return_val);
 if (!file_exists($sqlFile)) {
-    _error_log("Clone: error {$sqlFile} does not exists [$cmd] " . json_encode($output));
+    _error_log("Clone: error {$sqlFile} does not exists" . json_encode($output));
 }else{
     _error_log("Clone: {$sqlFile} exists ");
 }
