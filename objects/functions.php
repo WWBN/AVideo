@@ -4666,7 +4666,7 @@ function unsetSearch()
     unset($_GET['searchPhrase'], $_POST['searchPhrase'], $_GET['search'], $_GET['q']);
 }
 
-function encrypt_decrypt($string, $action)
+function encrypt_decrypt($string, $action, $useOldSalt = false)
 {
     global $global;
     $output = false;
@@ -4681,7 +4681,11 @@ function encrypt_decrypt($string, $action)
     if (empty($secret_iv)) {
         $secret_iv = '1234567890abcdef';
     }
-    $salt = empty($global['saltV2'])?$global['salt']:$global['saltV2'];
+    if($useOldSalt){
+        $salt = $global['salt'];
+    }else{
+        $salt = empty($global['saltV2'])?$global['salt']:$global['saltV2'];
+    }
     // hash
     $key = hash('sha256', $salt);
 
@@ -4693,6 +4697,9 @@ function encrypt_decrypt($string, $action)
         $output = base64_encode($output);
     } elseif ($action == 'decrypt') {
         $output = openssl_decrypt(base64_decode($string), $encrypt_method, $key, 0, $iv);
+        if(empty($output) && $useOldSalt === false){
+            return encrypt_decrypt($string, $action, true);
+        }
     }
 
     return $output;
