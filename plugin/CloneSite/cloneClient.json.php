@@ -60,7 +60,7 @@ if (empty($objClone) || empty($argv[1]) || $objClone->myKey !== $argv[1]) {
 
 $videosSite = "{$objClone->cloneSiteURL}videos/";
 $videosDir = Video::getStoragePath() . "";
-$clonesDir = "{$videosDir}cache/clones/";
+$clonesDir = "{$videosDir}clones/";
 $photosDir = "{$videosDir}userPhoto/";
 $photosSite = "{$videosSite}userPhoto/";
 if (!file_exists($clonesDir)) {
@@ -110,7 +110,7 @@ $objClone->cloneSiteURL = str_replace("'", '', escapeshellarg($objClone->cloneSi
 
 // get dump file
 $sqlFile = "{$clonesDir}{$json->sqlFile}";
-$sqlURL = "{$objClone->cloneSiteURL}videos/cache/clones/{$json->sqlFile}";
+$sqlURL = "{$objClone->cloneSiteURL}videos/clones/{$json->sqlFile}";
 $cmd = "wget -O {$sqlFile} {$sqlURL}";
 $log->add("Clone (2 of {$totalSteps}): Geting MySQL Dump file [$cmd]");
 exec($cmd . " 2>&1", $output, $return_val);
@@ -119,7 +119,7 @@ if ($return_val !== 0) {
 }
 
 if(!file_exists($sqlFile) || empty(filesize($sqlFile))){
-    $log->add("Clone Error: on download file, trying again" . print_r($output, true));
+    $log->add("Clone Error: on download file, trying again" . json_encode($output));
     $content = url_get_contents($sqlURL);
     if(!empty($content)){
         _file_put_contents($sqlFile, $content);
