@@ -48,8 +48,11 @@ if (!empty($_GET['deleteDump'])) {
 }
 
 if (!is_dir($clonesDir)) {
-    mkdir($clonesDir, 0777, true);
-    file_put_contents($clonesDir . "index.html", '');
+    $mkdir = mkdir($clonesDir, 0777, true);
+    $put = file_put_contents($clonesDir . "index.html", '');
+    _error_log("Clone: create dir {$clonesDir} ".json_encode(array(is_dir($clonesDir), $mkdir, $put)));
+}else{
+    _error_log("Clone: dir {$clonesDir} already exists");
 }
 
 $resp->sqlFile = uniqid('Clone_mysqlDump_') . ".sql";
