@@ -47,7 +47,7 @@ if (!empty($_GET['deleteDump'])) {
     die(json_encode($resp));
 }
 
-if (!file_exists($clonesDir)) {
+if (!is_dir($clonesDir)) {
     mkdir($clonesDir, 0777, true);
     file_put_contents($clonesDir . "index.html", '');
 }
