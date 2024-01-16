@@ -8,7 +8,7 @@ require_once $global['systemRootPath'] . 'plugin/CloneSite/functions.php';
 header('Content-Type: application/json');
 
 $videosDir = Video::getStoragePath() . "";
-$clonesDir = "{$videosDir}clones/";
+$clonesDir = "{$videosDir}cache/clones/";
 $photosDir = "{$videosDir}userPhoto/";
 
 $resp = new stdClass();
