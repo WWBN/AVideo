@@ -81,6 +81,8 @@ if (count($downloadOptions) == 1) {
                     <i class="fas fa-download"></i> <?php echo __('Delete'); ?>
                 </button>
             <?php
+            }else{
+                echo "<!-- converted file does not exists {$convertedFile} -->";
             }
             ?>
         </div>
