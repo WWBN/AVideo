@@ -7374,12 +7374,15 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         } else {
             switch ($try) {
                 case 0:
-                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
+                    $command = get_ffmpeg() . " ffmpeg -i {$fromFileLocationEscaped} -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
                     break;
                 case 1:
-                    $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
                     break;
                 case 2:
+                    $command = get_ffmpeg() . " -allowed_extensions ALL -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
+                    break;
+                case 3:
                     $command = get_ffmpeg() . " -y -i {$fromFileLocationEscaped} -c:v copy -c:a copy -bsf:a aac_adtstoasc -strict -2 {$toFileLocationEscaped}";
                     break;
                 default:
