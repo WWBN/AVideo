@@ -9883,7 +9883,7 @@ function getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type)
             //_error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid plugin");
         }
     } else {
-        _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid vidreo type");
+        _error_log("getMP3ANDMP4DownloadLinksFromHLS($videos_id, $video_type): invalid video type");
     }
     return $downloadOptions;
 }

@@ -61,11 +61,11 @@
         </div>
     </div>
     <div class="form-group">
-        <label class="col-md-4 control-label"><?php echo __("Birth"); ?></label>
+        <label class="col-md-4 control-label"><?php echo __("Birth Date"); ?></label>
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa-solid fa-cake-candles"></i></span>
-                <input id="inputBirth" placeholder="<?php echo __("Birth"); ?>" class="form-control" type="date" value="<?php echo $user->getBirth_date(); ?>">
+                <input id="inputBirth" placeholder="<?php echo __("Birth Date"); ?>" class="form-control" type="date" value="<?php echo $user->getBirth_date(); ?>">
             </div>
         </div>
     </div>

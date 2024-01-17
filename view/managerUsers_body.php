@@ -135,9 +135,9 @@ foreach ($userGroups as $value) {
                         </div>
                         <div class="col-sm-6">
                             <label for="inputBirth">
-                                <?php echo __("Birth"); ?>
+                                <?php echo __("Birth Date"); ?>
                             </label>
-                            <input type="date" id="inputBirth" class="form-control" placeholder="<?php echo __("Birth"); ?>" data-toggle="tooltip" title="<?php echo __('Birth'); ?>">
+                            <input type="date" id="inputBirth" class="form-control" placeholder="<?php echo __("Birth Date"); ?>" data-toggle="tooltip" title="<?php echo __('Birth'); ?>">
                         </div>
                         <div class="col-sm-6">
                             <label for="inputPhone">

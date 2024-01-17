@@ -29,68 +29,81 @@ if (count($downloadOptions) == 1) {
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo getLanguage(); ?>">
-    <head>
-        <title><?php echo $config->getWebSiteTitle(); ?>  :: Download Video</title>
-        <?php
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-        <style>
-            #downloadButtons .btn{
-                height: <?php echo $height; ?>;
-                font-size: 30px;
-            }
-            #downloadButtons a.btn span{
-                display: block !important;
-                white-space: break-spaces;
-                padding-top: 15vh;
-            }
-        </style>
-    </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-        ?>
-        <div class="container-fluid">
-            <div id="downloadButtons">
-                <?php
-                $count = 0;
-                $lastURL = '';
-                $lastFormat = '';
-                foreach ($downloadOptions as $theLink) {
-                    if (!empty($theLink)) {
-                        $count++;
-                        $lastURL = $theLink['url'];
-                        $progress = $theLink['progress'];
-                        $lastFormat = strtolower($theLink['name']);
-                        ?>
-                        <button type="button" onclick="_goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $progress; ?>', '<?php echo $lastFormat; ?>');" 
-                                class="btn btn-default btn-light btn-lg btn-block" target="_blank">
-                            <i class="fas fa-download"></i> Download <?php echo $theLink['name']; ?>
-                        </button>    
-                        <?php
-                    }
-                }
-                ?>
-            </div>
-        </div>
-        <script>
-            function _goToURLOrAlertError(url, progress, format) {
-                avideoToastSuccess(<?php echo json_encode(__('Downloading') . '... ' . $video['title']); ?>);
-                downloadURLOrAlertError(url, {}, '<?php echo $video['clean_title']; ?>.' + format, progress);
-            }
-        </script>
-        <?php
-        include $global['systemRootPath'] . 'view/include/footer.php';
 
-        if ($count == 1) {
-            ?>
-            <script>
-                $(function () {
-                    _goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $progress; ?>', '<?php echo $lastFormat; ?>');
-                });
-            </script>
-            <?php
+<head>
+    <title><?php echo $config->getWebSiteTitle(); ?> :: Download Video</title>
+    <?php
+    include $global['systemRootPath'] . 'view/include/head.php';
+    ?>
+    <style>
+        #downloadButtons .btn {
+            height: <?php echo $height; ?>;
+            font-size: 30px;
         }
-        ?>
-    </body>
+
+        #downloadButtons a.btn span {
+            display: block !important;
+            white-space: break-spaces;
+            padding-top: 15vh;
+        }
+    </style>
+</head>
+
+<body class="<?php echo $global['bodyClass']; ?>">
+    <?php
+    include $global['systemRootPath'] . 'view/include/navbar.php';
+    ?>
+    <div class="container-fluid">
+        <div id="downloadButtons">
+            <?php
+            $count = 0;
+            $lastURL = '';
+            $lastFormat = '';
+            foreach ($downloadOptions as $theLink) {
+                if (!empty($theLink)) {
+                    $count++;
+                    $lastURL = $theLink['url'];
+                    $progress = $theLink['progress'];
+                    $lastFormat = strtolower($theLink['name']);
+            ?>
+                    <button type="button" onclick="_goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $progress; ?>', '<?php echo $lastFormat; ?>');" class="btn btn-default btn-light btn-lg btn-block" target="_blank">
+                        <i class="fas fa-download"></i> <?php echo __('Download'); ?> <?php echo $theLink['name']; ?>
+                    </button>
+                <?php
+                }
+            }
+
+            $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
+            if (User::isAdmin() && file_exists($convertedFile)) {
+                $deleteURL = addQueryStringParameter($lastURL, 'delete', 1);
+                ?>
+                <button type="button" onclick="avideoAlertAJAX($deleteURL);" class="btn btn-default btn-light btn-lg btn-block">
+                    <i class="fas fa-download"></i> <?php echo __('Delete'); ?>
+                </button>
+            <?php
+            }
+            ?>
+        </div>
+    </div>
+    <script>
+        function _goToURLOrAlertError(url, progress, format) {
+            avideoToastSuccess(<?php echo json_encode(__('Downloading') . '... ' . $video['title']); ?>);
+            downloadURLOrAlertError(url, {}, '<?php echo $video['clean_title']; ?>.' + format, progress);
+        }
+    </script>
+    <?php
+    include $global['systemRootPath'] . 'view/include/footer.php';
+
+    if ($count == 1) {
+    ?>
+        <script>
+            $(function() {
+                _goToURLOrAlertError('<?php echo $lastURL; ?>', '<?php echo $progress; ?>', '<?php echo $lastFormat; ?>');
+            });
+        </script>
+    <?php
+    }
+    ?>
+</body>
+
 </html>
