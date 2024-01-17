@@ -2522,9 +2522,9 @@ function checkFFMPEGProgress(FFMpegProgress) {
                 var text = 'Converting ...';
                 if (typeof response.progress.progress !== 'undefined') {
                     text += response.progress.progress + '% ';
-                    modal.setProgress(response.progress.progress);
+                    downloadURLOrAlertModal.setProgress(response.progress.progress);
                 }
-                modal.setText(text);
+                downloadURLOrAlertModal.setText(text);
                 if (response.progress.progress !== 100) {
                     setTimeout(function () {
                         checkFFMPEGProgress(FFMpegProgress);
