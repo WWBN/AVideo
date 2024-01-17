@@ -77,11 +77,11 @@ if (count($downloadOptions) == 1) {
             if (User::isAdmin() && file_exists($convertedFile)) {
                 $deleteURL = addQueryStringParameter($lastURL, 'delete', 1);
                 ?>
-                <button type="button" onclick="avideoAlertAJAX($deleteURL);" class="btn btn-default btn-light btn-lg btn-block">
-                    <i class="fas fa-download"></i> <?php echo __('Delete'); ?>
+                <button type="button" onclick="avideoAlertAJAX('<?php echo $deleteURL; ?>');" class="btn btn-danger btn-block">
+                    <i class="fa-solid fa-trash"></i> <?php echo __('Delete'); ?>
                 </button>
             <?php
-            }else{
+            } else {
                 echo "<!-- converted file does not exists {$convertedFile} -->";
             }
             ?>
