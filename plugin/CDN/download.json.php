@@ -61,6 +61,8 @@ if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
         $resp->deleteRemotely = $client->delete($remote_path);
     }
     $resp->deleteLocally = unlink($convertedFile);
+    
+    $resp->error = $resp->deleteRemotely || $resp->deleteLocally;
 } else {
     set_time_limit(7200); // 2 hours
     ini_set('max_execution_time', 7200);
