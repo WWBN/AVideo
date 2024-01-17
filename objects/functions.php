@@ -7374,7 +7374,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
         } else {
             switch ($try) {
                 case 0:
-                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:v libx264 -preset fast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
+                    $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c:v libx264 -preset veryfast -crf 23 -c:a aac -b:a 128k {$toFileLocationEscaped}";
                     break;
                 case 1:
                     $command = get_ffmpeg() . " -i {$fromFileLocationEscaped} -c copy {$toFileLocationEscaped}";
