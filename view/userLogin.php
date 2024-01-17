@@ -301,7 +301,7 @@ if (empty($_COOKIE) && get_browser_name() !== 'Other (Unknown)') {
                     user: $('#inputUser').val(),
                     pass: $('#inputPassword').val(),
                     rememberme: $('#inputRememberMe').is(":checked"),
-                    captcha: '<?php echo $captcha['captchaText']; ?>',
+                    captcha: <?php echo empty($captcha['captchaText'])?"''":$captcha['captchaText']; ?>,
                     redirectUri: '<?php echo $_GET['redirectUri'] ?? ''; ?>'
                 },
                 type: 'post',
