@@ -158,7 +158,7 @@ TimeLogStart($timeLog6);
     ?>
     <?php
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
-    echo AVideoPlugin::getNetflixActionButton($value['id'], 0.2);
+    echo AVideoPlugin::getNetflixActionButton($value['id']);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     getSharePopupButton($value['id']);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);

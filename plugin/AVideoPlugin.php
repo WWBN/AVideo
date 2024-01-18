@@ -651,7 +651,7 @@ class AVideoPlugin
             if (is_object($p)) {
                 $str .= $p->getNetflixActionButton($videos_id);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.2);
         }
         return $str;
     }
