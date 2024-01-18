@@ -4,7 +4,7 @@ session_name($sessionName);
 session_start();
 if(!empty($_SESSION['theme'])){
     $theme = $_SESSION['theme'];
-    $doNotConnectDatabaseIncludeConfig = 1;
+    $doNotStartSessionIncludeConfig = $doNotConnectDatabaseIncludeConfig = 1;
 }
 session_write_close();
 if (!isset($global['systemRootPath'])) {
@@ -18,11 +18,11 @@ if(empty($theme)){
     session_name($sessionName);
     session_start();
     $_SESSION['theme'] = $theme;
+    _session_write_close();
     echo "/* theme = {$theme} from DB */".PHP_EOL;
 }else{    
     echo "/* theme = {$theme} from Session */".PHP_EOL;
 }
-_session_write_close();
 echo file_get_contents("{$global['systemRootPath']}view/css/custom/{$theme}.css");
 exit;
 /*

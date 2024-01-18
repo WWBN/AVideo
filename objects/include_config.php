@@ -138,7 +138,7 @@ includeConfigLog(__LINE__);
 $global['dont_show_us_flag'] = false;
 // this is for old versions
 
-if (empty($doNotStartSessionbaseIncludeConfig)) {
+if (empty($doNotStartSessionIncludeConfig)) {
     _session_start();
     // DDOS protection can be disabled in video/configuration.php
     if (!empty($global['enableDDOSprotection'])) {
