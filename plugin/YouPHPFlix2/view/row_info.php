@@ -1,5 +1,5 @@
 <?php
-$timeLog6Limit = 0.2;
+$timeLog6Limit = 0.5;
 $timeLog6 = "row_info.php {$value['clean_title']}";
 TimeLogStart($timeLog6);
 ?>
@@ -158,7 +158,7 @@ TimeLogStart($timeLog6);
     ?>
     <?php
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
-    echo AVideoPlugin::getNetflixActionButton($value['id']);
+    echo AVideoPlugin::getNetflixActionButton($value['id'], 0.2);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
     getSharePopupButton($value['id']);
     TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
