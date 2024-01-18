@@ -481,6 +481,7 @@ Disallow: *action=tagsearch*
         $obj->showVideoDownloadedLink = false;
         self::addDataObjectHelper('showVideoDownloadedLink', 'Show video Downloaded Link', 'Show the video source URL above the video description');
         
+        $obj->videosForKids = true;
         
         return $obj;
     }

@@ -55,20 +55,24 @@ if (empty($_GET['p'])) {
         }
         $name = decryptString($_GET['s']);
         
-        $lt = LiveTransmition::getFromKey($name);
-
-        if(!empty($lt) && !empty($lt['users_id'])){
-            $name = Live::cleanUpKey($_POST['name']);
-            if($name == $lt['key']){
-                $user = new User($lt['users_id']);
-                $_GET['p'] = $user->getPassword();
-                _error_log("NGINX ON Publish encryption token found users_id: [{$lt['users_id']}] {$name} == {$lt['key']}");
+        if(!empty($name)){
+            $lt = LiveTransmition::getFromKey($name);
+            if(!empty($lt) && !empty($lt['users_id'])){
+                $name = Live::cleanUpKey($_POST['name']);
+                if($name == $lt['key']){
+                    $user = new User($lt['users_id']);
+                    $_GET['p'] = $user->getPassword();
+                    _error_log("NGINX ON Publish encryption token found users_id: [{$lt['users_id']}] {$name} == {$lt['key']}");
+                }else{
+                    _error_log("NGINX ON Publish encryption token keys doe not matchd: {$name} == {$lt['key']}");
+                }
             }else{
-                _error_log("NGINX ON Publish encryption token keys doe not matchd: {$name} == {$lt['key']}");
+                _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}] ".json_encode($lt));
             }
         }else{
-            _error_log("NGINX ON Publish encryption token error livetransmition error: [{$name}] ".json_encode($lt));
+            _error_log("NGINX ON Publish could not decrypt $_GET[s]: [{$_GET['s']}] ");
         }
+
     }
 }
 

@@ -2607,9 +2607,12 @@ if (!class_exists('Video')) {
         }
 
         static function videoMadeForKidsExists() {
-            global $_videoMadeForKidsExists;
+            global $_videoMadeForKidsExists, $advancedCustomUser;
             if(isset($_videoMadeForKidsExists)){
                 return $_videoMadeForKidsExists;
+            }
+            if (empty($advancedCustomUser->videosForKids)) {
+                return false;
             }
             $sql = "SELECT 1 FROM `videos` v  WHERE v.`made_for_kids` = 1 ";            
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";            
