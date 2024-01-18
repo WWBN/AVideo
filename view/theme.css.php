@@ -18,9 +18,11 @@ if(empty($doNotConnectDatabaseIncludeConfig)){
     session_name($sessionName);
     session_start();
     $_SERVER['theme'] = $theme;
+    echo "/* theme = {$theme} from DB */".PHP_EOL;
+}else{    
+    echo "/* theme = {$theme} from Session */".PHP_EOL;
 }
 _session_write_close();
-echo "/* theme = {$theme} */".PHP_EOL;
 echo file_get_contents("{$global['systemRootPath']}view/css/custom/{$theme}.css");
 exit;
 /*
