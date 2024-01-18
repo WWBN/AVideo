@@ -2,8 +2,8 @@
 $sessionName = 'themeCSSSession';
 session_name($sessionName);
 session_start();
-if(!empty($_SERVER['theme'])){
-    $theme = $_SERVER['theme'];
+if(!empty($_SESSION['theme'])){
+    $theme = $_SESSION['theme'];
     $doNotConnectDatabaseIncludeConfig = 1;
 }
 session_write_close();
@@ -17,7 +17,7 @@ if(empty($theme)){
     _session_write_close();
     session_name($sessionName);
     session_start();
-    $_SERVER['theme'] = $theme;
+    $_SESSION['theme'] = $theme;
     echo "/* theme = {$theme} from DB */".PHP_EOL;
 }else{    
     echo "/* theme = {$theme} from Session */".PHP_EOL;
