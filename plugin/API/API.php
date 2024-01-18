@@ -821,17 +821,21 @@ class API extends PluginAbstract
     public function get_api_video($parameters)
     {
         $start = microtime(true);
+        /*
         $cacheParameters = array('noRelated', 'APIName', 'catName', 'rowCount', 'APISecret', 'sort', 'searchPhrase', 'current', 'tags_id', 'channelName', 'videoType', 'is_serie', 'user', 'videos_id', 'playlist');
 
         $cacheVars = array('users_id' => User::getId(), 'requestUniqueString'=>getRequestUniqueString());
         foreach ($cacheParameters as $value) {
             $cacheVars[$value] = @$_REQUEST[$value];
         }
+        */
 
         // use 1 hour cache
-        $cacheName = 'get_api_video' . md5(json_encode($cacheVars));
+        $videosListCache = new VideosListCacheHandler();
+        //$cacheName = 'get_api_video' . md5(json_encode($cacheVars));
         if (empty($parameters['videos_id'])) {
-            $obj = ObjectYPT::getCacheGlobal($cacheName, 3600);
+            //$obj = ObjectYPT::getCacheGlobal($cacheName, 3600);
+            $obj = $videosListCache->getCacheWithAutoSuffix(3600);
             if (!empty($obj)) {
                 $end = microtime(true) - $start;
                 return new ApiObject("Cached response in {$end} seconds", false, $obj);
@@ -1055,7 +1059,8 @@ class API extends PluginAbstract
         }
         $obj = self::addRowInfo($obj);
         //var_dump($obj->rows );exit;
-        ObjectYPT::setCacheGlobal($cacheName, $obj);
+        //ObjectYPT::setCacheGlobal($cacheName, $obj);
+        $videosListCache->setCache($obj);
         return new ApiObject("", false, $obj);
     }
 

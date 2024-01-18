@@ -1131,6 +1131,66 @@ abstract class CacheHandler {
     
 }
 
+class VideosListCacheHandler extends CacheHandler {
+    private static $cacheRefreshCount = 0;
+
+    private function getCacheSufix()
+    {        
+        $cacheParameters = array(
+            'noRelated', 
+            'APIName', 
+            'catName', 
+            'rowCount', 
+            'APISecret', 
+            'sort', 
+            'search',
+            'searchPhrase', 
+            'current', 
+            'tags_id', 
+            'channelName', 
+            'videoType', 
+            'is_serie', 
+            'user', 
+            'videos_id', 
+            'playlist', 
+            'created', 
+            'minViews', 
+            'id', 
+            'doNotShowCatChilds');
+        $cacheVars = array(
+            'users_id' => User::getId(), 
+            'requestUniqueString'=>getRequestUniqueString()
+        );
+        foreach ($cacheParameters as $value) {
+            $cacheVars[$value] = @$_REQUEST[$value];
+        }
+        $cacheName = md5(json_encode($cacheVars));
+        return $cacheName;
+    }
+
+    public function setAutoSuffix() {        
+        $this->suffix = $this->getCacheSufix();
+    }
+
+    public function getCacheWithAutoSuffix($lifetime = 60) {
+        $suffix = $this->getCacheSufix();
+        return parent::getCache($suffix, $lifetime);
+    }
+
+    protected function getCacheSubdir() {
+        return "videosQueries/";
+    }
+    
+    protected function canRefreshCache() {
+        if(self::$cacheRefreshCount < $this->maxCacheRefresh) {  // assuming 10 is the limit
+            self::$cacheRefreshCount++;
+            return true;
+        }
+        return false;
+    }
+
+}
+
 class VideoCacheHandler extends CacheHandler {
 
     private $filename;
