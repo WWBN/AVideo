@@ -11,7 +11,7 @@ if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 header("Content-type: text/css; charset: UTF-8");
-if(empty($doNotConnectDatabaseIncludeConfig)){
+if(empty($theme)){
     $theme = getCurrentTheme();
     _mysql_close();
     _session_write_close();
