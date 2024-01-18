@@ -1,10 +1,24 @@
 <?php
+$sessionName = 'themeCSSSession';
+session_name($sessionName);
+session_start();
+if(!empty($_SERVER['theme'])){
+    $theme = $_SERVER['theme'];
+    $doNotConnectDatabaseIncludeConfig = 1;
+}
+session_write_close();
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 header("Content-type: text/css; charset: UTF-8");
-$theme = getCurrentTheme();
-_mysql_close();
+if(empty($doNotConnectDatabaseIncludeConfig)){
+    $theme = getCurrentTheme();
+    _mysql_close();
+    _session_write_close();
+    session_name($sessionName);
+    session_start();
+    $_SERVER['theme'] = $theme;
+}
 _session_write_close();
 echo "/* theme = {$theme} */".PHP_EOL;
 echo file_get_contents("{$global['systemRootPath']}view/css/custom/{$theme}.css");
