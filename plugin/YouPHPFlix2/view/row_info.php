@@ -1,5 +1,5 @@
 <?php
-$timeLog6Limit = 0.5;
+$timeLog6Limit = 0.2;
 $timeLog6 = "row_info.php {$value['clean_title']}";
 TimeLogStart($timeLog6);
 ?>
