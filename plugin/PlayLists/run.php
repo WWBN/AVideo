@@ -20,8 +20,15 @@ header('Content-Type: application/json');
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
+
+$processed = array();
+
 $rows = Playlists_schedules::getAllExecuted();
 foreach ($rows as $key => $value) {
+    if(in_array($value['id'], $processed)){
+        continue;
+    }
+    $processed[] = $value['id'];
     $ps = Playlists_schedules::getPlaying($value['id']);
     if ($value['finish_datetime'] < time()) {
         PlayLists::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
@@ -36,6 +43,10 @@ foreach ($rows as $key => $value) {
 
 $rows = Playlists_schedules::getAllActive();
 foreach ($rows as $key => $value) {
+    if(in_array($value['id'], $processed)){
+        continue;
+    }
+    $processed[] = $value['id'];
     if ($value['start_datetime'] > time()) {
         continue;
     }
