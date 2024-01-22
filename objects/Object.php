@@ -1084,7 +1084,16 @@ abstract class CacheHandler {
     }
 
     public function getCache($suffix, $lifetime = 60) {
-        $this->setSuffix($suffix);
+        global $_getCache;
+        if(!isset($_getCache)){
+            $_getCache = array();
+        }
+        $this->setSuffix($suffix);        
+        $name = $this->getCacheName( $this->suffix);
+        if(isset($_getCache[$name])){
+            return $_getCache[$name];
+        }
+
         if(!empty($lifetime) && !$this->canRefreshCache()){
             //_error_log("{$suffix} lifetime={$lifetime} cache will not be refreshed now");
             $lifetime = 0;
@@ -1094,6 +1103,7 @@ abstract class CacheHandler {
         if(!empty($cache)){
             self::$cachedResults++;
         }
+        $_getCache[$name] = $cache;
         return $cache;
     }
 
@@ -1129,6 +1139,10 @@ abstract class CacheHandler {
     
     abstract protected function canRefreshCache();
     
+    public function hasCache($suffix, $lifetime = 60) {
+        $cache = $this->getCache($suffix, $lifetime);
+        return $cache!==null;
+    }
 }
 
 class VideosListCacheHandler extends CacheHandler {

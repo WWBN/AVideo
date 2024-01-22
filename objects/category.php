@@ -661,9 +661,8 @@ class Category
         
         $timeLogName = TimeLogStart($cacheSuffix);
         $cacheHandler = new CategoryCacheHandler(0);
-        $result = $cacheHandler->getCache($cacheSuffix, 0);
         TimeLogEnd($timeLogName, __LINE__);
-        if (empty($result)) {
+        if (!$cacheHandler->hasCache($cacheSuffix, 0)) {
             $videos = self::getTotalVideosFromCategory($categories_id, $showUnlisted, $getAllVideos, $renew);
             TimeLogEnd($timeLogName, __LINE__);
             $lives = self::getTotalLivesFromCategory($categories_id, $showUnlisted, $renew);
@@ -675,6 +674,7 @@ class Category
             $cacheHandler->setCache($result);
             TimeLogEnd($timeLogName, __LINE__);
         } else {
+            $result = $cacheHandler->getCache($cacheSuffix, 0);
             $result = object_to_array($result);
         }
         TimeLogEnd($timeLogName, __LINE__);
@@ -771,7 +771,7 @@ class Category
         $total = $cacheHandler->getCache($suffix);
         TimeLogEnd($timeLogName, __LINE__);
 
-        if ($renew || empty($total)) {
+        if ($renew || (empty($total) && $total !== 0 && $total !== '0')) {
             $sql = "SELECT count(id) as total FROM videos v WHERE 1=1 AND categories_id = ? ";
 
             if (User::isLogged()) {

@@ -190,7 +190,7 @@ if (!class_exists('Video')) {
             $this->notification_datetime = $notification_datetime;
         }
 
-        
+
         public function getMade_for_kids()
         {
             return _intval($this->made_for_kids);
@@ -1097,7 +1097,7 @@ if (!class_exists('Video')) {
                 . "LEFT JOIN users u ON v.users_id = u.id "
                 . "LEFT JOIN videos nv ON v.next_videos_id = nv.id "
                 . " WHERE 1=1 ";
-            if(isForKidsSet()){
+            if (isForKidsSet()) {
                 $sql .= " AND v.made_for_kids = 1 ";
             }
             if ($activeUsersOnly) {
@@ -1472,9 +1472,9 @@ if (!class_exists('Video')) {
 
             $sql .= " UNION ";
 
-            $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='".Video::$statusActive."' ";
+            $sql .= "SELECT * FROM videos v WHERE v.id != {$videos_id} AND v.status='" . Video::$statusActive . "' ";
 
-            if(isForKidsSet()){
+            if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1 ";
             }
 
@@ -1571,7 +1571,7 @@ if (!class_exists('Video')) {
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 2=2 ";
 
-            if(isForKidsSet()){
+            if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1 ";
             }
             $blockedUsers = self::getBlockedUsersIdsArray();
@@ -1901,8 +1901,9 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        static function userHasAgeToWatchVideo($row){
-            if($row['rrating'] == 'ma'){
+        static function userHasAgeToWatchVideo($row)
+        {
+            if ($row['rrating'] == 'ma') {
                 return User::isOver18();
             }
             return true;
@@ -2283,7 +2284,7 @@ if (!class_exists('Video')) {
 
             $sql .= " WHERE 1=1 ";
 
-            if(isForKidsSet()){
+            if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1 ";
             }
 
@@ -2431,7 +2432,7 @@ if (!class_exists('Video')) {
                 . "LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
                 . " WHERE 1=1 ";
-            if(isForKidsSet()){
+            if (isForKidsSet()) {
                 $sql .= " AND v.made_for_kids = 1 ";
             }
             $blockedUsers = self::getBlockedUsersIdsArray();
@@ -2606,20 +2607,27 @@ if (!class_exists('Video')) {
             return $numRows;
         }
 
-        static function videoMadeForKidsExists() {
+        static function videoMadeForKidsExists()
+        {
             global $_videoMadeForKidsExists, $advancedCustomUser;
-            if(isset($_videoMadeForKidsExists)){
+            if (isset($_videoMadeForKidsExists)) {
+                //var_dump(__LINE__);
                 return $_videoMadeForKidsExists;
             }
-            if (empty($advancedCustomUser->videosForKids)) {
+            if (empty($advancedCustom)) {
+                $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
+            }
+            if (empty($advancedCustom->videosForKids)) {
+                //var_dump(__LINE__);
                 return false;
             }
-            $sql = "SELECT 1 FROM `videos` v  WHERE v.`made_for_kids` = 1 ";            
-            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";            
+            $sql = "SELECT 1 FROM `videos` v  WHERE v.`made_for_kids` = 1 ";
+            $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
             $sql .= " LIMIT 1 ";
 
             $res = sqlDAL::readSql($sql);
             $video = sqlDAL::fetchAssoc($res);
+            //var_dump(__LINE__, $sql, $_videoMadeForKidsExists);
             $_videoMadeForKidsExists = $video ? true : false;
             //var_dump($sql, $_videoMadeForKidsExists, $video);exit;
             return $_videoMadeForKidsExists;
@@ -2835,7 +2843,7 @@ if (!class_exists('Video')) {
                 $videosListCache = new VideosListCacheHandler();
                 $videosListCache->deleteCache();
             }
-            _error_log("Video delete id={$this->id} ".json_encode($resp));
+            _error_log("Video delete id={$this->id} " . json_encode($resp));
             return $resp;
         }
 
@@ -6878,3 +6886,4 @@ AVideoPlugin::loadPlugin('Permissions');
 if (User::isAdmin() || Permissions::canModerateVideos()) {
     $statusThatTheUserCanUpdate[] = [Video::$statusUnpublished, '#B00'];
 }
+//Video::videoMadeForKidsExists();exit;

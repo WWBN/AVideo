@@ -77,6 +77,7 @@ global $avideoLayout;
                 </li>
             <?php
             }
+            //var_dump(Video::videoMadeForKidsExists());exit;
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
                 if (User::isLogged()) {
                 ?>
