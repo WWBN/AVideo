@@ -461,6 +461,7 @@ abstract class ObjectYPT implements ObjectInterface
             'audit',
             'wallet_log',
             'live_restreams_logs',
+            'live_transmitions',
             'clone_SitesAllowed',
             'user_notifications',
             'email_to_user',

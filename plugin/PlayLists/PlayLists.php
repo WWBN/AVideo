@@ -1040,20 +1040,24 @@ class PlayLists extends PluginAbstract
         $key = $lt->getKey();
         _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
         $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key);
-        $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
-        if ($pls->getFinish_datetime() > time()) {
-            $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
-            $pl = new PlayList($ps->playlists_id);
-            $title = $pl->getName() . ' [' . $ps->msg . ']';
-            Rebroadcaster::rebroadcastVideo(
-                $ps->current_videos_id,
-                $pl->getUsers_id(),
-                Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']),
-                $title
-            );
-        } else {
-            _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
-            self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
+        if(!empty($isPlayListScheduled['playlists_schedules'])){
+            $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
+            if ($pls->getFinish_datetime() > time()) {
+                $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
+                $pl = new PlayList($ps->playlists_id);
+                $title = $pl->getName() . ' [' . $ps->msg . ']';
+                Rebroadcaster::rebroadcastVideo(
+                    $ps->current_videos_id,
+                    $pl->getUsers_id(),
+                    Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']),
+                    $title
+                );
+            } else {
+                _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
+                self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
+            }
+        }else{
+            _error_log("on_publish_done is complete isPlayListScheduled=".json_encode($isPlayListScheduled));
         }
     }
 
