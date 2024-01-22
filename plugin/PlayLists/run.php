@@ -26,11 +26,13 @@ $processed = array();
 $rows = Playlists_schedules::getAllExecuted();
 foreach ($rows as $key => $value) {
     if(in_array($value['id'], $processed)){
+        _error_log("Playlist rebroadcast line ".__LINE__);
         continue;
     }
     $processed[] = $value['id'];
     $ps = Playlists_schedules::getPlaying($value['id']);
     if ($value['finish_datetime'] < time()) {
+        _error_log("Playlist rebroadcast line ".__LINE__);
         PlayLists::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
         continue;
     }
@@ -46,10 +48,12 @@ foreach ($rows as $key => $value) {
 $rows = Playlists_schedules::getAllActive();
 foreach ($rows as $key => $value) {
     if(in_array($value['id'], $processed)){
+        _error_log("Playlist rebroadcast line ".__LINE__);
         continue;
     }
     $processed[] = $value['id'];
     if ($value['start_datetime'] > time()) {
+        _error_log("Playlist rebroadcast line ".__LINE__);
         continue;
     }
     $ps = Playlists_schedules::getPlaying($value['id']);
