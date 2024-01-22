@@ -17,6 +17,8 @@ if (empty($_GET['current'])) {
 $uid = '{serie_uid}';
 
 $cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . User::getId();
+$cacheName .= isForKidsSet()?'forKids':'';
+
 $cache = ObjectYPT::getCache($cacheName, 600);
 if (!empty($cache)) {
     echo str_replace('{serie_uid}', uniqid(), $cache);

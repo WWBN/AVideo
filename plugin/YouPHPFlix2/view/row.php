@@ -23,7 +23,7 @@ TimeLogStart($timeLog3);
     }
     foreach ($videos as $_index => $value) {
         
-        $timeLog4Limit = 0.1;
+        $timeLog4Limit = 0.2;
         $timeLog4 = "{$timeLog3} loop {$value['clean_title']}";
         TimeLogStart($timeLog4);
         $uid = "{$uidOriginal}_{$value['id']}";
