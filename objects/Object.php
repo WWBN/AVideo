@@ -1069,7 +1069,7 @@ abstract class CacheHandler {
         if (!is_string($suffix)) {
             $suffix = json_encode($suffix);
         }
-        $suffix = md5($suffix);
+        $suffix = md5($suffix).'_'.getRequestUniqueString();
         return $this->getCacheSubdir() . "{$suffix}.cache";
     }
 
