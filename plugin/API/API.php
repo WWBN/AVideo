@@ -974,7 +974,7 @@ class API extends PluginAbstract
             }
 
             
-            $sub = self::getSubtitle($filename);
+            $sub = self::getSubtitle($rows[$key]['filename']);
 
             $rows[$key]['subtitles_available'] = $sub['subtitles_available'];
             $rows[$key]['subtitles'] = $sub['subtitles'];
@@ -1017,7 +1017,7 @@ class API extends PluginAbstract
                 foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
                     $rows[$key]['relatedVideos'][$key2]['tags'] = Video::getTags($value2['id']);
 
-                    $sub = self::getSubtitle($filename);
+                    $sub = self::getSubtitle($rows[$key]['relatedVideos'][$key2]['filename']);
 
                     $rows[$key]['relatedVideos'][$key2]['subtitles_available'] = $sub['subtitles_available'];
                     $rows[$key]['relatedVideos'][$key2]['subtitles'] = $sub['subtitles'];
