@@ -882,6 +882,22 @@ class AVideoPlugin
         }
     }
 
+    public static function onDeleteVideo($videos_id)
+    {
+        if (empty($videos_id)) {
+            return false;
+        }
+        $plugins = Plugin::getAllEnabled();
+        foreach ($plugins as $value) {
+            self::YPTstart();
+            $p = static::loadPlugin($value['dirName']);
+            if (is_object($p)) {
+                $p->onDeleteVideo($videos_id);
+            }
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__);
+        }
+    }
+
     public static function onEncoderReceiveImage($videos_id)
     {
         $plugins = Plugin::getAllEnabled();

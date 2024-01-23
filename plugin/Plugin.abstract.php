@@ -352,6 +352,10 @@ abstract class PluginAbstract {
         return false;
     }
 
+    public function onDeleteVideo($videos_id) {
+        return false;
+    }
+
     public function onVideoLikeDislike($videos_id, $users_id, $isLike) {
         return false;
     }

@@ -2842,6 +2842,7 @@ if (!class_exists('Video')) {
                 $this->removeVideoFiles();
                 $videosListCache = new VideosListCacheHandler();
                 $videosListCache->deleteCache();
+                AVideoPlugin::onDeleteVideo($this->id);
             }
             _error_log("Video delete id={$this->id} " . json_encode($resp));
             return $resp;

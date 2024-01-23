@@ -10496,6 +10496,7 @@ function getValueOrBlank($array, $default=''){
 
 function getRequestUniqueString(){
     $text = getValueOrBlank(['app_bundle','ads_app_bundle', 'publisher_app_bundle']);
+    $text = getValueOrBlank(['ads_did']);
     $text .= getValueOrBlank(['platform']);
     $text .= isForKidsSet()?'forKids':'';
     return $text;
