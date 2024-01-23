@@ -974,7 +974,7 @@ class API extends PluginAbstract
             }
 
             
-            $sub = self::getSubtitle($rows[$key]['filename']);
+            $sub = self::getSubtitle($value['filename']);
 
             $rows[$key]['subtitles_available'] = $sub['subtitles_available'];
             $rows[$key]['subtitles'] = $sub['subtitles'];
