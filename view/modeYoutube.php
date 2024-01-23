@@ -294,12 +294,26 @@ if (empty($video)) {
                 $vid->save();
                 _error_log('Missing files recovered ' . $_GET['v']);
             } else {
-                videoNotFound('ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
+                $msg = 'ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
+                if(User::isLogged()){
+                    gotToLoginAndComeBackHere($msg);
+                }else{
+                    videoNotFound($msg);
+                }
+                exit;
             }
         } else if ($vid->getStatus() === Video::$statusUnpublished) {
-            videoNotFound('This video is currently unpublished. Please contact an administrator to review and approve it for publication. Thank you for your patience and understanding.');
+            $msg = 'This video is currently unpublished. Please contact an administrator to review and approve it for publication. Thank you for your patience and understanding.';
+            videoNotFound($msg);
+            exit;
         } else {
-            videoNotFound('ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()]);
+            $msg = 'ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
+            if(User::isLogged()){
+                gotToLoginAndComeBackHere($msg);
+            }else{
+                videoNotFound($msg);
+            }
+            exit;
         }
     } else {
         videoNotFound('ERROR 3: The video is not available video ID is empty');

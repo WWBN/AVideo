@@ -4,6 +4,7 @@ global $t;
 // filter some security here
 if (!empty($_GET['lang'])) {
     $_GET['lang'] = str_replace(["'", '"', "&quot;", "&#039;"], ['', '', '', ''], xss_esc($_GET['lang']));
+    $_GET['lang'] = preg_replace('/[^a-z0-9\._-]/i', '', $_GET['lang']);
 }
 
 includeLangFile();

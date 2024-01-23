@@ -60,7 +60,7 @@ foreach ($rows as $key => $value) {
     $pl = new PlayList($ps->playlists_id);
     $title = $pl->getName() . ' [' . $ps->msg . ']';
     $title = '';
-    _error_log("Playlist rebroadcast active {$value['id']}");
+    _error_log("Playlist rebroadcast active id={$value['id']} videos_id={$ps->current_videos_id} [total=".count($rows)."]");
     $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
     //var_dump($response, $ps);
 }
