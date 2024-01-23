@@ -294,10 +294,10 @@ if (empty($video)) {
                 $vid->save();
                 _error_log('Missing files recovered ' . $_GET['v']);
             } else {
-                $msg = 'ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
                 if(!User::isLogged()){
-                    gotToLoginAndComeBackHere($msg);
+                    gotToLoginAndComeBackHere();
                 }else{
+                    $msg = 'ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
                     videoNotFound($msg);
                 }
                 exit;
@@ -307,10 +307,10 @@ if (empty($video)) {
             videoNotFound($msg);
             exit;
         } else {
-            $msg = 'ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
             if(!User::isLogged()){
-                gotToLoginAndComeBackHere($msg);
+                gotToLoginAndComeBackHere();
             }else{
+                $msg = 'ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
                 videoNotFound($msg);
             }
             exit;
