@@ -5108,6 +5108,10 @@ function getSelfURI()
     $url = $http . "://$_SERVER[HTTP_HOST]$phpselfWithoutIndex?$queryString";
     $url = rtrim($url, '?');
 
+    preg_match('/view\/modeYoutube.php\?v=([^&]+)/', $url, $matches);
+    if(!empty($matches[1])){
+        $url = "{$global['webSiteRootURL']}video/{$matches[1]}";
+    }
     return fixTestURL($url);
 }
 
@@ -6785,7 +6789,9 @@ function gotToLoginAndComeBackHere($msg = '')
         return false;
     }
     setAlertMessage($msg, $type = "msg");
-    header("Location: {$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI()) . "&comebackhere=1");
+    $url = "{$global['webSiteRootURL']}user?redirectUri=" . urlencode(getSelfURI());
+    $url = addQueryStringParameter($url, 'comebackhere', 1);
+    header("Location: {$url}");
     exit;
 }
 
@@ -8742,9 +8748,9 @@ function hashToID($hash)
 
 /**
  * Deprecated function
- * @global type $global
- * @param type $hash
- * @return type
+ * @global array $global
+ * @param string $hash
+ * @return int
  */
 function hashToID_old($hash)
 {
@@ -8789,7 +8795,7 @@ function videosHashToID($hash_of_videos_id)
  * @global type $_getCDNURL
  * @param string $type enum(CDN, CDN_S3,CDN_B2,CDN_FTP,CDN_YPTStorage,CDN_Live,CDN_LiveServers)
  * @param string $id the ID of the URL in case the CDN is an array
- * @return \type
+ * @return \string
  */
 function getCDN($type = 'CDN', $id = 0)
 {
