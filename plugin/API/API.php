@@ -240,20 +240,20 @@ class API extends PluginAbstract
             //var_dump($desktop);exit;
             $desktopURLs = array();
             foreach ($desktop as $item) {
-                $desktopURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url'], 'info'=>$item['txt']);
+                $desktopURLs[] = array('image' => $item['imageURL'], 'url' => $item['url'], 'info' => $item['txt']);
             }
 
             $mobileURLs = array();
             foreach ($mobile as $item) {
-                $mobileURLs[] = array('image'=>$item['imageURL'], 'url'=>$item['url'], 'info'=>$item['txt']);
+                $mobileURLs[] = array('image' => $item['imageURL'], 'url' => $item['url'], 'info' => $item['txt']);
             }
             $label = '';
             eval("\$label = \$ad->{$type}Label;");
             $array['ads'][] = array(
                 'label' => $label,
                 'type' => $type,
-                'desktop' => array('isValid'=>!empty($desktopURLs), 'isGlobal'=>$desktopGlobal, 'urls'=>$desktopURLs),
-                'mobile' => array('isValid'=>!empty($mobileURLs), 'isGlobal'=>$mobileGlobal, 'urls'=>$mobileURLs)
+                'desktop' => array('isValid' => !empty($desktopURLs), 'isGlobal' => $desktopGlobal, 'urls' => $desktopURLs),
+                'mobile' => array('isValid' => !empty($mobileURLs), 'isGlobal' => $mobileGlobal, 'urls' => $mobileURLs)
             );
         }
 
@@ -972,18 +972,14 @@ class API extends PluginAbstract
                 require_once $global['systemRootPath'] . 'objects/subscribe.php';
                 $rows[$key]['isSubscribed'] = Subscribe::isSubscribed($rows[$key]['users_id']);
             }
-            $rows[$key]['subtitles_available'] = false;
-            $rows[$key]['subtitles'] = [];
-            if ($SubtitleSwitcher) {
-                $subtitles = getVTTTracks($value['filename'], true);
-                $rows[$key]['subtitles_available'] = !empty($subtitles);
-                if(empty($SubtitleSwitcher->disableOnAPI)){
-                    $rows[$key]['subtitles'] = $subtitles;
-                    foreach ($rows[$key]['subtitles'] as $key2 => $value) {
-                        $rows[$key]['subtitlesSRT'][] = convertSRTTrack($value);
-                    }
-                }
-            }
+
+            
+            $sub = self::getSubtitle($filename);
+
+            $rows[$key]['subtitles_available'] = $sub['subtitles_available'];
+            $rows[$key]['subtitles'] = $sub['subtitles'];
+            $rows[$key]['subtitlesSRT'] = $sub['subtitlesSRT'];
+
             require_once $global['systemRootPath'] . 'objects/comment.php';
             require_once $global['systemRootPath'] . 'objects/subscribe.php';
             unset($_POST['sort']);
@@ -1020,13 +1016,20 @@ class API extends PluginAbstract
                 $rows[$key]['relatedVideos'] = Video::getRelatedMovies($rows[$key]['id']);
                 foreach ($rows[$key]['relatedVideos'] as $key2 => $value2) {
                     $rows[$key]['relatedVideos'][$key2]['tags'] = Video::getTags($value2['id']);
+
+                    $sub = self::getSubtitle($filename);
+
+                    $rows[$key]['relatedVideos'][$key2]['subtitles_available'] = $sub['subtitles_available'];
+                    $rows[$key]['relatedVideos'][$key2]['subtitles'] = $sub['subtitles'];
+                    $rows[$key]['relatedVideos'][$key2]['subtitlesSRT'] = $sub['subtitlesSRT'];
+
                     if (AVideoPlugin::isEnabledByName("VideoTags")) {
                         $rows[$key]['relatedVideos'][$key2]['videoTags'] = Tags::getAllFromVideosId($value2['id']);
                         $rows[$key]['relatedVideos'][$key2]['videoTagsObject'] = Tags::getObjectFromVideosId($value2['id']);
                     }
                     if ($rows[$key]['relatedVideos'][$key2]['type'] !== Video::$videoTypeLinkVideo) {
                         $rows[$key]['relatedVideos'][$key2]['videos'] = Video::getVideosPaths($value2['filename'], true);
-                    }else if(preg_match('/m3u8/', $rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                    } else if (preg_match('/m3u8/', $rows[$key]['relatedVideos'][$key2]['videoLink'])) {
                         $url = AVideoPlugin::modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink']);
                         $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['url'] = $url;
                         $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['url_noCDN'] = $url;
@@ -1034,10 +1037,10 @@ class API extends PluginAbstract
                         $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['format'] = 'm3u8';
                         $rows[$key]['relatedVideos'][$key2]['videos']['m3u8']['resolution'] = 'auto';
                     }
-                    if(!empty($rows[$key]['relatedVideos'][$key2]['videos'])){
+                    if (!empty($rows[$key]['relatedVideos'][$key2]['videos'])) {
                         $rows[$key]['relatedVideos'][$key2]['sources'] = Video::getVideosPathsToSource($rows[$key]['relatedVideos'][$key2]['videos']);
                     }
-                    if(!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])){
+                    if (!empty($rows[$key]['relatedVideos'][$key2]['videoLink'])) {
                         $rows[$key]['relatedVideos'][$key2]['videoLink'] = AVideoPlugin::modifyURL($rows[$key]['relatedVideos'][$key2]['videoLink'], $value2['id']);
                     }
                 }
@@ -1062,6 +1065,29 @@ class API extends PluginAbstract
         //ObjectYPT::setCacheGlobal($cacheName, $obj);
         $videosListCache->setCache($obj);
         return new ApiObject("", false, $obj);
+    }
+
+    private static function getSubtitle($filename)
+    {
+        global $_SubtitleSwitcher;
+        if (!isset($_SubtitleSwitcher)) {
+            $_SubtitleSwitcher = AVideoPlugin::getDataObjectIfEnabled("SubtitleSwitcher");
+        }
+        $row = array();
+        $row['subtitles_available'] = false;
+        $row['subtitles'] = [];
+        $row['subtitlesSRT'] = [];
+        if ($_SubtitleSwitcher) {
+            $subtitles = getVTTTracks($filename, true);
+            $row['subtitles_available'] = !empty($subtitles);
+            if (empty($_SubtitleSwitcher->disableOnAPI)) {
+                $row['subtitles'] = $subtitles;
+                foreach ($row['subtitles'] as $key2 => $value) {
+                    $row['subtitlesSRT'][] = convertSRTTrack($value);
+                }
+            }
+        }
+        return $row;
     }
 
     /**
