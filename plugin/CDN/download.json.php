@@ -55,22 +55,25 @@ $resp->deleteLocally = false;
 
 $video = Video::getVideoLight($json->videos_id);
 $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
-$resp->pids = findMatchingProcesses("ffmpeg.*$convertedFile");
+
+$progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log";
+$resp->logModified = checkFileModified($progressFile);
+
 $resp->lines[] = __LINE__;
-if(!empty($resp->pids)){
+if ($resp->logModified > 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
-}else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
+} else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
-    if($cdnObj->enable_storage){
+    if ($cdnObj->enable_storage) {
         $resp->lines[] = __LINE__;
         $remote_path = "{$video['filename']}/index.mp4";
         $client = CDNStorage::getStorageClient();
         $resp->deleteRemotely = $client->delete($remote_path);
     }
     $resp->deleteLocally = unlink($convertedFile);
-    
+
     $resp->error = $resp->deleteRemotely || $resp->deleteLocally;
 } else {
     $resp->lines[] = __LINE__;

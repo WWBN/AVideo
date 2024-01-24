@@ -10523,31 +10523,20 @@ function isForKidsSet(){
     return !empty($_COOKIE['forKids']) || (!empty($_REQUEST['forKids']) && intval($_REQUEST['forKids']) > 0);
 }
 
-function findMatchingProcesses($regex) {
-    // Use pgrep to find process IDs matching the given regex
-    $command = "pgrep -o -f '$regex'";
-    exec($command, $pids);
+function checkFileModified($filePath) {
+    // Check if the file exists
+    if (file_exists($filePath)) {
+        // Get the last modified time of the file
+        $lastModifiedTime = filemtime($filePath);
 
-    // Initialize an empty array to store results
-    $processes = [];
+        // Get the current time
+        $currentTime = time();
 
-    // Iterate through the PIDs
-    foreach ($pids as $pid) {
-        // Use ps to get the command associated with the PID
-        $command = "ps -p $pid -o cmd --no-header";
-        exec($command, $output);
-
-        // Extract the command from the output
-        $command = implode(' ', $output);
-
-        // Add the PID and command to the result array
-        $processes[] = [
-            'pid' => intval($pid),
-            'command' => trim($command),
-        ];
+        // Check if the file was modified at least 1 minute ago
+        return ($currentTime - $lastModifiedTime);
+    } else {
+        return false;
     }
-
-    return $processes;
 }
 
 require_once __DIR__.'/functionSecurity.php';
