@@ -78,22 +78,17 @@ class User
     public function __construct($id, $user = "", $password = "")
     {
         if (empty($id)) {
-            _error_log("User::construct ".__LINE__);
             // get the user data from user and pass
             $this->user = $user;
             if ($password !== false) {
-                _error_log("User::construct ".__LINE__);
                 $this->password = $password;
             } else {
-                _error_log("User::construct ".__LINE__);
                 $this->loadFromUser($user);
             }
         } else {
-            _error_log("User::construct ".__LINE__);
             // get data from id
             $this->load($id);
         }
-        _error_log("User::construct ".__LINE__);
     }
 
     function getIs_company(): int
@@ -1553,8 +1548,7 @@ if (typeof gtag !== \"function\") {
         }
         if (
             !empty($advancedCustomUser) &&
-            $advancedCustomUser->forceLoginToBeTheEmail &&
-            $advancedCustomUser->emailMustBeUnique &&
+            ($advancedCustomUser->forceLoginToBeTheEmail || $advancedCustomUser->emailMustBeUnique) &&
             filter_var($user, FILTER_VALIDATE_EMAIL)
         ) {
             $formats .= "s";
