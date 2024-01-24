@@ -300,6 +300,8 @@ if (typeof gtag !== \"function\") {
         if (empty($userLoaded)) {
             _error_log("User::loadFromUser($user) error");
             return false;
+        }else{
+            _error_log("User::loadFromUser($user) user found [{$userLoaded['id']}]{$userLoaded['user']}");
         }
         //_error_log("User::loadFromUser($user) ");
         //_error_log("User::loadFromUser json " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
