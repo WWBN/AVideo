@@ -7877,6 +7877,7 @@ function isURL200($url, $forceRecheck = false)
         $headers = [$headers];
     }
 
+    error_log('isURL200: '.json_encode($headers));
     $object->result = false;
     foreach ($headers as $value) {
         if (

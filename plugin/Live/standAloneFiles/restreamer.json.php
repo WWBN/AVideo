@@ -429,7 +429,6 @@ function isURL200($url, $forceRecheck = false) {
     if (!is_array($headers)) {
         $headers = [$headers];
     }
-    error_log('isURL200: '.json_encode($headers));
 
     $result = false;
     foreach ($headers as $value) {
@@ -438,11 +437,10 @@ function isURL200($url, $forceRecheck = false) {
                 strpos($value, '302') ||
                 strpos($value, '304')
         ) {
-            error_log('isURL200 1: '.$value);
             $result = true;
             break;
         } else {
-            error_log('isURL200 2: '.$value);
+            error_log('isURL200: '.$value);
         }
     }
     set_time_limit($global_timeLimit);
