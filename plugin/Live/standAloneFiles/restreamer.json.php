@@ -429,6 +429,7 @@ function isURL200($url, $forceRecheck = false) {
     if (!is_array($headers)) {
         $headers = [$headers];
     }
+    error_log('isURL200: '.json_encode($headers));
 
     $result = false;
     foreach ($headers as $value) {
