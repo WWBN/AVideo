@@ -1266,11 +1266,9 @@ class CDNStorage
         foreach ($files as $key => $theLink) {
             if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/index\.m3u8/i', $theLink['url'])) {
                 $m3u8File = $theLink['url'];
-                $m3u8File = str_replace('videos/', '', $m3u8File);
                 break;
             } else if (preg_match('/cdn\.ypt\.me(.*)' . $filename . '\/.*.mp4/i', $theLink['url'])) {
                 $mp4File = $theLink['url'];
-                $mp4File = str_replace('videos/', '', $mp4File);
                 break;
             }
         }
