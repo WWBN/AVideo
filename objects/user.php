@@ -1568,12 +1568,17 @@ if (typeof gtag !== \"function\") {
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($result)) {
+            _error_log("User::find line= ".__LINE__);
             if ($pass !== false) {
+                _error_log("User::find line= ".__LINE__);
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
+                    _error_log("User::find line= ".__LINE__);
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
+                        _error_log("User::find line= ".__LINE__);
                         //_error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                     } else {
+                        _error_log("User::find line= ".__LINE__);
                         return false;
                     }
                 }
@@ -1581,11 +1586,13 @@ if (typeof gtag !== \"function\") {
             $user = $result;
             $user['passhash'] = self::getUserHash($user['id']);
         } else {
+            _error_log("User::find line= ".__LINE__);
             //_error_log("Password check new hash user not found");
             //check if is the old password style
             $user = false;
             //$user = false;
         }
+        _error_log("User::find line= ".__LINE__);
         return $user;
     }
 
