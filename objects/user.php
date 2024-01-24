@@ -1540,6 +1540,9 @@ if (typeof gtag !== \"function\") {
             $sql .= " OR user = ? ";
         }
 
+        if (empty($advancedCustomUser)) {
+            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+        }
         if (
             !empty($advancedCustomUser) &&
             $advancedCustomUser->forceLoginToBeTheEmail &&
@@ -1768,8 +1771,7 @@ if (typeof gtag !== \"function\") {
 
         if (
             !empty($advancedCustomUser) &&
-            $advancedCustomUser->forceLoginToBeTheEmail &&
-            $advancedCustomUser->emailMustBeUnique &&
+            ($advancedCustomUser->forceLoginToBeTheEmail || $advancedCustomUser->emailMustBeUnique) &&
             filter_var($user, FILTER_VALIDATE_EMAIL)
         ) {
             _error_log("getUserDbFromUser will also check the email {$user} ");
