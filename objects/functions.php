@@ -10507,14 +10507,30 @@ function isForKidsSet(){
 }
 
 function findMatchingProcesses($regex) {
-    // Use pgrep to find process IDs matching the given regex
+    // Use pgrep to find process IDs and commands matching the given regex
     $command = "pgrep -o -f '$regex'";
     exec($command, $pids);
 
-    // Convert the result to an array of integers
-    $pids = array_map('intval', $pids);
+    // Initialize an empty array to store results
+    $processes = [];
 
-    return $pids;
+    // Iterate through the PIDs
+    foreach ($pids as $pid) {
+        // Use ps to get the command associated with the PID
+        $command = "ps -p $pid -o cmd --no-header";
+        exec($command, $output);
+
+        // Extract the command from the output
+        $command = implode(' ', $output);
+
+        // Add the PID and command to the result array
+        $processes[] = [
+            'pid' => intval($pid),
+            'command' => $command,
+        ];
+    }
+
+    return $processes;
 }
 
 require_once __DIR__.'/functionSecurity.php';
