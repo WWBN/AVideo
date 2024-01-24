@@ -61,8 +61,7 @@ if(!empty($resp->pids)){
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
-}else
-if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
+}else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
     if($cdnObj->enable_storage){
         $resp->lines[] = __LINE__;
