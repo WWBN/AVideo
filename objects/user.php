@@ -1760,15 +1760,15 @@ if (typeof gtag !== \"function\") {
         if (empty($user)) {
             return false;
         }
-        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {
-            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
-        }
         $formats = "";
         $values = [];
         $sql = "SELECT * FROM users WHERE user = ? ";
         $formats .= 's';
         $values[] = $user;
 
+        if (class_exists('AVideoPlugin') && empty($advancedCustomUser)) {
+            $advancedCustomUser = AVideoPlugin::getObjectData("CustomizeUser");
+        }
         if (
             !empty($advancedCustomUser) &&
             ($advancedCustomUser->forceLoginToBeTheEmail || $advancedCustomUser->emailMustBeUnique) &&
@@ -1781,6 +1781,8 @@ if (typeof gtag !== \"function\") {
         }
 
         $sql .= " LIMIT 1";
+        
+        _error_log("getUserDbFromUser {$sql} ".json_encode(array($formats, $values)));
         $res = sqlDAL::readSql($sql, $formats, $values);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
