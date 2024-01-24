@@ -57,6 +57,11 @@ $video = Video::getVideoLight($json->videos_id);
 $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
 $resp->pids = findMatchingProcesses($convertedFile);
 $resp->lines[] = __LINE__;
+if(!empty($resp->pids)){
+    $resp->lines[] = __LINE__;
+    $resp->msg = ("We are still processing the video, please wait");
+    $resp->error = false;
+}else
 if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
     if($cdnObj->enable_storage){
