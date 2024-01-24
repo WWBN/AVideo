@@ -10539,10 +10539,6 @@ function findMatchingProcesses($regex) {
 
         // Extract the command from the output
         $command = implode(' ', $output);
-        if(empty($command)){
-            unset($pids[$key]);
-            continue;
-        }
         // Add the PID and command to the result array
         $processes[] = [
             'pid' => intval($pid),
