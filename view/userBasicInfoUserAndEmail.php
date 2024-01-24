@@ -7,7 +7,7 @@ $emailDivClass = '';
 $emailReadOnly = '';
 $userVerifyEmailBtnDivClass = 'hidden';
 $userColSize = 'col-md-8';
-$users_id = $user->getEmail();
+$users_id = $user->getId();
 
 $emailVerified = $user->getEmailVerified();
 
