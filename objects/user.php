@@ -1560,7 +1560,7 @@ if (typeof gtag !== \"function\") {
             $sql .= " AND status = 'a' ";
         }
 
-        $sql .= " LIMIT 1";
+        $sql .= " ORDER BY id DESC LIMIT 1";
 
         _error_log("User::find {$sql} ".json_encode($values));
         //_error_log("User::find values ".json_encode($values));
