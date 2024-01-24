@@ -55,7 +55,7 @@ $resp->deleteLocally = false;
 
 $video = Video::getVideoLight($json->videos_id);
 $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
-$resp->pids = findMatchingProcesses($convertedFile);
+$resp->pids = findMatchingProcesses("ffmpeg.*$convertedFile");
 $resp->lines[] = __LINE__;
 if(!empty($resp->pids)){
     $resp->lines[] = __LINE__;
