@@ -7878,6 +7878,7 @@ function isURL200($url, $forceRecheck = false)
     }
 
     error_log('isURL200: '.json_encode($headers));
+    $object->contentLenght = null;
     $object->result = false;
     foreach ($headers as $value) {
         if (
@@ -7891,10 +7892,25 @@ function isURL200($url, $forceRecheck = false)
             //_error_log('isURL200: '.$value);
         }
     }
+    if($object->result){
+        foreach ($headers as $value) {
+            if (preg_match('/Content-Length: ?([0-9]+)/', $value, $matches)) {
+                $object->contentLenght = $matches[1];
+                break;
+            } else {
+                //_error_log('isURL200: '.$value);
+            }
+        }
+    }
 
     ObjectYPT::setCacheGlobal($name, json_encode($object));
 
-    return $object->result;
+    if($object->contentLenght === null){
+        return $object->result;
+    }else{
+        return $object->contentLenght;
+    }
+
 }
 
 function isURL200Clear()
