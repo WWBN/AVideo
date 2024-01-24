@@ -10506,6 +10506,17 @@ function isForKidsSet(){
     return !empty($_COOKIE['forKids']) || (!empty($_REQUEST['forKids']) && intval($_REQUEST['forKids']) > 0);
 }
 
+function findMatchingProcesses($regex) {
+    // Use pgrep to find process IDs matching the given regex
+    $command = "pgrep -o -f '$regex'";
+    exec($command, $pids);
+
+    // Convert the result to an array of integers
+    $pids = array_map('intval', $pids);
+
+    return $pids;
+}
+
 require_once __DIR__.'/functionSecurity.php';
 require_once __DIR__.'/functionMySQL.php';
 require_once __DIR__.'/functionDocker.php';

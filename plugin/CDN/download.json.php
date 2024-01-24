@@ -68,6 +68,8 @@ if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     
     $resp->error = $resp->deleteRemotely || $resp->deleteLocally;
 } else {
+    $regex = "/.*{$video['filename']}\/index.mp4/";
+    $resp->pids = findMatchingProcesses($regex);
     $resp->lines[] = __LINE__;
     set_time_limit(7200); // 2 hours
     ini_set('max_execution_time', 7200);
