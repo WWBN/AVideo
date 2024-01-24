@@ -60,7 +60,7 @@ $progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log
 $resp->logModified = checkFileModified($progressFile);
 
 $resp->lines[] = __LINE__;
-if ($resp->logModified > 30) {
+if ($resp->logModified < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
