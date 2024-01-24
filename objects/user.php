@@ -298,6 +298,7 @@ if (typeof gtag !== \"function\") {
     {
         $userLoaded = self::getUserDbFromUser($user);
         if (empty($userLoaded)) {
+            _error_log("User::loadFromUser($user) error");
             return false;
         }
         //_error_log("User::loadFromUser($user) ");
@@ -1758,6 +1759,7 @@ if (typeof gtag !== \"function\") {
     {
         global $global, $advancedCustomUser;
         if (empty($user)) {
+            _error_log("getUserDbFromUser empty user ");
             return false;
         }
         $formats = "";
@@ -1778,11 +1780,23 @@ if (typeof gtag !== \"function\") {
             $sql .= " OR email = ? ";
             $formats .= 's';
             $values[] = $user;
+        } else {
+            if (empty($advancedCustomUser)) {
+                _error_log("getUserDbFromUser advancedCustomUser is empty ");
+            } else {
+                _error_log("getUserDbFromUser [{$user}] " . json_encode(
+                    array(
+                        $advancedCustomUser->forceLoginToBeTheEmail,
+                        $advancedCustomUser->emailMustBeUnique,
+                        filter_var($user, FILTER_VALIDATE_EMAIL)
+                    )
+                ));
+            }
         }
 
         $sql .= " LIMIT 1";
-        
-        _error_log("getUserDbFromUser {$sql} ".json_encode(array($formats, $values)));
+
+        _error_log("getUserDbFromUser {$sql} " . json_encode(array($formats, $values)));
         $res = sqlDAL::readSql($sql, $formats, $values);
         $user = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
