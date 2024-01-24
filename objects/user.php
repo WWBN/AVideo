@@ -1562,23 +1562,18 @@ if (typeof gtag !== \"function\") {
 
         $sql .= " ORDER BY id DESC LIMIT 1";
 
-        _error_log("User::find {$sql} ".json_encode($values));
+        //_error_log("User::find {$sql} ".json_encode($values));
         //_error_log("User::find values ".json_encode($values));
         $res = sqlDAL::readSql($sql, $formats, $values, true);
         $result = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if (!empty($result)) {
-            _error_log("User::find line= ".__LINE__);
             if ($pass !== false) {
-                _error_log("User::find line= ".__LINE__);
                 if (!encryptPasswordVerify($pass, $result['password'], $encodedPass)) {
-                    _error_log("User::find line= ".__LINE__);
                     if (!empty($advancedCustom) && $advancedCustom->enableOldPassHashCheck) {
-                        _error_log("User::find line= ".__LINE__);
                         //_error_log("Password check new hash pass does not match, trying MD5");
                         return $this->find_Old($user, $pass, $mustBeactive, $encodedPass);
                     } else {
-                        _error_log("User::find line= ".__LINE__);
                         return false;
                     }
                 }
