@@ -1562,7 +1562,7 @@ if (typeof gtag !== \"function\") {
 
         $sql .= " LIMIT 1";
 
-        //_error_log("User::find ".$sql);
+        _error_log("User::find {$sql} ".json_encode($values));
         //_error_log("User::find values ".json_encode($values));
         $res = sqlDAL::readSql($sql, $formats, $values, true);
         $result = sqlDAL::fetchAssoc($res);
