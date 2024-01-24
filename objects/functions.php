@@ -10515,14 +10515,17 @@ function findMatchingProcesses($regex) {
     $processes = [];
 
     // Iterate through the PIDs
-    foreach ($pids as $pid) {
+    foreach ($pids as $key => $pid) {
         // Use ps to get the command associated with the PID
         $command = "ps -p $pid -o cmd --no-header";
         exec($command, $output);
 
         // Extract the command from the output
         $command = implode(' ', $output);
-
+        if(empty($command)){
+            unset($pids[$key]);
+            continue;
+        }
         // Add the PID and command to the result array
         $processes[] = [
             'pid' => intval($pid),
