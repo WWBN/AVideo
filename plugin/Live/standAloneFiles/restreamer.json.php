@@ -437,10 +437,11 @@ function isURL200($url, $forceRecheck = false) {
                 strpos($value, '302') ||
                 strpos($value, '304')
         ) {
+            error_log('isURL200 1: '.$value);
             $result = true;
             break;
         } else {
-            error_log('isURL200: '.$value);
+            error_log('isURL200 2: '.$value);
         }
     }
     set_time_limit($global_timeLimit);
