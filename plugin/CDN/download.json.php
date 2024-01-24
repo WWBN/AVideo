@@ -72,6 +72,7 @@ if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
         $resp->msg = ("CDN/download.json.php Error on get download URL for videos_id={$json->videos_id}, format={$json->format}");
         die(json_encode($resp));
     }
+    $resp->convertedFile = $convertedFile;
     $resp->error = false;
     //var_dump($url);exit;
     _error_log('download from CDN ' . $url);
