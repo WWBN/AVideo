@@ -1235,7 +1235,11 @@ class CDNStorage
 
         $client = self::getStorageClient();
         $dir = dirname($remote_filename);
-        $list = $client->rawlist($dir, true);
+        try {
+            $list = $client->rawlist($dir, true);
+        } catch (\Throwable $th) {
+            $list = array();
+        }
         $index = "file#{$remote_filename}";
         preg_match('/ ([0-9]+) [a-zA-z]+ [0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}/', $list[$index], $matches);
         $filesize = empty($matches[1]) ? 0 : $matches[1];
