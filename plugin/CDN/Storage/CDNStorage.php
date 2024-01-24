@@ -1228,7 +1228,7 @@ class CDNStorage
         if (!isset($file_exists_on_cdn)) {
             $file_exists_on_cdn = array();
         }
-
+        $remote_filename = str_replace('videos/', '', $remote_filename);
         if (isset($file_exists_on_cdn[$remote_filename])) {
             return $file_exists_on_cdn[$remote_filename];
         }
