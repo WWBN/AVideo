@@ -914,14 +914,14 @@ class API extends PluginAbstract
             if (empty($value['filename'])) {
                 continue;
             }
-            if ($value['type'] == 'serie') {
+            if ($value['type'] == Video::$videoTypeSerie) {
                 require_once $global['systemRootPath'] . 'objects/playlist.php';
                 $rows[$key]['playlist'] = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
                 //var_dump($rows[$key]['playlist']);exit;
             }
             $images = Video::getImageFromFilename($rows[$key]['filename'], $rows[$key]['type']);
             $rows[$key]['images'] = $images;
-            if ($rows[$key]['type'] !== 'linkVideo') {
+            if ($rows[$key]['type'] !== Video::$videoTypeLinkVideo) {
                 $rows[$key]['videos'] = Video::getVideosPaths($value['filename'], true);
             } else {
                 $extension = getExtension($rows[$key]['videoLink']);
