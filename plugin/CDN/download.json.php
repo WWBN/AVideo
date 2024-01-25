@@ -57,10 +57,11 @@ $video = Video::getVideoLight($json->videos_id);
 $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
 
 $progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log";
+//$resp->progressFile = $progressFile;
 $resp->logModified = checkFileModified($progressFile);
 
 $resp->lines[] = __LINE__;
-if ($resp->logModified < 30) {
+if ($resp->logModified !== false && $resp->logModified < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;

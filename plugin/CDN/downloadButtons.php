@@ -106,6 +106,7 @@ if (count($downloadOptions) == 1) {
     <?php
     }
     ?>
+    <script src="<?php echo getURL('view/js/script.download.js'); ?>" type="text/javascript"></script>
 </body>
 
 </html>

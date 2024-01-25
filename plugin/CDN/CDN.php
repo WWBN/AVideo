@@ -19,10 +19,10 @@ class CDN extends PluginAbstract
     {
         global $global;
         $txt = "With our CDN we will provide you a highly-distributed platform of servers that helps minimize delays in loading web page content "
-                . "by reducing the physical distance between the server and the user. This helps users around the world view the same high-quality "
-                . "content without slow loading times";
+            . "by reducing the physical distance between the server and the user. This helps users around the world view the same high-quality "
+            . "content without slow loading times";
         $txt .= "<br>If you are using the CDN Storage, add this into your crontab <code>2 1 * * * php {$global['systemRootPath']}plugin/CDN/tools/moveMissingFiles.php</code>. "
-                . "This command will daily check your files and free some space into your server";
+            . "This command will daily check your files and free some space into your server";
         $help = "";
         return $txt . $help;
     }
@@ -42,7 +42,8 @@ class CDN extends PluginAbstract
         return "2.0";
     }
 
-    public static function getDataObjectAdvanced() {
+    public static function getDataObjectAdvanced()
+    {
         return array(
             'key',
             'CDN',
@@ -55,9 +56,9 @@ class CDN extends PluginAbstract
             'storage_username',
             'storage_password',
             'storage_hostname',
-            );
+        );
     }
-    
+
     public function getEmptyDataObject()
     {
         global $global, $config;
@@ -94,7 +95,8 @@ class CDN extends PluginAbstract
         return $btn;
     }
 
-    public function getPluginMenu(){
+    public function getPluginMenu()
+    {
         global $global;
         $fileAPIName = $global['systemRootPath'] . 'plugin/CDN/pluginMenu.html';
         $content = file_get_contents($fileAPIName);
@@ -111,9 +113,9 @@ class CDN extends PluginAbstract
             $fileStorageMenu = $global['systemRootPath'] . 'plugin/CDN/Storage/pluginMenu.html';
             $storageMenu = file_get_contents($fileStorageMenu);
         }
-        return $cdnMenu.$storageMenu;
+        return $cdnMenu . $storageMenu;
     }
-   
+
 
     /**
      *
@@ -121,13 +123,14 @@ class CDN extends PluginAbstract
      * @param string $id the ID of the URL in case the CDN is an array
      * @return boolean
      */
-    public static function getURL($type = 'CDN', $id = 0){
+    public static function getURL($type = 'CDN', $id = 0)
+    {
         $obj = AVideoPlugin::getObjectData('CDN');
-        
-        if(empty($obj->enable_cdn)){
+
+        if (empty($obj->enable_cdn)) {
             return false;
         }
-        
+
         if (empty($obj->{$type})) {
             return false;
         }

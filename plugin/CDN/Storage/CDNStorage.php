@@ -1277,7 +1277,7 @@ class CDNStorage
             if (!empty($mp4File)) {
                 return $mp4File;
             }
-            _error_log('convertCDNHLSVideoToDownlaod: m3u8 not found ');
+            _error_log("convertCDNHLSVideoToDownlaod: m3u8 not found videos_id={$videos_id}, format={$format} ".json_encode($files));
             return false;
         }
 
@@ -1346,6 +1346,6 @@ class CDNStorage
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
         $progressFile = getVideosDir() . "{$filename}/index.{$format}.log";
-        return parseFFMPEGProgress($progressFile);
+        return array('file'=>$progressFile, 'progress'=>parseFFMPEGProgress($progressFile));
     }
 }

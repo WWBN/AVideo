@@ -417,6 +417,7 @@ $description = getSEODescription(emptyHTML($video['description']) ? $video['titl
     ?>
 </div>
 
+<script src="<?php echo getURL('view/js/script.download.js'); ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
         <?php
