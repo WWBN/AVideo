@@ -185,7 +185,7 @@ foreach ($lines as $line) {
         // Perform the query
         try {
             if (!$global['mysqli']->query($templine)) {
-                echo ('sqlDAL::executeFile ' . $filename . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
+                echo ('sqlDAL::executeFile ' . $sqlFile . ' Error performing query \'<strong>' . $templine . '\': ' . $global['mysqli']->error . '<br /><br />');
             }
         } catch (\Throwable $th) {
             var_dump($templine, $th);
