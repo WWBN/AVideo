@@ -69,7 +69,8 @@ $array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
 $socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
 if(empty($row)){
-    _error_log("NGINX ON Publish Done error LiveTransmitionHistory::getLatest({$_POST['name']}, $live_servers_id, true); ".$getLatestSQL);
+    $whatIFound = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id);
+    _error_log("NGINX ON Publish Done error LiveTransmitionHistory::getLatest({$_POST['name']}, $live_servers_id, true); ".json_encode($whatIFound));
 }else{
     _error_log("NGINX ON Publish Done success ({$row['id']}, {$row['users_id']}, {$row['key']}, {$row['live_servers_id']})");
     AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
