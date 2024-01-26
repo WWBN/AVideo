@@ -76,10 +76,50 @@ $_page = new Page(array('Confirm Rating'));
                         <div class="alert alert-danger">
                             <strong><?php echo __('Age Confirmation Needed'); ?></strong>
                             <p><?php echo __('Please update your birth date in your profile to access this content'); ?></p>
-                            <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block">
-                                <i class="fa-solid fa-clipboard-check"></i>
-                                <?php echo __('Update Profile'); ?>
-                            </a>
+                            <?php
+                            if (User::isLogged()) {
+                            ?>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa-solid fa-cake-candles"></i></span>
+                                            <input id="inputBirth" placeholder="<?php echo __("Birth Date"); ?>" class="form-control" type="date" value="">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button class="btn btn-primary btn-block" onclick="saveBirthDate()">
+                                            <i class="fa-solid fa-clipboard-check"></i>
+                                            <?php echo __('Update Birth Date'); ?>
+                                        </button>
+                                    </div>
+                                </div>
+                                <script>
+                                    function saveBirthDate() {
+                                        var url = webSiteRootURL + 'objects/userUpdateBirth.json.php';
+                                        modal.showPleaseWait();
+                                        $.ajax({
+                                            url: url,
+                                            method: 'POST',
+                                            data: {
+                                                'birth_date': $('#inputBirth').val()
+                                            },
+                                            success: function(response) {
+                                                avideoResponse(response);
+                                                location.reload();
+                                            }
+                                        });
+                                    }
+                                </script>
+                            <?php
+                            } else {
+                            ?>
+                                <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block">
+                                    <i class="fa-solid fa-clipboard-check"></i>
+                                    <?php echo __('Update Profile'); ?>
+                                </a>
+                            <?php
+                            }
+                            ?>
                         </div>
                     <?php
                     } else if (!User::isOver18()) {
