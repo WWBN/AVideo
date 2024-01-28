@@ -511,6 +511,7 @@ class CDNStorage
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
         $fileUploadCount = 0;
+        $forceUseFTP = false;
         foreach ($list as $value) {
             if (empty($value['local'])) {
                 continue;
@@ -541,8 +542,14 @@ class CDNStorage
         } else {
             _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
             
-            if (version_compare(PHP_VERSION, '8.0.0') >= 0 && false) {
-                $response = self::putUsingAPI($filesToUpload);
+            if (version_compare(PHP_VERSION, '8.0.0') >= 0 && !$forceUseFTP) {
+                try {
+                    $response = self::putUsingAPI($filesToUpload);
+                } catch (\Throwable $th) {
+                    _error_log("CDNStorage::put API error use FTP");
+                    $response = self::putUsingFTP($filesToUpload, $totalSameTime);
+                    $forceUseFTP = true;
+                }
             } else {
                 $response = self::putUsingFTP($filesToUpload, $totalSameTime);
             }
