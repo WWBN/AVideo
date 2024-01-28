@@ -503,6 +503,7 @@ class CDNStorage
         if (empty($videos_id)) {
             return false;
         }
+        _error_log("CDNStorage::put got a list from {$videos_id}");
         $list = self::getFilesListBoth($videos_id);
         _error_log("CDNStorage::put got a list ".count($list));
                 
