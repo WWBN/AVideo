@@ -541,7 +541,7 @@ class CDNStorage
         } else {
             _error_log("CDNStorage::put videos_id={$videos_id} totalSameTime=$totalSameTime totalFiles={$totalFiles} totalFilesize=" . humanFileSize($totalFilesize));
             
-            if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            if (version_compare(PHP_VERSION, '8.0.0') >= 0 && false) {
                 $response = self::putUsingAPI($filesToUpload);
             } else {
                 $response = self::putUsingFTP($filesToUpload, $totalSameTime);
