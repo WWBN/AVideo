@@ -504,6 +504,8 @@ class CDNStorage
             return false;
         }
         $list = self::getFilesListBoth($videos_id);
+        _error_log("CDNStorage::put got a list ".count($list));
+                
         $filesToUpload = [];
         $totalFilesize = 0;
         $totalBytesTransferred = 0;
