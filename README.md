@@ -75,11 +75,21 @@ In summary, you will need:
 - MySQL version 5.0 or higher
 - Apache web server version 2.x with mod_rewrite enabled.
 
-## Important Note: Please Avoid Using Servers with Control Panels
+## Important Advisory: Avoid Using Servers with Control Panels for Optimal Installation
 
-> It is important to note that while the Streamer component can be installed on any server, including Windows, the Encoder and Livestream components are recommended to be installed on a Linux distribution, specifically Ubuntu, without any control panel.
+### Streamer, Encoder, and Livestream Component Installation
 
-> The reason for this is that control panels such as cPanel, Plesk, Webmin, VestaCP, etc. may limit access to the root system, preventing the installation of necessary libraries and the compilation of certain software. Furthermore, the Livestream component requires the compilation of Nginx, which may not be possible with these control panels.
+It is crucial to understand that while the Streamer component of our platform can be installed on any server, including those running Windows, we strongly recommend installing the Encoder and Livestream components on a Linux distribution, ideally Ubuntu. This recommendation is made with the specific exclusion of servers running any control panel software.
+
+### Control Panels and Installation Limitations
+
+The rationale behind this advisory is straightforward. Control panels, such as cPanel, Plesk, Webmin, VestaCP, and others, often restrict root system access. This limitation can hinder the installation of essential libraries and obstruct the compilation of certain software components critical for our system, particularly the Livestream component which necessitates the compilation of Nginx. 
+
+### Risk Acknowledgement for Non-Compliance
+
+We must emphasize that if you choose to proceed with an installation on a server equipped with a control panel, you are doing so at your own risk. In such scenarios, our ability to assist is significantly constrained. We cannot guarantee successful installation or offer support for issues that arise due to the presence of control panel software. This decision to proceed under these conditions should be made with the understanding that you assume full responsibility for any installation challenges or operational shortcomings that may occur. 
+
+Your adherence to these guidelines is essential for a smooth installation and optimal functioning of the platform components.
 
 # Installation Guide for AVideo on Ubuntu
 
