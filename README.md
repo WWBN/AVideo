@@ -2,7 +2,7 @@
 
 I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
 
-**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
+**For of Him, and through Him, and to Him, are all things: to whom be glory forever. Amen.**
 `Apostle Paul in Romans 11:36`
 
 <center>
@@ -66,10 +66,6 @@ If you're looking to install Avideo on your Ubuntu system, there are several tut
 
 Each of these tutorials provides detailed instructions on how to download and install Avideo, as well as any dependencies that may be required. By following these tutorials, you'll be able to set up Avideo on your Ubuntu system in no time.
 
-## Separated live server
-
-The live server is already provided in the installation links above, but if you want to install it separately please follow [the guide](https://github.com/WWBN/AVideo/wiki/Set-up-my-own-Stream-Server) for installation instructions
-
 # Usage
 
 [Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual)
@@ -80,9 +76,9 @@ The live server is already provided in the installation links above, but if you 
 
 ## AVideo Platform Certified
 
-### Installation help, consulting or support 
+### Installation help, consulting, or support 
 
-For assistance with installation, consulting or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
+For assistance with installation, consulting, or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
 
 <a href="https://youphp.tube/marketplace/">Daniel Neto</a>
 
