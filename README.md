@@ -81,33 +81,28 @@ In summary, you will need:
 
 > The reason for this is that control panels such as cPanel, Plesk, Webmin, VestaCP, etc. may limit access to the root system, preventing the installation of necessary libraries and the compilation of certain software. Furthermore, the Livestream component requires the compilation of Nginx, which may not be possible with these control panels.
 
-# Installation
+# Installation Guide for AVideo on Ubuntu
 
-If you're looking to install Avideo on your Ubuntu system, there are several tutorials available to help you get started. These tutorials provide step-by-step instructions on how to install Avideo on various versions of Ubuntu, including using Docker.
+Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup. 
 
-- [Video Tutorial](https://tutorials.avideo.com/video/streamer-and-encoder) (old but gives you a good idea)
-- [Ubuntu 16.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
-- [Ubuntu 18.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
-- [Ubuntu 20.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
-- [Ubuntu 22.04](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
-- [Docker](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker)
+- **Video Tutorial**: For a general overview, our [video tutorial](https://tutorials.avideo.com/video/streamer-and-encoder) provides foundational insights. While it's based on older versions, it's an excellent starting point for understanding the installation process.
+- **Ubuntu-Specific Guides**: Depending on your Ubuntu version, please refer to the corresponding guide for detailed instructions:
+  - [Ubuntu 16.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
+  - [Ubuntu 18.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
+  - [Ubuntu 20.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
+  - [Ubuntu 22.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
+- **Docker Installation**: For those preferring Docker, our [Docker guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker) is designed to streamline your experience.
 
-Each of these tutorials provides detailed instructions on how to download and install Avideo, as well as any dependencies that may be required. By following these tutorials, you'll be able to set up Avideo on your Ubuntu system in no time.
+These tutorials cover the entire scope of downloading, installing AVideo, and setting up required dependencies. By following them, you can efficiently prepare your Ubuntu system for AVideo.
 
 # Usage
 
-[Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual)
+For administrative guidance, the [Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual) is your go-to resource, providing detailed instructions on managing and optimizing your AVideo platform.
 
-# Errors and troubleshooting
+# Errors and Troubleshooting
 
-[Find errors](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform)
+Encountered an issue? Our [error identification guide](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform) is a valuable tool for troubleshooting and resolving common problems.
 
-## AVideo Platform Certified
+## AVideo Platform Certified Support
 
-### Installation help, consulting or support 
-
-For assistance with installation, consulting or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
-
-<a href="https://youphp.tube/marketplace/">Daniel Neto</a>
-
-
+If you require specialized assistance with installation, consulting, or plugins, our team of certified AVideo Platform developers is at your service. Reach out to [Daniel Neto](https://youphp.tube/marketplace/) for professional support and expert consulting to ensure a seamless and effective AVideo installation and setup.
