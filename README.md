@@ -81,15 +81,13 @@ In summary, you will need:
 
 It is crucial to understand that while the Streamer component of our platform can be installed on any server, including those running Windows, we strongly recommend installing the Encoder and Livestream components on a Linux distribution, ideally Ubuntu. This recommendation is made with the specific exclusion of servers running any control panel software.
 
-### Control Panels and Installation Limitations
+## Crucial Advisory: Strictly Avoid Using Control Panels for Installation
 
-The rationale behind this advisory is straightforward. Control panels, such as cPanel, Plesk, Webmin, VestaCP, and others, often restrict root system access. This limitation can hinder the installation of essential libraries and obstruct the compilation of certain software components critical for our system, particularly the Livestream component which necessitates the compilation of Nginx. 
+**Important**: For the installation of the Streamer, Encoder, and Livestream components, it is imperative to use a Linux distribution, specifically Ubuntu, **without any type of control panel**. This includes avoiding panels like cPanel, Plesk, Webmin, VestaCP, and similar.
 
-### Risk Acknowledgement for Non-Compliance
+Control panels significantly interfere with the necessary system access and processes required for a successful installation. They restrict the installation of essential libraries and the compilation of critical software, such as Nginx for the Livestream component.
 
-We must emphasize that if you choose to proceed with an installation on a server equipped with a control panel, you are doing so at your own risk. In such scenarios, our ability to assist is significantly constrained. We cannot guarantee successful installation or offer support for issues that arise due to the presence of control panel software. This decision to proceed under these conditions should be made with the understanding that you assume full responsibility for any installation challenges or operational shortcomings that may occur. 
-
-Your adherence to these guidelines is essential for a smooth installation and optimal functioning of the platform components.
+**Please be advised**: Installing our system on a server with any control panel is highly discouraged and is likely to result in installation failure. We cannot provide support or guarantee success in such scenarios. For a smooth and functional installation, it is essential to follow this guideline strictly.
 
 # Installation Guide for AVideo on Ubuntu
 
