@@ -24,6 +24,34 @@ This Software must be used for Good, never Evil. The use of this software for cr
 
 # AVideo
 
+## Introduction to AVideo
+
+AVideo is an advanced video streaming platform, designed to cater to a broad spectrum of video hosting and streaming needs. Ideal for individual content creators, businesses, and developers, AVideo provides a comprehensive suite of features enabling users to host, manage, and monetize their video content efficiently. This introduction outlines AVideo's key functionalities, each underpinned by its capability to enhance user experience and content reach. For a more in-depth understanding of each feature, detailed links are provided.
+
+## Key Features of AVideo
+
+1. **Video Playback and Management**: AVideo excels in seamless video playback, supporting self-hosted multiresolution videos to ensure optimal viewing across different devices. Unique to AVideo, users can enhance their self-hosted videos with [subtitles](https://github.com/WWBN/AVideo/wiki/Video-Transcription-for-the-SubtitleSwitcher-Plugin) and [leverage AI](https://github.com/WWBN/AVideo/wiki/AI-Plugin) for accurate video transcription, enriching viewer engagement and accessibility. [Learn More](https://github.com/WWBN/AVideo/wiki/About-Video-Upload#3-embed-a-video-link)
+
+2. **Monetization Options**: Diversify your revenue streams through AVideo's [subscription](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) models or [Pay-Per-View (PPV)](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin) plans. This functionality allows content creators and businesses to monetize their video content effectively. [Learn More](https://github.com/WWBN/AVideo/wiki/Monetization:-How-To-Make-Money-on-AVideo-Platform)
+
+3. **Livestreaming and Interaction**: Engage your audience in real-time with AVideo's [live streaming feature](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream), which includes options to record live sessions for later access. Enhance the interactive experience with an integrated [chat function](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
+
+4. **User Channels and Playlists**: AVideo enables users to create individual channels and curate playlists, facilitating organized and thematic content sharing. [Learn More](https://github.com/WWBN/AVideo/wiki/Program-(Playlist)-to-series)
+
+5. **Content Rebroadcasting**: The platform supports the [rebroadcasting](https://github.com/WWBN/AVideo/wiki/Rebroadcaster-Plugin) of both Video-On-Demand (VOD) content and playlists, ensuring your audience has access to your content at their convenience.
+
+6. **Advertising and Promotion**: Utilize AVideo for creating bespoke [video ads from your content](https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin) or integrate [VAST video ads ](https://github.com/WWBN/AVideo/wiki/Plugin:-GoogleAds_IMA---Videos-Ads-on-your-page)for expanded reach.
+
+7. **Third-Party App Integration**: Leverage AVideo's [API for developing](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) third-party applications, enhancing the platform's integration and functionality across different services.
+
+8. **Remote Video Storage**: Store your videos on various cloud services like S3, B2, FTP, and more, ensuring scalable and secure storage solutions. [Learn More](https://github.com/WWBN/AVideo/wiki/Storage-Options)
+
+9. **Video Protection and Offline Viewing**: Protect your videos [from unauthorized downloads with HLS format and encryption](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin). AVideo also offers options for [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin), catering to viewers' convenience. [Learn More](#)
+
+## Your Comprehensive Video Streaming Solution
+
+AVideo is more than a platform; it's a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming with AVideo. 
+
 AVideo is divided into three distinct components: the streamer, the encoder, and the live server. The streamer is utilized to play and manage videos, while the encoder converts your videos into a web-compatible format. The live server, on the other hand, is used to broadcast live videos.
 
 ## Why do I need the Encoder?
@@ -76,9 +104,9 @@ Each of these tutorials provides detailed instructions on how to download and in
 
 ## AVideo Platform Certified
 
-### Installation help, consulting, or support 
+### Installation help, consulting or support 
 
-For assistance with installation, consulting, or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
+For assistance with installation, consulting or plugins, our team of certified AVideo Platform developers is here to help. We would be delighted to offer you our support and expertise to ensure a smooth and successful installation.
 
 <a href="https://youphp.tube/marketplace/">Daniel Neto</a>
 
