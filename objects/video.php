@@ -1060,6 +1060,35 @@ if (!class_exists('Video')) {
             return $sql;
         }
 
+        static function getCatSQL()
+        {
+            $catName = @$_REQUEST['catName'];
+            $sql = '';
+            if (!empty($catName)) {
+                if (!is_array($catName)) {
+                    $catName = [$catName];
+                }
+                $sqls = [];
+                foreach ($catName as $value) {
+                    if (empty($_REQUEST['doNotShowCats'])) {
+                        $sqlText = " (c.clean_name = '{$value}' ";
+                        if (empty($_REQUEST['doNotShowCatChilds'])) {
+                            $sqlText .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$value}' )";
+                        }
+                        $sqlText .= " )";
+                        $sqls[] = $sqlText;
+                    } else {
+                        $sqlText = " (c.clean_name != '{$value}' )";
+                        $sqls[] = $sqlText;
+                    }
+                }
+                if (!empty($sqls)) {
+                    $sql .= ' AND (' . implode((empty($_REQUEST['doNotShowCats'])?' OR ':' AND '), $sqls).')';
+                }
+            }
+            return $sql;
+        }
+
         public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
         {
             global $global, $config, $advancedCustom, $advancedCustomUser, $lastGetVideoSQL;
@@ -1165,14 +1194,7 @@ if (!class_exists('Video')) {
             }
             //$sql .= self::getSQLByStatus($status, $showUnlisted);
 
-            if (!empty($_REQUEST['catName'])) {
-                $catName = ($_REQUEST['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' ";
-                if (empty($_REQUEST['doNotShowCatChilds'])) {
-                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
-                }
-                $sql .= " )";
-            }
+            $sql .= Video::getCatSQL();
 
             if (empty($id) && !empty($_GET['channelName'])) {
                 $user = User::getChannelOwner($_GET['channelName']);
@@ -1667,15 +1689,8 @@ if (!class_exists('Video')) {
             } else {
                 $sql .= self::getSQLByStatus($status, $showUnlisted);
             }
-            //var_dump($max_duration_in_seconds);echo $sql;exit;
-            if (!empty($_REQUEST['catName'])) {
-                $catName = ($_REQUEST['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' ";
-                if (empty($_REQUEST['doNotShowCatChilds'])) {
-                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
-                }
-                $sql .= " )";
-            }
+            //var_dump($max_duration_in_seconds);echo $sql;exit;            
+            $sql .= Video::getCatSQL();
 
             if (!empty($_GET['search'])) {
                 $_POST['searchPhrase'] = $_GET['search'];
@@ -2326,14 +2341,8 @@ if (!class_exists('Video')) {
                 $user = User::getChannelOwner($_GET['channelName']);
                 $sql .= " AND (v.users_id = '{$user['id']}' OR v.users_id_company = '{$user['id']}')";
             }
-            if (!empty($_REQUEST['catName'])) {
-                $catName = ($_REQUEST['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' ";
-                if (empty($_REQUEST['doNotShowCatChilds'])) {
-                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
-                }
-                $sql .= " )";
-            }
+
+            $sql .= Video::getCatSQL();
 
             if (!empty($type)) {
                 $sql .= " AND v.type = '" . $type . "' ";
@@ -2493,14 +2502,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.views_count >= '{$minViews}'";
             }
 
-            if (!empty($_REQUEST['catName'])) {
-                $catName = ($_REQUEST['catName']);
-                $sql .= " AND (c.clean_name = '{$catName}' ";
-                if (empty($_REQUEST['doNotShowCatChilds'])) {
-                    $sql .= " OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name = '{$catName}' )";
-                }
-                $sql .= " )";
-            }
+            $sql .= Video::getCatSQL();
 
             if (!empty($_SESSION['type'])) {
                 if ($_SESSION['type'] == 'video') {

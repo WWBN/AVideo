@@ -1171,7 +1171,8 @@ class VideosListCacheHandler extends CacheHandler {
             'created', 
             'minViews', 
             'id', 
-            'doNotShowCatChilds');
+            'doNotShowCatChilds', 
+            'doNotShowCats');
         $cacheVars = array(
             'users_id' => User::getId(), 
             'requestUniqueString'=>getRequestUniqueString()

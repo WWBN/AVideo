@@ -114,7 +114,7 @@ if (!$liveFound && AVideoPlugin::isEnabledByName('LiveLinks')) {
 if (!$liveFound) {
     $_POST['rowCount'] = 1;
     $_POST['sort']['created'] = 'DESC';
-    $videos = Video::getAllVideos();
+    $videos = Video::getAllVideos('viewableNotUnlisted');
     if (empty($videos)) {
         videoNotFound('');
     }
