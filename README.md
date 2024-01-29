@@ -75,13 +75,7 @@ In summary, you will need:
 - MySQL version 5.0 or higher
 - Apache web server version 2.x with mod_rewrite enabled.
 
-## Important Advisory: Avoid Using Servers with Control Panels for Optimal Installation
-
-### Streamer, Encoder, and Livestream Component Installation
-
-It is crucial to understand that while the Streamer component of our platform can be installed on any server, including those running Windows, we strongly recommend installing the Encoder and Livestream components on a Linux distribution, ideally Ubuntu. This recommendation is made with the specific exclusion of servers running any control panel software.
-
-## Crucial Advisory: Strictly Avoid Using Control Panels for Installation
+# Crucial Advisory: Strictly Avoid Using Control Panels for Installation
 
 **Important**: For the installation of the Streamer, Encoder, and Livestream components, it is imperative to use a Linux distribution, specifically Ubuntu, **without any type of control panel**. This includes avoiding panels like cPanel, Plesk, Webmin, VestaCP, and similar.
 
