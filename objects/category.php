@@ -448,7 +448,9 @@ class Category
         }
 
         $sql .= BootGrid::getSqlFromPost(['name'], "", " ORDER BY `order`, name ASC ");
-        //echo $sql;exit;       
+        if(!empty($_GET['debug'])){
+            echo $sql;exit;   
+        }  
 
         $timeLogName = TimeLogStart("getAllCategories");
         $cacheSuffix = md5($sql);
