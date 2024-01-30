@@ -83,8 +83,11 @@ foreach ($rows as $value) {
     $found = false;
     foreach ($stats["applications"] as $value) {
        if(preg_match("/.*{$forceIndex}$/", $value['key'])){
-            $found = true;
-            break;
+            $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id'], '', true);
+            if($isLiveAndIsReadyFromKey){
+                $found = true;
+                break;
+            }
        }
     }
     //var_dump($value['key'], $found);
