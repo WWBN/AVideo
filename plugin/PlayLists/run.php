@@ -81,7 +81,7 @@ foreach ($rows as $value) {
 
 
 
-    $json = Live::getStats(true);
+    $json = Live::getStats();
     $json = object_to_array($json);
 
     $found = false; // Flag to indicate if the desired condition is met
