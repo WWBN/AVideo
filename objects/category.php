@@ -373,6 +373,18 @@ class Category
         if ($onlySuggested) {
             $sql .= "AND suggested = 1 ";
         }
+
+        if (!empty($_REQUEST['doNotShowCats'])) {
+            $doNotShowCats = $_REQUEST['doNotShowCats'];
+            if(!is_array($_REQUEST['doNotShowCats'])){
+                $doNotShowCats = array($_REQUEST['doNotShowCats']);
+            }
+            foreach ($doNotShowCats as $key => $value) {
+                $doNotShowCats[$key] = str_replace("'", '', $value);
+            }
+            $sql .= " AND (c.clean_name NOT IN ('".array("', '", $doNotShowCats)."') )";
+        }
+
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
             if (is_int($filterCanAddVideoOnly)) {
                 $users_id = $filterCanAddVideoOnly;
