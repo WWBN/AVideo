@@ -64,7 +64,7 @@ foreach ($rows as $key => $value) {
     $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), Playlists_schedules::getPlayListScheduledIndex($value['id']), $title);
     //var_dump($response, $ps);
 }
-
+/*
 $rows = Playlists_schedules::getAllExecuting();
 foreach ($rows as $value) {
     if(in_array($value['id'], $processed)){
@@ -100,4 +100,4 @@ foreach ($rows as $value) {
         $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), $forceIndex, $title);
     }
     //var_dump($response, $ps);
-}
+}*/
