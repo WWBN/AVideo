@@ -90,11 +90,8 @@ foreach ($rows as $value) {
         if (empty($liveServers['error'])) {
             foreach ($liveServers['applications'] as $apps) {
                 if (preg_match("/.*{$forceIndex}$/", $apps['key'])) {
-                    $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($apps['key'], $apps['live_servers_id'], '', true);
-                    if ($isLiveAndIsReadyFromKey) {
-                        $found = true;
-                        break; // Breaks the inner loop
-                    }
+                    $found = true;
+                    break; // Breaks the inner loop
                 }
             }
         }
