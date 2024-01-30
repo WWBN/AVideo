@@ -14,7 +14,7 @@ if (empty($obj->users_id)) {
     forbiddenPage('You are not logged');
 }
 if (empty($_REQUEST['birth_date'])) {
-    forbiddenPage('You need to infort your birth date');
+    forbiddenPage('You need to inform your birth date');
 }
 
 $user = new User(0);
