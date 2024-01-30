@@ -66,7 +66,7 @@ foreach ($rows as $key => $value) {
 }
 
 $rows = Playlists_schedules::getAllExecuting();
-foreach ($rows as $key => $value) {
+foreach ($rows as $value) {
     if(in_array($value['id'], $processed)){
         _error_log("Playlist rebroadcast line ".__LINE__);
         continue;
@@ -83,7 +83,7 @@ foreach ($rows as $key => $value) {
 
     $stats = getStatsNotifications();
     $found = false;
-    foreach ($stats["applications"] as $key => $value) {
+    foreach ($stats["applications"] as $value) {
        if($value['key'] === $key){
             $found = true;
             break;
