@@ -382,7 +382,7 @@ class Category
             foreach ($doNotShowCats as $key => $value) {
                 $doNotShowCats[$key] = str_replace("'", '', $value);
             }
-            $sql .= " AND (c.clean_name NOT IN ('".array("', '", $doNotShowCats)."') )";
+            $sql .= " AND (c.clean_name NOT IN ('".implode("', '", $doNotShowCats)."') )";
         }
 
         if ($filterCanAddVideoOnly && !User::isAdmin()) {
