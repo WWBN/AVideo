@@ -1,4 +1,10 @@
 <?php
+if ($obj->BigVideoLiveForLoggedUsersOnly) {
+    if(!User::isLogged()){
+        return '';
+    }
+}
+
 if ($obj->BigVideoLive->value == Gallery::BigVideoLiveDisabled) {
     return '';
 }
@@ -110,4 +116,18 @@ $urlLiveNow = addQueryStringParameter($urlLiveNow, 'muted', 1);
             BigVideoLiveFullscreen(true);
         });
     });
+    
+    window.addEventListener('message', event => {
+            switch (event.data.type) {
+                case 'showBigVideo':
+                    $('#BigVideoLive').slideDown();
+                    break;
+                case 'hideBigVideo':
+                    $('#BigVideoLive').slideUp();
+                    break;
+
+                default:
+                    break;
+            }
+        });
 </script>

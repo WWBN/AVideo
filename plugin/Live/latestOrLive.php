@@ -260,7 +260,6 @@ $objectToReturnToParentIframe->posterURL = $poster;
                     $('#mainVideo').removeClass('vjs-user-active');
                     $('#mainVideo').addClass('vjs-user-inactive');
                     break;
-
                 default:
                     break;
             }

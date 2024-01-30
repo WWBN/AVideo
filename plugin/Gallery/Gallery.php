@@ -87,6 +87,8 @@ class Gallery extends PluginAbstract
         self::addDataObjectHelper('BigVideoLive', 'Big Video Live');
         $obj->BigVideoLiveOnFirstPageOnly = true;
         self::addDataObjectHelper('BigVideoLiveOnFirstPageOnly', 'Big Video Live on First Page Only');
+        $obj->BigVideoLiveForLoggedUsersOnly = false;
+        self::addDataObjectHelper('BigVideoLiveForLoggedUsersOnly', 'Big Video Live will appear only if the user is logged');
        
         $obj->useSuggestedVideosAsCarouselInBigVideo = true;
         $obj->GifOnBigVideo = true;
