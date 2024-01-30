@@ -5427,6 +5427,9 @@ if (!class_exists('Video')) {
             $videoCache = new VideoCacheHandler($filename);
             $videoCache->deleteCache($clearFirstPageCache);
 
+            $videosListCache = new VideosListCacheHandler();
+            $videosListCache->deleteCache();
+            
             ObjectYPT::setLastDeleteALLCacheTime();
             return true;
         }
