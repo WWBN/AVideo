@@ -94,7 +94,7 @@ foreach ($rows as $value) {
         $title = $pl->getName() . ' [' . $ps->msg . ']';
         $title = '';
         _error_log("Playlist rebroadcast executed {$value['id']}");
-        $response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), $forceIndex, $title);
+        //$response = Rebroadcaster::rebroadcastVideo($ps->current_videos_id, $pl->getUsers_id(), $forceIndex, $title);
     }
     //var_dump($response, $ps);
 }
