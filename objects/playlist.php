@@ -924,6 +924,20 @@ class PlayList extends ObjectYPT
         return sqlDAL::writeSql($sql);
     }
 
+    static function getNextOrder($playlists_id, $videos_id){
+        $sql = 'SELECT MAX(`order`) AS max_order
+        FROM playlists_has_videos
+        WHERE playlists_id = ? AND videos_id = ?';
+        $res = sqlDAL::readSql($sql, 'ii', array($playlists_id, $videos_id));
+        $row = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        $max_order = 0;
+        if(!empty($row['max_order'])){
+            $max_order = intval($row['max_order']);
+        }
+        return ($max_order+1);
+    }
+
     public function addVideo($videos_id, $add, $order = 0, $_deleteCache = true)
     {
         global $global;
@@ -931,7 +945,7 @@ class PlayList extends ObjectYPT
         $this->id = intval($this->id);
         $videos_id = intval($videos_id);
         $order = intval($order);
-
+        
         if (empty($this->id) || empty($videos_id)) {
             return false;
         }
@@ -945,6 +959,9 @@ class PlayList extends ObjectYPT
             $values[] = $videos_id;
         } else {
             $this->addVideo($videos_id, false, 0, false);
+            if(empty($order)){
+                $order = self::getNextOrder($this->id, $videos_id);
+            }
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
             $values[] = $this->id;
