@@ -174,6 +174,11 @@ class Playlists_schedules extends ObjectYPT
         return self::getAllFromStatus(self::STATUS_EXECUTED);
     }
 
+    public static function getAllExecuting()
+    {
+        return self::getAllFromStatus(self::STATUS_EXECUTING);
+    }
+
     public function save()
     {
         if(empty($this->playlists_id)){
