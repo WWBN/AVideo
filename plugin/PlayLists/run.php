@@ -81,9 +81,9 @@ foreach ($rows as $value) {
 
     $stats = getStatsNotifications();
     $found = false;
-    foreach ($stats["applications"] as $value) {
-       if(preg_match("/.*{$forceIndex}$/", $value['key'])){
-            $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($value['key'], $value['live_servers_id'], '', true);
+    foreach ($stats["applications"] as $apps) {
+       if(preg_match("/.*{$forceIndex}$/", $apps['key'])){
+            $isLiveAndIsReadyFromKey = Live::isLiveAndIsReadyFromKey($apps['key'], $apps['live_servers_id'], '', true);
             if($isLiveAndIsReadyFromKey){
                 $found = true;
                 break;
