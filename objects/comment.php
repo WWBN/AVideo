@@ -59,6 +59,10 @@ class Comment {
         $this->comment = xss_esc($comment);
     }
 
+    public function getCommentText() {
+        return $this->comment;
+    }
+
     public function getVideos_id() {
         return $this->videos_id;
     }
