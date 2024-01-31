@@ -168,6 +168,10 @@ $objectToReturnToParentIframe->posterURL = $poster;
         .videoViews {
             margin-top: 25px;
         }
+
+        .liveEmbed .liveOnlineLabel.label-danger{
+            display: none;
+        }
     </style>
     <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
     <?php
