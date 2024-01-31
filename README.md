@@ -9,19 +9,6 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
     <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
 </center>
 
-## Agreement on the Purpose of Software Installation
-
-This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
-
-# Demonstration Sites
-
-* <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
-  - We provide you with a full-access demo site sample, which includes access to the admin account. To upload and manage videos, you will need the default admin password. User: admin and Password: 123. There is also a non-admin user and password (for commenting only). User: test and Password: test."
-* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
-  - We offer you a demonstration of the AVideo Flix Style site. On this site, you can subscribe using real money through PayPal, which will grant you access to our private videos. We have provided a test user for you to experience how the site works. User: test and Password: test.
-* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
-  - We have also provided a sample Video Gallery site, which doubles as our tutorial site. In this demonstration, you can log in, subscribe, like, dislike, and comment, but uploading videos is not allowed.
-
 ## Introduction to AVideo
 
 AVideo is a versatile and advanced video streaming platform tailored for individual content creators, businesses, and developers alike. It stands out with its robust suite of features that enable users to host, manage, and monetize video content with remarkable efficiency. This introduction aims to shed light on the key functionalities of AVideo, highlighting how each feature can enhance user experience and content outreach. For a more detailed understanding, please follow the provided links.
@@ -59,6 +46,19 @@ AVideo is divided into three distinct components: the streamer, the encoder, and
 There may be several reasons why you may consider installing the encoder, such as having a faster server compared to the public encoder server, or if you prefer a private method for encoding your videos
 
 Additionally, if your server is on a private network and does not have a public IP address, or if it uses an IP address within the 10.0.0.0/8, 127.0.0.0/8 (Localhost), 172.16.0.0/12, or 192.168.0.0/16 range, it is mandatory to install an encoder in order for it to properly communicate with the streamer site.
+
+## Agreement on the Purpose of Software Installation
+
+This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
+
+# Demonstration Sites
+
+* <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
+  - We provide you with a full-access demo site sample, which includes access to the admin account. To upload and manage videos, you will need the default admin password. User: admin and Password: 123. There is also a non-admin user and password (for commenting only). User: test and Password: test."
+* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
+  - We offer you a demonstration of the AVideo Flix Style site. On this site, you can subscribe using real money through PayPal, which will grant you access to our private videos. We have provided a test user for you to experience how the site works. User: test and Password: test.
+* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
+  - We have also provided a sample Video Gallery site, which doubles as our tutorial site. In this demonstration, you can log in, subscribe, like, dislike, and comment, but uploading videos is not allowed.
 
 # Server Requirements
 
