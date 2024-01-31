@@ -5,9 +5,9 @@ I thank God for graciously, through His mercy, giving me all the necessary knowl
 **For of Him, and through Him, and to Him, are all things: to whom be glory forever. Amen.**
 `Apostle Paul in Romans 11:36`
 
-<center>
-    <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
-</center>
+<p align="center">
+  <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
+</p>
 
 ## Introduction to AVideo
 
