@@ -37,19 +37,29 @@ AVideo is a versatile and advanced video streaming platform tailored for individ
 
 At AVideo, we provide more than just a platform; we offer a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming and unlock the full potential of your content with AVideo. 
 
-# How AVideo is organized
+# 📚 How AVideo is Organized
 
-AVideo is divided into three distinct components: the streamer, the encoder, and the live server. The streamer is utilized to play and manage videos, while the encoder converts your videos into a web-compatible format. The live server, on the other hand, is used to broadcast live videos.
+AVideo is a comprehensive platform, divided into three key components:
 
-## Why do I need the Encoder?
+- **Streamer**: The core component for playing and managing videos. It acts as the main interface for users to interact with video content.
+- **Encoder**: This tool converts your videos into a web-compatible format, ensuring they are ready for streaming on various devices and platforms.
+- **Live Server**: Specifically designed for broadcasting live videos, this component is essential for real-time streaming capabilities.
 
-There may be several reasons why you may consider installing the encoder, such as having a faster server compared to the public encoder server, or if you prefer a private method for encoding your videos
+## 🔍 Why Do I Need the Encoder?
 
-Additionally, if your server is on a private network and does not have a public IP address, or if it uses an IP address within the 10.0.0.0/8, 127.0.0.0/8 (Localhost), 172.16.0.0/12, or 192.168.0.0/16 range, it is mandatory to install an encoder in order for it to properly communicate with the streamer site.
+Installing your own encoder can be beneficial for several reasons:
 
-## Agreement on the Purpose of Software Installation
+- **Faster Performance**: Having your own encoder might provide faster processing compared to using a public encoder server.
+- **Privacy**: If privacy in video processing is a concern, a private encoder ensures that your content remains confidential.
+- **Network Compatibility**: In cases where your server is on a private network without a public IP address or uses an IP within specific ranges (10.0.0.0/8, 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), having your own encoder is essential for proper communication with the streamer site.
 
-This Software must be used for Good, never Evil. The use of this software for creating content related to sexually explicit material, pornography, or adult themes is strictly forbidden. Such usage goes against the values and principles of our platform and is not permitted under any circumstances.
+## 📜 Agreement on the Purpose of Software Installation
+
+AVideo is dedicated to promoting positive and ethical content creation. As such, we firmly stipulate that:
+
+- This Software must be used for Good, never for Evil.
+- The creation of content related to sexually explicit material, pornography, or adult themes using this software is strictly prohibited.
+- Any such usage is against the values and principles of our platform and is not permitted under any circumstances.
 
 # 🌐 Demonstration Sites
 
