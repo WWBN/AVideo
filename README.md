@@ -2,8 +2,8 @@
 
 I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
 
-**For of Him, and through Him, and to Him, are all things: to whom be glory forever. Amen.**
-`Apostle Paul in Romans 11:36`
+> **For of Him, and through Him, and to Him, are all things: to whom be glory forever. Amen.**
+> `Apostle Paul in Romans 11:36`
 
 <p align="center">
   <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
