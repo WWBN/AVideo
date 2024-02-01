@@ -3,12 +3,13 @@ $objLive = AVideoPlugin::getDataObject("Live");
 //Live::deleteStatsCache();
 if ($objLive->allowMultipleLivesPerUser) {
     $onliveApplications = Live::getLivesOnlineFromKey($key);
+    $onliveApplicationsButtons = array();
     foreach ($onliveApplications as $value) {
         if (empty($value['key'])) {
             continue;
         }
         if (preg_match('/' . $trasnmition['key'] . '/', $value['key'])) {
-            $onliveApplications[] = '<a class="btn btn-default btn-block live_' . $value['live_servers_id'] . '_' . $value['key'] . '" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
+            $onliveApplicationsButtons[] = '<a class="btn btn-default btn-block live_' . $value['live_servers_id'] . '_' . $value['key'] . '" href="' . $value['href'] . '" target="_blank"><span class="label label-danger liveNow faa-flash faa-slow animated">' . __('LIVE NOW') . '</span> ' . $value['title'] . '</a>';
         }
     }
 }
@@ -60,16 +61,14 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             </div>
         </div>
         <?php
-        if (!empty($onliveApplications)) {
+        if (!empty($onliveApplicationsButtons)) {
         ?>
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo __('Active Livestreams'); ?>
                 </div>
                 <div class="panel-body myUsedKeys<?php echo $key; ?>">
-                    <?php 
-                    //echo json_encode($onliveApplications); 
-                    ?>
+                    <?php echo implode('', $onliveApplicationsButtons); ?>
                 </div>
             </div>
         <?php
