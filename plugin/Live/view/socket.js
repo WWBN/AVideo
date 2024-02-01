@@ -1,6 +1,8 @@
 function socketLiveONCallback(json) {
     console.log('socketLiveONCallback', json);
-    processLiveStats(json.stats);
+    if(typeof processLiveStats == 'undefined'){
+        processLiveStats(json.stats);
+    }
     var selector = '.live_' + json.live_servers_id + "_" + json.key;
     $(selector).slideDown();
 
@@ -47,7 +49,9 @@ function socketLiveOFFCallback(json) {
     }
     setTimeout(function () {
         //console.log('socketLiveOFFCallback processLiveStats');
-        processLiveStats(json.stats);
+        if(typeof processLiveStats == 'undefined'){
+            processLiveStats(json.stats);
+        }
         setTimeout(function () {
             hideExtraVideosIfEmpty();
         }, 500);
