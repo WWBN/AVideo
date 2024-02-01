@@ -13,6 +13,7 @@ class AI extends PluginAbstract {
     static $typeTranslation = 'translation';
     static $typeTranscription = 'transcription';
     static $typeBasic = 'basic';
+    static $typeShorts = 'shorts';
 
     static $languages = [
         'en' => 'English',

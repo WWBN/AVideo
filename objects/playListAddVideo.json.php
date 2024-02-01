@@ -22,13 +22,13 @@ if (empty($plugin)) {
     die(json_encode($obj));
 }
 
-if (!PlayLists::canAddVideoOnPlaylist($_POST['videos_id'])) {
+if (!PlayLists::canAddVideoOnPlaylist($_REQUEST['videos_id'])) {
     $obj->msg = "You can not add this video on playlist";
     die(json_encode($obj));
 }
 
-$playList = new PlayList($_POST['playlists_id']);
-if (empty($playList) || empty($_POST['videos_id'])) {
+$playList = new PlayList($_REQUEST['playlists_id']);
+if (empty($playList) || empty($_REQUEST['videos_id'])) {
     $obj->msg = __("Permission denied");
     die(json_encode($obj));
 }
@@ -39,8 +39,9 @@ if(!PlayLists::canManageAllPlaylists() && User::getId() !== $playList->getUsers_
 }
 
 $obj->error = false;
-$obj->status = $playList->addVideo($_POST['videos_id'], $_POST['add']);
+$obj->status = $playList->addVideo($_REQUEST['videos_id'], $_REQUEST['add']);
 $obj->users_id = $playList->getUsers_id();
+$obj->id = $playList->getId();
 
-//log_error("videos id: ".$_POST['videos_id']." playlist_id: ".$_POST['playlists_id']);
+//log_error("videos id: ".$_REQUEST['videos_id']." playlist_id: ".$_REQUEST['playlists_id']);
 die(json_encode($obj));

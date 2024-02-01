@@ -2226,6 +2226,7 @@ class API extends PluginAbstract
                 $row[$key]['videos'][$key2] = cleanUpRowFromDatabase($row[$key]['videos'][$key2]);
             }
         }
+        header('Content-Type: application/json');
         echo json_encode($row);
         exit;
     }
@@ -2269,9 +2270,10 @@ class API extends PluginAbstract
         if (!User::isLogged()) {
             return new ApiObject("Wrong user or password");
         }
-        $_POST['videos_id'] = $parameters['videos_id'];
-        $_POST['add'] = $add;
-        $_POST['playlists_id'] = PlayLists::getFavoriteIdFromUser(User::getId());
+        $_REQUEST['videos_id'] = $parameters['videos_id'];
+        $_REQUEST['add'] = $add;
+        $_REQUEST['playlists_id'] = PlayLists::getFavoriteIdFromUser(User::getId());
+        header('Content-Type: application/json');
         require_once $global['systemRootPath'] . 'objects/playListAddVideo.json.php';
         exit;
     }

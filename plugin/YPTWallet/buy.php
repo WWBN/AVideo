@@ -3,7 +3,6 @@ require_once dirname(__FILE__) . '/../../videos/configuration.php';
 $title = array('Buy');
 $global['doNotLoadPlayer'] = 1;
 
-
 // get groups id
 // get redirect URL
 // get URL parameters

@@ -7326,6 +7326,9 @@ function convertVideoToMP3FileIfNotExists($videos_id)
 
     $paths = Video::getPaths($video['filename']);
     $mp3File = "{$paths['path']}{$video['filename']}.mp3";
+    if (file_exists($mp3File) && filesize($mp3File)<100) {
+        unlink($mp3File);
+    }
     if (!file_exists($mp3File)) {
         $sources = getVideosURLOnly($video['filename'], false);
 

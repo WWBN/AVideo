@@ -924,11 +924,12 @@ class PlayList extends ObjectYPT
         return sqlDAL::writeSql($sql);
     }
 
-    static function getNextOrder($playlists_id, $videos_id){
+    static function getNextOrder($playlists_id){
         $sql = 'SELECT MAX(`order`) AS max_order
         FROM playlists_has_videos
-        WHERE playlists_id = ? AND videos_id = ?';
-        $res = sqlDAL::readSql($sql, 'ii', array($playlists_id, $videos_id));
+        WHERE playlists_id = ? ';
+        //_error_log("playlistSort getNextOrder {$sql} " . json_encode(array($playlists_id)));
+        $res = sqlDAL::readSql($sql, 'i', array($playlists_id));
         $row = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         $max_order = 0;
@@ -960,7 +961,7 @@ class PlayList extends ObjectYPT
         } else {
             $this->addVideo($videos_id, false, 0, false);
             if(empty($order)){
-                $order = self::getNextOrder($this->id, $videos_id);
+                $order = self::getNextOrder($this->id);
             }
             $sql = "INSERT INTO playlists_has_videos ( playlists_id, videos_id , `order`) VALUES (?, ?, ?) ";
             $formats = "iii";
@@ -968,6 +969,7 @@ class PlayList extends ObjectYPT
             $values[] = $videos_id;
             $values[] = $order;
         }
+        //_error_log("playlistSort addVideo {$sql} " . json_encode($values));
         //_error_log('playlistSort addVideo line=' . __LINE__);
         $result = sqlDAL::writeSql($sql, $formats, $values);
         if ($_deleteCache === true) {
