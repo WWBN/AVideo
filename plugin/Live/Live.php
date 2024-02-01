@@ -4422,7 +4422,7 @@ class LiveStreamObject
         }
         $lt = LiveTransmition::getFromKey($this->key);
         if (!is_array($lt)) {
-            _error_log('getRTMPLinkWithOutKey error ' . json_encode(array($this->key, $lt, debug_backtrace())));
+            //_error_log('getRTMPLinkWithOutKey error ' . json_encode(array($this->key, $lt, debug_backtrace())));
 
             return '';
         }
