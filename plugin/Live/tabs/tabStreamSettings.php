@@ -67,7 +67,7 @@ if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
                     <?php echo __('Active Livestreams'); ?>
                 </div>
                 <div class="panel-body myUsedKeys<?php echo $key; ?>">
-                    <?php echo implode('', $onliveApplications); ?>
+                    <?php echo json_encode($onliveApplications); ?>
                 </div>
             </div>
         <?php
