@@ -81,3 +81,4 @@ if(!empty($row)){
 }
 $cacheHandler = new LiveCacheHandler();
 $cacheHandler->deleteCache();
+Live::checkAllFromStats();
