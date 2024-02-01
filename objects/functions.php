@@ -4329,6 +4329,9 @@ function clearCache($firstPageOnly = false)
     }
     ObjectYPT::deleteCache("getEncoderURL");
     ObjectYPT::deleteAllSessionCache();
+    if(class_exists('Live')){
+        Live::checkAllFromStats();
+    }
     unlink($lockFile);
     $end = microtime(true) - $start;
     _error_log("clearCache end in {$end} seconds");
@@ -8212,7 +8215,7 @@ function getStatsNotifications($force_recreate = false, $listItIfIsAdminOrOwner 
             }
         }
         $cache = $cacheHandler->setCache($json);
-        Live::unfinishAllFromStats();
+        Live::checkAllFromStats();
         TimeLogEnd($timeName, __LINE__);
         //_error_log('Live::createStatsCache ' . json_encode($cache));
     } else {
