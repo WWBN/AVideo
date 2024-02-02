@@ -2828,10 +2828,12 @@ $(document).ready(function () {
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
     }, 3000);
-    Cookies.set('timezone', timezone, {
-        path: '/',
-        expires: 365
-    });
+    if(typeof Cookies != 'undefined'){
+        Cookies.set('timezone', timezone, {
+            path: '/',
+            expires: 365
+        });
+    }
     tabsCategoryDocumentHeight = $(document).height();
     modal = getPleaseWait();
     try {
