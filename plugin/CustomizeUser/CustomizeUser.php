@@ -288,6 +288,7 @@ class CustomizeUser extends PluginAbstract
         $obj->verificationMailTextLine2 = "Cheers, %s Team.";
         $obj->verificationMailTextLine3 = "You are just one click away from starting your journey with %s!";
         $obj->verificationMailTextLine4 = "All you need to do is to verify your e-mail by clicking the link below";
+        $obj->verificationMailButtonLabel = "Verify";
 
         $obj->unverifiedEmailsCanNOTLogin = !isset($advancedCustom->unverifiedEmailsCanNOTLogin) ? false : $advancedCustom->unverifiedEmailsCanNOTLogin;
         $obj->unverifiedEmailsCanNOTComment = false;

@@ -2762,12 +2762,15 @@ if (typeof gtag !== \"function\") {
             $email = '';
             $email = $user->getEmail();
 
-            $msg = sprintf(__("Hi %s"), $user->getName());
+            $msg = $user->getName();
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine1);
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine2), $webSiteTitle);
             $msg .= "<br><br>" . sprintf(__($advancedCustomUser->verificationMailTextLine3), $webSiteTitle);
             $msg .= "<br><br>" . __($advancedCustomUser->verificationMailTextLine4);
-            $msg .= "<br><br>" . " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}'>" . __("Verify") . "</a>";
+            $msg .= "<br><br>";
+            $msg .= " <a href='{$global['webSiteRootURL']}objects/userVerifyEmail.php?code={$code}' style='background-color: #4CAF50; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin: 4px 2px; cursor: pointer; border-radius: 5px;'>" . __($advancedCustomUser->verificationMailButtonLabel);
+            $msg .= "</a>";
+
 
             $resp = sendSiteEmail($user->getEmail(), __('Please Verify Your E-mail ') . ' ' . $webSiteTitle, $msg);
 
