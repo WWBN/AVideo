@@ -419,7 +419,7 @@ Options All -Indexes
 
     <IfModule mod_xsendfile.c>
         # Allow direct access to files in the convertedMP4 directory
-        RewriteRule ^videos/convertedMP4/([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg|jpg)))$ /videos/convertedMP4/$1 [L,END]
+        RewriteRule ^videos/convertedMP4/([0-9]+(\.(mp4|webm|m3u8|mp3|ogg|jpg)))$ /videos/convertedMP4/$1 [L,END]
 
         # Rewrite other URLs to xsendfile.php
         RewriteRule ^videos/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2&folder=$1 [QSA,END]
