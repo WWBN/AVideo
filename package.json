@@ -24,7 +24,7 @@
     "js-circle-progress": "^0.2.4",
     "js-cookie": "^3.0.5",
     "keycode": "^2.2.1",
-    "moment-timezone": "^0.5.44",
+    "moment-timezone": "^0.5.45",
     "nosleep.js": "^0.12.0",
     "p2p-media-loader-hlsjs": "^0.6.2",
     "pouchdb": "^8.0.0",
