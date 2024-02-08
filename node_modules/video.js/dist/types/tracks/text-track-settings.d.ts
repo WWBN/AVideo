@@ -26,6 +26,12 @@ declare class TextTrackSettings extends ModalDialog {
      * @param {string} key
      *        Configuration key to use during creation.
      *
+     * @param {string} [legendId]
+     *        Id of associated <legend>.
+     *
+     * @param {string} [type=label]
+     *        Type of labelling element, `label` or `legend`
+     *
      * @return {string}
      *         An HTML string.
      *

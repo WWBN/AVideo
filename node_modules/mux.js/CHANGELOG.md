@@ -1,3 +1,10 @@
+<a name="7.0.2"></a>
+## [7.0.2](https://github.com/videojs/mux.js/compare/v7.0.1...v7.0.2) (2023-11-27)
+
+### Bug Fixes
+
+* Ignore non-PES packets in the rollover stream ([#440](https://github.com/videojs/mux.js/issues/440)) ([2015be8](https://github.com/videojs/mux.js/commit/2015be8))
+
 <a name="7.0.1"></a>
 ## [7.0.1](https://github.com/videojs/mux.js/compare/v7.0.0...v7.0.1) (2023-10-12)
 

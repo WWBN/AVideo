@@ -2,6 +2,7 @@ module.exports = {
   allowCache: true,
   dateTimeObject: new Date('2019-02-14T02:14:00.106Z'),
   dateTimeString: '2019-02-14T02:14:00.106Z',
+  dateRanges: [],
   discontinuitySequence: 0,
   discontinuityStarts: [],
   mediaSequence: 266,
@@ -42,16 +43,19 @@ module.exports = {
   segments: [
     {
       duration: 4.00008,
+      programDateTime: 1550110428105.7598,
       timeline: 0,
       uri: 'fileSequence269.mp4'
     },
     {
       duration: 4.00008,
+      programDateTime: 1550110432105.8398,
       timeline: 0,
       uri: 'fileSequence270.mp4'
     },
     {
       duration: 4.00008,
+      programDateTime: 1550110436105.92,
       timeline: 0,
       uri: 'fileSequence271.mp4',
       parts: [
@@ -111,6 +115,7 @@ module.exports = {
       dateTimeObject: new Date('2019-02-14T02:14:00.106Z'),
       dateTimeString: '2019-02-14T02:14:00.106Z',
       duration: 4.00008,
+      programDateTime: 1550110440106,
       timeline: 0,
       uri: 'fileSequence272.mp4',
       parts: [

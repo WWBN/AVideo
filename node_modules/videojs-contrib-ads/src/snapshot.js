@@ -222,9 +222,12 @@ export function restorePlayerSnapshot(player, callback) {
     player.one('contentloadedmetadata', restoreTracks);
 
     // adding autoplay guarantees that Safari will load the content so we can
-    // seek back to the correct time after ads
-    if (videojs.browser.IS_IOS && !player.autoplay()) {
-      player.autoplay(true);
+    // seek back to the correct time after ads.
+    // This is done directly on the html5 tech because if the integration has set
+    // normalizeAutoplay to true, the async play request via autoplay -> manualAutoplay_
+    // causes a visible skipback of the content after the ad break
+    if (videojs.browser.IS_IOS && !player.autoplay() && typeof player.techCall_ === 'function') {
+      player.techCall_('setAutoplay', true);
 
       // if we get here, the player was not originally configured to autoplay,
       // so we should remove it after it has served its purpose

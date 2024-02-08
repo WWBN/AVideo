@@ -55,7 +55,7 @@ function exportLoggerFunctions(
 export function enableLogs(debugConfig: boolean | ILogger, id: string): void {
   // check that console is available
   if (
-    (self.console && debugConfig === true) ||
+    (typeof console === 'object' && debugConfig === true) ||
     typeof debugConfig === 'object'
   ) {
     exportLoggerFunctions(
@@ -66,13 +66,13 @@ export function enableLogs(debugConfig: boolean | ILogger, id: string): void {
       'log',
       'info',
       'warn',
-      'error'
+      'error',
     );
     // Some browsers don't allow to use bind on console object anyway
     // fallback to default if needed
     try {
       exportedLogger.log(
-        `Debug logs enabled for "${id}" in hls.js version ${__VERSION__}`
+        `Debug logs enabled for "${id}" in hls.js version ${__VERSION__}`,
       );
     } catch (e) {
       exportedLogger = fakeLogger;

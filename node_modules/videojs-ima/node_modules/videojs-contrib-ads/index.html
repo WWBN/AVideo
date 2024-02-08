@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-contrib-ads Demo</title>
+  <link href="node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="dist/videojs-contrib-ads.css" rel="stylesheet">
+</head>
+<body>
+  <video id="videojs-contrib-ads-player" class="video-js vjs-default-skin" controls>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+  </video>
+  <ul>
+    <li><a href="examples/basic-ad-plugin/">Example ad plugin.</a></li>
+    <li><a href="examples/basic-ad-plugin/cue-text-tracks-example.html">Example cueTextTracks plugin.</a></li>
+    <li><a href="examples/module-import">Example using modules</a></li>
+    <li><a href="examples/stitched-ad-plugin/">Example stitched ad plugin.</a></li>
+  </ul>
+  <script src="node_modules/es5-shim/es5-shim.js"></script>
+  <script src="node_modules/video.js/dist/video.js"></script>
+  <script src="dist/videojs-contrib-ads.js"></script>
+  <script>
+    (function(window, videojs) {
+      var player = window.player = videojs('videojs-contrib-ads-player');
+      player.ads();
+    }(window, window.videojs));
+  </script>
+</body>
+</html>

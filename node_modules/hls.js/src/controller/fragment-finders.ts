@@ -10,7 +10,7 @@ import { Fragment } from '../loader/fragment';
 export function findFragmentByPDT(
   fragments: Array<Fragment>,
   PDTValue: number | null,
-  maxFragLookUpTolerance: number
+  maxFragLookUpTolerance: number,
 ): Fragment | null {
   if (
     PDTValue === null ||
@@ -57,7 +57,7 @@ export function findFragmentByPTS(
   fragPrevious: Fragment | null,
   fragments: Array<Fragment>,
   bufferEnd: number = 0,
-  maxFragLookUpTolerance: number = 0
+  maxFragLookUpTolerance: number = 0,
 ): Fragment | null {
   let fragNext: Fragment | null = null;
   if (fragPrevious) {
@@ -65,12 +65,18 @@ export function findFragmentByPTS(
       fragments[
         (fragPrevious.sn as number) - (fragments[0].sn as number) + 1
       ] || null;
+    // check for buffer-end rounding error
+    const bufferEdgeError = fragPrevious.endDTS - bufferEnd;
+    if (bufferEdgeError > 0 && bufferEdgeError < 0.0000015) {
+      bufferEnd += 0.0000015;
+    }
   } else if (bufferEnd === 0 && fragments[0].start === 0) {
     fragNext = fragments[0];
   }
   // Prefer the next fragment if it's within tolerance
   if (
     fragNext &&
+    (!fragPrevious || fragPrevious.level === fragNext.level) &&
     fragmentWithinToleranceTest(bufferEnd, maxFragLookUpTolerance, fragNext) ===
       0
   ) {
@@ -79,7 +85,7 @@ export function findFragmentByPTS(
   // We might be seeking past the tolerance so find the best match
   const foundFragment = BinarySearch.search(
     fragments,
-    fragmentWithinToleranceTest.bind(null, bufferEnd, maxFragLookUpTolerance)
+    fragmentWithinToleranceTest.bind(null, bufferEnd, maxFragLookUpTolerance),
   );
   if (foundFragment && (foundFragment !== fragPrevious || !fragNext)) {
     return foundFragment;
@@ -98,7 +104,7 @@ export function findFragmentByPTS(
 export function fragmentWithinToleranceTest(
   bufferEnd = 0,
   maxFragLookUpTolerance = 0,
-  candidate: Fragment
+  candidate: Fragment,
 ) {
   // eagerly accept an accurate match (no tolerance)
   if (
@@ -123,7 +129,7 @@ export function fragmentWithinToleranceTest(
   // Set the lookup tolerance to be small enough to detect the current segment - ensures we don't skip over very small segments
   const candidateLookupTolerance = Math.min(
     maxFragLookUpTolerance,
-    candidate.duration + (candidate.deltaPTS ? candidate.deltaPTS : 0)
+    candidate.duration + (candidate.deltaPTS ? candidate.deltaPTS : 0),
   );
   if (
     candidate.start + candidate.duration - candidateLookupTolerance <=
@@ -152,12 +158,12 @@ export function fragmentWithinToleranceTest(
 export function pdtWithinToleranceTest(
   pdtBufferEnd: number,
   maxFragLookUpTolerance: number,
-  candidate: Fragment
+  candidate: Fragment,
 ): boolean {
   const candidateLookupTolerance =
     Math.min(
       maxFragLookUpTolerance,
-      candidate.duration + (candidate.deltaPTS ? candidate.deltaPTS : 0)
+      candidate.duration + (candidate.deltaPTS ? candidate.deltaPTS : 0),
     ) * 1000;
 
   // endProgramDateTime can be null, default to zero
@@ -167,7 +173,7 @@ export function pdtWithinToleranceTest(
 
 export function findFragWithCC(
   fragments: Fragment[],
-  cc: number
+  cc: number,
 ): Fragment | null {
   return BinarySearch.search(fragments, (candidate) => {
     if (candidate.cc < cc) {

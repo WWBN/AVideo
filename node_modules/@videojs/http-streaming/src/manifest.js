@@ -11,7 +11,7 @@ export const createPlaylistID = (index, uri) => {
 };
 
 // default function for creating a group id
-const groupID = (type, group, label) => {
+export const groupID = (type, group, label) => {
   return `placeholder-uri-${type}-${group}-${label}`;
 };
 
@@ -93,7 +93,7 @@ export const parseManifest = ({
     }
 
     if (onwarn) {
-      onwarn(`manifest has no targetDuration defaulting to ${targetDuration}`);
+      onwarn({ message: `manifest has no targetDuration defaulting to ${targetDuration}` });
     }
     manifest.targetDuration = targetDuration;
   }
@@ -104,7 +104,7 @@ export const parseManifest = ({
     const partTargetDuration = parts.reduce((acc, p) => Math.max(acc, p.duration), 0);
 
     if (onwarn) {
-      onwarn(`manifest has no partTargetDuration defaulting to ${partTargetDuration}`);
+      onwarn({ message: `manifest has no partTargetDuration defaulting to ${partTargetDuration}` });
       log.error('LL-HLS manifest has parts but lacks required #EXT-X-PART-INF:PART-TARGET value. See https://datatracker.ietf.org/doc/html/draft-pantos-hls-rfc8216bis-09#section-4.4.3.7. Playback is not guaranteed.');
     }
     manifest.partTargetDuration = partTargetDuration;

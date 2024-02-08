@@ -26,6 +26,13 @@ declare class TimeDisplay extends Component {
     dispose(): void;
     textNode_: any;
     /**
+     * Updates the displayed time according to the `updateContent` function which is defined in the child class.
+     *
+     * @param {Event} [event]
+     *          The `timeupdate`, `ended` or `seeking` (if enableSmoothSeeking is true) event that caused this function to be called.
+     */
+    update(event?: Event): void;
+    /**
      * Updates the time display text node with a new time
      *
      * @param {number} [time=0] the time to update to

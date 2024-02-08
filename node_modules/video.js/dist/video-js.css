@@ -683,7 +683,7 @@ body.vjs-pip-window .video-js {
   display: none;
 }
 
-.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause .vjs-big-play-button {
+.vjs-has-started.vjs-paused.vjs-show-big-play-button-on-pause:not(.vjs-seeking, .vjs-scrubbing, .vjs-error) .vjs-big-play-button {
   display: block;
 }
 
@@ -1585,22 +1585,6 @@ video::-webkit-media-text-track-display {
   text-align: center;
 }
 
-.vjs-error .vjs-error-display:before {
-  color: #fff;
-  content: "X";
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 4em;
-  left: 0;
-  line-height: 1;
-  margin-top: -0.5em;
-  position: absolute;
-  text-shadow: 0.05em 0.05em 0.1em #000;
-  text-align: center;
-  top: 50%;
-  vertical-align: middle;
-  width: 100%;
-}
-
 .vjs-loading-spinner {
   display: none;
   position: absolute;
@@ -1620,7 +1604,9 @@ video::-webkit-media-text-track-display {
 
 .vjs-seeking .vjs-loading-spinner,
 .vjs-waiting .vjs-loading-spinner {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   animation: vjs-spinner-show 0s linear 0.3s forwards;
 }
 
@@ -1632,7 +1618,6 @@ video::-webkit-media-text-track-display {
 .vjs-loading-spinner:after {
   content: "";
   position: absolute;
-  margin: -0.6em;
   box-sizing: inherit;
   width: inherit;
   height: inherit;

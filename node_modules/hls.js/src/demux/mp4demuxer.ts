@@ -19,6 +19,7 @@ import {
   parseSamples,
   parseInitSegment,
   RemuxerTrackIdConfig,
+  hasMoofData,
 } from '../utils/mp4-tools';
 import { dummyTrack } from './dummy-demuxed-track';
 import type { HlsEventEmitter } from '../events';
@@ -45,19 +46,19 @@ class MP4Demuxer implements Demuxer {
     initSegment: Uint8Array | undefined,
     audioCodec: string | undefined,
     videoCodec: string | undefined,
-    trackDuration: number
+    trackDuration: number,
   ) {
     const videoTrack = (this.videoTrack = dummyTrack(
       'video',
-      1
+      1,
     ) as PassthroughTrack);
     const audioTrack = (this.audioTrack = dummyTrack(
       'audio',
-      1
+      1,
     ) as DemuxedAudioTrack);
     const captionTrack = (this.txtTrack = dummyTrack(
       'text',
-      1
+      1,
     ) as DemuxedUserdataTrack);
 
     this.id3Track = dummyTrack('id3', 1) as DemuxedMetadataTrack;
@@ -92,9 +93,7 @@ class MP4Demuxer implements Demuxer {
   }
 
   static probe(data: Uint8Array) {
-    // ensure we find a moof box in the first 16 kB
-    data = data.length > 16384 ? data.subarray(0, 16384) : data;
-    return findBox(data, ['moof']).length > 0;
+    return hasMoofData(data);
   }
 
   public demux(data: Uint8Array, timeOffset: number): DemuxerResult {
@@ -148,7 +147,7 @@ class MP4Demuxer implements Demuxer {
 
   private extractID3Track(
     videoTrack: PassthroughTrack,
-    timeOffset: number
+    timeOffset: number,
   ): DemuxedMetadataTrack {
     const id3Track = this.id3Track as DemuxedMetadataTrack;
     if (videoTrack.samples.length) {
@@ -188,10 +187,10 @@ class MP4Demuxer implements Demuxer {
   demuxSampleAes(
     data: Uint8Array,
     keyData: KeyData,
-    timeOffset: number
+    timeOffset: number,
   ): Promise<DemuxerResult> {
     return Promise.reject(
-      new Error('The MP4 demuxer does not support SAMPLE-AES decryption')
+      new Error('The MP4 demuxer does not support SAMPLE-AES decryption'),
     );
   }
 

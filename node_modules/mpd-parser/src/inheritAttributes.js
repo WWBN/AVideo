@@ -10,7 +10,9 @@ const keySystemsMap = {
   'urn:uuid:1077efec-c0b2-4d02-ace3-3c1e52e2fb4b': 'org.w3.clearkey',
   'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed': 'com.widevine.alpha',
   'urn:uuid:9a04f079-9840-4286-ab92-e65be0885f95': 'com.microsoft.playready',
-  'urn:uuid:f239e769-efa3-4850-9c16-a903c6932efb': 'com.adobe.primetime'
+  'urn:uuid:f239e769-efa3-4850-9c16-a903c6932efb': 'com.adobe.primetime',
+  // ISO_IEC 23009-1_2022 5.8.5.2.2 The mp4 Protection Scheme
+  'urn:mpeg:dash:mp4protection:2011': 'mp4protection'
 };
 
 /**

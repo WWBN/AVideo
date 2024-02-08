@@ -53,6 +53,20 @@ var TimestampRolloverStream = function(type) {
   this.type_ = type || TYPE_SHARED;
 
   this.push = function(data) {
+    /**
+     * Rollover stream expects data from elementary stream.
+     * Elementary stream can push forward 2 types of data
+     * - Parsed Video/Audio/Timed-metadata PES (packetized elementary stream) packets
+     * - Tracks metadata from PMT (Program Map Table)
+     * Rollover stream expects pts/dts info to be available, since it stores lastDTS
+     * We should ignore non-PES packets since they may override lastDTS to undefined.
+     * lastDTS is important to signal the next segments
+     * about rollover from the previous segments.
+     */
+    if (data.type === 'metadata') {
+      this.trigger('data', data);
+      return;
+    }
 
     // Any "shared" rollover streams will accept _all_ data. Otherwise,
     // streams will only accept data that matches their type.

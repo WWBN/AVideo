@@ -760,13 +760,6 @@ QUnit.test('correctly handles negative @r repeat value for last S', function(ass
   );
 });
 
-QUnit.skip(
-  'detects discontinuity when @t time is greater than expected start time',
-  function(assert) {
-
-  }
-);
-
 QUnit.module('segmentTemplate - type ="dynamic"');
 
 QUnit.test('correctly handles duration', function(assert) {

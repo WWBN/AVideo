@@ -135,13 +135,13 @@ SdkImpl.prototype.onAddTrack = function(event) {
   const track = event.track;
   if (track.kind === 'metadata') {
     track.mode = 'hidden';
-    track.oncuechange = (e) => {
+    track.addEventListener('cuechange', (e) => {
       for (const cue of track.activeCues_) {
         const metadata = {};
         metadata[cue.value.key] = cue.value.data;
         this.streamManager.onTimedMetadata(metadata);
       }
-    };
+    });
   }
 };
 

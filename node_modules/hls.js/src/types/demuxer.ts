@@ -5,12 +5,12 @@ export interface Demuxer {
     data: Uint8Array,
     timeOffset: number,
     isSampleAes?: boolean,
-    flush?: boolean
+    flush?: boolean,
   ): DemuxerResult;
   demuxSampleAes(
     data: Uint8Array,
     keyData: KeyData,
-    timeOffset: number
+    timeOffset: number,
   ): Promise<DemuxerResult>;
   flush(timeOffset?: number): DemuxerResult | Promise<DemuxerResult>;
   destroy(): void;
@@ -18,7 +18,7 @@ export interface Demuxer {
     initSegment: Uint8Array | undefined,
     audioCodec: string | undefined,
     videoCodec: string | undefined,
-    trackDuration: number
+    trackDuration: number,
   );
   resetTimeStamp(defaultInitPTS?: RationalTimestamp | null): void;
   resetContiguity(): void;
@@ -26,7 +26,7 @@ export interface Demuxer {
 
 export interface DemuxerResult {
   audioTrack: DemuxedAudioTrack;
-  videoTrack: DemuxedVideoTrack;
+  videoTrack: DemuxedVideoTrackBase;
   id3Track: DemuxedMetadataTrack;
   textTrack: DemuxedUserdataTrack;
 }
@@ -39,7 +39,7 @@ export interface DemuxedTrack {
   sequenceNumber: number;
   samples:
     | AudioSample[]
-    | AvcSample[]
+    | VideoSample[]
     | MetadataSample[]
     | UserdataSample[]
     | Uint8Array;
@@ -59,7 +59,7 @@ export interface PassthroughTrack extends DemuxedTrack {
   codec: string;
 }
 export interface DemuxedAudioTrack extends DemuxedTrack {
-  config?: number[];
+  config?: number[] | Uint8Array;
   samplerate?: number;
   segmentCodec?: string;
   channelCount?: number;
@@ -67,7 +67,7 @@ export interface DemuxedAudioTrack extends DemuxedTrack {
   samples: AudioSample[];
 }
 
-export interface DemuxedVideoTrack extends DemuxedTrack {
+export interface DemuxedVideoTrackBase extends DemuxedTrack {
   width?: number;
   height?: number;
   pixelRatio?: [number, number];
@@ -75,11 +75,13 @@ export interface DemuxedVideoTrack extends DemuxedTrack {
   pps?: Uint8Array[];
   sps?: Uint8Array[];
   naluState?: number;
-  samples: AvcSample[] | Uint8Array;
+  segmentCodec?: string;
+  manifestCodec?: string;
+  samples: VideoSample[] | Uint8Array;
 }
 
-export interface DemuxedAvcTrack extends DemuxedVideoTrack {
-  samples: AvcSample[];
+export interface DemuxedVideoTrack extends DemuxedVideoTrackBase {
+  samples: VideoSample[];
 }
 
 export interface DemuxedMetadataTrack extends DemuxedTrack {
@@ -114,19 +116,20 @@ export interface UserdataSample {
   userDataBytes?: Uint8Array;
 }
 
-export interface AvcSample {
+export interface VideoSample {
   dts: number;
   pts: number;
   key: boolean;
   frame: boolean;
-  units: AvcSampleUnit[];
+  units: VideoSampleUnit[];
   debug: string;
   length: number;
 }
 
-export interface AvcSampleUnit {
+export interface VideoSampleUnit {
   data: Uint8Array;
   type: number;
+  state?: number;
 }
 
 export type AudioSample = {

@@ -246,7 +246,7 @@ DaiController.prototype.reset = function() {
 /**
  * Adds an EventListener to the StreamManager. For a list of available events,
  * see
- * https://developers.google.com/interactive-media-ads/docs/sdks/html5/dai/reference/js/StreamEvent
+ * https://developers.google.com/ad-manager/dynamic-ad-insertion/sdk/html5/reference/js/StreamEvent
  * @param {google.ima.StreamEvent.Type!} event The AdEvent.Type for which to
  *     listen.
  * @param {callback!} callback The method to call when the event is fired.

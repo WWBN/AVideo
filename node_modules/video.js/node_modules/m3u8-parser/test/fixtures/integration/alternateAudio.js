@@ -1,6 +1,7 @@
 module.exports = {
   allowCache: true,
   discontinuityStarts: [],
+  dateRanges: [],
   mediaGroups: {
     // TYPE
     'AUDIO': {

@@ -194,7 +194,7 @@ if (User::hasBlockedUser($video['users_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="<?php echo $config->getFavicon(); ?>">
     <title><?php echo $video['title'] . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
+    <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css" />
 
     <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
     <link href="<?php echo getURL('node_modules/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
@@ -340,7 +340,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <br>
         </center>
     <?php
-    } elseif ($video['type'] == "serie") {
+    } elseif ($video['type'] == Video::$videoTypeSerie) {
     ?>
         <!-- serie -->
         <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
@@ -356,7 +356,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
     <?php
-    } elseif ($video['type'] == "article") {
+    } elseif ($video['type'] == Video::$videoTypeArticle) {
     ?>
         <!-- article -->
         <div id="main-video" class="bgWhite list-group-item ypt-article" style="max-height: 100vh; overflow: hidden; overflow-y: auto; font-size: 1.5em;">
@@ -373,7 +373,7 @@ if (User::hasBlockedUser($video['users_id'])) {
 
         </div>
     <?php
-    } elseif ($video['type'] == "pdf") {
+    } elseif ($video['type'] == Video::$videoTypePdf) {
         $sources = getVideosURLPDF($video['filename']);
     ?>
         <!-- pdf -->
@@ -386,15 +386,13 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
     <?php
-    } elseif ($video['type'] == "image") {
+    } elseif ($video['type'] == Video::$videoTypeImage) {
         $sources = getVideosURLIMAGE($video['filename']);
     ?>
         <!-- image -->
-        <center style="height: 100%;">
-            <img src="<?php
-                        echo $sources["image"]['url']
-                        ?>" class="img img-responsive" style="height: 100%;">
-        </center>
+        <img src="<?php
+                    echo $sources["image"]['url']
+                    ?>" class="img img-responsive center-block" style="height: 100%;">
         <script>
             $(document).ready(function() {
                 addCloseButtonInPage();
@@ -402,7 +400,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
     <?php
-    } elseif ($video['type'] == "zip") {
+    } elseif ($video['type'] == Video::$videoTypeZip) {
         $sources = getVideosURLZIP($video['filename']);
     ?>
         <!-- zip -->
@@ -424,7 +422,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             </div>
         </div>
     <?php
-    } elseif ($video['type'] == "embed") {
+    } elseif ($video['type'] == Video::$videoTypeEmbed) {
         $isVideoTypeEmbed = 1;
     ?>
         <!-- embed <?php echo basename(__FILE__); ?> -->
@@ -442,7 +440,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             });
         </script>
     <?php
-    } elseif ($video['type'] == "audio" && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
+    } elseif ($video['type'] == Video::$videoTypeAudio && !file_exists(Video::getPathToFile("{$video['filename']}.mp4"))) {
         $isAudio = 1;
     ?>
         <!-- audio videoEmbed -->
@@ -453,7 +451,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
     <?php
-    } elseif ($video['type'] == "linkVideo" || $video['type'] == "liveLink") {
+    } elseif ($video['type'] == Video::$videoTypeLinkVideo || $video['type'] == "liveLink") {
         $t = ['id' => $_GET['link']];
     ?>
         <!-- videoLink include liveVideo.php [<?php echo $_GET['link']; ?>] -->
@@ -478,7 +476,7 @@ if (User::hasBlockedUser($video['users_id'])) {
             <?php PlayerSkins::playerJSCodeOnLoad($video['id']); ?>
         </script>
     <?php
-    //exit;
+        //exit;
     }
     if (empty($disableEmbedTopInfo)) {
     ?>

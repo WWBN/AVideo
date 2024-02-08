@@ -30,7 +30,7 @@ export type ElementaryStreams = Record<
 >;
 
 export class BaseSegment {
-  private _byteRange: number[] | null = null;
+  private _byteRange: [number, number] | null = null;
   private _url: string | null = null;
 
   // baseurl is the URL to the playlist
@@ -51,17 +51,16 @@ export class BaseSegment {
   // setByteRange converts a EXT-X-BYTERANGE attribute into a two element array
   setByteRange(value: string, previous?: BaseSegment) {
     const params = value.split('@', 2);
-    const byteRange: number[] = [];
+    let start: number;
     if (params.length === 1) {
-      byteRange[0] = previous ? previous.byteRangeEndOffset : 0;
+      start = previous?.byteRangeEndOffset || 0;
     } else {
-      byteRange[0] = parseInt(params[1]);
+      start = parseInt(params[1]);
     }
-    byteRange[1] = parseInt(params[0]) + byteRange[0];
-    this._byteRange = byteRange;
+    this._byteRange = [start, parseInt(params[0]) + start];
   }
 
-  get byteRange(): number[] {
+  get byteRange(): [number, number] | [] {
     if (!this._byteRange) {
       return [];
     }
@@ -69,11 +68,11 @@ export class BaseSegment {
     return this._byteRange;
   }
 
-  get byteRangeStartOffset(): number {
+  get byteRangeStartOffset(): number | undefined {
     return this.byteRange[0];
   }
 
-  get byteRangeEndOffset(): number {
+  get byteRangeEndOffset(): number | undefined {
     return this.byteRange[1];
   }
 
@@ -137,7 +136,7 @@ export class Fragment extends BaseSegment {
   public minEndPTS?: number;
   // Load/parse timing information
   public stats: LoadStats = new LoadStats();
-  public urlId: number = 0;
+  // Init Segment bytes (unset for media segments)
   public data?: Uint8Array;
   // A flag indicating whether the segment was downloaded in order to test bitrate, and was not buffered
   public bitrateTest: boolean = false;
@@ -149,6 +148,8 @@ export class Fragment extends BaseSegment {
   public endList?: boolean;
   // Fragment is marked by an EXT-X-GAP tag indicating that it does not contain media data and should not be loaded
   public gap?: boolean;
+  // Deprecated
+  public urlId: number = 0;
 
   constructor(type: PlaylistLevelType, baseurl: string) {
     super(baseurl);
@@ -235,7 +236,7 @@ export class Fragment extends BaseSegment {
     endPTS: number,
     startDTS: number,
     endDTS: number,
-    partial: boolean = false
+    partial: boolean = false,
   ) {
     const { elementaryStreams } = this;
     const info = elementaryStreams[type];
@@ -282,7 +283,7 @@ export class Part extends BaseSegment {
     frag: Fragment,
     baseurl: string,
     index: number,
-    previous?: Part
+    previous?: Part,
   ) {
     super(baseurl);
     this.duration = partAttrs.decimalFloatingPoint('DURATION');

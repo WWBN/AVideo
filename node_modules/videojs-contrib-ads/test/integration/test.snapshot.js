@@ -527,3 +527,64 @@ QUnit.test('Call play after live preroll on iOS', function(assert) {
   this.player.trigger('contentcanplay');
   assert.strictEqual(played, 1, 'Play happened');
 });
+
+QUnit.test('sets autoplay directly on tech when forcing content load for iOS', function(assert) {
+
+  this.player.ads.videoElementRecycled = () => true;
+  videojs.browser = {IS_IOS: true};
+  this.player.play = () => {};
+
+  this.player.trigger('loadstart');
+  this.player.trigger('adsready');
+  this.player.trigger('play');
+
+  assert.notOk(this.player.tech("it's fine").autoplay(), 'confirm autoplay on tech is off initially');
+  assert.notOk(this.player.autoplay(), 'confirm autoplay for vjs is off initially');
+  this.player.ads.startLinearAdMode();
+  this.player.ads.endLinearAdMode();
+  this.player.el().querySelector = query => {
+    if (query === '.vjs-tech') {
+      return {seekable: {length: 1}};
+    }
+  };
+
+  assert.ok(this.player.tech("it's fine").autoplay(), 'autoplay should be true on tech');
+  assert.notOk(this.player.autoplay(), 'autoplay should not be true on VJS');
+
+  // this will cause resume() to run and reset autoplay status if required
+  this.player.trigger('contentcanplay');
+
+  assert.notOk(this.player.tech("it's fine").autoplay(), 'confirm autoplay on tech is set back to off');
+  assert.notOk(this.player.autoplay(), 'confirm autoplay for vjs is still off');
+});
+
+QUnit.test('doesn\'t interfere with normal autoplay when forcing content load for iOS', function(assert) {
+
+  this.player.autoplay(true);
+  this.player.ads.videoElementRecycled = () => true;
+  videojs.browser = {IS_IOS: true};
+  this.player.play = () => {};
+
+  this.player.trigger('loadstart');
+  this.player.trigger('adsready');
+  this.player.trigger('play');
+
+  assert.ok(this.player.tech("it's fine").autoplay(), 'confirm autoplay on tech is on');
+  assert.ok(this.player.autoplay(), 'confirm autoplay for vjs is on');
+  this.player.ads.startLinearAdMode();
+  this.player.ads.endLinearAdMode();
+  this.player.el().querySelector = query => {
+    if (query === '.vjs-tech') {
+      return {seekable: {length: 1}};
+    }
+  };
+
+  assert.ok(this.player.tech("it's fine").autoplay(), 'autoplay should be true on tech');
+  assert.ok(this.player.autoplay(), 'autoplay should be true on VJS');
+
+  // this will cause resume() to run and reset autoplay status if required
+  this.player.trigger('contentcanplay');
+
+  assert.ok(this.player.tech("it's fine").autoplay(), 'confirm autoplay on tech is stil on');
+  assert.ok(this.player.autoplay(), 'confirm autoplay for vjs is still on');
+});

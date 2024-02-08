@@ -1,3 +1,14 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/videojs/mpd-parser/compare/v1.2.2...v1.3.0) (2023-12-08)
+
+### Features
+
+* parse mp4protection ContentProtection tags ([#179](https://github.com/videojs/mpd-parser/issues/179)) ([0813929](https://github.com/videojs/mpd-parser/commit/0813929))
+
+### Chores
+
+* update vhs-utils dependency ([#178](https://github.com/videojs/mpd-parser/issues/178)) ([8c3ec26](https://github.com/videojs/mpd-parser/commit/8c3ec26))
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/videojs/mpd-parser/compare/v1.2.1...v1.2.2) (2023-08-30)
 

@@ -1,4 +1,5 @@
 import type { DRMSystemOptions, EMEControllerConfig } from '../config';
+import { optionalSelf } from './global';
 
 /**
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Navigator/requestMediaKeySystemAccess
@@ -19,7 +20,7 @@ export const enum KeySystemFormats {
 }
 
 export function keySystemFormatToKeySystemDomain(
-  format: KeySystemFormats
+  format: KeySystemFormats,
 ): KeySystems | undefined {
   switch (format) {
     case KeySystemFormats.FAIRPLAY:
@@ -43,7 +44,7 @@ export const enum KeySystemIds {
 }
 
 export function keySystemIdToKeySystemDomain(
-  systemId: KeySystemIds
+  systemId: KeySystemIds,
 ): KeySystems | undefined {
   if (systemId === KeySystemIds.WIDEVINE) {
     return KeySystems.WIDEVINE;
@@ -55,7 +56,7 @@ export function keySystemIdToKeySystemDomain(
 }
 
 export function keySystemDomainToKeySystemFormat(
-  keySystem: KeySystems
+  keySystem: KeySystems,
 ): KeySystemFormats | undefined {
   switch (keySystem) {
     case KeySystems.FAIRPLAY:
@@ -70,7 +71,7 @@ export function keySystemDomainToKeySystemFormat(
 }
 
 export function getKeySystemsForConfig(
-  config: EMEControllerConfig
+  config: EMEControllerConfig,
 ): KeySystems[] {
   const { drmSystems, widevineLicenseUrl } = config;
   const keySystemsToAttempt: KeySystems[] = drmSystems
@@ -89,15 +90,11 @@ export function getKeySystemsForConfig(
 
 export type MediaKeyFunc = (
   keySystem: KeySystems,
-  supportedConfigurations: MediaKeySystemConfiguration[]
+  supportedConfigurations: MediaKeySystemConfiguration[],
 ) => Promise<MediaKeySystemAccess>;
 
 export const requestMediaKeySystemAccess = (function (): MediaKeyFunc | null {
-  if (
-    typeof self !== 'undefined' &&
-    self.navigator &&
-    self.navigator.requestMediaKeySystemAccess
-  ) {
+  if (optionalSelf?.navigator?.requestMediaKeySystemAccess) {
     return self.navigator.requestMediaKeySystemAccess.bind(self.navigator);
   } else {
     return null;
@@ -111,7 +108,7 @@ export function getSupportedMediaKeySystemConfigurations(
   keySystem: KeySystems,
   audioCodecs: string[],
   videoCodecs: string[],
-  drmSystemOptions: DRMSystemOptions
+  drmSystemOptions: DRMSystemOptions,
 ): MediaKeySystemConfiguration[] {
   let initDataTypes: string[];
   switch (keySystem) {
@@ -132,7 +129,7 @@ export function getSupportedMediaKeySystemConfigurations(
     initDataTypes,
     audioCodecs,
     videoCodecs,
-    drmSystemOptions
+    drmSystemOptions,
   );
 }
 
@@ -140,13 +137,12 @@ function createMediaKeySystemConfigurations(
   initDataTypes: string[],
   audioCodecs: string[],
   videoCodecs: string[],
-  drmSystemOptions: DRMSystemOptions
+  drmSystemOptions: DRMSystemOptions,
 ): MediaKeySystemConfiguration[] {
   const baseConfig: MediaKeySystemConfiguration = {
     initDataTypes: initDataTypes,
-    persistentState: drmSystemOptions.persistentState || 'not-allowed',
-    distinctiveIdentifier:
-      drmSystemOptions.distinctiveIdentifier || 'not-allowed',
+    persistentState: drmSystemOptions.persistentState || 'optional',
+    distinctiveIdentifier: drmSystemOptions.distinctiveIdentifier || 'optional',
     sessionTypes: drmSystemOptions.sessionTypes || [
       drmSystemOptions.sessionType || 'temporary',
     ],

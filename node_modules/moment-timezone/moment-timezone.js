@@ -1,5 +1,5 @@
 //! moment-timezone.js
-//! version : 0.5.43
+//! version : 0.5.45
 //! Copyright (c) JS Foundation and other contributors
 //! license : MIT
 //! github.com/moment/moment-timezone
@@ -29,7 +29,7 @@
 	// 	return moment;
 	// }
 
-	var VERSION = "0.5.43",
+	var VERSION = "0.5.45",
 		zones = {},
 		links = {},
 		countries = {},
@@ -150,6 +150,30 @@
 		}
 	}
 
+	function closest (num, arr) {
+		var len = arr.length;
+		if (num < arr[0]) {
+			return 0;
+		} else if (len > 1 && arr[len - 1] === Infinity && num >= arr[len - 2]) {
+			return len - 1;
+		} else if (num >= arr[len - 1]) {
+			return -1;
+		}
+
+		var mid;
+		var lo = 0;
+		var hi = len - 1;
+		while (hi - lo > 1) {
+			mid = Math.floor((lo + hi) / 2);
+			if (arr[mid] <= num) {
+				lo = mid;
+			} else {
+				hi = mid;
+			}
+		}
+		return hi;
+	}
+
 	Zone.prototype = {
 		_set : function (unpacked) {
 			this.name       = unpacked.name;
@@ -164,10 +188,9 @@
 				untils = this.untils,
 				i;
 
-			for (i = 0; i < untils.length; i++) {
-				if (target < untils[i]) {
-					return i;
-				}
+			i = closest(target, untils);
+			if (i >= 0) {
+				return i;
 			}
 		},
 
@@ -286,17 +309,21 @@
 	function userOffsets() {
 		var startYear = new Date().getFullYear() - 2,
 			last = new OffsetAt(new Date(startYear, 0, 1)),
+			lastOffset = last.offset,
 			offsets = [last],
-			change, next, i;
+			change, next, nextOffset, i;
 
 		for (i = 1; i < 48; i++) {
-			next = new OffsetAt(new Date(startYear, i, 1));
-			if (next.offset !== last.offset) {
+			nextOffset = new Date(startYear, i, 1).getTimezoneOffset();
+			if (nextOffset !== lastOffset) {
+				// Create OffsetAt here to avoid unnecessary abbr parsing before checking offsets
+				next = new OffsetAt(new Date(startYear, i, 1));
 				change = findChange(last, next);
 				offsets.push(change);
 				offsets.push(new OffsetAt(new Date(change.at + 6e4)));
+				last = next;
+				lastOffset = nextOffset;
 			}
-			last = next;
 		}
 
 		for (i = 0; i < 4; i++) {
@@ -334,15 +361,21 @@
 		var offsetsLength = offsets.length,
 			filteredGuesses = {},
 			out = [],
-			i, j, guessesOffset;
+			checkedOffsets = {},
+			i, j, offset, guessesOffset;
 
 		for (i = 0; i < offsetsLength; i++) {
-			guessesOffset = guesses[offsets[i].offset] || {};
+			offset = offsets[i].offset;
+			if (checkedOffsets.hasOwnProperty(offset)) {
+				continue;
+			}
+			guessesOffset = guesses[offset] || {};
 			for (j in guessesOffset) {
 				if (guessesOffset.hasOwnProperty(j)) {
 					filteredGuesses[j] = true;
 				}
 			}
+			checkedOffsets[offset] = true;
 		}
 
 		for (i in filteredGuesses) {
@@ -558,10 +591,10 @@
 	function tz (input) {
 		var args = Array.prototype.slice.call(arguments, 0, -1),
 			name = arguments[arguments.length - 1],
-			zone = getZone(name),
-			out  = moment.utc.apply(null, args);
+			out  = moment.utc.apply(null, args),
+			zone;
 
-		if (zone && !moment.isMoment(input) && needsOffset(out)) {
+		if (!moment.isMoment(input) && needsOffset(out) && (zone = getZone(name))) {
 			out.add(zone.parse(out), 'minutes');
 		}
 
@@ -607,7 +640,7 @@
 			offset;
 
 		if (mom._z === undefined) {
-			if (zone && needsOffset(mom) && !mom._isUTC) {
+			if (zone && needsOffset(mom) && !mom._isUTC && mom.isValid()) {
 				mom._d = moment.utc(mom._a)._d;
 				mom.utc().add(zone.parse(mom), 'minutes');
 			}

@@ -2556,6 +2556,13 @@ QUnit.test('keySystem info for representation - lowercase UUIDs', function(asser
               value: 'Widevine'
             },
             pssh: widevinePsshBytes
+          },
+          'mp4protection': {
+            attributes: {
+              'cenc:default_KID': '0872786e-f9e7-465f-a3a2-4e5b0ef8fa45',
+              'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+              'value': 'cenc'
+            }
           }
         },
         'height': 404,
@@ -2644,6 +2651,13 @@ QUnit.test('keySystem info for representation - uppercase UUIDs', function(asser
               value: 'Widevine'
             },
             pssh: widevinePsshBytes
+          },
+          'mp4protection': {
+            attributes: {
+              'cenc:default_KID': '0872786E-F9E7-465F-A3A2-4E5B0EF8FA45',
+              'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+              'value': 'cenc'
+            }
           }
         },
         'height': 404,

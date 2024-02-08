@@ -84,6 +84,13 @@ export const parsedManifest = {
                     schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
                   },
                   pssh: new Uint8Array([181, 235, 45])
+                },
+                'mp4protection': {
+                  attributes: {
+                    'cenc:default_KID': 'aaa',
+                    'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+                    'value': 'cenc'
+                  }
                 }
               }
             },
@@ -159,6 +166,13 @@ export const parsedManifest = {
                     schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
                   },
                   pssh: new Uint8Array([181, 235, 45])
+                },
+                'mp4protection': {
+                  attributes: {
+                    'cenc:default_KID': 'aaa',
+                    'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+                    'value': 'cenc'
+                  }
                 }
               }
             }
@@ -242,6 +256,13 @@ export const parsedManifest = {
                     schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
                   },
                   pssh: new Uint8Array([181, 235, 45])
+                },
+                'mp4protection': {
+                  attributes: {
+                    'cenc:default_KID': 'aaa',
+                    'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+                    'value': 'cenc'
+                  }
                 }
               }
             },
@@ -317,6 +338,13 @@ export const parsedManifest = {
                     schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
                   },
                   pssh: new Uint8Array([181, 235, 45])
+                },
+                'mp4protection': {
+                  attributes: {
+                    'cenc:default_KID': 'aaa',
+                    'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+                    'value': 'cenc'
+                  }
                 }
               }
             }
@@ -480,6 +508,13 @@ export const parsedManifest = {
             schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
           },
           pssh: new Uint8Array([181, 235, 45])
+        },
+        'mp4protection': {
+          attributes: {
+            'cenc:default_KID': 'aaa',
+            'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+            'value': 'cenc'
+          }
         }
       }
     },
@@ -562,6 +597,13 @@ export const parsedManifest = {
             schemeIdUri: 'urn:uuid:edef8ba9-79d6-4ace-a3c8-27dcd51d21ed'
           },
           pssh: new Uint8Array([181, 235, 45])
+        },
+        'mp4protection': {
+          attributes: {
+            'cenc:default_KID': 'aaa',
+            'schemeIdUri': 'urn:mpeg:dash:mp4protection:2011',
+            'value': 'cenc'
+          }
         }
       }
     }

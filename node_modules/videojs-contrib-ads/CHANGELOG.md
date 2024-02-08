@@ -1,3 +1,10 @@
+<a name="7.3.3"></a>
+## [7.3.3](https://github.com/videojs/videojs-contrib-ads/compare/v7.3.1...v7.3.3) (2024-01-24)
+
+### Bug Fixes
+
+* Toggle autoplay directly on tech when restoring snapshot for iOS ([#565](https://github.com/videojs/videojs-contrib-ads/issues/565)) ([3c8d54b](https://github.com/videojs/videojs-contrib-ads/commit/3c8d54b))
+
 <a name="7.3.2"></a>
 ## [7.3.2](https://github.com/videojs/videojs-contrib-ads/compare/v7.3.1...v7.3.2) (2023-07-19)
 

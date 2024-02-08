@@ -15,6 +15,7 @@ import {
 } from '../utils/mp4-tools';
 import { ElementaryStreamTypes } from '../loader/fragment';
 import { logger } from '../utils/logger';
+import { getCodecCompatibleName } from '../utils/codecs';
 import type { TrackSet } from '../types/track';
 import type {
   InitSegmentData,
@@ -55,7 +56,7 @@ class PassThroughRemuxer implements Remuxer {
     initSegment: Uint8Array | undefined,
     audioCodec: string | undefined,
     videoCodec: string | undefined,
-    decryptdata: DecryptData | null
+    decryptdata: DecryptData | null,
   ) {
     this.audioCodec = audioCodec;
     this.videoCodec = videoCodec;
@@ -73,17 +74,17 @@ class PassThroughRemuxer implements Remuxer {
     const initData = (this.initData = parseInitSegment(initSegment));
 
     // Get codec from initSegment or fallback to default
-    if (!audioCodec) {
+    if (initData.audio) {
       audioCodec = getParsedTrackCodec(
         initData.audio,
-        ElementaryStreamTypes.AUDIO
+        ElementaryStreamTypes.AUDIO,
       );
     }
 
-    if (!videoCodec) {
+    if (initData.video) {
       videoCodec = getParsedTrackCodec(
         initData.video,
-        ElementaryStreamTypes.VIDEO
+        ElementaryStreamTypes.VIDEO,
       );
     }
 
@@ -111,7 +112,7 @@ class PassThroughRemuxer implements Remuxer {
       };
     } else {
       logger.warn(
-        '[passthrough-remuxer.ts]: initSegment does not contain moov or trak boxes.'
+        '[passthrough-remuxer.ts]: initSegment does not contain moov or trak boxes.',
       );
     }
     this.initTracks = tracks;
@@ -123,7 +124,7 @@ class PassThroughRemuxer implements Remuxer {
     id3Track: DemuxedMetadataTrack,
     textTrack: DemuxedUserdataTrack,
     timeOffset: number,
-    accurateTimeOffset: boolean
+    accurateTimeOffset: boolean,
   ): RemuxerResult {
     let { initPTS, lastEndTime } = this;
     const result: RemuxerResult = {
@@ -177,7 +178,7 @@ class PassThroughRemuxer implements Remuxer {
       initSegment.initPTS = decodeTime - timeOffset;
       if (initPTS && initPTS.timescale === 1) {
         logger.warn(
-          `Adjusting initPTS by ${initSegment.initPTS - initPTS.baseTime}`
+          `Adjusting initPTS by ${initSegment.initPTS - initPTS.baseTime}`,
         );
       }
       this.initPTS = initPTS = {
@@ -231,14 +232,14 @@ class PassThroughRemuxer implements Remuxer {
       id3Track,
       timeOffset,
       initPTS,
-      initPTS
+      initPTS,
     );
 
     if (textTrack.samples.length) {
       result.text = flushTextTrackUserdataCueSamples(
         textTrack,
         timeOffset,
-        initPTS
+        initPTS,
       );
     }
 
@@ -250,7 +251,7 @@ function isInvalidInitPts(
   initPTS: RationalTimestamp | null,
   startDTS: number,
   timeOffset: number,
-  duration: number
+  duration: number,
 ): initPTS is null {
   if (initPTS === null) {
     return true;
@@ -262,25 +263,41 @@ function isInvalidInitPts(
 }
 
 function getParsedTrackCodec(
-  track: InitDataTrack | undefined,
-  type: ElementaryStreamTypes.AUDIO | ElementaryStreamTypes.VIDEO
+  track: InitDataTrack,
+  type: ElementaryStreamTypes.AUDIO | ElementaryStreamTypes.VIDEO,
 ): string {
   const parsedCodec = track?.codec;
   if (parsedCodec && parsedCodec.length > 4) {
     return parsedCodec;
   }
-  // Since mp4-tools cannot parse full codec string (see 'TODO: Parse codec details'... in mp4-tools)
+  if (type === ElementaryStreamTypes.AUDIO) {
+    if (
+      parsedCodec === 'ec-3' ||
+      parsedCodec === 'ac-3' ||
+      parsedCodec === 'alac'
+    ) {
+      return parsedCodec;
+    }
+    if (parsedCodec === 'fLaC' || parsedCodec === 'Opus') {
+      // Opting not to get `preferManagedMediaSource` from player config for isSupported() check for simplicity
+      const preferManagedMediaSource = false;
+      return getCodecCompatibleName(parsedCodec, preferManagedMediaSource);
+    }
+    const result = 'mp4a.40.5';
+    logger.info(
+      `Parsed audio codec "${parsedCodec}" or audio object type not handled. Using "${result}"`,
+    );
+    return result;
+  }
   // Provide defaults based on codec type
   // This allows for some playback of some fmp4 playlists without CODECS defined in manifest
+  logger.warn(`Unhandled video codec "${parsedCodec}"`);
   if (parsedCodec === 'hvc1' || parsedCodec === 'hev1') {
     return 'hvc1.1.6.L120.90';
   }
   if (parsedCodec === 'av01') {
     return 'av01.0.04M.08';
   }
-  if (parsedCodec === 'avc1' || type === ElementaryStreamTypes.VIDEO) {
-    return 'avc1.42e01e';
-  }
-  return 'mp4a.40.5';
+  return 'avc1.42e01e';
 }
 export default PassThroughRemuxer;

@@ -1,9 +1,6 @@
-import type { LevelParsed } from './level';
 import type { AttrList } from '../utils/attr-list';
-export interface AudioGroup {
-  id?: string;
-  codec?: string;
-}
+import type { LevelDetails } from '../loader/level-details';
+import type { VideoRange } from './level';
 
 export type AudioPlaylistType = 'AUDIO';
 
@@ -13,19 +10,57 @@ export type SubtitlePlaylistType = 'SUBTITLES' | 'CLOSED-CAPTIONS';
 
 export type MediaPlaylistType = MainPlaylistType | SubtitlePlaylistType;
 
+export type VideoSelectionOption = {
+  preferHDR?: boolean;
+  allowedVideoRanges?: Array<VideoRange>;
+};
+
+export type AudioSelectionOption = {
+  lang?: string;
+  assocLang?: string;
+  characteristics?: string;
+  channels?: string;
+  name?: string;
+  audioCodec?: string;
+  groupId?: string;
+  default?: boolean;
+};
+
+export type SubtitleSelectionOption = {
+  lang?: string;
+  assocLang?: string;
+  characteristics?: string;
+  name?: string;
+  groupId?: string;
+  default?: boolean;
+  forced?: boolean;
+};
+
 // audioTracks, captions and subtitles returned by `M3U8Parser.parseMasterPlaylistMedia`
-export interface MediaPlaylist extends Omit<LevelParsed, 'attrs'> {
+export interface MediaPlaylist {
   attrs: MediaAttributes;
+  audioCodec?: string;
   autoselect: boolean; // implicit false if not present
+  bitrate: number;
+  channels?: string;
+  characteristics?: string;
+  details?: LevelDetails;
+  height?: number;
   default: boolean; // implicit false if not present
   forced: boolean; // implicit false if not present
   groupId: string; // required in HLS playlists
   id: number; // incrementing number to track media playlists
   instreamId?: string;
   lang?: string;
+  assocLang?: string;
   name: string;
+  textCodec?: string;
+  unknownCodecs?: string[];
   // 'main' is a custom type added to signal a audioCodec in main track?; see playlist-loader~L310
   type: MediaPlaylistType | 'main';
+  url: string;
+  videoCodec?: string;
+  width?: number;
 }
 
 export interface MediaAttributes extends AttrList {
