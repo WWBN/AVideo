@@ -1,11 +1,4 @@
 @media all and (max-width: 767px) {
-    .vjs-picture-in-picture-control,
-    .player-logo,
-    .vjs-seek-button,
-    .loop-button,
-    .autoplay-button{
-        display: none !important;
-    }
     .vjs-paused #seekBG{
         background-size: contain;
     }

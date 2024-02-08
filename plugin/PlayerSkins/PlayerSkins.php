@@ -79,6 +79,12 @@ class PlayerSkins extends PluginAbstract
         $obj->playsinline = true;
         $obj->showVideoSEOViewForBots = true;
 
+        $obj->hideButtonFromPlayerIfIsSmallPictureInPicture = true;
+        $obj->hideButtonFromPlayerIfIsSmallPlayerLogo = true;
+        $obj->hideButtonFromPlayerIfIsSmallSeek = true;
+        $obj->hideButtonFromPlayerIfIsSmallLoop = true;
+        $obj->hideButtonFromPlayerIfIsSmallAutoplay = true;
+
         return $obj;
     }
 
@@ -265,6 +271,32 @@ class PlayerSkins extends PluginAbstract
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/loopbutton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }
             $css .= "<link href=\"" . getURL('plugin/PlayerSkins/player.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
+
+            $classes = [];
+
+            if ($obj->hideButtonFromPlayerIfIsSmallPictureInPicture) {
+                $classes[] = '.vjs-picture-in-picture-control';
+            }
+            if ($obj->hideButtonFromPlayerIfIsSmallPlayerLogo) {
+                $classes[] = '.player-logo';
+            }
+            if ($obj->hideButtonFromPlayerIfIsSmallSeek) {
+                $classes[] = '.vjs-seek-button';
+            }
+            if ($obj->hideButtonFromPlayerIfIsSmallLoop) {
+                $classes[] = '.loop-button';
+            }
+            if ($obj->hideButtonFromPlayerIfIsSmallAutoplay) {
+                $classes[] = '.autoplay-button';
+            }
+
+            if (!empty($classes)) {
+                $css .= "<style>";
+                $css .= implode(', ', $classes);
+                $css .= "{display: none !important;}";
+                $css .= "</style>";
+            }
+
             $css .= "<script src=\"" . getURL('plugin/PlayerSkins/player.js') . "\"></script>";
             if ($obj->showLogoOnEmbed && isEmbed() || $obj->showLogo) {
                 $logo = "{$global['webSiteRootURL']}" . $config->getLogo(true);
@@ -545,10 +577,10 @@ class PlayerSkins extends PluginAbstract
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMobile.js');
         }
         if (empty($_REQUEST['mute'])) {
-            if(empty($global['ignorePersistVolume'] )){
+            if (empty($global['ignorePersistVolume'])) {
                 $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyUnmuted.js');
-            } 
-        }else {
+            }
+        } else {
             $js .= file_get_contents($global['systemRootPath'] . 'plugin/PlayerSkins/events/playerReadyMuted.js');
         }
 
