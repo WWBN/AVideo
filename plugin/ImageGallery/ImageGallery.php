@@ -140,7 +140,7 @@ class ImageGallery extends PluginAbstract
 
     
     public static function getManagerVideosTab(){
-        return '<li id="pImageGalleryLI"><a data-toggle="tab" href="#pImageGallery"><i class="fa-regular fa-images"></i> ' . __("Add more medias") . '</a></li>';
+        return '<li id="pImageGalleryLI"><a data-toggle="tab" href="#pImageGallery"><i class="fa-regular fa-images"></i> ' . __("Image Gallery") . '</a></li>';
     }
 
     public static function getManagerVideosBody(){
