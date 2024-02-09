@@ -135,8 +135,8 @@ global $avideoLayout;
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos');
                                                     return false;" class="btn btn-success btn-block" style="border-radius: 0;">
-                                    <span class="glyphicon glyphicon-film"></span>
-                                    <span class="glyphicon glyphicon-headphones"></span>
+                                    <i class="fa-solid fa-film"></i> 
+                                    <i class="fa-solid fa-headphones"></i>
                                     <?php echo __("My videos"); ?>
                                 </a>
                             </div>

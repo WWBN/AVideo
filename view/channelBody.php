@@ -420,8 +420,8 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                             if ($isMyChannel) {
                                             ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                                    <span class="glyphicon glyphicon-film"></span>
-                                                    <span class="glyphicon glyphicon-headphones"></span>
+                                                    <i class="fa-solid fa-film"></i> 
+                                                    <i class="fa-solid fa-headphones"></i>
                                                     <?php echo __("My videos"); ?>
                                                 </a>
                                             <?php

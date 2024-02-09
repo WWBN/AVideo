@@ -60,7 +60,9 @@ function isYoutubeDl()
                                     <label class="col-md-4 control-label"><?php echo __("Video URL"); ?></label>
                                     <div class="col-md-8 inputGroupContainer">
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="glyphicon glyphicon-film"></i></span>
+                                            <span class="input-group-addon">
+                                                <i class="fa-solid fa-film"></i> 
+                                            </span>
                                             <input  id="inputVideoURL" placeholder="<?php echo __("Video URL"); ?>" class="form-control"  type="text" value="" required >
                                         </div>
                                     </div>
@@ -123,10 +125,8 @@ function isYoutubeDl()
                                     } else {
 
                                         swal({
-                                                title: "<?php echo __("
-                                                Are you sure ? "); ?>",
-                                                text : "<?php echo __("
-                                                You will not be able to recover this action!"); ?>",
+                                                title: "<?php echo __("Are you sure ? "); ?>",
+                                                text : "<?php echo __("You will not be able to recover this action!"); ?>",
                                                 icon: "warning",
                                                 buttons: true,
                                                 dangerMode: true,
@@ -169,11 +169,8 @@ function isYoutubeDl()
                                         'width': '100%'
                                     });
                                     swal({
-                                            title: "<?php echo __("
-                                            Congratulations!"); ?>",
-                                            text: "<?php echo __("
-                                            Your video download is complete,
-                                            it is encoding now "); ?>",
+                                            title: __("Congratulations!"),
+                                            text: __("Your video download is complete, it is encoding now"),
                                             type: "success"
                                         },
                                         function() {
