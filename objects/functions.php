@@ -1247,11 +1247,13 @@ function getVideosURLIMAGE($fileName)
             'type' => 'image',
         ];
         if (file_exists($file)) {
+            $files = array_merge($files, array('jpg'=>$files["image"]));
             break;
         }
     }
-
-    $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
+    if(empty($files["jpg"])){
+        $files = array_merge($files, array('jpg'=>ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_ARRAY)));
+    }
     $time = microtime();
     $time = explode(' ', $time);
     $time = $time[1] + $time[0];

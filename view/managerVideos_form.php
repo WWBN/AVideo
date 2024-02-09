@@ -41,7 +41,6 @@
                         </ul>
                     </div>
                     <div class="panel-body">
-
                         <div class="tab-content">
                             <div id="pmedia" class="tab-pane fade in active">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
@@ -50,7 +49,6 @@
                                         <input type="file" name="upl" />
                                         <input type="hidden" name="videos_id" id="fileUploadVideos_id" />
                                     </div>
-
                                     <ul>
                                         <!-- The file uploads will be shown here -->
                                     </ul>

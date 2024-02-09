@@ -14,14 +14,28 @@ $sources = getVideosURLIMAGE($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <center>
-                <img src="<?php
-                echo $sources["image"]['url']
-                ?>" class="img img-responsive"  style="max-height: 600px;" >
-            </center>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
+            <?php
+            if (AVideoPlugin::isEnabledByName('ImageGallery') && !empty(ImageGallery::listFiles($video['id']))) {
+            ?>
+                <!-- ImageGallery <?php echo basename(__FILE__); ?> -->
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/ImageGallery/?avideoIframe=1&videos_id=<?php echo $video['id']; ?>" allowfullscreen>
+                    </iframe>
+                </div>
+            <?php
+            } else {
+            ?>
+                <center>
+                    <img src="<?php
+                                echo $sources["image"]['url']
+                                ?>" class="img img-responsive" style="max-height: 600px;">
+                </center>
+            <?php
+            }
+            ?>
             <script>
-                $(document).ready(function () {
+                $(document).ready(function() {
                     addView(<?php echo $video['id']; ?>, 0);
                 });
             </script>
@@ -30,7 +44,7 @@ $sources = getVideosURLIMAGE($video['filename']);
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
     });
 </script>

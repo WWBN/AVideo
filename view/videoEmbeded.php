@@ -387,19 +387,32 @@ if (User::hasBlockedUser($video['users_id'])) {
         </script>
     <?php
     } elseif ($video['type'] == Video::$videoTypeImage) {
-        $sources = getVideosURLIMAGE($video['filename']);
-    ?>
-        <!-- image -->
-        <img src="<?php
-                    echo $sources["image"]['url']
-                    ?>" class="img img-responsive center-block" style="height: 100%;">
-        <script>
-            $(document).ready(function() {
-                addCloseButtonInPage();
-                addView(<?php echo $video['id']; ?>, 0);
-            });
-        </script>
-    <?php
+        if (AVideoPlugin::isEnabledByName('ImageGallery') && !empty(ImageGallery::listFiles($video['id']))) {
+            ?>
+            <!-- ImageGallery <?php echo basename(__FILE__); ?> -->
+            <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
+            <iframe style="width: 100%; height: 100%;" class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/ImageGallery/?avideoIframe=1&videos_id=<?php echo $video['id']; ?>"></iframe>
+            <script>
+                $(document).ready(function() {
+                    addView(<?php echo $video['id']; ?>, 0);
+                });
+            </script>
+        <?php
+        }else{
+            $sources = getVideosURLIMAGE($video['filename']);
+        ?>
+            <!-- image -->
+            <img src="<?php
+                        echo $sources["image"]['url']
+                        ?>" class="img img-responsive center-block" style="height: 100%;">
+                        <script>
+                                $(document).ready(function() {
+                                    addCloseButtonInPage();
+                                    addView(<?php echo $video['id']; ?>, 0);
+                                });
+                            </script>
+        <?php
+        }
     } elseif ($video['type'] == Video::$videoTypeZip) {
         $sources = getVideosURLZIP($video['filename']);
     ?>

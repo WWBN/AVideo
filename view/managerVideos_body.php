@@ -432,7 +432,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                         <li><a href="#" onclick="filterStatus = 'passwordProtected'; $('.activeFilter').html('<i class=\'fas fa-lock\' ></i> <?php echo __('Password Protected'); ?>');
                                 $('.tooltip').tooltip('hide');
                                 $('#grid').bootgrid('reload');
-                                return false;"><i class="fas fa-lock" ></i> <?php echo __('Password Protected'); ?></a></li>
+                                return false;"><i class="fas fa-lock"></i> <?php echo __('Password Protected'); ?></a></li>
                     </ul>
                 </div>
             </div>
@@ -1877,11 +1877,11 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     var tags = '';
                     <?php
                     if (Permissions::canAdminVideos()) {
-                        
+
                     ?>
-                        var channelURL = webSiteRootURL+"view/channel.php?";
+                        var channelURL = webSiteRootURL + "view/channel.php?";
                         channelURL = addQueryStringParameter(channelURL, 'channel_users_id', row.users_id);
-                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \"><a href=\""+channelURL+"\" target=\"_blank\" style=\"color: #FFF;\">" + row.user + "</a></span>";
+                        tags += "<div class=\"clearfix\"></div><span class='label label-primary  tagTitle'><?php echo __("Owner") . ":"; ?> </span><span class=\"label label-default \"><a href=\"" + channelURL + "\" target=\"_blank\" style=\"color: #FFF;\">" + row.user + "</a></span>";
                     <?php
                     }
                     ?>
