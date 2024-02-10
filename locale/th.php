@@ -501,7 +501,7 @@ $t['week'] = 'วินาที';
 $t['weeks'] = 'สัปดาห์';
 $t['year'] = 'สัปดาห์';
 $t['years'] = 'ปี';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl ใช้ Python และเซิร์ฟเวอร์บางเครื่องไม่ได้มาพร้อมกับ python เป็น default เพื่อติดตั้ง Python type:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl ใช้ Python และเซิร์ฟเวอร์บางเครื่องไม่ได้มาพร้อมกับ python เป็น default เพื่อติดตั้ง Python type:';
 
 
 // Previously missing from file.

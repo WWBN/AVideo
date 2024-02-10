@@ -299,7 +299,7 @@ $t['month'] = 'maand';
 $t['remaining'] = 'resterend';
 $t['second'] = 'seconden';
 $t['year'] = 'jaar';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl maakt gebruik van Python. Niet alle servers zijn standaard voorzien van Pyton. Voor installatie, type:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl maakt gebruik van Python. Niet alle servers zijn standaard voorzien van Pyton. Voor installatie, type:';
 
 
 // Previously missing from file.
