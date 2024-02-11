@@ -1637,4 +1637,4 @@ $t['users'] = 'users';
 $t['usersGroups'] = 'usersGroups';
 $t['videoOnly'] = 'videoOnly';
 $t['videosList'] = 'videosList';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl uses Python and some servers does not came with python as default, to install Python type:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl uses Python and some servers do not come with python by default. To install Python type:';

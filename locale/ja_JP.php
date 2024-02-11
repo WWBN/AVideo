@@ -881,7 +881,7 @@ $t['week'] = '週';
 $t['weeks'] = '週';
 $t['year'] = '年';
 $t['years'] = '年';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dlはPythonを使用していますが、一部のサーバーにはPythonがデフォルトでインストールされていません。Pythonがインストールされていな場合には、インストールを行ってください。';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dlはPythonを使用していますが、一部のサーバーにはPythonがデフォルトでインストールされていません。Pythonがインストールされていな場合には、インストールを行ってください。';
 
 
 // Previously missing from file.

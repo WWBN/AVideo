@@ -1572,7 +1572,7 @@ $t['week'] = 'שבוע';
 $t['weeks'] = 'שבועות';
 $t['year'] = 'שנה';
 $t['years'] = 'שנים';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl משתמשת בפייתון וכמה שרתים לא הגיעו עם python כמו default, כדי להתקין סוג פייתון:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl משתמשת בפייתון וכמה שרתים לא הגיעו עם python כמו default, כדי להתקין סוג פייתון:';
 
 
 // Previously missing from file.

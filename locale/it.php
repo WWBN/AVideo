@@ -1373,7 +1373,7 @@ $t['week'] = 'settimana';
 $t['weeks'] = 'settimane';
 $t['year'] = 'anno';
 $t['years'] = 'anni';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl utilizza Python e alcuni server non vengono forniti con Python come impostazione predefinita, per installare Python digitare:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl utilizza Python e alcuni server non vengono forniti con Python come impostazione predefinita, per installare Python digitare:';
 
 
 // Previously missing from file.

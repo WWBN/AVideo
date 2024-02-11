@@ -38,7 +38,7 @@ function isYoutubeDl()
                 <h2><?php echo __("You need to install"); ?> youtube-dl</h2>
                 <?php echo __("We use youtube-dl to download videos from youtube.com or other video platforms"); ?><br>
                 <?php echo __("To installations instructions try this link: "); ?><a href="https://github.com/rg3/youtube-dl/blob/master/README.md#installation">Youtube-dl</a><br><br>
-                <?php echo __("youtube-dl uses Python and some servers does not came with python as default, to install Python type:"); ?>
+                <?php echo __("youtube-dl uses Python and some servers do not come with python by default. To install Python type:"); ?>
                 <pre><code>sudo apt-get install python</code></pre>
                 <br>
                 <?php echo __("To install it right away for all UNIX users (Linux, OS X, etc.), type: "); ?>
