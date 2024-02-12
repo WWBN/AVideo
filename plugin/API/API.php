@@ -1631,6 +1631,9 @@ class API extends PluginAbstract
      * ['current' current page]
      * ['searchPhrase' to search on the user and name columns]
      * ['status' if passed will filter active or inactive users]
+     * ['isAdmin' if passed will filter only admin]
+     * ['isCompany' if passed will filter only companies]
+     * ['canUpload' if passed will filter only users that can upload]
      * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&APISecret={APISecret}&status=a&rowCount=3&searchPhrase=test
      * @return \ApiObject
      */
@@ -1647,8 +1650,22 @@ class API extends PluginAbstract
                     $status = 'a';
                 }
             }
+            $isAdmin = null;
+            if (!empty($_GET['isAdmin'])) {
+                $isAdmin = 1;
+            }
+            $isCompany = null;
+            if (!empty($_GET['isCompany'])) {
+                $isCompany = 1;
+            }
+            $canUpload = null;
+            if (!empty($_GET['canUpload'])) {
+                $canUpload = 1;
+            }
 
-            $rows = User::getAllUsers(true, ['user', 'name'], $status);
+
+            //getAllUsers($ignoreAdmin = false, $searchFields = ['name', 'email', 'user', 'channelName', 'about'], $status = "", $isAdmin = null, $isCompany = null, $canUpload = null)
+            $rows = User::getAllUsers(true, ['user', 'name'], $status, $isAdmin, $isCompany, $canUpload);
 
             return new ApiObject("", false, $rows);
         } else {
