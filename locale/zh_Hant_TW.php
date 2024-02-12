@@ -983,7 +983,7 @@ $t['week'] = '星期';
 $t['weeks'] = '星期';
 $t['year'] = '年';
 $t['years'] = '年';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl 使用 Python 語言寫成，有些系統預設不會安裝 Python。要安裝 Python 請輸入：';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl 使用 Python 語言寫成，有些系統預設不會安裝 Python。要安裝 Python 請輸入：';
 
 
 // Previously missing from file.

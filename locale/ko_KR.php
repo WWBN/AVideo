@@ -786,7 +786,7 @@ $t['week'] = '일주일';
 $t['weeks'] = '몇 주';
 $t['year'] = '연도';
 $t['years'] = '몇 해';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'YouTube-dl은 Python을 사용하며 일부 서버는 Python과 함께 default로 제공되지 않고 Python 유형을 설치:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'YouTube-dl은 Python을 사용하며 일부 서버는 Python과 함께 default로 제공되지 않고 Python 유형을 설치:';
 
 
 // Previously missing from file.

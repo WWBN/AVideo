@@ -1454,7 +1454,7 @@ $t['week'] = 'hét';
 $t['weeks'] = 'hetek';
 $t['year'] = 'év';
 $t['years'] = 'évek';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'A youtube-dl Pythont használ, és néhány szerver nem alapértelmezett python, a Python típus telepítéséhez:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'A youtube-dl Pythont használ, és néhány szerver nem alapértelmezett python, a Python típus telepítéséhez:';
 
 
 // Previously missing from file.

@@ -970,7 +970,7 @@ $t['week'] = '周';
 $t['weeks'] = '周';
 $t['year'] = '年';
 $t['years'] = '年';
-$t['youtube-dl uses Python and some servers does not came with python as default, to install Python type:'] = 'youtube-dl 使用 Python 语言写成,有些系统默认不会安装 Python. 要安装 Python 请输入:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl 使用 Python 语言写成,有些系统默认不会安装 Python. 要安装 Python 请输入:';
 
 
 // Previously missing from file.
