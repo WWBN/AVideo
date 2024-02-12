@@ -3033,11 +3033,11 @@ if (typeof gtag !== \"function\") {
 
         $response = false;
         if (!empty($_REQUEST['user']) && !empty($_REQUEST['pass'])) {
+            unset($_SESSION['user']);
             $user = new User(0, $_REQUEST['user'], $_REQUEST['pass']);
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
             if ($response !== self::USER_LOGGED) {
-                //_error_log("loginFromRequest trying again");
-                unset($_SESSION['user']);
+                //_error_log("loginFromRequest trying again");                
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
             if ($response) {
