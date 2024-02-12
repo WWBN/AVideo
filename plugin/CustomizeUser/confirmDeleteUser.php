@@ -89,7 +89,9 @@ $_page = new Page(array('Delete User', $user->getUser()));
             var url = webSiteRootURL + 'plugin/CustomizeUser/confirmDeleteUser.json.php';
             var data = {
                 captcha: $('#captchaDeleteUser input').val(),
-                users_id: <?php echo $users_id; ?>
+                users_id: <?php echo $users_id; ?>,
+                user: '<?php echo User::getUserName(); ?>',
+                pass: '<?php echo User::getUserPass(); ?>'
             };
             avideoAjax(url, data);
         }
