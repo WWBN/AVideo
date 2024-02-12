@@ -3,7 +3,7 @@ require_once '../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/captcha.php';
 
 $users_id = intval(@$_REQUEST['users_id']);
-
+User::loginFromRequest();
 if (empty($users_id) || !Permissions::canAdminUsers()) {
     $users_id = User::getId();
 }
