@@ -15,16 +15,11 @@ if (empty($users_id)) {
 $user = new User($users_id);
 
 $videos = Video::getAllVideosLight('', $users_id);
-?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>">
 
-<head>
-    <title><?php echo __("Delete User"); ?> <?php echo $user->getUser(); ?></title>
-    <?php
-    include $global['systemRootPath'] . 'view/include/head.php';
-    ?>
-    <style>
+
+$_page = new Page(array('Delete User', $user->getUser()));
+?>
+<style>
         .scrollable-panel-body {
             max-height: calc(100vh - 350px);
             /* Adjust this value based on your needs */
@@ -32,13 +27,7 @@ $videos = Video::getAllVideosLight('', $users_id);
             /* Enables vertical scrolling */
         }
     </style>
-</head>
-
-<body class="<?php echo $global['bodyClass']; ?>">
-    <?php
-    include $global['systemRootPath'] . 'view/include/navbar.php';
-    ?>
-    <div class="container-fluid">
+<div class="container-fluid">
         <div class="panel panel-default">
             <div class="panel-heading">
                 <?php
@@ -94,9 +83,7 @@ $videos = Video::getAllVideosLight('', $users_id);
             </div>
         </div>
     </div>
-    <?php
-    include $global['systemRootPath'] . 'view/include/footer.php';
-    ?>
+    
     <script type="text/javascript">
         function deleteUser() {
             var url = webSiteRootURL + 'plugin/CustomizeUser/confirmDeleteUser.json.php';
@@ -107,6 +94,5 @@ $videos = Video::getAllVideosLight('', $users_id);
             avideoAjax(url, data);
         }
     </script>
-</body>
-
-</html>
+<?php
+$_page->print();

@@ -3037,6 +3037,7 @@ if (typeof gtag !== \"function\") {
             $response = $user->login(false, !empty($_REQUEST['encodedPass']));
             if ($response !== self::USER_LOGGED) {
                 //_error_log("loginFromRequest trying again");
+                unset($_SESSION['user']);
                 $response = $user->login(false, empty($_REQUEST['encodedPass']));
             }
             if ($response) {
