@@ -1510,6 +1510,7 @@ if (!class_exists('Video')) {
             $sql .= AVideoPlugin::getVideoWhereClause();
 
             $sql .= "ORDER BY RAND() LIMIT {$limit}";
+            //var_dump($sql);exit;
             $res = sqlDAL::readSql($sql);
             $fullData = sqlDAL::fetchAllAssoc($res);
             //var_dump(count($fullData), $sql);

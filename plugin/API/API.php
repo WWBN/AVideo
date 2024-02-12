@@ -2792,6 +2792,82 @@ class API extends PluginAbstract
         return new ApiObject($msg, empty($obj), $obj);
     }
 
+
+    /**
+     * @param array $parameters
+     * 'birth_date' The birth date in Y-m-d format.
+     * ['user' username of the user]
+     * ['pass' password  of the user]
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&birth_date=1997-06-17
+     * @return \ApiObject Returns an ApiObject.
+     */
+    public function set_api_birth($parameters)
+    {
+        global $global;
+        $users_id = User::getId();
+        if (empty($users_id)) {
+            return new ApiObject("You must login first");
+        }
+        $msg = '';
+        $obj = new stdClass();        
+
+        $user = new User(0);
+        $user->loadSelfUser();
+        $user->setBirth_date($_REQUEST['birth_date']);
+        $obj->users_id = $user->save();        
+        $obj->error = empty($obj->users_id);
+        User::updateSessionInfo();
+
+        return new ApiObject($msg, $obj->error, $obj);
+    }
+
+    /**
+     * @param array $parameters
+     * 'users_id' users id from what user you want the response.
+     * 'APISecret' mandatory for security reasons - required
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&users_id=1
+     * @return \ApiObject Returns an ApiObject.
+     */
+    public function get_api_is_verified($parameters)
+    {
+        global $global;
+        if (!self::isAPISecretValid()) {
+            return new ApiObject("APISecret is required");
+        }
+        $obj = new stdClass();  
+        $obj->users_id = intval($_REQUEST['users_id']);
+        if (empty($obj->users_id)) {
+            return new ApiObject("Users ID is required");
+        }
+        $user = new User($obj->users_id);
+        $obj->email_verified = !empty($user->getEmailVerified());        
+
+        return new ApiObject('', false, $obj);
+    }
+
+    /**
+     * @param array $parameters
+     * 'users_id' users id from what user you want the response.
+     * 'APISecret' mandatory for security reasons - required
+     * @example {webSiteRootURL}plugin/API/{getOrSet}.json.php?APIName={APIName}&users_id=1
+     * @return \ApiObject Returns an ApiObject.
+     */
+    public function set_api_send_verification_email($parameters)
+    {
+        global $global;
+        if (!self::isAPISecretValid()) {
+            return new ApiObject("APISecret is required");
+        }
+        $obj = new stdClass();  
+        $obj->users_id = intval($_REQUEST['users_id']);
+        if (empty($obj->users_id)) {
+            return new ApiObject("Users ID is required");
+        }
+        $user = new User($obj->users_id);     
+        $obj->sent = User::sendVerificationLink($obj->users_id);
+        return new ApiObject('', false, $obj);
+    }
+
     public static function isAPISecretValid()
     {
         global $global;
@@ -2814,6 +2890,7 @@ class ApiObject
     public $response;
     public $msg;
     public $users_id;
+    public $user_age;
     public $session_id;
 
     public function __construct($message = "api not started or not found", $error = true, $response = [])
@@ -2825,6 +2902,7 @@ class ApiObject
         $this->message = $message;
         $this->response = $response;
         $this->users_id = User::getId();
+        $this->user_age = User::getAge();
         $this->session_id = session_id();
     }
 }

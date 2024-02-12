@@ -1394,6 +1394,12 @@ if (typeof gtag !== \"function\") {
 
     public static function getAge($users_id = 0)
     {
+        if(empty($users_id)){
+            $users_id = User::getId();
+        }
+        if(empty($users_id)){
+            return 0;
+        }
         $birth_date = self::getBirthIfIsSet($users_id);
         if (empty($birth_date)) {
             return 0;

@@ -234,6 +234,7 @@ if ($resp === User::REQUIRE2FA) {
 ////_error_log("login.json.php setup object");
 $object->siteLogo = $global['webSiteRootURL'] . $config->getLogo();
 $object->id = User::getId();
+$object->age = User::getAge();
 $object->user = User::getUserName();
 $object->donationLink = User::donationLink();
 $object->name = User::getName();
