@@ -706,7 +706,8 @@ if (User::isAdmin()) {
                         first_name: "Your Site test",
                         email: "<?php echo $config->getContactEmail(); ?>",
                         website: "www.avideo.com",
-                        comment: "Teste of comment"
+                        comment: "Teste of comment",
+                        isTest: 1
                     },
                     type: 'post',
                     success: function(response) {

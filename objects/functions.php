@@ -640,7 +640,7 @@ function setSiteSendMessage(\PHPMailer\PHPMailer\PHPMailer &$mail)
         _error_log("Sending SMTP Email");
         $mail->CharSet = 'UTF-8';
         $mail->isSMTP(); // enable SMTP
-        if (!empty($_POST) && $_POST["comment"] == "Test of comment" && User::isAdmin()) {
+        if (!empty($_POST) && ($_POST["comment"] == "Test of comment" || !empty($_REQUEST['isTest'])) && User::isAdmin()) {
             $mail->SMTPDebug = 3;
             $mail->Debugoutput = function ($str, $level) {
                 _error_log("SMTP ERROR $level; message: $str", AVideoLog::$ERROR);
