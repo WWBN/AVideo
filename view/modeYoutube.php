@@ -68,21 +68,26 @@ if (!empty($evideo)) {
         unset($_SESSION['type']);
     }
     _session_write_close();
-
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     if (empty($_GET['playlist_id']) && !empty($_GET['playlist_name'])) {
         $_GET['playlist_id'] = $_GET['playlist_name'];
     }else if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
         $_GET['playlist_id'] = $_GET['playlists_id'];
-    }
+    }/*
+    else{
+        $video_ =  Video::getVideoLight($_GET['videos_id']);
+        if(!empty($video_['serie_playlists_id'])){
+            $_GET['playlist_id'] = $video_['serie_playlists_id'];
+        }
+    }*/
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
-
         $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
         if (!$plp->canSee()) {
             forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__));
         }
         $playListData = $plp->getPlayListData();
+        //var_dump($playListData);exit;
         if (empty($playListData)) {
             if(empty($messagesFromPlayList)){
                 $messagesFromPlayList = array();
@@ -196,7 +201,7 @@ if (!empty($evideo)) {
     }
 
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-    if (!empty($video) && $video['type'] == "video") {
+    if (!empty($video) && $video['type'] == Video::$videoTypeVideo) {
         $poster = "{$global['webSiteRootURL']}videos/{$video['filename']}.jpg";
     } else {
         $poster = ImagesPlaceHolders::getAudioLandscape(ImagesPlaceHolders::$RETURN_URL);

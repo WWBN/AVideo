@@ -2010,7 +2010,8 @@ body.ypt-is-compressed #videoCol {
     float: none;
 }
 
-#bigVideoCarousel div > div.galleryVideoButtons > div > ul > li > button{
+#bigVideoCarousel div > div.galleryVideoButtons > div > ul > li > button,
+#modeYoutubeBottomContent div.galleryVideoButtons ul li > button{
     display: inline-block;
 }
 

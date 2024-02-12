@@ -1251,8 +1251,7 @@ class PlayListPlayer
         }
         $messagesFromPlayList = array();
         foreach ($this->videos as $key => $video) {
-
-            if ($video['type'] === 'embed') {
+            if ($video['type'] === Video::$videoTypeEmbed) {
                 $sources[0]['type'] = 'video';
                 $sources[0]['url'] = @$video["videoLink"];
             } else {
@@ -1260,20 +1259,18 @@ class PlayListPlayer
             }
             $images = Video::getImageFromFilename($video['filename'], $video['type']);
             $externalOptions = _json_decode($video['externalOptions']);
-
             $src = new stdClass();
             $src->src = $images->thumbsJpg;
             $thumbnail = array($src);
-
             $playListSources = array();
             foreach ($sources as $value2) {
-                if ($value2['type'] !== 'video' && $value2['type'] !== 'audio' && $value2['type'] !== 'serie') {
+                if ($value2['type'] !== Video::$videoTypeVideo && $value2['type'] !== Video::$videoTypeAudio && $value2['type'] !== Video::$videoTypeSerie) {
                     $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
                     continue;
                 }
                 $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
                 //var_dump($value2);
-                $playListSources[] = new playListSource($value2['url'], $video['type'] === 'embed');
+                $playListSources[] = new playListSource($value2['url'], $video['type'] === Video::$videoTypeEmbed);
             }
             if (empty($playListSources)) {
                 $messagesFromPlayList[] = "videos_id={$video['videos_id']} empty playlist source ";

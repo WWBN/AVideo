@@ -502,7 +502,7 @@ class PlayList extends ObjectYPT
             $sql = "SELECT 0 as playlists_id, id as videos_id FROM videos p WHERE status = ?  ORDER BY `created` DESC ";
             $res = sqlDAL::readSql($sql, "s", [Video::$statusActive]);
         } else {
-            $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ?  ORDER BY `order` ";
+            $sql = "SELECT * FROM playlists_has_videos p WHERE playlists_id = ?  ORDER BY `order` ASC ";
             $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
         }
 
