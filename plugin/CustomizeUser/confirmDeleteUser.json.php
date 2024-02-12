@@ -20,7 +20,7 @@ if (empty($valid)) {
 }
 
 $obj->users_id = intval(@$_REQUEST['users_id']);
-
+User::loginFromRequest();
 if (empty($obj->users_id) || !Permissions::canAdminUsers()) {
     $obj->users_id = User::getId();
 }
