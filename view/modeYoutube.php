@@ -83,6 +83,8 @@ if (!empty($evideo)) {
     if (!empty($_GET['playlist_id'])) {
         $isSerie = 1;
         $plp = new PlayListPlayer(@$_GET['playlist_id'], @$_GET['playlists_tags_id']);
+        $playListData = $plp->getPlayListData();
+        //var_dump($_GET['playlist_id'], $_GET['playlists_tags_id'], $playListData, $messagesFromPlayList);exit;
         if (!$plp->canSee()) {
             forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__));
         }

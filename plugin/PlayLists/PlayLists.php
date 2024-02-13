@@ -1192,6 +1192,7 @@ class PlayListPlayer
             }
             $_pl_getVideos[$this->playlists_id] = array();
             $videos = PlayList::getVideosFromPlaylist($this->playlists_id);
+            //var_dump($videos, $this->playlists_id);
             $_pl_getVideos[$this->playlists_id] = $videos;
             /*
               if (!empty($this->ObjectData->showTrailerInThePlayList)) {
@@ -1264,16 +1265,16 @@ class PlayListPlayer
             $thumbnail = array($src);
             $playListSources = array();
             foreach ($sources as $value2) {
-                if ($value2['type'] !== Video::$videoTypeVideo && $value2['type'] !== Video::$videoTypeAudio && $value2['type'] !== Video::$videoTypeSerie) {
-                    $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
+                if ($value2['type'] !== Video::$videoTypeVideo && $video['type'] !== Video::$videoTypeAudio && $video['type'] !== Video::$videoTypeSerie) {
+                    $messagesFromPlayList[] = "Playlist getPlayListData videos_id={$video['id']} [{$video['title']}] invalid type {$video['type']} filename={$video['filename']}";
                     continue;
                 }
-                $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} invalid type {$value2['type']} filename={$video['filename']}";
+                $messagesFromPlayList[] = "Playlist playListSource videos_id={$video['id']} [{$video['title']}] type {$video['type']} filename={$video['filename']}";
                 //var_dump($value2);
                 $playListSources[] = new playListSource($value2['url'], $video['type'] === Video::$videoTypeEmbed);
             }
             if (empty($playListSources)) {
-                $messagesFromPlayList[] = "videos_id={$video['videos_id']} empty playlist source ";
+                $messagesFromPlayList[] = "videos_id={$video['videos_id']} [{$value2['title']}]  empty playlist source ";
                 continue;
             }
             $playListData[] = new PlayListElement(@$video['title'], @$video['description'], @$video['duration'], $playListSources, $thumbnail, $images->poster, parseDurationToSeconds(@$externalOptions->videoStartSeconds), @$video['created'], @$video['likes'], @$video['views_count'], $video['videos_id']);
