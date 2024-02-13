@@ -14,6 +14,8 @@ $t['2FA login is required'] = 'Une connexion 2FA est requise';
 $t['465 OR 587'] = '465 ou 587';
 $t[': activate to sort column ascending'] = ': Activer pour trier par ordre croissant';
 $t[': activate to sort column descending'] = ': Activer pour trier par ordre décroissant';
+$t['A client error occurred [2]: %s'] = "Une erreur du client s'est produite [2]: %s";
+$t['A client error occurred: %s'] = "Une erreur du client s'est produite: %s";
 $t['A service error occurred [1]: %s'] = "Une erreur de service s'est produite [1] : %s";
 $t['A service error occurred: %s'] = "Une erreur de service s'est produite: %s";
 $t['ADs plugin'] = 'plugin Ads';
@@ -46,7 +48,6 @@ $t['All'] = 'Tous';
 $t['Allow Download'] = 'Autoriser le téléchargement';
 $t['Allow download video'] = 'Autoriser le téléchargement de vidéos';
 $t['Amount'] = 'Quantité';
-$t['A client error occurred: %s'] = "Une erreur du client s'est produite: %s";
 $t['Analytics Code'] = 'Code Google Analytics';
 $t['Anyone with this key can watch your live stream.'] = 'Toute personne possédant cette clé peut regarder votre diffusion en direct.';
 $t['Are you sure?'] = 'Êtes-vous sûr ?';
@@ -760,11 +761,14 @@ $t['months'] = 'mois';
 $t['remaining'] = 'restant';
 $t['second'] = 'seconde';
 $t['seconds'] = 'secondes';
+$t['tls OR ssl'] = 'tls OU ssl';
+$t['user'] = 'utilisateur';
+$t['users'] = 'utilisateurs';
 $t['week'] = 'semaine';
 $t['weeks'] = 'semaines';
 $t['year'] = 'année';
 $t['years'] = 'années';
-$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl utilise Python et certains serveurs ne sont pas livrés avec python. Pour installer Python:';
+$t['youtube-dl uses Python and some servers do not come with python by default. To install Python type:'] = 'youtube-dl utilise Python et certains serveurs ne sont pas livrés avec python. Pour installer Python tapez:';
 
 
 // Previously missing from file.
@@ -814,7 +818,6 @@ $t['Allow Share This media'] = 'Allow Share This media';
 $t['Alphabetical'] = 'Alphabetical';
 $t['Already verified'] = 'Already verified';
 $t['Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!'] = 'Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!';
-$t['A client error occurred [2]: %s'] = "Une erreur du client s'est produite [2]: %s";
 $t['Approve Ad Code'] = 'Approve Ad Code';
 $t['Are you new here?'] = 'Are you new here?';
 $t['Arrow'] = 'Arrow';
@@ -1632,24 +1635,17 @@ $t['subscribes'] = 'subscribes';
 $t['the files. Only the videos-folder should stay untouched.'] = 'the files. Only the videos-folder should stay untouched.';
 $t['the user is inactive'] = 'the user is inactive';
 $t['this help'] = 'this help';
-$t['tls OR ssl'] = 'tls OU ssl';
-$t['user'] = 'utilisateur';
-$t['users'] = 'utilisateurs';
 $t['usersGroups'] = 'usersGroups';
 $t['videoOnly'] = 'videoOnly';
 $t['videosList'] = 'videosList';
 
 
 // Extras (might belong to a plugin, or might be outdated and not needed anymore; should confirm).
-$t['(Permalink .txt file)'] = '(Permalink)';
-$t['(SEO .txt file)'] = '(SEO)';
 $t['<p>AVideo! is an video-sharing website, The service was created by Daniel Neto in march 2017. </p><p>The software allow you to upload, view, share and comment on videos, and it makes use of WebM and H.264/MPEG-4 AVC to display a wide variety of user-generated and corporate media videos. </p><p>Best of all, AVideo! is an open source solution that is freely available to everyone.</p>'] = "<p>AVideo ! Est un site de partage de vidéos, le service a été créé par Daniel Neto en mars 2017. </p><p> Le logiciel vous permet de télécharger, de visualiser, de partager et de commenter des vidéos, et il utilise WebM et H.264 / MPEG-4 AVC pour afficher une grande variété de vidéos multimédias générées par les utilisateurs et d'entreprise. </p><p> Le meilleur de tous, AVideo ! Est une solution open source qui est disponible gratuitement pour tous.</p>";
 $t['About AVideo!'] = 'À propos de AVideo !';
 $t['Active and encoding'] = 'Actif et codage';
 $t['All categories'] = 'Toutes catégories';
-$t['Apostle Paul in'] = 'Apôtre Saint-Paul dans';
 $t['Backing up your video files and databases, running test restores procedures on your backups, and storing copies of backups in a safe, off-site location protects you from potentially catastrophic data loss. Backing up is the only way to protect your data.'] = 'La sauvegarde de vos fichiers vidéos et de vos bases de données, le test de restauration de vos sauvegardes et le stockage de ces copies de sauvegardes dans un emplacement sûr vous protège contre une perte de données potentiellement catastrophique. La sauvegarde est le seul moyen de protéger vos données.';
-$t['Brazilian Portuguese'] = 'portugais brésilien';
 $t['Clone Now'] = 'Cloner maintenant';
 $t['Clones Manager'] = 'Gestionnaire de clones';
 $t['Demo Site'] = 'Démonstration';
