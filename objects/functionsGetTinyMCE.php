@@ -1,6 +1,62 @@
 <?php
 global $tinyMCELibs;
 $tinyMCEuid = uniqid();
+
+// Basic configurations
+$basicValidElements = 'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class|title],' .
+    'div[class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent|style],' .
+    'button[class|data-toggle|data-target|data-dismiss|type|aria-expanded],' .
+    'span[class|aria-hidden|style],' .
+    'ul[class],' .
+    'li[class],' .
+    'i[class],' .
+    'img[class|src|alt|data-src|style],' .
+    'nav[class],' .
+    'input[class|type|data-toggle|placeholder|aria-describedby],' .
+    'label[for|class|data-toggle],' .
+    'textarea[class|rows|placeholder],' .
+    'h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],' .
+    'p[class|style],' .
+    'br,' .
+    'hr[class],' .
+    'ol[class],' .
+    'blockquote[class],' .
+    'abbr[title],' .
+    'code,' .
+    'pre[class]';
+$basicValidStyles = 'a{role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class|title};' .
+    'div{class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent|style};' .
+    'span{class|aria-hidden|style};' .
+    'img{class|src|alt|data-src|style};' .
+    'p{class|style};';
+
+// Allowing all attributes, CSS, and tags
+$extendedValidElements = '';
+$extendedValidStyles = '';
+
+
+// Toolbar and Plugins based on simpleMode or full feature
+if ($simpleMode) {
+    // Conditional assignment based on PHP variables
+    $validElements = $basicValidElements;
+    $validStyles = $basicValidStyles;
+
+    $tinyMCEplugins = 'code preview autolink fullscreen link pagebreak nonbreaking anchor wordcount help ';
+    $tinyMCEtoolbar = 'fullscreen | styleselect align bold italic strikethrough underline | link | numlist bullist | removeformat | code';
+    $tinyMCEmenubar = false;
+} else {
+
+    // Conditional assignment based on PHP variables
+    $validElements = $allowAllTags ? $extendedValidElements : $basicValidElements;
+    $validStyles = $allowCSS ? $extendedValidStyles : $basicValidStyles;
+
+    $tinyMCEplugins = 'code preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help';
+    $tinyMCEtoolbar = 'fullscreen | formatselect | align bold italic strikethrough underline | forecolor backcolor | link image media pageembed | numlist bullist | removeformat | code';
+    $tinyMCEmenubar = 'edit insert view format table tools help';
+}
+
+
+
 if (empty($tinyMCELibs)) {
     $tinyMCELibs = 1;
 ?>
@@ -24,9 +80,6 @@ if (empty($tinyMCELibs)) {
         function image_upload_handler<?php echo $tinyMCEuid; ?>(blobInfo, success, failure) {
             avideoToastError('Image upload disabled');
         }
-        var tinyMCEplugins<?php echo $tinyMCEuid; ?> = 'code preview autolink fullscreen link pagebreak nonbreaking anchor wordcount help ';
-        var tinyMCEtoolbar<?php echo $tinyMCEuid; ?> = 'fullscreen | styleselect align bold italic strikethrough underline | link | numlist bullist | removeformat | code';
-        var tinyMCEmenubar<?php echo $tinyMCEuid; ?> = '';
     <?php
     } else {
     ?>
@@ -83,10 +136,6 @@ if (empty($tinyMCELibs)) {
             xhr.send(formData);
         });
 
-        //var tinyMCEplugins = 'code print preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern help ';
-        var tinyMCEplugins<?php echo $tinyMCEuid; ?> = 'code preview searchreplace autolink directionality visualblocks visualchars fullscreen image link media codesample table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help ';
-        var tinyMCEtoolbar<?php echo $tinyMCEuid; ?> = 'fullscreen | formatselect | bold italic strikethrough | link image media pageembed | numlist bullist | removeformat | addcomment';
-        var tinyMCEmenubar<?php echo $tinyMCEuid; ?> = 'edit insert view format table tools help';
     <?php
     }
 
@@ -106,42 +155,23 @@ if (empty($tinyMCELibs)) {
             language: <?php echo $language; ?>,
             language_url: <?php echo $language_url; ?>,
             selector: '#<?php echo $id; ?>', // change this value according to your HTML
-            plugins: tinyMCEplugins<?php echo $tinyMCEuid; ?>,
-            //toolbar: 'fullscreen | formatselect | bold italic strikethrough forecolor backcolor permanentpen formatpainter | link image media pageembed | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent | removeformat | addcomment',
-            toolbar: tinyMCEtoolbar<?php echo $tinyMCEuid; ?>,
-            menubar: tinyMCEmenubar<?php echo $tinyMCEuid; ?>, // remove 'file' menu as it's useless in our context
+            plugins: '<?php echo $tinyMCEplugins; ?>',
+            toolbar: '<?php echo $tinyMCEtoolbar; ?>',
+            menubar: '<?php echo $tinyMCEmenubar; ?>',
             height: 400,
             convert_urls: false,
             mobile: {
                 theme: 'silver'
             },
             images_upload_handler: image_upload_handler<?php echo $tinyMCEuid; ?>,
-            valid_styles: {
-                '*': 'color,font-size,font-family'
-            },
-            extended_valid_elements: (
-                'a[role|href|target|data-toggle|data-parent|data-dismiss|aria-expanded|aria-controls|class|title],' +
-                'div[class|role|data-toggle|aria-labelledby|aria-hidden|aria-expanded|data-target|data-parent],' +
-                'button[class|data-toggle|data-target|data-dismiss|type|aria-expanded],' +
-                'span[class|aria-hidden|style],' +
-                'ul[class],' +
-                'li[class],' +
-                'i[class],' +
-                'img[class|src|alt|data-src],' +
-                'nav[class],' +
-                'input[class|type|data-toggle|placeholder|aria-describedby],' +
-                'label[for|class|data-toggle],' +
-                'textarea[class|rows|placeholder],' +
-                'h1[class],h2[class],h3[class],h4[class],h5[class],h6[class],' +
-                'p[class],' +
-                'br,' +
-                'hr[class],' +
-                'ol[class],' +
-                'blockquote[class],' +
-                'abbr[title],' +
-                'code,' +
-                'pre[class]'
-            ),
+            <?php
+            if (!empty($validElements)) {
+                echo "extended_valid_elements: '{$validElements}',";
+            }
+            if (!empty($valid_styles)) {
+                echo "valid_styles: '{$validStyles}',";
+            }
+            ?>
         });
     }, <?php echo $tinyMCELibs * 500; ?>);
 </script>

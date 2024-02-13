@@ -14,7 +14,8 @@
         <?php
         echo("<script>window.videos_id={$videos_id}</script>");
         if (empty($advancedCustom->disableHTMLDescription)) {
-            echo getTinyMCE("description");
+            $articleObj = AVideoPlugin::getObjectDataIfEnabled('Articles');
+            echo getTinyMCE("description", false, !empty($articleObj && $articleObj->allowAttributes), !empty($articleObj && $articleObj->allowCSS), !empty($articleObj && $articleObj->allowAllTags));
         }
         ?>
     </div>
