@@ -42,8 +42,6 @@ if ($valid) {
         $mail->addAddress($sendTo);
         //Set the subject line
         
-        $mail->SMTPDebug = 3;
-        
         $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle() . " ({$_POST['first_name']})";
         $mail->msgHTML($msg);
 
