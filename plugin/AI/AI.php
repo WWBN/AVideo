@@ -292,9 +292,19 @@ class AI extends PluginAbstract {
         );
 
         $paths = self::getMP3Path($videos_id);
-        if(!empty($paths )){
+        if(!empty($paths)){
             $duration = getDurationFromFile($paths['path']);
             $durationInSeconds = durationToSeconds($duration);
+            $video = new Video('', '', $videos_id);
+            
+            $diff = abs($video->getDuration_in_seconds() - $durationInSeconds);
+            if ($diff > 2) {
+                unlink($paths['path']);
+                $paths = self::getMP3Path($videos_id);
+                $duration = getDurationFromFile($paths['path']);
+                $durationInSeconds = durationToSeconds($duration);                    
+            }
+
             $arrayRegular = array(
                 'paths' => $paths,
                 'duration' => $duration,
