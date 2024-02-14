@@ -108,7 +108,7 @@ $metaDescription = " Contact Form";
                             <div class="form-group">
                                 <label class="col-md-4 control-label"></label>
                                 <div class="col-md-4">
-                                    <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                    <button type="submit" class="btn btn-primary btn-block" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
                                 </div>
                             </div>
 

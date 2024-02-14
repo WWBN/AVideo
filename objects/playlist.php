@@ -712,6 +712,8 @@ class PlayList extends ObjectYPT
             $sql .= ' AND serie_playlists_id IS NOT NULL ';
         }
 
+        $sql .= ' ORDER BY p.`order` ASC ';
+
         $res = sqlDAL::readSql($sql, "i", [$playlists_id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
