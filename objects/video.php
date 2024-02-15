@@ -1544,7 +1544,7 @@ if (!class_exists('Video')) {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return [];
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             $tolerance = 0.5;
             /**
              *
@@ -1554,7 +1554,7 @@ if (!class_exists('Video')) {
             if (!empty($_POST['sort']['suggested'])) {
                 $suggestedOnly = true;
             }
-
+            if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             if (!empty($_REQUEST['sort']['shorts']) && empty($max_duration_in_seconds)) {
                 unset($_REQUEST['sort']['shorts']);
                 unset($_GET['sort']['shorts']);
@@ -1566,7 +1566,7 @@ if (!class_exists('Video')) {
                         $max_duration_in_seconds = 60;
                     }
                 }
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             if (AVideoPlugin::isEnabledByName("VideoTags")) {
                 if (!empty($_GET['tags_id']) && empty($videosArrayId)) {
                     TimeLogStart("video::getAllVideos::getAllVideosIdFromTagsId({$_GET['tags_id']})");
@@ -1596,12 +1596,12 @@ if (!class_exists('Video')) {
 
             if (isForKidsSet()) {
                 $sql .= " AND made_for_kids = 1 ";
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             $blockedUsers = self::getBlockedUsersIdsArray();
             if (!empty($blockedUsers)) {
                 $sql .= " AND v.users_id NOT IN ('" . implode("','", $blockedUsers) . "') ";
             }
-
+            if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             if ($showOnlyLoggedUserVideos === true && !Permissions::canModerateVideos()) {
                 $uid = intval(User::getId());
                 $sql .= " AND (v.users_id = '{$uid}' OR v.users_id_company ='{$uid}')";
@@ -1658,7 +1658,7 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.type = '{$_SESSION['type']}' ";
                 }
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
 
             if (!empty($type)) {
                 if ($type == 'notAudio') {
@@ -1683,13 +1683,13 @@ if (!class_exists('Video')) {
                 } elseif (in_array($videoType, self::$typeOptions)) {
                     $sql .= " AND v.type = '{$videoType}' ";
                 }
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
 
             if (!empty($videosArrayId) && is_array($videosArrayId) && (is_numeric($videosArrayId[0]))) {
                 $sql .= " ORDER BY FIELD(v.id, '" . implode("', '", $videosArrayId) . "') ";
             } else {
                 $sql .= self::getSQLByStatus($status, $showUnlisted);
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             //var_dump($max_duration_in_seconds);echo $sql;exit;            
             $sql .= Video::getCatSQL();
 
@@ -1743,7 +1743,7 @@ if (!class_exists('Video')) {
             if (!empty($passwordProtectedOnly)) {
                 $sql .= " AND (v.video_password IS NOT NULL AND v.video_password != '') ";
             }
-
+            if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             $sql .= AVideoPlugin::getVideoWhereClause();
             if (empty($videosArrayId)) {
                 if ($suggestedOnly) {
@@ -1799,7 +1799,7 @@ if (!class_exists('Video')) {
                     }
                     $sql .= ObjectYPT::getSqlLimit();
                 }
-            }
+            }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {
                     $sql .= " LIMIT 1";
