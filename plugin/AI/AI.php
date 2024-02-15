@@ -296,13 +296,17 @@ class AI extends PluginAbstract {
             $duration = getDurationFromFile($paths['path']);
             $durationInSeconds = durationToSeconds($duration);
             $video = new Video('', '', $videos_id);
-            
-            $diff = abs($video->getDuration_in_seconds() - $durationInSeconds);
+            $videoDuration = $video->getDuration_in_seconds();
+            $diff = abs($videoDuration - $durationInSeconds);
             if ($diff > 2) {
                 unlink($paths['path']);
-                $paths = self::getMP3Path($videos_id);
-                $duration = getDurationFromFile($paths['path']);
-                $durationInSeconds = durationToSeconds($duration);                    
+                $response = array(
+                    'regular' => $arrayRegular,
+                    'lower' => $arrayLower,
+                    'isValid' => false,
+                    'msg' => "Length does not match (Video/MP3) video = {$videoDuration} seconds MP3 = $durationInSeconds seconds",
+                );
+                return $response;                  
             }
 
             $arrayRegular = array(
