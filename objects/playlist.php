@@ -90,9 +90,9 @@ class PlayList extends ObjectYPT
     {
         if (empty($playlists_id)) {
             return false;
-        }
-        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
-        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+        }if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
+        $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
+        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit()); }
         //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
             if (empty($videosP[$key]['type'])) {

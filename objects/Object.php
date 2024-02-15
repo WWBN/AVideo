@@ -196,8 +196,8 @@ abstract class ObjectYPT implements ObjectInterface
         global $global;
         $sql = '';
 
-        if (empty($_POST['rowCount']) && !empty($_GET['length'])) {
-            $_POST['rowCount'] = intval($_GET['length']);
+        if (empty($_REQUEST['rowCount']) && !empty($_REQUEST['length'])) {
+            $_REQUEST['rowCount'] = intval($_REQUEST['length']);
         }
 
         if (empty($_POST['current']) && !empty($_GET['start'])) {
