@@ -200,24 +200,24 @@ abstract class ObjectYPT implements ObjectInterface
             $_REQUEST['rowCount'] = intval($_REQUEST['length']);
         }
 
-        if (empty($_POST['current']) && !empty($_GET['start'])) {
-            $_POST['current'] = ($_GET['start'] / $_GET['length']) + 1;
-        } elseif (empty($_POST['current']) && isset($_GET['start'])) {
-            $_POST['current'] = 1;
+        if (empty($_REQUEST['current']) && !empty($_GET['start'])) {
+            $_REQUEST['current'] = ($_GET['start'] / $_GET['length']) + 1;
+        } elseif (empty($_REQUEST['current']) && isset($_GET['start'])) {
+            $_REQUEST['current'] = 1;
         }
 
-        $_POST['current'] = getCurrentPage();
-        $_POST['rowCount'] = getRowCount();
+        $_REQUEST['current'] = getCurrentPage();
+        $_REQUEST['rowCount'] = getRowCount();
 
-        if (!empty($_POST['rowCount']) && !empty($_POST['current']) && $_POST['rowCount'] > 0) {
-            $_POST['rowCount'] = intval($_POST['rowCount']);
-            $_POST['current'] = intval($_POST['current']);
-            $current = ($_POST['current'] - 1) * $_POST['rowCount'];
+        if (!empty($_REQUEST['rowCount']) && !empty($_REQUEST['current']) && $_REQUEST['rowCount'] > 0) {
+            $_REQUEST['rowCount'] = intval($_REQUEST['rowCount']);
+            $_REQUEST['current'] = intval($_REQUEST['current']);
+            $current = ($_REQUEST['current'] - 1) * $_REQUEST['rowCount'];
             $current = $current < 0 ? 0 : $current;
-            $sql .= " LIMIT $current, {$_POST['rowCount']} ";
+            $sql .= " LIMIT $current, {$_REQUEST['rowCount']} ";
         } else {
-            $_POST['current'] = 0;
-            $_POST['rowCount'] = 0;
+            $_REQUEST['current'] = 0;
+            $_REQUEST['rowCount'] = 0;
             $sql .= " LIMIT 1000 ";
         }
         return $sql;
