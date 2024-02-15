@@ -865,7 +865,7 @@ if (typeof gtag !== \"function\") {
                 . " VALUES (?,?,?,?,?,?,?,?, false, "
                 . "?,?,?, now(), now(),?,?,?,?," . (empty($this->is_company) ? 'NULL' : intval($this->is_company)) . ",?)";
 
-            _error_log("Insert new user user=$user, email={$this->email}, name=$name " . json_encode(debug_backtrace()));
+            _error_log("Insert new user user=$user, email={$this->email}, name=$name " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         }
         $insert_row = sqlDAL::writeSql($sql, $formats, $values);
 
