@@ -884,6 +884,11 @@ class PlayLists extends PluginAbstract
             _error_log("Playlists:scheduleLiveButton canManagePlaylist($playlists_id) said no");
             return "<!-- This user canManagePlaylist $playlists_id -->";
         }
+        
+        if (!AVideoPlugin::isEnabled('Rebroadcaster')) {
+            _error_log("Playlists:scheduleLiveButton Rebroadcaster not enabled");
+            return '<!-- Rebroadcaster not enabled -->';
+        }
         global $global;
         $label = __("Play Live");
 
