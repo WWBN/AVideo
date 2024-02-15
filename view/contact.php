@@ -3,7 +3,6 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-require_once $global['systemRootPath'] . 'objects/user.php';
 $email = '';
 $name = '';
 if (User::isLogged()) {
@@ -23,30 +22,21 @@ $_page = new Page(array('Contact Us'));
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div style="display: none;" id="messageSuccess">
-                <div class="alert alert-success clear clearfix">
-                    <div class="col-md-3">
-                        <i class="fa fa-5x fa-check-circle-o"></i>
-                    </div>
-                    <div class="col-md-9">
-                        <h1><?php echo __("Congratulations!"); ?></h1>
-                        <h2><?php echo __("Your message has been sent!"); ?></h2>
-                    </div>
-                </div>
-                <a class="btn btn-success btn-block" href="<?php echo getHomePageURL(); ?>"><?php echo __("Go back to the main page"); ?></a>
-            </div>
             <form class="form-horizontal" action=" " method="post" id="contact_form">
                 <input type="hidden" name="contactForm" value="1" />
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h1><?php echo __("Contact Us Today!"); ?></h1>
+                        <h1>
+                            <i class="fa-solid fa-envelope-open-text"></i>
+                            <?php echo __("Contact Us Today!"); ?>
+                        </h1>
                     </div>
                     <div class="panel-body">
                         <!-- Text input-->
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Name"); ?></label>
-                            <div class="col-md-4 inputGroupContainer">
+                            <label class="col-md-3 control-label"><?php echo __("Name"); ?></label>
+                            <div class="col-md-9 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <input name="first_name" placeholder="<?php echo __("Name"); ?>" class="form-control" value="<?php echo $name; ?>" type="text" required="true">
@@ -57,11 +47,11 @@ $_page = new Page(array('Contact Us'));
 
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
-                            <div class="col-md-4 inputGroupContainer">
+                            <label class="col-md-3 control-label"><?php echo __("E-mail"); ?></label>
+                            <div class="col-md-9 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="email" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>" type="email" required="true">
+                                    <input name="email" id="formEmail" placeholder="<?php echo __("E-mail Address"); ?>" class="form-control" value="<?php echo $email; ?>" type="email" required="true">
                                 </div>
                             </div>
                         </div>
@@ -69,8 +59,8 @@ $_page = new Page(array('Contact Us'));
 
                         <!-- Text input-->
                         <div class="form-group <?php echo empty($advancedCustom->doNotShowWebsiteOnContactForm) ? "" : "hidden" ?>">
-                            <label class="col-md-4 control-label"><?php echo __("Website"); ?></label>
-                            <div class="col-md-4 inputGroupContainer">
+                            <label class="col-md-3 control-label"><?php echo __("Website"); ?></label>
+                            <div class="col-md-9 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
                                     <input name="website" placeholder="<?php echo __("Website"); ?>" class="form-control" type="text">
@@ -78,21 +68,18 @@ $_page = new Page(array('Contact Us'));
                             </div>
                         </div>
                         <!-- Text area -->
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
-                            <div class="col-md-4 inputGroupContainer">
+                            <label class="col-md-3 control-label"><?php echo __("Message"); ?></label>
+                            <div class="col-md-9 inputGroupContainer">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>"></textarea>
+                                    <textarea class="form-control" name="comment" placeholder="<?php echo __("Message"); ?>" required="true"></textarea>
                                 </div>
                             </div>
                         </div>
-
-
                         <div class="form-group">
-                            <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
-                            <div class="col-md-4 inputGroupContainer">
+                            <label class="col-md-3 control-label"><?php echo __("Type the code"); ?></label>
+                            <div class="col-md-9 inputGroupContainer">
                                 <?php
                                 $capcha = getCaptcha();
                                 echo $capcha['content'];
@@ -101,7 +88,18 @@ $_page = new Page(array('Contact Us'));
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block"><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">
+                            <i class="fa-solid fa-envelope-circle-check"></i>
+                            <?php echo __("Send"); ?>
+                        </button>
+                        <div style="display: none;" id="messageSuccess">
+                            <div class="alert alert-success clear clearfix">
+                                <h1 class="text-center">
+                                    <i class="fa-solid fa-envelope-circle-check"></i>
+                                    <?php echo __("Your message has been sent!"); ?>
+                                </h1>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>
@@ -114,6 +112,9 @@ $_page = new Page(array('Contact Us'));
 
         $('#contact_form').submit(function(evt) {
             evt.preventDefault();
+            if (!this.checkValidity()) {
+                return false;
+            }
             modal.showPleaseWait();
             $.ajax({
                 url: webSiteRootURL + 'sendEmail',

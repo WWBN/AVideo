@@ -53,7 +53,7 @@ if ($valid) {
             $obj->success = __("Message sent");
         }
     } else {
-        $obj->error = __("The email is invalid");
+        $obj->error = __("The email is invalid")." {$sendTo}";
     }
 } else {
     $obj->error = __("Your code is not valid");
