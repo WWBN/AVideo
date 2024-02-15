@@ -7341,7 +7341,7 @@ function convertVideoToMP3FileIfNotExists($videos_id)
 
         if (!empty($sources)) {
             $source = end($sources);
-            convertVideoFileWithFFMPEG($source['url_noCDN'], $mp3File);
+            convertVideoFileWithFFMPEG($source['url'], $mp3File);
             if (file_exists($mp3File)) {
                 return Video::getSourceFile($video['filename'], ".mp3", true);
             }
