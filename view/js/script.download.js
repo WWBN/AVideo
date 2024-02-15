@@ -1,6 +1,19 @@
 
 var downloadURLOrAlertErrorInterval;
-var downloadURLOrAlertModal = getPleaseWait();
+var downloadURLOrAlertModal;
+_setPleaseWait();
+
+function _setPleaseWait(){
+    if(typeof getPleaseWait== 'undefined'){
+        setTimeout(() => {
+            _setPleaseWait();
+        }, 1000);
+    }else{
+        downloadURLOrAlertModal = getPleaseWait();
+    }
+   
+}
+
 function downloadURLOrAlertError(jsonURL, data, filename, FFMpegProgress) {
     if (empty(jsonURL)) {
         console.log('downloadURLOrAlertError error empty jsonURL', jsonURL, data, filename, FFMpegProgress);
