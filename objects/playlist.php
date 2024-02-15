@@ -87,7 +87,7 @@ class PlayList extends ObjectYPT
     }
 
     public static function getAllFromPlaylistsID($playlists_id)
-    {if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit());exit; }
+    {if(!empty($_REQUEST['test'])){var_dump(__LINE__.' limit='.ObjectYPT::getSqlLimit(), getRowCount());exit; }
         if (empty($playlists_id)) {
             return false;
         }
