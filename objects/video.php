@@ -4157,6 +4157,8 @@ if (!class_exists('Video')) {
                 $videoFilename = str_replace($paths['filename'], '', $videoFilename);
             }
             $newPath = addLastSlash($paths['path']) . "{$videoFilename}";
+            
+            $newPath = str_replace('//', '/', $newPath);
             //var_dump($newPath);
             return $newPath;
         }
