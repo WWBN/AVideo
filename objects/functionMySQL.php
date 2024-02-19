@@ -204,3 +204,36 @@ function _mysql_is_open()
     }
     return false;
 }
+
+
+function lockForUpdate($tableName, $condition)
+{
+    global $global;
+    /**
+     *
+     * @var array $global
+     * @var object $global['mysqli']
+     */
+
+    // Begin transaction if not already started
+    mysqlBeginTransaction();
+
+    // Prepare the SQL statement to lock the row
+    $sql = "SELECT * FROM {$tableName} WHERE {$condition} FOR UPDATE";
+
+    if ($result = $global['mysqli']->query($sql)) {
+        if ($result->num_rows > 0) {
+            // The row exists and is now locked for this transaction
+            _error_log("Row locked successfully for condition: {$condition}");
+            return true;
+        } else {
+            // No rows matched the condition, nothing to lock
+            _error_log("No rows found to lock for condition: {$condition}");
+            return false;
+        }
+    } else {
+        // SQL error occurred
+        _error_log("Error locking row for condition: {$condition} - " . $global['mysqli']->error, AVideoLog::$ERROR);
+        return false;
+    }
+}

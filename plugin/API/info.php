@@ -104,14 +104,23 @@ $obj = AVideoPlugin::getObjectData("API");
                         }
                     }
                     $reflector = $method[1];
-                    $icon = 'fas fa-sign-out-alt';
-                    if($method[2] === "GET"){
-                        $icon = 'fas fa-sign-in-alt';
+                    $icon = 'fa-solid fa-pen-to-square';
+                    if(strtolower($method[2]) === "get"){
+                        $icon = 'fas fa-sign-out-alt';
                     }
                     ?>
                     <li class="list-group-item">
                         <details>
-                            <summary style="cursor: pointer;"><i class="<?php echo $icon; ?>"></i> <?php echo strtoupper($method[2]) ?> <?php echo $method[3] ?></summary>
+                            <summary style="cursor: pointer;">
+                                <i class="<?php echo $icon; ?>"></i> 
+                                <?php echo strtoupper($method[2]); ?> 
+                                <?php echo $method[3]; ?>
+                                <?php 
+                                if(!empty($method[4])){
+                                    echo " ({$method[4]} plugin)";
+                                }
+                                ?>
+                            </summary>
                             <br>
                             <pre><?php
                                 $comment = $reflector->getMethod($method[0])->getDocComment();
