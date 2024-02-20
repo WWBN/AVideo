@@ -690,10 +690,18 @@ Disallow: *action=tagsearch*
     }
 
     public static function saveVideosAddNew($post, $videos_id) {
-        self::setDoNotShowAdsOnChannel($videos_id, !_empty($post['doNotShowAdsOnThisChannel']));
-        self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
-        self::setRedirectVideo($videos_id, @$post['redirectVideoCode'], @$post['redirectVideoURL']);
-        self::setShortSummaryAndMetaDescriptionVideo($videos_id,@$post['ShortSummary'], @$post['MetaDescription']);
+        if(isset($post['doNotShowAdsOnThisChannel'])){
+            self::setDoNotShowAdsOnChannel($videos_id, !_empty($post['doNotShowAdsOnThisChannel']));
+        }
+        if(isset($post['doNotShowAdsOnThisVideo'])){
+            self::setDoNotShowAds($videos_id, !_empty($post['doNotShowAdsOnThisVideo']));
+        }
+        if(isset($post['redirectVideoCode'])){
+            self::setRedirectVideo($videos_id, @$post['redirectVideoCode'], @$post['redirectVideoURL']);
+        }
+        if(isset($post['ShortSummary'])){
+            self::setShortSummaryAndMetaDescriptionVideo($videos_id,@$post['ShortSummary'], @$post['MetaDescription']);
+        }
     }
     
     public static function setDoNotShowAds($videos_id, $doNotShowAdsOnThisVideo) {

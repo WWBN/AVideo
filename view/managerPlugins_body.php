@@ -621,6 +621,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                 jsonToForm(row.data_object, row.data_object_helper, row.data_object_info);
                 $('#inputData').val(json);
                 $('#pluginsFormModal').modal();
+                $('#is_advanced').prop('checked', false);
             });
             grid.find(".command-sql").on("click", function(e) {
                 var row_index = $(this).closest('tr').index();

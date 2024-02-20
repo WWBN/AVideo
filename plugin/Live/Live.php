@@ -535,11 +535,13 @@ class Live extends PluginAbstract
         $newContentExtraVideoPage = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentExtraVideoPage']);
         $newContentVideoListItem = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentListem']);
 
+        $hasPPVLive = false;
+        if(AVideoPlugin::isEnabledByName('PayPerViewLive')){
+            $plans = PayPerViewLive::getAllPlansFromUser($users_id);
+            $hasPPVLive = !empty($plans);
+        }
         $array = [
-            "html" => $newContent,
-            "htmlExtra" => $newContentExtra,
-            "htmlExtraVideoPage" => $newContentExtraVideoPage,
-            "htmlExtraVideoListItem" => $newContentVideoListItem,
+            "hasPPVLive" => $hasPPVLive,
             "type" => $type,
             "photo" => $UserPhoto,
             "UserPhoto" => $UserPhoto,
@@ -556,6 +558,10 @@ class Live extends PluginAbstract
             'comingsoon' => $comingsoon,
             'description' => $description,
             'timezone' => date_default_timezone_get(),
+            "html" => $newContent,
+            "htmlExtra" => $newContentExtra,
+            "htmlExtraVideoPage" => $newContentExtraVideoPage,
+            "htmlExtraVideoListItem" => $newContentVideoListItem,
         ];
 
         $_getLiveApplicationModelArray[$uid] = $array;

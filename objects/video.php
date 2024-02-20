@@ -441,6 +441,8 @@ if (!class_exists('Video')) {
         {
             global $advancedCustom;
             global $global;
+
+
             if (!User::isLogged() && !$allowOfflineUser) {
                 _error_log('Video::save permission denied to save');
                 return false;
@@ -1928,6 +1930,22 @@ if (!class_exists('Video')) {
             return true;
         }
 
+
+        static function hasPPV($videos_id){
+            if(AVideoPlugin::isEnabledByName('PayPerView')){
+                $plans = PayPerView::getAllPlansFromVideo($videos_id);
+                return !empty($plans);
+            }
+            return false;
+        }
+
+        static function hasSubscription($videos_id){
+            if(AVideoPlugin::isEnabledByName('Subscription')){
+                return Subscription::isVideoOnSubscription($videos_id);
+            }
+            return false;
+        }
+
         static function getInfo($row, $getStatistcs = false)
         {
             if (empty($row)) {
@@ -2034,6 +2052,8 @@ if (!class_exists('Video')) {
             TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
             $row['identification'] = User::getNameIdentificationById(!empty($row['users_id_company']) ? $row['users_id_company'] : $row['users_id']);
             $row['userHasAgeToWatchVideo'] = self::userHasAgeToWatchVideo($row);
+            $row['hasPPV'] = self::hasPPV($row['id']);
+            $row['hasSubscription'] = self::hasSubscription($row['id']);
             if (empty($row['externalOptions'])) {
                 $row['externalOptions'] = json_encode(['videoStartSeconds' => '00:00:00']);
             }
