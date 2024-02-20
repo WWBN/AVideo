@@ -83,7 +83,7 @@ function isYoutubeDl()
                             <div class="form-group">
                                 <label class="col-md-4 control-label"></label>
                                 <div class="col-md-8">
-                                    <button type="submit" class="btn btn-primary"><?php echo __("Download"); ?> <span class="glyphicon glyphicon-download"></span></button>
+                                    <button type="submit" class="btn btn-primary"><?php echo __("Download"); ?> <i class="fa-solid fa-cloud-arrow-down"></i></button>
                                 </div>
                             </div>
                         </fieldset>

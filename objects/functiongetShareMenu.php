@@ -131,7 +131,7 @@ $replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
                                     <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                                         <label class="col-md-4 control-label"></label>
                                         <div class="col-md-8">
-                                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <i class="fa-regular fa-paper-plane"></i></button>
                                         </div>
                                     </div>
 

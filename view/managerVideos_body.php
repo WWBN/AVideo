@@ -1742,7 +1742,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                     }
                     ?>
 
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Edit")); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '"  data-toggle="tooltip" title="<?php echo str_replace("'", "\\'", __("Delete")); ?>"><i class="fa fa-trash"></i></button>';
 
                     <?php

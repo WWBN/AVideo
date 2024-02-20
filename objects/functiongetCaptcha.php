@@ -13,7 +13,7 @@ if ($forceCaptcha) {
     </span>
     <span class="input-group-addon">
         <span class="btn btn-xs btn-success" id="btnReload<?php echo $uid; ?>">
-            <span class="glyphicon glyphicon-refresh"></span>
+            <i class="fa-solid fa-arrows-rotate"></i>
         </span>
     </span>
     <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="<?php echo $uid; ?>Text">

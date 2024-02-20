@@ -55,14 +55,14 @@ if (!User::canUpload()) {
                 <div class="col-xs-12 col-sm-12 col-lg-3">
                     <div class="alert alert-info">
                         <h1>
-                            <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
+                            <i class="fa-solid fa-circle-info" style="font-size:1em;"></i>
                             <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
                         </h1>
                     </div>
                     
                     <div class="alert alert-warning">
                         <h1>
-                            <span class="glyphicon glyphicon-warning-sign" style="font-size:1em;"></span>
+                            <i class="fa-solid fa-circle-exclamation" style="font-size:1em;"></i>
                             <?php echo __("This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"); ?>
                         </h1>
                     </div>

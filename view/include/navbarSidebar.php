@@ -189,7 +189,7 @@ global $avideoLayout;
                                 <div>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
                                                             return false;" class="btn btn-default btn-block" style="border-radius: 0;">
-                                        <span class="glyphicon glyphicon-list"></span>
+                                        <i class="fa-solid fa-list"></i>
                                         <?php echo __($advancedCustom->CategoryLabel); ?>
                                     </a>
                                 </div>
@@ -242,7 +242,7 @@ global $avideoLayout;
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'users');
                                         return false;">
-                                <span class="glyphicon glyphicon-user"></span>
+                                <i class="fa-solid fa-user"></i>
                                 <?php echo __("Users"); ?>
                             </a>
                         </li>
@@ -256,14 +256,14 @@ global $avideoLayout;
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
                                         return false;">
-                                <span class="glyphicon glyphicon-list"></span>
+                                <i class="fa-solid fa-list"></i>
                                 <?php echo __($advancedCustom->CategoryLabel); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'update');
                                         return false;">
-                                <span class="glyphicon glyphicon-refresh"></span>
+                                <i class="fa-solid fa-arrows-rotate"></i>
                                 <?php echo __("Update version"); ?>
                                 <?php
                                 if (!empty($updateFiles)) {
@@ -274,18 +274,10 @@ global $avideoLayout;
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'siteConfigurations');
                                         return false;">
-                                <span class="glyphicon glyphicon-cog"></span>
+                                <i class="fa-solid fa-gear"></i>
                                 <?php echo __("Site Configurations"); ?>
                             </a>
                         </li>
-                        <!--
-                        <li>
-                            <a href="#" onclick="avideoModalIframeFull(webSiteRootURL+'locale');return false;">
-                                <span class="glyphicon glyphicon-flag"></span>
-                        <?php echo __("Create more translations"); ?>
-                            </a>
-                        </li>
-                        -->
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'plugins');
                                         return false;">
@@ -324,7 +316,7 @@ global $avideoLayout;
                                 ?>
                                 <li>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'users\');return false;">
-                                        <span class="glyphicon glyphicon-user"></span>
+                                        <i class="fa-solid fa-user"></i>
                                         <?php echo __("Users"); ?>
                                     </a>
                                 </li>
@@ -400,19 +392,19 @@ global $avideoLayout;
                 </li>
                 <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
-                        <span class="glyphicon glyphicon-star"></span>
+                        <i class="fa-solid fa-star"></i>
                         <?php echo __("Audio and Video"); ?>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
-                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        <i class="fa-solid fa-video"></i>
                         <?php echo __("Videos"); ?>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
-                        <span class="glyphicon glyphicon-headphones"></span>
+                        <i class="fa-solid fa-headphones"></i>
                         <?php echo __("Audio"); ?>
                     </a>
                 </li>
@@ -583,7 +575,7 @@ global $avideoLayout;
                 <li>
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'help');
                                 return false;">
-                        <span class="glyphicon glyphicon-question-sign"></span>
+                        <i class="fa-solid fa-circle-question"></i>
                         <?php echo __("Help"); ?>
                     </a>
                 </li>
@@ -595,7 +587,7 @@ global $avideoLayout;
                 <li>
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'about');
                                 return false;">
-                        <span class="glyphicon glyphicon-info-sign"></span>
+                        <i class="fa-solid fa-circle-info"></i>
                         <?php echo __("About"); ?>
                     </a>
                 </li>
@@ -607,7 +599,7 @@ global $avideoLayout;
                 <li>
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'contact');
                                 return false;">
-                        <span class="glyphicon glyphicon-comment"></span>
+                        <i class="fa-solid fa-comment"></i>
                         <?php echo __("Contact"); ?>
                     </a>
                 </li>

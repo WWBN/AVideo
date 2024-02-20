@@ -4,7 +4,7 @@
         <div class="panel-heading">
 
             <button type="button" class="btn btn-default" id="addCategoryBtn">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New Category"); ?>
+                <i class="fa-solid fa-plus"></i></span> <?php echo __("New Category"); ?>
             </button>
         </div>
         <div class="panel-body">

@@ -36,7 +36,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
                         <p><?php echo __('Only you can see this, because you are a admin.'); ?></p>
                         <h3><?php echo __('Settings and plugins'); ?></h3>
                         <p><?php echo __('The default'); ?> <a href='<?php echo $global['webSiteRootURL']; ?>siteConfigurations'><?php echo __('site config'); ?></a>, <?php echo __('you can find on the menu-point. But there are more settings avaible; go to the'); ?> <a href='<?php echo $global['webSiteRootURL']; ?>plugins'><?php echo __('plugins'); ?></a> <?php echo __('and check the'); ?> "CustomiseAdvanced"<?php echo __('-Plugin'); ?>.</p>
-                        <p><?php echo __('Like on a lot of plugins, on the right site, you will find a button'); ?> "<span class="glyphicon glyphicon-edit" aria-hidden="true"></span><?php echo __('Edit parameters'); ?>". <?php echo __('This button is always a click worth'); ?>.</p>
+                        <p><?php echo __('Like on a lot of plugins, on the right site, you will find a button'); ?> "<i class="fa-solid fa-pen-to-square"></i><?php echo __('Edit parameters'); ?>". <?php echo __('This button is always a click worth'); ?>.</p>
                         <p><?php echo __('Also, when you activate a plugin and you see a button "Install Tables", press it at least once, if you never press it, this can cause bugs!'); ?></p>
                         <hr />
                         <h3><?php echo __('Update via git'); ?></h3>
@@ -74,7 +74,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
                     <hr />
                     <h3><?php echo __('Edit videos'); ?></h3>
                     <p><?php echo __('After you add any kind of video, you can find it in'); ?> <?php echo __('My videos'); ?></p>
-                    <p><?php echo __('On the right site, you find various symbols'); ?>, <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo __('means edit'); ?>.</p>
+                    <p><?php echo __('On the right site, you find various symbols'); ?>, <i class="fa-solid fa-pen-to-square"></i> <?php echo __('means edit'); ?>.</p>
                     <p><?php echo __('There, you can set'); ?></p>
                     <ul>
                         <li><?php echo __('Preview-picture and gif'); ?></li>
@@ -85,7 +85,7 @@ require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
                     <p><?php echo __('With the other options, you can delete, rotate and promote a video'); ?></p>
                     <hr />
                     <h3><?php echo __('Use a video as a ad'); ?></h3>
-                    <p><?php echo __('To use a video as a ad, go to'); ?> <?php echo __('My videos'); ?> -> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span><?php echo __('Edit-symbol and enable Create an Advertising'); ?>.</p>
+                    <p><?php echo __('To use a video as a ad, go to'); ?> <?php echo __('My videos'); ?> -> <i class="fa-solid fa-pen-to-square"></i><?php echo __('Edit-symbol and enable Create an Advertising'); ?>.</p>
                     <p><?php echo __('After enabling this, you can directly set some options, like the name, link and active categorie for example.'); ?></p>
                     <p><?php echo __('When the video is saved like this, it will show up under the menu-point'); ?> <?php echo __('Video Advertising'); ?><?php echo __(', where you can edit the ad-options'); ?>.</p>
 

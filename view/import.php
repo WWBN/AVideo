@@ -42,7 +42,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                             <input type="text" id="path"  class="form-control" placeholder="Local Path of videos i.e. /media/videos"/>
                             <span class="input-group-btn">
                                 <button class="btn btn-default" id="pathBtn">
-                                    <span class="glyphicon glyphicon-list"></span> <?php echo __("List Files"); ?>
+                                    <i class="fa-solid fa-list"></i> <?php echo __("List Files"); ?>
                                 </button>
                             </span>
                             <span class="input-group-btn">
@@ -99,7 +99,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                             for (i = 0; i < response.length; i++) {
                                 if (!response[i])
                                     continue;
-                                $('#files').append('<li class="list-group-item" path="' + response[i].path + '" id="li' + i + '"><span class="label label-success" style="display: none;"><span class="glyphicon glyphicon-ok"></span> Added on queue.. </span> ' + response[i].name + '<div class="material-switch pull-right"><input id="someSwitchOption' + response[i].id + '" class="someSwitchOption" type="checkbox"/><label for="someSwitchOption' + response[i].id + '" class="label-primary"></label></div></li>');
+                                $('#files').append('<li class="list-group-item" path="' + response[i].path + '" id="li' + i + '"><span class="label label-success" style="display: none;"><i class="fa-solid fa-circle-check"></i> Added on queue.. </span> ' + response[i].name + '<div class="material-switch pull-right"><input id="someSwitchOption' + response[i].id + '" class="someSwitchOption" type="checkbox"/><label for="someSwitchOption' + response[i].id + '" class="label-primary"></label></div></li>');
                             }
                         }
                     }

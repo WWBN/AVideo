@@ -192,7 +192,7 @@ saveRequestVars();
         ?>
         <div class="alert alert-warning">
             <h1>
-                <span class="glyphicon glyphicon-facetime-video"></span>
+                <i class="fa-solid fa-video"></i>
                 <?php echo __("Warning"); ?>!
             </h1>
             <!-- <?php echo basename(__FILE__); ?> -->

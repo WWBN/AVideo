@@ -99,7 +99,7 @@ if (!empty($_POST['updateFile'])) {
                                 </select>
                                 <?php printf(__("We detected a total of %s pending updates, if you want to do it now click (Update Now) button"), "<strong class='badge'>" . count($updateFiles) . "</strong>"); ?>
                                 <hr>
-                                <button type="submit" class="btn btn-warning btn-lg center-block " href="?update=1"> <span class="glyphicon glyphicon-refresh"></span> <?php echo __("Update Now"); ?> </button>
+                                <button type="submit" class="btn btn-warning btn-lg center-block " href="?update=1"> <i class="fa-solid fa-arrows-rotate"></i> <?php echo __("Update Now"); ?> </button>
                             </fieldset>
                         </form>
                     </div>
@@ -186,7 +186,7 @@ if (!empty($_POST['updateFile'])) {
                     <?php
                     printf(__("Your update from file %s is done, click continue"), $_POST['updateFile']); ?>
                     <hr>
-                    <a class="btn btn-success" href="?done=1"> <span class="glyphicon glyphicon-ok"></span> <?php echo __("Continue"); ?> </a>
+                    <a class="btn btn-success" href="?done=1"> <i class="fa-solid fa-circle-check"></i> <?php echo __("Continue"); ?> </a>
                 </div>
             <?php
             }

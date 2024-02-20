@@ -131,7 +131,7 @@ if (empty($advancedCustomUser->doNotShowRightProfile) && (User::isLogged() || em
                                     <li>
                                         <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
                                                                 return false;">
-                                            <span class="glyphicon glyphicon-list"></span>
+                                            <i class="fa-solid fa-list"></i>
                                             <?php echo __($advancedCustom->CategoryLabel); ?>
                                         </a>
 

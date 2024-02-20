@@ -465,7 +465,7 @@ $wwbnIndexPlugin = AVideoPlugin::isEnabledByName('WWBNIndex');
                     var editBtn = '';
 
                     if (row.id && !$.isEmptyObject(row.data_object)) {
-                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-pname="' + row.name + '" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> <?php echo __('Edit parameters'); ?></button>';
+                        editBtn = '<button type="button" class="btn btn-xs btn-default command-edit  btn-block" data-row-id="' + row.id + '" data-pname="' + row.name + '" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa-solid fa-pen-to-square"></i> <?php echo __('Edit parameters'); ?></button>';
                     }
                     var sqlBtn = '';
                     if (row.databaseScript && row.isPluginTablesInstalled) {

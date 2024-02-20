@@ -142,14 +142,14 @@ if (User::isAdmin()) {
                         if (isApache()) {
                         ?>
                             <div class="alert alert-success">
-                                <span class="glyphicon glyphicon-check"></span>
+                                <i class="fa-regular fa-square-check"></i>
                                 <strong><?php echo $_SERVER['SERVER_SOFTWARE']; ?> is Present</strong>
                             </div>
                         <?php
                         } else {
                         ?>
                             <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <i class="fa-regular fa-square"></i>
                                 <strong>Your server is <?php echo $_SERVER['SERVER_SOFTWARE']; ?>, you must install Apache</strong>
                             </div>
                         <?php }
@@ -160,14 +160,14 @@ if (User::isAdmin()) {
                         if (isPHP('7.3')) {
                         ?>
                             <div class="alert alert-success">
-                                <span class="glyphicon glyphicon-check"></span>
+                                <i class="fa-regular fa-square-check"></i>
                                 <strong>PHP <?php echo PHP_VERSION; ?> is present.</strong>
                             </div>
                         <?php
                         } else {
                         ?>
                             <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <i class="fa-regular fa-square"></i>
                                 <strong>Your PHP version is <?php echo PHP_VERSION; ?>. PHP 7.3 or newer is required.</strong>
                             </div>
                         <?php }
@@ -177,14 +177,14 @@ if (User::isAdmin()) {
                         if (checkVideosDir()) {
                         ?>
                             <div class="alert alert-success">
-                                <span class="glyphicon glyphicon-check"></span>
+                                <i class="fa-regular fa-square-check"></i>
                                 <strong>Your video directory is writable</strong>
                             </div>
                         <?php
                         } else {
                         ?>
                             <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <i class="fa-regular fa-square"></i>
                                 <strong>Your video directory must be writable</strong>
                                 <details>
                                     <?php
@@ -214,14 +214,14 @@ if (User::isAdmin()) {
                         if (check_post_max_size()) {
                         ?>
                             <div class="alert alert-success">
-                                <span class="glyphicon glyphicon-check"></span>
+                                <i class="fa-regular fa-square-check"></i>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?></strong>
                             </div>
                         <?php
                         } else {
                         ?>
                             <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <i class="fa-regular fa-square"></i>
                                 <strong>Your post_max_size is <?php echo ini_get('post_max_size'); ?>, it must be at least 100M</strong>
 
                                 <details>
@@ -237,14 +237,14 @@ if (User::isAdmin()) {
                         if (check_upload_max_filesize()) {
                         ?>
                             <div class="alert alert-success">
-                                <span class="glyphicon glyphicon-check"></span>
+                                <i class="fa-regular fa-square-check"></i>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?></strong>
                             </div>
                         <?php
                         } else {
                         ?>
                             <div class="alert alert-danger">
-                                <span class="glyphicon glyphicon-unchecked"></span>
+                                <i class="fa-regular fa-square"></i>
                                 <strong>Your upload_max_filesize is <?php echo ini_get('upload_max_filesize'); ?>, it must be at least 100M</strong>
 
                                 <details>
@@ -577,7 +577,7 @@ if (User::isAdmin()) {
                                             <div class="form-group">
                                                 <label class="col-md-4 control-label"><?php echo __("Test your email"); ?></label>
                                                 <div class="col-md-8">
-                                                    <span class="btn btn-warning btn-block" id="testEmail"><?php echo __("Test Email"); ?> <span class="glyphicon glyphicon-send"></span></span>
+                                                    <span class="btn btn-warning btn-block" id="testEmail"><?php echo __("Test Email"); ?> <i class="fa-regular fa-paper-plane"></i></span>
                                                 </div>
                                             </div>
 
