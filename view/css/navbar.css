@@ -67,11 +67,6 @@ body.youtube.compressedMenu #leftMenuUser .leftMenuUserImg{
     padding-right: 12px;
 }
 
-#sideBarContainer:hover {
-    overflow: auto;
-    padding-right: 0;
-}
-
 #sideBarContainer ul {
     margin-bottom: 150px;
 }
