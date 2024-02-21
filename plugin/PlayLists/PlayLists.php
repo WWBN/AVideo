@@ -1089,22 +1089,41 @@ class PlayLists extends PluginAbstract
 
     static function getURL($playlist_id, $count=0, $PLChannelName = '', $plName = '', $current_video_clean_title = '')
     {
-        global $global;
+        global $global, $total_get_playlists_urls;
+        if(empty($total_get_playlists_urls)){
+            $total_get_playlists_urls = 0;
+        }
+
         if (empty($PLChannelName)) {
-            $pl = new PlayList($playlist_id);
-            $users_id = $pl->getUsers_id();
-            $user = new User($users_id);
-            $PLChannelName = $user->getChannelName();
+            $total_get_playlists_urls++;
+            if($total_get_playlists_urls>3){
+                $PLChannelName = '-';
+            }else{
+                $pl = new PlayList($playlist_id);
+                $users_id = $pl->getUsers_id();
+                $user = new User($users_id);
+                $PLChannelName = $user->getChannelName();
+            }
         }
         if (empty($plName)) {
-            if (empty($pl)) {
-                $pl = new PlayList($playlist_id);
+            $total_get_playlists_urls++;
+            if($total_get_playlists_urls>3){
+                $plName = '-';
+            }else{
+                if (empty($pl)) {
+                    $pl = new PlayList($playlist_id);
+                }
+                $plName = $user->getName();
             }
-            $plName = $user->getName();
         }
         if (empty($current_video_clean_title)) {
-            $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
-            $current_video_clean_title = $playlistVideos[$count]['clean_title'];
+            $total_get_playlists_urls++;
+            if($total_get_playlists_urls>3){
+                $current_video_clean_title = '-';
+            }else{
+                $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
+                $current_video_clean_title = $playlistVideos[$count]['clean_title'];
+            }
         }
         $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/{$count}/" . urlencode(cleanURLName($PLChannelName)) . '/' . urlencode(cleanURLName($plName)) . '/' . urlencode(cleanURLName($current_video_clean_title));
         
