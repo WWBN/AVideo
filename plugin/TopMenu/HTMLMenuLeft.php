@@ -13,7 +13,7 @@ foreach ($menu as $key => $value) {
     ?>
     <li>
         <hr>
-        <strong class="text-danger">
+        <strong class="text-danger hideIfCompressed">
             <?php
             if (!empty($value['icon'])) {
                 ?>

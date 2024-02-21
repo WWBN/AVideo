@@ -392,6 +392,9 @@ function cleanString($text)
     if (empty($text)) {
         return '';
     }
+    if(!is_string($text)){
+        return $text;
+    }
     $utf8 = [
         '/[áaâaaäą]/u' => 'a',
         '/[ÁAÂAÄĄ]/u' => 'A',
@@ -476,6 +479,9 @@ function safeString($text, $strict = false, $try = 0)
 
 function cleanURLName($name, $replaceChar = '-')
 {
+    if(!is_string($name)){
+        return $name;
+    }
     $name = preg_replace('/[!#$&\'()*+,\\/:;=?@[\\]%"\/\\\\ ]+/', $replaceChar, trim(mb_strtolower(cleanString($name))));
     return trim(preg_replace('/[\x00-\x1F\x7F\xD7\xE0]/u', $replaceChar, $name), $replaceChar);
 }

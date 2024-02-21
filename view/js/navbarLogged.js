@@ -25,7 +25,7 @@ $(document).ready(function () {
 
     $('.nav').on('click', 'li.navsub-toggle a:not(.selected)', function (e) {
         var a = $(this),
-                b = a.next();
+            b = a.next();
         if (b.length) {
             e.preventDefault();
 
@@ -99,13 +99,13 @@ $(document).ready(function () {
 
     $(window).resize(function () {
         if (!isScreeWidthCollapseSize()) {
-            $("#myNavbar").css({display: ''});
+            $("#myNavbar").css({ display: '' });
             $("#myNavbar").removeClass('animate__bounceOutRight');
             var selector = '#buttonMyNavbar svg';
             $(selector).removeClass('active');
             $(selector).attr('aria-expanded', 'false');
 
-            $("#mysearch").css({display: ''});
+            $("#mysearch").css({ display: '' });
             $("#mysearch").removeClass('animate__bounceOutUp');
         }
     });
@@ -183,12 +183,12 @@ async function seachFormPlayURL(url) {
                 if (typeof linksToEmbed === 'function') {
                     document.location = response.playEmbedLink;
                 } else
-                if (typeof flixFullScreen == 'function') {
-                    flixFullScreen(response.playEmbedLink, response.playLink);
-                    modal.hidePleaseWait();
-                } else {
-                    document.location = response.playLink;
-                }
+                    if (typeof flixFullScreen == 'function') {
+                        flixFullScreen(response.playEmbedLink, response.playLink);
+                        modal.hidePleaseWait();
+                    } else {
+                        document.location = response.playLink;
+                    }
             }
         }
     });
@@ -216,7 +216,7 @@ async function YPTSidebarOpen() {
     $("#sidebar").removeClass('animate__bounceOutLeft');
     $("#sidebar").show();
     $("#sidebar").addClass('animate__animated animate__bounceInLeft');
-    Cookies.set("menuOpen", true, {expires: 365, path: '/'});
+    Cookies.set("menuOpen", true, { expires: 365, path: '/' });
     setTimeout(function () {
         $('body').addClass('youtube');
         setTimeout(function () {
@@ -237,13 +237,37 @@ async function flickityReload() {
 async function YPTSidebarClose() {
     $("#sidebar").removeClass('animate__bounceInLeft');
     $("#sidebar").addClass('animate__bounceOutLeft');
-    Cookies.set("menuOpen", false, {expires: 365, path: '/'});
+    Cookies.set("menuOpen", false, { expires: 365, path: '/' });
     setTimeout(function () {
         $('body').removeClass('youtube');
         $("#sidebar").hide();
         setTimeout(function () {
             flickityReload();
         }, 500);
+    }, 500);
+    youTubeMenuIsOpened = false;
+}
+
+
+async function YPTSidebarOpenV2() {
+    var selector = '#buttonMenu svg';
+    $(selector).addClass('active');
+    $("#sidebar").show();
+    Cookies.set("menuOpen", true, { expires: 365, path: '/' });
+
+    $('body').addClass('youtube');
+    $('body').removeClass('compressedMenu');
+    setTimeout(function () {
+        flickityReload();
+    }, 500);
+    youTubeMenuIsOpened = true;
+}
+async function YPTSidebarCloseV2() {
+    $("#sidebar").show();
+    Cookies.set("menuOpen", false, { expires: 365, path: '/' });
+    $('body').addClass('compressedMenu');
+    setTimeout(function () {
+        flickityReload();
     }, 500);
     youTubeMenuIsOpened = false;
 }
@@ -268,7 +292,7 @@ $(document).ready(function () {
     } else {
         YPTSidebarClose();
     }
-    
+
     setTimeout(function () {
         flickityReload();
     }, 5000);

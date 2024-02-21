@@ -12,7 +12,7 @@ $url = addQueryStringParameter($url, 'qrcode', 1);
 ?>
 <li>
     <hr>
-    <strong class="text-danger">
+    <strong class="text-danger hideIfCompressed">
         <i class="fas fa-mobile"></i>
         <?php echo __('Mobile'); ?>
     </strong>

@@ -123,12 +123,12 @@ global $avideoLayout;
                         ?>
 
                     </li>
-                    <li style="min-height: 60px; margin: 5px 0;">
-                        <div class="pull-left" style="margin-left: 10px;">
+                    <li id="leftMenuUser">
+                        <div class="pull-left" class="leftMenuUserImg">
                             <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;" class="img img-thumbnail img-responsive img-circle" />
                         </div>
-                        <div style="margin-left: 80px;" class="menuLabel">
-                            <strong class="text-danger"><?php echo User::getName(); ?></strong>
+                        <div class="menuLabel">
+                            <strong class="text-danger hideIfCompressed"><?php echo User::getName(); ?></strong>
                             <div><small><?php echo User::getMail(); ?></small></div>
                         </div>
                     </li>
@@ -260,7 +260,7 @@ global $avideoLayout;
                     <hr>
                 </li>
                 <li>
-                    <strong class="text-danger"><?php echo __("Admin Menu"); ?></strong>
+                    <strong class="text-danger hideIfCompressed"><?php echo __("Admin Menu"); ?></strong>
                     <ul class="nav navbar" style="margin-bottom: 10px;">
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
@@ -429,7 +429,7 @@ global $avideoLayout;
                 if (count($menus)) {
                 ?>
                     <hr>
-                    <strong class="text-danger"><?php echo __("Extra Permissions"); ?></strong>
+                    <strong class="text-danger hideIfCompressed"><?php echo __("Extra Permissions"); ?></strong>
                     <ul class="nav navbar" style="margin-bottom: 10px;">
                         <?php eval(implode(" ", $menus)); ?>
                     </ul>
@@ -482,7 +482,7 @@ global $avideoLayout;
                     <hr>
                 </li>
                 <li>
-                    <strong class="text-danger"><?php echo __("Channels"); ?></strong>
+                    <strong class="text-danger hideIfCompressed"><?php echo __("Channels"); ?></strong>
                 </li>
                 <li>
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');

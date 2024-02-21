@@ -1104,7 +1104,7 @@ class PlayLists extends PluginAbstract
         }
         if (empty($current_video_clean_title)) {
             $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
-            $current_video_clean_title = $playlistVideos[$count];
+            $current_video_clean_title = $playlistVideos[$count]['clean_title'];
         }
         $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/{$count}/" . urlencode(cleanURLName($PLChannelName)) . '/' . urlencode(cleanURLName($plName)) . '/' . urlencode(cleanURLName($current_video_clean_title));
         

@@ -20,7 +20,6 @@ if (!empty($_REQUEST['theme'])) {
                     <ul class="left-side">
                         <li style="max-width: 40px;">
                             <button class="btn btn-default navbar-btn pull-left alreadyTooltip" id="buttonMenu" data-toggle="tooltip" title="" data-placement="right" data-original-title="Main Menu"><span class="fa fa-bars"></span></button>
-
                         </li>
                         <li style="width: 100%; text-align: center;">
                             <a class="navbar-brand" id="mainNavbarLogo" href="#">

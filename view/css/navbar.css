@@ -14,15 +14,45 @@
     top: 0;
     height: 100vh;
     margin-top: 50px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
 }
 
 
 body.youtube.compressedMenu #sidebar {
-    width: 100px;
+    width: 80px;
+    opacity: 0.8;
+    filter: grayscale(100%);
 }
 
-body.youtube.compressedMenu #sidebar .menuLabel {
+body.youtube.compressedMenu #sidebar:hover {
+    opacity: 1;
+    filter: grayscale(0);
+}
+
+body.youtube.compressedMenu #sidebar .menuLabel{
     display: none;
+}
+
+body.youtube.compressedMenu #sidebar .hideIfCompressed {
+    visibility: hidden;
+}
+
+#leftMenuUser{
+    min-height: 60px; margin: 5px 0;
+}
+
+#leftMenuUser .leftMenuUserImg {
+    margin-left: 10px;
+}
+
+#leftMenuUser .menuLabel {
+    margin-left: 80px;
+}
+
+body.youtube.compressedMenu #leftMenuUser .leftMenuUserImg{
+    margin-left: 0;
 }
 
 #sideBarContainer {
@@ -313,6 +343,6 @@ li.navsub-toggle a+ul {
     }
 
     body.youtube.compressedMenu {
-        margin-left: 100px;
+        margin-left: 80px;
     }
 }
