@@ -1091,7 +1091,7 @@ class PlayLists extends PluginAbstract
     {
         global $global, $total_get_playlists_urls;
         $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/";
-        if(isset($count)){
+        if(isset($count) && is_numeric($count)){
             $plURL .= "{$count}/";
         }
         return $plURL ;
