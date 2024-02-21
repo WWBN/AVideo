@@ -1090,6 +1090,9 @@ class PlayLists extends PluginAbstract
     static function getURL($playlist_id, $count=0, $PLChannelName = '', $plName = '', $current_video_clean_title = '')
     {
         global $global, $total_get_playlists_urls;
+        $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/{$count}/";
+        return $plURL ;
+        /*
         if(empty($total_get_playlists_urls)){
             $total_get_playlists_urls = 0;
         }
@@ -1128,6 +1131,7 @@ class PlayLists extends PluginAbstract
         $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/{$count}/" . urlencode(cleanURLName($PLChannelName)) . '/' . urlencode(cleanURLName($plName)) . '/' . urlencode(cleanURLName($current_video_clean_title));
         
         return $plURL;
+        */
     }
 }
 
