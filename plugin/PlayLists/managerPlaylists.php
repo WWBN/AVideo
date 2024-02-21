@@ -28,6 +28,7 @@ setRowCount(8);
 setDefaultSort('created', 'DESC');
 
 $pl = PlayList::getAllFromUser($users_id, false);
+//var_dump(count($pl));exit;
 $total = PlayList::getTotalFromUser($users_id, false);
 $totalPages = ceil($total / getRowCount());
 
@@ -154,6 +155,7 @@ $_page = new Page(array('Manage playlist'));
                             <div class="panel panel-<?php echo $totalSubPlaylists ? 'primary' : 'default'; ?>">
                                 <div class="panel-heading">
                                     <?php
+                                    echo "[{$value["id"]}] ";
                                     if (!empty($totalSubPlaylists)) {
                                         echo '<i class="fas fa-layer-group"></i> ';
                                     } else {

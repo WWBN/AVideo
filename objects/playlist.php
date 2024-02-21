@@ -209,9 +209,10 @@ class PlayList extends ObjectYPT
                 if ($try == 0 && ($favoriteCount > 1 || $watch_laterCount > 1)) {
                     self::fixDuplicatePlayList($userId);
                     $refreshCacheFromPlaylist = true;
-                    return self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try + 1);
+                    $return = self::getAllFromUser($userId, $publicOnly, $status, $playlists_id, $try + 1);
+                    return $return;
                 }
-                if (empty($_POST['current']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
+                if (empty($_POST['current']) && empty($_REQUEST['searchPlaylist']) && empty($status) && $config->currentVersionGreaterThen("6.4")) {
                     if (empty($favorite)) {
                         $pl = new PlayList(0);
                         $pl->setName("Favorite");
