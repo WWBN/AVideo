@@ -1113,7 +1113,7 @@ class PlayLists extends PluginAbstract
                 if (empty($pl)) {
                     $pl = new PlayList($playlist_id);
                 }
-                $plName = $user->getName();
+                $plName = $pl->getName();
             }
         }
         if (empty($current_video_clean_title)) {
