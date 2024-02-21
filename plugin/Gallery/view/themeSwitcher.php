@@ -5,47 +5,59 @@ $iframeHeight = 200;
 $zoom = 0.7;
 if (!isset($themeSwitcherAdded)) {
     $themeSwitcherAdded = 1;
-    ?>
+?>
     <style>
-        .openThemeOptionsUL{
-            top: auto; 
-            max-height: 250px; 
-            overflow-y: auto; 
-            width: 100%; 
-            margin-left: -100%; 
-            margin-top: -26px; 
+        .openThemeOptionsUL {
+            top: auto;
+            max-height: 250px;
+            overflow-y: auto;
+            width: 100%;
+            margin-left: -100%;
+            margin-top: -26px;
             overflow-x: visible;
         }
-        .openThemeOptionsUL li .fas{
+
+        .openThemeOptionsUL li .fas {
             display: none;
         }
-        .openThemeOptionsUL li.active .far{
+
+        .openThemeOptionsUL li.active .far {
             display: none;
         }
-        .openThemeOptionsUL li.active .fas{
+
+        .openThemeOptionsUL li.active .fas {
             display: inline-block;
         }
 
-        #sideBarContainer .openThemeOptionsUL{
-            margin: 0;  
+        #sideBarContainer .openThemeOptionsUL {
+            margin: 0;
         }
 
-        #showThemeIframeDiv{
+        #showThemeIframeDiv {
             position: fixed;
             top: 70px;
             left: 50%;
-            margin-left: -<?php echo $iframeWidth/2; ?>px;
+            margin-left: -<?php echo $iframeWidth / 2; ?>px;
             background-color: #000;
-            -webkit-box-shadow: 0 0 5px 2px #000;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
-            -moz-box-shadow:    0 0 5px 2px #000;  /* Firefox 3.5 - 3.6 */
-            box-shadow:         0 0 5px 2px #000;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+            -webkit-box-shadow: 0 0 5px 2px #000;
+            /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+            -moz-box-shadow: 0 0 5px 2px #000;
+            /* Firefox 3.5 - 3.6 */
+            box-shadow: 0 0 5px 2px #000;
+            /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
             z-index: 2000;
-            width: <?php echo $iframeWidth; ?>px; 
-            height: <?php echo $iframeHeight; ?>px; 
-            padding: 0; 
-            overflow: hidden; 
+            width: <?php echo $iframeWidth; ?>px;
+            height: <?php echo $iframeHeight; ?>px;
+            padding: 0;
+            overflow: hidden;
         }
-        #frame { width: <?php echo $iframeWidth/$zoom; ?>px; height: <?php echo $iframeHeight/$zoom; ?>px; border: 1px solid black; }
+
+        #frame {
+            width: <?php echo $iframeWidth / $zoom; ?>px;
+            height: <?php echo $iframeHeight / $zoom; ?>px;
+            border: 1px solid black;
+        }
+
         #frame {
             -ms-zoom: <?php echo $zoom; ?>;
             -moz-transform: scale(<?php echo $zoom; ?>);
@@ -57,29 +69,29 @@ if (!isset($themeSwitcherAdded)) {
         }
     </style>
     <script>
-        $(document).ready(function () {
-            $(window).click(function () {
+        $(document).ready(function() {
+            $(window).click(function() {
                 $('.openThemeOptions').next('ul').hide();
                 $('#showThemeIframeDiv').fadeOut();
             });
-            $('.liThemes').click(function (event) {
+            $('.liThemes').click(function(event) {
                 event.stopPropagation();
             });
-            $('.openThemeOptions').on("click", function (e) {
+            $('.openThemeOptions').on("click", function(e) {
                 $(this).next('ul').toggle();
                 if (!$(this).next('ul').is(":visible")) {
-                $('#showThemeIframeDiv').fadeOut();
+                    $('#showThemeIframeDiv').fadeOut();
                 }
                 e.stopPropagation();
                 e.preventDefault();
             });
 
             $('body').append('<div id="showThemeIframeDiv" style="display:none;"></div>');
-            setInterval(function(){
-                if(!$('.openThemeOptions').is(":visible")){
+            setInterval(function() {
+                if (!$('.openThemeOptions').is(":visible")) {
                     $('#showThemeIframeDiv').fadeOut();
                 }
-            },1000);
+            }, 1000);
         });
 
         function showThemeIframe(name) {
@@ -98,7 +110,7 @@ if (!isset($themeSwitcherAdded)) {
             });
         }
     </script>
-    <?php
+<?php
 }
 $aClass = "";
 $keyComplement = "";
@@ -108,7 +120,12 @@ if ($navBarButtons) {
 }
 ?>
 <li class="dropdown-submenu" style="position: relative;">
-    <a class="openThemeOptions <?php echo $aClass; ?>" tabindex="-1" href="#"><i class="fas fa-adjust"></i> <?php echo __("Change theme"); ?> </a>
+    <a class="openThemeOptions <?php echo $aClass; ?>" tabindex="-1" href="#">
+        <i class="fas fa-adjust"></i>
+        <span class="menuLabel">
+            <?php echo __("Change theme"); ?>
+        </span>
+    </a>
     <ul class="dropdown-menu openThemeOptionsUL">
         <?php
         $themes = Gallery::getThemes();
@@ -121,9 +138,9 @@ if ($navBarButtons) {
             }
 
             echo '<li class="' . $class . ' liThemes" id="li' . $value['name'] . '" ><a class="openThemeOptionsSub" tabindex="-1" href="#" '
-            . 'onmouseover="showThemeIframe(\'' . $value['name'] . '\');"'
-            . 'onclick="changeTheme(\'' . $value['name'] . '\');"'
-            . '><i class="far fa-images"></i><i class="fas fa-image"></i> ' . $value['label'] . '</a></li>';
+                . 'onmouseover="showThemeIframe(\'' . $value['name'] . '\');"'
+                . 'onclick="changeTheme(\'' . $value['name'] . '\');"'
+                . '><i class="far fa-images"></i><i class="fas fa-image"></i> ' . $value['label'] . '</a></li>';
         }
         ?>
     </ul>

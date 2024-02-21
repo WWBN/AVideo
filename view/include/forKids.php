@@ -153,7 +153,7 @@ if (!empty($_COOKIE['forKids'])) {
     $checked = 'checked';
 }
 ?>
-<label for="forKids" class="row-label">
+<label for="forKids" class="row-label singleLineMenu">
     <?php
     echo createColorfulTextSpans(__('For Kids'));
     ?>

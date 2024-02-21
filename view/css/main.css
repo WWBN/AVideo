@@ -644,29 +644,6 @@ img.rotate-90 {
     background-size: cover;
 }
 
-#sidebar {
-    width: 300px;
-    position: absolute;
-    top: 0;
-    height: 100vh;
-    margin-top: 50px;
-}
-
-#sideBarContainer {
-    overflow: hidden;
-    position: absolute;
-    left: 0;
-    padding: 10px;
-    height: 100%;
-    width: 100%;
-    overflow-y: auto;
-    padding-right: 10px;
-}
-
-#sideBarContainer ul {
-    margin-bottom: 150px;
-}
-
 .navbar-brand {
     padding: 0px;
     /* firefox bug fix */

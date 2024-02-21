@@ -1,36 +1,92 @@
 /* if it is IE */
-@media all and (-ms-high-contrast:none){
+@media all and (-ms-high-contrast:none) {
     nav ul.items-container li:first-child {
         display: block;
-        flex: 0 1 auto; /* Default */
+        flex: 0 1 auto;
+        /* Default */
     }
 }
 
-#buttonMyNavbar{
+
+#sidebar {
+    width: 300px;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    margin-top: 50px;
+}
+
+
+body.youtube.compressedMenu #sidebar {
+    width: 100px;
+}
+
+body.youtube.compressedMenu #sidebar .menuLabel {
+    display: none;
+}
+
+#sideBarContainer {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+    overflow: hidden;
+    padding-right: 12px;
+}
+
+#sideBarContainer:hover {
+    overflow: auto;
+    padding-right: 0;
+}
+
+#sideBarContainer ul {
+    margin-bottom: 150px;
+}
+
+#sideBarContainer>ul>li>strong, .singleLineMenu {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.youtube.compressedMenu #sideBarContainer li a{
+    text-align: center;
+}
+
+#buttonMyNavbar {
     display: none;
 }
 
 #mysearch.in,
 #mysearch.collapsing {
-    display: block!important;
+    display: block !important;
 }
-#myNavbar{
+
+#myNavbar {
     display: block;
 }
+
 #myNavbar.in,
 #myNavbar.collapsing {
-    display: block!important;
+    display: block !important;
 }
+
 #searchForm {
     width: 100%;
     margin: 0 5px;
     white-space: nowrap;
 }
-#searchForm > span.input-group-prepend > button{
+
+#searchForm>span.input-group-prepend>button {
 
     border-right-width: 0;
 }
-#searchForm > span.input-group-append > button{
+
+#searchForm>span.input-group-append>button {
 
     border-left-width: 0;
 }
@@ -46,11 +102,12 @@
     margin-left: -5px;
     margin-right: -5px;
 }
+
 #filterDropdown.show .dropdown-menu {
     display: block;
 }
 
-#rightProfileButton{
+#rightProfileButton {
     padding: 0;
     margin: 5px;
     border: 0;
@@ -58,64 +115,74 @@
     background-color: transparent;
 }
 
-#rightLoginButton{
+#rightLoginButton {
     margin-left: 5px;
     margin-right: 40px;
 }
 
-#navbarRegularButtons{
+#navbarRegularButtons {
     max-width: 70%;
     /* remove the scroll because the dropsown menus does not work */
     /*overflow-x: auto;*/
     /*overflow-y: hidden;*/
 }
 
-#navbarRegularButtons span.hidden-mdx{
+#navbarRegularButtons span.hidden-mdx {
     max-width: 15vw;
     display: inline-block;
 }
 
-#navbarRegularButtons .btn{
+#navbarRegularButtons .btn {
     overflow: hidden;
 }
 
 #navbarRegularButtons::-webkit-scrollbar {
     height: 4px;
 }
-#lastItemOnMenu{
+
+#lastItemOnMenu {
     padding-right: 40px;
 }
-#mysearch{
+
+#mysearch {
     height: auto !important;
 }
-#searchNavItem, #lastItemOnMenu{
+
+#searchNavItem,
+#lastItemOnMenu {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-#lastItemOnMenu ul{
+
+#lastItemOnMenu ul {
     padding: 0;
 }
 
 @media (max-width : 767px) {
-    #filterDropdown{
+    #filterDropdown {
         position: absolute;
         top: 50px;
         left: 10px;
     }
+
     #searchForm {
         margin: 0;
         display: flex;
-        justify-content: center; /* center horizontally */
-        align-items: center; /* center vertically */
+        justify-content: center;
+        /* center horizontally */
+        align-items: center;
+        /* center vertically */
         padding: 0 5px;
     }
-    #rightLoginButton, #rightProfileButton{
+
+    #rightLoginButton,
+    #rightProfileButton {
         margin-right: 5px;
         margin-left: 0;
     }
 
-    #searchForm > div{
+    #searchForm>div {
         width: 100%;
     }
 
@@ -125,11 +192,12 @@
         right: 5px;
     }
 
-    #buttonMyNavbar, #searchNavItem{
+    #buttonMyNavbar,
+    #searchNavItem {
         display: block;
     }
 
-    #mysearch{
+    #mysearch {
         width: 100%;
         display: none;
         position: absolute;
@@ -146,7 +214,7 @@
         min-width: 75vw;
     }
 
-    #myNavbar{
+    #myNavbar {
         display: none;
         position: absolute;
         right: 0;
@@ -155,50 +223,63 @@
         padding: 4px;
         width: 50%;
     }
-    #mainNavBar .navbar-brand{
+
+    #mainNavBar .navbar-brand {
         width: 100% !important;
         text-align: center;
     }
+
     #mainNavBar .navbar-brand>img {
         display: unset;
     }
 
-    #myNavbar ul.right-menus{
+    #myNavbar ul.right-menus {
         display: block;
     }
 
-    #myNavbar ul.right-menus li{
+    #myNavbar ul.right-menus li {
         margin: 0;
         padding: 0;
     }
-    #myNavbar ul.right-menus .btn, #myNavbar ul.right-menus .btn-group{
+
+    #myNavbar ul.right-menus .btn,
+    #myNavbar ul.right-menus .btn-group {
         margin: 2px;
         width: 100%;
     }
-    #myNavbar ul.right-menus .btn-group{
+
+    #myNavbar ul.right-menus .btn-group {
         margin: 0;
     }
+
     nav ul.items-container li:first-child {
         display: list-item;
     }
+
     #navbarRegularButtons span.hidden-mdx {
         max-width: 100vw;
     }
+
     .searchli {
         width: 100%;
         margin-right: 0;
         margin-left: 0;
 
     }
+
     .navbar-toggle {
         margin-right: 5px !important;
 
 
     }
-    #navbarRegularButtons, #lastItemOnMenu, .left-side {
+
+    #navbarRegularButtons,
+    #lastItemOnMenu,
+    .left-side {
         padding: 0 5px;
     }
-    .searchul{
+
+    .searchul {
         padding-left: 0px;
     }
 }
@@ -206,25 +287,32 @@
 li.navsub-toggle .badge {
     float: right;
 }
-li.navsub-toggle a + ul {
+
+li.navsub-toggle a+ul {
     padding-left: 15px;
 }
 
-.navbar-lang-btn .select2-container{
+.navbar-lang-btn .select2-container {
     margin: 8px 0;
 }
-.navbar-lang-btn .select2-selection{
+
+.navbar-lang-btn .select2-selection {
     border-color: #00000077 !important;
 }
 
 @media screen and (min-width: 992px) {
 
-    body.youtube{
+    body.youtube {
         margin-left: 300px;
     }
-    body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item{
+
+    body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item {
         margin-left: 0;
         margin-right: 0;
         width: 100%;
+    }
+
+    body.youtube.compressedMenu {
+        margin-left: 100px;
     }
 }

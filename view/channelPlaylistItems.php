@@ -206,7 +206,8 @@ unset($_POST['current']);
                             $count++;
                             continue;
                         }
-                        $episodeLink = "{$global['webSiteRootURL']}program/{$playlist['id']}/{$count}/{$channelName}/" . urlencode(cleanURLName($playlist['name'])) . "/" . cleanURLName($value['clean_title']);
+                        
+                $episodeLink = PlayLists::getURL($playlist['id'], $count, $channelName, $playlist['name'], $value['clean_title']);
                         $count++;
                         $name = User::getNameIdentificationById($value['users_id']);
                         $class = '';

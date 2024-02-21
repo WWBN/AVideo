@@ -335,8 +335,8 @@ class PlayLists extends PluginAbstract
             if (empty($obj->useOldPlayList)) {
                 //$url = $global['webSiteRootURL'] . "plugin/PlayLists/player.php?playlists_id=" . $playlists_id;
                 $url = $global['webSiteRootURL'] . "play/" . $playlists_id;
-            } else {
-                $url = $global['webSiteRootURL'] . "program/" . $playlists_id;
+            } else {                
+                $url = PlayLists::getURL($playlists_id);
             }
         }
         if (isset($playlist_index)) {
@@ -376,7 +376,9 @@ class PlayLists extends PluginAbstract
                         <div>
                             <a href="' . self::getWatchLaterLink() . '" class="btn btn-default btn-block" style="border-radius: 0;">
                                 <i class="fas fa-clock"></i>
+                                <span class="menuLabel">
                                 ' . __("Watch Later") . '
+                                </span>
                             </a>
                         </div>
                     </li>';
@@ -386,7 +388,9 @@ class PlayLists extends PluginAbstract
                         <div>
                             <a href="' . self::getFavoriteLink() . '" class="btn btn-default btn-block" style="border-radius: 0;">
                                 <i class="fas fa-heart"></i>
+                                <span class="menuLabel">
                                 ' . __("Favorite") . '
+                                </span>
                             </a>
                         </div>
                     </li>';
@@ -395,7 +399,9 @@ class PlayLists extends PluginAbstract
                     <div>
                         <a href="' . "{$global['webSiteRootURL']}plugin/PlayLists/managerPlaylists.php" . '" class="btn btn-default btn-block" style="border-radius: 0;">
                             <i class="fas fa-list"></i>
+                            <span class="menuLabel">
                             ' . __("Organize") . ' ' . __($obj->name) . '
+                            </span>
                         </a>
                     </div>
                 </li>';
@@ -872,7 +878,6 @@ class PlayLists extends PluginAbstract
         return '';
     }
 
-
     static function scheduleLiveButton($playlists_id, $showLabel = true, $class = 'btn btn-xs btn-default')
     {
         // can the user live?
@@ -884,7 +889,7 @@ class PlayLists extends PluginAbstract
             _error_log("Playlists:scheduleLiveButton canManagePlaylist($playlists_id) said no");
             return "<!-- This user canManagePlaylist $playlists_id -->";
         }
-        
+
         if (!AVideoPlugin::isEnabled('Rebroadcaster')) {
             _error_log("Playlists:scheduleLiveButton Rebroadcaster not enabled");
             return '<!-- Rebroadcaster not enabled -->';
@@ -1045,7 +1050,7 @@ class PlayLists extends PluginAbstract
         $key = $lt->getKey();
         _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
         $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key);
-        if(!empty($isPlayListScheduled['playlists_schedules'])){
+        if (!empty($isPlayListScheduled['playlists_schedules'])) {
             $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
             if ($pls->getFinish_datetime() > time()) {
                 $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
@@ -1061,8 +1066,8 @@ class PlayLists extends PluginAbstract
                 _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
                 self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
             }
-        }else{
-            _error_log("on_publish_done is complete isPlayListScheduled=".json_encode($isPlayListScheduled));
+        } else {
+            _error_log("on_publish_done is complete isPlayListScheduled=" . json_encode($isPlayListScheduled));
         }
     }
 
@@ -1080,6 +1085,30 @@ class PlayLists extends PluginAbstract
             return  $ps->save();
         }
         return false;
+    }
+
+    static function getURL($playlist_id, $count=0, $PLChannelName = '', $plName = '', $current_video_clean_title = '')
+    {
+        global $global;
+        if (empty($PLChannelName)) {
+            $pl = new PlayList($playlist_id);
+            $users_id = $pl->getUsers_id();
+            $user = new User($users_id);
+            $PLChannelName = $user->getChannelName();
+        }
+        if (empty($plName)) {
+            if (empty($pl)) {
+                $pl = new PlayList($playlist_id);
+            }
+            $plName = $user->getName();
+        }
+        if (empty($current_video_clean_title)) {
+            $playlistVideos = PlayList::getVideosFromPlaylist($playlist_id);
+            $current_video_clean_title = $playlistVideos[$count];
+        }
+        $plURL = "{$global['webSiteRootURL']}program/{$playlist_id}/{$count}/" . urlencode(cleanURLName($PLChannelName)) . '/' . urlencode(cleanURLName($plName)) . '/' . urlencode(cleanURLName($current_video_clean_title));
+        
+        return $plURL;
     }
 }
 
@@ -1115,7 +1144,6 @@ class PlayListPlayer
         return $this->videos;
     }
 
-
     public function canSee()
     {
         return !empty($this->playlists_id) && PlayList::canSee($this->playlists_id, $this->users_id);
@@ -1128,11 +1156,11 @@ class PlayListPlayer
         $reasons = array();
         if ($status == 'favorite') {
             $reasons[] = __('Favorite is always private');
-        }else if ($status == 'watch_later') {
+        } else if ($status == 'watch_later') {
             $reasons[] = __('Watch later is always private');
-        }else if ($status !== 'public' && $status !== 'unlisted') {
-            $reasons[] = 'Status = '.$status;
-            if($this->users_id !== $obj->getUsers_id()){
+        } else if ($status !== 'public' && $status !== 'unlisted') {
+            $reasons[] = 'Status = ' . $status;
+            if ($this->users_id !== $obj->getUsers_id()) {
                 $reasons[] = __('Playlist is private');
             }
         }
@@ -1188,11 +1216,11 @@ class PlayListPlayer
         $videos = array();
         if (!empty($this->playlists_id)) {
             global $_pl_getVideos;
-            if(!isset($_pl_getVideos)){
+            if (!isset($_pl_getVideos)) {
                 $_pl_getVideos = array();
             }
-            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id) ".json_encode(debug_backtrace()));
-            if(isset($_pl_getVideos[$this->playlists_id])){
+            _error_log("PlayList::getVideosFromPlaylist($this->playlists_id) " . json_encode(debug_backtrace()));
+            if (isset($_pl_getVideos[$this->playlists_id])) {
                 return $_pl_getVideos[$this->playlists_id];
             }
             $_pl_getVideos[$this->playlists_id] = array();
@@ -1212,10 +1240,10 @@ class PlayListPlayer
              */
         } else if (!empty($this->tags_id)) {
             global $_plt_getVideos;
-            if(!isset($_plt_getVideos)){
+            if (!isset($_plt_getVideos)) {
                 $_plt_getVideos = array();
             }
-            if(isset($_plt_getVideos[$this->playlists_id])){
+            if (isset($_plt_getVideos[$this->playlists_id])) {
                 return $_plt_getVideos[$this->playlists_id];
             }
             $_plt_getVideos[$this->playlists_id] = array();

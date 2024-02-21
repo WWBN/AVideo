@@ -11,8 +11,10 @@ global $avideoLayout;
                 <li>
                     <div>
                         <a href="<?php echo getHomePageURL(); ?>" class="btn btn-primary btn-block  " style="border-radius: 4px 4px 0 0;">
-                            <span class="fa fa-home"></span>
-                            <?php echo __("Home"); ?>
+                            <i class="fa-solid fa-house"></i>
+                            <span class="menuLabel">
+                                <?php echo __("Home"); ?>
+                            </span>
                         </a>
                     </div>
                 </li>
@@ -24,7 +26,9 @@ global $avideoLayout;
                     <div>
                         <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'epg');return false;" class="btn btn-primary btn-block " style="border-radius:  0 0 0 0;">
                             <i class="fas fa-stream"></i>
-                            <?php echo __("EPG"); ?>
+                            <span class="menuLabel">
+                                <?php echo __("EPG"); ?>
+                            </span>
                         </a>
 
                     </div>
@@ -33,7 +37,9 @@ global $avideoLayout;
                     <div>
                         <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'tv');return false;" class="btn btn-primary btn-block " style="border-radius:  0 0 0 0;">
                             <i class="fas fa-tv"></i>
-                            <?php echo __("TV"); ?>
+                            <span class="menuLabel">
+                                <?php echo __("TV"); ?>
+                            </span>
                         </a>
 
                     </div>
@@ -47,7 +53,9 @@ global $avideoLayout;
                     <div>
                         <a href="<?php echo $global['webSiteRootURL']; ?>trending" class="btn btn-primary btn-block " style="border-radius:  0 0 4px 4px;">
                             <i class="fas fa-fire"></i>
-                            <?php echo __("Trending"); ?>
+                            <span class="menuLabel">
+                                <?php echo __("Trending"); ?>
+                            </span>
                         </a>
 
                     </div>
@@ -58,10 +66,15 @@ global $avideoLayout;
             ?>
                 <li>
                     <button type="button" class="btn btn-success btn-block" onclick="swapUser(0);">
-                        <i class="fas fa-backspace"></i> <i class="fas fa-user-friends"></i> <?php echo __("Back to"); ?> <?php echo User::getNameIdentificationById(User::isSwapBackActive()); ?>
+                        <i class="fas fa-backspace"></i>
+                        <i class="fas fa-user-friends"></i>
+                        <span class="menuLabel">
+                            <?php echo __("Back to"); ?>
+                            <?php echo User::getNameIdentificationById(User::isSwapBackActive()); ?>
+                        </span>
                     </button>
                 </li>
-                <?php
+            <?php
             }
             if (Video::videoMadeForKidsExists()) {
             ?>
@@ -75,7 +88,7 @@ global $avideoLayout;
                         ?>
                     </div>
                 </li>
-            <?php
+                <?php
             }
             //var_dump(Video::videoMadeForKidsExists());exit;
             if (empty($advancedCustomUser->doNotShowLeftProfile)) {
@@ -100,7 +113,10 @@ global $avideoLayout;
                                         <i class="fas fa-lock-open text-muted" style="opacity: 0.2;"></i>
                                     <?php }
                                     ?>
-                                    <i class="fas fa-sign-out-alt"></i> <?php echo __("Sign out"); ?>
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="menuLabel">
+                                        <?php echo __("Sign out"); ?>
+                                    </span>
                                 </a>
                             </div>
                         <?php }
@@ -111,10 +127,9 @@ global $avideoLayout;
                         <div class="pull-left" style="margin-left: 10px;">
                             <img src="<?php echo User::getPhoto(); ?>" style="max-width: 55px;" class="img img-thumbnail img-responsive img-circle" />
                         </div>
-                        <div style="margin-left: 80px;">
+                        <div style="margin-left: 80px;" class="menuLabel">
                             <strong class="text-danger"><?php echo User::getName(); ?></strong>
                             <div><small><?php echo User::getMail(); ?></small></div>
-
                         </div>
                     </li>
                     <li>
@@ -122,7 +137,9 @@ global $avideoLayout;
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-primary btn-block" style="border-radius: 4px 4px 0 0;">
                                 <span class="fa fa-user-circle"></span>
-                                <?php echo __("My Account"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("My Account"); ?>
+                                </span>
                             </a>
 
                         </div>
@@ -135,9 +152,11 @@ global $avideoLayout;
                             <div>
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'mvideos');
                                                     return false;" class="btn btn-success btn-block" style="border-radius: 0;">
-                                    <i class="fa-solid fa-film"></i> 
+                                    <i class="fa-solid fa-film"></i>
                                     <i class="fa-solid fa-headphones"></i>
-                                    <?php echo __("My videos"); ?>
+                                    <span class="menuLabel">
+                                        <?php echo __("My videos"); ?>
+                                    </span>
                                 </a>
                             </div>
                         </li>
@@ -149,7 +168,9 @@ global $avideoLayout;
                             <a href="#" onclick="avideoModalIframeFull('<?php echo User::getChannelLink(); ?>');
                                             return false;" class="btn btn-danger btn-block" style="border-radius: 0;">
                                 <span class="fas fa-play-circle"></span>
-                                <?php echo __($advancedCustomUser->MyChannelLabel); ?>
+                                <span class="menuLabel">
+                                    <?php echo __($advancedCustomUser->MyChannelLabel); ?>
+                                </span>
                             </a>
 
                         </div>
@@ -164,7 +185,9 @@ global $avideoLayout;
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'charts');
                                                     return false;" class="btn btn-default btn-block" style="border-radius: 0;">
                                     <span class="fas fa-tachometer-alt"></span>
-                                    <?php echo __("Dashboard"); ?>
+                                    <span class="menuLabel">
+                                        <?php echo __("Dashboard"); ?>
+                                    </span>
                                 </a>
                             </div>
                         </li>
@@ -177,7 +200,9 @@ global $avideoLayout;
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'subscribes');
                                                     return false;" class="btn btn-default btn-block" style="border-radius: 0">
                                     <span class="fa fa-check"></span>
-                                    <?php echo __("My Subscribers"); ?>
+                                    <span class="menuLabel">
+                                        <?php echo __("My Subscribers"); ?>
+                                    </span>
                                 </a>
                             </div>
                         </li>
@@ -190,7 +215,8 @@ global $avideoLayout;
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
                                                             return false;" class="btn btn-default btn-block" style="border-radius: 0;">
                                         <i class="fa-solid fa-list"></i>
-                                        <?php echo __($advancedCustom->CategoryLabel); ?>
+                                        <span class="menuLabel">
+                                            <?php echo __($advancedCustom->CategoryLabel); ?>
                                     </a>
                                 </div>
                             </li>
@@ -201,7 +227,9 @@ global $avideoLayout;
                                 <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'comments');
                                                     return false;" class="btn btn-default btn-block" style="border-radius: 0 0 4px 4px;">
                                     <span class="fa fa-comment"></span>
-                                    <?php echo __("Comments"); ?>
+                                    <span class="menuLabel">
+                                        <?php echo __("Comments"); ?>
+                                    </span>
                                 </a>
                             </div>
                         </li>
@@ -217,7 +245,9 @@ global $avideoLayout;
                         <div>
                             <a href="<?php echo $global['webSiteRootURL']; ?>user" class="btn btn-success btn-block line_<?php echo __LINE__; ?>">
                                 <i class="fas fa-sign-in-alt"></i>
-                                <?php echo __("Login"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Login"); ?>
+                                </span>
                             </a>
                         </div>
                     </li>
@@ -236,74 +266,93 @@ global $avideoLayout;
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'admin/');
                                         return false;">
                                 <i class="fas fa-star"></i>
-                                <?php echo __("Admin Panel"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Admin Panel"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'users');
                                         return false;">
                                 <i class="fa-solid fa-user"></i>
-                                <?php echo __("Users"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Users"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'usersGroups');
                                         return false;">
                                 <span class="fa fa-users"></span>
-                                <?php echo __("Users Groups"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Users Groups"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'categories');
                                         return false;">
                                 <i class="fa-solid fa-list"></i>
-                                <?php echo __($advancedCustom->CategoryLabel); ?>
+                                <span class="menuLabel">
+                                    <?php echo __($advancedCustom->CategoryLabel); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'update');
                                         return false;">
                                 <i class="fa-solid fa-arrows-rotate"></i>
-                                <?php echo __("Update version"); ?>
-                                <?php
-                                if (!empty($updateFiles)) {
-                                ?><span class="label label-danger"><?php echo count($updateFiles); ?></span><?php }
-                                                                                                            ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Update version"); ?>
+                                    <?php
+                                    if (!empty($updateFiles)) {
+                                    ?>
+                                        <span class="label label-danger"><?php echo count($updateFiles); ?></span>
+                                    <?php
+                                    }
+                                    ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'siteConfigurations');
                                         return false;">
                                 <i class="fa-solid fa-gear"></i>
-                                <?php echo __("Site Configurations"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Site Configurations"); ?>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'plugins');
                                         return false;">
                                 <i class="fas fa-puzzle-piece"></i>
-                                <?php echo __("Plugins"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="clearCacheFirstPageButton">
-                                <i class="fa fa-trash"></i> <?php echo __("Clear First Page Cache"); ?>
+                                <span class="menuLabel">
+                                    <?php echo __("Plugins"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="clearCacheButton">
-                                <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
+                                <i class="fa fa-trash"></i>
+                                <span class="menuLabel">
+                                    <?php echo __("Clear Cache Directory"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'i/log');
                                         return false;" class="">
-                                <i class="fas fa-clipboard-list"></i> <?php echo __("Log file"); ?>
+                                <i class="fas fa-clipboard-list"></i>
+                                <span class="menuLabel">
+                                    <?php echo __("Log file"); ?>
+                                </span>
                             </a>
                         </li>
                         <li>
                             <a href="#" class="generateSiteMapButton">
-                                <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
+                                <i class="fa fa-sitemap"></i>
+                                <span class="menuLabel">
+                                    <?php echo __("Generate Sitemap"); ?>
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -317,7 +366,9 @@ global $avideoLayout;
                                 <li>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'users\');return false;">
                                         <i class="fa-solid fa-user"></i>
+                                        <span class="menuLabel">
                                         <?php echo __("Users"); ?>
+                                        </span>
                                     </a>
                                 </li>
                                 <?php
@@ -328,7 +379,9 @@ global $avideoLayout;
                                 <li>
                                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'usersGroups\');return false;">
                                         <span class="fa fa-users"></span>
+                                        <span class="menuLabel">
                                         <?php echo __("Users Groups"); ?>
+                                        </span>
                                     </a>
                                 </li>
                                 <?php
@@ -337,13 +390,11 @@ global $avideoLayout;
                 if (Permissions::canClearCache()) {
                     $menus[] = '?>
                                 <li>
-                                    <a href="#" class="clearCacheFirstPageButton">
-                                        <i class="fa fa-trash"></i> <?php echo __("Clear First Page Cache"); ?>
-                                    </a>
-                                </li>
-                                <li>
                                     <a href="#" class="clearCacheButton">
-                                        <i class="fa fa-trash"></i> <?php echo __("Clear Cache Directory"); ?>
+                                        <i class="fa fa-trash"></i> 
+                                        <span class="menuLabel">
+                                        <?php echo __("Clear Cache Directory"); ?>
+                                        </span>
                                     </a>
                                 </li>
                                 <?php
@@ -353,7 +404,10 @@ global $avideoLayout;
                     $menus[] = ' ?>
                                 <li>
                                     <a  href="#" onclick="avideoModalIframeFull(webSiteRootURL+\'i/log\');return false;" class="">
-                                        <i class="fas fa-clipboard-list"></i> <?php echo __("Log file"); ?>
+                                        <i class="fas fa-clipboard-list"></i> 
+                                        <span class="menuLabel">
+                                        <?php echo __("Log file"); ?>
+                                        </span>
                                     </a>
                                 </li>
                                 <?php
@@ -363,7 +417,10 @@ global $avideoLayout;
                     $menus[] = '?>
                                 <li>
                                     <a href="#" class="generateSiteMapButton">
-                                        <i class="fa fa-sitemap"></i> <?php echo __("Generate Sitemap"); ?>
+                                        <i class="fa fa-sitemap"></i> 
+                                        <span class="menuLabel">
+                                        <?php echo __("Generate Sitemap"); ?>
+                                        </span>
                                     </a>
                                 </li>
                                 <?php
@@ -393,19 +450,25 @@ global $avideoLayout;
                 <li class="nav-item <?php echo empty($_SESSION['type']) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>?type=all">
                         <i class="fa-solid fa-star"></i>
-                        <?php echo __("Audio and Video"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Audio and Video"); ?>
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'video' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link " href="<?php echo $global['webSiteRootURL']; ?>videoOnly">
                         <i class="fa-solid fa-video"></i>
-                        <?php echo __("Videos"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Videos"); ?>
+                        </span>
                     </a>
                 </li>
                 <li class="nav-item <?php echo (!empty($_SESSION['type']) && $_SESSION['type'] == 'audio' && empty($_REQUEST['catName'])) ? "active" : ""; ?>">
                     <a class="nav-link" href="<?php echo $global['webSiteRootURL']; ?>audioOnly">
                         <i class="fa-solid fa-headphones"></i>
-                        <?php echo __("Audio"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Audio"); ?>
+                        </span>
                     </a>
                 </li>
             <?php }
@@ -425,7 +488,9 @@ global $avideoLayout;
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'channels');
                                 return false;">
                         <i class="fa fa-search"></i>
-                        <?php echo __("Browse Channels"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Browse Channels"); ?>
+                        </span>
                     </a>
                 </li>
 
@@ -442,7 +507,9 @@ global $avideoLayout;
                     <strong>
                         <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');
                                     return false;" class="text-danger">
-                            <?php echo __($advancedCustom->CategoryLabel); ?>
+                            <span class="menuLabel">
+                                <?php echo __($advancedCustom->CategoryLabel); ?>
+                            </span>
                         </a>
                     </strong>
                 </li>
@@ -515,7 +582,8 @@ global $avideoLayout;
                         //$parsed_cats[] = $value['id'];
                         echo '<li class="navsub-toggle ' . ($value['clean_name'] == @$_REQUEST['catName'] ? "active" : "") . '">'
                             . '<a href="' . Category::getCategoryLinkFromName($value['clean_name']) . '" >';
-                        echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  ' . __($value['name']);
+                        echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  
+                        <span class="menuLabel">' . __($value['name']) . '</span>';
                         if (empty($advancedCustom->hideCategoryVideosCount)) {
                             echo ' <span class="badge">' . $total . '</span>';
                         }
@@ -536,7 +604,10 @@ global $avideoLayout;
                 <li class="nav-item ">
                     <a class="nav-link " href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'listCategories');return false;">
                         <i class="fas fa-list"></i>
-                        <?php echo __($advancedCustom->CategoryLabel); ?></a>
+                        <span class="menuLabel">
+                            <?php echo __($advancedCustom->CategoryLabel); ?>
+                        </span>
+                    </a>
                 </li>
             <?php
             }
@@ -554,7 +625,9 @@ global $avideoLayout;
                     <a class="nav-link" href="#" onclick="A2HSInstall();
                                 return false;">
                         <i class="fas fa-arrow-alt-circle-down"></i>
-                        <?php echo __("Install"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Install"); ?>
+                        </span>
                     </a>
                 </li>
             <?php
@@ -565,7 +638,9 @@ global $avideoLayout;
                     <a class="nav-link" href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'playLink');
                                 return false;">
                         <i class="fas fa-play-circle"></i>
-                        <?php echo __("Play a Link"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Play a Link"); ?>
+                        </span>
                     </a>
                 </li>
             <?php
@@ -576,7 +651,9 @@ global $avideoLayout;
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'help');
                                 return false;">
                         <i class="fa-solid fa-circle-question"></i>
-                        <?php echo __("Help"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Help"); ?>
+                        </span>
                     </a>
                 </li>
             <?php
@@ -588,7 +665,9 @@ global $avideoLayout;
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'about');
                                 return false;">
                         <i class="fa-solid fa-circle-info"></i>
-                        <?php echo __("About"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("About"); ?>
+                        </span>
                     </a>
                 </li>
             <?php
@@ -600,7 +679,9 @@ global $avideoLayout;
                     <a href="#" onclick="avideoModalIframeFull(webSiteRootURL + 'contact');
                                 return false;">
                         <i class="fa-solid fa-comment"></i>
-                        <?php echo __("Contact"); ?>
+                        <span class="menuLabel">
+                            <?php echo __("Contact"); ?>
+                        </span>
                     </a>
                 </li>
             <?php }
@@ -608,3 +689,22 @@ global $avideoLayout;
         </ul>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        // Loop through each li in the sidebar that directly contains a .menuLabel
+        $('#sideBarContainer ul.nav li').has('.menuLabel').each(function() {
+            // Since the .menuLabel might not be a direct child, let's adjust the selector to find it correctly
+            var menuLabelText = $(this).find('.menuLabel').first().text().trim();
+
+            // Set the title attribute of the li to the menuLabel text
+            $(this).attr('title', menuLabelText);
+
+            // Initialize tooltip for this li
+            $(this).tooltip({
+                container: 'body',
+                html: true,
+                placement: 'right' // Adjust the placement as needed
+            });
+        });
+    });
+</script>

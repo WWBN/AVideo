@@ -71,7 +71,7 @@ if (!empty($evideo)) {
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     if (empty($_GET['playlist_id']) && !empty($_GET['playlist_name'])) {
         $_GET['playlist_id'] = $_GET['playlist_name'];
-    }else if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
+    } else if (empty($_GET['playlist_id']) && !empty($_GET['playlists_id'])) {
         $_GET['playlist_id'] = $_GET['playlists_id'];
     }/*
     else{
@@ -86,24 +86,24 @@ if (!empty($evideo)) {
         $playListData = $plp->getPlayListData();
         //var_dump($_GET['playlist_id'], $_GET['playlists_tags_id'], $playListData, $messagesFromPlayList);exit;
         if (!$plp->canSee()) {
-            forbiddenPage(_('You cannot see this playlist').' '.basename(__FILE__));
+            forbiddenPage(_('You cannot see this playlist') . ' ' . basename(__FILE__));
         }
         $playListData = $plp->getPlayListData();
         //var_dump($playListData);exit;
         if (empty($playListData)) {
-            if(empty($messagesFromPlayList)){
+            if (empty($messagesFromPlayList)) {
                 $messagesFromPlayList = array();
             }
-            _error_log(implode(PHP_EOL."Playlist error: playlist_id={$_GET['playlist_id']}, playlists_tags_id={$_GET['playlists_tags_id']} - ", $messagesFromPlayList));
-            
+            _error_log(implode(PHP_EOL . "Playlist error: playlist_id={$_GET['playlist_id']}, playlists_tags_id={$_GET['playlists_tags_id']} - ", $messagesFromPlayList));
+
             $notFoundMessage = PlayLists::getPlaylistNotFoundMessage($_GET['playlist_id']);
             videoNotFound($notFoundMessage);
         }
 
         $video = $plp->getCurrentVideo();
-        if(!empty($video)){
+        if (!empty($video)) {
             $_getVideos_id = intval($video['id']);
-            $playlist_index = $plp->getIndex(); 
+            $playlist_index = $plp->getIndex();
             $videosPlayList = $plp->getVideos();
             $autoPlayVideo = $plp->getNextVideo();
             $playlist_id = $plp->getPlaylists_id();
@@ -190,7 +190,6 @@ if (!empty($evideo)) {
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
     }
-
     $modeYouTubeTimeLog['Code part 2'] = microtime(true) - $modeYouTubeTime;
     $modeYouTubeTime = microtime(true);
     if (!empty($video) && !empty($video['users_id'])) {
@@ -260,35 +259,35 @@ if (!empty($evideo)) {
     if (empty($_GET['videoName']) && !empty($video) && !empty($video['clean_title'])) {
         $_GET['videoName'] = $video['clean_title'];
     }
-    if(!empty($video)){
+    if (!empty($video)) {
         $v = Video::getVideo($video['id'], "", true, false, false, true);
-    }else if (!empty($_GET['videoName'])) {
+    } else if (!empty($_GET['videoName'])) {
         $v = Video::getVideoFromCleanTitle($_GET['videoName']);
     }
     if (empty($v) && empty($videosPlayList[$playlist_index]['id'])) {
-        if($_GET['playlist_id'] == 'favorite' || $_GET['playlist_id'] == 'watch-later'){
-            if($_GET['playlist_id'] == 'favorite'){
+        if ($_GET['playlist_id'] == 'favorite' || $_GET['playlist_id'] == 'watch-later') {
+            if ($_GET['playlist_id'] == 'favorite') {
                 $msg = __('Your Favorite playlist is waiting to be filled! Start exploring and add the videos you love the most.');
-            }else{
+            } else {
                 $msg = __('Oops! Your Watch Later playlist is empty. Don\'t worry, we have plenty of exciting videos for you to choose from and add here.');
             }
             $url = addQueryStringParameter($global['webSiteRootURL'], 'msg', $msg);
             header("location: {$url}");
             exit;
-        }else if(!empty($video['id'])){
+        } else if (!empty($video['id'])) {
             $response = Video::whyUserCannotWatchVideo(User::getId(), @$video['id']);
-            $html = "<ul><li>".implode('</li><li>', $response->why)."</li></ul>";
+            $html = "<ul><li>" . implode('</li><li>', $response->why) . "</li></ul>";
             videoNotFound($html);
-        }else{            
+        } else {
             AVideoPlugin::getModeYouTube($videos_id);
             forbiddenPage('We could not load the video');
         }
-    } 
+    }
     TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 }
-
+//_error_log('AVideoPlugin::getModeYouTube');
 AVideoPlugin::getModeYouTube($videos_id);
-
+//var_dump(__LINE__);exit;
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 
 // video not found
@@ -301,9 +300,9 @@ if (empty($video)) {
                 $vid->save();
                 _error_log('Missing files recovered ' . $_GET['v']);
             } else {
-                if(!User::isLogged()){
+                if (!User::isLogged()) {
                     gotToLoginAndComeBackHere();
-                }else{
+                } else {
                     $msg = 'ERROR 1: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
                     videoNotFound($msg);
                 }
@@ -314,9 +313,9 @@ if (empty($video)) {
             videoNotFound($msg);
             exit;
         } else {
-            if(!User::isLogged()){
+            if (!User::isLogged()) {
                 gotToLoginAndComeBackHere();
-            }else{
+            } else {
                 $msg = 'ERROR 2: The video ID [' . $_GET['v'] . '] is not available: status=' . Video::$statusDesc[$vid->getStatus()];
                 videoNotFound($msg);
             }
@@ -352,78 +351,62 @@ if (!empty($video['users_id']) && User::hasBlockedUser($video['users_id'])) {
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
 global $nonCriticalCSS;
+
+$_page = new Page(array($titleTag));
+$_page->setExtraStyles(
+    array(
+        'node_modules/video.js/dist/video-js.min.css',
+        'plugin/Gallery/style.css'
+    )
+);
 ?>
-<!DOCTYPE html>
-<html lang="<?php echo getLanguage(); ?>" prefix="og: http://ogp.me/ns#">
-    <head>
-        <title><?php echo $titleTag; ?></title>
-        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"  />
-        <link href="<?php echo getCDN('plugin/Gallery/style.css'); ?>" rel="stylesheet" type="text/css"/>
-        <?php
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        include $global['systemRootPath'] . 'view/include/head.php';
-        ?>
-    </head>
-
-    <body class="<?php echo $global['bodyClass']; ?>">
-        <?php
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        include $global['systemRootPath'] . 'view/include/navbar.php';
-
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
-            ?>
-            <div class="container" style="margin-bottom: 10px;">
-                <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
-            </div>
-            <?php
-        }
-        ?>
-        <!-- view modeYoutube.php -->
-        <div class="container-fluid principalContainer avideoLoadPage" id="modeYoutubePrincipal" style="overflow: hidden;">
-            <?php
-            if (!empty($video)) {
-                if (empty($video['type'])) {
-                    $video['type'] = "video";
-                }
-                
-                TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-                require "{$global['systemRootPath']}view/modeYoutubeBundle.php";
-
-                TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-            } else {
-                ?>
-                <br>
-                <br>
-                <br>
-                <br>
-                <div class="alert alert-warning">
-                    <i class="fa-solid fa-video"></i>
-                    <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
-                </div>
-                <?php }
-            ?>
-        </div>
-        <?php
-        include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        echo AVideoPlugin::afterVideoJS();
-        include $global['systemRootPath'] . 'view/include/footer.php';
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        ?>
-        <script src="<?php echo getURL('view/js/BootstrapMenu.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
-        <script>
-            var fading = false;
-        </script>
-
-        <?php
-        showCloseButton();
-
-        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
-        ?>
-    </body>
-</html>
 <?php
-include $global['systemRootPath'] . 'objects/include_end.php';
+if (!empty($advancedCustomUser->showChannelBannerOnModeYoutube)) {
+?>
+    <div class="container" style="margin-bottom: 10px;">
+        <img src="<?php echo User::getBackground($video['users_id']); ?>" class="img img-responsive" />
+    </div>
+<?php
+}
+?>
+<!-- view modeYoutube.php -->
+<div class="container-fluid principalContainer avideoLoadPage" id="modeYoutubePrincipal" style="overflow: hidden;">
+    <?php
+    if (!empty($video)) {
+        if (empty($video['type'])) {
+            $video['type'] = "video";
+        }
+
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+        require "{$global['systemRootPath']}view/modeYoutubeBundle.php";
+        TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+    } else {
+    ?>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="alert alert-warning">
+            <i class="fa-solid fa-video"></i>
+            <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
+        </div>
+    <?php 
+    }
+    ?>
+</div>
+<?php
+include $global['systemRootPath'] . 'view/include/video.min.js.php';
+echo AVideoPlugin::afterVideoJS();
+TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+?>
+<script>
+    var fading = false;
+</script>
+<?php
+showCloseButton();
 
 TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
+?>
+<?php
+$_page->print();
 ?>

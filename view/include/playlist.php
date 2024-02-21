@@ -72,9 +72,12 @@ if (!empty($videoSerie)) {
                 if ($count == $playlist_index) {
                     $class .= " active";
                     $indicator = '<span class="fa fa-play text-danger"></span>';
-                } ?>
+                } 
+                
+                $plURL = PlayLists::getURL($playlist_id, $count, $value["channelName"], $playlist->getName(), $value['clean_title']);
+                ?>
                 <li class="<?php echo $class; ?>">
-                    <a href="<?php echo $global['webSiteRootURL']; ?>program/<?php echo $playlist_id; ?>/<?php echo $count . "/" . urlencode(cleanURLName(@$value["channelName"])) . "/" . urlencode(cleanURLName($playlist->getName())) . "/" . (@$value['clean_title']); ?>" title="<?php echo $value['title']; ?>" class="videoLink row">
+                    <a href="<?php echo $plURL; ?>" title="<?php echo str_replace('"', '', $value['title']); ?>" class="videoLink row">
                         <div class="col-md-1 col-sm-1 col-xs-1">
                             <?php echo $indicator; ?>
                         </div>
