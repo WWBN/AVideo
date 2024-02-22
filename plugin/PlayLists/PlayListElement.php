@@ -137,7 +137,7 @@ class playListSource {
     static $videoHLSObj;
     
     function __construct($src, $youtube = false) {
-        $TimeLogLimit = 0.2;
+        $TimeLogLimit = 0.1;
         $timelogname = __FILE__.'::playListSource::__construct';
         TimeLogStart($timelogname);
         $this->src = $src;
