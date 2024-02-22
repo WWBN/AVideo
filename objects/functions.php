@@ -2048,6 +2048,7 @@ function mime_content_type_per_filename($filename)
         'tif' => 'image/tiff',
         'svg' => 'image/svg+xml',
         'svgz' => 'image/svg+xml',
+        'webp' => 'image/webp',
         // archives
         'zip' => 'application/zip',
         'rar' => 'application/x-rar-compressed',
