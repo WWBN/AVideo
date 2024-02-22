@@ -63,10 +63,13 @@ foreach ($playList as $key => $value) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         foreach ($subPlayList as $value) {
+            $timelognameFF = __FILE__.'::foreach';
+            TimeLogStart($timelognameFF);
             $sources = getVideosURL($value['filename']);
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
             $externalOptions = _json_decode($value['externalOptions']);
 
+            TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
             $src = new stdClass();
             $src->src = $images->thumbsJpg;
             $thumbnail = array();
@@ -79,16 +82,19 @@ foreach ($playList as $key => $value) {
                 }
                 $playListSources[] = new playListSource($value2['url']);
             }
+            TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
             if (empty($playListSources)) {
                 continue;
             }
             if (User::isLogged()) {
                 $videoStartSeconds = Video::getLastVideoTimePosition($value['videos_id']);
             }
+            TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
 
             if (empty($videoStartSeconds)) {
                 $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
             }
+            TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
 
             $playListData[] = new PlayListElement(@$value['title'], @$value['description'], @$value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], @$value['likes'], @$value['views_count'], @$value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
             //$playListData_videos_id[] = $value['id'];
