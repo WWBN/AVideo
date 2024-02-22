@@ -136,12 +136,16 @@ class playListSource {
     public $src, $type, $label;
     static $videoHLSObj;
     
-    function __construct($src, $youtube = false) {
+    function __construct($src, $youtube = false, $getResolution = true) {
         $TimeLogLimit = 0.1;
         $timelogname = __FILE__.'::playListSource::__construct';
         TimeLogStart($timelogname);
         $this->src = $src;
-        $this->label = getResolutionFromFilename($src);
+        if($getResolution){
+            $this->label = getResolutionFromFilename($src);
+        }else{
+            $this->label = '';
+        }
         TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
         if(empty($this->label)){
             $this->label = 'Auto';
