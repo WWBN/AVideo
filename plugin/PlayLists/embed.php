@@ -6,13 +6,18 @@ $isPlayList = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
+$timelogname = __FILE__;
+TimeLogStart($timelogname);
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
 if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 
+TimeLogEnd($timelogname, __LINE__);
 require_once $global['systemRootPath'] . 'objects/playlist.php';
+TimeLogEnd($timelogname, __LINE__);
 require_once $global['systemRootPath'] . 'plugin/PlayLists/PlayListElement.php';
+TimeLogEnd($timelogname, __LINE__);
 
 if (!User::isAdmin() && !PlayList::canSee($_GET['playlists_id'], User::getId())) {
     die('{"error":"' . __("Permission denied") . '"}');
@@ -20,21 +25,29 @@ if (!User::isAdmin() && !PlayList::canSee($_GET['playlists_id'], User::getId()))
 
 $playlist_index = intval(@$_REQUEST['playlist_index']);
 
+TimeLogEnd($timelogname, __LINE__);
 $pl = new PlayList($_GET['playlists_id']);
 
+TimeLogEnd($timelogname, __LINE__);
 $playList = PlayList::getVideosFromPlaylist($_GET['playlists_id']);
 
+TimeLogEnd($timelogname, __LINE__);
 $playListData = array();
 $playListData_videos_id = array();
 $collectionsList = PlayList::showPlayListSelector($playList);
+TimeLogEnd($timelogname, __LINE__);
 $videoStartSeconds = array();
 
 $users_id = User::getId();
 
 setPlayListIndex(0);
 
+TimeLogEnd($timelogname, __LINE__);
+$TimeLogLimit = 0.2;
 foreach ($playList as $key => $value) {
     $oldValue = $value;
+    $timelognameF = __FILE__.'::foreach';
+    TimeLogStart($timelognameF);
 
     if (!User::isAdmin() && !Video::userGroupAndVideoGroupMatch($users_id, $value['videos_id'])) {
         unset($playList[$key]);
@@ -45,8 +58,10 @@ foreach ($playList as $key => $value) {
         setPlayListIndex(count($playListData));
     }
 
+    TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
     if ($oldValue['type'] === 'serie' && !empty($oldValue['serie_playlists_id'])) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         foreach ($subPlayList as $value) {
             $sources = getVideosURL($value['filename']);
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
@@ -78,11 +93,14 @@ foreach ($playList as $key => $value) {
             $playListData[] = new PlayListElement(@$value['title'], @$value['description'], @$value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'], @$value['likes'], @$value['views_count'], @$value['videos_id'], "embedPlayList subPlaylistCollection-{$oldValue['serie_playlists_id']}");
             //$playListData_videos_id[] = $value['id'];
         }
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
     } else {
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         $sources = getVideosURL($value['filename']);
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
         $externalOptions = _json_decode($value['externalOptions']);
 
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         $src = new stdClass();
         $src->src = $images->thumbsJpg;
         $thumbnail = array();
@@ -96,35 +114,45 @@ foreach ($playList as $key => $value) {
             $playListSources[] = new playListSource($value2['url']);
         }
 
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         if (function_exists('getVTTTracks')) {
             $subtitleTracks = getVTTTracks($value['filename'], true);
         }
 
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         if (empty($playListSources)) {
             continue;
         }
 
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         if (User::isLogged()) {
             $videoStartSeconds = Video::getLastVideoTimePosition($value['videos_id']);
         }
 
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         if (empty($videoStartSeconds)) {
             $videoStartSeconds = parseDurationToSeconds(@$externalOptions->videoStartSeconds);
         }
+        TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         $playListData[] = new PlayListElement(@$value['title'], @$value['description'], @$value['duration'], $playListSources, $thumbnail, $images->poster, $videoStartSeconds, $value['cre'],@$value['likes'], @$value['views_count'], @$value['videos_id'], "embedPlayList ", $subtitleTracks);
         //$playListData_videos_id[] = $value['videos_id'];
     }
+    TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
 }
 
+TimeLogEnd($timelogname, __LINE__);
 $playListData_videos_id = getPlayListDataVideosId();
 
+TimeLogEnd($timelogname, __LINE__);
 if (empty($playListData)) {
     forbiddenPage(__("The program is empty"));
 }
 
 $url = PlayLists::getLink($pl->getId());
+TimeLogEnd($timelogname, __LINE__);
 $title = $pl->getName();
 
+TimeLogEnd($timelogname, __LINE__);
 if ($serie = PlayLists::isPlayListASerie($pl->getId())) {
     setVideos_id($serie['id']);
 } else if (!empty($playListData_videos_id[getPlayListIndex()])) {
@@ -135,7 +163,9 @@ $_REQUEST['hideAutoplaySwitch'] = 1;
 $pl_index = getPlayListIndex();
 $str = file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/getStartPlayerJS.js');
 $str = str_replace('{$pl_index}', $pl_index, $str);
+TimeLogEnd($timelogname, __LINE__);
 PlayerSkins::getStartPlayerJS($str);
+TimeLogEnd($timelogname, __LINE__);
 ?>
 
 <!DOCTYPE html>
