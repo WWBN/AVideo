@@ -81,6 +81,7 @@ foreach ($playList as $key => $value) {
                     continue;
                 }
                 $playListSources[] = new playListSource($value2['url']);
+                break;
             }
             TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
             if (empty($playListSources)) {
