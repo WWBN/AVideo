@@ -2110,6 +2110,7 @@ function mime_content_type_per_filename($filename)
         if (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
         } elseif (function_exists('finfo_open')) {
+            _error_log("mime_content_type_per_filename($filename) not found, ext=[{$ext}]");
             $finfo = finfo_open(FILEINFO_MIME);
             if (!empty($finfo)) {
                 $mimetype = finfo_file($finfo, $filename);
