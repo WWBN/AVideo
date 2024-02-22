@@ -1717,7 +1717,7 @@ function sortVideosURL($a, $b)
     return 0;
 }
 
-function getResolutionFromFilename($filename)
+function getResolutionFromFilename($filename, $downloadIfNeed = true)
 {
     global $getResolutionFromFilenameArray;
 
@@ -1735,7 +1735,7 @@ function getResolutionFromFilename($filename)
     if (!preg_match('/^http/i', $filename) && !file_exists($filename)) {
         return 0;
     }
-    $res = Video::getResolutionFromFilename($filename);
+    $res = Video::getResolutionFromFilename($filename, $downloadIfNeed);
     if (empty($res)) {
         if (preg_match('/[_\/]hd[.\/]/i', $filename)) {
             $res = 720;

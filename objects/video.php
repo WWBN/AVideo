@@ -4540,7 +4540,7 @@ if (!class_exists('Video')) {
             return $return;
         }
 
-        public static function getResolutionFromFilename($filename)
+        public static function getResolutionFromFilename($filename, $downloadIfNeed = true)
         {
             global $global;
             $resolution = false;
@@ -4576,7 +4576,7 @@ if (!class_exists('Video')) {
                     }
                 }
                 //var_dump(__LINE__);
-            } elseif (preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename)) {
+            } elseif ($downloadIfNeed && preg_match('/video_[0-9_a-z]+\/index.m3u8/i', $filename)) {
                 if (class_exists('VideoHLS')) {
                     $resolution = VideoHLS::getHLSHigestResolutionFromFile($filename);
                     //var_dump(5, $filename,$resolution);
