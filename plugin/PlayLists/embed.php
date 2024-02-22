@@ -119,6 +119,7 @@ foreach ($playList as $key => $value) {
                 continue;
             }
             $playListSources[] = new playListSource($value2['url'], false, false);
+            break;
         }
 
         TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
