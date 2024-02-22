@@ -80,7 +80,7 @@ foreach ($playList as $key => $value) {
                 if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
                     continue;
                 }
-                $playListSources[] = new playListSource($value2['url'], false, false);
+                $playListSources[] = new playListSource($value2['url']);
                 break;
             }
             TimeLogEnd($timelognameFF, __LINE__, $TimeLogLimit);
@@ -118,7 +118,7 @@ foreach ($playList as $key => $value) {
             if ($value2['type'] !== 'video' && $value2['type'] !== 'audio') {
                 continue;
             }
-            $playListSources[] = new playListSource($value2['url'], false, false);
+            $playListSources[] = new playListSource($value2['url']);
             break;
         }
 
