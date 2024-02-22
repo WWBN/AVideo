@@ -63,7 +63,7 @@ foreach ($playList as $key => $value) {
         $subPlayList = PlayList::getVideosFromPlaylist($value['serie_playlists_id']);
         TimeLogEnd($timelognameF, __LINE__, $TimeLogLimit);
         foreach ($subPlayList as $value) {
-            $timelognameFF = __FILE__.'::foreach';
+            $timelognameFF = __FILE__.'::foreach::foreach';
             TimeLogStart($timelognameFF);
             $sources = getVideosURL($value['filename']);
             $images = Video::getImageFromFilename($value['filename'], $value['type']);
