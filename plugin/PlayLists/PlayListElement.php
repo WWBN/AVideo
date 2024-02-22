@@ -134,6 +134,7 @@ class PlayListElement {
 class playListSource {
 
     public $src, $type, $label;
+    static $videoHLSObj;
     
     function __construct($src, $youtube = false) {
         $this->src = $src;
@@ -149,8 +150,10 @@ class playListSource {
             $this->type = mime_content_type_per_filename($src);
         }
         if($this->type=="application/x-mpegURL"){
-            $obj = AVideoPlugin::getDataObject('VideoHLS');
-            if(!empty($obj->downloadProtection)){
+            if(!isset(playListSource::$videoHLSObj)){
+                playListSource::$videoHLSObj = AVideoPlugin::getDataObject('VideoHLS');
+            }
+            if(!empty(playListSource::$videoHLSObj->downloadProtection)){
                 if(!preg_match('/token=/', $this->src)){
                     $this->src = addQueryStringParameter($this->src, 'token', VideoHLS::getToken());
                 }
