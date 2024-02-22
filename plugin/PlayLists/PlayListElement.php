@@ -137,8 +137,12 @@ class playListSource {
     static $videoHLSObj;
     
     function __construct($src, $youtube = false) {
+        $TimeLogLimit = 0.2;
+        $timelogname = __FILE__.'::playListSource::__construct';
+        TimeLogStart($timelogname);
         $this->src = $src;
         $this->label = getResolutionFromFilename($src);
+        TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
         if(empty($this->label)){
             $this->label = 'Auto';
         }else{
@@ -149,16 +153,20 @@ class playListSource {
         }else{
             $this->type = mime_content_type_per_filename($src);
         }
+        TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
         if($this->type=="application/x-mpegURL"){
+            TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
             if(!isset(playListSource::$videoHLSObj)){
                 playListSource::$videoHLSObj = AVideoPlugin::getDataObject('VideoHLS');
             }
+            TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
             if(!empty(playListSource::$videoHLSObj->downloadProtection)){
                 if(!preg_match('/token=/', $this->src)){
                     $this->src = addQueryStringParameter($this->src, 'token', VideoHLS::getToken());
                 }
             }
         }
+        TimeLogEnd($timelogname, __LINE__, $TimeLogLimit);
     }
 
 
