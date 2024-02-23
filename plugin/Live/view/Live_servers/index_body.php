@@ -10,7 +10,7 @@ if (!User::isAdmin()) {
 $obj = AVideoPlugin::getObjectData("Live");
 ?>
 <style>
-    #panelLive_serversForm div{
+    #panelLive_serversForm div {
         min-height: 50px;
     }
 </style>
@@ -21,10 +21,16 @@ $obj = AVideoPlugin::getObjectData("Live");
     <div class="panel-body">
         <?php
         if (empty($obj->useLiveServers)) {
-            ?>
-        <div class="alert alert-danger">
-            Live Servers is Disabled, if you want to use it, enable it on the (Live) Plugin
-        </div>
+        ?>
+            <div class="alert alert-info">
+                <strong>Note:</strong> The "Live Servers" feature is currently disabled. 
+                This feature is only needed if you plan to host RTMP streams on a separate physical server using Nginx+RTMP. 
+                For most setups, where AVideo and the streaming service are on the same server, enabling this option is not necessary. 
+                This message is informational and not indicative of any problems with your current setup. 
+                If you're unsure or do not require external live server hosting, there's no need to change this setting. 
+                Access this feature through the "Live" plugin if needed.
+            </div>
+
         <?php
         }
         ?>
@@ -35,7 +41,7 @@ $obj = AVideoPlugin::getObjectData("Live");
                     <div class="panel-body">
                         <form id="panelLive_serversForm">
                             <div class="row">
-                                <input type="hidden" name="id" id="Live_serversid" value="" >
+                                <input type="hidden" name="id" id="Live_serversid" value="">
                                 <div class="form-group col-sm-12">
                                     <label for="Live_serversname"><?php echo __("Name"); ?>:</label>
                                     <input type="text" id="Live_serversname" name="name" class="form-control input-sm" placeholder="<?php echo __("Name"); ?>" required="true">
@@ -78,21 +84,21 @@ $obj = AVideoPlugin::getObjectData("Live");
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="Live_serversdisableDVR"><?php echo __("DisableDVR"); ?>:</label>
-                                    <select class="form-control input-sm" id="Live_serversdisableDVR" name="disableDVR" >
+                                    <select class="form-control input-sm" id="Live_serversdisableDVR" name="disableDVR">
                                         <option value="0"><?php echo __("No"); ?></option>
                                         <option value="1"><?php echo __("Yes"); ?></option>
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="Live_serversdisableGifThumbs"><?php echo __("DisableGifThumbs"); ?>:</label>
-                                    <select class="form-control input-sm" id="Live_serversdisableGifThumbs" name="disableGifThumbs"  >
+                                    <select class="form-control input-sm" id="Live_serversdisableGifThumbs" name="disableGifThumbs">
                                         <option value="0"><?php echo __("No"); ?></option>
                                         <option value="1"><?php echo __("Yes"); ?></option>
                                     </select>
                                 </div>
                                 <div class="form-group col-sm-4">
                                     <label for="Live_serversuseAadaptiveMode"><?php echo __("UseAadaptiveMode"); ?>:</label>
-                                    <select class="form-control input-sm"  id="Live_serversuseAadaptiveMode" name="useAadaptiveMode"  >
+                                    <select class="form-control input-sm" id="Live_serversuseAadaptiveMode" name="useAadaptiveMode">
                                         <option value="0"><?php echo __("No"); ?></option>
                                         <option value="1"><?php echo __("Yes"); ?></option>
                                     </select>
@@ -143,10 +149,10 @@ $obj = AVideoPlugin::getObjectData("Live");
                             Make sure your nginx.conf has the following parameters
                             <hr>
                             <code>
-                                
-                            on_publish <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_publish.php;<br>
-                            on_play <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_play.php;<br>
-                            on_record_done <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_record_done.php;<br>
+
+                                on_publish <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_publish.php;<br>
+                                on_play <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_play.php;<br>
+                                on_record_done <?php echo str_replace("https:", "http:", $global['webSiteRootURL']); ?>plugin/Live/on_record_done.php;<br>
 
                             </code>
                         </div>
@@ -188,13 +194,13 @@ $obj = AVideoPlugin::getObjectData("Live");
         $('#Live_serverscontrolURL').val('');
         $('#Live_serverswebRTC_server').val('');
     }
-    $(document).ready(function () {
-        $('#addLiveBtn').click(function () {
+    $(document).ready(function() {
+        $('#addLiveBtn').click(function() {
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/addLive_serversVideo.php',
                 data: $('#panelLive_serversForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
@@ -209,11 +215,18 @@ $obj = AVideoPlugin::getObjectData("Live");
         });
         var Live_serverstableVar = $('#Live_serversTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_servers/list.json.php",
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "rtmp_server"},
-                {"data": "status"},
+            "columns": [{
+                    "data": "id"
+                },
+                {
+                    "data": "name"
+                },
+                {
+                    "data": "rtmp_server"
+                },
+                {
+                    "data": "status"
+                },
                 {
                     sortable: false,
                     data: null,
@@ -222,19 +235,19 @@ $obj = AVideoPlugin::getObjectData("Live");
             ],
             select: true,
         });
-        $('#newLive_servers').on('click', function (e) {
+        $('#newLive_servers').on('click', function(e) {
             e.preventDefault();
             $('#panelLive_serversForm').trigger("reset");
             $('#Live_serversid').val('');
         });
-        $('#panelLive_serversForm').on('submit', function (e) {
+        $('#panelLive_serversForm').on('submit', function(e) {
             e.preventDefault();
             modal.showPleaseWait();
             $.ajax({
                 url: '<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_servers/add.json.php',
                 data: $('#panelLive_serversForm').serialize(),
                 type: 'post',
-                success: function (response) {
+                success: function(response) {
                     if (response.error) {
                         avideoAlert("<?php echo __("Sorry!"); ?>", response.msg, "error");
                     } else {
@@ -247,38 +260,38 @@ $obj = AVideoPlugin::getObjectData("Live");
                 }
             });
         });
-        $('#Live_serversTable').on('click', 'button.delete_Live_servers', function (e) {
+        $('#Live_serversTable').on('click', 'button.delete_Live_servers', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_serverstableVar.row(tr).data();
             swal({
-                title: "<?php echo __("Are you sure?"); ?>",
-                text: "<?php echo __("You will not be able to recover this action!"); ?>",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-                    .then(function(willDelete) {
-                        if (willDelete) {
-                            modal.showPleaseWait();
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_servers/delete.json.php",
-                                data: data
+                    title: "<?php echo __("Are you sure?"); ?>",
+                    text: "<?php echo __("You will not be able to recover this action!"); ?>",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(function(willDelete) {
+                    if (willDelete) {
+                        modal.showPleaseWait();
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/Live_servers/delete.json.php",
+                            data: data
 
-                            }).done(function (resposta) {
-                                if (resposta.error) {
-                                    avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
-                                }
-                                Live_serverstableVar.ajax.reload();
-                                modal.hidePleaseWait();
-                            });
-                        } else {
+                        }).done(function(resposta) {
+                            if (resposta.error) {
+                                avideoAlert("<?php echo __("Sorry!"); ?>", resposta.msg, "error");
+                            }
+                            Live_serverstableVar.ajax.reload();
+                            modal.hidePleaseWait();
+                        });
+                    } else {
 
-                        }
-                    });
+                    }
+                });
         });
-        $('#Live_serversTable').on('click', 'button.edit_Live_servers', function (e) {
+        $('#Live_serversTable').on('click', 'button.edit_Live_servers', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_serverstableVar.row(tr).data();
@@ -298,11 +311,11 @@ $obj = AVideoPlugin::getObjectData("Live");
             $('#Live_serverscontrolURL').val(data.controlURL);
             $('#Live_serverswebRTC_server').val(data.webRTC_server);
         });
-        $('#Live_serversTable').on('click', 'button.go_Live_servers', function (e) {
+        $('#Live_serversTable').on('click', 'button.go_Live_servers', function(e) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = Live_serverstableVar.row(tr).data();
-            document.location = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id="+data.id;
+            document.location = "<?php echo $global['webSiteRootURL']; ?>plugin/Live/?live_servers_id=" + data.id;
         });
     });
 </script>
