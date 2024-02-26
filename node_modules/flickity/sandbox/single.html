@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+
+  <title>single</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <link rel="stylesheet" href="sandbox.css" />
+  <style>
+    html {
+      overflow-y: scroll;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>single</h1>
+
+  <div id="gallery" class="container">
+    <div class="cell n1">1</div>
+    <div class="cell n2">2</div>
+    <div class="cell n3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5">5</div>
+    <div class="cell n6">6</div>
+    <div class="cell n1">7</div>
+  </div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+
+<script>
+let = new Flickity('#gallery', {
+});
+</script>
+
+</body>
+</html>

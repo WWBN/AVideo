@@ -1,0 +1,33 @@
+table.dataTable thead tr > .dtfc-fixed-left,
+table.dataTable thead tr > .dtfc-fixed-right {
+  z-index: 1;
+  background-color: white;
+}
+table.dataTable tbody tr > .dtfc-fixed-left,
+table.dataTable tbody tr > .dtfc-fixed-right {
+  z-index: 1;
+  background-color: white;
+}
+
+div.dtfc-left-top-blocker,
+div.dtfc-right-top-blocker {
+  background-color: white;
+}
+
+div.dtfc-right-top-blocker {
+  border-bottom: none !important;
+  background-color: #f6f6f6 !important;
+  border-top: 1px solid #c5c5c5 !important;
+}
+
+tr.dt-rowReorder-moving td.dtfc-fixed-left,
+tr.dt-rowReorder-moving td.dtfc-fixed-right {
+  border-top: 2px solid #555 !important;
+  border-bottom: 2px solid #555 !important;
+}
+tr.dt-rowReorder-moving td.dtfc-fixed-left:first-child {
+  border-left: 2px solid #555 !important;
+}
+tr.dt-rowReorder-moving td.dtfc-fixed-right:last-child {
+  border-right: 2px solid #555 !important;
+}

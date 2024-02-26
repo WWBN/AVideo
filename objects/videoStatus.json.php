@@ -2,7 +2,7 @@
 error_reporting(0);
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -10,7 +10,7 @@ if (!User::canUpload() || empty($_POST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 
 require_once 'video.php';
@@ -19,7 +19,7 @@ $id = 0;
 
 $obj = new stdClass();
 $obj->error = true;
-$obj->status = array();
+$obj->status = [];
 $obj->msg = '';
 
 foreach ($_POST['id'] as $value) {
@@ -28,8 +28,7 @@ foreach ($_POST['id'] as $value) {
     $obj2->videos_id = $value;
     $obj2->status = $_POST['status'];
     $obj2->msg = '';
-    
-    
+
     $v = new Video("", "", $value);
     if (empty($v)) {
         $obj2->msg = __("Video NOT Found");
@@ -47,7 +46,7 @@ foreach ($_POST['id'] as $value) {
 }
 
 foreach ($obj->status as $value) {
-    if($value->error){
+    if ($value->error) {
         break;
     }
     $obj->error = false;

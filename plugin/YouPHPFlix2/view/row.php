@@ -22,19 +22,25 @@ TimeLogStart($timeLog3);
         $videosCounter = 0;
     }
     foreach ($videos as $_index => $value) {
+        
+        $timeLog4Limit = 0.2;
+        $timeLog4 = "{$timeLog3} loop {$value['clean_title']}";
+        TimeLogStart($timeLog4);
         $uid = "{$uidOriginal}_{$value['id']}";
         $videosCounter++;
         $images = Video::getImageFromFilename($value['filename'], $value['type']);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $ajaxLoad = '';
         if (!empty($value['serie_playlists_id'])) {
-            if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+            if (empty($images) || isImageNotFound($images->poster)) {
                 $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
             }
-            $ajaxLoad = $global['webSiteRootURL'].'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id='.$value['serie_playlists_id'];
+            $ajaxLoad = $global['webSiteRootURL'] . 'plugin/YouPHPFlix2/view/modeFlixSerie.php?playlists_id=' . $value['serie_playlists_id'];
             $link = PlayLists::getLink($value['serie_playlists_id']);
             $linkEmbed = PlayLists::getLink($value['serie_playlists_id'], true);
             $value['title'] = "<a href='{$link}' embed='{$linkEmbed}'>{$value['title']}</a>";
         }
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
         $imgGif = $images->thumbsGif;
         $img = $images->thumbsJpg;
         $poster = $images->poster;
@@ -44,20 +50,27 @@ TimeLogStart($timeLog3);
             $img = $images->posterPortraitThumbs;
             $cssClass = "posterPortrait";
         }
+
+        if(ImagesPlaceHolders::isDefaultImage($img)){
+            $cssClass .= ' ImagesPlaceHoldersDefaultImage';
+        }
         ?>
-        <div class="carousel-cell  "  itemscope itemtype="http://schema.org/VideoObject">
+        <div class="carousel-cell" >
             <div class="tile">
-                <div class="slide thumbsImage" crc="<?php echo $uid; ?>" 
+                <div class="slide thumbsImage _<?php echo $uidOriginal; ?>" crc="<?php echo $uid; ?>" 
+                     uidOriginal="<?php echo $uidOriginal; ?>"
                      videos_id="<?php echo $value['id']; ?>" 
                      poster="<?php echo $poster; ?>" 
                      href="<?php echo Video::getLink($value['id'], $value['clean_title']); ?>"  
                      video="<?php echo $value['clean_title']; ?>" 
-                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbeded/<?php echo $value['clean_title']; ?>"
+                     iframe="<?php echo $global['webSiteRootURL']; ?>videoEmbed/<?php echo $value['clean_title']; ?>"
                      ajaxLoad="<?php echo $ajaxLoad; ?>">
                     <div class="tile__media ">
-                        <img alt="<?php echo $value['title']; ?>" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png" class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
+                        <img alt="<?php echo str_replace('"', '', $value['title']); ?>" 
+                        src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>" 
+                        class="tile__img <?php echo $cssClass; ?> thumbsJPG img img-responsive carousel-cell-image" data-flickity-lazyload="<?php echo $img; ?>" />
                         <?php if (!empty($imgGif)) { ?>
-                            <img style="position: absolute; top: 0; display: none;" src="<?php echo $global['webSiteRootURL']; ?>view/img/placeholder-image.png"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
+                            <img style="position: absolute; top: 0; display: none;" src="<?php echo ImagesPlaceHolders::getImageLandscape(ImagesPlaceHolders::$RETURN_URL); ?>"  alt="<?php echo $value['title']; ?>" id="tile__img thumbsGIF<?php echo $value['id']; ?>" class="thumbsGIF img-responsive img carousel-cell-image" data-flickity-lazyload="<?php echo $imgGif; ?>" />
                         <?php } ?>
                         <?php
                         if ($advancedCustom->paidOnlyShowLabels && $obj->paidOnlyLabelOverPoster) {
@@ -91,7 +104,7 @@ TimeLogStart($timeLog3);
             </div>
         </div>
         <?php
-        TimeLogEnd($timeLog3 . " Video {$value['clean_title']}", __LINE__);
+        TimeLogEnd($timeLog4, __LINE__, $timeLog4Limit);
     }
     TimeLogEnd($timeLog3, __LINE__);
     ?>
@@ -100,34 +113,48 @@ TimeLogStart($timeLog3);
 <?php
 TimeLogEnd($timeLog3, __LINE__);
 foreach ($videos as $_index => $value) {
+    
+    $timeLog5Limit = 0.5;
+    $timeLog5 = "{$timeLog3} second foreach {$value['clean_title']}";
+    TimeLogStart($timeLog5);
+
     $uid = "{$uidOriginal}_{$value['id']}";
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
     if (!empty($value['serie_playlists_id'])) {
-        if(empty($images) || empty($images->poster) || preg_match('/notfound/', $images->poster)){
+        if (empty($images) || isImageNotFound($images->poster)) {
             $images = PlayList::getRandomImageFromPlayList($value['serie_playlists_id']);
         }
     }
+    
+    TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     $imgGif = $images->thumbsGif;
     $img = $images->thumbsJpg;
     $poster = $images->poster;
     $canWatchPlayButton = "";
     if (User::canWatchVideoWithAds($value['id'])) {
         $canWatchPlayButton = "canWatchPlayButton";
+    } else if ($obj->hidePlayButtonIfCannotWatch) {
+        $canWatchPlayButton = "hidden";
     }
-    
-    if(!empty($rowPlayListLink)){
-        $rowLink = addQueryStringParameter($rowPlayListLink,'playlist_index',$_index);
-        $rowLinkEmbed = addQueryStringParameter($rowPlayListLinkEmbed,'playlist_index',$_index);
-    }else{
+    TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
+
+    if (!empty($rowPlayListLink)) {
+        $rowLink = addQueryStringParameter($rowPlayListLink, 'playlist_index', $_index);
+        $rowLinkEmbed = addQueryStringParameter($rowPlayListLinkEmbed, 'playlist_index', $_index);
+    } else {
         $rowLink = YouPHPFlix2::getLinkToVideo($value['id'], true);
         $rowLinkEmbed = Video::getLinkToVideo($value['id'], $value['clean_title'], true);
     }
-    
+    TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
+
     if (empty($value['serie_playlists_id'])) {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_video.php';
+        TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     } else {
         include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/row_serie.php';
+        TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     }
+    
 }
 
 TimeLogEnd($timeLog3, __LINE__);

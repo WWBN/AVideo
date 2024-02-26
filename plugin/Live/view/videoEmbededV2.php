@@ -7,7 +7,11 @@ require_once '../../videos/configuration.php';
  * this was made to mask the main URL
  */
 if (!empty($_GET['webSiteRootURL'])) {
-    $global['webSiteRootURL'] = $_GET['webSiteRootURL'];
+    if (isValidURL($_REQUEST['webSiteRootURL'])) {
+        $global['webSiteRootURL'] = @$_REQUEST['webSiteRootURL'];
+    } else {
+        $global['webSiteRootURL'] = base64_decode(@$_REQUEST['webSiteRootURL']);
+    }
 }
 require_once $global['systemRootPath'] . 'plugin/Live/Objects/LiveTransmition.php';
 
@@ -19,13 +23,13 @@ if (!empty($_GET['c'])) {
 }
 $customizedAdvanced = AVideoPlugin::getObjectDataIfEnabled('CustomizeAdvanced');
 
-$livet =  LiveTransmition::getFromDbByUserName($_GET['u']);
-$getLiveKey = array('key'=>$livet['key'], 'live_servers_id'=> Live::getLiveServersIdRequest());
+$livet = LiveTransmition::getFromRequest();
+setLiveKey($livet['key'], Live::getLiveServersIdRequest(), @$_REQUEST['live_index']);
 $uuid = LiveTransmition::keyNameFix($livet['key']);
 $p = AVideoPlugin::loadPlugin("Live");
 
 $objSecure = AVideoPlugin::loadPluginIfEnabled('SecureVideosDirectory');
-if(!empty($objSecure)){
+if (!empty($objSecure)) {
     $objSecure->verifyEmbedSecurity();
 }
 $u = new User(0, $_GET['u'], false);
@@ -33,20 +37,19 @@ $user_id = $u->getBdId();
 $video['users_id'] = $user_id;
 AVideoPlugin::getModeYouTubeLive($user_id);
 $_REQUEST['live_servers_id'] = Live::getLiveServersIdRequest();
-$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id']);
+$poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'], @$_REQUEST['live_schedule']);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="icon" href="<?php echo $global['webSiteRootURL']; ?>view/img/favicon.ico">
+        <link rel="icon" href="<?php echo getURL('view/img/favicon.ico'); ?>">
         <title><?php echo $config->getWebSiteTitle(); ?> </title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/jquery-3.5.1.min.js" type="text/javascript"></script>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         echo AVideoPlugin::afterVideoJS();
         ?>
@@ -64,22 +67,12 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                 padding-right: 0 !important;
                 padding-left: 0 !important;
             }
-            .liveChat .messages{
-                -webkit-transition: all 1s ease; /* Safari */
-                transition: all 1s ease;
-            }
             #embedVideo-content .embed-responsive{
                 max-height: 98vh;
             }
             body {
                 padding: 0 !important;
                 margin: 0 !important;
-                <?php
-                if (!empty($customizedAdvanced->embedBackgroundColor)) {
-                    echo "background-color: $customizedAdvanced->embedBackgroundColor;";
-                }
-                ?>
-
             }
         </style>
         <script>
@@ -95,23 +88,13 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                 echo getAdsLeaderBoardTop();
                 ?>
                 <div class="embed-responsive  embed-responsive-16by9" >
-                    <video poster="<?php echo $global['webSiteRootURL']; ?><?php echo $poster; ?>?<?php echo filectime($global['systemRootPath'] . $poster); ?>" controls autoplay="autoplay"  playsinline webkit-playsinline="webkit-playsinline" 
+                    <video poster="<?php echo getURL($poster); ?>" controls  <?php echo PlayerSkins::getPlaysinline(); ?> controls controlsList="nodownload" autoplay="autoplay" 
                            class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered"
                            id="mainVideo" data-setup='{ "aspectRatio": "16:9",  "techorder" : ["flash", "html5"] }'>
                         <source src="<?php echo Live::getM3U8File($uuid); ?>" type='application/x-mpegURL'>
                     </video>
-                    <?php
-                    if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-                        require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                        $style = VideoLogoOverlay::getStyle();
-                        $url = VideoLogoOverlay::getLink();
-                        ?>
-                        <div style="<?php echo $style; ?>">
-                            <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
-                        </div>
-                    <?php } ?>
 
-                    <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);">
+                    <div style="z-index: 999; position: absolute; top:5px; left: 5px; opacity: 0.8; filter: alpha(opacity=80);" class="LiveEmbed2">
                         <?php
                         $streamName = $uuid;
                         include $global['systemRootPath'] . 'plugin/Live/view/onlineLabel.php';
@@ -124,24 +107,11 @@ $poster = Live::getPosterImage($livet['users_id'], $_REQUEST['live_servers_id'])
                 echo getAdsLeaderBoardFooter();
                 ?>
             </div>
-            <div class="col-md-3 col-sm-3 col-xs-3" style="margin: 0; padding: 0;">
-                <?php
-                $p->getChat($uuid);
-                ?>
-            </div>
         </div>
-        <script>
-            $(function () {
-                $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
-                window.addEventListener('resize', function () {
-                    $('.liveChat .messages').css({"height": ($(window).height() - 128) + "px"});
-                })
-            });
-        </script>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/script.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>view/js/script.js" type="text/javascript"></script>
         <script>
 
 <?php

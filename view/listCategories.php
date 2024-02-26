@@ -5,10 +5,10 @@ if (!isset($global['systemRootPath'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
-        echo getHTMLTitle(array('Categories'));
+        echo getHTMLTitle(['Categories']);
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
         <style>
@@ -21,11 +21,15 @@ if (!isset($global['systemRootPath'])) {
                 padding: 10px 10px 10px calc( 20% + 20px);
                 width: 100%;
                 color: #fff;
-                background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1));
+                background-image: linear-gradient(to bottom, rgba(0,0,0,0.5), rgba(0,0,0,1));
             }
             .categoryItem .panel-default{
                 position: relative;
             }
+            .categoryItem .panel-body{
+                padding: 0;
+            }
+
             .categoryItem img{
                 max-width: 20%;
                 position: absolute;
@@ -96,27 +100,25 @@ if (!isset($global['systemRootPath'])) {
                         continue;
                     }
 
-                    if(!empty($value['fullTotal_videos'])){
+                    if (!empty($value['fullTotal_videos'])) {
                         $video = Category::getLatestVideoFromCategory($value['id'], true, true);
                         $images = Video::getImageFromID($video['id']);
-                        $image = $images->poster;
-                    }else 
-                    if(!empty($value['fullTotal_lives'])){
+                        $image = $images->default['url'];
+                    } elseif (!empty($value['fullTotal_lives'])) {
                         $live = Category::getLatestLiveFromCategory($value['id'], true, true);
                         $image = Live::getImage($live['users_id'], $live['live_servers_id']);
-                    }else 
-                    if(!empty($value['fullTotal_livelinks'])){
+                    } elseif (!empty($value['fullTotal_livelinks'])) {
                         $liveLinks = Category::getLatestLiveLinksFromCategory($value['id'], true, true);
                         $image = LiveLinks::getImage($liveLinks['id']);
                     }
-                    
+
                     $totalVideosOnChilds = Category::getTotalFromChildCategory($value['id']);
                     $childs = Category::getChildCategories($value['id']);
                     $photo = Category::getCategoryPhotoPath($value['id']);
                     $photoBg = Category::getCategoryBackgroundPath($value['id']);
                     $link = $global['webSiteRootURL'] . 'cat/' . $value['clean_name'];
-                    $imageNotFound = preg_match('/notfound/i', $image);
-                    $photoNotFound = empty($photo) || preg_match('/notfound/i', $photo['url']);
+                    $imageNotFound =  isImageNotFound($image);
+                    $photoNotFound = empty($photo) || isImageNotFound($photo['url']);
                     $icon = '<i class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></i>  ' ;
                     if (!$imageNotFound) {
                         ?>
@@ -138,8 +140,7 @@ if (!isset($global['systemRootPath'])) {
                             }
                         </style>
                         <?php
-                    }
-                    ?>
+                    } ?>
                     <a href="<?php echo $link; ?>">
                         <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 categoryItem categoryItem<?php echo $value['id']; ?>" >
                             <div class="panel panel-default embed-responsive embed-responsive-16by9 ">
@@ -153,7 +154,7 @@ if (!isset($global['systemRootPath'])) {
                                     <img src="<?php echo $photo['url+timestamp']; ?>" class=" img img-responsive" />
                                 </div>
                             </div>
-                        </div>   
+                        </div>
                     </a>
                     <?php
                 }

@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
@@ -8,7 +8,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Import") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
@@ -41,17 +41,17 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                         <div class="input-group">
                             <input type="text" id="path"  class="form-control" placeholder="Local Path of videos i.e. /media/videos"/>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="pathBtn">
-                                    <span class="glyphicon glyphicon-list"></span> <?php echo __("List Files"); ?>
+                                <button class="btn btn-default" id="pathBtn">
+                                    <i class="fa-solid fa-list"></i> <?php echo __("List Files"); ?>
                                 </button>
                             </span>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="checkBtn">
+                                <button class="btn btn-default" id="checkBtn">
                                     <i class="far fa-check-square" aria-hidden="true"></i>
                                 </button>
                             </span>
                             <span class="input-group-btn">
-                                <button class="btn btn-secondary" id="uncheckBtn">
+                                <button class="btn btn-default" id="uncheckBtn">
                                     <i class="far fa-square" aria-hidden="true"></i>
                                 </button>
                             </span>
@@ -99,7 +99,7 @@ if (!User::canUpload() || !empty($advancedCustom->doNotShowImportMP4Button)) {
                             for (i = 0; i < response.length; i++) {
                                 if (!response[i])
                                     continue;
-                                $('#files').append('<li class="list-group-item" path="' + response[i].path + '" id="li' + i + '"><span class="label label-success" style="display: none;"><span class="glyphicon glyphicon-ok"></span> Added on queue.. </span> ' + response[i].name + '<div class="material-switch pull-right"><input id="someSwitchOption' + response[i].id + '" class="someSwitchOption" type="checkbox"/><label for="someSwitchOption' + response[i].id + '" class="label-primary"></label></div></li>');
+                                $('#files').append('<li class="list-group-item" path="' + response[i].path + '" id="li' + i + '"><span class="label label-success" style="display: none;"><i class="fa-solid fa-circle-check"></i> Added on queue.. </span> ' + response[i].name + '<div class="material-switch pull-right"><input id="someSwitchOption' + response[i].id + '" class="someSwitchOption" type="checkbox"/><label for="someSwitchOption' + response[i].id + '" class="label-primary"></label></div></li>');
                             }
                         }
                     }

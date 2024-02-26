@@ -30,44 +30,54 @@
     </tfoot>
 </table>
 <script type="text/javascript">
-    function getData1(){
+    function getData1() {
         return {
-                   dateFrom: $( "#datefrom1" ).val(),
-                   dateTo: $( "#dateto1" ).val()
-                };
+            dateFrom: $("#datefrom1").val(),
+            dateTo: $("#dateto1").val()
+        };
     }
-    $(document).ready(function () {
-        $( "#datefrom1" ).datepicker();
-        $( "#datefrom1" ).datepicker( "setDate", "<?php echo date("m/d/Y", strtotime("-30 days"));?>" );
-        $( "#dateto1" ).datepicker();
-        $( "#dateto1" ).datepicker( "setDate", "<?php echo date("m/d/Y");?>" );
-        
-        $('#refresh1').click(function(){
+    $(document).ready(function() {
+        $("#datefrom1").datepicker();
+        $("#datefrom1").datepicker("setDate", "<?php echo date("m/d/Y", strtotime("-30 days")); ?>");
+        $("#dateto1").datepicker();
+        $("#dateto1").datepicker("setDate", "<?php echo date("m/d/Y"); ?>");
+
+        $('#refresh1').click(function() {
             $('#dt1').DataTable().ajax.reload();
         });
-        
+        loadReport1();
+
+    });
+
+    function loadReport1() {
+        if (!$('#dt1').is(':visible')) {
+            setTimeout(function() {
+                loadReport1();
+            }, 3000);
+            return false;
+        }
         $('#dt1').DataTable({
             "language": {
-                "decimal":        "",
-                "emptyTable":     "<?php echo __("No data available in table"); ?>",
-                "info":           "<?php echo __("Showing _START_ to _END_ of _TOTAL_ entries"); ?>",
-                "infoEmpty":      "<?php echo __("Showing 0 to 0 of 0 entries"); ?>",
-                "infoFiltered":   "<?php echo __("(filtered from _MAX_ total entries)"); ?>",
-                "infoPostFix":    "",
-                "thousands":      ",",
-                "lengthMenu":     "<?php echo __("Show _MENU_ entries"); ?>",
+                "decimal": "",
+                "emptyTable": "<?php echo __("No data available in table"); ?>",
+                "info": "<?php echo __("Showing _START_ to _END_ of _TOTAL_ entries"); ?>",
+                "infoEmpty": "<?php echo __("Showing 0 to 0 of 0 entries"); ?>",
+                "infoFiltered": "<?php echo __("(filtered from _MAX_ total entries)"); ?>",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "<?php echo __("Show _MENU_ entries"); ?>",
                 "loadingRecords": "<?php echo __("Loading..."); ?>",
-                "processing":     "<?php echo __("Processing..."); ?>",
-                "search":         "<?php echo __("Search"); ?>:",
-                "zeroRecords":    "<?php echo __("No matching records found"); ?>",
+                "processing": "<?php echo __("Processing..."); ?>",
+                "search": "<?php echo __("Search"); ?>:",
+                "zeroRecords": "<?php echo __("No matching records found"); ?>",
                 "paginate": {
-                    "first":      "<?php echo __("First"); ?>",
-                    "last":       "<?php echo __("Last"); ?>",
-                    "next":       "<?php echo __("Next"); ?>",
-                    "previous":   "<?php echo __("Previous"); ?>"
+                    "first": "<?php echo __("First"); ?>",
+                    "last": "<?php echo __("Last"); ?>",
+                    "next": "<?php echo __("Next"); ?>",
+                    "previous": "<?php echo __("Previous"); ?>"
                 },
                 "aria": {
-                    "sortAscending":  "<?php echo __(": activate to sort column ascending"); ?>",
+                    "sortAscending": "<?php echo __(": activate to sort column ascending"); ?>",
                     "sortDescending": "<?php echo __(": activate to sort column descending"); ?>"
                 }
             },
@@ -76,10 +86,13 @@
                 'url': "<?php echo $global['webSiteRootURL']; ?>view/report1.json.php",
                 'data': getData1,
             },
-            "columns": [
-                {"data": "channel"},
-                {"data": "views"},
+            "columns": [{
+                    "data": "channel"
+                },
+                {
+                    "data": "views"
+                },
             ]
         });
-    });
+    }
 </script>

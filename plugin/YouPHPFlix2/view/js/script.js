@@ -67,6 +67,7 @@ function startModeFlix(container) {
 
     $(container + ".thumbsImage").on("click", function () {
         var crc = $(this).attr('crc');
+        var uidOriginal = $(this).attr('uidOriginal');
         var ajaxLoad = $(this).attr('ajaxLoad');
         var myEleTop = $('.navbar-fixed-top .items-container').outerHeight(true);
         var row = $(this).closest('.row');
@@ -81,8 +82,13 @@ function startModeFlix(container) {
 
         $(".arrow-down").fadeOut();
         $(".thumbsImage").removeClass('active');
-        console.log("crc", crc);
-        $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+        console.log('flickity-area', $(this).closest('.flickity-area'));
+        if ($(this).closest('.flickity-area').length) {
+            $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+        } else {
+            $('.poster').not('#poster' + crc).slideUp();
+        }
+        $('.' + uidOriginal).find('.poster').not('#poster' + crc).slideUp();
         if ($('#poster' + crc).is(":hidden")) {
             $('#poster' + crc).css('background-image', 'url(' + $('#poster' + crc).attr('poster') + ')');
             $('#poster' + crc).slideDown('fast', function () {
@@ -92,7 +98,11 @@ function startModeFlix(container) {
                 }, 'fast');
             });
         } else {
-            $(this).closest('.flickity-area').find('#poster' + crc).slideUp();
+            if ($(this).closest('.flickity-area').length) {
+                $(this).closest('.flickity-area').find('.poster').not('#poster' + crc).slideUp();
+            } else {
+                $('.poster').not('#poster' + crc).slideUp();
+            }
             for (i = 0; i < $carousel.length; i++) {
                 $carousel[i].flickity('playPlayer');
             }

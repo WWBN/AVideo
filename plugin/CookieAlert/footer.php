@@ -1,5 +1,5 @@
 <!-- COOKIES -->
-<div class="alert alert-dismissible text-center cookiealert" role="alert">
+<div class="alert alert-dismissible text-center cookiealert" role="alert" style="display: none;">
     <div class="cookiealert-container">
         <?php echo $obj->text; ?>
         <button type="button" class="btn btn-primary btn-sm acceptcookies" aria-label="Close">
@@ -8,4 +8,4 @@
     </div>
 </div>
 <!-- /COOKIES -->
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/CookieAlert/cookiealert-standalone.js"></script>
+<script src="<?php echo getURL('plugin/CookieAlert/cookiealert-standalone.js'); ?>"></script>

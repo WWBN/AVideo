@@ -1,9 +1,10 @@
 <?php
 $obj = AVideoPlugin::getObjectDataIfEnabled('PlayerSkins');
 $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
+$delay = 0.2;
 ?>
 <div class="row">
-    <div class="col-xs-6">
+    <div class="col-xs-6  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'player', $delay); ?>">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Default
@@ -25,18 +26,18 @@ $dir = $global['systemRootPath'] . 'plugin/PlayerSkins/skins/';
         $file = basename($filename);         // $file is set to "index.php"
         $fileEx = basename($filename, ".css"); // $file is set to "index"
         ?>
-        <div class="col-xs-6">
+        <div class="col-xs-6  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'player', $delay); ?>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo ucfirst($fileEx); ?>
                     <div class="material-switch pull-right">
-                        <input class="playerSwitch" data-toggle="toggle" type="checkbox" value="<?php echo ($fileEx); ?>" id="themeSwitch<?php echo ($fileEx); ?>" <?php echo (!empty($obj) && $fileEx == $obj->skin) ? "checked" : ""; ?>>
-                        <label for="themeSwitch<?php echo ($fileEx); ?>" class="label-primary"></label>
+                        <input class="playerSwitch" data-toggle="toggle" type="checkbox" value="<?php echo($fileEx); ?>" id="themeSwitch<?php echo($fileEx); ?>" <?php echo (!empty($obj) && $fileEx == $obj->skin) ? "checked" : ""; ?>>
+                        <label for="themeSwitch<?php echo($fileEx); ?>" class="label-primary"></label>
                     </div>
                 </div>
                 <div class="panel-body" style="padding: 0;">
                     <iframe fameBorder="0"
-                            src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php?playerSkin=<?php echo ($fileEx); ?>"
+                            src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/playerSample.php?playerSkin=<?php echo($fileEx); ?>"
                             style="width: 100%; height: 300px; border: 0;"></iframe>
                 </div>
             </div>

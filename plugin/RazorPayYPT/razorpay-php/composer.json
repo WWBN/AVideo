@@ -24,7 +24,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.3.0",
-        "rmccue/requests": "v1.7.0",
+        "rmccue/requests": "v1.8.0",
         "ext-json": "*"
     },
     "require-dev": {

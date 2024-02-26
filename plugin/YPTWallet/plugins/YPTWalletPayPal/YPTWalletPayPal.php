@@ -31,6 +31,17 @@ class YPTWalletPayPal extends YPTWalletPlugin{
         include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletPayPal/confirmRecurrentButton.php';
     }
 
+    public function getRecurrentAprovalButtonV2($total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = '', $json = '', $addFunds_Success='', $trialDays = 0) {
+        
+        $total = floatval($total);
+        if(empty($total)){
+            return '';
+        }
+        
+        global $global;
+        include $global['systemRootPath'].'plugin/YPTWallet/plugins/YPTWalletPayPal/confirmRecurrentButtonV2.php';
+    }
+
     public function getEmptyDataObject() {
         global $global;
         $obj = new stdClass();

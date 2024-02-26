@@ -1,4 +1,5 @@
 <?php
+
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -11,6 +12,13 @@ class Channel
     public static function getChannels($activeOnly = true, $FIND_IN_SET = "")
     {
         global $global;
+        /**
+         * Global variables.
+         *
+         * @var array $global An array of global variables.
+         * @property \mysqli $global['mysqli'] A MySQLi connection object.
+         * @property mixed $global[] Dynamically loaded variables.
+         */
         $sql = "SELECT u.*, "
                 . " (SELECT count(v.id) FROM videos v where v.users_id = u.id) as total_videos "
                 . " FROM users u "
@@ -18,13 +26,13 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(array('user', 'about', 'channelName', 'u.name', 'u.email'), "", "", false, $FIND_IN_SET);
+        $sql .= BootGrid::getSqlFromPost(['user', 'about', 'channelName', 'u.name', 'u.email'], "", "", false, $FIND_IN_SET);
 
         $res = sqlDAL::readSql($sql);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $subscribe = array();
-        if ($res != false) {
+        $subscribe = [];
+        if ($res !== false) {
             foreach ($fullResult as $row) {
                 $row = cleanUpRowFromDatabase($row);
                 $subscribe[] = $row;
@@ -46,7 +54,8 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
-        $sql .= BootGrid::getSqlFromPost(array('user', 'about'));
+        $sql .= BootGrid::getSqlSearchFromPost(['user', 'about']);
+        //$sql .= BootGrid::getSqlFromPost(['user', 'about']);
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);

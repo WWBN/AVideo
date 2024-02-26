@@ -1,0 +1,18 @@
+<div class="btn-group subscribedTags subscribedTags{tags_id}" >
+    <a class='btn {btnClass} {btnClassPrimary}' href="{tagLink}"  rel="nofollow">
+        <b class='text'><i class="fas fa-tag"></i> {subscribeText}</b>
+        <span class="badge">{total}</span>
+    </a>
+    <a class='btn {btnClass} {btnClassPrimary} hideIfSubscribed {playAllClass}'
+             href="{playAllLink}"
+            data-toggle="tooltip"
+            title="{playAllText}" rel="nofollow">
+        <i class="fas fa-play"></i>
+    </a>
+    <button class="btn {btnClass} {btnClassPrimary} lastItem"
+            title="{titleOffline}"
+            data-content="{tooltipOffline}"
+            tabindex="0" role="button" data-html="true"  data-toggle="popover" data-placement="bottom" >
+        <i class="far fa-circle"></i>
+    </button>
+</div>

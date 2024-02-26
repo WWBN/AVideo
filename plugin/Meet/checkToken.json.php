@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     if (file_exists($configFile)) {
@@ -17,18 +18,17 @@ $obj->msg = "";
 $obj->match = false;
 $obj->secret = $_GET['secret'];
 
-if(empty($_GET['secret'])){
+if (empty($_GET['secret'])) {
     $obj->msg = "Empty Token";
     die(json_encode($obj));
 }
 
-if($objM->secret === $_GET['secret']){
+if ($objM->secret === $_GET['secret']) {
     $obj->msg = "Token and secret match {$_GET['secret']}";
     $obj->error = false;
     $obj->match = true;
-}else{
+} else {
     $obj->msg = "Different token and secret ";
 }
 
 die(json_encode($obj));
-?>

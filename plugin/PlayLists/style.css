@@ -1,7 +1,10 @@
 .PlayListList{
-    max-height: 125px;
+    max-height: 235px;
     overflow-x: hidden;
     overflow-y: scroll;
+}
+.PlayListList.list-group .list-group-item{
+    padding: 5px;
 }
 .vjs-playlist img {
     min-height: 10px;
@@ -11,9 +14,4 @@
 }
 .vjs-playlist .vjs-up-next-text {
     font-size: .8em;
-}
-.playListIsLive .fas{
-    -webkit-animation: flash 2s ease infinite;
-    animation: flash 2s ease infinite;
-    color: red;
 }

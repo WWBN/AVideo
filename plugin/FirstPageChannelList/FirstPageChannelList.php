@@ -1,5 +1,6 @@
 <?php
 
+$isFirstPage = 1;
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
 class FirstPageChannelList extends PluginAbstract {
@@ -30,10 +31,15 @@ class FirstPageChannelList extends PluginAbstract {
 
     public function getFirstPage(){
         global $global;
-        if(!AVideoPlugin::isEnabledByName("YouPHPFlix2") && !AVideoPlugin::isEnabledByName("CombineSites")){
+        if(!AVideoPlugin::isEnabledByName("YouPHPFlix2")){
             return $global['systemRootPath'].'view/channels.php';
         }
     }   
     
+    public function getHeadCode() {
+        global $global;
+        echo "<link href='".getCDN()."plugin/Gallery/style.css?". filectime("{$global['systemRootPath']}plugin/Gallery/style.css")."' rel='stylesheet' type='text/css'/>";
+        return false;
+    }
     
 }

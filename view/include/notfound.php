@@ -10,11 +10,11 @@
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <center>
                 <img src="<?php
-                echo "{$global['webSiteRootURL']}view/img/this-video-is-not-available.jpg"
-                ?>" class="img img-responsive"  style="max-height: 600px;" >
+                echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL);
+                ?>" class="img img-responsive ImagesPlaceHoldersDefaultImage"  style="max-height: 600px;" >
             </center>
         </div>
     </div>

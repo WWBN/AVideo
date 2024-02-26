@@ -47,7 +47,7 @@ class TheaterButton extends PluginAbstract {
                 $tmp = "mainVideo";
             }
         }
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/TheaterButton/style.css?' . filemtime($global['systemRootPath'] . 'plugin/TheaterButton/style.css') . '" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' .getURL('plugin/TheaterButton/style.css') .'" rel="stylesheet" type="text/css"/>';
         $css .= '<script>var videoJsId = "' . $tmp . '";</script>';
         $css .= '<script>var isCompressed = ' . (self::isCompressed()?"true":"false") . ';</script>';
         return $css;
@@ -61,6 +61,7 @@ class TheaterButton extends PluginAbstract {
         $obj = $this->getDataObject();
         
         if (!empty($obj->show_switch_button)) {
+            //var_dump(debug_backtrace());exit;
             return array("plugin/TheaterButton/script.js", "plugin/TheaterButton/addButton.js");
         }
         return array("plugin/TheaterButton/script.js");
@@ -74,15 +75,18 @@ class TheaterButton extends PluginAbstract {
         $obj = $this->getDataObject();
         $js = '';
         
-        PlayerSkins::getStartPlayerJS("if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
+        PlayerSkins::getStartPlayerJS("if(videojs.getComponent('Theater') != null){if (player.getChild('controlBar').getChild('PictureInPictureToggle')) {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('PictureInPictureToggle') + 1);
 } else {
     player.getChild('controlBar').addChild('Theater', {}, getPlayerButtonIndex('fullscreenToggle') - 1);
-}");
+}}");
         return $js;
     }
 
     private function showButton() {
+        if(!isAVideoPlayer()){
+            return false;
+        }
         if (isMobile() || isEmbed()) {
             return false;
         }
@@ -98,6 +102,11 @@ class TheaterButton extends PluginAbstract {
             return $obj->compress_is_default ? true : false;
         }
         return (!empty($_COOKIE['compress']) && $_COOKIE['compress'] !== 'false') ? true : false;
+    }
+    
+    public function getWatchActionButton($videos_id) {
+        global $global;
+        include $global['systemRootPath'] . 'plugin/TheaterButton/actionButton.php';
     }
 
 }

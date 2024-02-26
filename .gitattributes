@@ -1,0 +1,23 @@
+# AVideo .gitattributes file.
+
+# Refer to:
+# https://help.github.com/articles/dealing-with-line-endings/
+
+*.yaml text eol=lf
+*.yml text eol=lf
+
+# Refer to:
+# https://github.com/github/linguist
+
+*.md linguist-documentation
+*.txt linguist-documentation
+
+.github/* -linguist-detectable
+.vscode/* -linguist-detectable
+node_modules/* linguist-vendored
+vendor/* linguist-vendored
+
+*.php linguist-language=PHP
+*.js linguist-language=JavaScript
+*.html linguist-language=HTML
+*.css linguist-language=CSS

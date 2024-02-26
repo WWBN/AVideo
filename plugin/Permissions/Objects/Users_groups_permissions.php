@@ -267,7 +267,7 @@ class Users_groups_permissions extends ObjectYPT {
             $sql .= " and status = 'a' ";
         }
         //echo $sql;var_dump($users_groups_id, $plugins_id, $type);
-        $res = sqlDAL::readSql($sql, "iii", array($users_groups_id, $plugins_id, $type), true);        
+        $res = sqlDAL::readSql($sql, "iii", array($users_groups_id, $plugins_id, $type));        
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {

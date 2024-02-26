@@ -1,5 +1,4 @@
 <?php
-
 global $global, $config;
 session_write_close();
 $obj = new stdClass();
@@ -36,17 +35,18 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     $videos_id = 0;
     if (!empty($_FILES['upl']['videoId'])) {
         $videos_id = $_FILES['upl']['videoId'];
-    } else if (!empty($_POST['videos_id'])) {
+    } elseif (!empty($_POST['videos_id'])) {
         $videos_id = $_POST['videos_id'];
     }
     $title = preg_replace("/_+/", " ", str_ireplace(".{$extension}", "", $_FILES['upl']['name']));
     if (empty($videos_id)) {
         $video = new Video($title, $filename, 0);
     } else {
-        $video = new Video("", $filename, $videos_id);
+        $video = new Video("", "", $videos_id);
+        $filename = $video->getFilename();
         if ($video->getTitle() === "Video automatically booked") {
             $video->setTitle($title);
-            $video->setStatus('i');
+            $video->setStatus(Video::$statusInactive);
         }
     }
     //var_dump($videos_id, $_FILES['upl']['name'], $title, $video->getTitle());exit;
@@ -57,7 +57,6 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
     }
 
     if (!empty($_POST['description'])) {
-
         if (strip_tags($_POST['description']) === $_POST['description']) {
             $_POST['description'] = nl2br(textToLink($_POST['description']));
         }
@@ -70,15 +69,13 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
             die(json_encode($obj));
         }
         $video->setType("video", true);
-    } else
-    if (($extension == "mp3") || ($extension == "ogg")) {
+    } elseif (($extension == "mp3") || ($extension == "ogg")) {
         if (!empty($advancedCustom->disableMP3Upload)) {
             $obj->msg = "MP3 Files are not Allowed";
             die(json_encode($obj));
         }
         $video->setType("audio", true);
-    } else
-    if (($extension == "pdf")) {
+    } elseif (($extension == "pdf")) {
         if (!empty($advancedCustom->disablePDFUpload)) {
             $obj->msg = "PDF Files are not Allowed";
             die(json_encode($obj));
@@ -103,19 +100,8 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         }
         $video->setType("zip", true);
     }
-    if (empty($advancedCustom->makeVideosInactiveAfterEncode) && $video->getTitle() !== "Video automatically booked") {
 
-        // set active
-
-        $video->setStatus('a');
-    } else if (empty($advancedCustom->makeVideosUnlistedAfterEncode) && $video->getTitle() !== "Video automatically booked") {
-
-        // set active
-
-        $video->setStatus('u');
-    } else {
-        $video->setStatus('i');
-    }
+    $video->setAutoStatus(Video::$statusInactive);
 
     $id = $video->save();
     if ($id) {
@@ -127,40 +113,37 @@ if (isset($_FILES['upl']) && $_FILES['upl']['error'] == 0) {
         $tmp_name = $_FILES['upl']['tmp_name'];
         $filenameMP4 = $filename . "." . $extension;
         decideMoveUploadedToVideos($tmp_name, $filenameMP4, $video->getType());
-
-        if ((AVideoPlugin::isEnabledByName('MP4ThumbsAndGif')) && ($extension == "mp4" || $extension == "webm" || $extension == "mp3")) {
-
-            $videoFileName = $video->getFilename();
-
-            MP4ThumbsAndGif::getImage($videoFileName, 'jpg', $id);
-            MP4ThumbsAndGif::getImage($videoFileName, 'gif', $id);
-            MP4ThumbsAndGif::getImage($videoFileName, 'webp', $id);
-        }
-
-        //    } else if(($extension=="mp3")||($extension=="ogg")){
-        //  }
+        
         $obj->title = $video->getTitle();
         $obj->error = false;
         $obj->filename = $filename;
         $obj->duration = $duration;
         $obj->videos_id = $id;
-
-
-        if (!empty($_FILES['upl']['tmp_name'])) {
-            AVideoPlugin::afterNewVideo($obj->videos_id);
-        }
-
-
+        $obj->lines = [];
+        //var_dump($obj->videos_id);exit;
         if ($extension !== "jpg" && $video->getType() == "image") {
+            $obj->lines[] = __LINE__;
             sleep(1); // to make sure the file will be available
-            $file = Video::getStoragePath() . "" . $video->getFilename();
+            $file = $video->getFilename();
+            $jpgFrom = Video::getPathToFile("{$file}.{$extension}");
+            $jpgTo = Video::getPathToFile("{$file}.jpg");
             try {
-                convertImage("{$file}.{$extension}", "{$file}.jpg", 70);
+                $obj->lines[] = __LINE__;
+                convertImage($jpgFrom, $jpgTo, 70);
             } catch (Exception $exc) {
+                $obj->lines[] = __LINE__;
                 _error_log("We could not convert the image to JPG " . $exc->getMessage());
             }
         }
+        $obj->lines[] = __LINE__;
 
+        if (!empty($_FILES['upl']['tmp_name'])) {
+            $obj->lines[] = __LINE__;
+            $video->setAutoStatus(Video::$statusActive);
+            AVideoPlugin::onUploadIsDone($obj->videos_id);
+            AVideoPlugin::afterNewVideo($obj->videos_id);
+        }
+        $obj->lines[] = __LINE__;
         die(json_encode($obj));
     }
 }

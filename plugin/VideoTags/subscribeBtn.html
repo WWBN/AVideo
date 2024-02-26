@@ -1,0 +1,57 @@
+<div class="btn-group subscribedTags subscribedTags{tags_id} {subscribed} {notify}" >
+    <a class='btn {btnClass} {btnClassPrimary} hideIfSubscribed firstItem'
+             href="{tagLink}"
+             rel="nofollow"
+            data-toggle="tooltip"
+            title="{subscribeText}">
+        <b class='text'><i class="fas fa-tag"></i> {subscribeText}</b>
+        <span class="badge">{total}</span>
+    </a>
+    <a class='btn {btnClass} {btnClassPrimary} hideIfSubscribed {playAllClass}'
+             href="{playAllLink}"
+             rel="nofollow"
+            data-toggle="tooltip"
+            title="{playAllText}">
+        <i class="fas fa-play"></i>
+    </a>
+    <button onclick="toogleTagSubscribe('{encryptedIdAndUser}', -1);return false;"
+            class="btn {btnClass} {btnClassPrimary} hideIfSubscribed lastItem"
+            data-toggle="tooltip"
+            rel="nofollow"
+            title="{subscribe}">
+        <i class="far fa-circle"></i>
+    </button>
+    <a class='btn {btnClass} {btnClassSuccess} showIfSubscribed firstItem'
+             href="{tagLink}"
+            data-toggle="tooltip"
+            rel="nofollow"
+            title="{subscribeText}">
+        <b class='text'><i class="fas fa-tag"></i> {subscribedText}</b>
+        <span class="badge">{total}</span>
+    </a>
+    <a class='btn {btnClass} {btnClassSuccess} showIfSubscribed {playAllClass}'
+             href="{playAllLink}"
+            data-toggle="tooltip"
+            rel="nofollow"
+            title="{playAllText}">
+        <i class="fas fa-play"></i>
+    </a>
+    <button onclick="toogleTagSubscribe('{encryptedIdAndUser}', -1);return false;"
+            class="btn {btnClass} {btnClassSuccess} showIfSubscribed"
+            data-toggle="tooltip"
+            title="{unsubscribe}">
+        <i class="far fa-check-circle"></i>
+    </button>
+    <button onclick="toogleTagSubscribe('{encryptedIdAndUser}', 0);return false;"
+            class="faa-parent animated-hover btn {btnClassSuccess} {btnClass} showIfSubscribed showIfNotify lastItem"
+            data-toggle="tooltip"
+            title="{tooltipStop}">
+        <i class="fas fa-bell faa-ring" ></i>
+    </button>
+    <button onclick="toogleTagSubscribe('{encryptedIdAndUser}', 1);return false;"
+            class="faa-parent animated-hover btn {btnClassDefault} {btnClass} showIfSubscribed hideIfNotify lastItem"
+            data-toggle="tooltip"
+            title="{tooltip}">
+        <i class="fas fa-bell-slash faa-ring"></i>
+    </button>
+</div>

@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -12,34 +11,33 @@ if (empty($p)) {
     return die('YPTStorage plugin disabled');
 }
 
-$fileExtensions = array('jpg', 'gif', 'mp4', 'webm', 'tgz');
+$fileExtensions = ['jpg', 'gif', 'mp4', 'webm', 'tgz'];
 
 
-$files = array();
+$files = [];
 
 //foreach (glob("../videos/*.{" . implode(",", $fileExtensions) . "}", GLOB_BRACE) as $filename) {
 foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
     $base = basename($filename);
     if (is_dir($filename)) {
         if (strpos($base, "_YPTuniqid_") !== false) {
-            $files[$base] = array($base, $filename);
+            $files[$base] = [$base, $filename];
         }
     } else {
-
         $baseName = explode("_portrait", $base);
         if (!empty($baseName[1])) {
-            $files[$base] = array($baseName[0], $filename);
+            $files[$base] = [$baseName[0], $filename];
         } else {
             $baseName = explode("_thumbs", $base);
             if (!empty($baseName[1])) {
-                $files[$base] = array($baseName[0], $filename);
+                $files[$base] = [$baseName[0], $filename];
             } else {
-                $types = array('_HD', '_Low', '_SD');
+                $types = ['_HD', '_Low', '_SD'];
                 $notFound = true;
                 foreach ($types as $value) {
                     $baseName = explode($value, $base);
                     if (!empty($baseName[1])) {
-                        $files[$base] = array($baseName[0], $filename);
+                        $files[$base] = [$baseName[0], $filename];
                         $notFound = false;
                     }
                 }
@@ -51,7 +49,7 @@ foreach (glob("../videos/*", GLOB_BRACE) as $filename) {
                         $baseName = str_replace("." . $value, "", $base);
                         if (!empty($baseName[1])) {
                             if (!in_array($baseName, $files)) {
-                                $files[$base] = array($baseName, $filename);
+                                $files[$base] = [$baseName, $filename];
                             }
                         }
                     }
@@ -64,12 +62,12 @@ echo "*** Total filenames " . count($files) . "\n";
 $max = 10;
 $count = 0;
 $countExecuted = 0;
-$checkedFiles = array();
+$checkedFiles = [];
 foreach ($files as $key => $value) {
     if (!empty($checkedFiles[$value[0]])) {
         continue;
     }
-    $checkedFiles[$value[0]] = array(true);
+    $checkedFiles[$value[0]] = [true];
     $getUsageFromFilename = YPTStorage::getUsageFromFilename($value[0]);
     $checkedFiles[$value[0]][] = $getUsageFromFilename;
 
@@ -95,14 +93,14 @@ foreach ($files as $key => $value) {
                 }
                 YPTStorage::createDummy($video['id']);
                 $tgzFile = $global['systemRootPath'] . "videos/{$video['filename']}.tgz";
-                if(file_exists($tgzFile)){
+                if (file_exists($tgzFile)) {
                     unlink($tgzFile);
                 }
                 echo "******   File size is the same videos_id = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
-                //exit;
-            } else if($source_sizee > 5000000){
+            //exit;
+            } elseif ($source_sizee > 5000000) {
                 echo "----- ERROR File size is NOT the same videos_id and it's supposed to be on the storage = {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
-            } else if($source_sizee > 5000000){
+            } elseif ($source_sizee > 5000000) {
                 echo "+++++ All seems fine with video {$video['id']} {$sites_id} [$source_size!==$destination_size][" . humanFileSize($source_size) . "!==" . humanFileSize($destination_size) . "]\n";
             }
         } else {

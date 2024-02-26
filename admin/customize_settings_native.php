@@ -1,5 +1,5 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.css" rel="stylesheet" type="text/css"/>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/Croppie/croppie.min.js" type="text/javascript"></script>
+<link href="<?php echo getCDN(); ?>node_modules/croppie/croppie.css" rel="stylesheet" type="text/css"/>
+<script src="<?php echo getCDN(); ?>node_modules/croppie/croppie.min.js" type="text/javascript"></script>
 <div class="panel panel-default">
     <div class="panel-heading"><?php echo __('Title and Logo'); ?> </div>
     <div class="panel-body">
@@ -10,7 +10,7 @@
                     <div class="col-md-8 inputGroupContainer">
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
-                            <input  id="inputWebSiteTitle" placeholder="<?php echo __("Web site title"); ?>" class="form-control"  type="text"  value="<?php echo $config->getWebSiteTitle(); ?>" >
+                            <input  id="inputWebSiteTitle" placeholder="<?php echo __("Web site title"); ?>" class="form-control"  type="text"  value="<?php echo $config->getWebSiteTitle(); ?>" maxlength="45" >
                         </div>
                     </div>
                 </div>

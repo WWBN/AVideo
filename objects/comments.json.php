@@ -8,25 +8,37 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 header('Content-Type: application/json');
-$comments = Comment::getAllComments($_GET['video_id'], @$_POST['comments_id']);
-$total = Comment::getTotalComments($_GET['video_id'], @$_POST['comments_id']);
 
-function fixCommentText($subject){
-    $search = array('\n');
-    $replace = array("<br/>");
-    return stripslashes(str_replace($search, $replace, $subject));
+setRowCount(10);
+
+//setDefaultSort('id', 'DESC');
+if(empty($_REQUEST['id'])){
+    if(empty($_POST['sort'])){
+       $_POST['sort'] = [];
+       $_POST['sort']['pin'] = 'DESC';
+       //$_POST['sort']['comments_id_pai'] = 'IS NULL DESC';
+       //$_POST['sort']['comments_id_pai'] = 'DESC';
+       $_POST['sort']['id'] = 'DESC';
+    }
+    $comments = Comment::getAllComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id'], 0, true);
+    $total = Comment::getTotalComments(@$_REQUEST['video_id'], @$_REQUEST['comments_id']);
+}else{
+    $comment = Comment::getComment($_REQUEST['id']);
+    if(!empty($comment)){
+        $comments = [$comment];
+        $total = 1;
+    }else{
+        $comments = [];
+        $total = 0;
+    }
 }
 
-foreach ($comments as $key => $value) {
-    $name = User::getNameIdentificationById($value['users_id']);
-    //$comments[$key]['comment'] = " <div class=\"commenterName\"><strong>{$name}</strong><div class=\"date sub-text\">{$value['created']}</div></div><div class=\"commentText\">". nl2br($value['comment'])."</div>";
-    $comments[$key]['comment'] = '<div class="pull-left"><img src="'.User::getPhoto($value['users_id']).'" alt="User Photo" class="img img-responsive img-circle" style="max-width: 50px;"/></div><div class="commentDetails"><div class="commenterName"><strong><a href="'.User::getChannelLink($value['users_id']).'">'.$name.'</a></strong> <small>'.humanTiming(strtotime($value['created'])).'</small></div>'. fixCommentText(textToLink($value['commentHTML'])).'</div>';
-    $comments[$key]['total_replies'] = Comment::getTotalComments($_GET['video_id'], $comments[$key]['id']);
-    $comments[$key]['video'] = Video::getVideo($comments[$key]['videos_id']);
-    unset($comments[$key]['video']['description']);
-    $comments[$key]['poster'] = Video::getImageFromFilename($comments[$key]['video']['filename']);
-    $comments[$key]['userCanAdminComment'] = Comment::userCanAdminComment($comments[$key]['id']);
-    $comments[$key]['userCanEditComment'] = Comment::userCanEditComment($comments[$key]['id']);
-}
+$comments = Comment::addExtraInfo2InRows($comments);
 
-echo '{  "current": '. getCurrentPage().',"rowCount": '. getRowCount().', "total": '.$total.', "rows":'. json_encode($comments).'}';
+$obj = new stdClass();
+$obj->current = getCurrentPage();
+$obj->rowCount = getRowCount();
+$obj->total = $total;
+$obj->rows = $comments;
+
+echo json_encode($obj);

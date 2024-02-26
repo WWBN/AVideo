@@ -21,19 +21,20 @@ class CookieAlert extends PluginAbstract {
     }
 
     public function getHeadCode() {
+        global $nonCriticalCSS;
         if($this->doNotShow()){
             return "";
         }
         $obj = $this->getDataObject();
         global $global;
-        $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/CookieAlert/cookiealert.css" rel="stylesheet" type="text/css"/>';
+        $css = '<link href="' . getURL('plugin/CookieAlert/cookiealert.css') . '" rel="stylesheet" type="text/css"  />';
         $css .= '<style></style>';
         return $css;
     }
     
     private function doNotShow(){
         $baseName = basename($_SERVER["SCRIPT_FILENAME"]);
-        if(preg_match("/embed/i", $baseName) || !empty($_GET['embed'])){
+        if(isEmbed() || preg_match("/embed/i", $baseName) || preg_match("/chat2/i", $baseName) || !empty($_GET['embed'])){
             return true;
         }
         return false;
@@ -52,7 +53,10 @@ class CookieAlert extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         global $global;
-
+        if(!empty($global['cookieAlertAlreadyIncluded'])){
+            return '';
+        }
+        $global['cookieAlertAlreadyIncluded'] = 1;
         include $global['systemRootPath'] . 'plugin/CookieAlert/footer.php';
     }
 

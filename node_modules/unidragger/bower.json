@@ -1,0 +1,30 @@
+{
+  "name": "unidragger",
+  "main": "unidragger.js",
+  "dependencies": {
+    "ev-emitter": "^2.0.0"
+  },
+  "authors": [
+    "David DeSandro <desandrocodes@gmail.com>"
+  ],
+  "description": "Draggable base class",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "draggable",
+    "flickity",
+    "draggabilly"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "package.json"
+  ]
+}

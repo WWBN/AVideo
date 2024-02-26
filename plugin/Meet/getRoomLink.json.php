@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
     if (file_exists($configFile)) {
@@ -16,14 +17,13 @@ $obj->error = true;
 $obj->msg = "";
 $obj->link = "";
 
-if(empty($_GET['roomName'])){
+if (empty($_GET['roomName'])) {
     $obj->msg = "Empty Room";
     die(json_encode($obj));
 }
 
 $obj->link = Meet::getMeetRoomLink($_GET['roomName']);
-if($obj->link){
+if ($obj->link) {
     $obj->error = false;
 }
 die(json_encode($obj));
-?>

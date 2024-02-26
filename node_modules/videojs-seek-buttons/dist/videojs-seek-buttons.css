@@ -1,0 +1,2 @@
+/*! @name videojs-seek-buttons @version 4.0.3 @license Apache-2.0 */
+.video-js .vjs-seek-button{cursor:pointer}.video-js .vjs-seek-button.skip-back .vjs-icon-placeholder::before{transform:rotate(-45deg)}.video-js .vjs-seek-button.skip-forward .vjs-icon-placeholder::before{transform:scale(-1,1) rotate(-45deg)}

@@ -70,8 +70,8 @@ class VideosReported extends ObjectYPT {
         if(!self::isTableInstalled()){
             return array();
         }
-        
-        $sql = "SELECT reported_users_id FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
+
+        $sql = "SELECT reported_users_id FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1000";
 
         $res = sqlDAL::readSql($sql,"i",array($users_id));
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -140,7 +140,27 @@ class VideosReported extends ObjectYPT {
             $this->status = 'a';
         }
 
-        return parent::save();
+        $saved = parent::save();
+        if($saved){
+            if(!class_exists('Cache')){
+                AVideoPlugin::loadPlugin('Cache');
+            }
+            Cache::deleteFirstPageCache();
+        }
+        return $saved;
+
+    }
+
+    public function delete() {
+        $deleted = parent::delete();
+        if($deleted){
+
+            if(!class_exists('Cache')){
+                AVideoPlugin::loadPlugin('Cache');
+            }
+            Cache::deleteFirstPageCache();
+        }
+        return $deleted;
     }
 
 }

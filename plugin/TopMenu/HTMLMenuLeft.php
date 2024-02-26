@@ -5,14 +5,15 @@ require_once $configFile;
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/Menu.php';
 require_once $global['systemRootPath'] . 'plugin/TopMenu/Objects/MenuItem.php';
 
-$menu = Menu::getAllActive(2);
+$menu = Menu::getAllActive(Menu::$typeLeftMenu);
 ?>
+<!-- left menu start -->
 <?php
 foreach ($menu as $key => $value) {
     ?>
     <li>
         <hr>
-        <h3 class="text-danger">
+        <strong class="text-danger hideIfCompressed">
             <?php
             if (!empty($value['icon'])) {
                 ?>
@@ -20,8 +21,8 @@ foreach ($menu as $key => $value) {
                 <?php
             }
             ?>
-            <?php echo $value['menuName']; ?>
-        </h3>
+            <?php echo __($value['menuName']); ?>
+        </strong>
     </li>
     <?php
     $menuItems = MenuItem::getAllFromMenu($value['id'], true);
@@ -36,11 +37,11 @@ foreach ($menu as $key => $value) {
                     <?php
                 }
                 ?>
-                <?php echo $value2['title'] ?>
+                <?php echo __($value2['title']); ?>
             </a>
         </li>            
         <?php
     }
 }
-?>
-                
+?> 
+<!-- left menu end -->       

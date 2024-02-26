@@ -13,23 +13,43 @@ if (empty($plugin)) {
     die('Plugin disabled');
 }
 
-if (empty($_GET['link'])) {
+$_GET['link'] = intval($_GET['link']);
+if (!empty($_GET['link'])) {
+    $liveLink = new LiveLinksTable($_GET['link']);
+
+    $isLiveLink = $liveLink->getId();
+    if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
+        die('Link for logged only');
+    }
+
+    $uuid = $_GET['link'];
+    $t['id'] = $uuid;
+    $t['users_id'] = $liveLink->getUsers_id();
+    $t['title'] = $liveLink->getTitle();
+    $t['link'] = $liveLink->getLink();
+    $t['description'] = $liveLink->getDescription();
+
+    AVideoPlugin::getModeLiveLink($liveLink->getId());
+    $date = convertFromDefaultTimezoneTimeToMyTimezone($liveLink->getStart_date());
+    $toTime = strtotime($date);
+} else {
+    $isLiveLink = uniqid();
+    $uuid = $isLiveLink;
+    $t = LiveLinks::decodeDinamicVideoLink();
+    $toTime = time();
+}
+
+if (empty($t['users_id'])) {
     die('Link not found');
 }
-$_GET['link'] = intval($_GET['link']);
-$liveLink = new LiveLinksTable($_GET['link']);
 
-$isLiveLink = $liveLink->getId();
-if ($liveLink->getType() == 'logged_only' && !User::isLogged()) {
-    die('Link for logged only');
+if ($toTime > time()) {
+    $message = "<strong>{$t['title']}</strong><br>{$t['description']}";
+    $image = User::getPhoto($t['users_id']);
+    $bgImage = LiveLinks::getImage($t['id']);
+    $title = $t['title'];
+    countDownPage($toTime, $message, $image, $bgImage, $title);
 }
-
-$uuid = $_GET['link'];
-$t['id'] = $uuid;
-$t['users_id'] = $liveLink->getUsers_id();
-$t['title'] = $liveLink->getTitle();
-$t['link'] = $liveLink->getLink();
-$t['description'] = $liveLink->getDescription();
 
 $u = new User($t['users_id']);
 $user_id = $u->getBdId();
@@ -37,14 +57,23 @@ $subscribe = Subscribe::getButton($user_id);
 $name = $u->getNameIdentificationBd();
 $name = "<a href='" . User::getChannelLink($user_id) . "' class='btn btn-xs btn-default'>{$name} " . User::getEmailVerifiedIcon($user_id) . "</a>";
 
+$video = array();
 $video['creator'] = '<div class="pull-left"><img src="' . User::getPhoto($user_id) . '" alt="User Photo" class="img img-responsive img-circle" style="max-width: 40px;"/></div><div class="commentDetails" style="margin-left:45px;"><div class="commenterName text-muted"><strong>' . $name . '</strong><br>' . $subscribe . '</div></div>';
 $video['type'] = "liveLink";
-$img = "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?link={$_GET['link']}&format=jpg";
-$imgw = 640;
-$imgh = 360;
+$video['title'] = $t['title'];
+$video['description'] = $t['description'];
+$video['users_id'] = $t['users_id'];
+$poster = $img = LiveLinks::getImage($t['id']);
+$imgw = 400;
+$imgh = 255;
+
+if (isAVideoMobileApp()) {
+    $_GET['embed'] = 1;
+}
 
 if (!empty($_GET['embed'])) {
-    include $global['systemRootPath'] . 'plugin/LiveLinks/view/videoEmbeded.php';
+    $video['videoLink'] = LiveLinks::getSourceLink($t['id']);
+    include $global['systemRootPath'] . 'view/videoEmbeded.php';
     return false;
 }
 
@@ -54,38 +83,29 @@ $sideAd = getAdsSideRectangle();
 
 $modeYoutubeBottomClass1 = "col-sm-7 col-md-7 col-lg-6";
 $modeYoutubeBottomClass2 = "col-sm-5 col-md-5 col-lg-4 ";
-if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
+
+if (isHTMLEmpty($sideAd)) {
     $modeYoutubeBottomClass1 = "col-sm-12 col-md-12 col-lg-10";
     $modeYoutubeBottomClass2 = "hidden ";
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo $t['title'] . $config->getPageTitleSeparator() . __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js'); ?>" rel="stylesheet" type="text/css"/>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-
-        <meta property="fb:app_id"             content="774958212660408" />
-        <meta property="og:url"                content="<?php echo LiveLinks::getLinkToLiveFromId($_GET['link']); ?>" />
-        <meta property="og:type"               content="video.other" />
-        <meta property="og:title"              content="<?php echo str_replace('"', '', $t['title']); ?> - <?php echo $config->getWebSiteTitle(); ?>" />
-        <meta property="og:description"        content="<?php echo str_replace('"', '', $t['title']); ?>" />
-        <meta property="og:image"              content="<?php echo $img; ?>" />
-        <meta property="og:image:width"        content="<?php echo $imgw; ?>" />
-        <meta property="og:image:height"       content="<?php echo $imgh; ?>" />
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid principalContainer" id="modeYoutubePrincipal">
+        <!-- LiveLinks Live.php -->
+        <div class="container-fluid principalContainer" style="padding: 0;overflow: hidden;" id="modeYoutubePrincipal">
             <?php
             if (!$isCompressed) {
                 ?>
@@ -137,23 +157,48 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
                         <?php
                     }
                     ?>
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="panel-body">
-                            <h1 itemprop="name">
-                                <i class="fas fa-video"></i> <?php echo $t['title']; ?>
-                            </h1>
-                            <p><?php echo nl2br(textToLink($t['description'])); ?></p>
+                            <h1 itemprop="name"><i class="fas fa-video"></i> <?php echo getSEOTitle($t['title']); ?></h1>
                             <div class="col-xs-12 col-sm-12 col-lg-12"><?php echo $video['creator']; ?></div>
-                            <?php
-                            $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
-                            $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
-                            getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
-                            ?>
-                            <div class="col-md-12 watch8-action-buttons text-muted">
+                            <p><?php echo nl2br(textToLink($t['description'])); ?></p>
 
-                                <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                            <div class="row">
+                                <div class="col-md-12 watch8-action-buttons text-muted">
+                                    <?php if (isShareEnabled()) { ?>
+                                        <a href="#" class="btn btn-default no-outline" id="shareBtn">
+                                            <span class="fa fa-share"></span> <?php echo __("Share"); ?>
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#shareDiv").slideUp();
+                                            $("#shareBtn").click(function () {
+                                                $(".menusDiv").not("#shareDiv").slideUp();
+                                                $("#shareDiv").slideToggle();
+                                                return false;
+                                            });
+                                        });
+                                    </script>
+                                    <?php echo AVideoPlugin::getWatchActionButton(0); ?>
+                                </div>
                             </div>
-                            <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+                            <?php
+                            if (isShareEnabled()) {
+                                /**
+                                 * @var string $link
+                                 * @var string $linkEmbed
+                                 */
+                                $link = LiveLinks::getLinkToLiveFromId($_GET['link']);
+                                $linkEmbed = LiveLinks::getLinkToLiveFromId($_GET['link'], true);
+                                getShareMenu($t['title'], $link, $link, $linkEmbed, $img, "row");
+                            }
+                            ?>
+                            <div class="row">
+                                <div class="col-lg-12 col-sm-12 col-xs-12 extraVideos nopadding"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -170,19 +215,9 @@ if (empty($sideAd) && !AVideoPlugin::loadPluginIfEnabled("Chat2")) {
         </div>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
-        ?>
-        <?php
+        echo AVideoPlugin::afterVideoJS();
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-
-        <?php
-        if (!empty($p)) {
-            $p->getChat($uuid);
-        }
-        ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/webui-popover/jquery.webui-popover.min.js" type="text/javascript"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-list-filter/bootstrap-list-filter.min.js" type="text/javascript"></script>
-
     </body>
 </html>
 

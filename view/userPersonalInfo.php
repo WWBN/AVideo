@@ -14,7 +14,7 @@
         <div class="col-md-8 inputGroupContainer">
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                <input name="first_name" id="first_name" placeholder="<?php echo __("Last Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" >
+                <input name="first_name" id="first_name" placeholder="<?php echo __("First Name"); ?>" class="form-control"  type="text" value="<?php echo $user->getFirst_name(); ?>" >
             </div>
         </div>
     </div>
@@ -62,7 +62,7 @@
                     <option><?php echo $text; ?></option>
                     <?php
                     foreach ($countries as $key => $value) {
-                        $selected = "";
+                        $selected = '';
                         if ($myCountry === $value) {
                             $selected = 'selected';
                         }
@@ -73,7 +73,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
 
     <div class="form-group">
@@ -88,7 +88,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
     <div class="form-group">
         <label for="status" class="col-md-4 control-label"><?php echo __("City"); ?>:</label>
@@ -102,7 +102,7 @@
             </div>
 
         </div>
-    </div> 
+    </div>
 
     <div class="form-group">
         <div class="col-md-12 ">
@@ -145,7 +145,7 @@
             }).then(function (resp) {
                 $.ajax({
                     type: "POST",
-                    url: "<?php echo $global['webSiteRootURL']; ?>objects/userUpdatePersonal.json.php",
+                    url: webSiteRootURL+"objects/userUpdatePersonal.json.php",
                     data: {
                         imgBase64: resp,
                         first_name: $('#first_name').val(),
@@ -177,7 +177,7 @@
             });
 
             uploadCropDocument = $('#documentImage').croppie({
-                url: '<?php echo $global['webSiteRootURL']; ?>objects/userDocument.png.php?users_id=<?php echo User::getId(); ?>',
+                url: webSiteRootURL+'objects/userDocument.png.php?users_id=<?php echo User::getId(); ?>',
                             enableExif: true,
                             enforceBoundary: false,
                             mouseWheelZoom: false,
@@ -238,12 +238,12 @@
 
 <?php
 if (!empty($myCountry)) {
-    ?>
+                        ?>
                             setTimeout(function () {
                                 $("#country").trigger('change');
                             }, 1000);
     <?php
-}
+                    }
 ?>
 
                     });

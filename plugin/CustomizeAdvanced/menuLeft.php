@@ -3,9 +3,9 @@ $obj = AVideoPlugin::getObjectDataIfEnabled('Subscription');
 ?>
 <li>
     <hr>
-    <h3 class="text-danger">
+    <strong class="text-danger">
         <i class="fas fa-filter"></i> <?php echo __("R Rating"); ?>
-    </h3>
+    </strong>
     <ul style="margin: 0; padding-left: 15px; list-style-type: none;">
         <?php
         foreach (Video::$rratingOptions as $value) {

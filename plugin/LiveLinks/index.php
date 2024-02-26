@@ -4,12 +4,11 @@ require_once '../../videos/configuration.php';
 $plugin = AVideoPlugin::loadPluginIfEnabled('LiveLinks');
 
 if (empty($plugin) || !$plugin->canAddLinks()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not do this"));
-    exit;
+    forbiddenPage(__("You can not do this"));
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Live Links") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

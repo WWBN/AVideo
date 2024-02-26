@@ -1,0 +1,63 @@
+{
+  "name": "chrome-dgram",
+  "description": "Use the Node `dgram` API in Chrome Apps",
+  "version": "3.0.6",
+  "author": {
+    "name": "Feross Aboukhadijeh",
+    "email": "feross@feross.org",
+    "url": "https://feross.org"
+  },
+  "bugs": {
+    "url": "https://github.com/feross/chrome-dgram/issues"
+  },
+  "contributors": [
+    "John Hiesey <john@hiesey.com>"
+  ],
+  "dependencies": {
+    "inherits": "^2.0.4",
+    "run-series": "^1.1.9"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "envify": "^4.1.0",
+    "once": "1.x",
+    "portfinder": "^1.0.28",
+    "standard": "*",
+    "tape": "^5.0.1"
+  },
+  "homepage": "https://github.com/feross/chrome-dgram",
+  "keywords": [
+    "chrome app",
+    "chrome.socket",
+    "socket api",
+    "dgram",
+    "udp",
+    "wrapper",
+    "client",
+    "server"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/feross/chrome-dgram.git"
+  },
+  "scripts": {
+    "test": "standard",
+    "test-browser": "tape test/*.js"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/feross"
+    },
+    {
+      "type": "patreon",
+      "url": "https://www.patreon.com/feross"
+    },
+    {
+      "type": "consulting",
+      "url": "https://feross.org/support"
+    }
+  ]
+}

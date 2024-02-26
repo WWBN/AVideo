@@ -7,7 +7,7 @@ if (!User::isLogged()) {
 $obj = AVideoPlugin::getObjectData("BulkEmbed");
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php 
         echo getHTMLTitle( __("Search"));

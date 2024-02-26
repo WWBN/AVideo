@@ -1,9 +1,8 @@
 var Button = videojs.getComponent('Button');
 
-var LoopButton = videojs.extend(Button, {
-    //constructor: function(player, options) {
-    constructor: function () {
-        Button.apply(this, arguments);
+class LoopButton extends Button {
+    constructor() {
+        super(...arguments);
         this.addClass('loop-button');
         if (!isPlayerLoop()) {
             this.addClass('loop-disabled-button');
@@ -11,11 +10,11 @@ var LoopButton = videojs.extend(Button, {
             this.addClass('fa-spin');
         }
         this.controlText("Loop");
-    },
-    handleClick: function () {
+    }
+    handleClick() {
         tooglePlayerLoop();
     }
-});
+}
 
 videojs.registerComponent('LoopButton', LoopButton);
 player.getChild('controlBar').addChild('LoopButton', {}, 0);

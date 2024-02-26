@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{fontName}}</title>
+  <link href="css/videojs-icons.css" rel="stylesheet">
+  <style>
+    body {
+      text-align: center;
+    }
+
+    div {
+      display: inline-block;
+      border: 1px solid #ccc;
+      text-align: center;
+      width: 150px;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    div span:first-of-type {
+      font-size: 200%;
+    }
+
+    div span:first-of-type::before {
+      display: inline-block;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>{{fontName}} Icons</h1>
+  <p>All icons prefixed by <code>vjs-icon-</code></p>
+  {{#each names}}
+  <div>
+    <span class="vjs-icon-{{this}}"></span>
+    <span>{{this}}</span>
+  </div>
+  {{/each}}
+</body>
+</html>

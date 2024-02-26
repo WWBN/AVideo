@@ -5,7 +5,7 @@ if (!empty($playNowVideo)) {
 if (empty($video['id'])) {
     return false;
 }
-
+$videoContext = $video;
 if (empty($playerSkinsObj)) {
     $playerSkinsObj = AVideoPlugin::getObjectData("PlayerSkins");
 }
@@ -23,7 +23,7 @@ if (isEmbed() && $playerSkinsObj->contextMenuDisableEmbedOnly) {
     return false;
 }
 
-$canDownloadVideosFromVideo = CustomizeUser::canDownloadVideosFromVideo($video['id']);
+$canDownloadVideosFromVideo = CustomizeUser::canDownloadVideosFromVideo($videoContext['id']);
 
 $contextMenu = array();
 
@@ -57,8 +57,8 @@ if ($playerSkinsObj->contextMenuCopyEmbedCode) {
                     }";
 }
 if ($canDownloadVideosFromVideo) {
-    if ($video['type'] == "video") {
-        $files = getVideosURL($video['filename']);
+    if ($videoContext['type'] == "video") {
+        $files = getVideosURL($videoContext['filename']);
         foreach ($files as $key => $theLink) {
             $notAllowedKeys = array('m3u8');
             if (empty($advancedCustom->showImageDownloadOption)) {
@@ -66,29 +66,29 @@ if ($canDownloadVideosFromVideo) {
             }
             $keyFound = false;
             foreach ($notAllowedKeys as $notAllowedKey) {
-                if(preg_match("/{$notAllowedKey}/", $key)){
+                if (preg_match("/{$notAllowedKey}/", $key)) {
                     $keyFound = true;
                     break;
                 }
             }
-            if($keyFound){
+            if ($keyFound) {
                 continue;
             }
             $contextMenu[] = "{name: '" . __("Download video") . " ({$key})',
                         onClick: function () {
-                        document.location = '{$theLink['url']}?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4") . "';
+                        document.location = '{$theLink['url']}?download=1&title=" . urlencode($videoContext['title'] . "_{$key}_.mp4") . "';
                                     }, iconClass: 'fas fa-download'
                             }";
         }
     } else {
         $contextMenu[] = "{name: '" . __("Download video") . " ({$key})',
                         onClick: function () {
-                        document.location = '{$video['videoLink']}?download=1&title=" . urlencode($video['title'] . "_{$key}_.mp4") . "';
+                        document.location = '{$videoContext['videoLink']}?download=1&title=" . urlencode($videoContext['title'] . "_{$key}_.mp4") . "';
                                     }, iconClass: 'fas fa-download'
                             }";
     }
 }
-if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare && CustomizeUser::canShareVideosFromVideo($video['id'])) {
+if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare && CustomizeUser::canShareVideosFromVideo($videoContext['id'])) {
     $contextMenu[] = "{name: '" . __("Share") . "',
                         onClick: function () {
                         showSharing();
@@ -128,10 +128,14 @@ if ($playerSkinsObj->showSocialShareOnEmbed && $playerSkinsObj->contextMenuShare
         $('#SharingModal').modal({show: false});
     });
 </script>
-<input type="hidden" value="<?php echo Video::getPermaLink($video['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
-<input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
-<input type="hidden" value="<?php echo Video::getURLFriendly($video['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
+<input type="hidden" value="<?php echo Video::getPermaLink($videoContext['id']); ?>" class="form-control" readonly="readonly"  id="linkPermanent"/>
+<input type="hidden" value="<?php echo Video::getURLFriendly($videoContext['id']); ?>" class="form-control" readonly="readonly" id="linkFriendly"/>
+<input type="hidden" value="<?php echo Video::getURLFriendly($videoContext['id']); ?>?t=0" class="form-control" readonly="readonly" id="linkCurrentTime"/>
 <textarea class="form-control" style="display: none;" rows="5" id="textAreaEmbed" readonly="readonly"><?php
-    $code = str_replace("{embedURL}", Video::getLink($video['id'], $video['clean_title'], true), $advancedCustom->embedCodeTemplate);
+    $embedURL = Video::getLink($videoContext['id'], $videoContext['clean_title'], true);
+    $videoContextLengthInSeconds = durationToSeconds($videoContext['duration']);
+    $search = array('{embedURL}', '{videoLengthInSeconds}');
+    $replace = array($embedURL, $videoContextLengthInSeconds);
+    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
     echo htmlentities($code);
     ?></textarea>

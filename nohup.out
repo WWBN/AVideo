@@ -1,0 +1,29 @@
+[2023-02-21 12:38:29] AVideoLog::DEBUG: Socket server SQLite loading SCRIPT_NAME: /var/www/html/AVideo/plugin/YPTSocket/server.php
+[2023-02-21 12:38:29] AVideoLog::DEBUG: Starting Socket server at port 2053 SCRIPT_NAME: /var/www/html/AVideo/plugin/YPTSocket/server.php
+Starting AVideo Socket server version 4.1 on port 2053
+Your socket server uses a secure connection
+Parameter [local_cert]: /etc/letsencrypt/live/vlu.me/fullchain.pem 
+Parameter [local_pk]: /etc/letsencrypt/live/vlu.me/privkey.pem 
+Parameter [allow_self_signed]: 1 
+Parameter [verify_peer]:  
+Parameter [verify_peer_name]:  
+Parameter [security_level]: 0 
+DO NOT CLOSE THIS TERMINAL 
+2023-02-21 12:38:29 Using: 11.50MB RAM Construct
+2023-02-21 12:38:33 Using: 12.38MB RAM msgToResourceId: resourceId=(220) NEW_CONNECTION
+2023-02-21 12:38:33 Using: 12.37MB RAM msgToAll FROM (220) NEW_CONNECTION Total Clients: 1 in 0.0033 seconds
+2023-02-21 12:38:33 Using: 12.37MB RAM Connection opened in 0.0040 seconds
+2023-02-21 12:38:36 Using: 12.37MB RAM onClose 220 before deleted
+2023-02-21 12:38:36 Using: 12.37MB RAM onClose 220 has deleted
+2023-02-21 12:38:36 Using: 12.37MB RAM msgToAll FROM (220) NEW_DISCONNECTION Total Clients: 0 in 0.0001 seconds
+2023-02-21 12:38:36 Using: 12.37MB RAM Connection 220 has disconnected
+2023-02-21 12:38:36 Using: 12.40MB RAM msgToResourceId: resourceId=(261) NEW_CONNECTION
+2023-02-21 12:38:36 Using: 12.39MB RAM msgToAll FROM (261) NEW_CONNECTION Total Clients: 1 in 0.0005 seconds
+2023-02-21 12:38:36 Using: 12.38MB RAM Connection opened in 0.0011 seconds
+2023-02-21 12:38:54 Using: 12.37MB RAM onClose 261 before deleted
+2023-02-21 12:38:54 Using: 12.37MB RAM onClose 261 has deleted
+2023-02-21 12:38:54 Using: 12.37MB RAM msgToAll FROM (261) NEW_DISCONNECTION Total Clients: 0 in 0.0001 seconds
+2023-02-21 12:38:54 Using: 12.37MB RAM Connection 261 has disconnected
+2023-02-21 12:38:55 Using: 12.40MB RAM msgToResourceId: resourceId=(264) NEW_CONNECTION
+2023-02-21 12:38:55 Using: 12.39MB RAM msgToAll FROM (264) NEW_CONNECTION Total Clients: 1 in 0.0023 seconds
+2023-02-21 12:38:55 Using: 12.38MB RAM Connection opened in 0.0030 seconds

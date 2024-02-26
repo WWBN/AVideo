@@ -1,0 +1,8 @@
+.DS_Store
+.tmp
+pkg
+tmp
+composer.lock
+.phpunit.result.cache
+.idea
+vendor/

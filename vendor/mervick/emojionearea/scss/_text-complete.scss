@@ -1,0 +1,58 @@
+@import "compass";
+
+.dropdown-menu.textcomplete-dropdown[data-strategy="emojionearea"] {
+    position: absolute;
+    z-index: 1000;
+    min-width: 160px;
+    padding: 5px 0;
+    margin: 2px 0 0;
+    font-size: 14px;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #ccc;
+    border: 1px solid rgba(0,0,0,.15);
+    @include border-radius(4px);
+    @include box-shadow(0 6px 12px rgba(0,0,0,.175));
+
+    li.textcomplete-item {
+        font-size: 14px;
+        padding: 1px 3px;
+        border: 0;
+
+        a {
+            text-decoration: none;
+            display: block;
+            height: 100%;
+            line-height: 1.8em;
+            padding: 0 1.54em 0 .615em;
+            color: #4f4f4f;
+        }
+
+        &:hover, &.active {
+            //background-color: rgb(110, 183, 219);
+            //background-color: #337ab7;
+            background-color: #e4e4e4;
+            //color: #fff;
+            a {
+                color: #333;
+            }
+        }
+
+        .emojioneemoji {
+            font-size: inherit;
+            height: 2ex;
+            width: 2.1ex;
+            min-height: 20px;
+            min-width: 20px;
+            display: inline-block;
+            margin: 0 5px .2ex 0;
+            line-height: normal;
+            vertical-align: middle;
+            max-width: 100%;
+            top: 0;
+        }
+    }
+}

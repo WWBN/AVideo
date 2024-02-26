@@ -1,0 +1,30 @@
+{
+  "accountId": "accountId",
+  "action": "upload",
+  "bucketId": "bucketId",
+  "contentLength": 555,
+  "contentMd5": "cf9ca72110db83d49fc0b1cb248fb2dc",
+  "contentSha1": "0f4dd743cc9c501c70b6e3d2e033e179926ee768",
+  "contentType": "application/octet-stream",
+  "fileId": "fileId",
+  "fileInfo": {
+    "src_last_modified_millis": "1453326047773"
+  },
+  "fileName": "testfile.bin",
+  "fileRetention": {
+    "isClientAuthorizedToRead": true,
+    "value": {
+      "mode": null,
+      "retainUntilTimestamp": null
+    }
+  },
+  "legalHold": {
+    "isClientAuthorizedToRead": true,
+    "value": null
+  },
+  "serverSideEncryption": {
+    "algorithm": null,
+    "mode": null
+  },
+  "uploadTimestamp": 1653824328881
+}

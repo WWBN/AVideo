@@ -16,3 +16,9 @@
     margin-top: 7px;
     margin-bottom: 5px;
 }
+
+span.selection > span.select2-selection--single{
+    color: #333333;
+    background-color: #e7e7e7;
+    border-color: #cccccc;
+}

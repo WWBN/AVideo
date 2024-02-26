@@ -5,10 +5,10 @@ if (!isset($global['systemRootPath'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php
-        echo getHTMLTitle(array('Categories'));
+        echo getHTMLTitle(['Categories']);
         include $global['systemRootPath'] . 'view/include/head.php';
         ?><style>
             #custom-search-input{
@@ -42,7 +42,7 @@ if (!isset($global['systemRootPath'])) {
             #custom-search-input .glyphicon-search{
                 font-size: 23px;
             }
-            
+
         </style>
     </head>
 
@@ -55,13 +55,13 @@ if (!isset($global['systemRootPath'])) {
         <div class="container">
             <div class="row">
                 <div class="input-group col-md-12">
-                    <div class="panel">
+                    <div class="panel panel-default">
                         <div class="panel-body" id="linkPanel">
                             <form id="play-form" name="play-form" method="get">
                                 <div id="custom-search-input">
                                     <div class="input-group col-md-12">
                                         <input type="search" name="urlToPlay" class="form-control input-lg" placeholder="<?php echo __("Place a Link to play"); ?>" value="<?php
-                                        echo @$_GET['urlToPlay'];
+                                        echo @str_replace(['(', ')'], ['', ''], xss_esc($_GET['urlToPlay']));
                                         ?>" id="playFormInput" />
                                         <span class="input-group-btn">
                                             <button class="btn btn-info btn-lg" type="submit">

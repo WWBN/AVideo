@@ -1,0 +1,58 @@
+{
+  "name": "flickity",
+  "version": "3.0.0",
+  "description": "Touch, responsive, flickable carousels",
+  "main": "js/index.js",
+  "style": "css/flickity.css",
+  "scripts": {
+    "test": "npm run lint && echo \"View test/ in browser\" && exit 1",
+    "lintJs": "npx eslint .",
+    "lintJson": "node bin/lint-json.js",
+    "lintCss": "npx stylelint '**/*.css'",
+    "lint": "npm run lintJson && npm run lintJs && npm run lintCss",
+    "dist": "npm run bundleCss && npm run bundleJs",
+    "bundleCss": "cp css/flickity.css dist/flickity.css && node bin/bundle-css.js",
+    "bundleJs": "node bin/bundle-js.js",
+    "version": "node bin/version.js && npm run dist && git add -A css js dist"
+  },
+  "dependencies": {
+    "ev-emitter": "^2.1.2",
+    "fizzy-ui-utils": "^3.0.0",
+    "get-size": "^3.0.0",
+    "imagesloaded": "^5.0.0",
+    "unidragger": "^3.0.0"
+  },
+  "devDependencies": {
+    "clean-css": "^5.2.2",
+    "eslint": "^8.10.0",
+    "eslint-plugin-metafizzy": "^2.0.1",
+    "jquery-bridget": "^3.0.1",
+    "qunit": "^2.17.2",
+    "stylelint": "^14.2.0",
+    "stylelint-config-standard": "^24.0.0",
+    "terser": "^5.10.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/metafizzy/flickity.git"
+  },
+  "keywords": [
+    "touch",
+    "responsive",
+    "flick",
+    "slider",
+    "carousel",
+    "gallery",
+    "DOM",
+    "browser"
+  ],
+  "author": "Metafizzy",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/metafizzy/flickity/issues"
+  },
+  "homepage": "https://flickity.metafizzy.co",
+  "directories": {
+    "test": "test"
+  }
+}

@@ -1,7 +1,8 @@
 <?php
-function createTable($pluginName, $filter = array())
+function createTable($pluginName, $filter = [])
 {
     $plugin = AVideoPlugin::getObjectData($pluginName);
+    //var_dump($plugin->userMustBeLoggedIn, '---<br>');exit;
     if (empty($filter)) {
         foreach ($plugin as $keyJson => $valueJson) {
             $filter[$keyJson] = "&nbsp;";
@@ -12,7 +13,7 @@ function createTable($pluginName, $filter = array())
     echo '<input type="hidden" value="' . $pluginName . '" name="pluginName"/>';
     echo '<input type="hidden" value="' . implode("|", array_keys($filter)) . '" name="pluginsList"/>';
     echo '<table class="table table-hover">';
-    $pluginsList = array();
+    $pluginsList = [];
     if (!AVideoPlugin::exists($pluginName)) {
         echo "<tr><td colspan='2'> ".__('Sorry you do not have the plugin')." </td></tr>";
     } else {
@@ -27,27 +28,27 @@ function createTable($pluginName, $filter = array())
     echo '</table></form>';
 }
 
-function jsonToFormElements($json, $filter = array())
+function jsonToFormElements($json, $filter = [])
 {
     //var_dump($json, $filter);exit;
-    $elements = array();
+    $elements = [];
     foreach ($json as $keyJson => $valueJson) {
         if (!empty($filter) && empty($filter[$keyJson])) {
             continue;
         }
         $label = "<label>{$keyJson}</label>";
-        $help = "";
+        $help = '';
         if (!empty($filter[$keyJson])) {
             $help = "<small class=\"form-text text-muted\">{$filter[$keyJson]}</small>";
         }
-        $input = "";
+        $input = '';
         if (is_object($valueJson)) {
             if ($valueJson->type === 'textarea') {
                 $input = "<textarea class='form-control jsonElement' name='{$keyJson}' pluginType='object'>{$valueJson->value}</textarea>";
             } elseif (is_array($valueJson->type)) {
                 $input = "<select class='form-control jsonElement' name='{$keyJson}'  pluginType='object'>";
                 foreach ($valueJson->type as $key => $value) {
-                    $select = "";
+                    $select = '';
                     if ($valueJson->value == $key) {
                         $select = "selected";
                     }
@@ -55,11 +56,15 @@ function jsonToFormElements($json, $filter = array())
                 }
                 $input .= "</select>";
             } else {
-                //var_dump($keyJson, $valueJson);
-                $input = "<input class='form-control jsonElement' name='{$keyJson}' pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
+                if (!is_string($valueJson->type) || !is_string($valueJson->value)) {
+                    continue;
+                }
+                $input = "<input class='form-control jsonElement' name='{$keyJson}' "
+                . "pluginType='object' type='{$valueJson->type}' value='{$valueJson->value}'/>";
             }
             $elements[] = "<tr><td>{$label} </td><td>{$input}{$help}</td></tr>";
         } elseif (is_bool($valueJson)) {
+            //var_dump($keyJson, $valueJson, '---<br>');
             $id = uniqid();
             $input = '<div class="material-switch">
                                 <input data-toggle="toggle" type="checkbox" id="' . $keyJson . $id . '" name="' . $keyJson . '" value="1" ' . ($valueJson ? "checked" : "") . ' >
@@ -77,7 +82,7 @@ function jsonToFormElements($json, $filter = array())
 function getPluginSwitch($pluginName)
 {
     if (!AVideoPlugin::exists($pluginName)) {
-        $input = '<a href="https://youphp.tube/plugins/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
+        $input = '<a href="https://youphp.tube/marketplace/" class="btn btn-danger btn-sm btn-xs">'.__('Buy this plugin now').'</a>';
     } else {
         $plugin = AVideoPlugin::loadPluginIfEnabled($pluginName);
         $pluginForced = AVideoPlugin::loadPlugin($pluginName);

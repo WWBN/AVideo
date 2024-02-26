@@ -47,7 +47,7 @@ class SlackNotify extends PluginAbstract
         $o                = $this->getDataObject();
         $users_id         = Video::getOwner($videos_id);
         $user             = new User($users_id);
-        $username         = $user->getNameIdentification();
+        $username         = $user->getNameIdentificationBd();
         $channelName      = $user->getChannelName();
         $video            = new Video("", "", $videos_id);
         $videoName        = $video->getTitle();

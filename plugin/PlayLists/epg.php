@@ -4,7 +4,7 @@ if (!isset($global['systemRootPath'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("EPG") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>

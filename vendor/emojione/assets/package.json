@@ -1,0 +1,28 @@
+{
+  "name": "emojione-assets",
+  "description": "Emojis in png format brought to you by EmojiOne. EmojiOne is a complete set of emojis designed for the web.",
+  "version": "4.5.0",
+  "keywords": [
+    "emojione",
+    "EmojiOne",
+    "emoji",
+    "emojis",
+    "emoticons",
+    "smileys",
+    "smilies",
+    "unicode"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/emojione/emojione-assets.git"
+  },
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/emojione/emojione-assets/issues"
+  },
+  "homepage": "https//www.emojione.com"
+}

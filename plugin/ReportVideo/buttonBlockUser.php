@@ -2,7 +2,9 @@
 if(!User::userCanBlockUser($users_id, true)){
     return '';
 }
+//var_dump($users_id, ReportVideo::isBlocked($users_id));exit;
 ?>
+<!-- <?php echo basename(__FILE__); ?> -->
 <button class="btn btn-default btn-xs" style="display:none;" id="reportUserBtn<?php echo $users_id; ?>"  data-toggle="tooltip" title="<?php if (!User::isLogged()) { echo __("You need to sign in to block this user"); }else{ echo __("Block and hide this user content"); } ?>" >
     <i class="fas fa-ban"></i> <small><?php echo __('Block User'); ?></small>
 </button>

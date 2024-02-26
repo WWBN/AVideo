@@ -14,7 +14,7 @@ foreach (glob($dir . '*.css') as $file) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <script>
             var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
@@ -23,17 +23,16 @@ foreach (glob($dir . '*.css') as $file) {
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" href="view/img/favicon.ico">
         <title><?php echo __("Player Sample") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js" type="text/javascript"></script>
+        <link href="<?php echo getURL('view/bootstrap/css/bootstrap.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>" type="text/javascript"></script>
         <?php
         include $global['systemRootPath'] . 'view/include/video.min.js.php';
         ?>
         <?php
         if (!empty($_GET['playerSkin'])) {
             ?>
-            <link href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayerSkins/skins/<?php echo $names[intval(array_search($_GET['playerSkin'], $names))]; ?>.css" rel="stylesheet" type="text/css"/>
+            <link href="<?php echo getCDN(); ?>plugin/PlayerSkins/skins/<?php echo $names[intval(array_search($_GET['playerSkin'], $names))]; ?>.css" rel="stylesheet" type="text/css"/>
             <?php
         }
         ?>
@@ -55,7 +54,7 @@ foreach (glob($dir . '*.css') as $file) {
         </video>
         <script>
         $(document).ready(function () {
-            if (typeof player === 'undefined') {
+            if (typeof player === 'undefined' && $('#mainVideo').length) {
                 player = videojs('mainVideo');
             }
         });

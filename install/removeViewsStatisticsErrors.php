@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/playlist.php';
@@ -10,12 +9,12 @@ if (!isCommandLineInterface()) {
 
 echo "Start fixing statistics" . PHP_EOL;
 
-$session_id = array();
+$session_id = [];
 $sql = "SELECT distinct(session_id) as session_id FROM videos_statistics ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 sqlDAL::close($res);
-$rows = array();
+$rows = [];
 if ($res != false) {
     foreach ($fullData as $key => $row) {
         $session_id[] = $row['session_id'];
@@ -33,7 +32,7 @@ foreach ($session_id as $id) {
     $res = sqlDAL::readSql($sql);
     $fullData = sqlDAL::fetchAllAssoc($res);
     sqlDAL::close($res);
-    $rows = array();
+    $rows = [];
     if ($res != false) {
         foreach ($fullData as $row) {
             $sql2 = "SELECT id FROM videos_statistics WHERE videos_id = {$row['videos_id']} AND session_id = '{$id}' ORDER BY `when` DESC LIMIT 1";

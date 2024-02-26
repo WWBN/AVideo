@@ -5,7 +5,6 @@ require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 require_once $global['systemRootPath'] . 'plugin/LiveLinks/Objects/LiveLinksTable.php';
 require_once $global['systemRootPath'] . 'plugin/Live/Live.php';
 
-
 class LiveLinks extends PluginAbstract {
 
     public function getTags() {
@@ -19,9 +18,9 @@ class LiveLinks extends PluginAbstract {
     public function getDescription() {
         $desc = "Register Livestreams external Links from any HLS provider, Wowza and others";
         $desc .= $this->isReadyLabel(array('Live'));
-        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/LiveLinks-Plugin' target='__blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/LiveLinks-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
 
-        return $desc.$help;
+        return $desc . $help;
     }
 
     public function getName() {
@@ -37,6 +36,8 @@ class LiveLinks extends PluginAbstract {
         $obj->disableLiveThumbs = false;
         $obj->doNotShowLiveLinksLabel = false;
         $obj->disableProxy = false;
+        $obj->hideTopButton = true;
+        self::addDataObjectHelper('hideTopButton', 'Hide Top Button', 'This will hide the button on the top menu bar');
         return $obj;
     }
 
@@ -45,7 +46,7 @@ class LiveLinks extends PluginAbstract {
     }
 
     public function getPluginVersion() {
-        return "3.2";   
+        return "4.1";
     }
 
     public function canAddLinks() {
@@ -62,6 +63,9 @@ class LiveLinks extends PluginAbstract {
     public function getHTMLMenuRight() {
         global $global;
         $obj = $this->getDataObject();
+        if($obj->hideTopButton){
+            return '';
+        }
         if (!$this->canAddLinks()) {
             return '';
         }
@@ -69,14 +73,44 @@ class LiveLinks extends PluginAbstract {
         include $global['systemRootPath'] . 'plugin/LiveLinks/view/menuRight.php';
     }
 
-    static function getAllActive() {
+    static function getAllActive($future = false, $activeOnly = true, $notStarted = false, $users_id=0, $categories_id=0) {
         global $global;
         _mysql_connect();
-        $sql = "SELECT * FROM  LiveLinks WHERE status='a' AND start_date <= now() AND end_date >= now() ORDER BY start_date ";
+        $sql = "SELECT * FROM  LiveLinks WHERE 1=1 ";
+
+        if (!empty($future)) {
+            $sql .= " AND end_date >= now() ";
+        }
+
+        if (!empty($activeOnly)) {
+            $sql .= " AND status='a' ";
+        }
+
+        if (!empty($notStarted)) {
+            $sql .= " AND start_date >= now() ";
+        }
+
+        if (!empty($users_id)) {
+            $sql .= " AND users_id = " . intval($users_id);
+        }
+
+        if (!empty($categories_id)) {
+            $sql .= " AND categories_id = " . intval($categories_id);
+        }
+
+        $sql .= " ORDER BY start_date ";
+        //echo $sql;//exit;
+        
+        /**
+         * 
+         * @var array $global
+         * @var object $global['mysqli'] 
+         */
         $res = $global['mysqli']->query($sql);
         $rows = array();
         if ($res) {
             while ($row = $res->fetch_assoc()) {
+                $row['link'] = str_replace('&amp;', '&', $row['link']);
                 $rows[] = $row;
             }
         } else {
@@ -84,96 +118,73 @@ class LiveLinks extends PluginAbstract {
         }
         return $rows;
     }
-    
-    
+
     static function getImage($id) {
         global $global;
         return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
     }
-    
+
     static function getImageGif($id) {
         global $global;
-        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=gif";
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=webp";
     }
 
     /**
      * 
-     * @return type array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
+     * @return string array(array("key"=>'live key', "users"=>false, "name"=>$userName, "user"=>$user, "photo"=>$photo, "UserPhoto"=>$UserPhoto, "title"=>''));
      */
     public function getLiveApplicationArray() {
         global $global;
-        $obj = $this->getDataObject();
-        $filename = $global['systemRootPath'] . 'plugin/LiveLinks/view/menuItem.html';
-        $filenameExtra = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItem.html';
-        $filenameExtraVideoPage = $global['systemRootPath'] . 'plugin/LiveLinks/view/extraItemVideoPage.html';
-        $row = LiveLinks::getAllActive();
+        
+        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');        
+        $rows = LiveLinks::getAllActive(true, true);
         $array = array();
-        $search = array(
-            '_unique_id_',
-            '_user_photo_',
-            '_title_',
-            '_user_identification_',
-            '_description_',
-            '_link_',
-            '_imgJPG_',
-            '_imgGIF_',
-            '_class_',
-            '_total_on_live_links_id_'
-        );
-        $content = file_get_contents($filename);
-        $contentExtra = file_get_contents($filenameExtra);
-        $contentExtraVideoPage = file_get_contents($filenameExtraVideoPage);
-        
-        $liveUsers = AVideoPlugin::isEnabledByName('LiveUsers');
-        
-        foreach ($row as $value) {
-            
-            if($value['type']=='unlisted'){
+        foreach ($rows as $value) {
+
+            if ($value['type'] == 'unlisted') {
                 continue;
             }
-            if($value['type']=='logged_only'){
-                if(!User::isLogged()){
+            if ($value['type'] == 'logged_only') {
+                if (!User::isLogged()) {
                     continue;
                 }
             }
-            $UserPhoto = User::getPhoto($value['users_id']);   
-            $name = User::getNameIdentificationById($value['users_id']);
-            $replace = array(
-                $value['id'],
-                $UserPhoto,
-                $value['title'],
-                $name,
-                str_replace('"', "", $value['description']),
-                self::getLink($value['id']),
-                '<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=jpg".'" class="thumbsJPG img-responsive" height="130">',
-                empty($obj->disableGifThumbs)?('<img src="'."{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$value['id']}&format=gif".'" style="position: absolute; top: 0px; height: 0px; width: 0px; display: none;" class="thumbsGIF img-responsive" height="130">'):"",
-                (isVideo())?"col-xs-6":"col-lg-2 col-md-4 col-sm-4 col-xs-6",
-                ($liveUsers?getLiveUsersLabelLiveLinks($value['id']):'')
+                        
+            $label = ($liveUsers ? getLiveUsersLabelLiveLinks($value['id']) : '');
+            //var_dump( self::getPosterToLiveFromId($value['id']),$value['id'] );exit;
+            
+            $_array = array(
+                'users_id'=>$value['users_id'],
+                'title'=>$value['title'],
+                'link'=>self::getLinkToLiveFromId($value['id']),
+                'imgJPG'=>self::getPosterToLiveFromId($value['id']),
+                'imgGIF'=>self::getPosterToLiveFromId($value['id'], 'webp'),
+                'type'=>'LiveLink',
+                'LiveUsersLabelLive'=>$label,
+                'uid'=>'liveLink_'.$value['id'],
+                'callback'=>'',
+                'startsOnDate'=>convertFromDefaultTimezoneTimeToMyTimezone($value['start_date']),
+                'class'=>'',
+                'description'=>$value['description']
             );
-
-            $newContent = str_replace($search, $replace, $content);
-            $newContentExtra = str_replace($search, $replace, $contentExtra);
-            $newContentExtraVideoPage = str_replace($search, $replace, $contentExtraVideoPage);
-            $array[] = array(
-                "type" => "LiveLink",
-                "html" => $newContent,
-                "htmlExtra" => $newContentExtra,
-                "htmlExtraVideoPage" => $newContentExtraVideoPage,
-                "UserPhoto" => $UserPhoto,
-                "title" => $value['title'],
-                "users_id" => $value['users_id'],
-                "name" => $name,
-                "poster" => self::getPosterToLiveFromId($value['id']),
-                "link" => self::getLinkToLiveFromId($value['id'], true)
-            );
+            
+            $row = Live::getLiveApplicationModelArray($_array);
+            //var_dump($row);exit;
+            $row['categories_id'] = $value['categories_id'];
+            $row['liveLinks_id'] = $value['id'];
+            $row['start_date'] = $value['start_date'];
+            $row['end_date'] = $value['end_date'];
+            $row['end_date_my_timezone'] = convertFromDefaultTimezoneTimeToMyTimezone($value['end_date']);
+            $row['expires'] = strtotime($row['end_date_my_timezone']);
+            $array[] = $row;
+            
         }
-
+        //var_dump($rows, $array);exit;
         return $array;
     }
-    
-    
+
     public function updateScript() {
-        global $global;        
+        global $global;
         if (AVideoPlugin::compareVersion($this->getName(), "2") < 0) {
             $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV2.0.sql');
             $sqlParts = explode(";", $sqls);
@@ -188,47 +199,81 @@ class LiveLinks extends PluginAbstract {
                 sqlDal::writeSql(trim($value));
             }
         }
-        
+        if (AVideoPlugin::compareVersion($this->getName(), "4.1") < 0) {
+            $sqls = file_get_contents($global['systemRootPath'] . 'plugin/LiveLinks/install/updateV4.1.sql');
+            $sqlParts = explode(";", $sqls);
+            foreach ($sqlParts as $value) {
+                sqlDal::writeSql(trim($value));
+            }
+        }
+
         return true;
     }
-    
-    
+
     public function getHeadCode() {
         global $global;
         $obj = $this->getDataObject();
         // preload image
         $js = "";
         $css = '';
-        if(!empty($obj->doNotShowLiveLinksLabel)){
+        if (!empty($obj->doNotShowLiveLinksLabel)) {
             $css .= '<style>.livelinksLabel{display: none;}</style>';
         }
-        
-        return $js.$css;
+        if(isLiveLink()){
+            $js .= '<link href="'.getURL('plugin/Live/view/live.css').'" rel="stylesheet" type="text/css"/>';
+        }
+
+        return $js . $css;
     }
-    
-    public static function getLinkToLiveFromId($id, $embed=false){
+    /**
+     * @param int $id
+     * @param boolean $embed
+     * @return string
+     */
+    public static function getLinkToLiveFromId($id, $embed = false) {
         return self::getLink($id, $embed);
     }
-    
-    public static function getLink($id, $embed=false){
+
+    public static function getLink($id, $embed = false) {
         global $global;
         //return "{$global['webSiteRootURL']}plugin/LiveLinks/view/Live.php?link={$id}".($embed?"&embed=1":"");
         $ll = new LiveLinksTable($id);
-        if(!$embed){
-            return "{$global['webSiteRootURL']}liveLink/{$id}/". urlencode(cleanURLName($ll->getTitle()));
-        }else{
-            return "{$global['webSiteRootURL']}liveLinkEmbed/{$id}/". urlencode(cleanURLName($ll->getTitle()));
+        if (!$embed) {
+            return "{$global['webSiteRootURL']}liveLink/{$id}/" . urlencode(cleanURLName($ll->getTitle()));
+        } else {
+            return "{$global['webSiteRootURL']}liveLinkEmbed/{$id}/" . urlencode(cleanURLName($ll->getTitle()));
         }
     }
 
-    public function getPosterToLiveFromId($id){
+    public static function getSourceLink($id) {
         global $global;
-        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format=jpg";
+        if (empty($id)) {
+            return false;
+        }
+        $ll = new LiveLinksTable($id);
+        if (empty($ll->getLink())) {
+            return false;
+        }
+        $liveLink = 'Invalid livelink' . $id;
+        if (filter_var($ll->getLink(), FILTER_VALIDATE_URL)) {
+            $url = parse_url($ll->getLink());
+            if ($url['scheme'] == 'https') {
+                $liveLink = $ll->getLink();
+            } else {
+                $liveLink = "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=" . urlencode($ll->getLink());
+            }
+        }
+        return $liveLink;
     }
-    
-    public static function isLiveThumbsDisabled(){
+
+    public function getPosterToLiveFromId($id, $format = 'jpg') {
+        global $global;
+        return "{$global['webSiteRootURL']}plugin/LiveLinks/getImage.php?id={$id}&format={$format}";
+    }
+
+    public static function isLiveThumbsDisabled() {
         $obj = AVideoPlugin::getDataObject("LiveLinks");
-        if(!empty($obj->disableLiveThumbs)){
+        if (!empty($obj->disableLiveThumbs)) {
             return true;
         }
         return false;
@@ -244,7 +289,7 @@ class LiveLinks extends PluginAbstract {
 
         return $file;
     }
-    
+
     public function getUploadMenuButton() {
         global $global;
         if (!$this->canAddLinks()) {
@@ -252,10 +297,8 @@ class LiveLinks extends PluginAbstract {
         }
         $obj = $this->getDataObject();
         $buttonTitle = $obj->buttonTitle;
-        //include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
+        include $global['systemRootPath'] . 'plugin/LiveLinks/getUploadMenuButton.php';
     }
-    
-    
 
     public static function getAllVideos($status = "", $showOnlyLoggedUserVideos = false, $activeUsersOnly = true) {
         global $global, $config, $advancedCustom;
@@ -268,7 +311,7 @@ class LiveLinks extends PluginAbstract {
         }
         $status = str_replace("'", "", $status);
 
-        $sql = "SELECT u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
+        $sql = "SELECT STRAIGHT_JOIN  u.*, v.*, c.iconClass, c.name as category, c.clean_name as clean_category,c.description as category_description, v.created as videoCreation, v.modified as videoModified "
                 . " FROM LiveLinks as v "
                 . " LEFT JOIN categories c ON categories_id = c.id "
                 . " LEFT JOIN users u ON v.users_id = u.id "
@@ -291,13 +334,13 @@ class LiveLinks extends PluginAbstract {
         }
 
         if ($status == "publicOnly") {
-            $sql .= " AND v.`type` = 1 ";
+            $sql .= " AND v.`type` = 'public' ";
         } elseif (!empty($status)) {
-            $sql .= " AND v.`type` = '{$status}'";
+            $sql .= " AND v.`status` = '{$status}'";
         }
 
-        if (!empty($_GET['catName'])) {
-            $catName = $global['mysqli']->real_escape_string($_GET['catName']);
+        if (!empty($_REQUEST['catName'])) {
+            $catName = ($_REQUEST['catName']);
             $sql .= " AND (c.clean_name = '{$catName}' OR c.parentId IN (SELECT cs.id from categories cs where cs.clean_name =  '{$catName}' ))";
         }
 
@@ -312,12 +355,12 @@ class LiveLinks extends PluginAbstract {
             if (!empty($_GET['limitOnceToOne'])) {
                 $sql .= " LIMIT 1";
                 unset($_GET['limitOnceToOne']);
-            }else{
+            } else {
                 $_REQUEST['rowCount'] = getRowCount();
                 if (!empty($_REQUEST['rowCount'])) {
                     $sql .= " LIMIT {$_REQUEST['rowCount']}";
                 } else {
-                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace()));
+                    _error_log("getAllVideos without limit " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                     if (empty($global['limitForUnlimitedVideos'])) {
                         $global['limitForUnlimitedVideos'] = 100;
                     }
@@ -338,20 +381,21 @@ class LiveLinks extends PluginAbstract {
         if ($res != false) {
             foreach ($fullData as $row) {
                 $row = cleanUpRowFromDatabase($row);
+                $row['link'] = str_replace('&amp;', '&', $row['link']);
                 if (empty($otherInfo)) {
                     $otherInfo = array();
                     $otherInfo['category'] = xss_esc_back($row['category']);
-                    $otherInfo['groups'] = UserGroups::getVideoGroups($row['id']);
+                    //$otherInfo['groups'] = UserGroups::getVideosAndCategoriesUserGroups($row['id']);
                     //$otherInfo['title'] = UTF8encode($row['title']);
                     $otherInfo['description'] = UTF8encode($row['description']);
                     $otherInfo['descriptionHTML'] = Video::htmlDescription($otherInfo['description']);
                     $otherInfo['filesize'] = 0;
                 }
-                
+
                 foreach ($otherInfo as $key => $value) {
                     $row[$key] = $value;
                 }
-                
+
                 $row['rotation'] = 0;
                 $row['filename'] = '';
                 $row['type'] = 'livelinks';
@@ -364,11 +408,109 @@ class LiveLinks extends PluginAbstract {
             }
             //$videos = $res->fetch_all(MYSQLI_ASSOC);
         } else {
-            $videos = false;
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+            //die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $videos;
     }
 
+    static function notifySocketToRemoveLiveLinks($liveLinks_id) {
+        $array = array();
+        $array['stats'] = getStatsNotifications();
+        $array['autoEvalCodeOnHTML'] = '$(".liveLink_' . $liveLinks_id . '").slideUp();';
+        $socketObj = sendSocketMessageToAll($array, 'socketRemoveLiveLinks');
+        return $socketObj;
+    }
+
+    public function getFooterCode() {
+        $obj = $this->getDataObject();
+        global $global;
+
+        include $global['systemRootPath'] . 'plugin/LiveLinks/view/footer.php';
+        return '<!-- LiveLinks Footer Code -->';
+    }
+
+    static function userCanWatch($users_id, $livelinks_id) {
+        if (empty($livelinks_id)) {
+            return false;
+        }
+
+        if (User::isAdmin()) {
+            return true;
+        }
+
+        $livelinks = new LiveLinksTable($livelinks_id);
+        if ($livelinks->getUsers_id() == $users_id) {
+            return true;
+        }
+
+        $user_groups_ids = LiveLinksTable::getUserGorupsIds($livelinks_id);
+        if (empty($user_groups_ids)) {
+            return true;
+        }
+        
+        if (empty($users_id)) {
+            return false;
+        }
+
+        return LiveLinksTable::userGroupsMatch($livelinks_id, $users_id);
+    }
+
+    public static function getDinamicVideoLink($videoLink, $title, $owner_users_id) {
+        global $global;
+        $video = new stdClass();
+        $video->videoLink = $videoLink;
+        $video->title = $title;
+        $video->users_id = $owner_users_id;
+
+        $hash = encryptString(_json_encode($video));
+
+        return "{$global['webSiteRootURL']}liveLink/0/?hash={$hash}";
+    }
+
+    public static function decodeDinamicVideoLink() {
+
+        if (empty($_REQUEST['hash'])) {
+            return false;
+        }
+
+        $string = decryptString($_REQUEST['hash']);
+        $video = _json_decode($string);
+        //var_dump($video);exit;
+        $t = array();
+        $t['id'] = -1;
+        $t['users_id'] = $video->users_id;
+        $t['title'] = $video->title;
+        $t['link'] = $video->videoLink;
+        $t['description'] = @$video->description;
+        return $t;
+    }
+    
+    public static function getMediaSession($id) {
+        $ll = new LiveLinksTable($id);
+        
+        if(empty($ll->getUsers_id())){
+            return false;
+        }
+        
+        $posters = array();
+        //var_dump($posters);exit;
+        $category = Category::getCategory($ll->getCategories_id());
+        $MediaMetadata = new stdClass();
+
+        $MediaMetadata->title = $ll->getTitle();
+        $MediaMetadata->artist = User::getNameIdentificationById($ll->getUsers_id());
+        $MediaMetadata->album = $category['name'];
+        $MediaMetadata->artwork = array();
+        
+        $poster = LiveLinks::getImage($id);
+        $MediaMetadata->artwork[] = array('src' => $poster, 'sizes' => "512x512", 'type' => 'image/jpg');
+        /*
+        foreach ($posters as $key => $value) {
+            $MediaMetadata->artwork[] = array('src' => $value['url'], 'sizes' => "{$key}x{$key}", 'type' => 'image/jpg');
+        }
+         * 
+         */
+        return $MediaMetadata;
+    }
 
 }

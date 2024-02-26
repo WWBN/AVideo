@@ -1,0 +1,6 @@
+{
+  "bucketId" : "testId",
+  "accountId" : "010203040506",
+  "bucketName" : "Test bucket",
+  "bucketType" : "allPrivate"
+}

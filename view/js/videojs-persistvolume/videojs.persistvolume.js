@@ -12,7 +12,7 @@
   // checking that module is an object too because of umdjs/umd#35
   } else if (typeof exports === 'object' && typeof module === 'object') {
     factory(window, document, require('video.js'));
-  } else {
+  } else if(typeof videojs != 'undefined'){
     factory(window, document, videojs);
   }
 
@@ -118,6 +118,6 @@
     }
   };
 
-  vjs.plugin("persistvolume", volumePersister);
+  vjs.registerPlugin("persistvolume", volumePersister);
 
 });

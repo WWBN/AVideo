@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'autoload.php';
 
-header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: Content-Type");
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 $timeLog = __FILE__ . "::Login ";
@@ -14,7 +14,7 @@ TimeLogStart($timeLog);
 
 // gettig the mobile submited value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, true); //convert JSON into array
+$input = _json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
@@ -27,17 +27,15 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-Category::clearCacheCount();
+//Category::clearCacheCount();
 TimeLogEnd($timeLog, __LINE__);
-_error_log("Start Login Request");
 
-_error_log("redirectUri: " . $_POST['redirectUri']);
-
-if (!preg_match("|^" . $global['webSiteRootURL'] . "|", $_POST['redirectUri'])) {
+if(!isSameDomain($global['webSiteRootURL'], $_POST['redirectUri'])){
     $_POST['redirectUri'] = $global['webSiteRootURL'];
 }
+//_error_log("Start Login Request redirectUri=" . $_POST['redirectUri']);
 
-_error_log("same redirectUri: " . $_POST['redirectUri']);
+//User::logoff();
 
 use Hybridauth\Hybridauth;
 use Hybridauth\HttpClient;
@@ -62,20 +60,24 @@ if (!empty($_GET['type'])) {
                         "id" => trim($obj->id),
                         "team_id" => trim($obj->team_id),
                         "key_id" => trim($obj->key_id),
-                        "key_content" => trim($obj->key_content->value)
+                        "key_content" => trim($obj->key_content->value),
                     ],
                     "scope" => "name email",
-                    "verifyTokenSignature" => true
-                ]
+                    "verifyTokenSignature" => true,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
-                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  // Path to file writable by the web server. Required if 'debug_mode' is not false
                   'debug_file' => __FILE__ . '.log', */
         ];
     } else {
         $login = AVideoPlugin::getLogin();
         foreach ($login as $value) {
+            if(!is_object($value['loginObject'])){
+                //_error_log('Error on getLogin: '. json_encode($value), AVideoLog::$ERROR);
+                continue;
+            }
             $obj = $value['loginObject']->getDataObject();
             if ($value['parameters']->type === $_GET['type']) {
                 $id = $obj->id;
@@ -84,7 +86,7 @@ if (!empty($_GET['type'])) {
             }
         }
         if (empty($id)) {
-            die(sprintf(__("%s ERROR: You must set a ID on config"), $_GET['type']));
+            die(sprintf(__("%s ERROR: You must set an ID on config"), $_GET['type']));
         }
 
         if (empty($key)) {
@@ -106,8 +108,8 @@ if (!empty($_GET['type'])) {
                     'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
                     "includeEmail" => true,
                     'scope' => $scope,
-                    'trustForwarded' => false
-                ]
+                    'trustForwarded' => false,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
@@ -144,7 +146,7 @@ if (!empty($_GET['type'])) {
             _session_start();
             $location = $_SESSION['redirectUri'];
             //header("Location: {$_SESSION['redirectUri']}");
-            $_SESSION['redirectUri'] = "";
+            $_SESSION['redirectUri'] = '';
             unset($_SESSION['redirectUri']);
         } else {
             $location = $global['webSiteRootURL'];
@@ -155,8 +157,10 @@ if (!empty($_GET['type'])) {
         //header("Location: {$global['webSiteRootURL']}user?error=" . urlencode($e->getMessage()));
         //echo $e->getMessage();
     }
-    header('Content-Type: text/html');
-    ?>
+    if (!isSameDomainAsMyAVideo($location)) {
+        $location = $global['webSiteRootURL'];
+    }
+    header('Content-Type: text/html'); ?>
     <script>
         window.opener = self;
         if (window.name == 'loginYPT') {
@@ -191,12 +195,27 @@ if (empty($_POST['user']) || empty($_POST['pass'])) {
     die(json_encode($object));
 }
 $user = new User(0, $_POST['user'], $_POST['pass']);
+if(!empty($user)){
+    _error_log("login.json.php user found [{$_POST['user']}]");
+}else{
+    _error_log("login.json.php user not found [{$_POST['user']}]");
+}
+//_error_log("login.json.php trying to login");
+
+_session_start();
 $resp = $user->login(false, @$_POST['encodedPass']);
+//_error_log("login.json.php login respond something");
 TimeLogEnd($timeLog, __LINE__);
 $object->isCaptchaNeed = User::isCaptchaNeed();
 if ($resp === User::USER_NOT_VERIFIED) {
     _error_log("login.json.php User not verified");
-    $object->error = __("Your user is not verified, we sent you a new e-mail");
+    $object->error = __("Please verify your email address");
+    die(json_encode($object));
+}
+
+if ($resp === User::SYSTEM_ERROR) {
+    _error_log("login.json.php System error", AVideoLog::$ERROR);
+    $object->error = __("System error, check your logs");
     die(json_encode($object));
 }
 
@@ -212,17 +231,18 @@ if ($resp === User::REQUIRE2FA) {
     die(json_encode($object));
 }
 
-//_error_log("login.json.php setup object");
+////_error_log("login.json.php setup object");
 $object->siteLogo = $global['webSiteRootURL'] . $config->getLogo();
 $object->id = User::getId();
+$object->age = User::getAge();
 $object->user = User::getUserName();
 $object->donationLink = User::donationLink();
 $object->name = User::getName();
-//_error_log("login.json.php get name identification");
+////_error_log("login.json.php get name identification");
 $object->nameIdentification = User::getNameIdentification();
 $object->pass = User::getUserPass();
 $object->email = User::getMail();
-//_error_log("login.json.php get channel name");
+////_error_log("login.json.php get channel name");
 $object->channelName = User::_getChannelName($object->id);
 $object->photo = User::getPhoto();
 $object->backgroundURL = User::getBackground($object->id);
@@ -230,20 +250,25 @@ $object->isLogged = User::isLogged();
 $object->isAdmin = User::isAdmin();
 $object->canUpload = User::canUpload();
 $object->canComment = User::canComment();
+$object->canMeet = AVideoPlugin::isEnabledByName('Meet');
 $object->canCreateCategory = Category::canCreateCategory();
 $object->theme = getCurrentTheme();
 $object->canStream = User::canStream();
 $object->redirectUri = @$_POST['redirectUri'];
 $object->embedChatUrl = '';
 $object->embedChatUrlMobile = '';
-if (AVideoPlugin::isEnabled('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
+$object->age = User::getAge();
+
+//_error_log("login.json.php check chat2");
+if (AVideoPlugin::isEnabledByName('Chat2') && method_exists('Chat2', 'getChatRoomLink')) {
     $object->embedChatUrl = Chat2::getChatRoomLink(User::getId(), 1, 1, 0, true);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrl, 'mobileMode', 1);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'user', $object->user);
     $object->embedChatUrlMobile = addQueryStringParameter($object->embedChatUrlMobile, 'pass', $object->pass);
 }
-//_error_log("login.json.php setup object done");
+////_error_log("login.json.php setup object done");
 
+//_error_log("login.json.php check redirect");
 if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRootURL'])) {
     if (!empty($advancedCustomUser->afterLoginGoToMyChannel)) {
         $object->redirectUri = User::getChannelLink();
@@ -252,21 +277,24 @@ if ((empty($object->redirectUri) || $object->redirectUri === $global['webSiteRoo
     }
 }
 
+////_error_log("login.json.php userCanNotChangeCategory");
 if (empty($advancedCustomUser->userCanNotChangeCategory) || User::isAdmin()) {
     //_error_log("login.json.php get categories");
     $object->categories = Category::getAllCategories(true);
+    //_error_log("login.json.php get categories done");
     if (is_array($object->categories)) {
         array_multisort(array_column($object->categories, 'hierarchyAndName'), SORT_ASC, $object->categories);
     }
 } else {
-    $object->categories = array();
+    $object->categories = [];
 }
-//_error_log("login.json.php get user groups");
+////_error_log("login.json.php get user groups");
 TimeLogEnd($timeLog, __LINE__);
+//_error_log("login.json.php getAllUsersGroups");
 $object->userGroups = UserGroups::getAllUsersGroups();
 TimeLogEnd($timeLog, __LINE__);
-$object->streamServerURL = "";
-$object->streamKey = "";
+$object->streamServerURL = '';
+$object->streamKey = '';
 if ($object->isLogged) {
     $timeLog2 = __FILE__ . "::Is Logged ";
     TimeLogStart($timeLog2);
@@ -280,16 +308,16 @@ if ($object->isLogged) {
             $object->streamServerURL = $p->getServer() . "?p=" . User::getUserPass();
             $object->streamKey = $trasnmition['key'];
         } else {
-            _error_log('login.json.php transmissionKey is empty [' . User::getId() . ']');
+            //_error_log('login.json.php transmissionKey is empty [' . User::getId() . ']');
         }
     } else {
-        _error_log('login.json.php live plugin is disabled');
+        //_error_log('login.json.php live plugin is disabled');
     }
     TimeLogEnd($timeLog2, __LINE__);
     //_error_log("login.json.php get MobileManager");
     $p = AVideoPlugin::loadPluginIfEnabled("MobileManager");
     if (!empty($p)) {
-        $object->streamer = json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
+        $object->streamer = _json_decode(url_get_contents($global['webSiteRootURL'] . "objects/status.json.php"));
         $object->plugin = $p->getDataObject();
         $object->encoder = $config->getEncoderURL();
     }
@@ -313,11 +341,17 @@ if ($object->isLogged) {
     }
     TimeLogEnd($timeLog2, __LINE__);
 } else {
-    _error_log('login.json.php is not logged');
+    //_error_log('login.json.php is not logged');
 }
+
+$object->PHPSESSID = session_id();
+
 TimeLogEnd($timeLog, __LINE__);
 //_error_log("login.json.php almost complete");
 $json = _json_encode($object);
 //_error_log("login.json.php complete");
 //header("Content-length: " . strlen($json));
+//_error_log('login.json.php is done '.User::getId());
+_session_write_close();
 echo $json;
+exit;

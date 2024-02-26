@@ -10,13 +10,12 @@ if (!User::canUpload()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Subscribes") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -30,11 +29,15 @@ if (!User::canUpload()) {
                     <?php echo __("Subscribes"); ?>
                 </div>
                 <div class="panel-body">
-                    <button type="button" class="btn btn-success pull-right" id="sendSubscribeBtn">
+                    <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
+                    <?php
+                    echo getTinyMCE("emailMessage");
+                    ?>
+                </div>
+                <div class="panel-heading">
+                    <button type="button" class="btn btn-success btn-lg btn-block" id="sendSubscribeBtn">
                         <i class="fas fa-envelope-square"></i> <?php echo __("Notify Subscribers"); ?>
                     </button>
-                    <div class="clearfix hidden-sm hidden-md hidden-lg"></div>
-                    <textarea id="emailMessage" placeholder="<?php echo __("Enter text"); ?> ..." style="width: 100%;"></textarea>
                 </div>
                 <div class="panel-footer">
                     <table id="grid" class="table table-condensed table-hover table-striped">
@@ -54,7 +57,6 @@ if (!User::canUpload()) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap3-wysiwyg/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
         <script>
             function _subscribe(email, user_id, id) {
                 $('#subscribe' + id + ' span').addClass("fa-spinner");
@@ -87,7 +89,7 @@ if (!User::canUpload()) {
                 $.ajax({
                     url: '<?php echo $global['webSiteRootURL']; ?>objects/notifySubscribers.json.php',
                     method: 'POST',
-                    data: {'message': $('#emailMessage').val()},
+                    data: {'message': $(tinymce.get('emailMessage').getBody()).html()},
                     success: function (response) {
                         console.log(response);
                         if (response.error) {
@@ -100,7 +102,6 @@ if (!User::canUpload()) {
                 });
             }
             $(document).ready(function () {
-                $('#emailMessage').wysihtml5();
                 var grid = $("#grid").bootgrid({
                     labels: {
                         noResults: "<?php echo __("No results found!"); ?>",

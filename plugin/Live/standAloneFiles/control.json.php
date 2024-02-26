@@ -2,9 +2,9 @@
 
 /**
  * This file intent to control some features from NGINX based on the control module https://github.com/arut/nginx-rtmp-module/wiki/Control-module
- * 
+ *
  * This file suppose to sit on the same server as the live stream, and for security reasons you may want to setup your control module in a different port, listning only localhost o port 8080
- * 
+ *
   http {
     ...
     server {
@@ -15,12 +15,13 @@
         }
     }
   }
+ * For more information please check this https://github.com/WWBN/AVideo/wiki/Live-Plugin#control
  */
-$streamerURL = "https://demo.avideo.com/"; // change it to your streamer URL
-$record_path = "/var/www/tmp/"; //update this URL
 
-$server_name = "localhost";
-$port = "8080";
+$streamerURL = "http://192.168.0.2/YouPHPTube/"; // change it to your streamer URL
+$record_path = "/var/www/tmp/"; //update this URL
+$controlServer = "http://localhost:8080/";
+
 /*
  * DO NOT EDIT AFTER THIS LINE
  */
@@ -32,9 +33,19 @@ $configFile = '../../../videos/configuration.php';
 if (file_exists($configFile)) {
     include_once $configFile;
     $streamerURL = $global['webSiteRootURL'];
+    $live = AVideoPlugin::getObjectDataIfEnabled('Live');
+    if (empty($live)) {
+        return false;
+    }
+    $controlServer = $live->controlServer;
+    $controlServer = addLastSlash($controlServer);
 }
 
-error_log("Control.json.php start");
+if (!empty($_REQUEST['streamerURL'])) {
+    $streamerURL = $_REQUEST['streamerURL'];
+}
+
+error_log("Control.json.php start ".json_encode($_REQUEST));
 
 $obj = new stdClass();
 $obj->error = true;
@@ -46,6 +57,10 @@ $obj->app = $_REQUEST['app'];
 $obj->name = $_REQUEST['name'];
 $obj->response = "";
 $obj->requestedURL = "";
+
+if (!preg_match('/^live/i', $obj->app)) {
+    $obj->app = 'live';
+}
 
 // check the token
 if (empty($obj->token)) {
@@ -68,12 +83,12 @@ $verifyTokenURL = "{$obj->streamerURL}plugin/Live/verifyToken.json.php?token={$o
 
 error_log("Control.json.php verifying token {$verifyTokenURL}");
 
-$arrContextOptions=array(
-    "ssl"=>array(
+$arrContextOptions=[
+    "ssl"=>[
         "verify_peer"=>false,
         "verify_peer_name"=>false,
-    ),
-);  
+    ],
+];
 
 $content = file_get_contents($verifyTokenURL, false, stream_context_create($arrContextOptions));
 
@@ -84,7 +99,7 @@ if (empty($json)) {
     $obj->msg = "Could not verify token";
     error_log("Control.json.php ERROR {$obj->msg} ({$verifyTokenURL}) ");
     die(json_encode($obj));
-} else if (!empty($json->error)) {
+} elseif (!empty($json->error)) {
     $obj->msg = "Token is invalid";
     error_log("Control.json.php ERROR {$obj->msg} ({$verifyTokenURL}) " . json_encode($json));
     die(json_encode($obj));
@@ -102,19 +117,19 @@ flush();
 switch ($obj->command) {
     case "record_start":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/record/start?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/record/start?app={$obj->app}&name={$obj->name}&rec=video";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
     case "record_stop":
         //http://server.com/control/record/start|stop?srv=SRV&app=APP&name=NAME&rec=REC
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/record/stop?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/record/stop?app={$obj->app}&name={$obj->name}&rec=video";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
     case "drop_publisher":
         //http://server.com/control/drop/publisher|subscriber|client?srv=SRV&app=APP&name=NAME&addr=ADDR&clientid=CLIENTID
-        $obj->requestedURL = "http://{$server_name}:{$port}/control/drop/publisher?app={$obj->app}&name={$obj->name}";
+        $obj->requestedURL = "{$controlServer}control/drop/publisher?app={$obj->app}&name={$obj->name}";
         $obj->response = @file_get_contents($obj->requestedURL);
         $obj->error = false;
         break;
@@ -124,7 +139,7 @@ switch ($obj->command) {
         // check the last file change time, if is less then x seconds it is recording
         $files = glob("$record_path/{$obj->name}*.flv");
         foreach ($files as $value) {
-            if(time()<=filemtime($value)+$tolerance){
+            if (time()<=filemtime($value)+$tolerance) {
                 $obj->response = true;
                 break;
             }
@@ -133,7 +148,6 @@ switch ($obj->command) {
         break;
 
     default:
-
         $obj->msg = "Command is invalid ($obj->command)";
         die(json_encode($obj));
         break;

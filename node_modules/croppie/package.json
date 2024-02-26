@@ -1,0 +1,40 @@
+{
+  "name": "croppie",
+  "version": "2.6.5",
+  "description": "A simple javascript image cropper",
+  "main": "croppie.js",
+  "devDependencies": {
+    "gh-pages": "^0.11.0",
+    "mocha": "2.4.5",
+    "uglify-js": "3.3.15"
+  },
+  "scripts": {
+    "test": "mocha test/unit",
+    "deploy": "node deploy.js",
+    "uglify": "uglifyjs croppie.js -c -m -r '$,require,exports' -o croppie.min.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Foliotek/Croppie.git"
+  },
+  "keywords": [
+    "crop",
+    "cropper",
+    "image",
+    "cropping"
+  ],
+  "authors": [
+    "Dustin Smith <thedustinsmith@gmail.com>",
+    "Ethan Calvert <calvert1591@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Foliotek/Croppie/issues"
+  },
+  "homepage": "http://foliotek.github.io/Croppie",
+  "files": [
+    "croppie.css",
+    "croppie.js",
+    "croppie.min.js"
+  ]
+}

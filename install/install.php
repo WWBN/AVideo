@@ -1,5 +1,4 @@
 <?php
-
 require_once '../objects/functions.php';
 if (!isCommandLineInterface()) {
     die('Command Line only');
@@ -16,26 +15,29 @@ if (version_compare(phpversion(), '7.2', '<')) {
 }
 
 $webSiteRootURL = @$argv[1];
-$webSiteRootURL = preg_replace("/[^0-9a-z._\/:]/i", "", trim($webSiteRootURL));
-$databaseUser = empty($argv[2])?$databaseUser:$argv[2];
-$databasePass = empty($argv[3])?$databasePass:$argv[3];
-$systemAdminPass = empty($argv[4])?"123":$argv[4];
-$contactEmail = empty($argv[5])?"undefined@youremail.com":$argv[5];
-while (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
+$webSiteRootURL = preg_replace("/[^0-9a-z._\/:-]/i", "", trim($webSiteRootURL));
+$databaseUser = empty($argv[2]) ? $databaseUser : $argv[2];
+$databasePass = empty($argv[3]) ? $databasePass : $argv[3];
+$systemAdminPass = empty($argv[4]) ? "123" : $argv[4];
+$contactEmail = empty($argv[5]) ? "undefined@youremail.com" : $argv[5];
+if (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
     if (!empty($webSiteRootURL)) {
         echo "Invalid Site URL ({$webSiteRootURL})\n";
     }
     echo "Enter Site URL\n";
-    ob_flush();
+    @ob_flush();
     $webSiteRootURL = trim(readline(""));
+    if (!filter_var($webSiteRootURL, FILTER_VALIDATE_URL)) {
+        die("Invalid Site URL ({$webSiteRootURL})\n");
+    }
 }
 
 $webSiteRootURL = rtrim($webSiteRootURL, '/') . '/';
 
 $_POST['systemRootPath'] = str_replace("install", "", getcwd());
-if(!is_dir($_POST['systemRootPath'])){
+if (!is_dir($_POST['systemRootPath'])) {
     $_POST['systemRootPath'] = "/var/www/html/YouPHPTube/";
-    if(!is_dir($_POST['systemRootPath'])){
+    if (!is_dir($_POST['systemRootPath'])) {
         $_POST['systemRootPath'] = "/var/www/html/AVideo/";
     }
 }

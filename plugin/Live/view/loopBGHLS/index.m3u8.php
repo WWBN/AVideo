@@ -2,10 +2,10 @@
 header("Content-Type: audio/x-mpegurl");
 session_start();
 $dirURL = "";
-if(!empty($global['webSiteRootURL'])){
+if (!empty($global['webSiteRootURL'])) {
     $dirURL = "{$global['webSiteRootURL']}plugin/Live/view/loopBGHLS/";
 }
-if(empty($_GET['res'])){
+if (empty($_GET['res'])) {
     ?>#EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=300000

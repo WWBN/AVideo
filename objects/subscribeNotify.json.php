@@ -1,6 +1,6 @@
 <?php
 // gettig the mobile submited value
-if(empty($_POST) && !empty($_GET)){
+if (empty($_POST) && !empty($_GET)) {
     foreach ($_GET as $key => $value) {
         $_POST[$key]=$value;
     }
@@ -8,8 +8,8 @@ if(empty($_POST) && !empty($_GET)){
 require_once 'subscribe.php';
 header('Content-Type: application/json');
 $obj = new stdClass();
-$obj->error = "";
-$obj->subscribe = "";
+$obj->error = '';
+$obj->subscribe = '';
 if (!User::isLogged()) {
     $obj->error = "Must be logged";
     die(json_encode($obj));

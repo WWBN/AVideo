@@ -1,4 +1,5 @@
 <?php
+
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
 if (!isset($global['systemRootPath'])) {
     $configFile = '../../videos/configuration.php';
@@ -7,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
     }
     require_once $configFile;
 }
-session_write_close();
+_session_write_close();
 _mysql_close();
 if (!isCommandLineInterface() && empty($byPassCommandLine)) {
     die('Command Line only');

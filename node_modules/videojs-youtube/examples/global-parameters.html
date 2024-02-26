@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="../node_modules/video.js/dist/video-js.min.css" />
+</head>
+<body>
+  <video
+    id="vid1"
+    class="video-js vjs-default-skin"
+    width="640" height="264"
+    data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/watch?v=xjS6SftYQaQ"}] }'
+  >
+  </video>
+
+  <script src="../node_modules/video.js/dist/video.js"></script>
+  <script src="../dist/Youtube.js"></script>
+  <script>
+  // You can use any YouTube player parameters
+  // https://developers.google.com/youtube/player_parameters?playerVersion=HTML5#Parameters
+  // To use YouTube controls, you must use ytControls instead
+  // To use the loop or autoplay, use the video.js settings
+  // The language is set to the same as video.js by default
+  videojs.setGlobalOptions({
+    youtube: {
+      ytControls: 2,
+      rel: 1,
+      autohide: 0
+    }
+  });
+  </script>
+</body>
+</html>

@@ -1,15 +1,14 @@
 <?php
-
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/comment.php';
 require_once $global['systemRootPath'] . 'objects/subscribe.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-header('Access-Control-Allow-Origin: *');
+allowOrigin();
 header('Content-Type: application/json');
 if (empty($_POST['current']) && !empty($_GET['current'])) {
     $_POST['current'] = $_GET['current'];
@@ -29,14 +28,14 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
 }
 
 $objMob = AVideoPlugin::getObjectData("MobileManager");
-if(!empty($random)){
+if (!empty($random)) {
     $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
     if (empty($video)) {
         $video = Video::getVideo("", "viewableNotUnlisted", true, true);
     }
-    $videos = array($video);
+    $videos = [$video];
     $total = 1;
-}else if ($objMob->netflixStyle) {
+} elseif ($objMob->netflixStyle) {
     $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
     $total = Video::getTotalVideos("viewableNotUnlisted", false, true);
 } else {
@@ -45,8 +44,7 @@ if(!empty($random)){
 }
 
 foreach ($videos as $key => $value) {
-    unset($videos[$key]['password']);
-    unset($videos[$key]['recoverPass']);
+    unset($videos[$key]['password'], $videos[$key]['recoverPass']);
     $images = Video::getImageFromFilename($videos[$key]['filename'], $videos[$key]['type']);
     $videos[$key]['images'] = $images;
     $videos[$key]['Poster'] = !empty($objMob->portraitImage) ? $images->posterPortrait : $images->poster;
@@ -55,22 +53,16 @@ foreach ($videos as $key => $value) {
     $videos[$key]['VideoUrl'] = getVideosURL($videos[$key]['filename']);
     $videos[$key]['createdHumanTiming'] = humanTiming(strtotime($videos[$key]['created']));
     $videos[$key]['pageUrl'] = "{$global['webSiteRootURL']}video/" . $videos[$key]['clean_title'];
-    $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbeded/" . $videos[$key]['clean_title'];
-    unset($_POST['sort']);
-    unset($_POST['current']);
-    unset($_POST['searchPhrase']);
+    $videos[$key]['embedUrl'] = "{$global['webSiteRootURL']}videoEmbed/" . $videos[$key]['clean_title'];
+    unset($_POST['sort'], $_POST['current'], $_POST['searchPhrase']);
     $_REQUEST['rowCount'] = 10;
     $_POST['sort']['created'] = "desc";
     $videos[$key]['comments'] = Comment::getAllComments($videos[$key]['id']);
     $videos[$key]['commentsTotal'] = Comment::getTotalComments($videos[$key]['id']);
-    foreach ($videos[$key]['comments'] as $key2 => $value2) {
-        $user = new User($value2['users_id']);
-        $videos[$key]['comments'][$key2]['userPhotoURL'] = User::getPhoto($videos[$key]['comments'][$key2]['users_id']);
-        $videos[$key]['comments'][$key2]['userName'] = $user->getNameIdentificationBd();
-    }
+    $videos[$key]['comments'] = Comment::addExtraInfo($videos[$key]['comments']);
     $videos[$key]['subscribers'] = Subscribe::getTotalSubscribes($videos[$key]['users_id']);
 
-    $videos[$key]['firstVideo'] = "";
+    $videos[$key]['firstVideo'] = '';
     foreach ($videos[$key]['VideoUrl'] as $value2) {
         if ($value2["type"] === 'video') {
             $videos[$key]['firstVideo'] = $value2["url"];

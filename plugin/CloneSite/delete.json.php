@@ -8,14 +8,14 @@ $obj->error = true;
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('CloneSite');
 
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+if (!User::isAdmin()) {
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
 $id = intval($_POST['id']);
 $row = new Clones($id);
-if(User::isAdmin()){
+if (User::isAdmin()) {
     $row->delete();
     $obj->error = false;
 }

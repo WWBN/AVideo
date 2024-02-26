@@ -1,4 +1,5 @@
 <?php
+
 header('Content-Type: application/json');
 require_once '../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/AD_Server/Objects/VastCampaignsVideos.php';
@@ -9,8 +10,8 @@ $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('AD_Server');
 
-if(!User::isAdmin()){
-    $obj->msg = "You cant do this";
+if (!User::isAdmin()) {
+    $obj->msg = "You can't do this";
     die(json_encode($obj));
 }
 
@@ -23,7 +24,7 @@ $o->setLink($_POST['uri']);
 $o->setAd_title($_POST['title']);
 $o->setStatus('a');
 
-if($o->save()){
+if ($o->save()) {
     $obj->error = false;
 }
 echo json_encode($obj);

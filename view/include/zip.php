@@ -14,7 +14,7 @@ $sources = getVideosURLZIP($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
             <center>
                 <div class="panel panel-default">
                     <div class="panel-heading"><i class="far fa-file-archive"></i> <?php echo $video['title']; ?></div>
@@ -25,10 +25,17 @@ $sources = getVideosURLZIP($video['filename']);
                             $za->open($sources['zip']["path"]);
                             for ($i = 0; $i < $za->numFiles; $i++) {
                                 $stat = $za->statIndex($i);
-                                $fname = basename($stat['name']);
-                                ?>
+                                $fname = basename($stat['name']); ?>
                             <li class="list-group-item" style="text-align: left;"><i class="<?php echo fontAwesomeClassName($fname) ?>"></i> <?php echo $fname; ?></li>
                                 <?php
+                                if($i==15){
+                                    if($za->numFiles>15){
+                                        ?>
+                                        <li class="list-group-item" style="text-align: left;"><?php echo __('Total'), ' ', $za->numFiles, ' ', __('Files'); ?>...</li>
+                                        <?php
+                                    }
+                                    break;
+                                }
                             }
                             ?>
                         </ul>
@@ -42,21 +49,6 @@ $sources = getVideosURLZIP($video['filename']);
             </script>
 
         </div>
-        <?php
-        if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-
-            require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-            $style = VideoLogoOverlay::getStyle();
-            $url = VideoLogoOverlay::getLink();
-            ?>
-            <div style="<?php echo $style; ?>">
-                <a href="<?php echo $url; ?>"  target="_blank">
-                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
-                </a>
-            </div>
-            <?php
-        }
-        ?>
     </div>
 </div>
 <script>

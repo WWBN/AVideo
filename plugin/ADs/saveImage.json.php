@@ -11,17 +11,18 @@ $result->msg = '';
 $result->url = '';
 $result->imageURL = '';
 
-
-if (!User::isAdmin()) {
-    $result->msg = __("You can not do this");
-    die(json_encode($result));
-}
-
 require_once $global['systemRootPath'] . 'plugin/API/API.php';
 $obj = AVideoPlugin::getObjectDataIfEnabled("ADs");
 if (empty($obj)) {
     $result->msg = __("The plugin is disabled");
     die(json_encode($result));
+}
+
+$is_admin = User::isAdmin();
+
+if (empty($is_admin) && !ADs::canHaveCustomAds()) {
+    gotToLoginAndComeBackHere(__("You can not do this"));
+    exit;
 }
 
 $type = $_REQUEST['type'];
@@ -32,7 +33,7 @@ if (empty($type)) {
 
 $typeFound = false;
 foreach (ADs::$AdsPositions as $key => $value) {
-    if($type===$value[0]){
+    if ($type === $value[0]) {
         $typeFound = true;
         break;
     }
@@ -43,23 +44,45 @@ if (empty($typeFound)) {
     die(json_encode($result));
 }
 
-if(!IsValidURL(@$_REQUEST['url'])){
+if (!isset($_REQUEST['url']) || !IsValidURL($_REQUEST['url'])) {
     $_REQUEST['url'] = '';
 }
-
-$paths = ADs::getNewAdsPath($type);
-
-saveCroppieImage($paths['path'], "image");
-file_put_contents($paths['txt'], @$_REQUEST['url']);
+$is_regular_user = intval(@$_REQUEST['is_regular_user']);
 
 $result->type = $type;
-$result->url = $_REQUEST['url'];
-$result->imageURL = $paths['url'];
-$result->fileName = $paths['fileName'];
+$result->saved = false;
+$result->edited = false;
+if (empty($_REQUEST['filename'])) {
+    $paths = ADs::getNewAdsPath($type, $is_regular_user);
+    $result->pathSaved = $paths['path'];
+    $result->saved = saveCroppieImage($paths['path'], "image");
+    $result->error = false;
+} else {
+    $paths = ADs::getAdsPath($type, $is_regular_user);
+    if (empty($paths)) {
+        forbiddenPage('Ads not find');
+    }
 
-$result->error = false;
-$result->save = ADs::saveAdsHTML($type);
+    $files = _glob($paths['path'], '/.png$/');
 
+    foreach ($files as $value) {
+        $fileName = ADs::getFileName($paths['path'], $value);
+        if (empty($fileName)) {
+            continue;
+        }
+        if ($fileName == $_REQUEST['filename']) {
+            $result->pathSaved = $value;
+            $result->saved = saveCroppieImage($value, "image");
+            $result->edited = true;
+            $result->error = false;
+            break;
+        }
+    }
+}
+
+if (empty($is_regular_user)) {
+    $result->save = ADs::saveAdsHTML($type);
+}
 // save plugin parameter
 
 die(json_encode($result));

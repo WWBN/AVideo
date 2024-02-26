@@ -10,7 +10,7 @@ if (!Permissions::canAdminUsers()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Users") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

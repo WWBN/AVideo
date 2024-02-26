@@ -1,0 +1,2 @@
+ALTER TABLE `live_servers` 
+ADD COLUMN `webRTC_server` VARCHAR(255) NULL DEFAULT NULL;

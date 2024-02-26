@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-seek-buttons Demo</title>
+  <link href="node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="dist/videojs-seek-buttons.css" rel="stylesheet">
+</head>
+<body>
+  <video id="videojs-seek-buttons-player" class="video-js vjs-default-skin" controls>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+  </video>
+  <ul>
+    <li><a href="/test/debug.html">Run unit tests in browser.</a></li>
+    <li><a href="docs/api/">Read generated docs.</a></li>
+  </ul>
+  <script src="node_modules/video.js/dist/video.js"></script>
+  <script src="dist/videojs-seek-buttons.js"></script>
+  <script>
+    (function(window, videojs) {
+      var examplePlayer = window.examplePlayer = videojs('videojs-seek-buttons-player');
+      var seekButtons = window.seekButtons = examplePlayer.seekButtons({
+        forward: 30,
+        back: 10
+      });
+      // examplePlayer.src('https://cph-p2p-msl.akamaized.net/hls/live/2000341/test/master.m3u8');
+    }(window, window.videojs));
+  </script>
+</body>
+</html>

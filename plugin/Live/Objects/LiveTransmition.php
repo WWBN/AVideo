@@ -6,112 +6,147 @@ require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class LiveTransmition extends ObjectYPT {
 
-    protected $id, $title, $public, $saveTransmition, $users_id, $categories_id, $key, $description, $showOnTV;
+    protected $properties = [];
+    protected $id;
+    protected $title;
+    protected $public;
+    protected $saveTransmition;
+    protected $users_id;
+    protected $categories_id;
+    protected $key;
+    protected $description;
+    protected $showOnTV;
+    protected $password;
 
-    static function getSearchFieldsNames() {
-        return array('title');
+    public static function getSearchFieldsNames() {
+        return ['title'];
     }
 
-    static function getTableName() {
+    public static function getTableName() {
         return 'live_transmitions';
     }
 
-    function getId() {
+    public function getId() {
         return $this->id;
     }
 
-    function getTitle() {
+    public function getTitle() {
         return $this->title;
     }
 
-    function getPublic() {
+    public function getPublic() {
         return $this->public;
     }
 
-    function getSaveTransmition() {
+    public function getSaveTransmition() {
         return $this->saveTransmition;
     }
 
-    function getUsers_id() {
+    public function getUsers_id() {
         return $this->users_id;
     }
 
-    function getCategories_id() {
+    public function getCategories_id() {
         return $this->categories_id;
     }
 
-    function getKey() {
+    /**
+     * 
+     * @return string
+     */
+    public function getKey() {
         return $this->key;
     }
 
-    function getDescription() {
+    public function getDescription() {
         return $this->description;
     }
 
-    function setId($id) {
+    public function setId($id) {
         $this->id = $id;
     }
 
-    function setTitle($title) {
+    public function setTitle($title) {
         global $global;
-        //$title = $global['mysqli']->real_escape_string($title);
+        //$title = ($title);
         $this->title = xss_esc($title);
     }
 
-    function setPublic($public) {
+    public function setPublic($public) {
         $this->public = intval($public);
     }
 
-    function setSaveTransmition($saveTransmition) {
+    public function setSaveTransmition($saveTransmition) {
         $this->saveTransmition = $saveTransmition;
     }
 
-    function setUsers_id($users_id) {
+    public function setUsers_id($users_id) {
         $this->users_id = $users_id;
     }
 
-    function setCategories_id($categories_id) {
+    public function setCategories_id($categories_id) {
         $this->categories_id = $categories_id;
     }
 
-    function setKey($key) {
+    public function setKey($key) {
         $this->key = $key;
     }
 
-    function setDescription($description) {
+    public function setDescription($description) {
         global $global;
-        //$description = $global['mysqli']->real_escape_string($description);
+        //$description = ($description);
         $this->description = xss_esc($description);
     }
 
-    function loadByUser($user_id) {
+    public function loadByUser($user_id) {
         $user = self::getFromDbByUser($user_id);
-        if (empty($user))
+        if (empty($user)) {
             return false;
+        }
         foreach ($user as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
-    function loadByKey($uuid) {
+    public function loadByKey($uuid) {
         $row = self::getFromKey($uuid);
-        if (empty($row))
+        if (empty($row)) {
             return false;
+        }
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
-    static function getFromDbByUser($user_id) {
+    public static function getFromDbByUser($user_id, $refreshCache = false) {
         global $global;
+        if (!self::isTableInstalled(static::getTableName())) {
+            _error_log("Save error, table " . static::getTableName() . " does not exists", AVideoLog::$ERROR);
+            return false;
+        }
         $user_id = intval($user_id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  users_id = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "i", array($user_id), true);
+        $res = sqlDAL::readSql($sql, "i", [$user_id], $refreshCache);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
-        if ($res != false) {
+        if (!empty($data)) {
+            $latest = LiveTransmitionHistory::getLatest($data['key']);
+            if(!empty($latest)){
+                if(!isset($data['live_servers_id'])){
+                    $data['live_servers_id'] = Live::getLiveServersIdRequest();
+                }
+                $liveStreamObject = new LiveStreamObject($latest['key'], $latest['live_servers_id']);
+            }else{
+                $data['live_servers_id'] = Live::getLiveServersIdRequest();
+                $liveStreamObject = new LiveStreamObject($data['key'], $data['live_servers_id']);
+            }
+            $data['key_with_index'] = $liveStreamObject->getKeyWithIndex(true);
+            $data['live_index'] = $liveStreamObject->getIndex();
+
             $user = $data;
         } else {
             $user = false;
@@ -119,47 +154,65 @@ class LiveTransmition extends ObjectYPT {
         return $user;
     }
 
-    static function createTransmitionIfNeed($user_id) {
+    public static function createTransmitionIfNeed($user_id) {
         if (empty($user_id)) {
             return false;
         }
         $row = static::getFromDbByUser($user_id);
-        if ($row) {
-            return $row;
+        if ($row && !empty($row['key'])) {
+            $row['just_created'] = false;
+        } else {
+            $l = new LiveTransmition(0);
+            $l->setTitle("I am Live");
+            $l->setDescription("");
+            $l->setKey(uniqid());
+            $l->setCategories_id(1);
+            $l->setUsers_id($user_id);
+            $l->save();
+            $row = static::getFromDbByUser($user_id, true);
+            if(!empty($row)){
+                $row['just_created'] = true;
+            }
         }
-        $l = new LiveTransmition(0);
-        $l->setTitle("Empty Title");
-        $l->setDescription("");
-        $l->setKey(uniqid());
-        $l->setCategories_id(1);
-        $l->setUsers_id($user_id);
-        $l->save();
-        return static::getFromDbByUser($user_id);
+        return $row;
     }
 
-    static function resetTransmitionKey($user_id) {
+    public static function resetTransmitionKey($user_id) {
         $row = static::getFromDbByUser($user_id);
 
         $l = new LiveTransmition($row['id']);
         $newKey = uniqid();
         $l->setKey($newKey);
-        if($l->save()){
+        if ($l->save()) {
             return $newKey;
-        }else{
+        } else {
             return false;
         }
     }
 
-    static function getFromDbByUserName($userName) {
+    public static function getFromRequest() {
+        if (!empty($_REQUEST['live_transmitions_id'])) {
+            return LiveTransmition::getFromDb($_REQUEST['live_transmitions_id']);
+        } else if (!empty($_REQUEST['live_schedule'])) {
+            return LiveTransmition::getFromDbBySchedule($_REQUEST['live_schedule']);
+        } elseif (!empty($_REQUEST['u'])) {
+            return LiveTransmition::getFromDbByUserName($_REQUEST['u']);
+        } elseif (!empty($_REQUEST['c'])) {
+            return LiveTransmition::getFromDbByChannelName($_REQUEST['c']);
+        }
+        return false;
+    }
+
+    public static function getFromDbByUserName($userName) {
         global $global;
-        $userName = $global['mysqli']->real_escape_string($userName);
+        _mysql_connect();
         $sql = "SELECT * FROM users WHERE user = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", array($userName), true);
+        $res = sqlDAL::readSql($sql, "s", [$userName]);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
             $user = $data;
-            if(empty($user)){
+            if (empty($user)) {
                 return false;
             }
             return static::getFromDbByUser($user['id']);
@@ -168,85 +221,165 @@ class LiveTransmition extends ObjectYPT {
         }
     }
 
-    static function keyExists($key) {
+    public static function getFromDbByChannelName($channelName) {
+        global $global;
+        _mysql_connect();
+        $sql = "SELECT * FROM users WHERE channelName = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "s", [$channelName]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+            if (empty($user)) {
+                return false;
+            }
+            return static::getFromDbByUser($user['id']);
+        } else {
+            return false;
+        }
+    }
+
+    public static function getFromDbBySchedule($live_schedule_id) {
+        global $global;
+        $live_schedule_id = intval($live_schedule_id);
+        $sql = "SELECT lt.*, ls.* FROM live_schedule ls "
+                . " LEFT JOIN " . static::getTableName() . " lt ON lt.users_id = ls.users_id "
+                . " WHERE ls.id = ? LIMIT 1";
+        $res = sqlDAL::readSql($sql, "i", [$live_schedule_id]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res != false) {
+            $user = $data;
+            $user['live_schedule'] = $live_schedule_id;
+            $user['json'] = object_to_array(_json_decode($user['json']));
+        } else {
+            $user = false;
+        }
+        return $user;
+    }
+
+    public static function keyExists($key, $checkSchedule = true) {
         global $global;
         if (!is_string($key)) {
             return false;
         }
-        if(Live::isAdaptiveTransmition($key)){
+        if (Live::isAdaptiveTransmition($key)) {
             return false;
         }
         $key = Live::cleanUpKey($key);
-        
-        
-        $key = preg_replace("/[^A-Za-z0-9]/", '', $key);
-        $sql = "SELECT u.*, lt.* FROM " . static::getTableName() . " lt "
-                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' WHERE  `key` = '$key' LIMIT 1";
+        $sql = "SELECT u.*, lt.*, lt.password as live_password FROM " . static::getTableName() . " lt "
+                . " LEFT JOIN users u ON u.id = users_id AND u.status='a' "
+                . " WHERE  `key` = '$key' LIMIT 1";
         $res = sqlDAL::readSql($sql);
         $data = sqlDAL::fetchAssoc($res);
         sqlDAL::close($res);
         if ($res) {
             $row = $data;
-            $row = cleanUpRowFromDatabase($row);
+            if(!empty($row)) {
+
+                $row['live_schedule_id'] = 0;
+                $row['scheduled'] = 0;
+                $p = $row['live_password'];
+                $row = cleanUpRowFromDatabase($row);
+                $row['live_password'] = $p;
+
+                if (empty($row['users_id'])) {
+                    $row['users_id'] = 0;
+                }
+                if (!isset($row['live_servers_id'])) {
+                    $row['live_servers_id'] = Live::getLiveServersIdRequest();
+                }
+                if(AVideoPlugin::isEnabledByName('PlayLists')){
+                    $ps = Playlists_schedules::iskeyPlayListScheduled($key);
+                    if(!empty($ps)){
+                        $row['title'] = Playlists_schedules::getDynamicTitle($row['title']);
+                    }
+                }
+                if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+                    $rb = Rebroadcaster::isKeyARebroadcast($key);;
+                    if(!empty($rb) && !empty($rb['videos_id'])){
+                        $video = new Video('', '', $rb['videos_id']);
+                        $row['title'] = $video->getTitle();
+                    }
+                }
+            }
         } else {
             $row = false;
         }
-        return $row;
-    }    
 
-    function save() {
+        if ($checkSchedule && empty($row)) {
+            $row = Live_schedule::keyExists($key);
+            if (!empty($row)) {
+                $row['scheduled'] = 1;
+                $row['live_schedule_id'] = $row['id'];
+            }
+        }
+
+        return $row;
+    }
+
+    public function save() {
+        if (empty($this->users_id)) {
+            return false;
+        }
+        $row = self::getFromDbByUser($this->users_id, true);
+        if (!empty($row)) {
+            $this->id = $row['id'];
+        }
+
         $this->public = intval($this->public);
         $this->saveTransmition = intval($this->saveTransmition);
         $this->showOnTV = intval($this->showOnTV);
+        if (empty($this->password)) {
+            $this->password = '';
+        }
         $id = parent::save();
-        Category::clearCacheCount();
-        Live::deleteStatsCache(null);
-        
-        $socketObj = sendSocketMessageToAll(array('stats'=>getStatsNotifications()), "socketLiveONCallback");
-        
+        //Category::clearCacheCount();
+        deleteStatsNotifications(true);
+
+        $socketObj = sendSocketMessageToAll(['stats' => getStatsNotifications(false, false)], "socketLiveONCallback");
+
         return $id;
     }
 
-    function deleteGroupsTrasmition() {
+    public function deleteGroupsTrasmition() {
         if (empty($this->id)) {
             return false;
         }
         global $global;
         $sql = "DELETE FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
-        return sqlDAL::writeSql($sql, "i", array($this->id));
+        return sqlDAL::writeSql($sql, "i", [$this->id]);
     }
 
-    function insertGroup($users_groups_id) {
+    public function insertGroup($users_groups_id) {
         global $global;
         $sql = "INSERT INTO live_transmitions_has_users_groups (live_transmitions_id, users_groups_id) VALUES (?,?)";
-        return sqlDAL::writeSql($sql, "ii", array($this->id, $users_groups_id));
+        return sqlDAL::writeSql($sql, "ii", [$this->id, $users_groups_id]);
     }
-    
-    function isAPrivateLive(){
+
+    public function isAPrivateLive() {
         return !empty($this->getGroups());
     }
-    
-    function getGroups() {
-        $rows = array();
+
+    public function getGroups() {
+        $rows = [];
         if (empty($this->id)) {
             return $rows;
         }
         global $global;
         $sql = "SELECT * FROM live_transmitions_has_users_groups WHERE live_transmitions_id = ?";
-        $res = sqlDAL::readSql($sql, "i", array($this->id));
+        $res = sqlDAL::readSql($sql, "i", [$this->id]);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
         if ($res != false) {
             foreach ($fullData as $row) {
                 $rows[] = $row["users_groups_id"];
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
     }
 
-    function userCanSeeTransmition() {
+    public function userCanSeeTransmition() {
         global $global;
         require_once $global['systemRootPath'] . 'objects/userGroups.php';
         require_once $global['systemRootPath'] . 'objects/user.php';
@@ -256,6 +389,7 @@ class LiveTransmition extends ObjectYPT {
 
         $transmitionGroups = $this->getGroups();
         if (!empty($transmitionGroups)) {
+            _error_log('LiveTransmition::userCanSeeTransmition usergroup not empty '.json_encode($transmitionGroups));
             if (empty($this->id)) {
                 return false;
             }
@@ -279,39 +413,52 @@ class LiveTransmition extends ObjectYPT {
         }
     }
 
-    static function getFromKey($key) {
-        global $global;
-        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  `key` = ? LIMIT 1";
-        $res = sqlDAL::readSql($sql, "s", array($key), true);
-        $data = sqlDAL::fetchAssoc($res);
-        sqlDAL::close($res);
-        if ($res != false) {
-            $user = $data;
-        } else {
-            $user = false;
-        }
-        return $user;
+    public static function getFromKey($key, $checkSchedule = true) {
+        return self::keyExists($key, $checkSchedule);
     }
-    
-    static function keyNameFix($key){
+
+    public static function keyNameFix($key) {
         $key = str_replace('/', '', $key);
-        if(!empty($_REQUEST['live_index']) && !preg_match("/.*-([0-9a-zA-Z]+)/", $key)){
-            $key .= "-{$_REQUEST['live_index']}";
+        if (!empty($_REQUEST['live_index']) && !preg_match("/.*-([0-9a-zA-Z]+)/", $key)) {
+            if (!empty($_REQUEST['live_index']) && $_REQUEST['live_index'] !== 'false') {
+                $key .= "-{$_REQUEST['live_index']}";
+            }
         }
-        if(!empty($_REQUEST['playlists_id_live']) && !preg_match("/.*_([0-9]+)/", $key)){
+        if (!empty($_REQUEST['playlists_id_live']) && !preg_match("/.*_([0-9]+)/", $key)) {
             $key .= "_{$_REQUEST['playlists_id_live']}";
         }
         return $key;
     }
-    
-    function getShowOnTV() {
+
+    public function getShowOnTV() {
         return $this->showOnTV;
     }
 
-    function setShowOnTV($showOnTV) {
+    public function setShowOnTV($showOnTV) {
         $this->showOnTV = $showOnTV;
     }
 
+    public function getPassword() {
+        return $this->password;
+    }
 
+    public function setPassword($password): void {
+        $this->password = trim($password);
+    }
+
+    public static function canSaveTransmition($users_id) {
+        $lt = self::getFromDbByUser($users_id);
+        return !empty($lt['saveTransmition']);
+    }
+
+    static function getUsers_idOrCompanyFromKey($key) {
+
+        $row = self::getFromKey($key);
+        if (!empty($row['users_id_company'])) {
+            return $row['users_id_company'];
+        }
+
+        return $row['users_id'];
+    }
 
 }

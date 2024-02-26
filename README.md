@@ -1,167 +1,137 @@
-<img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
-
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6-8892BF.svg?style=flat-square)](https://php.net/)
-[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo)](https://github.com/WWBN/AVideo/releases)
-
-## Audio Video Platform
-AVideo is a term that means absolutely nothing, or anything video. Since it doesn't mean anything the brand simply is identifiable with audio video. AVideo Platform is an Audio and Video Platform or simply "A Video Platform".
-
-* AVideo - Audio Video
-* AVideo Platform - Audio Video Platform
-* OAVP - Online Audio Video Platform
-* OVP - Online Video Platform
-
-AVideo Platform is distributed as SaaS at <a href="https://avideo.com">AVideo.com</a>, as an <a href="https://avideo.tube/AVideo_Enterprise">Enterprise Version</a>, and as an <a href="https://avideo.tube/AVideo_OpenSource">Open-Source Project</a>.
-
-## AN AVideo Platform Instance
-
-When we say a clone or copy of AVideo we mean an instance of AVideo Platform Enterprise or Open-Source and every instance of the AVideo Platform can be indexed as a network in the World Wide Broadcast Network Platform System.
-
-### AVideo trademark is FREE to use
-AVideo is a registered trademark owned by WWBN/PeachWiz (World Wide Broadcast Network) the media division of PeachWiz, Inc. and is freely distributable with any Enterprise or Open-Source AVideo Platform products provided by WWBN, and its permitted use is granted with GNU-GPL, CDDL open source licenses. <a href="https://avideo.tube/AVideo_OpenSource#OSAV">Open-Source License can be viewed in this link.</a>
-* Word Mark:	AVIDEO
-* Translations:	"AVideo" has no meaning in any foreign language.
-* Description:	"AVideo" constitutes Audio Video.
-* Goods and Services:	IC 009. US 021 023 026 036 038. G & S: Computer search engine software for searching online video content. FIRST USE: 20030602. FIRST USE IN COMMERCE: 20040112
-* Standard Characters: Claimed
-* Mark Drawing Code:	(4) STANDARD CHARACTER MARK
-* Trademark Search Facility Classification Code:	LETS-1 A A single letter, multiples of a single letter or in combination with a design
-* Serial Number:	77450549
-* Registration Number:	3625659
-
-#### About the project re-brand.
- Originally the open-source version was offered as YouPHPTube, and marketed as a YouTube Clone (after the popular video sharing site), we decided to rebrand our open-source audio video platform project from YouPHPTube to <strong>AVideo Platform</strong> which constitutes <strong>Audio Video Platform</strong>. In some plugins, forks, versions, modules, APIs, documentation, file names, there may be or have been reference to <a href="https://youphp.tube/" target="_blank">youphptube</a>, <a href="https://youphp.tube/plugins/" target="_blank">youphp.tube</a>, youtube clone, clone script, searchtube, adtube, showtube, searchmercials.  WWBN owns <a href="//searchmercials.com">Searchmercials</a>, <a href="//searchtube.com">SearchTube</a>, AdTube, ShowTube, <a href="//avideo.com">AVideo</a>, <a href="//wwbn.com">WWBN</a> among other trademarks. All other trademarks and similarity to any referred to in any files, documents, wikis, plugins, code, modules, apis, integrations, technologies, links belong to their respective owners. Follow us on <a href="https://www.facebook.com/avideo/">Facebook</a>
-#
-# AVideo Platform Open-Source Project
-## AVideo Platform Open-Source Consist of THREE main Areas:
-<img src="https://avideo.tube/website/assets/151/images/svg/balancing.svg"/>
-
-#### (Management/Encoding/Storage)
-1. Management Project(s): <a href="http://git.avideo.tube/" class="" target="_blank">AVideo Platform</a>
-1. Encoding Project(s): <a href="http://git-encoder.avideo.tube/" class="" target="_blank">AVideo Encoder</a> & <a href="http://git-encoder-network.avideo.tube/" class="" target="_blank">AVideo Encoder Network</a> (Optional)
-1. Storage Project(s): <a href="http://git-storage.avideo.tube/" class="" target="_blank">AVideo Storage</a>
-
-Management life cycle is as follows; media is managed at the platform at 1, media is then uploaded to a temporary storage to be encoded at 2, then stored for broadcast at 3, then distributed to devices at 1 to be consumed.
-
-#### About AVideo Platform Open-Source
-Some of the largest brands in the world use the AVideo Platform to manage and distribute their media assets. AVideo Platform open-source project has over 900 developers, and over 4000 AVideo Platform instances throughout the world.  Because of the remarkable flexibility of the platform, each of our customers uses our platform in a slightly different way, to address their particular needs and deliver solid targeted value to their organization.
-
-The AVideo Platform Plugin Design allows you to get exactly the solution that addresses your needs today, while ensuring that your Broadcast Network implementation can grow and expand with you as your needs evolve.
-
-<div align="center"><img src="https://avideo.tube/website/assets/151/images/open_source_banner.png"/></div>
-
-# Create Your Own Broadcast Network With AVideo Platform
-
-## AVideo Platform Open-Source Solution enables you to create your own video sharing site. Join the AVideo Developer Community and get platform innovation details, bug fixes, and contribute the continued evolution of AVideo Platform.
-
-## Along with this re-brand come a slew of value added benefits for all AVideo Platform instances.
-* Each AVideo Platform clone is considered a broadcast network
-* Each broadcast network is indexed in our World Wide Broadcast Network Platform System
-* Each broadcast network can use our ad network
-* Each broadcast network can use our Open Systems TV platform (Coming Soon)
-* Each broadcast network has channels and each channel has programs <a href="https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Channel-Programming-Documentation">Learn more</a>
-
-And more to come in 2020. Our mission is to take your video sharing site to "The Next Level" Internet TV.
-
-WWBN offers relevant and practical solutions, as well as valuable innovative technology, designed to increase the efficiency of advertising and broadcasting operations and maximize revenue opportunities for our customers and partners.
-
-### WHERE WE DELIVER
-PROFITABLE STRATEGIES - We provide companies with new business models that evolve around the delivery of video and other digital assets complementing their existing business offerings and adding to their revenues. These new ways of doing business include Turnkey application-integration with capabilities for managing, auditing, and disseminating digital content.
-
-### To learn more about AVideo Platform visit the <a href="https://avideo.tube/" target="_blank">AVideo Platform Official Site</a>.
-### To learn more about the history of the AVideo Paroject <a href="https://wwbn.com/AVideo_Platform" target="_blank">WWBN Project Page</a>
-
-### To see a demo select one below.
-* <a href="https://flix.avideo.com/" target="_blank">AVideo Platform Flix Demo</a>
-  - We provide you a AVideo Flix Style site sample. On this site you can subscribe (with real money on PayPal). this subscription will allow you to watch our private videos. There is an user that you can use to see how it works. user: test and pass: test.
-* <a href="https://tutorials.avideo.com/" target="_blank">AVideo Platform Gallery Demo</a>
-  - We've provided a sample Video Gallery site, which is also our tutorials site. On this sample you can login, subscribe, like, dislike and comment. but you can not upload videos.
-* <a href="http://demo.avideo.com/" target="_blank">AVideo Platform Full-Access Demo</a>
-  - We provide you a Demo site sample with full access to the admin account. You will need an admin password to upload and manage videos, it is by default. user: admin and pass: 123. Also there is a non admin user and password (Only for comments). user: test and pass: test.
-
-
-
-# Notice:
-### We highly recommend you keep your instance of AVideo Platform updated to the latest release. If you have updated your instance to version 8.0, your old plugins will not work, just download them again and you should be fine.
-
 # First thing...
-I would humbly like to thank God for giving me the necessary knowledge, motivation, resources and idea to be able to execute this project. Without God's permission this would never be possible.
 
-**For of Him, and through Him, and to Him, are all things: to whom be glory for ever. Amen.**
-`Apostle Paul in Romans 11:36`
+I thank God for graciously, through His mercy, giving me all the necessary knowledge acquired throughout my life and throughout the development of this project. It is only through His grace and provision that this was possible, and I am truly grateful for His presence every step of the way.
 
-## This Software must be used for Good, never Evil. It is expressly forbidden to use AVideo Platform Open-Source to build porn sites, violence, racism, terrorism, or anything else that affects human integrity or denigrates the image of anyone.
+> **For of Him, and through Him, and to Him, are all things: to whom be glory forever. Amen.**
+> `Apostle Paul in Romans 11:36`
 
-## Now you can read the rest...
+<p align="center">
+  <img src="https://avideo.tube/website/assets/151/images/avideo_platform.png"/>
+</p>
 
-## Important Information
+## Introduction to AVideo
 
-> Streamer can be installed on any Server, including Windows, but the encoder and Livestream should work fine on any Linux distribution. However we recommend Ubuntu 16+ without any kind of control panel.
-> The problem with cPanel, Plesk, Webmin, VestaCP, etc. It's because we need full root access to install some libs, and maybe compile them. Another important point is that to make Livestream work, we need to compile Nginx and the control panels often prevent us from running the commands forcing the installation available only on your panel.
+AVideo is a versatile and advanced video streaming platform tailored for individual content creators, businesses, and developers alike. It stands out with its robust suite of features that enable users to host, manage, and monetize video content with remarkable efficiency. This introduction aims to shed light on the key functionalities of AVideo, highlighting how each feature can enhance user experience and content outreach. For a more detailed understanding, please follow the provided links.
 
-I don´t want to read I just want you to show me how to install!!
+## 🌟 Key Features of AVideo
 
-Ok, <a href="https://tutorials.avideo.com/video/streamer-and-encoder">check this out!</a>
+1. **🎥 Video Playback and Management**: Experience top-tier video playback with AVideo, supporting self-hosted multiresolution videos for optimal viewing across devices. Enhance your content with [subtitles](https://github.com/WWBN/AVideo/wiki/Video-Transcription-for-the-SubtitleSwitcher-Plugin) and [AI-driven transcription](https://github.com/WWBN/AVideo/wiki/AI-Plugin) for increased engagement and accessibility. [Learn More](https://github.com/WWBN/AVideo/wiki/About-Video-Upload#3-embed-a-video-link).
 
-For text-based tutorials and the manual, <a href="https://github.com/WWBN/AVideo/wiki/Admin-manual"> look here</a>.
+2. **💰 Monetization Options**: Tap into new revenue streams with AVideo's versatile [subscription models](https://github.com/WWBN/AVideo/wiki/Subscription-Plugin) and [Pay-Per-View (PPV) plans](https://github.com/WWBN/AVideo/wiki/PayPerView-Plugin). Maximize the earning potential of your video content. [Learn More](https://github.com/WWBN/AVideo/wiki/Monetization:-How-To-Make-Money-on-AVideo-Platform).
 
-There, you can find some hints for troubleshooting as well.
+3. **📡 Livestreaming and Interaction**: Engage your audience with AVideo's [live streaming](https://github.com/WWBN/AVideo/wiki/How-to-make-a-live-stream) capabilities. Record live sessions for later access and foster interaction with an integrated [chat feature](https://github.com/WWBN/AVideo/wiki/Chat2-Plugin).
 
-### AVideo Platform Mobile APP
-<a href="https://play.google.com/store/apps/details?id=platform.avideo.com">Android</a>
+4. **👥 User Channels and Playlists**: Enable users to create their own channels and playlists, encouraging organized and thematic content curation. [Learn More](https://github.com/WWBN/AVideo/wiki/Program-(Playlist)-to-series).
 
-## AVideo Platform Certified
-#### Need Help With Installation or Plugins? Feel free to ask us for help from the AVideo Platform Certified developers.
+5. **🔄 Content Rebroadcasting**: Widen your audience with the [rebroadcasting](https://github.com/WWBN/AVideo/wiki/Rebroadcaster-Plugin) of VOD content and playlists, ensuring accessibility at any time.
 
-<a href="https://youphp.tube/plugins/">Daniel Neto</a>
+6. **📢 Advertising and Promotion**: Craft bespoke [video ads](https://github.com/WWBN/AVideo/wiki/Ad-Server-Plugin) from your content or use [VAST video ads](https://github.com/WWBN/AVideo/wiki/Plugin:-GoogleAds_IMA---Videos-Ads-on-your-page) for extended reach.
 
-# AVideo - Streamer
-AVideo! is an video-sharing website, It is an open source solution that is freely available to everyone. With AVideo you can create your own video sharing site, AVideo will help you import and encode videos from other sites like Youtube, Vimeo, etc. and you can share directly on your website. In addition, you can use Facebook or Google login to register users on your site. The service was created in march 2017.
+7. **🔗 Third-Party App Integration**: Augment your platform's capabilities with AVideo's [API](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-API) for developing connected third-party applications.
 
-<div align="center">
-<img src="https://avideo.tube/website/assets/151/images/who-we-are.jpg">
-<a href="http://demo.avideo.com/" target="_blank">View Demo</a>
-</div>
+8. **☁️ Remote Video Storage**: Ensure secure and scalable video storage solutions with cloud services like S3, B2, FTP, and more. [Learn More](https://github.com/WWBN/AVideo/wiki/Storage-Options).
 
-# AVideo - Encoder
-Go get it <a href="https://github.com/WWBN/AVideo-Encoder" target="_blank">here</a>
+9. **🔒 Video Protection and Offline Viewing**: Protect your content with [HLS encryption](https://github.com/WWBN/AVideo/wiki/VideoHLS-Plugin) and provide [offline video saving](https://github.com/WWBN/AVideo/wiki/VideoOffline-Plugin) options for convenience. [Learn More](#).
 
-<div align="center">
-<img src="https://avideo.tube/website/assets/151/images/encoder_img.png">
-<a href="https://encoder2.avideo.com/" target="_blank">View Public Encoder</a>
-</div>
+## Your Comprehensive Video Streaming Solution
 
-# Why do I need the Encoder?
-You may want to install the encoder for a few reasons, such as, if you have a faster server than the public encoder server (which is likely to be the case), or if you'd like a private way of encoding your videos.
+At AVideo, we provide more than just a platform; we offer a comprehensive solution for hosting, managing, monetizing, and expanding your video content. Embrace the future of video streaming and unlock the full potential of your content with AVideo. 
 
-But, the installation is mandatory if you are using a private network. The public encoder will not have access to send the videos to your streamer site.
+# 📚 How AVideo is Organized
 
-If your server does not have a public IP or uses an IP on some of these bands:
-- 10.0.0.0/8
-- 127.0.0.0/8 (Localhost)
-- 172.16.0.0/12
-- 192.168.0.0/16
+AVideo is a comprehensive platform, divided into three key components:
 
-Surely you need to install an encoder
+- **Streamer**: The core component for playing and managing videos. It acts as the main interface for users to interact with video content.
+- **Encoder**: This tool converts your videos into a web-compatible format, ensuring they are ready for streaming on various devices and platforms.
+- **Live Server**: Specifically designed for broadcasting live videos, this component is essential for real-time streaming capabilities.
 
-# Server Requirements
+## 🔍 Why Do I Need the Encoder?
 
-In order for you to be able to run AVideo Platform, there are certain tools that need to be installed on your server. Don't worry, they are all FREE. To have a look at complete list of required tools, click the link below.
+Installing your own encoder can be beneficial for several reasons:
 
-- PHP 5.6+
-- MySQL 5.0+
-- Apache web server 2.x (with mod_rewrite enabled)
+- **Faster Performance**: Having your own encoder might provide faster processing compared to using a public encoder server.
+- **Privacy**: If privacy in video processing is a concern, a private encoder ensures that your content remains confidential.
+- **Network Compatibility**: In cases where your server is on a private network without a public IP address or uses an IP within specific ranges (10.0.0.0/8, 127.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16), having your own encoder is essential for proper communication with the streamer site.
 
-## Docker local development
+## 📜 Agreement on the Purpose of Software Installation
 
-```bash
-docker-compose up --build -d
-```
+AVideo is dedicated to promoting positive and ethical content creation. As such, we firmly stipulate that:
 
-# Roadmap
+- This Software must be used for Good, never for Evil.
+- The creation of content related to sexually explicit material, pornography, or adult themes using this software is strictly prohibited.
+- Any such usage is against the values and principles of our platform and is not permitted under any circumstances.
 
-## Version 8.9
+# 🌐 Demonstration Sites
 
-## Version 8.10
+Explore our AVideo Platform through various demo sites, each showcasing different features and functionalities:
 
-## Version 8.11
+- **[AVideo Platform Full-Access Demo](http://demo.avideo.com/)**  
+  Experience full access to our demo site, including admin privileges.  
+  **Admin Access**:  
+  - **User**: admin
+  - **Password**: 123  
+  **Non-Admin Access** (for commenting only):  
+  - **User**: test
+  - **Password**: test
+
+- **[AVideo Platform Flix Demo](https://flix.avideo.com/)**  
+  Discover the Flix Style site of AVideo Platform. Subscribe with real money via PayPal to access private videos.  
+  **Test User Access**:  
+  - **User**: test
+  - **Password**: test
+
+- **[AVideo Platform Gallery Demo](https://tutorials.avideo.com/)**  
+  Explore our Video Gallery, which also serves as a tutorial site. Engage with the content through login, subscription, likes, dislikes, and comments. (Note: Uploading videos is not permitted.)
+
+# 🖥️ Server Requirements
+
+Ensure your server meets the following prerequisites to run the AVideo Platform efficiently. All required tools are freely available.
+
+[![Minimum PHP Version](https://img.shields.io/badge/PHP-7.4%2B-blue)](https://php.net/) - **PHP**: Version 7.4 or higher is required for optimal performance and security.
+
+[![Minimum MySQL Version](https://img.shields.io/badge/MySQL-5.0%2B-blue)](https://www.mysql.com/) - **MySQL**: AVideo requires MySQL version 5.0 or higher to manage its databases effectively.
+
+[![Minimum Apache Version](https://img.shields.io/badge/Apache-2.x%20%28mod__rewrite%29-blue)](https://httpd.apache.org/) - **Apache**: Utilize Apache web server version 2.x with mod_rewrite module enabled for URL rewriting capabilities.
+
+[![GitHub release](https://img.shields.io/github/v/release/WWBN/AVideo?include_prereleases&label=AVideo&style=flat-square)](https://github.com/WWBN/AVideo/releases) - Stay up-to-date with the latest releases of AVideo.
+
+For an in-depth look at the hardware requirements and additional server configurations, please visit our comprehensive guide: [AVideo Platform Hardware Requirements](https://github.com/WWBN/AVideo/wiki/AVideo-Platform-Hardware-Requirements).
+
+# Crucial Advisory: Strictly Avoid Using Control Panels for Installation
+
+**Important**: For the installation of the Streamer, Encoder, and Livestream components, it is imperative to use a Linux distribution, specifically Ubuntu, **without any type of control panel**. This includes avoiding panels like cPanel, Plesk, Webmin, VestaCP, and similar.
+
+Control panels significantly interfere with the necessary system access and processes required for a successful installation. They restrict the installation of essential libraries and the compilation of critical software, such as Nginx for the Livestream component.
+
+**Please be advised**: Installing our system on a server with any control panel is highly discouraged and is likely to result in installation failure. We cannot provide support or guarantee success in such scenarios. For a smooth and functional installation, it is essential to follow this guideline strictly.
+
+# Installation Guide for AVideo on Ubuntu
+
+Embarking on the installation of AVideo on your Ubuntu system? You're in the right place. Our comprehensive tutorials are tailored to guide you through every step of the installation process on various Ubuntu versions, including a Docker-based setup. 
+
+🎬 **Video Tutorial**
+- For a foundational understanding, check out our [Video Tutorial](https://tutorials.avideo.com/video/streamer-and-encoder). Though it's based on older versions of AVideo, it provides an excellent introduction to the installation process.
+
+🐧 **Ubuntu-Specific Installation Guides**
+- Tailor your installation to your specific Ubuntu version:
+  - 📘 [Ubuntu 16.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-16.x-For-AVideo-Platform-version-4.x-or-newer)
+  - 📗 [Ubuntu 18.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-18.x-for-AVideo-Platform-version-4.x-or-newer)
+  - 📙 [Ubuntu 20.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-20.x-for-AVideo-Platform-version-11.x-or-newer)
+  - 📔 [Ubuntu 22.04 Guide](https://github.com/WWBN/AVideo/wiki/How-to-install-LAMP,-FFMPEG-and-Git-on-a-fresh-Ubuntu-22.x-for-AVideo-Platform-version-11.x-or-newer)
+
+🐳 **Docker Installation**
+- For a Docker-based setup, follow our [Docker Installation Guide](https://github.com/WWBN/AVideo/wiki/Running-AVideo-with-Docker) to streamline your experience.
+
+These tutorials cover the entire scope of downloading, installing AVideo, and setting up required dependencies. By following them, you can efficiently prepare your Ubuntu system for AVideo.
+
+# 📘 Usage
+
+For comprehensive administrative guidance, refer to the [Admin Manual](https://github.com/WWBN/AVideo/wiki/Admin-manual). This resource provides detailed instructions on how to manage and optimize your AVideo platform effectively.
+
+# 🛠️ Errors and Troubleshooting
+
+Encountered an issue? Don't worry! Our [error identification guide](https://github.com/WWBN/AVideo/wiki/How-to-find-errors-on-AVideo-Platform) is designed to help you troubleshoot and resolve common problems efficiently.
+
+## 🌟 AVideo Platform Certified Support
+
+Require specialized assistance? Our team of certified AVideo Platform developers is here to help. For professional support and expert consulting on installation, consulting, or plugins, reach out to [Daniel Neto](https://youphp.tube/marketplace/). We're committed to ensuring a seamless and effective AVideo installation and setup.

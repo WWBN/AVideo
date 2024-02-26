@@ -14,7 +14,6 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     $msgObj->time = time();
     $msgObj->ip = getRealIpAddr();
     $msgObj->send_to_uri_pattern = $send_to_uri_pattern;
-    $msgObj->autoEvalCodeOnHTML = array();
     //var_dump($msgObj);exit;
     if (!empty($_REQUEST['webSocketSelfURI'])) {
         $msgObj->selfURI = $_REQUEST['webSocketSelfURI'];
@@ -30,7 +29,7 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     }
     if (empty($msgObj->live_key)) {
         if (!empty($_REQUEST['webSocketLiveKey'])) {
-            $msgObj->live_key = json_decode($_REQUEST['webSocketLiveKey']);
+            $msgObj->live_key = _json_decode($_REQUEST['webSocketLiveKey']);
         } else {
             $msgObj->live_key = isLive();
         }
@@ -41,28 +40,14 @@ function getEncryptedInfo($timeOut = 0, $send_to_uri_pattern = "") {
     } else {
         $msgObj->location = false;
     }
-
-    /*
-      if (!empty($msgObj->live_key)) {
-      $msgObj->is_live = Live::isLiveAndIsReadyFromKey($msgObj->live_key['key'], $msgObj->live_key['live_servers_id'], true);
-      if($msgObj->is_live){
-      $code = "onlineLabelOnline('.liveOnlineLabel');";
-      }else{
-      $code = "onlineLabelOffline('.liveOnlineLabel');";
-      }
-      $msgObj->autoEvalCodeOnHTML[] = $code;
-      }
-     * 
-     */
-
     return encryptString(json_encode($msgObj));
 }
 
 function getDecryptedInfo($string) {
     $decriptedString = decryptString($string);
-    $json = json_decode($decriptedString);
+    $json = _json_decode($decriptedString);
     if (!empty($json) && !empty($json->token)) {
-        if (isTokenValid($json->token)) {
+        if (verifyTokenSocket($json->token)) {
             return $json;
         } else {
             _error_log("socket:getDecryptedInfo: token is invalid ");
@@ -73,13 +58,34 @@ function getDecryptedInfo($string) {
     return false;
 }
 
+function verifyTokenSocket($token) {
+    global $global;
+    $obj = _json_decode(decryptString($token));
+    if (empty($obj)) {
+        _error_log("verifyToken invalid token");
+        return false;
+    }
+    if ($obj->salt !== $global['salt']) {
+        _error_log("verifyToken salt fail");
+        return false;
+    }
+    $time = time();
+    if (!($time >= $obj->time && $time <= $obj->timeout)) {
+        //_error_log("verifyToken token timout time = $time; obj->time = $obj->time;  obj->timeout = $obj->timeout");
+        //return false;
+    }
+    return true;
+}
+
 class SocketMessageType {
 
+    const OPEN_CONNECTION = "OPEN_CONNECTION";
     const NEW_CONNECTION = "NEW_CONNECTION";
     const NEW_DISCONNECTION = "NEW_DISCONNECTION";
     const DEFAULT_MESSAGE = "DEFAULT_MESSAGE";
     const ON_VIDEO_MSG = "ON_VIDEO_MSG";
     const ON_LIVE_MSG = "ON_LIVE_MSG";
+    const TESTING = "TESTING";
 
 }
 
@@ -107,14 +113,43 @@ function killProcessOnPort() {
     $port = intval($obj->port);
     if (!empty($port)) {
         echo 'Searching for port: ' . $port . PHP_EOL;
-        $command = 'netstat -ano | findstr ' . $port;
-        exec($command, $output, $retval);
+        //$command = 'netstat -ano | findstr ' . $port;
+        //exec($command, $output, $retval);
         $pid = getPIDUsingPort($port);
         if (!empty($pid)) {
-            echo 'Killing, PID ' . $pid . PHP_EOL;
+            echo 'Server is already runing on port '.$port.' Killing, PID ' . $pid . PHP_EOL;
             killProcess($pid);
         } else {
             echo 'No Need to kill, port NOT found' . PHP_EOL;
         }
     }
+}
+
+function restartServer($kill=true) {
+    global $global;
+    if($kill){
+        killProcessOnPort();
+        sleep(1);
+    }
+    $cmd = "php {$global['systemRootPath']}plugin/YPTSocket/server.php";
+    echo 'Starting server with command ' . $cmd . PHP_EOL;
+    exec($cmd, $output, $retval);
+    echo implode(PHP_EOL,$output);
+    echo PHP_EOL;
+    return $retval;
+}
+
+function restartServerIfIsDead() {
+    global $global;
+
+    $obj = \AVideoPlugin::getDataObject("YPTSocket");
+    $port = intval($obj->port);
+    $pid = getPIDUsingPort($port);
+    if (!empty($pid)) {
+        echo 'Server is already runing on port '.$port.' PID ' . $pid . PHP_EOL;
+        echo 'Run "php '.$global['systemRootPath'].'plugin/YPTSocket/serverRestart.php force" if you want to kill the current server and restart it'.PHP_EOL;
+        return false;
+    }
+    echo 'Server was dead, restart it'.PHP_EOL;
+    return restartServer(false);
 }

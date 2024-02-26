@@ -1,4 +1,5 @@
 <?php
+
 require_once '../../videos/configuration.php';
 $pobj = AVideoPlugin::getDataObject("Live");
 
@@ -12,17 +13,17 @@ if (!User::isAdmin()) {
 
 $row = LiveTransmition::keyExists($_REQUEST['key']);
 
-if(!empty($row)){
-    if(empty($_REQUEST['json'])){
+if (!empty($row)) {
+    if (empty($_REQUEST['json'])) {
         foreach ($row as $key => $value) {
             echo "<b>{$key}</b> {$value}<br>";
         }
-    }else{
+    } else {
         header('Content-Type: application/json');
         echo json_encode($row);
     }
-}else{
+} else {
     echo "Key not found";
 }
-    
+
 //echo json_encode($row);

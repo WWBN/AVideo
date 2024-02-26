@@ -20,8 +20,8 @@ $obj = AVideoPlugin::getObjectData("Live");
     </div>
     <div class="panel-body">
         <?php
-        if(empty($obj->useLiveServers)){
-        ?>
+        if (empty($obj->useLiveServers)) {
+            ?>
         <div class="alert alert-danger">
             Live Servers is Disabled, if you want to use it, enable it on the (Live) Plugin
         </div>
@@ -63,6 +63,10 @@ $obj = AVideoPlugin::getObjectData("Live");
                                 <div class="form-group col-sm-6">
                                     <label for="Live_serverscontrolURL"><?php echo __("Control URL"); ?>:</label>
                                     <input type="url" id="Live_serverscontrolURL" name="controlURL" class="form-control input-sm" placeholder="<?php echo __("Control URL"); ?>" required="true">
+                                </div>
+                                <div class="form-group col-sm-6">
+                                    <label for="Live_serverswebRTC_server"><?php echo __("WebRTC Player"); ?>:</label>
+                                    <input type="url" id="Live_serverswebRTC_server" name="webRTC_server" class="form-control input-sm" placeholder="<?php echo __("WebRTC Player"); ?>" required="true">
                                 </div>
 
                                 <div class="form-group col-sm-4">
@@ -182,6 +186,7 @@ $obj = AVideoPlugin::getObjectData("Live");
         $('#Live_serversgetRemoteFile').val('');
         $('#Live_serversrestreamerURL').val('');
         $('#Live_serverscontrolURL').val('');
+        $('#Live_serverswebRTC_server').val('');
     }
     $(document).ready(function () {
         $('#addLiveBtn').click(function () {
@@ -291,6 +296,7 @@ $obj = AVideoPlugin::getObjectData("Live");
             $('#Live_serversgetRemoteFile').val(data.getRemoteFile);
             $('#Live_serversrestreamerURL').val(data.restreamerURL);
             $('#Live_serverscontrolURL').val(data.controlURL);
+            $('#Live_serverswebRTC_server').val(data.webRTC_server);
         });
         $('#Live_serversTable').on('click', 'button.go_Live_servers', function (e) {
             e.preventDefault();

@@ -1,4 +1,4 @@
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
 <style>
     #mainVideo{
         width: 100vw;
@@ -42,7 +42,7 @@
 include $global['systemRootPath'] . 'view/include/video.min.js.php';
 ?>
 
-<video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" playsinline webkit-playsinline="webkit-playsinline" 
+<video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" <?php echo PlayerSkins::getPlaysinline(); ?>
        class="video-js vjs-default-skin vjs-big-play-centered" 
        id="mainVideo" style="display: none;">
     <source src="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/loopBGHLS/index.m3u8" type='application/x-mpegURL'>
@@ -97,5 +97,5 @@ include $global['systemRootPath'] . 'view/include/video.min.js.php';
     function focusVideo() {
         $('#mainVideo').focus();
     }
-    player = videojs('mainVideo', {errorDisplay: false, html5: {nativeAudioTracks: false, nativeVideoTracks: false, hls: {overrideNative: true}}, liveui: true});
+    player = videojs('mainVideo', {errorDisplay: false, html5: {nativeAudioTracks: false, nativeVideoTracks: false, vhs: {overrideNative: true}}, liveui: true});
 </script>

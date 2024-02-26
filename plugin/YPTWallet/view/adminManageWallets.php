@@ -4,7 +4,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
 
 if (!User::isAdmin()) {
-    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manager wallets"));
+    header("Location: {$global['webSiteRootURL']}?error=" . __("You can not manage wallets"));
     exit;
 }
 
@@ -12,7 +12,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Support Author") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
@@ -91,7 +91,7 @@ $obj = $plugin->getDataObject();
                     formatters: {
                         "commands": function (column, row) {
                             console.log(row);
-                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-toggle="tooltip" data-placement="left" title="Edit"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                            var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa-solid fa-pen-to-square"></i></button>'
                             var history = '<a href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php?users_id=' + row.user_id + '" class="btn btn-default btn-xs command-history"   data-toggle="tooltip" data-placement="left" title="History""><span class="fa fa-history" aria-hidden="true"></span></a>';
                             //return editBtn + deleteBtn;
                             return editBtn + history;

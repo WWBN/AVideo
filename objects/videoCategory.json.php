@@ -2,7 +2,7 @@
 error_reporting(0);
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -10,7 +10,7 @@ if (!User::canUpload() || empty($_POST['id'])) {
     die('{"error":"' . __("Permission denied") . '"}');
 }
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 
 require_once 'video.php';

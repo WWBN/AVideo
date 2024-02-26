@@ -1,5 +1,11 @@
 <?php
+global $global;
+if (isConfirmationPage()) {
+    echo '<!-- isConfirmationPage socket_info_container -->';
+    return false;
+}
 if (isBot()) {
+    echo '<!-- isBot socket_info_container -->';
     return false;
 }
 $refl = new ReflectionClass('SocketMessageType');
@@ -17,6 +23,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     if (isset($_COOKIE['socketInfoPositionLeft'])) {
         $socket_info_container_left = $_COOKIE['socketInfoPositionLeft'];
     }
+    $command = "sudo nohup php {$global['systemRootPath']}plugin/YPTSocket/server.php &";
     ?>
     <style>
         #socket_info_container>div{
@@ -53,7 +60,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             -o-transition: background-color  0.5s linear;
             transition: background-color  0.5s linear;
             transition: box-shadow 0.5s ease-in-out;
-            z-index: 1000;
+            z-index: 1050;
             -moz-box-shadow:    0 0 0 #00000000;
             -webkit-box-shadow: 0 0 0 #00000000;
             box-shadow:         0 0 0 #00000000;
@@ -67,10 +74,10 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             border: 2px solid #777;
         }
 
-        #socket_info_container.disconnected div{
+        #socket_info_container div{
             color: #00000077;
         }
-        #socket_info_container.disconnected .socketItem span{
+        #socket_info_container .socketItem span{
             opacity: 0.5;
         }
 
@@ -115,71 +122,42 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
             margin-top: 5px;
             border-top: solid 1px #000;
         }
-
-        .socketUserDiv .fa-caret-up{
-            display: none;
-        }
-
-        .socketUserDiv.visible .fa-caret-up{
-            display: inline-block;
-        }
+        .hideNotConected, .hideNotDisconnected,
+        .socketUserDiv .socketUserPages,
+        .socketUserDiv .fa-caret-up,
         .socketUserDiv.visible .fa-caret-down{
             display: none;
         }
-        .socketUserDiv .socketUserPages{
-            display: none;
-        }
-        .socketUserDiv.visible .socketUserPages{
+        .socket_connected .hideNotConected,
+        .socketUserDiv.visible .socketUserPages,
+        .socket_disconnected .hideNotDisconnected{
             display: block;
         }
-        .socket_disconnected{
-            display: none;
-        }
-        .disconnected .socket_connected{
-            display: none;
-        }
-        .disconnected .socket_disconnected{
-            display: block;
-        }
-        .socket_connected, .socket_disconnected{
-            font-weight: bold;
-        }
-        .socket_connected{
-            color: #FFF;
-            animation: socketGlow 1s infinite alternate;
-        }
-        @keyframes socketGlow {
-            from {
-                color: #DFD;
-                text-shadow: 
-                    0 0 1px #050, 
-                    0 0 2px #070, 
-                    0 0 3px #670, 
-                    0 0 4px #670;
-            }
-            to {
-                color: #FFF;
-                text-shadow: 
-                    0 0 2px #020,
-                    0 0 5px #090, 
-                    0 0 10px #0F0, 
-                    0 0 15px #BF0, 
-                    0 0 20px #B6FF00;
-            }
+        
+        .socketUserDiv.visible .fa-caret-up{
+            display: inline-block;
         }
     </style>
-    <div id="socket_info_container" class="socketStatus disconnected <?php echo $socket_info_container_class; ?>" >
-        <div class="socketHeader">
+    <div id="socket_info_container" class="socket_info <?php echo $socket_info_container_class; ?> <?php echo getCSSAnimationClassAndStyle('animate__bounceIn', 'socket_info'); ?>" >
+        <div class="socketHeader ">
             <?php
             echo getSocketConnectionLabel();
             ?>
         </div>
-        <div class="socketItem" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
-        <div class="socketItem" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
-        <div class="socketItem" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
-        <div class="socketItem" ><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
-        <div class="socketItem" id="socketUsersURI">    
+        <div class="socketItem hideNotDisconnected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" >
+            <button class="btn btn-xs btn-block btn-default" onclick="copyToClipboard('<?php echo addcslashes($command,'\\'); ?>')">Copy code to run on terminal</button>
+            <button class="btn btn-xs btn-block btn-primary" onclick="socketConnect()">Try again</button>
         </div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fa-solid fa-code-compare"></i> Version <span class="webSocketServerVersion"></span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fa-solid fa-memory"></i> Memory <span class="socket_mem">0 bytes</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-user"></i> Your User ID <span class="socket_users_id">0</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-id-card"></i> Socket ResourceId <span class="socket_resourceId">0</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-network-wired"></i> Total Different Devices <span class="total_devices_online">0</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInX', 'socket'); ?>" ><i class="fas fa-users"></i> Total Users Online <span class="total_users_online">0</span></div>
+        <div class="socketItem hideNotConected <?php echo getCSSAnimationClassAndStyle('animate__flipInY', 'socket'); ?>" id="socketUsersURI">    
+        </div>
+        
+        <button onclick="avideoAjax(webSiteRootURL+'plugin/YPTSocket/restart.json.php', {});" style="color: #d43f3a" class="socketItem btn btn-danger btn-sm btn-xs btn-block"><i class="fas fa-power-off"></i> Restart</button>
     </div>
     <script>
         var socket_info_container_draging = false;
@@ -270,6 +248,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
     var webSocketVideos_id = '<?php echo getVideos_id(); ?>';
     var webSocketLiveKey = '<?php echo json_encode(isLive()); ?>';
     var webSocketServerVersion = '<?php echo YPTSocket::getServerVersion(); ?>';
+    var schedulerIsActive = <?php echo class_exists('Scheduler') && Scheduler::isActive()?1:0; ?>;
     var webSocketToken = '';
     var webSocketURL = '';
     var webSocketTypes = <?php echo json_encode($refl->getConstants()); ?>;
@@ -277,7 +256,7 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
 
     function onUserSocketConnect(response) {
         try {
-<?php echo AVideoPlugin::onUserSocketConnect(); ?>
+        <?php echo AVideoPlugin::onUserSocketConnect(); ?>
         } catch (e) {
             console.log('onUserSocketConnect:error', e.message);
         }
@@ -287,8 +266,8 @@ if (!empty($obj->debugAllUsersSocket) || (User::isAdmin() && !empty($obj->debugS
         try {
 <?php echo AVideoPlugin::onUserSocketDisconnect(); ?>
         } catch (e) {
-            console.log('onUserSocketConnect:error', e.message);
+            console.log('onUserSocketDisconnect:error', e.message);
         }
     }
 </script>
-<script src="<?php echo $global['webSiteRootURL']; ?>plugin/YPTSocket/script.js?<?php echo filectime($global['systemRootPath'] . 'plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('plugin/YPTSocket/script.js'); ?>" type="text/javascript"></script>

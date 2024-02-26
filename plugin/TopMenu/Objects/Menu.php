@@ -5,6 +5,33 @@ require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
 
 class Menu extends ObjectYPT {
+    
+    static $typeLeftMenu = 1;
+    static $typeTopMenu = 2;
+    static $typeActionMenu = 3;
+    static $typeActionMenuCustomURL = 4;
+    static $typeActionMenuCustomURLForLoggedUsers = 5;
+    static $typeActionMenuCustomURLForUsersThatCanWatchVideo = 6;
+    static $typeActionMenuCustomURLForUsersThatCanNotWatchVideo = 7;
+    static $typeMobileTabMenu = 8;
+    static $typeMobileLeftMenu = 9;
+    static $typeMobileTabMenuInABrowser = 10;
+    static $typeMobileLeftMenuInABrowser = 11;
+    static $typeFloatMenu = 12;
+    
+    static $typeName = array(
+        1=>'Left', 
+        2=>'Top', 
+        3=>'Action', 
+        4=>'Action Per Video', 
+        5=>'Action Per Video For Logged Users Only', 
+        6=>'Action Per Video For Users That can Watch Video', 
+        7=>'Action Per Video For Users That can NOT Watch Video',
+        8=>'Mobile Tab Menu',
+        9=>'Mobile Left Menu',
+        10=>'Mobile Tab Menu in a Browser',
+        11=>'Mobile Left Menu in a Browser',
+        12=>'Float Menu');
 
     protected $id, $menuName, $categories_id, $users_groups_id, $menu_order, $status, $position, $type, $icon, $menuSeoUrl;
 
@@ -54,6 +81,9 @@ class Menu extends ObjectYPT {
     
     static function getAllActive($type=false) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $sql = "SELECT * FROM  ".static::getTableName()." WHERE status = 'active' ";
         if(!empty($type)){
             $sql .= " AND type = $type ";
@@ -99,7 +129,7 @@ class Menu extends ObjectYPT {
             $this->menuSeoUrl=$this->menuName;
         }
         
-        $this->menuSeoUrl=$global['mysqli']->real_escape_string(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
+        $this->menuSeoUrl=(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->menuSeoUrl)));
         
         return parent::save();
     }

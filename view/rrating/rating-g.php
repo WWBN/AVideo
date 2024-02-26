@@ -1,6 +1,8 @@
-<button class="btn btn-default btn-outline btn-xs btn-sm" onclick="$(this).find('table').slideToggle();" style="position: relative;">
-    G
-    <table class="table-bordered" style="z-index: 1;border: 2px solid #555; border-radius: 4px; margin: 2px;border-collapse: separate !important; display: none; position: absolute; left: 0;">
+<div>
+    <button data-toggle="tooltip"  title="<?php echo Video::$rratingOptionsText['g']; ?>" class="btn btn-success btn-outline btn-xs btn-sm" onclick="$(this).find('table').slideToggle();" style="position: relative;">
+        G
+    </button>
+    <table class="table-bordered bg-warning" style="z-index: 1;border: 2px solid #555; border-radius: 4px; margin: 2px;border-collapse: separate !important; display: none; position: absolute; left: 0;">
         <tr>
             <td rowspan="2" style="font-size: 1.5em; font-weight: bold; padding: 1px 2px;">G</td>
             <td style="font-size: 0.8em; text-align: center; font-weight: bold; padding: 1px 2px;"><?php echo strtoupper(__("General Audiences")); ?></td>
@@ -9,4 +11,4 @@
             <td style="font-size: 0.8em; text-align: center; padding: 1px 2px;"><?php echo strtoupper(__("All Ages Admitted")); ?></td>
         </tr>
     </table>
-</button>
+</div>

@@ -1,13 +1,20 @@
 <script>
     var playListsAdding = false;
+    var playListsReloading = false;
     var playList = [];
-    function reloadPlayLists() {
-        //console.log('reloadPlayLists');
+    async function reloadPlayLists() {
+        if (!isOnline() || playListsReloading) {
+            return false;
+        }
+        playListsReloading = true;
+        console.log('reloadPlayLists');
+            console.trace();
         $.ajax({
             url: webSiteRootURL + 'objects/playlists.json.php',
             success: function (response) {
                 playList = response;
                 reloadPlayListButtons();
+                playListsReloading = false;
             }
         });
     }
@@ -37,21 +44,21 @@
     }
 
     loadPlayListsResponseObject = {timestamp: 0, response: false};
-    function loadPlayLists(videos_id, crc) {
-        //console.log('loadPlayLists');
+    async function loadPlayLists(videos_id, crc) {
         if (loadPlayListsResponseObject.timestamp + 5000 < Date.now()) {
+            console.log('loadPlayLists');
+            console.trace();
             loadPlayListsResponseObject.timestamp = Date.now();
             loadPlayListsResponseObject.response = [];
             setTimeout(function () {
                 $.ajax({
-                    url: '<?php echo $global['webSiteRootURL']; ?>objects/playlists.json.php',
+                    url: webSiteRootURL+'objects/playlists.json.php',
                     cache: true,
                     success: function (response) {
                         loadPlayListsResponseObject.response = response;
                         loadPlayListsResponse(loadPlayListsResponseObject.response, videos_id, crc);
                     }
                 });
-                ;
             }, 500);
 
         } else {
@@ -64,8 +71,8 @@
             }
         }
     }
-
-    function loadPlayListsResponse(response, videos_id, crc) {
+    var listGroupItemTemplate = <?php echo json_encode(file_get_contents($global['systemRootPath'] . 'plugin/PlayLists/listGroupItemTemplate.html')); ?>;
+    async function loadPlayListsResponse(response, videos_id, crc) {
         //console.log('loadPlayListsResponse');
         //console.log(response, videos_id, crc);
 
@@ -90,14 +97,21 @@
                 }
             }
             var randId = (("_" + response[i].id) + videos_id) + Math.random();
-            $(".searchlist" + videos_id + crc).append('<a class="list-group-item"><i class="' + icon + '"></i> <span>'
-                    + response[i].name_translated + '</span><div class="material-switch pull-right"><input id="someSwitchOptionDefault'
-                    + randId + '" name="someSwitchOption' + response[i].id + videos_id + '" class="playListsVideosIds' + videos_id +' playListsIds_' + response[i].id + '_videos_id_' + videos_id + ' playListsIds' + response[i].id + ' " type="checkbox" value="'
-                    + response[i].id + '" ' + checked + '/><label for="someSwitchOptionDefault'
-                    + randId + '" class="label-success"></label></div></a>');
+            
+            var itemsArray = {};
+            itemsArray.icon = icon;
+            itemsArray.id = response[i].id;
+            itemsArray.name_translated = response[i].name_translated;
+            itemsArray.response_id = response[i].id + '' + videos_id;
+            itemsArray.checked = checked;
+            itemsArray.videos_id = videos_id;
+            itemsArray.randId = randId;
+            
+            $(".searchlist" + videos_id + crc).append(arrayToTemplate(itemsArray, listGroupItemTemplate));
+            
 
         }
-        $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: 'span'});
+        $('.searchlist' + videos_id + crc).btsListFilter('#searchinput' + videos_id + crc, {itemChild: '.nameSearch', initial:false});
         $('.playListsVideosIds' + videos_id).change(function () {
             if (playListsAdding) {
                 return false;
@@ -113,7 +127,7 @@
         //console.log('addVideoToPlayList');
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>objects/playListAddVideo.json.php',
+            url: webSiteRootURL + 'objects/playListAddVideo.json.php',
             method: 'POST',
             data: {
                 'videos_id': videos_id,
@@ -133,6 +147,8 @@
     }
 
     $(document).ready(function () {
-        reloadPlayLists();
+        if(empty(mediaId)){
+            reloadPlayLists();
+        }
     });
 </script>

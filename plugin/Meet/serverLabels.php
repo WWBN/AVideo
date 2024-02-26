@@ -6,16 +6,20 @@ if (!isset($global['systemRootPath'])) {
     }
 }
 
+_error_log("serverlabels line=" . __LINE__);
 $obj = AVideoPlugin::getObjectDataIfEnabled("Meet");
 //_error_log(json_encode($_SERVER));
 if (empty($obj)) {
     die("Plugin disabled");
 }
+_error_log("serverlabels line=" . __LINE__);
 
 $serverStatus = Meet::getMeetServerStatus();
+_error_log("serverlabels line=" . __LINE__);
 $moreJibris = "https://upgrade." . Meet::getServer()['domain'] . "/?webSiteRootURL=" . urlencode($global['webSiteRootURL']) . "&secret=" . Meet::getSecret();
 $moreJibris = "#";
-$moreJibrisOnclick = "avideoAlert('Comming soon');return false;";
+$moreJibrisOnclick = "avideoAlert('Coming soon');return false;";
+_error_log("serverlabels line=" . __LINE__);
 if (User::isAdmin() && empty($serverStatus->error)) {
     ?>
     <span class="label label-primary" data-toggle="tooltip" data-placement="bottom" title="Unlimited number of meetings"><i class="fas fa-comments"></i> <span class="hidden-sm hidden-xs"><?php echo __("Unlimited"); ?></span></span>
@@ -51,16 +55,18 @@ if (User::isAdmin() && empty($serverStatus->error)) {
         <?php
     }
 }
+_error_log("serverlabels line=" . __LINE__);
 ?>
 <span class="label label-<?php echo $serverStatus->error ? "danger" : ($serverStatus->isInstalled ? "success" : "warning") ?>" >
     <span data-toggle="tooltip" data-placement="bottom" title="<?php echo User::isAdmin() ? $serverStatus->msg : "Meet Server Status"; ?>">
         <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "<i class=\"fas fa-exclamation-triangle\"></i>" : "<i class=\"fas fa-check-square\"></i>" ?>
-        <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?>
+            <?php echo ($serverStatus->error || !$serverStatus->isInstalled) ? "offline" : "online" ?>
         <span class="hidden-sm hidden-xs">(<?php
             echo Meet::getServer()['name'];
             ?>)</span></span> <a class="fas fa-random" data-toggle="tooltip" data-placement="bottom" title="Change Server" href="<?php echo $global['webSiteRootURL']; ?>plugin/Meet/checkServers.php" style="color: white;"></a>
 </span>
 <?php
+_error_log("serverlabels line=" . __LINE__);
 if (!empty($serverStatus->nextUpdate)) {
     ?>
     <script>
@@ -85,6 +91,7 @@ if (!empty($serverStatus->nextUpdate)) {
     </script>
     <?php
 } else {
+    _error_log("serverlabels line=" . __LINE__);
     ?>
     <script>
         $(document).ready(function () {
@@ -92,4 +99,5 @@ if (!empty($serverStatus->nextUpdate)) {
     </script>
     <?php
 }
+_error_log("serverlabels line=" . __LINE__);
 ?>

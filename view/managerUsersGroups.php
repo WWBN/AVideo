@@ -5,11 +5,11 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 if (!Permissions::canAdminUserGroups()) {
-    forbiddenPage( __("You can not manage do this"));
+    forbiddenPage(__("You can not manage do this"));
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("UserGroups") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
 

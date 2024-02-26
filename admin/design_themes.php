@@ -1,18 +1,19 @@
 <div class="row">
     <?php
     $savedTheme = $config->getTheme();
+    $delay = 0.2;
     foreach (glob("{$global['systemRootPath']}view/css/custom/*.css") as $filename) {
         //echo "$filename size " . filesize($filename) . "\n";
         $file = basename($filename);         // $file is set to "index.php"
         $fileEx = basename($filename, ".css"); // $file is set to "index"
         ?>
-        <div class="col-xs-4">
+        <div class="col-xs-4  <?php echo getCSSAnimationClassAndStyle('animate__fadeInUp', 'themess', $delay); ?>">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <?php echo ucfirst($fileEx); ?>
                     <div class="material-switch pull-right">
-                        <input class="themeSwitch" data-toggle="toggle" type="checkbox" value="<?php echo ($fileEx); ?>" id="themeSwitch<?php echo ($fileEx); ?>" <?php echo ($fileEx == $savedTheme) ? "checked" : ""; ?>>
-                        <label for="themeSwitch<?php echo ($fileEx); ?>" class="label-primary"></label>
+                        <input class="themeSwitch" data-toggle="toggle" type="checkbox" value="<?php echo($fileEx); ?>" id="themeSwitch<?php echo($fileEx); ?>" <?php echo ($fileEx == $savedTheme) ? "checked" : ""; ?>>
+                        <label for="themeSwitch<?php echo($fileEx); ?>" class="label-primary"></label>
                     </div>
                 </div>
                 <div class="panel-body">

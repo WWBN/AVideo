@@ -18,45 +18,101 @@ ul.social-network li {
 .social-network a.icoRss:hover {
     background-color: #F56505;
 }
+.social-network a.icoTelegram:hover {
+    background-color: #26A5E4;
+}
+.social-network a.icoThreads:hover {
+    background-color: #000;
+}
+.social-network a.icoWhatsapp:hover {
+    background-color: #25D366;
+}
+.social-network a.icoInstagram:hover {
+    background-color: #E4405F; 
+}
+.social-network a.icoSpreaker:hover {
+    background-color: #FF0000; 
+}
 .social-network a.icoFacebook:hover {
     background-color: #3B5998;
 }
 .social-network a.icoTwitter:hover {
-    background-color: #33ccff;
+    background-color: #1DA1F2;
+}
+.social-network a.icoXTwitter:hover {
+    background-color: #000;
 }
 .social-network a.icoGoogle:hover {
-    background-color: #BD3518;
+    background-color: #DB4437;
 }
 .social-network a.icoVimeo:hover {
-    background-color: #0590B8;
+    background-color: #1AB7EA;
 }
-.social-network a.icoLinkedin:hover {
-    background-color: #007bb7;
+.social-network a.icoLinkedIn:hover {
+    background-color: #0077B5;
 }
 .social-network a.icoTumblr:hover {
-    background-color: #35465c;
+    background-color: #36465D;
 }
 .social-network a.icoPinterest:hover {
-    background-color: red;
+    background-color: #BD081C;
 }
 .social-network a.icoReddit:hover {
-    background-color: #ff4301;
+    background-color: #FF4500;
 }
 .social-network a.icoWordpress:hover {
-    background-color: #21759b;
+    background-color: #21759B;
 }
 .social-network a.icoPinboard:hover {
-    background-color: red;
+    background-color: #0000FF;
 }
 .social-network a.icoCopy:hover {
     background-color: #333;
 }
+.social-network a.icoGab:hover {
+    background-color: #00D178;
+}
+.social-network a.icoCloutHub:hover {
+    background-color: #F16E28;
+}
+.social-network a.icoYoutube:hover {
+    background-color: #FF0000;  
+}
+.social-network a.icoTikTok:hover {
+    background-color: #000000;  /* TikTok's primary color is black, but sometimes it's represented with a lighter shade or with the blue from its logo */
+}
+.social-network a.icoPatreon:hover {
+    background-color: #F96854;  /* Patreon's primary color */
+}
+.social-network a.icoAmazon:hover {
+    background-color: #FF9900; 
+}
+.social-network a.icoGoodreads:hover {
+    background-color: #372213; 
+}
+.social-network a.icoShopping:hover {
+    background-color: #FF5733;  /* This is a price-tag red color */
+}
+.social-network a.icoCopy:hover { /* for Website */
+    background-color: #333; /* Using a neutral color since "Website" doesn't have a specific brand color */
+}
+.social-network a.icoApple:hover {
+    background-color: #A3AAAE; /* A neutral Apple gray; Apple often uses white, black, or gray for branding */
+}
+.social-network a.icoPodcast:hover {
+    background-color: #FF2D55; /* Using the Apple Podcast color as it's a commonly recognized color for podcasts */
+}
+.social-network a.icoIMDB:hover {
+    background-color: #E6B91E; /* IMDB's golden yellow color */
+}
+
+
 .social-network a.icoRss:hover i,
 .social-network a.icoFacebook:hover i,
 .social-network a.icoTwitter:hover i,
 .social-network a.icoGoogle:hover i,
 .social-network a.icoVimeo:hover i,
-.social-network a.icoLinkedin:hover i ,
+.social-network a.icoLinkedIn:hover i ,
 .social-network a.icoTumblr:hover i ,
 .social-network a.icoPinterest:hover i ,
 .social-network a.icoReddit:hover i ,

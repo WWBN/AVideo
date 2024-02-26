@@ -3,13 +3,13 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../../../videos/configuration.php';
 }
-session_write_close();
+_session_write_close();
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
 $_REQUEST['rowCount'] = 2;
 if (empty($_GET['current'])) {
-    $_REQUEST['current'] = 1;
+    unsetCurrentPage();
 } else {
     $_REQUEST['current'] = intval($_GET['current']);
 }
@@ -17,12 +17,14 @@ if (empty($_GET['current'])) {
 $uid = '{serie_uid}';
 
 $cacheName = "modeFlixCategory" . md5(json_encode($_GET)) . User::getId();
+$cacheName .= isForKidsSet()?'forKids':'';
+
 $cache = ObjectYPT::getCache($cacheName, 600);
 if (!empty($cache)) {
     echo str_replace('{serie_uid}', uniqid(), $cache);
     return false;
 }
-ob_start();
+_ob_start();
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 $timeLog = __FILE__ . " - modeFlixCategory";
 
@@ -56,13 +58,18 @@ $videosCounter = 0;
             unset($_POST['searchPhrase']);
         }
         unset($_POST['sort']);
-        $_REQUEST['rowCount'] = 2;
+
+        if (!empty($_REQUEST['search'])) {
+            $_REQUEST['rowCount'] = 1000;
+        } else {
+            $_REQUEST['rowCount'] = 2;
+        }
         if (!empty($_REQUEST['catName'])) {
             $hideTitle = 1;
             $categories = array(Category::getCategoryByName($_REQUEST['catName']));
         } else {
             $categories = Category::getAllCategories(false, true);
-            $_REQUEST['current'] = 1;
+            unsetCurrentPage();
         }
         if (empty($categories)) {
             echo "</div>";
@@ -72,26 +79,26 @@ $videosCounter = 0;
         $_POST['searchPhrase'] = $searchPhrase;
         foreach ($categories as $value) {
             echo "<!-- {$value['clean_name']} --> ";
-            $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
+            $obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
             $timeLog2 = __FILE__ . " - Category {$value['clean_name']}";
             TimeLogStart($timeLog2);
-            $oldCatName = @$_GET['catName'];
-            if (!empty($_GET['catName']) && $value['clean_name'] !== $_GET['catName']) {
+            $oldCatName = @$_REQUEST['catName'];
+            if (!empty($_REQUEST['catName']) && $value['clean_name'] !== $_REQUEST['catName']) {
                 continue;
             } else {
-                $_GET['catName'] = $value['clean_name'];
+                $_REQUEST['catName'] = $value['clean_name'];
             }
             unset($_POST['sort']);
             $_POST['sort']['v.created'] = "DESC";
             $_POST['sort']['likes'] = "DESC";
 
             TimeLogStart("modeFlixCategory.php getAllVideos");
-            $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
+            $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj2->hidePrivateVideos);
             TimeLogEnd("modeFlixCategory.php getAllVideos", __LINE__);
 
             TimeLogEnd($timeLog2, __LINE__);
             if (empty($videos)) {
-                $_GET['catName'] = $oldCatName;
+                $_REQUEST['catName'] = $oldCatName;
                 continue;
             }
             if (!empty($ads2)) {
@@ -121,12 +128,12 @@ $videosCounter = 0;
                 ?>
             </div>
             <?php
-            $_GET['catName'] = $oldCatName;
+            $_REQUEST['catName'] = $oldCatName;
             TimeLogEnd($timeLog2, __LINE__);
         }
     }
     TimeLogEnd($timeLog, __LINE__);
-    if(empty($videosCounter)){
+    if (empty($videosCounter)) {
         echo "</div>";
         return false;
     }
@@ -136,10 +143,23 @@ $videosCounter = 0;
     </script>
 </div>
 <p class="pagination">
-    <a class="pagination__next" href="<?php echo $global['webSiteRootURL']; ?>plugin/YouPHPFlix2/view/modeFlixCategory.php?current=<?php echo count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']; ?>&rrating=<?php echo @$_GET['rrating']; ?>"></a>
+    <?php
+    $url = "{$global['webSiteRootURL']}plugin/YouPHPFlix2/view/modeFlixCategory.php";
+    if (!empty($_REQUEST['catName'])) {
+        $url = addQueryStringParameter($url, 'catName', $_REQUEST['catName']);
+    }
+    $search = getSearchVar();
+    if (!empty($search)) {
+        $url = addQueryStringParameter($url, 'search', $search);
+    }
+    $url = addQueryStringParameter($url, 'rrating', @$_GET['rrating']);
+    $url = addQueryStringParameter($url, 'tags_id', intval(@$_GET['tags_id']));
+    $url = addQueryStringParameter($url, 'current', count($categories) ? $_REQUEST['current'] + 1 : $_REQUEST['current']);
+    ?>
+    <a class="pagination__next" href="<?php echo $url; ?>"></a>
 </p>
 <?php
-$cache = ob_get_clean();
+$cache = _ob_get_clean();
 
 ObjectYPT::setCache($cacheName, $cache);
 

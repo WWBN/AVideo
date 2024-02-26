@@ -1,6 +1,4 @@
 <?php
-
-header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
@@ -9,24 +7,21 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-if (!empty($_GET['PHPSESSID'])) {
-    session_write_close();
-    session_id($_GET['PHPSESSID']);
-    _error_log("userCreate.json: session_id changed to ". $_GET['PHPSESSID']);
-    session_start();
-}
 
+allowOrigin();
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 // Getting the mobile submitted value
 $inputJSON = url_get_contents('php://input');
-$input = json_decode($inputJSON, true); //convert JSON into array
+$input = _json_decode($inputJSON, true); //convert JSON into array
 if (!empty($input)) {
     foreach ($input as $key => $value) {
         $_POST[$key] = $value;
     }
 }
 $obj = new stdClass();
+$obj->error = true;
+$obj->msg = '';
 if (empty($ignoreCaptcha)) {
     if (empty($_POST['captcha'])) {
         $obj->error = __("The captcha is empty");
@@ -53,7 +48,7 @@ if (!empty($advancedCustomUser->forceLoginToBeTheEmail)) {
 $_POST['email'] = trim(@$_POST['email']);
 if (!empty($advancedCustomUser->emailMustBeUnique)) {
     if (empty($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-        $obj->error = __("You must specify an valid email");
+        $obj->error = __("You must specify a valid email")." {$_POST['email']} (create)";
         die(json_encode($obj));
     }
     $userFromEmail = User::getUserFromEmail($_POST['email']);
@@ -61,6 +56,10 @@ if (!empty($advancedCustomUser->emailMustBeUnique)) {
         $obj->error = __("Email already exists");
         die(json_encode($obj));
     }
+}
+
+if(empty($_POST['pass']) && !empty($_POST['inputPassword'])){
+    $_POST['pass'] = $_POST['inputPassword'];
 }
 
 if (empty($_POST['user']) || empty($_POST['pass']) || empty($_POST['email']) || empty($_POST['name'])) {
@@ -78,6 +77,8 @@ $user->setUser($_POST['user']);
 $user->setPassword($_POST['pass']);
 $user->setEmail($_POST['email']);
 $user->setName($_POST['name']);
+$user->setPhone(@$_POST['phone']);
+$user->setIs_company($_POST['is_company']);
 
 $user->setCanUpload($config->getAuthCanUploadVideos());
 
@@ -89,9 +90,18 @@ if (!empty($users_id)) {
         CustomizeUser::setCanShareVideosFromUser($users_id, true);
     }
     if (!empty($advancedCustomUser->userDefaultUserGroup->value)) { // for new users use the default usergroup
-        UserGroups::updateUserGroups($users_id, array($advancedCustomUser->userDefaultUserGroup->value), true);
+        UserGroups::updateUserGroups($users_id, [$advancedCustomUser->userDefaultUserGroup->value], true);
     }
     AVideoPlugin::onUserSignup($users_id);
+    $obj->status = $users_id;
+    $obj->error = false;
+    $obj->msg = __("Your user account has been created!");
+    if(!empty($advancedCustomUser->unverifiedEmailsCanNOTLogin)){
+        $obj->msg .= '<br>'.__("Sign in to your email to verify your account!");
+    }
+    if (!empty($_POST['usersExtraInfo'])) {
+        User::saveExtraInfo(json_encode($_POST['usersExtraInfo']), $users_id);
+    }
 }
 
-echo '{"status":"' . $users_id . '"}';
+die(json_encode($obj));

@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+
+  <title>basic1</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <link rel="stylesheet" href="sandbox.css" />
+
+  <style>
+    #gallery3,
+    #gallery3 .cell,
+    #gallery3 input,
+    #gallery3 button {
+      font-size: 20px;
+    }
+
+    #gallery3 .cell {
+      padding-top: 20px;
+      padding-left: 100px;
+    }
+
+    #gallery3 p { margin: 0 0 10px; }
+
+    /*#gallery6 .cell { margin: 0 40px; }*/
+
+    @media screen and ( min-width: 900px ) {
+      #gallery5 {
+        background: #DDF;
+      }
+      #gallery5:after {
+        content: 'flickity';
+        display: none;
+      }
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>basic1</h1>
+
+  <div id="full-width" class="container">
+    <div class="cell" n1></div>
+    <div class="cell" n2></div>
+    <div class="cell" n3></div>
+    <div class="cell" n4></div>
+    <div class="cell" n5></div>
+    <div class="cell" n6></div>
+    <div class="cell" n7></div>
+  </div>
+
+  <div id="half-width" class="container">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+
+  <div id="gallery3" class="container">
+    <div class="cell">
+      <select>
+        <option>Michaelangelo</option>
+        <option>Donatello</option>
+        <option>Leonardo</option>
+        <option>Raphael</option>
+      </select>
+    </div>
+    <div class="cell">
+      <p><button>Button</button> <a href="https://example.com">go to example.com</a></p>
+      <p><input /></p>
+      <p>
+        <input type="checkbox" />
+        <input type="radio" name="foo" />
+        <input type="radio" name="foo" />
+        <input type="range" />
+      </p>
+    </div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+
+  <div id="gallery4" class="container" data-flickity>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+
+  <h2>contain</h2>
+
+  <div id="gallery6" class="container variable-width"
+    data-flickity='{ "contain": true }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+  </div>
+
+  <h2>contain, freeScroll</h2>
+
+  <div id="gallery6" class="container variable-width"
+    data-flickity='{ "contain": true, "freeScroll": true }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+    <div class="cell n1">7</div>
+    <div class="cell n2 w2">8</div>
+    <div class="cell n3 w3">9</div>
+  </div>
+
+  <h2>contain, few</h2>
+
+  <div class="container variable-width"
+    data-flickity='{ "contain": true, "cellAlign": "center" }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2">2</div>
+    <!-- <div class="cell n3">3</div> -->
+  </div>
+
+  <h2>watch, activate >900px</h2>
+
+  <div id="gallery5" class="container variable-width"
+    data-flickity='{ "wrapAround": true, "watchCSS": true }'>
+    <div class="cell n1 w3"></div>
+    <div class="cell n2 w2"></div>
+    <div class="cell n3"></div>
+    <div class="cell n4 w3"></div>
+    <div class="cell n5"></div>
+    <div class="cell n6 w2"></div>
+    <div class="cell n4"></div>
+    <div class="cell n2"></div>
+  </div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+<script src="../js/lazyload.js"></script>
+
+<script src="js/basic.js"></script>
+
+</body>
+</html>

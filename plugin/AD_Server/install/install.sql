@@ -34,9 +34,6 @@ CREATE TABLE IF NOT EXISTS `vast_campaigns` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
--- -----------------------------------------------------
--- Table `vast_campaigns_has_videos`
--- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `vast_campaigns_has_videos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `vast_campaigns_id` INT NOT NULL,
@@ -52,15 +49,14 @@ CREATE TABLE IF NOT EXISTS `vast_campaigns_has_videos` (
   CONSTRAINT `fk_vast_campaigns_has_videos_vast_campaigns1`
     FOREIGN KEY (`vast_campaigns_id`)
     REFERENCES `vast_campaigns` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_vast_campaigns_has_videos_videos1`
     FOREIGN KEY (`videos_id`)
     REFERENCES `videos` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
 
 -- -----------------------------------------------------
 -- Table `vast_campaigns_logs`
@@ -84,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `vast_campaigns_logs` (
   CONSTRAINT `fk_vast_campaigns_logs_vast_campaigns_has_videos1`
     FOREIGN KEY (`vast_campaigns_has_videos_id`)
     REFERENCES `vast_campaigns_has_videos` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

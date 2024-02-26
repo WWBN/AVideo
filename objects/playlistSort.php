@@ -10,21 +10,17 @@ if (!User::isLogged()) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
-if (empty($_POST['playlist_id']) && !empty($_GET['playlist_id'])) {
-    $_POST['playlist_id'] = intval($_GET['playlist_id']);
-}
-
-$obj = new PlayList($_POST['playlist_id']);
-if (User::getId() != $obj->getUsers_id()) {
+if (!PlayLists::canManagePlaylist($_REQUEST['playlist_id'])) {
     die('{"error":"'.__("Permission denied").'"}');
 }
 
+$obj = new PlayList($_REQUEST['playlist_id']);
 $count = 1;
 
 if (empty($_POST['list'])) {
     // get all videos from playlist
-    $videosArrayId = PlayList::getVideosIdFromPlaylist($_POST['playlist_id']);
-    $videos = array();
+    $videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['playlist_id']);
+    $videos = [];
     foreach ($videosArrayId as $value) {
         $videos[] = Video::getVideoLight($value);
     }
@@ -52,10 +48,14 @@ if (empty($_POST['list'])) {
         $_POST['list'][] = $value['id'];
     }
 }
-
+_error_log('playlistSort line='.__LINE__);
+mysqlBeginTransaction();
 foreach ($_POST['list'] as $key => $value) {
-    $result = $obj->addVideo($value, true, $count++);
+    $result = $obj->addVideo($value, true, ($count++), false);
 }
+PlayList::deleteCacheDir($obj->getId());
+mysqlCommit();
+_error_log('playlistSort line='.__LINE__);
 
 if (!empty($_GET['sort'])) {
     header("Location: ". $_SERVER['HTTP_REFERER']);

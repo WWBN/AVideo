@@ -286,3 +286,10 @@
 .video-js:hover .vjs-big-play-button, .video-js .vjs-big-play-button:focus, .video-js .vjs-big-play-button:active {
     background-color: rgba(253,198,0,0.9);
 }
+
+@media (max-width: 767px) {
+    .vjs-current-time, .vjs-time-control{
+        display: none !important;
+    }
+
+}

@@ -33,7 +33,20 @@ class TagsTypes extends ObjectYPT {
         $this->parameters_json = $parameters_json;
     }
 
-
+    static function getFromName($name) {
+        global $global;
+        $sql = "SELECT * FROM " . static::getTableName() . " WHERE  name = ? LIMIT 1";
+        //var_dump($sql, $id);
+        $res = sqlDAL::readSql($sql, "s", [$name]);
+        $data = sqlDAL::fetchAssoc($res);
+        sqlDAL::close($res);
+        if ($res) {
+            $row = $data;
+        } else {
+            $row = false;
+        }
+        return $row;
+    }
     
         
 }

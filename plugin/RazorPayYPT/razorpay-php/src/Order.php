@@ -22,10 +22,24 @@ class Order extends Entity
         return parent::all($options);
     }
 
+    public function edit($attributes = array())
+    {
+        $url = $this->getEntityUrl() . $this->id;
+
+        return $this->request('PATCH', $url, $attributes);
+    }
+
     public function payments()
     {
         $relativeUrl = $this->getEntityUrl().$this->id.'/payments';
 
         return $this->request('GET', $relativeUrl);
+    }
+
+    public function transfers($options = array())
+    {
+        $relativeUrl = $this->getEntityUrl().$this->id;
+
+        return $this->request('GET', $relativeUrl, $options);
     }
 }

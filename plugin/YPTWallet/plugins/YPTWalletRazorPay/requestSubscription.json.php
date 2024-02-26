@@ -22,25 +22,29 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 unset($_SESSION['recurrentSubscription']['plans_id']);
-if (!empty($_POST['plans_id'])) {
-    $_SESSION['recurrentSubscription']['plans_id'] = $_POST['plans_id'];
+if (!empty($plans_id)) {
+    $_SESSION['recurrentSubscription']['plans_id'] = $plans_id;
+}
+$plans_id = intval(@$_POST['plans_id']);
+if (empty($plans_id)) {
+    forbiddenPage("Plan ID Not found");
 }
 
-$subs = new SubscriptionPlansTable($_POST['plans_id']);
+$subs = new SubscriptionPlansTable($plans_id);
 
 if (empty($subs)) {
-    die("Plan Not found");
+    forbiddenPage("Plan Not found");
 }
 
 if (!User::isLogged()) {
-    die("User not logged");
+    forbiddenPage("User not logged");
 }
 
 $users_id = User::getId();
 
 //setUpSubscription($invoiceNumber, $redirect_url, $cancel_url, $total = '1.00', $currency = "USD", $frequency = "Month", $interval = 1, $name = 'Base Agreement')
 _error_log("Request subscription setUpSubscription: " . json_encode($_POST));
-$payment = $plugin->setUpSubscription($_POST['plans_id']);
+$payment = $plugin->setUpSubscription($plans_id);
 _error_log("Request subscription setUpSubscription Done ");
 if (!empty($payment) && !empty($payment->status) && ($payment->status == "active" || $payment->status == "created")) {
 
@@ -56,7 +60,7 @@ if (!empty($payment) && !empty($payment->status) && ($payment->status == "active
         ],
         "notes" => [
             "users_id" => User::getId(),
-            "plans_id" => $_POST['plans_id']
+            "plans_id" => $plans_id
         ],
         "callback_url" => "{$global['webSiteRootURL']}plugin/YPTWallet/plugins/YPTWalletRazorPay/redirect_url.php",
         "redirect" => true
@@ -76,7 +80,7 @@ if ($obj->error) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Add Funds</title>
         <?php

@@ -14,38 +14,37 @@ $sources = getVideosURLIMAGE($video['filename']);
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <video playsinline webkit-playsinline="webkit-playsinline"  id="mainVideo" style="display: none; height: 0;width: 0;" ></video>
-            <center>
-                <img src="<?php
-                echo $sources["image"]['url']
-                ?>" class="img img-responsive"  style="max-height: 600px;" >
-            </center>
+            <video id="mainVideo" style="display: none; height: 0;width: 0;"></video>
+            <?php
+            if (AVideoPlugin::isEnabledByName('ImageGallery') && !empty(ImageGallery::listFiles($video['id']))) {
+            ?>
+                <!-- ImageGallery <?php echo basename(__FILE__); ?> -->
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" src="<?php echo $global['webSiteRootURL']; ?>plugin/ImageGallery/?avideoIframe=1&videos_id=<?php echo $video['id']; ?>" allowfullscreen>
+                    </iframe>
+                </div>
+            <?php
+            } else {
+            ?>
+                <center>
+                    <img src="<?php
+                                echo $sources["image"]['url']
+                                ?>" class="img img-responsive" style="max-height: 600px;">
+                </center>
+            <?php
+            }
+            ?>
             <script>
-                $(document).ready(function () {
+                $(document).ready(function() {
                     addView(<?php echo $video['id']; ?>, 0);
                 });
             </script>
 
         </div>
-        <?php
-        if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-
-            require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-            $style = VideoLogoOverlay::getStyle();
-            $url = VideoLogoOverlay::getLink();
-            ?>
-            <div style="<?php echo $style; ?>">
-                <a href="<?php echo $url; ?>"  target="_blank">
-                    <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo"  class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6">
-                </a>
-            </div>
-            <?php
-        }
-        ?>
     </div>
 </div>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
 
     });
 </script>

@@ -37,13 +37,17 @@ class LoginTwitter extends PluginAbstract {
         global $global;
         $obj = new stdClass();                
         $obj->id = "";
+        self::addDataObjectHelper('id', 'Consumer API Key');
+
         $obj->key = "";
+        self::addDataObjectHelper('key', 'Consumer API Key Secret');
+
         return $obj;
     }
     public function getLogin() {
         $obj = new stdClass();
         $obj->class = "btn btn-info btn-block"; 
-        $obj->icon = "fab fa-twitter"; 
+        $obj->icon = "fa-brands fa-x-twitter"; 
         $obj->type = "Twitter"; 
         $obj->linkToDevelopersPage = "https://apps.twitter.com/";         
         return $obj;

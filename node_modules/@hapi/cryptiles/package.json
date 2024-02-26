@@ -1,0 +1,31 @@
+{
+  "name": "@hapi/cryptiles",
+  "description": "General purpose crypto utilities",
+  "version": "5.1.0",
+  "repository": "git://github.com/hapijs/cryptiles",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "cryptography",
+    "security",
+    "utilites"
+  ],
+  "dependencies": {
+    "@hapi/boom": "9.x.x"
+  },
+  "devDependencies": {
+    "@hapi/code": "8.x.x",
+    "@hapi/lab": "22.x.x"
+  },
+  "scripts": {
+    "test": "lab -a @hapi/code -t 100 -L -Y",
+    "test-cov-html": "lab -a @hapi/code -t 100 -L -r html -o coverage.html"
+  },
+  "license": "BSD-3-Clause"
+}

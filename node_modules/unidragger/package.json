@@ -1,0 +1,49 @@
+{
+  "name": "unidragger",
+  "version": "3.0.1",
+  "description": "Base draggable class",
+  "main": "unidragger.js",
+  "dependencies": {
+    "ev-emitter": "^2.0.0"
+  },
+  "scripts": {
+    "lint": "npx eslint .",
+    "test": "npm run lint"
+  },
+  "keywords": [
+    "draggable",
+    "flickity",
+    "draggabilly",
+    "browser",
+    "dom"
+  ],
+  "author": "David DeSandro",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-metafizzy": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/metafizzy/unidragger.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metafizzy/unidragger/issues"
+  },
+  "homepage": "https://github.com/metafizzy/unidragger",
+  "eslintConfig": {
+    "plugins": [
+      "metafizzy"
+    ],
+    "extends": "plugin:metafizzy/browser",
+    "env": {
+      "browser": true,
+      "commonjs": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "globals": {},
+    "rules": {}
+  }
+}

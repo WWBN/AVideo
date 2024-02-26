@@ -1,0 +1,105 @@
+#accessibility-toolbar > .accessibility-toolbar-toggle > .button{
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 1.3333333;
+    transition:all 0.2s linear;
+    width: 70px;
+    display: none;
+}
+#accessibility-toolbar > .accessibility-toolbar-toggle > .fa-angle-left{
+    margin: 10px;
+}
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle > .button,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .button{
+    display: block;
+}
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle > .fa-angle-left,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .fa-angle-left{
+    display: none;
+}
+
+#accessibility-toolbar .accessibility-toolbar-toggle{
+    position: absolute;
+    left: -35px;
+    z-index: 9999;
+    padding: 0;
+    border-radius: 35px 0 0 35px;
+    border-right: none;
+    opacity: 0.5;
+}
+#accessibility-toolbar:hover > .accessibility-toolbar-toggle,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle{
+    left: -70px;
+    opacity: 1;
+}
+
+#accessibility-toolbar > div.accessibility-toolbar-overlay > div.list-group > a:nth-child(1){
+    border-top-left-radius: 0;
+}
+
+#accessibility-toolbar > .accessibility-toolbar-toggle:hover .button,
+#accessibility-toolbar.active > .accessibility-toolbar-toggle .button{
+    opacity: 1;
+}
+
+#accessibility-toolbar{
+    width: 200px;
+    position: fixed;
+    right: -200px;
+    top: 100px;
+    transition:right 0.3s ease-in-out;
+    z-index: 9999;
+}
+#accessibility-toolbar.active{
+    right: 0;
+}
+
+.accessibility-grayscale{
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+    -webkit-filter: grayscale(1);
+    -moz-filter: grayscale(100%);
+    -ms-filter: grayscale(100%);
+    -o-filter: grayscale(100%);
+    filter: gray;
+}
+.accessibility-high-contrast{
+    filter: contrast(150%);
+    -webkit-filter: contrast(150%);
+    -webkit-filter: contrast(1.5);
+    -moz-filter: contrast(150%);
+    -ms-filter: contrast(150%);
+    -o-filter: contrast(150%);
+}
+
+.accessibility-negative-contrast{
+    filter: invert(100%);
+    -webkit-filter: invert(100%);
+    -webkit-filter: invert(1);
+    -moz-filter: invert(100%);
+    -ms-filter: invert(100%);
+    -o-filter: invert(100%);
+}
+.accessibility-links-underline a{
+    text-decoration: underline !important;
+}
+
+.accessibility-readable-font{
+    font-family: Verdana,Arial,Helvetica,sans-serif !important;
+}
+
+    

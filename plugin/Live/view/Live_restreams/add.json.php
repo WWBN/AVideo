@@ -8,24 +8,24 @@ $obj->error = true;
 $obj->msg = "";
 
 $plugin = AVideoPlugin::loadPluginIfEnabled('Live');
-                                                
-if(!User::canStream()){
+
+if (!User::canStream()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
 
-$o = new Live_restreams(@$_POST['id']);
+$o = new Live_restreams($_POST['id'] ?? '');
 
-if(!empty($o->getUsers_id()) && !User::isAdmin() && $o->getUsers_id() != User::getId()){
+if (!empty($o->getUsers_id()) && !User::isAdmin() && $o->getUsers_id() != User::getId()) {
     $obj->msg = "You cant do this";
     die(json_encode($obj));
 }
 
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     $_POST['users_id'] = User::getId();
 }
 
-if(empty($_POST['users_id'])){
+if (empty($_POST['users_id'])) {
     $_POST['users_id'] = User::getId();
 }
 
@@ -36,7 +36,7 @@ $o->setStatus($_POST['status']);
 $o->setParameters($_POST['parameters']);
 $o->setUsers_id($_POST['users_id']);
 
-if($id = $o->save()){
+if ($id = $o->save()) {
     $obj->error = false;
 }
 

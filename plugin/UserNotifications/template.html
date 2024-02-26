@@ -1,0 +1,24 @@
+<div class="userNotifications {element_class} {type}" id="{element_id}">
+    <a href="{href}" onclick="{onclick}" class="list-group-item {status}">
+        <div class="media">
+            <div class="media-left">
+                <img src="{placeholder}" data-src="{image}" class="media-object lazyload">
+            </div>
+            <div class="media-body">
+                <strong class="media-heading">
+                    {title}
+                </strong>
+                <p>{msg}</p>
+                {html}
+                <small class="pull-right">{created}</small>
+            </div>
+        </div>
+    </a>
+    <div class="icon bg-{type}">{icon}</div>
+    <button class="btn btn-default btn-outline deleteBtn" 
+            onclick="deleteUserNotification({id}, this);return false;"
+            data-toggle="tooltip" title="Delete" 
+            data-placement="left">
+        <i class="fas fa-times-circle"></i>
+    </button>
+</div>

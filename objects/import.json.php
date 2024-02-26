@@ -21,7 +21,7 @@ $obj->fileURI = pathinfo($_POST['fileURI']);
 
 //get description
 $filename = $obj->fileURI['dirname'] . DIRECTORY_SEPARATOR . $obj->fileURI['filename'];
-$extensions = array('txt', 'html', 'htm');
+$extensions = ['txt', 'html', 'htm'];
 
 $length = intval($_POST['length']);
 if (empty($length) || $length>100) {
@@ -29,11 +29,11 @@ if (empty($length) || $length>100) {
 }
 
 foreach ($extensions as $value) {
-    $_POST['description'] = "";
-    $_POST['title'] = "";
+    $_POST['description'] = '';
+    $_POST['title'] = '';
     if (file_exists("{$filename}.{$value}")) {
         $html = file_get_contents("{$filename}.{$value}");
-        $breaks = array("<br />","<br>","<br/>");
+        $breaks = ["<br />","<br>","<br/>"];
         $html = str_ireplace($breaks, "\r\n", $html);
         $_POST['description'] = $html;
         $cleanHTML = strip_tags($html);

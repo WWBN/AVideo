@@ -1,0 +1,45 @@
+{
+  "name": "imagesloaded",
+  "version": "5.0.0",
+  "description": "JavaScript is all like _You images done yet or what?_",
+  "main": "imagesloaded.js",
+  "files": [
+    "imagesloaded*.js"
+  ],
+  "dependencies": {
+    "ev-emitter": "^2.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-plugin-metafizzy": "^1.2.1",
+    "jquery": "^3.6.0",
+    "qunit": "^2.17.2",
+    "terser": "^5.10.0"
+  },
+  "scripts": {
+    "test": "npm run lint",
+    "lint": "npx eslint .",
+    "dist": "node tasks/dist.js",
+    "version": "node tasks/version.js && npm run dist && git add -A ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/desandro/imagesloaded.git"
+  },
+  "keywords": [
+    "images",
+    "loaded",
+    "ui",
+    "dom",
+    "jquery-plugin"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/desandro/imagesloaded/issues"
+  },
+  "homepage": "https://github.com/desandro/imagesloaded",
+  "directories": {
+    "test": "test"
+  },
+  "author": "David DeSandro"
+}

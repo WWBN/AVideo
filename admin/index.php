@@ -1,18 +1,27 @@
 <?php
-$vars = array();
+$vars = [];
 require_once '../videos/configuration.php';
 require_once './functions.php';
-
 if (!User::isAdmin()) {
     header("Location: {$global['webSiteRootURL']}");
     exit;
 }
+adminSecurityCheck(true);
+$isAdminPanel = 1;
 
-class MenuAdmin {
+class MenuAdmin
+{
+    public $title;
+    public $icon;
+    public $href;
+    public $active = false;
+    public $show = false;
+    public $itens = [];
+    public $data_toggle;
+    public $data_target;
 
-    public $title, $icon, $href, $active = false, $show = false, $itens = array(), $data_toggle, $data_target;
-
-    function __construct($title, $icon, $href = "", $data_toggle = "", $data_target = "") {
+    public function __construct($title, $icon, $href = "", $data_toggle = "", $data_target = "")
+    {
         $this->title = $title;
         $this->icon = $icon;
         $this->href = $href;
@@ -26,20 +35,23 @@ class MenuAdmin {
         }
     }
 
-    function addItem(MenuAdmin $menu) {
+    public function addItem(MenuAdmin $menu)
+    {
         $this->itens[] = $menu;
         if ($menu->active) {
             $this->show = true;
         }
     }
-
 }
 
-$itens = array();
+$itens = [];
 
 $menu = new MenuAdmin(__("Dashboard"), "fa fa-tachometer-alt", "dashboard");
 $itens[] = $menu;
-
+/*
+  $menu = new MenuAdmin(__("Premium Featrures"), "fas fa-star", "premium");
+  $itens[] = $menu;
+ */
 $menu = new MenuAdmin(__("Settings"), "fa fa-wrench");
 $menu->addItem(new MenuAdmin(__("Remove Branding"), "far fa-edit", "customize_settings"));
 $menu->addItem(new MenuAdmin(__("General Settings"), "fas fa-cog", "general_settings"));
@@ -85,14 +97,19 @@ $menu->addItem(new MenuAdmin(__("Plugins"), "fas fa-puzzle-piece", "plugins"));
 $menu->addItem(new MenuAdmin(__("Email All Users"), "fas fa-mail-bulk", "mail_all_users"));
 $itens[] = $menu;
 
+$menu = new MenuAdmin(__("Health Check"), "fas fa-notes-medical", "health_check");
+$itens[] = $menu;
 
 $_GET['page'] = xss_esc(@$_GET['page']);
 
-$includeHead = "";
-$includeBody = "";
+$includeHead = '';
+$includeBody = '';
 switch ($_GET['page']) {
     case "backup":
         $includeBody = $global['systemRootPath'] . 'admin/backup.php';
+        break;
+    case "premium":
+        $includeBody = $global['systemRootPath'] . 'admin/premium.php';
         break;
     case "design_first_page":
         $includeBody = $global['systemRootPath'] . 'admin/design_first_page.php';
@@ -127,7 +144,7 @@ switch ($_GET['page']) {
         break;
     case "monetize_subscription":
         $includeHead = $global['systemRootPath'] . 'plugin/Subscription/page/editor_head.php';
-        $includeBody = array();
+        $includeBody = [];
         $includeBody[] = $global['systemRootPath'] . 'plugin/Subscription/page/editor_body.php';
         $includeBody[] = $global['systemRootPath'] . 'admin/monetize_subscription.php';
         break;
@@ -164,16 +181,19 @@ switch ($_GET['page']) {
         $includeHead = $global['systemRootPath'] . 'view/managerVideos_head.php';
         $includeBody = $global['systemRootPath'] . 'view/managerVideos_body.php';
         break;
-    default :
+    case "health_check":
+        $includeBody = $global['systemRootPath'] . 'admin/health_check.php';
+        break;
+    default:
         $includeHead = $global['systemRootPath'] . 'view/charts_head.php';
         $includeBody = $global['systemRootPath'] . 'view/charts_body.php';
         break;
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
-        <?php 
+        <?php
         echo getHTMLTitle(__("Administration"));
         ?>
         <?php
@@ -193,6 +213,23 @@ switch ($_GET['page']) {
             .leftMenu .panel-body {
                 padding: 0px;
             }
+            .adminLeftMenu.panel-default i, .adminLeftMenu.panel-default{
+                -webkit-transition: opacity 0.5s ease-in-out;
+                -moz-transition: opacity 0.5s ease-in-out;
+                transition: opacity 0.5s ease-in-out;
+            }
+            .adminLeftMenu.panel-default i{
+                opacity: 0.2;
+            }
+            .adminLeftMenu:hover.panel-default i{
+                opacity: 1;
+            }
+            .adminLeftMenu.panel-default{
+                opacity: 0.6;
+            }
+            .adminLeftMenu:hover.panel-default{
+                opacity: 1;
+            }
         </style>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
@@ -203,25 +240,39 @@ switch ($_GET['page']) {
         <div class="container-fluid">
             <br>
             <div class="row">
-                <div class="col-sm-3 col-md-3 fixed affix leftMenu">
+                <div class=" col-lg-2 col-md-3 col-sm-3 fixed affix leftMenu">
                     <div class="panel-group" id="accordion">
                         <?php
+                        $panel = 'panel-default';
+                        if (empty($_REQUEST['page'])) {
+                            $panel = 'panel-primary';
+                        }
                         foreach ($itens as $key => $value) {
                             $uid = uniqid();
                             $href = 'data-toggle="collapse" data-parent="#accordion" href="#collapse' . $uid . '"';
                             if (!empty($value->href)) {
                                 $href = 'href="' . $global['webSiteRootURL'] . 'admin/?page=' . $value->href . '"';
                             }
-                            ?>
-                            <div class="panel panel-default">
+                            if (!empty($_REQUEST['page']) && $_REQUEST['page'] == $value->href) {
+                                $panel = 'panel-primary';
+                            } else {
+                                foreach ($value->itens as $key2 => $value2) {
+                                    if (!empty($_REQUEST['page']) && $_REQUEST['page'] === $value2->href) {
+                                        $panel = 'panel-primary';
+                                    }
+                                }
+                            } ?>
+                            <div class="panel <?php echo $panel; ?> adminLeftMenu <?php echo getCSSAnimationClassAndStyle('animate__bounceInLeft', 'menu'); ?>">
                                 <div class="panel-heading">
                                     <h4 class="panel-title">
-                                        <a <?php echo $href; ?>><i class="<?php echo $value->icon; ?>"></i> <?php echo $value->title; ?></a>
+                                        <a <?php echo $href; ?> >
+                                            <i class="<?php echo $value->icon; ?> "></i> <?php echo $value->title; ?>
+                                        </a>
                                     </h4>
                                 </div>
                                 <?php
                                 if (!empty($value->itens)) {
-                                    $in = "";
+                                    $in = '';
                                     if (!empty($_GET['page'])) {
                                         foreach ($value->itens as $search) {
                                             if ($_GET['page'] === $search->href) {
@@ -229,39 +280,40 @@ switch ($_GET['page']) {
                                                 break;
                                             }
                                         }
-                                    }
-                                    ?>
+                                    } ?>
                                     <div id="collapse<?php echo $uid; ?>" class="panel-collapse collapse <?php echo $in; ?>">
                                         <div class="panel-body">
                                             <table class="table">
                                                 <?php
-                                                foreach ($value->itens as $key2 => $value2) {
-                                                    $active = "";
-                                                    if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
-                                                        $active = "active";
-                                                    }
-                                                    ?>
+                                                $active = '';
+                                    if (empty($_GET['page'])) {
+                                        $active = "active";
+                                    }
+                                    foreach ($value->itens as $key2 => $value2) {
+                                        if (!empty($_GET['page']) && $_GET['page'] === $value2->href) {
+                                            $active = "active";
+                                        } ?>
                                                     <tr>
                                                         <td class="<?php echo $active; ?>">
                                                             <a href="<?php echo "{$global['webSiteRootURL']}admin/?page=" . $value2->href; ?>"><i class="<?php echo $value2->icon; ?>"></i> <?php echo $value2->title; ?></a>
                                                         </td>
                                                     </tr>
                                                     <?php
-                                                }
-                                                ?>
+                                                    $active = '';
+                                    } ?>
                                             </table>
                                         </div>
                                     </div>
                                     <?php
-                                }
-                                ?>
+                                } ?>
                             </div>
                             <?php
+                            $panel = 'panel-default';
                         }
                         ?>
                     </div>
                 </div>
-                <div class="col-sm-9 col-md-9 col-sm-offset-3 col-md-offset-3 ">
+                <div class=" col-lg-10 col-md-9 col-sm-9 col-sm-offset-3 col-md-offset-3 col-lg-offset-2 ">
                     <?php
                     if (!empty($includeBody)) {
                         if (is_array($includeBody)) {
@@ -272,7 +324,7 @@ switch ($_GET['page']) {
                                     ?>
                                     <div class="alert alert-danger">
                                         <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                        <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
+                                        <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
                                     </div>
                                     <?php
                                 }
@@ -284,7 +336,7 @@ switch ($_GET['page']) {
                                 ?>
                                 <div class="alert alert-danger">
                                     <?php echo __('Please forgive us for bothering you, but unfortunately you do not have this plugin yet. But do not hesitate to purchase it in our online store'); ?>
-                                    <a class="btn btn-danger" href="https://youphp.tube/plugins/"><?php echo __('Plugin Store'); ?></a>
+                                    <a class="btn btn-danger" href="https://youphp.tube/marketplace/"><?php echo __('Plugin Store'); ?></a>
                                 </div>
                                 <?php
                             }

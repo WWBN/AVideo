@@ -43,7 +43,7 @@ if (isset($_GET['code'])) {
     header('Location: ' . $redirect);
 }
 if (!is_array($_POST['id'])) {
-    $_POST['id'] = array($_POST['id']);
+    $_POST['id'] = [$_POST['id']];
 }
 foreach ($_POST['id'] as $value) {
     $v = new Video("", "", $value);
@@ -66,7 +66,7 @@ foreach ($_POST['id'] as $value) {
             $snippet = new Google_Service_YouTube_VideoSnippet();
             $snippet->setTitle($v->getTitle());
             $snippet->setDescription($v->getDescription());
-            $snippet->setTags(array("AVideo", $config->getWebSiteTitle()));
+            $snippet->setTags(["AVideo", $config->getWebSiteTitle()]);
             // Numeric video category. See
             // https://developers.google.com/youtube/v3/docs/videoCategories/list
             // $snippet->setCategoryId("22");
@@ -88,11 +88,11 @@ foreach ($_POST['id'] as $value) {
             // Create a request for the API's videos.insert method to create and upload the video.
             $insertRequest = $youtube->videos->insert("status,snippet", $video);
             // Create a MediaFileUpload object for resumable uploads.
-            
+
             _error_log("youtubeUpload: videoPath:: ". json_encode($videoPath));
             _error_log("youtubeUpload: title:: ".$v->getTitle());
             _error_log("youtubeUpload: videoPath:: {$videoPath}");
-            
+
             $media = new Google_Http_MediaFileUpload(
                 $client,
                 $insertRequest,
@@ -116,13 +116,13 @@ foreach ($_POST['id'] as $value) {
             $obj->title = $status['snippet']['title'];
             $obj->id = $status['id'];
             $obj->status = $status;
-            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> ", true), $obj->id, $obj->title);
+            $obj->msg = sprintf(__("Your video <a href='https://youtu.be/%s' target='_blank' class='btn btn-default'><span class='fas fa-play-circle'></span> %s</a> was uploaded to your <a href='https://www.youtube.com/my_videos' class='btn btn-default' target='_blank'><span class='fab fa-youtube-square'></span> YouTube Account</a><br> "), $obj->id, $obj->title);
             $v->setYoutubeId($obj->id);
             $v->save();
         } catch (Google_Service_Exception $e) {
             $obj->msg = sprintf(__("A service error occurred [1]: %s"), $e->getMessage());
         } catch (Google_Exception $e) {
-            $obj->msg = sprintf(__("An client error occurred [2]: %s"), $e->getMessage());
+            $obj->msg = sprintf(__("A client error occurred [2]: %s"), $e->getMessage());
         }
         $_SESSION[$tokenSessionKey] = $client->getAccessToken();
     } elseif ($OAUTH2_CLIENT_ID == 'REPLACE_ME') {

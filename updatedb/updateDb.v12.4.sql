@@ -1,0 +1,1 @@
+UPDATE configurations SET  version = '12.4', modified = now() WHERE id = 1;

@@ -1,12 +1,12 @@
 <?php
 $limitVideos = 50;
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Dashboard") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php

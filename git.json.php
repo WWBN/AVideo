@@ -7,10 +7,9 @@ $obj = new stdClass();
 
 $obj->output = $output;
 
-foreach ($output as $value){
-    
+foreach ($output as $value) {
     preg_match("/Date:(.*)/i", $value, $match);
-    if(!empty($match[1])){
+    if (!empty($match[1])) {
         $obj->date = strtotime($match[1]);
         $obj->dateString = trim($match[1]);
         $obj->dateMySQL = date("Y-m-d H:i:s", $obj->date);

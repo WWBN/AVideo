@@ -12,14 +12,14 @@ if (!User::isAdmin()) {
     die(json_encode($obj));
 }
 
-if (empty($_POST['stripe_costumer_id'])) {
-    $obj->msg = "Empty Stripe Costumer ID";
+if (empty($_POST['stripe_costumer'])) {
+    $obj->msg = "Empty Stripe Costumer ID 2";
     die(json_encode($obj));
 }
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("StripeYPT");
 
-$agreement = StripeYPT::getSubscriptions($_POST['stripe_costumer_id'], $_POST['plans_id']);
+$agreement = StripeYPT::getSubscriptions($_POST['stripe_costumer'], $_POST['plans_id']);
 
 if(empty($agreement)){
     $obj->msg = "Agreement not found";

@@ -22,7 +22,8 @@ class Tags extends ObjectYPT {
         if (empty($row))
             return false;
         foreach ($row as $key => $value) {
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
@@ -93,6 +94,7 @@ class Tags extends ObjectYPT {
             $obj = new stdClass();
             $obj->type_name = $value['type_name'];
             $obj->tag_types_id = $value['tags_types_id'];
+            $obj->tags_id = $value['tags_id'];
             $obj->name = $value['name'];
             $tagsArray[] = $obj;
         }
@@ -106,12 +108,14 @@ class Tags extends ObjectYPT {
             if(empty($tagsArray[$value->type_name])){
                 $tagsArray[$value->type_name] = array();
             }
-            $tagsArray[$value->type_name][] = $value->name;
+            if($value->name !== '-'){
+                $tagsArray[$value->type_name][] = $value->name;
+            }
         }
         return empty($tagsArray)?(new stdClass()):$tagsArray;
     }
     
-    static function getAllTagsList($tags_types_id) {
+    static function getAllTags($tags_types_id) {
         global $global;
         $tags_types_id = intval($tags_types_id);
         $sql = "SELECT * FROM  " . static::getTableName() . " WHERE 1=1 ";
@@ -120,19 +124,55 @@ class Tags extends ObjectYPT {
         }
         $sql .= " ORDER BY name ";
         $res = sqlDAL::readSql($sql); 
-        $fullData = sqlDAL::fetchAllAssoc($res);
-        
-        sqlDAL::close($res);
+        $fullData = sqlDAL::fetchAllAssoc($res);  
+        return $fullData;
+    }   
+    
+    static function getAllTagsWithTotalVideos($tags_types_id) {
+        global $global;
+        $tags_types_id = intval($tags_types_id);
+        $sql = "SELECT *, (SELECT count(thv.id) FROM tags_has_videos thv WHERE tags_id = t.id ) as total_videos FROM  " . static::getTableName() . " t WHERE 1=1 ";
+        if(!empty($tags_types_id)){
+            $sql .= " AND tags_types_id = $tags_types_id ";
+        }
+        $sql .= " ORDER BY name ";
+        //echo $sql;
+        $res = sqlDAL::readSql($sql); 
+        $fullData = sqlDAL::fetchAllAssoc($res);  
+        return $fullData;
+    }   
+    
+    
+    static function getAllTagsList($tags_types_id) {
+        global $global;
+        $fullData = self::getAllTags($tags_types_id);
         $rows = array();
-        if ($res!=false) {
-            foreach ($fullData as $row) {
-                $rows[] = $row['name'];
-            }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+        foreach ($fullData as $row) {
+            $rows[] = $row['name'];
         }
         return $rows;
     }   
+    
+    public static function getAllWithSubscriptionRow($users_id)
+    {
+        global $global;
+        if (!static::isTableInstalled()) {
+            return false;
+        }
+        $subSelect = " 0  as subscription ";
+        if(!empty($users_id)){
+            $subSelect = " (select id from tags_subscriptions thv WHERE thv.tags_id = t.id AND thv.users_id = {$users_id}) as subscription  ";
+        }
+        $sql = "SELECT *, {$subSelect} FROM  " . static::getTableName() . " t WHERE 1=1 ";
+        
+        $sql .= self::getSqlFromPost();
+        //echo $sql;exit;
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $fullData;
+        
+    }
     
         
 }

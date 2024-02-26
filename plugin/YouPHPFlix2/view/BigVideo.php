@@ -1,15 +1,18 @@
 <?php
 global $advancedCustom;
 $uid = uniqid();
-$video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
+$obj2 = AVideoPlugin::getObjectData("YouPHPFlix2");
+$video = Video::getVideo("", "viewableNotUnlisted", !$obj2->hidePrivateVideos, false, true);
 if (empty($video)) {
-    $video = Video::getVideo("", "viewableNotUnlisted", true, true);
+    $video = Video::getVideo("", "viewableNotUnlisted", !$obj2->hidePrivateVideos, true);
 }
 if ($obj->BigVideo && empty($_GET['showOnly'])) {
     if (empty($video)) {
         ?>
         <center>
-            <img src="<?php echo $global['webSiteRootURL']; ?>view/img/this-video-is-not-available.jpg">
+            <img 
+            src="<?php echo ImagesPlaceHolders::getVideoNotFoundPoster(ImagesPlaceHolders::$RETURN_URL); ?>" 
+            class="img img-responsive ImagesPlaceHoldersDefaultImage">
         </center>
         <?php
     } else {
@@ -17,12 +20,6 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
         $images = Video::getImageFromFilename($video['filename'], $video['type']);
         $imgGif = $images->thumbsGif;
         $poster = $images->poster;
-        $canWatchPlayButton = "";
-        $get = $_GET;
-        if (User::canWatchVideoWithAds($video['id'])) {
-            $canWatchPlayButton = "canWatchPlayButton";
-        }
-        $_GET = $get;
         ?>
         <div style="padding-bottom: 40%;"></div>
         <div class="embed-responsive-16by9" id="bigVideo"
@@ -50,15 +47,16 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
             } else {
                 $percent = 40;
             }
+            $style = "
+            padding: 60px 20px 56.25% 20px;
+            background: -webkit-linear-gradient(left, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: -o-linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: linear-gradient(right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            background: -moz-linear-gradient(to right, rgba({$obj->backgroundRGB},1) {$percent}%, rgba({$obj->backgroundRGB},0) 100%);
+            ";
             ?>
 
-            <div class="posterDetails" style="
-                 padding: 60px 20px 56.25% 20px;
-                 background: -webkit-linear-gradient(left, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: -o-linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: linear-gradient(right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 background: -moz-linear-gradient(to right, rgba(<?php echo $obj->backgroundRGB; ?>,1) <?php echo $percent; ?>%, rgba(<?php echo $obj->backgroundRGB; ?>,0) 100%);
-                 ">
+            <div class="posterDetails" style="<?php echo $style; ?>">
                      <?php
                      include $global['systemRootPath'] . 'plugin/YouPHPFlix2/view/BigVideoInfoDetails.php';
                      ?>
@@ -78,13 +76,13 @@ if ($obj->BigVideo && empty($_GET['showOnly'])) {
     }
 } else if (!empty($_GET['showOnly'])) {
     ?>
-    <a href="<?php echo $global['webSiteRootURL']; ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
+    <a href="<?php echo getHomePageURL(); ?>" class="btn btn-default"><i class="fa fa-arrow-left"></i> <?php echo __("Go Back"); ?></a>
     <?php
 } else {
     $ads1 = getAdsLeaderBoardTop();
     if (!empty($ads1)) {
         ?>
-        <div class="row text-center" style="padding: 10px;">
+        <div class="text-center" style="padding: 10px;">
             <?php echo $ads1; ?>
         </div>
         <?php

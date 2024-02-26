@@ -3,6 +3,7 @@ if(!User::userCanBlockUser($users_id, true)){
     return '';
 }
 ?>
+<!-- <?php echo basename(__FILE__); ?> -->
 <span class="btn btn-default no-outline pull-right" style="display:none;" id="reportUserBtn"  data-toggle="tooltip" title="<?php if (!User::isLogged()) { echo __("You need to sign in to block this user"); }else{ echo __("Block and hide this user content"); } ?>" >
     <i class="fas fa-ban"></i> <small class="hidden-md hidden-sm hidden-xs"><?php echo __('Block User'); ?></small>
 </span>

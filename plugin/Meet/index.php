@@ -22,15 +22,15 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Meet") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
-        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
+        <link href="<?php echo getCDN(); ?>view/js/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
         <style>
             .serverLabels{
                 padding-bottom: 15px;
@@ -50,10 +50,12 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
         <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         ?>
-        <div class="container-fluid nopadding">
+        <div class="container-fluid">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> <span id="serverTime" class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Server Time"></span>
+                    <i class="far fa-comments"></i> <?php echo __("Meeting"); ?> 
+                    <span id="serverTime" class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Server Time"></span>
+                    <span class="label label-default pull-right"  data-toggle="tooltip" data-placement="bottom" title="Timezone"> <?php echo date_default_timezone_get(); ?> </span>
                     <div class="pull-right serverLabels">
                         <span class="label label-warning"><i class="fas fa-cog fa-spin"></i> <?php echo __("Loading Server Info"); ?></span>
                     </div>
@@ -86,10 +88,9 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
                                      if (User::canCreateMeet()) {
                                          ?>
                                     <div id="createMeet" class="tab-pane fade" url="<?php
-                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php?' . $userCredentials;
-                                    ?>"><div class="loader"></div></div>
+                                    echo $global['webSiteRootURL'] . 'plugin/Meet/meet_manager.php?' . $userCredentials; ?>"><div class="loader"></div></div>
                                         <?php
-                                    }
+                                     }
                                     ?>
                             </div>
                         </div>
@@ -98,8 +99,8 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
             </div>
 
 
-            <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
-            <script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+            <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
+            <script src="<?php echo getCDN(); ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
             <?php
             include $global['systemRootPath'] . 'view/include/footer.php';
@@ -107,7 +108,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
             <script>
                                         var serverLabelsRequestTime;
                                         $(document).ready(function () {
-<?php $today = getdate(); ?>
+                                            <?php $today = getdate(); ?>
                                             var d = new Date(<?php echo $today['year'] . "," . $today['mon'] . "," . $today['mday'] . "," . $today['hours'] . "," . $today['minutes'] . "," . $today['seconds']; ?>);
                                             setInterval(function () {
                                                 d.setSeconds(d.getSeconds() + 1);
@@ -165,7 +166,7 @@ if (User::isAdmin() && !empty($_GET['newServer'])) {
 
 <?php
 if (User::canCreateMeet()) {
-    ?>
+                ?>
                                                         function _startMeetNow() {
                                                             console.log('_startMeetNow');
                                                             swal({
@@ -204,7 +205,7 @@ if (User::canCreateMeet()) {
 
                                                         }
     <?php
-}
+            }
 ?>
 
             </script>

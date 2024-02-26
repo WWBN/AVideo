@@ -1,8 +1,7 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
@@ -16,7 +15,7 @@ if (empty($_POST['name'])) {
 ini_set('max_execution_time', 300);
 $obj = new stdClass();
 $obj->error = true;
-$obj->msg = "";
+$obj->msg = '';
 $obj->name = $_POST['name'];
 $templine = '';
 $fileName = Plugin::getDatabaseFileName($_POST['name']);
@@ -24,8 +23,9 @@ $obj->fileName = $fileName;
 if ($fileName) {
     $lines = file($fileName);
     foreach ($lines as $line) {
-        if (substr($line, 0, 2) == '--' || $line == '')
+        if (substr($line, 0, 2) == '--' || $line == '') {
             continue;
+        }
         $templine .= $line;
         if (substr(trim($line), -1, 1) == ';') {
             if (!$global['mysqli']->query($templine)) {

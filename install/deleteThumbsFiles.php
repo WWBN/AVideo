@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
@@ -7,22 +6,27 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 if (!isCommandLineInterface()) {
     return die('Command Line only');
 }
-
-$users_ids = array();
+ob_end_flush();
+$checkIfIsCorrupted = intval(@$argv[1]);
+echo "checkIfIsCorrupted = $checkIfIsCorrupted".PHP_EOL;
+$users_ids = [];
 $sql = "SELECT * FROM  videos ";
 $res = sqlDAL::readSql($sql);
 $fullData = sqlDAL::fetchAllAssoc($res);
 $total = count($fullData);
 sqlDAL::close($res);
-$rows = array();
+$rows = [];
 if ($res != false) {
     $count = 0;
     foreach ($fullData as $key => $row) {
         $count++;
         $filename = $row['filename'];
-        Video::deleteThumbs($filename, true);
-        echo "{$total}/{$count} Thumbs deleted from {$row['title']}".PHP_EOL;
-        ob_flush();
+        $totalDeleted = Video::deleteThumbs($filename, true, $checkIfIsCorrupted);
+        if ($totalDeleted) {
+            echo "{$total}/{$count} Thumbs deleted ($totalDeleted) from {$row['title']}".PHP_EOL;
+        } else {
+            echo "{$total}/{$count} Thumbs NOT deleted from {$row['title']}".PHP_EOL;
+        }
     }
 } else {
     die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);

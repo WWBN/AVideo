@@ -4,6 +4,7 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 require_once dirname(__FILE__) . '/../../../objects/bootGrid.php';
 require_once dirname(__FILE__) . '/../../../objects/video.php';
 require_once dirname(__FILE__) . '/../../../objects/user.php';
+require_once $global['systemRootPath'] . 'plugin/VR360/Objects/VideosVR360.php';
 
 class VideosVR360 extends ObjectYPT {
 
@@ -36,33 +37,30 @@ class VideosVR360 extends ObjectYPT {
             if(in_array($key, $this->intVal)){
                 $value = intval($value);
             }
-            $this->$key = $value;
+            @$this->$key = $value;
+            //$this->properties[$key] = $value;
         }
         return true;
     }
 
     static protected function getFromVideoDb($videos_id) {
         global $global;
-        $videos_id = intval($videos_id);
-        $sql = "SELECT * FROM ".static::getTableName()." WHERE  videos_id = $videos_id LIMIT 1";
-        $res = $global['mysqli']->query($sql);
-        if ($res) {
-            $row = $res->fetch_assoc();
-        } else {
-            $row = false;
+        if (!static::isTableInstalled()) {
+            return false;
         }
-        return $row;
+        /**
+         *
+         * @var array $global
+         * @var object $global['mysqli']
+         */
+        $videos_id = intval($videos_id);
+        return Video::getVideoLight($videos_id);
     }
     
     static function isVR360Enabled($videos_id){
         $vr = new VideosVR360(0);
         $vr->loadFromVideo($videos_id);
         return !empty($vr->getActive());
-    }
-    
-    static function isVR360EnabledByVideoCleanTitle($clean_title){
-        $video = Video::getVideoFromCleanTitle($clean_title);
-        return self::isVR360Enabled($video['id']); 
     }
     
     static function toogleVR360($videos_id){

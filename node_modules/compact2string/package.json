@@ -1,0 +1,47 @@
+{
+  "name": "compact2string",
+  "version": "1.4.1",
+  "description": "Convert BitTorrent compact hostname & port buffer to a string 'hostname:port'",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha -R spec",
+    "travis-test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly -- -R spec",
+    "report-coverage": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bencevans/node-compact2string.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bencevans/node-compact2string/issues"
+  },
+  "keywords": [
+    "torrent",
+    "compact",
+    "tracker",
+    "bittorrent",
+    "binary",
+    "convert"
+  ],
+  "author": "Ben Evans <ben@bensbit.co.uk> (http://bensbit.co.uk)",
+  "license": "BSD",
+  "devDependencies": {
+    "mocha": "~1.7.4",
+    "istanbul": "~0.1.44",
+    "coveralls": "~2.3.0"
+  },
+  "dependencies": {
+    "ipaddr.js": ">= 0.1.5"
+  },
+  "testling": {
+    "harness": "mocha-bdd",
+    "files": "test.js",
+    "browsers": [
+      "ie/9..latest",
+      "chrome/25..latest",
+      "firefox/20..latest",
+      "safari/6..latest",
+      "opera/15.0..latest"
+    ]
+  }
+}

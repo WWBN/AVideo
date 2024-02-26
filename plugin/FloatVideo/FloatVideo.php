@@ -26,7 +26,7 @@ class FloatVideo extends PluginAbstract {
     
     public function getEmptyDataObject() {
         $obj = new stdClass();
-        $obj->doNotFloatVideo = true;
+        $obj->doNotFloatVideo = false;
         return $obj;
     }
 

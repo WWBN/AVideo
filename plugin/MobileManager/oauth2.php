@@ -1,10 +1,9 @@
 <?php
-
 header('Access-Control-Allow-Headers: Content-Type');
 header('Content-Type: application/json');
 
 require_once dirname(__FILE__) . '/../../videos/configuration.php';
-require_once $global['systemRootPath'] . 'objects/hybridauth/hybridauth/src/autoload.php';
+require_once $global['systemRootPath'] . 'objects/autoload.php';
 require_once $global['systemRootPath'] . 'objects/user.php';
 
 use Hybridauth\Hybridauth;
@@ -25,15 +24,15 @@ if (!empty($_GET['type'])) {
                         "id" => trim($obj->id),
                         "team_id" => trim($obj->team_id),
                         "key_id" => trim($obj->key_id),
-                        "key_content" => trim($obj->key_content->value)
+                        "key_content" => trim($obj->key_content->value),
                     ],
                     "scope" => "name email",
-                    "verifyTokenSignature" => true
-                ]
+                    "verifyTokenSignature" => true,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
-                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  // Path to file writable by the web server. Required if 'debug_mode' is not false
                   'debug_file' => __FILE__ . '.log', */
         ];
     } else {
@@ -56,7 +55,7 @@ if (!empty($_GET['type'])) {
 
         $scope = 'email';
         if ($_GET['type'] === 'LinkedIn') {
-            $scope = array('r_emailaddress');
+            $scope = ['r_emailaddress'];
         }
 
         $configOauth = [
@@ -67,12 +66,12 @@ if (!empty($_GET['type'])) {
                     'keys' => ['id' => $id, 'secret' => $key, 'key' => $id],
                     "includeEmail" => true,
                     'scope' => $scope,
-                    'trustForwarded' => false
-                ]
+                    'trustForwarded' => false,
+                ],
             ],
                 /* optional : set debug mode
                   'debug_mode' => true,
-                  // Path to file writeable by the web server. Required if 'debug_mode' is not false
+                  // Path to file writable by the web server. Required if 'debug_mode' is not false
                   'debug_file' => __FILE__ . '.log', */
         ];
     }

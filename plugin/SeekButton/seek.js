@@ -36,6 +36,7 @@ function startTrackDisplay() {
             if (player.paused()) {
                 player.play();
             } else {
+                console.log("playerPlay: player.pause() dblclick");
                 player.pause();
             }
         }
@@ -50,6 +51,7 @@ function startTrackDisplay() {
             if (player.paused()) {
                 player.play();
             } else {
+                console.log("playerPlay: player.pause() click");
                 player.pause();
             }
         }, 300);

@@ -18,6 +18,9 @@ class MenuItem extends ObjectYPT {
 
     static function getAllFromMenu($menu_id, $activeOnly = false, $sort = true) {
         global $global;
+        if(empty($global)){
+            $global = [];
+        }
         $menu_id = intval($menu_id);
         if (empty($menu_id)) {
             return false;
@@ -54,9 +57,7 @@ class MenuItem extends ObjectYPT {
                 }
                 $rows[] = $row;
             }
-        } else {
-            die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
-        }
+        } 
         return $rows;
     }
 
@@ -119,10 +120,10 @@ class MenuItem extends ObjectYPT {
         if (empty($this->menuSeoUrlItem)) {
             $this->menuSeoUrlItem = $this->title;
         }
-        $this->menuSeoUrlItem = $global['mysqli']->real_escape_string(preg_replace('/[^a-z0-9]+/', '_', strtolower($this->title)));
+        $this->menuSeoUrlItem = (preg_replace('/[^a-z0-9]+/', '_', strtolower($this->title)));
 
-        $this->title = $global['mysqli']->real_escape_string($this->title);
-        $this->text = $global['mysqli']->real_escape_string($this->text);
+        $this->title = ($this->title);
+        $this->text = ($this->text);
 
         return parent::save();
     }

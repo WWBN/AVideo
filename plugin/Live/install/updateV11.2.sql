@@ -1,0 +1,1 @@
+ALTER TABLE `live_schedule` ADD COLUMN `json` TEXT NULL DEFAULT NULL;

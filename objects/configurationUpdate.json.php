@@ -14,16 +14,19 @@ if (!User::isAdmin()) {
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/configuration.php';
 require_once $global['systemRootPath'] . 'objects/functions.php';
-$config = new Configuration();
+
+_error_log("save configuration {$_POST['language']}");
+
+$config = new AVideoConf();
 $config->setContactEmail($_POST['contactEmail']);
 $config->setLanguage($_POST['language']);
 $config->setWebSiteTitle($_POST['webSiteTitle']);
+$config->setDescription($_POST['description']);
 $config->setAuthCanComment($_POST['authCanComment']);
 $config->setAuthCanUploadVideos($_POST['authCanUploadVideos']);
 $config->setAuthCanViewChart($_POST['authCanViewChart']);
 if (empty($global['disableAdvancedConfigurations'])) {
     $config->setDisable_analytics($_POST['disable_analytics']);
-    $config->setDisable_youtubeupload($_POST['disable_youtubeupload']);
     $config->setAllow_download($_POST['allow_download']);
     $config->setSession_timeout($_POST['session_timeout']);
     $config->setEncoderURL($_POST['encoder_url']);
@@ -49,7 +52,7 @@ $imagePath = "videos/userPhoto/";
 if (!file_exists($global['systemRootPath'] . $imagePath)) {
     mkdir($global['systemRootPath'] . $imagePath, 0755, true);
 }
-
+/*
 if (!is_writable($global['systemRootPath'] . $imagePath)) {
     $response = array(
         "status" => 'error',
@@ -58,24 +61,26 @@ if (!is_writable($global['systemRootPath'] . $imagePath)) {
     print json_encode($response);
     return;
 }
-$response = array();
+ *
+ */
+$response = [];
 if (!empty($_POST['logoImgBase64'])) {
     $fileData = base64DataToImage($_POST['logoImgBase64']);
     $fileName = 'logo.png';
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
-        $response = array(
+        $response = [
             "status" => 'success',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
         $config->setLogo($photoURL);
     } else {
-        $response = array(
+        $response = [
             "status" => 'error',
             "msg" => 'We could not save logo',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
     }
 }
 if (!empty($_POST['faviconBase64'])) {
@@ -85,27 +90,27 @@ if (!empty($_POST['faviconBase64'])) {
     $photoURL = $imagePath . $fileName;
     $bytes = file_put_contents($global['systemRootPath'] . $photoURL, $fileData);
     if ($bytes > 10) {
-        $response2 = array(
+        $response2 = [
             "status" => 'success',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
 
-        $sizes = array(
-            array(16, 16),
-            array(24, 24),
-            array(32, 32),
-            array(48, 48),
-            array(144, 144)
-        );
+        $sizes = [
+            [16, 16],
+            [24, 24],
+            [32, 32],
+            [48, 48],
+            [144, 144],
+        ];
 
         $ico_lib = new PHP_ICO($global['systemRootPath'] . $photoURL, $sizes);
         $ico_lib->save_ico($global['systemRootPath'] . $imagePath.'favicon.ico');
     } else {
-        $response2 = array(
+        $response2 = [
             "status" => 'error',
             "msg" => 'We could not save favicon',
-            "url" => $global['systemRootPath'] . $photoURL
-        );
+            "url" => $global['systemRootPath'] . $photoURL,
+        ];
     }
 }
 

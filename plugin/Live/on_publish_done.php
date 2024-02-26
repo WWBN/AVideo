@@ -20,6 +20,17 @@ _error_log("NGINX ON Publish Done  parse_str: " . json_encode($_GET));
 
 $_GET = object_to_array($_GET);
 
+if (!empty($_GET['e']) && empty($_GET['p'])) {
+    $obj = json_decode(decryptString($_GET['e']));
+    if (empty($objE)) {
+        $objE = json_decode(decryptString(base64_decode($_GET['e'])));
+    }
+    if (!empty($obj->users_id)) {
+        $user = new User($obj->users_id);
+        $_GET['p'] = $user->getPassword();
+    }
+}
+
 if ($_POST['name'] == 'live') {
     _error_log("NGINX ON Publish Done  wrong name {$_POST['p']}");
     // fix name for streamlab
@@ -40,14 +51,34 @@ if (strpos($_GET['p'], '/') !== false) {
     $parts = explode("/", $_GET['p']);
     if (!empty($parts[1])) {
         $_GET['p'] = $parts[0];
-        $_POST['name'] = $parts[1];
+        if (empty($_POST['name'])) {
+            $_POST['name'] = $parts[1];
+        }
     }
 }
 
-Live::deleteStatsCache(null);
-$row = LiveTransmitionHistory::getLatest($_POST['name']);
-LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
+deleteStatsNotifications(true);
+$live_servers_id = Live::getLiveServersIdRequest();
+$row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id, 10);
+$insert_row = LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
+_error_log("NGINX ON Publish Done finishFromTransmitionHistoryId {$_POST['name']} id={$row['id']} key={$row['key']} live_servers_id={$row['live_servers_id']} insert_row={$insert_row}");
+//Live::killIfIsRunning($row['key']);
 $array = setLiveKey($row['key'], $row['live_servers_id']);
+$parameters = Live::getLiveParametersFromKey($array['key']);
+$array['cleanKey'] = $parameters['cleanKey'];
 $array['stats'] = LiveTransmitionHistory::getStatsAndRemoveApplication($row['id']);
-$socketObj = sendSocketMessageToAll($array, "socketLiveOFFCallback");
-
+$socketObj = Live::notifySocketStats("socketLiveOFFCallback", $array);
+if(empty($row)){
+    $sql = $getLatestSQL;
+    _error_log("NGINX ON Publish Done error LiveTransmitionHistory::getLatest({$_POST['name']}, $live_servers_id, true); time=".time().' '.json_encode(array($whatIFound, $sql)));
+    $row = LiveTransmitionHistory::getLatest($_POST['name'], $live_servers_id);
+}
+if(!empty($row)){
+    _error_log("NGINX ON Publish Done success ({$row['id']}, {$row['users_id']}, {$row['key']}, {$row['live_servers_id']})");
+    AVideoPlugin::on_publish_done($row['id'], $row['users_id'], $row['key'], $row['live_servers_id']);
+}else{
+    _error_log("NGINX ON Publish Done error, nothing found LiveTransmitionHistory::getLatest({$_POST['name']}, $live_servers_id, true); ");    
+}
+$cacheHandler = new LiveCacheHandler();
+$cacheHandler->deleteCache();
+Live::checkAllFromStats();

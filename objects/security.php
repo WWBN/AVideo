@@ -1,13 +1,12 @@
 <?php
-
 require_once $global['systemRootPath'] . 'objects/functions.php';
-
 // filter some security here
-$securityFilter = array('error', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName');
-$securityFilterInt = array('isAdmin', 'priority', 'totalClips', 'rowCount');
-$securityRemoveSingleQuotes = array('search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password');
-$securityRemoveNonChars = array('resolution', 'format', 'videoDirectory');
-$filterURL = array('videoURL', 'siteURL', 'redirectUri', 'encoderURL');
+$securityFilter = ['jump','videoLink','videoDownloadedLink','duration','error', 'msg', 'info', 'warning', 'success','toast', 'catName', 'type', 'channelName', 'captcha', 'showOnly', 'key', 'link', 'email', 'country', 'region', 'videoName'];
+$securityFilterInt = ['isAdmin', 'priority', 'totalClips', 'rowCount'];
+$securityRemoveSingleQuotes = ['search', 'searchPhrase', 'videoName', 'databaseName', 'sort', 'user', 'pass', 'encodedPass', 'isAdmin', 'videoLink', 'video_password'];
+$securityRemoveNonCharsStrict = ['APIName','APIPlugin'];
+$securityRemoveNonChars = ['resolution', 'format', 'videoDirectory', 'chunkFile'];
+$filterURL = ['videoURL', 'siteURL', 'redirectUri', 'encoderURL'];
 
 if (!empty($_FILES)) {
     foreach ($_FILES as $key => $value) {
@@ -15,14 +14,26 @@ if (!empty($_FILES)) {
     }
 }
 
-$scanVars = array('GET', 'POST', 'REQUEST');
+$scanVars = ['_GET', '_POST', '_REQUEST'];
 
 foreach ($scanVars as $value) {
-    eval('$scanThis = &$_' . $value.';');
+    $scanThis = &$$value;
     if (!empty($scanThis['base64Url'])) {
         if (!filter_var(base64_decode($scanThis['base64Url']), FILTER_VALIDATE_URL)) {
             _error_log('base64Url attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
             exit;
+        }
+    }
+    if (!empty($scanThis['videos_id'])) {
+        $scanThis['videos_id'] = videosHashToID($scanThis['videos_id']);
+    }
+    if (!empty($scanThis['v'])) {
+        $originalValue = $scanThis['v'];
+        $scanThis['v'] = videosHashToID($scanThis['v']);
+        if (!empty($global['makeVideosIDHarderToGuessNotDecrypted']) && $originalValue != $scanThis['v']) {
+            // if you set $global['makeVideosIDHarderToGuessNotDecrypted'] and originalValue = scanThis['v'] it meand it was not decrypted, and it is a direct video ID,
+            // otherwiseit was a hash that we decrypt into an ID
+            $global['makeVideosIDHarderToGuessNotDecrypted'] = 0;
         }
     }
 
@@ -32,35 +43,49 @@ foreach ($scanVars as $value) {
                 //_error_log($value.' attack ' . json_encode($_SERVER), AVideoLog::$SECURITY);
                 unset($scanThis[$value]);
             } else {
-                $scanThis[$value] = str_replace(array("'", '"', "<", ">"), array("", "", "", ""), $scanThis[$value]);
+                $scanThis[$value] = str_replace(["'", '"', "<", ">"], ["", "", "", ""], $scanThis[$value]);
             }
         }
     }
 
-
     foreach ($securityRemoveNonChars as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
-                $scanThis[$value] = str_replace('/[^a-z0-9./]/i', '', trim($scanThis[$value]));
+                $scanThis[$value] = preg_replace('/[^a-z0-9.\/_-]/i', '', trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
-                        $scanThis[$value][$key] = str_replace('/[^a-z0-9./]/i', '', trim($scanThis[$value][$key]));
+                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9.\/_-]/i', '', trim($scanThis[$value][$key]));
                     }
                 }
             }
         }
     }
 
+    foreach ($securityRemoveNonCharsStrict as $value) {
+        if (!empty($scanThis[$value])) {
+            if (is_string($scanThis[$value])) {
+                $scanThis[$value] = preg_replace('/[^a-z0-9_]/i', '', trim($scanThis[$value]));
+            } elseif (is_array($scanThis[$value])) {
+                foreach ($scanThis[$value] as $key => $value2) {
+                    if (is_string($scanThis[$value][$key])) {
+                        $scanThis[$value][$key] = preg_replace('/[^a-z0-9_]/i', '', trim($scanThis[$value][$key]));
+                    }
+                }
+            }
+        }
+    }
 
     foreach ($securityRemoveSingleQuotes as $value) {
         if (!empty($scanThis[$value])) {
             if (is_string($scanThis[$value])) {
-                $scanThis[$value] = str_replace("'", "", trim($scanThis[$value]));
+                $scanThis[$value] = fixQuotesIfSafari($scanThis[$value]);
+                $scanThis[$value] = str_replace(["'","`"], ['', ''], trim($scanThis[$value]));
             } elseif (is_array($scanThis[$value])) {
                 foreach ($scanThis[$value] as $key => $value2) {
                     if (is_string($scanThis[$value][$key])) {
-                        $scanThis[$value][$key] = str_replace("'", "", trim($scanThis[$value][$key]));
+                        $scanThis[$value] = fixQuotesIfSafari($scanThis[$value]);
+                        $scanThis[$value][$key] = str_replace(["'","`"], ['', ''], trim($scanThis[$value][$key]));
                     }
                 }
             }
@@ -69,8 +94,29 @@ foreach ($scanVars as $value) {
 
     // all variables with _id at the end will be forced to be interger
     foreach ($scanThis as $key => $value) {
-        if(preg_match('/_id$/i', $key)){
-            $scanThis[$key] = intval($value);
+        if (preg_match('/_id$/i', $key)) {
+            if (empty($value)) {
+                $scanThis[$key] = 0;
+            } elseif (is_numeric($value)) {
+                $scanThis[$key] = intval($value);
+            } else {
+                if (is_string($value)) {
+                    $json = json_decode($value);
+                    if (empty($json)) {
+                        $json = json_decode("[$value]");
+                    }
+                } else {
+                    $json = $value;
+                }
+                if (is_array($json)) {
+                    foreach ($json as $key => $value) {
+                        $json[$key] = intval($value);
+                    }
+                    $scanThis[$key] = json_encode($json);
+                } else {
+                    $scanThis[$key] = intval($value);
+                }
+            }
         }
     }
 
@@ -86,7 +132,7 @@ foreach ($scanVars as $value) {
 
     foreach ($securityFilter as $value) {
         if (!empty($scanThis[$value])) {
-            $scanThis[$value] = str_replace(array('\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#"), array('', '', '', '', '', '', '', '', ''), xss_esc($scanThis[$value]));
+            $scanThis[$value] = str_ireplace(['\\', "--", "'", '"', "&quot;", "&#039;", "%23", "%5c", "#", "`"], ['', '', '', '', '', '', '', '', '', ''], xss_esc($scanThis[$value]));
         }
     }
 

@@ -9,10 +9,10 @@ if (!User::isLogged()) {
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $obj = $plugin->getDataObject();
-$options = json_decode($obj->addFundsOptions);
+$options = _json_decode($obj->addFundsOptions);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Add Funds") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
@@ -97,7 +97,8 @@ $options = json_decode($obj->addFundsOptions);
                         type: "POST",
                         data: {
                             value: $('#value').val(),
-                            information: $('#information').val()
+                            information: $('#information').val(),
+                            autoWithdraw: <?php echo empty($autoWithdraw)?0:1; ?>
                         },
                         success: function (response) {
                             modal.hidePleaseWait();

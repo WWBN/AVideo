@@ -6,9 +6,9 @@ global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-session_write_close();
+_session_write_close();
 $obj = new stdClass();
-$obj->msg = "";
+$obj->msg = '';
 $obj->error = true;
 
 
@@ -20,7 +20,9 @@ if (!Permissions::canModerateVideos()) {
 $videos = Video::getAllVideosLight("", false, true, false);
 
 foreach ($videos as $value) {
-    Video::updateFilesize($value['id']);
+    if($value['type']=='video' || $value['type']=='audio'){
+        Video::updateFilesize($value['id']);
+    }
 }
 
 $obj->error = false;

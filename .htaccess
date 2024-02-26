@@ -6,6 +6,7 @@
     ExpiresByType image/gif "access plus 2592000 seconds"
     ExpiresByType image/jpeg "access plus 2592000 seconds"
     ExpiresByType image/png "access plus 2592000 seconds"
+    ExpiresByType image/webp "access plus 2592000 seconds"
     ExpiresByType text/css "access plus 604800 seconds"
     ExpiresByType text/javascript "access plus 216000 seconds"
     ExpiresByType application/x-javascript "access plus 216000 seconds"
@@ -50,60 +51,100 @@
 Options All -Indexes
 # END Expires
 # BEGIN Caching
-<ifModule mod_headers.c>
-    <FilesMatch "\.(ts|key|ttf|otf|eot|woff|woff2|mp4|webm|m3u8|mp3|ogg|css|jpg|png|gif)$">
-        Header set Access-Control-Allow-Origin: *
+<IfModule mod_headers.c>
+
+    # Set Access-Control-Allow-Origin for multiple file types
+    <FilesMatch "\.(php|ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4|woff2|css|html|htm|key|m3u8)$">
+        Header setifempty Access-Control-Allow-Origin "*"
     </FilesMatch>
-    <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
+
+    # Cache settings based on file types
+    <FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf|ts|webp|mp3|mp4)$">
         Header set Cache-Control "max-age=2592000, public"
-    </filesMatch>
-    <filesMatch "\.(woff2|css)$">
+    </FilesMatch>
+
+    <FilesMatch "\.(woff2|css)$">
         Header set Cache-Control "max-age=604800, public"
-    </filesMatch>
-    <filesMatch "\.(js)$">
-        Header set Cache-Control "max-age=216000, private"
-    </filesMatch>
-    <filesMatch "\.(xml|txt)$">
+    </FilesMatch>
+
+    <FilesMatch "\.(js)$">
+        Header set Cache-Control "max-age=216000, public"
+    </FilesMatch>
+
+    <FilesMatch "\.(xml|txt)$">
         Header set Cache-Control "max-age=216000, public, must-revalidate"
-    </filesMatch>
-    <filesMatch "\.(html|htm|php)$">
+    </FilesMatch>
+
+    <FilesMatch "\.(html|htm|php|key|m3u8)$">
         Header set Cache-Control "max-age=1, private, must-revalidate"
-    </filesMatch>
-</ifModule>
+    </FilesMatch>
+
+</IfModule>
+
 # END Caching
 <IfModule mod_rewrite.c>
+    RewriteCond %{HTTPS} =on
+    RewriteRule ^(.*)$ - [env=proto:https]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^(.*)$ - [env=proto:http]
+
     RewriteEngine on
     #VideoHLS for DRM
+
+    RewriteRule    ^buy/?  plugin/YPTWallet/buy.php [NC,L,QSA]
+    RewriteRule    ^id/?  view/id.php [NC,L,QSA]
+    RewriteRule    ^logo.png  view/logo.png.php [NC,L,QSA]
+
+    RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
+    RedirectMatch 404 /\.git    
+
+    RewriteRule    ^offline/([0-9]+)/?  view/offline.php?videos_id=$1 [NC,L,QSA]
+    RewriteRule    ^offline/?  view/offline.php [NC,L,QSA]
+
+    #Compatibility
+    RewriteRule    ^view/js/jquery-3.5.1.min.js  node_modules/jquery/dist/jquery.min.js
+    RewriteRule    ^view/js/seetalert/sweetalert.min.js  node_modules/sweetalert/dist/sweetalert.min.js
+    RewriteRule    ^view/js/jquery-ui/(.*)  node_modules/jquery-ui-dist/$1
+
+
+    RewriteRule    ^videos/webfonts/(fa-.*) view/css/fontawesome-free-5.5.0-web/webfonts/$1    [NC,L]
+
     RewriteRule    ^playLink/?$ view/modePlayLink.php    [QSA]
     RewriteRule    ^videos/([^/]+)/(.*).key$ plugin/VideoHLS/downloadProtection.php?filename=$1&key=$2    [QSA]
 
-    RewriteRule    glyphicons-halflings-regular(.+)$ view/bootstrap/fonts/glyphicons-halflings-regular$1    [NC,L]
-
     RewriteRule    ^meet/([0-9]+)/(.+)$ plugin/Meet/iframe.php?meet_schedule_id=$1&roomName=$2 [NC,L,QSA]
     RewriteRule    ^meet/([0-9]+)$ plugin/Meet/iframe.php?meet_schedule_id=$1 [NC,L,QSA]
+    RewriteRule    ^live/([0-9]+)/([^/]+)/([^/]+)/ls/([0-9]+)/?$ plugin/Live/?live_servers_id=$1&c=$2&live_index=$3&live_schedule=$4 [NC,L,QSA]
+    RewriteRule    ^live/([0-9]+)/([^/]+)/ls/([0-9]+)/?$ plugin/Live/?live_servers_id=$1&c=$2&live_schedule=$3 [NC,L,QSA]
     RewriteRule    ^live/([0-9]+)/(.+)/(.+)$ plugin/Live/?live_servers_id=$1&c=$2&live_index=$3 [NC,L,QSA]
     RewriteRule    ^live/([0-9]+)/(.+)$ plugin/Live/?live_servers_id=$1&c=$2 [NC,L,QSA]
+    RewriteRule    ^live/?$ plugin/Gallery/view/mainAreaLive.php [NC,L,QSA]
 
     RewriteRule    ^liveLink/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1 [NC,L,QSA]
     RewriteRule    ^liveLinkEmbed/([0-9]+).*$ plugin/LiveLinks/view/Live.php?link=$1&embed=1 [NC,L,QSA]
+    RewriteRule    ^liveNow/?.*$ plugin/Live/latestOrLive.php [NC,L,QSA]
+    RewriteRule    ^channel/([^/]+)/liveNow/?.*$ plugin/Live/latestOrLive.php?channelName=$1 [NC,L,QSA]
+    RewriteRule    ^cat/([^/]+)/liveNow/?.*$ plugin/Live/latestOrLive.php?catName=$1    [NC,L,QSA]
 
     #main Files
-    RewriteRule    ^index.php$ view/index.php    [NC,L]
+    RewriteRule    ^index.php$ view/index.php [NC,L,QSA]
+    RewriteRule    ^site/?$ view/index_firstPage.php [NC,L,QSA]
+    RewriteRule    ^index.html$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
+    RewriteRule    ^index.htm$  %{ENV:proto}://%{HTTP_HOST} [L,R=301,NE]
     #RewriteRule    ^index.php$ /view/index.php    [NC,L]
     #RewriteRule    ^$ view/    [NC,L]
     RewriteRule    ^bootstrap/(.+)$ view/bootstrap/$1 [NC,L]
-    RewriteRule    bootstrap-select.js.map$ view/bootstrap/bootstrapSelectPicker/js/bootstrap-select.js.map$1 [NC,L]
     RewriteRule    ^oembed/?(.+)$ view/oembed.php$1 [NC,L]
     RewriteRule    ^js/(.+)$ view/js/$1 [NC,L]
     RewriteRule    ^css/(.+)$ view/css/$1 [NC,L]
     RewriteRule    ^img/(.+)$ view/img/$1 [NC,L]
-    RewriteRule    ^i/(.+)$ view/iframe.php?type=$1 [NC,L]
+    RewriteRule    ^i/(.+)$ view/iframe.php?type=$1 [NC,L,QSA]
     RewriteRule    ^videos/fonts/(.+)$ view/bootstrap/fonts/$1 [NC,L]
     RewriteRule    ^page/([0-9]+)/?$ view/?page=$1    [QSA]
     RewriteRule    ^videoOnly/?$ view/?type=video    [NC,L]
     RewriteRule    ^audioOnly/?$ view/?type=audio    [NC,L]
     RewriteRule    ^download$ view/downloadExternalVideo.php    [NC,L]
-    RewriteRule    ^info$ view/info.php    [NC,L]
+    RewriteRule    ^info$ view/info.php    [QSA,L]
     RewriteRule    ^version$ view/info.php?version=1    [NC,L]
     RewriteRule    ^downloadNow$ objects/downloadVideo.php    [NC,L]
     RewriteRule    ^getDownloadProgress$ objects/downloadVideoProgress.php    [NC,L]
@@ -124,32 +165,61 @@ Options All -Indexes
     #for the category name
     RewriteRule    ^cat/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/?catName=$1    [NC,L,QSA]
     RewriteRule    ^cat/([^!#$&'()*+,\/:;=?@[\]]+)/page/([0-9]+)/?$ view/?catName=$1&page=$2    [NC,L,QSA]
+    RewriteRule    ^c/([0-9]+)/([^/]+)? view/?catId=$1&catName=$2    [QSA]
 
     RewriteRule    ^tag/([0-9-]+)(.*)?$ view/?tags_id=$1    [NC,L,QSA]
 
+    # Video URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/video/([0-9a-zA-Z_.-]+)(/.*|)$ view/modeYoutube.php?videos_id=$2&channelName=$1 [L,QSA,NC]
 
-    #for the video name
-    RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
-    RewriteRule    ^video/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
-    RewriteRule    ^v/([0-9]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^v/([0-9]+)/page/([0-9]+)/??$ view/?v=$1&page=$2     [QSA]
-    RewriteRule    ^video/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^video/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
-    RewriteRule    ^evideo/([a-zA-z0-9=]+)/?$ view/?evideo=$1    [QSA]
+    # Audio Embed URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/audioEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?videos_id=$2&channelName=$1&includeType=audio [L,QSA,NC]
 
-    #for the video name
-    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/?catName=$1&videoName=$2    [QSA]
-    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/page/([0-9]+)/?$ view/?catName=$1&videoName=$2&page=$3   [QSA]
-    #for the embeded video name
-    RewriteRule    ^videoEmbeded/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
-    RewriteRule    ^videoEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^videoEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^vEmbed/([0-9]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^videoEmbed/([0-9]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^evideoEmbed/([a-zA-z0-9=]+)/?$ view/videoEmbeded.php?evideo=$1    [QSA]
+    # Audio URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/audio/([0-9a-zA-Z_.-]+)(/.*|)$ view/modeYoutube.php?videos_id=$2&channelName=$1&includeType=audio [L,QSA,NC]
 
+    # Video Embed URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/videoEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?videos_id=$2&channelName=$1 [L,QSA,NC]
+
+    # Article URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/article/([0-9a-zA-Z_.-]+)(/.*|)$ view/modeYoutube.php?videos_id=$2&channelName=$1 [L,QSA,NC]
+
+    # Article Embed URLs with optional title or trailing slash
+    RewriteRule ^channel/([^/]+)/articleEmbed/([0-9a-zA-Z_.-]+)(/.*|)$ view/videoEmbeded.php?videos_id=$2&channelName=$1 [L,QSA,NC]
+
+    RewriteRule ^video/([0-9]+)/?$ view/modeYoutube.php?videos_id=$1 [QSA]
+    RewriteRule ^video/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1 [QSA]
+    
+    #Video ID routes
+    RewriteRule ^v/(.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^video/(.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^vEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^videoEmbeded/(.[0-9a-zA-Z_.-]+)/?([^!#$&'(),/:;=?@[]]+/)? view/videoEmbeded.php?v=$1 [QSA]
+    
+    #Video name routes
+    RewriteRule ^video/([0-9a-zA-Z_.-]+)/page/([0-9]+)/?$ view/modeYoutube.php?videoName=$1&page=$2 [QSA]
+    RewriteRule ^video/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[\]]+)/page/([0-9]+)/?$ view/modeYoutube.php?v=$1&page=$3 [QSA]
+    RewriteRule ^video/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[\]]+)/?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^video/([0-9a-zA-Z_.-]+)/([0-9]+)?$ view/modeYoutube.php?videoName=$1 [QSA]
+    RewriteRule ^video/([0-9a-zA-Z_.-]+)/?$ view/modeYoutube.php?videoName=$1 [QSA]
+
+    #Other video routes
+    RewriteRule ^v/([0-9a-zA-Z_.-]+)/page/([0-9]+)/?$ view/modeYoutube.php?v=$1&page=$2 [QSA]
+    #RewriteRule ^v/([0-9a-zA-Z_.-]+)/?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^evideo/([a-zA-z0-9=]+)/?$ view/modeYoutube.php?evideo=$1 [QSA]
+
+    # For the video name
+    RewriteRule ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/page/([0-9]+)/?$ view/modeYoutube.php?catName=$1&videoName=$2&page=$3 [QSA]
+    RewriteRule ^cat/([^!#$&'()*,\/:;=?@[\]]+)/video/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/modeYoutube.php?catName=$1&videoName=$2 [QSA]
+
+    # For the embedded video name
+    RewriteRule ^cat/([^!#$&'()*,\/:;=?@[\]]+)/videoEmbeded/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2 [QSA]
+    RewriteRule ^evideoEmbed/([a-zA-z0-9=]+)/?$ view/videoEmbeded.php?evideo=$1 [QSA]
+    RewriteRule ^vEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^videoEmbed/([0-9a-zA-Z_.-]+)/? view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^videoEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
+    RewriteRule ^videoEmbeded/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
+    
     RewriteRule    ^plugin/([^!#$&'()*+,\/:;=?@[\]]+)/(.*)?$ plugin/$1/$2    [NC,L]
 
     RewriteRule    ^upload$ view/mini-upload-form/    [NC,L]
@@ -157,19 +227,42 @@ Options All -Indexes
     RewriteRule    ^uploadPoster/([0-9]+)/(jpg|gif)$ objects/uploadPoster.php?video_id=$1&type=$2    [NC,L]
 
     #for the Article name
-    RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?videoName=$1    [QSA]
-    RewriteRule    ^article/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?videoName=$1&page=$2    [QSA]
-    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/?v=$1    [QSA]
-    RewriteRule    ^article/([0-9]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/?v=$1&page=$3     [QSA]
-
+    RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[]]+)/?$ view/modeYoutube.php?v=$1 [QSA]
+    RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'(),/:;=?@[]]+)/page/([0-9]+)/??$ view/modeYoutube.php?v=$1&page=$3 [QSA]
+    RewriteRule ^article/([^!#$&'(),/:;=?@[]]+)/?$ view/modeYoutube.php?videoName=$1 [QSA]
+    RewriteRule ^article/([^!#$&'(),/:;=?@[]]+)/page/([0-9]+)/??$ view/modeYoutube.php?videoName=$1&page=$2 [QSA]
+    
     #for the embeded article name
-    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2    [QSA]
-    RewriteRule    ^articleEmbed/([0-9]+)/? view/videoEmbeded.php?v=$1    [QSA]
-    RewriteRule    ^articleEmbed/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?videoName=$1    [QSA]
-    RewriteRule    ^articleEmbed/([0-9]+)/([^!#$&'()*+,\/:;=?@[\]]+)/?$ view/videoEmbeded.php?v=$1    [QSA]
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/[0-9a-zA-Z_.-]*?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?v=$1 [QSA]
+    RewriteRule ^articleEmbed/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?videoName=$1 [QSA]
+    RewriteRule ^articleEmbed/([0-9a-zA-Z_.-]+)/([^!#$&'()+,/:;=?@[]]+)/?$ view/videoEmbeded.php?v=$1 [QSA]    
 
+    # audio and video IDs
+    RewriteRule ^article/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=article [QSA]
+    RewriteRule ^articleEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=article [QSA]
+    
+    # audio regular ID
+    RewriteRule ^article/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1&includeType=article [QSA]
+    RewriteRule ^article/([0-9]+)/?$ view/modeYoutube.php?v=$1&includeType=article [QSA]
+    RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/modeYoutube.php?v=$1&includeType=article [QSA]
+    RewriteRule ^article/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/modeYoutube.php?v=$1&page=$3&includeType=article [QSA]
+    
+    
+    # audio and video IDs
+    RewriteRule ^audio/(.[0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+/)?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
+    RewriteRule ^audioEmbed/(.[0-9a-zA-Z_.-]+)/?([^!#$&'()*,\/:;=?@[\]]+/)? view/videoEmbeded.php?v=$1&includeType=audio [QSA]
+    
+    # audio regular ID
+    RewriteRule ^audio/([0-9]+)/poster.png$ view/videoGetPoster.php?videos_id=$1&includeType=audio [QSA]
+    RewriteRule ^audio/([0-9]+)/?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
+    RewriteRule ^audio/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/?$ view/modeYoutube.php?v=$1&includeType=audio [QSA]
+    RewriteRule ^audio/([0-9a-zA-Z_.-]+)/([^!#$&'()*,\/:;=?@[\]]+)/page/([0-9]+)/??$ view/modeYoutube.php?v=$1&page=$3&includeType=audio [QSA]
+    
+
+    #for the cat and embeded article name
+    RewriteRule ^cat/([^!#$&'()*,/:;=?@[]]+)/articleEmbed/([0-9a-zA-Z_.-]+)/?$ view/videoEmbeded.php?catName=$1&videoName=$2 [QSA]
+    
     #edit your own user
     RewriteRule    ^user$ view/user.php    [NC,L]
     RewriteRule    ^user/([0-9]+)/foto.png$ view/userGetPhoto.php?users_id=$1    [QSA]
@@ -177,14 +270,14 @@ Options All -Indexes
     #manager user
     RewriteRule    ^users$ view/managerUsers.php    [NC,L]
     RewriteRule    ^users.json$ objects/users.json.php    [NC,L]
-    RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
+    #RewriteRule    ^updateUser$ objects/userUpdate.json.php    [NC,L]
     RewriteRule    ^savePhoto$ objects/userSavePhoto.php    [NC,L]
     RewriteRule    ^saveBackground$ objects/userSaveBackground.php    [NC,L]
     RewriteRule    ^addNewUser$ objects/userAddNew.json.php    [NC,L]
     RewriteRule    ^deleteUser$ objects/userDelete.json.php    [NC,L]
     RewriteRule    ^recoverPass$ objects/userRecoverPass.php    [NC,L]
     RewriteRule    ^saveRecoverPassword$ objects/userRecoverPassSave.json.php    [NC,L]
-    RewriteRule    ^signUp$ view/signUp.php    [NC,L]
+    RewriteRule    ^signUp$ view/userSignUp.php    [NC,L]
     RewriteRule    ^createUser$ objects/userCreate.json.php    [NC,L]
 
 
@@ -222,12 +315,13 @@ Options All -Indexes
     RewriteRule    ^playListsFromUser.json/([0-9]+)/?$ objects/playlistsFromUser.json.php?users_id=$1    [NC,L]
     RewriteRule    ^addNewPlayList$ objects/playlistAddNew.json.php    [NC,L]
     RewriteRule    ^playListAddVideo.json$ objects/playListAddVideo.json.php    [NC,L]
-    RewriteRule    ^playlist/([0-9]+)/([0-9]+)/?$ view/?playlist_id=$1&playlist_index=$2    [NC,L]
-    RewriteRule    ^playlist/([0-9]+)/?$ view/?playlist_id=$1    [NC,L]
+    RewriteRule    ^playlist/([0-9]+)/([0-9]+)/?$ view/modeYoutube.php?playlist_id=$1&playlist_index=$2    [NC,L]
+    RewriteRule    ^playlist/([0-9]+)/?$ view/modeYoutube.php?playlist_id=$1    [NC,L]
     RewriteRule    ^removeVideoFromPlaylist/?$ objects/playlistRemoveVideo.php    [NC,L]
     RewriteRule    ^removePlaylist/?$ objects/playlistRemove.php    [NC,L]
     RewriteRule    ^renamePlaylist/?$ objects/playlistRename.php    [NC,L]
     RewriteRule    ^sortPlaylist/?$ objects/playlistSort.php    [NC,L]
+    RewriteRule    ^rss/?$ feed/index.php   [QSA]
     RewriteRule    ^mrss/?$ feed/index.php?mrss=1   [QSA]
     RewriteRule    ^roku.json$ feed/index.php?roku=1   [QSA]
     RewriteRule    ^channel/([^/]+)/roku.json$ feed/index.php?channelName=$1&roku=1    [QSA]
@@ -239,12 +333,22 @@ Options All -Indexes
     RewriteRule    ^channels/?$ view/channels.php    [NC,L]
 
     #playlist alias
+    RewriteRule    ^play/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^play/([0-9]+)          plugin/PlayLists/player.php?playlists_id=$1 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?playlists_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playEmbed/([0-9]+)          plugin/PlayLists/embed.php?playlists_id=$1 [L,QSA]
+
+    RewriteRule    ^playTag/([0-9]+)/([0-9]+) plugin/PlayLists/player.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTag/([0-9]+)          plugin/PlayLists/player.php?tags_id=$1 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)/([0-9]+) plugin/PlayLists/embed.php?tags_id=$1&playlist_index=$2 [L,QSA]
+    RewriteRule    ^playTagEmbed/([0-9]+)          plugin/PlayLists/embed.php?tags_id=$1 [L,QSA]
+
     RewriteRule    ^programs.json$ objects/playlists.json.php    [QSA]
-    RewriteRule    ^program/([0-9]+)/([0-9]+)(/.*)?$ view/?playlist_id=$1&playlist_index=$2    [QSA]
-    RewriteRule    ^program/([0-9]+)(/.*)?$ view/?playlist_id=$1    [QSA]
+    RewriteRule    ^program/([0-9]+)/([0-9]+)(/.*)?$ view/modeYoutube.php?playlist_id=$1&playlist_index=$2    [QSA]
+    RewriteRule    ^program/([0-9]+)(/.*)?$ view/modeYoutube.php?playlist_id=$1    [QSA]
     RewriteRule    ^viewProgram/([0-9]+).*?$ view/channelProgram.php?program_id=$1    [QSA]
-    RewriteRule    ^favorite/?$ view/?playlist_id=favorite    [QSA]
-    RewriteRule    ^watch-later/?$ view/?playlist_id=watch-later    [QSA]
+    RewriteRule    ^favorite/?$ view/modeYoutube.php?playlist_name=favorite    [QSA]
+    RewriteRule    ^watch-later/?$ view/modeYoutube.php?playlist_name=watch-later    [QSA]
 
     #manager videos
     RewriteRule    ^orphanFiles$ view/orphanFiles.php    [NC,L]
@@ -301,27 +405,45 @@ Options All -Indexes
     RewriteRule    ^notifications.json$ objects/notifications.json.php    [NC,L]
 
     RewriteRule    ^sitemap.xml$ view/sitemap.xml.php    [NC,L]
+    RewriteRule    ^cat/([^!#$&'()*,\/:;=?@[\]]+)/sitemap.xml$ view/sitemap.xml.php?catName=$1    [NC,L]
     RewriteRule    ^robots.txt$ view/robots.txt.php    [NC,L]
+    RewriteRule    ^manifest.json$ view/manifest.json.php    [NC,L]
 
     RewriteRule    ^videos/(.*)/index.m3u8$ view/hls.php?videoDirectory=$1    [NC,L,QSA]
     RewriteRule    ^videos/(.*)/index.m3u8.mp4$ view/hls.php?playHLSasMP4=1&videoDirectory=$1    [NC,L,QSA]
 
     RewriteRule    ^vast.xml/?([0-9]+)?$ plugin/AD_Server/VAST.php?campaign_has_videos_id=$1    [NC,L]
 
+    RewriteRule    ^activate/?$ view/activate.php    [NC,L,QSA]
+
+
     <IfModule mod_xsendfile.c>
-        RewriteRule    ^videos/([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$1    [QSA]
+        # Allow direct access to files in the convertedMP4 directory
+        RewriteRule ^videos/convertedMP4/([0-9]+(\.(mp4|webm|m3u8|mp3|ogg|jpg)))$ /videos/convertedMP4/$1 [L,END]
+
+        # Rewrite other URLs to xsendfile.php
+        RewriteRule ^videos/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2&folder=$1 [QSA,END]
+        RewriteRule ^videos/cache/download/([_A-Za-z0-9.-]+/)?([^!#$&'()*+,\/:;=?@[\]]+(\.(mp4|webm|m3u8|mp3|ogg)))$ view/xsendfile.php?file=$2&cacheDownload=1 [QSA,END]
     </IfModule>
 
-    # if image do not exists
-    RewriteCond %{REQUEST_URI} \.(jpg|jpeg|gif|png|ico)$ [NC]
+
+    # Special redirect for videos/userPhoto/photo[0-9]+.png to user/[0-9]+/foto.png if not found
+    RewriteCond %{REQUEST_URI} ^/videos/userPhoto/photo([0-9]+)\.png$
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ /user/%1/foto.png [L,R=302]
+
+    # if image does not exist
+    RewriteCond %{REQUEST_URI} \.(webp|jpg|jpeg|gif|png|ico)$ [NC]
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule (.*)$ img/image404.php?image=$1 [NC,L]
 
+    # for other missing files
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-l
     RewriteRule .*$ view/error.php [NC,L]
+
 
 </IfModule>
 <IfModule mod_deflate.c>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Loading...</title>
+        <style>
+            div {
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            @keyframes pulse {
+                0% {
+                    transform: scale(0.95);
+                }
+
+                70% {
+                    transform: scale(1);
+                }
+
+                100% {
+                    transform: scale(0.95);
+                }
+            }
+            img{
+                animation: pulse 2s infinite;
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <img src="../videos/userPhoto/logo.png" alt="Logo" class="img-responsive ">
+        </div>
+    </body>
+</html>

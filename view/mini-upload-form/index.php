@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/functions.php';
@@ -12,7 +12,7 @@ if (!User::canUpload()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("Upload your file") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
 
@@ -55,21 +55,20 @@ if (!User::canUpload()) {
                 <div class="col-xs-12 col-sm-12 col-lg-3">
                     <div class="alert alert-info">
                         <h1>
-                            <span class="glyphicon glyphicon-info-sign" style="font-size:1em;"></span>
+                            <i class="fa-solid fa-circle-info" style="font-size:1em;"></i>
                             <?php echo __("Your maximum file size is:"), " ", "" . get_max_file_size() . ""; ?>
                         </h1>
                     </div>
                     
                     <div class="alert alert-warning">
                         <h1>
-                            <span class="glyphicon glyphicon-warning-sign" style="font-size:1em;"></span>
-                            <?php echo __("This page works only with MP4,MP3 and OGG-files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.avideo.com/' class='btn btn-warning btn-xs'>public</a> one"); ?>
+                            <i class="fa-solid fa-circle-exclamation" style="font-size:1em;"></i>
+                            <?php echo __("This page works only with MP3, MP4, and OGG files, if you have or need any other format, try to install your own <a href='https://github.com/WWBN/AVideo-Encoder' class='btn btn-warning btn-xs'>encoder</a> or use the <a href='https://encoder1.wwbn.net/' class='btn btn-warning btn-xs'>public</a> one"); ?>
                         </h1>
                     </div>
                     <?php
                     if (!empty($global['videoStorageLimitMinutes'])) {
-                        $secondsTotal = getMinutesTotalVideosLength();
-                        ?>
+                        $secondsTotal = getMinutesTotalVideosLength(); ?>
                         <div class="alert alert-warning"><?php printf(__("You have about %s minutes left of video storage!"), ($global['videoStorageLimitMinutes']-$secondsTotal)); ?></div>
                         <?php
                     }

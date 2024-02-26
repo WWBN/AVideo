@@ -5,8 +5,7 @@ if (!isset($global['systemRootPath'])) {
 }
 require_once $global['systemRootPath'] . 'objects/user.php';
 
-
-if(!User::isLogged()) {
+if (!User::isLogged()) {
     header("Location: {$global['webSiteRootURL']}user?redirectUri={$global['webSiteRootURL']}mvideos");
     exit;
 }
@@ -16,15 +15,15 @@ if (!User::canUpload(true)) {
     exit;
 }
 
-if(!empty($_GET['iframe'])){
+if (!empty($_GET['iframe'])) {
     $_GET['noNavbar'] = 1;
 }
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
-        <title><?php echo __("Audios and Videos") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
+        <title><?php echo __("Audio and Video") . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         include $global['systemRootPath'] . 'view/managerVideos_head.php';
@@ -32,12 +31,12 @@ if(!empty($_GET['iframe'])){
     </head>
 
     <body class="<?php echo $global['bodyClass']; ?>">
-        <?php 
+        <?php
         include $global['systemRootPath'] . 'view/include/navbar.php';
         include $global['systemRootPath'] . 'view/managerVideos_body.php';
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>view/js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 
     </body>
 </html>

@@ -19,3 +19,16 @@
 #sidebar {
     margin-top: 65px  !important;
 }
+#mainNavBar .select2-container{
+    margin-top: 15px;
+}
+span.selection > span.select2-selection--single{
+    color: #444444;
+    background-color: #ffffff;
+    border-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border: none;
+}

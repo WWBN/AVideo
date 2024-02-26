@@ -1,4 +1,5 @@
 <?php
+$isFirstPage = 1;
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
@@ -6,7 +7,9 @@ if (!isset($global['systemRootPath'])) {
 require_once $global['systemRootPath'] . 'objects/video.php';
 require_once $global['systemRootPath'] . 'objects/category.php';
 
-
+if(AVideoPlugin::isEnabledByName('PlayLists')){
+    PlayLists::loadScripts();
+}
 $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
 ?>
 <!DOCTYPE html>
@@ -20,9 +23,9 @@ $obj = AVideoPlugin::getObjectData("YouPHPFlix2");
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
 
-        <title><?php echo $config->getWebSiteTitle(); ?></title>
+        <title><?php  if(!empty($_REQUEST['catName'])){echo $_REQUEST['catName'].' - ';}; echo $config->getWebSiteTitle(); ?></title>
     </head>
-    <body class="<?php echo $global['bodyClass']; ?>">
+    <body class="<?php echo $global['bodyClass']; ?>" style="overflow-x: hidden;">
         <?php include $global['systemRootPath'] . 'view/include/navbar.php'; ?>
 
         <div class="container-fluid nopadding flickity-area" id="mainContainer" style="display:none;">

@@ -1,0 +1,698 @@
+@import "compass/css3";
+@import "variables";
+@import "image";
+@import "text-complete";
+
+.#{$css-prefix}-text {
+    [class*=emojione-], .emojioneemoji {
+        font-size: inherit;
+        height: 2ex;
+        width: 2.1ex;
+        min-height: 20px;
+        min-width: 20px;
+        display: inline-block;
+        margin: -.2ex .15em .2ex;
+        line-height: normal;
+        vertical-align: middle;
+        max-width: 100%;
+        top: 0;
+    }
+}
+
+.#{$css-prefix} {
+    &, & * {
+        @include box-sizing(border-box);
+    }
+
+    &.#{$css-prefix}-disable {
+        position: relative;
+        background-color: #eee;
+        @include user-select(none);
+        &:before {
+            content: "";
+            display: block;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+            opacity: 0.3;
+            position: absolute;
+            background-color: #eee;
+        }
+    }
+
+    &, &.form-control {
+        display: block;
+        position: relative !important;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        font-size: $font-size;
+        border: 0;
+        background-color: $bg-color;
+        border: 1px solid $border-color;
+        @include border-radius($border-radius);
+        @include box-shadow($box-shadow-inset);
+           -moz-transition: border-color 0.15s ease-in-out,    -moz-box-shadow 0.15s ease-in-out;
+             -o-transition: border-color 0.15s ease-in-out,         box-shadow 0.15s ease-in-out;
+        -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+                transition: border-color 0.15s ease-in-out,         box-shadow 0.15s ease-in-out;
+    }
+
+    &.focused {
+        border-color: $border-color-focused;
+        outline: 0;
+        @include box-shadow($box-shadow-inset, $box-shadow-focused);
+    }
+
+    .#{$css-prefix}-editor {
+        display: block;
+        height: auto;
+        min-height: 8em;
+        max-height: 15em;
+        overflow: auto;
+        padding: 6px 24px 6px 12px;
+        line-height: 1.42857143;
+        font-size: inherit;
+        color: $text-color;
+        background-color: transparent;
+        border: 0;
+        cursor: text;
+        margin-right: 1px;
+        @include border-radius(0);
+        @include box-shadow(none);
+
+        &:empty:before {
+            content: attr(placeholder);
+            display: block;
+            color: $placeholder-color;
+        }
+
+        &:focus {
+            border: 0;
+            outline: 0;
+            @include box-shadow(none);
+        }
+
+        [class*=emojione-], .emojioneemoji {
+            font-size: inherit;
+            height: 2ex;
+            width: 2.1ex;
+            min-height: 20px;
+            min-width: 20px;
+            display: inline-block;
+            margin: -.2ex .15em .2ex;
+            line-height: normal;
+            vertical-align: middle;
+            max-width: 100%;
+            top: 0;
+        }
+    }
+
+    &.#{$css-prefix}-inline {
+        height: $inline-height;
+
+        > .#{$css-prefix}-editor {
+            height: $inline-height - 2;
+            min-height: 20px;
+            overflow: hidden;
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            left: 12px;
+            right: 24px;
+            padding: 6px 0;
+        }
+        > .#{$css-prefix}-button {
+            top: 4px;
+        }
+    }
+
+    .#{$css-prefix}-button {
+        z-index: 5;
+        position: absolute;
+        right: 3px;
+        top: 3px;
+        width: 24px;
+        height: 24px;
+        opacity: 0.6;
+        cursor: pointer;
+        @include transition(opacity 300ms ease-in-out);
+
+        &:hover {
+            opacity: 1;
+        }
+
+        > div {
+            display: block;
+            width: 24px;
+            height: 24px;
+            position: absolute;
+            @include transition(all 400ms ease-in-out);
+            $_hack: inline-image-store(background, $sprite);
+
+            &.#{$css-prefix}-button-open {
+                background-position: 0 -24px;
+                @include opacity(1);
+            }
+
+            &.#{$css-prefix}-button-close {
+                background-position: 0 0;
+                -webkit-transform: rotate(-45deg);
+                -o-transform: rotate(-45deg);
+                transform: rotate(-45deg);
+                @include opacity(0);
+            }
+        }
+        &.active {
+            > div {
+                &.#{$css-prefix}-button-open {
+                    -webkit-transform: rotate(45deg);
+                    -o-transform: rotate(45deg);
+                    transform: rotate(45deg);
+                    @include opacity(0);
+                }
+
+                &.#{$css-prefix}-button-close {
+                    -webkit-transform: rotate(0deg);
+                    -o-transform: rotate(0deg);
+                    transform: rotate(0deg);
+                    @include opacity(1);
+                }
+            }
+        }
+    }
+
+    .#{$css-prefix}-picker {
+        background: $picker-bg;
+        position: absolute;
+        @include box-shadow(0 1px 5px rgba(0, 0, 0, 0.32));
+        @include border-radius($picker-border-radius);
+        height: $picker-height;
+        width: $picker-width;
+        top: -15px;
+        right: -15px;
+        z-index: $z-index;
+        @include transition(all ease-in-out .25s);
+        @include opacity(0);
+        @include user-select(none);
+
+        &.hidden {
+            display: none;
+        }
+
+        .#{$css-prefix}-wrapper {
+            position: relative;
+            height: $picker-height;
+            width: $picker-width;
+
+            &:after {
+                content: "";
+                display: block;
+                position: absolute;
+                $_hack: inline-image-store(background, $sprite);
+                background-repeat: no-repeat;
+                z-index: $z-index + 1;
+            }
+        }
+
+        .#{$css-prefix}-filters {
+            width: 100%;
+            position: absolute;
+            z-index: $z-index + 5;
+        }
+
+        .#{$css-prefix}-filters {
+            background: #F5F7F9;
+            padding: 0 0 0 7px;
+            height: $filters-height;
+
+            .#{$css-prefix}-filter {
+                display: block;
+                float: left;
+                height: $filters-height;
+                width: 32px;
+                filter: inherit;
+                padding: 7px 1px 0;
+                cursor: pointer;
+                @include filter(grayscale(1));
+
+                &.active {
+                    background: #fff;
+                }
+
+                &.active, &:hover {
+                    @include filter(grayscale(0));
+                }
+
+                > i {
+                    width: 24px;
+                    height: 24px;
+                    top: 0;
+                }
+
+                > img {
+                    width: 24px;
+                    height: 24px;
+                    margin: 0 3px;
+                }
+            }
+        }
+
+        .#{$css-prefix}-search-panel {
+            height: $search-panel-height;
+            position: absolute;
+            z-index: $z-index + 5;
+            top: $filters-height;
+            left: 0;
+            right: 0;
+            $search-padding-y: (($search-panel-height - $search-tones-height) / 2);
+            padding: $search-padding-y 0 $search-padding-y 8px;
+
+            .#{$css-prefix}-tones {
+                float: right;
+                margin-right: 10px;
+                margin-top: -1px;
+            }
+        }
+
+        .#{$css-prefix}-tones-panel {
+            .#{$css-prefix}-tones {
+                position: absolute;
+                top: 4px;
+                left: 3px + ($btns-in-line * $btn-size - $tones-width);
+            }
+        }
+
+        .#{$css-prefix}-search {
+            float: left;
+            padding: 0;
+            height: $search-tones-height;
+            width: $search-width;
+            > input {
+                outline: none;
+                width: $search-width;
+                min-width: $search-width;
+                height: $search-tones-height;
+            }
+        }
+
+        .#{$css-prefix}-tones {
+            padding: 0;
+            width: $tones-width;
+            height: $search-tones-height;
+
+            > .btn-tone {
+                display: inline-block;
+                padding: 0;
+                border: 0;
+                vertical-align: middle;
+                outline: none;
+                background: transparent;
+                cursor: pointer;
+                position: relative;
+
+                &.btn-tone-0 {
+                    &, &:after {
+                        background-color: #ffcf3e;
+                    }
+                }
+                &.btn-tone-1 {
+                    &, &:after {
+                        background-color: #fae3c5;
+                    }
+                }
+                &.btn-tone-2 {
+                    &, &:after {
+                        background-color: #e2cfa5;
+                    }
+                }
+                &.btn-tone-3 {
+                    &, &:after {
+                        background-color: #daa478;
+                    }
+                }
+                &.btn-tone-4 {
+                    &, &:after {
+                        background-color: #a78058;
+                    }
+                }
+                &.btn-tone-5 {
+                    &, &:after {
+                        background-color: #5e4d43;
+                    }
+                }
+            }
+
+            &.#{$css-prefix}-tones-bullet,
+            &.#{$css-prefix}-tones-square {
+                > .btn-tone {
+                    width: $btn-tone-size;
+                    height: $btn-tone-size;
+                    margin: 0;
+                    background-color: transparent;
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        display: block;
+                        top: 4px;
+                        left: 4px;
+                        width: 12px;
+                        height: 12px;
+                    }
+                    &.active:after {
+                        top: 0;
+                        left: 0;
+                        width: $btn-tone-size;
+                        height: $btn-tone-size;
+
+                    }
+                }
+            }
+
+            &.#{$css-prefix}-tones-radio,
+            &.#{$css-prefix}-tones-checkbox{
+                > .btn-tone {
+                    width: $btn-tone-size - 4px;
+                    height: $btn-tone-size - 4px;
+                    margin: 0px 2px;
+                    &.active {
+                        &:after {
+                            content: "";
+                            position: absolute;
+                            display: block;
+                            background-color: transparent;
+                            border: 2px solid #fff;
+                            width: 8px;
+                            height: 8px;
+                            top: 2px;
+                            left: 2px;
+                            box-sizing: initial;
+                        }
+                    }
+                }
+            }
+
+            &.#{$css-prefix}-tones-bullet,
+            &.#{$css-prefix}-tones-radio {
+                > .btn-tone {
+                    &, &:after {
+                        @include border-radius(100%);
+                    }
+                }
+            }
+
+            &.#{$css-prefix}-tones-square,
+            &.#{$css-prefix}-tones-checkbox {
+                > .btn-tone {
+                    &, &:after {
+                        @include border-radius(1px);
+                    }
+                }
+            }
+        }
+
+
+        .#{$css-prefix}-scroll-area {
+            height: $picker-height - $filters-height;
+        }
+
+        .#{$css-prefix}-search-panel + .#{$css-prefix}-scroll-area {
+            height: $picker-height - $filters-height - $search-panel-height;
+        }
+
+        .#{$css-prefix}-scroll-area {
+            overflow: auto;
+            overflow-x: hidden;
+            width: 100%;
+            position: absolute;
+            padding: 0 0 5px;
+
+            .#{$css-prefix}-emojis-list {
+                z-index: 1;
+            }
+
+            .#{$css-prefix}-category-title {
+                display: block;
+                font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                font-size: 13px;
+                font-weight: normal;
+                color: #b2b2b2;
+                background: $picker-bg;
+                line-height: 20px;
+                margin: 0;
+                padding: 7px 0 5px 6px;
+
+                &:after, &:before {
+                    content: " ";
+                    display: block;
+                    clear: both;
+                }
+            }
+
+            .#{$css-prefix}-category-block {
+                padding: 0 0 0 7px;
+
+                > .#{$css-prefix}-category {
+                    padding: 0!important;
+
+                    &:after, &:before {
+                        content: " ";
+                        display: block;
+                        clear: both;
+                    }
+                }
+
+                &:after, &:before {
+                    content: " ";
+                    display: block;
+                    clear: both;
+                }
+            }
+
+            [class*=emojione-] {
+                @include box-sizing(content-box);
+                margin: 0;
+                width: 24px;
+                height: 24px;
+                top: 0;
+            }
+
+            .emojibtn {
+                @include box-sizing(content-box);
+                width: 24px;
+                height: 24px;
+                float: left;
+                display: block;
+                margin: 1px;
+                padding: 3px;
+
+                &:hover {
+                    @include border-radius(4px);
+                    background-color: #e4e4e4;
+                    cursor: pointer;
+                }
+
+                i, img {
+                    float: left;
+                    display: block;
+                    width: 24px;
+                    height: 24px;
+                }
+
+                img.lazy-emoji {
+                    @include opacity(0);
+                }
+            }
+        }
+
+        &.#{$css-prefix}-filters-position-top {
+            .#{$css-prefix}-filters {
+                top: 0;
+                @include border-top-left-radius($picker-border-radius);
+                @include border-top-right-radius($picker-border-radius);
+            }
+            &.#{$css-prefix}-search-position-top {
+                .#{$css-prefix}-scroll-area {
+                    bottom: 0;
+                }
+            }
+            &.#{$css-prefix}-search-position-bottom {
+                .#{$css-prefix}-scroll-area {
+                    top: $filters-height;
+                }
+                .#{$css-prefix}-search-panel {
+                    top: initial;
+                    bottom: 0;
+                }
+            }
+        }
+
+        &.#{$css-prefix}-filters-position-bottom {
+            .#{$css-prefix}-filters {
+                bottom: 0;
+                @include border-bottom-left-radius($picker-border-radius);
+                @include border-bottom-right-radius($picker-border-radius);
+            }
+
+            &.#{$css-prefix}-search-position-bottom {
+                .#{$css-prefix}-scroll-area {
+                    top: 0;
+                }
+                .#{$css-prefix}-search-panel {
+                    top: initial;
+                    bottom: $filters-height;
+                }
+            }
+
+            &.#{$css-prefix}-search-position-top {
+                .#{$css-prefix}-scroll-area {
+                    top: initial;
+                    bottom: $filters-height;
+                }
+                .#{$css-prefix}-search-panel {
+                    top: 0;
+                }
+            }
+        }
+
+        &.#{$css-prefix}-picker-position-top {
+            margin-top: - $picker-height - 10;
+            right: -14px;
+
+            .#{$css-prefix}-wrapper:after {
+                width: 19px;
+                height: 10px;
+                background-position: -2px -49px;
+                bottom: -10px;
+                right: 20px;
+            }
+
+            &.#{$css-prefix}-filters-position-bottom {
+                .#{$css-prefix}-wrapper:after {
+                    background-position: -2px -80px;
+                }
+            }
+        }
+
+        &.#{$css-prefix}-picker-position-left,
+        &.#{$css-prefix}-picker-position-right {
+            margin-right: - $picker-width - 10;
+            top: -8px;
+
+            .#{$css-prefix}-wrapper:after {
+                width: 10px;
+                height: 19px;
+                background-position: 0px -60px;
+                top: 13px;
+                left: -10px;
+            }
+
+            &.#{$css-prefix}-filters-position-bottom {
+                .#{$css-prefix}-wrapper:after {
+                    background-position: right -60px;
+                }
+            }
+        }
+
+        &.#{$css-prefix}-picker-position-bottom {
+            margin-top: 10px;
+            right: -14px;
+            top: $inline-height - 2 + 15px;
+
+            .#{$css-prefix}-wrapper:after {
+                width: 19px;
+                height: 10px;
+                background-position: -2px -100px;
+                top: -10px;
+                right: 20px;
+            }
+
+            &.#{$css-prefix}-filters-position-bottom {
+                .#{$css-prefix}-wrapper:after {
+                    background-position: -2px -90px;
+                }
+            }
+        }
+    }
+
+    .#{$css-prefix}-button.active {
+        + .#{$css-prefix}-picker {
+            @include opacity(1);
+        }
+
+        + .#{$css-prefix}-picker-position-top {
+            margin-top: - $picker-height + 7;
+        }
+
+        + .#{$css-prefix}-picker-position-left,
+        + .#{$css-prefix}-picker-position-right {
+            margin-right: - $picker-width + 7;
+        }
+
+        + .#{$css-prefix}-picker-position-bottom {
+            margin-top: - 7px;
+        }
+    }
+
+    &.#{$css-prefix}-standalone {
+        display: inline-block;
+        width: auto;
+        box-shadow: none;
+
+        .#{$css-prefix}-editor {
+            min-height: 33px;
+            position: relative;
+            padding: 6px 42px 6px 6px;
+            &::before {
+                content: "";
+                position: absolute;
+                top: 4px;
+                left: 50%;
+                bottom: 4px;
+                border-left: 1px solid lighten($border-color, 10%);
+            }
+            &.has-placeholder {
+                $_hack: inline-image-store(background, $standalone-placeholder);
+                //background-size: 12px auto;
+                background-repeat: no-repeat;
+                background-position: 20px 4px;
+                .emojioneemoji {
+                    opacity: 0.4;
+                }
+            }
+        }
+
+        .#{$css-prefix}-button {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: auto;
+            height: auto;
+            > div {
+                right: 6px;
+                top: 5px;
+            }
+        }
+
+        .#{$css-prefix}-picker {
+            &.#{$css-prefix}-picker-position-bottom,
+            &.#{$css-prefix}-picker-position-top {
+                .#{$css-prefix}-wrapper:after {
+                    right: 23px;
+                }
+            }
+
+            &.#{$css-prefix}-picker-position-left,
+            &.#{$css-prefix}-picker-position-right {
+                .#{$css-prefix}-wrapper:after {
+                    top: 15px;
+                }
+            }
+        }
+    }
+}
+
+@include inline-images-flash;

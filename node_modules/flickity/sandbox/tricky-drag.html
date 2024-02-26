@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+
+  <title>tricky drag</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+
+  <style>
+    .carousel {
+      background: #EEE;
+      margin-bottom: 40px;
+    }
+
+    .carousel-cell {
+      height: 200px;
+      width: 25%;
+      margin: 0 10px;
+      background: #6C6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+    }
+
+    .carousel-cell b {
+      display: block;
+      font-size: 80px;
+      color: white;
+    }
+  </style>
+
+</head>
+<body>
+
+<h1>tricky drag</h1>
+
+<div class="carousel carousel--non-drag">
+  <div class="carousel-cell"><b>1</b></div>
+  <div class="carousel-cell"><b>2</b></div>
+  <div class="carousel-cell"><b>3</b></div>
+  <div class="carousel-cell"><b>4</b></div>
+  <div class="carousel-cell"><b>5</b></div>
+  <div class="carousel-cell"><b>6</b></div>
+  <div class="carousel-cell"><b>7</b></div>
+</div>
+
+<div class="carousel carousel--single-cell">
+  <div class="carousel-cell"><b>1</b></div>
+</div>
+
+<div class="carousel carousel--group">
+  <div class="carousel-cell"><b>1</b></div>
+  <div class="carousel-cell"><b>2</b></div>
+</div>
+
+<p><button class="add-group-cell-button">Add cell</button></p>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+
+<script src="js/tricky-drag.js"></script>
+
+</body>
+</html>

@@ -30,7 +30,7 @@ class AdsForJesus extends PluginAbstract {
 
     public function getPluginMenu() {
         global $global;
-        return "<a href='https://forjesus.tv/' target='__blank' class='btn btn-success'><img src='https://forjesus.tv/img/logoLandscape-50.png' alt='4JesusTV' class='img img-responsive'></a>";
+        return "<a href='https://forjesus.tv/' target='_blank' class='btn btn-success'><img src='https://forjesus.tv/img/logoLandscape-50.png' alt='4JesusTV' class='img img-responsive'></a>";
     }
 
     public function getEmptyDataObject() {
@@ -70,20 +70,33 @@ class AdsForJesus extends PluginAbstract {
                 return "<!-- AdsForJesus::getHeadCode not show ads [{$videos_id}] -->";
             }
             global $global;
-            $css .= '<link href="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.css" rel="stylesheet" type="text/css"/>';
+            $css .= '<link href="' . getURL('node_modules/videojs-ima/dist/videojs.ima.css') . ' " rel="stylesheet" type="text/css"/>';
             $css .= '<style>.ima-ad-container{z-index:1000 !important;}</style>';
-        }else{
+        } else {
             $css .= "<!-- AdsForJesus::getHeadCode empty videos_id -->";
         }
         return $js . $css;
+    }
+
+    static function getVMAPURL($videos_id) {
+        if (!empty($videos_id)) {
+            $showAds = AVideoPlugin::showAds($videos_id);
+            if ($showAds) {
+                $video = Video::getVideoLight($videos_id);
+                $video_length = parseDurationToSeconds($video['duration']);
+                $obj = AVideoPlugin::getDataObject('AdsForJesus');
+                return "https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}";
+            }
+        }
+        return '';
     }
 
     public function afterVideoJS() {
         global $global;
         $js = '';
         $js .= '<script src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'js/videojs-contrib-ads/videojs.ads.js" type="text/javascript"></script>';
-        $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/AD_Server/videojs-ima/videojs.ima.js" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-contrib-ads/dist/videojs.ads.min.js') . '" type="text/javascript"></script>';
+        $js .= '<script src="' . getURL('node_modules/videojs-ima/dist/videojs.ima.min.js') . '" type="text/javascript"></script>';
 
         //if (!empty($_GET['videoName']) || !empty($_GET['u'])) {
         $videos_id = getVideos_id();
@@ -93,23 +106,22 @@ class AdsForJesus extends PluginAbstract {
                 return "<!-- AdsForJesus::afterVideoJS not show ads [{$videos_id}] -->";
             }
             if (empty($_GET['u'])) {
-                $video = Video::getVideoLight($videos_id);
-                $showAds = AVideoPlugin::showAds($video['id']);
-                if (!$showAds) {
-                    return "";
+                $url = self::getVMAPURL($videos_id);
+                if(empty($url)){
+                    return '';
                 }
+                PlayerSkins::setIMAADTag($url);
             } else {
                 $video['duration'] = "01:00:00";
                 $_GET['videoName'] = "Live-" . uniqid();
+                $video_length = parseDurationToSeconds($video['duration']);
+                $obj = $this->getDataObject();
+                PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");
             }
-
-            $video_length = parseDurationToSeconds($video['duration']);
-            $obj = $this->getDataObject();
-            PlayerSkins::setIMAADTag("https://forjesus.tv/vmap.xml?video_durarion={$video_length}&start={$obj->start}&mid25Percent={$obj->mid25Percent}&mid50Percent={$obj->mid50Percent}&mid75Percent={$obj->mid75Percent}&end={$obj->end}");
-        }else{
+        } else {
             $js .= "<!-- AdsForJesus::getHeadCode empty videos_id -->";
-        } 
-        
+        }
+
         return $js;
     }
 

@@ -1,0 +1,23 @@
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "docker"
+    directory: "/"
+    open-pull-requests-limit: 10
+    schedule:
+      interval: "weekly"

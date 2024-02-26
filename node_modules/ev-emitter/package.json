@@ -1,0 +1,46 @@
+{
+  "name": "ev-emitter",
+  "version": "2.1.2",
+  "description": "lil' event emitter",
+  "main": "ev-emitter.js",
+  "devDependencies": {
+    "ava": "^3.15.0",
+    "eslint": "^7.30.0",
+    "eslint-plugin-metafizzy": "^1.2.1"
+  },
+  "scripts": {
+    "test": "npm run lint && ava",
+    "lint": "npx eslint ."
+  },
+  "eslintConfig": {
+    "plugins": [
+      "metafizzy"
+    ],
+    "extends": "plugin:metafizzy/base",
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "env": {
+      "browser": true,
+      "commonjs": true
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metafizzy/ev-emitter.git"
+  },
+  "keywords": [
+    "event",
+    "emitter",
+    "pubsub"
+  ],
+  "author": "David DeSandro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/metafizzy/ev-emitter/issues"
+  },
+  "homepage": "https://github.com/metafizzy/ev-emitter#readme",
+  "directories": {
+    "test": "test"
+  }
+}

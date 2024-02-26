@@ -1,5 +1,4 @@
 <?php
-
 header('Content-Type: application/json');
 global $global, $config;
 if (!isset($global['systemRootPath'])) {
@@ -7,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 }
 
 $obj = new stdClass();
-$obj->msg = "";
+$obj->msg = '';
 $obj->error = true;
 
 if (($advancedCustom->disableVideoSwap) || ($advancedCustom->makeSwapVideosOnlyForAdmin && !Permissions::canModerateVideos())) {
@@ -52,16 +51,17 @@ $video1->setDuration($video2Duration);
 $video2->setFilename($video1Filename, true);
 $video2->setSites_id($video1Sites_id);
 $video2->setDuration($video1Duration);
-
-$global['mysqli']->autocommit(false);
-if(!$video1->save()){
+mysqlBeginTransaction();
+if (!$video1->save()) {
     $obj->msg = __("Error on save video 1");
     die(json_encode($obj));
 }
-if(!$video2->save()){
+if (!$video2->save()) {
     $obj->msg = __("Error on save video 2");
     die(json_encode($obj));
 }
-$global['mysqli']->commit();
+$video1->setVideoHigestResolution(0);
+$video2->setVideoHigestResolution(0);
+mysqlCommit();
 $obj->error = false;
 die(json_encode($obj));

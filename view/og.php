@@ -8,7 +8,7 @@ if (!isset($global['systemRootPath'])) {
 <html>
     <head>
         <title><?php echo $config->getWebSiteTitle(); ?></title>
-        <?php 
+        <?php
         getOpenGraph(@$_GET['videos_id']);
         getLdJson(@$_GET['videos_id']);
         ?>

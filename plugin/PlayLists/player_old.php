@@ -25,7 +25,7 @@ foreach ($playList as $value) {
         $sources = getVideosURL($value['filename']);
     }
     $images = Video::getImageFromFilename($value['filename'], $value['type']);
-    $externalOptions = json_decode($value['externalOptions']);
+    $externalOptions = _json_decode($value['externalOptions']);
 
     $src = new stdClass();
     $src->src = $images->thumbsJpg;
@@ -50,14 +50,13 @@ if (!empty($video['id'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo $playListObj->getName() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/js/video.js/video-js.min.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/player.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo $global['webSiteRootURL']; ?>view/css/social.css" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css"/>
+        <link href="<?php echo getCDN(); ?>view/css/social.css" rel="stylesheet" type="text/css"/>
 
-        <link href="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.css" rel="stylesheet">
+        <link href="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.css" rel="stylesheet">
 
         <?php include $global['systemRootPath'] . 'view/include/head.php'; ?>
         <style>
@@ -133,7 +132,7 @@ if (!empty($video['id'])) {
                             </div>
                             <div id="main-video" class="embed-responsive embed-responsive-16by9">
 
-                                <video playsinline
+                                <video <?php echo PlayerSkins::getPlaysinline(); ?>
                                 <?php if ($config->getAutoplay() && false) { // disable it for now    ?>
                                            autoplay="true"
                                            muted="muted"
@@ -144,17 +143,6 @@ if (!empty($video['id'])) {
                                 </video>
 
                             </div>
-                            <?php
-                            if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-                                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                                $style = VideoLogoOverlay::getStyle();
-                                $url = VideoLogoOverlay::getLink();
-                                ?>
-                                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
-                                    <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" alt="Logo" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
-                                </div>
-                            <?php } ?>
-
                             <?php
                             showCloseButton();
                             ?>
@@ -202,7 +190,7 @@ if (!empty($video['id'])) {
                 <br>
                 <br>
                 <div class="alert alert-warning">
-                    <span class="glyphicon glyphicon-facetime-video"></span> <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
+                    <i class="fa-solid fa-video"></i> <strong><?php echo __("Attention"); ?>!</strong> <?php echo empty($advancedCustom->videoNotFoundText->value) ? __("We have not found any videos or audios to show") : $advancedCustom->videoNotFoundText->value; ?>.
                 </div>
             <?php } ?>
         </div>
@@ -216,15 +204,15 @@ if (!empty($video['id'])) {
             "view/js/BootstrapMenu.min.js");
         $jsURL = combineFiles($videoJSArray, "js");
         ?>
-        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist/videojs-playlist.js"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/PlayLists/videojs-playlist-ui/videojs-playlist-ui.js"></script>
-        <script src="<?php echo $global['webSiteRootURL']; ?>view/js/videojs-youtube/Youtube.js"></script>
+        <script src="<?php echo $jsURL; ?>" type="text/javascript"></script><script src="<?php echo getCDN(); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
+        <script src="<?php echo getCDN(); ?>node_modules/videojs-playlist-ui/dist/videojs-playlist-ui.min.js"></script>
+        <script src="<?php echo getURL('node_modules/videojs-youtube/dist/Youtube.min.js'); ?>node_modules/videojs-playlist/dist/videojs-playlist.min.js"></script>
         <script>
 
                                         var playerPlaylist = <?php echo json_encode($playListData); ?>;
                                         var originalPlayerPlaylist = playerPlaylist;
 
-                                        if (typeof player === 'undefined') {
+                                        if (typeof player === 'undefined' && $('#mainVideo').length) {
                                             player = videojs('mainVideo'<?php echo PlayerSkins::getDataSetup(); ?>);
                                         }
 

@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <meta charset="UTF-8">
+  <title>Emojione-area by mervick</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Open+Sans:400,700'>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" media="screen">
+  <!--<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/emojione/1.5.2/assets/sprites/emojione.sprites.css" media="screen">-->
+  <link rel="stylesheet" type="text/css" href="stylesheet.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="../dist/emojionearea.min.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" media="screen">
+  <link rel="stylesheet" type="text/css" href="http://mervick.github.io/lib/google-code-prettify/skins/tomorrow.css" media="screen">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <!--<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/1.5.2/lib/js/emojione.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emojione@3.1.2/lib/js/emojione.min.js"></script>-->
+  <!--<script type="text/javascript" src="../node_modules/emojione/lib/js/emojione.js"></script>-->
+  <script type="text/javascript" src="http://mervick.github.io/lib/google-code-prettify/prettify.js"></script>
+  <!--<script>
+    window.emojioneVersion = "3.1";
+  </script>-->
+  <script type="text/javascript" src="../dist/emojionearea.js"></script>
+  <style>
+    .clearfix:after {
+      content: " ";
+      display: table;
+      clear: both;
+    }
+  </style>
+</head>
+<body onload="prettyPrint()">
+<section class="page-header">
+  <a href="/emojionearea/">
+    <h1 class="logo">Emoji One Area</h1>
+  </a>
+  <!--<h1 class="project-name">Emojione-area</h1>-->
+  <h2 class="project-tagline">Simple jQuery WYSIWYG editor with emojione smiles for use in replies and comments</h2>
+  <a href="https://github.com/mervick/emojionearea" class="btn"><i class="fa fa-github"></i>View on GitHub</a>
+  <a href="https://github.com/mervick/emojionearea/zipball/master" class="btn"><i class="fa fa-download"></i>Download .zip</a>
+  <a href="https://github.com/mervick/emojionearea/tarball/master" class="btn"><i class="fa fa-download"></i>Download .tar.gz</a>
+</section>
+
+<section class="main-content">
+
+  <h2>Emoji One Area</h2>
+
+  <p>Emojione-area is a small jQuery plugin that allows you to transform any html element into simple WYSIWYG editor
+    with ability to use Emojione icons. The end result is a secure text/plain in which the image icons will be replaced
+    with their Unicode analogues.</p>
+
+
+  <h2 id="demo"><a href="#demo">Demo</a></h2>
+
+  <div class="clearfix">
+    <div class="row">
+      <div class="col-6">
+        <p>From:</p>
+            <textarea id="demo1">
+  Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+  </textarea>
+      </div>
+      <div class="col-6">
+        <p>To:</p>
+        <div id="container"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#demo1").emojioneArea({
+        container: "#container",
+        hideSource: false,
+        useSprite: false
+      });
+    });
+  </script>
+
+  <p>Code:</p>
+<pre class="prettyprint linenums">
+&lt;div class=&quot;row&quot;&gt;
+  &lt;div class=&quot;col-6&quot;&gt;
+    &lt;p&gt;From:&lt;/p&gt;
+    &lt;textarea id=&quot;demo1&quot;&gt;
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+&lt;/textarea&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;col-6&quot;&gt;
+    &lt;p&gt;To:&lt;/p&gt;
+    &lt;div id=&quot;container&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#demo1&quot;).emojioneArea({
+      container: &quot;#container&quot;,
+      hideSource: false,
+    });
+  });
+&lt;/script&gt;
+</pre>
+
+  <h2>Standalone mode</h2>
+  <p>Allows a single emoji to be picked without a text input, useful for emoji reactions or as an addition to another WYSIWYG editor. Can be initialised with an initial value or a placeholder.</p>
+  <div id="standalone" data-emoji-placeholder=":grimacing:"></div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#standalone").emojioneArea({
+        standalone: true,
+        autocomplete: false
+      });
+    });
+  </script>
+
+<pre class="prettyprint linenums">
+  &lt;div id=&quot;standalone&quot; data-emoji-placeholder=&quot;:smiley:&quot;&gt;&lt;/div&gt;
+
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    $(document).ready(function() {
+      $(&quot;#standalone&quot;).emojioneArea({
+        standalone: true,
+        autocomplete: false
+      });
+    });
+  &lt;/script&gt;
+</pre>
+
+
+  <h2 id="installation"><a href="#installation">Installation</a></h2>
+
+  <p>The preferred way to install is via <code>bower</code>, <code>npm</code> or <code>Composer</code>.</p>
+
+  <p>Using <a href="http://bower.io">Bower</a>:</p>
+  <pre class="prettyprint lang-bash ">bower install emojionearea</pre>
+
+  <p>Using <a href="https://www.npmjs.com/">npm</a>:</p>
+  <pre class="prettyprint lang-bash">npm install emojionearea</pre>
+
+  <p>Using <a href="https://getcomposer.org/">Composer</a>:</p>
+  <pre class="">composer require mervick/emojionearea</pre>
+
+  <p>Also you can download source files directly from <a href="https://github.com/mervick/emojionearea">Github</a>.</p>
+
+  <style>
+    a > .com {
+      color: blue!important;
+    }
+  </style>
+
+  <h2 id="options"><a href="#options">Options</a></h2>
+  <p>Customize emojione version</p>
+<pre class="prettyprint">
+  // version by default is 1.5.2
+  <!--window.emojioneVersion = "2.1.1";-->
+</pre>
+
+  <p>Default options</p>
+<pre class="prettyprint">
+  var default_options = {
+      template          : "&lt;editor/&gt;&lt;filters/&gt;&lt;tabs/&gt;", // plugin template
+
+      dir               : "ltr", // direction <a class="link" href="http://www.w3schools.com/tags/att_global_dir.asp">http://www.w3schools.com/tags/att_global_dir.asp</a>
+      spellcheck        : false, // spellcheck <a href="http://www.w3schools.com/tags/att_global_spellcheck.asp">http://www.w3schools.com/tags/att_global_spellcheck.asp</a>
+      autocomplete      : "off", // autocomplete <a href="http://www.w3schools.com/tags/att_input_autocomplete.asp">http://www.w3schools.com/tags/att_input_autocomplete.asp</a>
+      autocorrect       : "off", // autocorrect <a href="https://davidwalsh.name/disable-autocorrect">https://davidwalsh.name/disable-autocorrect</a>
+      autocapitalize    : "off", // autocapitalize <a href="http://www.w3schools.com/tags/att_input_autocomplete.asp">http://www.w3schools.com/tags/att_input_autocomplete.asp</a>
+
+      placeholder       : null, // placeholder
+      container         : null, // by default, emojionearea container created directly under source,
+                                // in this option you can specify custom {jQuery|selector} container
+
+      hideSource        : true, // hide source element after binding
+      autoHideFilters   : false, // auto hide filters panel
+
+      useSprite         : true, // use sprite instead of images, is awesome, but not works in old browsers
+      shortnames        : false, // if true - will converts emojis to short names,
+                                 // by default converts emojis to unicode characters
+
+      filters: {
+        // customize filters & emoji buttons
+        // see in <a href="https://raw.githubusercontent.com/mervick/emojionearea/master/src/var/default_options.js">source file</a>
+      },
+
+      events: {
+        // events handlers
+        // see <a href="#events">events</a> below
+      }
+  };
+</pre>
+
+  <h2 id="api"><a href="#api">Api</a></h2>
+<pre class="prettyprint">
+  .on(events, handler);
+  // - events
+  //   Type: String
+  //   One or more space-separated event types and optional namespaces
+  // - handler
+  //   Type: Function(jQuery Element, Event eventObject [, Anything extraParameter ] [, ... ] )
+  //   A function to execute when the event is triggered.
+
+  .off(events[, handler]);
+  // - events
+  //   Type: String
+  //   One or more space-separated event types and optional namespaces
+  // - handler
+  //   Type: Function(jQuery Element, Event eventObject [, Anything extraParameter ] [, ... ] )
+  //   A handler function previously attached for the event(s)
+
+  // built-in events:
+  //   "mousedown", "mouseup", "click", "keyup", "keydown", "keypress"
+  //   "filter.click", "emojibtn.click", "arrowLeft.click", "arrowRight.click",
+  //   "focus", "blur", "paste", "resize", "change"
+
+  .setText(str);
+  // - str
+  //   Type: String
+  //   Set text
+
+  .getText();
+  //   Get text
+
+  // Usage methods, example:
+  var el = $("selector").emojioneArea();
+  el[0].emojioneArea.on("emojibtn.click", function(btn) {
+    console.log(btn.html());
+  });
+  </pre>
+
+  <h2 id="events"><a href="#events">Events</a></h2>
+  <p>Two ways to set events, in options:</p>
+<pre class="prettyprint">
+$("selector").emojioneArea({
+  events: {
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    focus: function (editor, event) {
+      console.log('event:focus');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    blur: function (editor, event) {
+      console.log('event:blur');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    mousedown: function (editor, event) {
+      console.log('event:mousedown');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    mouseup: function (editor, event) {
+      console.log('event:mouseup');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    click: function (editor, event) {
+      console.log('event:click');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    keyup: function (editor, event) {
+      console.log('event:keyup');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    keydown: function (editor, event) {
+      console.log('event:keydown');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    keypress: function (editor, event) {
+      console.log('event:keypress');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    paste: function (editor, event) {
+      console.log('event:paste');
+    },
+    /**
+     * @param {jQuery} editor EmojioneArea input
+     * @param {Event} event jQuery Event object
+     */
+    change: function (editor, event) {
+      console.log('event:change');
+    },
+    /**
+     * @param {jQuery} filter EmojioneArea filter
+     * @param {Event} event jQuery Event object
+     */
+    filter_click: function (filter, event) {
+      console.log('event:filter.click, filter=' + filter.data("filter"));
+    },
+    /**
+     * @param {jQuery} button EmojioneArea emoji button
+     * @param {Event} event jQuery Event object
+     */
+    emojibtn_click: function (button, event) {
+      console.log('event:emojibtn.click, emoji=' + button.children().data("name"));
+    },
+    /**
+     * @param {jQuery} button EmojioneArea left arrow button
+     * @param {Event} event jQuery Event object
+     */
+    arrowLeft_click: function (button, event) {
+      console.log('event:arrowLeft.click');
+    },
+    /**
+     * @param {jQuery} button EmojioneArea right arrow button
+     * @param {Event} event jQuery Event object
+     */
+    arrowRight_click: function (button, event) {
+      console.log('event:arrowRight.click');
+    }
+  }
+});
+</pre>
+
+  <p>or by <code>.on()</code> & <code>.off()</code> methods:</p>
+<pre class="prettyprint">
+  var el = $("selector").emojioneArea();
+
+  // attach event handler
+  el[0].emojioneArea.on("emojibtn.click", function(button, event) {
+    console.log('event:emojibtn.click, emoji=' + button.children().data("name"));
+  });
+  // unset all handlers attached to event
+  el[0].emojioneArea.off("emojibtn.click");
+
+  // like in jQuery you can specify few events separated by space
+  el[0].emojioneArea.off("focus blur");
+
+  // set & unset custom handler
+  var eventHandler1 = function(button, event) {
+    console.log('event1');
+  };
+  var eventHandler2 = function(button, event) {
+    console.log('event2');
+  };
+  // attach event handlers
+  el[0].emojioneArea.on("click", eventHandler1);
+  el[0].emojioneArea.on("click", eventHandler2);
+  // unset eventHandler1
+  el[0].emojioneArea.off("click", eventHandler1);
+</pre>
+
+  <style>
+    #events-panels {
+      width: 100%;
+    }
+    #events-panels:after,
+    #events-panels:before {
+      content: " ";
+      display: block;
+      clear: both;
+    }
+    #events-panels .source-panel {
+      float: left;
+      width: 49%;
+      margin-right: 2%;
+    }
+    #events-panels .console-panel {
+      float: left;
+      width: 49%;
+      background-color: #333;
+      color: #ccc!important;
+      padding: 5px 10px 10px;
+      border-radius: 2px;
+      height: 300px;
+      max-height: 300px;
+      overflow: auto;
+    }
+    #events-panels .console-panel p {
+      color: #ccc!important;
+      font-size: 11px;
+      margin: 0 0 2px 0;
+    }
+  </style>
+
+  <p>Events listener example</p>
+  <div id="events-panels">
+    <div class="source-panel">
+<textarea id="example_events">
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+</textarea>
+    </div>
+    <div class="console-panel">
+      <p><span style="color: #df4545;font-size: 14px;">EmojioneArea Events</span></p>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    var console_panel = $("#events-panels .console-panel");
+    function console_log($str) {
+      console_panel.append($("<p/>").text($str))
+          .animate({scrollTop: console_panel[0].scrollHeight + 1000}, 0);
+    }
+    $(document).ready(function() {
+      $("#example_events").emojioneArea({
+        autoHideFilters: false,
+        events: {
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          focus: function (editor, event) {
+            console_log('event:focus');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          blur: function (editor, event) {
+            console_log('event:blur');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          mousedown: function (editor, event) {
+            console_log('event:mousedown');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          mouseup: function (editor, event) {
+            console_log('event:mouseup');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          click: function (editor, event) {
+            console_log('event:click');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          keyup: function (editor, event) {
+            console_log('event:keyup');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          keydown: function (editor, event) {
+            console_log('event:keydown');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          keypress: function (editor, event) {
+            console_log('event:keypress');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          paste: function (editor, event) {
+            console_log('event:paste');
+          },
+          /**
+           * @param {jQuery} editor EmojioneArea input
+           * @param {Event} event jQuery Event object
+           */
+          change: function (editor, event) {
+            console_log('event:change');
+          },
+          /**
+           * @param {jQuery} filter EmojioneArea filter
+           * @param {Event} event jQuery Event object
+           */
+          filter_click: function (filter, event) {
+            console_log('event:filter.click, filter=' + filter.data("filter"));
+          },
+          /**
+           * @param {jQuery} button EmojioneArea emoji button
+           * @param {Event} event jQuery Event object
+           */
+          emojibtn_click: function (button, event) {
+            console_log('event:emojibtn.click, emoji=' + button.children().data("name"));
+          },
+          /**
+           * @param {jQuery} button EmojioneArea left arrow button
+           * @param {Event} event jQuery Event object
+           */
+          arrowLeft_click: function (button, event) {
+            console_log('event:arrowLeft.click');
+          },
+          /**
+           * @param {jQuery} button EmojioneArea right arrow button
+           * @param {Event} event jQuery Event object
+           */
+          arrowRight_click: function (button, event) {
+            console_log('event:arrowRight.click');
+          }
+        }
+      });
+    });
+  </script>
+
+  <h2 id="examples"><a href="#examples">Examples</a></h2>
+  <p>Auto hide filters</p>
+<textarea id="example1">
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+</textarea>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#example1").emojioneArea({
+        autoHideFilters: true
+      });
+    });
+  </script>
+
+  <p></p>
+
+<pre class="prettyprint linenums">
+&lt;textarea id=&quot;example1&quot;&gt;
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+&lt;/textarea&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#example1&quot;).emojioneArea({
+      autoHideFilters: true
+    });
+  });
+&lt;/script&gt;
+</pre>
+
+  <p></p>
+
+  <p>Using <code>div</code></p>
+  <div id="example2">Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.</div>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#example2").emojioneArea();
+    });
+  </script>
+
+  <p></p>
+
+<pre class="prettyprint linenums">
+&lt;div id=&quot;example2&quot;&gt;
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+&lt;/div&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#example2&quot;).emojioneArea();
+  });
+&lt;/script&gt;
+</pre>
+
+  <p></p>
+  <p>Using <code>input</code></p>
+  <input id="example3" value="Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.">
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#example3").emojioneArea();
+    });
+  </script>
+
+  <p></p>
+
+<pre class="prettyprint linenums:1">
+&lt;input id=&quot;example3&quot; value=&quot;Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.&quot;&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#example3&quot;).emojioneArea();
+  });
+&lt;/script&gt;
+</pre>
+
+  <p>Images instead of the sprite</p>
+<textarea id="example4">
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+</textarea>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#example4").emojioneArea({
+        useSprite: false
+      });
+    });
+  </script>
+
+  <p></p>
+
+<pre class="prettyprint linenums">
+&lt;textarea id=&quot;example4&quot;&gt;
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+&lt;/textarea&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#example3&quot;).emojioneArea({
+      useSprite: false
+    });
+  });
+&lt;/script&gt;
+</pre>
+
+  <p>Customize layout</p>
+<textarea id="example5">
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+</textarea>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#example5").emojioneArea({
+        template: "<filters/><tabs/><editor/>"
+      });
+    });
+  </script>
+
+  <p></p>
+
+<pre class="prettyprint linenums">
+&lt;textarea id=&quot;example5&quot;&gt;
+Lorem ipsum dolor 😍 sit amet, consectetur 👻 adipiscing elit, 🖐 sed do eiusmod tempor ☔ incididunt ut labore et dolore magna aliqua 🐬.
+&lt;/textarea&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() {
+    $(&quot;#example5&quot;).emojioneArea({
+      template: &quot;&lt;filters/&gt;&lt;tabs/&gt;&lt;editor/&gt;&quot;
+    });
+  });
+&lt;/script&gt;
+</pre>
+
+  <p></p>
+
+
+  <h2 id="requirements"><a href="#requirements">Requirements</a></h2>
+  <ul>
+    <li><a href="https://jquery.com/">jQuery</a> &gt;= 1.8.2</li>
+    <li><a href="https://github.com/Ranks/emojione">EmojiOne</a> &gt;= 1.5.0</li>
+  </ul>
+
+  <h2 id="license"><a href="#license">License</a></h2>
+  <p>EmojiOneArea is released under the MIT license.</p>
+
+  <footer class="site-footer">
+    <span class="site-footer-owner"><a href="https://github.com/mervick/emojionearea">EmojiOneArea</a> is maintained by <a href="https://github.com/mervick">mervick</a>.</span>
+
+    <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
+  </footer>
+
+</section>
+
+</body>
+</html>

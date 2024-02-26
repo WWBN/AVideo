@@ -1,0 +1,7 @@
+tests/ export-ignore
+.idea/ export-ignore
+.github/ export-ignore
+.releasinator.rb export-ignore
+Gemfile export-ignore
+Gemfile.lock export-ignore
+

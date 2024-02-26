@@ -20,7 +20,7 @@ if(empty($plugin)){
 
 $plugin = AVideoPlugin::loadPluginIfEnabled("YPTWallet");
 $dataObj = $plugin->getDataObject();
-$options = json_decode($dataObj->addFundsOptions);
+$options = _json_decode($dataObj->addFundsOptions);
 
 //send an email
 $emailsArray = array();

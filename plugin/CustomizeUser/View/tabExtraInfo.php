@@ -5,7 +5,7 @@ $rows = Users_extra_info::getAllActive(User::getId());
 ?>
 <div id="<?php echo $tabId; ?>" class="tab-pane fade in" style="padding: 10px 0;">
     <?php
-    if(User::isAdmin()){
+    if (User::isAdmin()) {
         echo "<a href='{$global['webSiteRootURL']}plugin/CustomizeUser/View/editor.php' class='btn btn-default btn-block'>".__('Add more fields')."</a>";
     }
     ?>
@@ -15,12 +15,10 @@ $rows = Users_extra_info::getAllActive(User::getId());
             $class = "col-sm-4";
             if ($value['field_type'] == 'textarea') {
                 $class = "col-sm-12";
-            }
-            ?>
+            } ?>
             <div class="<?php echo $class; ?>">
                 <?php
-                echo Users_extra_info::typeToHTML($value);
-                ?>
+                echo Users_extra_info::typeToHTML($value); ?>
             </div>
             <?php
         }

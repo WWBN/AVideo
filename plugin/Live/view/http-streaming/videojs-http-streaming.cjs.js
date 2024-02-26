@@ -2544,7 +2544,7 @@ var TransmuxWorker = new shimWorker("./transmuxer-worker.worker.js", function (w
 				var listeners = {};
 				/**
      * Add a listener for a specified event type.
-     * @param type {string} the event name
+     * @param string {string} the event name
      * @param listener {function} the callback to be invoked when an event of
      * the specified type occurs
      */
@@ -2556,7 +2556,7 @@ var TransmuxWorker = new shimWorker("./transmuxer-worker.worker.js", function (w
 				};
 				/**
      * Remove a listener for a specified event type.
-     * @param type {string} the event name
+     * @param string {string} the event name
      * @param listener {function} a function previously registered for this
      * type of event through `on`
      */
@@ -2573,7 +2573,7 @@ var TransmuxWorker = new shimWorker("./transmuxer-worker.worker.js", function (w
 				/**
      * Trigger an event of the specified type on this stream. Any additional
      * arguments to this function are passed as parameters to event listeners.
-     * @param type {string} the event name
+     * @param string {string} the event name
      */
 				this.trigger = function (type) {
 					var callbacks, i, length, args;
@@ -16390,7 +16390,7 @@ videojs.options.hls = videojs.options.hls || {};
 if (videojs.registerPlugin) {
   videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 } else {
-  videojs.plugin('reloadSourceOnError', reloadSourceOnError);
+  videojs.registerPlugin('reloadSourceOnError', reloadSourceOnError);
 }
 
 exports.Hls = Hls$1;

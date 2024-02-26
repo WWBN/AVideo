@@ -1,6 +1,6 @@
 <?php
 global $global, $config;
-if(!isset($global['systemRootPath'])){
+if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
 require_once $global['systemRootPath'] . 'objects/userGroups.php';
@@ -12,7 +12,7 @@ if (json_last_error()) {
     _error_log("users.json error 1: " . print_r($rows, true));
     $rows = object_to_array($rows);
     //echo examineJSONError($users);exit;
-    array_walk_recursive($rows, function(&$item) {
+    array_walk_recursive($rows, function (&$item) {
         if (is_string($item)) {
             $item = cleanString($item);
         }

@@ -10,6 +10,7 @@ class VideoLogoOverlay extends PluginAbstract {
             PluginTags::$FREE,
         );
     }
+
     public function getDescription() {
         return "Put an Logo overlay on video";
     }
@@ -25,10 +26,17 @@ class VideoLogoOverlay extends PluginAbstract {
     public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->url = "";
-        $obj->position = "";
+        $o = new stdClass();
+        $o->type = array('center' => 'Center', 'top' => 'Top', 'bottom' => 'Bottom', 'top left' => 'Top Left', 'bottom left' => 'Bottom Left', 'top right' => 'Top Right', 'bottom right' => 'Bottom Right');
+        $o->value = 'top right';
+        $obj->position = $o;
         $obj->opacity = 50;
-        $obj->position_options = array('center', 'top', 'bottom', 'top left', 'bottom left', 'top right', 'bottom right');
+        $obj->useUserChannelImageAsLogo = true;
         return $obj;
+    }
+
+    public function getPluginVersion() {
+        return "2.2";
     }
 
     public function getPluginMenu() {
@@ -39,45 +47,114 @@ class VideoLogoOverlay extends PluginAbstract {
 
     static function getStyle() {
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
+        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity}); ";
 
-        "position: absolute; top: 0; left: 0; opacity: 0.5; filter: alpha(opacity=50);";
-        $opacity = "opacity: " . ($obj->opacity / 100) . "; filter: alpha(opacity={$obj->opacity});pointer-events:none; ";
+        return $opacity;
+    }
 
-        $position = "position: absolute; top: 0; left: 0; ";
-        switch ($obj->position) {
+    static function getClass() {
+        $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
+        $position = "VideoLogoOverlay";
+        switch ($obj->position->value) {
             case "center":
-                $position = "position: absolute; top: 50%; left: 50%; margin-left: -125px; margin-top: -35px; ";
+                $position .= " VideoLogoOverlay-Center";
                 break;
             case "top":
-                $position = "position: absolute; top: 0; left: 50%; margin-left: -125px; ";
+                $position .= " VideoLogoOverlay-Top";
                 break;
             case "bottom":
-                $position = "position: absolute; bottom: 0; left: 50%; margin-left: -125px; ";
+                $position .= " VideoLogoOverlay-Bottom";
                 break;
             case "top left":
-                $position = "position: absolute; top: 0; left: 0; ";
+                $position .= " VideoLogoOverlay-Top-Left";
                 break;
             case "bottom left":
-                $position = "position: absolute; bottom: 0; left: 0; ";
+                $position .= " VideoLogoOverlay-Bottom-Left";
                 break;
             case "top right":
-                $position = "position: absolute; top: 0; right: 0; ";
+                $position .= " VideoLogoOverlay-Top-Right";
                 break;
             case "bottom right":
-                $position = "position: absolute; bottom: 0; right: 0; ";
+                $position .= " VideoLogoOverlay-Bottom-Right";
                 break;
         }
-        return $position.$opacity;
+        return $position;
     }
-    
+
     static function getLink() {
         $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
-        if(!empty($obj->url)){
+
+        if (!empty($obj->url)) {
             $url = $obj->url;
-        }else{
+        } else {
             $url = "#";
         }
         return $url;
+    }
+
+    function getFooterCode() {
+        global $global;
+        if (!isVideo() || isWebRTC()) {
+            return '';
+        }
+        $style = VideoLogoOverlay::getStyle();
+        $url = VideoLogoOverlay::getLink();
+        $class = VideoLogoOverlay::getClass();
+        $obj = AVideoPlugin::getObjectData("VideoLogoOverlay");
+        $logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+        $html = '';
+        $js = '';
+        //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+        if ($obj->useUserChannelImageAsLogo) {
+            $users_id = 0;
+            if ($liveLink_id = isLiveLink()) {
+                $js .= "/* VideoLogoOverlay livelink */";
+                $liveLink = new LiveLinksTable($liveLink_id);
+                $users_id = $liveLink->getUsers_id();
+            } else if ($live = isLive()) {
+                if (!empty($_REQUEST['live_schedule'])) {
+                    $js .= "/* VideoLogoOverlay live schedule {$_REQUEST['live_schedule']} */";
+                    $users_id = Live_schedule::getUsers_idOrCompany($_REQUEST['live_schedule']);
+                } else {
+                    $js .= "/* VideoLogoOverlay live */";
+                    //$live = array('key' => false, 'live_servers_id' => false, 'live_index' => false);
+                    
+                    $users_id = LiveTransmition::getUsers_idOrCompanyFromKey($live['key']);
+                }
+            } else {
+                $js .= "/* VideoLogoOverlay video */";
+                $videos_id = getVideos_id();
+                $video = Video::getVideoLight($videos_id);
+                $users_id = $video['users_id'];
+            }
+            if (!empty($users_id)) {
+                $logoOverlay = User::getPhoto($users_id);
+                $url = User::getChannelLink($users_id);
+                $class .= ' VideoLogoOverlay-User';
+                //$cols = "col-lg-12 col-md-8 col-sm-7 col-xs-6";
+            } else {
+                $js .= "/* VideoLogoOverlay empty users_id */";
+            }
+            $js .= "/* VideoLogoOverlay users_id = {$users_id} */";
+        }
+        $cols = "";
+
+        if (!empty($url)) {
+            $class .= ' VideoLogoOverlay-URL';
+        }
+        //$logoOverlay = "{$global['webSiteRootURL']}videos/logoOverlay.png";
+        $html .= '<div style="' . $style . '" class="' . $class . '"><a href="' . $url . '" target="_blank"> <img src="' . $logoOverlay . '" alt="Logo"  class="img img-responsive ' . $cols . '" ></a></div>';
+        $js .= "$('{$html}').appendTo('#mainVideo');";
+        PlayerSkins::addOnPlayerReady($js);
+    }
+
+    public function getHeadCode() {
+        global $global;
+        if (isWebRTC()) {
+            return '';
+        }
+        $url = getURL('plugin/VideoLogoOverlay/style.css');
+        return "<link href=\"{$url}\" rel=\"stylesheet\" type=\"text/css\"  media=\"print\" onload=\"this.media='all'\"/>";
     }
 
 }

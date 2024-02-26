@@ -1,0 +1,4 @@
+{
+    "plugins": ["plugins/markdown"]
+}
+

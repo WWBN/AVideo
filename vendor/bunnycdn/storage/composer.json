@@ -1,0 +1,23 @@
+{
+    "name": "bunnycdn/storage",
+    "type": "library",
+    "description": "PHP library to interact with the BunnyCDN Storage API.",
+    "keywords": ["bunnycdn", "bunny.net", "storage", "media"],
+    "homepage": "https://bunny.net/storage/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dejan Grofelnik Pelzel",
+            "email": "dejan@bunnycdn.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Bunny\\Storage\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0.0",
+        "ext-curl": "*"
+    }
+}

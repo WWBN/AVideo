@@ -6,7 +6,7 @@ if (!isset($global['systemRootPath'])) {
 $metaDescription = "Themes Page";
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $config->getLanguage(); ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title><?php echo __("About") . getSEOComplement() . $config->getPageTitleSeparator() . $config->getWebSiteTitle(); ?></title>
         <?php
@@ -30,7 +30,7 @@ $metaDescription = "Themes Page";
                         <div class="panel panel-default">
                             <div class="panel-body" style="padding: 5px;">
                                 <iframe frameBorder="0" width="100%" height="250px" 
-                                        src="<?php echo $global['webSiteRootURL']; ?>view/css/custom/theme.php?theme=<?php echo $value; ?>" ></iframe>
+                                        src="<?php echo getCDN(); ?>view/css/custom/theme.php?theme=<?php echo $value; ?>" ></iframe>
                             </div>
                         </div>
 

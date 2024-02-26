@@ -1,15 +1,15 @@
 <?php
 require_once '../../../../videos/configuration.php';
 require_once $global['systemRootPath'] . 'plugin/Meet/Objects/Meet_schedule.php';
-if(!User::isAdmin()){
+if (!User::isAdmin()) {
     $total = Meet_schedule::getTotalFromUsersId(User::getId(), @$_REQUEST['meet_scheduled'], empty($_GET['manageMeetings']));
     $rows = Meet_schedule::getAllFromUsersId(User::getId(), @$_REQUEST['meet_scheduled'], empty($_GET['manageMeetings']));
-}else{
+} else {
     $total = Meet_schedule::getTotal(@$_REQUEST['meet_scheduled']);
     $rows = Meet_schedule::getAll(@$_REQUEST['meet_scheduled']);
 }
 
-if(empty($_GET['draw'])){
+if (empty($_GET['draw'])) {
     $_GET['draw'] = 0;
 }
 header('Content-Type: application/json');

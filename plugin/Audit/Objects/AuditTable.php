@@ -18,6 +18,9 @@ class AuditTable extends ObjectYPT {
         
     
     function audit($method, $class, $statement, $formats, $values, $users_id) {
+        if(strtolower($class) === 'cachesindb' || preg_match('/^INSERT INTO CachesInDB/i', $statement) || preg_match('/^UPDATE CachesInDB/i', $statement)){
+            return false;
+        }
         $this->method = $method;
         $this->class = $class;
         $this->statement = substr(str_replace(array("'","\\","\\x","\x"), array("","","",""), $statement),0,1000)."n";
@@ -59,6 +62,19 @@ class AuditTable extends ObjectYPT {
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $rows;
+    }
+    
+    static public function deleteOlderThan($days) {
+        global $global;
+        $days = intval($days);
+        if (!empty($days)) {
+            $sql = "DELETE FROM " . static::getTableName() . " ";
+            $sql .= " WHERE created < now() - interval $days DAY;";
+            $global['lastQuery'] = $sql;
+            //_error_log("Delete Query: ".$sql);
+            return sqlDAL::writeSql($sql);
+        }
+        return false;
     }
 
 }

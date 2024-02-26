@@ -137,7 +137,7 @@ if (!User::isAdmin()) {
                     <div class="row">
                         <h3><?php echo __("Add Videos into Campaign"); ?> - <strong id="campaignName"></strong></h3>
                         <div class="col-md-4">
-                            <img id="inputVideo-poster" src="<?php echo $global['webSiteRootURL']; ?>img/notfound.jpg" class="ui-state-default img-responsive" alt="">
+                            <img id="inputVideo-poster" src="<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>" class="ui-state-default img-responsive" alt="">
                         </div>
                         <div class="col-md-8">
                             <input id="inputVideo" placeholder="<?php echo __("Video"); ?>" class="form-control">
@@ -152,6 +152,7 @@ if (!User::isAdmin()) {
                     </div>
                     <hr>
                     <button type="button" class="btn btn-success" id="addVideoBtn"><i class="fa fa-save"></i> <?php echo __("Save Video"); ?></button>
+                    <button type="button" class="btn btn-primary" id="addVideoBtnUpload"><i class="fas fa-upload"></i> <?php echo __("Upload Video"); ?></button>
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
@@ -209,32 +210,34 @@ if (!User::isAdmin()) {
     </div>
 
     <div id="btnModelLinks" style="display: none;">
-        <button href="" class="editor_add_video btn btn-success btn-xs btn-block">
+        <button class="editor_add_video btn btn-success btn-xs btn-block">
             <i class="fa fa-video"></i> Add Video
         </button>
         <div class="btn-group pull-right">
             <button href="" class="editor_chart btn btn-info btn-xs">
                 <i class="fas fa-chart-area "></i>
             </button>
-            <button href="" class="editor_link btn btn-default btn-xs">
+            <button class="editor_link btn btn-default btn-xs">
                 <i class="fa fa-link"></i>
             </button>
-            <button href="" class="editor_edit_link btn btn-default btn-xs">
+            <button class="editor_edit_link btn btn-default btn-xs">
                 <i class="fa fa-edit"></i>
             </button>
-            <button href="" class="editor_delete_link btn btn-danger btn-xs">
+            <button class="editor_delete_link btn btn-danger btn-xs">
                 <i class="fa fa-trash"></i>
             </button>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/Chart.bundle.min.js"></script>
+<script src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('js/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js'); ?>" type="text/javascript"></script>
+<script src="<?php echo getURL('node_modules/chart.js/dist/chart.umd.js'); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
+    var tableLinks;
+    var videoUploadModalinterval;
     function clearVideoForm() {
-        $('#inputVideo-poster').attr('src', "<?php echo $global['webSiteRootURL']; ?>view/img/notfound.jpg");
+        $('#inputVideo-poster').attr('src', "<?php echo ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_URL); ?>");
         $('#inputVideo').val('');
         $('#inputVideoClean').val('');
         $('#inputVideoURI').val('');
@@ -316,9 +319,9 @@ if (!User::isAdmin()) {
             select: function (event, ui) {
                 $('#inputVideoAd_id').val(0);
                 $("#inputVideo").val(ui.item.title);
-                $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + ui.item.clean_title);
+                $("#inputVideoClean").val(ui.item.link);
                 $("#inputVideo-id").val(ui.item.id);
-                $("#inputVideo-poster").attr("src", "<?php echo $global['webSiteRootURL']; ?>videos/" + ui.item.filename + ".jpg");
+                $("#inputVideo-poster").attr("src", ui.item.videosURL.jpg.url);
                 $('#videos_id').val(ui.item.id);
                 $('#inputVideoURI').val('');
                 $('#inputVideoTitle').val('');
@@ -401,7 +404,7 @@ if (!User::isAdmin()) {
 
             $('#inputVideoAd_id').val(data.id);
             $("#inputVideo").val(data.title);
-            $("#inputVideoClean").val('<?php echo $global['webSiteRootURL']; ?>video/' + data.clean_title);
+            $("#inputVideoClean").val(data.link);
             $("#inputVideo-id").val(data.videos_id);
             $("#inputVideo-poster").attr("src", data.poster.poster);
             $('#videos_id').val(data.videos_id);
@@ -412,7 +415,7 @@ if (!User::isAdmin()) {
 
         $('#addVideoBtn').click(function () {
             $.ajax({
-                url: '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/addCampaignVideo.php',
+                url: webSiteRootURL+'plugin/AD_Server/view/addCampaignVideo.php',
                 data: {inputVideoAd_id: $('#inputVideoAd_id').val(), vast_campaigns_id: $('#vast_campaigns_id').val(), videos_id: $('#videos_id').val(), uri: $('#inputVideoURI').val(), title: $('#inputVideoTitle').val()},
                 type: 'post',
                 success: function (response) {
@@ -429,7 +432,24 @@ if (!User::isAdmin()) {
             });
         });
 
-        var tableLinks = $('#campaignTable').DataTable({
+        $('#addVideoBtnUpload').click(function () {
+            <?php          
+            $encoderURL = $config->getEncoderURL(true);
+            ?>
+            var url = <?php echo json_encode($encoderURL)?>;
+            url = addQueryStringParameter(url, 'callback', JSON.stringify({vast_campaigns_id:$('#vast_campaigns_id').val()}));         
+            avideoModalIframeFull(url);
+            
+            videoUploadModalinterval = setInterval(function(){
+                if(!avideoModalIframeIsVisible()){
+                    clearInterval(videoUploadModalinterval);
+                    tableVideos.ajax.reload();
+                }
+            },1000);
+            
+        });
+
+        tableLinks = $('#campaignTable').DataTable({
             "ajax": "<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/view/campaigns.json.php",
             "columns": [
                 {"data": "id"},
@@ -471,10 +491,10 @@ if (!User::isAdmin()) {
                         avideoAlert("<?php echo __("Congratulations!"); ?>", "<?php echo __("Your register has been saved!"); ?>", "success");
 <?php
 if (!empty($ad_server_location)) {
-    ?>
+                                        ?>
                             $('#locationList').empty();
     <?php
-}
+                                    }
 ?>
                         $("#panelForm").trigger("reset");
                     }
@@ -573,7 +593,10 @@ if (!empty($ad_server_location)) {
             e.preventDefault();
             var tr = $(this).closest('tr')[0];
             var data = tableLinks.row(tr).data();
-            document.location = '<?php echo $global['webSiteRootURL']; ?>plugin/AD_Server/VAST.php?campaign_id=' + data.id;
+            var url = webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id;
+            console.log('campaignTable',url, data);
+            openWindow(webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id);
+            //document.location = webSiteRootURL+'plugin/AD_Server/VAST.php?campaign_id=' + data.id;
 
         });
     });

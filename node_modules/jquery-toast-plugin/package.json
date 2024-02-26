@@ -1,0 +1,35 @@
+{
+  "name": "jquery-toast-plugin",
+  "filename": "dist/jquery.toast.min.js",
+  "main": "dist/jquery.toast.min.js",
+  "style": "dist/jquery.toast.min.css",
+  "version": "1.3.2",
+  "description": "Highly customizable jquery plugin to show toast messages",
+  "homepage": "http://www.kamranahmed.info/toast",
+  "keywords": [
+    "Toast",
+    "Toast plugin",
+    "Jquery toast plugin"
+  ],
+  "maintainers": [
+    {
+      "name": "Kamran Ahmed",
+      "web": "http://kamranahmed.info"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kamranahmedse/jquery-toast-plugin.git"
+  },
+  "bugs": "https://github.com/kamranahmedse/jquery-toast-plugin/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "devDependencies": {
+  },
+  "scripts": {
+  }
+}

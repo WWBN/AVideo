@@ -1,0 +1,20 @@
+<a class="list-group-item">
+    <button class="btn btn-xs btn-default"
+            onclick="avideoModalIframeFull(webSiteRootURL+'viewProgram/{id}/pl');return false;">
+        <i class="fas fa-edit"></i> 
+    </button>
+    <button class="btn btn-xs btn-default" 
+            onclick="avideoModalIframeFull(webSiteRootURL+'plugin/PlayLists/embed.php?playlists_id={id}');return false;">
+        <i class="fas fa-play"></i> 
+    </button>
+    <span>
+        <i class="{icon}"></i>  
+        <span class="nameSearch">{name_translated}</span>
+    </span>
+    <div class="material-switch material-small pull-right">
+        <input id="someSwitchOptionDefault{randId}" name="someSwitchOption{response_id}" 
+               class="playListsVideosIds{videos_id} playListsIds_{id}_videos_id_{videos_id} playListsIds{id} " 
+               type="checkbox" value="{id}" {checked}>
+        <label for="someSwitchOptionDefault{randId}" class="label-success"></label>
+    </div>
+</a>

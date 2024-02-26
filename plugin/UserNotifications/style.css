@@ -1,0 +1,91 @@
+#topMenuUserNotifications {
+    display: list-item !important;
+}
+
+#topMenuUserNotifications > ul {
+    max-width: 90vw;
+}
+
+#topMenuUserNotifications>ul>div.list-group {
+    overflow-x: hidden;
+}
+
+#topMenuUserNotifications > a > span.badge{
+    position: absolute;
+    top: 28px;
+    left: 24px;
+    z-index: 10;
+}
+
+#topMenuUserNotifications span.badge-notify{
+    background:red;
+}
+
+#topMenuUserNotifications.hasNothingToShow .hideWhenHasNothingToShow,
+#topMenuUserNotifications.hasSomethingToShow .hideWhenHasSomethingToShow,
+#topMenuUserNotifications.hasNothingToDelete .hideWhenHasNothingToDelete{
+    display: none;
+}
+
+#topMenuUserNotifications .dropdown-menu .list-group{
+    min-width: 360px;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+}
+
+#topMenuUserNotifications .dropdown-menu img{
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    object-position: center;
+    margin: 10px 0 0 10px;
+}
+
+#topMenuUserNotifications > ul .list-group a {
+    padding: 5px;
+}
+
+#topMenuUserNotifications > ul .list-group a > div > div.media-body > strong{
+    white-space: nowrap;
+    
+}
+#topMenuUserNotifications .icon{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    padding: 2px 4px;
+    border-radius: 20px;
+    opacity: 0.8;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .deleteBtn{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-width: 0;
+    display: none;
+    opacity: 0.5;
+    background-color: transparent;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .deleteBtn:hover{
+    opacity: 1;
+}
+#topMenuUserNotifications .dropdown-menu .list-group div.canDelete:hover .deleteBtn{
+    display: inline-block;
+}
+#topMenuUserNotifications .dropdown-menu .list-group .priority > div{
+    position: relative;
+}
+
+.check-with-label + .label-for-check {
+  opacity: 0.5;
+}
+.check-with-label:checked + .label-for-check {
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+    #topMenuUserNotifications .dropdown-menu .list-group{
+        max-height: calc(100vh - 300px);
+    }
+
+}

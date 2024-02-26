@@ -1,50 +1,86 @@
+<!-- Live Link <?php echo $t['id']; ?> -->
 <?php
-$liveLink = "Invalid link";
-if (filter_var($t['link'], FILTER_VALIDATE_URL)) {
-    $url = parse_url($t['link']);
-    if ($url['scheme'] == 'https') {
-        $liveLink = $t['link'];
+AVideoPlugin::loadPlugin('LiveLinks');
+if ($t['id'] > 0) {
+    $liveLink = LiveLinks::getSourceLink($t['id']);
+    $liveLinkObj = new LiveLinksTable($t['id']);
+    $endTime = strtotime(convertFromDefaultTimezoneTimeToMyTimezone($liveLinkObj->getEnd_date()));
+    $endInSeconds = $endTime - time();
+    if($endInSeconds<0){
+        forbiddenPage('Live Finished');
+    }
+    if(!LiveLinks::userCanWatch(User::getId(), $t['id'])){
+        forbiddenPage('Live is private');
+    }
+} else {
+    $liveLink = $t['link'];
+}
+$posterURL = LiveLinks::getImage($t['id']);
+
+$disableYoutubeIntegration = !PlayerSkins::isYoutubeIntegrationEnabled();
+$video['videoLink'] = $liveLink;
+if (isValidM3U8Link($liveLink)) {
+
+    $htmlMediaTag = '<video poster="' . $posterURL . '" controls '.PlayerSkins::getPlaysinline().'
+                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered liveVideo vjs-16-9" 
+                       id="mainVideo">
+                    <source src="' . $liveLink . '" type="application/x-mpegURL">
+                </video>';
+} else {
+
+    $isVideoTypeEmbed = 1;
+    if (($disableYoutubeIntegration) || ((strpos($liveLink, "youtu.be") == false) && (strpos($liveLink, "youtube.com") == false) && (strpos($liveLink, "vimeo.com") == false))) {
+        $_GET['isEmbedded'] = "e";
+        $isVideoTypeEmbed = 1;
+        $url = parseVideos($liveLink);
+        if ($config->getAutoplay()) {
+            $url = addQueryStringParameter($url, 'autoplay', 1);
+        }
+        $htmlMediaTag = "<!-- Embed liveLink {$liveLink} -->";
+        $htmlMediaTag .= '<video '.PlayerSkins::getPlaysinline().' id="mainVideo" style="display: none; height: 0;width: 0;" ></video>';
+        $htmlMediaTag .= '<div id="main-video" class="embed-responsive-item">';
+        $htmlMediaTag .= '<iframe class="embed-responsive-item" scrolling="no" '.Video::$iframeAllowAttributes.' src="' . $url . '"></iframe>';
+        $htmlMediaTag .= '<script>$(document).ready(function () {addView(' . intval($video['id']) . ', 0);});</script>';
+        $htmlMediaTag .= '</div>';
     } else {
-        $liveLink = "{$global['webSiteRootURL']}plugin/LiveLinks/proxy.php?livelink=" . urlencode($t['link']);
+        // youtube!
+        if ((stripos($liveLink, "youtube.com") != false) || (stripos($liveLink, "youtu.be") != false)) {
+            $_GET['isEmbedded'] = "y";
+        } else if ((stripos($liveLink, "vimeo.com") != false)) {
+            $_GET['isEmbedded'] = "v";
+        }
+        //$_GET['isMediaPlaySite'] = $video['id'];
+        //PlayerSkins::playerJSCodeOnLoad($video['id'], @$video['url']);
+        //PlayerSkins::getStartPlayerJS('');
+        $htmlMediaTag = "<!-- Embed liveLink YoutubeIntegration {$liveLink} -->";
+        $htmlMediaTag .= '<video '.PlayerSkins::getPlaysinline().' id="mainVideo" class="embed-responsive-item video-js vjs-default-skin vjs-16-9 vjs-big-play-centered" controls></video>';
+        $htmlMediaTag .= '<script>var player;$(document).ready(function () {$(".vjs-control-bar").css("opacity: 1; visibility: visible;");});</script>';
     }
 }
+
+
+$htmlMediaTag .= getLiveUsersLabelHTML();
+if (!empty($_REQUEST['embed'])) {
+    echo $htmlMediaTag;
+} else {
+    echo PlayerSkins::getMediaTag(false, $htmlMediaTag);
+}
+if (!empty($endInSeconds) && $endInSeconds < 604800) { //1 week
+    ?>
+    <script>
+        $(document).ready(function () {
+            var endInSeconds = <?php echo $endInSeconds; ?>;
+            console.log('live will finish in', endInSeconds);
+            setTimeout(function () {
+                console.log('live finish now');
+                $('#main-video').remove();
+                avideoConfirm('Live Finished').then(function (value) {
+                    document.location = webSiteRootURL;
+                });
+            }, endInSeconds*1000);
+        });
+    </script>
+    <?php
+}
 ?>
-<link href="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/live.css" rel="stylesheet" type="text/css"/>
-<div class="row main-video" id="mvideo">
-    <div class="firstC col-sm-2 col-md-2"></div>
-    <div class="secC col-sm-8 col-md-8">
-        <div id="videoContainer">
-            <div id="floatButtons" style="display: none;">
-                <p class="btn btn-outline btn-xs move">
-                    <i class="fas fa-expand-arrows-alt"></i>
-                </p>
-                <button type="button" class="btn btn-outline btn-xs" onclick="closeFloatVideo();floatClosed = 1;">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div id="main-video" class="embed-responsive embed-responsive-16by9">
-                <video poster="<?php echo $global['webSiteRootURL']; ?>plugin/Live/view/OnAir.jpg" controls 
-                       class="embed-responsive-item video-js vjs-default-skin vjs-big-play-centered" 
-                       id="mainVideo">
-                    <source src="<?php echo $liveLink; ?>" type='application/x-mpegURL'>
-                </video>
-            </div>
-            <?php
-            if (AVideoPlugin::isEnabled("0e225f8e-15e2-43d4-8ff7-0cb07c2a2b3b")) {
-                require_once $global['systemRootPath'] . 'plugin/VideoLogoOverlay/VideoLogoOverlay.php';
-                $style = VideoLogoOverlay::getStyle();
-                $url = VideoLogoOverlay::getLink();
-                ?>
-                <div style="<?php echo $style; ?>" class="VideoLogoOverlay">
-                    <a href="<?php echo $url; ?>" target="_blank"> <img src="<?php echo $global['webSiteRootURL']; ?>videos/logoOverlay.png" class="img-responsive col-lg-12 col-md-8 col-sm-7 col-xs-6"></a>
-                </div>
-            <?php } ?>
-        </div>
-    </div>
-    <div class="col-sm-2 col-md-2"></div>
-</div>
-<script>
-<?php
-echo PlayerSkins::getStartPlayerJS();
-?>
-</script>
+<!-- Live link finish -->

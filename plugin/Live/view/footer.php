@@ -1,32 +1,58 @@
 <script>
     function onlineLabelOnline(selector) {
-        console.log("Change video to Online");
+        selector = selector.replace(/[&=]/g, '');
+        //console.log("Change video to Online ", selector);
+        //console.trace();
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-danger');
         $(selector).addClass('label-success');
         $(selector).text("<?php echo __("ONLINE"); ?>");
+        if ($('#indexCol1 div.panel-heading .label-success').length) {
+            isOnlineLabel = true;
+        }
     }
 
     function onlineLabelPleaseWait(selector) {
-        console.log("Change video to please wait");
+        selector = selector.replace(/[&=]/g, '');
+        console.log("Change video to please wait", selector);
+        if (!$('#indexCol1 div.panel-heading .label-success').length) {
+            isOnlineLabel = false;
+        }
         $(selector).removeClass('label-success');
         $(selector).removeClass('label-danger');
         $(selector).addClass('label-warning');
         $(selector).text("<?php echo __("Please Wait ..."); ?>");
+        if (!$('#indexCol1 div.panel-heading .label-success').length) {
+            isOnlineLabel = false;
+        }
     }
 
     function onlineLabelOffline(selector) {
-        console.log("Change video to offline");
+        selector = selector.replace(/[&=]/g, '');
+        //console.log("Change video to offline", selector);
+        //console.trace();
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');
         $(selector).text("<?php echo __("OFFLINE"); ?>");
+        if (!$('#indexCol1 div.panel-heading .label-success').length) {
+            isOnlineLabel = false;
+        }
     }
     function onlineLabelFinishing(selector) {
-        console.log("Change video to finishing");
+        selector = selector.replace(/[&=]/g, '');
+        console.log("Change video to finishing", selector);
         $(selector).removeClass('label-warning');
         $(selector).removeClass('label-success');
         $(selector).addClass('label-danger');
         $(selector).text("<?php echo __("Finishing Live..."); ?>");
+        if (!$('#indexCol1 div.panel-heading .label-success').length) {
+            isOnlineLabel = false;
+        }
     }
+<?php
+if (isLive()) {
+    echo PlayerSkins::getStartPlayerJS();
+}
+?>
 </script>

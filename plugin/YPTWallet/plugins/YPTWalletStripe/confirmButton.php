@@ -108,12 +108,14 @@ $uid = uniqid();
         event.preventDefault();
         modal.showPleaseWait();
         $.ajax({
-            url: '<?php echo $global['webSiteRootURL']; ?>plugin/StripeYPT/getIntent.json.php',
+            url: webSiteRootURL+'plugin/StripeYPT/getIntent.json.php',
             data: {
                 "value": $('#value<?php echo @$_GET['plans_id']; ?>').val(),
                 "description": $('#description<?php echo @$_GET['plans_id']; ?>').val(),
                 "plans_id": "<?php echo @$_GET['plans_id']; ?>",
                 "plugin": "<?php echo @$_REQUEST['plugin']; ?>",
+                "user": "<?php echo User::getUserName() ?>",
+                "pass": "<?php echo User::getUserPass(); ?>",
                 "singlePayment": 1
             },
             type: 'post',
@@ -122,8 +124,7 @@ $uid = uniqid();
                 if (!response.error) {
                     console.log(response);
                     stripe<?php echo $uid; ?>.confirmCardPayment(
-                            response.client_secret,
-                            {
+                            response.client_secret,{
                                 payment_method: {card: card<?php echo $uid; ?>}
                             }
                     ).then(function (result) {
@@ -138,7 +139,16 @@ $uid = uniqid();
                             // Send the token to your server.
                             avideoToast("<?php echo __("Payment Success"); ?>");
                             updateYPTWallet();
-                            setTimeout(function(){location.reload();}, 3000);
+                            setTimeout(function(){
+                                <?php
+                                if (empty($global['paymentsTest'])) {
+                                    $url = YPTWallet::getAddFundsSuccessRedirectURL();
+                                    echo empty($url) ? 'location.reload();' : "window.top.location.href='{$url}'";
+                                }else{
+                                    echo 'modal.hidePleaseWait();';
+                                }
+                                ?>
+                            }, 3000);
                         }
                     });
                 } else {

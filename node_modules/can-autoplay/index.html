@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo: can-autoplay</title>
+</head>
+<body>
+<h1>can-autoplay</h1>
+<ul>
+    <li class='video'>video</li>
+    <li class='videoMuted'>video muted</li>
+    <li class='videoInline'>video inline</li>
+    <li class='videoInlineMuted'>video inline muted</li>
+    <li class='audio'>audio</li>
+    <li class='audioMuted'>audio muted</li>
+</ul>
+
+<script src="./build/can-autoplay.js"></script>
+<script>
+  const $ = document.querySelector.bind(document)
+  let tests = [
+    {selector: '.video', method: 'video', params: null},
+    {selector: '.videoMuted', method: 'video', params: {muted: true}},
+    {selector: '.videoInline', method: 'video', params: {inline: true}},
+    {selector: '.videoInlineMuted', method: 'video', params: {inline: true, muted: true}},
+    {selector: '.audio', method: 'audio', params: null},
+    {selector: '.audioMuted', method: 'audio', params: {muted: true}}
+  ]
+
+  tests.reduce((testSequence, test) => {
+    return testSequence
+      .then(() => {
+        return canAutoplay[test.method](test.params).then(({result, error}) => {
+          $(test.selector).innerText += (result === true) ? ' ✅' : (' 🚫 ' + `( Error "${error.name}": ${error.message}) `)
+        })
+      })
+      .then(() => {
+        return new Promise(resolve => setTimeout(resolve, 1000))
+      })
+  }, Promise.resolve());
+
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width" />
+
+  <title>wrap around</title>
+
+  <link rel="stylesheet" href="../css/flickity.css" />
+  <link rel="stylesheet" href="sandbox.css" />
+
+  <style>
+    #no-margin .cell {
+      width: 25%;
+      margin: 0;
+    }
+
+    #tight-wrap {
+      width: 200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    #tight-wrap .cell {
+      width: 50%;
+    }
+  </style>
+
+</head>
+<body>
+
+  <h1>wrap around</h1>
+
+  <div id="gallery1" class="container variable-width">
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+  </div>
+
+  <div id="gallery2" class="container variable-width">
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6 w3">6</div>
+  </div>
+
+  <h2>Left aligned</h2>
+
+  <div id="gallery6" class="container variable-width">
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+  </div>
+
+  <h2>Fixed-width cells, pixel-positioning HTML init</h2>
+
+  <div id="gallery7" class="container fixed-width"
+    data-flickity='{ "wrapAround": true, "percentPosition": false }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2">2</div>
+    <div class="cell n3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5">5</div>
+    <div class="cell n6">6</div>
+    <div class="cell n1">7</div>
+    <div class="cell n2">8</div>
+  </div>
+
+  <h2>HTML init</h2>
+
+  <div id="gallery3" class="container variable-width"
+    data-flickity='{ "wrapAround": true }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+  </div>
+
+  <h2>freeScroll</h2>
+
+  <div id="gallery4" class="container variable-width">
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6">6</div>
+  </div>
+
+  <div id="gallery5" class="container variable-width">
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5 w2">5</div>
+    <div class="cell n6 w3">6</div>
+  </div>
+
+  <h2>no margin for error</h2>
+  <div id="no-margin" class="container variable-width"
+    data-flickity='{ "wrapAround": true, "cellAlign": "right" }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2">2</div>
+    <div class="cell n3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n5">5</div>
+  </div>
+
+  <h2>tight wrap #589</h2>
+  <div id="tight-wrap" class="container" data-flickity='{ "wrapAround": true }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2">2</div>
+    <div class="cell n3">3</div>
+    <div class="cell n4">4</div>
+  </div>
+
+  <h2>wrapAround: 'fill', should disabled</h2>
+  <div class="container variable-width" data-flickity='{ "wrapAround": "fill" }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+  </div>
+
+  <h2>wrapAround: 'fill', should enabled</h2>
+  <div class="container variable-width" data-flickity='{ "wrapAround": "fill" }'>
+    <div class="cell n1">1</div>
+    <div class="cell n2 w2">2</div>
+    <div class="cell n3 w3">3</div>
+    <div class="cell n4">4</div>
+    <div class="cell n4">5</div>
+  </div>
+
+<script src="../node_modules/get-size/get-size.js"></script>
+<script src="../node_modules/ev-emitter/ev-emitter.js"></script>
+<script src="../node_modules/unidragger/unidragger.js"></script>
+<script src="../node_modules/fizzy-ui-utils/utils.js"></script>
+
+<script src="../js/cell.js"></script>
+<script src="../js/slide.js"></script>
+<script src="../js/animate.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/drag.js"></script>
+<script src="../js/prev-next-button.js"></script>
+<script src="../js/page-dots.js"></script>
+<script src="../js/player.js"></script>
+<script src="../js/add-remove-cell.js"></script>
+
+<script src="js/wrap-around.js"></script>
+
+</body>
+</html>

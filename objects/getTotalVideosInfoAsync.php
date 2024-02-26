@@ -4,11 +4,11 @@ require_once $global['systemRootPath'] . 'objects/video.php';
 
 //getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false,
 //$ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false)
-session_write_close();
+_session_write_close();
 $status = $argv[1];
 $showOnlyLoggedUserVideos = boolval($argv[2]);
 $ignoreGroup = boolval($argv[3]);
-$videosArrayId = json_decode($argv[4]);
+$videosArrayId = _json_decode($argv[4]);
 $getStatistcs = boolval($argv[5]);
 $cacheFileName = $argv[6];
 $lockFile = $cacheFileName . '.lock';

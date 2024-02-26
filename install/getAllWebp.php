@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -21,7 +20,7 @@ foreach ($videos as $value) {
     echo "\nStart: " . $value['title'];
     ob_flush();
     $videoFileName = $value['filename'];
-    $destination = Video::getStoragePath()."{$videoFileName}.webp";
+    $destination = Video::getPathToFile("{$videoFileName}.webp");
     if (!file_exists($destination)) {
         echo "\nGet webp";
         ob_flush();
@@ -30,7 +29,14 @@ foreach ($videos as $value) {
         $duration = (Video::getItemDurationSeconds(Video::getDurationFromFile($videoPath)) / 2);
         if (!empty($videosURL)) {
             $url = $videosURL;
-            $file_headers = @get_headers($url);
+            $context = stream_context_create([
+                'ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                ],
+            ]);
+
+            $file_headers = @get_headers($url, 0, $context);
             if (!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
                 echo "\nGet webp not found {$url}";
                 ob_flush();
@@ -48,7 +54,7 @@ foreach ($videos as $value) {
         echo "\nGet done";
         ob_flush();
     } else {
-        echo "\nFile exists: " . $value['title'];
+        echo "\nFile exists: " . $value['title'] . " {$destination}";
         ob_flush();
     }
 
@@ -57,8 +63,9 @@ foreach ($videos as $value) {
     ob_flush();
 }
 
-function getFirstVideoURL($videoFileName) {
-    $types = array('', '_Low', '_SD', '_HD');
+function getFirstVideoURL($videoFileName)
+{
+    $types = ['', '_Low', '_SD', '_HD'];
     $videosList = getVideosURL($videoFileName);
     if (!empty($videosList['m3u8']["url"])) {
         return $videosList['m3u8']["url"];
@@ -66,15 +73,16 @@ function getFirstVideoURL($videoFileName) {
     foreach ($types as $value) {
         if (!empty($videosList['mp4' . $value]["url"])) {
             return $videosList['mp4' . $value]["url"];
-        } else if (!empty($videosList['webm' . $value]["url"])) {
+        } elseif (!empty($videosList['webm' . $value]["url"])) {
             return $videosList['webm' . $value]["url"];
         }
     }
     return false;
 }
 
-function getFirstVideoPath($videoFileName) {
-    $types = array('', '_Low', '_SD', '_HD');
+function getFirstVideoPath($videoFileName)
+{
+    $types = ['', '_Low', '_SD', '_HD'];
     $videosList = getVideosURL($videoFileName);
     if (!empty($videosList['m3u8']["path"])) {
         return $videosList['m3u8']["path"];
@@ -82,7 +90,7 @@ function getFirstVideoPath($videoFileName) {
     foreach ($types as $value) {
         if (!empty($videosList['mp4' . $value]["path"])) {
             return $videosList['mp4' . $value]["path"];
-        } else if (!empty($videosList['webm' . $value]["path"])) {
+        } elseif (!empty($videosList['webm' . $value]["path"])) {
             return $videosList['webm' . $value]["path"];
         }
     }

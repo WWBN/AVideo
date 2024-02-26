@@ -1,5 +1,4 @@
 <?php
-
 //streamer config
 require_once '../videos/configuration.php';
 
@@ -30,6 +29,15 @@ if (empty($userName) || empty($password)) {
                 $password2 = trim(readline(""));
                 if ($password === $password2) {
                     $user->setPassword($password);
+                    $user->setStatus('a');
+                    
+                    echo "Also verify email for user ".$user->getUser()." (yes/no):";
+                    echo "\n";
+                    ob_flush();
+                    $verify = trim(readline(""));
+                    if(strtolower($verify)==='yes'){
+                        $user->setEmailVerified(1);
+                    }
                     if ($user->save()) {
                         echo "Your new password was saved";
                         echo "\n";
@@ -59,7 +67,3 @@ if (empty($userName) || empty($password)) {
 echo "Bye";
 echo "\n";
 die();
-
-
-
-

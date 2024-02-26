@@ -12,15 +12,15 @@ if (!User::isAdmin()) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
-        <?php 
-        echo getHTMLTitle( __("Clone Site"));
+        <?php
+        echo getHTMLTitle(__("Clone Site"));
         ?>
         <?php
         include $global['systemRootPath'] . 'view/include/head.php';
         ?>
-        <link rel="stylesheet" type="text/css" href="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.css"/>
+        <link rel="stylesheet" type="text/css" href="<?php echo getCDN(); ?>view/css/DataTables/datatables.min.css"/>
     </head>
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
@@ -69,7 +69,7 @@ if (!User::isAdmin()) {
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script type="text/javascript" src="<?php echo $global['webSiteRootURL']; ?>view/css/DataTables/datatables.min.js"></script>
+        <script type="text/javascript" src="<?php echo getURL('view/css/DataTables/datatables.min.js'); ?>"></script>
 
         <script type="text/javascript">
 

@@ -1,0 +1,40 @@
+{
+  "name": "can-autoplay",
+  "version": "3.0.2",
+  "main": "build/can-autoplay.cjs.js",
+  "module": "build/can-autoplay.es.js",
+  "author": "Caio Gondim <me@caiogondim.com>",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "ava": "^0.25.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "doctoc": "^1.3.0",
+    "google-closure-compiler-js": "^20170910.0.1",
+    "jsdom": "^11.4.0",
+    "mime-types": "^2.1.17",
+    "rollup": "^0.55.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "standard": "^10.0.3"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "generate": "AUDIO=./media/audio.mp3 VIDEO=./media/video.mp4 OUTPUT=./lib/media.js node ./tools/blob-generator.js",
+    "minify": "google-closure-compiler-js 2>/dev/null build/can-autoplay.js > build/can-autoplay.min.js",
+    "watch": "rollup -c -w",
+    "lint": "standard 'lib/**/*.js' 'test/**/*.js'",
+    "doc": "doctoc README.md",
+    "test": "ava && yarn run lint",
+    "prepublishOnly": "yarn test && yarn build && yarn minify"
+  },
+  "ava": {
+    "files": [
+      "test/*.spec.js"
+    ],
+    "require": [
+      "babel-register",
+      "./test/setup.js"
+    ]
+  }
+}

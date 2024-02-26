@@ -2,7 +2,7 @@
     <div class="panel-heading">
         <div class="btn-group" >
             <button type="button" class="btn btn-default" id="addUserGroupsBtn">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <?php echo __("New User Groups"); ?>
+                <i class="fa-solid fa-plus"></i></span> <?php echo __("New User Groups"); ?>
             </button>
             <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success">
                 <span class="fa fa-film" aria-hidden="true"></span> <?php echo __("Videos"); ?>
@@ -41,8 +41,8 @@
                     <input type="text" id="inputName" name="group_name" class="form-control" placeholder="<?php echo __("Name"); ?>" required autofocus>
 
                     <?php
-                    if(User::isAdmin()){
-                    ?>
+                    if (User::isAdmin()) {
+                        ?>
                     <hr>
 
                     <div class="panel panel-default">
@@ -51,8 +51,7 @@
                         </div>
                         <div class="panel-body">
                             <?php
-                            echo Permissions::getForm();
-                            ?>
+                            echo Permissions::getForm(); ?>
                         </div>
                     </div>
                     <?php
@@ -76,7 +75,7 @@
     </div>
 </div>
 <script>
-    
+
     function pluginPermissionsBtn(plugins_id) {
         modal.showPleaseWait();
         $('#groupFormModal').modal('hide');
@@ -105,7 +104,7 @@
             formatters: {
                 "commands": function (column, row)
                 {
-                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></button>'
+                    var editBtn = '<button type="button" class="btn btn-xs btn-default command-edit" data-row-id="' + row.id + '" data-toggle="tooltip" data-placement="left" title="<?php echo __('Edit'); ?>"><i class="fa-solid fa-pen-to-square"></i></button>'
                     var deleteBtn = '<button type="button" class="btn btn-default btn-xs command-delete"  data-row-id="' + row.id + '  data-toggle="tooltip" data-placement="left" title="<?php echo __('Delete'); ?>""><i class="fa fa-trash"></i></button>';
                     return editBtn + deleteBtn;
                 }

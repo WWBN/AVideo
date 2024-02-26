@@ -12,19 +12,20 @@ if (!User::isAdmin()) {
     exit;
 }
 
+setRowCount(10000);
 header('Content-Type: application/json');
 if (empty($_POST['email'])) {
     if (!empty($_REQUEST['users_groups_id'])) {
         $users = User::getAllUsersFromUsergroup(
             $_REQUEST['users_groups_id'],
             false,
-            array('name', 'email', 'user', 'channelName', 'about'),
+            ['name', 'email', 'user', 'channelName', 'about'],
             'a'
         );
     } else {
         $users = User::getAllUsers(
             false,
-            array('name', 'email', 'user', 'channelName', 'about'),
+            ['name', 'email', 'user', 'channelName', 'about'],
             'a'
         );
     }
@@ -36,14 +37,15 @@ $mailsLimit = 100;
 
 $obj = new stdClass();
 $obj->error = false;
-$obj->msg = array();
+$obj->msg = [];
+$obj->message = $_POST['message'];
 //Create a new PHPMailer instance
-$mail = new \PHPMailer\PHPMailer\PHPMailer;
+$mail = new \PHPMailer\PHPMailer\PHPMailer();
 setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());
 $mail->Subject = 'Message From Site ' . $config->getWebSiteTitle();
-$mail->msgHTML($_POST['message']);
+$mail->msgHTML($obj->message);
 $count = 0;
 $currentCount = 0;
 foreach ($users as $value) {

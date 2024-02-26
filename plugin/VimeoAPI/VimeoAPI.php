@@ -3,7 +3,7 @@
 require_once $global['systemRootPath'] . 'plugin/Plugin.abstract.php';
 
 require_once $global['systemRootPath'] . 'plugin/VimeoAPI/Objects/VimeoUploads.php';
-require_once $global['systemRootPath'] . 'plugin/VimeoAPI/vimeo-api/autoload.php';
+require_once $global['systemRootPath'] . 'vendor/vimeo/vimeo-api/autoload.php';
 
 use Vimeo\Vimeo;
 use Vimeo\Exceptions\VimeoUploadException;
@@ -48,7 +48,7 @@ class VimeoAPI extends PluginAbstract {
 
     public function afterNewVideo($videos_id) {
         $vimeoObj = $this->getDataObject();
-        if ($obj->automaticallyUploadToVimeo) {
+        if ($vimeoObj->automaticallyUploadToVimeo) {
             $this->upload($videos_id);
         }
     }
@@ -148,7 +148,7 @@ class VimeoAPI extends PluginAbstract {
             // We may have had an error. We can't resolve it here necessarily, so report it to the user.
             $object->msg = 'Error uploading (' . $video->getTitle() . ') ' . $e->getMessage();
             _error_log('Vimeo::upload ' . $file_name . ' ' . $object->msg);
-        } catch (VimeoRequestException $e) {
+        } catch (Exception $e) {
             $object->msg = 'Error uploading (' . $video->getTitle() . ') ' . $e->getMessage();
             _error_log('Vimeo::upload ' . $file_name . ' ' . $object->msg);
         }

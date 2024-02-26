@@ -11,7 +11,7 @@
     <body class="<?php echo $global['bodyClass']; ?>">
         <?php
         global $global, $config;
-        if(!isset($global['systemRootPath'])){
+        if (!isset($global['systemRootPath'])) {
             require_once '../videos/configuration.php';
         }
         echo $config->getAdsense();

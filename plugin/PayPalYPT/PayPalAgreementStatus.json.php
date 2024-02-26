@@ -1,8 +1,7 @@
 <?php
-
 require_once '../../videos/configuration.php';
-
 header('Content-Type: application/json');
+
 $obj = new stdClass();
 $obj->error = true;
 $obj->msg = "";
@@ -21,7 +20,7 @@ $plugin = AVideoPlugin::loadPluginIfEnabled("PayPalYPT");
 
 $agreement = PayPalYPT::getBillingAgreement($_POST['agreement_id']);
 
-if(empty($agreement)){
+if (empty($agreement)) {
     $obj->msg = "Agreement not found";
     die(json_encode($obj));
 }
@@ -38,4 +37,3 @@ $obj->msg .= "<br><b>Cycles Completed: </b>".$agreement->getAgreementDetails()->
 $obj->msg .= "<br><b>Next Billing Date: </b>".$agreement->getAgreementDetails()->next_billing_date;
 $obj->msg .= "<br><b>Last Payment Date: </b>".$agreement->getAgreementDetails()->last_payment_date;
 die(json_encode($obj));
-?>

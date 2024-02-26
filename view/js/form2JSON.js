@@ -1,7 +1,8 @@
 
-function jsonToForm(json, helper) {
+function jsonToForm(json, helper, info) {
     console.log("jsonToForm json", json);
     console.log("jsonToForm helper", helper);
+    console.log("jsonToForm info", info);
     $('#jsonElements').empty();
     if (typeof helper["avideoPluginDescription"] === "object") {
         labelText = helper["avideoPluginDescription"].name;
@@ -68,6 +69,23 @@ function jsonToForm(json, helper) {
             div.append(label);
             div.append(input);
         }
+        
+        if(isPluginParameterDeprecated(i, info)){
+            $(div).addClass('is_deprecated');
+            $(div).addClass('bg-danger');
+            //$(div).addClass('text-danger');
+        }
+        if(isPluginParameterExperimental(i, info)){
+            $(div).addClass('is_experimental');
+            $(div).addClass('bg-warning');
+            //$(div).addClass('text-warning');
+        }
+        if(isPluginParameterAdvanced(i, info)){
+            $(div).addClass('is_advanced');
+            $(div).addClass('bg-info');
+            //$(div).addClass('text-info');
+        }
+        
         $('#jsonElements').append(div);
         $('.jsonElement').change(function () {
             var json = formToJson();
@@ -75,8 +93,9 @@ function jsonToForm(json, helper) {
             $('#inputData').val(json);
         });
 
-        $('[data-toggle="tooltip"]').tooltip({container: 'body'});
+        $('[data-toggle="tooltip"]').tooltip({container: 'body', html:true});
     })
+    countPluginParametersType();
 }
 
 function formToJson() {
@@ -106,4 +125,44 @@ function formToJson() {
     });
     //console.log(json);
     return json;
+}
+
+function isPluginParameterDeprecated(parameter_name, info){
+    if(typeof info[parameter_name] === 'undefined' || empty(info[parameter_name])){
+        return false;
+    }
+    return info[parameter_name].is_deprecated;
+}
+
+function isPluginParameterExperimental(parameter_name, info){
+    if(typeof info[parameter_name] === 'undefined' || empty(info[parameter_name])){
+        return false;
+    }
+    return info[parameter_name].is_experimental;
+}
+
+function isPluginParameterAdvanced(parameter_name, info){
+    if(typeof info[parameter_name] === 'undefined' || empty(info[parameter_name])){
+        return false;
+    }
+    return info[parameter_name].is_advanced;
+}
+
+function countPluginParametersType(){
+    var types = ['is_advanced','is_deprecated','is_experimental',];
+    var total = types.length;
+    for(var i = 0; i < total; i++){
+        var type = types[i];
+        var totalFromType = $('.'+type).length;
+        var label = $('#'+type).parent();
+        if(totalFromType){            
+            $(label).show();
+            $(label).find('.badge').text(totalFromType);
+        }else{
+            $(label).hide();
+            $(label).find('.badge').text(0);
+        }
+    }
+    
+    
 }

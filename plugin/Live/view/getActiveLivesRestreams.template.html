@@ -1,0 +1,17 @@
+<div class="loading livesRestreamStatus livesRestreamStatus_{live_restream_id} {class}" 
+     live_restreams_logs_id="{log_id}"
+     restreams_id="{id}"
+     live_transmitions_history_id="{live_transmitions_history_id}">
+    <button class="btn btn-default btn-block hideWhenInactive hideWhenActive hideWhenLoading hideWhenHasLog" onclick="getAction('start', {live_transmitions_history_id}, {id});">
+        <i class="fas fa-play"></i> Start<br>{display_name}
+    </button>
+    <button class="btn btn-primary btn-block hideWhenInactive hideWhenActive hideWhenHasNoLog disabled">
+        <i class="fas fa-sync faa-spin animated"></i> Loading<br>{display_name}
+    </button>
+    <button class="btn btn-danger btn-block hideWhenInactive hideWhenLoading hideWhenHasNoLog" onclick="getAction('stop', {live_transmitions_history_id}, {id});">
+        <i class="fas fa-stop"></i> Stop<br>{display_name}
+    </button>
+    <button class="btn btn-success btn-block hideWhenActive hideWhenLoading hideWhenHasNoLog" onclick="getAction('start', {live_transmitions_history_id}, {id});">
+        <i class="fas fa-play"></i> Start<br>{display_name}
+    </button>
+</div>

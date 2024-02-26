@@ -1,0 +1,21 @@
+.video-js .vjs-time-control {
+  @include flex(none);
+  font-size: 1em;
+  line-height: 3em;
+  min-width: 2em;
+  width: auto;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.vjs-live .vjs-time-control,
+.vjs-live .vjs-time-divider,
+.video-js .vjs-current-time,
+.video-js .vjs-duration {
+  display: none;
+}
+
+.vjs-time-divider {
+  display: none;
+  line-height: 3em;
+}

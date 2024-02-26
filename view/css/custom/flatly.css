@@ -19,3 +19,12 @@ body {
 #sidebar {
     margin-top: 60px  !important;
 }
+
+.hamburger svg *{
+    stroke: #FFF;
+}
+span.selection > span.select2-selection--single{
+    color: #ffffff;
+    background-color: #95a5a6;
+    border-color: #95a5a6;
+}

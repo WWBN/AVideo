@@ -10,7 +10,7 @@ if (!empty($ads1)) {
 ?>
 
 <h2 class="infoTitle" style=""><?php echo $video['title']; ?></h2>
-<h4 class="infoDetails">
+<div class="infoDetails">
     <?php
     if (!empty($video['rate'])) {
         ?>
@@ -47,11 +47,11 @@ if (!empty($ads1)) {
             }
         }
 
-        if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content")) {
+        if ($advancedCustom->paidOnlyFreeLabel && !empty($value2->label) && $value2->label === __("Paid Content") && !empty($value2->type) && !empty($value2->text)) {
             ?><span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span><?php
         }
         if (!empty($advancedCustom) && empty($advancedCustom->doNotDisplayPluginsTags)) {
-            if ($value2->label === "Plugin") {
+            if (!empty($value2->label) && $value2->label === "Plugin") {
                 ?>
                 <span class="label label-<?php echo $value2->type; ?>"><?php echo $value2->text; ?></span>
                 <?php
@@ -60,10 +60,6 @@ if (!empty($ads1)) {
     }
     ?>
     <?php
-    if (!empty($video['rrating'])) {
-        include $global['systemRootPath'] . 'view/rrating/rating-' . $video['rrating'] . '.php';
-    } else if (!empty($advancedCustom) && $advancedCustom->showNotRatedLabel) {
-        include $global['systemRootPath'] . 'view/rrating/notRated.php';
-    }
+    Video::getRratingHTML($video['rrating'] );
     ?>
-</h4>
+</div>

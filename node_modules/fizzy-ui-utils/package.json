@@ -1,0 +1,49 @@
+{
+  "name": "fizzy-ui-utils",
+  "version": "3.0.0",
+  "description": "UI utilities",
+  "main": "utils.js",
+  "dependencies": {},
+  "scripts": {
+    "test": "npm run lint && echo \"view test/index.html in a browser\"",
+    "lint": "npx eslint ."
+  },
+  "keywords": [
+    "ui",
+    "utility",
+    "browser",
+    "DOM"
+  ],
+  "author": "David DeSandro",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-plugin-metafizzy": "^1.1.2",
+    "qunit": "^2.13.0"
+  },
+  "eslintConfig": {
+    "plugins": [
+      "metafizzy"
+    ],
+    "extends": "plugin:metafizzy/browser",
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "env": {
+      "browser": true,
+      "commonjs": true
+    },
+    "globals": {
+      "QUnit": "readonly",
+      "fizzyUIUtils": "readonly"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/metafizzy/fizzy-ui-utils.git"
+  },
+  "bugs": {
+    "url": "https://github.com/metafizzy/fizzy-ui-utils/issues"
+  },
+  "homepage": "https://github.com/metafizzy/fizzy-ui-utils"
+}

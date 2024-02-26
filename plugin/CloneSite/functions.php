@@ -1,8 +1,8 @@
 <?php
-
-function getCloneFilesInfo($dir, $subdir = "", $extensionsToCopy = array('mp4', 'webm', 'gif', 'jpg', 'png')) {
+function getCloneFilesInfo($dir, $subdir = "", $extensionsToCopy = ['mp4', 'webm', 'gif', 'jpg', 'png'])
+{
     global $global;
-    $files = array();
+    $files = [];
     // get video files
     if ($handle = opendir($dir)) {
         while (false !== ($entry = readdir($handle))) {
@@ -11,9 +11,10 @@ function getCloneFilesInfo($dir, $subdir = "", $extensionsToCopy = array('mp4', 
                 if (!in_array($path_info['extension'], $extensionsToCopy)) {
                     continue;
                 }
+                $url = Video::getURLToFile("{$subdir}{$entry}");
                 $f = new stdClass();
                 $f->filename = $entry;
-                $f->url = "{$global['webSiteRootURL']}videos/{$subdir}{$entry}";
+                $f->url = $url;
                 $f->filesize = filesize($dir . $entry);
                 $f->filemtime = filemtime($dir . $entry);
                 $files[] = $f;
@@ -25,19 +26,20 @@ function getCloneFilesInfo($dir, $subdir = "", $extensionsToCopy = array('mp4', 
 }
 
 /**
- * 
- * @param type $serverArray a Json with the server files retrieve from getCloneFilesInfo function
- * @param type $clientArray a Json with the client files retrieve from getCloneFilesInfo function
- * @return type a Json with the new files
+ *
+ * @param array $serverArray a Json with the server files retrieve from getCloneFilesInfo function
+ * @param array $clientArray a Json with the client files retrieve from getCloneFilesInfo function
+ * @return object a Json with the new files
  */
-function detectNewFiles($serverArray, $clientArray){
+function detectNewFiles($serverArray, $clientArray)
+{
     foreach ($serverArray as $key => $value) {
         foreach ($clientArray as $key2 => $value2) {
-            if(
+            if (
                     $value->filename===$value2->filename &&
                     $value->filesize===$value2->filesize &&
                     $value->filemtime<=$value2->filemtime
-                    ){
+                    ) {
                 unset($serverArray[$key]);
                 unset($clientArray[$key2]);
             }
@@ -47,9 +49,11 @@ function detectNewFiles($serverArray, $clientArray){
 }
 
 
-function isRsync() {
+function isRsync()
+{
     return trim(shell_exec('which rsync'));
 }
-function isSshpass() {
+function isSshpass()
+{
     return trim(shell_exec('which sshpass'));
 }

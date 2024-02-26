@@ -14,16 +14,17 @@ if (!User::canUpload()) {
 $user_id = User::getId();
 // if admin bring all subscribers
 if (User::isAdmin()) {
-    $user_id = "";
+    $user_id = '';
 }
 
 require_once 'subscribe.php';
+setRowCount(10000);
 header('Content-Type: application/json');
 $Subscribes = Subscribe::getAllSubscribes($user_id);
 
 $obj = new stdClass();
 //Create a new PHPMailer instance
-$mail = new \PHPMailer\PHPMailer\PHPMailer;
+$mail = new \PHPMailer\PHPMailer\PHPMailer();
 setSiteSendMessage($mail);
 //Set who the message is to be sent from
 $mail->setFrom($config->getContactEmail());
@@ -44,4 +45,8 @@ if (!$mail->send()) {
     $obj->success = __("Message sent");
 }
 
-echo json_encode($obj);
+$json = json_encode($obj);
+
+_error_log('NotifySubscribers emails: '.$json);
+
+echo $json;

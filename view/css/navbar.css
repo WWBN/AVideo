@@ -1,0 +1,342 @@
+/* if it is IE */
+@media all and (-ms-high-contrast:none) {
+    nav ul.items-container li:first-child {
+        display: block;
+        flex: 0 1 auto;
+        /* Default */
+    }
+}
+
+
+#sidebar {
+    width: 300px;
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    margin-top: 50px;
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+
+body.youtube.compressedMenu #sidebar {
+    width: 80px;
+    opacity: 0.8;
+    filter: grayscale(100%);
+}
+
+body.youtube.compressedMenu #sidebar:hover {
+    opacity: 1;
+    filter: grayscale(0);
+}
+
+body.youtube.compressedMenu #sidebar .menuLabel{
+    display: none;
+}
+
+body.youtube.compressedMenu #sidebar .hideIfCompressed {
+    visibility: hidden;
+}
+
+#leftMenuUser{
+    min-height: 60px; margin: 5px 0;
+}
+
+#leftMenuUser .leftMenuUserImg {
+    margin-left: 10px;
+}
+
+#leftMenuUser .menuLabel {
+    margin-left: 80px;
+}
+
+body.youtube.compressedMenu #leftMenuUser .leftMenuUserImg{
+    margin-left: 0;
+}
+
+#sideBarContainer {
+    overflow: hidden;
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    padding-right: 10px;
+    padding-right: 12px;
+}
+
+#sideBarContainer ul {
+    margin-bottom: 150px;
+}
+
+#sideBarContainer>ul>li>strong, .singleLineMenu {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+body.youtube.compressedMenu #sideBarContainer li a{
+    text-align: center;
+}
+
+#buttonMyNavbar {
+    display: none;
+}
+
+#mysearch.in,
+#mysearch.collapsing {
+    display: block !important;
+}
+
+#myNavbar {
+    display: block;
+}
+
+#myNavbar.in,
+#myNavbar.collapsing {
+    display: block !important;
+}
+
+#searchForm {
+    width: 100%;
+    margin: 0 5px;
+    white-space: nowrap;
+}
+
+#searchForm>span.input-group-prepend>button {
+
+    border-right-width: 0;
+}
+
+#searchForm>span.input-group-append>button {
+
+    border-left-width: 0;
+}
+
+#searchForm input[name="search"] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-width: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left-width: 0;
+    float: unset;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+
+#filterDropdown.show .dropdown-menu {
+    display: block;
+}
+
+#rightProfileButton {
+    padding: 0;
+    margin: 5px;
+    border: 0;
+    background: none;
+    background-color: transparent;
+}
+
+#rightLoginButton {
+    margin-left: 5px;
+    margin-right: 40px;
+}
+
+#navbarRegularButtons {
+    max-width: 70%;
+    /* remove the scroll because the dropsown menus does not work */
+    /*overflow-x: auto;*/
+    /*overflow-y: hidden;*/
+}
+
+#navbarRegularButtons span.hidden-mdx {
+    max-width: 15vw;
+    display: inline-block;
+}
+
+#navbarRegularButtons .btn {
+    overflow: hidden;
+}
+
+#navbarRegularButtons::-webkit-scrollbar {
+    height: 4px;
+}
+
+#lastItemOnMenu {
+    padding-right: 40px;
+}
+
+#mysearch {
+    height: auto !important;
+}
+
+#searchNavItem,
+#lastItemOnMenu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#lastItemOnMenu ul {
+    padding: 0;
+}
+
+@media (max-width : 767px) {
+    #filterDropdown {
+        position: absolute;
+        top: 50px;
+        left: 10px;
+    }
+
+    #searchForm {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        /* center horizontally */
+        align-items: center;
+        /* center vertically */
+        padding: 0 5px;
+    }
+
+    #rightLoginButton,
+    #rightProfileButton {
+        margin-right: 5px;
+        margin-left: 0;
+    }
+
+    #searchForm>div {
+        width: 100%;
+    }
+
+    .mobilesecondnav {
+        position: absolute;
+        left: 40%;
+        right: 5px;
+    }
+
+    #buttonMyNavbar,
+    #searchNavItem {
+        display: block;
+    }
+
+    #mysearch {
+        width: 100%;
+        display: none;
+        position: absolute;
+        right: 0;
+        left: 0;
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: #FFF;
+
+    }
+
+    #searchFormInput {
+        flex-grow: 1;
+        min-width: 75vw;
+    }
+
+    #myNavbar {
+        display: none;
+        position: absolute;
+        right: 0;
+        top: 50px;
+        background-color: #FFF;
+        padding: 4px;
+        width: 50%;
+    }
+
+    #mainNavBar .navbar-brand {
+        width: 100% !important;
+        text-align: center;
+    }
+
+    #mainNavBar .navbar-brand>img {
+        display: unset;
+    }
+
+    #myNavbar ul.right-menus {
+        display: block;
+    }
+
+    #myNavbar ul.right-menus li {
+        margin: 0;
+        padding: 0;
+    }
+
+    #myNavbar ul.right-menus .btn,
+    #myNavbar ul.right-menus .btn-group {
+        margin: 2px;
+        width: 100%;
+    }
+
+    #myNavbar ul.right-menus .btn-group {
+        margin: 0;
+    }
+
+    nav ul.items-container li:first-child {
+        display: list-item;
+    }
+
+    #navbarRegularButtons span.hidden-mdx {
+        max-width: 100vw;
+    }
+
+    .searchli {
+        width: 100%;
+        margin-right: 0;
+        margin-left: 0;
+
+    }
+
+    .navbar-toggle {
+        margin-right: 5px !important;
+
+
+    }
+
+    #navbarRegularButtons,
+    #lastItemOnMenu,
+    .left-side {
+        padding: 0 5px;
+    }
+
+    .searchul {
+        padding-left: 0px;
+    }
+}
+
+li.navsub-toggle .badge {
+    float: right;
+}
+
+li.navsub-toggle a+ul {
+    padding-left: 15px;
+}
+
+.navbar-lang-btn .select2-container {
+    margin: 8px 0;
+}
+
+.navbar-lang-btn .select2-selection {
+    border-color: #00000077 !important;
+}
+
+@media screen and (min-width: 992px) {
+
+    body.youtube {
+        margin-left: 300px;
+    }
+
+    body.youtube div.container-fluid .col-sm-10.col-sm-offset-1.list-group-item {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+    }
+
+    body.youtube.compressedMenu {
+        margin-left: 80px;
+    }
+}

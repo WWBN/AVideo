@@ -1,0 +1,27 @@
+{
+  "name": "emojione",
+  "version": "4.0.0",
+  "main": [
+    "extras/css/emojione.css",
+    "lib/js/emojione.js"
+  ],
+  "ignore": [
+    "demos/",
+    "lib/php/",
+    ".gitignore",
+    ".npmignore",
+    "composer.json",
+    "package.json"
+  ],
+  "keywords": [
+    "emojione",
+    "EmojiOne",
+    "emoji",
+    "emojis",
+    "emoticons",
+    "smileys",
+    "smilies",
+    "unicode",
+    "emoji set"
+  ]
+}

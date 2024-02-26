@@ -28,8 +28,11 @@ class VideoLandscapeFullscreen extends PluginAbstract {
    public function getEmptyDataObject() {
         $obj = new stdClass();
         $obj->enterOnRotate = true;
+        self::addDataObjectHelper('enterOnRotate', 'Enter on Rotate', "Enter fullscreen mode on rotating the device in landscape");
         $obj->alwaysInLandscapeMode = true;
-        $obj->iOS = true;
+        self::addDataObjectHelper('alwaysInLandscapeMode', 'Always in Landscape Mode', "Always enter fullscreen in landscape mode even when device is in portrait mode (works on chromium, firefox, and ie >= 11");
+        $obj->iOS = false;
+        self::addDataObjectHelper('iOS', 'iOS', "Whether to use fake fullscreen on iOS (needed for displaying player controls instead of system controls)");
         return $obj;
     }
 
@@ -43,10 +46,17 @@ class VideoLandscapeFullscreen extends PluginAbstract {
         }
         global $global;
        $obj3 = AVideoPlugin::getObjectData('VideoLandscapeFullscreen');
-       $js = '<script src="'.$global['webSiteRootURL'].'plugin/VideoLandscapeFullscreen/videojs-landscape-fullscreen.js" type="text/javascript"></script>';
-        $js .= '<script>'
-               . 'if(typeof player == \'undefined\'){player = videojs(\'mainVideo\'' . PlayerSkins::getDataSetup() . ');}player = videojs(\'mainVideo\').landscapeFullscreen({fullscreen: {enterOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .', alwaysInLandscapeMode: ' . ($obj3->alwaysInLandscapeMode?"true":"false") .', iOS: ' . ($obj3->iOS?"true":"false") .'}});'
-                . '</script>';
+       $js = '<script src="'.getURL('node_modules/videojs-landscape-fullscreen/dist/videojs-landscape-fullscreen.min.js').'" type="text/javascript"></script>';
+       //$js .= 'if(typeof player == \'undefined\'){player = videojs(\'mainVideo\'' . PlayerSkins::getDataSetup() . ');}player = videojs(\'mainVideo\').landscapeFullscreen({fullscreen: {enterOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .', alwaysInLandscapeMode: ' . ($obj3->alwaysInLandscapeMode?"true":"false") .', iOS: ' . ($obj3->iOS?"true":"false") .'}});';
+        $onPlayerReady = 'player.landscapeFullscreen({
+            fullscreen: {
+              enterOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .',
+              exitOnRotate: ' . ($obj3->enterOnRotate?"true":"false") .',
+              alwaysInLandscapeMode: ' . ($obj3->alwaysInLandscapeMode?"true":"false") .',
+              iOS: ' . ($obj3->iOS?"true":"false") .'
+            }
+          });';
+        PlayerSkins::addOnPlayerReady($onPlayerReady);
         return $js;
     }
 

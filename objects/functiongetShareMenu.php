@@ -1,7 +1,7 @@
 <?php
 $objSecure = AVideoPlugin::getObjectDataIfEnabled('SecureVideosDirectory');
-$search = array('{permaLink}','{imgSRC}','{title}', '{embedURL}');
-$replace = array($permaLink,$img,$title, $embedURL);
+$search = ['{permaLink}', '{imgSRC}', '{title}', '{embedURL}', '{videoLengthInSeconds}'];
+$replace = [$permaLink, $img, $title, $embedURL, $videoLengthInSeconds];
 ?>
 <div class="<?php echo $class; ?>" id="shareDiv">
     <div class="tabbable-panel">
@@ -54,36 +54,39 @@ $replace = array($permaLink,$img,$title, $embedURL);
                     $url = $permaLink;
                     //$title = urlencode($title);
                     include $global['systemRootPath'] . 'view/include/social.php';
+                    $type = 'animate__flipInX';
+                    $loaderSequenceName = uniqid();
                     ?>
                 </div>
                 <div class="tab-pane" id="tabEmbed">
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></h4>
-                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbed" readonly="readonly"><?php
-                    $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
-                    echo htmlentities($code);
-                    ?>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Iframe): <?php getButtontCopyToClipboard('textAreaEmbed'); ?></strong>
+                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaEmbed" readonly="readonly"><?php
+                        $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplate);
+                        echo htmlentities($code);
+                        ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></h4>
-                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Embed"); ?> (Object): <?php getButtontCopyToClipboard('textAreaEmbedObject'); ?></strong>
+                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaEmbedObject" readonly="readonly"><?php
                         $code = str_replace($search, $replace, $advancedCustom->embedCodeTemplateObject);
                         echo htmlentities($code);
-                    ?>
+                        ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></h4>
-                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaHTML" readonly="readonly"><?php
-                    $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
-                    echo htmlentities($code);
-                    ?>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (HTML): <?php getButtontCopyToClipboard('textAreaHTML'); ?></strong>
+                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaHTML" readonly="readonly"><?php
+                        $code = str_replace($search, $replace, $advancedCustom->htmlCodeTemplate);
+                        echo htmlentities($code);
+                        ?>
                     </textarea>
-                    <h4><span class="glyphicon glyphicon-share"></span> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></h4>
-                    <textarea class="form-control" style="min-width: 100%" rows="5" id="textAreaBBCode" readonly="readonly"><?php
-                    $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
-                    echo htmlentities($code);
-                    ?>
+                    <strong><i class="fas fa-share-square"></i> <?php echo __("Link"); ?> (BBCode): <?php getButtontCopyToClipboard('textAreaBBCode'); ?></strong>
+                    <textarea class="form-control <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?> min-width: 100%; margin: 10px 0 20px 0;" rows="5" id="textAreaBBCode" readonly="readonly"><?php
+                        $code = str_replace($search, $replace, $advancedCustom->BBCodeTemplate);
+                        echo htmlentities($code);
+                        ?>
                     </textarea>
                 </div>
                 <?php
                 if (empty($advancedCustom->disableEmailSharing)) {
+                    $loaderSequenceName = uniqid();
                     ?>
                     <div class="tab-pane" id="tabEmail">
                         <?php if (!User::isLogged()) { ?>
@@ -94,7 +97,7 @@ $replace = array($permaLink,$img,$title, $embedURL);
                             <form class="well form-horizontal" action="<?php echo $global['webSiteRootURL']; ?>sendEmail" method="post"  id="contact_form">
                                 <fieldset>
                                     <!-- Text input-->
-                                    <div class="form-group">
+                                    <div class="form-group  <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                                         <label class="col-md-4 control-label"><?php echo __("E-mail"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
                                             <div class="input-group">
@@ -106,7 +109,7 @@ $replace = array($permaLink,$img,$title, $embedURL);
 
                                     <!-- Text area -->
 
-                                    <div class="form-group">
+                                    <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                                         <label class="col-md-4 control-label"><?php echo __("Message"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
                                             <div class="input-group">
@@ -115,21 +118,20 @@ $replace = array($permaLink,$img,$title, $embedURL);
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                                         <label class="col-md-4 control-label"><?php echo __("Type the code"); ?></label>
                                         <div class="col-md-8 inputGroupContainer">
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><img src="<?php echo $global['webSiteRootURL']; ?>captcha?<?php echo time(); ?>" id="captcha"></span>
-                                                <span class="input-group-addon"><span class="btn btn-xs btn-success" id="btnReloadCapcha"><span class="glyphicon glyphicon-refresh"></span></span></span>
-                                                <input name="captcha" placeholder="<?php echo __("Type the code"); ?>" class="form-control" type="text" style="height: 60px;" maxlength="5" id="captchaText">
-                                            </div>
+                                            <?php
+                                               $capcha = getCaptcha();
+                                               echo $capcha['content'];
+                                            ?>
                                         </div>
                                     </div>
                                     <!-- Button -->
-                                    <div class="form-group">
+                                    <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                                         <label class="col-md-4 control-label"></label>
                                         <div class="col-md-8">
-                                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <span class="glyphicon glyphicon-send"></span></button>
+                                            <button type="submit" class="btn btn-primary" ><?php echo __("Send"); ?> <i class="fa-regular fa-paper-plane"></i></button>
                                         </div>
                                     </div>
 
@@ -137,15 +139,11 @@ $replace = array($permaLink,$img,$title, $embedURL);
                             </form>
                             <script>
                                 $(document).ready(function () {
-                                    $('#btnReloadCapcha').click(function () {
-                                        $('#captcha').attr('src', '<?php echo $global['webSiteRootURL']; ?>captcha?' + Math.random());
-                                        $('#captchaText').val('');
-                                    });
                                     $('#contact_form').submit(function (evt) {
                                         evt.preventDefault();
                                         modal.showPleaseWait();
                                         $.ajax({
-                                            url: '<?php echo $global['webSiteRootURL']; ?>objects/sendEmail.json.php',
+                                            url: webSiteRootURL + 'objects/sendEmail.json.php',
                                             data: $('#contact_form').serializeArray(),
                                             type: 'post',
                                             success: function (response) {
@@ -155,7 +153,7 @@ $replace = array($permaLink,$img,$title, $embedURL);
                                                 } else {
                                                     avideoAlert("<?php echo __("Your message could not be sent!"); ?>", response.error, "error");
                                                 }
-                                                $('#btnReloadCapcha').trigger('click');
+                                                <?php echo $capcha['btnReloadCapcha']; ?>
                                             }
                                         });
                                         return false;
@@ -168,26 +166,31 @@ $replace = array($permaLink,$img,$title, $embedURL);
                     <?php
                 }
                 if (!empty($permaLink) && $permaLink !== $URLFriendly) {
+                    $loaderSequenceName = uniqid();
                     ?>
                     <div class="tab-pane" id="tabPermaLink">
-                        <div class="form-group">
+                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("Permanent Link") ?></label>
-                            <?php
-                            getInputCopyToClipboard('linkPermanent', $permaLink);
-                            ?>
+                            <?php getInputCopyToClipboard('linkPermanent', $permaLink); ?>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("URL Friendly") ?> (SEO)</label>
-                            <?php
-                            getInputCopyToClipboard('linkFriendly', $URLFriendly);
-                            ?>
+                            <?php getInputCopyToClipboard('linkFriendly', $URLFriendly); ?>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
                             <label class="control-label"><?php echo __("Current Time") ?> (SEO)</label>
-                            <?php
-                            getInputCopyToClipboard('linkCurrentTime', $URLFriendly);
-                            ?>
+                            <?php getInputCopyToClipboard('linkCurrentTime', $URLFriendly); ?>
                         </div>
+                        <?php
+                        if (!empty($bitLyLink)) {
+                            ?>
+                            <div class="form-group <?php echo getCSSAnimationClassAndStyle($type, $loaderSequenceName); ?>">
+                                <label class="control-label"><?php echo __("Bit.Ly") ?></label>
+                                <?php getInputCopyToClipboard('bitLyLink', $bitLyLink); ?>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </div>
                     <?php
                 }

@@ -27,7 +27,7 @@
 #seekBG{
     height: 100%;
     width: 100%;
-    background-size: contain;
+    background-size: cover;
     background-position-y: center;
     background-repeat: no-repeat;
     background-image: url(seekBG.png);

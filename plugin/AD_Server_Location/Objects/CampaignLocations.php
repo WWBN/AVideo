@@ -33,19 +33,19 @@ class CampaignLocations extends ObjectYPT {
 
     function setCountry_name($country_name) {
         global $global;
-        $country_name = $global['mysqli']->real_escape_string($country_name);
+        $country_name = ($country_name);
         $this->country_name = $country_name;
     }
 
     function setRegion_name($region_name) {
         global $global;
-        $region_name = $global['mysqli']->real_escape_string($region_name);
+        $region_name = ($region_name);
         $this->region_name = $region_name;
     }
 
     function setCity_name($city_name) {
         global $global;
-        $city_name = $global['mysqli']->real_escape_string($city_name);
+        $city_name = ($city_name);
         $this->city_name = $city_name;
     }
 

@@ -28,9 +28,9 @@ class NextButton extends PluginAbstract {
     }
     
     public function getHeadCode() {
-        global $global, $autoPlayVideo;
+        global $global, $autoPlayVideo, $nonCriticalCSS;
         if (!empty($autoPlayVideo['url'])) {
-            $css = '<link href="' . $global['webSiteRootURL'] . 'plugin/NextButton/style.css" rel="stylesheet" type="text/css"/>';
+            $css = '<link href="' .getURL('plugin/NextButton/style.css') . '" rel="stylesheet" type="text/css" />';
             $css .= '<style></style>';
             return $css;
         }
@@ -44,7 +44,7 @@ class NextButton extends PluginAbstract {
                 $tmp = "mainVideo";
             }
             $js = '<script>var autoPlayVideoURL="'.$autoPlayVideo['url'].'"; var videoJsId = "'.$tmp.'";</script>';
-            $js .= '<script src="' . $global['webSiteRootURL'] . 'plugin/NextButton/script.js" type="text/javascript"></script>';
+            $js .= '<script src="' .getURL('plugin/NextButton/script.js') . '" type="text/javascript"></script>';
 
             return $js;
         }

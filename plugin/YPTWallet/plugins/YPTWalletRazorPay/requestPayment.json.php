@@ -61,7 +61,7 @@ $displayAmount = $amount = $orderData['amount'];
 
 if ($displayCurrency !== 'INR') {
     $url = "https://api.fixer.io/latest?symbols=$displayCurrency&base=INR";
-    $exchange = json_decode(file_get_contents($url), true);
+    $exchange = _json_decode(file_get_contents($url), true);
 
     $displayAmount = $exchange['rates'][$displayCurrency] * $amount / 100;
 }
@@ -99,7 +99,7 @@ $json = json_encode($data);
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <title>Add Funds</title>
         <?php

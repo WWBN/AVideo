@@ -12,7 +12,7 @@ $order_id = $plugin->setUpPayment($_GET['value']);
 $order = new BlockonomicsOrder($order_id);
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $_SESSION['language']; ?>">
+<html lang="<?php echo getLanguage(); ?>">
     <head>
         <?php 
         echo getHTMLTitle( __("Invoice"));
@@ -92,7 +92,7 @@ $order = new BlockonomicsOrder($order_id);
         <?php
         include $global['systemRootPath'] . 'view/include/footer.php';
         ?>
-        <script src="<?php echo $global['webSiteRootURL']; ?>plugin/BlockonomicsYPT/jquery.qrcode.min.js" type="text/javascript"></script>
+        <script src="<?php echo getCDN(); ?>plugin/BlockonomicsYPT/jquery.qrcode.min.js" type="text/javascript"></script>
         <script>
                                     var totalSeconds = <?php echo $obj->ExpireInSeconds; ?>;
                                     var totalSecondsPassed = <?php echo time() - strtotime($order->getCreated()); ?>;

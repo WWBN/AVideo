@@ -1,171 +1,196 @@
 <?php
+$timeLogHead = TimeLogStart("include/head.php");
 require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+TimeLogEnd($timeLogHead, __LINE__);
 $head = AVideoPlugin::getHeadCode();
+TimeLogEnd($timeLogHead, __LINE__);
 $custom = "The Best YouTube Clone Ever - AVideo";
 $extraPluginFile = $global['systemRootPath'] . 'plugin/Customize/Objects/ExtraConfig.php';
-if(empty($advancedCustom)){
+if (empty($advancedCustom)) {
     $advancedCustom = AVideoPlugin::getObjectData("CustomizeAdvanced");
 }
+TimeLogEnd($timeLogHead, __LINE__);
+if (!empty($video) && is_object($video)) {
+    $video = Video::getVideoLight($video->getId());
+}
+TimeLogEnd($timeLogHead, __LINE__);
+$custom = [];
 
-$custom = array();
-
-if (file_exists($extraPluginFile) && AVideoPlugin::isEnabled("c4fe1b83-8f5a-4d1b-b912-172c608bf9e3")) {
+$customizePluginDescription = '';
+if (file_exists($extraPluginFile) && AVideoPlugin::isEnabledByName("Customize")) {
     require_once $extraPluginFile;
     $ec = new ExtraConfig();
-    $custom[] = $ec->getDescription();
+    $customizePluginDescription = $ec->getDescription();
+    $custom[] = $customizePluginDescription;
 }
 
-if (!empty($poster)) {
-    $subTitle = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($video['description']));
-    $custom = array();
+TimeLogEnd($timeLogHead, __LINE__);
+if (!empty($poster) && !empty($video['description'])) {
+    $subTitle = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags("{$video['description']}"));
+    $custom = [];
     $custom[] = $subTitle;
-    $custom[] = $video["category"];
+    if (!empty($video["category"])) {
+        $custom[] = $video["category"];
+    }
 }
 
-if (!empty($_GET['catName'])) {
-    $category = Category::getCategoryByName($_GET['catName']);
-    $description = str_replace(array('"', "\n", "\r"), array("", "", ""), strip_tags($category['description']));
-    $custom = array();
-    $custom[] = $description;
-    $custom[] = $category['name'];
+TimeLogEnd($timeLogHead, __LINE__);
+if (!empty($_REQUEST['catName'])) {
+    $category = Category::getCategoryByName($_REQUEST['catName']);
+    if(!empty($category)){
+        $description = str_replace(['"', "\n", "\r"], ["", "", ""], strip_tags("{$category['description']}"));
+        $custom = [];
+        $custom[] = $description;
+        $custom[] = $category['name'];
+    }
 }
 
+TimeLogEnd($timeLogHead, __LINE__);
 foreach ($custom as $key => $value) {
-    if(empty($value)){
+    if (empty($value)) {
         unset($custom[$key]);
     }
 }
 
-if(!empty($metaDescription)){
-    $metaDescription = implode(" - ", $custom)." - {$metaDescription}";
-}else{
-    $metaDescription = implode(" - ", $custom);
-}
-// for SEO to not rise an error of duplicated title or description of same pages with and without last slash
-$metaDescription .= getSEOComplement(array("addAutoPrefix" => false));
 $theme = getCurrentTheme();
 
-if(empty($config)){
-    $config = new Configuration();
+if (empty($config)) {
+    $config = new AVideoConf();
+}
+TimeLogEnd($timeLogHead, __LINE__);
+//$content = _ob_get_clean();
+_ob_start();
+//echo $content;
+
+$keywords = strip_tags($advancedCustom->keywords);
+$head_videos_id = getVideos_id();
+if (!empty($head_videos_id)) {
+    $tags = Video::getSeoTags($head_videos_id);
+    echo $tags['head'];
 }
 
+if(!isCommandLineInterface()){
+    $swRegister = getURL('view/js/swRegister.js');
+    $swRegister = addQueryStringParameter($swRegister, 'webSiteRootURL', $global['webSiteRootURL']);
+?>
+<script class="doNotSepareteTag" src="<?php echo $swRegister; ?>" type="text/javascript"></script>
+<?php
+}
 ?>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="<?php echo $metaDescription; ?>">
 <meta name="device_id" content="<?php echo getDeviceID(); ?>">
-<meta name="keywords" content="<?php echo str_replace('"', "", strip_tags($advancedCustom->keywords)); ?>">
-
+<meta name="keywords" content=<?php printJSString($keywords); ?>>
+<link rel="manifest" href="<?php echo $global['webSiteRootURL']; ?>manifest.json">
 <link rel="apple-touch-icon" sizes="180x180" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="icon" type="image/png" href="<?php echo $config->getFavicon(true); ?>">
 <link rel="shortcut icon" href="<?php echo $config->getFavicon(); ?>" sizes="16x16,24x24,32x32,48x48,144x144">
 <meta name="msapplication-TileImage" content="<?php echo $config->getFavicon(true); ?>">
-<!--
-<meta name="newCache" content="<?php echo ObjectYPT::checkSessionCacheBasedOnLastDeleteALLCacheTime()?"yes":"No" ?>">
-<meta name="sessionCache" content="<?php echo humanTimingAgo(@$_SESSION['user']['sessionCache']['time']), " " ,@$_SESSION['user']['sessionCache']['time']; ?>">
-<meta name="systemCache" content="<?php echo humanTimingAgo(ObjectYPT::getLastDeleteALLCacheTime()), " " ,ObjectYPT::getLastDeleteALLCacheTime(); ?>">
-<meta name="sessionCache-systemCache" content="<?php $dif = @$_SESSION['user']['sessionCache']['time']-ObjectYPT::getLastDeleteALLCacheTime();
-echo $dif, " Seconds "; ?>">
--->
-<!-- <link rel="stylesheet" type="text/css" media="only screen and (max-device-width: 768px)" href="view/css/mobile.css" /> -->
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-ui/jquery-ui.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/js/webui-popover/jquery.webui-popover.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/fontawesome-free-5.5.0-web/css/all.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/font-awesome-animation.min.css" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/flagstrap/css/flags.css" rel="stylesheet" type="text/css"/>
+<meta name="robots" content="index, follow" />
+
+<link href="<?php echo getURL('node_modules/@fortawesome/fontawesome-free/css/all.min.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
-$cssFiles = array();
-//$cssFiles[] = "view/js/seetalert/sweetalert.css";
-$cssFiles[] = "view/bootstrap/bootstrapSelectPicker/css/bootstrap-select.min.css";
-$cssFiles[] = "view/js/bootgrid/jquery.bootgrid.css";
-$cssFiles[] = "view/js/jquery-toast/jquery.toast.min.css";
-//$cssFiles[] = "view/css/custom/{$theme}.css";
-$cssFiles = array_merge($cssFiles);
-$cssURL = combineFiles($cssFiles, "css");
+if (!isBot()) {
 ?>
-<link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
-<link href="<?php echo $global['webSiteRootURL']; ?>view/css/custom/<?php echo $theme; ?>.css" rel="stylesheet" type="text/css" id="customCSS"/>
+    <link href="<?php echo getURL('view/css/font-awesome-animation.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('node_modules/jquery-toast-plugin/dist/jquery.toast.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/js/webui-popover/jquery.webui-popover.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/js/bootgrid/jquery.bootgrid.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('node_modules/jquery-ui-dist/jquery-ui.min.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/css/flagstrap/css/flags.css'); ?>" rel="stylesheet" type="text/css"  />
+    <link href="<?php echo getURL('view/css/social.css'); ?>" rel="stylesheet" type="text/css"   />
+    <script src="<?php echo getURL('locale/function.js.php'); ?>&lang=<?php echo revertLangString(getLanguage()); ?>" ></script>
 <?php
-$filename = Video::getStoragePath()."cache/custom.css";
-if($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)){
-    echo '<link href="'.$global['webSiteRootURL'].'videos/cache/custom.css?'.  filectime($filename) .'" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
-}else{
-    if($theme !== "default"){
+}
+if (!isVideo()) {
+    //$custom[] = $config->getDescription();
+    if (!empty($metaDescription)) {
+        $metaDescription = implode(" - ", $custom) . " - {$metaDescription}";
+    } else {
+        $metaDescription = implode(" - ", $custom);
+    }
+    // for SEO to not rise an error of duplicated title or description of same pages with and without last slash
+    $metaDescription .= getSEOComplement(["addAutoPrefix" => false]);
+    $metaDescription = getSEODescription($metaDescription);
+    echo '<meta name="description" content="' . $metaDescription . '">';
+}else if(isEmbed()){
+    echo '<style>body{background-color: #000;}</style>';
+}
+//var_dump($metaDescription);var_dump(debug_backtrace());exit;
+if (empty($advancedCustom->disableAnimations)) {
+?>
+    <link href="<?php echo getURL('node_modules/animate.css/animate.min.css'); ?>" rel="stylesheet" type="text/css"  />
+<?php
+}
+include $global['systemRootPath'] . 'view/include/bootstrap.css.php';
+?>
+<?php
+TimeLogEnd($timeLogHead, __LINE__);
+?>
+<link href="<?php echo getURL('view/css/custom/' . $theme . '.css'); ?>" rel="stylesheet" type="text/css" id="customCSS" />
+<?php
+if (empty($global['userBootstrapLatest'])) {
+    $filename = Video::getStoragePath() . "cache/custom.css";
+}
+if ($theme === "default" && !empty($customizePlugin->showCustomCSS) && file_exists($filename)) {
+    echo '<link href="' . getURL('videos/cache/custom.css') . '" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
+} else {
+    if ($theme !== "default") {
         echo "<!-- theme is not default -->";
     }
-    if(empty($customizePlugin->showCustomCSS)){
+    if (empty($customizePlugin->showCustomCSS)) {
         echo "<!-- showCustomCSS is empty -->";
     }
-    if(!file_exists($filename)){
+    if (!file_exists($filename)) {
         echo "<!-- css file does not exist -->";
+    }
+    if (!empty($global['userBootstrapLatest'])) {
+        echo "<!-- Using Bootstrap latest -->";
     }
     echo '<link href="" rel="stylesheet" type="text/css" id="pluginCustomCss" />';
 }
-$cssFiles = array();
-$cssFiles[] = "view/css/main.css";
-$cssFiles = array_merge($cssFiles, AVideoPlugin::getCSSFiles());
-$cssURL = combineFiles($cssFiles, "css");
 ?>
-<link href="<?php echo $cssURL; ?>" rel="stylesheet" type="text/css"/>
+<link href="<?php echo getURL('view/css/main.css'); ?>" rel="stylesheet" type="text/css" />
 <?php
+TimeLogEnd($timeLogHead, __LINE__);
 if (isRTL()) {
-    ?>
-    <style>
-        .principalContainer, #mainContainer, #bigVideo, .mainArea, .galleryVideo, #sidebar, .navbar-header li{
-            direction:rtl;
-            unicode-bidi:embed;
-        }
-        #sidebar .nav{
-            padding-right: 0;
-        }
-        .dropdown-menu, .navbar-header li a, #sideBarContainer .btn {
-            text-align: right !important;
-        }
-        .dropdown-submenu a{
-            width: 100%;
-        }
-        .galeryDetails div{
-            float: right !important;
-        }
-        #saveCommentBtn{
-            border-width: 1px;
-            border-right-width: 0;
-        }
-    </style>    
-    <?php
+?>
+    <link href="<?php echo getURL('view/css/rtl.css'); ?>" rel="stylesheet" type="text/css"/>
+<?php
 }
 ?>
-<script src="<?php echo $global['webSiteRootURL']; ?>view/js/jquery-3.5.1.min.js"></script>
-<script>
+<script src="<?php echo getURL('node_modules/jquery/dist/jquery.min.js'); ?>"></script>
+<script class="doNotSepareteTag">
+    var useIframe = <?php echo json_encode(useIframe()); ?>;
     var webSiteRootURL = '<?php echo $global['webSiteRootURL']; ?>';
+    var my_users_id = <?php echo intval(User::getId()); ?>;
+    var my_identification = <?php echo json_encode(User::getNameIdentification()); ?>;
+    var mediaId = <?php echo json_encode(getVideos_id()); ?>;
     var player;
 </script>
-<?php
-if (!$config->getDisable_analytics()) {
-    ?>
-    <script>
-        // AVideo Analytics
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date();
-            a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-        ga('create', 'UA-96597943-1', 'auto', 'aVideo');
-        ga('aVideo.send', 'pageview');
-    </script>
-    <?php
+<script id="infoForNonCachedPages">
+    var _serverTime = "<?php echo time(); ?>";
+    var _serverDBTime = "<?php echo getDatabaseTime(); ?>";
+    var _serverTimeString = "<?php echo date('Y-m-d H:i:s'); ?>";
+    var _serverDBTimeString = "<?php echo date('Y-m-d H:i:s', getDatabaseTime()); ?>";
+    var _serverTimezone = "<?php echo (date_default_timezone_get()); ?>";
+    var _serverSystemTimezone = "<?php echo (getSystemTimezone()); ?>";
+    var avideoModalIframeFullScreenCloseButton = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 2, 'class="btn btn-default pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
+    var avideoModalIframeFullScreenCloseButtonSmall = <?php echo json_encode(getHamburgerButton('avideoModalIframeFullScreenCloseButton', 4, 'class="btn btn-default btn-sm pull-left hamburger " onclick="avideoModalIframeFullScreenClose();"', true)); ?>;
+    var PHPSESSID = "<?php echo session_id(); ?>";
+</script>
+<?php
+if (!isOffline() && !$config->getDisable_analytics()) {
+    //include_once $global['systemRootPath'] . 'view/include/ga.php';
 }
-echo $config->getHead();
-echo $head;
+TimeLogEnd($timeLogHead, __LINE__);
+if (!isBot()) {
+    echo fixTestURL($config->getHead());
+}
+TimeLogEnd($timeLogHead, __LINE__);
+echo fixTestURL($head);
 if (!empty($video)) {
     if (!empty($video['users_id'])) {
         $userAnalytics = new User($video['users_id']);
@@ -173,6 +198,8 @@ if (!empty($video)) {
         unset($userAnalytics);
     }
 }
+//var_dump(getVideos_id());exit;
+TimeLogEnd($timeLogHead, __LINE__);
 ogSite();
-
+TimeLogEnd($timeLogHead, __LINE__);
 ?>

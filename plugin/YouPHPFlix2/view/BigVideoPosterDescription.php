@@ -1,21 +1,22 @@
+<!-- BigVideoPosterDescription start -->
 <?php
 $bigVideoAd = getAdsLeaderBoardBigVideo();
 
 $colClass = "col-md-4 col-sm-6";
 if (empty($obj->landscapePosters) && !empty($images->posterPortrait)) {
     ?>
-    <div class="<?php echo $colClass; ?>  hidden-xs">
-        <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait" src="<?php echo $images->posterPortrait; ?>" style="" />
+    <div class="<?php echo $colClass; ?> hidden-xs">
+        <img alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive" src="<?php echo $images->posterPortrait; ?>" style="max-height: 40vh" />
     </div>
     <?php
 } else {
     ?>
     <div class="<?php echo $colClass; ?>">
         <a href="<?php echo YouPHPFlix2::getLinkToVideo($video['id']); ?>">
-            <div class="thumbsImage hidden-xs">
-                <img alt="<?php echo $video['title']; ?>" class="img img-responsive posterPortrait thumbsJPG" src="<?php echo $images->poster; ?>" />
+            <div class="thumbsImage hidden-xs" style="max-height: 40vh">
+                <img alt="<?php echo str_replace('"', '', $video['title']); ?>" class="img img-responsive thumbsJPG" src="<?php echo $images->poster; ?>" />
                 <?php if (!empty($images->thumbsGif)) { ?>
-                    <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo $video['title']; ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
+                    <img style="position: absolute; top: 0; display: none;" src="<?php echo $images->thumbsGif; ?>"  alt="<?php echo str_replace('"', '', $video['title']); ?>" id="thumbsGIFBig<?php echo $video['id']; ?>" class="thumbsGIF img-responsive img" />
                 <?php } ?>
                 <?php if (!empty($obj->BigVideoPlayIcon)) { ?>
                     <i class="far fa-play-circle" style="font-size: 100px; position: absolute; left: 50%; top: 50%; margin-left: -50px; margin-top: -50px;opacity: .6;
@@ -31,7 +32,7 @@ if (empty($obj->RemoveBigVideoDescription)) {
     <div class="infoText col-md-4 col-sm-6 hidden-xs  ">
         <h4 class="mainInfoText" itemprop="description">
             <?php
-            echo $video['descriptionHTML'];
+            echo strip_specific_tags($video['descriptionHTML']);
             ?>
         </h4>
         <?php
@@ -51,3 +52,4 @@ if(!empty($bigVideoAd)) {
     <?php
 }
 ?>
+<!-- BigVideoPosterDescription end -->

@@ -1,44 +1,206 @@
-version: "3.8"
+version: '3'
 
 services:
-  db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    container_name: avideo_db
-    #tty: true
+  avideo:
+    build:
+      context: .
+      args:
+        SOCKET_PORT: ${SOCKET_PORT}
+        HTTP_PORT: ${HTTP_PORT}
+        HTTPS_PORT: ${HTTPS_PORT}
+        DB_MYSQL_HOST: ${DB_MYSQL_HOST}
+        DB_MYSQL_PORT: ${DB_MYSQL_PORT}
+        DB_MYSQL_NAME: ${DB_MYSQL_NAME}
+        DB_MYSQL_USER: ${DB_MYSQL_USER}
+        DB_MYSQL_PASSWORD: ${DB_MYSQL_PASSWORD}
+        SERVER_NAME: ${SERVER_NAME}
+        ENABLE_PHPMYADMIN: ${ENABLE_PHPMYADMIN}
+        PHPMYADMIN_PORT: ${PHPMYADMIN_PORT}
+        PHPMYADMIN_ENCODER_PORT: ${PHPMYADMIN_ENCODER_PORT}
+        CREATE_TLS_CERTIFICATE: ${CREATE_TLS_CERTIFICATE}
+        TLS_CERTIFICATE_FILE: ${TLS_CERTIFICATE_FILE}
+        TLS_CERTIFICATE_KEY: ${TLS_CERTIFICATE_KEY}
+        CONTACT_EMAIL: ${CONTACT_EMAIL}
+        SYSTEM_ADMIN_PASSWORD: ${SYSTEM_ADMIN_PASSWORD}
+        WEBSITE_TITLE: ${WEBSITE_TITLE}
+        MAIN_LANGUAGE: ${MAIN_LANGUAGE}
+    restart: "unless-stopped"
+    # tmpfs:
+    #  - /var/www/memfolder:rw,size=512M
+    environment:
+      SOCKET_PORT: ${SOCKET_PORT:-2053}
+      HTTP_PORT: ${HTTP_PORT:-80}
+      HTTPS_PORT: ${HTTP_PORT:-443}
+      DB_MYSQL_HOST: "${DB_MYSQL_HOST:-database}"
+      DB_MYSQL_PORT: ${DB_MYSQL_PORT:-3306}
+      DB_MYSQL_NAME: "${DB_MYSQL_NAME:-avideo}"
+      DB_MYSQL_USER: "${DB_MYSQL_USER:-avideo}"
+      DB_MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD:-avideo}"
+      SERVER_NAME: "${SERVER_NAME:-localhost}"
+      ENABLE_PHPMYADMIN: "${ENABLE_PHPMYADMIN:-yes}"
+      PHPMYADMIN_PORT: ${PHPMYADMIN_PORT:-8081}
+      PHPMYADMIN_ENCODER_PORT: ${PHPMYADMIN_ENCODER_PORT:-8082}
+      CREATE_TLS_CERTIFICATE: "${CREATE_TLS_CERTIFICATE:-yes}"
+      TLS_CERTIFICATE_FILE: "${TLS_CERTIFICATE_FILE:-/etc/apache2/ssl/localhost.crt}"
+      TLS_CERTIFICATE_KEY: "${TLS_CERTIFICATE_KEY:-/etc/apache2/ssl/localhost.key}"
+      CONTACT_EMAIL: "${CONTACT_EMAIL:-admin@localhost}"
+      SYSTEM_ADMIN_PASSWORD: "${SYSTEM_ADMIN_PASSWORD:-password}"
+      WEBSITE_TITLE: "${WEBSITE_TITLE:-AVideo}"
+      MAIN_LANGUAGE: "${MAIN_LANGUAGE:-en_US}"
+      NGINX_RTMP_PORT: "${NGINX_RTMP_PORT:-1935}"
+      NGINX_HTTP_PORT: "${NGINX_HTTP_PORT:-8080}"
+      NGINX_HTTPS_PORT: "${NGINX_HTTPS_PORT:-8443}"
+      MEMCACHED_HOST: memcached
+    env_file:
+      - .env
     ports:
-      - 3306
-    environment:
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=avideo
-      - TZ=UTC
-    expose:
-      - 3306
+      - "${SOCKET_PORT:-2053}:2053"
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
     volumes:
-      - ./storage/data:/var/lib/mysql
-    networks:
-      - app_net
-
-  web:
+      # - "./.compose/tmp:/var/www/tmp"
+      - "./.compose/HLS:/HLS"
+      - "./:/var/www/html/AVideo"
+      - "./.compose/videos:/var/www/html/AVideo/videos"
+      - "./.compose/encoder:/var/www/html/AVideo/Encoder"
+      - "./.compose/letsencrypt:/etc/letsencrypt/"
     depends_on:
-       - db
-    hostname: avideo_web
-    build: .
-    environment:
-      - DEBIAN_FRONTEND=noninteractive
-      - TZ=UTC
-    expose:
-      - 80
-      - 443
-    #volumes:
-    #  - .:/var/www/avideo:rw
+      database:
+        condition: service_healthy
+      database_encoder:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - app_net
 
-#Docker Networks
+  live:
+    build: 
+      context: .
+      dockerfile: Dockerfile.live
+    restart: "unless-stopped"
+    volumes:
+      # - "./.compose/tmp:/var/www/tmp"
+      - "./.compose/HLS:/HLS"
+      - "./.compose/letsencrypt:/etc/letsencrypt/"
+    environment:
+      SERVER_NAME: "${SERVER_NAME:-localhost}"
+      CREATE_TLS_CERTIFICATE: "${CREATE_TLS_CERTIFICATE:-yes}"
+      TLS_CERTIFICATE_FILE: "${TLS_CERTIFICATE_FILE:-/etc/apache2/ssl/localhost.crt}"
+      TLS_CERTIFICATE_KEY: "${TLS_CERTIFICATE_KEY:-/etc/apache2/ssl/localhost.key}"
+      NGINX_RTMP_PORT: "${NGINX_RTMP_PORT:-1935}"
+      NGINX_HTTP_PORT: "${NGINX_HTTP_PORT:-8080}"
+      NGINX_HTTPS_PORT: "${NGINX_HTTPS_PORT:-8443}"
+      MEMCACHED_HOST: memcached
+    env_file:
+      - .env
+    ports:
+      - "${NGINX_RTMP_PORT:-1935}:1935"
+      - "${NGINX_HTTP_PORT:-8080}:8080"
+      - "${NGINX_HTTPS_PORT:-8443}:8443"
+    depends_on:
+      avideo:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+      memcached:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "curl --silent --fail http://localhost:8080 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app_net
+
+  database:
+    image: "mariadb:latest"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_DATABASE: "${DB_MYSQL_NAME}"
+      MYSQL_USER: "${DB_MYSQL_USER}"
+      MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
+    volumes:
+      - ./.compose/db:/var/lib/mysql
+    healthcheck:
+      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app_net
+
+  database_encoder:
+    image: "mariadb:latest"
+    restart: "unless-stopped"
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_INITDB_SKIP_TZINFO: 1
+      MYSQL_DATABASE: "${DB_MYSQL_NAME}_encoder"
+      MYSQL_USER: "${DB_MYSQL_USER}"
+      MYSQL_PASSWORD: "${DB_MYSQL_PASSWORD}"
+    volumes:
+      - ./.compose/db_encoder:/var/lib/mysql
+    healthcheck:
+      #test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -pexample"]
+      test: "mariadb-admin ping -h localhost -u $MYSQL_USER -p$MYSQL_PASSWORD"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - app_net
+
+  #http://localhost:8081
+  phpmyadmin:
+    image: "phpmyadmin/phpmyadmin"
+    restart: "unless-stopped"
+    environment:
+      PMA_HOST: "${DB_MYSQL_HOST}"
+      PMA_PORT: ${DB_MYSQL_PORT}
+      PMA_CONTROLUSER: "${DB_MYSQL_USER}"
+      PMA_CONTROLPASS: "${DB_MYSQL_PASSWORD}"
+      HIDE_PHP_VERSION: "true"
+    ports:
+      - "${PHPMYADMIN_PORT:-8081}:80"
+    depends_on:
+      - database
+    networks:
+      - app_net
+
+  #http://localhost:8082
+  phpmyadmin_encoder:
+    image: "phpmyadmin/phpmyadmin"
+    restart: "unless-stopped"
+    environment:
+      PMA_HOST: "${DB_MYSQL_HOST}_encoder"
+      PMA_PORT: ${DB_MYSQL_PORT}
+      PMA_CONTROLUSER: "${DB_MYSQL_USER}"
+      PMA_CONTROLPASS: "${DB_MYSQL_PASSWORD}"
+      HIDE_PHP_VERSION: "true"
+    ports:
+      - "${PHPMYADMIN_ENCODER_PORT:-8082}:80"
+    depends_on:
+      - database_encoder
+    networks:
+      - app_net
+
+  memcached:
+    image: memcached:alpine
+    restart: "unless-stopped"
+    command: memcached -m 64 -p 11211 -u memcache
+    ports:
+      - "11211:11211"
+    networks:
+      - app_net
+
 networks:
   app_net:
     driver: bridge
-
