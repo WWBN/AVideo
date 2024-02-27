@@ -585,7 +585,7 @@ global $avideoLayout;
                         echo '<span class="' . (empty($value['iconClass']) ? "fa fa-folder" : $value['iconClass']) . '"></span>  
                         <span class="menuLabel">' . __($value['name']) . '</span>';
                         if (empty($advancedCustom->hideCategoryVideosCount)) {
-                            echo ' <span class="badge">' . $total . '</span>';
+                            echo ' <span class="badge hideIfCompressed">' . $total . '</span>';
                         }
                         echo '</a>';
                         mkSub($value['id']);
