@@ -300,7 +300,7 @@ if (typeof gtag !== \"function\") {
         if (empty($userLoaded)) {
             _error_log("User::loadFromUser($user) error");
             return false;
-        }else{
+        } else {
             _error_log("User::loadFromUser($user) user found [{$userLoaded['id']}]{$userLoaded['user']}");
         }
         //_error_log("User::loadFromUser($user) ");
@@ -391,7 +391,7 @@ if (typeof gtag !== \"function\") {
     {
         if (self::isLogged()) {
             if (empty($_SESSION['user']['channelName'])) {
-                $_SESSION['user']['channelName'] = self::_recommendChannelName();
+                $_SESSION['user']['channelName'] = self::_recommendChannelName('', 0, '', User::getId());
                 $user = new User(User::getId());
                 $user->setChannelName($_SESSION['user']['channelName']);
                 $user->save();
@@ -412,12 +412,12 @@ if (typeof gtag !== \"function\") {
                 $users_id = User::getId();
             }
         }
-        if (empty($users_id)) {
-            $newChannelName = $name . "_" . uniqid();
-            if (strlen($newChannelName) > 40) {
-                $newChannelName = uniqid();
+        if (empty($name) && $try == 0) {
+            if (!empty($unknown)) {
+                $name = $unknown;
+            } else if (!empty($users_id)) {
+                $name = User::getUserDb($users_id);
             }
-            return $newChannelName;
         }
         if ($try > 10) {
             _error_log("User:_recommendChannelName too many tries ({$name}) (" . User::getId() . ") ", AVideoLog::$ERROR);
@@ -439,7 +439,7 @@ if (typeof gtag !== \"function\") {
         if (!Permissions::canAdminUsers()) {
             $user = self::getUserFromChannelName($name);
             if ($user && $user['id'] !== $users_id) {
-                return self::_recommendChannelName($name . "_" . uniqid(), $try + 1);
+                return self::_recommendChannelName($name . "_" . uniqid(), $try + 1, $unknown, $users_id);
             }
         }
         return $name;
@@ -803,7 +803,6 @@ if (typeof gtag !== \"function\") {
         $status = ($this->status);
         $this->about = preg_replace("/(\\\)+n/", "\n", "{$this->about}");
         $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
-        $channelName = ($this->channelName);
         if (filter_var($this->donationLink, FILTER_VALIDATE_URL) === false) {
             $this->donationLink = '';
         }
@@ -858,7 +857,7 @@ if (typeof gtag !== \"function\") {
             $formats = "ssssiiiisssssssi";
             $values = [
                 $user, $password, $this->email, $name, $this->isAdmin, $this->canStream, $this->canUpload, $this->canCreateMeet,
-                $status, $this->photoURL, $this->recoverPass, $channelName, $this->analyticsCode, $this->externalOptions, $this->phone, $this->emailVerified
+                $status, $this->photoURL, $this->recoverPass, $this->channelName, $this->analyticsCode, $this->externalOptions, $this->phone, $this->emailVerified
             ];
             $sql = "INSERT INTO users (user, password, email, name, isAdmin, canStream, canUpload, canCreateMeet, canViewChart, "
                 . " status,photoURL,recoverPass, created, modified, channelName, analyticsCode, externalOptions, phone, is_company,emailVerified) "
@@ -1394,10 +1393,10 @@ if (typeof gtag !== \"function\") {
 
     public static function getAge($users_id = 0)
     {
-        if(empty($users_id)){
+        if (empty($users_id)) {
             $users_id = User::getId();
         }
-        if(empty($users_id)){
+        if (empty($users_id)) {
             return 0;
         }
         $birth_date = self::getBirthIfIsSet($users_id);
@@ -1587,13 +1586,13 @@ if (typeof gtag !== \"function\") {
             $user = $result;
             $user['passhash'] = self::getUserHash($user['id']);
         } else {
-            _error_log("User::find line= ".__LINE__);
+            _error_log("User::find line= " . __LINE__);
             //_error_log("Password check new hash user not found");
             //check if is the old password style
             $user = false;
             //$user = false;
         }
-        _error_log("User::find line= ".__LINE__);
+        _error_log("User::find line= " . __LINE__);
         return $user;
     }
 
@@ -2632,7 +2631,7 @@ if (typeof gtag !== \"function\") {
     public function getChannelName()
     {
         if (empty($this->channelName)) {
-            $this->channelName = self::_recommendChannelName($this->channelName);
+            $this->channelName = self::_recommendChannelName($this->channelName, 0, $this->user, $this->id);
             $this->save();
         }
         return $this->channelName;
