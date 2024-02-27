@@ -24,6 +24,7 @@
                     <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearch" data-toggle="collapse" data-target="#mysearch">
                         <i class="fas fa-search faa-shake notLoadingIcon"></i>
                         <i class="fa-solid fa-sync fa-spin loadingIcon"></i>
+                        <i class="fa-solid fa-circle-exclamation fa-beat-fade text-danger notFoundIcon"></i>
                     </button>
                 </span>
                 <?php

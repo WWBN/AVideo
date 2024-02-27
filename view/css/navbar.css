@@ -362,11 +362,14 @@ li.navsub-toggle a+ul {
     border-color: #00000077 !important;
 }
 
-#searchForm #buttonSearch .loadingIcon{
+#searchForm #buttonSearch .loadingIcon,
+#searchForm #buttonSearch .notFoundIcon,
+#searchForm.emptyResponse #buttonSearch .notLoadingIcon{
     display: none;
 }
 
-#searchForm.isLoading #buttonSearch .loadingIcon{
+#searchForm.isLoading #buttonSearch .loadingIcon,
+#searchForm.emptyResponse #buttonSearch .notFoundIcon{
     display: inline-block;
 }
 #searchForm.isLoading #buttonSearch .notLoadingIcon{
