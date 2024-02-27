@@ -38,4 +38,5 @@ if (typeof embed_playerPlaylist[0] !== 'undefined') {
 $('.vjs-playlist-item ').click(function () {
     var index = player.playlist.currentIndex();
     updatePLSources(index);
+    console.log('$(.vjs-playlist-item).click ', index);
 });
