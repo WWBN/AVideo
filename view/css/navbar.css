@@ -362,6 +362,17 @@ li.navsub-toggle a+ul {
     border-color: #00000077 !important;
 }
 
+#searchForm #buttonSearch .loadingIcon{
+    display: none;
+}
+
+#searchForm.isLoading #buttonSearch .loadingIcon{
+    display: inline-block;
+}
+#searchForm.isLoading #buttonSearch .notLoadingIcon{
+    display: none;
+}
+
 @media screen and (min-width: 992px) {
 
     body.youtube {

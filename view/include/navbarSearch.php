@@ -22,7 +22,8 @@
                 ?>" name="search" placeholder="<?php echo __("Search"); ?>" id="searchFormInput">
                 <span class="input-group-append">
                     <button class="btn btn-default btn-outline-secondary border-right-0 border py-2 faa-parent animated-hover" type="submit" id="buttonSearch" data-toggle="collapse" data-target="#mysearch">
-                        <i class="fas fa-search faa-shake"></i>
+                        <i class="fas fa-search faa-shake notLoadingIcon"></i>
+                        <i class="fa-solid fa-sync fa-spin loadingIcon"></i>
                     </button>
                 </span>
                 <?php
