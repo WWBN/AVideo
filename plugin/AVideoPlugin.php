@@ -461,7 +461,7 @@ class AVideoPlugin
         $lines = file($installSQLFile);
         foreach ($lines as $line) {
             $pattern1 = "/CREATE TABLE IF NOT EXISTS `?([a-z0-9_]+)[` (]?/i";
-            $pattern2 = "/CREATE TABLE[^`]+`?([a-z0-9_]+)[` (]?/i";
+            $pattern2 = "/CREATE TABLE[^`]+`([a-z0-9_]+)[` (]?/i";
             if (preg_match($pattern1, $line, $matches)) {
                 if (!empty($matches[1])) {
                     //_error_log("isPluginTablesInstalled: Found ({$matches[1]})");
@@ -482,6 +482,7 @@ class AVideoPlugin
             } elseif (preg_match($pattern2, $line, $matches)) {
                 if (!empty($matches[1])) {
                     if (!ObjectYPT::isTableInstalled($matches[1])) {
+                        //var_dump($pattern2, $line, $matches);exit;
                         _error_log("You need to install table {$matches[1]} for the plugin ({$name})", AVideoLog::$ERROR);
 
                         $isPluginTablesInstalled[$installSQLFile] = false;

@@ -20,7 +20,6 @@ try {
     var mouseX;
     var mouseY;
     var videoContainerDragged = false;
-    var youTubeMenuIsOpened = false;
     var userIsControling = false;
     var playerCurrentTime;
     var mediaId;

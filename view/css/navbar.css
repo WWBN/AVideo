@@ -9,34 +9,62 @@
 
 
 #sidebar {
-    width: 300px;
+    width: 100px;
     position: absolute;
     top: 0;
     height: 100vh;
     margin-top: 50px;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.25s ease-in-out;
+    -moz-transition: all 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
 }
 
-
-body.youtube.compressedMenu #sidebar {
-    width: 80px;
-    opacity: 0.8;
-    filter: grayscale(100%);
-}
-
-body.youtube.compressedMenu #sidebar:hover {
-    opacity: 1;
-    filter: grayscale(0);
-}
-
-body.youtube.compressedMenu #sidebar .menuLabel{
+#compressMenu{
     display: none;
 }
 
-body.youtube.compressedMenu #sidebar .hideIfCompressed {
-    visibility: hidden;
+body.youtube #compressMenu{
+    display: inline-block;
+}
+
+#buttonMenu{
+    border-radius: 4px;
+}
+
+body.youtube #buttonMenu{
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+body.youtube #compressMenu .fa-chevron-left{
+    display: inline-block;
+}
+body.youtube #compressMenu .fa-chevron-right{
+    display: none;
+}
+
+body.youtube.compressedMenu #compressMenu .fa-chevron-right{
+    display: inline-block;
+}
+body.youtube.compressedMenu #compressMenu .fa-chevron-left{
+    display: none;
+}
+
+body.youtube #sidebar {
+    width: 300px;
+}
+body.youtube.compressedMenu #sidebar {
+    width: 100px;
+}
+
+body.youtube.compressedMenu #sidebar .menuLabel,
+body.youtube.compressedMenu #sidebar .hideIfCompressed,
+body.youtube.compressedMenu #sidebar hr {
+    display: none;
+}
+
+body.youtube.compressedMenu #leftMenuUser {
+    padding-left: 5px;
 }
 
 #leftMenuUser{
@@ -66,6 +94,16 @@ body.youtube.compressedMenu #leftMenuUser .leftMenuUserImg{
     padding-right: 10px;
     padding-right: 12px;
 }
+
+/*
+#sideBarContainer {
+    overflow: hidden;
+}
+#sideBarContainer:hover {
+    overflow: auto;
+    padding-right: 0;
+}
+*/
 
 #sideBarContainer ul {
     margin-bottom: 150px;
@@ -337,6 +375,6 @@ li.navsub-toggle a+ul {
     }
 
     body.youtube.compressedMenu {
-        margin-left: 80px;
+        margin-left: 100px;
     }
 }

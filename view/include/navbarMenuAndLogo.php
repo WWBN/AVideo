@@ -1,20 +1,26 @@
 <li>
     <ul class="left-side">
-        <li style="max-width: 40px;">
-            <?php
-            echo getHamburgerButton('buttonMenu', 'x', 'class="btn btn-default pull-left hamburger"  data-toggle="tooltip"  title="' . __("Main Menu") . '" data-placement="right"');
-            ?>
-            <?php
-            if ($advancedCustom->disableNavBarInsideIframe) {
-            ?>
-                <script>
-                    $(document).ready(function() {
-                        YPTHidenavbar();
-                    });
-                </script>
-            <?php
-            }
-            ?>
+        <li style="max-width: 80px;">
+            <div class="btn-group justified">
+                <button type="button" id="compressMenu" class="btn btn-default" onclick="YPTSidebarCompressToggle();">
+                    <i class="fa-solid fa-chevron-right" data-toggle="tooltip" title="<?php echo __('Uncompress Menu'); ?>" data-placement="right"></i>
+                    <i class="fa-solid fa-chevron-left" data-toggle="tooltip" title="<?php echo __('Compress Menu'); ?>" data-placement="right"></i>
+                </button>
+                <?php
+                echo getHamburgerButton('buttonMenu', 'x', 'class="btn btn-default pull-left hamburger"  data-toggle="tooltip"  title="' . __("Main Menu") . '" data-placement="right"');
+                ?>
+                <?php
+                if ($advancedCustom->disableNavBarInsideIframe) {
+                ?>
+                    <script>
+                        $(document).ready(function() {
+                            YPTHidenavbar();
+                        });
+                    </script>
+                <?php
+                }
+                ?>
+            </div>
         </li>
         <li style="width: 100%; text-align: center;">
             <a class="navbar-brand" id="mainNavbarLogo" href="<?php echo empty($advancedCustom->logoMenuBarURL) ? getHomePageURL() : $advancedCustom->logoMenuBarURL; ?>">

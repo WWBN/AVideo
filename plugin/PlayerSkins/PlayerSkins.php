@@ -140,7 +140,7 @@ class PlayerSkins extends PluginAbstract
                 } else { // video link
                     $url = AVideoPlugin::modifyURL($video['videoLink'], $video['id']);
                     //var_dump($video['videoLink'], $url);exit;
-                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . ((strpos($video['videoLink'], 'm3u8') !== false) ? "application/x-mpegURL" : "video/mp4") . "' >";
+                    $htmlMediaTag .= "<!-- Video Link {$video['title']} {$video['filename']} --><source src='{$url}' type='" . mime_content_type_per_filename($video['videoLink']) . "' >";
                     $html .= "<script>$(document).ready(function () {\$('time.duration').hide();});</script>";
                 }
                 $htmlMediaTag .= '<p>' . __("If you can't view this video, your browser does not support HTML5 videos") . '</p><p class="vjs-no-js">' . __("To view this video please enable JavaScript, and consider upgrading to a web browser that") . '<a href="http://videojs.com/html5-video-support/" target="_blank" rel="noopener noreferrer">supports HTML5 video</a></p></video>';
