@@ -38,7 +38,7 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
             }
         }
     } else {
-        error_log("Thumbnail image not found: {$imageURL}");
+        error_log("Thumbnail image not found: {$imageURL} {$jpg}");
     }
 // Handle Roku Images
 } elseif (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches)) {
