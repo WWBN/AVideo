@@ -351,7 +351,8 @@ TimeLogEnd($timelogname, __LINE__);
                                     }
                                 }, 1000);
                             }
-
+                            console.log('player.playlist.currentItem', _index);
+                            player.playlist.currentItem(_index);
                         }, 1000);
                     }
                 } else {
