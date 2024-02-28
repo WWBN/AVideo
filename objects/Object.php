@@ -78,6 +78,9 @@ abstract class ObjectYPT implements ObjectInterface
     static function getFromDb($id, $refreshCache = false)
     {
         global $global;
+        if(!class_exists('sqlDAL')){
+            return false;
+        }
         $id = intval($id);
         $sql = "SELECT * FROM " . static::getTableName() . " WHERE  id = ? LIMIT 1";
         //var_dump($sql, $id);
@@ -416,6 +419,9 @@ abstract class ObjectYPT implements ObjectInterface
     private function getAllFields()
     {
         global $global, $mysqlDatabase;
+        if(!class_exists('sqlDAL')){
+            return array();
+        }
         $sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = '" . static::getTableName() . "'";
         $res = sqlDAL::readSql($sql, "s", [$mysqlDatabase]);
         $fullData = sqlDAL::fetchAllAssoc($res);
@@ -1011,6 +1017,9 @@ abstract class ObjectYPT implements ObjectInterface
     public static function isTableInstalled($tableName = "")
     {
         global $global, $tableExists;
+        if(!class_exists('sqlDAL')){
+            return false;
+        }
         if (empty($tableName)) {
             $tableName = static::getTableName();
         }

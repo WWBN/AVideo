@@ -1,5 +1,7 @@
 <?php
-
+if (!isset($global['skippPlugins'])) {
+    $global['skippPlugins'] = array();
+}
 /**
  * Global variables.
  *
@@ -12,9 +14,6 @@ if (!empty($doNotIncludeConfig)) {
     return false;
 }
 
-if (!isset($global['skippPlugins'])) {
-    $global['skippPlugins'] = array();
-}
 /*
 if($_SERVER["HTTP_HOST"] === 'localhost' || $_SERVER["HTTP_HOST"] === '127.0.0.1'){
     $global["webSiteRootURL"] = $_SERVER["REQUEST_SCHEME"].'://'.$_SERVER["HTTP_HOST"].$global["webSiteRootPath"];

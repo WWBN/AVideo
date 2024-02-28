@@ -8852,7 +8852,7 @@ function getCDN($type = 'CDN', $id = 0)
     if ($type == 'CDN') {
         if (!empty($global['ignoreCDN'])) {
             return $global['webSiteRootURL'];
-        } elseif (!empty($advancedCustom) && isValidURL($advancedCustom->videosCDN)) {
+        } elseif (!empty($advancedCustom) && !empty($advancedCustom->videosCDN) && isValidURL($advancedCustom->videosCDN)) {
             $_getCDNURL[$index] = addLastSlash($advancedCustom->videosCDN);
         } elseif (empty($_getCDNURL[$index])) {
             $_getCDNURL[$index] = $global['webSiteRootURL'];

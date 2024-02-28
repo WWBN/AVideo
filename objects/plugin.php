@@ -408,6 +408,9 @@ class Plugin extends ObjectYPT
     public static function getEnabled($uuid)
     {
         global $global, $getEnabled;
+        if(!class_exists('sqlDAL')){
+            return array();
+        }
         if (empty($getEnabled)) {
             $getEnabled = [];
         }

@@ -1,11 +1,17 @@
 <?php
 
 include(dirname(__FILE__) . '/image404Raw.php');
-
+$doNotIncludeConfig = 1;
 // Load configuration
 $configFile = dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $configFile;
-_session_write_close();
+
+require_once $global['systemRootPath'] . 'objects/plugin.php';
+require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+require_once $global['systemRootPath'] . 'objects/functions.php';
+require_once $global['systemRootPath'] . 'objects/images.php';
+
+//_session_write_close();
 
 // Default image settings
 $file = ImagesPlaceHolders::getVideoPlaceholder(ImagesPlaceHolders::$RETURN_PATH);
@@ -17,7 +23,8 @@ $imageURL = !empty($_GET['image']) ? $_GET['image'] : $_SERVER["REQUEST_URI"];
 // Handle Thumbnails
 if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
     $video_filename = $matches[2];
-    $jpg = Video::getPathToFile("{$video_filename}.jpg");
+
+    $jpg = "{$global['systemRootPath']}videos/{$video_filename}/{$video_filename}.jpg";
 
     if (file_exists($jpg)) {
         $file = $jpg;
@@ -26,12 +33,12 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
         if (strpos($imageURL, '_thumbsV2') !== false) {
             $imgDestination = "{$global['systemRootPath']}{$imageURL}";
             if(!file_exists($imgDestination)){
-                _error_log("Converting thumbnail: {$jpg} to {$imgDestination}");
+                error_log("Converting thumbnail: {$jpg} to {$imgDestination}");
                 convertThumbsIfNotExists($jpg, $imgDestination);
             }
         }
     } else {
-        _error_log("Thumbnail image not found: {$imageURL}");
+        error_log("Thumbnail image not found: {$imageURL}");
     }
 // Handle Roku Images
 } elseif (preg_match('/videos\/(.*\/)?(.*)_roku.jpg/', $imageURL, $matches)) {
@@ -45,13 +52,13 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
         if (strpos($imageURL, '_roku') !== false) {
             $rokuDestination = "{$global['systemRootPath']}{$imageURL}";            
             if(!file_exists($rokuDestination)){
-                _error_log("Converting for Roku: {$jpg} to {$rokuDestination}");
+                error_log("Converting for Roku: {$jpg} to {$rokuDestination}");
                 convertImageToRoku($jpg, $rokuDestination);
             }
         }
 
     } else {
-        _error_log("Roku image not found: {$imageURL}");
+        error_log("Roku image not found: {$imageURL}");
     }
 
 } else {
@@ -62,7 +69,7 @@ if (preg_match('/videos\/(.*\/)?(.*)_thumbs(V2)?.jpg/', $imageURL, $matches)) {
     ){
 
     }else{
-        _error_log("Unmatched image request: {$imageURL}");
+        error_log("Unmatched image request: {$imageURL}");
     }
 }
 

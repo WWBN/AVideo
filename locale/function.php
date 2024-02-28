@@ -11,7 +11,7 @@ includeLangFile();
 
 function includeLangFile() {
     global $t, $global;
-    if(empty($_SESSION)){
+    if(empty($_SESSION) && function_exists('_session_start')){
         _session_start();
     }
     if(empty($_SESSION['language'])){

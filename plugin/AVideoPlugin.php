@@ -422,7 +422,7 @@ class AVideoPlugin
         if (!isset($_loadPluginIfEnabled)) {
             $_loadPluginIfEnabled = array();
         }
-
+        
         /**
          * @var array $global
          */
@@ -675,6 +675,9 @@ class AVideoPlugin
 
     public static function isEnabled($uuid)
     {
+        if(!class_exists('Plugin')){
+            return false;
+        }
         return !empty(Plugin::getEnabled($uuid));
     }
 
