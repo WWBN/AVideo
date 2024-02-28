@@ -67,12 +67,12 @@ function socketConnect() {
             }
         }
         if (json.type == webSocketTypes.NEW_CONNECTION) {
-            console.log("Socket onmessage NEW_CONNECTION", json);
+            //console.log("Socket onmessage NEW_CONNECTION", json);
             if (typeof onUserSocketConnect === 'function') {
                 onUserSocketConnect(json);
             }
         } else if (json.type == webSocketTypes.NEW_DISCONNECTION) {
-            console.log("Socket onmessage NEW_DISCONNECTION", json);
+            //console.log("Socket onmessage NEW_DISCONNECTION", json);
             if (typeof onUserSocketDisconnect === 'function') {
                 onUserSocketDisconnect(json);
             }
