@@ -241,7 +241,7 @@ function parseSocketResponse() {
     if (typeof json === 'undefined' || json === false) {
         return false;
     }
-    console.log("parseSocketResponse", json);
+    //console.log("parseSocketResponse", json);
     //console.trace();
     if (json.isAdmin && webSocketServerVersion > json.webSocketServerVersion) {
         if (canShowSocketToast && typeof avideoToastWarning == 'function') {
