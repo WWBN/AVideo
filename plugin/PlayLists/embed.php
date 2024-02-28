@@ -328,6 +328,7 @@ TimeLogEnd($timelogname, __LINE__);
                     //player.src(embed_playerPlaylist[_index].sources);
                     player.updateSrc(embed_playerPlaylist[_index].sources);
                     console.log('player.currentTime', embed_playerPlaylist[_index].videoStartSeconds);
+                    currentTime = embed_playerPlaylist[_index].videoStartSeconds;
                     player.currentTime(embed_playerPlaylist[_index].videoStartSeconds);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
                     //player.currentResolution(embed_playerPlaylist[_index].sources[0].label);
