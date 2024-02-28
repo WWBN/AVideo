@@ -246,7 +246,7 @@ class CustomizeUser extends PluginAbstract
 
     public function getPluginVersion()
     {
-        return "3.0";
+        return "4.1";
     }
 
     public function getEmptyDataObject()
