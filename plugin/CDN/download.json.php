@@ -67,7 +67,7 @@ if ($resp->progress->secondsOld < 30) {
     $resp->error = false;
 }else if ($resp->progress->secondsOld > 3600 && $resp->progress->progress < 100 ) {
     $resp->lines[] = __LINE__;
-    $resp->msg = ("Somethinng is wrong with the transcoding process");
+    $resp->msg = ("Somethinng is wrong with the transcoding process,it stops in {$resp->progress->progress}%");
     $resp->error = true;
 }else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
