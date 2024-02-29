@@ -56,6 +56,7 @@ if (!User::canWatchVideo($json->videos_id)) {
 
 $resp->deleteRemotely = false;
 $resp->deleteLocally = false;
+$resp->deleteProgress = false;   
 
 $video = Video::getVideoLight($json->videos_id);
 $resp->file = "{$video['filename']}/index.{$json->format}.log";
@@ -66,7 +67,7 @@ $progressFile = getVideosDir() . $resp->file;
 $resp->progress = parseFFMPEGProgress($progressFile);
 
 $resp->lines[] = __LINE__;
-if ($resp->progress->secondsOld < 30) {
+if (empty($_REQUEST['delete']) && $resp->progress->secondsOld < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
@@ -83,6 +84,7 @@ if ($resp->progress->secondsOld < 30) {
         $resp->deleteRemotely = $client->delete($remote_path);
     }
     $resp->deleteLocally = unlink($convertedFile);
+    $resp->deleteProgress = unlink($progressFile);    
 
     $resp->error = empty($resp->deleteRemotely) && empty($resp->deleteLocally);
 } else {
