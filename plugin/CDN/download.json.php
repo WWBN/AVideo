@@ -61,10 +61,14 @@ $progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log
 $resp->progress = parseFFMPEGProgress($progressFile);
 
 $resp->lines[] = __LINE__;
-if ($resp->progress !== false && $resp->progress < 30) {
+if ($resp->progress->secondsOld < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
+}else if ($resp->progress->secondsOld > 3600 && $resp->progress->progress < 100 ) {
+    $resp->lines[] = __LINE__;
+    $resp->msg = ("Somethinng is wrong with the transcoding process");
+    $resp->error = true;
 }else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
     if ($cdnObj->enable_storage) {
