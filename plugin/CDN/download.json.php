@@ -70,7 +70,7 @@ if ($resp->progress->secondsOld < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
-}else if ($resp->progress->secondsOld > 3600 && $resp->progress->progress < 100 ) {
+}else if (empty($_REQUEST['delete']) && $resp->progress->secondsOld > 3600 && $resp->progress->progress < 100 ) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("Somethinng is wrong with the transcoding process,it stops in {$resp->progress->progress}%");
     $resp->error = true;
