@@ -10,7 +10,7 @@ $obj = AVideoPlugin::getDataObject('MobileManager');
 if (empty($obj->pwa_display->value)) {
     $obj->pwa_display->value = 'fullscreen';
 }
-
+_session_write_close();
 
 $pwa = new stdClass();
 

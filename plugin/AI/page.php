@@ -47,10 +47,11 @@ $_page = new Page(['Video Metatags']);
         transition: width 30s ease;
     }
 
-    .progressAIText{
+    .progressAIText {
         float: right;
     }
-    .progressAITitle{
+
+    .progressAITitle {
         float: left;
         padding: 5px 10px;
     }
@@ -97,17 +98,33 @@ $_page = new Page(['Video Metatags']);
                         <li class="active">
                             <a data-toggle="tab" href="#pTranscription">
                                 <i class="fas fa-microphone-alt"></i>
-                                <?php echo __("Transcription"); ?><br>
+                                <?php echo __("Transcription"); ?>
                             </a>
                         </li>
                         <li>
                             <a data-toggle="tab" href="#pbasic">
                                 <i class="fa-solid fa-lightbulb"></i>
-                                <?php echo __("Basic"); ?><br>
+                                <?php echo __("Basic"); ?>
                             </a>
                         </li>
-                        <li><a data-toggle="tab" href="#pUsage"><i class="fas fa-receipt"></i> <?php echo __("Usage"); ?></a></li>
-                        <li><a data-toggle="tab" href="#pPP"><i class="fas fa-file-contract"></i> <?php echo __("Prices, Privacy Policy"); ?></a></li>
+                        <li>
+                            <a data-toggle="tab" href="#pShorts">
+                                <i class="fa-solid fa-scissors"></i>
+                                <?php echo __("Shorts"); ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#pUsage">
+                                <i class="fas fa-receipt"></i>
+                                <?php echo __("Usage"); ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#pPP">
+                                <i class="fas fa-file-contract"></i>
+                                <?php echo __("Prices, Privacy Policy"); ?>
+                            </a>
+                        </li>
                     </ul>
                 </div>
                 <div class="panel-body">
@@ -120,6 +137,11 @@ $_page = new Page(['Video Metatags']);
                         <div id="pbasic" class="tab-pane fade">
                             <?php
                             include $global['systemRootPath'] . 'plugin/AI/tabs/basic.php';
+                            ?>
+                        </div>
+                        <div id="pShorts" class="tab-pane fade">
+                            <?php
+                            include $global['systemRootPath'] . 'plugin/AI/tabs/shorts.php';
                             ?>
                         </div>
                         <div id="pUsage" class="tab-pane fade ">
@@ -361,6 +383,7 @@ $_page = new Page(['Video Metatags']);
         });
     }
     var getAIProgressTimeout;
+
     function getAIProgress() {
         clearTimeout(getAIProgressTimeout);
         $.ajax({

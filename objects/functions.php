@@ -9774,6 +9774,9 @@ function parseFFMPEGProgress($progressFilename)
         return $obj;
     }
 
+    $obj->filemtime = filemtime($progressFilename);
+    $obj->secondsOld = time() - $obj->filemtime;
+
     $content = url_get_contents($progressFilename);
     if (empty($content)) {
         return $obj;

@@ -11,6 +11,10 @@ if (!isset($global['skippPlugins'])) {
  */
 if (!empty($doNotIncludeConfig)) {
     error_log('AVideo includeconfig ignored');
+    require_once $global['systemRootPath'] . 'objects/plugin.php';
+    require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
+    require_once $global['systemRootPath'] . 'objects/functions.php';
+    require_once $global['systemRootPath'] . 'objects/images.php';
     return false;
 }
 

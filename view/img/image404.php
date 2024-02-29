@@ -6,11 +6,6 @@ $doNotIncludeConfig = 1;
 $configFile = dirname(__FILE__) . '/../../videos/configuration.php';
 require_once $configFile;
 
-require_once $global['systemRootPath'] . 'objects/plugin.php';
-require_once $global['systemRootPath'] . 'plugin/AVideoPlugin.php';
-require_once $global['systemRootPath'] . 'objects/functions.php';
-require_once $global['systemRootPath'] . 'objects/images.php';
-
 //_session_write_close();
 
 // Default image settings
