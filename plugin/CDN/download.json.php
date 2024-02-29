@@ -100,6 +100,8 @@ if (empty($_REQUEST['delete']) && file_exists($progressFile) && $resp->progress-
         $resp->lines[] = __LINE__;
         $resp->msg = ("CDN/download.json.php Error on get download URL for videos_id={$json->videos_id}, format={$json->format}");
         die(json_encode($resp));
+    }else{
+        $url = addQueryStringParameter($url, 'cache', time());
     }
     $resp->error = false;
     //var_dump($url);exit;
