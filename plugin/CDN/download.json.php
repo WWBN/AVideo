@@ -84,7 +84,7 @@ if ($resp->progress->secondsOld < 30) {
     }
     $resp->deleteLocally = unlink($convertedFile);
 
-    $resp->error = $resp->deleteRemotely || $resp->deleteLocally;
+    $resp->error = empty($resp->deleteRemotely) && empty($resp->deleteLocally);
 } else {
     $resp->lines[] = __LINE__;
     set_time_limit(7200); // 2 hours
