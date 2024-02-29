@@ -67,14 +67,16 @@ $progressFile = getVideosDir() . $resp->file;
 $resp->progress = parseFFMPEGProgress($progressFile);
 
 $resp->lines[] = __LINE__;
-if (empty($_REQUEST['delete']) && $resp->progress->secondsOld < 30) {
-    $resp->lines[] = __LINE__;
-    $resp->msg = ("We are still processing the video, please wait");
-    $resp->error = false;
-}else if (empty($_REQUEST['delete']) && $resp->progress->secondsOld > 3600 && $resp->progress->progress < 100 ) {
-    $resp->lines[] = __LINE__;
-    $resp->msg = ("Somethinng is wrong with the transcoding process,it stops in {$resp->progress->progress}%");
-    $resp->error = true;
+if (empty($_REQUEST['delete']) && file_exists($progressFile) && $resp->progress->progress < 100) {
+    if ($resp->progress->secondsOld < 30 && $resp->progress->progress < 100) {
+        $resp->lines[] = __LINE__;
+        $resp->msg = ("We are still processing the video, please wait");
+        $resp->error = false;
+    }else {
+        $resp->lines[] = __LINE__;
+        $resp->msg = ("Somethinng is wrong with the transcoding process,it stops in {$resp->progress->progress}%");
+        $resp->error = true;
+    }
 }else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
     if ($cdnObj->enable_storage) {

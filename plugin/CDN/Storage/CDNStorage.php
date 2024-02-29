@@ -1265,6 +1265,8 @@ class CDNStorage
 
     public static function convertCDNHLSVideoToDownload($videos_id, $format = 'mp4', $logFile = '')
     {
+        _error_log("convertCDNHLSVideoToDownload: start $videos_id, $format, $logFile ");
+            
         $format = strtolower($format);
         $video = new Video('', '', $videos_id);
         $filename = $video->getFilename();
