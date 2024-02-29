@@ -30,6 +30,10 @@ if (empty($token)) {
 
 $json = json_decode($token);
 
+if(!empty($_REQUEST['delete'])){
+    $json->format = 'mp4';
+}
+
 if (empty($json)) {
     $resp->msg = ('Error on decrypt token');
     die(json_encode($resp));
