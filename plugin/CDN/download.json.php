@@ -52,11 +52,12 @@ if (!User::canWatchVideo($json->videos_id)) {
 
 $resp->deleteRemotely = false;
 $resp->deleteLocally = false;
+$resp->file = "{$video['filename']}/index.{$json->format}.log";
 
 $video = Video::getVideoLight($json->videos_id);
 $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.mp4";
 
-$progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log";
+$progressFile = getVideosDir() . $resp->file;
 //$resp->progressFile = $progressFile;
 $resp->progress = parseFFMPEGProgress($progressFile);
 
