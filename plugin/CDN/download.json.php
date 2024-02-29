@@ -91,7 +91,7 @@ if (empty($_REQUEST['delete']) && $resp->progress->secondsOld < 30) {
     $resp->lines[] = __LINE__;
     set_time_limit(7200); // 2 hours
     ini_set('max_execution_time', 7200);
-    $url = CDNStorage::convertCDNHLSVideoToDownlaod($json->videos_id, $json->format);
+    $url = CDNStorage::convertCDNHLSVideoToDownload($json->videos_id, $json->format, $progressFile);
 
     //$resp->convertedFile = $convertedFile;
     if (empty($url)) {

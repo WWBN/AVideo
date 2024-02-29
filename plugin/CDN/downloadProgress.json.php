@@ -51,7 +51,7 @@ set_time_limit(7200); // 2 hours
 ini_set('max_execution_time', 7200);
 $resp->videos_id = $json->videos_id;
 $resp->format = $json->format;
-$progress = CDNStorage::convertCDNHLSVideoToDownlaodProgress($json->videos_id, $json->format);
+$progress = CDNStorage::convertCDNHLSVideoToDownloadProgress($json->videos_id, $json->format);
 
 if(empty($progress)){
     $resp->msg = ("CDN/downloadProgress.json.php Error on get download URL for videos_id={$json->videos_id}, format={$json->format}");

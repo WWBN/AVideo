@@ -7360,7 +7360,7 @@ function convertVideoToMP3FileIfNotExists($videos_id)
     }
 }
 
-function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0)
+function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
     $parts = explode('?', $fromFileLocation);
     $localFileLock = getCacheDir() . 'convertVideoFileWithFFMPEG_' . md5($parts[0]) . ".lock";
@@ -7415,7 +7415,11 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $try = 0
             }
         }
     }
-    $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
+    if(!empty($logFile)){
+        $progressFile = getConvertVideoFileWithFFMPEGProgressFilename($toFileLocation);
+    }else{
+        $progressFile = $logFile;
+    }
     $progressFileEscaped = escapeshellarg($progressFile);
     $command .= " 1> {$progressFileEscaped} 2>&1";
     $command = removeUserAgentIfNotURL($command);

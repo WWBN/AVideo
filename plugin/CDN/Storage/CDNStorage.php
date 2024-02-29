@@ -1263,7 +1263,7 @@ class CDNStorage
         return $file_exists_on_cdn[$remote_filename];
     }
 
-    public static function convertCDNHLSVideoToDownlaod($videos_id, $format = 'mp4')
+    public static function convertCDNHLSVideoToDownload($videos_id, $format = 'mp4', $logFile = '')
     {
         $format = strtolower($format);
         $video = new Video('', '', $videos_id);
@@ -1287,7 +1287,7 @@ class CDNStorage
             if (!empty($mp4File)) {
                 return $mp4File;
             }
-            _error_log("convertCDNHLSVideoToDownlaod: m3u8 not found videos_id={$videos_id}, format={$format} ".json_encode($files));
+            _error_log("convertCDNHLSVideoToDownload: m3u8 not found videos_id={$videos_id}, format={$format} ".json_encode($files));
             return false;
         }
 
@@ -1295,7 +1295,7 @@ class CDNStorage
         $parts1 = explode('cdn.ypt.me/', $url);
         $url = addQueryStringParameter($url, 'download', 1);
         if (empty($parts1[1])) {
-            _error_log('convertCDNHLSVideoToDownlaod: Invalid filename ' . $url);
+            _error_log('convertCDNHLSVideoToDownload: Invalid filename ' . $url);
             return false;
         }
         $parts2 = explode('?', $parts1[1]);
@@ -1307,39 +1307,39 @@ class CDNStorage
             if (isDummyFile($localFile)) {
                 $file_exists = true;
             } else {
-                _error_log('convertCDNHLSVideoToDownlaod: download from CDN download file exists but the file is not a dummy file ' . $localFile . ' ' . filesize($localFile));
+                _error_log('convertCDNHLSVideoToDownload: download from CDN download file exists but the file is not a dummy file ' . $localFile . ' ' . filesize($localFile));
             }
         } else {
-            _error_log('convertCDNHLSVideoToDownlaod: download from CDN dummy file not found ' . $localFile);
+            _error_log('convertCDNHLSVideoToDownload: download from CDN dummy file not found ' . $localFile);
         }
         if (empty($file_exists)) {
             $file_exists = CDNStorage::file_exists_on_cdn($relativeFilename);
             if (!$file_exists && isDummyFile($localFile)) {
-                _error_log("convertCDNHLSVideoToDownlaod: unlink($localFile)");
+                _error_log("convertCDNHLSVideoToDownload: unlink($localFile)");
                 @unlink($localFile);
             } else if ($file_exists && !isDummyFile($localFile)) {
-                _error_log("convertCDNHLSVideoToDownlaod: self::createDummy($localFile)");
+                _error_log("convertCDNHLSVideoToDownload: self::createDummy($localFile)");
                 self::createDummy($localFile);
             }
         }
         if ($file_exists && isURL200($url, true)) {
             $returnURL = $url;
-            _error_log("convertCDNHLSVideoToDownlaod: returnURL ($returnURL)");
+            _error_log("convertCDNHLSVideoToDownload: returnURL ($returnURL)");
         } else {
             //var_dump($localFile);exit;
             if (!file_exists($localFile)) {
-                _error_log("convertCDNHLSVideoToDownlaod: convertVideoFileWithFFMPEG($m3u8File, $localFile)");
-                $progressFile = convertVideoFileWithFFMPEG($m3u8File, $localFile);
+                _error_log("convertCDNHLSVideoToDownload: convertVideoFileWithFFMPEG($m3u8File, $localFile, $logFile)");
+                $progressFile = convertVideoFileWithFFMPEG($m3u8File, $localFile, $logFile);
             }
             if (!file_exists($localFile)) {
-                _error_log('convertCDNHLSVideoToDownlaod: download from CDN file not created ' . $localFile);
+                _error_log('convertCDNHLSVideoToDownload: download from CDN file not created ' . $localFile);
             } else {
                 $filesize = filesize($localFile);
                 if (empty($filesize) || isDummyFile($localFile)) {
-                    _error_log("convertCDNHLSVideoToDownlaod 2: unlink($localFile)");
+                    _error_log("convertCDNHLSVideoToDownload 2: unlink($localFile)");
                     @unlink($localFile);
                 } else if (!isDummyFile($localFile)) {
-                    _error_log("convertCDNHLSVideoToDownlaod 2: !isDummyFile($localFile)");
+                    _error_log("convertCDNHLSVideoToDownload 2: !isDummyFile($localFile)");
                     $client = CDNStorage::getStorageClient();
                     $client->put($relativeFilename, $localFile);
                     self::createDummy($localFile);
@@ -1350,7 +1350,7 @@ class CDNStorage
         return $returnURL;
     }
 
-    public static function convertCDNHLSVideoToDownlaodProgress($videos_id, $format = 'mp4')
+    public static function convertCDNHLSVideoToDownloadProgress($videos_id, $format = 'mp4')
     {
         $format = strtolower($format);
         $video = new Video('', '', $videos_id);
