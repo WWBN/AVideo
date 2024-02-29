@@ -58,14 +58,14 @@ $convertedFile = "{$global['systemRootPath']}videos/{$video['filename']}/index.m
 
 $progressFile = getVideosDir() . "{$video['filename']}/index.{$json->format}.log";
 //$resp->progressFile = $progressFile;
-$resp->logModified = checkFileModified($progressFile);
+$resp->progress = parseFFMPEGProgress($progressFile);
 
 $resp->lines[] = __LINE__;
-if ($resp->logModified !== false && $resp->logModified < 30) {
+if ($resp->progress !== false && $resp->progress < 30) {
     $resp->lines[] = __LINE__;
     $resp->msg = ("We are still processing the video, please wait");
     $resp->error = false;
-} else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
+}else if (!empty($_REQUEST['delete']) && file_exists($convertedFile)) {
     $resp->lines[] = __LINE__;
     if ($cdnObj->enable_storage) {
         $resp->lines[] = __LINE__;
