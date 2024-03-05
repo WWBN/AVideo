@@ -29,19 +29,33 @@ use Symfony\Component\DependencyInjection\TypedReference;
  */
 class AddConsoleCommandPass implements CompilerPassInterface
 {
-    /**
-     * @return void
-     */
+    private $commandLoaderServiceId;
+    private $commandTag;
+    private $noPreloadTag;
+    private $privateTagName;
+
+    public function __construct(string $commandLoaderServiceId = 'console.command_loader', string $commandTag = 'console.command', string $noPreloadTag = 'container.no_preload', string $privateTagName = 'container.private')
+    {
+        if (0 < \func_num_args()) {
+            trigger_deprecation('symfony/console', '5.3', 'Configuring "%s" is deprecated.', __CLASS__);
+        }
+
+        $this->commandLoaderServiceId = $commandLoaderServiceId;
+        $this->commandTag = $commandTag;
+        $this->noPreloadTag = $noPreloadTag;
+        $this->privateTagName = $privateTagName;
+    }
+
     public function process(ContainerBuilder $container)
     {
-        $commandServices = $container->findTaggedServiceIds('console.command', true);
+        $commandServices = $container->findTaggedServiceIds($this->commandTag, true);
         $lazyCommandMap = [];
         $lazyCommandRefs = [];
         $serviceIds = [];
 
         foreach ($commandServices as $id => $tags) {
             $definition = $container->getDefinition($id);
-            $definition->addTag('container.no_preload');
+            $definition->addTag($this->noPreloadTag);
             $class = $container->getParameterBag()->resolveValue($definition->getClass());
 
             if (isset($tags[0]['command'])) {
@@ -51,7 +65,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
                     throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
                 }
                 if (!$r->isSubclassOf(Command::class)) {
-                    throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must be a subclass of "%s".', $id, 'console.command', Command::class));
+                    throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must be a subclass of "%s".', $id, $this->commandTag, Command::class));
                 }
                 $aliases = str_replace('%', '%%', $class::getDefaultName() ?? '');
             }
@@ -64,7 +78,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
             }
 
             if (null === $commandName) {
-                if (!$definition->isPublic() || $definition->isPrivate() || $definition->hasTag('container.private')) {
+                if (!$definition->isPublic() || $definition->isPrivate() || $definition->hasTag($this->privateTagName)) {
                     $commandId = 'console.command.public_alias.'.$id;
                     $container->setAlias($commandId, $id)->setPublic(true);
                     $id = $commandId;
@@ -90,7 +104,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
                     $lazyCommandMap[$tag['command']] = $id;
                 }
 
-                $description ??= $tag['description'] ?? null;
+                $description = $description ?? $tag['description'] ?? null;
             }
 
             $definition->addMethodCall('setName', [$commandName]);
@@ -108,7 +122,7 @@ class AddConsoleCommandPass implements CompilerPassInterface
                     throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $id));
                 }
                 if (!$r->isSubclassOf(Command::class)) {
-                    throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must be a subclass of "%s".', $id, 'console.command', Command::class));
+                    throw new InvalidArgumentException(sprintf('The service "%s" tagged "%s" must be a subclass of "%s".', $id, $this->commandTag, Command::class));
                 }
                 $description = str_replace('%', '%%', $class::getDefaultDescription() ?? '');
             }
@@ -124,9 +138,9 @@ class AddConsoleCommandPass implements CompilerPassInterface
         }
 
         $container
-            ->register('console.command_loader', ContainerCommandLoader::class)
+            ->register($this->commandLoaderServiceId, ContainerCommandLoader::class)
             ->setPublic(true)
-            ->addTag('container.no_preload')
+            ->addTag($this->noPreloadTag)
             ->setArguments([ServiceLocatorTagPass::register($container, $lazyCommandRefs), $lazyCommandMap]);
 
         $container->setParameter('console.command.ids', $serviceIds);

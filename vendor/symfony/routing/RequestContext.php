@@ -23,15 +23,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RequestContext
 {
-    private string $baseUrl;
-    private string $pathInfo;
-    private string $method;
-    private string $host;
-    private string $scheme;
-    private int $httpPort;
-    private int $httpsPort;
-    private string $queryString;
-    private array $parameters = [];
+    private $baseUrl;
+    private $pathInfo;
+    private $method;
+    private $host;
+    private $scheme;
+    private $httpPort;
+    private $httpsPort;
+    private $queryString;
+    private $parameters = [];
 
     public function __construct(string $baseUrl = '', string $method = 'GET', string $host = 'localhost', string $scheme = 'http', int $httpPort = 80, int $httpsPort = 443, string $path = '/', string $queryString = '')
     {
@@ -67,7 +67,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function fromRequest(Request $request): static
+    public function fromRequest(Request $request)
     {
         $this->setBaseUrl($request->getBaseUrl());
         $this->setPathInfo($request->getPathInfo());
@@ -83,8 +83,10 @@ class RequestContext
 
     /**
      * Gets the base URL.
+     *
+     * @return string
      */
-    public function getBaseUrl(): string
+    public function getBaseUrl()
     {
         return $this->baseUrl;
     }
@@ -94,7 +96,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setBaseUrl(string $baseUrl): static
+    public function setBaseUrl(string $baseUrl)
     {
         $this->baseUrl = rtrim($baseUrl, '/');
 
@@ -103,8 +105,10 @@ class RequestContext
 
     /**
      * Gets the path info.
+     *
+     * @return string
      */
-    public function getPathInfo(): string
+    public function getPathInfo()
     {
         return $this->pathInfo;
     }
@@ -114,7 +118,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setPathInfo(string $pathInfo): static
+    public function setPathInfo(string $pathInfo)
     {
         $this->pathInfo = $pathInfo;
 
@@ -125,8 +129,10 @@ class RequestContext
      * Gets the HTTP method.
      *
      * The method is always an uppercased string.
+     *
+     * @return string
      */
-    public function getMethod(): string
+    public function getMethod()
     {
         return $this->method;
     }
@@ -136,7 +142,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setMethod(string $method): static
+    public function setMethod(string $method)
     {
         $this->method = strtoupper($method);
 
@@ -147,8 +153,10 @@ class RequestContext
      * Gets the HTTP host.
      *
      * The host is always lowercased because it must be treated case-insensitive.
+     *
+     * @return string
      */
-    public function getHost(): string
+    public function getHost()
     {
         return $this->host;
     }
@@ -158,7 +166,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setHost(string $host): static
+    public function setHost(string $host)
     {
         $this->host = strtolower($host);
 
@@ -167,8 +175,10 @@ class RequestContext
 
     /**
      * Gets the HTTP scheme.
+     *
+     * @return string
      */
-    public function getScheme(): string
+    public function getScheme()
     {
         return $this->scheme;
     }
@@ -178,7 +188,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setScheme(string $scheme): static
+    public function setScheme(string $scheme)
     {
         $this->scheme = strtolower($scheme);
 
@@ -187,8 +197,10 @@ class RequestContext
 
     /**
      * Gets the HTTP port.
+     *
+     * @return int
      */
-    public function getHttpPort(): int
+    public function getHttpPort()
     {
         return $this->httpPort;
     }
@@ -198,7 +210,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setHttpPort(int $httpPort): static
+    public function setHttpPort(int $httpPort)
     {
         $this->httpPort = $httpPort;
 
@@ -207,8 +219,10 @@ class RequestContext
 
     /**
      * Gets the HTTPS port.
+     *
+     * @return int
      */
-    public function getHttpsPort(): int
+    public function getHttpsPort()
     {
         return $this->httpsPort;
     }
@@ -218,7 +232,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setHttpsPort(int $httpsPort): static
+    public function setHttpsPort(int $httpsPort)
     {
         $this->httpsPort = $httpsPort;
 
@@ -227,8 +241,10 @@ class RequestContext
 
     /**
      * Gets the query string without the "?".
+     *
+     * @return string
      */
-    public function getQueryString(): string
+    public function getQueryString()
     {
         return $this->queryString;
     }
@@ -238,7 +254,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setQueryString(?string $queryString): static
+    public function setQueryString(?string $queryString)
     {
         // string cast to be fault-tolerant, accepting null
         $this->queryString = (string) $queryString;
@@ -248,8 +264,10 @@ class RequestContext
 
     /**
      * Returns the parameters.
+     *
+     * @return array
      */
-    public function getParameters(): array
+    public function getParameters()
     {
         return $this->parameters;
     }
@@ -261,7 +279,7 @@ class RequestContext
      *
      * @return $this
      */
-    public function setParameters(array $parameters): static
+    public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
 
@@ -270,16 +288,20 @@ class RequestContext
 
     /**
      * Gets a parameter value.
+     *
+     * @return mixed
      */
-    public function getParameter(string $name): mixed
+    public function getParameter(string $name)
     {
         return $this->parameters[$name] ?? null;
     }
 
     /**
      * Checks if a parameter value is set for the given parameter.
+     *
+     * @return bool
      */
-    public function hasParameter(string $name): bool
+    public function hasParameter(string $name)
     {
         return \array_key_exists($name, $this->parameters);
     }
@@ -287,9 +309,11 @@ class RequestContext
     /**
      * Sets a parameter value.
      *
+     * @param mixed $parameter The parameter value
+     *
      * @return $this
      */
-    public function setParameter(string $name, mixed $parameter): static
+    public function setParameter(string $name, $parameter)
     {
         $this->parameters[$name] = $parameter;
 

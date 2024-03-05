@@ -16,13 +16,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class ResponseStatusCodeSame extends Constraint
 {
-    private int $statusCode;
+    private $statusCode;
 
     public function __construct(int $statusCode)
     {
         $this->statusCode = $statusCode;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function toString(): string
     {
         return 'status code is '.$this->statusCode;
@@ -30,6 +33,8 @@ final class ResponseStatusCodeSame extends Constraint
 
     /**
      * @param Response $response
+     *
+     * {@inheritdoc}
      */
     protected function matches($response): bool
     {
@@ -38,6 +43,8 @@ final class ResponseStatusCodeSame extends Constraint
 
     /**
      * @param Response $response
+     *
+     * {@inheritdoc}
      */
     protected function failureDescription($response): string
     {
@@ -46,6 +53,8 @@ final class ResponseStatusCodeSame extends Constraint
 
     /**
      * @param Response $response
+     *
+     * {@inheritdoc}
      */
     protected function additionalFailureDescription($response): string
     {

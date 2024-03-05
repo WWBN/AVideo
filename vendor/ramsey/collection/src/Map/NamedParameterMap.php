@@ -21,12 +21,13 @@ use Ramsey\Collection\Tool\ValueToStringTrait;
 use function array_combine;
 use function array_key_exists;
 use function is_int;
+use function var_export;
 
 /**
  * `NamedParameterMap` represents a mapping of values to a set of named keys
  * that may optionally be typed
  *
- * @extends AbstractMap<string, mixed>
+ * @extends AbstractMap<mixed>
  */
 class NamedParameterMap extends AbstractMap
 {
@@ -38,13 +39,13 @@ class NamedParameterMap extends AbstractMap
      *
      * @var array<string, string>
      */
-    private readonly array $namedParameters;
+    protected array $namedParameters;
 
     /**
      * Constructs a new `NamedParameterMap`.
      *
      * @param array<array-key, string> $namedParameters The named parameters defined for this map.
-     * @param array<string, mixed> $data An initial set of data to set on this map.
+     * @param array<array-key, mixed> $data An initial set of data to set on this map.
      */
     public function __construct(array $namedParameters, array $data = [])
     {
@@ -62,12 +63,22 @@ class NamedParameterMap extends AbstractMap
         return $this->namedParameters;
     }
 
-    public function offsetSet(mixed $offset, mixed $value): void
+    /**
+     * @inheritDoc
+     */
+    public function offsetSet($offset, $value): void
     {
+        if ($offset === null) {
+            throw new InvalidArgumentException(
+                'Map elements are key/value pairs; a key must be provided for '
+                . 'value ' . var_export($value, true),
+            );
+        }
+
         if (!array_key_exists($offset, $this->namedParameters)) {
             throw new InvalidArgumentException(
                 'Attempting to set value for unconfigured parameter \''
-                . $this->toolValueToString($offset) . '\'',
+                . $offset . '\'',
             );
         }
 

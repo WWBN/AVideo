@@ -21,7 +21,7 @@ use Symfony\Component\Mime\Exception\LogicException;
  */
 class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
 {
-    private string $cmd;
+    private $cmd;
 
     /**
      * The $cmd pattern must contain a "%s" string that will be replaced
@@ -36,6 +36,9 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
         $this->cmd = $cmd;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isGuesserSupported(): bool
     {
         static $supported = null;
@@ -55,6 +58,9 @@ class FileBinaryMimeTypeGuesser implements MimeTypeGuesserInterface
         return $supported = 0 === $exitStatus && '' !== $binPath;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function guessMimeType(string $path): ?string
     {
         if (!is_file($path) || !is_readable($path)) {

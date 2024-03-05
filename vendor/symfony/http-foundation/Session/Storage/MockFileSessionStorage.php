@@ -25,14 +25,16 @@ namespace Symfony\Component\HttpFoundation\Session\Storage;
  */
 class MockFileSessionStorage extends MockArraySessionStorage
 {
-    private string $savePath;
+    private $savePath;
 
     /**
      * @param string|null $savePath Path of directory to save session files
      */
     public function __construct(?string $savePath = null, string $name = 'MOCKSESSID', ?MetadataBag $metaBag = null)
     {
-        $savePath ??= sys_get_temp_dir();
+        if (null === $savePath) {
+            $savePath = sys_get_temp_dir();
+        }
 
         if (!is_dir($savePath) && !@mkdir($savePath, 0777, true) && !is_dir($savePath)) {
             throw new \RuntimeException(sprintf('Session Storage was not able to create directory "%s".', $savePath));
@@ -43,7 +45,10 @@ class MockFileSessionStorage extends MockArraySessionStorage
         parent::__construct($name, $metaBag);
     }
 
-    public function start(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function start()
     {
         if ($this->started) {
             return true;
@@ -60,7 +65,10 @@ class MockFileSessionStorage extends MockArraySessionStorage
         return true;
     }
 
-    public function regenerate(bool $destroy = false, ?int $lifetime = null): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function regenerate(bool $destroy = false, ?int $lifetime = null)
     {
         if (!$this->started) {
             $this->start();
@@ -74,7 +82,7 @@ class MockFileSessionStorage extends MockArraySessionStorage
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function save()
     {

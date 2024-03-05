@@ -32,7 +32,7 @@ class FileBag extends ParameterBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function replace(array $files = [])
     {
@@ -41,9 +41,9 @@ class FileBag extends ParameterBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function set(string $key, mixed $value)
+    public function set(string $key, $value)
     {
         if (!\is_array($value) && !$value instanceof UploadedFile) {
             throw new \InvalidArgumentException('An uploaded file must be an array or an instance of UploadedFile.');
@@ -53,7 +53,7 @@ class FileBag extends ParameterBag
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function add(array $files = [])
     {
@@ -65,9 +65,11 @@ class FileBag extends ParameterBag
     /**
      * Converts uploaded files to UploadedFile instances.
      *
+     * @param array|UploadedFile $file A (multi-dimensional) array of uploaded file information
+     *
      * @return UploadedFile[]|UploadedFile|null
      */
-    protected function convertFileInformation(array|UploadedFile $file): array|UploadedFile|null
+    protected function convertFileInformation($file)
     {
         if ($file instanceof UploadedFile) {
             return $file;
@@ -84,7 +86,7 @@ class FileBag extends ParameterBag
                 $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['error'], false);
             }
         } else {
-            $file = array_map(fn ($v) => $v instanceof UploadedFile || \is_array($v) ? $this->convertFileInformation($v) : $v, $file);
+            $file = array_map(function ($v) { return $v instanceof UploadedFile || \is_array($v) ? $this->convertFileInformation($v) : $v; }, $file);
             if (array_keys($keys) === $keys) {
                 $file = array_filter($file);
             }
@@ -104,8 +106,10 @@ class FileBag extends ParameterBag
      *
      * It's safe to pass an already converted array, in which case this method
      * just returns the original array unmodified.
+     *
+     * @return array
      */
-    protected function fixPhpFilesArray(array $data): array
+    protected function fixPhpFilesArray(array $data)
     {
         // Remove extra key added by PHP 8.1.
         unset($data['full_path']);

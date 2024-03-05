@@ -22,7 +22,7 @@ class ImportConfigurator
     use Traits\PrefixTrait;
     use Traits\RouteTrait;
 
-    private RouteCollection $parent;
+    private $parent;
 
     public function __construct(RouteCollection $parent, RouteCollection $route)
     {
@@ -30,14 +30,14 @@ class ImportConfigurator
         $this->route = $route;
     }
 
-    public function __sleep(): array
+    /**
+     * @return array
+     */
+    public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
     }
 
-    /**
-     * @return void
-     */
     public function __wakeup()
     {
         throw new \BadMethodCallException('Cannot unserialize '.__CLASS__);
@@ -55,7 +55,7 @@ class ImportConfigurator
      *
      * @return $this
      */
-    final public function prefix(string|array $prefix, bool $trailingSlashOnRoot = true): static
+    final public function prefix($prefix, bool $trailingSlashOnRoot = true): self
     {
         $this->addPrefix($this->route, $prefix, $trailingSlashOnRoot);
 
@@ -67,7 +67,7 @@ class ImportConfigurator
      *
      * @return $this
      */
-    final public function namePrefix(string $namePrefix): static
+    final public function namePrefix(string $namePrefix): self
     {
         $this->route->addNamePrefix($namePrefix);
 
@@ -81,7 +81,7 @@ class ImportConfigurator
      *
      * @return $this
      */
-    final public function host(string|array $host): static
+    final public function host($host): self
     {
         $this->addHost($this->route, $host);
 

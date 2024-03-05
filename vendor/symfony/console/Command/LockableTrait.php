@@ -24,7 +24,8 @@ use Symfony\Component\Lock\Store\SemaphoreStore;
  */
 trait LockableTrait
 {
-    private ?LockInterface $lock = null;
+    /** @var LockInterface|null */
+    private $lock;
 
     /**
      * Locks a command.
@@ -32,7 +33,7 @@ trait LockableTrait
     private function lock(?string $name = null, bool $blocking = false): bool
     {
         if (!class_exists(SemaphoreStore::class)) {
-            throw new LogicException('To enable the locking feature you must install the symfony/lock component. Try running "composer require symfony/lock".');
+            throw new LogicException('To enable the locking feature you must install the symfony/lock component.');
         }
 
         if (null !== $this->lock) {
@@ -58,7 +59,7 @@ trait LockableTrait
     /**
      * Releases the command lock if there is one.
      */
-    private function release(): void
+    private function release()
     {
         if ($this->lock) {
             $this->lock->release();

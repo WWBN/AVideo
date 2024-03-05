@@ -12,7 +12,6 @@
 namespace Symfony\Component\HttpFoundation\Session\Storage;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Session\Storage\Proxy\AbstractProxy;
 
 // Help opcache.preload discover always-needed symbols
 class_exists(PhpBridgeSessionStorage::class);
@@ -22,11 +21,14 @@ class_exists(PhpBridgeSessionStorage::class);
  */
 class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
 {
-    private AbstractProxy|\SessionHandlerInterface|null $handler;
-    private ?MetadataBag $metaBag;
-    private bool $secure;
+    private $handler;
+    private $metaBag;
+    private $secure;
 
-    public function __construct(AbstractProxy|\SessionHandlerInterface|null $handler = null, ?MetadataBag $metaBag = null, bool $secure = false)
+    /**
+     * @see PhpBridgeSessionStorage constructor.
+     */
+    public function __construct($handler = null, ?MetadataBag $metaBag = null, bool $secure = false)
     {
         $this->handler = $handler;
         $this->metaBag = $metaBag;
@@ -36,7 +38,7 @@ class PhpBridgeSessionStorageFactory implements SessionStorageFactoryInterface
     public function createStorage(?Request $request): SessionStorageInterface
     {
         $storage = new PhpBridgeSessionStorage($this->handler, $this->metaBag);
-        if ($this->secure && $request?->isSecure()) {
+        if ($this->secure && $request && $request->isSecure()) {
             $storage->setOptions(['cookie_secure' => true]);
         }
 

@@ -18,7 +18,7 @@ namespace Symfony\Component\Mime\Crypto;
  */
 final class DkimOptions
 {
-    private array $options = [];
+    private $options = [];
 
     public function toArray(): array
     {
@@ -28,7 +28,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function algorithm(string $algo): static
+    public function algorithm(string $algo): self
     {
         $this->options['algorithm'] = $algo;
 
@@ -38,7 +38,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function signatureExpirationDelay(int $show): static
+    public function signatureExpirationDelay(int $show): self
     {
         $this->options['signature_expiration_delay'] = $show;
 
@@ -48,7 +48,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function bodyMaxLength(int $max): static
+    public function bodyMaxLength(int $max): self
     {
         $this->options['body_max_length'] = $max;
 
@@ -58,7 +58,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function bodyShowLength(bool $show): static
+    public function bodyShowLength(bool $show): self
     {
         $this->options['body_show_length'] = $show;
 
@@ -68,7 +68,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function headerCanon(string $canon): static
+    public function headerCanon(string $canon): self
     {
         $this->options['header_canon'] = $canon;
 
@@ -78,7 +78,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function bodyCanon(string $canon): static
+    public function bodyCanon(string $canon): self
     {
         $this->options['body_canon'] = $canon;
 
@@ -88,7 +88,7 @@ final class DkimOptions
     /**
      * @return $this
      */
-    public function headersToIgnore(array $headers): static
+    public function headersToIgnore(array $headers): self
     {
         $this->options['headers_to_ignore'] = $headers;
 

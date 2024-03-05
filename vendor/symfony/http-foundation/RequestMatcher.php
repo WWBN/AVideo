@@ -11,47 +11,54 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-trigger_deprecation('symfony/http-foundation', '6.2', 'The "%s" class is deprecated, use "%s" instead.', RequestMatcher::class, ChainRequestMatcher::class);
-
 /**
  * RequestMatcher compares a pre-defined set of checks against a Request instance.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @deprecated since Symfony 6.2, use ChainRequestMatcher instead
  */
 class RequestMatcher implements RequestMatcherInterface
 {
-    private ?string $path = null;
-    private ?string $host = null;
-    private ?int $port = null;
+    /**
+     * @var string|null
+     */
+    private $path;
+
+    /**
+     * @var string|null
+     */
+    private $host;
+
+    /**
+     * @var int|null
+     */
+    private $port;
 
     /**
      * @var string[]
      */
-    private array $methods = [];
+    private $methods = [];
 
     /**
      * @var string[]
      */
-    private array $ips = [];
+    private $ips = [];
+
+    /**
+     * @var array
+     */
+    private $attributes = [];
 
     /**
      * @var string[]
      */
-    private array $attributes = [];
-
-    /**
-     * @var string[]
-     */
-    private array $schemes = [];
+    private $schemes = [];
 
     /**
      * @param string|string[]|null $methods
      * @param string|string[]|null $ips
      * @param string|string[]|null $schemes
      */
-    public function __construct(?string $path = null, ?string $host = null, string|array|null $methods = null, string|array|null $ips = null, array $attributes = [], string|array|null $schemes = null, ?int $port = null)
+    public function __construct(?string $path = null, ?string $host = null, $methods = null, $ips = null, array $attributes = [], $schemes = null, ?int $port = null)
     {
         $this->matchPath($path);
         $this->matchHost($host);
@@ -69,18 +76,14 @@ class RequestMatcher implements RequestMatcherInterface
      * Adds a check for the HTTP scheme.
      *
      * @param string|string[]|null $scheme An HTTP scheme or an array of HTTP schemes
-     *
-     * @return void
      */
-    public function matchScheme(string|array|null $scheme)
+    public function matchScheme($scheme)
     {
         $this->schemes = null !== $scheme ? array_map('strtolower', (array) $scheme) : [];
     }
 
     /**
      * Adds a check for the URL host name.
-     *
-     * @return void
      */
     public function matchHost(?string $regexp)
     {
@@ -91,8 +94,6 @@ class RequestMatcher implements RequestMatcherInterface
      * Adds a check for the URL port.
      *
      * @param int|null $port The port number to connect to
-     *
-     * @return void
      */
     public function matchPort(?int $port)
     {
@@ -101,8 +102,6 @@ class RequestMatcher implements RequestMatcherInterface
 
     /**
      * Adds a check for the URL path info.
-     *
-     * @return void
      */
     public function matchPath(?string $regexp)
     {
@@ -113,8 +112,6 @@ class RequestMatcher implements RequestMatcherInterface
      * Adds a check for the client IP.
      *
      * @param string $ip A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
-     *
-     * @return void
      */
     public function matchIp(string $ip)
     {
@@ -125,39 +122,38 @@ class RequestMatcher implements RequestMatcherInterface
      * Adds a check for the client IP.
      *
      * @param string|string[]|null $ips A specific IP address or a range specified using IP/netmask like 192.168.1.0/24
-     *
-     * @return void
      */
-    public function matchIps(string|array|null $ips)
+    public function matchIps($ips)
     {
         $ips = null !== $ips ? (array) $ips : [];
 
-        $this->ips = array_reduce($ips, static fn (array $ips, string $ip) => array_merge($ips, preg_split('/\s*,\s*/', $ip)), []);
+        $this->ips = array_reduce($ips, static function (array $ips, string $ip) {
+            return array_merge($ips, preg_split('/\s*,\s*/', $ip));
+        }, []);
     }
 
     /**
      * Adds a check for the HTTP method.
      *
      * @param string|string[]|null $method An HTTP method or an array of HTTP methods
-     *
-     * @return void
      */
-    public function matchMethod(string|array|null $method)
+    public function matchMethod($method)
     {
         $this->methods = null !== $method ? array_map('strtoupper', (array) $method) : [];
     }
 
     /**
      * Adds a check for request attribute.
-     *
-     * @return void
      */
     public function matchAttribute(string $key, string $regexp)
     {
         $this->attributes[$key] = $regexp;
     }
 
-    public function matches(Request $request): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function matches(Request $request)
     {
         if ($this->schemes && !\in_array($request->getScheme(), $this->schemes, true)) {
             return false;

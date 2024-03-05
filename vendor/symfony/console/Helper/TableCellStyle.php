@@ -32,7 +32,7 @@ class TableCellStyle
         'right' => \STR_PAD_LEFT,
     ];
 
-    private array $options = [
+    private $options = [
         'fg' => 'default',
         'bg' => 'default',
         'options' => null,
@@ -63,16 +63,21 @@ class TableCellStyle
      *
      * @return string[]
      */
-    public function getTagOptions(): array
+    public function getTagOptions()
     {
         return array_filter(
             $this->getOptions(),
-            fn ($key) => \in_array($key, self::TAG_OPTIONS) && isset($this->options[$key]),
+            function ($key) {
+                return \in_array($key, self::TAG_OPTIONS) && isset($this->options[$key]);
+            },
             \ARRAY_FILTER_USE_KEY
         );
     }
 
-    public function getPadByAlign(): int
+    /**
+     * @return int
+     */
+    public function getPadByAlign()
     {
         return self::ALIGN_MAP[$this->getOptions()['align']];
     }

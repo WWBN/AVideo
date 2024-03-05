@@ -19,6 +19,6 @@ use RuntimeException;
 /**
  * Thrown to indicate that the requested operation is not supported.
  */
-class UnsupportedOperationException extends RuntimeException implements CollectionException
+class UnsupportedOperationException extends RuntimeException
 {
 }

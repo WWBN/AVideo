@@ -31,11 +31,11 @@ final class CompletionInput extends ArgvInput
     public const TYPE_OPTION_NAME = 'option_name';
     public const TYPE_NONE = 'none';
 
-    private array $tokens;
-    private int $currentIndex;
-    private string $completionType;
-    private ?string $completionName = null;
-    private string $completionValue = '';
+    private $tokens;
+    private $currentIndex;
+    private $completionType;
+    private $completionName = null;
+    private $completionValue = '';
 
     /**
      * Converts a terminal string into tokens.
@@ -64,6 +64,9 @@ final class CompletionInput extends ArgvInput
         return $input;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function bind(InputDefinition $definition): void
     {
         parent::bind($definition);
@@ -81,7 +84,7 @@ final class CompletionInput extends ArgvInput
                 return;
             }
 
-            if ($option?->acceptValue()) {
+            if (null !== $option && $option->acceptValue()) {
                 $this->completionType = self::TYPE_OPTION_VALUE;
                 $this->completionName = $option->getName();
                 $this->completionValue = $optionValue ?: (!str_starts_with($optionToken, '--') ? substr($optionToken, 2) : '');
@@ -94,7 +97,7 @@ final class CompletionInput extends ArgvInput
         if ('-' === $previousToken[0] && '' !== trim($previousToken, '-')) {
             // check if previous option accepted a value
             $previousOption = $this->getOptionFromToken($previousToken);
-            if ($previousOption?->acceptValue()) {
+            if (null !== $previousOption && $previousOption->acceptValue()) {
                 $this->completionType = self::TYPE_OPTION_VALUE;
                 $this->completionName = $previousOption->getName();
                 $this->completionValue = $relevantToken;
@@ -141,9 +144,7 @@ final class CompletionInput extends ArgvInput
      * TYPE_OPTION_NAME    when completing the name of an input option
      * TYPE_NONE           when nothing should be completed
      *
-     * TYPE_OPTION_NAME and TYPE_NONE are already implemented by the Console component.
-     *
-     * @return self::TYPE_*
+     * @return string One of self::TYPE_* constants. TYPE_OPTION_NAME and TYPE_NONE are already implemented by the Console component
      */
     public function getCompletionType(): string
     {
@@ -182,7 +183,7 @@ final class CompletionInput extends ArgvInput
     {
         try {
             return parent::parseToken($token, $parseOptions);
-        } catch (RuntimeException) {
+        } catch (RuntimeException $e) {
             // suppress errors, completed input is almost never valid
         }
 

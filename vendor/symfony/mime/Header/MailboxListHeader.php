@@ -21,7 +21,7 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  */
 final class MailboxListHeader extends AbstractHeader
 {
-    private array $addresses = [];
+    private $addresses = [];
 
     /**
      * @param Address[] $addresses
@@ -38,7 +38,7 @@ final class MailboxListHeader extends AbstractHeader
      *
      * @throws RfcComplianceException
      */
-    public function setBody(mixed $body): void
+    public function setBody($body)
     {
         $this->setAddresses($body);
     }
@@ -60,7 +60,7 @@ final class MailboxListHeader extends AbstractHeader
      *
      * @throws RfcComplianceException
      */
-    public function setAddresses(array $addresses): void
+    public function setAddresses(array $addresses)
     {
         $this->addresses = [];
         $this->addAddresses($addresses);
@@ -73,7 +73,7 @@ final class MailboxListHeader extends AbstractHeader
      *
      * @throws RfcComplianceException
      */
-    public function addAddresses(array $addresses): void
+    public function addAddresses(array $addresses)
     {
         foreach ($addresses as $address) {
             $this->addAddress($address);
@@ -83,7 +83,7 @@ final class MailboxListHeader extends AbstractHeader
     /**
      * @throws RfcComplianceException
      */
-    public function addAddress(Address $address): void
+    public function addAddress(Address $address)
     {
         $this->addresses[] = $address;
     }

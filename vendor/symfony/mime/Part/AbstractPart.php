@@ -18,7 +18,7 @@ use Symfony\Component\Mime\Header\Headers;
  */
 abstract class AbstractPart
 {
-    private Headers $headers;
+    private $headers;
 
     public function __construct()
     {

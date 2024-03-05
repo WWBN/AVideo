@@ -30,10 +30,10 @@ final class DkimSigner
     public const ALGO_SHA256 = 'rsa-sha256';
     public const ALGO_ED25519 = 'ed25519-sha256'; // RFC 8463
 
-    private \OpenSSLAsymmetricKey $key;
-    private string $domainName;
-    private string $selector;
-    private array $defaultOptions;
+    private $key;
+    private $domainName;
+    private $selector;
+    private $defaultOptions;
 
     /**
      * @param string $pk         The private key as a string or the path to the file containing the private key, should be prefixed with file:// (in PEM format)
@@ -44,7 +44,10 @@ final class DkimSigner
         if (!\extension_loaded('openssl')) {
             throw new \LogicException('PHP extension "openssl" is required to use DKIM.');
         }
-        $this->key = openssl_pkey_get_private($pk, $passphrase) ?: throw new InvalidArgumentException('Unable to load DKIM private key: '.openssl_error_string());
+        if (!$this->key = openssl_pkey_get_private($pk, $passphrase)) {
+            throw new InvalidArgumentException('Unable to load DKIM private key: '.openssl_error_string());
+        }
+
         $this->domainName = $domainName;
         $this->selector = $selector;
         $this->defaultOptions = $defaultOptions + [

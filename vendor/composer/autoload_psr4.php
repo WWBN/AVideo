@@ -9,7 +9,7 @@ return array(
     'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Vimeo\\' => array($vendorDir . '/vimeo/vimeo-api/src/Vimeo'),
     'TusPhp\\' => array($vendorDir . '/ankitpokhrel/tus-php/src'),
-    'Symfony\\Polyfill\\Php83\\' => array($vendorDir . '/symfony/polyfill-php83'),
+    'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Php73\\' => array($vendorDir . '/symfony/polyfill-php73'),
     'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),

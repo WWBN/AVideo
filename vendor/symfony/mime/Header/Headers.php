@@ -34,16 +34,16 @@ final class Headers
         'cc' => MailboxListHeader::class,
         'bcc' => MailboxListHeader::class,
         'message-id' => IdentificationHeader::class,
-        'in-reply-to' => [UnstructuredHeader::class, IdentificationHeader::class], // `In-Reply-To` and `References` are less strict than RFC 2822 (3.6.4) to allow users entering the original email's ...
-        'references' => [UnstructuredHeader::class, IdentificationHeader::class], // ... `Message-ID`, even if that is no valid `msg-id`
+        'in-reply-to' => UnstructuredHeader::class, // `In-Reply-To` and `References` are less strict than RFC 2822 (3.6.4) to allow users entering the original email's ...
+        'references' => UnstructuredHeader::class, // ... `Message-ID`, even if that is no valid `msg-id`
         'return-path' => PathHeader::class,
     ];
 
     /**
      * @var HeaderInterface[][]
      */
-    private array $headers = [];
-    private int $lineLength = 76;
+    private $headers = [];
+    private $lineLength = 76;
 
     public function __construct(HeaderInterface ...$headers)
     {
@@ -61,7 +61,7 @@ final class Headers
         }
     }
 
-    public function setMaxLineLength(int $lineLength): void
+    public function setMaxLineLength(int $lineLength)
     {
         $this->lineLength = $lineLength;
         foreach ($this->all() as $header) {
@@ -79,31 +79,37 @@ final class Headers
      *
      * @return $this
      */
-    public function addMailboxListHeader(string $name, array $addresses): static
+    public function addMailboxListHeader(string $name, array $addresses): self
     {
         return $this->add(new MailboxListHeader($name, Address::createArray($addresses)));
     }
 
     /**
+     * @param Address|string $address
+     *
      * @return $this
      */
-    public function addMailboxHeader(string $name, Address|string $address): static
+    public function addMailboxHeader(string $name, $address): self
     {
         return $this->add(new MailboxHeader($name, Address::create($address)));
     }
 
     /**
+     * @param string|array $ids
+     *
      * @return $this
      */
-    public function addIdHeader(string $name, string|array $ids): static
+    public function addIdHeader(string $name, $ids): self
     {
         return $this->add(new IdentificationHeader($name, $ids));
     }
 
     /**
+     * @param Address|string $path
+     *
      * @return $this
      */
-    public function addPathHeader(string $name, Address|string $path): static
+    public function addPathHeader(string $name, $path): self
     {
         return $this->add(new PathHeader($name, $path instanceof Address ? $path : new Address($path)));
     }
@@ -111,7 +117,7 @@ final class Headers
     /**
      * @return $this
      */
-    public function addDateHeader(string $name, \DateTimeInterface $dateTime): static
+    public function addDateHeader(string $name, \DateTimeInterface $dateTime): self
     {
         return $this->add(new DateHeader($name, $dateTime));
     }
@@ -119,7 +125,7 @@ final class Headers
     /**
      * @return $this
      */
-    public function addTextHeader(string $name, string $value): static
+    public function addTextHeader(string $name, string $value): self
     {
         return $this->add(new UnstructuredHeader($name, $value));
     }
@@ -127,7 +133,7 @@ final class Headers
     /**
      * @return $this
      */
-    public function addParameterizedHeader(string $name, string $value, array $params = []): static
+    public function addParameterizedHeader(string $name, string $value, array $params = []): self
     {
         return $this->add(new ParameterizedHeader($name, $value, $params));
     }
@@ -135,20 +141,14 @@ final class Headers
     /**
      * @return $this
      */
-    public function addHeader(string $name, mixed $argument, array $more = []): static
+    public function addHeader(string $name, $argument, array $more = []): self
     {
-        $headerClass = self::HEADER_CLASS_MAP[strtolower($name)] ?? UnstructuredHeader::class;
-        if (\is_array($headerClass)) {
-            $headerClass = $headerClass[0];
-        }
-        $parts = explode('\\', $headerClass);
+        $parts = explode('\\', self::HEADER_CLASS_MAP[strtolower($name)] ?? UnstructuredHeader::class);
         $method = 'add'.ucfirst(array_pop($parts));
         if ('addUnstructuredHeader' === $method) {
             $method = 'addTextHeader';
         } elseif ('addIdentificationHeader' === $method) {
             $method = 'addIdHeader';
-        } elseif ('addMailboxListHeader' === $method && !\is_array($argument)) {
-            $argument = [$argument];
         }
 
         return $this->$method($name, $argument, $more);
@@ -162,7 +162,7 @@ final class Headers
     /**
      * @return $this
      */
-    public function add(HeaderInterface $header): static
+    public function add(HeaderInterface $header): self
     {
         self::checkHeaderClass($header);
 
@@ -226,22 +226,10 @@ final class Headers
     public static function checkHeaderClass(HeaderInterface $header): void
     {
         $name = strtolower($header->getName());
-        $headerClasses = self::HEADER_CLASS_MAP[$name] ?? [];
-        if (!\is_array($headerClasses)) {
-            $headerClasses = [$headerClasses];
-        }
 
-        if (!$headerClasses) {
-            return;
+        if (($c = self::HEADER_CLASS_MAP[$name] ?? null) && !$header instanceof $c) {
+            throw new LogicException(sprintf('The "%s" header must be an instance of "%s" (got "%s").', $header->getName(), $c, get_debug_type($header)));
         }
-
-        foreach ($headerClasses as $c) {
-            if ($header instanceof $c) {
-                return;
-            }
-        }
-
-        throw new LogicException(sprintf('The "%s" header must be an instance of "%s" (got "%s").', $header->getName(), implode('" or "', $headerClasses), get_debug_type($header)));
     }
 
     public function toString(): string
@@ -266,7 +254,10 @@ final class Headers
         return $arr;
     }
 
-    public function getHeaderBody(string $name): mixed
+    /**
+     * @internal
+     */
+    public function getHeaderBody(string $name)
     {
         return $this->has($name) ? $this->get($name)->getBody() : null;
     }
@@ -274,7 +265,7 @@ final class Headers
     /**
      * @internal
      */
-    public function setHeaderBody(string $type, string $name, mixed $body): void
+    public function setHeaderBody(string $type, string $name, $body): void
     {
         if ($this->has($name)) {
             $this->get($name)->setBody($body);

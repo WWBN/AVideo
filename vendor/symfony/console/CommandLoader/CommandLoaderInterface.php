@@ -22,17 +22,21 @@ interface CommandLoaderInterface
     /**
      * Loads a command.
      *
+     * @return Command
+     *
      * @throws CommandNotFoundException
      */
-    public function get(string $name): Command;
+    public function get(string $name);
 
     /**
      * Checks if a command exists.
+     *
+     * @return bool
      */
-    public function has(string $name): bool;
+    public function has(string $name);
 
     /**
      * @return string[]
      */
-    public function getNames(): array;
+    public function getNames();
 }

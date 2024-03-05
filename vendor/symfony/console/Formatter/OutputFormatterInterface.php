@@ -20,37 +20,41 @@ interface OutputFormatterInterface
 {
     /**
      * Sets the decorated flag.
-     *
-     * @return void
      */
     public function setDecorated(bool $decorated);
 
     /**
      * Whether the output will decorate messages.
+     *
+     * @return bool
      */
-    public function isDecorated(): bool;
+    public function isDecorated();
 
     /**
      * Sets a new style.
-     *
-     * @return void
      */
     public function setStyle(string $name, OutputFormatterStyleInterface $style);
 
     /**
      * Checks if output formatter has style with specified name.
+     *
+     * @return bool
      */
-    public function hasStyle(string $name): bool;
+    public function hasStyle(string $name);
 
     /**
      * Gets style options from style with specified name.
      *
+     * @return OutputFormatterStyleInterface
+     *
      * @throws \InvalidArgumentException When style isn't defined
      */
-    public function getStyle(string $name): OutputFormatterStyleInterface;
+    public function getStyle(string $name);
 
     /**
      * Formats a message according to the given styles.
+     *
+     * @return string|null
      */
-    public function format(?string $message): ?string;
+    public function format(?string $message);
 }

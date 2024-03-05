@@ -29,7 +29,7 @@ final class ConsoleCommandEvent extends ConsoleEvent
     /**
      * Indicates if the command should be run or skipped.
      */
-    private bool $commandShouldRun = true;
+    private $commandShouldRun = true;
 
     /**
      * Disables the command, so it won't be run.

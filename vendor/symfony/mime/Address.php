@@ -33,19 +33,21 @@ final class Address
      */
     private const FROM_STRING_PATTERN = '~(?<displayName>[^<]*)<(?<addrSpec>.*)>[^>]*~';
 
-    private static EmailValidator $validator;
-    private static IdnAddressEncoder $encoder;
+    private static $validator;
+    private static $encoder;
 
-    private string $address;
-    private string $name;
+    private $address;
+    private $name;
 
     public function __construct(string $address, string $name = '')
     {
         if (!class_exists(EmailValidator::class)) {
-            throw new LogicException(sprintf('The "%s" class cannot be used as it needs "%s". Try running "composer require egulias/email-validator".', __CLASS__, EmailValidator::class));
+            throw new LogicException(sprintf('The "%s" class cannot be used as it needs "%s"; try running "composer require egulias/email-validator".', __CLASS__, EmailValidator::class));
         }
 
-        self::$validator ??= new EmailValidator();
+        if (null === self::$validator) {
+            self::$validator = new EmailValidator();
+        }
 
         $this->address = trim($address);
         $this->name = trim(str_replace(["\n", "\r"], '', $name));
@@ -67,7 +69,9 @@ final class Address
 
     public function getEncodedAddress(): string
     {
-        self::$encoder ??= new IdnAddressEncoder();
+        if (null === self::$encoder) {
+            self::$encoder = new IdnAddressEncoder();
+        }
 
         return self::$encoder->encodeString($this->address);
     }
@@ -86,13 +90,20 @@ final class Address
         return sprintf('"%s"', preg_replace('/"/u', '\"', $this->getName()));
     }
 
-    public static function create(self|string $address): self
+    /**
+     * @param Address|string $address
+     */
+    public static function create($address): self
     {
         if ($address instanceof self) {
             return $address;
         }
 
-        if (!str_contains($address, '<')) {
+        if (!\is_string($address)) {
+            throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
+        }
+
+        if (false === strpos($address, '<')) {
             return new self($address);
         }
 
@@ -116,5 +127,23 @@ final class Address
         }
 
         return $addrs;
+    }
+
+    /**
+     * @deprecated since Symfony 5.2, use "create()" instead.
+     */
+    public static function fromString(string $string): self
+    {
+        trigger_deprecation('symfony/mime', '5.2', '"%s()" is deprecated, use "%s::create()" instead.', __METHOD__, __CLASS__);
+
+        if (!str_contains($string, '<')) {
+            return new self($string, '');
+        }
+
+        if (!preg_match(self::FROM_STRING_PATTERN, $string, $matches)) {
+            throw new InvalidArgumentException(sprintf('Could not parse "%s" to a "%s" instance.', $string, self::class));
+        }
+
+        return new self($matches['addrSpec'], trim($matches['displayName'], ' \'"'));
     }
 }

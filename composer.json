@@ -6,7 +6,7 @@
         "platform-check": false,
         "vendor-dir": "vendor",
         "platform": {
-            "php": "8.1.5" 
+            "php": "8" 
         }
     },
     "require": {

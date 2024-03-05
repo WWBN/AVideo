@@ -14,6 +14,8 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection\Map;
 
+use Ramsey\Collection\Tool\TypeTrait;
+
 /**
  * A `TypedMap` represents a map of elements where key and value are typed.
  *
@@ -84,6 +86,24 @@ namespace Ramsey\Collection\Map;
  */
 class TypedMap extends AbstractTypedMap
 {
+    use TypeTrait;
+
+    /**
+     * The data type of keys stored in this collection.
+     *
+     * A map key's type is immutable once it is set. For this reason, this
+     * property is set private.
+     */
+    private string $keyType;
+
+    /**
+     * The data type of values stored in this collection.
+     *
+     * A map value's type is immutable once it is set. For this reason, this
+     * property is set private.
+     */
+    private string $valueType;
+
     /**
      * Constructs a map object of the specified key and value types,
      * optionally with the specified data.
@@ -92,11 +112,11 @@ class TypedMap extends AbstractTypedMap
      * @param string $valueType The data type of the map's values.
      * @param array<K, T> $data The initial data to set for this map.
      */
-    public function __construct(
-        private readonly string $keyType,
-        private readonly string $valueType,
-        array $data = [],
-    ) {
+    public function __construct(string $keyType, string $valueType, array $data = [])
+    {
+        $this->keyType = $keyType;
+        $this->valueType = $valueType;
+
         parent::__construct($data);
     }
 

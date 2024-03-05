@@ -26,12 +26,18 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class JsonDescriptor extends Descriptor
 {
-    protected function describeInputArgument(InputArgument $argument, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function describeInputArgument(InputArgument $argument, array $options = [])
     {
         $this->writeData($this->getInputArgumentData($argument), $options);
     }
 
-    protected function describeInputOption(InputOption $option, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function describeInputOption(InputOption $option, array $options = [])
     {
         $this->writeData($this->getInputOptionData($option), $options);
         if ($option->isNegatable()) {
@@ -39,17 +45,26 @@ class JsonDescriptor extends Descriptor
         }
     }
 
-    protected function describeInputDefinition(InputDefinition $definition, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function describeInputDefinition(InputDefinition $definition, array $options = [])
     {
         $this->writeData($this->getInputDefinitionData($definition), $options);
     }
 
-    protected function describeCommand(Command $command, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function describeCommand(Command $command, array $options = [])
     {
         $this->writeData($this->getCommandData($command, $options['short'] ?? false), $options);
     }
 
-    protected function describeApplication(Application $application, array $options = []): void
+    /**
+     * {@inheritdoc}
+     */
+    protected function describeApplication(Application $application, array $options = [])
     {
         $describedNamespace = $options['namespace'] ?? null;
         $description = new ApplicationDescription($application, $describedNamespace, true);
@@ -81,7 +96,7 @@ class JsonDescriptor extends Descriptor
     /**
      * Writes data as json.
      */
-    private function writeData(array $data, array $options): void
+    private function writeData(array $data, array $options)
     {
         $flags = $options['json_encoding'] ?? 0;
 

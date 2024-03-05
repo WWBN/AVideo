@@ -28,11 +28,8 @@ class StreamedResponse extends Response
 {
     protected $callback;
     protected $streamed;
-    private bool $headersSent;
+    private $headersSent;
 
-    /**
-     * @param int $status The HTTP status code (200 "OK" by default)
-     */
     public function __construct(?callable $callback = null, int $status = 200, array $headers = [])
     {
         parent::__construct(null, $status, $headers);
@@ -45,53 +42,59 @@ class StreamedResponse extends Response
     }
 
     /**
+     * Factory method for chainability.
+     *
+     * @param callable|null $callback A valid PHP callback or null to set it later
+     *
+     * @return static
+     *
+     * @deprecated since Symfony 5.1, use __construct() instead.
+     */
+    public static function create($callback = null, int $status = 200, array $headers = [])
+    {
+        trigger_deprecation('symfony/http-foundation', '5.1', 'The "%s()" method is deprecated, use "new %s()" instead.', __METHOD__, static::class);
+
+        return new static($callback, $status, $headers);
+    }
+
+    /**
      * Sets the PHP callback associated with this Response.
      *
      * @return $this
      */
-    public function setCallback(callable $callback): static
+    public function setCallback(callable $callback)
     {
-        $this->callback = $callback(...);
+        $this->callback = $callback;
 
         return $this;
     }
 
-    public function getCallback(): ?\Closure
-    {
-        if (!isset($this->callback)) {
-            return null;
-        }
-
-        return ($this->callback)(...);
-    }
-
     /**
-     * This method only sends the headers once.
+     * {@inheritdoc}
      *
-     * @param positive-int|null $statusCode The status code to use, override the statusCode property if set and not null
+     * This method only sends the headers once.
      *
      * @return $this
      */
-    public function sendHeaders(/* int $statusCode = null */): static
+    public function sendHeaders()
     {
         if ($this->headersSent) {
             return $this;
         }
 
-        $statusCode = \func_num_args() > 0 ? func_get_arg(0) : null;
-        if ($statusCode < 100 || $statusCode >= 200) {
-            $this->headersSent = true;
-        }
+        $this->headersSent = true;
 
-        return parent::sendHeaders($statusCode);
+        return parent::sendHeaders();
     }
 
     /**
+     * {@inheritdoc}
+     *
      * This method only sends the content once.
      *
      * @return $this
      */
-    public function sendContent(): static
+    public function sendContent()
     {
         if ($this->streamed) {
             return $this;
@@ -99,8 +102,8 @@ class StreamedResponse extends Response
 
         $this->streamed = true;
 
-        if (!isset($this->callback)) {
-            throw new \LogicException('The Response callback must be set.');
+        if (null === $this->callback) {
+            throw new \LogicException('The Response callback must not be null.');
         }
 
         ($this->callback)();
@@ -109,11 +112,13 @@ class StreamedResponse extends Response
     }
 
     /**
+     * {@inheritdoc}
+     *
      * @return $this
      *
      * @throws \LogicException when the content is not null
      */
-    public function setContent(?string $content): static
+    public function setContent(?string $content)
     {
         if (null !== $content) {
             throw new \LogicException('The content cannot be set on a StreamedResponse instance.');
@@ -124,7 +129,10 @@ class StreamedResponse extends Response
         return $this;
     }
 
-    public function getContent(): string|false
+    /**
+     * {@inheritdoc}
+     */
+    public function getContent()
     {
         return false;
     }

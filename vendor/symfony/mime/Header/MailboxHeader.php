@@ -21,7 +21,7 @@ use Symfony\Component\Mime\Exception\RfcComplianceException;
  */
 final class MailboxHeader extends AbstractHeader
 {
-    private Address $address;
+    private $address;
 
     public function __construct(string $name, Address $address)
     {
@@ -35,7 +35,7 @@ final class MailboxHeader extends AbstractHeader
      *
      * @throws RfcComplianceException
      */
-    public function setBody(mixed $body): void
+    public function setBody($body)
     {
         $this->setAddress($body);
     }
@@ -51,7 +51,7 @@ final class MailboxHeader extends AbstractHeader
     /**
      * @throws RfcComplianceException
      */
-    public function setAddress(Address $address): void
+    public function setAddress(Address $address)
     {
         $this->address = $address;
     }

@@ -18,7 +18,13 @@ namespace Symfony\Component\HttpFoundation\File;
  */
 class Stream extends File
 {
-    public function getSize(): int|false
+    /**
+     * {@inheritdoc}
+     *
+     * @return int|false
+     */
+    #[\ReturnTypeWillChange]
+    public function getSize()
     {
         return false;
     }

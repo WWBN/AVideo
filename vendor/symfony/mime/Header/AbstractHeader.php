@@ -22,21 +22,18 @@ abstract class AbstractHeader implements HeaderInterface
 {
     public const PHRASE_PATTERN = '(?:(?:(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?[a-zA-Z0-9!#\$%&\'\*\+\-\/=\?\^_`\{\}\|~]+(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?)|(?:(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?"((?:(?:[ \t]*(?:\r\n))?[ \t])?(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21\x23-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])))*(?:(?:[ \t]*(?:\r\n))?[ \t])?"(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))*(?:(?:(?:(?:[ \t]*(?:\r\n))?[ \t])?(\((?:(?:(?:[ \t]*(?:\r\n))?[ \t])|(?:(?:[\x01-\x08\x0B\x0C\x0E-\x19\x7F]|[\x21-\x27\x2A-\x5B\x5D-\x7E])|(?:\\[\x00-\x08\x0B\x0C\x0E-\x7F])|(?1)))*(?:(?:[ \t]*(?:\r\n))?[ \t])?\)))|(?:(?:[ \t]*(?:\r\n))?[ \t])))?))+?)';
 
-    private static QpMimeHeaderEncoder $encoder;
+    private static $encoder;
 
-    private string $name;
-    private int $lineLength = 76;
-    private ?string $lang = null;
-    private string $charset = 'utf-8';
+    private $name;
+    private $lineLength = 76;
+    private $lang;
+    private $charset = 'utf-8';
 
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return void
-     */
     public function setCharset(string $charset)
     {
         $this->charset = $charset;
@@ -51,8 +48,6 @@ abstract class AbstractHeader implements HeaderInterface
      * Set the language used in this Header.
      *
      * For example, for US English, 'en-us'.
-     *
-     * @return void
      */
     public function setLanguage(string $lang)
     {
@@ -69,9 +64,6 @@ abstract class AbstractHeader implements HeaderInterface
         return $this->name;
     }
 
-    /**
-     * @return void
-     */
     public function setMaxLineLength(int $lineLength)
     {
         $this->lineLength = $lineLength;
@@ -196,7 +188,9 @@ abstract class AbstractHeader implements HeaderInterface
      */
     protected function getTokenAsEncodedWord(string $token, int $firstLineOffset = 0): string
     {
-        self::$encoder ??= new QpMimeHeaderEncoder();
+        if (null === self::$encoder) {
+            self::$encoder = new QpMimeHeaderEncoder();
+        }
 
         // Adjust $firstLineOffset to account for space needed for syntax
         $charsetDecl = $this->charset;
@@ -239,7 +233,9 @@ abstract class AbstractHeader implements HeaderInterface
      */
     protected function toTokens(?string $string = null): array
     {
-        $string ??= $this->getBodyAsString();
+        if (null === $string) {
+            $string = $this->getBodyAsString();
+        }
 
         $tokens = [];
         // Generate atoms; split at all invisible boundaries followed by WSP
@@ -269,8 +265,8 @@ abstract class AbstractHeader implements HeaderInterface
         // Build all tokens back into compliant header
         foreach ($tokens as $i => $token) {
             // Line longer than specified maximum or token was just a new line
-            if (("\r\n" === $token)
-                || ($i > 0 && \strlen($currentLine.$token) > $this->lineLength)
+            if (("\r\n" === $token) ||
+                ($i > 0 && \strlen($currentLine.$token) > $this->lineLength)
                 && '' !== $currentLine) {
                 $headerLines[] = '';
                 $currentLine = &$headerLines[$lineCount++];

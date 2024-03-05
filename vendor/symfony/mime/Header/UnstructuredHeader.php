@@ -18,7 +18,7 @@ namespace Symfony\Component\Mime\Header;
  */
 class UnstructuredHeader extends AbstractHeader
 {
-    private string $value;
+    private $value;
 
     public function __construct(string $name, string $value)
     {
@@ -29,15 +29,16 @@ class UnstructuredHeader extends AbstractHeader
 
     /**
      * @param string $body
-     *
-     * @return void
      */
-    public function setBody(mixed $body)
+    public function setBody($body)
     {
         $this->setValue($body);
     }
 
-    public function getBody(): string
+    /**
+     * @return string
+     */
+    public function getBody()
     {
         return $this->getValue();
     }
@@ -52,8 +53,6 @@ class UnstructuredHeader extends AbstractHeader
 
     /**
      * Set the (unencoded) value of this header.
-     *
-     * @return void
      */
     public function setValue(string $value)
     {

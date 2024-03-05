@@ -23,7 +23,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 abstract class OutputStyle implements OutputInterface, StyleInterface
 {
-    private OutputInterface $output;
+    private $output;
 
     public function __construct(OutputInterface $output)
     {
@@ -31,96 +31,117 @@ abstract class OutputStyle implements OutputInterface, StyleInterface
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function newLine(int $count = 1)
     {
         $this->output->write(str_repeat(\PHP_EOL, $count));
     }
 
-    public function createProgressBar(int $max = 0): ProgressBar
+    /**
+     * @return ProgressBar
+     */
+    public function createProgressBar(int $max = 0)
     {
         return new ProgressBar($this->output, $max);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function write(string|iterable $messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
+    public function write($messages, bool $newline = false, int $type = self::OUTPUT_NORMAL)
     {
         $this->output->write($messages, $newline, $type);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
-    public function writeln(string|iterable $messages, int $type = self::OUTPUT_NORMAL)
+    public function writeln($messages, int $type = self::OUTPUT_NORMAL)
     {
         $this->output->writeln($messages, $type);
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setVerbosity(int $level)
     {
         $this->output->setVerbosity($level);
     }
 
-    public function getVerbosity(): int
+    /**
+     * {@inheritdoc}
+     */
+    public function getVerbosity()
     {
         return $this->output->getVerbosity();
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setDecorated(bool $decorated)
     {
         $this->output->setDecorated($decorated);
     }
 
-    public function isDecorated(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isDecorated()
     {
         return $this->output->isDecorated();
     }
 
     /**
-     * @return void
+     * {@inheritdoc}
      */
     public function setFormatter(OutputFormatterInterface $formatter)
     {
         $this->output->setFormatter($formatter);
     }
 
-    public function getFormatter(): OutputFormatterInterface
+    /**
+     * {@inheritdoc}
+     */
+    public function getFormatter()
     {
         return $this->output->getFormatter();
     }
 
-    public function isQuiet(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isQuiet()
     {
         return $this->output->isQuiet();
     }
 
-    public function isVerbose(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isVerbose()
     {
         return $this->output->isVerbose();
     }
 
-    public function isVeryVerbose(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isVeryVerbose()
     {
         return $this->output->isVeryVerbose();
     }
 
-    public function isDebug(): bool
+    /**
+     * {@inheritdoc}
+     */
+    public function isDebug()
     {
         return $this->output->isDebug();
     }
 
-    /**
-     * @return OutputInterface
-     */
     protected function getErrorOutput()
     {
         if (!$this->output instanceof ConsoleOutputInterface) {

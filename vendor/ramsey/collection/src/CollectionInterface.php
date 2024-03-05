@@ -14,14 +14,8 @@ declare(strict_types=1);
 
 namespace Ramsey\Collection;
 
-use Ramsey\Collection\Exception\CollectionMismatchException;
-use Ramsey\Collection\Exception\InvalidArgumentException;
-use Ramsey\Collection\Exception\InvalidPropertyOrMethod;
-use Ramsey\Collection\Exception\NoSuchElementException;
-use Ramsey\Collection\Exception\UnsupportedOperationException;
-
 /**
- * A collection represents a group of values, known as its elements.
+ * A collection represents a group of objects, known as its elements.
  *
  * Some collections allow duplicate elements and others do not. Some are ordered
  * and others unordered.
@@ -31,6 +25,16 @@ use Ramsey\Collection\Exception\UnsupportedOperationException;
  */
 interface CollectionInterface extends ArrayInterface
 {
+    /**
+     * Ascending sort type.
+     */
+    public const SORT_ASC = 'asc';
+
+    /**
+     * Descending sort type.
+     */
+    public const SORT_DESC = 'desc';
+
     /**
      * Ensures that this collection contains the specified element (optional
      * operation).
@@ -54,11 +58,9 @@ interface CollectionInterface extends ArrayInterface
      * @param T $element The element to add to the collection.
      *
      * @return bool `true` if this collection changed as a result of the call.
-     *
-     * @throws InvalidArgumentException if the collection refuses to add the
-     *     $element for any reason other than that it already contains the element.
      */
-    public function add(mixed $element): bool;
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public function add($element): bool;
 
     /**
      * Returns `true` if this collection contains the specified element.
@@ -66,7 +68,8 @@ interface CollectionInterface extends ArrayInterface
      * @param T $element The element to check whether the collection contains.
      * @param bool $strict Whether to perform a strict type check on the value.
      */
-    public function contains(mixed $element, bool $strict = true): bool;
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public function contains($element, bool $strict = true): bool;
 
     /**
      * Returns the type associated with this collection.
@@ -81,20 +84,15 @@ interface CollectionInterface extends ArrayInterface
      *
      * @return bool `true` if an element was removed as a result of this call.
      */
-    public function remove(mixed $element): bool;
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public function remove($element): bool;
 
     /**
-     * Returns the values from the given property, method, or array key.
+     * Returns the values from the given property or method.
      *
-     * @param string $propertyOrMethod The name of the property, method, or
-     *     array key to evaluate and return.
+     * @param string $propertyOrMethod The property or method name to filter by.
      *
-     * @return array<int, mixed>
-     *
-     * @throws InvalidPropertyOrMethod if the $propertyOrMethod does not exist
-     *     on the elements in this collection.
-     * @throws UnsupportedOperationException if unable to call column() on this
-     *     collection.
+     * @return list<mixed>
      */
     public function column(string $propertyOrMethod): array;
 
@@ -102,41 +100,29 @@ interface CollectionInterface extends ArrayInterface
      * Returns the first item of the collection.
      *
      * @return T
-     *
-     * @throws NoSuchElementException if this collection is empty.
      */
-    public function first(): mixed;
+    public function first();
 
     /**
      * Returns the last item of the collection.
      *
      * @return T
-     *
-     * @throws NoSuchElementException if this collection is empty.
      */
-    public function last(): mixed;
+    public function last();
 
     /**
-     * Sort the collection by a property, method, or array key with the given
-     * sort order.
-     *
-     * If $propertyOrMethod is `null`, this will sort by comparing each element.
+     * Sort the collection by a property or method with the given sort order.
      *
      * This will always leave the original collection untouched and will return
      * a new one.
      *
-     * @param string | null $propertyOrMethod The property, method, or array key
-     *     to sort by.
-     * @param Sort $order The sort order for the resulting collection.
+     * @param string $propertyOrMethod The property or method to sort by.
+     * @param string $order The sort order for the resulting collection (one of
+     *     this interface's `SORT_*` constants).
      *
      * @return CollectionInterface<T>
-     *
-     * @throws InvalidPropertyOrMethod if the $propertyOrMethod does not exist
-     *     on the elements in this collection.
-     * @throws UnsupportedOperationException if unable to call sort() on this
-     *     collection.
      */
-    public function sort(?string $propertyOrMethod = null, Sort $order = Sort::Ascending): self;
+    public function sort(string $propertyOrMethod, string $order = self::SORT_ASC): self;
 
     /**
      * Filter out items of the collection which don't match the criteria of
@@ -148,31 +134,25 @@ interface CollectionInterface extends ArrayInterface
      * See the {@link http://php.net/manual/en/function.array-filter.php PHP array_filter() documentation}
      * for examples of how the `$callback` parameter works.
      *
-     * @param callable(T): bool $callback A callable to use for filtering elements.
+     * @param callable(T):bool $callback A callable to use for filtering elements.
      *
      * @return CollectionInterface<T>
      */
     public function filter(callable $callback): self;
 
     /**
-     * Create a new collection where the result of the given property, method,
-     * or array key of each item in the collection equals the given value.
+     * Create a new collection where items match the criteria of given callback.
      *
      * This will always leave the original collection untouched and will return
      * a new one.
      *
-     * @param string | null $propertyOrMethod The property, method, or array key
-     *     to evaluate. If `null`, the element itself is compared to $value.
+     * @param string $propertyOrMethod The property or method to evaluate.
      * @param mixed $value The value to match.
      *
      * @return CollectionInterface<T>
-     *
-     * @throws InvalidPropertyOrMethod if the $propertyOrMethod does not exist
-     *     on the elements in this collection.
-     * @throws UnsupportedOperationException if unable to call where() on this
-     *     collection.
      */
-    public function where(?string $propertyOrMethod, mixed $value): self;
+    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+    public function where(string $propertyOrMethod, $value): self;
 
     /**
      * Apply a given callback method on each item of the collection.
@@ -184,7 +164,7 @@ interface CollectionInterface extends ArrayInterface
      * See the {@link http://php.net/manual/en/function.array-map.php PHP array_map() documentation}
      * for examples of how the `$callback` parameter works.
      *
-     * @param callable(T): TCallbackReturn $callback A callable to apply to each
+     * @param callable(T):TCallbackReturn $callback A callable to apply to each
      *     item of the collection.
      *
      * @return CollectionInterface<TCallbackReturn>
@@ -194,23 +174,6 @@ interface CollectionInterface extends ArrayInterface
     public function map(callable $callback): self;
 
     /**
-     * Apply a given callback method on each item of the collection
-     * to reduce it to a single value.
-     *
-     * See the {@link http://php.net/manual/en/function.array-reduce.php PHP array_reduce() documentation}
-     * for examples of how the `$callback` and `$initial` parameters work.
-     *
-     * @param callable(TCarry, T): TCarry $callback A callable to apply to each
-     *     item of the collection to reduce it to a single value.
-     * @param TCarry $initial This is the initial value provided to the callback.
-     *
-     * @return TCarry
-     *
-     * @template TCarry
-     */
-    public function reduce(callable $callback, mixed $initial): mixed;
-
-    /**
      * Create a new collection with divergent items between current and given
      * collection.
      *
@@ -218,9 +181,6 @@ interface CollectionInterface extends ArrayInterface
      *     items.
      *
      * @return CollectionInterface<T>
-     *
-     * @throws CollectionMismatchException if the compared collections are of
-     *     differing types.
      */
     public function diff(CollectionInterface $other): self;
 
@@ -232,9 +192,6 @@ interface CollectionInterface extends ArrayInterface
      *     intersecting items.
      *
      * @return CollectionInterface<T>
-     *
-     * @throws CollectionMismatchException if the compared collections are of
-     *     differing types.
      */
     public function intersect(CollectionInterface $other): self;
 
@@ -244,10 +201,6 @@ interface CollectionInterface extends ArrayInterface
      * @param CollectionInterface<T> ...$collections The collections to merge.
      *
      * @return CollectionInterface<T>
-     *
-     * @throws CollectionMismatchException if unable to merge any of the given
-     *     collections or items within the given collections due to type
-     *     mismatch errors.
      */
     public function merge(CollectionInterface ...$collections): self;
 }

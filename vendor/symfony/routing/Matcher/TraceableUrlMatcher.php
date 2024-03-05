@@ -29,24 +29,18 @@ class TraceableUrlMatcher extends UrlMatcher
 
     protected $traces;
 
-    /**
-     * @return array
-     */
     public function getTraces(string $pathinfo)
     {
         $this->traces = [];
 
         try {
             $this->match($pathinfo);
-        } catch (ExceptionInterface) {
+        } catch (ExceptionInterface $e) {
         }
 
         return $this->traces;
     }
 
-    /**
-     * @return array
-     */
     public function getTracesForRequest(Request $request)
     {
         $this->request = $request;
@@ -56,7 +50,7 @@ class TraceableUrlMatcher extends UrlMatcher
         return $traces;
     }
 
-    protected function matchCollection(string $pathinfo, RouteCollection $routes): array
+    protected function matchCollection(string $pathinfo, RouteCollection $routes)
     {
         // HEAD and GET are equivalent as per RFC
         if ('HEAD' === $method = $this->context->getMethod()) {
@@ -105,7 +99,7 @@ class TraceableUrlMatcher extends UrlMatcher
                 continue;
             }
 
-            $hasTrailingVar = $trimmedPathinfo !== $pathinfo && preg_match('#\{[\w\x80-\xFF]+\}/?$#', $route->getPath());
+            $hasTrailingVar = $trimmedPathinfo !== $pathinfo && preg_match('#\{\w+\}/?$#', $route->getPath());
 
             if ($hasTrailingVar && ($hasTrailingSlash || (null === $m = $matches[\count($compiledRoute->getPathVariables())] ?? null) || '/' !== ($m[-1] ?? '/')) && preg_match($regex, $trimmedPathinfo, $m)) {
                 if ($hasTrailingSlash) {
@@ -121,9 +115,7 @@ class TraceableUrlMatcher extends UrlMatcher
                 continue;
             }
 
-            $attributes = $this->getAttributes($route, $name, array_replace($matches, $hostMatches));
-
-            $status = $this->handleRouteRequirements($pathinfo, $name, $route, $attributes);
+            $status = $this->handleRouteRequirements($pathinfo, $name, $route);
 
             if (self::REQUIREMENT_MISMATCH === $status[0]) {
                 $this->addTrace(sprintf('Condition "%s" does not evaluate to "true"', $route->getCondition()), self::ROUTE_ALMOST_MATCHES, $name, $route);
@@ -154,19 +146,19 @@ class TraceableUrlMatcher extends UrlMatcher
 
             $this->addTrace('Route matches!', self::ROUTE_MATCHES, $name, $route);
 
-            return array_replace($attributes, $status[1] ?? []);
+            return $this->getAttributes($route, $name, array_replace($matches, $hostMatches, $status[1] ?? []));
         }
 
         return [];
     }
 
-    private function addTrace(string $log, int $level = self::ROUTE_DOES_NOT_MATCH, ?string $name = null, ?Route $route = null): void
+    private function addTrace(string $log, int $level = self::ROUTE_DOES_NOT_MATCH, ?string $name = null, ?Route $route = null)
     {
         $this->traces[] = [
             'log' => $log,
             'name' => $name,
             'level' => $level,
-            'path' => $route?->getPath(),
+            'path' => null !== $route ? $route->getPath() : null,
         ];
     }
 }
