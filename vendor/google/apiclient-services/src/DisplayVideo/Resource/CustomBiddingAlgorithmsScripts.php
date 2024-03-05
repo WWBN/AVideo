@@ -45,6 +45,7 @@ class CustomBiddingAlgorithmsScripts extends \Google\Service\Resource
    * bidding algorithm. Only this partner will have write access to this custom
    * bidding script.
    * @return CustomBiddingScript
+   * @throws \Google\Service\Exception
    */
   public function create($customBiddingAlgorithmId, CustomBiddingScript $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class CustomBiddingAlgorithmsScripts extends \Google\Service\Resource
    * bidding algorithm. Only this partner will have write access to this custom
    * bidding script.
    * @return CustomBiddingScript
+   * @throws \Google\Service\Exception
    */
   public function get($customBiddingAlgorithmId, $customBiddingScriptId, $optParams = [])
   {
@@ -100,6 +102,7 @@ class CustomBiddingAlgorithmsScripts extends \Google\Service\Resource
    * bidding algorithm. Only this partner will have write access to this custom
    * bidding script.
    * @return ListCustomBiddingScriptsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomBiddingAlgorithmsScripts($customBiddingAlgorithmId, $optParams = [])
   {

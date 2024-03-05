@@ -49,6 +49,7 @@ class OrganizationsSharedflows extends \Google\Service\Resource
    * `validate`.
    * @opt_param string name Required. The name to give the shared flow
    * @return GoogleCloudApigeeV1SharedFlowRevision
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleApiHttpBody $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class OrganizationsSharedflows extends \Google\Service\Resource
    * `organizations/{organization_id}/sharedflows/{shared_flow_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SharedFlow
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class OrganizationsSharedflows extends \Google\Service\Resource
    * the form: `organizations/{organization_id}/sharedflows/{shared_flow_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SharedFlow
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -100,6 +103,7 @@ class OrganizationsSharedflows extends \Google\Service\Resource
    * @opt_param bool includeRevisions Indicates whether to include a list of
    * revisions in the response.
    * @return GoogleCloudApigeeV1ListSharedFlowsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsSharedflows($parent, $optParams = [])
   {

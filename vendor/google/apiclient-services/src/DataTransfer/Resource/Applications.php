@@ -37,6 +37,7 @@ class Applications extends \Google\Service\Resource
    * @param string $applicationId ID of the application resource to be retrieved.
    * @param array $optParams Optional parameters.
    * @return Application
+   * @throws \Google\Service\Exception
    */
   public function get($applicationId, $optParams = [])
   {
@@ -55,6 +56,7 @@ class Applications extends \Google\Service\Resource
    * 100.
    * @opt_param string pageToken Token to specify next page in the list.
    * @return ApplicationsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listApplications($optParams = [])
   {

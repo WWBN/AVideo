@@ -34,6 +34,14 @@ class ImportContextBakImportOptions extends \Google\Model
    */
   public $recoveryOnly;
   /**
+   * @var string
+   */
+  public $stopAt;
+  /**
+   * @var string
+   */
+  public $stopAtMark;
+  /**
    * @var bool
    */
   public $striped;
@@ -93,6 +101,34 @@ class ImportContextBakImportOptions extends \Google\Model
   public function getRecoveryOnly()
   {
     return $this->recoveryOnly;
+  }
+  /**
+   * @param string
+   */
+  public function setStopAt($stopAt)
+  {
+    $this->stopAt = $stopAt;
+  }
+  /**
+   * @return string
+   */
+  public function getStopAt()
+  {
+    return $this->stopAt;
+  }
+  /**
+   * @param string
+   */
+  public function setStopAtMark($stopAtMark)
+  {
+    $this->stopAtMark = $stopAtMark;
+  }
+  /**
+   * @return string
+   */
+  public function getStopAtMark()
+  {
+    return $this->stopAtMark;
   }
   /**
    * @param bool

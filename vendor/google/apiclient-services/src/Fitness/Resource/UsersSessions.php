@@ -37,6 +37,7 @@ class UsersSessions extends \Google\Service\Resource
    * indicate the authenticated user. Only me is supported at this time.
    * @param string $sessionId The ID of the session to be deleted.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($userId, $sessionId, $optParams = [])
   {
@@ -70,6 +71,7 @@ class UsersSessions extends \Google\Service\Resource
    * time is omitted but endTime is specified, all sessions from the start of time
    * up to endTime will be returned.
    * @return ListSessionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listUsersSessions($userId, $optParams = [])
   {
@@ -86,6 +88,7 @@ class UsersSessions extends \Google\Service\Resource
    * @param Session $postBody
    * @param array $optParams Optional parameters.
    * @return Session
+   * @throws \Google\Service\Exception
    */
   public function update($userId, $sessionId, Session $postBody, $optParams = [])
   {

@@ -17,8 +17,11 @@
 
 namespace Google\Service\GKEOnPrem;
 
-class VmwareVersionInfo extends \Google\Model
+class VmwareVersionInfo extends \Google\Collection
 {
+  protected $collection_key = 'dependencies';
+  protected $dependenciesType = UpgradeDependency::class;
+  protected $dependenciesDataType = 'array';
   /**
    * @var bool
    */
@@ -32,6 +35,20 @@ class VmwareVersionInfo extends \Google\Model
    */
   public $version;
 
+  /**
+   * @param UpgradeDependency[]
+   */
+  public function setDependencies($dependencies)
+  {
+    $this->dependencies = $dependencies;
+  }
+  /**
+   * @return UpgradeDependency[]
+   */
+  public function getDependencies()
+  {
+    return $this->dependencies;
+  }
   /**
    * @param bool
    */

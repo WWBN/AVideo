@@ -48,6 +48,7 @@ class Enterprises extends \Google\Service\Resource
    *
    * @opt_param string notificationSetId The notification set ID as returned by
    * Enterprises.PullNotificationSet. This must be provided.
+   * @throws \Google\Service\Exception
    */
   public function acknowledgeNotificationSet($optParams = [])
   {
@@ -67,6 +68,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string enterpriseToken The Enterprise token appended to the
    * Callback URL.
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function completeSignup($optParams = [])
   {
@@ -86,6 +88,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string deviceType Whether it’s a dedicated device or a knowledge
    * worker device.
    * @return CreateEnrollmentTokenResponse
+   * @throws \Google\Service\Exception
    */
   public function createEnrollmentToken($enterpriseId, $optParams = [])
   {
@@ -103,6 +106,7 @@ class Enterprises extends \Google\Service\Resource
    * @param AdministratorWebTokenSpec $postBody
    * @param array $optParams Optional parameters.
    * @return AdministratorWebToken
+   * @throws \Google\Service\Exception
    */
   public function createWebToken($enterpriseId, AdministratorWebTokenSpec $postBody, $optParams = [])
   {
@@ -118,6 +122,7 @@ class Enterprises extends \Google\Service\Resource
    * @param Enterprise $postBody
    * @param array $optParams Optional parameters.
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function enroll($token, Enterprise $postBody, $optParams = [])
   {
@@ -139,6 +144,7 @@ class Enterprises extends \Google\Service\Resource
    * minor formatting changes and, more importantly, the URL must be well-formed
    * so that it can be parsed.
    * @return SignupInfo
+   * @throws \Google\Service\Exception
    */
   public function generateSignupUrl($optParams = [])
   {
@@ -152,6 +158,7 @@ class Enterprises extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $optParams = [])
   {
@@ -178,6 +185,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string keyType The type of credential to return with the service
    * account. Required.
    * @return ServiceAccount
+   * @throws \Google\Service\Exception
    */
   public function getServiceAccount($enterpriseId, $optParams = [])
   {
@@ -193,6 +201,7 @@ class Enterprises extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
    * @return StoreLayout
+   * @throws \Google\Service\Exception
    */
   public function getStoreLayout($enterpriseId, $optParams = [])
   {
@@ -211,6 +220,7 @@ class Enterprises extends \Google\Service\Resource
    * enterprise to look up.
    * @param array $optParams Optional parameters.
    * @return EnterprisesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnterprises($domain, $optParams = [])
   {
@@ -244,6 +254,7 @@ class Enterprises extends \Google\Service\Resource
    * notifications, or an empty list if no notifications are present. If omitted,
    * defaults to waitForNotifications.
    * @return NotificationSet
+   * @throws \Google\Service\Exception
    */
   public function pullNotificationSet($optParams = [])
   {
@@ -259,6 +270,7 @@ class Enterprises extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
    * @return EnterprisesSendTestPushNotificationResponse
+   * @throws \Google\Service\Exception
    */
   public function sendTestPushNotification($enterpriseId, $optParams = [])
   {
@@ -274,6 +286,7 @@ class Enterprises extends \Google\Service\Resource
    * @param EnterpriseAccount $postBody
    * @param array $optParams Optional parameters.
    * @return EnterpriseAccount
+   * @throws \Google\Service\Exception
    */
   public function setAccount($enterpriseId, EnterpriseAccount $postBody, $optParams = [])
   {
@@ -294,6 +307,7 @@ class Enterprises extends \Google\Service\Resource
    * @param StoreLayout $postBody
    * @param array $optParams Optional parameters.
    * @return StoreLayout
+   * @throws \Google\Service\Exception
    */
   public function setStoreLayout($enterpriseId, StoreLayout $postBody, $optParams = [])
   {
@@ -306,6 +320,7 @@ class Enterprises extends \Google\Service\Resource
    *
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function unenroll($enterpriseId, $optParams = [])
   {

@@ -37,6 +37,7 @@ class UserRolePermissions extends \Google\Service\Resource
    * @param string $id User role permission ID.
    * @param array $optParams Optional parameters.
    * @return UserRolePermission
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -53,6 +54,7 @@ class UserRolePermissions extends \Google\Service\Resource
    *
    * @opt_param string ids Select only user role permissions with these IDs.
    * @return UserRolePermissionsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listUserRolePermissions($profileId, $optParams = [])
   {

@@ -38,6 +38,7 @@ class OrganizationsSharedflowsDeployments extends \Google\Service\Resource
    * `organizations/{org}/sharedflows/{sharedflow}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListDeploymentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsSharedflowsDeployments($parent, $optParams = [])
   {

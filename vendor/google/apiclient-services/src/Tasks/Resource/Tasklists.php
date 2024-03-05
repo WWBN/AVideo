@@ -35,6 +35,7 @@ class Tasklists extends \Google\Service\Resource
    *
    * @param string $tasklist Task list identifier.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($tasklist, $optParams = [])
   {
@@ -48,6 +49,7 @@ class Tasklists extends \Google\Service\Resource
    * @param string $tasklist Task list identifier.
    * @param array $optParams Optional parameters.
    * @return TaskList
+   * @throws \Google\Service\Exception
    */
   public function get($tasklist, $optParams = [])
   {
@@ -62,6 +64,7 @@ class Tasklists extends \Google\Service\Resource
    * @param TaskList $postBody
    * @param array $optParams Optional parameters.
    * @return TaskList
+   * @throws \Google\Service\Exception
    */
   public function insert(TaskList $postBody, $optParams = [])
   {
@@ -79,6 +82,7 @@ class Tasklists extends \Google\Service\Resource
    * @opt_param string pageToken Token specifying the result page to return.
    * Optional.
    * @return TaskListsModel
+   * @throws \Google\Service\Exception
    */
   public function listTasklists($optParams = [])
   {
@@ -94,6 +98,7 @@ class Tasklists extends \Google\Service\Resource
    * @param TaskList $postBody
    * @param array $optParams Optional parameters.
    * @return TaskList
+   * @throws \Google\Service\Exception
    */
   public function patch($tasklist, TaskList $postBody, $optParams = [])
   {
@@ -108,6 +113,7 @@ class Tasklists extends \Google\Service\Resource
    * @param TaskList $postBody
    * @param array $optParams Optional parameters.
    * @return TaskList
+   * @throws \Google\Service\Exception
    */
   public function update($tasklist, TaskList $postBody, $optParams = [])
   {

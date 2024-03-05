@@ -46,6 +46,7 @@ class ProjectsLocationsDatasetsExamples extends \Google\Service\Resource
    * for the server to return. Typically obtained from next_page_token field in
    * the response of a ListExamples call.
    * @return ListExamplesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDatasetsExamples($parent, $optParams = [])
   {

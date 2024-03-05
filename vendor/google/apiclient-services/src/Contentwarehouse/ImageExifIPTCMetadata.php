@@ -59,6 +59,10 @@ class ImageExifIPTCMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $digitalSourceType;
+  /**
+   * @var string
+   */
   public $event;
   /**
    * @var string
@@ -250,6 +254,20 @@ class ImageExifIPTCMetadata extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setDigitalSourceType($digitalSourceType)
+  {
+    $this->digitalSourceType = $digitalSourceType;
+  }
+  /**
+   * @return string
+   */
+  public function getDigitalSourceType()
+  {
+    return $this->digitalSourceType;
   }
   /**
    * @param string

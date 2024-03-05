@@ -38,6 +38,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * @param string $profileId View (Profile) ID to which the experiment belongs
    * @param string $experimentId ID of the experiment to delete
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($accountId, $webPropertyId, $profileId, $experimentId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * @param string $experimentId Experiment ID to retrieve the experiment for.
    * @param array $optParams Optional parameters.
    * @return Experiment
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $webPropertyId, $profileId, $experimentId, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * @param Experiment $postBody
    * @param array $optParams Optional parameters.
    * @return Experiment
+   * @throws \Google\Service\Exception
    */
   public function insert($accountId, $webPropertyId, $profileId, Experiment $postBody, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * this parameter as a pagination mechanism along with the max-results
    * parameter.
    * @return Experiments
+   * @throws \Google\Service\Exception
    */
   public function listManagementExperiments($accountId, $webPropertyId, $profileId, $optParams = [])
   {
@@ -110,6 +114,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * @param Experiment $postBody
    * @param array $optParams Optional parameters.
    * @return Experiment
+   * @throws \Google\Service\Exception
    */
   public function patch($accountId, $webPropertyId, $profileId, $experimentId, Experiment $postBody, $optParams = [])
   {
@@ -127,6 +132,7 @@ class ManagementExperiments extends \Google\Service\Resource
    * @param Experiment $postBody
    * @param array $optParams Optional parameters.
    * @return Experiment
+   * @throws \Google\Service\Exception
    */
   public function update($accountId, $webPropertyId, $profileId, $experimentId, Experiment $postBody, $optParams = [])
   {

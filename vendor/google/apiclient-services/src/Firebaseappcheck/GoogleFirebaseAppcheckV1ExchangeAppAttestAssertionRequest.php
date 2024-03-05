@@ -31,6 +31,10 @@ class GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest extends \Google\
    * @var string
    */
   public $challenge;
+  /**
+   * @var bool
+   */
+  public $limitedUse;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest extends \Google\
   public function getChallenge()
   {
     return $this->challenge;
+  }
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
   }
 }
 

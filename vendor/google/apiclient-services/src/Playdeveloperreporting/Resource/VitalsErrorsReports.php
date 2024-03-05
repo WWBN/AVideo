@@ -121,13 +121,13 @@ class VitalsErrorsReports extends \Google\Service\Resource
    * to 9999, or 0 if specifying a datetime without a year.
    * @opt_param int pageSize The maximum number of reports to return. The service
    * may return fewer than this value. If unspecified, at most 50 reports will be
-   * returned. The maximum value is 1000; values above 1000 will be coerced to
-   * 1000.
+   * returned. The maximum value is 100; values above 100 will be coerced to 100.
    * @opt_param string pageToken A page token, received from a previous
    * `SearchErrorReports` call. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters provided to `SearchErrorReports` must match
    * the call that provided the page token.
    * @return GooglePlayDeveloperReportingV1beta1SearchErrorReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($parent, $optParams = [])
   {

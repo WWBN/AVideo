@@ -40,6 +40,7 @@ class LocationsLodging extends \Google\Service\Resource
    * @opt_param string readMask Required. The specific fields to return. Use "*"
    * to include all fields. Repeated field items cannot be individually specified.
    * @return GetGoogleUpdatedLodgingResponse
+   * @throws \Google\Service\Exception
    */
   public function getGoogleUpdated($name, $optParams = [])
   {

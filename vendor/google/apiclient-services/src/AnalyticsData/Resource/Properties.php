@@ -47,14 +47,14 @@ class Properties extends \Google\Service\Resource
    *
    * @param string $property A Google Analytics GA4 property identifier whose
    * events are tracked. Specified in the URL path and not the body. To learn
-   * more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). This property must be specified for the batch. The property
-   * within RunPivotReportRequest may either be unspecified or consistent with
-   * this property. Example: properties/1234
+   * more, see [where to find your Property ID](https://developers.google.com/anal
+   * ytics/devguides/reporting/data/v1/property-id). This property must be
+   * specified for the batch. The property within RunPivotReportRequest may either
+   * be unspecified or consistent with this property. Example: properties/1234
    * @param BatchRunPivotReportsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchRunPivotReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchRunPivotReports($property, BatchRunPivotReportsRequest $postBody, $optParams = [])
   {
@@ -68,14 +68,14 @@ class Properties extends \Google\Service\Resource
    *
    * @param string $property A Google Analytics GA4 property identifier whose
    * events are tracked. Specified in the URL path and not the body. To learn
-   * more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). This property must be specified for the batch. The property
-   * within RunReportRequest may either be unspecified or consistent with this
-   * property. Example: properties/1234
+   * more, see [where to find your Property ID](https://developers.google.com/anal
+   * ytics/devguides/reporting/data/v1/property-id). This property must be
+   * specified for the batch. The property within RunReportRequest may either be
+   * unspecified or consistent with this property. Example: properties/1234
    * @param BatchRunReportsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchRunReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchRunReports($property, BatchRunReportsRequest $postBody, $optParams = [])
   {
@@ -94,13 +94,14 @@ class Properties extends \Google\Service\Resource
    * (properties.checkCompatibility)
    *
    * @param string $property A Google Analytics GA4 property identifier whose
-   * events are tracked. To learn more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). `property` should be the same value as in your `runReport`
-   * request. Example: properties/1234
+   * events are tracked. To learn more, see [where to find your Property ID](https
+   * ://developers.google.com/analytics/devguides/reporting/data/v1/property-id).
+   * `property` should be the same value as in your `runReport` request. Example:
+   * properties/1234
    * @param CheckCompatibilityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CheckCompatibilityResponse
+   * @throws \Google\Service\Exception
    */
   public function checkCompatibility($property, CheckCompatibilityRequest $postBody, $optParams = [])
   {
@@ -122,13 +123,13 @@ class Properties extends \Google\Service\Resource
    * @param string $name Required. The resource name of the metadata to retrieve.
    * This name field is specified in the URL path and not URL parameters. Property
    * is a numeric Google Analytics GA4 Property identifier. To learn more, see
-   * [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). Example: properties/1234/metadata Set the Property ID to 0 for
-   * dimensions and metrics common to all properties. In this special mode, this
-   * method will not return custom dimensions and metrics.
+   * [where to find your Property ID](https://developers.google.com/analytics/devg
+   * uides/reporting/data/v1/property-id). Example: properties/1234/metadata Set
+   * the Property ID to 0 for dimensions and metrics common to all properties. In
+   * this special mode, this method will not return custom dimensions and metrics.
    * @param array $optParams Optional parameters.
    * @return Metadata
+   * @throws \Google\Service\Exception
    */
   public function getMetadata($name, $optParams = [])
   {
@@ -145,14 +146,14 @@ class Properties extends \Google\Service\Resource
    *
    * @param string $property A Google Analytics GA4 property identifier whose
    * events are tracked. Specified in the URL path and not the body. To learn
-   * more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). Within a batch request, this property should either be
-   * unspecified or consistent with the batch-level property. Example:
-   * properties/1234
+   * more, see [where to find your Property ID](https://developers.google.com/anal
+   * ytics/devguides/reporting/data/v1/property-id). Within a batch request, this
+   * property should either be unspecified or consistent with the batch-level
+   * property. Example: properties/1234
    * @param RunPivotReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RunPivotReportResponse
+   * @throws \Google\Service\Exception
    */
   public function runPivotReport($property, RunPivotReportRequest $postBody, $optParams = [])
   {
@@ -166,18 +167,18 @@ class Properties extends \Google\Service\Resource
    * Analytics. Realtime reports show events and usage data for the periods of
    * time ranging from the present moment to 30 minutes ago (up to 60 minutes for
    * Google Analytics 360 properties). For a guide to constructing realtime
-   * requests & understanding responses, see [Creating a Realtime
-   * Report](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /realtime-basics). (properties.runRealtimeReport)
+   * requests & understanding responses, see [Creating a Realtime Report](https://
+   * developers.google.com/analytics/devguides/reporting/data/v1/realtime-basics).
+   * (properties.runRealtimeReport)
    *
    * @param string $property A Google Analytics GA4 property identifier whose
    * events are tracked. Specified in the URL path and not the body. To learn
-   * more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). Example: properties/1234
+   * more, see [where to find your Property ID](https://developers.google.com/anal
+   * ytics/devguides/reporting/data/v1/property-id). Example: properties/1234
    * @param RunRealtimeReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RunRealtimeReportResponse
+   * @throws \Google\Service\Exception
    */
   public function runRealtimeReport($property, RunRealtimeReportRequest $postBody, $optParams = [])
   {
@@ -198,14 +199,14 @@ class Properties extends \Google\Service\Resource
    *
    * @param string $property A Google Analytics GA4 property identifier whose
    * events are tracked. Specified in the URL path and not the body. To learn
-   * more, see [where to find your Property
-   * ID](https://developers.google.com/analytics/devguides/reporting/data/v1
-   * /property-id). Within a batch request, this property should either be
-   * unspecified or consistent with the batch-level property. Example:
-   * properties/1234
+   * more, see [where to find your Property ID](https://developers.google.com/anal
+   * ytics/devguides/reporting/data/v1/property-id). Within a batch request, this
+   * property should either be unspecified or consistent with the batch-level
+   * property. Example: properties/1234
    * @param RunReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RunReportResponse
+   * @throws \Google\Service\Exception
    */
   public function runReport($property, RunReportRequest $postBody, $optParams = [])
   {

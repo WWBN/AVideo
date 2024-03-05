@@ -22,6 +22,10 @@ class Ruleset extends \Google\Model
   /**
    * @var string
    */
+  public $attachmentPoint;
+  /**
+   * @var string
+   */
   public $createTime;
   protected $metadataType = Metadata::class;
   protected $metadataDataType = '';
@@ -32,6 +36,20 @@ class Ruleset extends \Google\Model
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setAttachmentPoint($attachmentPoint)
+  {
+    $this->attachmentPoint = $attachmentPoint;
+  }
+  /**
+   * @return string
+   */
+  public function getAttachmentPoint()
+  {
+    return $this->attachmentPoint;
+  }
   /**
    * @param string
    */

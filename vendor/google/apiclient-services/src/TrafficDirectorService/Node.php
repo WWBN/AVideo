@@ -21,10 +21,6 @@ class Node extends \Google\Collection
 {
   protected $collection_key = 'listeningAddresses';
   /**
-   * @var string
-   */
-  public $buildVersion;
-  /**
    * @var string[]
    */
   public $clientFeatures;
@@ -32,6 +28,8 @@ class Node extends \Google\Collection
    * @var string
    */
   public $cluster;
+  protected $dynamicParametersType = ContextParams::class;
+  protected $dynamicParametersDataType = 'map';
   protected $extensionsType = Extension::class;
   protected $extensionsDataType = 'array';
   /**
@@ -57,20 +55,6 @@ class Node extends \Google\Collection
    */
   public $userAgentVersion;
 
-  /**
-   * @param string
-   */
-  public function setBuildVersion($buildVersion)
-  {
-    $this->buildVersion = $buildVersion;
-  }
-  /**
-   * @return string
-   */
-  public function getBuildVersion()
-  {
-    return $this->buildVersion;
-  }
   /**
    * @param string[]
    */
@@ -98,6 +82,20 @@ class Node extends \Google\Collection
   public function getCluster()
   {
     return $this->cluster;
+  }
+  /**
+   * @param ContextParams[]
+   */
+  public function setDynamicParameters($dynamicParameters)
+  {
+    $this->dynamicParameters = $dynamicParameters;
+  }
+  /**
+   * @return ContextParams[]
+   */
+  public function getDynamicParameters()
+  {
+    return $this->dynamicParameters;
   }
   /**
    * @param Extension[]

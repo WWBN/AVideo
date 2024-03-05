@@ -20,6 +20,10 @@ namespace Google\Service\Spanner;
 class CommitRequest extends \Google\Collection
 {
   protected $collection_key = 'mutations';
+  /**
+   * @var string
+   */
+  public $maxCommitDelay;
   protected $mutationsType = Mutation::class;
   protected $mutationsDataType = 'array';
   protected $requestOptionsType = RequestOptions::class;
@@ -35,6 +39,20 @@ class CommitRequest extends \Google\Collection
    */
   public $transactionId;
 
+  /**
+   * @param string
+   */
+  public function setMaxCommitDelay($maxCommitDelay)
+  {
+    $this->maxCommitDelay = $maxCommitDelay;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxCommitDelay()
+  {
+    return $this->maxCommitDelay;
+  }
   /**
    * @param Mutation[]
    */

@@ -65,6 +65,10 @@ class Product extends \Google\Collection
   /**
    * @var string
    */
+  public $fullDescription;
+  /**
+   * @var string
+   */
   public $iconUrl;
   /**
    * @var string
@@ -278,6 +282,20 @@ class Product extends \Google\Collection
   public function getFeatures()
   {
     return $this->features;
+  }
+  /**
+   * @param string
+   */
+  public function setFullDescription($fullDescription)
+  {
+    $this->fullDescription = $fullDescription;
+  }
+  /**
+   * @return string
+   */
+  public function getFullDescription()
+  {
+    return $this->fullDescription;
   }
   /**
    * @param string

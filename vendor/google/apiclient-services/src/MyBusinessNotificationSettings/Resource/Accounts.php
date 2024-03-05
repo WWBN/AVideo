@@ -37,6 +37,7 @@ class Accounts extends \Google\Service\Resource
    * we are trying to fetch.
    * @param array $optParams Optional parameters.
    * @return NotificationSetting
+   * @throws \Google\Service\Exception
    */
   public function getNotificationSetting($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class Accounts extends \Google\Service\Resource
    * @opt_param string updateMask Required. The specific fields that should be
    * updated. The only editable field is notification_setting.
    * @return NotificationSetting
+   * @throws \Google\Service\Exception
    */
   public function updateNotificationSetting($name, NotificationSetting $postBody, $optParams = [])
   {

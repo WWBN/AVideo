@@ -54,6 +54,7 @@ class Conversion extends \Google\Service\Resource
    * @opt_param string customerId Customer ID of a client account in the new
    * Search Ads 360 experience.
    * @return ConversionList
+   * @throws \Google\Service\Exception
    */
   public function get($agencyId, $advertiserId, $engineAccountId, $endDate, $rowCount, $startDate, $startRow, $optParams = [])
   {
@@ -84,6 +85,7 @@ class Conversion extends \Google\Service\Resource
    * @opt_param string criterionId Numeric ID of the criterion.
    * @opt_param string engineAccountId Numeric ID of the engine account.
    * @return ConversionList
+   * @throws \Google\Service\Exception
    */
   public function getByCustomerId($customerId, $endDate, $rowCount, $startDate, $startRow, $optParams = [])
   {
@@ -98,6 +100,7 @@ class Conversion extends \Google\Service\Resource
    * @param ConversionList $postBody
    * @param array $optParams Optional parameters.
    * @return ConversionList
+   * @throws \Google\Service\Exception
    */
   public function insert(ConversionList $postBody, $optParams = [])
   {
@@ -111,6 +114,7 @@ class Conversion extends \Google\Service\Resource
    * @param ConversionList $postBody
    * @param array $optParams Optional parameters.
    * @return ConversionList
+   * @throws \Google\Service\Exception
    */
   public function update(ConversionList $postBody, $optParams = [])
   {
@@ -125,6 +129,7 @@ class Conversion extends \Google\Service\Resource
    * @param UpdateAvailabilityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UpdateAvailabilityResponse
+   * @throws \Google\Service\Exception
    */
   public function updateAvailability(UpdateAvailabilityRequest $postBody, $optParams = [])
   {

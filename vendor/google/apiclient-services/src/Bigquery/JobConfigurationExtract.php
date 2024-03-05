@@ -40,6 +40,8 @@ class JobConfigurationExtract extends \Google\Collection
    * @var string
    */
   public $fieldDelimiter;
+  protected $modelExtractOptionsType = ModelExtractOptions::class;
+  protected $modelExtractOptionsDataType = '';
   /**
    * @var bool
    */
@@ -122,6 +124,20 @@ class JobConfigurationExtract extends \Google\Collection
   public function getFieldDelimiter()
   {
     return $this->fieldDelimiter;
+  }
+  /**
+   * @param ModelExtractOptions
+   */
+  public function setModelExtractOptions(ModelExtractOptions $modelExtractOptions)
+  {
+    $this->modelExtractOptions = $modelExtractOptions;
+  }
+  /**
+   * @return ModelExtractOptions
+   */
+  public function getModelExtractOptions()
+  {
+    return $this->modelExtractOptions;
   }
   /**
    * @param bool

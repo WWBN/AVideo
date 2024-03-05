@@ -38,6 +38,7 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * `organizations/{org}/apiproducts/{apiproduct}/attributes/{attribute}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attributes
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsApiproductsAttributes($parent, $optParams = [])
   {
@@ -89,6 +92,7 @@ class OrganizationsApiproductsAttributes extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Attribute $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attribute
+   * @throws \Google\Service\Exception
    */
   public function updateApiProductAttribute($name, GoogleCloudApigeeV1Attribute $postBody, $optParams = [])
   {

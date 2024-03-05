@@ -23,6 +23,10 @@ class CloudRunMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $job;
+  /**
+   * @var string
+   */
   public $revision;
   /**
    * @var string
@@ -33,6 +37,20 @@ class CloudRunMetadata extends \Google\Collection
    */
   public $serviceUrls;
 
+  /**
+   * @param string
+   */
+  public function setJob($job)
+  {
+    $this->job = $job;
+  }
+  /**
+   * @return string
+   */
+  public function getJob()
+  {
+    return $this->job;
+  }
   /**
    * @param string
    */

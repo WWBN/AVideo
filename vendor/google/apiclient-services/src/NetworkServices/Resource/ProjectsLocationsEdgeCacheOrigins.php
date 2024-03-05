@@ -56,6 +56,7 @@ class ProjectsLocationsEdgeCacheOrigins extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -75,6 +76,7 @@ class ProjectsLocationsEdgeCacheOrigins extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -97,6 +99,7 @@ class ProjectsLocationsEdgeCacheOrigins extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

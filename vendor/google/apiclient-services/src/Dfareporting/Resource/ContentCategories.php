@@ -36,6 +36,7 @@ class ContentCategories extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param string $id Content category ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class ContentCategories extends \Google\Service\Resource
    * @param string $id Content category ID.
    * @param array $optParams Optional parameters.
    * @return ContentCategory
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -64,6 +66,7 @@ class ContentCategories extends \Google\Service\Resource
    * @param ContentCategory $postBody
    * @param array $optParams Optional parameters.
    * @return ContentCategory
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, ContentCategory $postBody, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ContentCategories extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return ContentCategoriesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listContentCategories($profileId, $optParams = [])
   {
@@ -104,10 +108,11 @@ class ContentCategories extends \Google\Service\Resource
    * (contentCategories.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id ContentCategory ID.
+   * @param string $id Required. ContentCategory ID.
    * @param ContentCategory $postBody
    * @param array $optParams Optional parameters.
    * @return ContentCategory
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, ContentCategory $postBody, $optParams = [])
   {
@@ -122,6 +127,7 @@ class ContentCategories extends \Google\Service\Resource
    * @param ContentCategory $postBody
    * @param array $optParams Optional parameters.
    * @return ContentCategory
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, ContentCategory $postBody, $optParams = [])
   {

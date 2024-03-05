@@ -68,6 +68,7 @@ class PlatformsChannelsVersionsReleases extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListReleases` call. Provide this to retrieve the subsequent page.
    * @return ListReleasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlatformsChannelsVersionsReleases($parent, $optParams = [])
   {

@@ -44,6 +44,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * @param ActivateClientUserRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function activate($name, ActivateClientUserRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * @param ClientUser $postBody
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ClientUser $postBody, $optParams = [])
   {
@@ -79,6 +81,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * @param DeactivateClientUserRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function deactivate($name, DeactivateClientUserRequest $postBody, $optParams = [])
   {
@@ -96,6 +99,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}`
    * @param array $optParams Optional parameters.
    * @return AuthorizedbuyersmarketplaceEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -110,6 +114,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * `buyers/{buyerAccountId}/clients/{clientAccountId}/clientUsers/{userId}`
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -131,6 +136,7 @@ class BuyersClientsUsers extends \Google\Service\Resource
    * ListClientUsersResponse.nextPageToken returned from the previous call to the
    * list method.
    * @return ListClientUsersResponse
+   * @throws \Google\Service\Exception
    */
   public function listBuyersClientsUsers($parent, $optParams = [])
   {

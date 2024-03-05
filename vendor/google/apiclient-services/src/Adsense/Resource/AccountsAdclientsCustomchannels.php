@@ -43,6 +43,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * @param CustomChannel $postBody
    * @param array $optParams Optional parameters.
    * @return CustomChannel
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CustomChannel $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * accounts/{account}/adclients/{adclient}/customchannels/{customchannel}
    * @param array $optParams Optional parameters.
    * @return AdsenseEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * accounts/{account}/adclients/{adclient}/customchannels/{customchannel}
    * @param array $optParams Optional parameters.
    * @return CustomChannel
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListCustomChannels` must match
    * the call that provided the page token.
    * @return ListCustomChannelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsAdclientsCustomchannels($parent, $optParams = [])
   {
@@ -123,6 +127,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListLinkedAdUnits` must match
    * the call that provided the page token.
    * @return ListLinkedAdUnitsResponse
+   * @throws \Google\Service\Exception
    */
   public function listLinkedAdUnits($parent, $optParams = [])
   {
@@ -144,6 +149,7 @@ class AccountsAdclientsCustomchannels extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. If empty, a full
    * update is performed.
    * @return CustomChannel
+   * @throws \Google\Service\Exception
    */
   public function patch($name, CustomChannel $postBody, $optParams = [])
   {

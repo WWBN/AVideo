@@ -39,6 +39,10 @@ class Export extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $parentExportId;
   protected $queryType = Query::class;
   protected $queryDataType = '';
   protected $requesterType = UserInfo::class;
@@ -133,6 +137,20 @@ class Export extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setParentExportId($parentExportId)
+  {
+    $this->parentExportId = $parentExportId;
+  }
+  /**
+   * @return string
+   */
+  public function getParentExportId()
+  {
+    return $this->parentExportId;
   }
   /**
    * @param Query

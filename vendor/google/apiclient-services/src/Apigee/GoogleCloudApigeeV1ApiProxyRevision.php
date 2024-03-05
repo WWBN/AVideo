@@ -51,6 +51,10 @@ class GoogleCloudApigeeV1ApiProxyRevision extends \Google\Collection
    */
   public $entityMetaDataAsProperties;
   /**
+   * @var bool
+   */
+  public $hasExtensiblePolicy;
+  /**
    * @var string[]
    */
   public $integrationEndpoints;
@@ -224,6 +228,20 @@ class GoogleCloudApigeeV1ApiProxyRevision extends \Google\Collection
   public function getEntityMetaDataAsProperties()
   {
     return $this->entityMetaDataAsProperties;
+  }
+  /**
+   * @param bool
+   */
+  public function setHasExtensiblePolicy($hasExtensiblePolicy)
+  {
+    $this->hasExtensiblePolicy = $hasExtensiblePolicy;
+  }
+  /**
+   * @return bool
+   */
+  public function getHasExtensiblePolicy()
+  {
+    return $this->hasExtensiblePolicy;
   }
   /**
    * @param string[]

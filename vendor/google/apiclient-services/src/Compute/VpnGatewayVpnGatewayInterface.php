@@ -31,6 +31,10 @@ class VpnGatewayVpnGatewayInterface extends \Google\Model
    * @var string
    */
   public $ipAddress;
+  /**
+   * @var string
+   */
+  public $ipv6Address;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class VpnGatewayVpnGatewayInterface extends \Google\Model
   public function getIpAddress()
   {
     return $this->ipAddress;
+  }
+  /**
+   * @param string
+   */
+  public function setIpv6Address($ipv6Address)
+  {
+    $this->ipv6Address = $ipv6Address;
+  }
+  /**
+   * @return string
+   */
+  public function getIpv6Address()
+  {
+    return $this->ipv6Address;
   }
 }
 

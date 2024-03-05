@@ -26,6 +26,10 @@ class ResizeNodeGroupRequest extends \Google\Model
   /**
    * @var string
    */
+  public $parentOperationId;
+  /**
+   * @var string
+   */
   public $requestId;
   /**
    * @var int
@@ -45,6 +49,20 @@ class ResizeNodeGroupRequest extends \Google\Model
   public function getGracefulDecommissionTimeout()
   {
     return $this->gracefulDecommissionTimeout;
+  }
+  /**
+   * @param string
+   */
+  public function setParentOperationId($parentOperationId)
+  {
+    $this->parentOperationId = $parentOperationId;
+  }
+  /**
+   * @return string
+   */
+  public function getParentOperationId()
+  {
+    return $this->parentOperationId;
   }
   /**
    * @param string

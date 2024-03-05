@@ -23,6 +23,10 @@ class SparkStandaloneAutoscalingConfig extends \Google\Model
    * @var string
    */
   public $gracefulDecommissionTimeout;
+  /**
+   * @var bool
+   */
+  public $removeOnlyIdleWorkers;
   public $scaleDownFactor;
   public $scaleDownMinWorkerFraction;
   public $scaleUpFactor;
@@ -41,6 +45,20 @@ class SparkStandaloneAutoscalingConfig extends \Google\Model
   public function getGracefulDecommissionTimeout()
   {
     return $this->gracefulDecommissionTimeout;
+  }
+  /**
+   * @param bool
+   */
+  public function setRemoveOnlyIdleWorkers($removeOnlyIdleWorkers)
+  {
+    $this->removeOnlyIdleWorkers = $removeOnlyIdleWorkers;
+  }
+  /**
+   * @return bool
+   */
+  public function getRemoveOnlyIdleWorkers()
+  {
+    return $this->removeOnlyIdleWorkers;
   }
   public function setScaleDownFactor($scaleDownFactor)
   {

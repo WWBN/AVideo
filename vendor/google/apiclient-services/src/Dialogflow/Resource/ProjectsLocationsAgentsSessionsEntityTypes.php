@@ -41,6 +41,7 @@ class ProjectsLocationsAgentsSessionsEntityTypes extends \Google\Service\Resourc
    * @param GoogleCloudDialogflowCxV3SessionEntityType $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3SessionEntityType
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3SessionEntityType $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsAgentsSessionsEntityTypes extends \Google\Service\Resourc
    * `Environment ID` is not specified, we assume default 'draft' environment.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocationsAgentsSessionsEntityTypes extends \Google\Service\Resourc
    * `Environment ID` is not specified, we assume default 'draft' environment.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3SessionEntityType
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -95,6 +98,7 @@ class ProjectsLocationsAgentsSessionsEntityTypes extends \Google\Service\Resourc
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListSessionEntityTypesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsSessionsEntityTypes($parent, $optParams = [])
   {
@@ -114,6 +118,7 @@ class ProjectsLocationsAgentsSessionsEntityTypes extends \Google\Service\Resourc
    *
    * @opt_param string updateMask The mask to control which fields get updated.
    * @return GoogleCloudDialogflowCxV3SessionEntityType
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3SessionEntityType $postBody, $optParams = [])
   {

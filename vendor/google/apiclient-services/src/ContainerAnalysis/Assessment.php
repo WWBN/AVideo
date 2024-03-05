@@ -46,6 +46,10 @@ class Assessment extends \Google\Collection
    * @var string
    */
   public $state;
+  /**
+   * @var string
+   */
+  public $vulnerabilityId;
 
   /**
    * @param string
@@ -158,6 +162,20 @@ class Assessment extends \Google\Collection
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string
+   */
+  public function setVulnerabilityId($vulnerabilityId)
+  {
+    $this->vulnerabilityId = $vulnerabilityId;
+  }
+  /**
+   * @return string
+   */
+  public function getVulnerabilityId()
+  {
+    return $this->vulnerabilityId;
   }
 }
 

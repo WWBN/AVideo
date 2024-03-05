@@ -44,6 +44,7 @@ class CustomersApps extends \Google\Service\Resource
    * @opt_param string pageToken Token to specify the page of the request to be
    * returned.
    * @return GoogleChromeManagementV1CountChromeAppRequestsResponse
+   * @throws \Google\Service\Exception
    */
   public function countChromeAppRequests($customer, $optParams = [])
   {

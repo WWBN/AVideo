@@ -46,6 +46,7 @@ class ProjectsLocationsInstancesInventories extends \Google\Service\Resource
    * included in the inventory resource. If unspecified, the default view is
    * BASIC.
    * @return Inventory
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -71,6 +72,7 @@ class ProjectsLocationsInstancesInventories extends \Google\Service\Resource
    * included in the inventory resource. If unspecified, the default view is
    * BASIC.
    * @return ListInventoriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstancesInventories($parent, $optParams = [])
   {

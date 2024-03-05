@@ -35,6 +35,7 @@ class Groups extends \Google\Service\Resource
    * @param string $groupUniqueId The group's email address.
    * @param array $optParams Optional parameters.
    * @return GroupsModel
+   * @throws \Google\Service\Exception
    */
   public function get($groupUniqueId, $optParams = [])
   {
@@ -50,6 +51,7 @@ class Groups extends \Google\Service\Resource
    * @param GroupsModel $postBody
    * @param array $optParams Optional parameters.
    * @return GroupsModel
+   * @throws \Google\Service\Exception
    */
   public function patch($groupUniqueId, GroupsModel $postBody, $optParams = [])
   {
@@ -64,6 +66,7 @@ class Groups extends \Google\Service\Resource
    * @param GroupsModel $postBody
    * @param array $optParams Optional parameters.
    * @return GroupsModel
+   * @throws \Google\Service\Exception
    */
   public function update($groupUniqueId, GroupsModel $postBody, $optParams = [])
   {

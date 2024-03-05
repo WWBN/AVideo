@@ -42,6 +42,7 @@ class Uris extends \Google\Service\Resource
    * Multiple ThreatLists may be specified.
    * @opt_param string uri Required. The URI to be checked for matches.
    * @return GoogleCloudWebriskV1SearchUrisResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

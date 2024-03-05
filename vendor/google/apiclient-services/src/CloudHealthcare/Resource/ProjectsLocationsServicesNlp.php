@@ -40,6 +40,7 @@ class ProjectsLocationsServicesNlp extends \Google\Service\Resource
    * @param AnalyzeEntitiesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AnalyzeEntitiesResponse
+   * @throws \Google\Service\Exception
    */
   public function analyzeEntities($nlpService, AnalyzeEntitiesRequest $postBody, $optParams = [])
   {

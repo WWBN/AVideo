@@ -41,6 +41,7 @@ class ProjectsLocationsRepositoriesKfpArtifacts extends \Google\Service\Resource
    * @param UploadKfpArtifactRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UploadKfpArtifactMediaResponse
+   * @throws \Google\Service\Exception
    */
   public function upload($parent, UploadKfpArtifactRequest $postBody, $optParams = [])
   {

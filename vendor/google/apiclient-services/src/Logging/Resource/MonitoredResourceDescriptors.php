@@ -43,6 +43,7 @@ class MonitoredResourceDescriptors extends \Google\Service\Resource
    * the value of nextPageToken from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
    * @return ListMonitoredResourceDescriptorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listMonitoredResourceDescriptors($optParams = [])
   {

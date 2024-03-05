@@ -72,7 +72,6 @@ class Search extends \Google\Service\Resource
    * @opt_param string q Textual search terms to match.
    * @opt_param string regionCode Display the content as seen by viewers in this
    * country.
-   * @opt_param string relatedToVideoId Search related to a resource.
    * @opt_param string relevanceLanguage Return results relevant to this language.
    * @opt_param string safeSearch Indicates whether the search results should
    * include restricted content as well as standard content.
@@ -87,9 +86,11 @@ class Search extends \Google\Service\Resource
    * @opt_param string videoDuration Filter on the duration of the videos.
    * @opt_param string videoEmbeddable Filter on embeddable videos.
    * @opt_param string videoLicense Filter on the license of the videos.
+   * @opt_param string videoPaidProductPlacement
    * @opt_param string videoSyndicated Filter on syndicated videos.
    * @opt_param string videoType Filter on videos of a specific type.
    * @return SearchListResponse
+   * @throws \Google\Service\Exception
    */
   public function listSearch($part, $optParams = [])
   {

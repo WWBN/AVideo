@@ -17,8 +17,9 @@
 
 namespace Google\Service\CCAIPlatform;
 
-class ContactCenter extends \Google\Model
+class ContactCenter extends \Google\Collection
 {
+  protected $collection_key = 'privateComponents';
   protected $adminUserType = AdminUser::class;
   protected $adminUserDataType = '';
   /**
@@ -40,6 +41,10 @@ class ContactCenter extends \Google\Model
   protected $instanceConfigType = InstanceConfig::class;
   protected $instanceConfigDataType = '';
   /**
+   * @var string
+   */
+  public $kmsKey;
+  /**
    * @var string[]
    */
   public $labels;
@@ -47,6 +52,10 @@ class ContactCenter extends \Google\Model
    * @var string
    */
   public $name;
+  /**
+   * @var string[]
+   */
+  public $privateComponents;
   protected $samlParamsType = SAMLParams::class;
   protected $samlParamsDataType = '';
   /**
@@ -149,6 +158,20 @@ class ContactCenter extends \Google\Model
     return $this->instanceConfig;
   }
   /**
+   * @param string
+   */
+  public function setKmsKey($kmsKey)
+  {
+    $this->kmsKey = $kmsKey;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKey()
+  {
+    return $this->kmsKey;
+  }
+  /**
    * @param string[]
    */
   public function setLabels($labels)
@@ -175,6 +198,20 @@ class ContactCenter extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string[]
+   */
+  public function setPrivateComponents($privateComponents)
+  {
+    $this->privateComponents = $privateComponents;
+  }
+  /**
+   * @return string[]
+   */
+  public function getPrivateComponents()
+  {
+    return $this->privateComponents;
   }
   /**
    * @param SAMLParams

@@ -22,12 +22,30 @@ class IndexingDocjoinerDataVersionVersionInfo extends \Google\Model
   /**
    * @var string
    */
+  public $considerationTimestampMicros;
+  /**
+   * @var string
+   */
   public $humanReadableVersion;
   /**
    * @var string
    */
   public $timestampMicros;
 
+  /**
+   * @param string
+   */
+  public function setConsiderationTimestampMicros($considerationTimestampMicros)
+  {
+    $this->considerationTimestampMicros = $considerationTimestampMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getConsiderationTimestampMicros()
+  {
+    return $this->considerationTimestampMicros;
+  }
   /**
    * @param string
    */

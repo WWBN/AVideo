@@ -26,6 +26,10 @@ class SAMLParams extends \Google\Model
   /**
    * @var string
    */
+  public $emailMapping;
+  /**
+   * @var string
+   */
   public $entityId;
   /**
    * @var string
@@ -49,6 +53,20 @@ class SAMLParams extends \Google\Model
   public function getCertificate()
   {
     return $this->certificate;
+  }
+  /**
+   * @param string
+   */
+  public function setEmailMapping($emailMapping)
+  {
+    $this->emailMapping = $emailMapping;
+  }
+  /**
+   * @return string
+   */
+  public function getEmailMapping()
+  {
+    return $this->emailMapping;
   }
   /**
    * @param string

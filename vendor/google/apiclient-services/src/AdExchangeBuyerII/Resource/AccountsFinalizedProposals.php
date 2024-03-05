@@ -52,6 +52,7 @@ class AccountsFinalizedProposals extends \Google\Service\Resource
    * @opt_param string pageToken The page token as returned from
    * ListProposalsResponse.
    * @return ListProposalsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsFinalizedProposals($accountId, $optParams = [])
   {
@@ -74,6 +75,7 @@ class AccountsFinalizedProposals extends \Google\Service\Resource
    * @param PauseProposalDealsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Proposal
+   * @throws \Google\Service\Exception
    */
   public function pause($accountId, $proposalId, PauseProposalDealsRequest $postBody, $optParams = [])
   {
@@ -97,6 +99,7 @@ class AccountsFinalizedProposals extends \Google\Service\Resource
    * @param ResumeProposalDealsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Proposal
+   * @throws \Google\Service\Exception
    */
   public function resume($accountId, $proposalId, ResumeProposalDealsRequest $postBody, $optParams = [])
   {

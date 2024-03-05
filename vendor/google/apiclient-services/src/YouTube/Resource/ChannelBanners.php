@@ -64,6 +64,7 @@ class ChannelBanners extends \Google\Service\Resource
    * without having to provide authentication credentials for each separate
    * channel.
    * @return ChannelBannerResource
+   * @throws \Google\Service\Exception
    */
   public function insert(ChannelBannerResource $postBody, $optParams = [])
   {

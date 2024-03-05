@@ -43,6 +43,7 @@ class OtherContacts extends \Google\Service\Resource
    * @param CopyOtherContactToMyContactsGroupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Person
+   * @throws \Google\Service\Exception
    */
   public function copyOtherContactToMyContactsGroup($resourceName, CopyOtherContactToMyContactsGroupRequest $postBody, $optParams = [])
   {
@@ -106,6 +107,7 @@ class OtherContacts extends \Google\Service\Resource
    * to `otherContacts.list` must match the first call that provided the sync
    * token. More details about sync behavior at `otherContacts.list`.
    * @return ListOtherContactsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOtherContacts($optParams = [])
   {
@@ -136,6 +138,7 @@ class OtherContacts extends \Google\Service\Resource
    * with commas. Valid values are: * emailAddresses * metadata * names *
    * phoneNumbers
    * @return SearchResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

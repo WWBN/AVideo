@@ -39,6 +39,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * @param GlossaryEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GlossaryEntry
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GlossaryEntry $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * delete
    * @param array $optParams Optional parameters.
    * @return TranslateEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -66,6 +68,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * @param string $name Required. The resource name of the glossary entry to get
    * @param array $optParams Optional parameters.
    * @return GlossaryEntry
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -89,6 +92,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * [ListGlossaryEntriesResponse.next_page_token] returned from the previous
    * call. The first page is returned if `page_token`is empty or missing.
    * @return ListGlossaryEntriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsGlossariesGlossaryEntries($parent, $optParams = [])
   {
@@ -104,6 +108,7 @@ class ProjectsLocationsGlossariesGlossaryEntries extends \Google\Service\Resourc
    * @param GlossaryEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GlossaryEntry
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GlossaryEntry $postBody, $optParams = [])
   {

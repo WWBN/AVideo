@@ -40,6 +40,7 @@ class AccountsContainersWorkspacesBuiltInVariables extends \Google\Service\Resou
    *
    * @opt_param string type The types of built-in variables to enable.
    * @return CreateBuiltInVariableResponse
+   * @throws \Google\Service\Exception
    */
   public function create($parent, $optParams = [])
   {
@@ -56,6 +57,7 @@ class AccountsContainersWorkspacesBuiltInVariables extends \Google\Service\Resou
    * @param array $optParams Optional parameters.
    *
    * @opt_param string type The types of built-in variables to delete.
+   * @throws \Google\Service\Exception
    */
   public function delete($path, $optParams = [])
   {
@@ -74,6 +76,7 @@ class AccountsContainersWorkspacesBuiltInVariables extends \Google\Service\Resou
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListEnabledBuiltInVariablesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsContainersWorkspacesBuiltInVariables($parent, $optParams = [])
   {
@@ -92,6 +95,7 @@ class AccountsContainersWorkspacesBuiltInVariables extends \Google\Service\Resou
    *
    * @opt_param string type The type of built-in variable to revert.
    * @return RevertBuiltInVariableResponse
+   * @throws \Google\Service\Exception
    */
   public function revert($path, $optParams = [])
   {

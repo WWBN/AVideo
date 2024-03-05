@@ -45,6 +45,7 @@ class CoursesAliases extends \Google\Service\Resource
    * @param CourseAlias $postBody
    * @param array $optParams Optional parameters.
    * @return CourseAlias
+   * @throws \Google\Service\Exception
    */
   public function create($courseId, CourseAlias $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class CoursesAliases extends \Google\Service\Resource
    * identifier.
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($courseId, $alias, $optParams = [])
   {
@@ -92,6 +94,7 @@ class CoursesAliases extends \Google\Service\Resource
    * list request must be otherwise identical to the one that resulted in this
    * token.
    * @return ListCourseAliasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCoursesAliases($courseId, $optParams = [])
   {

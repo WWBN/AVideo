@@ -38,6 +38,7 @@ class InboundSsoAssignments extends \Google\Service\Resource
    * @param InboundSsoAssignment $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(InboundSsoAssignment $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class InboundSsoAssignments extends \Google\Service\Resource
    * InboundSsoAssignment to delete. Format: `inboundSsoAssignments/{assignment}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class InboundSsoAssignments extends \Google\Service\Resource
    * InboundSsoAssignment to fetch. Format: `inboundSsoAssignments/{assignment}`
    * @param array $optParams Optional parameters.
    * @return InboundSsoAssignment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class InboundSsoAssignments extends \Google\Service\Resource
    * page. When paginating, all other parameters provided to
    * `ListInboundSsoAssignments` must match the call that provided the page token.
    * @return ListInboundSsoAssignmentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listInboundSsoAssignments($optParams = [])
   {
@@ -108,10 +112,11 @@ class InboundSsoAssignments extends \Google\Service\Resource
   /**
    * Updates an InboundSsoAssignment. The body of this request is the
    * `inbound_sso_assignment` field and the `update_mask` is relative to that. For
-   * example: a PATCH to `/v1/inboundSsoAssignments/0abcdefg1234567_mask=rank`
-   * with a body of `{ "rank": 1 }` moves that (presumably group-targeted) SSO
-   * assignment to the highest priority and shifts any other group-targeted
-   * assignments down in priority. (inboundSsoAssignments.patch)
+   * example: a PATCH to
+   * `/v1/inboundSsoAssignments/0abcdefg1234567&update_mask=rank` with a body of
+   * `{ "rank": 1 }` moves that (presumably group-targeted) SSO assignment to the
+   * highest priority and shifts any other group-targeted assignments down in
+   * priority. (inboundSsoAssignments.patch)
    *
    * @param string $name Output only. [Resource
    * name](https://cloud.google.com/apis/design/resource_names) of the Inbound SSO
@@ -121,6 +126,7 @@ class InboundSsoAssignments extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, InboundSsoAssignment $postBody, $optParams = [])
   {

@@ -30,6 +30,12 @@ class Target extends \Google\Collection
    * @var string
    */
   public $createTime;
+  protected $customTargetType = CustomTarget::class;
+  protected $customTargetDataType = '';
+  /**
+   * @var string[]
+   */
+  public $deployParameters;
   /**
    * @var string
    */
@@ -112,6 +118,34 @@ class Target extends \Google\Collection
   public function getCreateTime()
   {
     return $this->createTime;
+  }
+  /**
+   * @param CustomTarget
+   */
+  public function setCustomTarget(CustomTarget $customTarget)
+  {
+    $this->customTarget = $customTarget;
+  }
+  /**
+   * @return CustomTarget
+   */
+  public function getCustomTarget()
+  {
+    return $this->customTarget;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDeployParameters($deployParameters)
+  {
+    $this->deployParameters = $deployParameters;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDeployParameters()
+  {
+    return $this->deployParameters;
   }
   /**
    * @param string

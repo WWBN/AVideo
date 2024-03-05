@@ -19,9 +19,25 @@ namespace Google\Service\Contentwarehouse;
 
 class KnowledgeAnswersTimeZoneType extends \Google\Model
 {
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
 
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
+  }
   /**
    * @param NlpMeaningMeaningRemodelings
    */

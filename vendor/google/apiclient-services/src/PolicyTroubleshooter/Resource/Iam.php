@@ -38,6 +38,7 @@ class Iam extends \Google\Service\Resource
    * @param GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyResponse
+   * @throws \Google\Service\Exception
    */
   public function troubleshoot(GoogleCloudPolicytroubleshooterV1TroubleshootIamPolicyRequest $postBody, $optParams = [])
   {

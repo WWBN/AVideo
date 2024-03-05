@@ -22,6 +22,14 @@ class ClassifyTextResponse extends \Google\Collection
   protected $collection_key = 'categories';
   protected $categoriesType = ClassificationCategory::class;
   protected $categoriesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $languageCode;
+  /**
+   * @var bool
+   */
+  public $languageSupported;
 
   /**
    * @param ClassificationCategory[]
@@ -36,6 +44,34 @@ class ClassifyTextResponse extends \Google\Collection
   public function getCategories()
   {
     return $this->categories;
+  }
+  /**
+   * @param string
+   */
+  public function setLanguageCode($languageCode)
+  {
+    $this->languageCode = $languageCode;
+  }
+  /**
+   * @return string
+   */
+  public function getLanguageCode()
+  {
+    return $this->languageCode;
+  }
+  /**
+   * @param bool
+   */
+  public function setLanguageSupported($languageSupported)
+  {
+    $this->languageSupported = $languageSupported;
+  }
+  /**
+   * @return bool
+   */
+  public function getLanguageSupported()
+  {
+    return $this->languageSupported;
   }
 }
 

@@ -42,6 +42,7 @@ class IndexingDatasources extends \Google\Service\Resource
    * @opt_param bool debugOptions.enableDebugging If you are asked by Google to
    * help with debugging, set this field. Otherwise, ignore this field.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function deleteSchema($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class IndexingDatasources extends \Google\Service\Resource
    * @opt_param bool debugOptions.enableDebugging If you are asked by Google to
    * help with debugging, set this field. Otherwise, ignore this field.
    * @return Schema
+   * @throws \Google\Service\Exception
    */
   public function getSchema($name, $optParams = [])
   {
@@ -78,6 +80,7 @@ class IndexingDatasources extends \Google\Service\Resource
    * @param UpdateSchemaRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function updateSchema($name, UpdateSchemaRequest $postBody, $optParams = [])
   {

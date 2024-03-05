@@ -22,12 +22,30 @@ class GoogleCloudRecaptchaenterpriseV1RelatedAccountGroupMembership extends \Goo
   /**
    * @var string
    */
+  public $accountId;
+  /**
+   * @var string
+   */
   public $hashedAccountId;
   /**
    * @var string
    */
   public $name;
 
+  /**
+   * @param string
+   */
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+  /**
+   * @return string
+   */
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
   /**
    * @param string
    */

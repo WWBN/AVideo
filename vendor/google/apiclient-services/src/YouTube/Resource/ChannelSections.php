@@ -46,6 +46,7 @@ class ChannelSections extends \Google\Service\Resource
    * without having to provide authentication credentials for each individual
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -90,6 +91,7 @@ class ChannelSections extends \Google\Service\Resource
    * without having to provide authentication credentials for each separate
    * channel.
    * @return ChannelSection
+   * @throws \Google\Service\Exception
    */
   public function insert($part, ChannelSection $postBody, $optParams = [])
   {
@@ -130,6 +132,7 @@ class ChannelSections extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return ChannelSectionListResponse
+   * @throws \Google\Service\Exception
    */
   public function listChannelSections($part, $optParams = [])
   {
@@ -158,6 +161,7 @@ class ChannelSections extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return ChannelSection
+   * @throws \Google\Service\Exception
    */
   public function update($part, ChannelSection $postBody, $optParams = [])
   {

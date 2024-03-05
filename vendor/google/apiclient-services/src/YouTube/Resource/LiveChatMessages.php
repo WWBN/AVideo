@@ -35,6 +35,7 @@ class LiveChatMessages extends \Google\Service\Resource
    *
    * @param string $id
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -52,6 +53,7 @@ class LiveChatMessages extends \Google\Service\Resource
    * @param LiveChatMessage $postBody
    * @param array $optParams Optional parameters.
    * @return LiveChatMessage
+   * @throws \Google\Service\Exception
    */
   public function insert($part, LiveChatMessage $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class LiveChatMessages extends \Google\Service\Resource
    * @opt_param string profileImageSize Specifies the size of the profile image
    * that should be returned for each user.
    * @return LiveChatMessageListResponse
+   * @throws \Google\Service\Exception
    */
   public function listLiveChatMessages($liveChatId, $part, $optParams = [])
   {

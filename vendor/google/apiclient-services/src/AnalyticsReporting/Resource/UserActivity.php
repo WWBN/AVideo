@@ -36,6 +36,7 @@ class UserActivity extends \Google\Service\Resource
    * @param SearchUserActivityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchUserActivityResponse
+   * @throws \Google\Service\Exception
    */
   public function search(SearchUserActivityRequest $postBody, $optParams = [])
   {

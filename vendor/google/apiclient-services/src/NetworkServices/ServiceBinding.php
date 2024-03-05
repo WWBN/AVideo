@@ -42,6 +42,10 @@ class ServiceBinding extends \Google\Model
   /**
    * @var string
    */
+  public $serviceId;
+  /**
+   * @var string
+   */
   public $updateTime;
 
   /**
@@ -113,6 +117,20 @@ class ServiceBinding extends \Google\Model
   public function getService()
   {
     return $this->service;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceId($serviceId)
+  {
+    $this->serviceId = $serviceId;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceId()
+  {
+    return $this->serviceId;
   }
   /**
    * @param string

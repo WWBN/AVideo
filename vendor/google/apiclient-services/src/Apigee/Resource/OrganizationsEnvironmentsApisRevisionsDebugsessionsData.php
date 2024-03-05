@@ -37,6 +37,7 @@ class OrganizationsEnvironmentsApisRevisionsDebugsessionsData extends \Google\Se
    * /{api}/revisions/{revision}/debugsessions/{session}/data/{transaction}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DebugSessionTransaction
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

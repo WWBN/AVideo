@@ -40,6 +40,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaFirebaseLink $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaFirebaseLink
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleAnalyticsAdminV1betaFirebaseLink $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    * properties/1234/firebaseLinks/5678
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class PropertiesFirebaseLinks extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListFirebaseLinks` must match
    * the call that provided the page token.
    * @return GoogleAnalyticsAdminV1betaListFirebaseLinksResponse
+   * @throws \Google\Service\Exception
    */
   public function listPropertiesFirebaseLinks($parent, $optParams = [])
   {

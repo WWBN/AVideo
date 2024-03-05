@@ -22,11 +22,11 @@ class VmImage extends \Google\Model
   /**
    * @var string
    */
-  public $imageFamily;
+  public $family;
   /**
    * @var string
    */
-  public $imageName;
+  public $name;
   /**
    * @var string
    */
@@ -35,30 +35,30 @@ class VmImage extends \Google\Model
   /**
    * @param string
    */
-  public function setImageFamily($imageFamily)
+  public function setFamily($family)
   {
-    $this->imageFamily = $imageFamily;
+    $this->family = $family;
   }
   /**
    * @return string
    */
-  public function getImageFamily()
+  public function getFamily()
   {
-    return $this->imageFamily;
+    return $this->family;
   }
   /**
    * @param string
    */
-  public function setImageName($imageName)
+  public function setName($name)
   {
-    $this->imageName = $imageName;
+    $this->name = $name;
   }
   /**
    * @return string
    */
-  public function getImageName()
+  public function getName()
   {
-    return $this->imageName;
+    return $this->name;
   }
   /**
    * @param string

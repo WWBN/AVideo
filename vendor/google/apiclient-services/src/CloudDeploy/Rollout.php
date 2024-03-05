@@ -19,7 +19,7 @@ namespace Google\Service\CloudDeploy;
 
 class Rollout extends \Google\Collection
 {
-  protected $collection_key = 'phases';
+  protected $collection_key = 'rolledBackByRollouts';
   /**
    * @var string[]
    */
@@ -84,6 +84,14 @@ class Rollout extends \Google\Collection
   public $name;
   protected $phasesType = Phase::class;
   protected $phasesDataType = 'array';
+  /**
+   * @var string
+   */
+  public $rollbackOfRollout;
+  /**
+   * @var string[]
+   */
+  public $rolledBackByRollouts;
   /**
    * @var string
    */
@@ -334,6 +342,34 @@ class Rollout extends \Google\Collection
   public function getPhases()
   {
     return $this->phases;
+  }
+  /**
+   * @param string
+   */
+  public function setRollbackOfRollout($rollbackOfRollout)
+  {
+    $this->rollbackOfRollout = $rollbackOfRollout;
+  }
+  /**
+   * @return string
+   */
+  public function getRollbackOfRollout()
+  {
+    return $this->rollbackOfRollout;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRolledBackByRollouts($rolledBackByRollouts)
+  {
+    $this->rolledBackByRollouts = $rolledBackByRollouts;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRolledBackByRollouts()
+  {
+    return $this->rolledBackByRollouts;
   }
   /**
    * @param string

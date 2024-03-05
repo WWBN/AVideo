@@ -19,94 +19,78 @@ namespace Google\Service\Apigee;
 
 class GoogleCloudApigeeV1ApiCategory extends \Google\Model
 {
-  protected $dataType = GoogleCloudApigeeV1ApiCategoryData::class;
-  protected $dataDataType = '';
   /**
    * @var string
    */
-  public $errorCode;
+  public $id;
   /**
    * @var string
    */
-  public $message;
+  public $name;
   /**
    * @var string
    */
-  public $requestId;
+  public $siteId;
   /**
    * @var string
    */
-  public $status;
+  public $updateTime;
 
   /**
-   * @param GoogleCloudApigeeV1ApiCategoryData
-   */
-  public function setData(GoogleCloudApigeeV1ApiCategoryData $data)
-  {
-    $this->data = $data;
-  }
-  /**
-   * @return GoogleCloudApigeeV1ApiCategoryData
-   */
-  public function getData()
-  {
-    return $this->data;
-  }
-  /**
    * @param string
    */
-  public function setErrorCode($errorCode)
+  public function setId($id)
   {
-    $this->errorCode = $errorCode;
+    $this->id = $id;
   }
   /**
    * @return string
    */
-  public function getErrorCode()
+  public function getId()
   {
-    return $this->errorCode;
+    return $this->id;
   }
   /**
    * @param string
    */
-  public function setMessage($message)
+  public function setName($name)
   {
-    $this->message = $message;
+    $this->name = $name;
   }
   /**
    * @return string
    */
-  public function getMessage()
+  public function getName()
   {
-    return $this->message;
+    return $this->name;
   }
   /**
    * @param string
    */
-  public function setRequestId($requestId)
+  public function setSiteId($siteId)
   {
-    $this->requestId = $requestId;
+    $this->siteId = $siteId;
   }
   /**
    * @return string
    */
-  public function getRequestId()
+  public function getSiteId()
   {
-    return $this->requestId;
+    return $this->siteId;
   }
   /**
    * @param string
    */
-  public function setStatus($status)
+  public function setUpdateTime($updateTime)
   {
-    $this->status = $status;
+    $this->updateTime = $updateTime;
   }
   /**
    * @return string
    */
-  public function getStatus()
+  public function getUpdateTime()
   {
-    return $this->status;
+    return $this->updateTime;
   }
 }
 

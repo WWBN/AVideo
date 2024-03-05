@@ -29,6 +29,8 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   protected $firewallPolicyAssessmentDataType = '';
   protected $fraudPreventionAssessmentType = GoogleCloudRecaptchaenterpriseV1FraudPreventionAssessment::class;
   protected $fraudPreventionAssessmentDataType = '';
+  protected $fraudSignalsType = GoogleCloudRecaptchaenterpriseV1FraudSignals::class;
+  protected $fraudSignalsDataType = '';
   /**
    * @var string
    */
@@ -109,6 +111,20 @@ class GoogleCloudRecaptchaenterpriseV1Assessment extends \Google\Model
   public function getFraudPreventionAssessment()
   {
     return $this->fraudPreventionAssessment;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1FraudSignals
+   */
+  public function setFraudSignals(GoogleCloudRecaptchaenterpriseV1FraudSignals $fraudSignals)
+  {
+    $this->fraudSignals = $fraudSignals;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1FraudSignals
+   */
+  public function getFraudSignals()
+  {
+    return $this->fraudSignals;
   }
   /**
    * @param string

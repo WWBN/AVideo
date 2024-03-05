@@ -69,6 +69,7 @@ class TagManager extends \Google\Service
   public $accounts_containers_workspaces_gtag_config;
   public $accounts_containers_workspaces_tags;
   public $accounts_containers_workspaces_templates;
+  public $accounts_containers_workspaces_transformations;
   public $accounts_containers_workspaces_triggers;
   public $accounts_containers_workspaces_variables;
   public $accounts_containers_workspaces_zones;
@@ -1117,6 +1118,88 @@ class TagManager extends \Google\Service
               ],
             ],'list' => [
               'path' => 'tagmanager/v2/{+parent}/templates',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'revert' => [
+              'path' => 'tagmanager/v2/{+path}:revert',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'path' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'fingerprint' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'update' => [
+              'path' => 'tagmanager/v2/{+path}',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'path' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'fingerprint' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_containers_workspaces_transformations = new TagManager\Resource\AccountsContainersWorkspacesTransformations(
+        $this,
+        $this->serviceName,
+        'transformations',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'tagmanager/v2/{+parent}/transformations',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'tagmanager/v2/{+path}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'path' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'tagmanager/v2/{+path}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'path' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'tagmanager/v2/{+parent}/transformations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [

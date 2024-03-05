@@ -44,6 +44,7 @@ class AgentUsers extends \Google\Service\Resource
    *
    * @opt_param string requestId Request ID used for debugging.
    * @return HomegraphEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($agentUserId, $optParams = [])
   {

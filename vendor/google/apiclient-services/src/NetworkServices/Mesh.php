@@ -28,6 +28,10 @@ class Mesh extends \Google\Model
    */
   public $description;
   /**
+   * @var string
+   */
+  public $envoyHeaders;
+  /**
    * @var int
    */
   public $interceptionPort;
@@ -75,6 +79,20 @@ class Mesh extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setEnvoyHeaders($envoyHeaders)
+  {
+    $this->envoyHeaders = $envoyHeaders;
+  }
+  /**
+   * @return string
+   */
+  public function getEnvoyHeaders()
+  {
+    return $this->envoyHeaders;
   }
   /**
    * @param int

@@ -43,6 +43,7 @@ class FoldersSources extends \Google\Service\Resource
    * `ListSourcesResponse`; indicates that this is a continuation of a prior
    * `ListSources` call, and that the system should return the next page of data.
    * @return ListSourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listFoldersSources($parent, $optParams = [])
   {

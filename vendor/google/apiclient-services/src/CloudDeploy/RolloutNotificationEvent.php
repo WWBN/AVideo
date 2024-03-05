@@ -30,11 +30,19 @@ class RolloutNotificationEvent extends \Google\Model
   /**
    * @var string
    */
+  public $release;
+  /**
+   * @var string
+   */
   public $releaseUid;
   /**
    * @var string
    */
   public $rollout;
+  /**
+   * @var string
+   */
+  public $rolloutUid;
   /**
    * @var string
    */
@@ -75,6 +83,20 @@ class RolloutNotificationEvent extends \Google\Model
   /**
    * @param string
    */
+  public function setRelease($release)
+  {
+    $this->release = $release;
+  }
+  /**
+   * @return string
+   */
+  public function getRelease()
+  {
+    return $this->release;
+  }
+  /**
+   * @param string
+   */
   public function setReleaseUid($releaseUid)
   {
     $this->releaseUid = $releaseUid;
@@ -99,6 +121,20 @@ class RolloutNotificationEvent extends \Google\Model
   public function getRollout()
   {
     return $this->rollout;
+  }
+  /**
+   * @param string
+   */
+  public function setRolloutUid($rolloutUid)
+  {
+    $this->rolloutUid = $rolloutUid;
+  }
+  /**
+   * @return string
+   */
+  public function getRolloutUid()
+  {
+    return $this->rolloutUid;
   }
   /**
    * @param string

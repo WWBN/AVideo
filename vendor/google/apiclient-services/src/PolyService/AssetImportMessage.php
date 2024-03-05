@@ -27,8 +27,16 @@ class AssetImportMessage extends \Google\Model
    * @var string
    */
   public $filePath;
+  /**
+   * @var ImageError
+   */
+  public $imageError;
   protected $imageErrorType = ImageError::class;
   protected $imageErrorDataType = '';
+  /**
+   * @var ObjParseError
+   */
+  public $objParseError;
   protected $objParseErrorType = ObjParseError::class;
   protected $objParseErrorDataType = '';
 

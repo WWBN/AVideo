@@ -39,6 +39,7 @@ class Services extends \Google\Service\Resource
    * This should be a `next_page_token` value returned from a previous
    * `ListServices` call. If unspecified, the first page of results is returned.
    * @return ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listServices($optParams = [])
   {

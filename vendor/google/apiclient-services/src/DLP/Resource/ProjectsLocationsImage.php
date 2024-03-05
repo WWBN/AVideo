@@ -33,24 +33,25 @@ class ProjectsLocationsImage extends \Google\Service\Resource
   /**
    * Redacts potentially sensitive info from an image. This method has limits on
    * input size, processing time, and output size. See
-   * https://cloud.google.com/dlp/docs/redacting-sensitive-data-images to learn
-   * more. When no InfoTypes or CustomInfoTypes are specified in this request, the
-   * system will automatically choose what detectors to run. By default this may
-   * be all types, but may change over time as detectors are updated.
-   * (image.redact)
+   * https://cloud.google.com/sensitive-data-protection/docs/redacting-sensitive-
+   * data-images to learn more. When no InfoTypes or CustomInfoTypes are specified
+   * in this request, the system will automatically choose what detectors to run.
+   * By default this may be all types, but may change over time as detectors are
+   * updated. (image.redact)
    *
    * @param string $parent Parent resource name. The format of this value varies
    * depending on whether you have [specified a processing
-   * location](https://cloud.google.com/dlp/docs/specifying-location): + Projects
-   * scope, location specified: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Projects scope, no location specified (defaults to global):
-   * `projects/`PROJECT_ID The following example `parent` string specifies a
-   * parent project with the identifier `example-project`, and specifies the
-   * `europe-west3` location for processing data: parent=projects/example-
-   * project/locations/europe-west3
+   * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
+   * location): + Projects scope, location specified:
+   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * specified (defaults to global): `projects/`PROJECT_ID The following example
+   * `parent` string specifies a parent project with the identifier `example-
+   * project`, and specifies the `europe-west3` location for processing data:
+   * parent=projects/example-project/locations/europe-west3
    * @param GooglePrivacyDlpV2RedactImageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2RedactImageResponse
+   * @throws \Google\Service\Exception
    */
   public function redact($parent, GooglePrivacyDlpV2RedactImageRequest $postBody, $optParams = [])
   {

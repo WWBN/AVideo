@@ -54,6 +54,10 @@ class SectionStyle extends \Google\Collection
    * @var string
    */
   public $firstPageHeaderId;
+  /**
+   * @var bool
+   */
+  public $flipPageOrientation;
   protected $marginBottomType = Dimension::class;
   protected $marginBottomDataType = '';
   protected $marginFooterType = Dimension::class;
@@ -204,6 +208,20 @@ class SectionStyle extends \Google\Collection
   public function getFirstPageHeaderId()
   {
     return $this->firstPageHeaderId;
+  }
+  /**
+   * @param bool
+   */
+  public function setFlipPageOrientation($flipPageOrientation)
+  {
+    $this->flipPageOrientation = $flipPageOrientation;
+  }
+  /**
+   * @return bool
+   */
+  public function getFlipPageOrientation()
+  {
+    return $this->flipPageOrientation;
   }
   /**
    * @param Dimension

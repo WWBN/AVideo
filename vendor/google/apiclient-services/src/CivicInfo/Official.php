@@ -28,8 +28,6 @@ class Official extends \Google\Collection
    * @var string[]
    */
   public $emails;
-  protected $geocodingSummariesType = GeocodingSummary::class;
-  protected $geocodingSummariesDataType = 'array';
   /**
    * @var string
    */
@@ -92,20 +90,6 @@ class Official extends \Google\Collection
   public function getEmails()
   {
     return $this->emails;
-  }
-  /**
-   * @param GeocodingSummary[]
-   */
-  public function setGeocodingSummaries($geocodingSummaries)
-  {
-    $this->geocodingSummaries = $geocodingSummaries;
-  }
-  /**
-   * @return GeocodingSummary[]
-   */
-  public function getGeocodingSummaries()
-  {
-    return $this->geocodingSummaries;
   }
   /**
    * @param string

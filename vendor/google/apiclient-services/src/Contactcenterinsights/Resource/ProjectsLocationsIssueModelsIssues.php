@@ -37,6 +37,7 @@ class ProjectsLocationsIssueModelsIssues extends \Google\Service\Resource
    * @param string $name Required. The name of the issue to delete.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -50,6 +51,7 @@ class ProjectsLocationsIssueModelsIssues extends \Google\Service\Resource
    * @param string $name Required. The name of the issue to get.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContactcenterinsightsV1Issue
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -63,6 +65,7 @@ class ProjectsLocationsIssueModelsIssues extends \Google\Service\Resource
    * @param string $parent Required. The parent resource of the issue.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContactcenterinsightsV1ListIssuesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsIssueModelsIssues($parent, $optParams = [])
   {
@@ -80,6 +83,7 @@ class ProjectsLocationsIssueModelsIssues extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return GoogleCloudContactcenterinsightsV1Issue
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudContactcenterinsightsV1Issue $postBody, $optParams = [])
   {

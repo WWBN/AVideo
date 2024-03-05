@@ -20,12 +20,14 @@ namespace Google\Service\DisplayVideo;
 class YoutubeAndPartnersSettings extends \Google\Collection
 {
   protected $collection_key = 'relatedVideoIds';
-  protected $biddingStrategyType = YoutubeAndPartnersBiddingStrategy::class;
-  protected $biddingStrategyDataType = '';
   /**
    * @var string
    */
   public $contentCategory;
+  /**
+   * @var string
+   */
+  public $effectiveContentCategory;
   protected $inventorySourceSettingsType = YoutubeAndPartnersInventorySourceConfig::class;
   protected $inventorySourceSettingsDataType = '';
   /**
@@ -42,27 +44,13 @@ class YoutubeAndPartnersSettings extends \Google\Collection
   public $relatedVideoIds;
   protected $targetFrequencyType = TargetFrequency::class;
   protected $targetFrequencyDataType = '';
-  protected $thirdPartyMeasurementSettingsType = YoutubeAndPartnersThirdPartyMeasurementSettings::class;
-  protected $thirdPartyMeasurementSettingsDataType = '';
+  protected $thirdPartyMeasurementConfigsType = ThirdPartyMeasurementConfigs::class;
+  protected $thirdPartyMeasurementConfigsDataType = '';
   protected $videoAdSequenceSettingsType = VideoAdSequenceSettings::class;
   protected $videoAdSequenceSettingsDataType = '';
   protected $viewFrequencyCapType = FrequencyCap::class;
   protected $viewFrequencyCapDataType = '';
 
-  /**
-   * @param YoutubeAndPartnersBiddingStrategy
-   */
-  public function setBiddingStrategy(YoutubeAndPartnersBiddingStrategy $biddingStrategy)
-  {
-    $this->biddingStrategy = $biddingStrategy;
-  }
-  /**
-   * @return YoutubeAndPartnersBiddingStrategy
-   */
-  public function getBiddingStrategy()
-  {
-    return $this->biddingStrategy;
-  }
   /**
    * @param string
    */
@@ -76,6 +64,20 @@ class YoutubeAndPartnersSettings extends \Google\Collection
   public function getContentCategory()
   {
     return $this->contentCategory;
+  }
+  /**
+   * @param string
+   */
+  public function setEffectiveContentCategory($effectiveContentCategory)
+  {
+    $this->effectiveContentCategory = $effectiveContentCategory;
+  }
+  /**
+   * @return string
+   */
+  public function getEffectiveContentCategory()
+  {
+    return $this->effectiveContentCategory;
   }
   /**
    * @param YoutubeAndPartnersInventorySourceConfig
@@ -148,18 +150,18 @@ class YoutubeAndPartnersSettings extends \Google\Collection
     return $this->targetFrequency;
   }
   /**
-   * @param YoutubeAndPartnersThirdPartyMeasurementSettings
+   * @param ThirdPartyMeasurementConfigs
    */
-  public function setThirdPartyMeasurementSettings(YoutubeAndPartnersThirdPartyMeasurementSettings $thirdPartyMeasurementSettings)
+  public function setThirdPartyMeasurementConfigs(ThirdPartyMeasurementConfigs $thirdPartyMeasurementConfigs)
   {
-    $this->thirdPartyMeasurementSettings = $thirdPartyMeasurementSettings;
+    $this->thirdPartyMeasurementConfigs = $thirdPartyMeasurementConfigs;
   }
   /**
-   * @return YoutubeAndPartnersThirdPartyMeasurementSettings
+   * @return ThirdPartyMeasurementConfigs
    */
-  public function getThirdPartyMeasurementSettings()
+  public function getThirdPartyMeasurementConfigs()
   {
-    return $this->thirdPartyMeasurementSettings;
+    return $this->thirdPartyMeasurementConfigs;
   }
   /**
    * @param VideoAdSequenceSettings

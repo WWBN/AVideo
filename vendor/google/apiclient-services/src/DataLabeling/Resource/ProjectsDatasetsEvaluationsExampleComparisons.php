@@ -41,6 +41,7 @@ class ProjectsDatasetsEvaluationsExampleComparisons extends \Google\Service\Reso
    * @param GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1SearchExampleComparisonsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($parent, GoogleCloudDatalabelingV1beta1SearchExampleComparisonsRequest $postBody, $optParams = [])
   {

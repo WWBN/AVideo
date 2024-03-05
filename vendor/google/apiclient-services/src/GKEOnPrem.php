@@ -264,6 +264,10 @@ class GKEOnPrem extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'ignoreErrors' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
                 'validateOnly' => [
                   'location' => 'query',
                   'type' => 'boolean',
@@ -596,6 +600,10 @@ class GKEOnPrem extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'getIamPolicy' => [
               'path' => 'v1/{+resource}:getIamPolicy',
@@ -628,6 +636,10 @@ class GKEOnPrem extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'patch' => [
               'path' => 'v1/{+name}',
@@ -637,6 +649,10 @@ class GKEOnPrem extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'updateMask' => [
                   'location' => 'query',
@@ -863,6 +879,10 @@ class GKEOnPrem extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'getIamPolicy' => [
@@ -1326,6 +1346,10 @@ class GKEOnPrem extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'getIamPolicy' => [
               'path' => 'v1/{+resource}:getIamPolicy',
@@ -1355,6 +1379,10 @@ class GKEOnPrem extends \Google\Service
                   'type' => 'integer',
                 ],
                 'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'view' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -1405,6 +1433,10 @@ class GKEOnPrem extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'allowMissing' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
                 ],
                 'etag' => [
                   'location' => 'query',

@@ -37,6 +37,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -50,6 +51,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Required. The name of the VPCSCConfig resource.
    * @param array $optParams Optional parameters.
    * @return VPCSCConfig
+   * @throws \Google\Service\Exception
    */
   public function getVpcscConfig($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {
@@ -91,6 +94,7 @@ class ProjectsLocations extends \Google\Service\Resource
    *
    * @opt_param string updateMask Field mask to support partial updates.
    * @return VPCSCConfig
+   * @throws \Google\Service\Exception
    */
   public function updateVpcscConfig($name, VPCSCConfig $postBody, $optParams = [])
   {

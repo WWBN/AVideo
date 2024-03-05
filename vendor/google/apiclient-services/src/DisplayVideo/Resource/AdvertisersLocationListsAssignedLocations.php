@@ -36,10 +36,8 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
   /**
    * Bulk edits multiple assignments between locations and a single location list.
    * The operation will delete the assigned locations provided in
-   * BulkEditAssignedLocationsRequest.deleted_assigned_locations and then create
-   * the assigned locations provided in
-   * BulkEditAssignedLocationsRequest.created_assigned_locations.
-   * (assignedLocations.bulkEdit)
+   * deletedAssignedLocations and then create the assigned locations provided in
+   * createdAssignedLocations. (assignedLocations.bulkEdit)
    *
    * @param string $advertiserId Required. The ID of the DV360 advertiser to which
    * the location list belongs.
@@ -48,6 +46,7 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
    * @param BulkEditAssignedLocationsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkEditAssignedLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkEdit($advertiserId, $locationListId, BulkEditAssignedLocationsRequest $postBody, $optParams = [])
   {
@@ -66,6 +65,7 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
    * @param AssignedLocation $postBody
    * @param array $optParams Optional parameters.
    * @return AssignedLocation
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, $locationListId, AssignedLocation $postBody, $optParams = [])
   {
@@ -85,6 +85,7 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
    * to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $locationListId, $assignedLocationId, $optParams = [])
   {
@@ -122,6 +123,7 @@ class AdvertisersLocationListsAssignedLocations extends \Google\Service\Resource
    * the previous call to `ListAssignedLocations` method. If not specified, the
    * first page of results will be returned.
    * @return ListAssignedLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersLocationListsAssignedLocations($advertiserId, $locationListId, $optParams = [])
   {

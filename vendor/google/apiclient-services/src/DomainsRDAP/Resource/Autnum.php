@@ -36,6 +36,7 @@ class Autnum extends \Google\Service\Resource
    * @param string $autnumId
    * @param array $optParams Optional parameters.
    * @return RdapResponse
+   * @throws \Google\Service\Exception
    */
   public function get($autnumId, $optParams = [])
   {

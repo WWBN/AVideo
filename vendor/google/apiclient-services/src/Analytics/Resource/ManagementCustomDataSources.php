@@ -44,6 +44,7 @@ class ManagementCustomDataSources extends \Google\Service\Resource
    * retrieve. Use this parameter as a pagination mechanism along with the max-
    * results parameter.
    * @return CustomDataSources
+   * @throws \Google\Service\Exception
    */
   public function listManagementCustomDataSources($accountId, $webPropertyId, $optParams = [])
   {

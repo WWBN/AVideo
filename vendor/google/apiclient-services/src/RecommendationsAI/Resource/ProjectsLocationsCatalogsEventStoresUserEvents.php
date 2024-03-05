@@ -56,6 +56,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * requests.
    * @opt_param string userEvent Required. URL encoded UserEvent proto.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function collect($parent, $optParams = [])
   {
@@ -75,6 +76,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * @param GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudRecommendationengineV1beta1ImportUserEventsRequest $postBody, $optParams = [])
   {
@@ -122,6 +124,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * @opt_param string pageToken Optional. The previous
    * ListUserEventsResponse.next_page_token.
    * @return GoogleCloudRecommendationengineV1beta1ListUserEventsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogsEventStoresUserEvents($parent, $optParams = [])
   {
@@ -141,6 +144,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * @param GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function purge($parent, GoogleCloudRecommendationengineV1beta1PurgeUserEventsRequest $postBody, $optParams = [])
   {
@@ -162,6 +166,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * @param GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function rejoin($parent, GoogleCloudRecommendationengineV1beta1RejoinUserEventsRequest $postBody, $optParams = [])
   {
@@ -178,6 +183,7 @@ class ProjectsLocationsCatalogsEventStoresUserEvents extends \Google\Service\Res
    * @param GoogleCloudRecommendationengineV1beta1UserEvent $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecommendationengineV1beta1UserEvent
+   * @throws \Google\Service\Exception
    */
   public function write($parent, GoogleCloudRecommendationengineV1beta1UserEvent $postBody, $optParams = [])
   {

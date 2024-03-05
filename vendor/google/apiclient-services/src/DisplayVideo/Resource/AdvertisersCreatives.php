@@ -32,14 +32,17 @@ use Google\Service\DisplayVideo\ListCreativesResponse;
 class AdvertisersCreatives extends \Google\Service\Resource
 {
   /**
-   * Creates a new creative. Returns the newly created creative if successful.
-   * (creatives.create)
+   * Creates a new creative. Returns the newly created creative if successful. A
+   * ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or
+   * greater for the parent advertiser or partner is required to make this
+   * request. (creatives.create)
    *
    * @param string $advertiserId Output only. The unique ID of the advertiser the
    * creative belongs to.
    * @param Creative $postBody
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, Creative $postBody, $optParams = [])
   {
@@ -50,13 +53,17 @@ class AdvertisersCreatives extends \Google\Service\Resource
   /**
    * Deletes a creative. Returns error code `NOT_FOUND` if the creative does not
    * exist. The creative should be archived first, i.e. set entity_status to
-   * `ENTITY_STATUS_ARCHIVED`, before it can be deleted. (creatives.delete)
+   * `ENTITY_STATUS_ARCHIVED`, before it can be deleted. A ["Standard" user
+   * role](//support.google.com/displayvideo/answer/2723011) or greater for the
+   * parent advertiser or partner is required to make this request.
+   * (creatives.delete)
    *
    * @param string $advertiserId The ID of the advertiser this creative belongs
    * to.
    * @param string $creativeId The ID of the creative to be deleted.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $creativeId, $optParams = [])
   {
@@ -72,6 +79,7 @@ class AdvertisersCreatives extends \Google\Service\Resource
    * @param string $creativeId Required. The ID of the creative to fetch.
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $creativeId, $optParams = [])
   {
@@ -112,16 +120,17 @@ class AdvertisersCreatives extends \Google\Service\Resource
    * 50x100 dimensions: `entityStatus="ENTITY_STATUS_ACTIVE" AND
    * (dimensions="300x400" OR dimensions="50x100")` * All dynamic creatives that
    * are approved by AdX or AppNexus, with a minimum duration of 5 seconds and
-   * 200ms: `dynamic="true" AND minDuration="5.2s" AND (exchangeReviewStatus
-   * ="EXCHANGE_GOOGLE_AD_MANAGER-REVIEW_STATUS_APPROVED" OR exchangeReviewStatus
-   * ="EXCHANGE_APPNEXUS-REVIEW_STATUS_APPROVED")` * All video creatives that are
-   * associated with line item ID 1 or 2: `creativeType="CREATIVE_TYPE_VIDEO" AND
-   * (lineItemIds:1 OR lineItemIds:2)` * Find creatives by multiple creative IDs:
-   * `creativeId=1 OR creativeId=2` * All creatives with an update time greater
-   * than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
-   * `updateTime>="2020-11-04T18:54:47Z"` The length of this field should be no
-   * more than 500 characters. Reference our [filter `LIST` requests](/display-
-   * video/api/guides/how-tos/filters) guide for more information.
+   * 200ms: `dynamic="true" AND minDuration="5.2s" AND
+   * (exchangeReviewStatus="EXCHANGE_GOOGLE_AD_MANAGER-REVIEW_STATUS_APPROVED" OR
+   * exchangeReviewStatus="EXCHANGE_APPNEXUS-REVIEW_STATUS_APPROVED")` * All video
+   * creatives that are associated with line item ID 1 or 2:
+   * `creativeType="CREATIVE_TYPE_VIDEO" AND (lineItemIds:1 OR lineItemIds:2)` *
+   * Find creatives by multiple creative IDs: `creativeId=1 OR creativeId=2` * All
+   * creatives with an update time greater than or equal to 2020-11-04T18:54:47Z
+   * (format of ISO 8601): `updateTime>="2020-11-04T18:54:47Z"` The length of this
+   * field should be no more than 500 characters. Reference our [filter `LIST`
+   * requests](/display-video/api/guides/how-tos/filters) guide for more
+   * information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `creativeId` (default) * `createTime` * `mediaDuration` * `dimensions`
    * (sorts by width first, then by height) The default sorting order is
@@ -135,6 +144,7 @@ class AdvertisersCreatives extends \Google\Service\Resource
    * the previous call to `ListCreatives` method. If not specified, the first page
    * of results will be returned.
    * @return ListCreativesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersCreatives($advertiserId, $optParams = [])
   {
@@ -143,8 +153,10 @@ class AdvertisersCreatives extends \Google\Service\Resource
     return $this->call('list', [$params], ListCreativesResponse::class);
   }
   /**
-   * Updates an existing creative. Returns the updated creative if successful.
-   * (creatives.patch)
+   * Updates an existing creative. Returns the updated creative if successful. A
+   * ["Standard" user role](//support.google.com/displayvideo/answer/2723011) or
+   * greater for the parent advertiser or partner is required to make this
+   * request. (creatives.patch)
    *
    * @param string $advertiserId Output only. The unique ID of the advertiser the
    * creative belongs to.
@@ -156,6 +168,7 @@ class AdvertisersCreatives extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $creativeId, Creative $postBody, $optParams = [])
   {

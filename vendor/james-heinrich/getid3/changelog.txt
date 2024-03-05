@@ -18,6 +18,19 @@
 Version History
 ===============
 
+1.9.23: [2023-10-19] James Heinrich :: 1.9.23-202310190849
+	» add detection support for 7-zip archives
+	* #424 RIFF Undefined index "data"
+	* #421 tag.xmp remove GLOBALS
+	* #419 Quicktime Undefined index "time_scale"
+	* #418 tag.xmp zero-length fread
+	* #414 Quicktime bitrate for mp4 audio
+	* #413 Quicktime audio metadata
+	* #410 MPEG-1 pixel aspect ratio
+	* #407 PHP 8.1 compatibility
+	* #404 guard against division by zero
+	* #402 remove utf8_encode/utf8_decode
+
 1.9.22: [2022-09-29] James Heinrich :: 1.9.22-202207161647
 	* bugfix #387 fails to detect h265 video codec (QuickTime)
 	* bugfix #385 Quicktime extended atom size

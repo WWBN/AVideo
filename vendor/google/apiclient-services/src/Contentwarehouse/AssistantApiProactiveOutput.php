@@ -36,10 +36,6 @@ class AssistantApiProactiveOutput extends \Google\Model
    */
   public $photosProactive;
   /**
-   * @var bool
-   */
-  public $supportsProactiveOutput;
-  /**
    * @var string
    */
   public $userMatchProactive;
@@ -99,20 +95,6 @@ class AssistantApiProactiveOutput extends \Google\Model
   public function getPhotosProactive()
   {
     return $this->photosProactive;
-  }
-  /**
-   * @param bool
-   */
-  public function setSupportsProactiveOutput($supportsProactiveOutput)
-  {
-    $this->supportsProactiveOutput = $supportsProactiveOutput;
-  }
-  /**
-   * @return bool
-   */
-  public function getSupportsProactiveOutput()
-  {
-    return $this->supportsProactiveOutput;
   }
   /**
    * @param string

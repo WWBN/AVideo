@@ -59,6 +59,7 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * @param CreateInstanceConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CreateInstanceConfigRequest $postBody, $optParams = [])
   {
@@ -86,6 +87,7 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * @opt_param bool validateOnly An option to validate, but not actually execute,
    * a request, and provide the same response.
    * @return SpannerEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -101,6 +103,7 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * configuration. Values are of the form `projects//instanceConfigs/`.
    * @param array $optParams Optional parameters.
    * @return InstanceConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -123,6 +126,7 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * @opt_param string pageToken If non-empty, `page_token` should contain a
    * next_page_token from a previous ListInstanceConfigsResponse.
    * @return ListInstanceConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstanceConfigs($parent, $optParams = [])
   {
@@ -155,6 +159,7 @@ class ProjectsInstanceConfigs extends \Google\Service\Resource
    * @param UpdateInstanceConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, UpdateInstanceConfigRequest $postBody, $optParams = [])
   {

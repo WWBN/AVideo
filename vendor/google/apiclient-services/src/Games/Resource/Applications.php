@@ -45,6 +45,7 @@ class Applications extends \Google\Service\Resource
    * @opt_param string platformType Restrict application details returned to the
    * specific platform.
    * @return Application
+   * @throws \Google\Service\Exception
    */
   public function get($applicationId, $optParams = [])
   {
@@ -61,6 +62,7 @@ class Applications extends \Google\Service\Resource
    * developer console.
    * @opt_param string endPointType Type of endpoint being requested.
    * @return EndPoint
+   * @throws \Google\Service\Exception
    */
   public function getEndPoint($optParams = [])
   {
@@ -73,6 +75,7 @@ class Applications extends \Google\Service\Resource
    * (applications.played)
    *
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function played($optParams = [])
   {
@@ -89,6 +92,7 @@ class Applications extends \Google\Service\Resource
    * developer console.
    * @param array $optParams Optional parameters.
    * @return ApplicationVerifyResponse
+   * @throws \Google\Service\Exception
    */
   public function verify($applicationId, $optParams = [])
   {

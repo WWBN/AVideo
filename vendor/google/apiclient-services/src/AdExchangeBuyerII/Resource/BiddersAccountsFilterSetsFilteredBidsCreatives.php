@@ -43,8 +43,8 @@ class BiddersAccountsFilterSetsFilteredBidsCreatives extends \Google\Service\Res
    * `bidders/123/accounts/456/filterSets/abc`
    * @param int $creativeStatusId The ID of the creative status for which to
    * retrieve a breakdown by creative. See [creative-status-
-   * codes](https://developers.google.com/authorized-buyers/rtb/downloads
-   * /creative-status-codes).
+   * codes](https://developers.google.com/authorized-
+   * buyers/rtb/downloads/creative-status-codes).
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Requested page size. The server may return fewer
@@ -55,6 +55,7 @@ class BiddersAccountsFilterSetsFilteredBidsCreatives extends \Google\Service\Res
    * ListCreativeStatusBreakdownByCreativeResponse.nextPageToken returned from the
    * previous call to the filteredBids.creatives.list method.
    * @return ListCreativeStatusBreakdownByCreativeResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersAccountsFilterSetsFilteredBidsCreatives($filterSetName, $creativeStatusId, $optParams = [])
   {

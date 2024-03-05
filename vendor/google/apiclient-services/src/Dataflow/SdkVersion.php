@@ -17,8 +17,11 @@
 
 namespace Google\Service\Dataflow;
 
-class SdkVersion extends \Google\Model
+class SdkVersion extends \Google\Collection
 {
+  protected $collection_key = 'bugs';
+  protected $bugsType = SdkBug::class;
+  protected $bugsDataType = 'array';
   /**
    * @var string
    */
@@ -32,6 +35,20 @@ class SdkVersion extends \Google\Model
    */
   public $versionDisplayName;
 
+  /**
+   * @param SdkBug[]
+   */
+  public function setBugs($bugs)
+  {
+    $this->bugs = $bugs;
+  }
+  /**
+   * @return SdkBug[]
+   */
+  public function getBugs()
+  {
+    return $this->bugs;
+  }
   /**
    * @param string
    */

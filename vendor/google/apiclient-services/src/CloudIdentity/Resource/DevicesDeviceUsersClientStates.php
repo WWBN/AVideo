@@ -57,6 +57,7 @@ class DevicesDeviceUsersClientStates extends \Google\Service\Resource
    * organization, use `customers/{customer}`, where customer is the customer to
    * whom the device belongs.
    * @return GoogleAppsCloudidentityDevicesV1ClientState
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -89,6 +90,7 @@ class DevicesDeviceUsersClientStates extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListClientStates` must match
    * the call that provided the page token.
    * @return GoogleAppsCloudidentityDevicesV1ListClientStatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listDevicesDeviceUsersClientStates($parent, $optParams = [])
   {
@@ -131,6 +133,7 @@ class DevicesDeviceUsersClientStates extends \Google\Service\Resource
    * qualified names of fields to be updated. If not specified, all updatable
    * fields in ClientState are updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleAppsCloudidentityDevicesV1ClientState $postBody, $optParams = [])
   {

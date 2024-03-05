@@ -138,6 +138,8 @@ class GeostoreSegmentProto extends \Google\Collection
   public $priority;
   protected $priorityMetadataType = GeostoreFieldMetadataProto::class;
   protected $priorityMetadataDataType = '';
+  protected $rampType = GeostoreSegmentProtoRampProto::class;
+  protected $rampDataType = '';
   protected $restrictionType = GeostoreRestrictionProto::class;
   protected $restrictionDataType = 'array';
   protected $roadMonitorType = GeostoreFeatureIdProto::class;
@@ -720,6 +722,20 @@ class GeostoreSegmentProto extends \Google\Collection
   public function getPriorityMetadata()
   {
     return $this->priorityMetadata;
+  }
+  /**
+   * @param GeostoreSegmentProtoRampProto
+   */
+  public function setRamp(GeostoreSegmentProtoRampProto $ramp)
+  {
+    $this->ramp = $ramp;
+  }
+  /**
+   * @return GeostoreSegmentProtoRampProto
+   */
+  public function getRamp()
+  {
+    return $this->ramp;
   }
   /**
    * @param GeostoreRestrictionProto[]

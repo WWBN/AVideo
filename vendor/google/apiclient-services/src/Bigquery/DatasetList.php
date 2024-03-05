@@ -19,7 +19,7 @@ namespace Google\Service\Bigquery;
 
 class DatasetList extends \Google\Collection
 {
-  protected $collection_key = 'datasets';
+  protected $collection_key = 'unreachable';
   protected $datasetsType = DatasetListDatasets::class;
   protected $datasetsDataType = 'array';
   /**
@@ -34,6 +34,10 @@ class DatasetList extends \Google\Collection
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param DatasetListDatasets[]
@@ -90,6 +94,20 @@ class DatasetList extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

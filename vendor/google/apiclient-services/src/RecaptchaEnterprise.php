@@ -160,6 +160,16 @@ class RecaptchaEnterprise extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'reorder' => [
+              'path' => 'v1/{+parent}/firewallpolicies:reorder',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

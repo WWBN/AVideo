@@ -100,6 +100,14 @@ class DataCatalog extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'location' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'project' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'sqlResource' => [
                   'location' => 'query',
                   'type' => 'string',

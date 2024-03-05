@@ -85,6 +85,7 @@ class Reports extends \Google\Service\Resource
    * parameter as a pagination mechanism along with the max-results parameter
    * (one-based, inclusive).", minValue: 1
    * @return QueryResponse
+   * @throws \Google\Service\Exception
    */
   public function query($optParams = [])
   {

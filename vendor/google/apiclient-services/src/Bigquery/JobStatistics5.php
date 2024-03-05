@@ -19,10 +19,6 @@ namespace Google\Service\Bigquery;
 
 class JobStatistics5 extends \Google\Model
 {
-  protected $internal_gapi_mappings = [
-        "copiedLogicalBytes" => "copied_logical_bytes",
-        "copiedRows" => "copied_rows",
-  ];
   /**
    * @var string
    */

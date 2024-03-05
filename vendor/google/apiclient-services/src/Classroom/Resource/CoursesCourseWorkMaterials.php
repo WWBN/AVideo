@@ -46,6 +46,7 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
    * @param CourseWorkMaterial $postBody
    * @param array $optParams Optional parameters.
    * @return CourseWorkMaterial
+   * @throws \Google\Service\Exception
    */
   public function create($courseId, CourseWorkMaterial $postBody, $optParams = [])
   {
@@ -71,6 +72,7 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
    * identifier is a Classroom-assigned identifier.
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($courseId, $id, $optParams = [])
   {
@@ -91,6 +93,7 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
    * @param string $id Identifier of the course work material.
    * @param array $optParams Optional parameters.
    * @return CourseWorkMaterial
+   * @throws \Google\Service\Exception
    */
   public function get($courseId, $id, $optParams = [])
   {
@@ -135,6 +138,7 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
    * list request must be otherwise identical to the one that resulted in this
    * token.
    * @return ListCourseWorkMaterialResponse
+   * @throws \Google\Service\Exception
    */
   public function listCoursesCourseWorkMaterials($courseId, $optParams = [])
   {
@@ -166,6 +170,7 @@ class CoursesCourseWorkMaterials extends \Google\Service\Resource
    * by teachers: * `title` * `description` * `state` * `scheduled_time` *
    * `topic_id`
    * @return CourseWorkMaterial
+   * @throws \Google\Service\Exception
    */
   public function patch($courseId, $id, CourseWorkMaterial $postBody, $optParams = [])
   {

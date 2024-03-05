@@ -46,6 +46,7 @@ class Externaltransactions extends \Google\Service\Resource
    * Information (PII) such as emails. Attempting to store PII in this field may
    * result in requests being blocked.
    * @return ExternalTransaction
+   * @throws \Google\Service\Exception
    */
   public function createexternaltransaction($parent, ExternalTransaction $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class Externaltransactions extends \Google\Service\Resource
    * applications/{package_name}/externalTransactions/{external_transaction}
    * @param array $optParams Optional parameters.
    * @return ExternalTransaction
+   * @throws \Google\Service\Exception
    */
   public function getexternaltransaction($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class Externaltransactions extends \Google\Service\Resource
    * @param RefundExternalTransactionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ExternalTransaction
+   * @throws \Google\Service\Exception
    */
   public function refundexternaltransaction($name, RefundExternalTransactionRequest $postBody, $optParams = [])
   {

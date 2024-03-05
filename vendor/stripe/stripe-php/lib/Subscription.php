@@ -11,10 +11,11 @@ namespace Stripe;
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
- * @property null|string|\Stripe\StripeObject $application ID of the Connect Application that created the subscription.
+ * @property null|string|\Stripe\Application $application ID of the Connect Application that created the subscription.
  * @property null|float $application_fee_percent A non-negative decimal between 0 and 100, with at most two decimal places. This represents the percentage of the subscription invoice total that will be transferred to the application owner's Stripe account.
  * @property \Stripe\StripeObject $automatic_tax
  * @property int $billing_cycle_anchor The reference point that aligns future <a href="https://stripe.com/docs/subscriptions/billing-cycle">billing cycle</a> dates. It sets the day of week for <code>week</code> intervals, the day of month for <code>month</code> and <code>year</code> intervals, and the month of year for <code>year</code> intervals. The timestamp is in UTC format.
+ * @property null|\Stripe\StripeObject $billing_cycle_anchor_config The fixed values used to calculate the <code>billing_cycle_anchor</code>.
  * @property null|\Stripe\StripeObject $billing_thresholds Define thresholds at which an invoice will be sent, and the subscription advanced to a new billing period
  * @property null|int $cancel_at A date in the future at which the subscription will automatically get canceled
  * @property bool $cancel_at_period_end If the subscription has been canceled with the <code>at_period_end</code> flag set to <code>true</code>, <code>cancel_at_period_end</code> on the subscription will be true. You can use this attribute to determine whether a subscription that has a status of active is scheduled to be canceled at the end of the current period.
@@ -163,6 +164,6 @@ class Subscription extends ApiResource
     {
         $url = '/v1/subscriptions/search';
 
-        return self::_searchResource($url, $params, $opts);
+        return static::_requestPage($url, \Stripe\SearchResult::class, $params, $opts);
     }
 }

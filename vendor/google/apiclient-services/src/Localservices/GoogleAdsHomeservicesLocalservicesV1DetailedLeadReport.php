@@ -50,6 +50,10 @@ class GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport extends \Google\Mod
   /**
    * @var string
    */
+  public $googleAdsLeadId;
+  /**
+   * @var string
+   */
   public $leadCategory;
   /**
    * @var string
@@ -182,6 +186,20 @@ class GoogleAdsHomeservicesLocalservicesV1DetailedLeadReport extends \Google\Mod
   public function getGeo()
   {
     return $this->geo;
+  }
+  /**
+   * @param string
+   */
+  public function setGoogleAdsLeadId($googleAdsLeadId)
+  {
+    $this->googleAdsLeadId = $googleAdsLeadId;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleAdsLeadId()
+  {
+    return $this->googleAdsLeadId;
   }
   /**
    * @param string

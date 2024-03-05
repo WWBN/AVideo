@@ -22,7 +22,7 @@ use Throwable;
  *
  * Depends on the following methods:
  *
- * @method \Carbon\Carbon|\Carbon\CarbonImmutable shiftTimezone($timezone) Set the timezone
+ * @method static shiftTimezone($timezone) Set the timezone
  */
 trait Options
 {
@@ -422,7 +422,7 @@ trait Options
         foreach ($map as $property => $key) {
             $value = $this->$property ?? null;
 
-            if ($value !== null) {
+            if ($value !== null && ($key !== 'locale' || $value !== 'en' || $this->localTranslator)) {
                 $settings[$key] = $value;
             }
         }
@@ -437,7 +437,7 @@ trait Options
      */
     public function __debugInfo()
     {
-        $infos = array_filter(get_object_vars($this), function ($var) {
+        $infos = array_filter(get_object_vars($this), static function ($var) {
             return $var;
         });
 

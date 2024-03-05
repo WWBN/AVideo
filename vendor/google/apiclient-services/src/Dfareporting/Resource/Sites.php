@@ -37,6 +37,7 @@ class Sites extends \Google\Service\Resource
    * @param string $id Site ID.
    * @param array $optParams Optional parameters.
    * @return Site
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Sites extends \Google\Service\Resource
    * @param Site $postBody
    * @param array $optParams Optional parameters.
    * @return Site
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, Site $postBody, $optParams = [])
   {
@@ -92,6 +94,7 @@ class Sites extends \Google\Service\Resource
    * @opt_param bool unmappedSite Select only sites that have not been mapped to a
    * directory site.
    * @return SitesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listSites($profileId, $optParams = [])
   {
@@ -103,10 +106,11 @@ class Sites extends \Google\Service\Resource
    * Updates an existing site. This method supports patch semantics. (sites.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id Site ID.
+   * @param string $id Required. Site ID.
    * @param Site $postBody
    * @param array $optParams Optional parameters.
    * @return Site
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, Site $postBody, $optParams = [])
   {
@@ -121,6 +125,7 @@ class Sites extends \Google\Service\Resource
    * @param Site $postBody
    * @param array $optParams Optional parameters.
    * @return Site
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, Site $postBody, $optParams = [])
   {

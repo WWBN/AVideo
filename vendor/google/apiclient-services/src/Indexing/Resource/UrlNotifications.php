@@ -41,6 +41,7 @@ class UrlNotifications extends \Google\Service\Resource
    *
    * @opt_param string url URL that is being queried.
    * @return UrlNotificationMetadata
+   * @throws \Google\Service\Exception
    */
   public function getMetadata($optParams = [])
   {
@@ -54,6 +55,7 @@ class UrlNotifications extends \Google\Service\Resource
    * @param UrlNotification $postBody
    * @param array $optParams Optional parameters.
    * @return PublishUrlNotificationResponse
+   * @throws \Google\Service\Exception
    */
   public function publish(UrlNotification $postBody, $optParams = [])
   {

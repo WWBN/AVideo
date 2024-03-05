@@ -51,7 +51,12 @@ trait IamSignerTrait
 
         // Providing a signer is useful for testing, but it's undocumented
         // because it's not something a user would generally need to do.
-        $signer = $this->iam ?: new Iam($httpHandler);
+        $signer = $this->iam;
+        if (!$signer) {
+            $signer = $this instanceof GetUniverseDomainInterface
+                ? new Iam($httpHandler, $this->getUniverseDomain())
+                : new Iam($httpHandler);
+        }
 
         $email = $this->getClientName($httpHandler);
 

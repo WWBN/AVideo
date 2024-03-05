@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,8 +14,36 @@ namespace Predis;
 
 use Predis\Command\Argument\Geospatial\ByInterface;
 use Predis\Command\Argument\Geospatial\FromInterface;
+use Predis\Command\Argument\Search\AggregateArguments;
+use Predis\Command\Argument\Search\AlterArguments;
+use Predis\Command\Argument\Search\CreateArguments;
+use Predis\Command\Argument\Search\DropArguments;
+use Predis\Command\Argument\Search\ExplainArguments;
+use Predis\Command\Argument\Search\ProfileArguments;
+use Predis\Command\Argument\Search\SchemaFields\FieldInterface;
+use Predis\Command\Argument\Search\SearchArguments;
+use Predis\Command\Argument\Search\SugAddArguments;
+use Predis\Command\Argument\Search\SugGetArguments;
+use Predis\Command\Argument\Search\SynUpdateArguments;
+use Predis\Command\Argument\Server\LimitOffsetCount;
 use Predis\Command\Argument\Server\To;
+use Predis\Command\Argument\TimeSeries\AddArguments;
+use Predis\Command\Argument\TimeSeries\AlterArguments as TSAlterArguments;
+use Predis\Command\Argument\TimeSeries\CreateArguments as TSCreateArguments;
+use Predis\Command\Argument\TimeSeries\DecrByArguments;
+use Predis\Command\Argument\TimeSeries\GetArguments;
+use Predis\Command\Argument\TimeSeries\IncrByArguments;
+use Predis\Command\Argument\TimeSeries\InfoArguments;
+use Predis\Command\Argument\TimeSeries\MGetArguments;
+use Predis\Command\Argument\TimeSeries\MRangeArguments;
+use Predis\Command\Argument\TimeSeries\RangeArguments;
 use Predis\Command\CommandInterface;
+use Predis\Command\Redis\Container\ACL;
+use Predis\Command\Redis\Container\CLUSTER;
+use Predis\Command\Redis\Container\FunctionContainer;
+use Predis\Command\Redis\Container\Json\JSONDEBUG;
+use Predis\Command\Redis\Container\Search\FTCONFIG;
+use Predis\Command\Redis\Container\Search\FTCURSOR;
 
 /**
  * Interface defining a client-side context such as a pipeline or transaction.
@@ -23,8 +52,9 @@ use Predis\Command\CommandInterface;
  * @method $this del(array|string $keys)
  * @method $this dump($key)
  * @method $this exists($key)
- * @method $this expire($key, $seconds)
- * @method $this expireat($key, $timestamp)
+ * @method $this expire($key, $seconds, string $expireOption = '')
+ * @method $this expireat($key, $timestamp, string $expireOption = '')
+ * @method $this expiretime(string $key)
  * @method $this keys($pattern)
  * @method $this move($key, $db)
  * @method $this object($subcommand, $key)
@@ -37,20 +67,72 @@ use Predis\Command\CommandInterface;
  * @method $this renamenx($key, $target)
  * @method $this scan($cursor, array $options = null)
  * @method $this sort($key, array $options = null)
+ * @method $this sort_ro(string $key, ?string $byPattern = null, ?LimitOffsetCount $limit = null, array $getPatterns = [], ?string $sorting = null, bool $alpha = false)
  * @method $this ttl($key)
  * @method $this type($key)
  * @method $this append($key, $value)
- * @method $this bitcount($key, $start = null, $end = null)
+ * @method $this bfadd(string $key, $item)
+ * @method $this bfexists(string $key, $item)
+ * @method $this bfinfo(string $key, string $modifier = '')
+ * @method $this bfinsert(string $key, int $capacity = -1, float $error = -1, int $expansion = -1, bool $noCreate = false, bool $nonScaling = false, string ...$item)
+ * @method $this bfloadchunk(string $key, int $iterator, $data)
+ * @method $this bfmadd(string $key, ...$item)
+ * @method $this bfmexists(string $key, ...$item)
+ * @method $this bfreserve(string $key, float $errorRate, int $capacity, int $expansion = -1, bool $nonScaling = false)
+ * @method $this bfscandump(string $key, int $iterator)
+ * @method $this bitcount(string $key, $start = null, $end = null, string $index = 'byte')
  * @method $this bitop($operation, $destkey, $key)
  * @method $this bitfield($key, $subcommand, ...$subcommandArg)
- * @method $this bitpos($key, $bit, $start = null, $end = null)
+ * @method $this bitpos($key, $bit, $start = null, $end = null, string $index = 'byte')
  * @method $this blmpop(int $timeout, array $keys, string $modifier = 'left', int $count = 1)
  * @method $this bzpopmax(array $keys, int $timeout)
  * @method $this bzpopmin(array $keys, int $timeout)
  * @method $this bzmpop(int $timeout, array $keys, string $modifier = 'min', int $count = 1)
+ * @method $this cfadd(string $key, $item)
+ * @method $this cfaddnx(string $key, $item)
+ * @method $this cfcount(string $key, $item)
+ * @method $this cfdel(string $key, $item)
+ * @method $this cfexists(string $key, $item)
+ * @method $this cfloadchunk(string $key, int $iterator, $data)
+ * @method $this cfmexists(string $key, ...$item)
+ * @method $this cfinfo(string $key)
+ * @method $this cfinsert(string $key, int $capacity = -1, bool $noCreate = false, string ...$item)
+ * @method $this cfinsertnx(string $key, int $capacity = -1, bool $noCreate = false, string ...$item)
+ * @method $this cfreserve(string $key, int $capacity, int $bucketSize = -1, int $maxIterations = -1, int $expansion = -1)
+ * @method $this cfscandump(string $key, int $iterator)
+ * @method $this cmsincrby(string $key, string|int...$itemIncrementDictionary)
+ * @method $this cmsinfo(string $key)
+ * @method $this cmsinitbydim(string $key, int $width, int $depth)
+ * @method $this cmsinitbyprob(string $key, float $errorRate, float $probability)
+ * @method $this cmsmerge(string $destination, array $sources, array $weights = [])
+ * @method $this cmsquery(string $key, string ...$item)
  * @method $this decr($key)
  * @method $this decrby($key, $decrement)
  * @method $this failover(?To $to = null, bool $abort = false, int $timeout = -1)
+ * @method $this fcall(string $function, array $keys, ...$args)
+ * @method $this fcall_ro(string $function, array $keys, ...$args)
+ * @method $this ftaggregate(string $index, string $query, ?AggregateArguments $arguments = null)
+ * @method $this ftaliasadd(string $alias, string $index)
+ * @method $this ftaliasdel(string $alias)
+ * @method $this ftaliasupdate(string $alias, string $index)
+ * @method $this ftalter(string $index, FieldInterface[] $schema, ?AlterArguments $arguments = null)
+ * @method $this ftcreate(string $index, FieldInterface[] $schema, ?CreateArguments $arguments = null)
+ * @method $this ftdictadd(string $dict, ...$term)
+ * @method $this ftdictdel(string $dict, ...$term)
+ * @method $this ftdictdump(string $dict)
+ * @method $this ftdropindex(string $index, ?DropArguments $arguments = null)
+ * @method $this ftexplain(string $index, string $query, ?ExplainArguments $arguments = null)
+ * @method $this ftinfo(string $index)
+ * @method $this ftprofile(string $index, ProfileArguments $arguments)
+ * @method $this ftsearch(string $index, string $query, ?SearchArguments $arguments = null)
+ * @method $this ftspellcheck(string $index, string $query, ?SearchArguments $arguments = null)
+ * @method $this ftsugadd(string $key, string $string, float $score, ?SugAddArguments $arguments = null)
+ * @method $this ftsugdel(string $key, string $string)
+ * @method $this ftsugget(string $key, string $prefix, ?SugGetArguments $arguments = null)
+ * @method $this ftsuglen(string $key)
+ * @method $this ftsyndump(string $index)
+ * @method $this ftsynupdate(string $index, string $synonymGroupId, ?SynUpdateArguments $arguments = null, string ...$terms)
+ * @method $this fttagvals(string $index, string $fieldName)
  * @method $this get($key)
  * @method $this getbit($key, $offset)
  * @method $this getex(string $key, $modifier = '', $value = false)
@@ -86,10 +168,33 @@ use Predis\Command\CommandInterface;
  * @method $this hsetnx($key, $field, $value)
  * @method $this hvals($key)
  * @method $this hstrlen($key, $field)
+ * @method $this jsonarrappend(string $key, string $path = '$', ...$value)
+ * @method $this jsonarrindex(string $key, string $path, string $value, int $start = 0, int $stop = 0)
+ * @method $this jsonarrinsert(string $key, string $path, int $index, string ...$value)
+ * @method $this jsonarrlen(string $key, string $path = '$')
+ * @method $this jsonarrpop(string $key, string $path = '$', int $index = -1)
+ * @method $this jsonarrtrim(string $key, string $path, int $start, int $stop)
+ * @method $this jsonclear(string $key, string $path = '$')
+ * @method $this jsondel(string $key, string $path = '$')
+ * @method $this jsonforget(string $key, string $path = '$')
+ * @method $this jsonget(string $key, string $indent = '', string $newline = '', string $space = '', string ...$paths)
+ * @method $this jsonnumincrby(string $key, string $path, int $value)
+ * @method $this jsonmerge(string $key, string $path, string $value)
+ * @method $this jsonmget(array $keys, string $path)
+ * @method $this jsonmset(string ...$keyPathValue)
+ * @method $this jsonobjkeys(string $key, string $path = '$')
+ * @method $this jsonobjlen(string $key, string $path = '$')
+ * @method $this jsonresp(string $key, string $path = '$')
+ * @method $this jsonset(string $key, string $path, string $value, ?string $subcommand = null)
+ * @method $this jsonstrappend(string $key, string $path, string $value)
+ * @method $this jsonstrlen(string $key, string $path = '$')
+ * @method $this jsontoggle(string $key, string $path)
+ * @method $this jsontype(string $key, string $path = '$')
  * @method $this blmove(string $source, string $destination, string $where, string $to, int $timeout)
  * @method $this blpop(array|string $keys, $timeout)
  * @method $this brpop(array|string $keys, $timeout)
  * @method $this brpoplpush($source, $destination, $timeout)
+ * @method $this lcs(string $key1, string $key2, bool $len = false, bool $idx = false, int $minMatchLen = 0, bool $withMatchLen = false)
  * @method $this lindex($key, $index)
  * @method $this linsert($key, $whence, $pivot, $value)
  * @method $this llen($key)
@@ -111,6 +216,7 @@ use Predis\Command\CommandInterface;
  * @method $this sdiff(array|string $keys)
  * @method $this sdiffstore($destination, array|string $keys)
  * @method $this sinter(array|string $keys)
+ * @method $this sintercard(array $keys, int $limit = 0)
  * @method $this sinterstore($destination, array|string $keys)
  * @method $this sismember($key, $member)
  * @method $this smembers($key)
@@ -122,6 +228,43 @@ use Predis\Command\CommandInterface;
  * @method $this sscan($key, $cursor, array $options = null)
  * @method $this sunion(array|string $keys)
  * @method $this sunionstore($destination, array|string $keys)
+ * @method $this tdigestadd(string $key, float ...$value)
+ * @method $this tdigestbyrank(string $key, int ...$rank)
+ * @method $this tdigestbyrevrank(string $key, int ...$reverseRank)
+ * @method $this tdigestcdf(string $key, int ...$value)
+ * @method $this tdigestcreate(string $key, int $compression = 0)
+ * @method $this tdigestinfo(string $key)
+ * @method $this tdigestmax(string $key)
+ * @method $this tdigestmerge(string $destinationKey, array $sourceKeys, int $compression = 0, bool $override = false)
+ * @method $this tdigestquantile(string $key, float ...$quantile)
+ * @method $this tdigestmin(string $key)
+ * @method $this tdigestrank(string $key, ...$value)
+ * @method $this tdigestreset(string $key)
+ * @method $this tdigestrevrank(string $key, float ...$value)
+ * @method $this tdigesttrimmed_mean(string $key, float $lowCutQuantile, float $highCutQuantile)
+ * @method $this topkadd(string $key, ...$items)
+ * @method $this topkincrby(string $key, ...$itemIncrement)
+ * @method $this topkinfo(string $key)
+ * @method $this topklist(string $key, bool $withCount = false)
+ * @method $this topkquery(string $key, ...$items)
+ * @method $this topkreserve(string $key, int $topK, int $width = 8, int $depth = 7, float $decay = 0.9)
+ * @method $this tsadd(string $key, int $timestamp, float $value, ?AddArguments $arguments = null)
+ * @method $this tsalter(string $key, ?TSAlterArguments $arguments = null)
+ * @method $this tscreate(string $key, ?TSCreateArguments $arguments = null)
+ * @method $this tscreaterule(string $sourceKey, string $destKey, string $aggregator, int $bucketDuration, int $alignTimestamp = 0)
+ * @method $this tsdecrby(string $key, float $value, ?DecrByArguments $arguments = null)
+ * @method $this tsdel(string $key, int $fromTimestamp, int $toTimestamp)
+ * @method $this tsdeleterule(string $sourceKey, string $destKey)
+ * @method $this tsget(string $key, GetArguments $arguments = null)
+ * @method $this tsincrby(string $key, float $value, ?IncrByArguments $arguments = null)
+ * @method $this tsinfo(string $key, ?InfoArguments $arguments = null)
+ * @method $this tsmadd(mixed ...$keyTimestampValue)
+ * @method $this tsmget(MGetArguments $arguments, string ...$filterExpression)
+ * @method $this tsmrange($fromTimestamp, $toTimestamp, MRangeArguments $arguments)
+ * @method $this tsmrevrange($fromTimestamp, $toTimestamp, MRangeArguments $arguments)
+ * @method $this tsqueryindex(string ...$filterExpression)
+ * @method $this tsrange(string $key, $fromTimestamp, $toTimestamp, ?RangeArguments $arguments = null)
+ * @method $this tsrevrange(string $key, $fromTimestamp, $toTimestamp, ?RangeArguments $arguments = null)
  * @method $this zadd($key, array $membersAndScoresDictionary)
  * @method $this zcard($key)
  * @method $this zcount($key, $min, $max)
@@ -152,6 +295,7 @@ use Predis\Command\CommandInterface;
  * @method $this zrevrangebylex($key, $start, $stop, array $options = null)
  * @method $this zremrangebylex($key, $min, $max)
  * @method $this zlexcount($key, $min, $max)
+ * @method $this pexpiretime(string $key)
  * @method $this pfadd($key, array $elements)
  * @method $this pfmerge($destinationKey, array|string $sourceKeys)
  * @method $this pfcount(array|string $keys)
@@ -161,10 +305,14 @@ use Predis\Command\CommandInterface;
  * @method $this exec()
  * @method $this multi()
  * @method $this unwatch()
+ * @method $this waitaof(int $numLocal, int $numReplicas, int $timeout)
  * @method $this watch($key)
  * @method $this eval($script, $numkeys, $keyOrArg1 = null, $keyOrArgN = null)
+ * @method $this eval_ro(string $script, array $keys, ...$argument)
  * @method $this evalsha($script, $numkeys, $keyOrArg1 = null, $keyOrArgN = null)
+ * @method $this evalsha_ro(string $sha1, array $keys, ...$argument)
  * @method $this script($subcommand, $argument = null)
+ * @method $this shutdown(bool $noSave = null, bool $now = false, bool $force = false, bool $abort = false)
  * @method $this auth($password)
  * @method $this echo($message)
  * @method $this ping($message = null)
@@ -192,7 +340,13 @@ use Predis\Command\CommandInterface;
  * @method $this geosearch(string $key, FromInterface $from, ByInterface $by, ?string $sorting = null, int $count = -1, bool $any = false, bool $withCoord = false, bool $withDist = false, bool $withHash = false)
  * @method $this geosearchstore(string $destination, string $source, FromInterface $from, ByInterface $by, ?string $sorting = null, int $count = -1, bool $any = false, bool $storeDist = false)
  *
- * @author Daniele Alessandri <suppakilla@gmail.com>
+ * Container commands
+ * @property CLUSTER           $cluster
+ * @property FunctionContainer $function
+ * @property FTCONFIG          $ftconfig
+ * @property FTCURSOR          $ftcursor
+ * @property JSONDEBUG         $jsondebug
+ * @property ACL               $acl
  */
 interface ClientContextInterface
 {

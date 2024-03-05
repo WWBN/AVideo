@@ -53,6 +53,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, BareMetalCluster $postBody, $optParams = [])
   {
@@ -86,6 +87,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -106,6 +108,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @param EnrollBareMetalClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enroll($parent, EnrollBareMetalClusterRequest $postBody, $optParams = [])
   {
@@ -126,6 +129,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as
    * `FULL', which returns the complete cluster configuration details.
    * @return BareMetalCluster
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -157,6 +161,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -185,6 +190,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as
    * `FULL', which returns the complete cluster configuration details.
    * @return ListBareMetalClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsBareMetalClusters($parent, $optParams = [])
   {
@@ -214,6 +220,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, BareMetalCluster $postBody, $optParams = [])
   {
@@ -241,6 +248,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * This is the full resource name of the user cluster resource. Format: "project
    * s/{project}/locations/{location}/bareMetalClusters/{bare_metal_cluster}"
    * @return QueryBareMetalVersionConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function queryVersionConfig($parent, $optParams = [])
   {
@@ -260,6 +268,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -282,6 +291,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -313,6 +323,7 @@ class ProjectsLocationsBareMetalClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function unenroll($name, $optParams = [])
   {

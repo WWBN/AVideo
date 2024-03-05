@@ -88,6 +88,24 @@ class CloudProfiler extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'list' => [
+              'path' => 'v2/{+parent}/profiles',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'patch' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'PATCH',

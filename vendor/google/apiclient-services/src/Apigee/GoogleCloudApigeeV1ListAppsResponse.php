@@ -22,6 +22,14 @@ class GoogleCloudApigeeV1ListAppsResponse extends \Google\Collection
   protected $collection_key = 'app';
   protected $appType = GoogleCloudApigeeV1App::class;
   protected $appDataType = 'array';
+  /**
+   * @var string
+   */
+  public $nextPageToken;
+  /**
+   * @var int
+   */
+  public $totalSize;
 
   /**
    * @param GoogleCloudApigeeV1App[]
@@ -36,6 +44,34 @@ class GoogleCloudApigeeV1ListAppsResponse extends \Google\Collection
   public function getApp()
   {
     return $this->app;
+  }
+  /**
+   * @param string
+   */
+  public function setNextPageToken($nextPageToken)
+  {
+    $this->nextPageToken = $nextPageToken;
+  }
+  /**
+   * @return string
+   */
+  public function getNextPageToken()
+  {
+    return $this->nextPageToken;
+  }
+  /**
+   * @param int
+   */
+  public function setTotalSize($totalSize)
+  {
+    $this->totalSize = $totalSize;
+  }
+  /**
+   * @return int
+   */
+  public function getTotalSize()
+  {
+    return $this->totalSize;
   }
 }
 

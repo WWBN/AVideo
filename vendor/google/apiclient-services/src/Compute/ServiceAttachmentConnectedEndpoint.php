@@ -22,6 +22,10 @@ class ServiceAttachmentConnectedEndpoint extends \Google\Model
   /**
    * @var string
    */
+  public $consumerNetwork;
+  /**
+   * @var string
+   */
   public $endpoint;
   /**
    * @var string
@@ -32,6 +36,20 @@ class ServiceAttachmentConnectedEndpoint extends \Google\Model
    */
   public $status;
 
+  /**
+   * @param string
+   */
+  public function setConsumerNetwork($consumerNetwork)
+  {
+    $this->consumerNetwork = $consumerNetwork;
+  }
+  /**
+   * @return string
+   */
+  public function getConsumerNetwork()
+  {
+    return $this->consumerNetwork;
+  }
   /**
    * @param string
    */

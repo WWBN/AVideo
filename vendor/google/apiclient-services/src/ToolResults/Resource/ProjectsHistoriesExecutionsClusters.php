@@ -39,6 +39,7 @@ class ProjectsHistoriesExecutionsClusters extends \Google\Service\Resource
    * @param string $clusterId A Cluster id Required.
    * @param array $optParams Optional parameters.
    * @return ScreenshotCluster
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $historyId, $executionId, $clusterId, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsHistoriesExecutionsClusters extends \Google\Service\Resource
    * @param string $executionId An Execution id. Required.
    * @param array $optParams Optional parameters.
    * @return ListScreenshotClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistoriesExecutionsClusters($projectId, $historyId, $executionId, $optParams = [])
   {

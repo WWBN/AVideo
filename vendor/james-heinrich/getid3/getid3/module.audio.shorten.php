@@ -166,7 +166,7 @@ class getid3_shorten extends getid3_handler
 
 			if (substr($output, 20 + $fmt_size, 4) == 'data') {
 
-				$info['playtime_seconds'] = getid3_lib::LittleEndian2Int(substr($output, 20 + 4 + $fmt_size, 4)) / $DecodedWAVFORMATEX['raw']['nAvgBytesPerSec'];
+				$info['playtime_seconds'] = getid3_lib::SafeDiv(getid3_lib::LittleEndian2Int(substr($output, 20 + 4 + $fmt_size, 4)), $DecodedWAVFORMATEX['raw']['nAvgBytesPerSec']);
 
 			} else {
 
@@ -175,7 +175,7 @@ class getid3_shorten extends getid3_handler
 
 			}
 
-			$info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) / $info['playtime_seconds']) * 8;
+			$info['audio']['bitrate'] = getid3_lib::SafeDiv($info['avdataend'] - $info['avdataoffset'], $info['playtime_seconds']) * 8;
 
 		} else {
 

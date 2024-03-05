@@ -22,12 +22,30 @@ class Consumer extends \Google\Model
   /**
    * @var string
    */
+  public $endpointLocation;
+  /**
+   * @var string
+   */
   public $endpointUri;
   /**
    * @var string
    */
   public $subnetwork;
 
+  /**
+   * @param string
+   */
+  public function setEndpointLocation($endpointLocation)
+  {
+    $this->endpointLocation = $endpointLocation;
+  }
+  /**
+   * @return string
+   */
+  public function getEndpointLocation()
+  {
+    return $this->endpointLocation;
+  }
   /**
    * @param string
    */

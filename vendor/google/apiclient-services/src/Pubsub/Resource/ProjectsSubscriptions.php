@@ -57,6 +57,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param AcknowledgeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PubsubEmpty
+   * @throws \Google\Service\Exception
    */
   public function acknowledge($subscription, AcknowledgeRequest $postBody, $optParams = [])
   {
@@ -66,14 +67,15 @@ class ProjectsSubscriptions extends \Google\Service\Resource
   }
   /**
    * Creates a subscription to a given topic. See the [resource name rules]
-   * (https://cloud.google.com/pubsub/docs/admin#resource_names). If the
+   * (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). If the
    * subscription already exists, returns `ALREADY_EXISTS`. If the corresponding
    * topic doesn't exist, returns `NOT_FOUND`. If the name is not provided in the
    * request, the server will assign a random name for this subscription on the
    * same project as the topic, conforming to the [resource name format]
-   * (https://cloud.google.com/pubsub/docs/admin#resource_names). The generated
-   * name is populated in the returned Subscription object. Note that for REST API
-   * requests, you must specify a name in the request. (subscriptions.create)
+   * (https://cloud.google.com/pubsub/docs/pubsub-basics#resource_names). The
+   * generated name is populated in the returned Subscription object. Note that
+   * for REST API requests, you must specify a name in the request.
+   * (subscriptions.create)
    *
    * @param string $name Required. The name of the subscription. It must have the
    * format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}`
@@ -84,6 +86,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param Subscription $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function create($name, Subscription $postBody, $optParams = [])
   {
@@ -102,6 +105,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * `projects/{project}/subscriptions/{sub}`.
    * @param array $optParams Optional parameters.
    * @return PubsubEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($subscription, $optParams = [])
   {
@@ -119,6 +123,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * `projects/{project}/subscriptions/{subscription}`.
    * @param array $optParams Optional parameters.
    * @return DetachSubscriptionResponse
+   * @throws \Google\Service\Exception
    */
   public function detach($subscription, $optParams = [])
   {
@@ -133,6 +138,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * Format is `projects/{project}/subscriptions/{sub}`.
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function get($subscription, $optParams = [])
   {
@@ -163,6 +169,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -177,12 +184,13 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * subscriptions. Format is `projects/{project-id}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Maximum number of subscriptions to return.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param int pageSize Optional. Maximum number of subscriptions to return.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListSubscriptionsResponse`; indicates that this is a continuation of a prior
    * `ListSubscriptions` call, and that the system should return the next page of
    * data.
    * @return ListSubscriptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsSubscriptions($project, $optParams = [])
   {
@@ -203,6 +211,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param ModifyAckDeadlineRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PubsubEmpty
+   * @throws \Google\Service\Exception
    */
   public function modifyAckDeadline($subscription, ModifyAckDeadlineRequest $postBody, $optParams = [])
   {
@@ -223,6 +232,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param ModifyPushConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PubsubEmpty
+   * @throws \Google\Service\Exception
    */
   public function modifyPushConfig($subscription, ModifyPushConfigRequest $postBody, $optParams = [])
   {
@@ -231,8 +241,9 @@ class ProjectsSubscriptions extends \Google\Service\Resource
     return $this->call('modifyPushConfig', [$params], PubsubEmpty::class);
   }
   /**
-   * Updates an existing subscription. Note that certain properties of a
-   * subscription, such as its topic, are not modifiable. (subscriptions.patch)
+   * Updates an existing subscription by updating the fields specified in the
+   * update mask. Note that certain properties of a subscription, such as its
+   * topic, are not modifiable. (subscriptions.patch)
    *
    * @param string $name Required. The name of the subscription. It must have the
    * format `"projects/{project}/subscriptions/{subscription}"`. `{subscription}`
@@ -243,6 +254,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param UpdateSubscriptionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function patch($name, UpdateSubscriptionRequest $postBody, $optParams = [])
   {
@@ -258,6 +270,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param PullRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PullResponse
+   * @throws \Google\Service\Exception
    */
   public function pull($subscription, PullRequest $postBody, $optParams = [])
   {
@@ -278,6 +291,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param SeekRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SeekResponse
+   * @throws \Google\Service\Exception
    */
   public function seek($subscription, SeekRequest $postBody, $optParams = [])
   {
@@ -297,6 +311,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -319,6 +334,7 @@ class ProjectsSubscriptions extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

@@ -21,6 +21,8 @@ class RoboStartingIntent extends \Google\Model
 {
   protected $launcherActivityType = LauncherActivityIntent::class;
   protected $launcherActivityDataType = '';
+  protected $noActivityType = NoActivityIntent::class;
+  protected $noActivityDataType = '';
   protected $startActivityType = StartActivityIntent::class;
   protected $startActivityDataType = '';
   /**
@@ -41,6 +43,20 @@ class RoboStartingIntent extends \Google\Model
   public function getLauncherActivity()
   {
     return $this->launcherActivity;
+  }
+  /**
+   * @param NoActivityIntent
+   */
+  public function setNoActivity(NoActivityIntent $noActivity)
+  {
+    $this->noActivity = $noActivity;
+  }
+  /**
+   * @return NoActivityIntent
+   */
+  public function getNoActivity()
+  {
+    return $this->noActivity;
   }
   /**
    * @param StartActivityIntent

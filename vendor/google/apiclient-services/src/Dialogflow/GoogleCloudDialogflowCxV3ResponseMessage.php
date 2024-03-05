@@ -27,6 +27,8 @@ class GoogleCloudDialogflowCxV3ResponseMessage extends \Google\Model
   protected $conversationSuccessDataType = '';
   protected $endInteractionType = GoogleCloudDialogflowCxV3ResponseMessageEndInteraction::class;
   protected $endInteractionDataType = '';
+  protected $knowledgeInfoCardType = GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard::class;
+  protected $knowledgeInfoCardDataType = '';
   protected $liveAgentHandoffType = GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff::class;
   protected $liveAgentHandoffDataType = '';
   protected $mixedAudioType = GoogleCloudDialogflowCxV3ResponseMessageMixedAudio::class;
@@ -39,6 +41,10 @@ class GoogleCloudDialogflowCxV3ResponseMessage extends \Google\Model
   public $payload;
   protected $playAudioType = GoogleCloudDialogflowCxV3ResponseMessagePlayAudio::class;
   protected $playAudioDataType = '';
+  /**
+   * @var string
+   */
+  public $responseType;
   protected $telephonyTransferCallType = GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall::class;
   protected $telephonyTransferCallDataType = '';
   protected $textType = GoogleCloudDialogflowCxV3ResponseMessageText::class;
@@ -85,6 +91,20 @@ class GoogleCloudDialogflowCxV3ResponseMessage extends \Google\Model
   public function getEndInteraction()
   {
     return $this->endInteraction;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard
+   */
+  public function setKnowledgeInfoCard(GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard $knowledgeInfoCard)
+  {
+    $this->knowledgeInfoCard = $knowledgeInfoCard;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3ResponseMessageKnowledgeInfoCard
+   */
+  public function getKnowledgeInfoCard()
+  {
+    return $this->knowledgeInfoCard;
   }
   /**
    * @param GoogleCloudDialogflowCxV3ResponseMessageLiveAgentHandoff
@@ -155,6 +175,20 @@ class GoogleCloudDialogflowCxV3ResponseMessage extends \Google\Model
   public function getPlayAudio()
   {
     return $this->playAudio;
+  }
+  /**
+   * @param string
+   */
+  public function setResponseType($responseType)
+  {
+    $this->responseType = $responseType;
+  }
+  /**
+   * @return string
+   */
+  public function getResponseType()
+  {
+    return $this->responseType;
   }
   /**
    * @param GoogleCloudDialogflowCxV3ResponseMessageTelephonyTransferCall

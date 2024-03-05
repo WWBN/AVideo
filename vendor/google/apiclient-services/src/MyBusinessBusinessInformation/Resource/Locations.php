@@ -17,9 +17,7 @@
 
 namespace Google\Service\MyBusinessBusinessInformation\Resource;
 
-use Google\Service\MyBusinessBusinessInformation\AssociateLocationRequest;
 use Google\Service\MyBusinessBusinessInformation\Attributes as AttributesModel;
-use Google\Service\MyBusinessBusinessInformation\ClearLocationAssociationRequest;
 use Google\Service\MyBusinessBusinessInformation\GoogleUpdatedLocation;
 use Google\Service\MyBusinessBusinessInformation\Location;
 use Google\Service\MyBusinessBusinessInformation\MybusinessbusinessinformationEmpty;
@@ -35,40 +33,6 @@ use Google\Service\MyBusinessBusinessInformation\MybusinessbusinessinformationEm
 class Locations extends \Google\Service\Resource
 {
   /**
-   * Associates a location to a place ID. Any previous association is overwritten.
-   * This operation is only valid if the location is unverified. The association
-   * must be valid, that is, it appears in the list of `SearchGoogleLocations`.
-   * (locations.associate)
-   *
-   * @param string $name Required. The resource name of the location to associate.
-   * @param AssociateLocationRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return MybusinessbusinessinformationEmpty
-   */
-  public function associate($name, AssociateLocationRequest $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('associate', [$params], MybusinessbusinessinformationEmpty::class);
-  }
-  /**
-   * Clears an association between a location and its place ID. This operation is
-   * only valid if the location is unverified.
-   * (locations.clearLocationAssociation)
-   *
-   * @param string $name Required. The resource name of the location to
-   * disassociate.
-   * @param ClearLocationAssociationRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return MybusinessbusinessinformationEmpty
-   */
-  public function clearLocationAssociation($name, ClearLocationAssociationRequest $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('clearLocationAssociation', [$params], MybusinessbusinessinformationEmpty::class);
-  }
-  /**
    * Deletes a location. If this location cannot be deleted using the API and it
    * is marked so in the `google.mybusiness.businessinformation.v1.LocationState`,
    * use the [Google Business Profile](https://business.google.com/manage/)
@@ -77,6 +41,7 @@ class Locations extends \Google\Service\Resource
    * @param string $name Required. The name of the location to delete.
    * @param array $optParams Optional parameters.
    * @return MybusinessbusinessinformationEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -93,6 +58,7 @@ class Locations extends \Google\Service\Resource
    * @opt_param string readMask Required. Read mask to specify what fields will be
    * returned in the response.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -107,7 +73,8 @@ class Locations extends \Google\Service\Resource
    * @param string $name Required. Google identifier for this location in the form
    * of `locations/{location_id}/attributes`.
    * @param array $optParams Optional parameters.
-   * @return Attributes
+   * @return AttributesModel
+   * @throws \Google\Service\Exception
    */
   public function getAttributes($name, $optParams = [])
   {
@@ -125,6 +92,7 @@ class Locations extends \Google\Service\Resource
    * @opt_param string readMask Required. Read mask to specify what fields will be
    * returned in the response.
    * @return GoogleUpdatedLocation
+   * @throws \Google\Service\Exception
    */
   public function getGoogleUpdated($name, $optParams = [])
   {
@@ -146,6 +114,7 @@ class Locations extends \Google\Service\Resource
    * return validation errors if there were any. The response will be empty if no
    * errors were found.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Location $postBody, $optParams = [])
   {
@@ -172,6 +141,7 @@ class Locations extends \Google\Service\Resource
    * location and then add them to the `attribute_mask` with an empty attributes
    * field.
    * @return AttributesModel
+   * @throws \Google\Service\Exception
    */
   public function updateAttributes($name, AttributesModel $postBody, $optParams = [])
   {

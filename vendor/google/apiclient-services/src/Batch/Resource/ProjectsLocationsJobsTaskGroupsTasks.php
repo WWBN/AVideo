@@ -36,6 +36,7 @@ class ProjectsLocationsJobsTaskGroupsTasks extends \Google\Service\Resource
    * @param string $name Required. Task name.
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsJobsTaskGroupsTasks extends \Google\Service\Resource
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return ListTasksResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsJobsTaskGroupsTasks($parent, $optParams = [])
   {

@@ -35,6 +35,10 @@ class QualityNsrExperimentalNsrTeamScoringSignal extends \Google\Model
   /**
    * @var string
    */
+  public $valueString;
+  /**
+   * @var string
+   */
   public $valueUint32;
   /**
    * @var int
@@ -90,6 +94,20 @@ class QualityNsrExperimentalNsrTeamScoringSignal extends \Google\Model
   public function getValueInt32()
   {
     return $this->valueInt32;
+  }
+  /**
+   * @param string
+   */
+  public function setValueString($valueString)
+  {
+    $this->valueString = $valueString;
+  }
+  /**
+   * @return string
+   */
+  public function getValueString()
+  {
+    return $this->valueString;
   }
   /**
    * @param string

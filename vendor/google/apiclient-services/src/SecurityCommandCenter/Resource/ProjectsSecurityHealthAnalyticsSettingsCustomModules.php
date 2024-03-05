@@ -21,6 +21,8 @@ use Google\Service\SecurityCommandCenter\GoogleCloudSecuritycenterV1SecurityHeal
 use Google\Service\SecurityCommandCenter\ListDescendantSecurityHealthAnalyticsCustomModulesResponse;
 use Google\Service\SecurityCommandCenter\ListSecurityHealthAnalyticsCustomModulesResponse;
 use Google\Service\SecurityCommandCenter\SecuritycenterEmpty;
+use Google\Service\SecurityCommandCenter\SimulateSecurityHealthAnalyticsCustomModuleRequest;
+use Google\Service\SecurityCommandCenter\SimulateSecurityHealthAnalyticsCustomModuleResponse;
 
 /**
  * The "customModules" collection of methods.
@@ -46,6 +48,7 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * @param GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule $postBody, $optParams = [])
   {
@@ -65,6 +68,7 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * /customModules/{customModule}"
    * @param array $optParams Optional parameters.
    * @return SecuritycenterEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -82,6 +86,7 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * stomModules/{customModule}"
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -106,6 +111,7 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * @opt_param string pageToken The value returned by the last call indicating a
    * continuation
    * @return ListSecurityHealthAnalyticsCustomModulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsSecurityHealthAnalyticsSettingsCustomModules($parent, $optParams = [])
   {
@@ -130,6 +136,7 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * @opt_param string pageToken The value returned by the last call indicating a
    * continuation
    * @return ListDescendantSecurityHealthAnalyticsCustomModulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listDescendant($parent, $optParams = [])
   {
@@ -154,14 +161,38 @@ class ProjectsSecurityHealthAnalyticsSettingsCustomModules extends \Google\Servi
    * @param GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask The list of fields to update.
+   * @opt_param string updateMask The list of fields to be updated. The only
+   * fields that can be updated are `enablement_state` and `custom_config`. If
+   * empty or set to the wildcard value `*`, both `enablement_state` and
+   * `custom_config` are updated.
    * @return GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleCloudSecuritycenterV1SecurityHealthAnalyticsCustomModule::class);
+  }
+  /**
+   * Simulates a given SecurityHealthAnalyticsCustomModule and Resource.
+   * (customModules.simulate)
+   *
+   * @param string $parent Required. The relative resource name of the
+   * organization, project, or folder. For more information about relative
+   * resource names, see [Relative Resource Name](https://cloud.google.com/apis/de
+   * sign/resource_names#relative_resource_name) Example:
+   * `organizations/{organization_id}`
+   * @param SimulateSecurityHealthAnalyticsCustomModuleRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return SimulateSecurityHealthAnalyticsCustomModuleResponse
+   * @throws \Google\Service\Exception
+   */
+  public function simulate($parent, SimulateSecurityHealthAnalyticsCustomModuleRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('simulate', [$params], SimulateSecurityHealthAnalyticsCustomModuleResponse::class);
   }
 }
 

@@ -30,7 +30,7 @@ final class UnixConnector implements ConnectorInterface
         } elseif (\substr($path, 0, 7) !== 'unix://') {
             return Promise\reject(new \InvalidArgumentException(
                 'Given URI "' . $path . '" is invalid (EINVAL)',
-                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : (\defined('PCNTL_EINVAL') ? \PCNTL_EINVAL : 22)
             ));
         }
 

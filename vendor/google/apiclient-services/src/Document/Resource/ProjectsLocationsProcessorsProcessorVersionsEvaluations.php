@@ -38,6 +38,7 @@ class ProjectsLocationsProcessorsProcessorVersionsEvaluations extends \Google\Se
    * s/{processorVersion}/evaluations/{evaluation}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDocumentaiV1Evaluation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsProcessorsProcessorVersionsEvaluations extends \Google\Se
    * @opt_param string pageToken A page token, received from a previous
    * `ListEvaluations` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudDocumentaiV1ListEvaluationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProcessorsProcessorVersionsEvaluations($parent, $optParams = [])
   {

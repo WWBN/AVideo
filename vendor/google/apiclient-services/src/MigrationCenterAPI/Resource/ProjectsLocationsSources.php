@@ -55,6 +55,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * letters, and has a maximum length of 63 characters. The ID must match the
    * regular expression: `[a-z]([a-z0-9-]{0,61}[a-z0-9])?`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Source $postBody, $optParams = [])
   {
@@ -80,6 +81,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -93,6 +95,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * @param string $name Required. Name of the resource.
    * @param array $optParams Optional parameters.
    * @return Source
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results that the
    * server should return.
    * @return ListSourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSources($parent, $optParams = [])
   {
@@ -147,6 +151,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. A single *
    * value in the mask lets you to overwrite all fields.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Source $postBody, $optParams = [])
   {

@@ -41,6 +41,7 @@ class BillingAccountsLocationsRecommenders extends \Google\Service\Resource
    * LLING_ACCOUNT_ID]/locations/[LOCATION]/recommenders/[RECOMMENDER_ID]/config`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecommenderV1RecommenderConfig
+   * @throws \Google\Service\Exception
    */
   public function getConfig($name, $optParams = [])
   {
@@ -61,6 +62,7 @@ class BillingAccountsLocationsRecommenders extends \Google\Service\Resource
    * @opt_param bool validateOnly If true, validate the request and preview the
    * change, but do not actually update it.
    * @return GoogleCloudRecommenderV1RecommenderConfig
+   * @throws \Google\Service\Exception
    */
   public function updateConfig($name, GoogleCloudRecommenderV1RecommenderConfig $postBody, $optParams = [])
   {

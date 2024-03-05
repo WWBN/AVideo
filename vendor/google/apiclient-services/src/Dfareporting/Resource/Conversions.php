@@ -39,6 +39,7 @@ class Conversions extends \Google\Service\Resource
    * @param ConversionsBatchInsertRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ConversionsBatchInsertResponse
+   * @throws \Google\Service\Exception
    */
   public function batchinsert($profileId, ConversionsBatchInsertRequest $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Conversions extends \Google\Service\Resource
    * @param ConversionsBatchUpdateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ConversionsBatchUpdateResponse
+   * @throws \Google\Service\Exception
    */
   public function batchupdate($profileId, ConversionsBatchUpdateRequest $postBody, $optParams = [])
   {

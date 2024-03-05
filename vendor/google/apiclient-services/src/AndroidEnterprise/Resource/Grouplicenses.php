@@ -40,6 +40,7 @@ class Grouplicenses extends \Google\Service\Resource
    * e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
    * @return GroupLicense
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $groupLicenseId, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Grouplicenses extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
    * @return GroupLicensesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listGrouplicenses($enterpriseId, $optParams = [])
   {

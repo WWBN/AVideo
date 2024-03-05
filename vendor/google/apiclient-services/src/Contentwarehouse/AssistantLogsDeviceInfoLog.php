@@ -51,6 +51,10 @@ class AssistantLogsDeviceInfoLog extends \Google\Collection
    */
   public $eliminatingLumosProcessor;
   /**
+   * @var string
+   */
+  public $homeStructureId;
+  /**
    * @var bool
    */
   public $isRemote;
@@ -186,6 +190,20 @@ class AssistantLogsDeviceInfoLog extends \Google\Collection
   public function getEliminatingLumosProcessor()
   {
     return $this->eliminatingLumosProcessor;
+  }
+  /**
+   * @param string
+   */
+  public function setHomeStructureId($homeStructureId)
+  {
+    $this->homeStructureId = $homeStructureId;
+  }
+  /**
+   * @return string
+   */
+  public function getHomeStructureId()
+  {
+    return $this->homeStructureId;
   }
   /**
    * @param bool

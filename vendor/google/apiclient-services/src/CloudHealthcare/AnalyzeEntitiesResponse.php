@@ -24,6 +24,10 @@ class AnalyzeEntitiesResponse extends \Google\Collection
   protected $entitiesDataType = 'array';
   protected $entityMentionsType = EntityMention::class;
   protected $entityMentionsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $fhirBundle;
   protected $relationshipsType = EntityMentionRelationship::class;
   protected $relationshipsDataType = 'array';
 
@@ -54,6 +58,20 @@ class AnalyzeEntitiesResponse extends \Google\Collection
   public function getEntityMentions()
   {
     return $this->entityMentions;
+  }
+  /**
+   * @param string
+   */
+  public function setFhirBundle($fhirBundle)
+  {
+    $this->fhirBundle = $fhirBundle;
+  }
+  /**
+   * @return string
+   */
+  public function getFhirBundle()
+  {
+    return $this->fhirBundle;
   }
   /**
    * @param EntityMentionRelationship[]

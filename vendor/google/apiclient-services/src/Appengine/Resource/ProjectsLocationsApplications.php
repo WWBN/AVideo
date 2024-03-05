@@ -17,9 +17,6 @@
 
 namespace Google\Service\Appengine\Resource;
 
-use Google\Service\Appengine\Application;
-use Google\Service\Appengine\Operation;
-
 /**
  * The "applications" collection of methods.
  * Typical usage is:
@@ -30,46 +27,6 @@ use Google\Service\Appengine\Operation;
  */
 class ProjectsLocationsApplications extends \Google\Service\Resource
 {
-  /**
-   * Creates an App Engine application for a Google Cloud Platform project.
-   * Required fields: id - The ID of the target Cloud Platform project. location -
-   * The region (https://cloud.google.com/appengine/docs/locations) where you want
-   * the App Engine application located.For more information about App Engine
-   * applications, see Managing Projects, Applications, and Billing
-   * (https://cloud.google.com/appengine/docs/standard/python/console/).
-   * (applications.create)
-   *
-   * @param string $projectsId Part of `parent`. The project and location in which
-   * the application should be created, specified in the format projects/locations
-   * @param string $locationsId Part of `parent`. See documentation of
-   * `projectsId`.
-   * @param Application $postBody
-   * @param array $optParams Optional parameters.
-   * @return Operation
-   */
-  public function create($projectsId, $locationsId, Application $postBody, $optParams = [])
-  {
-    $params = ['projectsId' => $projectsId, 'locationsId' => $locationsId, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('create', [$params], Operation::class);
-  }
-  /**
-   * Gets information about an application. (applications.get)
-   *
-   * @param string $projectsId Part of `name`. Name of the Application resource to
-   * get. Example: apps/myapp.
-   * @param string $locationsId Part of `name`. See documentation of `projectsId`.
-   * @param string $applicationsId Part of `name`. See documentation of
-   * `projectsId`.
-   * @param array $optParams Optional parameters.
-   * @return Application
-   */
-  public function get($projectsId, $locationsId, $applicationsId, $optParams = [])
-  {
-    $params = ['projectsId' => $projectsId, 'locationsId' => $locationsId, 'applicationsId' => $applicationsId];
-    $params = array_merge($params, $optParams);
-    return $this->call('get', [$params], Application::class);
-  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

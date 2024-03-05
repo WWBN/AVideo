@@ -20,10 +20,11 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for MigrationCenterAPI (v1alpha1).
+ * Service definition for MigrationCenterAPI (v1).
  *
  * <p>
-</p>
+ * A unified platform that helps you accelerate your end-to-end cloud journey
+ * from your current on-premises or cloud environments to Google Cloud.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -63,7 +64,7 @@ class MigrationCenterAPI extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://migrationcenter.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1alpha1';
+    $this->version = 'v1';
     $this->serviceName = 'migrationcenter';
 
     $this->projects_locations = new MigrationCenterAPI\Resource\ProjectsLocations(
@@ -73,7 +74,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -83,7 +84,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'getSettings' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -93,7 +94,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+name}/locations',
+              'path' => 'v1/{+name}/locations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -115,7 +116,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'updateSettings' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -143,7 +144,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'aggregateValues' => [
-              'path' => 'v1alpha1/{+parent}/assets:aggregateValues',
+              'path' => 'v1/{+parent}/assets:aggregateValues',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -153,7 +154,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'batchDelete' => [
-              'path' => 'v1alpha1/{+parent}/assets:batchDelete',
+              'path' => 'v1/{+parent}/assets:batchDelete',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -163,7 +164,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'batchUpdate' => [
-              'path' => 'v1alpha1/{+parent}/assets:batchUpdate',
+              'path' => 'v1/{+parent}/assets:batchUpdate',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -173,7 +174,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -187,7 +188,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -201,7 +202,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/assets',
+              'path' => 'v1/{+parent}/assets',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -231,7 +232,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -249,7 +250,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'reportAssetFrames' => [
-              'path' => 'v1alpha1/{+parent}/assets:reportAssetFrames',
+              'path' => 'v1/{+parent}/assets:reportAssetFrames',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -273,7 +274,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'addAssets' => [
-              'path' => 'v1alpha1/{+group}:addAssets',
+              'path' => 'v1/{+group}:addAssets',
               'httpMethod' => 'POST',
               'parameters' => [
                 'group' => [
@@ -283,7 +284,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'create' => [
-              'path' => 'v1alpha1/{+parent}/groups',
+              'path' => 'v1/{+parent}/groups',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -301,7 +302,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -315,7 +316,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -325,7 +326,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/groups',
+              'path' => 'v1/{+parent}/groups',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -351,7 +352,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -369,7 +370,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'removeAssets' => [
-              'path' => 'v1alpha1/{+group}:removeAssets',
+              'path' => 'v1/{+group}:removeAssets',
               'httpMethod' => 'POST',
               'parameters' => [
                 'group' => [
@@ -389,7 +390,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/importJobs',
+              'path' => 'v1/{+parent}/importJobs',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -407,7 +408,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -425,7 +426,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -439,7 +440,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/importJobs',
+              'path' => 'v1/{+parent}/importJobs',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -469,7 +470,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -487,7 +488,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'run' => [
-              'path' => 'v1alpha1/{+name}:run',
+              'path' => 'v1/{+name}:run',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -497,7 +498,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'validate' => [
-              'path' => 'v1alpha1/{+name}:validate',
+              'path' => 'v1/{+name}:validate',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -517,7 +518,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/importDataFiles',
+              'path' => 'v1/{+parent}/importDataFiles',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -535,7 +536,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -549,7 +550,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -559,7 +560,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/importDataFiles',
+              'path' => 'v1/{+parent}/importDataFiles',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -595,7 +596,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'cancel' => [
-              'path' => 'v1alpha1/{+name}:cancel',
+              'path' => 'v1/{+name}:cancel',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -605,7 +606,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -615,7 +616,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -625,7 +626,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+name}/operations',
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -657,7 +658,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/preferenceSets',
+              'path' => 'v1/{+parent}/preferenceSets',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -675,7 +676,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -689,7 +690,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -699,7 +700,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/preferenceSets',
+              'path' => 'v1/{+parent}/preferenceSets',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -721,7 +722,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -749,7 +750,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/reportConfigs',
+              'path' => 'v1/{+parent}/reportConfigs',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -767,7 +768,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -785,7 +786,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -795,7 +796,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/reportConfigs',
+              'path' => 'v1/{+parent}/reportConfigs',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -831,7 +832,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/reports',
+              'path' => 'v1/{+parent}/reports',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -849,7 +850,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -863,7 +864,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -877,7 +878,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/reports',
+              'path' => 'v1/{+parent}/reports',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -917,7 +918,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1alpha1/{+parent}/sources',
+              'path' => 'v1/{+parent}/sources',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -935,7 +936,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -949,7 +950,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -959,7 +960,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/sources',
+              'path' => 'v1/{+parent}/sources',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -985,7 +986,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -1013,7 +1014,7 @@ class MigrationCenterAPI extends \Google\Service
         [
           'methods' => [
             'get' => [
-              'path' => 'v1alpha1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -1027,7 +1028,7 @@ class MigrationCenterAPI extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1alpha1/{+parent}/errorFrames',
+              'path' => 'v1/{+parent}/errorFrames',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [

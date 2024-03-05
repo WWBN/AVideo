@@ -45,6 +45,8 @@ class TransferConfig extends \Google\Model
   public $displayName;
   protected $emailPreferencesType = EmailPreferences::class;
   protected $emailPreferencesDataType = '';
+  protected $encryptionConfigurationType = EncryptionConfiguration::class;
+  protected $encryptionConfigurationDataType = '';
   /**
    * @var string
    */
@@ -179,6 +181,20 @@ class TransferConfig extends \Google\Model
   public function getEmailPreferences()
   {
     return $this->emailPreferences;
+  }
+  /**
+   * @param EncryptionConfiguration
+   */
+  public function setEncryptionConfiguration(EncryptionConfiguration $encryptionConfiguration)
+  {
+    $this->encryptionConfiguration = $encryptionConfiguration;
+  }
+  /**
+   * @return EncryptionConfiguration
+   */
+  public function getEncryptionConfiguration()
+  {
+    return $this->encryptionConfiguration;
   }
   /**
    * @param string

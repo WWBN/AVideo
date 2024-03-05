@@ -19,6 +19,7 @@ namespace Google\Service\Cloudbilling\Resource;
 
 use Google\Service\Cloudbilling\BillingAccount;
 use Google\Service\Cloudbilling\ListBillingAccountsResponse;
+use Google\Service\Cloudbilling\MoveBillingAccountRequest;
 use Google\Service\Cloudbilling\Policy;
 use Google\Service\Cloudbilling\SetIamPolicyRequest;
 use Google\Service\Cloudbilling\TestIamPermissionsRequest;
@@ -46,11 +47,16 @@ class BillingAccounts extends \Google\Service\Resource
    * typically given to billing account
    * [administrators](https://cloud.google.com/billing/docs/how-to/billing-
    * access). This method will return an error if the parent account has not been
-   * provisioned as a reseller account. (billingAccounts.create)
+   * provisioned for subaccounts. (billingAccounts.create)
    *
    * @param BillingAccount $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string parent Optional. The parent to create a billing account
+   * from. Format: - `billingAccounts/{billing_account_id}`, for example,
+   * `billingAccounts/012345-567890-ABCDEF`
    * @return BillingAccount
+   * @throws \Google\Service\Exception
    */
   public function create(BillingAccount $postBody, $optParams = [])
   {
@@ -60,13 +66,15 @@ class BillingAccounts extends \Google\Service\Resource
   }
   /**
    * Gets information about a billing account. The current authenticated user must
-   * be a [viewer of the billing account](https://cloud.google.com/billing/docs
-   * /how-to/billing-access). (billingAccounts.get)
+   * be a [viewer of the billing
+   * account](https://cloud.google.com/billing/docs/how-to/billing-access).
+   * (billingAccounts.get)
    *
    * @param string $name Required. The resource name of the billing account to
    * retrieve. For example, `billingAccounts/012345-567890-ABCDEF`.
    * @param array $optParams Optional parameters.
    * @return BillingAccount
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +107,7 @@ class BillingAccounts extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -114,10 +123,10 @@ class BillingAccounts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Options for how to filter the returned billing
-   * accounts. Currently this only supports filtering for
+   * accounts. This only supports filtering for
    * [subaccounts](https://cloud.google.com/billing/docs/concepts) under a single
-   * provided reseller billing account. (e.g.
-   * "master_billing_account=billingAccounts/012345-678901-ABCDEF"). Boolean
+   * provided parent billing account. (for example,
+   * `master_billing_account=billingAccounts/012345-678901-ABCDEF`). Boolean
    * algebra and other fields are not currently supported.
    * @opt_param int pageSize Requested page size. The maximum page size is 100;
    * this is also the default.
@@ -125,13 +134,37 @@ class BillingAccounts extends \Google\Service\Resource
    * This should be a `next_page_token` value returned from a previous
    * `ListBillingAccounts` call. If unspecified, the first page of results is
    * returned.
+   * @opt_param string parent Optional. The parent resource to list billing
+   * accounts from. Format: - `organizations/{organization_id}`, for example,
+   * `organizations/12345678` - `billingAccounts/{billing_account_id}`, for
+   * example, `billingAccounts/012345-567890-ABCDEF`
    * @return ListBillingAccountsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBillingAccounts($optParams = [])
   {
     $params = [];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListBillingAccountsResponse::class);
+  }
+  /**
+   * Changes which parent organization a billing account belongs to.
+   * (billingAccounts.move)
+   *
+   * @param string $name Required. The resource name of the billing account to
+   * move. Must be of the form `billingAccounts/{billing_account_id}`. The
+   * specified billing account cannot be a subaccount, since a subaccount always
+   * belongs to the same organization as its parent account.
+   * @param MoveBillingAccountRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BillingAccount
+   * @throws \Google\Service\Exception
+   */
+  public function move($name, MoveBillingAccountRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('move', [$params], BillingAccount::class);
   }
   /**
    * Updates a billing account's fields. Currently the only field that can be
@@ -148,6 +181,7 @@ class BillingAccounts extends \Google\Service\Resource
    * @opt_param string updateMask The update mask applied to the resource. Only
    * "display_name" is currently supported.
    * @return BillingAccount
+   * @throws \Google\Service\Exception
    */
   public function patch($name, BillingAccount $postBody, $optParams = [])
   {
@@ -169,6 +203,7 @@ class BillingAccounts extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -189,6 +224,7 @@ class BillingAccounts extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

@@ -22,8 +22,44 @@ class PlacementPolicy extends \Google\Model
   /**
    * @var string
    */
+  public $policyName;
+  /**
+   * @var string
+   */
+  public $tpuTopology;
+  /**
+   * @var string
+   */
   public $type;
 
+  /**
+   * @param string
+   */
+  public function setPolicyName($policyName)
+  {
+    $this->policyName = $policyName;
+  }
+  /**
+   * @return string
+   */
+  public function getPolicyName()
+  {
+    return $this->policyName;
+  }
+  /**
+   * @param string
+   */
+  public function setTpuTopology($tpuTopology)
+  {
+    $this->tpuTopology = $tpuTopology;
+  }
+  /**
+   * @return string
+   */
+  public function getTpuTopology()
+  {
+    return $this->tpuTopology;
+  }
   /**
    * @param string
    */

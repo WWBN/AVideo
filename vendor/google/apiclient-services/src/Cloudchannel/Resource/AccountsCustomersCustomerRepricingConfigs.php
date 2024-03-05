@@ -43,9 +43,9 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * business cases. * The new config will not modify exports used with other
    * configs. Changes to the config may be immediate, but may take up to 24 hours.
    * * There is a limit of ten configs for any
-   * RepricingConfig.EntitlementGranularity.entitlement or
+   * RepricingConfig.EntitlementGranularity.entitlement, for any
    * RepricingConfig.effective_invoice_month. * The contained
-   * CustomerRepricingConfig.repricing_config vaule must be different from the
+   * CustomerRepricingConfig.repricing_config value must be different from the
    * value used in the current config for a
    * RepricingConfig.EntitlementGranularity.entitlement. Possible Error Codes: *
    * PERMISSION_DENIED: If the account making the request and the account being
@@ -64,6 +64,7 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * @param GoogleCloudChannelV1CustomerRepricingConfig $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1CustomerRepricingConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudChannelV1CustomerRepricingConfig $postBody, $optParams = [])
   {
@@ -86,6 +87,7 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -107,6 +109,7 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * accounts/{account_id}/customers/{customer_id}/customerRepricingConfigs/{id}.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1CustomerRepricingConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -148,6 +151,7 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * ListCustomerRepricingConfigsResponse.next_page_token of the previous
    * CloudChannelService.ListCustomerRepricingConfigs call.
    * @return GoogleCloudChannelV1ListCustomerRepricingConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsCustomersCustomerRepricingConfigs($parent, $optParams = [])
   {
@@ -180,6 +184,7 @@ class AccountsCustomersCustomerRepricingConfigs extends \Google\Service\Resource
    * @param GoogleCloudChannelV1CustomerRepricingConfig $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1CustomerRepricingConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudChannelV1CustomerRepricingConfig $postBody, $optParams = [])
   {

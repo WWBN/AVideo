@@ -20,6 +20,7 @@ namespace Google\Service\Apigee\Resource;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListSecurityProfilesResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1SecurityProfile;
+use Google\Service\Apigee\GoogleProtobufEmpty;
 
 /**
  * The "securityProfiles" collection of methods.
@@ -32,6 +33,44 @@ use Google\Service\Apigee\GoogleCloudApigeeV1SecurityProfile;
 class OrganizationsSecurityProfiles extends \Google\Service\Resource
 {
   /**
+   * CreateSecurityProfile create a new custom security profile.
+   * (securityProfiles.create)
+   *
+   * @param string $parent Required. Name of organization. Format:
+   * organizations/{org}
+   * @param GoogleCloudApigeeV1SecurityProfile $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string securityProfileId Required. The ID to use for the
+   * SecurityProfile, which will become the final component of the action's
+   * resource name. This value should be 1-63 characters and validated by
+   * "(^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$)".
+   * @return GoogleCloudApigeeV1SecurityProfile
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, GoogleCloudApigeeV1SecurityProfile $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], GoogleCloudApigeeV1SecurityProfile::class);
+  }
+  /**
+   * DeleteSecurityProfile delete a profile with all its revisions.
+   * (securityProfiles.delete)
+   *
+   * @param string $name Required. Name of profile. Format:
+   * organizations/{org}/securityProfiles/{profile}
+   * @param array $optParams Optional parameters.
+   * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
    * GetSecurityProfile gets the specified security profile. Returns NOT_FOUND if
    * security profile is not present for the specified organization.
    * (securityProfiles.get)
@@ -43,6 +82,7 @@ class OrganizationsSecurityProfiles extends \Google\Service\Resource
    * organizations/testOrg/securityProfiles/testProfile@5
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityProfile
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -65,6 +105,7 @@ class OrganizationsSecurityProfiles extends \Google\Service\Resource
    * @opt_param string pageToken A page token, received from a previous
    * `ListSecurityProfiles` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudApigeeV1ListSecurityProfilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsSecurityProfiles($parent, $optParams = [])
   {
@@ -87,12 +128,32 @@ class OrganizationsSecurityProfiles extends \Google\Service\Resource
    * `ListSecurityProfileRevisions` call. Provide this to retrieve the subsequent
    * page.
    * @return GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listRevisions($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('listRevisions', [$params], GoogleCloudApigeeV1ListSecurityProfileRevisionsResponse::class);
+  }
+  /**
+   * UpdateSecurityProfile update the metadata of security profile.
+   * (securityProfiles.patch)
+   *
+   * @param string $name Immutable. Name of the security profile resource. Format:
+   * organizations/{org}/securityProfiles/{profile}
+   * @param GoogleCloudApigeeV1SecurityProfile $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update.
+   * @return GoogleCloudApigeeV1SecurityProfile
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudApigeeV1SecurityProfile $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudApigeeV1SecurityProfile::class);
   }
 }
 

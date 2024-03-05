@@ -36,6 +36,7 @@ class OrganizationsEnvironmentsCaches extends \Google\Service\Resource
    * /{organization_id}/environments/{environment_id}/caches/{cache_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {

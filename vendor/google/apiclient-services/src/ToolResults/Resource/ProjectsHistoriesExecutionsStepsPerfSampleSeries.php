@@ -42,6 +42,7 @@ class ProjectsHistoriesExecutionsStepsPerfSampleSeries extends \Google\Service\R
    * @param PerfSampleSeries $postBody
    * @param array $optParams Optional parameters.
    * @return PerfSampleSeries
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, $historyId, $executionId, $stepId, PerfSampleSeries $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsHistoriesExecutionsStepsPerfSampleSeries extends \Google\Service\R
    * @param string $sampleSeriesId A sample series id
    * @param array $optParams Optional parameters.
    * @return PerfSampleSeries
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $historyId, $executionId, $stepId, $sampleSeriesId, $optParams = [])
   {
@@ -85,6 +87,7 @@ class ProjectsHistoriesExecutionsStepsPerfSampleSeries extends \Google\Service\R
    * @opt_param string filter Specify one or more PerfMetricType values such as
    * CPU to filter the result
    * @return ListPerfSampleSeriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistoriesExecutionsStepsPerfSampleSeries($projectId, $historyId, $executionId, $stepId, $optParams = [])
   {

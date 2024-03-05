@@ -41,6 +41,10 @@ class AttachedDiskInitializeParams extends \Google\Collection
    */
   public $diskType;
   /**
+   * @var bool
+   */
+  public $enableConfidentialCompute;
+  /**
    * @var string[]
    */
   public $labels;
@@ -154,6 +158,20 @@ class AttachedDiskInitializeParams extends \Google\Collection
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableConfidentialCompute($enableConfidentialCompute)
+  {
+    $this->enableConfidentialCompute = $enableConfidentialCompute;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableConfidentialCompute()
+  {
+    return $this->enableConfidentialCompute;
   }
   /**
    * @param string[]

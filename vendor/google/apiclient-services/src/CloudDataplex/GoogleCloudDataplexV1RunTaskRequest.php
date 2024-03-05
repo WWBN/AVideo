@@ -19,6 +19,43 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1RunTaskRequest extends \Google\Model
 {
+  /**
+   * @var string[]
+   */
+  public $args;
+  /**
+   * @var string[]
+   */
+  public $labels;
+
+  /**
+   * @param string[]
+   */
+  public function setArgs($args)
+  {
+    $this->args = $args;
+  }
+  /**
+   * @return string[]
+   */
+  public function getArgs()
+  {
+    return $this->args;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

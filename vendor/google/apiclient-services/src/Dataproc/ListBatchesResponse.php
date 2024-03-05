@@ -19,13 +19,17 @@ namespace Google\Service\Dataproc;
 
 class ListBatchesResponse extends \Google\Collection
 {
-  protected $collection_key = 'batches';
+  protected $collection_key = 'unreachable';
   protected $batchesType = Batch::class;
   protected $batchesDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param Batch[]
@@ -54,6 +58,20 @@ class ListBatchesResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

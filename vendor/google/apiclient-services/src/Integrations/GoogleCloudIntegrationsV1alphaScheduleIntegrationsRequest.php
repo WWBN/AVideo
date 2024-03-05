@@ -38,6 +38,10 @@ class GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest extends \Google\
    * @var string
    */
   public $triggerId;
+  /**
+   * @var string
+   */
+  public $userGeneratedExecutionId;
 
   /**
    * @param GoogleCloudIntegrationsV1alphaValueType[]
@@ -122,6 +126,20 @@ class GoogleCloudIntegrationsV1alphaScheduleIntegrationsRequest extends \Google\
   public function getTriggerId()
   {
     return $this->triggerId;
+  }
+  /**
+   * @param string
+   */
+  public function setUserGeneratedExecutionId($userGeneratedExecutionId)
+  {
+    $this->userGeneratedExecutionId = $userGeneratedExecutionId;
+  }
+  /**
+   * @return string
+   */
+  public function getUserGeneratedExecutionId()
+  {
+    return $this->userGeneratedExecutionId;
   }
 }
 

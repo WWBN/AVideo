@@ -17,10 +17,24 @@
 
 namespace Google\Service\AIPlatformNotebooks\Resource;
 
+use Google\Service\AIPlatformNotebooks\CheckInstanceUpgradabilityResponse;
+use Google\Service\AIPlatformNotebooks\Config;
+use Google\Service\AIPlatformNotebooks\DiagnoseInstanceRequest;
+use Google\Service\AIPlatformNotebooks\Instance;
+use Google\Service\AIPlatformNotebooks\ListInstancesResponse;
+use Google\Service\AIPlatformNotebooks\Operation;
 use Google\Service\AIPlatformNotebooks\Policy;
+use Google\Service\AIPlatformNotebooks\ReportInstanceInfoSystemRequest;
+use Google\Service\AIPlatformNotebooks\ResetInstanceRequest;
+use Google\Service\AIPlatformNotebooks\ResizeDiskRequest;
+use Google\Service\AIPlatformNotebooks\RollbackInstanceRequest;
 use Google\Service\AIPlatformNotebooks\SetIamPolicyRequest;
+use Google\Service\AIPlatformNotebooks\StartInstanceRequest;
+use Google\Service\AIPlatformNotebooks\StopInstanceRequest;
 use Google\Service\AIPlatformNotebooks\TestIamPermissionsRequest;
 use Google\Service\AIPlatformNotebooks\TestIamPermissionsResponse;
+use Google\Service\AIPlatformNotebooks\UpgradeInstanceRequest;
+use Google\Service\AIPlatformNotebooks\UpgradeInstanceSystemRequest;
 
 /**
  * The "instances" collection of methods.
@@ -32,6 +46,110 @@ use Google\Service\AIPlatformNotebooks\TestIamPermissionsResponse;
  */
 class ProjectsLocationsInstances extends \Google\Service\Resource
 {
+  /**
+   * Checks whether a notebook instance is upgradable.
+   * (instances.checkUpgradability)
+   *
+   * @param string $notebookInstance Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param array $optParams Optional parameters.
+   * @return CheckInstanceUpgradabilityResponse
+   * @throws \Google\Service\Exception
+   */
+  public function checkUpgradability($notebookInstance, $optParams = [])
+  {
+    $params = ['notebookInstance' => $notebookInstance];
+    $params = array_merge($params, $optParams);
+    return $this->call('checkUpgradability', [$params], CheckInstanceUpgradabilityResponse::class);
+  }
+  /**
+   * Creates a new Instance in a given project and location. (instances.create)
+   *
+   * @param string $parent Required. Format:
+   * `parent=projects/{project_id}/locations/{location}`
+   * @param Instance $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string instanceId Required. User-defined unique ID of this
+   * instance.
+   * @opt_param string requestId Optional. Idempotent request UUID.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function create($parent, Instance $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('create', [$params], Operation::class);
+  }
+  /**
+   * Deletes a single Instance. (instances.delete)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Optional. Idempotent request UUID.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function delete($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('delete', [$params], Operation::class);
+  }
+  /**
+   * Creates a Diagnostic File and runs Diagnostic Tool given an Instance.
+   * (instances.diagnose)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param DiagnoseInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function diagnose($name, DiagnoseInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('diagnose', [$params], Operation::class);
+  }
+  /**
+   * Gets details of a single Instance. (instances.get)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param array $optParams Optional parameters.
+   * @return Instance
+   * @throws \Google\Service\Exception
+   */
+  public function get($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('get', [$params], Instance::class);
+  }
+  /**
+   * Gets general backend configurations that might also affect the frontend.
+   * Location is required by CCFE. Although we could bypass it to send location-
+   * less request directly to the backend job, we would need CPE (go/cloud-cpe).
+   * Having the location might also be useful depending on the query.
+   * (instances.getConfig)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}`
+   * @param array $optParams Optional parameters.
+   * @return Config
+   * @throws \Google\Service\Exception
+   */
+  public function getConfig($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getConfig', [$params], Config::class);
+  }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
    * resource exists and does not have a policy set. (instances.getIamPolicy)
@@ -55,12 +173,122 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
     $params = ['resource' => $resource];
     $params = array_merge($params, $optParams);
     return $this->call('getIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Lists instances in a given project and location.
+   * (instances.listProjectsLocationsInstances)
+   *
+   * @param string $parent Required. Format:
+   * `parent=projects/{project_id}/locations/{location}`
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string filter Optional. List filter.
+   * @opt_param string orderBy Optional. Sort results. Supported values are
+   * "name", "name desc" or "" (unsorted).
+   * @opt_param int pageSize Optional. Maximum return size of the list call.
+   * @opt_param string pageToken Optional. A previous returned page token that can
+   * be used to continue listing from the last result.
+   * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listProjectsLocationsInstances($parent, $optParams = [])
+  {
+    $params = ['parent' => $parent];
+    $params = array_merge($params, $optParams);
+    return $this->call('list', [$params], ListInstancesResponse::class);
+  }
+  /**
+   * UpdateInstance updates an Instance. (instances.patch)
+   *
+   * @param string $name Output only. The name of this notebook instance. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param Instance $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string requestId Optional. Idempotent request UUID.
+   * @opt_param string updateMask Required. Mask used to update an instance
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, Instance $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], Operation::class);
+  }
+  /**
+   * Allows notebook instances to report their latest instance information to the
+   * Notebooks API server. The server will merge the reported information to the
+   * instance metadata store. Do not use this method directly.
+   * (instances.reportInfoSystem)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param ReportInstanceInfoSystemRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function reportInfoSystem($name, ReportInstanceInfoSystemRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('reportInfoSystem', [$params], Operation::class);
+  }
+  /**
+   * Resets a notebook instance. (instances.reset)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param ResetInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function reset($name, ResetInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('reset', [$params], Operation::class);
+  }
+  /**
+   * Resize a notebook instance disk to a higher capacity. (instances.resizeDisk)
+   *
+   * @param string $notebookInstance Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param ResizeDiskRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function resizeDisk($notebookInstance, ResizeDiskRequest $postBody, $optParams = [])
+  {
+    $params = ['notebookInstance' => $notebookInstance, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('resizeDisk', [$params], Operation::class);
+  }
+  /**
+   * Rollbacks a notebook instance to the previous version. (instances.rollback)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param RollbackInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function rollback($name, RollbackInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('rollback', [$params], Operation::class);
   }
   /**
    * Sets the access control policy on the specified resource. Replaces any
@@ -74,12 +302,45 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('setIamPolicy', [$params], Policy::class);
+  }
+  /**
+   * Starts a notebook instance. (instances.start)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param StartInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function start($name, StartInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('start', [$params], Operation::class);
+  }
+  /**
+   * Stops a notebook instance. (instances.stop)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param StopInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function stop($name, StopInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('stop', [$params], Operation::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the
@@ -96,12 +357,46 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
+  }
+  /**
+   * Upgrades a notebook instance to the latest version. (instances.upgrade)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param UpgradeInstanceRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function upgrade($name, UpgradeInstanceRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('upgrade', [$params], Operation::class);
+  }
+  /**
+   * Allows notebook instances to upgrade themselves. Do not use this method
+   * directly. (instances.upgradeSystem)
+   *
+   * @param string $name Required. Format:
+   * `projects/{project_id}/locations/{location}/instances/{instance_id}`
+   * @param UpgradeInstanceSystemRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function upgradeSystem($name, UpgradeInstanceSystemRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('upgradeSystem', [$params], Operation::class);
   }
 }
 

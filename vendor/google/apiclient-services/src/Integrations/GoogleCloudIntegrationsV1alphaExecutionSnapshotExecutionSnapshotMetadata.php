@@ -17,12 +17,25 @@
 
 namespace Google\Service\Integrations;
 
-class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata extends \Google\Model
+class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata extends \Google\Collection
 {
+  protected $collection_key = 'ancestorTaskNumbers';
+  /**
+   * @var string[]
+   */
+  public $ancestorIterationNumbers;
+  /**
+   * @var string[]
+   */
+  public $ancestorTaskNumbers;
   /**
    * @var int
    */
   public $executionAttempt;
+  /**
+   * @var string
+   */
+  public $integrationName;
   /**
    * @var string
    */
@@ -41,6 +54,34 @@ class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata e
   public $taskNumber;
 
   /**
+   * @param string[]
+   */
+  public function setAncestorIterationNumbers($ancestorIterationNumbers)
+  {
+    $this->ancestorIterationNumbers = $ancestorIterationNumbers;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAncestorIterationNumbers()
+  {
+    return $this->ancestorIterationNumbers;
+  }
+  /**
+   * @param string[]
+   */
+  public function setAncestorTaskNumbers($ancestorTaskNumbers)
+  {
+    $this->ancestorTaskNumbers = $ancestorTaskNumbers;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAncestorTaskNumbers()
+  {
+    return $this->ancestorTaskNumbers;
+  }
+  /**
    * @param int
    */
   public function setExecutionAttempt($executionAttempt)
@@ -53,6 +94,20 @@ class GoogleCloudIntegrationsV1alphaExecutionSnapshotExecutionSnapshotMetadata e
   public function getExecutionAttempt()
   {
     return $this->executionAttempt;
+  }
+  /**
+   * @param string
+   */
+  public function setIntegrationName($integrationName)
+  {
+    $this->integrationName = $integrationName;
+  }
+  /**
+   * @return string
+   */
+  public function getIntegrationName()
+  {
+    return $this->integrationName;
   }
   /**
    * @param string

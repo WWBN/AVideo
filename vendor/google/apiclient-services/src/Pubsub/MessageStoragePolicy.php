@@ -24,6 +24,10 @@ class MessageStoragePolicy extends \Google\Collection
    * @var string[]
    */
   public $allowedPersistenceRegions;
+  /**
+   * @var bool
+   */
+  public $enforceInTransit;
 
   /**
    * @param string[]
@@ -38,6 +42,20 @@ class MessageStoragePolicy extends \Google\Collection
   public function getAllowedPersistenceRegions()
   {
     return $this->allowedPersistenceRegions;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnforceInTransit($enforceInTransit)
+  {
+    $this->enforceInTransit = $enforceInTransit;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnforceInTransit()
+  {
+    return $this->enforceInTransit;
   }
 }
 

@@ -35,6 +35,7 @@ class Comments extends \Google\Service\Resource
    *
    * @param string $id
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Comments extends \Google\Service\Resource
    * @param Comment $postBody
    * @param array $optParams Optional parameters.
    * @return Comment
+   * @throws \Google\Service\Exception
    */
   public function insert($part, Comment $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class Comments extends \Google\Service\Resource
    * @opt_param string textFormat The requested text format for the returned
    * comments.
    * @return CommentListResponse
+   * @throws \Google\Service\Exception
    */
   public function listComments($part, $optParams = [])
   {
@@ -94,6 +97,7 @@ class Comments extends \Google\Service\Resource
    * @param string|array $id Flags the comments with the given IDs as spam in the
    * caller's opinion.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function markAsSpam($id, $optParams = [])
   {
@@ -116,6 +120,7 @@ class Comments extends \Google\Service\Resource
    * @opt_param bool banAuthor If set to true the author of the comment gets added
    * to the ban list. This means all future comments of the author will
    * autmomatically be rejected. Only valid in combination with STATUS_REJECTED.
+   * @throws \Google\Service\Exception
    */
   public function setModerationStatus($id, $moderationStatus, $optParams = [])
   {
@@ -133,6 +138,7 @@ class Comments extends \Google\Service\Resource
    * @param Comment $postBody
    * @param array $optParams Optional parameters.
    * @return Comment
+   * @throws \Google\Service\Exception
    */
   public function update($part, Comment $postBody, $optParams = [])
   {

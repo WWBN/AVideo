@@ -40,6 +40,7 @@ class InboundSamlSsoProfilesIdpCredentials extends \Google\Service\Resource
    * @param AddIdpCredentialRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function add($parent, AddIdpCredentialRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class InboundSamlSsoProfilesIdpCredentials extends \Google\Service\Resource
    * `inboundSamlSsoProfiles/{sso_profile_id}/idpCredentials/{idp_credential_id}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class InboundSamlSsoProfilesIdpCredentials extends \Google\Service\Resource
    * `inboundSamlSsoProfiles/{sso_profile_id}/idpCredentials/{idp_credential_id}`
    * @param array $optParams Optional parameters.
    * @return IdpCredential
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,6 +97,7 @@ class InboundSamlSsoProfilesIdpCredentials extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListIdpCredentials` must match
    * the call that provided the page token.
    * @return ListIdpCredentialsResponse
+   * @throws \Google\Service\Exception
    */
   public function listInboundSamlSsoProfilesIdpCredentials($parent, $optParams = [])
   {

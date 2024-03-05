@@ -50,6 +50,7 @@ class BiddersFilterSetsFilteredBids extends \Google\Service\Resource
    * ListFilteredBidsResponse.nextPageToken returned from the previous call to the
    * filteredBids.list method.
    * @return ListFilteredBidsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersFilterSetsFilteredBids($filterSetName, $optParams = [])
   {

@@ -19,7 +19,7 @@ namespace Google\Service\SA360;
 
 class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
 {
-  protected $collection_key = 'interactionEventTypes';
+  protected $collection_key = 'rawEventConversionMetrics';
   public $absoluteTopImpressionPercentage;
   public $allConversions;
   public $allConversionsByConversionDate;
@@ -47,10 +47,38 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   /**
    * @var string
    */
+  public $clientAccountCrossSellCostOfGoodsSoldMicros;
+  /**
+   * @var string
+   */
+  public $clientAccountCrossSellGrossProfitMicros;
+  /**
+   * @var string
+   */
+  public $clientAccountCrossSellRevenueMicros;
+  public $clientAccountCrossSellUnitsSold;
+  /**
+   * @var string
+   */
+  public $clientAccountLeadCostOfGoodsSoldMicros;
+  /**
+   * @var string
+   */
+  public $clientAccountLeadGrossProfitMicros;
+  /**
+   * @var string
+   */
+  public $clientAccountLeadRevenueMicros;
+  public $clientAccountLeadUnitsSold;
+  /**
+   * @var string
+   */
   public $clientAccountViewThroughConversions;
   public $contentBudgetLostImpressionShare;
   public $contentImpressionShare;
   public $contentRankLostImpressionShare;
+  protected $conversionCustomMetricsType = GoogleAdsSearchads360V0CommonValue::class;
+  protected $conversionCustomMetricsDataType = 'array';
   public $conversions;
   public $conversionsByConversionDate;
   public $conversionsFromInteractionsRate;
@@ -67,6 +95,19 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public $costPerCurrentModelAttributedConversion;
   public $crossDeviceConversions;
   public $crossDeviceConversionsValue;
+  /**
+   * @var string
+   */
+  public $crossSellCostOfGoodsSoldMicros;
+  /**
+   * @var string
+   */
+  public $crossSellGrossProfitMicros;
+  /**
+   * @var string
+   */
+  public $crossSellRevenueMicros;
+  public $crossSellUnitsSold;
   public $ctr;
   /**
    * @var string
@@ -102,7 +143,22 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
    * @var string
    */
   public $invalidClicks;
+  /**
+   * @var string
+   */
+  public $leadCostOfGoodsSoldMicros;
+  /**
+   * @var string
+   */
+  public $leadGrossProfitMicros;
+  /**
+   * @var string
+   */
+  public $leadRevenueMicros;
+  public $leadUnitsSold;
   public $mobileFriendlyClicksPercentage;
+  protected $rawEventConversionMetricsType = GoogleAdsSearchads360V0CommonValue::class;
+  protected $rawEventConversionMetricsDataType = 'array';
   public $searchAbsoluteTopImpressionShare;
   public $searchBudgetLostAbsoluteTopImpressionShare;
   public $searchBudgetLostImpressionShare;
@@ -298,6 +354,106 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   /**
    * @param string
    */
+  public function setClientAccountCrossSellCostOfGoodsSoldMicros($clientAccountCrossSellCostOfGoodsSoldMicros)
+  {
+    $this->clientAccountCrossSellCostOfGoodsSoldMicros = $clientAccountCrossSellCostOfGoodsSoldMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountCrossSellCostOfGoodsSoldMicros()
+  {
+    return $this->clientAccountCrossSellCostOfGoodsSoldMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAccountCrossSellGrossProfitMicros($clientAccountCrossSellGrossProfitMicros)
+  {
+    $this->clientAccountCrossSellGrossProfitMicros = $clientAccountCrossSellGrossProfitMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountCrossSellGrossProfitMicros()
+  {
+    return $this->clientAccountCrossSellGrossProfitMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAccountCrossSellRevenueMicros($clientAccountCrossSellRevenueMicros)
+  {
+    $this->clientAccountCrossSellRevenueMicros = $clientAccountCrossSellRevenueMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountCrossSellRevenueMicros()
+  {
+    return $this->clientAccountCrossSellRevenueMicros;
+  }
+  public function setClientAccountCrossSellUnitsSold($clientAccountCrossSellUnitsSold)
+  {
+    $this->clientAccountCrossSellUnitsSold = $clientAccountCrossSellUnitsSold;
+  }
+  public function getClientAccountCrossSellUnitsSold()
+  {
+    return $this->clientAccountCrossSellUnitsSold;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAccountLeadCostOfGoodsSoldMicros($clientAccountLeadCostOfGoodsSoldMicros)
+  {
+    $this->clientAccountLeadCostOfGoodsSoldMicros = $clientAccountLeadCostOfGoodsSoldMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountLeadCostOfGoodsSoldMicros()
+  {
+    return $this->clientAccountLeadCostOfGoodsSoldMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAccountLeadGrossProfitMicros($clientAccountLeadGrossProfitMicros)
+  {
+    $this->clientAccountLeadGrossProfitMicros = $clientAccountLeadGrossProfitMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountLeadGrossProfitMicros()
+  {
+    return $this->clientAccountLeadGrossProfitMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setClientAccountLeadRevenueMicros($clientAccountLeadRevenueMicros)
+  {
+    $this->clientAccountLeadRevenueMicros = $clientAccountLeadRevenueMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getClientAccountLeadRevenueMicros()
+  {
+    return $this->clientAccountLeadRevenueMicros;
+  }
+  public function setClientAccountLeadUnitsSold($clientAccountLeadUnitsSold)
+  {
+    $this->clientAccountLeadUnitsSold = $clientAccountLeadUnitsSold;
+  }
+  public function getClientAccountLeadUnitsSold()
+  {
+    return $this->clientAccountLeadUnitsSold;
+  }
+  /**
+   * @param string
+   */
   public function setClientAccountViewThroughConversions($clientAccountViewThroughConversions)
   {
     $this->clientAccountViewThroughConversions = $clientAccountViewThroughConversions;
@@ -332,6 +488,20 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public function getContentRankLostImpressionShare()
   {
     return $this->contentRankLostImpressionShare;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonValue[]
+   */
+  public function setConversionCustomMetrics($conversionCustomMetrics)
+  {
+    $this->conversionCustomMetrics = $conversionCustomMetrics;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonValue[]
+   */
+  public function getConversionCustomMetrics()
+  {
+    return $this->conversionCustomMetrics;
   }
   public function setConversions($conversions)
   {
@@ -442,6 +612,56 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public function getCrossDeviceConversionsValue()
   {
     return $this->crossDeviceConversionsValue;
+  }
+  /**
+   * @param string
+   */
+  public function setCrossSellCostOfGoodsSoldMicros($crossSellCostOfGoodsSoldMicros)
+  {
+    $this->crossSellCostOfGoodsSoldMicros = $crossSellCostOfGoodsSoldMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getCrossSellCostOfGoodsSoldMicros()
+  {
+    return $this->crossSellCostOfGoodsSoldMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setCrossSellGrossProfitMicros($crossSellGrossProfitMicros)
+  {
+    $this->crossSellGrossProfitMicros = $crossSellGrossProfitMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getCrossSellGrossProfitMicros()
+  {
+    return $this->crossSellGrossProfitMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setCrossSellRevenueMicros($crossSellRevenueMicros)
+  {
+    $this->crossSellRevenueMicros = $crossSellRevenueMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getCrossSellRevenueMicros()
+  {
+    return $this->crossSellRevenueMicros;
+  }
+  public function setCrossSellUnitsSold($crossSellUnitsSold)
+  {
+    $this->crossSellUnitsSold = $crossSellUnitsSold;
+  }
+  public function getCrossSellUnitsSold()
+  {
+    return $this->crossSellUnitsSold;
   }
   public function setCtr($ctr)
   {
@@ -579,6 +799,56 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   {
     return $this->invalidClicks;
   }
+  /**
+   * @param string
+   */
+  public function setLeadCostOfGoodsSoldMicros($leadCostOfGoodsSoldMicros)
+  {
+    $this->leadCostOfGoodsSoldMicros = $leadCostOfGoodsSoldMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getLeadCostOfGoodsSoldMicros()
+  {
+    return $this->leadCostOfGoodsSoldMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setLeadGrossProfitMicros($leadGrossProfitMicros)
+  {
+    $this->leadGrossProfitMicros = $leadGrossProfitMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getLeadGrossProfitMicros()
+  {
+    return $this->leadGrossProfitMicros;
+  }
+  /**
+   * @param string
+   */
+  public function setLeadRevenueMicros($leadRevenueMicros)
+  {
+    $this->leadRevenueMicros = $leadRevenueMicros;
+  }
+  /**
+   * @return string
+   */
+  public function getLeadRevenueMicros()
+  {
+    return $this->leadRevenueMicros;
+  }
+  public function setLeadUnitsSold($leadUnitsSold)
+  {
+    $this->leadUnitsSold = $leadUnitsSold;
+  }
+  public function getLeadUnitsSold()
+  {
+    return $this->leadUnitsSold;
+  }
   public function setMobileFriendlyClicksPercentage($mobileFriendlyClicksPercentage)
   {
     $this->mobileFriendlyClicksPercentage = $mobileFriendlyClicksPercentage;
@@ -586,6 +856,20 @@ class GoogleAdsSearchads360V0CommonMetrics extends \Google\Collection
   public function getMobileFriendlyClicksPercentage()
   {
     return $this->mobileFriendlyClicksPercentage;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0CommonValue[]
+   */
+  public function setRawEventConversionMetrics($rawEventConversionMetrics)
+  {
+    $this->rawEventConversionMetrics = $rawEventConversionMetrics;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0CommonValue[]
+   */
+  public function getRawEventConversionMetrics()
+  {
+    return $this->rawEventConversionMetrics;
   }
   public function setSearchAbsoluteTopImpressionShare($searchAbsoluteTopImpressionShare)
   {

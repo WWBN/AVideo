@@ -45,6 +45,7 @@ class DebugDatasourcesItems extends \Google\Service\Resource
    * @opt_param bool debugOptions.enableDebugging If you are asked by Google to
    * help with debugging, set this field. Otherwise, ignore this field.
    * @return CheckAccessResponse
+   * @throws \Google\Service\Exception
    */
   public function checkAccess($name, Principal $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class DebugDatasourcesItems extends \Google\Service\Resource
    * @param SearchItemsByViewUrlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchItemsByViewUrlResponse
+   * @throws \Google\Service\Exception
    */
   public function searchByViewUrl($name, SearchItemsByViewUrlRequest $postBody, $optParams = [])
   {

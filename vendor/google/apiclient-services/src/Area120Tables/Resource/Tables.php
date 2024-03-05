@@ -37,6 +37,7 @@ class Tables extends \Google\Service\Resource
    * tables/{table}
    * @param array $optParams Optional parameters.
    * @return Table
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -59,6 +60,7 @@ class Tables extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListTables` must match the call
    * that provided the page token.
    * @return ListTablesResponse
+   * @throws \Google\Service\Exception
    */
   public function listTables($optParams = [])
   {

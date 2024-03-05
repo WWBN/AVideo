@@ -32,7 +32,10 @@ class Installs extends \Google\Service\Resource
 {
   /**
    * Requests to remove an app from a device. A call to get or list will still
-   * show the app as installed on the device until it is actually removed.
+   * show the app as installed on the device until it is actually removed. A
+   * successful response indicates that a removal request has been sent to the
+   * device. The call will be considered successful even if the app is not present
+   * on the device (e.g. it was never installed, or was removed by the user).
    * (installs.delete)
    *
    * @param string $enterpriseId The ID of the enterprise.
@@ -41,6 +44,7 @@ class Installs extends \Google\Service\Resource
    * @param string $installId The ID of the product represented by the install,
    * e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($enterpriseId, $userId, $deviceId, $installId, $optParams = [])
   {
@@ -58,6 +62,7 @@ class Installs extends \Google\Service\Resource
    * e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
    * @return Install
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $userId, $deviceId, $installId, $optParams = [])
   {
@@ -74,6 +79,7 @@ class Installs extends \Google\Service\Resource
    * @param string $deviceId The Android ID of the device.
    * @param array $optParams Optional parameters.
    * @return InstallsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listInstalls($enterpriseId, $userId, $deviceId, $optParams = [])
   {
@@ -94,6 +100,7 @@ class Installs extends \Google\Service\Resource
    * @param Install $postBody
    * @param array $optParams Optional parameters.
    * @return Install
+   * @throws \Google\Service\Exception
    */
   public function update($enterpriseId, $userId, $deviceId, $installId, Install $postBody, $optParams = [])
   {

@@ -38,6 +38,7 @@ class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource
    * @param GtagConfig $postBody
    * @param array $optParams Optional parameters.
    * @return GtagConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GtagConfig $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource
    * {account_id}/containers/{container_id}/workspaces/{workspace_id}/gtag_config/
    * {gtag_config_id}
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($path, $optParams = [])
   {
@@ -67,6 +69,7 @@ class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource
    * {gtag_config_id}
    * @param array $optParams Optional parameters.
    * @return GtagConfig
+   * @throws \Google\Service\Exception
    */
   public function get($path, $optParams = [])
   {
@@ -85,6 +88,7 @@ class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListGtagConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsContainersWorkspacesGtagConfig($parent, $optParams = [])
   {
@@ -104,6 +108,7 @@ class AccountsContainersWorkspacesGtagConfig extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the config in storage.
    * @return GtagConfig
+   * @throws \Google\Service\Exception
    */
   public function update($path, GtagConfig $postBody, $optParams = [])
   {

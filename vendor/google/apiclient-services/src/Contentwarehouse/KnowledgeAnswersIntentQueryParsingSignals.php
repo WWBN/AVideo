@@ -28,8 +28,6 @@ class KnowledgeAnswersIntentQueryParsingSignals extends \Google\Model
    * @var float
    */
   public $inQueryMaxEffectiveArgSpanLength;
-  protected $qrewriteCallPathInfoType = NlpLoggingQRewriteClientCallPathInfo::class;
-  protected $qrewriteCallPathInfoDataType = '';
   /**
    * @var string
    */
@@ -74,20 +72,6 @@ class KnowledgeAnswersIntentQueryParsingSignals extends \Google\Model
   public function getInQueryMaxEffectiveArgSpanLength()
   {
     return $this->inQueryMaxEffectiveArgSpanLength;
-  }
-  /**
-   * @param NlpLoggingQRewriteClientCallPathInfo
-   */
-  public function setQrewriteCallPathInfo(NlpLoggingQRewriteClientCallPathInfo $qrewriteCallPathInfo)
-  {
-    $this->qrewriteCallPathInfo = $qrewriteCallPathInfo;
-  }
-  /**
-   * @return NlpLoggingQRewriteClientCallPathInfo
-   */
-  public function getQrewriteCallPathInfo()
-  {
-    return $this->qrewriteCallPathInfo;
   }
   /**
    * @param string

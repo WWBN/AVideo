@@ -49,6 +49,7 @@ class Thumbnails extends \Google\Service\Resource
    * channel. The actual CMS account that the user authenticates with must be
    * linked to the specified YouTube content owner.
    * @return ThumbnailSetResponse
+   * @throws \Google\Service\Exception
    */
   public function set($videoId, $optParams = [])
   {

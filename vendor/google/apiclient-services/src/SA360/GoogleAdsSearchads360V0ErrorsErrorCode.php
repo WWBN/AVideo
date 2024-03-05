@@ -30,6 +30,10 @@ class GoogleAdsSearchads360V0ErrorsErrorCode extends \Google\Model
   /**
    * @var string
    */
+  public $customColumnError;
+  /**
+   * @var string
+   */
   public $dateError;
   /**
    * @var string
@@ -47,6 +51,10 @@ class GoogleAdsSearchads360V0ErrorsErrorCode extends \Google\Model
    * @var string
    */
   public $internalError;
+  /**
+   * @var string
+   */
+  public $invalidParameterError;
   /**
    * @var string
    */
@@ -91,6 +99,20 @@ class GoogleAdsSearchads360V0ErrorsErrorCode extends \Google\Model
   public function getAuthorizationError()
   {
     return $this->authorizationError;
+  }
+  /**
+   * @param string
+   */
+  public function setCustomColumnError($customColumnError)
+  {
+    $this->customColumnError = $customColumnError;
+  }
+  /**
+   * @return string
+   */
+  public function getCustomColumnError()
+  {
+    return $this->customColumnError;
   }
   /**
    * @param string
@@ -161,6 +183,20 @@ class GoogleAdsSearchads360V0ErrorsErrorCode extends \Google\Model
   public function getInternalError()
   {
     return $this->internalError;
+  }
+  /**
+   * @param string
+   */
+  public function setInvalidParameterError($invalidParameterError)
+  {
+    $this->invalidParameterError = $invalidParameterError;
+  }
+  /**
+   * @return string
+   */
+  public function getInvalidParameterError()
+  {
+    return $this->invalidParameterError;
   }
   /**
    * @param string

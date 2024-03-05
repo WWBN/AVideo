@@ -22,7 +22,7 @@ getID3() is released under multiple licenses. You may choose from the following 
 
 **getID3 Commercial License:**
 
-* [gCL](https://www.getid3.org/#gCL) (payment required)
+* [gCL](https://www.getid3.org/#gCL) (no longer available, existing licenses remain valid)
 
 * * *
 Copies of each of the above licenses are included in the `licenses/`
@@ -125,7 +125,7 @@ Reads & parses (to varying degrees):
   * SWF (Flash)
   * PhotoCD
 
-+ data: 
++ data:
   * ISO-9660 CD-ROM image (directory structure)
   * SZIP (limited support)
   * ZIP (directory structure)
@@ -297,7 +297,7 @@ could essentially write it today with a one-line function:
 
 ``` php
 function getID3($filename) { return unpack('a3TAG/a30title/a30artist/a30album/a4year/a28comment/c1track/c1genreid', substr(file_get_contents($filename), -128)); }
-    
+
 ```
 
 

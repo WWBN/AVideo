@@ -57,6 +57,7 @@ class ProjectsInstancesClustersHotTablets extends \Google\Service\Resource
    * time is 48 hours. Start time and end time should have values between Now and
    * Now - 14 days.
    * @return ListHotTabletsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesClustersHotTablets($parent, $optParams = [])
   {

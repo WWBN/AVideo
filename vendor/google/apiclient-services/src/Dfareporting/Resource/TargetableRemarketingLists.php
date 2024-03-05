@@ -37,6 +37,7 @@ class TargetableRemarketingLists extends \Google\Service\Resource
    * @param string $id Remarketing list ID.
    * @param array $optParams Optional parameters.
    * @return TargetableRemarketingList
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -50,8 +51,8 @@ class TargetableRemarketingLists extends \Google\Service\Resource
    * (targetableRemarketingLists.listTargetableRemarketingLists)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $advertiserId Select only targetable remarketing lists
-   * targetable by these advertisers.
+   * @param string $advertiserId Required. Select only targetable remarketing
+   * lists targetable by these advertisers.
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool active Select only active or only inactive targetable
@@ -69,6 +70,7 @@ class TargetableRemarketingLists extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return TargetableRemarketingListsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listTargetableRemarketingLists($profileId, $advertiserId, $optParams = [])
   {

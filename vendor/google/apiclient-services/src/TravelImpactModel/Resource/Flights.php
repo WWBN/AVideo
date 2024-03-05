@@ -47,6 +47,7 @@ class Flights extends \Google\Service\Resource
    * @param ComputeFlightEmissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ComputeFlightEmissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function computeFlightEmissions(ComputeFlightEmissionsRequest $postBody, $optParams = [])
   {

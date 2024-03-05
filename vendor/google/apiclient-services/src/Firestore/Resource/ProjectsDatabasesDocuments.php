@@ -62,6 +62,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param BatchGetDocumentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchGetDocumentsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($database, BatchGetDocumentsRequest $postBody, $optParams = [])
   {
@@ -82,6 +83,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param BatchWriteRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchWriteResponse
+   * @throws \Google\Service\Exception
    */
   public function batchWrite($database, BatchWriteRequest $postBody, $optParams = [])
   {
@@ -97,6 +99,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param BeginTransactionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BeginTransactionResponse
+   * @throws \Google\Service\Exception
    */
   public function beginTransaction($database, BeginTransactionRequest $postBody, $optParams = [])
   {
@@ -113,6 +116,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param CommitRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CommitResponse
+   * @throws \Google\Service\Exception
    */
   public function commit($database, CommitRequest $postBody, $optParams = [])
   {
@@ -136,6 +140,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @opt_param string mask.fieldPaths The list of field paths in the mask. See
    * Document.fields for a field path syntax reference.
    * @return Document
+   * @throws \Google\Service\Exception
    */
   public function createDocument($parent, $collectionId, Document $postBody, $optParams = [])
   {
@@ -157,6 +162,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * must exist and have been last updated at that time. Timestamp must be
    * microsecond aligned.
    * @return FirestoreEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -175,9 +181,12 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @opt_param string mask.fieldPaths The list of field paths in the mask. See
    * Document.fields for a field path syntax reference.
    * @opt_param string readTime Reads the version of the document at the given
-   * time. This may not be older than 270 seconds.
+   * time. This must be a microsecond precision timestamp within the past one
+   * hour, or if Point-in-Time Recovery is enabled, can additionally be a whole
+   * minute timestamp within the past 7 days.
    * @opt_param string transaction Reads the document in a transaction.
    * @return Document
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -211,8 +220,10 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * `ListDocuments` response. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters (with the exception of `page_size`) must
    * match the values set in the request that generated the page token.
-   * @opt_param string readTime Perform the read at the provided time. This may
-   * not be older than 270 seconds.
+   * @opt_param string readTime Perform the read at the provided time. This must
+   * be a microsecond precision timestamp within the past one hour, or if Point-
+   * in-Time Recovery is enabled, can additionally be a whole minute timestamp
+   * within the past 7 days.
    * @opt_param bool showMissing If the list should show missing documents. A
    * document is missing if it does not exist, but there are sub-documents nested
    * underneath it. When true, such missing documents will be returned with a key
@@ -221,6 +232,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @opt_param string transaction Perform the read as part of an already active
    * transaction.
    * @return ListDocumentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatabasesDocuments($parent, $collectionId, $optParams = [])
   {
@@ -234,11 +246,12 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent document. In the format:
    * `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
-   * For example: `projects/my-project/databases/my-database/documents/chatrooms
-   * /my-chatroom`
+   * For example: `projects/my-project/databases/my-
+   * database/documents/chatrooms/my-chatroom`
    * @param ListCollectionIdsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ListCollectionIdsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCollectionIds($parent, ListCollectionIdsRequest $postBody, $optParams = [])
   {
@@ -272,8 +285,10 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * `ListDocuments` response. Provide this to retrieve the subsequent page. When
    * paginating, all other parameters (with the exception of `page_size`) must
    * match the values set in the request that generated the page token.
-   * @opt_param string readTime Perform the read at the provided time. This may
-   * not be older than 270 seconds.
+   * @opt_param string readTime Perform the read at the provided time. This must
+   * be a microsecond precision timestamp within the past one hour, or if Point-
+   * in-Time Recovery is enabled, can additionally be a whole minute timestamp
+   * within the past 7 days.
    * @opt_param bool showMissing If the list should show missing documents. A
    * document is missing if it does not exist, but there are sub-documents nested
    * underneath it. When true, such missing documents will be returned with a key
@@ -282,6 +297,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @opt_param string transaction Perform the read as part of an already active
    * transaction.
    * @return ListDocumentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listDocuments($parent, $collectionId, $optParams = [])
   {
@@ -298,6 +314,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param ListenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ListenResponse
+   * @throws \Google\Service\Exception
    */
   public function listen($database, ListenRequest $postBody, $optParams = [])
   {
@@ -317,6 +334,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param PartitionQueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PartitionQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function partitionQuery($parent, PartitionQueryRequest $postBody, $optParams = [])
   {
@@ -342,6 +360,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @opt_param string updateMask.fieldPaths The list of field paths in the mask.
    * See Document.fields for a field path syntax reference.
    * @return Document
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Document $postBody, $optParams = [])
   {
@@ -357,6 +376,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param RollbackRequest $postBody
    * @param array $optParams Optional parameters.
    * @return FirestoreEmpty
+   * @throws \Google\Service\Exception
    */
   public function rollback($database, RollbackRequest $postBody, $optParams = [])
   {
@@ -379,6 +399,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param RunAggregationQueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RunAggregationQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function runAggregationQuery($parent, RunAggregationQueryRequest $postBody, $optParams = [])
   {
@@ -397,6 +418,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param RunQueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RunQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function runQuery($parent, RunQueryRequest $postBody, $optParams = [])
   {
@@ -414,6 +436,7 @@ class ProjectsDatabasesDocuments extends \Google\Service\Resource
    * @param WriteRequest $postBody
    * @param array $optParams Optional parameters.
    * @return WriteResponse
+   * @throws \Google\Service\Exception
    */
   public function write($database, WriteRequest $postBody, $optParams = [])
   {

@@ -78,6 +78,10 @@ class Network extends \Google\Collection
   public $vlanId;
   protected $vrfType = VRF::class;
   protected $vrfDataType = '';
+  /**
+   * @var string
+   */
+  public $vrfAttachment;
 
   /**
    * @param string
@@ -302,6 +306,20 @@ class Network extends \Google\Collection
   public function getVrf()
   {
     return $this->vrf;
+  }
+  /**
+   * @param string
+   */
+  public function setVrfAttachment($vrfAttachment)
+  {
+    $this->vrfAttachment = $vrfAttachment;
+  }
+  /**
+   * @return string
+   */
+  public function getVrfAttachment()
+  {
+    return $this->vrfAttachment;
   }
 }
 

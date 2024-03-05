@@ -42,6 +42,7 @@ class TestEnvironmentCatalog extends \Google\Service\Resource
    * @opt_param string projectId For authorization, the cloud project requesting
    * the TestEnvironmentCatalog.
    * @return TestEnvironmentCatalogModel
+   * @throws \Google\Service\Exception
    */
   public function get($environmentType, $optParams = [])
   {

@@ -43,6 +43,7 @@ class Sdfdownloadtasks extends \Google\Service\Resource
    * @param CreateSdfDownloadTaskRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(CreateSdfDownloadTaskRequest $postBody, $optParams = [])
   {

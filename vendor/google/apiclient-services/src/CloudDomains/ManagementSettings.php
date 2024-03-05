@@ -22,12 +22,30 @@ class ManagementSettings extends \Google\Model
   /**
    * @var string
    */
+  public $preferredRenewalMethod;
+  /**
+   * @var string
+   */
   public $renewalMethod;
   /**
    * @var string
    */
   public $transferLockState;
 
+  /**
+   * @param string
+   */
+  public function setPreferredRenewalMethod($preferredRenewalMethod)
+  {
+    $this->preferredRenewalMethod = $preferredRenewalMethod;
+  }
+  /**
+   * @return string
+   */
+  public function getPreferredRenewalMethod()
+  {
+    return $this->preferredRenewalMethod;
+  }
   /**
    * @param string
    */

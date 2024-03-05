@@ -83,6 +83,7 @@ class AccountsReports extends \Google\Service\Resource
    * @opt_param int startDate.year Year of the date. Must be from 1 to 9999, or 0
    * to specify a date without a year.
    * @return ReportResult
+   * @throws \Google\Service\Exception
    */
   public function generate($account, $optParams = [])
   {
@@ -142,6 +143,7 @@ class AccountsReports extends \Google\Service\Resource
    * @opt_param int startDate.year Year of the date. Must be from 1 to 9999, or 0
    * to specify a date without a year.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function generateCsv($account, $optParams = [])
   {
@@ -156,6 +158,7 @@ class AccountsReports extends \Google\Service\Resource
    * Format: accounts/{account}/reports/{report}
    * @param array $optParams Optional parameters.
    * @return SavedReport
+   * @throws \Google\Service\Exception
    */
   public function getSaved($name, $optParams = [])
   {

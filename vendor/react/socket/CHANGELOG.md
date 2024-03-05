@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.15.0 (2023-12-15)
+
+*   Feature: Full PHP 8.3 compatibility.
+    (#310 by @clue)
+
+*   Fix: Fix cancelling during the 50ms resolution delay when DNS is still pending.
+    (#311 by @clue)
+
+## 1.14.0 (2023-08-25)
+
+*   Feature: Improve Promise v3 support and use template types.
+    (#307 and #309 by @clue)
+
+*   Improve test suite and update to collect all garbage cycles.
+    (#308 by @clue)
+
+## 1.13.0 (2023-06-07)
+
+*   Feature: Include timeout logic to avoid dependency on reactphp/promise-timer.
+    (#305 by @clue)
+
+*   Feature: Improve errno detection for failed connections without `ext-sockets`.
+    (#304 by @clue)
+
+*   Improve test suite, clean up leftover `.sock` files and report failed assertions.
+    (#299, #300, #301 and #306 by @clue)
+
 ## 1.12.0 (2022-08-25)
 
 *   Feature: Forward compatibility with react/promise 3.

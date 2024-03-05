@@ -35,6 +35,7 @@ class About extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return AboutModel
+   * @throws \Google\Service\Exception
    */
   public function get($optParams = [])
   {

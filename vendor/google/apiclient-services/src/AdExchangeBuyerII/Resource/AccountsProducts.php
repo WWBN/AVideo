@@ -37,6 +37,7 @@ class AccountsProducts extends \Google\Service\Resource
    * @param string $productId The ID for the product to get the head revision for.
    * @param array $optParams Optional parameters.
    * @return Product
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $productId, $optParams = [])
   {
@@ -61,6 +62,7 @@ class AccountsProducts extends \Google\Service\Resource
    * @opt_param string pageToken The page token as returned from
    * ListProductsResponse.
    * @return ListProductsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsProducts($accountId, $optParams = [])
   {

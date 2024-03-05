@@ -17,8 +17,9 @@
 
 namespace Google\Service\CloudRun;
 
-class GoogleCloudRunV2VpcAccess extends \Google\Model
+class GoogleCloudRunV2VpcAccess extends \Google\Collection
 {
+  protected $collection_key = 'networkInterfaces';
   /**
    * @var string
    */
@@ -27,6 +28,8 @@ class GoogleCloudRunV2VpcAccess extends \Google\Model
    * @var string
    */
   public $egress;
+  protected $networkInterfacesType = GoogleCloudRunV2NetworkInterface::class;
+  protected $networkInterfacesDataType = 'array';
 
   /**
    * @param string
@@ -55,6 +58,20 @@ class GoogleCloudRunV2VpcAccess extends \Google\Model
   public function getEgress()
   {
     return $this->egress;
+  }
+  /**
+   * @param GoogleCloudRunV2NetworkInterface[]
+   */
+  public function setNetworkInterfaces($networkInterfaces)
+  {
+    $this->networkInterfaces = $networkInterfaces;
+  }
+  /**
+   * @return GoogleCloudRunV2NetworkInterface[]
+   */
+  public function getNetworkInterfaces()
+  {
+    return $this->networkInterfaces;
   }
 }
 

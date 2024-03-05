@@ -36,6 +36,7 @@ class EventTags extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param string $id Event tag ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class EventTags extends \Google\Service\Resource
    * @param string $id Event tag ID.
    * @param array $optParams Optional parameters.
    * @return EventTag
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -64,6 +66,7 @@ class EventTags extends \Google\Service\Resource
    * @param EventTag $postBody
    * @param array $optParams Optional parameters.
    * @return EventTag
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, EventTag $postBody, $optParams = [])
   {
@@ -111,6 +114,7 @@ class EventTags extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return EventTagsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listEventTags($profileId, $optParams = [])
   {
@@ -123,10 +127,11 @@ class EventTags extends \Google\Service\Resource
    * (eventTags.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id EventTag ID.
+   * @param string $id Required. EventTag ID.
    * @param EventTag $postBody
    * @param array $optParams Optional parameters.
    * @return EventTag
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, EventTag $postBody, $optParams = [])
   {
@@ -141,6 +146,7 @@ class EventTags extends \Google\Service\Resource
    * @param EventTag $postBody
    * @param array $optParams Optional parameters.
    * @return EventTag
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, EventTag $postBody, $optParams = [])
   {

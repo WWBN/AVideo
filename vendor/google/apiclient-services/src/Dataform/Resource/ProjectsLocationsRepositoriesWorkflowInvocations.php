@@ -41,6 +41,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * @param CancelWorkflowInvocationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DataformEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, CancelWorkflowInvocationRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * @param WorkflowInvocation $postBody
    * @param array $optParams Optional parameters.
    * @return WorkflowInvocation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, WorkflowInvocation $postBody, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * @param string $name Required. The workflow invocation resource's name.
    * @param array $optParams Optional parameters.
    * @return DataformEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +86,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * @param string $name Required. The workflow invocation resource's name.
    * @param array $optParams Optional parameters.
    * @return WorkflowInvocation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -110,6 +114,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * When paginating, all other parameters provided to `ListWorkflowInvocations`
    * must match the call that provided the page token.
    * @return ListWorkflowInvocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesWorkflowInvocations($parent, $optParams = [])
   {
@@ -133,6 +138,7 @@ class ProjectsLocationsRepositoriesWorkflowInvocations extends \Google\Service\R
    * `QueryWorkflowInvocationActions` must match the call that provided the page
    * token.
    * @return QueryWorkflowInvocationActionsResponse
+   * @throws \Google\Service\Exception
    */
   public function query($name, $optParams = [])
   {

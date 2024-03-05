@@ -57,6 +57,7 @@ class ThreatLists extends \Google\Service\Resource
    * first time calling ComputeThreatListDiff), this may be left empty and a full
    * database snapshot will be returned.
    * @return GoogleCloudWebriskV1ComputeThreatListDiffResponse
+   * @throws \Google\Service\Exception
    */
   public function computeDiff($optParams = [])
   {

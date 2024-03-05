@@ -26,7 +26,15 @@ class SignatureInfo extends \Google\Model
   /**
    * @var string
    */
+  public $googleKeyAlgorithm;
+  /**
+   * @var string
+   */
   public $googlePublicKeyPem;
+  /**
+   * @var string
+   */
+  public $serializedApprovalRequest;
   /**
    * @var string
    */
@@ -49,6 +57,20 @@ class SignatureInfo extends \Google\Model
   /**
    * @param string
    */
+  public function setGoogleKeyAlgorithm($googleKeyAlgorithm)
+  {
+    $this->googleKeyAlgorithm = $googleKeyAlgorithm;
+  }
+  /**
+   * @return string
+   */
+  public function getGoogleKeyAlgorithm()
+  {
+    return $this->googleKeyAlgorithm;
+  }
+  /**
+   * @param string
+   */
   public function setGooglePublicKeyPem($googlePublicKeyPem)
   {
     $this->googlePublicKeyPem = $googlePublicKeyPem;
@@ -59,6 +81,20 @@ class SignatureInfo extends \Google\Model
   public function getGooglePublicKeyPem()
   {
     return $this->googlePublicKeyPem;
+  }
+  /**
+   * @param string
+   */
+  public function setSerializedApprovalRequest($serializedApprovalRequest)
+  {
+    $this->serializedApprovalRequest = $serializedApprovalRequest;
+  }
+  /**
+   * @return string
+   */
+  public function getSerializedApprovalRequest()
+  {
+    return $this->serializedApprovalRequest;
   }
   /**
    * @param string

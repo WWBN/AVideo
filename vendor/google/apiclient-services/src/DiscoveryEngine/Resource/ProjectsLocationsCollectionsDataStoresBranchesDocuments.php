@@ -52,6 +52,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * [RFC-1034](https://tools.ietf.org/html/rfc1034) standard with a length limit
    * of 63 characters. Otherwise, an `INVALID_ARGUMENT` error is returned.
    * @return GoogleCloudDiscoveryengineV1betaDocument
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDiscoveryengineV1betaDocument $postBody, $optParams = [])
   {
@@ -70,6 +71,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * exist, a `NOT_FOUND` error is returned.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -88,6 +90,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * exist, a `NOT_FOUND` error is returned.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1betaDocument
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -106,6 +109,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * @param GoogleCloudDiscoveryengineV1betaImportDocumentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudDiscoveryengineV1betaImportDocumentsRequest $postBody, $optParams = [])
   {
@@ -121,7 +125,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * jects/{project}/locations/{location}/collections/{collection}/dataStores/{dat
    * a_store}/branches/{branch}`. Use `default_branch` as the branch ID, to list
    * documents under the default branch. If the caller does not have permission to
-   * list Documentss under this branch, regardless of whether or not this branch
+   * list Documents under this branch, regardless of whether or not this branch
    * exists, a `PERMISSION_DENIED` error is returned.
    * @param array $optParams Optional parameters.
    *
@@ -136,6 +140,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * DocumentService.ListDocuments must match the call that provided the page
    * token. Otherwise, an `INVALID_ARGUMENT` error is returned.
    * @return GoogleCloudDiscoveryengineV1betaListDocumentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCollectionsDataStoresBranchesDocuments($parent, $optParams = [])
   {
@@ -156,6 +161,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * @opt_param bool allowMissing If set to true, and the Document is not found, a
    * new Document will be created.
    * @return GoogleCloudDiscoveryengineV1betaDocument
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDiscoveryengineV1betaDocument $postBody, $optParams = [])
   {
@@ -177,6 +183,7 @@ class ProjectsLocationsCollectionsDataStoresBranchesDocuments extends \Google\Se
    * @param GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function purge($parent, GoogleCloudDiscoveryengineV1betaPurgeDocumentsRequest $postBody, $optParams = [])
   {

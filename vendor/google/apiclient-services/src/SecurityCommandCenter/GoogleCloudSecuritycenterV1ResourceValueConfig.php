@@ -23,7 +23,19 @@ class GoogleCloudSecuritycenterV1ResourceValueConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $createTime;
+  /**
+   * @var string
+   */
+  public $description;
+  /**
+   * @var string
+   */
   public $name;
+  /**
+   * @var string[]
+   */
+  public $resourceLabelsSelector;
   /**
    * @var string
    */
@@ -36,11 +48,45 @@ class GoogleCloudSecuritycenterV1ResourceValueConfig extends \Google\Collection
    * @var string
    */
   public $scope;
+  protected $sensitiveDataProtectionMappingType = GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping::class;
+  protected $sensitiveDataProtectionMappingDataType = '';
   /**
    * @var string[]
    */
   public $tagValues;
+  /**
+   * @var string
+   */
+  public $updateTime;
 
+  /**
+   * @param string
+   */
+  public function setCreateTime($createTime)
+  {
+    $this->createTime = $createTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTime()
+  {
+    return $this->createTime;
+  }
+  /**
+   * @param string
+   */
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  /**
+   * @return string
+   */
+  public function getDescription()
+  {
+    return $this->description;
+  }
   /**
    * @param string
    */
@@ -54,6 +100,20 @@ class GoogleCloudSecuritycenterV1ResourceValueConfig extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string[]
+   */
+  public function setResourceLabelsSelector($resourceLabelsSelector)
+  {
+    $this->resourceLabelsSelector = $resourceLabelsSelector;
+  }
+  /**
+   * @return string[]
+   */
+  public function getResourceLabelsSelector()
+  {
+    return $this->resourceLabelsSelector;
   }
   /**
    * @param string
@@ -98,6 +158,20 @@ class GoogleCloudSecuritycenterV1ResourceValueConfig extends \Google\Collection
     return $this->scope;
   }
   /**
+   * @param GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping
+   */
+  public function setSensitiveDataProtectionMapping(GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping $sensitiveDataProtectionMapping)
+  {
+    $this->sensitiveDataProtectionMapping = $sensitiveDataProtectionMapping;
+  }
+  /**
+   * @return GoogleCloudSecuritycenterV1SensitiveDataProtectionMapping
+   */
+  public function getSensitiveDataProtectionMapping()
+  {
+    return $this->sensitiveDataProtectionMapping;
+  }
+  /**
    * @param string[]
    */
   public function setTagValues($tagValues)
@@ -110,6 +184,20 @@ class GoogleCloudSecuritycenterV1ResourceValueConfig extends \Google\Collection
   public function getTagValues()
   {
     return $this->tagValues;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdateTime($updateTime)
+  {
+    $this->updateTime = $updateTime;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateTime()
+  {
+    return $this->updateTime;
   }
 }
 

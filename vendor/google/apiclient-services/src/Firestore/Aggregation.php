@@ -23,8 +23,12 @@ class Aggregation extends \Google\Model
    * @var string
    */
   public $alias;
+  protected $avgType = Avg::class;
+  protected $avgDataType = '';
   protected $countType = Count::class;
   protected $countDataType = '';
+  protected $sumType = Sum::class;
+  protected $sumDataType = '';
 
   /**
    * @param string
@@ -41,6 +45,20 @@ class Aggregation extends \Google\Model
     return $this->alias;
   }
   /**
+   * @param Avg
+   */
+  public function setAvg(Avg $avg)
+  {
+    $this->avg = $avg;
+  }
+  /**
+   * @return Avg
+   */
+  public function getAvg()
+  {
+    return $this->avg;
+  }
+  /**
    * @param Count
    */
   public function setCount(Count $count)
@@ -53,6 +71,20 @@ class Aggregation extends \Google\Model
   public function getCount()
   {
     return $this->count;
+  }
+  /**
+   * @param Sum
+   */
+  public function setSum(Sum $sum)
+  {
+    $this->sum = $sum;
+  }
+  /**
+   * @return Sum
+   */
+  public function getSum()
+  {
+    return $this->sum;
   }
 }
 

@@ -20,6 +20,10 @@ namespace Google\Service\ChromePolicy;
 class Proto2FileDescriptorProto extends \Google\Collection
 {
   protected $collection_key = 'messageType';
+  /**
+   * @var string
+   */
+  public $editionDeprecated;
   protected $enumTypeType = Proto2EnumDescriptorProto::class;
   protected $enumTypeDataType = 'array';
   protected $messageTypeType = Proto2DescriptorProto::class;
@@ -37,6 +41,20 @@ class Proto2FileDescriptorProto extends \Google\Collection
    */
   public $syntax;
 
+  /**
+   * @param string
+   */
+  public function setEditionDeprecated($editionDeprecated)
+  {
+    $this->editionDeprecated = $editionDeprecated;
+  }
+  /**
+   * @return string
+   */
+  public function getEditionDeprecated()
+  {
+    return $this->editionDeprecated;
+  }
   /**
    * @param Proto2EnumDescriptorProto[]
    */

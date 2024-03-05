@@ -34,7 +34,15 @@ class RemoteModelInfo extends \Google\Model
   /**
    * @var string
    */
+  public $remoteModelVersion;
+  /**
+   * @var string
+   */
   public $remoteServiceType;
+  /**
+   * @var string
+   */
+  public $speechRecognizer;
 
   /**
    * @param string
@@ -81,6 +89,20 @@ class RemoteModelInfo extends \Google\Model
   /**
    * @param string
    */
+  public function setRemoteModelVersion($remoteModelVersion)
+  {
+    $this->remoteModelVersion = $remoteModelVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getRemoteModelVersion()
+  {
+    return $this->remoteModelVersion;
+  }
+  /**
+   * @param string
+   */
   public function setRemoteServiceType($remoteServiceType)
   {
     $this->remoteServiceType = $remoteServiceType;
@@ -91,6 +113,20 @@ class RemoteModelInfo extends \Google\Model
   public function getRemoteServiceType()
   {
     return $this->remoteServiceType;
+  }
+  /**
+   * @param string
+   */
+  public function setSpeechRecognizer($speechRecognizer)
+  {
+    $this->speechRecognizer = $speechRecognizer;
+  }
+  /**
+   * @return string
+   */
+  public function getSpeechRecognizer()
+  {
+    return $this->speechRecognizer;
   }
 }
 

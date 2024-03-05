@@ -38,6 +38,7 @@ class CustomersNodesNodes extends \Google\Service\Resource
    * @param SasPortalNode $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalNode
+   * @throws \Google\Service\Exception
    */
   public function create($parent, SasPortalNode $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class CustomersNodesNodes extends \Google\Service\Resource
    * @opt_param string pageToken A pagination token returned from a previous call
    * to ListNodes that indicates where this listing should continue from.
    * @return SasPortalListNodesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersNodesNodes($parent, $optParams = [])
   {

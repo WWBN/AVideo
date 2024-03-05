@@ -47,6 +47,10 @@ class GoogleFirestoreAdminV1ExportDocumentsMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $snapshotTime;
+  /**
+   * @var string
+   */
   public $startTime;
 
   /**
@@ -146,6 +150,20 @@ class GoogleFirestoreAdminV1ExportDocumentsMetadata extends \Google\Collection
   public function getProgressDocuments()
   {
     return $this->progressDocuments;
+  }
+  /**
+   * @param string
+   */
+  public function setSnapshotTime($snapshotTime)
+  {
+    $this->snapshotTime = $snapshotTime;
+  }
+  /**
+   * @return string
+   */
+  public function getSnapshotTime()
+  {
+    return $this->snapshotTime;
   }
   /**
    * @param string

@@ -38,7 +38,7 @@ class Source extends \Google\Model
   /**
    * @var bool
    */
-  public $isManaged;
+  public $managed;
   /**
    * @var string
    */
@@ -123,16 +123,16 @@ class Source extends \Google\Model
   /**
    * @param bool
    */
-  public function setIsManaged($isManaged)
+  public function setManaged($managed)
   {
-    $this->isManaged = $isManaged;
+    $this->managed = $managed;
   }
   /**
    * @return bool
    */
-  public function getIsManaged()
+  public function getManaged()
   {
-    return $this->isManaged;
+    return $this->managed;
   }
   /**
    * @param string

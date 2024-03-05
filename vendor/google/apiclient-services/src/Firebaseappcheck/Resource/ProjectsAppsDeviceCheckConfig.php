@@ -47,6 +47,7 @@ class ProjectsAppsDeviceCheckConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/deviceCheckConfig ``` A maximum of
    * 100 objects can be retrieved in a batch.
    * @return GoogleFirebaseAppcheckV1BatchGetDeviceCheckConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ProjectsAppsDeviceCheckConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/deviceCheckConfig ```
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1DeviceCheckConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -87,6 +89,7 @@ class ProjectsAppsDeviceCheckConfig extends \Google\Service\Resource
    * fields in the DeviceCheckConfig Gets to update. Example:
    * `key_id,private_key`.
    * @return GoogleFirebaseAppcheckV1DeviceCheckConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppcheckV1DeviceCheckConfig $postBody, $optParams = [])
   {

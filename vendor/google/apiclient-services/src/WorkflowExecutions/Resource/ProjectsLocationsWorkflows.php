@@ -40,6 +40,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * @param TriggerPubsubExecutionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Execution
+   * @throws \Google\Service\Exception
    */
   public function triggerPubsubExecution($workflow, TriggerPubsubExecutionRequest $postBody, $optParams = [])
   {

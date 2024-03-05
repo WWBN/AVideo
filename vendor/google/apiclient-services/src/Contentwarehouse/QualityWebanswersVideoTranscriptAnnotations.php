@@ -39,6 +39,10 @@ class QualityWebanswersVideoTranscriptAnnotations extends \Google\Model
   protected $saftSentenceBoundaryDataType = '';
   protected $timingInfoType = QualityWebanswersVideoYouTubeCaptionTimingInfoAnnotations::class;
   protected $timingInfoDataType = '';
+  /**
+   * @var string
+   */
+  public $transcriptSource;
   protected $webrefEntitiesType = RepositoryWebrefWebrefEntities::class;
   protected $webrefEntitiesDataType = '';
 
@@ -139,6 +143,20 @@ class QualityWebanswersVideoTranscriptAnnotations extends \Google\Model
   public function getTimingInfo()
   {
     return $this->timingInfo;
+  }
+  /**
+   * @param string
+   */
+  public function setTranscriptSource($transcriptSource)
+  {
+    $this->transcriptSource = $transcriptSource;
+  }
+  /**
+   * @return string
+   */
+  public function getTranscriptSource()
+  {
+    return $this->transcriptSource;
   }
   /**
    * @param RepositoryWebrefWebrefEntities

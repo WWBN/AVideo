@@ -39,6 +39,7 @@ class Notification extends \Google\Service\Resource
    * 'en_US'. Used for generating notification title and body.
    * @opt_param string source String to identify the originator of this request.
    * @return NotificationModel
+   * @throws \Google\Service\Exception
    */
   public function get($notificationId, $optParams = [])
   {

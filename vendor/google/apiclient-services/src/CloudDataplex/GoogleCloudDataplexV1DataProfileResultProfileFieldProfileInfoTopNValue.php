@@ -23,6 +23,7 @@ class GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue ext
    * @var string
    */
   public $count;
+  public $ratio;
   /**
    * @var string
    */
@@ -41,6 +42,14 @@ class GoogleCloudDataplexV1DataProfileResultProfileFieldProfileInfoTopNValue ext
   public function getCount()
   {
     return $this->count;
+  }
+  public function setRatio($ratio)
+  {
+    $this->ratio = $ratio;
+  }
+  public function getRatio()
+  {
+    return $this->ratio;
   }
   /**
    * @param string

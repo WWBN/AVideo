@@ -41,6 +41,7 @@ class Reviews extends \Google\Service\Resource
    *
    * @opt_param string translationLanguage Language localization code.
    * @return Review
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $reviewId, $optParams = [])
   {
@@ -61,6 +62,7 @@ class Reviews extends \Google\Service\Resource
    * review.
    * @opt_param string translationLanguage Language localization code.
    * @return ReviewsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listReviews($packageName, $optParams = [])
   {
@@ -76,6 +78,7 @@ class Reviews extends \Google\Service\Resource
    * @param ReviewsReplyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ReviewsReplyResponse
+   * @throws \Google\Service\Exception
    */
   public function reply($packageName, $reviewId, ReviewsReplyRequest $postBody, $optParams = [])
   {

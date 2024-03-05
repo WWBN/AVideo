@@ -37,6 +37,7 @@ class Pages extends \Google\Service\Resource
    * @param GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage
+   * @throws \Google\Service\Exception
    */
   public function create(GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage $postBody, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Pages extends \Google\Service\Resource
    * `pages/{page_id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -65,6 +67,7 @@ class Pages extends \Google\Service\Resource
    * `pages/{page_id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -96,6 +99,7 @@ class Pages extends \Google\Service\Resource
    * version of the URL provided, we will return that URL instead. Cannot be
    * specified along with an organization.
    * @return GoogleFactcheckingFactchecktoolsV1alpha1ListClaimReviewMarkupPagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listPages($optParams = [])
   {
@@ -115,6 +119,7 @@ class Pages extends \Google\Service\Resource
    * @param GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleFactcheckingFactchecktoolsV1alpha1ClaimReviewMarkupPage $postBody, $optParams = [])
   {

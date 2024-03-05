@@ -47,6 +47,7 @@ class UsersDataSourcesDatasets extends \Google\Service\Resource
    * nanoseconds from the epoch. The ID is formatted like: "startTime-endTime"
    * where startTime and endTime are 64 bit integers.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($userId, $dataSourceId, $datasetId, $optParams = [])
   {
@@ -82,6 +83,7 @@ class UsersDataSourcesDatasets extends \Google\Service\Resource
    * call will yield a partial dataset with data point end timestamps that are
    * strictly smaller than those in the previous partial response.
    * @return Dataset
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $dataSourceId, $datasetId, $optParams = [])
   {
@@ -104,6 +106,7 @@ class UsersDataSourcesDatasets extends \Google\Service\Resource
    * @param Dataset $postBody
    * @param array $optParams Optional parameters.
    * @return Dataset
+   * @throws \Google\Service\Exception
    */
   public function patch($userId, $dataSourceId, $datasetId, Dataset $postBody, $optParams = [])
   {

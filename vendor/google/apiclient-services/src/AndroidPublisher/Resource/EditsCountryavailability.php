@@ -37,6 +37,7 @@ class EditsCountryavailability extends \Google\Service\Resource
    * @param string $track The track to read from.
    * @param array $optParams Optional parameters.
    * @return TrackCountryAvailability
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $editId, $track, $optParams = [])
   {

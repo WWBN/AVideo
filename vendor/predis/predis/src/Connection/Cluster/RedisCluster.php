@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,6 +12,10 @@
 
 namespace Predis\Connection\Cluster;
 
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use OutOfBoundsException;
 use Predis\ClientException;
 use Predis\Cluster\RedisStrategy as RedisClusterStrategy;
 use Predis\Cluster\SlotMap;
@@ -21,9 +26,12 @@ use Predis\Connection\ConnectionException;
 use Predis\Connection\FactoryInterface;
 use Predis\Connection\NodeConnectionInterface;
 use Predis\NotSupportedException;
+use Predis\Response\Error as ErrorResponse;
 use Predis\Response\ErrorInterface as ErrorResponseInterface;
 use Predis\Response\ServerException;
-use Predis\Response\Error as ErrorResponse;
+use ReturnTypeWillChange;
+use Throwable;
+use Traversable;
 
 /**
  * Abstraction for a Redis-backed cluster of nodes (Redis >= 3.0.0).
@@ -44,14 +52,12 @@ use Predis\Response\Error as ErrorResponse;
  * of the nodes and optionally enable such a behaviour upon -MOVED redirections.
  * Asking for the cluster configuration to Redis is actually done by issuing a
  * CLUSTER SLOTS command to a random node in the pool.
- *
- * @author Daniele Alessandri <suppakilla@gmail.com>
  */
-class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
+class RedisCluster implements ClusterInterface, IteratorAggregate, Countable
 {
     private $useClusterSlots = true;
-    private $pool = array();
-    private $slots = array();
+    private $pool = [];
+    private $slots = [];
     private $slotmap;
     private $strategy;
     private $connections;
@@ -75,7 +81,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      * Sets the maximum number of retries for commands upon server failure.
      *
      * -1 = unlimited retry attempts
-     *  0 = no retry attempts (fails immediatly)
+     *  0 = no retry attempts (fails immediately)
      *  n = fail only after n retry attempts
      *
      * @param int $retry Number of retry attempts.
@@ -87,7 +93,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
 
     /**
      * Sets the initial retry interval (milliseconds).
-     * 
+     *
      * @param int $retryInterval Milliseconds between retries.
      */
     public function setRetryInterval($retryInterval)
@@ -155,7 +161,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
     {
         if (false !== $id = array_search($connection, $this->pool, true)) {
             $this->slotmap->reset();
-            $this->slots = array_diff($this->slots, array($connection));
+            $this->slots = array_diff($this->slots, [$connection]);
             unset($this->pool[$id]);
 
             return true;
@@ -175,7 +181,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
     {
         if (isset($this->pool[$connectionID])) {
             $this->slotmap->reset();
-            $this->slots = array_diff($this->slots, array($connectionID));
+            $this->slots = array_diff($this->slots, [$connectionID]);
             unset($this->pool[$connectionID]);
 
             return true;
@@ -233,9 +239,10 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
         $retryAfter = $this->retryInterval;
         $command = RawCommand::create('CLUSTER', 'SLOTS');
 
-        RETRY_COMMAND: {
+        while ($retries <= $this->retryLimit) {
             try {
                 $response = $connection->executeCommand($command);
+                break;
             } catch (ConnectionException $exception) {
                 $connection = $exception->getConnection();
                 $connection->disconnect();
@@ -253,8 +260,6 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
                 usleep($retryAfter * 1000);
                 $retryAfter = $retryAfter * 2;
                 ++$retries;
-
-                goto RETRY_COMMAND;
             }
         }
 
@@ -281,7 +286,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
         foreach ($response as $slots) {
             // We only support master servers for now, so we ignore subsequent
             // elements in the $slots array identifying slaves.
-            list($start, $end, $master) = $slots;
+            [$start, $end, $master] = $slots;
 
             if ($master[0] === '') {
                 $this->slotmap->setSlots($start, $end, (string) $connection);
@@ -332,10 +337,10 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
     {
         $separator = strrpos($connectionID, ':');
 
-        return $this->connections->create(array(
+        return $this->connections->create([
             'host' => substr($connectionID, 0, $separator),
             'port' => substr($connectionID, $separator + 1),
-        ));
+        ]);
     }
 
     /**
@@ -363,14 +368,13 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      *
      * @param int $slot Slot index.
      *
-     * @throws \OutOfBoundsException
-     *
      * @return NodeConnectionInterface
+     * @throws OutOfBoundsException
      */
     public function getConnectionBySlot($slot)
     {
         if (!SlotMap::isValid($slot)) {
-            throw new \OutOfBoundsException("Invalid slot [$slot].");
+            throw new OutOfBoundsException("Invalid slot [$slot].");
         }
 
         if (isset($this->slots[$slot])) {
@@ -392,9 +396,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      */
     public function getConnectionById($connectionID)
     {
-        if (isset($this->pool[$connectionID])) {
-            return $this->pool[$connectionID];
-        }
+        return $this->pool[$connectionID] ?? null;
     }
 
     /**
@@ -404,9 +406,11 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      */
     protected function getRandomConnection()
     {
-        if ($this->pool) {
-            return $this->pool[array_rand($this->pool)];
+        if (!$this->pool) {
+            return null;
         }
+
+        return $this->pool[array_rand($this->pool)];
     }
 
     /**
@@ -458,7 +462,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      */
     protected function onMovedResponse(CommandInterface $command, $details)
     {
-        list($slot, $connectionID) = explode(' ', $details, 2);
+        [$slot, $connectionID] = explode(' ', $details, 2);
 
         if (!$connection = $this->getConnectionById($connectionID)) {
             $connection = $this->createConnection($connectionID);
@@ -469,6 +473,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
         }
 
         $this->move($connection, $slot);
+
         return $this->executeCommand($command);
     }
 
@@ -483,13 +488,14 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
      */
     protected function onAskResponse(CommandInterface $command, $details)
     {
-        list($slot, $connectionID) = explode(' ', $details, 2);
+        [$slot, $connectionID] = explode(' ', $details, 2);
 
         if (!$connection = $this->getConnectionById($connectionID)) {
             $connection = $this->createConnection($connectionID);
         }
 
         $connection->executeCommand(RawCommand::create('ASKING'));
+
         return $connection->executeCommand($command);
     }
 
@@ -512,7 +518,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
         $retries = 0;
         $retryAfter = $this->retryInterval;
 
-        RETRY_COMMAND: {
+        while ($retries <= $this->retryLimit) {
             try {
                 $response = $this->getConnectionByCommand($command)->$method($command);
 
@@ -523,13 +529,15 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
                         throw new ServerException($message);
                     }
                 }
-            } catch (\Throwable $exception) {
+
+                break;
+            } catch (Throwable $exception) {
                 usleep($retryAfter * 1000);
                 $retryAfter = $retryAfter * 2;
 
                 if ($exception instanceof ConnectionException) {
                     $connection = $exception->getConnection();
-                    
+
                     if ($connection) {
                         $connection->disconnect();
                         $this->remove($connection);
@@ -538,13 +546,13 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
 
                 if ($retries === $this->retryLimit) {
                     throw $exception;
-                } elseif ($this->useClusterSlots) {
+                }
+
+                if ($this->useClusterSlots) {
                     $this->askSlotMap();
                 }
 
                 ++$retries;
-
-                goto RETRY_COMMAND;
             }
         }
 
@@ -582,25 +590,25 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @return int
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function count()
     {
         return count($this->pool);
     }
 
     /**
-     * {@inheritdoc}
+     * @return Traversable<string, NodeConnectionInterface>
      */
-    #[\ReturnTypeWillChange]
+    #[ReturnTypeWillChange]
     public function getIterator()
     {
         if ($this->slotmap->isEmpty()) {
             $this->useClusterSlots ? $this->askSlotMap() : $this->buildSlotMap();
         }
 
-        $connections = array();
+        $connections = [];
 
         foreach ($this->slotmap->getNodes() as $node) {
             if (!$connection = $this->getConnectionById($node)) {
@@ -610,7 +618,7 @@ class RedisCluster implements ClusterInterface, \IteratorAggregate, \Countable
             $connections[] = $connection;
         }
 
-        return new \ArrayIterator($connections);
+        return new ArrayIterator($connections);
     }
 
     /**

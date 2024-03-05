@@ -41,6 +41,10 @@ class Instance extends \Google\Collection
    */
   public $interactiveSerialConsoleEnabled;
   /**
+   * @var string
+   */
+  public $kmsKeyVersion;
+  /**
    * @var string[]
    */
   public $labels;
@@ -74,6 +78,10 @@ class Instance extends \Google\Collection
    * @var string
    */
   public $pod;
+  /**
+   * @var string[]
+   */
+  public $sshKeys;
   /**
    * @var string
    */
@@ -158,6 +166,20 @@ class Instance extends \Google\Collection
   public function getInteractiveSerialConsoleEnabled()
   {
     return $this->interactiveSerialConsoleEnabled;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyVersion($kmsKeyVersion)
+  {
+    $this->kmsKeyVersion = $kmsKeyVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyVersion()
+  {
+    return $this->kmsKeyVersion;
   }
   /**
    * @param string[]
@@ -298,6 +320,20 @@ class Instance extends \Google\Collection
   public function getPod()
   {
     return $this->pod;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSshKeys($sshKeys)
+  {
+    $this->sshKeys = $sshKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSshKeys()
+  {
+    return $this->sshKeys;
   }
   /**
    * @param string

@@ -37,6 +37,7 @@ class EnterprisesStructuresRooms extends \Google\Service\Resource
    * "enterprises/XYZ/structures/ABC/rooms/123".
    * @param array $optParams Optional parameters.
    * @return GoogleHomeEnterpriseSdmV1Room
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -50,11 +51,8 @@ class EnterprisesStructuresRooms extends \Google\Service\Resource
    * @param string $parent The parent resource name of the rooms requested. For
    * example: "enterprises/XYZ/structures/ABC".
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param int pageSize Requested page size. Server may return fewer rooms
-   * than requested. If unspecified, server will pick an appropriate default.
-   * @opt_param string pageToken The token of the page to retrieve.
    * @return GoogleHomeEnterpriseSdmV1ListRoomsResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnterprisesStructuresRooms($parent, $optParams = [])
   {

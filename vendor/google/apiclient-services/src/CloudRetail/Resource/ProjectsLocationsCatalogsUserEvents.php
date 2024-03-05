@@ -61,6 +61,7 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * @opt_param string userEvent Required. URL encoded UserEvent proto with a
    * length limit of 2,000,000 characters.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function collect($parent, $optParams = [])
   {
@@ -80,6 +81,7 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * @param GoogleCloudRetailV2ImportUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudRetailV2ImportUserEventsRequest $postBody, $optParams = [])
   {
@@ -99,6 +101,7 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * @param GoogleCloudRetailV2PurgeUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function purge($parent, GoogleCloudRetailV2PurgeUserEventsRequest $postBody, $optParams = [])
   {
@@ -121,6 +124,7 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * @param GoogleCloudRetailV2RejoinUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function rejoin($parent, GoogleCloudRetailV2RejoinUserEventsRequest $postBody, $optParams = [])
   {
@@ -142,6 +146,7 @@ class ProjectsLocationsCatalogsUserEvents extends \Google\Service\Resource
    * success. In case of silent failures, error messages can be found in
    * Stackdriver logs.
    * @return GoogleCloudRetailV2UserEvent
+   * @throws \Google\Service\Exception
    */
   public function write($parent, GoogleCloudRetailV2UserEvent $postBody, $optParams = [])
   {

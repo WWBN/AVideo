@@ -48,6 +48,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Attributes $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attributes
+   * @throws \Google\Service\Exception
    */
   public function attributes($name, GoogleCloudApigeeV1Attributes $postBody, $optParams = [])
   {
@@ -80,6 +81,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1ApiProduct $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1ApiProduct $postBody, $optParams = [])
   {
@@ -101,6 +103,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -119,6 +122,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * structure in your request: `organizations/{org}/apiproducts/{apiproduct}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -151,6 +155,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * 50-99 by entering the name of the 50th API product in the first API (without
    * using `startKey`). Product name is case sensitive.
    * @return GoogleCloudApigeeV1ListApiProductsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsApiproducts($parent, $optParams = [])
   {
@@ -172,6 +177,7 @@ class OrganizationsApiproducts extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1ApiProduct $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProduct
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudApigeeV1ApiProduct $postBody, $optParams = [])
   {

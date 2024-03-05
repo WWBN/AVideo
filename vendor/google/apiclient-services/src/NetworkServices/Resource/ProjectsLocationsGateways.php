@@ -46,6 +46,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @opt_param string gatewayId Required. Short name of the Gateway resource to
    * be created.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Gateway $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * format `projects/locations/gateways`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * format `projects/locations/gateways`.
    * @param array $optParams Optional parameters.
    * @return Gateway
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -104,6 +107,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -124,6 +128,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * `ListGatewaysResponse` Indicates that this is a continuation of a prior
    * `ListGateways` call, and that the system should return the next page of data.
    * @return ListGatewaysResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsGateways($parent, $optParams = [])
   {
@@ -145,6 +150,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * request. A field will be overwritten if it is in the mask. If the user does
    * not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Gateway $postBody, $optParams = [])
   {
@@ -164,6 +170,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -185,6 +192,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

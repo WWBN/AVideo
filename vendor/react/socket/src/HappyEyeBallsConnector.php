@@ -45,7 +45,7 @@ final class HappyEyeBallsConnector implements ConnectorInterface
         if (!$parts || !isset($parts['host'])) {
             return Promise\reject(new \InvalidArgumentException(
                 'Given URI "' . $original . '" is invalid (EINVAL)',
-                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : (\defined('PCNTL_EINVAL') ? \PCNTL_EINVAL : 22)
             ));
         }
 

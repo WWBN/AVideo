@@ -43,6 +43,7 @@ class ProjectsLocationsLakesZonesEntitiesPartitions extends \Google\Service\Reso
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleCloudDataplexV1Partition
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDataplexV1Partition $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsLocationsLakesZonesEntitiesPartitions extends \Google\Service\Reso
    *
    * @opt_param string etag Optional. The etag associated with the partition.
    * @return DataplexEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsLocationsLakesZonesEntitiesPartitions extends \Google\Service\Reso
    * All values must be provided.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDataplexV1Partition
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -114,6 +117,7 @@ class ProjectsLocationsLakesZonesEntitiesPartitions extends \Google\Service\Reso
    * paginating, all other parameters provided to ListPartitions must match the
    * call that provided the page token.
    * @return GoogleCloudDataplexV1ListPartitionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsLakesZonesEntitiesPartitions($parent, $optParams = [])
   {

@@ -38,6 +38,7 @@ class VitalsErrorsCounts extends \Google\Service\Resource
    * apps/{app}/errorCountMetricSet
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1ErrorCountMetricSet
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class VitalsErrorsCounts extends \Google\Service\Resource
    * @param GooglePlayDeveloperReportingV1beta1QueryErrorCountMetricSetRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1QueryErrorCountMetricSetResponse
+   * @throws \Google\Service\Exception
    */
   public function query($name, GooglePlayDeveloperReportingV1beta1QueryErrorCountMetricSetRequest $postBody, $optParams = [])
   {

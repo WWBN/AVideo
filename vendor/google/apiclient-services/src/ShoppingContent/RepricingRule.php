@@ -19,14 +19,26 @@ namespace Google\Service\ShoppingContent;
 
 class RepricingRule extends \Google\Model
 {
+  /**
+   * @var RepricingRuleCostOfGoodsSaleRule
+   */
+  public $cogsBasedRule;
   protected $cogsBasedRuleType = RepricingRuleCostOfGoodsSaleRule::class;
   protected $cogsBasedRuleDataType = '';
   /**
    * @var string
    */
   public $countryCode;
+  /**
+   * @var RepricingRuleEffectiveTime
+   */
+  public $effectiveTimePeriod;
   protected $effectiveTimePeriodType = RepricingRuleEffectiveTime::class;
   protected $effectiveTimePeriodDataType = '';
+  /**
+   * @var RepricingRuleEligibleOfferMatcher
+   */
+  public $eligibleOfferMatcher;
   protected $eligibleOfferMatcherType = RepricingRuleEligibleOfferMatcher::class;
   protected $eligibleOfferMatcherDataType = '';
   /**
@@ -41,12 +53,20 @@ class RepricingRule extends \Google\Model
    * @var bool
    */
   public $paused;
+  /**
+   * @var RepricingRuleRestriction
+   */
+  public $restriction;
   protected $restrictionType = RepricingRuleRestriction::class;
   protected $restrictionDataType = '';
   /**
    * @var string
    */
   public $ruleId;
+  /**
+   * @var RepricingRuleStatsBasedRule
+   */
+  public $statsBasedRule;
   protected $statsBasedRuleType = RepricingRuleStatsBasedRule::class;
   protected $statsBasedRuleDataType = '';
   /**

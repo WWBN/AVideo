@@ -42,6 +42,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * @param CseKeyPair $postBody
    * @param array $optParams Optional parameters.
    * @return CseKeyPair
+   * @throws \Google\Service\Exception
    */
   public function create($userId, CseKeyPair $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * @param DisableCseKeyPairRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CseKeyPair
+   * @throws \Google\Service\Exception
    */
   public function disable($userId, $keyPairId, DisableCseKeyPairRequest $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * @param EnableCseKeyPairRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CseKeyPair
+   * @throws \Google\Service\Exception
    */
   public function enable($userId, $keyPairId, EnableCseKeyPairRequest $postBody, $optParams = [])
   {
@@ -95,6 +98,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * @param string $keyPairId The identifier of the key pair to retrieve.
    * @param array $optParams Optional parameters.
    * @return CseKeyPair
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $keyPairId, $optParams = [])
   {
@@ -116,6 +120,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * pairs to return. If the token is not supplied, then the API will return the
    * first page of results.
    * @return ListCseKeyPairsResponse
+   * @throws \Google\Service\Exception
    */
   public function listUsersSettingsCseKeypairs($userId, $optParams = [])
   {
@@ -136,6 +141,7 @@ class UsersSettingsCseKeypairs extends \Google\Service\Resource
    * @param string $keyPairId The identifier of the key pair to obliterate.
    * @param ObliterateCseKeyPairRequest $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function obliterate($userId, $keyPairId, ObliterateCseKeyPairRequest $postBody, $optParams = [])
   {

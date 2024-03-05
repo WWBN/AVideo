@@ -42,6 +42,8 @@ class StorageGraphBfgPolicyMetadata extends \Google\Collection
    * @var string
    */
   public $policySourceType;
+  protected $rwjPolicyMetadataType = StorageGraphBfgRwjPolicyMetadata::class;
+  protected $rwjPolicyMetadataDataType = '';
   protected $umpPolicyMetadataType = StorageGraphBfgUmpPolicyMetadata::class;
   protected $umpPolicyMetadataDataType = '';
 
@@ -142,6 +144,20 @@ class StorageGraphBfgPolicyMetadata extends \Google\Collection
   public function getPolicySourceType()
   {
     return $this->policySourceType;
+  }
+  /**
+   * @param StorageGraphBfgRwjPolicyMetadata
+   */
+  public function setRwjPolicyMetadata(StorageGraphBfgRwjPolicyMetadata $rwjPolicyMetadata)
+  {
+    $this->rwjPolicyMetadata = $rwjPolicyMetadata;
+  }
+  /**
+   * @return StorageGraphBfgRwjPolicyMetadata
+   */
+  public function getRwjPolicyMetadata()
+  {
+    return $this->rwjPolicyMetadata;
   }
   /**
    * @param StorageGraphBfgUmpPolicyMetadata

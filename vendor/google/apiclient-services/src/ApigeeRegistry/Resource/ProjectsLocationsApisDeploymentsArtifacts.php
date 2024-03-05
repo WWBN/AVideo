@@ -45,6 +45,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * should be 4-63 characters, and valid characters are /a-z-/. Following
    * AIP-162, IDs must not have the form of a UUID.
    * @return Artifact
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Artifact $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * `{parent}/artifacts`
    * @param array $optParams Optional parameters.
    * @return ApigeeregistryEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * `{parent}/artifacts`
    * @param array $optParams Optional parameters.
    * @return Artifact
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * be retrieved. Format: `{parent}/artifacts`
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function getContents($name, $optParams = [])
   {
@@ -120,6 +124,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListArtifacts` must match the
    * call that provided the page token.
    * @return ListArtifactsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsApisDeploymentsArtifacts($parent, $optParams = [])
   {
@@ -134,6 +139,7 @@ class ProjectsLocationsApisDeploymentsArtifacts extends \Google\Service\Resource
    * @param Artifact $postBody
    * @param array $optParams Optional parameters.
    * @return Artifact
+   * @throws \Google\Service\Exception
    */
   public function replaceArtifact($name, Artifact $postBody, $optParams = [])
   {

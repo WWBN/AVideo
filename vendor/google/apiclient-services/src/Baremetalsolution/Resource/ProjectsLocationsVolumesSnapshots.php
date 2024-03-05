@@ -41,6 +41,7 @@ class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource
    * @param VolumeSnapshot $postBody
    * @param array $optParams Optional parameters.
    * @return VolumeSnapshot
+   * @throws \Google\Service\Exception
    */
   public function create($parent, VolumeSnapshot $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource
    * @param string $name Required. The name of the snapshot to delete.
    * @param array $optParams Optional parameters.
    * @return BaremetalsolutionEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource
    * @param string $name Required. The name of the snapshot.
    * @param array $optParams Optional parameters.
    * @return VolumeSnapshot
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results from the
    * server.
    * @return ListVolumeSnapshotsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVolumesSnapshots($parent, $optParams = [])
   {
@@ -107,6 +111,7 @@ class ProjectsLocationsVolumesSnapshots extends \Google\Service\Resource
    * @param RestoreVolumeSnapshotRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function restoreVolumeSnapshot($volumeSnapshot, RestoreVolumeSnapshotRequest $postBody, $optParams = [])
   {

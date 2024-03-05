@@ -40,6 +40,7 @@ class ManagementUploads extends \Google\Service\Resource
    * deleted.
    * @param AnalyticsDataimportDeleteUploadDataRequest $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function deleteUploadData($accountId, $webPropertyId, $customDataSourceId, AnalyticsDataimportDeleteUploadDataRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ManagementUploads extends \Google\Service\Resource
    * @param string $uploadId Upload Id to retrieve.
    * @param array $optParams Optional parameters.
    * @return Upload
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $webPropertyId, $customDataSourceId, $uploadId, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ManagementUploads extends \Google\Service\Resource
    * Use this parameter as a pagination mechanism along with the max-results
    * parameter.
    * @return Uploads
+   * @throws \Google\Service\Exception
    */
   public function listManagementUploads($accountId, $webPropertyId, $customDataSourceId, $optParams = [])
   {
@@ -96,6 +99,7 @@ class ManagementUploads extends \Google\Service\Resource
    * being uploaded belongs.
    * @param array $optParams Optional parameters.
    * @return Upload
+   * @throws \Google\Service\Exception
    */
   public function uploadData($accountId, $webPropertyId, $customDataSourceId, $optParams = [])
   {

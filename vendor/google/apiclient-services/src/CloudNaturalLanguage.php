@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for CloudNaturalLanguage (v1).
+ * Service definition for CloudNaturalLanguage (v2).
  *
  * <p>
  * Provides natural language understanding technologies, such as sentiment
@@ -58,7 +58,7 @@ class CloudNaturalLanguage extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://language.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1';
+    $this->version = 'v2';
     $this->serviceName = 'language';
 
     $this->documents = new CloudNaturalLanguage\Resource\Documents(
@@ -68,27 +68,23 @@ class CloudNaturalLanguage extends \Google\Service
         [
           'methods' => [
             'analyzeEntities' => [
-              'path' => 'v1/documents:analyzeEntities',
-              'httpMethod' => 'POST',
-              'parameters' => [],
-            ],'analyzeEntitySentiment' => [
-              'path' => 'v1/documents:analyzeEntitySentiment',
+              'path' => 'v2/documents:analyzeEntities',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],'analyzeSentiment' => [
-              'path' => 'v1/documents:analyzeSentiment',
-              'httpMethod' => 'POST',
-              'parameters' => [],
-            ],'analyzeSyntax' => [
-              'path' => 'v1/documents:analyzeSyntax',
+              'path' => 'v2/documents:analyzeSentiment',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],'annotateText' => [
-              'path' => 'v1/documents:annotateText',
+              'path' => 'v2/documents:annotateText',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],'classifyText' => [
-              'path' => 'v1/documents:classifyText',
+              'path' => 'v2/documents:classifyText',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'moderateText' => [
+              'path' => 'v2/documents:moderateText',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],

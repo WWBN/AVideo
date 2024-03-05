@@ -21,6 +21,8 @@ class FetchInventoryResponse extends \Google\Model
 {
   protected $awsVmsType = AwsVmsDetails::class;
   protected $awsVmsDataType = '';
+  protected $azureVmsType = AzureVmsDetails::class;
+  protected $azureVmsDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class FetchInventoryResponse extends \Google\Model
   public function getAwsVms()
   {
     return $this->awsVms;
+  }
+  /**
+   * @param AzureVmsDetails
+   */
+  public function setAzureVms(AzureVmsDetails $azureVms)
+  {
+    $this->azureVms = $azureVms;
+  }
+  /**
+   * @return AzureVmsDetails
+   */
+  public function getAzureVms()
+  {
+    return $this->azureVms;
   }
   /**
    * @param string

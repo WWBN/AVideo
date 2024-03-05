@@ -17,7 +17,6 @@
 
 namespace Google\Service\BackupforGKE\Resource;
 
-use Google\Service\BackupforGKE\GkebackupEmpty;
 use Google\Service\BackupforGKE\ListLocationsResponse;
 use Google\Service\BackupforGKE\Location;
 
@@ -32,27 +31,12 @@ use Google\Service\BackupforGKE\Location;
 class ProjectsLocations extends \Google\Service\Resource
 {
   /**
-   * Deletes a long-running operation. This method indicates that the client is no
-   * longer interested in the operation result. It does not cancel the operation.
-   * If the server doesn't support this method, it returns
-   * `google.rpc.Code.UNIMPLEMENTED`. (locations.deleteOperations)
-   *
-   * @param string $name The name of the operation resource to be deleted.
-   * @param array $optParams Optional parameters.
-   * @return GkebackupEmpty
-   */
-  public function deleteOperations($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('deleteOperations', [$params], GkebackupEmpty::class);
-  }
-  /**
    * Gets information about a location. (locations.get)
    *
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -76,6 +60,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {

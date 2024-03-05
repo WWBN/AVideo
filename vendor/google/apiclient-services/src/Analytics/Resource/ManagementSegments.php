@@ -41,6 +41,7 @@ class ManagementSegments extends \Google\Service\Resource
    * this parameter as a pagination mechanism along with the max-results
    * parameter.
    * @return Segments
+   * @throws \Google\Service\Exception
    */
   public function listManagementSegments($optParams = [])
   {

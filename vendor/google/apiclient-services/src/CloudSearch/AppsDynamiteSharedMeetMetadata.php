@@ -26,6 +26,10 @@ class AppsDynamiteSharedMeetMetadata extends \Google\Model
   /**
    * @var string
    */
+  public $meetingType;
+  /**
+   * @var string
+   */
   public $meetingUrl;
 
   /**
@@ -41,6 +45,20 @@ class AppsDynamiteSharedMeetMetadata extends \Google\Model
   public function getMeetingCode()
   {
     return $this->meetingCode;
+  }
+  /**
+   * @param string
+   */
+  public function setMeetingType($meetingType)
+  {
+    $this->meetingType = $meetingType;
+  }
+  /**
+   * @return string
+   */
+  public function getMeetingType()
+  {
+    return $this->meetingType;
   }
   /**
    * @param string

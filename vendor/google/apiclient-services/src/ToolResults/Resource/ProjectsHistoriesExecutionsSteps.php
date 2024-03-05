@@ -41,8 +41,8 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * e.g. if the locale format is incorrect - NOT_FOUND - if the containing Step
    * does not exist (steps.accessibilityClusters)
    *
-   * @param string $name A full resource name of the step. For example, projects
-   * /my-project/histories/bh.1234567890abcdef/executions/
+   * @param string $name A full resource name of the step. For example,
+   * projects/my-project/histories/bh.1234567890abcdef/executions/
    * 1234567890123456789/steps/bs.1234567890abcdef Required.
    * @param array $optParams Optional parameters.
    *
@@ -52,6 +52,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * http://www.unicode.org/reports/tr35/#Unicode_locale_identifier for details.
    * Required.
    * @return ListStepAccessibilityClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function accessibilityClusters($name, $optParams = [])
   {
@@ -75,6 +76,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @opt_param string requestId A unique request ID for server to detect
    * duplicated requests. For example, a UUID. Optional, but strongly recommended.
    * @return Step
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, $historyId, $executionId, Step $postBody, $optParams = [])
   {
@@ -94,6 +96,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @param string $stepId A Step id. Required.
    * @param array $optParams Optional parameters.
    * @return Step
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $historyId, $executionId, $stepId, $optParams = [])
   {
@@ -112,6 +115,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @param string $stepId A tool results step ID.
    * @param array $optParams Optional parameters.
    * @return PerfMetricsSummary
+   * @throws \Google\Service\Exception
    */
   public function getPerfMetricsSummary($projectId, $historyId, $executionId, $stepId, $optParams = [])
   {
@@ -140,6 +144,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @opt_param string pageToken A continuation token to resume the query at the
    * next item. Optional.
    * @return ListStepsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistoriesExecutionsSteps($projectId, $historyId, $executionId, $optParams = [])
   {
@@ -165,6 +170,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @opt_param string requestId A unique request ID for server to detect
    * duplicated requests. For example, a UUID. Optional, but strongly recommended.
    * @return Step
+   * @throws \Google\Service\Exception
    */
   public function patch($projectId, $historyId, $executionId, $stepId, Step $postBody, $optParams = [])
   {
@@ -188,6 +194,7 @@ class ProjectsHistoriesExecutionsSteps extends \Google\Service\Resource
    * @param PublishXunitXmlFilesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Step
+   * @throws \Google\Service\Exception
    */
   public function publishXunitXmlFiles($projectId, $historyId, $executionId, $stepId, PublishXunitXmlFilesRequest $postBody, $optParams = [])
   {

@@ -50,6 +50,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be cancelled.
    * @param array $optParams Optional parameters.
    * @return DataprocEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be deleted.
    * @param array $optParams Optional parameters.
    * @return DataprocEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -118,6 +122,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsRegionsOperations($name, $optParams = [])
   {
@@ -137,6 +142,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -159,6 +165,7 @@ class ProjectsRegionsOperations extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

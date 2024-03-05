@@ -31,6 +31,8 @@ class TransferSpec extends \Google\Model
   protected $gcsDataSourceDataType = '';
   protected $gcsIntermediateDataLocationType = GcsData::class;
   protected $gcsIntermediateDataLocationDataType = '';
+  protected $hdfsDataSourceType = HdfsData::class;
+  protected $hdfsDataSourceDataType = '';
   protected $httpDataSourceType = HttpData::class;
   protected $httpDataSourceDataType = '';
   protected $objectConditionsType = ObjectConditions::class;
@@ -135,6 +137,20 @@ class TransferSpec extends \Google\Model
   public function getGcsIntermediateDataLocation()
   {
     return $this->gcsIntermediateDataLocation;
+  }
+  /**
+   * @param HdfsData
+   */
+  public function setHdfsDataSource(HdfsData $hdfsDataSource)
+  {
+    $this->hdfsDataSource = $hdfsDataSource;
+  }
+  /**
+   * @return HdfsData
+   */
+  public function getHdfsDataSource()
+  {
+    return $this->hdfsDataSource;
   }
   /**
    * @param HttpData

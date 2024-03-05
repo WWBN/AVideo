@@ -40,6 +40,7 @@ class ProjectsLocationsLakesTasksJobs extends \Google\Service\Resource
    * @param GoogleCloudDataplexV1CancelJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DataplexEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, GoogleCloudDataplexV1CancelJobRequest $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsLakesTasksJobs extends \Google\Service\Resource
    * }.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDataplexV1Job
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsLocationsLakesTasksJobs extends \Google\Service\Resource
    * all other parameters provided to ListJobs must match the call that provided
    * the page token.
    * @return GoogleCloudDataplexV1ListJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsLakesTasksJobs($parent, $optParams = [])
   {

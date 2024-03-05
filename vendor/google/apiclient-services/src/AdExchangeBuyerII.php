@@ -71,6 +71,17 @@ class AdExchangeBuyerII extends \Google\Service
   public $bidders_filterSets_impressionMetrics;
   public $bidders_filterSets_losingBids;
   public $bidders_filterSets_nonBillableWinningBids;
+  public $buyers_filterSets;
+  public $buyers_filterSets_bidMetrics;
+  public $buyers_filterSets_bidResponseErrors;
+  public $buyers_filterSets_bidResponsesWithoutBids;
+  public $buyers_filterSets_filteredBidRequests;
+  public $buyers_filterSets_filteredBids;
+  public $buyers_filterSets_filteredBids_creatives;
+  public $buyers_filterSets_filteredBids_details;
+  public $buyers_filterSets_impressionMetrics;
+  public $buyers_filterSets_losingBids;
+  public $buyers_filterSets_nonBillableWinningBids;
 
   /**
    * Constructs the internal representation of the AdExchangeBuyerII service.
@@ -1473,6 +1484,358 @@ class AdExchangeBuyerII extends \Google\Service
         ]
     );
     $this->bidders_filterSets_nonBillableWinningBids = new AdExchangeBuyerII\Resource\BiddersFilterSetsNonBillableWinningBids(
+        $this,
+        $this->serviceName,
+        'nonBillableWinningBids',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/nonBillableWinningBids',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets = new AdExchangeBuyerII\Resource\BuyersFilterSets(
+        $this,
+        $this->serviceName,
+        'filterSets',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v2beta1/{+ownerName}/filterSets',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'ownerName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'isTransient' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v2beta1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v2beta1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v2beta1/{+ownerName}/filterSets',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'ownerName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_bidMetrics = new AdExchangeBuyerII\Resource\BuyersFilterSetsBidMetrics(
+        $this,
+        $this->serviceName,
+        'bidMetrics',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/bidMetrics',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_bidResponseErrors = new AdExchangeBuyerII\Resource\BuyersFilterSetsBidResponseErrors(
+        $this,
+        $this->serviceName,
+        'bidResponseErrors',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/bidResponseErrors',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_bidResponsesWithoutBids = new AdExchangeBuyerII\Resource\BuyersFilterSetsBidResponsesWithoutBids(
+        $this,
+        $this->serviceName,
+        'bidResponsesWithoutBids',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/bidResponsesWithoutBids',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_filteredBidRequests = new AdExchangeBuyerII\Resource\BuyersFilterSetsFilteredBidRequests(
+        $this,
+        $this->serviceName,
+        'filteredBidRequests',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/filteredBidRequests',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_filteredBids = new AdExchangeBuyerII\Resource\BuyersFilterSetsFilteredBids(
+        $this,
+        $this->serviceName,
+        'filteredBids',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/filteredBids',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_filteredBids_creatives = new AdExchangeBuyerII\Resource\BuyersFilterSetsFilteredBidsCreatives(
+        $this,
+        $this->serviceName,
+        'creatives',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/filteredBids/{creativeStatusId}/creatives',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'creativeStatusId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_filteredBids_details = new AdExchangeBuyerII\Resource\BuyersFilterSetsFilteredBidsDetails(
+        $this,
+        $this->serviceName,
+        'details',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/filteredBids/{creativeStatusId}/details',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'creativeStatusId' => [
+                  'location' => 'path',
+                  'type' => 'integer',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_impressionMetrics = new AdExchangeBuyerII\Resource\BuyersFilterSetsImpressionMetrics(
+        $this,
+        $this->serviceName,
+        'impressionMetrics',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/impressionMetrics',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_losingBids = new AdExchangeBuyerII\Resource\BuyersFilterSetsLosingBids(
+        $this,
+        $this->serviceName,
+        'losingBids',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v2beta1/{+filterSetName}/losingBids',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'filterSetName' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->buyers_filterSets_nonBillableWinningBids = new AdExchangeBuyerII\Resource\BuyersFilterSetsNonBillableWinningBids(
         $this,
         $this->serviceName,
         'nonBillableWinningBids',

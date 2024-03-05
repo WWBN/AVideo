@@ -51,6 +51,7 @@ class LayersAnnotationData extends \Google\Service\Resource
    * @opt_param int w The requested pixel width for any images. If width is
    * provided height must also be provided.
    * @return DictionaryAnnotationdata
+   * @throws \Google\Service\Exception
    */
   public function get($volumeId, $layerId, $annotationDataId, $contentVersion, $optParams = [])
   {
@@ -85,6 +86,7 @@ class LayersAnnotationData extends \Google\Service\Resource
    * @opt_param int w The requested pixel width for any images. If width is
    * provided height must also be provided.
    * @return Annotationsdata
+   * @throws \Google\Service\Exception
    */
   public function listLayersAnnotationData($volumeId, $layerId, $contentVersion, $optParams = [])
   {

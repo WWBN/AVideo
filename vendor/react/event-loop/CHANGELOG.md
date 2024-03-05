@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.5.0 (2023-11-13)
+
+*   Feature: Improve performance by using `spl_object_id()` on PHP 7.2+.
+    (#267 by @samsonasik)
+
+*   Feature: Full PHP 8.3 compatibility.
+    (#269 by @clue)
+
+*   Update tests for `ext-uv` on PHP 8+ and legacy PHP.
+    (#270 by @clue and #268 by @SimonFrings)
+
+## 1.4.0 (2023-05-05)
+
+*   Feature: Improve performance of `Loop` by avoiding unneeded method calls.
+    (#266 by @clue)
+
+*   Feature: Support checking `EINTR` constant from `ext-pcntl` without `ext-sockets`.
+    (#265 by @clue)
+
+*   Minor documentation improvements.
+    (#254 by @nhedger)
+
+*   Improve test suite, run tests on PHP 8.2 and report failed assertions.
+    (#258 by @WyriHaximus, #264 by @clue and #251, #261 and #262 by @SimonFrings)
+
 ## 1.3.0 (2022-03-17)
 
 *   Feature: Improve default `StreamSelectLoop` to report any warnings for invalid streams.

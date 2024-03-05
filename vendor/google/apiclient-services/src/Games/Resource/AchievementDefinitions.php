@@ -43,6 +43,7 @@ class AchievementDefinitions extends \Google\Service\Resource
    * `maxResults`.
    * @opt_param string pageToken The token returned by the previous request.
    * @return AchievementDefinitionsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAchievementDefinitions($optParams = [])
   {

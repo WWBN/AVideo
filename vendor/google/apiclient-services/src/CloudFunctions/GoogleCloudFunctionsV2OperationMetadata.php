@@ -37,9 +37,17 @@ class GoogleCloudFunctionsV2OperationMetadata extends \Google\Collection
    */
   public $endTime;
   /**
+   * @var string
+   */
+  public $operationType;
+  /**
    * @var array[]
    */
   public $requestResource;
+  /**
+   * @var string
+   */
+  public $sourceToken;
   protected $stagesType = GoogleCloudFunctionsV2Stage::class;
   protected $stagesDataType = 'array';
   /**
@@ -112,6 +120,20 @@ class GoogleCloudFunctionsV2OperationMetadata extends \Google\Collection
     return $this->endTime;
   }
   /**
+   * @param string
+   */
+  public function setOperationType($operationType)
+  {
+    $this->operationType = $operationType;
+  }
+  /**
+   * @return string
+   */
+  public function getOperationType()
+  {
+    return $this->operationType;
+  }
+  /**
    * @param array[]
    */
   public function setRequestResource($requestResource)
@@ -124,6 +146,20 @@ class GoogleCloudFunctionsV2OperationMetadata extends \Google\Collection
   public function getRequestResource()
   {
     return $this->requestResource;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceToken($sourceToken)
+  {
+    $this->sourceToken = $sourceToken;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceToken()
+  {
+    return $this->sourceToken;
   }
   /**
    * @param GoogleCloudFunctionsV2Stage[]

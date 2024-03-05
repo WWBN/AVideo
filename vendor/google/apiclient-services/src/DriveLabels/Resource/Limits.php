@@ -38,6 +38,7 @@ class Limits extends \Google\Service\Resource
    * @opt_param string name Required. Label revision resource name Must be:
    * "limits/label"
    * @return GoogleAppsDriveLabelsV2LabelLimits
+   * @throws \Google\Service\Exception
    */
   public function getLabel($optParams = [])
   {

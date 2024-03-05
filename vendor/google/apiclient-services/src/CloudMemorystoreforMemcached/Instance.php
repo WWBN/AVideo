@@ -69,6 +69,10 @@ class Instance extends \Google\Collection
   protected $parametersType = MemcacheParameters::class;
   protected $parametersDataType = '';
   /**
+   * @var string[]
+   */
+  public $reservedIpRangeId;
+  /**
    * @var string
    */
   public $state;
@@ -290,6 +294,20 @@ class Instance extends \Google\Collection
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param string[]
+   */
+  public function setReservedIpRangeId($reservedIpRangeId)
+  {
+    $this->reservedIpRangeId = $reservedIpRangeId;
+  }
+  /**
+   * @return string[]
+   */
+  public function getReservedIpRangeId()
+  {
+    return $this->reservedIpRangeId;
   }
   /**
    * @param string

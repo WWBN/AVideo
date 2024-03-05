@@ -27,12 +27,16 @@ class GoogleCloudRetailV2Rule extends \Google\Model
   protected $doNotAssociateActionDataType = '';
   protected $filterActionType = GoogleCloudRetailV2RuleFilterAction::class;
   protected $filterActionDataType = '';
+  protected $forceReturnFacetActionType = GoogleCloudRetailV2RuleForceReturnFacetAction::class;
+  protected $forceReturnFacetActionDataType = '';
   protected $ignoreActionType = GoogleCloudRetailV2RuleIgnoreAction::class;
   protected $ignoreActionDataType = '';
   protected $onewaySynonymsActionType = GoogleCloudRetailV2RuleOnewaySynonymsAction::class;
   protected $onewaySynonymsActionDataType = '';
   protected $redirectActionType = GoogleCloudRetailV2RuleRedirectAction::class;
   protected $redirectActionDataType = '';
+  protected $removeFacetActionType = GoogleCloudRetailV2RuleRemoveFacetAction::class;
+  protected $removeFacetActionDataType = '';
   protected $replacementActionType = GoogleCloudRetailV2RuleReplacementAction::class;
   protected $replacementActionDataType = '';
   protected $twowaySynonymsActionType = GoogleCloudRetailV2RuleTwowaySynonymsAction::class;
@@ -95,6 +99,20 @@ class GoogleCloudRetailV2Rule extends \Google\Model
     return $this->filterAction;
   }
   /**
+   * @param GoogleCloudRetailV2RuleForceReturnFacetAction
+   */
+  public function setForceReturnFacetAction(GoogleCloudRetailV2RuleForceReturnFacetAction $forceReturnFacetAction)
+  {
+    $this->forceReturnFacetAction = $forceReturnFacetAction;
+  }
+  /**
+   * @return GoogleCloudRetailV2RuleForceReturnFacetAction
+   */
+  public function getForceReturnFacetAction()
+  {
+    return $this->forceReturnFacetAction;
+  }
+  /**
    * @param GoogleCloudRetailV2RuleIgnoreAction
    */
   public function setIgnoreAction(GoogleCloudRetailV2RuleIgnoreAction $ignoreAction)
@@ -135,6 +153,20 @@ class GoogleCloudRetailV2Rule extends \Google\Model
   public function getRedirectAction()
   {
     return $this->redirectAction;
+  }
+  /**
+   * @param GoogleCloudRetailV2RuleRemoveFacetAction
+   */
+  public function setRemoveFacetAction(GoogleCloudRetailV2RuleRemoveFacetAction $removeFacetAction)
+  {
+    $this->removeFacetAction = $removeFacetAction;
+  }
+  /**
+   * @return GoogleCloudRetailV2RuleRemoveFacetAction
+   */
+  public function getRemoveFacetAction()
+  {
+    return $this->removeFacetAction;
   }
   /**
    * @param GoogleCloudRetailV2RuleReplacementAction

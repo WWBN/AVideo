@@ -38,6 +38,7 @@ class OrganizationsKeyvaluemaps extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1KeyValueMap $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueMap
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1KeyValueMap $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class OrganizationsKeyvaluemaps extends \Google\Service\Resource
    * structure in your request: `organizations/{org}/keyvaluemaps/{keyvaluemap}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueMap
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {

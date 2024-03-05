@@ -47,6 +47,7 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchDelete($customer, GoogleChromePolicyVersionsV1BatchDeleteGroupPoliciesRequest $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchModify($customer, GoogleChromePolicyVersionsV1BatchModifyGroupPoliciesRequest $postBody, $optParams = [])
   {
@@ -85,6 +87,7 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1ListGroupPriorityOrderingResponse
+   * @throws \Google\Service\Exception
    */
   public function listGroupPriorityOrdering($customer, GoogleChromePolicyVersionsV1ListGroupPriorityOrderingRequest $postBody, $optParams = [])
   {
@@ -103,6 +106,7 @@ class CustomersPoliciesGroups extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function updateGroupPriorityOrdering($customer, GoogleChromePolicyVersionsV1UpdateGroupPriorityOrderingRequest $postBody, $optParams = [])
   {

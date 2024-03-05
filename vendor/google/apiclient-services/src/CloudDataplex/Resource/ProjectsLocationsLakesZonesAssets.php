@@ -51,6 +51,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDataplexV1Asset $postBody, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * set_id}.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +85,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * set_id}.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDataplexV1Asset
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -112,6 +115,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * IAM policies, see the IAM documentation
    * (https://cloud.google.com/iam/help/conditions/resource-policies).
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -138,6 +142,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * paginating, all other parameters provided to ListAssets must match the call
    * that provided the page token.
    * @return GoogleCloudDataplexV1ListAssetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsLakesZonesAssets($parent, $optParams = [])
   {
@@ -158,6 +163,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDataplexV1Asset $postBody, $optParams = [])
   {
@@ -177,6 +183,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * @param GoogleIamV1SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, GoogleIamV1SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -198,6 +205,7 @@ class ProjectsLocationsLakesZonesAssets extends \Google\Service\Resource
    * @param GoogleIamV1TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, GoogleIamV1TestIamPermissionsRequest $postBody, $optParams = [])
   {

@@ -56,6 +56,10 @@ class WWWResultInfoSubImageDocInfo extends \Google\Collection
    * @var float
    */
   public $estRelevance;
+  /**
+   * @var float
+   */
+  public $estSigmaU;
   protected $flowOutputType = ImageContentFlowProtoProd::class;
   protected $flowOutputDataType = '';
   /**
@@ -240,6 +244,20 @@ class WWWResultInfoSubImageDocInfo extends \Google\Collection
   public function getEstRelevance()
   {
     return $this->estRelevance;
+  }
+  /**
+   * @param float
+   */
+  public function setEstSigmaU($estSigmaU)
+  {
+    $this->estSigmaU = $estSigmaU;
+  }
+  /**
+   * @return float
+   */
+  public function getEstSigmaU()
+  {
+    return $this->estSigmaU;
   }
   /**
    * @param ImageContentFlowProtoProd

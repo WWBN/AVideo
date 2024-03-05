@@ -37,6 +37,7 @@ class BillingRates extends \Google\Service\Resource
    * @param string $billingProfileId Billing profile ID of this billing rate.
    * @param array $optParams Optional parameters.
    * @return BillingRatesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listBillingRates($profileId, $billingProfileId, $optParams = [])
   {

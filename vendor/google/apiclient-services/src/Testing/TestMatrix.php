@@ -24,6 +24,8 @@ class TestMatrix extends \Google\Collection
   protected $clientInfoDataType = '';
   protected $environmentMatrixType = EnvironmentMatrix::class;
   protected $environmentMatrixDataType = '';
+  protected $extendedInvalidMatrixDetailsType = MatrixErrorDetail::class;
+  protected $extendedInvalidMatrixDetailsDataType = 'array';
   /**
    * @var bool
    */
@@ -90,6 +92,20 @@ class TestMatrix extends \Google\Collection
   public function getEnvironmentMatrix()
   {
     return $this->environmentMatrix;
+  }
+  /**
+   * @param MatrixErrorDetail[]
+   */
+  public function setExtendedInvalidMatrixDetails($extendedInvalidMatrixDetails)
+  {
+    $this->extendedInvalidMatrixDetails = $extendedInvalidMatrixDetails;
+  }
+  /**
+   * @return MatrixErrorDetail[]
+   */
+  public function getExtendedInvalidMatrixDetails()
+  {
+    return $this->extendedInvalidMatrixDetails;
   }
   /**
    * @param bool

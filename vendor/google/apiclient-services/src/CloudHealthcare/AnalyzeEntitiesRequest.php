@@ -23,12 +23,30 @@ class AnalyzeEntitiesRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $alternativeOutputFormat;
+  /**
+   * @var string
+   */
   public $documentContent;
   /**
    * @var string[]
    */
   public $licensedVocabularies;
 
+  /**
+   * @param string
+   */
+  public function setAlternativeOutputFormat($alternativeOutputFormat)
+  {
+    $this->alternativeOutputFormat = $alternativeOutputFormat;
+  }
+  /**
+   * @return string
+   */
+  public function getAlternativeOutputFormat()
+  {
+    return $this->alternativeOutputFormat;
+  }
   /**
    * @param string
    */

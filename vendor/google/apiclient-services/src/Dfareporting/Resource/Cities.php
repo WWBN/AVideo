@@ -41,6 +41,7 @@ class Cities extends \Google\Service\Resource
    * prefix.
    * @opt_param string regionDartIds Select only cities from these regions.
    * @return CitiesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listCities($profileId, $optParams = [])
   {

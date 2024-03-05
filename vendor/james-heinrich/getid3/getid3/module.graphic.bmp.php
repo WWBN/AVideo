@@ -336,307 +336,311 @@ class getid3_bmp extends getid3_handler
 		}
 
 		if ($this->ExtractData) {
-			$this->fseek($thisfile_bmp_header_raw['data_offset']);
-			$RowByteLength = ceil(($thisfile_bmp_header_raw['width'] * ($thisfile_bmp_header_raw['bits_per_pixel'] / 8)) / 4) * 4; // round up to nearest DWORD boundry
-			$BMPpixelData = $this->fread($thisfile_bmp_header_raw['height'] * $RowByteLength);
-			$pixeldataoffset = 0;
-			$thisfile_bmp_header_raw['compression'] = (isset($thisfile_bmp_header_raw['compression']) ? $thisfile_bmp_header_raw['compression'] : '');
-			switch ($thisfile_bmp_header_raw['compression']) {
+			if (!$thisfile_bmp_header_raw['width'] || !$thisfile_bmp_header_raw['height']) {
+				$thisfile_bmp['data'] = array();
+			} else {
+				$this->fseek($thisfile_bmp_header_raw['data_offset']);
+				$RowByteLength = ceil(($thisfile_bmp_header_raw['width'] * ($thisfile_bmp_header_raw['bits_per_pixel'] / 8)) / 4) * 4; // round up to nearest DWORD boundry
+				$BMPpixelData = $this->fread($thisfile_bmp_header_raw['height'] * $RowByteLength);
+				$pixeldataoffset = 0;
+				$thisfile_bmp_header_raw['compression'] = (isset($thisfile_bmp_header_raw['compression']) ? $thisfile_bmp_header_raw['compression'] : '');
+				switch ($thisfile_bmp_header_raw['compression']) {
 
-				case 0: // BI_RGB
-					switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
-						case 1:
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
-									$paletteindexbyte = ord($BMPpixelData[$pixeldataoffset++]);
-									for ($i = 7; $i >= 0; $i--) {
-										$paletteindex = ($paletteindexbyte & (0x01 << $i)) >> $i;
+					case 0: // BI_RGB
+						switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
+							case 1:
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
+										$paletteindexbyte = ord($BMPpixelData[$pixeldataoffset++]);
+										for ($i = 7; $i >= 0; $i--) {
+											$paletteindex = ($paletteindexbyte & (0x01 << $i)) >> $i;
+											$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+											$col++;
+										}
+									}
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
+									}
+								}
+								break;
+
+							case 4:
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
+										$paletteindexbyte = ord($BMPpixelData[$pixeldataoffset++]);
+										for ($i = 1; $i >= 0; $i--) {
+											$paletteindex = ($paletteindexbyte & (0x0F << (4 * $i))) >> (4 * $i);
+											$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+											$col++;
+										}
+									}
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
+									}
+								}
+								break;
+
+							case 8:
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+										$paletteindex = ord($BMPpixelData[$pixeldataoffset++]);
 										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
-										$col++;
+									}
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
 									}
 								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
-								}
-							}
-							break;
+								break;
 
-						case 4:
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col = $col) {
-									$paletteindexbyte = ord($BMPpixelData[$pixeldataoffset++]);
-									for ($i = 1; $i >= 0; $i--) {
-										$paletteindex = ($paletteindexbyte & (0x0F << (4 * $i))) >> (4 * $i);
-										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
-										$col++;
+							case 24:
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+										$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData[$pixeldataoffset+2]) << 16) | (ord($BMPpixelData[$pixeldataoffset+1]) << 8) | ord($BMPpixelData[$pixeldataoffset]);
+										$pixeldataoffset += 3;
+									}
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
 									}
 								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
-								}
-							}
-							break;
+								break;
 
-						case 8:
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$paletteindex = ord($BMPpixelData[$pixeldataoffset++]);
-									$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
-								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
-								}
-							}
-							break;
-
-						case 24:
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData[$pixeldataoffset+2]) << 16) | (ord($BMPpixelData[$pixeldataoffset+1]) << 8) | ord($BMPpixelData[$pixeldataoffset]);
-									$pixeldataoffset += 3;
-								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
-								}
-							}
-							break;
-
-						case 32:
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData[$pixeldataoffset+3]) << 24) | (ord($BMPpixelData[$pixeldataoffset+2]) << 16) | (ord($BMPpixelData[$pixeldataoffset+1]) << 8) | ord($BMPpixelData[$pixeldataoffset]);
-									$pixeldataoffset += 4;
-								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
-								}
-							}
-							break;
-
-						case 16:
-							// ?
-							break;
-
-						default:
-							$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
-							break;
-					}
-					break;
-
-
-				case 1: // BI_RLE8 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
-					switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
-						case 8:
-							$pixelcounter = 0;
-							while ($pixeldataoffset < strlen($BMPpixelData)) {
-								$firstbyte  = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-								$secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-								if ($firstbyte == 0) {
-
-									// escaped/absolute mode - the first byte of the pair can be set to zero to
-									// indicate an escape character that denotes the end of a line, the end of
-									// a bitmap, or a delta, depending on the value of the second byte.
-									switch ($secondbyte) {
-										case 0:
-											// end of line
-											// no need for special processing, just ignore
-											break;
-
-										case 1:
-											// end of bitmap
-											$pixeldataoffset = strlen($BMPpixelData); // force to exit loop just in case
-											break;
-
-										case 2:
-											// delta - The 2 bytes following the escape contain unsigned values
-											// indicating the horizontal and vertical offsets of the next pixel
-											// from the current position.
-											$colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-											$rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-											$col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
-											$row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
-											$pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
-											break;
-
-										default:
-											// In absolute mode, the first byte is zero and the second byte is a
-											// value in the range 03H through FFH. The second byte represents the
-											// number of bytes that follow, each of which contains the color index
-											// of a single pixel. Each run must be aligned on a word boundary.
-											for ($i = 0; $i < $secondbyte; $i++) {
-												$paletteindex = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-												$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-												$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-												$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
-												$pixelcounter++;
-											}
-											while (($pixeldataoffset % 2) != 0) {
-												// Each run must be aligned on a word boundary.
-												$pixeldataoffset++;
-											}
-											break;
+							case 32:
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+										$thisfile_bmp['data'][$row][$col] = (ord($BMPpixelData[$pixeldataoffset+3]) << 24) | (ord($BMPpixelData[$pixeldataoffset+2]) << 16) | (ord($BMPpixelData[$pixeldataoffset+1]) << 8) | ord($BMPpixelData[$pixeldataoffset]);
+										$pixeldataoffset += 4;
 									}
-
-								} else {
-
-									// encoded mode - the first byte specifies the number of consecutive pixels
-									// to be drawn using the color index contained in the second byte.
-									for ($i = 0; $i < $firstbyte; $i++) {
-										$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-										$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$secondbyte];
-										$pixelcounter++;
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
 									}
-
 								}
-							}
-							break;
+								break;
 
-						default:
-							$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
-							break;
-					}
-					break;
+							case 16:
+								// ?
+								break;
+
+							default:
+								$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+								break;
+						}
+						break;
 
 
+					case 1: // BI_RLE8 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
+						switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
+							case 8:
+								$pixelcounter = 0;
+								while ($pixeldataoffset < strlen($BMPpixelData)) {
+									$firstbyte  = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									$secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									if ($firstbyte == 0) {
 
-				case 2: // BI_RLE4 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
-					switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
-						case 4:
-							$pixelcounter = 0;
-							$paletteindexes = array();
-							while ($pixeldataoffset < strlen($BMPpixelData)) {
-								$firstbyte  = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-								$secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-								if ($firstbyte == 0) {
+										// escaped/absolute mode - the first byte of the pair can be set to zero to
+										// indicate an escape character that denotes the end of a line, the end of
+										// a bitmap, or a delta, depending on the value of the second byte.
+										switch ($secondbyte) {
+											case 0:
+												// end of line
+												// no need for special processing, just ignore
+												break;
 
-									// escaped/absolute mode - the first byte of the pair can be set to zero to
-									// indicate an escape character that denotes the end of a line, the end of
-									// a bitmap, or a delta, depending on the value of the second byte.
-									switch ($secondbyte) {
-										case 0:
-											// end of line
-											// no need for special processing, just ignore
-											break;
+											case 1:
+												// end of bitmap
+												$pixeldataoffset = strlen($BMPpixelData); // force to exit loop just in case
+												break;
 
-										case 1:
-											// end of bitmap
-											$pixeldataoffset = strlen($BMPpixelData); // force to exit loop just in case
-											break;
+											case 2:
+												// delta - The 2 bytes following the escape contain unsigned values
+												// indicating the horizontal and vertical offsets of the next pixel
+												// from the current position.
+												$colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+												$rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+												$col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
+												$row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
+												$pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
+												break;
 
-										case 2:
-											// delta - The 2 bytes following the escape contain unsigned values
-											// indicating the horizontal and vertical offsets of the next pixel
-											// from the current position.
-											$colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-											$rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-											$col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
-											$row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
-											$pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
-											break;
+											default:
+												// In absolute mode, the first byte is zero and the second byte is a
+												// value in the range 03H through FFH. The second byte represents the
+												// number of bytes that follow, each of which contains the color index
+												// of a single pixel. Each run must be aligned on a word boundary.
+												for ($i = 0; $i < $secondbyte; $i++) {
+													$paletteindex = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+													$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
+													$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+													$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+													$pixelcounter++;
+												}
+												while (($pixeldataoffset % 2) != 0) {
+													// Each run must be aligned on a word boundary.
+													$pixeldataoffset++;
+												}
+												break;
+										}
 
-										default:
-											// In absolute mode, the first byte is zero. The second byte contains the number
-											// of color indexes that follow. Subsequent bytes contain color indexes in their
-											// high- and low-order 4 bits, one color index for each pixel. In absolute mode,
-											// each run must be aligned on a word boundary.
-											$paletteindexes = array();
-											for ($i = 0; $i < ceil($secondbyte / 2); $i++) {
-												$paletteindexbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
-												$paletteindexes[] = ($paletteindexbyte & 0xF0) >> 4;
-												$paletteindexes[] = ($paletteindexbyte & 0x0F);
-											}
-											while (($pixeldataoffset % 2) != 0) {
-												// Each run must be aligned on a word boundary.
-												$pixeldataoffset++;
-											}
+									} else {
 
-											foreach ($paletteindexes as $paletteindex) {
-												$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-												$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-												$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
-												$pixelcounter++;
-											}
-											break;
+										// encoded mode - the first byte specifies the number of consecutive pixels
+										// to be drawn using the color index contained in the second byte.
+										for ($i = 0; $i < $firstbyte; $i++) {
+											$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
+											$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+											$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$secondbyte];
+											$pixelcounter++;
+										}
+
 									}
+								}
+								break;
 
-								} else {
+							default:
+								$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+								break;
+						}
+						break;
 
-									// encoded mode - the first byte of the pair contains the number of pixels to be
-									// drawn using the color indexes in the second byte. The second byte contains two
-									// color indexes, one in its high-order 4 bits and one in its low-order 4 bits.
-									// The first of the pixels is drawn using the color specified by the high-order
-									// 4 bits, the second is drawn using the color in the low-order 4 bits, the third
-									// is drawn using the color in the high-order 4 bits, and so on, until all the
-									// pixels specified by the first byte have been drawn.
-									$paletteindexes[0] = ($secondbyte & 0xF0) >> 4;
-									$paletteindexes[1] = ($secondbyte & 0x0F);
-									for ($i = 0; $i < $firstbyte; $i++) {
-										$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
-										$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
-										$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindexes[($i % 2)]];
-										$pixelcounter++;
+
+
+					case 2: // BI_RLE4 - http://msdn.microsoft.com/library/en-us/gdi/bitmaps_6x0u.asp
+						switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
+							case 4:
+								$pixelcounter = 0;
+								$paletteindexes = array();
+								while ($pixeldataoffset < strlen($BMPpixelData)) {
+									$firstbyte  = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									$secondbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+									if ($firstbyte == 0) {
+
+										// escaped/absolute mode - the first byte of the pair can be set to zero to
+										// indicate an escape character that denotes the end of a line, the end of
+										// a bitmap, or a delta, depending on the value of the second byte.
+										switch ($secondbyte) {
+											case 0:
+												// end of line
+												// no need for special processing, just ignore
+												break;
+
+											case 1:
+												// end of bitmap
+												$pixeldataoffset = strlen($BMPpixelData); // force to exit loop just in case
+												break;
+
+											case 2:
+												// delta - The 2 bytes following the escape contain unsigned values
+												// indicating the horizontal and vertical offsets of the next pixel
+												// from the current position.
+												$colincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+												$rowincrement = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+												$col = ($pixelcounter % $thisfile_bmp_header_raw['width']) + $colincrement;
+												$row = ($thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width'])) - $rowincrement;
+												$pixelcounter = ($row * $thisfile_bmp_header_raw['width']) + $col;
+												break;
+
+											default:
+												// In absolute mode, the first byte is zero. The second byte contains the number
+												// of color indexes that follow. Subsequent bytes contain color indexes in their
+												// high- and low-order 4 bits, one color index for each pixel. In absolute mode,
+												// each run must be aligned on a word boundary.
+												$paletteindexes = array();
+												for ($i = 0; $i < ceil($secondbyte / 2); $i++) {
+													$paletteindexbyte = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset++, 1));
+													$paletteindexes[] = ($paletteindexbyte & 0xF0) >> 4;
+													$paletteindexes[] = ($paletteindexbyte & 0x0F);
+												}
+												while (($pixeldataoffset % 2) != 0) {
+													// Each run must be aligned on a word boundary.
+													$pixeldataoffset++;
+												}
+
+												foreach ($paletteindexes as $paletteindex) {
+													$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
+													$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+													$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindex];
+													$pixelcounter++;
+												}
+												break;
+										}
+
+									} else {
+
+										// encoded mode - the first byte of the pair contains the number of pixels to be
+										// drawn using the color indexes in the second byte. The second byte contains two
+										// color indexes, one in its high-order 4 bits and one in its low-order 4 bits.
+										// The first of the pixels is drawn using the color specified by the high-order
+										// 4 bits, the second is drawn using the color in the low-order 4 bits, the third
+										// is drawn using the color in the high-order 4 bits, and so on, until all the
+										// pixels specified by the first byte have been drawn.
+										$paletteindexes[0] = ($secondbyte & 0xF0) >> 4;
+										$paletteindexes[1] = ($secondbyte & 0x0F);
+										for ($i = 0; $i < $firstbyte; $i++) {
+											$col = $pixelcounter % $thisfile_bmp_header_raw['width'];
+											$row = $thisfile_bmp_header_raw['height'] - 1 - (($pixelcounter - $col) / $thisfile_bmp_header_raw['width']);
+											$thisfile_bmp['data'][$row][$col] = $thisfile_bmp['palette'][$paletteindexes[($i % 2)]];
+											$pixelcounter++;
+										}
+
 									}
-
 								}
-							}
-							break;
+								break;
 
-						default:
-							$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
-							break;
-					}
-					break;
+							default:
+								$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+								break;
+						}
+						break;
 
 
-				case 3: // BI_BITFIELDS
-					switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
-						case 16:
-						case 32:
-							$redshift   = 0;
-							$greenshift = 0;
-							$blueshift  = 0;
-							while ((($thisfile_bmp_header_raw['red_mask'] >> $redshift) & 0x01) == 0) {
-								$redshift++;
-							}
-							while ((($thisfile_bmp_header_raw['green_mask'] >> $greenshift) & 0x01) == 0) {
-								$greenshift++;
-							}
-							while ((($thisfile_bmp_header_raw['blue_mask'] >> $blueshift) & 0x01) == 0) {
-								$blueshift++;
-							}
-							for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
-								for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
-									$pixelvalue = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset, $thisfile_bmp_header_raw['bits_per_pixel'] / 8));
-									$pixeldataoffset += $thisfile_bmp_header_raw['bits_per_pixel'] / 8;
-
-									$red   = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['red_mask'])   >> $redshift)   / ($thisfile_bmp_header_raw['red_mask']   >> $redshift))   * 255));
-									$green = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['green_mask']) >> $greenshift) / ($thisfile_bmp_header_raw['green_mask'] >> $greenshift)) * 255));
-									$blue  = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['blue_mask'])  >> $blueshift)  / ($thisfile_bmp_header_raw['blue_mask']  >> $blueshift))  * 255));
-									$thisfile_bmp['data'][$row][$col] = (($red << 16) | ($green << 8) | ($blue));
+					case 3: // BI_BITFIELDS
+						switch ($thisfile_bmp_header_raw['bits_per_pixel']) {
+							case 16:
+							case 32:
+								$redshift   = 0;
+								$greenshift = 0;
+								$blueshift  = 0;
+								while ((($thisfile_bmp_header_raw['red_mask'] >> $redshift) & 0x01) == 0) {
+									$redshift++;
 								}
-								while (($pixeldataoffset % 4) != 0) {
-									// lines are padded to nearest DWORD
-									$pixeldataoffset++;
+								while ((($thisfile_bmp_header_raw['green_mask'] >> $greenshift) & 0x01) == 0) {
+									$greenshift++;
 								}
-							}
-							break;
+								while ((($thisfile_bmp_header_raw['blue_mask'] >> $blueshift) & 0x01) == 0) {
+									$blueshift++;
+								}
+								for ($row = ($thisfile_bmp_header_raw['height'] - 1); $row >= 0; $row--) {
+									for ($col = 0; $col < $thisfile_bmp_header_raw['width']; $col++) {
+										$pixelvalue = getid3_lib::LittleEndian2Int(substr($BMPpixelData, $pixeldataoffset, $thisfile_bmp_header_raw['bits_per_pixel'] / 8));
+										$pixeldataoffset += $thisfile_bmp_header_raw['bits_per_pixel'] / 8;
 
-						default:
-							$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
-							break;
-					}
-					break;
+										$red   = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['red_mask'])   >> $redshift)   / ($thisfile_bmp_header_raw['red_mask']   >> $redshift))   * 255));
+										$green = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['green_mask']) >> $greenshift) / ($thisfile_bmp_header_raw['green_mask'] >> $greenshift)) * 255));
+										$blue  = intval(round(((($pixelvalue & $thisfile_bmp_header_raw['blue_mask'])  >> $blueshift)  / ($thisfile_bmp_header_raw['blue_mask']  >> $blueshift))  * 255));
+										$thisfile_bmp['data'][$row][$col] = (($red << 16) | ($green << 8) | ($blue));
+									}
+									while (($pixeldataoffset % 4) != 0) {
+										// lines are padded to nearest DWORD
+										$pixeldataoffset++;
+									}
+								}
+								break;
+
+							default:
+								$this->error('Unknown bits-per-pixel value ('.$thisfile_bmp_header_raw['bits_per_pixel'].') - cannot read pixel data');
+								break;
+						}
+						break;
 
 
-				default: // unhandled compression type
-					$this->error('Unknown/unhandled compression type value ('.$thisfile_bmp_header_raw['compression'].') - cannot decompress pixel data');
-					break;
+					default: // unhandled compression type
+						$this->error('Unknown/unhandled compression type value ('.$thisfile_bmp_header_raw['compression'].') - cannot decompress pixel data');
+						break;
+				}
 			}
 		}
 

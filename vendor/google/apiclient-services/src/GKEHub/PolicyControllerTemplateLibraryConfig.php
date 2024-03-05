@@ -20,23 +20,23 @@ namespace Google\Service\GKEHub;
 class PolicyControllerTemplateLibraryConfig extends \Google\Model
 {
   /**
-   * @var bool
+   * @var string
    */
-  public $included;
+  public $installation;
 
   /**
-   * @param bool
+   * @param string
    */
-  public function setIncluded($included)
+  public function setInstallation($installation)
   {
-    $this->included = $included;
+    $this->installation = $installation;
   }
   /**
-   * @return bool
+   * @return string
    */
-  public function getIncluded()
+  public function getInstallation()
   {
-    return $this->included;
+    return $this->installation;
   }
 }
 

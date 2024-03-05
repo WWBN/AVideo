@@ -38,6 +38,7 @@ class Managedconfigurationssettings extends \Google\Service\Resource
    * configurations settings applies to.
    * @param array $optParams Optional parameters.
    * @return ManagedConfigurationsSettingsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listManagedconfigurationssettings($enterpriseId, $productId, $optParams = [])
   {

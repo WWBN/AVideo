@@ -19,6 +19,7 @@ namespace Google\Service\CloudHealthcare\Resource;
 
 use Google\Service\CloudHealthcare\DeidentifyDicomStoreRequest;
 use Google\Service\CloudHealthcare\DicomStore;
+use Google\Service\CloudHealthcare\DicomStoreMetrics;
 use Google\Service\CloudHealthcare\ExportDicomDataRequest;
 use Google\Service\CloudHealthcare\HealthcareEmpty;
 use Google\Service\CloudHealthcare\HttpBody;
@@ -43,13 +44,15 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
   /**
    * Creates a new DICOM store within the parent dataset. (dicomStores.create)
    *
-   * @param string $parent The name of the dataset this DICOM store belongs to.
+   * @param string $parent Required. The name of the dataset this DICOM store
+   * belongs to.
    * @param DicomStore $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string dicomStoreId The ID of the DICOM store that is being
-   * created. Any string value up to 256 characters in length.
+   * @opt_param string dicomStoreId Required. The ID of the DICOM store that is
+   * being created. Any string value up to 256 characters in length.
    * @return DicomStore
+   * @throws \Google\Service\Exception
    */
   public function create($parent, DicomStore $postBody, $optParams = [])
   {
@@ -69,12 +72,13 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)).
    * (dicomStores.deidentify)
    *
-   * @param string $sourceStore Source DICOM store resource name. For example, `pr
-   * ojects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores
-   * /{dicom_store_id}`.
+   * @param string $sourceStore Required. Source DICOM store resource name. For
+   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
+   * /dicomStores/{dicom_store_id}`.
    * @param DeidentifyDicomStoreRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function deidentify($sourceStore, DeidentifyDicomStoreRequest $postBody, $optParams = [])
   {
@@ -86,9 +90,10 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * Deletes the specified DICOM store and removes all images that are contained
    * within it. (dicomStores.delete)
    *
-   * @param string $name The resource name of the DICOM store to delete.
+   * @param string $name Required. The resource name of the DICOM store to delete.
    * @param array $optParams Optional parameters.
    * @return HealthcareEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -103,12 +108,13 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * tos/logging). The metadata field type is OperationMetadata.
    * (dicomStores.export)
    *
-   * @param string $name The DICOM store resource name from which to export the
-   * data. For example, `projects/{project_id}/locations/{location_id}/datasets/{d
-   * ataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $name Required. The DICOM store resource name from which to
+   * export the data. For example, `projects/{project_id}/locations/{location_id}/
+   * datasets/{dataset_id}/dicomStores/{dicom_store_id}`.
    * @param ExportDicomDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function export($name, ExportDicomDataRequest $postBody, $optParams = [])
   {
@@ -119,15 +125,32 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
   /**
    * Gets the specified DICOM store. (dicomStores.get)
    *
-   * @param string $name The resource name of the DICOM store to get.
+   * @param string $name Required. The resource name of the DICOM store to get.
    * @param array $optParams Optional parameters.
    * @return DicomStore
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], DicomStore::class);
+  }
+  /**
+   * Gets metrics associated with the DICOM store.
+   * (dicomStores.getDICOMStoreMetrics)
+   *
+   * @param string $name Required. The resource name of the DICOM store to get
+   * metrics for.
+   * @param array $optParams Optional parameters.
+   * @return DicomStoreMetrics
+   * @throws \Google\Service\Exception
+   */
+  public function getDICOMStoreMetrics($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getDICOMStoreMetrics', [$params], DicomStoreMetrics::class);
   }
   /**
    * Gets the access control policy for a resource. Returns an empty policy if the
@@ -152,6 +175,7 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -166,12 +190,13 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * tos/logging). The metadata field type is OperationMetadata.
    * (dicomStores.import)
    *
-   * @param string $name The name of the DICOM store resource into which the data
-   * is imported. For example, `projects/{project_id}/locations/{location_id}/data
-   * sets/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $name Required. The name of the DICOM store resource into which
+   * the data is imported. For example, `projects/{project_id}/locations/{location
+   * _id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`.
    * @param ImportDicomDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function import($name, ImportDicomDataRequest $postBody, $optParams = [])
   {
@@ -183,7 +208,7 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * Lists the DICOM stores in the given dataset.
    * (dicomStores.listProjectsLocationsDatasetsDicomStores)
    *
-   * @param string $parent Name of the dataset.
+   * @param string $parent Required. Name of the dataset.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Restricts stores returned to those matching a
@@ -214,6 +239,7 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from the
    * previous List request, if any.
    * @return ListDicomStoresResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDatasetsDicomStores($parent, $optParams = [])
   {
@@ -224,16 +250,18 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
   /**
    * Updates the specified DICOM store. (dicomStores.patch)
    *
-   * @param string $name Resource name of the DICOM store, of the form `projects/{
-   * project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_
-   * store_id}`.
+   * @param string $name Identifier. Resource name of the DICOM store, of the form
+   * `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomSto
+   * res/{dicom_store_id}`.
    * @param DicomStore $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask The update mask applies to the resource. For the
-   * `FieldMask` definition, see https://developers.google.com/protocol-
+   * @opt_param string updateMask Required. The update mask applies to the
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
    * buffers/docs/reference/google.protobuf#fieldmask
    * @return DicomStore
+   * @throws \Google\Service\Exception
    */
   public function patch($name, DicomStore $postBody, $optParams = [])
   {
@@ -247,19 +275,19 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * html#sect_10.6). For details on the implementation of SearchForInstances, see
    * [Search transaction](https://cloud.google.com/healthcare/docs/dicom#search_tr
    * ansaction) in the Cloud Healthcare API conformance statement. For samples
-   * that show how to call SearchForInstances, see [Searching for studies, series,
-   * instances, and frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForInstances)
+   * that show how to call SearchForInstances, see [Search for DICOM
+   * data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#search-
+   * dicom). (dicomStores.searchForInstances)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the SearchForInstancesRequest
-   * DICOMweb request. For example, `instances`, `series/{series_uid}/instances`,
-   * or `studies/{study_uid}/instances`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the
+   * SearchForInstancesRequest DICOMweb request. For example, `instances`,
+   * `series/{series_uid}/instances`, or `studies/{study_uid}/instances`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function searchForInstances($parent, $dicomWebPath, $optParams = [])
   {
@@ -273,18 +301,18 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * ). For details on the implementation of SearchForSeries, see [Search transact
    * ion](https://cloud.google.com/healthcare/docs/dicom#search_transaction) in
    * the Cloud Healthcare API conformance statement. For samples that show how to
-   * call SearchForSeries, see [Searching for studies, series, instances, and
-   * frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForSeries)
+   * call SearchForSeries, see [Search for DICOM
+   * data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#search-
+   * dicom). (dicomStores.searchForSeries)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the SearchForSeries DICOMweb request.
-   * For example, `series` or `studies/{study_uid}/series`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the SearchForSeries
+   * DICOMweb request. For example, `series` or `studies/{study_uid}/series`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function searchForSeries($parent, $dicomWebPath, $optParams = [])
   {
@@ -298,18 +326,18 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * 6). For details on the implementation of SearchForStudies, see [Search transa
    * ction](https://cloud.google.com/healthcare/docs/dicom#search_transaction) in
    * the Cloud Healthcare API conformance statement. For samples that show how to
-   * call SearchForStudies, see [Searching for studies, series, instances, and
-   * frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (dicomStores.searchForStudies)
+   * call SearchForStudies, see [Search for DICOM
+   * data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#search-
+   * dicom). (dicomStores.searchForStudies)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the SearchForStudies DICOMweb
-   * request. For example, `studies`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the SearchForStudies
+   * DICOMweb request. For example, `studies`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function searchForStudies($parent, $dicomWebPath, $optParams = [])
   {
@@ -329,6 +357,7 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -343,17 +372,19 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * implementation of StoreInstances, see [Store transaction](https://cloud.googl
    * e.com/healthcare/docs/dicom#store_transaction) in the Cloud Healthcare API
    * conformance statement. For samples that show how to call StoreInstances, see
-   * [Storing DICOM data](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#storing_dicom_data). (dicomStores.storeInstances)
+   * [Store DICOM data](https://cloud.google.com/healthcare/docs/how-
+   * tos/dicomweb#store-dicom). (dicomStores.storeInstances)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the StoreInstances DICOMweb request.
-   * For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the StoreInstances DICOMweb
+   * request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is
+   * optional.
    * @param HttpBody $postBody
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function storeInstances($parent, $dicomWebPath, HttpBody $postBody, $optParams = [])
   {
@@ -376,6 +407,7 @@ class ProjectsLocationsDatasetsDicomStores extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

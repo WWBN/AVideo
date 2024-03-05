@@ -42,10 +42,12 @@ class ProjectsSecrets extends \Google\Service\Resource
    * existing Secret. (secrets.addVersion)
    *
    * @param string $parent Required. The resource name of the Secret to associate
-   * with the SecretVersion in the format `projects/secrets`.
+   * with the SecretVersion in the format `projects/secrets` or
+   * `projects/locations/secrets`.
    * @param AddSecretVersionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SecretVersion
+   * @throws \Google\Service\Exception
    */
   public function addVersion($parent, AddSecretVersionRequest $postBody, $optParams = [])
   {
@@ -57,7 +59,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * Creates a new Secret containing no SecretVersions. (secrets.create)
    *
    * @param string $parent Required. The resource name of the project to associate
-   * with the Secret, in the format `projects`.
+   * with the Secret, in the format `projects` or `projects/locations`.
    * @param Secret $postBody
    * @param array $optParams Optional parameters.
    *
@@ -66,6 +68,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * contain uppercase and lowercase letters, numerals, and the hyphen (`-`) and
    * underscore (`_`) characters.
    * @return Secret
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Secret $postBody, $optParams = [])
   {
@@ -84,6 +87,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * it matches the etag of the currently stored secret object. If the etag is
    * omitted, the request succeeds.
    * @return SecretmanagerEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -95,9 +99,10 @@ class ProjectsSecrets extends \Google\Service\Resource
    * Gets metadata for a given Secret. (secrets.get)
    *
    * @param string $name Required. The resource name of the Secret, in the format
-   * `projects/secrets`.
+   * `projects/secrets` or `projects/locations/secrets`.
    * @param array $optParams Optional parameters.
    * @return Secret
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -128,6 +133,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -139,7 +145,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * Lists Secrets. (secrets.listProjectsSecrets)
    *
    * @param string $parent Required. The resource name of the project associated
-   * with the Secrets, in the format `projects`.
+   * with the Secrets, in the format `projects` or `projects/locations`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Optional. Filter string, adhering to the rules in
@@ -153,6 +159,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Pagination token, returned earlier via
    * ListSecretsResponse.next_page_token.
    * @return ListSecretsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsSecrets($parent, $optParams = [])
   {
@@ -170,6 +177,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. Specifies the fields to be updated.
    * @return Secret
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Secret $postBody, $optParams = [])
   {
@@ -189,6 +197,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -210,6 +219,7 @@ class ProjectsSecrets extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

@@ -37,6 +37,8 @@ class VmwareCluster extends \Google\Model
   protected $authorizationDataType = '';
   protected $autoRepairConfigType = VmwareAutoRepairConfig::class;
   protected $autoRepairConfigDataType = '';
+  protected $binaryAuthorizationType = BinaryAuthorization::class;
+  protected $binaryAuthorizationDataType = '';
   protected $controlPlaneNodeType = VmwareControlPlaneNodeConfig::class;
   protected $controlPlaneNodeDataType = '';
   /**
@@ -53,6 +55,10 @@ class VmwareCluster extends \Google\Model
    * @var string
    */
   public $description;
+  /**
+   * @var bool
+   */
+  public $disableBundledIngress;
   /**
    * @var bool
    */
@@ -103,6 +109,8 @@ class VmwareCluster extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $upgradePolicyType = VmwareClusterUpgradePolicy::class;
+  protected $upgradePolicyDataType = '';
   protected $validationCheckType = ValidationCheck::class;
   protected $validationCheckDataType = '';
   protected $vcenterType = VmwareVCenterConfig::class;
@@ -197,6 +205,20 @@ class VmwareCluster extends \Google\Model
     return $this->autoRepairConfig;
   }
   /**
+   * @param BinaryAuthorization
+   */
+  public function setBinaryAuthorization(BinaryAuthorization $binaryAuthorization)
+  {
+    $this->binaryAuthorization = $binaryAuthorization;
+  }
+  /**
+   * @return BinaryAuthorization
+   */
+  public function getBinaryAuthorization()
+  {
+    return $this->binaryAuthorization;
+  }
+  /**
    * @param VmwareControlPlaneNodeConfig
    */
   public function setControlPlaneNode(VmwareControlPlaneNodeConfig $controlPlaneNode)
@@ -265,6 +287,20 @@ class VmwareCluster extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableBundledIngress($disableBundledIngress)
+  {
+    $this->disableBundledIngress = $disableBundledIngress;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableBundledIngress()
+  {
+    return $this->disableBundledIngress;
   }
   /**
    * @param bool
@@ -475,6 +511,20 @@ class VmwareCluster extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param VmwareClusterUpgradePolicy
+   */
+  public function setUpgradePolicy(VmwareClusterUpgradePolicy $upgradePolicy)
+  {
+    $this->upgradePolicy = $upgradePolicy;
+  }
+  /**
+   * @return VmwareClusterUpgradePolicy
+   */
+  public function getUpgradePolicy()
+  {
+    return $this->upgradePolicy;
   }
   /**
    * @param ValidationCheck

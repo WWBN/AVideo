@@ -38,6 +38,7 @@ class ManagementProfileUserLinks extends \Google\Service\Resource
    * @param string $profileId View (Profile) ID to delete the user link for.
    * @param string $linkId Link ID to delete the user link for.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($accountId, $webPropertyId, $profileId, $linkId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ManagementProfileUserLinks extends \Google\Service\Resource
    * @param EntityUserLink $postBody
    * @param array $optParams Optional parameters.
    * @return EntityUserLink
+   * @throws \Google\Service\Exception
    */
   public function insert($accountId, $webPropertyId, $profileId, EntityUserLink $postBody, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ManagementProfileUserLinks extends \Google\Service\Resource
    * retrieve. Use this parameter as a pagination mechanism along with the max-
    * results parameter.
    * @return EntityUserLinks
+   * @throws \Google\Service\Exception
    */
   public function listManagementProfileUserLinks($accountId, $webPropertyId, $profileId, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ManagementProfileUserLinks extends \Google\Service\Resource
    * @param EntityUserLink $postBody
    * @param array $optParams Optional parameters.
    * @return EntityUserLink
+   * @throws \Google\Service\Exception
    */
   public function update($accountId, $webPropertyId, $profileId, $linkId, EntityUserLink $postBody, $optParams = [])
   {

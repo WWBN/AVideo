@@ -39,6 +39,7 @@ class AdvertisersLocationLists extends \Google\Service\Resource
    * @param LocationList $postBody
    * @param array $optParams Optional parameters.
    * @return LocationList
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, LocationList $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class AdvertisersLocationLists extends \Google\Service\Resource
    * @param string $locationListId Required. The ID of the location list to fetch.
    * @param array $optParams Optional parameters.
    * @return LocationList
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $locationListId, $optParams = [])
   {
@@ -92,6 +94,7 @@ class AdvertisersLocationLists extends \Google\Service\Resource
    * the previous call to `ListLocationLists` method. If not specified, the first
    * page of results will be returned.
    * @return ListLocationListsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersLocationLists($advertiserId, $optParams = [])
   {
@@ -113,6 +116,7 @@ class AdvertisersLocationLists extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return LocationList
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $locationListId, LocationList $postBody, $optParams = [])
   {

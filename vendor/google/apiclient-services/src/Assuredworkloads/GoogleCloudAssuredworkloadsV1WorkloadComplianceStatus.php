@@ -22,12 +22,34 @@ class GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus extends \Google\Mode
   /**
    * @var int
    */
+  public $acknowledgedResourceViolationCount;
+  /**
+   * @var int
+   */
   public $acknowledgedViolationCount;
+  /**
+   * @var int
+   */
+  public $activeResourceViolationCount;
   /**
    * @var int
    */
   public $activeViolationCount;
 
+  /**
+   * @param int
+   */
+  public function setAcknowledgedResourceViolationCount($acknowledgedResourceViolationCount)
+  {
+    $this->acknowledgedResourceViolationCount = $acknowledgedResourceViolationCount;
+  }
+  /**
+   * @return int
+   */
+  public function getAcknowledgedResourceViolationCount()
+  {
+    return $this->acknowledgedResourceViolationCount;
+  }
   /**
    * @param int
    */
@@ -41,6 +63,20 @@ class GoogleCloudAssuredworkloadsV1WorkloadComplianceStatus extends \Google\Mode
   public function getAcknowledgedViolationCount()
   {
     return $this->acknowledgedViolationCount;
+  }
+  /**
+   * @param int
+   */
+  public function setActiveResourceViolationCount($activeResourceViolationCount)
+  {
+    $this->activeResourceViolationCount = $activeResourceViolationCount;
+  }
+  /**
+   * @return int
+   */
+  public function getActiveResourceViolationCount()
+  {
+    return $this->activeResourceViolationCount;
   }
   /**
    * @param int

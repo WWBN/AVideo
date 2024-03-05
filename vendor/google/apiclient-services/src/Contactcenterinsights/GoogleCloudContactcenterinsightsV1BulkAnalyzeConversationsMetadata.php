@@ -17,8 +17,9 @@
 
 namespace Google\Service\Contactcenterinsights;
 
-class GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata extends \Google\Model
+class GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata extends \Google\Collection
 {
+  protected $collection_key = 'partialErrors';
   /**
    * @var int
    */
@@ -35,6 +36,8 @@ class GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata extends
    * @var int
    */
   public $failedAnalysesCount;
+  protected $partialErrorsType = GoogleRpcStatus::class;
+  protected $partialErrorsDataType = 'array';
   protected $requestType = GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest::class;
   protected $requestDataType = '';
   /**
@@ -97,6 +100,20 @@ class GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsMetadata extends
   public function getFailedAnalysesCount()
   {
     return $this->failedAnalysesCount;
+  }
+  /**
+   * @param GoogleRpcStatus[]
+   */
+  public function setPartialErrors($partialErrors)
+  {
+    $this->partialErrors = $partialErrors;
+  }
+  /**
+   * @return GoogleRpcStatus[]
+   */
+  public function getPartialErrors()
+  {
+    return $this->partialErrors;
   }
   /**
    * @param GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest

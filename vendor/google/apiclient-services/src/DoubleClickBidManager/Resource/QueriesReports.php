@@ -38,6 +38,7 @@ class QueriesReports extends \Google\Service\Resource
    * @param string $reportId Required. ID of the report to retrieve.
    * @param array $optParams Optional parameters.
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function get($queryId, $reportId, $optParams = [])
   {
@@ -61,6 +62,7 @@ class QueriesReports extends \Google\Service\Resource
    * @opt_param string pageToken A page token, received from a previous list call.
    * Provide this to retrieve the subsequent page of reports.
    * @return ListReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listQueriesReports($queryId, $optParams = [])
   {

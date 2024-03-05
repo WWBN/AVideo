@@ -24,6 +24,10 @@ class ConvertConversionWorkspaceRequest extends \Google\Model
    */
   public $autoCommit;
   /**
+   * @var bool
+   */
+  public $convertFullPath;
+  /**
    * @var string
    */
   public $filter;
@@ -41,6 +45,20 @@ class ConvertConversionWorkspaceRequest extends \Google\Model
   public function getAutoCommit()
   {
     return $this->autoCommit;
+  }
+  /**
+   * @param bool
+   */
+  public function setConvertFullPath($convertFullPath)
+  {
+    $this->convertFullPath = $convertFullPath;
+  }
+  /**
+   * @return bool
+   */
+  public function getConvertFullPath()
+  {
+    return $this->convertFullPath;
   }
   /**
    * @param string

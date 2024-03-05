@@ -19,10 +19,6 @@ namespace Google\Service\Contentwarehouse;
 
 class RepositoryWebrefPreprocessingUrlSourceInfo extends \Google\Model
 {
-  protected $deprecatedOldSchemaType = RepositoryWebrefPreprocessingUrlSourceInfoOldSchema::class;
-  protected $deprecatedOldSchemaDataType = '';
-  protected $newSchemaType = RepositoryWebrefPreprocessingUrlSourceInfoNewSchema::class;
-  protected $newSchemaDataType = '';
   /**
    * @var string
    */
@@ -32,34 +28,6 @@ class RepositoryWebrefPreprocessingUrlSourceInfo extends \Google\Model
    */
   public $source;
 
-  /**
-   * @param RepositoryWebrefPreprocessingUrlSourceInfoOldSchema
-   */
-  public function setDeprecatedOldSchema(RepositoryWebrefPreprocessingUrlSourceInfoOldSchema $deprecatedOldSchema)
-  {
-    $this->deprecatedOldSchema = $deprecatedOldSchema;
-  }
-  /**
-   * @return RepositoryWebrefPreprocessingUrlSourceInfoOldSchema
-   */
-  public function getDeprecatedOldSchema()
-  {
-    return $this->deprecatedOldSchema;
-  }
-  /**
-   * @param RepositoryWebrefPreprocessingUrlSourceInfoNewSchema
-   */
-  public function setNewSchema(RepositoryWebrefPreprocessingUrlSourceInfoNewSchema $newSchema)
-  {
-    $this->newSchema = $newSchema;
-  }
-  /**
-   * @return RepositoryWebrefPreprocessingUrlSourceInfoNewSchema
-   */
-  public function getNewSchema()
-  {
-    return $this->newSchema;
-  }
   /**
    * @param string
    */

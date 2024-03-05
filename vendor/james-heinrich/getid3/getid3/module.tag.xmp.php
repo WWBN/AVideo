@@ -34,6 +34,77 @@
 class Image_XMP
 {
 	/**
+	 * The names of the JPEG segment markers, indexed by their marker number
+	 */
+	private static $jpeg_segments_name = array(
+		0x01 => 'TEM',
+		0x02 => 'RES',
+		0xC0 => 'SOF0',
+		0xC1 => 'SOF1',
+		0xC2 => 'SOF2',
+		0xC3 => 'SOF4',
+		0xC4 => 'DHT',
+		0xC5 => 'SOF5',
+		0xC6 => 'SOF6',
+		0xC7 => 'SOF7',
+		0xC8 => 'JPG',
+		0xC9 => 'SOF9',
+		0xCA => 'SOF10',
+		0xCB => 'SOF11',
+		0xCC => 'DAC',
+		0xCD => 'SOF13',
+		0xCE => 'SOF14',
+		0xCF => 'SOF15',
+		0xD0 => 'RST0',
+		0xD1 => 'RST1',
+		0xD2 => 'RST2',
+		0xD3 => 'RST3',
+		0xD4 => 'RST4',
+		0xD5 => 'RST5',
+		0xD6 => 'RST6',
+		0xD7 => 'RST7',
+		0xD8 => 'SOI',
+		0xD9 => 'EOI',
+		0xDA => 'SOS',
+		0xDB => 'DQT',
+		0xDC => 'DNL',
+		0xDD => 'DRI',
+		0xDE => 'DHP',
+		0xDF => 'EXP',
+		0xE0 => 'APP0',
+		0xE1 => 'APP1',
+		0xE2 => 'APP2',
+		0xE3 => 'APP3',
+		0xE4 => 'APP4',
+		0xE5 => 'APP5',
+		0xE6 => 'APP6',
+		0xE7 => 'APP7',
+		0xE8 => 'APP8',
+		0xE9 => 'APP9',
+		0xEA => 'APP10',
+		0xEB => 'APP11',
+		0xEC => 'APP12',
+		0xED => 'APP13',
+		0xEE => 'APP14',
+		0xEF => 'APP15',
+		0xF0 => 'JPG0',
+		0xF1 => 'JPG1',
+		0xF2 => 'JPG2',
+		0xF3 => 'JPG3',
+		0xF4 => 'JPG4',
+		0xF5 => 'JPG5',
+		0xF6 => 'JPG6',
+		0xF7 => 'JPG7',
+		0xF8 => 'JPG8',
+		0xF9 => 'JPG9',
+		0xFA => 'JPG10',
+		0xFB => 'JPG11',
+		0xFC => 'JPG12',
+		0xFD => 'JPG13',
+		0xFE => 'COM',
+	);
+
+	/**
 	* @var string
 	* The name of the image file that contains the XMP fields to extract and modify.
 	* @see Image_XMP()
@@ -146,12 +217,21 @@ class Image_XMP
 				$segdatastart = ftell($filehnd);
 
 				// Read the segment data with length indicated by the previously read size
-				$segdata = fread($filehnd, $decodedsize['size'] - 2);
+				// fread will complain about trying to read zero bytes: "fread(): Argument #2 ($length) must be greater than 0" -- https://github.com/JamesHeinrich/getID3/issues/418
+				if ($decodedsize['size'] > 2) {
+					$segdata = fread($filehnd, $decodedsize['size'] - 2);
+				} elseif ($decodedsize['size'] == 2) {
+					$segdata = '';
+				} else {
+					// invalid length
+					fclose($filehnd);
+					return false;
+				}
 
 				// Store the segment information in the output array
 				$headerdata[] = array(
 					'SegType'      => ord($data[1]),
-					'SegName'      => $GLOBALS['JPEG_Segment_Names'][ord($data[1])],
+					'SegName'      => self::$jpeg_segments_name[ord($data[1])],
 					'SegDataStart' => $segdatastart,
 					'SegData'      => $segdata,
 				);
@@ -702,76 +782,3 @@ $GLOBALS['XMP_tag_captions'] = array(
 	'exif:Settings',
 );
 */
-
-/**
-* Global Variable: JPEG_Segment_Names
-*
-* The names of the JPEG segment markers, indexed by their marker number
-*/
-$GLOBALS['JPEG_Segment_Names'] = array(
-	0x01 => 'TEM',
-	0x02 => 'RES',
-	0xC0 => 'SOF0',
-	0xC1 => 'SOF1',
-	0xC2 => 'SOF2',
-	0xC3 => 'SOF4',
-	0xC4 => 'DHT',
-	0xC5 => 'SOF5',
-	0xC6 => 'SOF6',
-	0xC7 => 'SOF7',
-	0xC8 => 'JPG',
-	0xC9 => 'SOF9',
-	0xCA => 'SOF10',
-	0xCB => 'SOF11',
-	0xCC => 'DAC',
-	0xCD => 'SOF13',
-	0xCE => 'SOF14',
-	0xCF => 'SOF15',
-	0xD0 => 'RST0',
-	0xD1 => 'RST1',
-	0xD2 => 'RST2',
-	0xD3 => 'RST3',
-	0xD4 => 'RST4',
-	0xD5 => 'RST5',
-	0xD6 => 'RST6',
-	0xD7 => 'RST7',
-	0xD8 => 'SOI',
-	0xD9 => 'EOI',
-	0xDA => 'SOS',
-	0xDB => 'DQT',
-	0xDC => 'DNL',
-	0xDD => 'DRI',
-	0xDE => 'DHP',
-	0xDF => 'EXP',
-	0xE0 => 'APP0',
-	0xE1 => 'APP1',
-	0xE2 => 'APP2',
-	0xE3 => 'APP3',
-	0xE4 => 'APP4',
-	0xE5 => 'APP5',
-	0xE6 => 'APP6',
-	0xE7 => 'APP7',
-	0xE8 => 'APP8',
-	0xE9 => 'APP9',
-	0xEA => 'APP10',
-	0xEB => 'APP11',
-	0xEC => 'APP12',
-	0xED => 'APP13',
-	0xEE => 'APP14',
-	0xEF => 'APP15',
-	0xF0 => 'JPG0',
-	0xF1 => 'JPG1',
-	0xF2 => 'JPG2',
-	0xF3 => 'JPG3',
-	0xF4 => 'JPG4',
-	0xF5 => 'JPG5',
-	0xF6 => 'JPG6',
-	0xF7 => 'JPG7',
-	0xF8 => 'JPG8',
-	0xF9 => 'JPG9',
-	0xFA => 'JPG10',
-	0xFB => 'JPG11',
-	0xFC => 'JPG12',
-	0xFD => 'JPG13',
-	0xFE => 'COM',
-);

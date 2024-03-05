@@ -19,6 +19,8 @@ namespace Google\Service\Spanner\Resource;
 
 use Google\Service\Spanner\BatchCreateSessionsRequest;
 use Google\Service\Spanner\BatchCreateSessionsResponse;
+use Google\Service\Spanner\BatchWriteRequest;
+use Google\Service\Spanner\BatchWriteResponse;
 use Google\Service\Spanner\BeginTransactionRequest;
 use Google\Service\Spanner\CommitRequest;
 use Google\Service\Spanner\CommitResponse;
@@ -58,12 +60,42 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param BatchCreateSessionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchCreateSessionsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchCreate($database, BatchCreateSessionsRequest $postBody, $optParams = [])
   {
     $params = ['database' => $database, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('batchCreate', [$params], BatchCreateSessionsResponse::class);
+  }
+  /**
+   * Batches the supplied mutation groups in a collection of efficient
+   * transactions. All mutations in a group are committed atomically. However,
+   * mutations across groups can be committed non-atomically in an unspecified
+   * order and thus, they must be independent of each other. Partial failure is
+   * possible, i.e., some groups may have been committed successfully, while some
+   * may have failed. The results of individual batches are streamed into the
+   * response as the batches are applied. BatchWrite requests are not replay
+   * protected, meaning that each mutation group may be applied more than once.
+   * Replays of non-idempotent mutations may have undesirable effects. For
+   * example, replays of an insert mutation may produce an already exists error or
+   * if you use generated or commit timestamp-based keys, it may result in
+   * additional rows being added to the mutation's table. We recommend structuring
+   * your mutation groups to be idempotent to avoid this issue.
+   * (sessions.batchWrite)
+   *
+   * @param string $session Required. The session in which the batch request is to
+   * be run.
+   * @param BatchWriteRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchWriteResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchWrite($session, BatchWriteRequest $postBody, $optParams = [])
+  {
+    $params = ['session' => $session, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchWrite', [$params], BatchWriteResponse::class);
   }
   /**
    * Begins a new transaction. This step can often be skipped: Read, ExecuteSql
@@ -74,6 +106,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param BeginTransactionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Transaction
+   * @throws \Google\Service\Exception
    */
   public function beginTransaction($session, BeginTransactionRequest $postBody, $optParams = [])
   {
@@ -99,6 +132,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param CommitRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CommitResponse
+   * @throws \Google\Service\Exception
    */
   public function commit($session, CommitRequest $postBody, $optParams = [])
   {
@@ -125,6 +159,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param CreateSessionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Session
+   * @throws \Google\Service\Exception
    */
   public function create($database, CreateSessionRequest $postBody, $optParams = [])
   {
@@ -140,6 +175,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param string $name Required. The name of the session to delete.
    * @param array $optParams Optional parameters.
    * @return SpannerEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -162,6 +198,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param ExecuteBatchDmlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ExecuteBatchDmlResponse
+   * @throws \Google\Service\Exception
    */
   public function executeBatchDml($session, ExecuteBatchDmlRequest $postBody, $optParams = [])
   {
@@ -184,6 +221,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param ExecuteSqlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ResultSet
+   * @throws \Google\Service\Exception
    */
   public function executeSql($session, ExecuteSqlRequest $postBody, $optParams = [])
   {
@@ -202,6 +240,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param ExecuteSqlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PartialResultSet
+   * @throws \Google\Service\Exception
    */
   public function executeStreamingSql($session, ExecuteSqlRequest $postBody, $optParams = [])
   {
@@ -217,6 +256,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param string $name Required. The name of the session to retrieve.
    * @param array $optParams Optional parameters.
    * @return Session
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -242,6 +282,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @opt_param string pageToken If non-empty, `page_token` should contain a
    * next_page_token from a previous ListSessionsResponse.
    * @return ListSessionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesDatabasesSessions($database, $optParams = [])
   {
@@ -265,6 +306,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param PartitionQueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PartitionResponse
+   * @throws \Google\Service\Exception
    */
   public function partitionQuery($session, PartitionQueryRequest $postBody, $optParams = [])
   {
@@ -290,6 +332,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param PartitionReadRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PartitionResponse
+   * @throws \Google\Service\Exception
    */
   public function partitionRead($session, PartitionReadRequest $postBody, $optParams = [])
   {
@@ -312,6 +355,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param ReadRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ResultSet
+   * @throws \Google\Service\Exception
    */
   public function read($session, ReadRequest $postBody, $optParams = [])
   {
@@ -332,6 +376,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param RollbackRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SpannerEmpty
+   * @throws \Google\Service\Exception
    */
   public function rollback($session, RollbackRequest $postBody, $optParams = [])
   {
@@ -350,6 +395,7 @@ class ProjectsInstancesDatabasesSessions extends \Google\Service\Resource
    * @param ReadRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PartialResultSet
+   * @throws \Google\Service\Exception
    */
   public function streamingRead($session, ReadRequest $postBody, $optParams = [])
   {

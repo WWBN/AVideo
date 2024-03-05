@@ -40,6 +40,7 @@ class ProjectsLocationsRuntimes extends \Google\Service\Resource
    * @opt_param string filter The filter for Runtimes that match the filter
    * expression, following the syntax outlined in https://google.aip.dev/160.
    * @return ListRuntimesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRuntimes($parent, $optParams = [])
   {

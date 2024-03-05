@@ -38,6 +38,7 @@ class CreativeAssets extends \Google\Service\Resource
    * @param CreativeAssetMetadata $postBody
    * @param array $optParams Optional parameters.
    * @return CreativeAssetMetadata
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, $advertiserId, CreativeAssetMetadata $postBody, $optParams = [])
   {

@@ -33,14 +33,15 @@ class Tabledata extends \Google\Service\Resource
 {
   /**
    * Streams data into BigQuery one record at a time without needing to run a load
-   * job. Requires the WRITER dataset role. (tabledata.insertAll)
+   * job. (tabledata.insertAll)
    *
-   * @param string $projectId Project ID of the destination table.
-   * @param string $datasetId Dataset ID of the destination table.
-   * @param string $tableId Table ID of the destination table.
+   * @param string $projectId Required. Project ID of the destination.
+   * @param string $datasetId Required. Dataset ID of the destination.
+   * @param string $tableId Required. Table ID of the destination.
    * @param TableDataInsertAllRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TableDataInsertAllResponse
+   * @throws \Google\Service\Exception
    */
   public function insertAll($projectId, $datasetId, $tableId, TableDataInsertAllRequest $postBody, $optParams = [])
   {
@@ -49,21 +50,24 @@ class Tabledata extends \Google\Service\Resource
     return $this->call('insertAll', [$params], TableDataInsertAllResponse::class);
   }
   /**
-   * Retrieves table data from a specified set of rows. Requires the READER
-   * dataset role. (tabledata.listTabledata)
+   * List the content of a table in rows. (tabledata.listTabledata)
    *
-   * @param string $projectId Project ID of the table to read
-   * @param string $datasetId Dataset ID of the table to read
-   * @param string $tableId Table ID of the table to read
+   * @param string $projectId Required. Project id of the table to list.
+   * @param string $datasetId Required. Dataset id of the table to list.
+   * @param string $tableId Required. Table id of the table to list.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string maxResults Maximum number of results to return
-   * @opt_param string pageToken Page token, returned by a previous call,
-   * identifying the result set
-   * @opt_param string selectedFields List of fields to return (comma-separated).
-   * If unspecified, all fields are returned
-   * @opt_param string startIndex Zero-based index of the starting row to read
+   * @opt_param bool formatOptions.useInt64Timestamp Optional. Output timestamp as
+   * usec int64. Default is false.
+   * @opt_param string maxResults Row limit of the table.
+   * @opt_param string pageToken To retrieve the next page of table data, set this
+   * field to the string provided in the pageToken field of the response body from
+   * your previous call to tabledata.list.
+   * @opt_param string selectedFields Subset of fields to return, supports select
+   * into sub fields. Example: selected_fields = "a,e.d.f";
+   * @opt_param string startIndex Start row index of the table.
    * @return TableDataList
+   * @throws \Google\Service\Exception
    */
   public function listTabledata($projectId, $datasetId, $tableId, $optParams = [])
   {

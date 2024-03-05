@@ -24,6 +24,8 @@ class KnowledgeAnswersEntityType extends \Google\Collection
    * @var string[]
    */
   public $collection;
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   /**
    * @var string[]
    */
@@ -58,6 +60,20 @@ class KnowledgeAnswersEntityType extends \Google\Collection
   public function getCollection()
   {
     return $this->collection;
+  }
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
   }
   /**
    * @param string[]

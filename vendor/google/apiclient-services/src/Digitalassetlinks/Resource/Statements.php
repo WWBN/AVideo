@@ -87,6 +87,7 @@ class Statements extends \Google\Service\Resource
    * * `https://google.com/` (hostname does not match) *
    * `https://www.google.com:444/` (port does not match) REQUIRED
    * @return ListResponse
+   * @throws \Google\Service\Exception
    */
   public function listStatements($optParams = [])
   {

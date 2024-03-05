@@ -24,10 +24,6 @@ class RepositoryWebrefAnnotatedCategoryInfo extends \Google\Model
    */
   public $debugString;
   /**
-   * @var float
-   */
-  public $listiness;
-  /**
    * @var string
    */
   public $mid;
@@ -45,20 +41,6 @@ class RepositoryWebrefAnnotatedCategoryInfo extends \Google\Model
   public function getDebugString()
   {
     return $this->debugString;
-  }
-  /**
-   * @param float
-   */
-  public function setListiness($listiness)
-  {
-    $this->listiness = $listiness;
-  }
-  /**
-   * @return float
-   */
-  public function getListiness()
-  {
-    return $this->listiness;
   }
   /**
    * @param string

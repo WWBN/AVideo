@@ -39,6 +39,14 @@ class RouteInfo extends \Google\Collection
   /**
    * @var string
    */
+  public $nccHubUri;
+  /**
+   * @var string
+   */
+  public $nccSpokeUri;
+  /**
+   * @var string
+   */
   public $networkUri;
   /**
    * @var string
@@ -56,6 +64,10 @@ class RouteInfo extends \Google\Collection
    * @var string[]
    */
   public $protocols;
+  /**
+   * @var string
+   */
+  public $routeScope;
   /**
    * @var string
    */
@@ -132,6 +144,34 @@ class RouteInfo extends \Google\Collection
   /**
    * @param string
    */
+  public function setNccHubUri($nccHubUri)
+  {
+    $this->nccHubUri = $nccHubUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNccHubUri()
+  {
+    return $this->nccHubUri;
+  }
+  /**
+   * @param string
+   */
+  public function setNccSpokeUri($nccSpokeUri)
+  {
+    $this->nccSpokeUri = $nccSpokeUri;
+  }
+  /**
+   * @return string
+   */
+  public function getNccSpokeUri()
+  {
+    return $this->nccSpokeUri;
+  }
+  /**
+   * @param string
+   */
   public function setNetworkUri($networkUri)
   {
     $this->networkUri = $networkUri;
@@ -198,6 +238,20 @@ class RouteInfo extends \Google\Collection
   public function getProtocols()
   {
     return $this->protocols;
+  }
+  /**
+   * @param string
+   */
+  public function setRouteScope($routeScope)
+  {
+    $this->routeScope = $routeScope;
+  }
+  /**
+   * @return string
+   */
+  public function getRouteScope()
+  {
+    return $this->routeScope;
   }
   /**
    * @param string

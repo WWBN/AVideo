@@ -23,6 +23,10 @@ class TcpRouteRouteAction extends \Google\Collection
   protected $destinationsType = TcpRouteRouteDestination::class;
   protected $destinationsDataType = 'array';
   /**
+   * @var string
+   */
+  public $idleTimeout;
+  /**
    * @var bool
    */
   public $originalDestination;
@@ -40,6 +44,20 @@ class TcpRouteRouteAction extends \Google\Collection
   public function getDestinations()
   {
     return $this->destinations;
+  }
+  /**
+   * @param string
+   */
+  public function setIdleTimeout($idleTimeout)
+  {
+    $this->idleTimeout = $idleTimeout;
+  }
+  /**
+   * @return string
+   */
+  public function getIdleTimeout()
+  {
+    return $this->idleTimeout;
   }
   /**
    * @param bool

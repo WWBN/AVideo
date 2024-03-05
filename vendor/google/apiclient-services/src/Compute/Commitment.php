@@ -41,6 +41,10 @@ class Commitment extends \Google\Collection
    */
   public $endTimestamp;
   /**
+   * @var string[]
+   */
+  public $existingReservations;
+  /**
    * @var string
    */
   public $id;
@@ -164,6 +168,20 @@ class Commitment extends \Google\Collection
   public function getEndTimestamp()
   {
     return $this->endTimestamp;
+  }
+  /**
+   * @param string[]
+   */
+  public function setExistingReservations($existingReservations)
+  {
+    $this->existingReservations = $existingReservations;
+  }
+  /**
+   * @return string[]
+   */
+  public function getExistingReservations()
+  {
+    return $this->existingReservations;
   }
   /**
    * @param string

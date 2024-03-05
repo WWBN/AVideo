@@ -17,13 +17,38 @@
 
 namespace Google\Service\Connectors;
 
-class Query extends \Google\Model
+class Query extends \Google\Collection
 {
+  protected $collection_key = 'queryParameters';
+  /**
+   * @var string
+   */
+  public $maxRows;
   /**
    * @var string
    */
   public $query;
+  protected $queryParametersType = QueryParameter::class;
+  protected $queryParametersDataType = 'array';
+  /**
+   * @var string
+   */
+  public $timeout;
 
+  /**
+   * @param string
+   */
+  public function setMaxRows($maxRows)
+  {
+    $this->maxRows = $maxRows;
+  }
+  /**
+   * @return string
+   */
+  public function getMaxRows()
+  {
+    return $this->maxRows;
+  }
   /**
    * @param string
    */
@@ -37,6 +62,34 @@ class Query extends \Google\Model
   public function getQuery()
   {
     return $this->query;
+  }
+  /**
+   * @param QueryParameter[]
+   */
+  public function setQueryParameters($queryParameters)
+  {
+    $this->queryParameters = $queryParameters;
+  }
+  /**
+   * @return QueryParameter[]
+   */
+  public function getQueryParameters()
+  {
+    return $this->queryParameters;
+  }
+  /**
+   * @param string
+   */
+  public function setTimeout($timeout)
+  {
+    $this->timeout = $timeout;
+  }
+  /**
+   * @return string
+   */
+  public function getTimeout()
+  {
+    return $this->timeout;
   }
 }
 

@@ -36,9 +36,7 @@ class Entities extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string ids The list of entity id to be used for search instead of
-   * query string. To specify multiple ids in the HTTP request, repeat the
-   * parameter in the URL as in ...?ids=A=B
+   * @opt_param string ids
    * @opt_param bool indent Enables indenting of json results.
    * @opt_param string languages The list of language codes (defined in ISO 693)
    * to run the query with, e.g. 'en'.
@@ -50,6 +48,7 @@ class Entities extends \Google\Service\Resource
    * Person (as defined in http://schema.org/Person). If multiple types are
    * specified, returned entities will contain one or more of these types.
    * @return SearchResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

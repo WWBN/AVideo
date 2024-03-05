@@ -121,6 +121,16 @@ class ManagedServiceforMicrosoftActiveDirectoryConsumerAPI extends \Google\Servi
                   'required' => true,
                 ],
               ],
+            ],'checkMigrationPermission' => [
+              'path' => 'v1/{+domain}:checkMigrationPermission',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'domain' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'create' => [
               'path' => 'v1/{+parent}/domains',
               'httpMethod' => 'POST',

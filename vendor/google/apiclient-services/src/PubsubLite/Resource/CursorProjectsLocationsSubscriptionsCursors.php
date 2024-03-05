@@ -46,6 +46,7 @@ class CursorProjectsLocationsSubscriptionsCursors extends \Google\Service\Resour
    * When paginating, all other parameters provided to `ListPartitionCursors` must
    * match the call that provided the page token.
    * @return ListPartitionCursorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCursorProjectsLocationsSubscriptionsCursors($parent, $optParams = [])
   {

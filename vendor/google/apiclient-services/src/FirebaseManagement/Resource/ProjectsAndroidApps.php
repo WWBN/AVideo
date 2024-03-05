@@ -49,6 +49,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * @param AndroidApp $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, AndroidApp $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * for details about PROJECT_IDENTIFIER and APP_ID values.
    * @param array $optParams Optional parameters.
    * @return AndroidApp
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -87,6 +89,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * for details about PROJECT_IDENTIFIER and APP_ID values.
    * @param array $optParams Optional parameters.
    * @return AndroidAppConfig
+   * @throws \Google\Service\Exception
    */
   public function getConfig($name, $optParams = [])
   {
@@ -117,6 +120,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * be returned in the response. If not specified, only `ACTIVE` Apps will be
    * returned.
    * @return ListAndroidAppsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAndroidApps($parent, $optParams = [])
   {
@@ -146,6 +150,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * `project_id`, and `package_name`. To update `state`, use any of the following
    * endpoints: RemoveAndroidApp or UndeleteAndroidApp.
    * @return AndroidApp
+   * @throws \Google\Service\Exception
    */
   public function patch($name, AndroidApp $postBody, $optParams = [])
   {
@@ -166,6 +171,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * @param RemoveAndroidAppRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function remove($name, RemoveAndroidAppRequest $postBody, $optParams = [])
   {
@@ -186,6 +192,7 @@ class ProjectsAndroidApps extends \Google\Service\Resource
    * @param UndeleteAndroidAppRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function undelete($name, UndeleteAndroidAppRequest $postBody, $optParams = [])
   {

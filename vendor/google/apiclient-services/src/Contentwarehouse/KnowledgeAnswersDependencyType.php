@@ -19,6 +19,8 @@ namespace Google\Service\Contentwarehouse;
 
 class KnowledgeAnswersDependencyType extends \Google\Model
 {
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   protected $containerTypeType = KnowledgeAnswersContainerType::class;
   protected $containerTypeDataType = '';
   protected $intersectTypeType = KnowledgeAnswersIntersectType::class;
@@ -30,6 +32,20 @@ class KnowledgeAnswersDependencyType extends \Google\Model
   protected $unionTypeType = KnowledgeAnswersUnionType::class;
   protected $unionTypeDataType = '';
 
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
+  }
   /**
    * @param KnowledgeAnswersContainerType
    */

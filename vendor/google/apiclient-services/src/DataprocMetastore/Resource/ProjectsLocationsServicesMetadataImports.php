@@ -55,6 +55,7 @@ class ProjectsLocationsServicesMetadataImports extends \Google\Service\Resource
    * (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero
    * UUID (00000000-0000-0000-0000-000000000000) is not supported.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, MetadataImport $postBody, $optParams = [])
   {
@@ -70,6 +71,7 @@ class ProjectsLocationsServicesMetadataImports extends \Google\Service\Resource
    * /{location_id}/services/{service_id}/metadataImports/{import_id}.
    * @param array $optParams Optional parameters.
    * @return MetadataImport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -101,6 +103,7 @@ class ProjectsLocationsServicesMetadataImports extends \Google\Service\Resource
    * paginating, other parameters provided to DataprocMetastore.ListServices must
    * match the call that provided the page token.
    * @return ListMetadataImportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsServicesMetadataImports($parent, $optParams = [])
   {
@@ -132,6 +135,7 @@ class ProjectsLocationsServicesMetadataImports extends \Google\Service\Resource
    * Fields specified in the update_mask are relative to the resource (not to the
    * full request). A field is overwritten if it is in the mask.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, MetadataImport $postBody, $optParams = [])
   {

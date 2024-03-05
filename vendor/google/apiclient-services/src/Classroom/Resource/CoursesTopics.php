@@ -43,6 +43,7 @@ class CoursesTopics extends \Google\Service\Resource
    * @param Topic $postBody
    * @param array $optParams Optional parameters.
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function create($courseId, Topic $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class CoursesTopics extends \Google\Service\Resource
    * @param string $id Identifier of the topic to delete.
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($courseId, $id, $optParams = [])
   {
@@ -80,6 +82,7 @@ class CoursesTopics extends \Google\Service\Resource
    * @param string $id Identifier of the topic.
    * @param array $optParams Optional parameters.
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function get($courseId, $id, $optParams = [])
   {
@@ -106,6 +109,7 @@ class CoursesTopics extends \Google\Service\Resource
    * list request must be otherwise identical to the one that resulted in this
    * token.
    * @return ListTopicResponse
+   * @throws \Google\Service\Exception
    */
   public function listCoursesTopics($courseId, $optParams = [])
   {
@@ -134,6 +138,7 @@ class CoursesTopics extends \Google\Service\Resource
    * not set in the Topic object, an `INVALID_ARGUMENT` error is returned. The
    * following fields may be specified: * `name`
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function patch($courseId, $id, Topic $postBody, $optParams = [])
   {

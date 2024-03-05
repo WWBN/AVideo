@@ -45,6 +45,8 @@ class Channels extends \Google\Service\Resource
    *
    * @opt_param string categoryId Return the channels within the specified guide
    * category ID.
+   * @opt_param string forHandle Return the channel associated with a YouTube
+   * handle.
    * @opt_param string forUsername Return the channel associated with a YouTube
    * username.
    * @opt_param string hl Stands for "host language". Specifies the localization
@@ -76,6 +78,7 @@ class Channels extends \Google\Service\Resource
    * nextPageToken and prevPageToken properties identify other pages that could be
    * retrieved.
    * @return ChannelListResponse
+   * @throws \Google\Service\Exception
    */
   public function listChannels($part, $optParams = [])
   {
@@ -106,6 +109,7 @@ class Channels extends \Google\Service\Resource
    * credentials for each individual channel. The actual CMS account that the user
    * authenticates with needs to be linked to the specified YouTube content owner.
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function update($part, Channel $postBody, $optParams = [])
   {

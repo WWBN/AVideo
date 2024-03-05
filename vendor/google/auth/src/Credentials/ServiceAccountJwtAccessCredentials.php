@@ -99,9 +99,7 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements
             'scope' => $scope,
         ]);
 
-        $this->projectId = isset($jsonKey['project_id'])
-            ? $jsonKey['project_id']
-            : null;
+        $this->projectId = $jsonKey['project_id'] ?? null;
     }
 
     /**
@@ -153,7 +151,11 @@ class ServiceAccountJwtAccessCredentials extends CredentialsLoader implements
         // Set the self-signed access token in OAuth2 for getLastReceivedToken
         $this->auth->setAccessToken($access_token);
 
-        return ['access_token' => $access_token];
+        return [
+            'access_token' => $access_token,
+            'expires_in' => $this->auth->getExpiry(),
+            'token_type' => 'Bearer'
+        ];
     }
 
     /**

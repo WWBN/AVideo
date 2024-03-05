@@ -37,6 +37,7 @@ class MobileApps extends \Google\Service\Resource
    * @param string $id Mobile app ID.
    * @param array $optParams Optional parameters.
    * @return MobileApp
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -62,6 +63,7 @@ class MobileApps extends \Google\Service\Resource
    * string. For example, a search string of "app" will match objects with name
    * "my app", "app 2018", or simply "app".
    * @return MobileAppsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listMobileApps($profileId, $optParams = [])
   {

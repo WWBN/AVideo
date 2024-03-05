@@ -43,6 +43,7 @@ class AccountsApps extends \Google\Service\Resource
    * `ListAppsResponse`; indicates that this is a continuation of a prior
    * `ListApps` call, and that the system should return the next page of data.
    * @return ListAppsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsApps($parent, $optParams = [])
   {

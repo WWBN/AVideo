@@ -38,12 +38,14 @@ class CustomersChromePrintServers extends \Google\Service\Resource
   /**
    * Creates multiple print servers. (printServers.batchCreatePrintServers)
    *
-   * @param string $parent Required. The [unique ID](https://developers.google.com
-   * /admin-sdk/directory/reference/rest/v1/customers) of the customer's Google
-   * Workspace account. Format: `customers/{id}`
+   * @param string $parent Required. The [unique
+   * ID](https://developers.google.com/admin-
+   * sdk/directory/reference/rest/v1/customers) of the customer's Google Workspace
+   * account. Format: `customers/{id}`
    * @param BatchCreatePrintServersRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchCreatePrintServersResponse
+   * @throws \Google\Service\Exception
    */
   public function batchCreatePrintServers($parent, BatchCreatePrintServersRequest $postBody, $optParams = [])
   {
@@ -54,12 +56,14 @@ class CustomersChromePrintServers extends \Google\Service\Resource
   /**
    * Deletes multiple print servers. (printServers.batchDeletePrintServers)
    *
-   * @param string $parent Required. The [unique ID](https://developers.google.com
-   * /admin-sdk/directory/reference/rest/v1/customers) of the customer's Google
-   * Workspace account. Format: `customers/{customer.id}`
+   * @param string $parent Required. The [unique
+   * ID](https://developers.google.com/admin-
+   * sdk/directory/reference/rest/v1/customers) of the customer's Google Workspace
+   * account. Format: `customers/{customer.id}`
    * @param BatchDeletePrintServersRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchDeletePrintServersResponse
+   * @throws \Google\Service\Exception
    */
   public function batchDeletePrintServers($parent, BatchDeletePrintServersRequest $postBody, $optParams = [])
   {
@@ -70,12 +74,14 @@ class CustomersChromePrintServers extends \Google\Service\Resource
   /**
    * Creates a print server. (printServers.create)
    *
-   * @param string $parent Required. The [unique ID](https://developers.google.com
-   * /admin-sdk/directory/reference/rest/v1/customers) of the customer's Google
-   * Workspace account. Format: `customers/{id}`
+   * @param string $parent Required. The [unique
+   * ID](https://developers.google.com/admin-
+   * sdk/directory/reference/rest/v1/customers) of the customer's Google Workspace
+   * account. Format: `customers/{id}`
    * @param PrintServer $postBody
    * @param array $optParams Optional parameters.
    * @return PrintServer
+   * @throws \Google\Service\Exception
    */
   public function create($parent, PrintServer $postBody, $optParams = [])
   {
@@ -90,6 +96,7 @@ class CustomersChromePrintServers extends \Google\Service\Resource
    * Format: `customers/{customer.id}/chrome/printServers/{print_server.id}`
    * @param array $optParams Optional parameters.
    * @return AdminEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -100,11 +107,13 @@ class CustomersChromePrintServers extends \Google\Service\Resource
   /**
    * Returns a print server's configuration. (printServers.get)
    *
-   * @param string $name Required. The [unique ID](https://developers.google.com
-   * /admin-sdk/directory/reference/rest/v1/customers) of the customer's Google
-   * Workspace account. Format: `customers/{id}`
+   * @param string $name Required. The [unique
+   * ID](https://developers.google.com/admin-
+   * sdk/directory/reference/rest/v1/customers) of the customer's Google Workspace
+   * account. Format: `customers/{id}`
    * @param array $optParams Optional parameters.
    * @return PrintServer
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,15 +125,16 @@ class CustomersChromePrintServers extends \Google\Service\Resource
    * Lists print server configurations.
    * (printServers.listCustomersChromePrintServers)
    *
-   * @param string $parent Required. The [unique ID](https://developers.google.com
-   * /admin-sdk/directory/reference/rest/v1/customers) of the customer's Google
-   * Workspace account. Format: `customers/{id}`
+   * @param string $parent Required. The [unique
+   * ID](https://developers.google.com/admin-
+   * sdk/directory/reference/rest/v1/customers) of the customer's Google Workspace
+   * account. Format: `customers/{id}`
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Search query in [Common Expression Language
    * syntax](https://github.com/google/cel-spec). Supported filters are
-   * `display_name`, `description`, and `uri`. Example: `printServer.displayName
-   * =='marketing-queue'`.
+   * `display_name`, `description`, and `uri`. Example:
+   * `printServer.displayName=='marketing-queue'`.
    * @opt_param string orderBy Sort order for results. Supported values are
    * `display_name`, `description`, or `create_time`. Default order is ascending,
    * but descending order can be returned by appending "desc" to the `order_by`
@@ -140,6 +150,7 @@ class CustomersChromePrintServers extends \Google\Service\Resource
    * @opt_param string pageToken A generated token to paginate results (the
    * `next_page_token` from a previous call).
    * @return ListPrintServersResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersChromePrintServers($parent, $optParams = [])
   {
@@ -159,6 +170,7 @@ class CustomersChromePrintServers extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. Some fields are
    * read-only and cannot be updated. Values for unspecified fields are patched.
    * @return PrintServer
+   * @throws \Google\Service\Exception
    */
   public function patch($name, PrintServer $postBody, $optParams = [])
   {

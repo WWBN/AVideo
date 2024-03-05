@@ -25,6 +25,7 @@ class ScienceCitationAlternateAbstract extends \Google\Model
         "abstractHtmlLeftOver" => "AbstractHtmlLeftOver",
         "abstractLanguage" => "AbstractLanguage",
         "abstractText" => "AbstractText",
+        "abstractTypeFromSource" => "AbstractTypeFromSource",
   ];
   /**
    * @var string
@@ -46,6 +47,10 @@ class ScienceCitationAlternateAbstract extends \Google\Model
    * @var string
    */
   public $abstractText;
+  /**
+   * @var string
+   */
+  public $abstractTypeFromSource;
 
   /**
    * @param string
@@ -116,6 +121,20 @@ class ScienceCitationAlternateAbstract extends \Google\Model
   public function getAbstractText()
   {
     return $this->abstractText;
+  }
+  /**
+   * @param string
+   */
+  public function setAbstractTypeFromSource($abstractTypeFromSource)
+  {
+    $this->abstractTypeFromSource = $abstractTypeFromSource;
+  }
+  /**
+   * @return string
+   */
+  public function getAbstractTypeFromSource()
+  {
+    return $this->abstractTypeFromSource;
   }
 }
 

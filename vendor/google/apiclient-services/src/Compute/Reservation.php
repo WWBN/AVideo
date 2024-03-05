@@ -19,6 +19,8 @@ namespace Google\Service\Compute;
 
 class Reservation extends \Google\Model
 {
+  protected $aggregateReservationType = AllocationAggregateReservation::class;
+  protected $aggregateReservationDataType = '';
   /**
    * @var string
    */
@@ -74,6 +76,20 @@ class Reservation extends \Google\Model
    */
   public $zone;
 
+  /**
+   * @param AllocationAggregateReservation
+   */
+  public function setAggregateReservation(AllocationAggregateReservation $aggregateReservation)
+  {
+    $this->aggregateReservation = $aggregateReservation;
+  }
+  /**
+   * @return AllocationAggregateReservation
+   */
+  public function getAggregateReservation()
+  {
+    return $this->aggregateReservation;
+  }
   /**
    * @param string
    */

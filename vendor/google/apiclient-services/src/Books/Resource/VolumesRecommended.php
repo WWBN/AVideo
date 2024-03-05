@@ -42,7 +42,8 @@ class VolumesRecommended extends \Google\Service\Resource
    * rating of returned recommendations. Books with a higher maturity rating are
    * filtered out.
    * @opt_param string source String to identify the originator of this request.
-   * @return Volumes
+   * @return VolumesModel
+   * @throws \Google\Service\Exception
    */
   public function listVolumesRecommended($optParams = [])
   {
@@ -61,6 +62,7 @@ class VolumesRecommended extends \Google\Service\Resource
    * 'en_US'. Used for generating recommendations.
    * @opt_param string source String to identify the originator of this request.
    * @return BooksVolumesRecommendedRateResponse
+   * @throws \Google\Service\Exception
    */
   public function rate($rating, $volumeId, $optParams = [])
   {

@@ -43,6 +43,7 @@ class Associationsessions extends \Google\Service\Resource
    * @opt_param string userLocale The preferred locale of the user.
    * @opt_param string websiteLocale The locale of the user's hosted website.
    * @return AssociationSession
+   * @throws \Google\Service\Exception
    */
   public function start($productCode, $websiteUrl, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Associationsessions extends \Google\Service\Resource
    * @param string $token The token returned to the association callback URL.
    * @param array $optParams Optional parameters.
    * @return AssociationSession
+   * @throws \Google\Service\Exception
    */
   public function verify($token, $optParams = [])
   {

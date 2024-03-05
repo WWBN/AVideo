@@ -38,6 +38,7 @@ class MembershipsLevels extends \Google\Service\Resource
    * and snippet.
    * @param array $optParams Optional parameters.
    * @return MembershipsLevelListResponse
+   * @throws \Google\Service\Exception
    */
   public function listMembershipsLevels($part, $optParams = [])
   {

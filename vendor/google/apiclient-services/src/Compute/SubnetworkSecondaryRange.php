@@ -27,6 +27,10 @@ class SubnetworkSecondaryRange extends \Google\Model
    * @var string
    */
   public $rangeName;
+  /**
+   * @var string
+   */
+  public $reservedInternalRange;
 
   /**
    * @param string
@@ -55,6 +59,20 @@ class SubnetworkSecondaryRange extends \Google\Model
   public function getRangeName()
   {
     return $this->rangeName;
+  }
+  /**
+   * @param string
+   */
+  public function setReservedInternalRange($reservedInternalRange)
+  {
+    $this->reservedInternalRange = $reservedInternalRange;
+  }
+  /**
+   * @return string
+   */
+  public function getReservedInternalRange()
+  {
+    return $this->reservedInternalRange;
   }
 }
 

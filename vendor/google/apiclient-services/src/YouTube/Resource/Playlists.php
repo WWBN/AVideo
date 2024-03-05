@@ -46,6 +46,7 @@ class Playlists extends \Google\Service\Resource
    * without having to provide authentication credentials for each individual
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -89,6 +90,7 @@ class Playlists extends \Google\Service\Resource
    * without having to provide authentication credentials for each separate
    * channel.
    * @return Playlist
+   * @throws \Google\Service\Exception
    */
   public function insert($part, Playlist $postBody, $optParams = [])
   {
@@ -147,6 +149,7 @@ class Playlists extends \Google\Service\Resource
    * nextPageToken and prevPageToken properties identify other pages that could be
    * retrieved.
    * @return PlaylistListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlaylists($part, $optParams = [])
   {
@@ -180,6 +183,7 @@ class Playlists extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return Playlist
+   * @throws \Google\Service\Exception
    */
   public function update($part, Playlist $postBody, $optParams = [])
   {

@@ -22,12 +22,30 @@ class GoogleCloudAssuredworkloadsV1AcknowledgeViolationRequest extends \Google\M
   /**
    * @var string
    */
+  public $acknowledgeType;
+  /**
+   * @var string
+   */
   public $comment;
   /**
    * @var string
    */
   public $nonCompliantOrgPolicy;
 
+  /**
+   * @param string
+   */
+  public function setAcknowledgeType($acknowledgeType)
+  {
+    $this->acknowledgeType = $acknowledgeType;
+  }
+  /**
+   * @return string
+   */
+  public function getAcknowledgeType()
+  {
+    return $this->acknowledgeType;
+  }
   /**
    * @param string
    */

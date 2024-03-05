@@ -17,6 +17,7 @@
 
 namespace Google\Service\CloudRun\Resource;
 
+use Google\Service\CloudRun\GoogleCloudRunV2CancelExecutionRequest;
 use Google\Service\CloudRun\GoogleCloudRunV2Execution;
 use Google\Service\CloudRun\GoogleCloudRunV2ListExecutionsResponse;
 use Google\Service\CloudRun\GoogleLongrunningOperation;
@@ -32,11 +33,28 @@ use Google\Service\CloudRun\GoogleLongrunningOperation;
 class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
 {
   /**
+   * Cancels an Execution. (executions.cancel)
+   *
+   * @param string $name Required. The name of the Execution to cancel. Format:
+   * `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`,
+   * where `{project}` can be project id or number.
+   * @param GoogleCloudRunV2CancelExecutionRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function cancel($name, GoogleCloudRunV2CancelExecutionRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('cancel', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
    * Deletes an Execution. (executions.delete)
    *
    * @param string $name Required. The name of the Execution to delete. Format:
-   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution},
-   * where {project} can be project id or number.
+   * `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`,
+   * where `{project}` can be project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string etag A system-generated fingerprint for this version of the
@@ -44,6 +62,7 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
    * @opt_param bool validateOnly Indicates that the request should be validated
    * without actually deleting any resources.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -55,10 +74,11 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
    * Gets information about an Execution. (executions.get)
    *
    * @param string $name Required. The full name of the Execution. Format:
-   * projects/{project}/locations/{location}/jobs/{job}/executions/{execution},
-   * where {project} can be project id or number.
+   * `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`,
+   * where `{project}` can be project id or number.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2Execution
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -71,8 +91,8 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
    *
    * @param string $parent Required. The Execution from which the Executions
    * should be listed. To list all Executions across Jobs, use "-" instead of Job
-   * name. Format: projects/{project}/locations/{location}/jobs/{job}, where
-   * {project} can be project id or number.
+   * name. Format: `projects/{project}/locations/{location}/jobs/{job}`, where
+   * `{project}` can be project id or number.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Maximum number of Executions to return in this call.
@@ -81,6 +101,7 @@ class ProjectsLocationsJobsExecutions extends \Google\Service\Resource
    * @opt_param bool showDeleted If true, returns deleted (but unexpired)
    * resources along with active ones.
    * @return GoogleCloudRunV2ListExecutionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsJobsExecutions($parent, $optParams = [])
   {

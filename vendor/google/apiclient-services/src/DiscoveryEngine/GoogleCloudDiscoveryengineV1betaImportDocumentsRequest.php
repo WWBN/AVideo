@@ -19,12 +19,20 @@ namespace Google\Service\DiscoveryEngine;
 
 class GoogleCloudDiscoveryengineV1betaImportDocumentsRequest extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $autoGenerateIds;
   protected $bigquerySourceType = GoogleCloudDiscoveryengineV1betaBigQuerySource::class;
   protected $bigquerySourceDataType = '';
   protected $errorConfigType = GoogleCloudDiscoveryengineV1betaImportErrorConfig::class;
   protected $errorConfigDataType = '';
   protected $gcsSourceType = GoogleCloudDiscoveryengineV1betaGcsSource::class;
   protected $gcsSourceDataType = '';
+  /**
+   * @var string
+   */
+  public $idField;
   protected $inlineSourceType = GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource::class;
   protected $inlineSourceDataType = '';
   /**
@@ -32,6 +40,20 @@ class GoogleCloudDiscoveryengineV1betaImportDocumentsRequest extends \Google\Mod
    */
   public $reconciliationMode;
 
+  /**
+   * @param bool
+   */
+  public function setAutoGenerateIds($autoGenerateIds)
+  {
+    $this->autoGenerateIds = $autoGenerateIds;
+  }
+  /**
+   * @return bool
+   */
+  public function getAutoGenerateIds()
+  {
+    return $this->autoGenerateIds;
+  }
   /**
    * @param GoogleCloudDiscoveryengineV1betaBigQuerySource
    */
@@ -73,6 +95,20 @@ class GoogleCloudDiscoveryengineV1betaImportDocumentsRequest extends \Google\Mod
   public function getGcsSource()
   {
     return $this->gcsSource;
+  }
+  /**
+   * @param string
+   */
+  public function setIdField($idField)
+  {
+    $this->idField = $idField;
+  }
+  /**
+   * @return string
+   */
+  public function getIdField()
+  {
+    return $this->idField;
   }
   /**
    * @param GoogleCloudDiscoveryengineV1betaImportDocumentsRequestInlineSource

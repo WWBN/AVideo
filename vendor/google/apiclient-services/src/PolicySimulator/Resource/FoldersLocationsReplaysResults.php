@@ -48,6 +48,7 @@ class FoldersLocationsReplaysResults extends \Google\Service\Resource
    * [Simulator.ListReplayResults[] must match the call that provided the page
    * token.
    * @return GoogleCloudPolicysimulatorV1ListReplayResultsResponse
+   * @throws \Google\Service\Exception
    */
   public function listFoldersLocationsReplaysResults($parent, $optParams = [])
   {

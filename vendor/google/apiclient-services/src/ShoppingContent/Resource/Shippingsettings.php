@@ -42,6 +42,7 @@ class Shippingsettings extends \Google\Service\Resource
    * @param ShippingsettingsCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ShippingsettingsCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(ShippingsettingsCustomBatchRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class Shippingsettings extends \Google\Service\Resource
    * shipping settings.
    * @param array $optParams Optional parameters.
    * @return ShippingSettingsModel
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $accountId, $optParams = [])
   {
@@ -74,6 +76,7 @@ class Shippingsettings extends \Google\Service\Resource
    * supported carriers.
    * @param array $optParams Optional parameters.
    * @return ShippingsettingsGetSupportedCarriersResponse
+   * @throws \Google\Service\Exception
    */
   public function getsupportedcarriers($merchantId, $optParams = [])
   {
@@ -89,6 +92,7 @@ class Shippingsettings extends \Google\Service\Resource
    * supported holidays.
    * @param array $optParams Optional parameters.
    * @return ShippingsettingsGetSupportedHolidaysResponse
+   * @throws \Google\Service\Exception
    */
   public function getsupportedholidays($merchantId, $optParams = [])
   {
@@ -104,6 +108,7 @@ class Shippingsettings extends \Google\Service\Resource
    * supported pickup services.
    * @param array $optParams Optional parameters.
    * @return ShippingsettingsGetSupportedPickupServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function getsupportedpickupservices($merchantId, $optParams = [])
   {
@@ -123,6 +128,7 @@ class Shippingsettings extends \Google\Service\Resource
    * return in the response, used for paging.
    * @opt_param string pageToken The token returned by the previous request.
    * @return ShippingsettingsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listShippingsettings($merchantId, $optParams = [])
   {
@@ -142,6 +148,7 @@ class Shippingsettings extends \Google\Service\Resource
    * @param ShippingSettingsModel $postBody
    * @param array $optParams Optional parameters.
    * @return ShippingSettingsModel
+   * @throws \Google\Service\Exception
    */
   public function update($merchantId, $accountId, ShippingSettingsModel $postBody, $optParams = [])
   {

@@ -37,6 +37,7 @@ class CustomersPolicySchemas extends \Google\Service\Resource
    * @param string $name Required. The policy schema resource name to query.
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1PolicySchema
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class CustomersPolicySchemas extends \Google\Service\Resource
    * @opt_param string pageToken The page token used to retrieve a specific page
    * of the listing request.
    * @return GoogleChromePolicyVersionsV1ListPolicySchemasResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersPolicySchemas($parent, $optParams = [])
   {

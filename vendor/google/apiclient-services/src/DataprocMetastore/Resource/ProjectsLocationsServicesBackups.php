@@ -56,6 +56,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero
    * UUID (00000000-0000-0000-0000-000000000000) is not supported.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Backup $postBody, $optParams = [])
   {
@@ -81,6 +82,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero
    * UUID (00000000-0000-0000-0000-000000000000) is not supported.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -96,6 +98,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * _id}/services/{service_id}/backups/{backup_id}.
    * @param array $optParams Optional parameters.
    * @return Backup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -125,6 +128,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * IAM policies, see the IAM documentation
    * (https://cloud.google.com/iam/help/conditions/resource-policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -155,6 +159,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * paginating, other parameters provided to DataprocMetastore.ListBackups must
    * match the call that provided the page token.
    * @return ListBackupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsServicesBackups($parent, $optParams = [])
   {
@@ -174,6 +179,7 @@ class ProjectsLocationsServicesBackups extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {

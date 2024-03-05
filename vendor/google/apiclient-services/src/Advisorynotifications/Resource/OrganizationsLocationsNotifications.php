@@ -35,7 +35,7 @@ class OrganizationsLocationsNotifications extends \Google\Service\Resource
    *
    * @param string $name Required. A name of the notification to retrieve. Format:
    * organizations/{organization}/locations/{location}/notifications/{notification
-   * }.
+   * } or projects/{projects}/locations/{location}/notifications/{notification}.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string languageCode ISO code for requested localization language.
@@ -44,6 +44,7 @@ class OrganizationsLocationsNotifications extends \Google\Service\Resource
    * "Not applicable" LocalizationState. If the ISO code is invalid (i.e. not a
    * real language), this RPC will throw an error.
    * @return GoogleCloudAdvisorynotificationsV1Notification
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -57,7 +58,8 @@ class OrganizationsLocationsNotifications extends \Google\Service\Resource
    *
    * @param string $parent Required. The parent, which owns this collection of
    * notifications. Must be of the form
-   * "organizations/{organization}/locations/{location}".
+   * "organizations/{organization}/locations/{location}" or
+   * "projects/{project}/locations/{location}"
    * @param array $optParams Optional parameters.
    *
    * @opt_param string languageCode ISO code for requested localization language.
@@ -75,6 +77,7 @@ class OrganizationsLocationsNotifications extends \Google\Service\Resource
    * @opt_param string view Specifies which parts of the notification resource
    * should be returned in the response.
    * @return GoogleCloudAdvisorynotificationsV1ListNotificationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsLocationsNotifications($parent, $optParams = [])
   {

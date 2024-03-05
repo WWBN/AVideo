@@ -39,6 +39,10 @@ class ApplicationPolicy extends \Google\Collection
   /**
    * @var string
    */
+  public $credentialProviderPolicy;
+  /**
+   * @var string
+   */
   public $defaultPermissionPolicy;
   /**
    * @var string[]
@@ -50,6 +54,12 @@ class ApplicationPolicy extends \Google\Collection
   public $disabled;
   protected $extensionConfigType = ExtensionConfig::class;
   protected $extensionConfigDataType = '';
+  protected $installConstraintType = InstallConstraint::class;
+  protected $installConstraintDataType = 'array';
+  /**
+   * @var int
+   */
+  public $installPriority;
   /**
    * @var string
    */
@@ -138,6 +148,20 @@ class ApplicationPolicy extends \Google\Collection
   /**
    * @param string
    */
+  public function setCredentialProviderPolicy($credentialProviderPolicy)
+  {
+    $this->credentialProviderPolicy = $credentialProviderPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getCredentialProviderPolicy()
+  {
+    return $this->credentialProviderPolicy;
+  }
+  /**
+   * @param string
+   */
   public function setDefaultPermissionPolicy($defaultPermissionPolicy)
   {
     $this->defaultPermissionPolicy = $defaultPermissionPolicy;
@@ -190,6 +214,34 @@ class ApplicationPolicy extends \Google\Collection
   public function getExtensionConfig()
   {
     return $this->extensionConfig;
+  }
+  /**
+   * @param InstallConstraint[]
+   */
+  public function setInstallConstraint($installConstraint)
+  {
+    $this->installConstraint = $installConstraint;
+  }
+  /**
+   * @return InstallConstraint[]
+   */
+  public function getInstallConstraint()
+  {
+    return $this->installConstraint;
+  }
+  /**
+   * @param int
+   */
+  public function setInstallPriority($installPriority)
+  {
+    $this->installPriority = $installPriority;
+  }
+  /**
+   * @return int
+   */
+  public function getInstallPriority()
+  {
+    return $this->installPriority;
   }
   /**
    * @param string

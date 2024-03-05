@@ -37,6 +37,7 @@ class ProjectsLocationsJobsSnapshots extends \Google\Service\Resource
    * @param string $jobId If specified, list snapshots created from this job.
    * @param array $optParams Optional parameters.
    * @return ListSnapshotsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsJobsSnapshots($projectId, $location, $jobId, $optParams = [])
   {

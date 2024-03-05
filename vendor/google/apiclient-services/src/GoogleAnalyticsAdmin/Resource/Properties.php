@@ -46,6 +46,7 @@ class Properties extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionResponse
+   * @throws \Google\Service\Exception
    */
   public function acknowledgeUserDataCollection($property, GoogleAnalyticsAdminV1betaAcknowledgeUserDataCollectionRequest $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class Properties extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaProperty $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaProperty
+   * @throws \Google\Service\Exception
    */
   public function create(GoogleAnalyticsAdminV1betaProperty $postBody, $optParams = [])
   {
@@ -72,7 +74,7 @@ class Properties extends \Google\Service\Resource
    * API does not have a method to restore soft-deleted properties. However, they
    * can be restored using the Trash Can UI. If the properties are not restored
    * before the expiration time, the Property and all child resources (eg:
-   * GoogleAdsLinks, Streams, UserLinks) will be permanently purged.
+   * GoogleAdsLinks, Streams, AccessBindings) will be permanently purged.
    * https://support.google.com/analytics/answer/6154772 Returns an error if the
    * target is not found, or is not a GA4 Property. (properties.delete)
    *
@@ -80,6 +82,7 @@ class Properties extends \Google\Service\Resource
    * Format: properties/{property_id} Example: "properties/1000"
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaProperty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -94,6 +97,7 @@ class Properties extends \Google\Service\Resource
    * properties/{property_id} Example: "properties/1000"
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaProperty
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -110,6 +114,7 @@ class Properties extends \Google\Service\Resource
    * "properties/1000/dataRetentionSettings"
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaDataRetentionSettings
+   * @throws \Google\Service\Exception
    */
   public function getDataRetentionSettings($name, $optParams = [])
   {
@@ -149,6 +154,7 @@ class Properties extends \Google\Service\Resource
    * Properties in the results. Properties can be inspected to determine whether
    * they are deleted or not.
    * @return GoogleAnalyticsAdminV1betaListPropertiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProperties($optParams = [])
   {
@@ -169,6 +175,7 @@ class Properties extends \Google\Service\Resource
    * will not be updated. To replace the entire entity, use one path with the
    * string "*" to match all fields.
    * @return GoogleAnalyticsAdminV1betaProperty
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleAnalyticsAdminV1betaProperty $postBody, $optParams = [])
   {
@@ -180,15 +187,16 @@ class Properties extends \Google\Service\Resource
    * Returns a customized report of data access records. The report provides
    * records of each time a user reads Google Analytics reporting data. Access
    * records are retained for up to 2 years. Data Access Reports can be requested
-   * for a property. The property must be in Google Analytics 360. This method is
-   * only available to Administrators. These data access records include GA4 UI
-   * Reporting, GA4 UI Explorations, GA4 Data API, and other products like
-   * Firebase & Admob that can retrieve data from Google Analytics through a
-   * linkage. These records don't include property configuration changes like
-   * adding a stream or changing a property's time zone. For configuration change
-   * history, see [searchChangeHistoryEvents](https://developers.google.com/analyt
-   * ics/devguides/config/admin/v1/rest/v1alpha/accounts/searchChangeHistoryEvents
-   * ). (properties.runAccessReport)
+   * for a property. Reports may be requested for any property, but dimensions
+   * that aren't related to quota can only be requested on Google Analytics 360
+   * properties. This method is only available to Administrators. These data
+   * access records include GA4 UI Reporting, GA4 UI Explorations, GA4 Data API,
+   * and other products like Firebase & Admob that can retrieve data from Google
+   * Analytics through a linkage. These records don't include property
+   * configuration changes like adding a stream or changing a property's time
+   * zone. For configuration change history, see [searchChangeHistoryEvents](https
+   * ://developers.google.com/analytics/devguides/config/admin/v1/rest/v1alpha/acc
+   * ounts/searchChangeHistoryEvents). (properties.runAccessReport)
    *
    * @param string $entity The Data Access Report supports requesting at the
    * property level or account level. If requested at the account level, Data
@@ -199,6 +207,7 @@ class Properties extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaRunAccessReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaRunAccessReportResponse
+   * @throws \Google\Service\Exception
    */
   public function runAccessReport($entity, GoogleAnalyticsAdminV1betaRunAccessReportRequest $postBody, $optParams = [])
   {
@@ -220,6 +229,7 @@ class Properties extends \Google\Service\Resource
    * will not be updated. To replace the entire entity, use one path with the
    * string "*" to match all fields.
    * @return GoogleAnalyticsAdminV1betaDataRetentionSettings
+   * @throws \Google\Service\Exception
    */
   public function updateDataRetentionSettings($name, GoogleAnalyticsAdminV1betaDataRetentionSettings $postBody, $optParams = [])
   {

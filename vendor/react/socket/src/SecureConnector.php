@@ -36,14 +36,14 @@ final class SecureConnector implements ConnectorInterface
         if (!$parts || !isset($parts['scheme']) || $parts['scheme'] !== 'tls') {
             return Promise\reject(new \InvalidArgumentException(
                 'Given URI "' . $uri . '" is invalid (EINVAL)',
-                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : (\defined('PCNTL_EINVAL') ? \PCNTL_EINVAL : 22)
             ));
         }
 
         $context = $this->context;
         $encryption = $this->streamEncryption;
         $connected = false;
-        /** @var \React\Promise\PromiseInterface $promise */
+        /** @var \React\Promise\PromiseInterface<ConnectionInterface> $promise */
         $promise = $this->connector->connect(
             \str_replace('tls://', '', $uri)
         )->then(function (ConnectionInterface $connection) use ($context, $encryption, $uri, &$promise, &$connected) {

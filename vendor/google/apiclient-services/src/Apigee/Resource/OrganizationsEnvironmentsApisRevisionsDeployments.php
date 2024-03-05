@@ -52,6 +52,7 @@ class OrganizationsEnvironmentsApisRevisionsDeployments extends \Google\Service\
    * of the new revision over the currently deployed revision by overriding
    * conflict checks.
    * @return GoogleCloudApigeeV1DeploymentChangeReport
+   * @throws \Google\Service\Exception
    */
   public function generateDeployChangeReport($name, $optParams = [])
   {
@@ -79,6 +80,7 @@ class OrganizationsEnvironmentsApisRevisionsDeployments extends \Google\Service\
    * `organizations/{org}/environments/{env}/apis/{api}/revisions/{rev}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeploymentChangeReport
+   * @throws \Google\Service\Exception
    */
   public function generateUndeployChangeReport($name, $optParams = [])
   {

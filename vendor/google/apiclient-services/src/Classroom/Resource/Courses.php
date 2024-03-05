@@ -46,6 +46,7 @@ class Courses extends \Google\Service\Resource
    * @param Course $postBody
    * @param array $optParams Optional parameters.
    * @return Course
+   * @throws \Google\Service\Exception
    */
   public function create(Course $postBody, $optParams = [])
   {
@@ -63,6 +64,7 @@ class Courses extends \Google\Service\Resource
    * either the Classroom-assigned identifier or an alias.
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -80,6 +82,7 @@ class Courses extends \Google\Service\Resource
    * either the Classroom-assigned identifier or an alias.
    * @param array $optParams Optional parameters.
    * @return Course
+   * @throws \Google\Service\Exception
    */
   public function get($id, $optParams = [])
   {
@@ -116,6 +119,7 @@ class Courses extends \Google\Service\Resource
    * following: * the numeric identifier for the user * the email address of the
    * user * the string literal `"me"`, indicating the requesting user
    * @return ListCoursesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCourses($optParams = [])
   {
@@ -146,6 +150,7 @@ class Courses extends \Google\Service\Resource
    * of all affected resources to complete. When set in a query parameter, this
    * field should be specified as `updateMask=,,...`
    * @return Course
+   * @throws \Google\Service\Exception
    */
   public function patch($id, Course $postBody, $optParams = [])
   {
@@ -165,6 +170,7 @@ class Courses extends \Google\Service\Resource
    * @param Course $postBody
    * @param array $optParams Optional parameters.
    * @return Course
+   * @throws \Google\Service\Exception
    */
   public function update($id, Course $postBody, $optParams = [])
   {

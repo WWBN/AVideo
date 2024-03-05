@@ -49,6 +49,8 @@ class ConnectionProfile extends \Google\Model
   protected $postgresqlProfileDataType = '';
   protected $privateConnectivityType = PrivateConnectivity::class;
   protected $privateConnectivityDataType = '';
+  protected $sqlServerProfileType = SqlServerProfile::class;
+  protected $sqlServerProfileDataType = '';
   protected $staticServiceIpConnectivityType = StaticServiceIpConnectivity::class;
   protected $staticServiceIpConnectivityDataType = '';
   /**
@@ -209,6 +211,20 @@ class ConnectionProfile extends \Google\Model
   public function getPrivateConnectivity()
   {
     return $this->privateConnectivity;
+  }
+  /**
+   * @param SqlServerProfile
+   */
+  public function setSqlServerProfile(SqlServerProfile $sqlServerProfile)
+  {
+    $this->sqlServerProfile = $sqlServerProfile;
+  }
+  /**
+   * @return SqlServerProfile
+   */
+  public function getSqlServerProfile()
+  {
+    return $this->sqlServerProfile;
   }
   /**
    * @param StaticServiceIpConnectivity

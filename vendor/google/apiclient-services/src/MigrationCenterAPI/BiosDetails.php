@@ -22,38 +22,26 @@ class BiosDetails extends \Google\Model
   /**
    * @var string
    */
-  public $biosManufacturer;
-  /**
-   * @var string
-   */
   public $biosName;
   /**
    * @var string
    */
-  public $biosReleaseDate;
+  public $id;
   /**
    * @var string
    */
-  public $biosVersion;
+  public $manufacturer;
+  protected $releaseDateType = Date::class;
+  protected $releaseDateDataType = '';
   /**
    * @var string
    */
   public $smbiosUuid;
+  /**
+   * @var string
+   */
+  public $version;
 
-  /**
-   * @param string
-   */
-  public function setBiosManufacturer($biosManufacturer)
-  {
-    $this->biosManufacturer = $biosManufacturer;
-  }
-  /**
-   * @return string
-   */
-  public function getBiosManufacturer()
-  {
-    return $this->biosManufacturer;
-  }
   /**
    * @param string
    */
@@ -71,30 +59,44 @@ class BiosDetails extends \Google\Model
   /**
    * @param string
    */
-  public function setBiosReleaseDate($biosReleaseDate)
+  public function setId($id)
   {
-    $this->biosReleaseDate = $biosReleaseDate;
+    $this->id = $id;
   }
   /**
    * @return string
    */
-  public function getBiosReleaseDate()
+  public function getId()
   {
-    return $this->biosReleaseDate;
+    return $this->id;
   }
   /**
    * @param string
    */
-  public function setBiosVersion($biosVersion)
+  public function setManufacturer($manufacturer)
   {
-    $this->biosVersion = $biosVersion;
+    $this->manufacturer = $manufacturer;
   }
   /**
    * @return string
    */
-  public function getBiosVersion()
+  public function getManufacturer()
   {
-    return $this->biosVersion;
+    return $this->manufacturer;
+  }
+  /**
+   * @param Date
+   */
+  public function setReleaseDate(Date $releaseDate)
+  {
+    $this->releaseDate = $releaseDate;
+  }
+  /**
+   * @return Date
+   */
+  public function getReleaseDate()
+  {
+    return $this->releaseDate;
   }
   /**
    * @param string
@@ -109,6 +111,20 @@ class BiosDetails extends \Google\Model
   public function getSmbiosUuid()
   {
     return $this->smbiosUuid;
+  }
+  /**
+   * @param string
+   */
+  public function setVersion($version)
+  {
+    $this->version = $version;
+  }
+  /**
+   * @return string
+   */
+  public function getVersion()
+  {
+    return $this->version;
   }
 }
 

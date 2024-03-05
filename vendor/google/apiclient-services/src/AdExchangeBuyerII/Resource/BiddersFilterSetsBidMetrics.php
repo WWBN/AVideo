@@ -50,6 +50,7 @@ class BiddersFilterSetsBidMetrics extends \Google\Service\Resource
    * ListBidMetricsResponse.nextPageToken returned from the previous call to the
    * bidMetrics.list method.
    * @return ListBidMetricsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersFilterSetsBidMetrics($filterSetName, $optParams = [])
   {

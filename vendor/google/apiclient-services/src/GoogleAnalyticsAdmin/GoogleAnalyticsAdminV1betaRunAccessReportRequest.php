@@ -27,6 +27,14 @@ class GoogleAnalyticsAdminV1betaRunAccessReportRequest extends \Google\Collectio
   protected $dimensionsType = GoogleAnalyticsAdminV1betaAccessDimension::class;
   protected $dimensionsDataType = 'array';
   /**
+   * @var bool
+   */
+  public $expandGroups;
+  /**
+   * @var bool
+   */
+  public $includeAllUsers;
+  /**
    * @var string
    */
   public $limit;
@@ -90,6 +98,34 @@ class GoogleAnalyticsAdminV1betaRunAccessReportRequest extends \Google\Collectio
   public function getDimensions()
   {
     return $this->dimensions;
+  }
+  /**
+   * @param bool
+   */
+  public function setExpandGroups($expandGroups)
+  {
+    $this->expandGroups = $expandGroups;
+  }
+  /**
+   * @return bool
+   */
+  public function getExpandGroups()
+  {
+    return $this->expandGroups;
+  }
+  /**
+   * @param bool
+   */
+  public function setIncludeAllUsers($includeAllUsers)
+  {
+    $this->includeAllUsers = $includeAllUsers;
+  }
+  /**
+   * @return bool
+   */
+  public function getIncludeAllUsers()
+  {
+    return $this->includeAllUsers;
   }
   /**
    * @param string

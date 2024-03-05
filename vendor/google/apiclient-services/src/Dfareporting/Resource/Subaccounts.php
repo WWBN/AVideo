@@ -37,6 +37,7 @@ class Subaccounts extends \Google\Service\Resource
    * @param string $id Subaccount ID.
    * @param array $optParams Optional parameters.
    * @return Subaccount
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Subaccounts extends \Google\Service\Resource
    * @param Subaccount $postBody
    * @param array $optParams Optional parameters.
    * @return Subaccount
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, Subaccount $postBody, $optParams = [])
   {
@@ -79,6 +81,7 @@ class Subaccounts extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return SubaccountsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listSubaccounts($profileId, $optParams = [])
   {
@@ -91,10 +94,11 @@ class Subaccounts extends \Google\Service\Resource
    * (subaccounts.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id Subaccount ID.
+   * @param string $id Required. Subaccount ID.
    * @param Subaccount $postBody
    * @param array $optParams Optional parameters.
    * @return Subaccount
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, Subaccount $postBody, $optParams = [])
   {
@@ -109,6 +113,7 @@ class Subaccounts extends \Google\Service\Resource
    * @param Subaccount $postBody
    * @param array $optParams Optional parameters.
    * @return Subaccount
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, Subaccount $postBody, $optParams = [])
   {

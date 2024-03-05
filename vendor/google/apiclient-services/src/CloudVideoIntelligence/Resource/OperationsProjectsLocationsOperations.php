@@ -44,6 +44,7 @@ class OperationsProjectsLocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be cancelled.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class OperationsProjectsLocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be deleted.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class OperationsProjectsLocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

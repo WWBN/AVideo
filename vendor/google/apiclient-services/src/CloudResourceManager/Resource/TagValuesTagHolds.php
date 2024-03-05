@@ -43,6 +43,7 @@ class TagValuesTagHolds extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Set to true to perform the validations
    * necessary for creating the resource, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, TagHold $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class TagValuesTagHolds extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Set to true to perform the validations
    * necessary for deleting the resource, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -78,9 +80,10 @@ class TagValuesTagHolds extends \Google\Service\Resource
    * TagHolds parented by the TagValue to return. This field follows the syntax
    * defined by aip.dev/160; the `holder` and `origin` fields are supported for
    * filtering. Currently only `AND` syntax is supported. Some example queries
-   * are: * `holder = //compute.googleapis.com/compute/projects/myproject/regions
-   * /us-east-1/instanceGroupManagers/instance-group` * `origin = 35678234` *
-   * `holder = //compute.googleapis.com/compute/projects/myproject/regions/us-
+   * are: * `holder =
+   * //compute.googleapis.com/compute/projects/myproject/regions/us-
+   * east-1/instanceGroupManagers/instance-group` * `origin = 35678234` * `holder
+   * = //compute.googleapis.com/compute/projects/myproject/regions/us-
    * east-1/instanceGroupManagers/instance-group AND origin = 35678234`
    * @opt_param int pageSize Optional. The maximum number of TagHolds to return in
    * the response. The server allows a maximum of 300 TagHolds to return. If
@@ -89,6 +92,7 @@ class TagValuesTagHolds extends \Google\Service\Resource
    * previous call to `ListTagHolds` that indicates where this listing should
    * continue from.
    * @return ListTagHoldsResponse
+   * @throws \Google\Service\Exception
    */
   public function listTagValuesTagHolds($parent, $optParams = [])
   {

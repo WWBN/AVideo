@@ -37,6 +37,7 @@ class CustomerDevicesChromeosCommands extends \Google\Service\Resource
    * @param string $commandId Immutable. ID of Chrome OS Device Command.
    * @param array $optParams Optional parameters.
    * @return DirectoryChromeosdevicesCommand
+   * @throws \Google\Service\Exception
    */
   public function get($customerId, $deviceId, $commandId, $optParams = [])
   {

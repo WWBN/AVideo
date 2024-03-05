@@ -38,6 +38,8 @@ class Asset extends \Google\Collection
    * @var string[]
    */
   public $labels;
+  protected $machineDetailsType = MachineDetails::class;
+  protected $machineDetailsDataType = '';
   /**
    * @var string
    */
@@ -52,8 +54,6 @@ class Asset extends \Google\Collection
    * @var string
    */
   public $updateTime;
-  protected $virtualMachineDetailsType = VirtualMachineDetails::class;
-  protected $virtualMachineDetailsDataType = '';
 
   /**
    * @param string[]
@@ -126,6 +126,20 @@ class Asset extends \Google\Collection
     return $this->labels;
   }
   /**
+   * @param MachineDetails
+   */
+  public function setMachineDetails(MachineDetails $machineDetails)
+  {
+    $this->machineDetails = $machineDetails;
+  }
+  /**
+   * @return MachineDetails
+   */
+  public function getMachineDetails()
+  {
+    return $this->machineDetails;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -180,20 +194,6 @@ class Asset extends \Google\Collection
   public function getUpdateTime()
   {
     return $this->updateTime;
-  }
-  /**
-   * @param VirtualMachineDetails
-   */
-  public function setVirtualMachineDetails(VirtualMachineDetails $virtualMachineDetails)
-  {
-    $this->virtualMachineDetails = $virtualMachineDetails;
-  }
-  /**
-   * @return VirtualMachineDetails
-   */
-  public function getVirtualMachineDetails()
-  {
-    return $this->virtualMachineDetails;
   }
 }
 

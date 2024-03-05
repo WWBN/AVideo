@@ -40,6 +40,7 @@ class ProjectsMonitoredResourceDescriptors extends \Google\Service\Resource
    * The [RESOURCE_TYPE] is a predefined type, such as cloudsql_database.
    * @param array $optParams Optional parameters.
    * @return MonitoredResourceDescriptor
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -69,6 +70,7 @@ class ProjectsMonitoredResourceDescriptors extends \Google\Service\Resource
    * this field causes the method to return additional results from the previous
    * method call.
    * @return ListMonitoredResourceDescriptorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsMonitoredResourceDescriptors($name, $optParams = [])
   {

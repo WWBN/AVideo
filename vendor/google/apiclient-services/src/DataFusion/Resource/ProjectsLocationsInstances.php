@@ -46,7 +46,11 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string instanceId Required. The name of the instance to create.
+   * Instance name can only contain lowercase alphanumeric characters and hyphens.
+   * It must start with a letter and must not end with a hyphen. It can have a
+   * maximum of 30 characters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Instance $postBody, $optParams = [])
   {
@@ -61,6 +65,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * projects/{project}/locations/{location}/instances/{instance}
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +80,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * projects/{project}/locations/{location}/instances/{instance}.
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +111,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -130,6 +137,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value to use if there are
    * additional results to retrieve for this list request.
    * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstances($parent, $optParams = [])
   {
@@ -151,6 +159,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * will be overwritten if it is in the mask. If the user does not provide a
    * mask, the label field will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Instance $postBody, $optParams = [])
   {
@@ -168,6 +177,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param RestartInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function restart($name, RestartInstanceRequest $postBody, $optParams = [])
   {
@@ -187,6 +197,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -209,6 +220,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

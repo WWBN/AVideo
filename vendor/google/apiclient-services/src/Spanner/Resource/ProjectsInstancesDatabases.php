@@ -54,6 +54,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param CreateDatabaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CreateDatabaseRequest $postBody, $optParams = [])
   {
@@ -70,6 +71,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param string $database Required. The database to be dropped.
    * @param array $optParams Optional parameters.
    * @return SpannerEmpty
+   * @throws \Google\Service\Exception
    */
   public function dropDatabase($database, $optParams = [])
   {
@@ -84,6 +86,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * of the form `projects//instances//databases/`.
    * @param array $optParams Optional parameters.
    * @return Database
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -100,6 +103,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * Values are of the form `projects//instances//databases/`
    * @param array $optParams Optional parameters.
    * @return GetDatabaseDdlResponse
+   * @throws \Google\Service\Exception
    */
   public function getDdl($database, $optParams = [])
   {
@@ -120,6 +124,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -146,6 +151,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @opt_param string view Specifies which parts of the Scan should be returned
    * in the response. Note, if left unspecified, the FULL view is assumed.
    * @return Scan
+   * @throws \Google\Service\Exception
    */
   public function getScans($name, $optParams = [])
   {
@@ -165,6 +171,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @opt_param string pageToken If non-empty, `page_token` should contain a
    * next_page_token from a previous ListDatabasesResponse.
    * @return ListDatabasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesDatabases($parent, $optParams = [])
   {
@@ -200,6 +207,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @opt_param string updateMask Required. The list of fields to update.
    * Currently, only `enable_drop_protection` field can be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Database $postBody, $optParams = [])
   {
@@ -228,6 +236,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param RestoreDatabaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function restore($parent, RestoreDatabaseRequest $postBody, $optParams = [])
   {
@@ -248,6 +257,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -271,6 +281,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -289,6 +300,7 @@ class ProjectsInstancesDatabases extends \Google\Service\Resource
    * @param UpdateDatabaseDdlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function updateDdl($database, UpdateDatabaseDdlRequest $postBody, $optParams = [])
   {

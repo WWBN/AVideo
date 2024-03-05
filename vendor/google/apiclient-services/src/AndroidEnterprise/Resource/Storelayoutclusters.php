@@ -37,6 +37,7 @@ class Storelayoutclusters extends \Google\Service\Resource
    * @param string $pageId The ID of the page.
    * @param string $clusterId The ID of the cluster.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($enterpriseId, $pageId, $clusterId, $optParams = [])
   {
@@ -52,6 +53,7 @@ class Storelayoutclusters extends \Google\Service\Resource
    * @param string $clusterId The ID of the cluster.
    * @param array $optParams Optional parameters.
    * @return StoreCluster
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $pageId, $clusterId, $optParams = [])
   {
@@ -67,6 +69,7 @@ class Storelayoutclusters extends \Google\Service\Resource
    * @param StoreCluster $postBody
    * @param array $optParams Optional parameters.
    * @return StoreCluster
+   * @throws \Google\Service\Exception
    */
   public function insert($enterpriseId, $pageId, StoreCluster $postBody, $optParams = [])
   {
@@ -82,6 +85,7 @@ class Storelayoutclusters extends \Google\Service\Resource
    * @param string $pageId The ID of the page.
    * @param array $optParams Optional parameters.
    * @return StoreLayoutClustersListResponse
+   * @throws \Google\Service\Exception
    */
   public function listStorelayoutclusters($enterpriseId, $pageId, $optParams = [])
   {
@@ -98,6 +102,7 @@ class Storelayoutclusters extends \Google\Service\Resource
    * @param StoreCluster $postBody
    * @param array $optParams Optional parameters.
    * @return StoreCluster
+   * @throws \Google\Service\Exception
    */
   public function update($enterpriseId, $pageId, $clusterId, StoreCluster $postBody, $optParams = [])
   {

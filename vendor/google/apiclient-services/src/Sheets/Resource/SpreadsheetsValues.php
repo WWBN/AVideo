@@ -75,6 +75,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * response should be rendered. The default render option is FORMATTED_VALUE.
    * @opt_param string valueInputOption How the input data should be interpreted.
    * @return AppendValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function append($spreadsheetId, $range, ValueRange $postBody, $optParams = [])
   {
@@ -92,6 +93,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param BatchClearValuesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchClearValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function batchClear($spreadsheetId, BatchClearValuesRequest $postBody, $optParams = [])
   {
@@ -110,6 +112,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param BatchClearValuesByDataFilterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchClearValuesByDataFilterResponse
+   * @throws \Google\Service\Exception
    */
   public function batchClearByDataFilter($spreadsheetId, BatchClearValuesByDataFilterRequest $postBody, $optParams = [])
   {
@@ -138,6 +141,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @opt_param string valueRenderOption How values should be represented in the
    * output. The default render option is ValueRenderOption.FORMATTED_VALUE.
    * @return BatchGetValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($spreadsheetId, $optParams = [])
   {
@@ -155,6 +159,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param BatchGetValuesByDataFilterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchGetValuesByDataFilterResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGetByDataFilter($spreadsheetId, BatchGetValuesByDataFilterRequest $postBody, $optParams = [])
   {
@@ -171,6 +176,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param BatchUpdateValuesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdate($spreadsheetId, BatchUpdateValuesRequest $postBody, $optParams = [])
   {
@@ -187,6 +193,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param BatchUpdateValuesByDataFilterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateValuesByDataFilterResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdateByDataFilter($spreadsheetId, BatchUpdateValuesByDataFilterRequest $postBody, $optParams = [])
   {
@@ -205,6 +212,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @param ClearValuesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ClearValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function clear($spreadsheetId, $range, ClearValuesRequest $postBody, $optParams = [])
   {
@@ -233,6 +241,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * @opt_param string valueRenderOption How values should be represented in the
    * output. The default render option is FORMATTED_VALUE.
    * @return ValueRange
+   * @throws \Google\Service\Exception
    */
   public function get($spreadsheetId, $range, $optParams = [])
   {
@@ -263,6 +272,7 @@ class SpreadsheetsValues extends \Google\Service\Resource
    * response should be rendered. The default render option is FORMATTED_VALUE.
    * @opt_param string valueInputOption How the input data should be interpreted.
    * @return UpdateValuesResponse
+   * @throws \Google\Service\Exception
    */
   public function update($spreadsheetId, $range, ValueRange $postBody, $optParams = [])
   {

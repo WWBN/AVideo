@@ -79,6 +79,8 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
    * @var bool
    */
   public $negative;
+  protected $positionEstimatesType = GoogleAdsSearchads360V0ResourcesAdGroupCriterionPositionEstimates::class;
+  protected $positionEstimatesDataType = '';
   protected $qualityInfoType = GoogleAdsSearchads360V0ResourcesAdGroupCriterionQualityInfo::class;
   protected $qualityInfoDataType = '';
   /**
@@ -347,6 +349,20 @@ class GoogleAdsSearchads360V0ResourcesAdGroupCriterion extends \Google\Collectio
   public function getNegative()
   {
     return $this->negative;
+  }
+  /**
+   * @param GoogleAdsSearchads360V0ResourcesAdGroupCriterionPositionEstimates
+   */
+  public function setPositionEstimates(GoogleAdsSearchads360V0ResourcesAdGroupCriterionPositionEstimates $positionEstimates)
+  {
+    $this->positionEstimates = $positionEstimates;
+  }
+  /**
+   * @return GoogleAdsSearchads360V0ResourcesAdGroupCriterionPositionEstimates
+   */
+  public function getPositionEstimates()
+  {
+    return $this->positionEstimates;
   }
   /**
    * @param GoogleAdsSearchads360V0ResourcesAdGroupCriterionQualityInfo

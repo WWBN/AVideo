@@ -46,6 +46,7 @@ class PublicationsReaders extends \Google\Service\Resource
    * @opt_param bool force If set to true, any entitlements under the reader will
    * also be purged.
    * @return DeleteReaderResponse
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -61,6 +62,7 @@ class PublicationsReaders extends \Google\Service\Resource
    * publications/{publication_id}/readers/{ppid}
    * @param array $optParams Optional parameters.
    * @return Reader
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -78,6 +80,7 @@ class PublicationsReaders extends \Google\Service\Resource
    * publications/{publication_id}/readers/{reader_id}/entitlements
    * @param array $optParams Optional parameters.
    * @return ReaderEntitlements
+   * @throws \Google\Service\Exception
    */
   public function getEntitlements($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class PublicationsReaders extends \Google\Service\Resource
    * @opt_param string updateMask Optional. The list of fields to update. Defaults
    * to all fields.
    * @return ReaderEntitlements
+   * @throws \Google\Service\Exception
    */
   public function updateEntitlements($name, ReaderEntitlements $postBody, $optParams = [])
   {

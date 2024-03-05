@@ -40,13 +40,14 @@ class Achievements extends \Google\Service\Resource
    * authenticated player. (achievements.increment)
    *
    * @param string $achievementId The ID of the achievement used by this method.
-   * @param int $stepsToIncrement The number of steps to increment.
+   * @param int $stepsToIncrement Required. The number of steps to increment.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId A randomly generated numeric ID for each request
    * specified by the caller. This number is used at the server to ensure that the
    * request is handled correctly across retries.
    * @return AchievementIncrementResponse
+   * @throws \Google\Service\Exception
    */
   public function increment($achievementId, $stepsToIncrement, $optParams = [])
   {
@@ -73,6 +74,7 @@ class Achievements extends \Google\Service\Resource
    * specified state. If this parameter isn't specified, all achievements are
    * returned.
    * @return PlayerAchievementListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAchievements($playerId, $optParams = [])
   {
@@ -87,6 +89,7 @@ class Achievements extends \Google\Service\Resource
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
    * @return AchievementRevealResponse
+   * @throws \Google\Service\Exception
    */
   public function reveal($achievementId, $optParams = [])
   {
@@ -101,9 +104,10 @@ class Achievements extends \Google\Service\Resource
    * modified. (achievements.setStepsAtLeast)
    *
    * @param string $achievementId The ID of the achievement used by this method.
-   * @param int $steps The minimum value to set the steps to.
+   * @param int $steps Required. The minimum value to set the steps to.
    * @param array $optParams Optional parameters.
    * @return AchievementSetStepsAtLeastResponse
+   * @throws \Google\Service\Exception
    */
   public function setStepsAtLeast($achievementId, $steps, $optParams = [])
   {
@@ -118,6 +122,7 @@ class Achievements extends \Google\Service\Resource
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
    * @return AchievementUnlockResponse
+   * @throws \Google\Service\Exception
    */
   public function unlock($achievementId, $optParams = [])
   {
@@ -132,6 +137,7 @@ class Achievements extends \Google\Service\Resource
    * @param AchievementUpdateMultipleRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AchievementUpdateMultipleResponse
+   * @throws \Google\Service\Exception
    */
   public function updateMultiple(AchievementUpdateMultipleRequest $postBody, $optParams = [])
   {

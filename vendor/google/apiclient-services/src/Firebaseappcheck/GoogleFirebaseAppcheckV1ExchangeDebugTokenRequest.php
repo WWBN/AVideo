@@ -23,6 +23,10 @@ class GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest extends \Google\Model
    * @var string
    */
   public $debugToken;
+  /**
+   * @var bool
+   */
+  public $limitedUse;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest extends \Google\Model
   public function getDebugToken()
   {
     return $this->debugToken;
+  }
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
   }
 }
 

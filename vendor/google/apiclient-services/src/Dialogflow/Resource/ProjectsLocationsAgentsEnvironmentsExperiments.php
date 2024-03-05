@@ -41,6 +41,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * @param GoogleCloudDialogflowCxV3Experiment $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Experiment
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3Experiment $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * `projects//locations//agents//environments//experiments/`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * `projects//locations//agents//environments//experiments/`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Experiment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -89,6 +92,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListExperimentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsEnvironmentsExperiments($parent, $optParams = [])
   {
@@ -107,6 +111,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * @opt_param string updateMask Required. The mask to control which fields get
    * updated.
    * @return GoogleCloudDialogflowCxV3Experiment
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3Experiment $postBody, $optParams = [])
   {
@@ -123,6 +128,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * @param GoogleCloudDialogflowCxV3StartExperimentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Experiment
+   * @throws \Google\Service\Exception
    */
   public function start($name, GoogleCloudDialogflowCxV3StartExperimentRequest $postBody, $optParams = [])
   {
@@ -139,6 +145,7 @@ class ProjectsLocationsAgentsEnvironmentsExperiments extends \Google\Service\Res
    * @param GoogleCloudDialogflowCxV3StopExperimentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Experiment
+   * @throws \Google\Service\Exception
    */
   public function stop($name, GoogleCloudDialogflowCxV3StopExperimentRequest $postBody, $optParams = [])
   {

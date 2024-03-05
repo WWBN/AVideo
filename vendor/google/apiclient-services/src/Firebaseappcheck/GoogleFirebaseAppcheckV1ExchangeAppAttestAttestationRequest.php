@@ -31,6 +31,10 @@ class GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest extends \Googl
    * @var string
    */
   public $keyId;
+  /**
+   * @var bool
+   */
+  public $limitedUse;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest extends \Googl
   public function getKeyId()
   {
     return $this->keyId;
+  }
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
   }
 }
 

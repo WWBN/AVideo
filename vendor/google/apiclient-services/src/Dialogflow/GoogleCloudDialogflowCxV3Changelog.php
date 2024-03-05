@@ -34,6 +34,10 @@ class GoogleCloudDialogflowCxV3Changelog extends \Google\Model
   /**
    * @var string
    */
+  public $languageCode;
+  /**
+   * @var string
+   */
   public $name;
   /**
    * @var string
@@ -89,6 +93,20 @@ class GoogleCloudDialogflowCxV3Changelog extends \Google\Model
   public function getDisplayName()
   {
     return $this->displayName;
+  }
+  /**
+   * @param string
+   */
+  public function setLanguageCode($languageCode)
+  {
+    $this->languageCode = $languageCode;
+  }
+  /**
+   * @return string
+   */
+  public function getLanguageCode()
+  {
+    return $this->languageCode;
   }
   /**
    * @param string

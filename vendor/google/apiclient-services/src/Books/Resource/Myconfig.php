@@ -40,6 +40,7 @@ class Myconfig extends \Google\Service\Resource
    * @opt_param string country Unused. Added only to workaround TEX mandatory
    * request template requirement
    * @return Usersettings
+   * @throws \Google\Service\Exception
    */
   public function getUserSettings($optParams = [])
   {
@@ -60,6 +61,7 @@ class Myconfig extends \Google\Service\Resource
    * localization, i.e. en_US.
    * @opt_param string source String to identify the originator of this request.
    * @return DownloadAccesses
+   * @throws \Google\Service\Exception
    */
   public function releaseDownloadAccess($cpksver, $volumeIds, $optParams = [])
   {
@@ -83,6 +85,7 @@ class Myconfig extends \Google\Service\Resource
    * @opt_param string locale ISO-639-1, ISO-3166-1 codes for message
    * localization, i.e. en_US.
    * @return RequestAccessData
+   * @throws \Google\Service\Exception
    */
   public function requestAccess($cpksver, $nonce, $source, $volumeId, $optParams = [])
   {
@@ -110,7 +113,8 @@ class Myconfig extends \Google\Service\Resource
    * to false.
    * @opt_param string volumeIds The volume(s) to request download restrictions
    * for.
-   * @return Volumes
+   * @return VolumesModel
+   * @throws \Google\Service\Exception
    */
   public function syncVolumeLicenses($cpksver, $nonce, $source, $optParams = [])
   {
@@ -126,6 +130,7 @@ class Myconfig extends \Google\Service\Resource
    * @param Usersettings $postBody
    * @param array $optParams Optional parameters.
    * @return Usersettings
+   * @throws \Google\Service\Exception
    */
   public function updateUserSettings(Usersettings $postBody, $optParams = [])
   {

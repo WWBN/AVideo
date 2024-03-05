@@ -53,6 +53,7 @@ class AccountsReports extends \Google\Service\Resource
    * sort descending. If no prefix is specified, the column is sorted ascending.
    * @opt_param string startIndex Index of the first row of report data to return.
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function generate($accountId, $startDate, $endDate, $optParams = [])
   {

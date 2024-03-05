@@ -44,6 +44,7 @@ class AccountsAdUnits extends \Google\Service\Resource
    * `ListAdUnitsResponse`; indicates that this is a continuation of a prior
    * `ListAdUnits` call, and that the system should return the next page of data.
    * @return ListAdUnitsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsAdUnits($parent, $optParams = [])
   {

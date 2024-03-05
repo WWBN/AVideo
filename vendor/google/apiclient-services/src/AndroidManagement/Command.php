@@ -44,6 +44,14 @@ class Command extends \Google\Collection
    * @var string[]
    */
   public $resetPasswordFlags;
+  protected $startLostModeParamsType = StartLostModeParams::class;
+  protected $startLostModeParamsDataType = '';
+  protected $startLostModeStatusType = StartLostModeStatus::class;
+  protected $startLostModeStatusDataType = '';
+  protected $stopLostModeParamsType = StopLostModeParams::class;
+  protected $stopLostModeParamsDataType = '';
+  protected $stopLostModeStatusType = StopLostModeStatus::class;
+  protected $stopLostModeStatusDataType = '';
   /**
    * @var string
    */
@@ -150,6 +158,62 @@ class Command extends \Google\Collection
   public function getResetPasswordFlags()
   {
     return $this->resetPasswordFlags;
+  }
+  /**
+   * @param StartLostModeParams
+   */
+  public function setStartLostModeParams(StartLostModeParams $startLostModeParams)
+  {
+    $this->startLostModeParams = $startLostModeParams;
+  }
+  /**
+   * @return StartLostModeParams
+   */
+  public function getStartLostModeParams()
+  {
+    return $this->startLostModeParams;
+  }
+  /**
+   * @param StartLostModeStatus
+   */
+  public function setStartLostModeStatus(StartLostModeStatus $startLostModeStatus)
+  {
+    $this->startLostModeStatus = $startLostModeStatus;
+  }
+  /**
+   * @return StartLostModeStatus
+   */
+  public function getStartLostModeStatus()
+  {
+    return $this->startLostModeStatus;
+  }
+  /**
+   * @param StopLostModeParams
+   */
+  public function setStopLostModeParams(StopLostModeParams $stopLostModeParams)
+  {
+    $this->stopLostModeParams = $stopLostModeParams;
+  }
+  /**
+   * @return StopLostModeParams
+   */
+  public function getStopLostModeParams()
+  {
+    return $this->stopLostModeParams;
+  }
+  /**
+   * @param StopLostModeStatus
+   */
+  public function setStopLostModeStatus(StopLostModeStatus $stopLostModeStatus)
+  {
+    $this->stopLostModeStatus = $stopLostModeStatus;
+  }
+  /**
+   * @return StopLostModeStatus
+   */
+  public function getStopLostModeStatus()
+  {
+    return $this->stopLostModeStatus;
   }
   /**
    * @param string

@@ -38,7 +38,7 @@ use Google\Service\GKEOnPrem\VmwareCluster;
 class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
 {
   /**
-   * Creates a new VMware cluster in a given project and location.
+   * Creates a new VMware user cluster in a given project and location.
    * (vmwareClusters.create)
    *
    * @param string $parent Required. The parent of the project and location where
@@ -52,6 +52,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * part of the resource name; This value must be up to 40 characters and follow
    * RFC-1123 (https://tools.ietf.org/html/rfc1123) format.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, VmwareCluster $postBody, $optParams = [])
   {
@@ -85,6 +86,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -105,6 +107,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @param EnrollVmwareClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enroll($parent, EnrollVmwareClusterRequest $postBody, $optParams = [])
   {
@@ -125,6 +128,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * returned. The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as
    * `FULL', which returns the complete cluster configuration details.
    * @return VmwareCluster
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -155,6 +159,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -183,6 +188,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which
    * returns the complete cluster configuration details.
    * @return ListVmwareClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVmwareClusters($parent, $optParams = [])
   {
@@ -207,6 +213,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, VmwareCluster $postBody, $optParams = [])
   {
@@ -234,6 +241,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * This is the full resource name of the user cluster resource. Format:
    * "projects/{project}/locations/{location}/vmwareClusters/{vmware_cluster}"
    * @return QueryVmwareVersionConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function queryVersionConfig($parent, $optParams = [])
   {
@@ -253,6 +261,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -275,6 +284,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -306,6 +316,7 @@ class ProjectsLocationsVmwareClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function unenroll($name, $optParams = [])
   {

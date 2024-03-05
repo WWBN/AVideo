@@ -33,8 +33,10 @@ class AccountsReports extends \Google\Service\Resource
 {
   /**
    * Lists the reports that RunReportJob can run. These reports include an ID, a
-   * description, and the list of columns that will be in the result.
-   * (reports.listAccountsReports)
+   * description, and the list of columns that will be in the result. Deprecated:
+   * Please use [Export Channel Services data to
+   * BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-
+   * bigquery) instead. (reports.listAccountsReports)
    *
    * @param string $parent Required. The resource name of the partner account to
    * list available reports for. Parent uses the format: accounts/{account_id}
@@ -51,6 +53,7 @@ class AccountsReports extends \Google\Service\Resource
    * ListReportsResponse.next_page_token of the previous
    * CloudChannelReportsService.ListReports call.
    * @return GoogleCloudChannelV1ListReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsReports($parent, $optParams = [])
   {
@@ -71,7 +74,10 @@ class AccountsReports extends \Google\Service\Resource
    * Operation metadata contains an instance of OperationMetadata. To get the
    * results of report generation, call
    * CloudChannelReportsService.FetchReportResults with the
-   * RunReportJobResponse.report_job. (reports.run)
+   * RunReportJobResponse.report_job. Deprecated: Please use [Export Channel
+   * Services data to
+   * BigQuery](https://cloud.google.com/channel/docs/rebilling/export-data-to-
+   * bigquery) instead. (reports.run)
    *
    * @param string $name Required. The report's resource name. Specifies the
    * account and report used to generate report data. The report_id identifier is
@@ -80,6 +86,7 @@ class AccountsReports extends \Google\Service\Resource
    * @param GoogleCloudChannelV1RunReportJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function run($name, GoogleCloudChannelV1RunReportJobRequest $postBody, $optParams = [])
   {

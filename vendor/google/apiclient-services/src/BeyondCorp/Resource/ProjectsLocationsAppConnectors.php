@@ -63,6 +63,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. If set, validates request by executing
    * a dry-run which would not alter the resource in any way.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudBeyondcorpAppconnectorsV1AppConnector $postBody, $optParams = [])
   {
@@ -92,6 +93,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. If set, validates request by executing
    * a dry-run which would not alter the resource in any way.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -107,6 +109,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * `
    * @param array $optParams Optional parameters.
    * @return GoogleCloudBeyondcorpAppconnectorsV1AppConnector
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -137,6 +140,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -166,6 +170,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous ListAppConnectorsRequest, if any.
    * @return GoogleCloudBeyondcorpAppconnectorsV1ListAppConnectorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAppConnectors($parent, $optParams = [])
   {
@@ -199,6 +204,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. If set, validates request by executing
    * a dry-run which would not alter the resource in any way.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudBeyondcorpAppconnectorsV1AppConnector $postBody, $optParams = [])
   {
@@ -214,6 +220,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @param GoogleCloudBeyondcorpAppconnectorsV1ReportStatusRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function reportStatus($appConnector, GoogleCloudBeyondcorpAppconnectorsV1ReportStatusRequest $postBody, $optParams = [])
   {
@@ -231,6 +238,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudBeyondcorpAppconnectorsV1ResolveInstanceConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function resolveInstanceConfig($appConnector, $optParams = [])
   {
@@ -250,6 +258,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @param GoogleIamV1SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, GoogleIamV1SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -272,6 +281,7 @@ class ProjectsLocationsAppConnectors extends \Google\Service\Resource
    * @param GoogleIamV1TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, GoogleIamV1TestIamPermissionsRequest $postBody, $optParams = [])
   {

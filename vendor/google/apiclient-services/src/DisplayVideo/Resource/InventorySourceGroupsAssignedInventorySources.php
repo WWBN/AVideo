@@ -47,6 +47,7 @@ class InventorySourceGroupsAssignedInventorySources extends \Google\Service\Reso
    * @param BulkEditAssignedInventorySourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkEditAssignedInventorySourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkEdit($inventorySourceGroupId, BulkEditAssignedInventorySourcesRequest $postBody, $optParams = [])
   {
@@ -70,6 +71,7 @@ class InventorySourceGroupsAssignedInventorySources extends \Google\Service\Reso
    * inventory source group. Only this partner will have write access to this
    * assigned inventory source.
    * @return AssignedInventorySource
+   * @throws \Google\Service\Exception
    */
   public function create($inventorySourceGroupId, AssignedInventorySource $postBody, $optParams = [])
   {
@@ -94,6 +96,7 @@ class InventorySourceGroupsAssignedInventorySources extends \Google\Service\Reso
    * inventory source group. Only this partner has write access to this assigned
    * inventory source.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($inventorySourceGroupId, $assignedInventorySourceId, $optParams = [])
   {
@@ -136,6 +139,7 @@ class InventorySourceGroupsAssignedInventorySources extends \Google\Service\Reso
    * assignment. If the parent inventory source group is advertiser-owned, the
    * assignment cannot be accessed via a partner.
    * @return ListAssignedInventorySourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listInventorySourceGroupsAssignedInventorySources($inventorySourceGroupId, $optParams = [])
   {

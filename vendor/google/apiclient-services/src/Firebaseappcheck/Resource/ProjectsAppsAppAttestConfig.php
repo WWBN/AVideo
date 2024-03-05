@@ -45,6 +45,7 @@ class ProjectsAppsAppAttestConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/appAttestConfig ``` A maximum of 100
    * objects can be retrieved in a batch.
    * @return GoogleFirebaseAppcheckV1BatchGetAppAttestConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsAppsAppAttestConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/appAttestConfig ```
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppAttestConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsAppsAppAttestConfig extends \Google\Service\Resource
    * @opt_param string updateMask Required. A comma-separated list of names of
    * fields in the AppAttestConfig Gets to update. Example: `token_ttl`.
    * @return GoogleFirebaseAppcheckV1AppAttestConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppcheckV1AppAttestConfig $postBody, $optParams = [])
   {

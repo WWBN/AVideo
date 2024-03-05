@@ -19,10 +19,6 @@ namespace Google\Service\Bigquery;
 
 class SparkLoggingInfo extends \Google\Model
 {
-  protected $internal_gapi_mappings = [
-        "projectId" => "project_id",
-        "resourceType" => "resource_type",
-  ];
   /**
    * @var string
    */

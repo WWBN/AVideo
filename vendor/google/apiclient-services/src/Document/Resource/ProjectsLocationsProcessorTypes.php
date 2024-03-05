@@ -36,6 +36,7 @@ class ProjectsLocationsProcessorTypes extends \Google\Service\Resource
    * @param string $name Required. The processor type resource name.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDocumentaiV1ProcessorType
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsProcessorTypes extends \Google\Service\Resource
    * @opt_param string pageToken Used to retrieve the next page of results, empty
    * if at the end of the list.
    * @return GoogleCloudDocumentaiV1ListProcessorTypesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProcessorTypes($parent, $optParams = [])
   {

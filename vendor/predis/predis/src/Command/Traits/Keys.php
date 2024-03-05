@@ -1,5 +1,15 @@
 <?php
 
+/*
+ * This file is part of the Predis package.
+ *
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Predis\Command\Traits;
 
 use Predis\Command\Command;
@@ -15,8 +25,8 @@ trait Keys
         $argumentsLength = count($arguments);
 
         if (
-            static::$keysArgumentPositionOffset > $argumentsLength ||
-            !is_array($arguments[static::$keysArgumentPositionOffset])
+            static::$keysArgumentPositionOffset > $argumentsLength
+            || !is_array($arguments[static::$keysArgumentPositionOffset])
         ) {
             throw new UnexpectedValueException('Wrong keys argument type or position offset');
         }
@@ -28,6 +38,7 @@ trait Keys
         if ($withNumkeys) {
             $numkeys = count($keysArgument);
             parent::setArguments(array_merge($argumentsBeforeKeys, [$numkeys], $keysArgument, $argumentsAfterKeys));
+
             return;
         }
 

@@ -22,6 +22,7 @@ use Google\Service\CloudRetail\GoogleCloudRetailV2AddLocalInventoriesRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2ImportProductsRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2ListProductsResponse;
 use Google\Service\CloudRetail\GoogleCloudRetailV2Product;
+use Google\Service\CloudRetail\GoogleCloudRetailV2PurgeProductsRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2RemoveFulfillmentPlacesRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2RemoveLocalInventoriesRequest;
 use Google\Service\CloudRetail\GoogleCloudRetailV2SetInventoryRequest;
@@ -62,6 +63,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2AddFulfillmentPlacesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function addFulfillmentPlaces($product, GoogleCloudRetailV2AddFulfillmentPlacesRequest $postBody, $optParams = [])
   {
@@ -92,6 +94,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2AddLocalInventoriesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function addLocalInventories($product, GoogleCloudRetailV2AddLocalInventoriesRequest $postBody, $optParams = [])
   {
@@ -115,6 +118,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * is returned. This field must be a UTF-8 encoded string with a length limit of
    * 128 characters. Otherwise, an INVALID_ARGUMENT error is returned.
    * @return GoogleCloudRetailV2Product
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudRetailV2Product $postBody, $optParams = [])
   {
@@ -136,6 +140,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * information for the named Product will be deleted.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -154,6 +159,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * returned.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2Product
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -173,6 +179,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2ImportProductsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudRetailV2ImportProductsRequest $postBody, $optParams = [])
   {
@@ -221,6 +228,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * unsupported or unknown field is provided, an INVALID_ARGUMENT error is
    * returned.
    * @return GoogleCloudRetailV2ListProductsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogsBranchesProducts($parent, $optParams = [])
   {
@@ -248,12 +256,37 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * in the mask but not in the patching product from the request, this key will
    * be deleted after the update.
    * @return GoogleCloudRetailV2Product
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudRetailV2Product $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('patch', [$params], GoogleCloudRetailV2Product::class);
+  }
+  /**
+   * Permanently deletes all selected Products under a branch. This process is
+   * asynchronous. If the request is valid, the removal will be enqueued and
+   * processed offline. Depending on the number of Products, this operation could
+   * take hours to complete. Before the operation completes, some Products may
+   * still be returned by ProductService.GetProduct or
+   * ProductService.ListProducts. Depending on the number of Products, this
+   * operation could take hours to complete. To get a sample of Products that
+   * would be deleted, set PurgeProductsRequest.force to false. (products.purge)
+   *
+   * @param string $parent Required. The resource name of the branch under which
+   * the products are created. The format is `projects/${projectId}/locations/glob
+   * al/catalogs/${catalogId}/branches/${branchId}`
+   * @param GoogleCloudRetailV2PurgeProductsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function purge($parent, GoogleCloudRetailV2PurgeProductsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('purge', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * We recommend that you use the ProductService.RemoveLocalInventories method
@@ -279,6 +312,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2RemoveFulfillmentPlacesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function removeFulfillmentPlaces($product, GoogleCloudRetailV2RemoveFulfillmentPlacesRequest $postBody, $optParams = [])
   {
@@ -307,6 +341,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2RemoveLocalInventoriesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function removeLocalInventories($product, GoogleCloudRetailV2RemoveLocalInventoriesRequest $postBody, $optParams = [])
   {
@@ -345,6 +380,7 @@ class ProjectsLocationsCatalogsBranchesProducts extends \Google\Service\Resource
    * @param GoogleCloudRetailV2SetInventoryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function setInventory($name, GoogleCloudRetailV2SetInventoryRequest $postBody, $optParams = [])
   {

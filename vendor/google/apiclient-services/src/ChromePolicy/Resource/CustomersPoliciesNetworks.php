@@ -45,6 +45,7 @@ class CustomersPoliciesNetworks extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1DefineCertificateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1DefineCertificateResponse
+   * @throws \Google\Service\Exception
    */
   public function defineCertificate($customer, GoogleChromePolicyVersionsV1DefineCertificateRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class CustomersPoliciesNetworks extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1DefineNetworkRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1DefineNetworkResponse
+   * @throws \Google\Service\Exception
    */
   public function defineNetwork($customer, GoogleChromePolicyVersionsV1DefineNetworkRequest $postBody, $optParams = [])
   {
@@ -74,6 +76,7 @@ class CustomersPoliciesNetworks extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1RemoveCertificateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1RemoveCertificateResponse
+   * @throws \Google\Service\Exception
    */
   public function removeCertificate($customer, GoogleChromePolicyVersionsV1RemoveCertificateRequest $postBody, $optParams = [])
   {
@@ -88,6 +91,7 @@ class CustomersPoliciesNetworks extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1RemoveNetworkRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleChromePolicyVersionsV1RemoveNetworkResponse
+   * @throws \Google\Service\Exception
    */
   public function removeNetwork($customer, GoogleChromePolicyVersionsV1RemoveNetworkRequest $postBody, $optParams = [])
   {

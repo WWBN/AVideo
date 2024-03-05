@@ -31,6 +31,8 @@ class GoogleFirestoreAdminV1IndexField extends \Google\Model
    * @var string
    */
   public $order;
+  protected $vectorConfigType = GoogleFirestoreAdminV1VectorConfig::class;
+  protected $vectorConfigDataType = '';
 
   /**
    * @param string
@@ -73,6 +75,20 @@ class GoogleFirestoreAdminV1IndexField extends \Google\Model
   public function getOrder()
   {
     return $this->order;
+  }
+  /**
+   * @param GoogleFirestoreAdminV1VectorConfig
+   */
+  public function setVectorConfig(GoogleFirestoreAdminV1VectorConfig $vectorConfig)
+  {
+    $this->vectorConfig = $vectorConfig;
+  }
+  /**
+   * @return GoogleFirestoreAdminV1VectorConfig
+   */
+  public function getVectorConfig()
+  {
+    return $this->vectorConfig;
   }
 }
 

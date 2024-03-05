@@ -27,6 +27,14 @@ class ImageSafesearchContentBrainPornAnnotation extends \Google\Model
   /**
    * @var float
    */
+  public $csamA1Score;
+  /**
+   * @var float
+   */
+  public $csamAgeIndeterminateScore;
+  /**
+   * @var float
+   */
   public $iuInappropriateScore;
   /**
    * @var float
@@ -41,6 +49,10 @@ class ImageSafesearchContentBrainPornAnnotation extends \Google\Model
    * @var float
    */
   public $racyScore;
+  /**
+   * @var float
+   */
+  public $semanticSexualizationScore;
   /**
    * @var float
    */
@@ -79,6 +91,34 @@ class ImageSafesearchContentBrainPornAnnotation extends \Google\Model
   public function getCsaiScore()
   {
     return $this->csaiScore;
+  }
+  /**
+   * @param float
+   */
+  public function setCsamA1Score($csamA1Score)
+  {
+    $this->csamA1Score = $csamA1Score;
+  }
+  /**
+   * @return float
+   */
+  public function getCsamA1Score()
+  {
+    return $this->csamA1Score;
+  }
+  /**
+   * @param float
+   */
+  public function setCsamAgeIndeterminateScore($csamAgeIndeterminateScore)
+  {
+    $this->csamAgeIndeterminateScore = $csamAgeIndeterminateScore;
+  }
+  /**
+   * @return float
+   */
+  public function getCsamAgeIndeterminateScore()
+  {
+    return $this->csamAgeIndeterminateScore;
   }
   /**
    * @param float
@@ -143,6 +183,20 @@ class ImageSafesearchContentBrainPornAnnotation extends \Google\Model
   public function getRacyScore()
   {
     return $this->racyScore;
+  }
+  /**
+   * @param float
+   */
+  public function setSemanticSexualizationScore($semanticSexualizationScore)
+  {
+    $this->semanticSexualizationScore = $semanticSexualizationScore;
+  }
+  /**
+   * @return float
+   */
+  public function getSemanticSexualizationScore()
+  {
+    return $this->semanticSexualizationScore;
   }
   /**
    * @param float

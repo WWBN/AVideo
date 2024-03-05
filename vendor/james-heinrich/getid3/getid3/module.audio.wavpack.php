@@ -42,7 +42,7 @@ class getid3_wavpack extends getid3_handler
 
 			if ($this->ftell() >= $info['avdataend']) {
 				break;
-			} elseif (feof($this->getid3->fp)) {
+			} elseif ($this->feof()) {
 				break;
 			} elseif (
 				isset($info['wavpack']['blockheader']['total_samples']) &&
@@ -157,11 +157,11 @@ class getid3_wavpack extends getid3_handler
 				$info['audio']['lossless'] = !$info['wavpack']['blockheader']['flags']['hybrid'];
 			}
 
-			while (!feof($this->getid3->fp) && ($this->ftell() < ($blockheader_offset + $blockheader_size + 8))) {
+			while (!$this->feof() && ($this->ftell() < ($blockheader_offset + $blockheader_size + 8))) {
 
 				$metablock = array('offset'=>$this->ftell());
 				$metablockheader = $this->fread(2);
-				if (feof($this->getid3->fp)) {
+				if ($this->feof()) {
 					break;
 				}
 				$metablock['id'] = ord($metablockheader[0]);
@@ -243,7 +243,7 @@ class getid3_wavpack extends getid3_handler
 
 							$metablock['riff']['original_filesize'] = $original_wav_filesize;
 							$info['wavpack']['riff_trailer_size'] = $original_wav_filesize - $metablock['riff']['WAVE']['data'][0]['size'] - $metablock['riff']['header_size'];
-							$info['playtime_seconds'] = $info['wavpack']['blockheader']['total_samples'] / $info['audio']['sample_rate'];
+							$info['playtime_seconds'] = getid3_lib::SafeDiv($info['wavpack']['blockheader']['total_samples'], $info['audio']['sample_rate']);
 
 							// Safe RIFF header in case there's a RIFF footer later
 							$metablockRIFFheader = $metablock['data'];

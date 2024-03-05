@@ -41,6 +41,7 @@ class Edits extends \Google\Service\Resource
    * Google Play Console UI. These changes will be added to any other changes that
    * are not yet sent for review.
    * @return AppEdit
+   * @throws \Google\Service\Exception
    */
   public function commit($packageName, $editId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class Edits extends \Google\Service\Resource
    * @param string $packageName Package name of the app.
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($packageName, $editId, $optParams = [])
   {
@@ -68,6 +70,7 @@ class Edits extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return AppEdit
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $editId, $optParams = [])
   {
@@ -82,6 +85,7 @@ class Edits extends \Google\Service\Resource
    * @param AppEdit $postBody
    * @param array $optParams Optional parameters.
    * @return AppEdit
+   * @throws \Google\Service\Exception
    */
   public function insert($packageName, AppEdit $postBody, $optParams = [])
   {
@@ -96,6 +100,7 @@ class Edits extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return AppEdit
+   * @throws \Google\Service\Exception
    */
   public function validate($packageName, $editId, $optParams = [])
   {

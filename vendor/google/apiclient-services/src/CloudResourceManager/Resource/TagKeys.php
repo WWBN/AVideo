@@ -48,6 +48,7 @@ class TagKeys extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Set to true to perform validations
    * necessary for creating the resource, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(TagKey $postBody, $optParams = [])
   {
@@ -69,6 +70,7 @@ class TagKeys extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Set as true to perform validations
    * necessary for deletion, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -84,6 +86,7 @@ class TagKeys extends \Google\Service\Resource
    * such as `tagKeys/123`.
    * @param array $optParams Optional parameters.
    * @return TagKey
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +108,7 @@ class TagKeys extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -124,6 +128,7 @@ class TagKeys extends \Google\Service\Resource
    * under the organization with ID 42 or `r2-d2/bar` for a key with short name
    * "bar" under the project `r2-d2`.
    * @return TagKey
+   * @throws \Google\Service\Exception
    */
   public function getNamespaced($optParams = [])
   {
@@ -146,6 +151,7 @@ class TagKeys extends \Google\Service\Resource
    * Must be of the form `organizations/{org_id}` or `projects/{project_id}` or
    * `projects/{project_number}`
    * @return ListTagKeysResponse
+   * @throws \Google\Service\Exception
    */
   public function listTagKeys($optParams = [])
   {
@@ -168,6 +174,7 @@ class TagKeys extends \Google\Service\Resource
    * @opt_param bool validateOnly Set as true to perform validations necessary for
    * updating the resource, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, TagKey $postBody, $optParams = [])
   {
@@ -188,6 +195,7 @@ class TagKeys extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -208,6 +216,7 @@ class TagKeys extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

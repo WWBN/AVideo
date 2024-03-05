@@ -43,6 +43,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * subscription was purchased.
    * @param SubscriptionPurchasesAcknowledgeRequest $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function acknowledge($packageName, $subscriptionId, $token, SubscriptionPurchasesAcknowledgeRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * @param string $token The token provided to the user's device when the
    * subscription was purchased.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function cancel($packageName, $subscriptionId, $token, $optParams = [])
   {
@@ -81,6 +83,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * @param SubscriptionPurchasesDeferRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SubscriptionPurchasesDeferResponse
+   * @throws \Google\Service\Exception
    */
   public function defer($packageName, $subscriptionId, $token, SubscriptionPurchasesDeferRequest $postBody, $optParams = [])
   {
@@ -100,6 +103,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * subscription was purchased.
    * @param array $optParams Optional parameters.
    * @return SubscriptionPurchase
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $subscriptionId, $token, $optParams = [])
   {
@@ -119,6 +123,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * @param string $token The token provided to the user's device when the
    * subscription was purchased.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function refund($packageName, $subscriptionId, $token, $optParams = [])
   {
@@ -138,6 +143,7 @@ class PurchasesSubscriptions extends \Google\Service\Resource
    * @param string $token The token provided to the user's device when the
    * subscription was purchased.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function revoke($packageName, $subscriptionId, $token, $optParams = [])
   {

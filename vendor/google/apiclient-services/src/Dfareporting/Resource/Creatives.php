@@ -37,6 +37,7 @@ class Creatives extends \Google\Service\Resource
    * @param string $id Creative ID.
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Creatives extends \Google\Service\Resource
    * @param Creative $postBody
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, Creative $postBody, $optParams = [])
   {
@@ -95,6 +97,7 @@ class Creatives extends \Google\Service\Resource
    * this Studio creative ID.
    * @opt_param string types Select only creatives with these creative types.
    * @return CreativesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listCreatives($profileId, $optParams = [])
   {
@@ -107,10 +110,11 @@ class Creatives extends \Google\Service\Resource
    * (creatives.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id Creative ID.
+   * @param string $id Required. Creative ID.
    * @param Creative $postBody
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, Creative $postBody, $optParams = [])
   {
@@ -125,6 +129,7 @@ class Creatives extends \Google\Service\Resource
    * @param Creative $postBody
    * @param array $optParams Optional parameters.
    * @return Creative
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, Creative $postBody, $optParams = [])
   {

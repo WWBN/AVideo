@@ -31,6 +31,10 @@ class Actor extends \Google\Model
    * @var bool
    */
   public $googleSupport;
+  /**
+   * @var string
+   */
+  public $username;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class Actor extends \Google\Model
   public function getGoogleSupport()
   {
     return $this->googleSupport;
+  }
+  /**
+   * @param string
+   */
+  public function setUsername($username)
+  {
+    $this->username = $username;
+  }
+  /**
+   * @return string
+   */
+  public function getUsername()
+  {
+    return $this->username;
   }
 }
 

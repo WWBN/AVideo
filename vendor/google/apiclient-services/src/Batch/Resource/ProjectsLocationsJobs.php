@@ -58,6 +58,7 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Job $postBody, $optParams = [])
   {
@@ -84,6 +85,7 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -97,6 +99,7 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
    * @param string $name Required. Job name.
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -111,9 +114,12 @@ class ProjectsLocationsJobs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter List filter.
+   * @opt_param string orderBy Optional. Sort results. Supported are "name", "name
+   * desc", "create_time", and "create_time desc".
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return ListJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsJobs($parent, $optParams = [])
   {

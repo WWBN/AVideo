@@ -72,6 +72,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyCreateAuthUriRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CreateAuthUriResponse
+   * @throws \Google\Service\Exception
    */
   public function createAuthUri(IdentitytoolkitRelyingpartyCreateAuthUriRequest $postBody, $optParams = [])
   {
@@ -85,6 +86,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyDeleteAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DeleteAccountResponse
+   * @throws \Google\Service\Exception
    */
   public function deleteAccount(IdentitytoolkitRelyingpartyDeleteAccountRequest $postBody, $optParams = [])
   {
@@ -98,6 +100,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyDownloadAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DownloadAccountResponse
+   * @throws \Google\Service\Exception
    */
   public function downloadAccount(IdentitytoolkitRelyingpartyDownloadAccountRequest $postBody, $optParams = [])
   {
@@ -111,6 +114,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyEmailLinkSigninRequest $postBody
    * @param array $optParams Optional parameters.
    * @return EmailLinkSigninResponse
+   * @throws \Google\Service\Exception
    */
   public function emailLinkSignin(IdentitytoolkitRelyingpartyEmailLinkSigninRequest $postBody, $optParams = [])
   {
@@ -124,6 +128,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyGetAccountInfoRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GetAccountInfoResponse
+   * @throws \Google\Service\Exception
    */
   public function getAccountInfo(IdentitytoolkitRelyingpartyGetAccountInfoRequest $postBody, $optParams = [])
   {
@@ -137,7 +142,8 @@ class Relyingparty extends \Google\Service\Resource
    *
    * @param RelyingpartyModel $postBody
    * @param array $optParams Optional parameters.
-   * @return GetOobConfirmationCodeResponseModel
+   * @return GetOobConfirmationCodeResponse
+   * @throws \Google\Service\Exception
    */
   public function getOobConfirmationCode(RelyingpartyModel $postBody, $optParams = [])
   {
@@ -154,6 +160,7 @@ class Relyingparty extends \Google\Service\Resource
    * request.
    * @opt_param string projectNumber GCP project number of the request.
    * @return IdentitytoolkitRelyingpartyGetProjectConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function getProjectConfig($optParams = [])
   {
@@ -166,6 +173,7 @@ class Relyingparty extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return IdentitytoolkitRelyingpartyGetPublicKeysResponse
+   * @throws \Google\Service\Exception
    */
   public function getPublicKeys($optParams = [])
   {
@@ -178,6 +186,7 @@ class Relyingparty extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return GetRecaptchaParamResponse
+   * @throws \Google\Service\Exception
    */
   public function getRecaptchaParam($optParams = [])
   {
@@ -191,6 +200,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyResetPasswordRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ResetPasswordResponse
+   * @throws \Google\Service\Exception
    */
   public function resetPassword(IdentitytoolkitRelyingpartyResetPasswordRequest $postBody, $optParams = [])
   {
@@ -204,6 +214,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartySendVerificationCodeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IdentitytoolkitRelyingpartySendVerificationCodeResponse
+   * @throws \Google\Service\Exception
    */
   public function sendVerificationCode(IdentitytoolkitRelyingpartySendVerificationCodeRequest $postBody, $optParams = [])
   {
@@ -217,6 +228,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartySetAccountInfoRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SetAccountInfoResponse
+   * @throws \Google\Service\Exception
    */
   public function setAccountInfo(IdentitytoolkitRelyingpartySetAccountInfoRequest $postBody, $optParams = [])
   {
@@ -230,6 +242,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartySetProjectConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IdentitytoolkitRelyingpartySetProjectConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function setProjectConfig(IdentitytoolkitRelyingpartySetProjectConfigRequest $postBody, $optParams = [])
   {
@@ -243,6 +256,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartySignOutUserRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IdentitytoolkitRelyingpartySignOutUserResponse
+   * @throws \Google\Service\Exception
    */
   public function signOutUser(IdentitytoolkitRelyingpartySignOutUserRequest $postBody, $optParams = [])
   {
@@ -256,6 +270,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartySignupNewUserRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SignupNewUserResponse
+   * @throws \Google\Service\Exception
    */
   public function signupNewUser(IdentitytoolkitRelyingpartySignupNewUserRequest $postBody, $optParams = [])
   {
@@ -269,6 +284,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyUploadAccountRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UploadAccountResponse
+   * @throws \Google\Service\Exception
    */
   public function uploadAccount(IdentitytoolkitRelyingpartyUploadAccountRequest $postBody, $optParams = [])
   {
@@ -282,6 +298,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyVerifyAssertionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return VerifyAssertionResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyAssertion(IdentitytoolkitRelyingpartyVerifyAssertionRequest $postBody, $optParams = [])
   {
@@ -295,6 +312,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyVerifyCustomTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return VerifyCustomTokenResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyCustomToken(IdentitytoolkitRelyingpartyVerifyCustomTokenRequest $postBody, $optParams = [])
   {
@@ -308,6 +326,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyVerifyPasswordRequest $postBody
    * @param array $optParams Optional parameters.
    * @return VerifyPasswordResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyPassword(IdentitytoolkitRelyingpartyVerifyPasswordRequest $postBody, $optParams = [])
   {
@@ -322,6 +341,7 @@ class Relyingparty extends \Google\Service\Resource
    * @param IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IdentitytoolkitRelyingpartyVerifyPhoneNumberResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyPhoneNumber(IdentitytoolkitRelyingpartyVerifyPhoneNumberRequest $postBody, $optParams = [])
   {

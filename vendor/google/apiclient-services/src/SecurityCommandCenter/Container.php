@@ -23,6 +23,10 @@ class Container extends \Google\Collection
   /**
    * @var string
    */
+  public $createTime;
+  /**
+   * @var string
+   */
   public $imageId;
   protected $labelsType = Label::class;
   protected $labelsDataType = 'array';
@@ -35,6 +39,20 @@ class Container extends \Google\Collection
    */
   public $uri;
 
+  /**
+   * @param string
+   */
+  public function setCreateTime($createTime)
+  {
+    $this->createTime = $createTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTime()
+  {
+    return $this->createTime;
+  }
   /**
    * @param string
    */

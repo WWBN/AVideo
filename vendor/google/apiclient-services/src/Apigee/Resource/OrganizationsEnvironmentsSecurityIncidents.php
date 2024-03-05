@@ -17,6 +17,8 @@
 
 namespace Google\Service\Apigee\Resource;
 
+use Google\Service\Apigee\GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest;
+use Google\Service\Apigee\GoogleCloudApigeeV1BatchUpdateSecurityIncidentsResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1ListSecurityIncidentsResponse;
 use Google\Service\Apigee\GoogleCloudApigeeV1SecurityIncident;
 
@@ -31,16 +33,36 @@ use Google\Service\Apigee\GoogleCloudApigeeV1SecurityIncident;
 class OrganizationsEnvironmentsSecurityIncidents extends \Google\Service\Resource
 {
   /**
+   * BatchUpdateSecurityIncident updates multiple existing security incidents.
+   * (securityIncidents.batchUpdate)
+   *
+   * @param string $parent Optional. The parent resource shared by all security
+   * incidents being updated. If this is set, the parent field in the
+   * UpdateSecurityIncidentRequest messages must either be empty or match this
+   * field.
+   * @param GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudApigeeV1BatchUpdateSecurityIncidentsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchUpdate($parent, GoogleCloudApigeeV1BatchUpdateSecurityIncidentsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchUpdate', [$params], GoogleCloudApigeeV1BatchUpdateSecurityIncidentsResponse::class);
+  }
+  /**
    * GetSecurityIncident gets the specified security incident. Returns NOT_FOUND
    * if security incident is not present for the specified organization and
    * environment. (securityIncidents.get)
    *
    * @param string $name Required. Security incident in the following format: `org
    * anizations/{org}/environments/{environment}/securityIncidents/{incident}'.
-   * Example: organizations/testOrg/environments/testEnv/securityIncidents/1234-45
-   * 67-890-111
+   * Example: organizations/testOrg/environments/testEnv/securityIncidents/1234-
+   * 4567-890-111
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityIncident
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -60,18 +82,43 @@ class OrganizationsEnvironmentsSecurityIncidents extends \Google\Service\Resourc
    * @opt_param string filter The filter expression to be used to get the list of
    * security incidents, where filtering can be done on API Proxies. Example:
    * filter = "api_proxy = /", "first_detected_time >", "last_detected_time <"
-   * @opt_param int pageSize The maximum number of incidents to return. The
-   * service may return fewer than this value. If unspecified, at most 50
+   * @opt_param int pageSize Optional. The maximum number of incidents to return.
+   * The service may return fewer than this value. If unspecified, at most 50
    * incidents will be returned.
-   * @opt_param string pageToken A page token, received from a previous
+   * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListSecurityIncident` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudApigeeV1ListSecurityIncidentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvironmentsSecurityIncidents($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudApigeeV1ListSecurityIncidentsResponse::class);
+  }
+  /**
+   * UpdateSecurityIncidents updates an existing security incident.
+   * (securityIncidents.patch)
+   *
+   * @param string $name Immutable. Name of the security incident resource.
+   * Format:
+   * organizations/{org}/environments/{environment}/securityIncidents/{incident}
+   * Example: organizations/apigee-
+   * org/environments/dev/securityIncidents/1234-5678-9101-1111
+   * @param GoogleCloudApigeeV1SecurityIncident $postBody
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string updateMask Required. The list of fields to update. Allowed
+   * fields are: LINT.IfChange(allowed_update_fields_comment) - observability
+   * LINT.ThenChange()
+   * @return GoogleCloudApigeeV1SecurityIncident
+   * @throws \Google\Service\Exception
+   */
+  public function patch($name, GoogleCloudApigeeV1SecurityIncident $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('patch', [$params], GoogleCloudApigeeV1SecurityIncident::class);
   }
 }
 

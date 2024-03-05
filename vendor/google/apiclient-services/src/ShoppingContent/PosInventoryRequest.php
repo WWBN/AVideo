@@ -31,6 +31,14 @@ class PosInventoryRequest extends \Google\Model
    * @var string
    */
   public $itemId;
+  /**
+   * @var string
+   */
+  public $pickupMethod;
+  /**
+   * @var string
+   */
+  public $pickupSla;
   protected $priceType = Price::class;
   protected $priceDataType = '';
   /**
@@ -91,6 +99,34 @@ class PosInventoryRequest extends \Google\Model
   public function getItemId()
   {
     return $this->itemId;
+  }
+  /**
+   * @param string
+   */
+  public function setPickupMethod($pickupMethod)
+  {
+    $this->pickupMethod = $pickupMethod;
+  }
+  /**
+   * @return string
+   */
+  public function getPickupMethod()
+  {
+    return $this->pickupMethod;
+  }
+  /**
+   * @param string
+   */
+  public function setPickupSla($pickupSla)
+  {
+    $this->pickupSla = $pickupSla;
+  }
+  /**
+   * @return string
+   */
+  public function getPickupSla()
+  {
+    return $this->pickupSla;
   }
   /**
    * @param Price

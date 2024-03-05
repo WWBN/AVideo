@@ -17,8 +17,8 @@
 
 namespace Google\Service\ContainerAnalysis\Resource;
 
-use Google\Service\ContainerAnalysis\GeneratePackagesSummaryRequest;
-use Google\Service\ContainerAnalysis\PackagesSummaryResponse;
+use Google\Service\ContainerAnalysis\ExportSBOMRequest;
+use Google\Service\ContainerAnalysis\ExportSBOMResponse;
 
 /**
  * The "resources" collection of methods.
@@ -31,20 +31,20 @@ use Google\Service\ContainerAnalysis\PackagesSummaryResponse;
 class ProjectsResources extends \Google\Service\Resource
 {
   /**
-   * Gets a summary of the packages within a given resource.
-   * (resources.generatePackagesSummary)
+   * Generates an SBOM for the given resource. (resources.exportSBOM)
    *
-   * @param string $name Required. The name of the resource to get a packages
-   * summary for in the form of `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`.
-   * @param GeneratePackagesSummaryRequest $postBody
+   * @param string $name Required. The name of the resource in the form of
+   * `projects/[PROJECT_ID]/resources/[RESOURCE_URL]`.
+   * @param ExportSBOMRequest $postBody
    * @param array $optParams Optional parameters.
-   * @return PackagesSummaryResponse
+   * @return ExportSBOMResponse
+   * @throws \Google\Service\Exception
    */
-  public function generatePackagesSummary($name, GeneratePackagesSummaryRequest $postBody, $optParams = [])
+  public function exportSBOM($name, ExportSBOMRequest $postBody, $optParams = [])
   {
     $params = ['name' => $name, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
-    return $this->call('generatePackagesSummary', [$params], PackagesSummaryResponse::class);
+    return $this->call('exportSBOM', [$params], ExportSBOMResponse::class);
   }
 }
 

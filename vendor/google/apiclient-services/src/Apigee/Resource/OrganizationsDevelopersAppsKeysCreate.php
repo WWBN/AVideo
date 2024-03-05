@@ -40,14 +40,18 @@ class OrganizationsDevelopersAppsKeysCreate extends \Google\Service\Resource
    * associated API products in your request. Instead, use the
    * UpdateDeveloperAppKey API to make the association after the consumer key and
    * secret are created. If a consumer key and secret already exist, you can keep
-   * them or delete them using the DeleteDeveloperAppKey API. (create.create)
+   * them or delete them using the DeleteDeveloperAppKey API. **Note**: All keys
+   * start out with status=approved, even if status=revoked is passed when the key
+   * is created. To revoke a key, use the UpdateDeveloperAppKey API.
+   * (create.create)
    *
    * @param string $parent Parent of the developer app key. Use the following
    * structure in your request:
-   * `organizations/{org}/developers/{developer_email}/apps`
+   * 'organizations/{org}/developers/{developerEmail}/apps/{appName}'
    * @param GoogleCloudApigeeV1DeveloperAppKey $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeveloperAppKey
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1DeveloperAppKey $postBody, $optParams = [])
   {

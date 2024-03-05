@@ -41,6 +41,7 @@ class JobsReports extends \Google\Service\Resource
    * which behalf the user is acting on. If not set, the user is acting for
    * himself (his own channel).
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function get($jobId, $reportId, $optParams = [])
   {
@@ -72,6 +73,7 @@ class JobsReports extends \Google\Service\Resource
    * @opt_param string startTimeBefore If set, only reports whose start time is
    * smaller than the specified date/time are returned.
    * @return ListReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listJobsReports($jobId, $optParams = [])
   {

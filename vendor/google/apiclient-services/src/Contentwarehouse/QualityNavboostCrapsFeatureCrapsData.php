@@ -37,6 +37,8 @@ class QualityNavboostCrapsFeatureCrapsData extends \Google\Model
   public $locationId;
   protected $signalsType = QualityNavboostCrapsCrapsClickSignals::class;
   protected $signalsDataType = '';
+  protected $voterTokenBitmapType = QualityNavboostGlueVoterTokenBitmapMessage::class;
+  protected $voterTokenBitmapDataType = '';
 
   /**
    * @param string
@@ -107,6 +109,20 @@ class QualityNavboostCrapsFeatureCrapsData extends \Google\Model
   public function getSignals()
   {
     return $this->signals;
+  }
+  /**
+   * @param QualityNavboostGlueVoterTokenBitmapMessage
+   */
+  public function setVoterTokenBitmap(QualityNavboostGlueVoterTokenBitmapMessage $voterTokenBitmap)
+  {
+    $this->voterTokenBitmap = $voterTokenBitmap;
+  }
+  /**
+   * @return QualityNavboostGlueVoterTokenBitmapMessage
+   */
+  public function getVoterTokenBitmap()
+  {
+    return $this->voterTokenBitmap;
   }
 }
 

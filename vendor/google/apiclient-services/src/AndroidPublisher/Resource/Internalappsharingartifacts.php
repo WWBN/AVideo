@@ -40,6 +40,7 @@ class Internalappsharingartifacts extends \Google\Service\Resource
    * @param string $packageName Package name of the app.
    * @param array $optParams Optional parameters.
    * @return InternalAppSharingArtifact
+   * @throws \Google\Service\Exception
    */
   public function uploadapk($packageName, $optParams = [])
   {
@@ -58,6 +59,7 @@ class Internalappsharingartifacts extends \Google\Service\Resource
    * @param string $packageName Package name of the app.
    * @param array $optParams Optional parameters.
    * @return InternalAppSharingArtifact
+   * @throws \Google\Service\Exception
    */
   public function uploadbundle($packageName, $optParams = [])
   {

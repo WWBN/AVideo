@@ -45,6 +45,7 @@ class ProjectsPatchJobsInstanceDetails extends \Google\Service\Resource
    * @opt_param string pageToken A pagination token returned from a previous call
    * that indicates where this listing should continue from.
    * @return ListPatchJobInstanceDetailsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsPatchJobsInstanceDetails($parent, $optParams = [])
   {

@@ -37,6 +37,7 @@ class Tasks extends \Google\Service\Resource
    *
    * @param string $tasklist Task list identifier.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function clear($tasklist, $optParams = [])
   {
@@ -50,6 +51,7 @@ class Tasks extends \Google\Service\Resource
    * @param string $tasklist Task list identifier.
    * @param string $task Task identifier.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($tasklist, $task, $optParams = [])
   {
@@ -64,6 +66,7 @@ class Tasks extends \Google\Service\Resource
    * @param string $task Task identifier.
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function get($tasklist, $task, $optParams = [])
   {
@@ -84,6 +87,7 @@ class Tasks extends \Google\Service\Resource
    * created at the first position among its siblings, this parameter is omitted.
    * Optional.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function insert($tasklist, Task $postBody, $optParams = [])
   {
@@ -107,7 +111,7 @@ class Tasks extends \Google\Service\Resource
    * timestamp) to filter by. Optional. The default is not to filter by due date.
    * @opt_param string dueMin Lower bound for a task's due date (as a RFC 3339
    * timestamp) to filter by. Optional. The default is not to filter by due date.
-   * @opt_param int maxResults Maximum number of task lists returned on one page.
+   * @opt_param int maxResults Maximum number of tasks returned on one page.
    * Optional. The default is 20 (max allowed: 100).
    * @opt_param string pageToken Token specifying the result page to return.
    * Optional.
@@ -123,6 +127,7 @@ class Tasks extends \Google\Service\Resource
    * (as a RFC 3339 timestamp) to filter by. Optional. The default is not to
    * filter by last modification time.
    * @return TasksModel
+   * @throws \Google\Service\Exception
    */
   public function listTasks($tasklist, $optParams = [])
   {
@@ -145,6 +150,7 @@ class Tasks extends \Google\Service\Resource
    * is moved to the first position among its siblings, this parameter is omitted.
    * Optional.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function move($tasklist, $task, $optParams = [])
   {
@@ -161,6 +167,7 @@ class Tasks extends \Google\Service\Resource
    * @param Task $postBody
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function patch($tasklist, $task, Task $postBody, $optParams = [])
   {
@@ -176,6 +183,7 @@ class Tasks extends \Google\Service\Resource
    * @param Task $postBody
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function update($tasklist, $task, Task $postBody, $optParams = [])
   {

@@ -39,6 +39,7 @@ class Managedconfigurationsforuser extends \Google\Service\Resource
    * @param string $managedConfigurationForUserId The ID of the managed
    * configuration (a product ID), e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($enterpriseId, $userId, $managedConfigurationForUserId, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Managedconfigurationsforuser extends \Google\Service\Resource
    * configuration (a product ID), e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
    * @return ManagedConfiguration
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $userId, $managedConfigurationForUserId, $optParams = [])
   {
@@ -72,6 +74,7 @@ class Managedconfigurationsforuser extends \Google\Service\Resource
    * @param string $userId The ID of the user.
    * @param array $optParams Optional parameters.
    * @return ManagedConfigurationsForUserListResponse
+   * @throws \Google\Service\Exception
    */
   public function listManagedconfigurationsforuser($enterpriseId, $userId, $optParams = [])
   {
@@ -94,6 +97,7 @@ class Managedconfigurationsforuser extends \Google\Service\Resource
    * @param ManagedConfiguration $postBody
    * @param array $optParams Optional parameters.
    * @return ManagedConfiguration
+   * @throws \Google\Service\Exception
    */
   public function update($enterpriseId, $userId, $managedConfigurationForUserId, ManagedConfiguration $postBody, $optParams = [])
   {

@@ -40,12 +40,13 @@ class ProjectsTopicsSnapshots extends \Google\Service\Resource
    * attached to. Format is `projects/{project}/topics/{topic}`.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Maximum number of snapshot names to return.
-   * @opt_param string pageToken The value returned by the last
+   * @opt_param int pageSize Optional. Maximum number of snapshot names to return.
+   * @opt_param string pageToken Optional. The value returned by the last
    * `ListTopicSnapshotsResponse`; indicates that this is a continuation of a
    * prior `ListTopicSnapshots` call, and that the system should return the next
    * page of data.
    * @return ListTopicSnapshotsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsTopicsSnapshots($topic, $optParams = [])
   {

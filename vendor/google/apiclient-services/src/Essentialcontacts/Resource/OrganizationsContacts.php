@@ -55,6 +55,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * value of `next_page_token` from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
    * @return GoogleCloudEssentialcontactsV1ComputeContactsResponse
+   * @throws \Google\Service\Exception
    */
   public function compute($parent, $optParams = [])
   {
@@ -71,6 +72,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * @param GoogleCloudEssentialcontactsV1Contact $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudEssentialcontactsV1Contact
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudEssentialcontactsV1Contact $postBody, $optParams = [])
   {
@@ -87,6 +89,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * projects/{project_id}/contacts/{contact_id}
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -103,6 +106,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * projects/{project_id}/contacts/{contact_id}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudEssentialcontactsV1Contact
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -127,6 +131,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * value of `next_page_token` from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
    * @return GoogleCloudEssentialcontactsV1ListContactsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsContacts($parent, $optParams = [])
   {
@@ -144,9 +149,11 @@ class OrganizationsContacts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Optional. The update mask applied to the
-   * resource. For the `FieldMask` definition, see https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#fieldmask
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask
    * @return GoogleCloudEssentialcontactsV1Contact
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudEssentialcontactsV1Contact $postBody, $optParams = [])
   {
@@ -165,6 +172,7 @@ class OrganizationsContacts extends \Google\Service\Resource
    * @param GoogleCloudEssentialcontactsV1SendTestMessageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function sendTestMessage($resource, GoogleCloudEssentialcontactsV1SendTestMessageRequest $postBody, $optParams = [])
   {

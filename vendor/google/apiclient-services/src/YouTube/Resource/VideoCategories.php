@@ -43,6 +43,7 @@ class VideoCategories extends \Google\Service\Resource
    * Stubby or Apiary.
    * @opt_param string regionCode
    * @return VideoCategoryListResponse
+   * @throws \Google\Service\Exception
    */
   public function listVideoCategories($part, $optParams = [])
   {

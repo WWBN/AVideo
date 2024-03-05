@@ -41,6 +41,7 @@ class TagBindings extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Set to true to perform the validations
    * necessary for creating the resource, but not actually perform the action.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(TagBinding $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class TagBindings extends \Google\Service\Resource
    * ogleapis.com%2Fprojects%2F123/tagValues/456`).
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class TagBindings extends \Google\Service\Resource
    * which you want to list existing TagBindings. E.g.
    * "//cloudresourcemanager.googleapis.com/projects/123"
    * @return ListTagBindingsResponse
+   * @throws \Google\Service\Exception
    */
   public function listTagBindings($optParams = [])
   {

@@ -19,49 +19,33 @@ namespace Google\Service\Contentwarehouse;
 
 class AssistantGroundingRankerProviderGroundingProviderFeatures extends \Google\Collection
 {
-  protected $collection_key = 'providerClusterIdDeprecated';
-  /**
-   * @var bool
-   */
-  public $isInAppProvider;
+  protected $collection_key = 'providerClusterIds';
   /**
    * @var string[]
    */
-  public $providerClusterIdDeprecated;
+  public $providerClusterIds;
   protected $providerIdType = AssistantContextProviderId::class;
   protected $providerIdDataType = '';
+  protected $providerSignalResultType = AssistantGroundingProviderProviderSignalResult::class;
+  protected $providerSignalResultDataType = '';
   /**
    * @var float
    */
   public $pslScore;
 
   /**
-   * @param bool
-   */
-  public function setIsInAppProvider($isInAppProvider)
-  {
-    $this->isInAppProvider = $isInAppProvider;
-  }
-  /**
-   * @return bool
-   */
-  public function getIsInAppProvider()
-  {
-    return $this->isInAppProvider;
-  }
-  /**
    * @param string[]
    */
-  public function setProviderClusterIdDeprecated($providerClusterIdDeprecated)
+  public function setProviderClusterIds($providerClusterIds)
   {
-    $this->providerClusterIdDeprecated = $providerClusterIdDeprecated;
+    $this->providerClusterIds = $providerClusterIds;
   }
   /**
    * @return string[]
    */
-  public function getProviderClusterIdDeprecated()
+  public function getProviderClusterIds()
   {
-    return $this->providerClusterIdDeprecated;
+    return $this->providerClusterIds;
   }
   /**
    * @param AssistantContextProviderId
@@ -76,6 +60,20 @@ class AssistantGroundingRankerProviderGroundingProviderFeatures extends \Google\
   public function getProviderId()
   {
     return $this->providerId;
+  }
+  /**
+   * @param AssistantGroundingProviderProviderSignalResult
+   */
+  public function setProviderSignalResult(AssistantGroundingProviderProviderSignalResult $providerSignalResult)
+  {
+    $this->providerSignalResult = $providerSignalResult;
+  }
+  /**
+   * @return AssistantGroundingProviderProviderSignalResult
+   */
+  public function getProviderSignalResult()
+  {
+    return $this->providerSignalResult;
   }
   /**
    * @param float

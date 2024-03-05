@@ -17,6 +17,9 @@
 
 namespace Google\Service\AndroidPublisher\Resource;
 
+use Google\Service\AndroidPublisher\SafetyLabelsUpdateRequest;
+use Google\Service\AndroidPublisher\SafetyLabelsUpdateResponse;
+
 /**
  * The "applications" collection of methods.
  * Typical usage is:
@@ -27,6 +30,21 @@ namespace Google\Service\AndroidPublisher\Resource;
  */
 class Applications extends \Google\Service\Resource
 {
+  /**
+   * Writes the Safety Labels declaration of an app. (applications.dataSafety)
+   *
+   * @param string $packageName Required. Package name of the app.
+   * @param SafetyLabelsUpdateRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return SafetyLabelsUpdateResponse
+   * @throws \Google\Service\Exception
+   */
+  public function dataSafety($packageName, SafetyLabelsUpdateRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('dataSafety', [$params], SafetyLabelsUpdateResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

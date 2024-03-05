@@ -17,8 +17,11 @@
 
 namespace Google\Service\Logging;
 
-class LogEntry extends \Google\Model
+class LogEntry extends \Google\Collection
 {
+  protected $collection_key = 'errorGroups';
+  protected $errorGroupsType = LogErrorGroup::class;
+  protected $errorGroupsDataType = 'array';
   protected $httpRequestType = HttpRequest::class;
   protected $httpRequestDataType = '';
   /**
@@ -80,6 +83,20 @@ class LogEntry extends \Google\Model
    */
   public $traceSampled;
 
+  /**
+   * @param LogErrorGroup[]
+   */
+  public function setErrorGroups($errorGroups)
+  {
+    $this->errorGroups = $errorGroups;
+  }
+  /**
+   * @return LogErrorGroup[]
+   */
+  public function getErrorGroups()
+  {
+    return $this->errorGroups;
+  }
   /**
    * @param HttpRequest
    */

@@ -30,10 +30,11 @@ use Google\Service\Drive\Channel;
 class Channels extends \Google\Service\Resource
 {
   /**
-   * Stop watching resources through this channel (channels.stop)
+   * Stops watching resources through this channel. (channels.stop)
    *
    * @param Channel $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function stop(Channel $postBody, $optParams = [])
   {

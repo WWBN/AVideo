@@ -47,6 +47,7 @@ class ProjectsLogs extends \Google\Service\Resource
    * information about log names, see LogEntry.
    * @param array $optParams Optional parameters.
    * @return LoggingEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($logName, $optParams = [])
   {
@@ -80,6 +81,7 @@ class ProjectsLogs extends \Google\Service\Resource
    * billingAccounts/[BILLING_ACCOUNT_ID] folders/[FOLDER_ID]The resource name in
    * the parent field is added to this list.
    * @return ListLogsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLogs($parent, $optParams = [])
   {

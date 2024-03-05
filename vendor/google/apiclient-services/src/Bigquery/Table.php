@@ -17,18 +17,11 @@
 
 namespace Google\Service\Bigquery;
 
-class Table extends \Google\Model
+class Table extends \Google\Collection
 {
-  protected $internal_gapi_mappings = [
-        "numActiveLogicalBytes" => "num_active_logical_bytes",
-        "numActivePhysicalBytes" => "num_active_physical_bytes",
-        "numLongTermLogicalBytes" => "num_long_term_logical_bytes",
-        "numLongTermPhysicalBytes" => "num_long_term_physical_bytes",
-        "numPartitions" => "num_partitions",
-        "numTimeTravelPhysicalBytes" => "num_time_travel_physical_bytes",
-        "numTotalLogicalBytes" => "num_total_logical_bytes",
-        "numTotalPhysicalBytes" => "num_total_physical_bytes",
-  ];
+  protected $collection_key = 'replicas';
+  protected $biglakeConfigurationType = BigLakeConfiguration::class;
+  protected $biglakeConfigurationDataType = '';
   protected $cloneDefinitionType = CloneDefinition::class;
   protected $cloneDefinitionDataType = '';
   protected $clusteringType = Clustering::class;
@@ -87,6 +80,8 @@ class Table extends \Google\Model
   public $location;
   protected $materializedViewType = MaterializedViewDefinition::class;
   protected $materializedViewDataType = '';
+  protected $materializedViewStatusType = MaterializedViewStatus::class;
+  protected $materializedViewStatusDataType = '';
   /**
    * @var string
    */
@@ -96,27 +91,19 @@ class Table extends \Google\Model
   /**
    * @var string
    */
-  public $numBytes;
-  /**
-   * @var string
-   */
-  public $numLongTermBytes;
-  /**
-   * @var string
-   */
-  public $numPhysicalBytes;
-  /**
-   * @var string
-   */
-  public $numRows;
-  /**
-   * @var string
-   */
   public $numActiveLogicalBytes;
   /**
    * @var string
    */
   public $numActivePhysicalBytes;
+  /**
+   * @var string
+   */
+  public $numBytes;
+  /**
+   * @var string
+   */
+  public $numLongTermBytes;
   /**
    * @var string
    */
@@ -132,6 +119,14 @@ class Table extends \Google\Model
   /**
    * @var string
    */
+  public $numPhysicalBytes;
+  /**
+   * @var string
+   */
+  public $numRows;
+  /**
+   * @var string
+   */
   public $numTimeTravelPhysicalBytes;
   /**
    * @var string
@@ -143,10 +138,16 @@ class Table extends \Google\Model
   public $numTotalPhysicalBytes;
   protected $rangePartitioningType = RangePartitioning::class;
   protected $rangePartitioningDataType = '';
+  protected $replicasType = TableReference::class;
+  protected $replicasDataType = 'array';
   /**
    * @var bool
    */
   public $requirePartitionFilter;
+  /**
+   * @var string[]
+   */
+  public $resourceTags;
   protected $schemaType = TableSchema::class;
   protected $schemaDataType = '';
   /**
@@ -157,8 +158,12 @@ class Table extends \Google\Model
   protected $snapshotDefinitionDataType = '';
   protected $streamingBufferType = Streamingbuffer::class;
   protected $streamingBufferDataType = '';
+  protected $tableConstraintsType = TableConstraints::class;
+  protected $tableConstraintsDataType = '';
   protected $tableReferenceType = TableReference::class;
   protected $tableReferenceDataType = '';
+  protected $tableReplicationInfoType = TableReplicationInfo::class;
+  protected $tableReplicationInfoDataType = '';
   protected $timePartitioningType = TimePartitioning::class;
   protected $timePartitioningDataType = '';
   /**
@@ -168,6 +173,20 @@ class Table extends \Google\Model
   protected $viewType = ViewDefinition::class;
   protected $viewDataType = '';
 
+  /**
+   * @param BigLakeConfiguration
+   */
+  public function setBiglakeConfiguration(BigLakeConfiguration $biglakeConfiguration)
+  {
+    $this->biglakeConfiguration = $biglakeConfiguration;
+  }
+  /**
+   * @return BigLakeConfiguration
+   */
+  public function getBiglakeConfiguration()
+  {
+    return $this->biglakeConfiguration;
+  }
   /**
    * @param CloneDefinition
    */
@@ -407,6 +426,20 @@ class Table extends \Google\Model
     return $this->materializedView;
   }
   /**
+   * @param MaterializedViewStatus
+   */
+  public function setMaterializedViewStatus(MaterializedViewStatus $materializedViewStatus)
+  {
+    $this->materializedViewStatus = $materializedViewStatus;
+  }
+  /**
+   * @return MaterializedViewStatus
+   */
+  public function getMaterializedViewStatus()
+  {
+    return $this->materializedViewStatus;
+  }
+  /**
    * @param string
    */
   public function setMaxStaleness($maxStaleness)
@@ -437,62 +470,6 @@ class Table extends \Google\Model
   /**
    * @param string
    */
-  public function setNumBytes($numBytes)
-  {
-    $this->numBytes = $numBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getNumBytes()
-  {
-    return $this->numBytes;
-  }
-  /**
-   * @param string
-   */
-  public function setNumLongTermBytes($numLongTermBytes)
-  {
-    $this->numLongTermBytes = $numLongTermBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getNumLongTermBytes()
-  {
-    return $this->numLongTermBytes;
-  }
-  /**
-   * @param string
-   */
-  public function setNumPhysicalBytes($numPhysicalBytes)
-  {
-    $this->numPhysicalBytes = $numPhysicalBytes;
-  }
-  /**
-   * @return string
-   */
-  public function getNumPhysicalBytes()
-  {
-    return $this->numPhysicalBytes;
-  }
-  /**
-   * @param string
-   */
-  public function setNumRows($numRows)
-  {
-    $this->numRows = $numRows;
-  }
-  /**
-   * @return string
-   */
-  public function getNumRows()
-  {
-    return $this->numRows;
-  }
-  /**
-   * @param string
-   */
   public function setNumActiveLogicalBytes($numActiveLogicalBytes)
   {
     $this->numActiveLogicalBytes = $numActiveLogicalBytes;
@@ -517,6 +494,34 @@ class Table extends \Google\Model
   public function getNumActivePhysicalBytes()
   {
     return $this->numActivePhysicalBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setNumBytes($numBytes)
+  {
+    $this->numBytes = $numBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getNumBytes()
+  {
+    return $this->numBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setNumLongTermBytes($numLongTermBytes)
+  {
+    $this->numLongTermBytes = $numLongTermBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getNumLongTermBytes()
+  {
+    return $this->numLongTermBytes;
   }
   /**
    * @param string
@@ -559,6 +564,34 @@ class Table extends \Google\Model
   public function getNumPartitions()
   {
     return $this->numPartitions;
+  }
+  /**
+   * @param string
+   */
+  public function setNumPhysicalBytes($numPhysicalBytes)
+  {
+    $this->numPhysicalBytes = $numPhysicalBytes;
+  }
+  /**
+   * @return string
+   */
+  public function getNumPhysicalBytes()
+  {
+    return $this->numPhysicalBytes;
+  }
+  /**
+   * @param string
+   */
+  public function setNumRows($numRows)
+  {
+    $this->numRows = $numRows;
+  }
+  /**
+   * @return string
+   */
+  public function getNumRows()
+  {
+    return $this->numRows;
   }
   /**
    * @param string
@@ -617,6 +650,20 @@ class Table extends \Google\Model
     return $this->rangePartitioning;
   }
   /**
+   * @param TableReference[]
+   */
+  public function setReplicas($replicas)
+  {
+    $this->replicas = $replicas;
+  }
+  /**
+   * @return TableReference[]
+   */
+  public function getReplicas()
+  {
+    return $this->replicas;
+  }
+  /**
    * @param bool
    */
   public function setRequirePartitionFilter($requirePartitionFilter)
@@ -629,6 +676,20 @@ class Table extends \Google\Model
   public function getRequirePartitionFilter()
   {
     return $this->requirePartitionFilter;
+  }
+  /**
+   * @param string[]
+   */
+  public function setResourceTags($resourceTags)
+  {
+    $this->resourceTags = $resourceTags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getResourceTags()
+  {
+    return $this->resourceTags;
   }
   /**
    * @param TableSchema
@@ -687,6 +748,20 @@ class Table extends \Google\Model
     return $this->streamingBuffer;
   }
   /**
+   * @param TableConstraints
+   */
+  public function setTableConstraints(TableConstraints $tableConstraints)
+  {
+    $this->tableConstraints = $tableConstraints;
+  }
+  /**
+   * @return TableConstraints
+   */
+  public function getTableConstraints()
+  {
+    return $this->tableConstraints;
+  }
+  /**
    * @param TableReference
    */
   public function setTableReference(TableReference $tableReference)
@@ -699,6 +774,20 @@ class Table extends \Google\Model
   public function getTableReference()
   {
     return $this->tableReference;
+  }
+  /**
+   * @param TableReplicationInfo
+   */
+  public function setTableReplicationInfo(TableReplicationInfo $tableReplicationInfo)
+  {
+    $this->tableReplicationInfo = $tableReplicationInfo;
+  }
+  /**
+   * @return TableReplicationInfo
+   */
+  public function getTableReplicationInfo()
+  {
+    return $this->tableReplicationInfo;
   }
   /**
    * @param TimePartitioning

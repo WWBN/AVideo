@@ -43,6 +43,7 @@ class OrderreturnsLabels extends \Google\Service\Resource
    * @param ReturnShippingLabel $postBody
    * @param array $optParams Optional parameters.
    * @return ReturnShippingLabel
+   * @throws \Google\Service\Exception
    */
   public function create($merchantId, $returnId, ReturnShippingLabel $postBody, $optParams = [])
   {

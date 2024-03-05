@@ -47,6 +47,7 @@ class ServicesProjectsServicenetworkingGlobalNetworksPeeredDnsDomains extends \G
    * @param PeeredDnsDomain $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, PeeredDnsDomain $postBody, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ServicesProjectsServicenetworkingGlobalNetworksPeeredDnsDomains extends \G
    * peered DNS domain.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ServicesProjectsServicenetworkingGlobalNetworksPeeredDnsDomains extends \G
    * {network} is the name of the service consumer's VPC network.
    * @param array $optParams Optional parameters.
    * @return ListPeeredDnsDomainsResponse
+   * @throws \Google\Service\Exception
    */
   public function listServicesProjectsServicenetworkingGlobalNetworksPeeredDnsDomains($parent, $optParams = [])
   {

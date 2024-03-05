@@ -71,6 +71,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * resource will be persisted regardless of the CaPool's tier, and the returned
    * Certificate will not contain the pem_certificate field.
    * @return Certificate
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Certificate $postBody, $optParams = [])
   {
@@ -84,6 +85,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * @param string $name Required. The name of the Certificate to get.
    * @param array $optParams Optional parameters.
    * @return Certificate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -104,8 +106,8 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * authority-service/docs/sorting-filtering-certificates#filtering_support).
    * @opt_param string orderBy Optional. Specify how the results should be sorted.
    * For details on supported fields and syntax, see [Certificates Sorting
-   * documentation](https://cloud.google.com/certificate-authority-service/docs
-   * /sorting-filtering-certificates#sorting_support).
+   * documentation](https://cloud.google.com/certificate-authority-
+   * service/docs/sorting-filtering-certificates#sorting_support).
    * @opt_param int pageSize Optional. Limit on the number of Certificates to
    * include in the response. Further Certificates can subsequently be obtained by
    * including the ListCertificatesResponse.next_page_token in a subsequent
@@ -113,6 +115,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Pagination token, returned earlier via
    * ListCertificatesResponse.next_page_token.
    * @return ListCertificatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCaPoolsCertificates($parent, $optParams = [])
   {
@@ -143,6 +146,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * @opt_param string updateMask Required. A list of fields to be updated in this
    * request.
    * @return Certificate
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Certificate $postBody, $optParams = [])
   {
@@ -158,6 +162,7 @@ class ProjectsLocationsCaPoolsCertificates extends \Google\Service\Resource
    * @param RevokeCertificateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Certificate
+   * @throws \Google\Service\Exception
    */
   public function revoke($name, RevokeCertificateRequest $postBody, $optParams = [])
   {

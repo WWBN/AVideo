@@ -38,6 +38,7 @@ class Organizations extends \Google\Service\Resource
    * "organizations/[organization_id]/organizationSettings".
    * @param array $optParams Optional parameters.
    * @return OrganizationSettings
+   * @throws \Google\Service\Exception
    */
   public function getOrganizationSettings($name, $optParams = [])
   {
@@ -58,6 +59,7 @@ class Organizations extends \Google\Service\Resource
    * @opt_param string updateMask The FieldMask to use when updating the settings
    * resource. If empty all mutable fields will be updated.
    * @return OrganizationSettings
+   * @throws \Google\Service\Exception
    */
   public function updateOrganizationSettings($name, OrganizationSettings $postBody, $optParams = [])
   {

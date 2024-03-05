@@ -41,6 +41,7 @@ class ProjectsLocationsSourcesErrorFrames extends \Google\Service\Resource
    * @opt_param string view Optional. An optional view mode to control the level
    * of details for the frame. The default is a basic frame view.
    * @return ErrorFrame
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -63,6 +64,7 @@ class ProjectsLocationsSourcesErrorFrames extends \Google\Service\Resource
    * @opt_param string view Optional. An optional view mode to control the level
    * of details of each error frame. The default is a BASIC frame view.
    * @return ListErrorFramesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSourcesErrorFrames($parent, $optParams = [])
   {

@@ -18,6 +18,10 @@
 namespace Google\Service\AndroidPublisher\Resource;
 
 use Google\Service\AndroidPublisher\ActivateBasePlanRequest;
+use Google\Service\AndroidPublisher\BatchMigrateBasePlanPricesRequest;
+use Google\Service\AndroidPublisher\BatchMigrateBasePlanPricesResponse;
+use Google\Service\AndroidPublisher\BatchUpdateBasePlanStatesRequest;
+use Google\Service\AndroidPublisher\BatchUpdateBasePlanStatesResponse;
 use Google\Service\AndroidPublisher\DeactivateBasePlanRequest;
 use Google\Service\AndroidPublisher\MigrateBasePlanPricesRequest;
 use Google\Service\AndroidPublisher\MigrateBasePlanPricesResponse;
@@ -46,12 +50,57 @@ class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource
    * @param ActivateBasePlanRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function activate($packageName, $productId, $basePlanId, ActivateBasePlanRequest $postBody, $optParams = [])
   {
     $params = ['packageName' => $packageName, 'productId' => $productId, 'basePlanId' => $basePlanId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('activate', [$params], Subscription::class);
+  }
+  /**
+   * Batch variant of the MigrateBasePlanPrices endpoint. Set the latencyTolerance
+   * field on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT
+   * to achieve maximum update throughput. (basePlans.batchMigratePrices)
+   *
+   * @param string $packageName Required. The parent app (package name) for which
+   * the subscriptions should be created or updated. Must be equal to the
+   * package_name field on all the Subscription resources.
+   * @param string $productId Required. The product ID of the parent subscription,
+   * if all updated offers belong to the same subscription. If this batch update
+   * spans multiple subscriptions, set this field to "-". Must be set.
+   * @param BatchMigrateBasePlanPricesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchMigrateBasePlanPricesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchMigratePrices($packageName, $productId, BatchMigrateBasePlanPricesRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'productId' => $productId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchMigratePrices', [$params], BatchMigrateBasePlanPricesResponse::class);
+  }
+  /**
+   * Activates or deactivates base plans across one or multiple subscriptions. Set
+   * the latencyTolerance field on nested requests to
+   * PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to achieve maximum update
+   * throughput. (basePlans.batchUpdateStates)
+   *
+   * @param string $packageName Required. The parent app (package name) of the
+   * updated base plans.
+   * @param string $productId Required. The product ID of the parent subscription,
+   * if all updated base plans belong to the same subscription. If this batch
+   * update spans multiple subscriptions, set this field to "-". Must be set.
+   * @param BatchUpdateBasePlanStatesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchUpdateBasePlanStatesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchUpdateStates($packageName, $productId, BatchUpdateBasePlanStatesRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'productId' => $productId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchUpdateStates', [$params], BatchUpdateBasePlanStatesResponse::class);
   }
   /**
    * Deactivates a base plan. Once deactivated, the base plan will become
@@ -67,6 +116,7 @@ class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource
    * @param DeactivateBasePlanRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function deactivate($packageName, $productId, $basePlanId, DeactivateBasePlanRequest $postBody, $optParams = [])
   {
@@ -85,6 +135,7 @@ class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource
    * @param string $basePlanId Required. The unique offer ID of the base plan to
    * delete.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($packageName, $productId, $basePlanId, $optParams = [])
   {
@@ -109,6 +160,7 @@ class MonetizationSubscriptionsBasePlans extends \Google\Service\Resource
    * @param MigrateBasePlanPricesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return MigrateBasePlanPricesResponse
+   * @throws \Google\Service\Exception
    */
   public function migratePrices($packageName, $productId, $basePlanId, MigrateBasePlanPricesRequest $postBody, $optParams = [])
   {

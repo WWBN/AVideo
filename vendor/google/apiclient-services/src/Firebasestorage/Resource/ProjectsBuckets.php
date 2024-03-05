@@ -39,10 +39,11 @@ class ProjectsBuckets extends \Google\Service\Resource
    *
    * @param string $bucket Required. Resource name of the bucket, mirrors the ID
    * of the underlying Google Cloud Storage bucket,
-   * `projects/{project_number}/buckets/{bucket_id}`.
+   * `projects/{project_id_or_number}/buckets/{bucket_id}`.
    * @param AddFirebaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function addFirebase($bucket, AddFirebaseRequest $postBody, $optParams = [])
   {
@@ -55,9 +56,10 @@ class ProjectsBuckets extends \Google\Service\Resource
    *
    * @param string $name Required. Resource name of the bucket, mirrors the ID of
    * the underlying Google Cloud Storage bucket,
-   * `projects/{project_number}/buckets/{bucket_id}`.
+   * `projects/{project_id_or_number}/buckets/{bucket_id}`.
    * @param array $optParams Optional parameters.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -69,7 +71,7 @@ class ProjectsBuckets extends \Google\Service\Resource
    * Lists the linked storage buckets for a project. (buckets.listProjectsBuckets)
    *
    * @param string $parent Required. Resource name of the parent Firebase project,
-   * `projects/{project_number}`.
+   * `projects/{project_id_or_number}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of buckets to return. If not set,
@@ -79,6 +81,7 @@ class ProjectsBuckets extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListBuckets` must match the
    * call that provided the page token.
    * @return ListBucketsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsBuckets($parent, $optParams = [])
   {
@@ -92,10 +95,11 @@ class ProjectsBuckets extends \Google\Service\Resource
    *
    * @param string $bucket Required. Resource name of the bucket, mirrors the ID
    * of the underlying Google Cloud Storage bucket,
-   * `projects/{project_number}/buckets/{bucket_id}`.
+   * `projects/{project_id_or_number}/buckets/{bucket_id}`.
    * @param RemoveFirebaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return FirebasestorageEmpty
+   * @throws \Google\Service\Exception
    */
   public function removeFirebase($bucket, RemoveFirebaseRequest $postBody, $optParams = [])
   {

@@ -44,6 +44,7 @@ class ProjectsMetricDescriptors extends \Google\Service\Resource
    * @param MetricDescriptor $postBody
    * @param array $optParams Optional parameters.
    * @return MetricDescriptor
+   * @throws \Google\Service\Exception
    */
   public function create($name, MetricDescriptor $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsMetricDescriptors extends \Google\Service\Resource
    * [METRIC_ID] is: "custom.googleapis.com/my_test_metric".
    * @param array $optParams Optional parameters.
    * @return MonitoringEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsMetricDescriptors extends \Google\Service\Resource
    * "compute.googleapis.com/instance/disk/read_bytes_count".
    * @param array $optParams Optional parameters.
    * @return MetricDescriptor
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -109,6 +112,7 @@ class ProjectsMetricDescriptors extends \Google\Service\Resource
    * this field causes the method to return additional results from the previous
    * method call.
    * @return ListMetricDescriptorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsMetricDescriptors($name, $optParams = [])
   {

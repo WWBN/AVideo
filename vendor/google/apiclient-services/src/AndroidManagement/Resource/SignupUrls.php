@@ -43,6 +43,7 @@ class SignupUrls extends \Google\Service\Resource
    * @opt_param string projectId The ID of the Google Cloud Platform project which
    * will own the enterprise.
    * @return SignupUrl
+   * @throws \Google\Service\Exception
    */
   public function create($optParams = [])
   {

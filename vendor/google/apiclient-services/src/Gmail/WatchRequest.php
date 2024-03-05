@@ -25,6 +25,10 @@ class WatchRequest extends \Google\Collection
    */
   public $labelFilterAction;
   /**
+   * @var string
+   */
+  public $labelFilterBehavior;
+  /**
    * @var string[]
    */
   public $labelIds;
@@ -46,6 +50,20 @@ class WatchRequest extends \Google\Collection
   public function getLabelFilterAction()
   {
     return $this->labelFilterAction;
+  }
+  /**
+   * @param string
+   */
+  public function setLabelFilterBehavior($labelFilterBehavior)
+  {
+    $this->labelFilterBehavior = $labelFilterBehavior;
+  }
+  /**
+   * @return string
+   */
+  public function getLabelFilterBehavior()
+  {
+    return $this->labelFilterBehavior;
   }
   /**
    * @param string[]

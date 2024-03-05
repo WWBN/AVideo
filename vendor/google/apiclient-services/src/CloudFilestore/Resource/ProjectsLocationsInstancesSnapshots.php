@@ -45,6 +45,7 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * lowercase letter followed by up to 62 lowercase letters, numbers, or hyphens,
    * and cannot end with a hyphen.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Snapshot $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * pshot_id}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * pshot_id}`
    * @param array $optParams Optional parameters.
    * @return Snapshot
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value to use if there are
    * additional results to retrieve for this list request.
    * @return ListSnapshotsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstancesSnapshots($parent, $optParams = [])
   {
@@ -117,6 +121,7 @@ class ProjectsLocationsInstancesSnapshots extends \Google\Service\Resource
    * @opt_param string updateMask Required. Mask of fields to update. At least one
    * path must be supplied in this field.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Snapshot $postBody, $optParams = [])
   {

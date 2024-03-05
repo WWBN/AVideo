@@ -44,6 +44,7 @@ class ResourceRecordSets extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResourceRecordSet
+   * @throws \Google\Service\Exception
    */
   public function create($project, $managedZone, ResourceRecordSet $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ResourceRecordSets extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResourceRecordSetsDeleteResponse
+   * @throws \Google\Service\Exception
    */
   public function delete($project, $managedZone, $name, $type, $optParams = [])
   {
@@ -87,6 +89,7 @@ class ResourceRecordSets extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResourceRecordSet
+   * @throws \Google\Service\Exception
    */
   public function get($project, $managedZone, $name, $type, $optParams = [])
   {
@@ -113,6 +116,7 @@ class ResourceRecordSets extends \Google\Service\Resource
    * @opt_param string type Restricts the list to return only records of this
    * type. If present, the "name" parameter must also be present.
    * @return ResourceRecordSetsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listResourceRecordSets($project, $managedZone, $optParams = [])
   {
@@ -136,6 +140,7 @@ class ResourceRecordSets extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResourceRecordSet
+   * @throws \Google\Service\Exception
    */
   public function patch($project, $managedZone, $name, $type, ResourceRecordSet $postBody, $optParams = [])
   {

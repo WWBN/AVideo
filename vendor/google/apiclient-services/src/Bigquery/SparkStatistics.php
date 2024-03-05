@@ -19,15 +19,18 @@ namespace Google\Service\Bigquery;
 
 class SparkStatistics extends \Google\Model
 {
-  protected $internal_gapi_mappings = [
-        "loggingInfo" => "logging_info",
-        "sparkJobId" => "spark_job_id",
-        "sparkJobLocation" => "spark_job_location",
-  ];
   /**
    * @var string[]
    */
   public $endpoints;
+  /**
+   * @var string
+   */
+  public $gcsStagingBucket;
+  /**
+   * @var string
+   */
+  public $kmsKeyName;
   protected $loggingInfoType = SparkLoggingInfo::class;
   protected $loggingInfoDataType = '';
   /**
@@ -52,6 +55,34 @@ class SparkStatistics extends \Google\Model
   public function getEndpoints()
   {
     return $this->endpoints;
+  }
+  /**
+   * @param string
+   */
+  public function setGcsStagingBucket($gcsStagingBucket)
+  {
+    $this->gcsStagingBucket = $gcsStagingBucket;
+  }
+  /**
+   * @return string
+   */
+  public function getGcsStagingBucket()
+  {
+    return $this->gcsStagingBucket;
+  }
+  /**
+   * @param string
+   */
+  public function setKmsKeyName($kmsKeyName)
+  {
+    $this->kmsKeyName = $kmsKeyName;
+  }
+  /**
+   * @return string
+   */
+  public function getKmsKeyName()
+  {
+    return $this->kmsKeyName;
   }
   /**
    * @param SparkLoggingInfo

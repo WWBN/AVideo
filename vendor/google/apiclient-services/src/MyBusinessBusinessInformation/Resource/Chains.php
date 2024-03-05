@@ -38,6 +38,7 @@ class Chains extends \Google\Service\Resource
    * `chains/{chain_place_id}`.
    * @param array $optParams Optional parameters.
    * @return Chain
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Chains extends \Google\Service\Resource
    * @opt_param int pageSize The maximum number of matched chains to return from
    * this query. The default is 10. The maximum possible value is 500.
    * @return SearchChainsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

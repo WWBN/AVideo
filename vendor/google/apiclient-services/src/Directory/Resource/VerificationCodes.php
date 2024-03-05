@@ -35,6 +35,7 @@ class VerificationCodes extends \Google\Service\Resource
    *
    * @param string $userKey Email or immutable ID of the user
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function generate($userKey, $optParams = [])
   {
@@ -48,6 +49,7 @@ class VerificationCodes extends \Google\Service\Resource
    *
    * @param string $userKey Email or immutable ID of the user
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function invalidate($userKey, $optParams = [])
   {
@@ -63,6 +65,7 @@ class VerificationCodes extends \Google\Service\Resource
    * be the user's primary email address, alias email address, or unique user ID.
    * @param array $optParams Optional parameters.
    * @return VerificationCodesModel
+   * @throws \Google\Service\Exception
    */
   public function listVerificationCodes($userKey, $optParams = [])
   {

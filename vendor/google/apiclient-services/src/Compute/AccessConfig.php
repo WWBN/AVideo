@@ -48,6 +48,10 @@ class AccessConfig extends \Google\Model
    */
   public $publicPtrDomainName;
   /**
+   * @var string
+   */
+  public $securityPolicy;
+  /**
    * @var bool
    */
   public $setPublicPtr;
@@ -153,6 +157,20 @@ class AccessConfig extends \Google\Model
   public function getPublicPtrDomainName()
   {
     return $this->publicPtrDomainName;
+  }
+  /**
+   * @param string
+   */
+  public function setSecurityPolicy($securityPolicy)
+  {
+    $this->securityPolicy = $securityPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getSecurityPolicy()
+  {
+    return $this->securityPolicy;
   }
   /**
    * @param bool

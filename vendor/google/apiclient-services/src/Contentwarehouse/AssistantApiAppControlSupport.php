@@ -23,6 +23,10 @@ class AssistantApiAppControlSupport extends \Google\Model
    * @var string
    */
   public $enabled;
+  /**
+   * @var bool
+   */
+  public $sendMessageSuppressed;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class AssistantApiAppControlSupport extends \Google\Model
   public function getEnabled()
   {
     return $this->enabled;
+  }
+  /**
+   * @param bool
+   */
+  public function setSendMessageSuppressed($sendMessageSuppressed)
+  {
+    $this->sendMessageSuppressed = $sendMessageSuppressed;
+  }
+  /**
+   * @return bool
+   */
+  public function getSendMessageSuppressed()
+  {
+    return $this->sendMessageSuppressed;
   }
 }
 

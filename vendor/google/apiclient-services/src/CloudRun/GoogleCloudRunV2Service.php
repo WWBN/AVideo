@@ -45,6 +45,14 @@ class GoogleCloudRunV2Service extends \Google\Collection
    */
   public $creator;
   /**
+   * @var string[]
+   */
+  public $customAudiences;
+  /**
+   * @var bool
+   */
+  public $defaultUriDisabled;
+  /**
    * @var string
    */
   public $deleteTime;
@@ -104,6 +112,8 @@ class GoogleCloudRunV2Service extends \Google\Collection
    * @var bool
    */
   public $satisfiesPzs;
+  protected $scalingType = GoogleCloudRunV2ServiceScaling::class;
+  protected $scalingDataType = '';
   protected $templateType = GoogleCloudRunV2RevisionTemplate::class;
   protected $templateDataType = '';
   protected $terminalConditionType = GoogleCloudRunV2Condition::class;
@@ -222,6 +232,34 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getCreator()
   {
     return $this->creator;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCustomAudiences($customAudiences)
+  {
+    $this->customAudiences = $customAudiences;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomAudiences()
+  {
+    return $this->customAudiences;
+  }
+  /**
+   * @param bool
+   */
+  public function setDefaultUriDisabled($defaultUriDisabled)
+  {
+    $this->defaultUriDisabled = $defaultUriDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getDefaultUriDisabled()
+  {
+    return $this->defaultUriDisabled;
   }
   /**
    * @param string
@@ -432,6 +470,20 @@ class GoogleCloudRunV2Service extends \Google\Collection
   public function getSatisfiesPzs()
   {
     return $this->satisfiesPzs;
+  }
+  /**
+   * @param GoogleCloudRunV2ServiceScaling
+   */
+  public function setScaling(GoogleCloudRunV2ServiceScaling $scaling)
+  {
+    $this->scaling = $scaling;
+  }
+  /**
+   * @return GoogleCloudRunV2ServiceScaling
+   */
+  public function getScaling()
+  {
+    return $this->scaling;
   }
   /**
    * @param GoogleCloudRunV2RevisionTemplate

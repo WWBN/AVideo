@@ -50,6 +50,7 @@ class ContactGroups extends \Google\Service\Resource
    * @opt_param string resourceNames Required. The resource names of the contact
    * groups to get. There is a maximum of 200 resource names.
    * @return BatchGetContactGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($optParams = [])
   {
@@ -67,6 +68,7 @@ class ContactGroups extends \Google\Service\Resource
    * @param CreateContactGroupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ContactGroup
+   * @throws \Google\Service\Exception
    */
   public function create(CreateContactGroupRequest $postBody, $optParams = [])
   {
@@ -87,6 +89,7 @@ class ContactGroups extends \Google\Service\Resource
    * @opt_param bool deleteContacts Optional. Set to true to also delete the
    * contacts in the specified group.
    * @return PeopleEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($resourceName, $optParams = [])
   {
@@ -109,6 +112,7 @@ class ContactGroups extends \Google\Service\Resource
    * @opt_param int maxMembers Optional. Specifies the maximum number of members
    * to return. Defaults to 0 if not set, which will return zero members.
    * @return ContactGroup
+   * @throws \Google\Service\Exception
    */
   public function get($resourceName, $optParams = [])
   {
@@ -137,6 +141,7 @@ class ContactGroups extends \Google\Service\Resource
    * call to `contactgroups.list`. Only resources changed since the sync token was
    * created will be returned.
    * @return ListContactGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listContactGroups($optParams = [])
   {
@@ -157,6 +162,7 @@ class ContactGroups extends \Google\Service\Resource
    * @param UpdateContactGroupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ContactGroup
+   * @throws \Google\Service\Exception
    */
   public function update($resourceName, UpdateContactGroupRequest $postBody, $optParams = [])
   {

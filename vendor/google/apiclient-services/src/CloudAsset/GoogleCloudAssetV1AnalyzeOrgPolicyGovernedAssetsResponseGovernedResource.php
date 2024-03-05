@@ -21,6 +21,12 @@ class GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedResource e
 {
   protected $collection_key = 'folders';
   /**
+   * @var string
+   */
+  public $assetType;
+  protected $effectiveTagsType = EffectiveTagDetails::class;
+  protected $effectiveTagsDataType = 'array';
+  /**
    * @var string[]
    */
   public $folders;
@@ -41,6 +47,34 @@ class GoogleCloudAssetV1AnalyzeOrgPolicyGovernedAssetsResponseGovernedResource e
    */
   public $project;
 
+  /**
+   * @param string
+   */
+  public function setAssetType($assetType)
+  {
+    $this->assetType = $assetType;
+  }
+  /**
+   * @return string
+   */
+  public function getAssetType()
+  {
+    return $this->assetType;
+  }
+  /**
+   * @param EffectiveTagDetails[]
+   */
+  public function setEffectiveTags($effectiveTags)
+  {
+    $this->effectiveTags = $effectiveTags;
+  }
+  /**
+   * @return EffectiveTagDetails[]
+   */
+  public function getEffectiveTags()
+  {
+    return $this->effectiveTags;
+  }
   /**
    * @param string[]
    */

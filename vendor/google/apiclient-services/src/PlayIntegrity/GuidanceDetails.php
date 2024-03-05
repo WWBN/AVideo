@@ -19,25 +19,23 @@ namespace Google\Service\PlayIntegrity;
 
 class GuidanceDetails extends \Google\Collection
 {
-  protected $collection_key = 'userRemediation';
-  /**
-   * @var string[]
-   */
-  public $userRemediation;
+  protected $collection_key = 'userRemediationDetails';
+  protected $userRemediationDetailsType = UserRemediationDetails::class;
+  protected $userRemediationDetailsDataType = 'array';
 
   /**
-   * @param string[]
+   * @param UserRemediationDetails[]
    */
-  public function setUserRemediation($userRemediation)
+  public function setUserRemediationDetails($userRemediationDetails)
   {
-    $this->userRemediation = $userRemediation;
+    $this->userRemediationDetails = $userRemediationDetails;
   }
   /**
-   * @return string[]
+   * @return UserRemediationDetails[]
    */
-  public function getUserRemediation()
+  public function getUserRemediationDetails()
   {
-    return $this->userRemediation;
+    return $this->userRemediationDetails;
   }
 }
 

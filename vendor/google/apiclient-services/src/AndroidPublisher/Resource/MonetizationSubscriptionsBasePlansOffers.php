@@ -18,6 +18,12 @@
 namespace Google\Service\AndroidPublisher\Resource;
 
 use Google\Service\AndroidPublisher\ActivateSubscriptionOfferRequest;
+use Google\Service\AndroidPublisher\BatchGetSubscriptionOffersRequest;
+use Google\Service\AndroidPublisher\BatchGetSubscriptionOffersResponse;
+use Google\Service\AndroidPublisher\BatchUpdateSubscriptionOfferStatesRequest;
+use Google\Service\AndroidPublisher\BatchUpdateSubscriptionOfferStatesResponse;
+use Google\Service\AndroidPublisher\BatchUpdateSubscriptionOffersRequest;
+use Google\Service\AndroidPublisher\BatchUpdateSubscriptionOffersResponse;
 use Google\Service\AndroidPublisher\DeactivateSubscriptionOfferRequest;
 use Google\Service\AndroidPublisher\ListSubscriptionOffersResponse;
 use Google\Service\AndroidPublisher\SubscriptionOffer;
@@ -47,12 +53,86 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param ActivateSubscriptionOfferRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SubscriptionOffer
+   * @throws \Google\Service\Exception
    */
   public function activate($packageName, $productId, $basePlanId, $offerId, ActivateSubscriptionOfferRequest $postBody, $optParams = [])
   {
     $params = ['packageName' => $packageName, 'productId' => $productId, 'basePlanId' => $basePlanId, 'offerId' => $offerId, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('activate', [$params], SubscriptionOffer::class);
+  }
+  /**
+   * Reads one or more subscription offers. (offers.batchGet)
+   *
+   * @param string $packageName Required. The parent app (package name) for which
+   * the subscriptions should be created or updated. Must be equal to the
+   * package_name field on all the requests.
+   * @param string $productId Required. The product ID of the parent subscription,
+   * if all updated offers belong to the same subscription. If this request spans
+   * multiple subscriptions, set this field to "-". Must be set.
+   * @param string $basePlanId Required. The parent base plan (ID) for which the
+   * offers should be read. May be specified as '-' to read offers from multiple
+   * base plans.
+   * @param BatchGetSubscriptionOffersRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchGetSubscriptionOffersResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchGet($packageName, $productId, $basePlanId, BatchGetSubscriptionOffersRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'productId' => $productId, 'basePlanId' => $basePlanId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchGet', [$params], BatchGetSubscriptionOffersResponse::class);
+  }
+  /**
+   * Updates a batch of subscription offers. Set the latencyTolerance field on
+   * nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to
+   * achieve maximum update throughput. (offers.batchUpdate)
+   *
+   * @param string $packageName Required. The parent app (package name) of the
+   * updated subscription offers. Must be equal to the package_name field on all
+   * the updated SubscriptionOffer resources.
+   * @param string $productId Required. The product ID of the parent subscription,
+   * if all updated offers belong to the same subscription. If this request spans
+   * multiple subscriptions, set this field to "-". Must be set.
+   * @param string $basePlanId Required. The parent base plan (ID) for which the
+   * offers should be updated. May be specified as '-' to update offers from
+   * multiple base plans.
+   * @param BatchUpdateSubscriptionOffersRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchUpdateSubscriptionOffersResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchUpdate($packageName, $productId, $basePlanId, BatchUpdateSubscriptionOffersRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'productId' => $productId, 'basePlanId' => $basePlanId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchUpdate', [$params], BatchUpdateSubscriptionOffersResponse::class);
+  }
+  /**
+   * Updates a batch of subscription offer states. Set the latencyTolerance field
+   * on nested requests to PRODUCT_UPDATE_LATENCY_TOLERANCE_LATENCY_TOLERANT to
+   * achieve maximum update throughput. (offers.batchUpdateStates)
+   *
+   * @param string $packageName Required. The parent app (package name) of the
+   * updated subscription offers. Must be equal to the package_name field on all
+   * the updated SubscriptionOffer resources.
+   * @param string $productId Required. The product ID of the parent subscription,
+   * if all updated offers belong to the same subscription. If this request spans
+   * multiple subscriptions, set this field to "-". Must be set.
+   * @param string $basePlanId Required. The parent base plan (ID) for which the
+   * offers should be updated. May be specified as '-' to update offers from
+   * multiple base plans.
+   * @param BatchUpdateSubscriptionOfferStatesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BatchUpdateSubscriptionOfferStatesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function batchUpdateStates($packageName, $productId, $basePlanId, BatchUpdateSubscriptionOfferStatesRequest $postBody, $optParams = [])
+  {
+    $params = ['packageName' => $packageName, 'productId' => $productId, 'basePlanId' => $basePlanId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchUpdateStates', [$params], BatchUpdateSubscriptionOfferStatesResponse::class);
   }
   /**
    * Creates a new subscription offer. Only auto-renewing base plans can have
@@ -74,9 +154,17 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @opt_param string offerId Required. The ID to use for the offer. For the
    * requirements on this format, see the documentation of the offer_id field on
    * the SubscriptionOffer resource.
-   * @opt_param string regionsVersion.version Required. The latest version is
-   * 2022/02.
+   * @opt_param string regionsVersion.version Required. A string representing the
+   * version of available regions being used for the specified resource. Regional
+   * prices for the resource have to be specified according to the information
+   * published in [this article](https://support.google.com/googleplay/android-
+   * developer/answer/10532353). Each time the supported locations substantially
+   * change, the version will be incremented. Using this field will ensure that
+   * creating and updating the resource with an older region's version and set of
+   * regional prices and currencies will succeed even though a new version is
+   * available. The latest version is 2022/02.
    * @return SubscriptionOffer
+   * @throws \Google\Service\Exception
    */
   public function create($packageName, $productId, $basePlanId, SubscriptionOffer $postBody, $optParams = [])
   {
@@ -100,6 +188,7 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param DeactivateSubscriptionOfferRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SubscriptionOffer
+   * @throws \Google\Service\Exception
    */
   public function deactivate($packageName, $productId, $basePlanId, $offerId, DeactivateSubscriptionOfferRequest $postBody, $optParams = [])
   {
@@ -119,6 +208,7 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * delete.
    * @param string $offerId Required. The unique offer ID of the offer to delete.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($packageName, $productId, $basePlanId, $offerId, $optParams = [])
   {
@@ -138,6 +228,7 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param string $offerId Required. The unique offer ID of the offer to get.
    * @param array $optParams Optional parameters.
    * @return SubscriptionOffer
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $productId, $basePlanId, $offerId, $optParams = [])
   {
@@ -152,10 +243,12 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param string $packageName Required. The parent app (package name) for which
    * the subscriptions should be read.
    * @param string $productId Required. The parent subscription (ID) for which the
-   * offers should be read.
+   * offers should be read. May be specified as '-' to read all offers under an
+   * app.
    * @param string $basePlanId Required. The parent base plan (ID) for which the
    * offers should be read. May be specified as '-' to read all offers under a
-   * subscription.
+   * subscription or an app. Must be specified as '-' if product_id is specified
+   * as '-'.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The maximum number of subscriptions to return. The
@@ -167,6 +260,7 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListSubscriptionOffers`
    * must match the call that provided the page token.
    * @return ListSubscriptionOffersResponse
+   * @throws \Google\Service\Exception
    */
   public function listMonetizationSubscriptionsBasePlansOffers($packageName, $productId, $basePlanId, $optParams = [])
   {
@@ -188,10 +282,24 @@ class MonetizationSubscriptionsBasePlansOffers extends \Google\Service\Resource
    * @param SubscriptionOffer $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string regionsVersion.version Required. The latest version is
-   * 2022/02.
+   * @opt_param bool allowMissing Optional. If set to true, and the subscription
+   * offer with the given package_name, product_id, base_plan_id and offer_id
+   * doesn't exist, an offer will be created. If a new offer is created,
+   * update_mask is ignored.
+   * @opt_param string latencyTolerance Optional. The latency tolerance for the
+   * propagation of this product update. Defaults to latency-sensitive.
+   * @opt_param string regionsVersion.version Required. A string representing the
+   * version of available regions being used for the specified resource. Regional
+   * prices for the resource have to be specified according to the information
+   * published in [this article](https://support.google.com/googleplay/android-
+   * developer/answer/10532353). Each time the supported locations substantially
+   * change, the version will be incremented. Using this field will ensure that
+   * creating and updating the resource with an older region's version and set of
+   * regional prices and currencies will succeed even though a new version is
+   * available. The latest version is 2022/02.
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return SubscriptionOffer
+   * @throws \Google\Service\Exception
    */
   public function patch($packageName, $productId, $basePlanId, $offerId, SubscriptionOffer $postBody, $optParams = [])
   {

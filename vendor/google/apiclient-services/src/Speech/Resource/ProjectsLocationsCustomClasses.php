@@ -46,6 +46,7 @@ class ProjectsLocationsCustomClasses extends \Google\Service\Resource
    * @param CreateCustomClassRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CustomClass
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CreateCustomClassRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsLocationsCustomClasses extends \Google\Service\Resource
    * matching `us` or `eu` location value.
    * @param array $optParams Optional parameters.
    * @return SpeechEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsCustomClasses extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/customClasses/{custom_class}`
    * @param array $optParams Optional parameters.
    * @return CustomClass
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -109,6 +112,7 @@ class ProjectsLocationsCustomClasses extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListCustomClass` must match the
    * call that provided the page token.
    * @return ListCustomClassesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCustomClasses($parent, $optParams = [])
   {
@@ -125,6 +129,7 @@ class ProjectsLocationsCustomClasses extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return CustomClass
+   * @throws \Google\Service\Exception
    */
   public function patch($name, CustomClass $postBody, $optParams = [])
   {

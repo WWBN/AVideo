@@ -20,11 +20,27 @@ namespace Google\Service\DisplayVideo;
 class MobileDeviceIdList extends \Google\Collection
 {
   protected $collection_key = 'mobileDeviceIds';
+  protected $consentType = Consent::class;
+  protected $consentDataType = '';
   /**
    * @var string[]
    */
   public $mobileDeviceIds;
 
+  /**
+   * @param Consent
+   */
+  public function setConsent(Consent $consent)
+  {
+    $this->consent = $consent;
+  }
+  /**
+   * @return Consent
+   */
+  public function getConsent()
+  {
+    return $this->consent;
+  }
   /**
    * @param string[]
    */

@@ -32,6 +32,10 @@ class RecognizeResponse extends \Google\Collection
    * @var string
    */
   public $totalBilledTime;
+  /**
+   * @var bool
+   */
+  public $usingLegacyModels;
 
   /**
    * @param string
@@ -88,6 +92,20 @@ class RecognizeResponse extends \Google\Collection
   public function getTotalBilledTime()
   {
     return $this->totalBilledTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setUsingLegacyModels($usingLegacyModels)
+  {
+    $this->usingLegacyModels = $usingLegacyModels;
+  }
+  /**
+   * @return bool
+   */
+  public function getUsingLegacyModels()
+  {
+    return $this->usingLegacyModels;
   }
 }
 

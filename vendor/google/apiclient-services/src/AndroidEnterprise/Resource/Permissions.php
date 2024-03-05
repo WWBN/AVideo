@@ -39,6 +39,7 @@ class Permissions extends \Google\Service\Resource
    * @opt_param string language The BCP47 tag for the user's preferred language
    * (e.g. "en-US", "de")
    * @return Permission
+   * @throws \Google\Service\Exception
    */
   public function get($permissionId, $optParams = [])
   {

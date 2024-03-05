@@ -37,6 +37,7 @@ class AccountActiveAdSummaries extends \Google\Service\Resource
    * @param string $summaryAccountId Account ID.
    * @param array $optParams Optional parameters.
    * @return AccountActiveAdSummary
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $summaryAccountId, $optParams = [])
   {

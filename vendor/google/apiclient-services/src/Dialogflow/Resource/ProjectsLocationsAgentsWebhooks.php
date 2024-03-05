@@ -39,6 +39,7 @@ class ProjectsLocationsAgentsWebhooks extends \Google\Service\Resource
    * @param GoogleCloudDialogflowCxV3Webhook $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Webhook
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3Webhook $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsAgentsWebhooks extends \Google\Service\Resource
    * the webhook, as well as any references to the webhook (i.e. Webhook and tagin
    * fulfillments that point to this webhook will be removed).
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsLocationsAgentsWebhooks extends \Google\Service\Resource
    * `projects//locations//agents//webhooks/`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Webhook
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,6 +97,7 @@ class ProjectsLocationsAgentsWebhooks extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListWebhooksResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsWebhooks($parent, $optParams = [])
   {
@@ -113,6 +117,7 @@ class ProjectsLocationsAgentsWebhooks extends \Google\Service\Resource
    * @opt_param string updateMask The mask to control which fields get updated. If
    * the mask is not present, all fields will be updated.
    * @return GoogleCloudDialogflowCxV3Webhook
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3Webhook $postBody, $optParams = [])
   {

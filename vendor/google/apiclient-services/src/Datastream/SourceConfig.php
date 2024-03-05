@@ -29,6 +29,8 @@ class SourceConfig extends \Google\Model
    * @var string
    */
   public $sourceConnectionProfile;
+  protected $sqlServerSourceConfigType = SqlServerSourceConfig::class;
+  protected $sqlServerSourceConfigDataType = '';
 
   /**
    * @param MysqlSourceConfig
@@ -85,6 +87,20 @@ class SourceConfig extends \Google\Model
   public function getSourceConnectionProfile()
   {
     return $this->sourceConnectionProfile;
+  }
+  /**
+   * @param SqlServerSourceConfig
+   */
+  public function setSqlServerSourceConfig(SqlServerSourceConfig $sqlServerSourceConfig)
+  {
+    $this->sqlServerSourceConfig = $sqlServerSourceConfig;
+  }
+  /**
+   * @return SqlServerSourceConfig
+   */
+  public function getSqlServerSourceConfig()
+  {
+    return $this->sqlServerSourceConfig;
   }
 }
 

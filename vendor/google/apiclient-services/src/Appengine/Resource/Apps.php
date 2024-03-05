@@ -18,6 +18,7 @@
 namespace Google\Service\Appengine\Resource;
 
 use Google\Service\Appengine\Application;
+use Google\Service\Appengine\ListRuntimesResponse;
 use Google\Service\Appengine\Operation;
 use Google\Service\Appengine\RepairApplicationRequest;
 
@@ -42,10 +43,8 @@ class Apps extends \Google\Service\Resource
    *
    * @param Application $postBody
    * @param array $optParams Optional parameters.
-   *
-   * @opt_param string parent The project and location in which the application
-   * should be created, specified in the format projects/locations
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(Application $postBody, $optParams = [])
   {
@@ -59,13 +58,33 @@ class Apps extends \Google\Service\Resource
    * @param string $appsId Part of `name`. Name of the Application resource to
    * get. Example: apps/myapp.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string includeExtraData Options to include extra data
    * @return Application
+   * @throws \Google\Service\Exception
    */
   public function get($appsId, $optParams = [])
   {
     $params = ['appsId' => $appsId];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], Application::class);
+  }
+  /**
+   * Lists all the available runtimes for the application. (apps.listRuntimes)
+   *
+   * @param string $appsId Part of `parent`. Required. Name of the parent
+   * Application resource. Example: apps/myapp.
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param string environment Optional. The environment of the Application.
+   * @return ListRuntimesResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listRuntimes($appsId, $optParams = [])
+  {
+    $params = ['appsId' => $appsId];
+    $params = array_merge($params, $optParams);
+    return $this->call('listRuntimes', [$params], ListRuntimesResponse::class);
   }
   /**
    * Updates the specified Application resource. You can update the following
@@ -82,6 +101,7 @@ class Apps extends \Google\Service\Resource
    * @opt_param string updateMask Required. Standard field mask for the set of
    * fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($appsId, Application $postBody, $optParams = [])
   {
@@ -97,15 +117,17 @@ class Apps extends \Google\Service\Resource
    * have deleted your App Engine service account, this will not be able to
    * recreate it. Instead, you should attempt to use the IAM undelete API if
    * possible at https://cloud.google.com/iam/reference/rest/v1/projects.serviceAc
-   * counts/undelete?apix_params=%7B"name"%3A"projects%2F-%2FserviceAccounts%2Funi
-   * que_id"%2C"resource"%3A%7B%7D%7D . If the deletion was recent, the numeric ID
-   * can be found in the Cloud Console Activity Log. (apps.repair)
+   * counts/undelete?apix_params=%7B"name"%3A"projects%2F-
+   * %2FserviceAccounts%2Funique_id"%2C"resource"%3A%7B%7D%7D . If the deletion
+   * was recent, the numeric ID can be found in the Cloud Console Activity Log.
+   * (apps.repair)
    *
    * @param string $appsId Part of `name`. Name of the application to repair.
    * Example: apps/myapp
    * @param RepairApplicationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function repair($appsId, RepairApplicationRequest $postBody, $optParams = [])
   {

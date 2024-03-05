@@ -39,6 +39,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * data
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaConnectionSchemaMetadata
+   * @throws \Google\Service\Exception
    */
   public function getConnectionSchemaMetadata($name, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return GoogleCloudIntegrationsV1alphaListConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConnections($parent, $optParams = [])
   {

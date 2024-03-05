@@ -36,6 +36,7 @@ class UserProfiles extends \Google\Service\Resource
    * @param string $profileId The user profile ID.
    * @param array $optParams Optional parameters.
    * @return UserProfile
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $optParams = [])
   {
@@ -48,6 +49,7 @@ class UserProfiles extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return UserProfileList
+   * @throws \Google\Service\Exception
    */
   public function listUserProfiles($optParams = [])
   {

@@ -22,7 +22,7 @@ class AssistantApiRecurrence extends \Google\Collection
   protected $collection_key = 'weekOfMonth';
   protected $beginType = AssistantApiDate::class;
   protected $beginDataType = '';
-  protected $blacklistedRangesType = AssistantApiRecurrenceDatetimeRange::class;
+  protected $blacklistedRangesType = AssistantApiDateTimeRange::class;
   protected $blacklistedRangesDataType = 'array';
   /**
    * @var int[]
@@ -66,14 +66,14 @@ class AssistantApiRecurrence extends \Google\Collection
     return $this->begin;
   }
   /**
-   * @param AssistantApiRecurrenceDatetimeRange[]
+   * @param AssistantApiDateTimeRange[]
    */
   public function setBlacklistedRanges($blacklistedRanges)
   {
     $this->blacklistedRanges = $blacklistedRanges;
   }
   /**
-   * @return AssistantApiRecurrenceDatetimeRange[]
+   * @return AssistantApiDateTimeRange[]
    */
   public function getBlacklistedRanges()
   {

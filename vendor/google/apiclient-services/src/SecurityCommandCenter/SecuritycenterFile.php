@@ -23,6 +23,8 @@ class SecuritycenterFile extends \Google\Model
    * @var string
    */
   public $contents;
+  protected $diskPathType = DiskPath::class;
+  protected $diskPathDataType = '';
   /**
    * @var string
    */
@@ -57,6 +59,20 @@ class SecuritycenterFile extends \Google\Model
   public function getContents()
   {
     return $this->contents;
+  }
+  /**
+   * @param DiskPath
+   */
+  public function setDiskPath(DiskPath $diskPath)
+  {
+    $this->diskPath = $diskPath;
+  }
+  /**
+   * @return DiskPath
+   */
+  public function getDiskPath()
+  {
+    return $this->diskPath;
   }
   /**
    * @param string

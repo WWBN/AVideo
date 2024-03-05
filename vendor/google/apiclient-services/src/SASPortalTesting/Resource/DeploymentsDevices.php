@@ -40,6 +40,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    * @param string $name Required. The name of the device.
    * @param array $optParams Optional parameters.
    * @return SasPortalEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    * @param string $name Required. The name of the device.
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -67,6 +69,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    * @param SasPortalMoveDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalOperation
+   * @throws \Google\Service\Exception
    */
   public function move($name, SasPortalMoveDeviceRequest $postBody, $optParams = [])
   {
@@ -83,6 +86,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    *
    * @opt_param string updateMask Fields to be updated.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function patch($name, SasPortalDevice $postBody, $optParams = [])
   {
@@ -97,6 +101,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    * @param SasPortalSignDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalEmpty
+   * @throws \Google\Service\Exception
    */
   public function signDevice($name, SasPortalSignDeviceRequest $postBody, $optParams = [])
   {
@@ -111,6 +116,7 @@ class DeploymentsDevices extends \Google\Service\Resource
    * @param SasPortalUpdateSignedDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function updateSigned($name, SasPortalUpdateSignedDeviceRequest $postBody, $optParams = [])
   {

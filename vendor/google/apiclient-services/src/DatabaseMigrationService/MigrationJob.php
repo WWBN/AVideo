@@ -67,6 +67,8 @@ class MigrationJob extends \Google\Model
    * @var string
    */
   public $name;
+  protected $performanceConfigType = PerformanceConfig::class;
+  protected $performanceConfigDataType = '';
   /**
    * @var string
    */
@@ -291,6 +293,20 @@ class MigrationJob extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param PerformanceConfig
+   */
+  public function setPerformanceConfig(PerformanceConfig $performanceConfig)
+  {
+    $this->performanceConfig = $performanceConfig;
+  }
+  /**
+   * @return PerformanceConfig
+   */
+  public function getPerformanceConfig()
+  {
+    return $this->performanceConfig;
   }
   /**
    * @param string

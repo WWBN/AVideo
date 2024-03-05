@@ -42,6 +42,7 @@ class Orderinvoices extends \Google\Service\Resource
    * @param OrderinvoicesCreateChargeInvoiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return OrderinvoicesCreateChargeInvoiceResponse
+   * @throws \Google\Service\Exception
    */
   public function createchargeinvoice($merchantId, $orderId, OrderinvoicesCreateChargeInvoiceRequest $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class Orderinvoices extends \Google\Service\Resource
    * @param OrderinvoicesCreateRefundInvoiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return OrderinvoicesCreateRefundInvoiceResponse
+   * @throws \Google\Service\Exception
    */
   public function createrefundinvoice($merchantId, $orderId, OrderinvoicesCreateRefundInvoiceRequest $postBody, $optParams = [])
   {

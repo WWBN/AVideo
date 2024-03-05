@@ -27,11 +27,21 @@ class ParameterMetadata extends \Google\Collection
   /**
    * @var string
    */
+  public $defaultValue;
+  protected $enumOptionsType = ParameterMetadataEnumOption::class;
+  protected $enumOptionsDataType = 'array';
+  /**
+   * @var string
+   */
   public $groupName;
   /**
    * @var string
    */
   public $helpText;
+  /**
+   * @var bool
+   */
+  public $hiddenUi;
   /**
    * @var bool
    */
@@ -78,6 +88,34 @@ class ParameterMetadata extends \Google\Collection
   /**
    * @param string
    */
+  public function setDefaultValue($defaultValue)
+  {
+    $this->defaultValue = $defaultValue;
+  }
+  /**
+   * @return string
+   */
+  public function getDefaultValue()
+  {
+    return $this->defaultValue;
+  }
+  /**
+   * @param ParameterMetadataEnumOption[]
+   */
+  public function setEnumOptions($enumOptions)
+  {
+    $this->enumOptions = $enumOptions;
+  }
+  /**
+   * @return ParameterMetadataEnumOption[]
+   */
+  public function getEnumOptions()
+  {
+    return $this->enumOptions;
+  }
+  /**
+   * @param string
+   */
   public function setGroupName($groupName)
   {
     $this->groupName = $groupName;
@@ -102,6 +140,20 @@ class ParameterMetadata extends \Google\Collection
   public function getHelpText()
   {
     return $this->helpText;
+  }
+  /**
+   * @param bool
+   */
+  public function setHiddenUi($hiddenUi)
+  {
+    $this->hiddenUi = $hiddenUi;
+  }
+  /**
+   * @return bool
+   */
+  public function getHiddenUi()
+  {
+    return $this->hiddenUi;
   }
   /**
    * @param bool

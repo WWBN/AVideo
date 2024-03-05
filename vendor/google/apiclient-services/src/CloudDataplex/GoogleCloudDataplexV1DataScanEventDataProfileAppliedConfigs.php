@@ -22,12 +22,30 @@ class GoogleCloudDataplexV1DataScanEventDataProfileAppliedConfigs extends \Googl
   /**
    * @var bool
    */
+  public $columnFilterApplied;
+  /**
+   * @var bool
+   */
   public $rowFilterApplied;
   /**
    * @var float
    */
   public $samplingPercent;
 
+  /**
+   * @param bool
+   */
+  public function setColumnFilterApplied($columnFilterApplied)
+  {
+    $this->columnFilterApplied = $columnFilterApplied;
+  }
+  /**
+   * @return bool
+   */
+  public function getColumnFilterApplied()
+  {
+    return $this->columnFilterApplied;
+  }
   /**
    * @param bool
    */

@@ -39,6 +39,7 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
    * @param string $name Required. Name of the resource.
    * @param array $optParams Optional parameters.
    * @return Network
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results from the
    * server.
    * @return ListNetworksResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsNetworks($parent, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
    * @param string $location Required. Parent value (project and location).
    * @param array $optParams Optional parameters.
    * @return ListNetworkUsageResponse
+   * @throws \Google\Service\Exception
    */
   public function listNetworkUsage($location, $optParams = [])
   {
@@ -94,6 +97,7 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. The only currently
    * supported fields are: `labels`, `reservations`, `vrf.vlan_attachments`
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Network $postBody, $optParams = [])
   {
@@ -110,6 +114,7 @@ class ProjectsLocationsNetworks extends \Google\Service\Resource
    * @param RenameNetworkRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Network
+   * @throws \Google\Service\Exception
    */
   public function rename($name, RenameNetworkRequest $postBody, $optParams = [])
   {

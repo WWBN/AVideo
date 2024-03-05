@@ -38,6 +38,7 @@ class Operations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +69,7 @@ class Operations extends \Google\Service\Resource
    * unspecified, defaults to 50. The maximum value is 100.
    * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOperations($optParams = [])
   {

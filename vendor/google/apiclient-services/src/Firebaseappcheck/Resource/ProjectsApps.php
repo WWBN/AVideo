@@ -56,6 +56,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeAppAttestAssertion($app, GoogleFirebaseAppcheckV1ExchangeAppAttestAssertionRequest $postBody, $optParams = [])
   {
@@ -79,6 +80,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationResponse
+   * @throws \Google\Service\Exception
    */
   public function exchangeAppAttestAttestation($app, GoogleFirebaseAppcheckV1ExchangeAppAttestAttestationRequest $postBody, $optParams = [])
   {
@@ -99,6 +101,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeCustomToken($app, GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest $postBody, $optParams = [])
   {
@@ -120,6 +123,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeDebugToken($app, GoogleFirebaseAppcheckV1ExchangeDebugTokenRequest $postBody, $optParams = [])
   {
@@ -140,6 +144,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeDeviceCheckToken($app, GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest $postBody, $optParams = [])
   {
@@ -148,10 +153,9 @@ class ProjectsApps extends \Google\Service\Resource
     return $this->call('exchangeDeviceCheckToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
-   * Validates an [integrity verdict response token from Play
-   * Integrity](https://developer.android.com/google/play/integrity/verdict
-   * #decrypt-verify). If valid, returns an AppCheckToken.
-   * (apps.exchangePlayIntegrityToken)
+   * Validates an [integrity verdict response token from Play Integrity](https://d
+   * eveloper.android.com/google/play/integrity/verdict#decrypt-verify). If valid,
+   * returns an AppCheckToken. (apps.exchangePlayIntegrityToken)
    *
    * @param string $app Required. The relative resource name of the Android app,
    * in the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary,
@@ -161,6 +165,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangePlayIntegrityToken($app, GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest $postBody, $optParams = [])
   {
@@ -169,9 +174,10 @@ class ProjectsApps extends \Google\Service\Resource
     return $this->call('exchangePlayIntegrityToken', [$params], GoogleFirebaseAppcheckV1AppCheckToken::class);
   }
   /**
-   * Validates a [reCAPTCHA Enterprise response token](https://cloud.google.com
-   * /recaptcha-enterprise/docs/create-assessment#retrieve_token). If valid,
-   * returns an AppCheckToken. (apps.exchangeRecaptchaEnterpriseToken)
+   * Validates a [reCAPTCHA Enterprise response
+   * token](https://cloud.google.com/recaptcha-enterprise/docs/create-
+   * assessment#retrieve_token). If valid, returns an AppCheckToken.
+   * (apps.exchangeRecaptchaEnterpriseToken)
    *
    * @param string $app Required. The relative resource name of the web app, in
    * the format: ``` projects/{project_number}/apps/{app_id} ``` If necessary, the
@@ -181,6 +187,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeRecaptchaEnterpriseToken($app, GoogleFirebaseAppcheckV1ExchangeRecaptchaEnterpriseTokenRequest $postBody, $optParams = [])
   {
@@ -201,6 +208,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeRecaptchaV3Token($app, GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest $postBody, $optParams = [])
   {
@@ -222,6 +230,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1AppCheckToken
+   * @throws \Google\Service\Exception
    */
   public function exchangeSafetyNetToken($app, GoogleFirebaseAppcheckV1ExchangeSafetyNetTokenRequest $postBody, $optParams = [])
   {
@@ -243,6 +252,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1GenerateAppAttestChallengeResponse
+   * @throws \Google\Service\Exception
    */
   public function generateAppAttestChallenge($app, GoogleFirebaseAppcheckV1GenerateAppAttestChallengeRequest $postBody, $optParams = [])
   {
@@ -265,6 +275,7 @@ class ProjectsApps extends \Google\Service\Resource
    * @param GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeResponse
+   * @throws \Google\Service\Exception
    */
   public function generatePlayIntegrityChallenge($app, GoogleFirebaseAppcheckV1GeneratePlayIntegrityChallengeRequest $postBody, $optParams = [])
   {

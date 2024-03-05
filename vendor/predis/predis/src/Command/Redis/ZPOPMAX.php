@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -14,9 +15,7 @@ namespace Predis\Command\Redis;
 use Predis\Command\Command as RedisCommand;
 
 /**
- * @link http://redis.io/commands/zpopmax
- *
- * @author Daniele Alessandri <suppakilla@gmail.com>
+ * @see http://redis.io/commands/zpopmax
  */
 class ZPOPMAX extends RedisCommand
 {
@@ -33,10 +32,14 @@ class ZPOPMAX extends RedisCommand
      */
     public function parseResponse($data)
     {
-        $result = array();
+        $result = [];
 
         for ($i = 0; $i < count($data); ++$i) {
-            $result[$data[$i]] = $data[++$i];
+            if (is_array($data[$i])) {
+                $result[$data[$i][0]] = $data[$i][1]; // Relay
+            } else {
+                $result[$data[$i]] = $data[++$i];
+            }
         }
 
         return $result;

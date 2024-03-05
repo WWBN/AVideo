@@ -38,6 +38,7 @@ class VitalsSlowrenderingrate extends \Google\Service\Resource
    * apps/{app}/slowRenderingRateMetricSet
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1SlowRenderingRateMetricSet
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class VitalsSlowrenderingrate extends \Google\Service\Resource
    * @param GooglePlayDeveloperReportingV1beta1QuerySlowRenderingRateMetricSetRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1QuerySlowRenderingRateMetricSetResponse
+   * @throws \Google\Service\Exception
    */
   public function query($name, GooglePlayDeveloperReportingV1beta1QuerySlowRenderingRateMetricSetRequest $postBody, $optParams = [])
   {

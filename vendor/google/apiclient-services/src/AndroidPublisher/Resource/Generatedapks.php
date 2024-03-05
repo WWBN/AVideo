@@ -38,6 +38,7 @@ class Generatedapks extends \Google\Service\Resource
    * @param string $downloadId Download ID, which uniquely identifies the APK to
    * download. Can be obtained from the response of `generatedapks.list` method.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function download($packageName, $versionCode, $downloadId, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Generatedapks extends \Google\Service\Resource
    * @param int $versionCode Version code of the app bundle.
    * @param array $optParams Optional parameters.
    * @return GeneratedApksListResponse
+   * @throws \Google\Service\Exception
    */
   public function listGeneratedapks($packageName, $versionCode, $optParams = [])
   {

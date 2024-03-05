@@ -42,6 +42,7 @@ class Callback extends \Google\Service\Resource
    * @opt_param string redirectUri Redirect uri of the auth code request
    * @opt_param string state The auth config id for the given request
    * @return GoogleCloudIntegrationsV1alphaGenerateTokenResponse
+   * @throws \Google\Service\Exception
    */
   public function generateToken($optParams = [])
   {

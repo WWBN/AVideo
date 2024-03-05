@@ -21,6 +21,7 @@ use Google\Service\BigQueryDataTransfer\BigquerydatatransferEmpty;
 use Google\Service\BigQueryDataTransfer\EnrollDataSourcesRequest;
 use Google\Service\BigQueryDataTransfer\ListLocationsResponse;
 use Google\Service\BigQueryDataTransfer\Location;
+use Google\Service\BigQueryDataTransfer\UnenrollDataSourcesRequest;
 
 /**
  * The "locations" collection of methods.
@@ -47,6 +48,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param EnrollDataSourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BigquerydatatransferEmpty
+   * @throws \Google\Service\Exception
    */
   public function enrollDataSources($name, EnrollDataSourcesRequest $postBody, $optParams = [])
   {
@@ -60,6 +62,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -83,12 +86,34 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListLocationsResponse::class);
+  }
+  /**
+   * Unenroll data sources in a user project. This allows users to remove transfer
+   * configurations for these data sources. They will no longer appear in the
+   * ListDataSources RPC and will also no longer appear in the [BigQuery
+   * UI](https://console.cloud.google.com/bigquery). Data transfers configurations
+   * of unenrolled data sources will not be scheduled.
+   * (locations.unenrollDataSources)
+   *
+   * @param string $name The name of the project resource in the form:
+   * `projects/{project_id}`
+   * @param UnenrollDataSourcesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BigquerydatatransferEmpty
+   * @throws \Google\Service\Exception
+   */
+  public function unenrollDataSources($name, UnenrollDataSourcesRequest $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('unenrollDataSources', [$params], BigquerydatatransferEmpty::class);
   }
 }
 

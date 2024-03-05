@@ -41,6 +41,7 @@ class UsersDataset extends \Google\Service\Resource
    * @param AggregateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AggregateResponse
+   * @throws \Google\Service\Exception
    */
   public function aggregate($userId, AggregateRequest $postBody, $optParams = [])
   {

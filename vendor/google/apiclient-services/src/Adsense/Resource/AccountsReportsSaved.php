@@ -67,6 +67,7 @@ class AccountsReportsSaved extends \Google\Service\Resource
    * @opt_param int startDate.year Year of the date. Must be from 1 to 9999, or 0
    * to specify a date without a year.
    * @return ReportResult
+   * @throws \Google\Service\Exception
    */
   public function generate($name, $optParams = [])
   {
@@ -110,6 +111,7 @@ class AccountsReportsSaved extends \Google\Service\Resource
    * @opt_param int startDate.year Year of the date. Must be from 1 to 9999, or 0
    * to specify a date without a year.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function generateCsv($name, $optParams = [])
   {
@@ -133,6 +135,7 @@ class AccountsReportsSaved extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListSavedReports` must match
    * the call that provided the page token.
    * @return ListSavedReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsReportsSaved($parent, $optParams = [])
   {

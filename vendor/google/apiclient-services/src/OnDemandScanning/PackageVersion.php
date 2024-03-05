@@ -17,8 +17,13 @@
 
 namespace Google\Service\OnDemandScanning;
 
-class PackageVersion extends \Google\Model
+class PackageVersion extends \Google\Collection
 {
+  protected $collection_key = 'licenses';
+  /**
+   * @var string[]
+   */
+  public $licenses;
   /**
    * @var string
    */
@@ -28,6 +33,20 @@ class PackageVersion extends \Google\Model
    */
   public $version;
 
+  /**
+   * @param string[]
+   */
+  public function setLicenses($licenses)
+  {
+    $this->licenses = $licenses;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLicenses()
+  {
+    return $this->licenses;
+  }
   /**
    * @param string
    */

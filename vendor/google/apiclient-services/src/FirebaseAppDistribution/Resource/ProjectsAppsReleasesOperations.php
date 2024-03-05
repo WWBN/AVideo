@@ -48,6 +48,7 @@ class ProjectsAppsReleasesOperations extends \Google\Service\Resource
    * @param GoogleLongrunningCancelOperationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, GoogleLongrunningCancelOperationRequest $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ProjectsAppsReleasesOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be deleted.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsAppsReleasesOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class ProjectsAppsReleasesOperations extends \Google\Service\Resource
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return GoogleLongrunningListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAppsReleasesOperations($name, $optParams = [])
   {
@@ -120,6 +124,7 @@ class ProjectsAppsReleasesOperations extends \Google\Service\Resource
    * @param GoogleLongrunningWaitOperationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function wait($name, GoogleLongrunningWaitOperationRequest $postBody, $optParams = [])
   {

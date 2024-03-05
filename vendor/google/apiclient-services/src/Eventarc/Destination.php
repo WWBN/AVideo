@@ -27,6 +27,10 @@ class Destination extends \Google\Model
   protected $cloudRunDataType = '';
   protected $gkeType = GKE::class;
   protected $gkeDataType = '';
+  protected $httpEndpointType = HttpEndpoint::class;
+  protected $httpEndpointDataType = '';
+  protected $networkConfigType = NetworkConfig::class;
+  protected $networkConfigDataType = '';
   /**
    * @var string
    */
@@ -73,6 +77,34 @@ class Destination extends \Google\Model
   public function getGke()
   {
     return $this->gke;
+  }
+  /**
+   * @param HttpEndpoint
+   */
+  public function setHttpEndpoint(HttpEndpoint $httpEndpoint)
+  {
+    $this->httpEndpoint = $httpEndpoint;
+  }
+  /**
+   * @return HttpEndpoint
+   */
+  public function getHttpEndpoint()
+  {
+    return $this->httpEndpoint;
+  }
+  /**
+   * @param NetworkConfig
+   */
+  public function setNetworkConfig(NetworkConfig $networkConfig)
+  {
+    $this->networkConfig = $networkConfig;
+  }
+  /**
+   * @return NetworkConfig
+   */
+  public function getNetworkConfig()
+  {
+    return $this->networkConfig;
   }
   /**
    * @param string

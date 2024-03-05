@@ -22,8 +22,26 @@ class AttachmentDataRef extends \Google\Model
   /**
    * @var string
    */
+  public $attachmentUploadToken;
+  /**
+   * @var string
+   */
   public $resourceName;
 
+  /**
+   * @param string
+   */
+  public function setAttachmentUploadToken($attachmentUploadToken)
+  {
+    $this->attachmentUploadToken = $attachmentUploadToken;
+  }
+  /**
+   * @return string
+   */
+  public function getAttachmentUploadToken()
+  {
+    return $this->attachmentUploadToken;
+  }
   /**
    * @param string
    */

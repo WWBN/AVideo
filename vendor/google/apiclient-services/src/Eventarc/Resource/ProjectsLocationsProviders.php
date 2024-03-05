@@ -36,6 +36,7 @@ class ProjectsLocationsProviders extends \Google\Service\Resource
    * @param string $name Required. The name of the provider to get.
    * @param array $optParams Optional parameters.
    * @return Provider
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsLocationsProviders extends \Google\Service\Resource
    * subsequent page. When paginating, all other parameters provided to
    * `ListProviders` must match the call that provided the page token.
    * @return ListProvidersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProviders($parent, $optParams = [])
   {

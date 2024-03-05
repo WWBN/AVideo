@@ -50,6 +50,7 @@ class People extends \Google\Service\Resource
    * @param BatchCreateContactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchCreateContactsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchCreateContacts(BatchCreateContactsRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class People extends \Google\Service\Resource
    * @param BatchDeleteContactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PeopleEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchDeleteContacts(BatchDeleteContactsRequest $postBody, $optParams = [])
   {
@@ -81,6 +83,7 @@ class People extends \Google\Service\Resource
    * @param BatchUpdateContactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateContactsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdateContacts(BatchUpdateContactsRequest $postBody, $optParams = [])
   {
@@ -109,6 +112,7 @@ class People extends \Google\Service\Resource
    * @opt_param string sources Optional. A mask of what source types to return.
    * Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set.
    * @return Person
+   * @throws \Google\Service\Exception
    */
   public function createContact(Person $postBody, $optParams = [])
   {
@@ -125,6 +129,7 @@ class People extends \Google\Service\Resource
    * delete.
    * @param array $optParams Optional parameters.
    * @return PeopleEmpty
+   * @throws \Google\Service\Exception
    */
   public function deleteContact($resourceName, $optParams = [])
   {
@@ -152,6 +157,7 @@ class People extends \Google\Service\Resource
    * @opt_param string sources Optional. A mask of what source types to return.
    * Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set.
    * @return DeleteContactPhotoResponse
+   * @throws \Google\Service\Exception
    */
   public function deleteContactPhoto($resourceName, $optParams = [])
   {
@@ -186,6 +192,7 @@ class People extends \Google\Service\Resource
    * @opt_param string sources Optional. A mask of what source types to return.
    * Defaults to READ_SOURCE_TYPE_PROFILE and READ_SOURCE_TYPE_CONTACT if not set.
    * @return Person
+   * @throws \Google\Service\Exception
    */
   public function get($resourceName, $optParams = [])
   {
@@ -214,14 +221,15 @@ class People extends \Google\Service\Resource
    * `person.`: for example, `person.names` or `person.photos`.
    * @opt_param string resourceNames Required. The resource names of the people to
    * provide information about. It's repeatable. The URL query parameter should be
-   * resourceNames==&... - To get information about the authenticated user,
-   * specify `people/me`. - To get information about a google account, specify
-   * `people/{account_id}`. - To get information about a contact, specify the
-   * resource name that identifies the contact as returned by
+   * resourceNames=&resourceNames=&... - To get information about the
+   * authenticated user, specify `people/me`. - To get information about a google
+   * account, specify `people/{account_id}`. - To get information about a contact,
+   * specify the resource name that identifies the contact as returned by
    * `people.connections.list`. There is a maximum of 200 resource names.
    * @opt_param string sources Optional. A mask of what source types to return.
    * Defaults to READ_SOURCE_TYPE_CONTACT and READ_SOURCE_TYPE_PROFILE if not set.
    * @return GetPeopleResponse
+   * @throws \Google\Service\Exception
    */
   public function getBatchGet($optParams = [])
   {
@@ -273,6 +281,7 @@ class People extends \Google\Service\Resource
    * to `people.listDirectoryPeople` must match the first call that provided the
    * sync token. More details about sync behavior at `people.listDirectoryPeople`.
    * @return ListDirectoryPeopleResponse
+   * @throws \Google\Service\Exception
    */
   public function listDirectoryPeople($optParams = [])
   {
@@ -309,6 +318,7 @@ class People extends \Google\Service\Resource
    * @opt_param string sources Optional. A mask of what source types to return.
    * Defaults to READ_SOURCE_TYPE_CONTACT if not set.
    * @return SearchResponse
+   * @throws \Google\Service\Exception
    */
   public function searchContacts($optParams = [])
   {
@@ -345,6 +355,7 @@ class People extends \Google\Service\Resource
    * urls * userDefined
    * @opt_param string sources Required. Directory sources to return.
    * @return SearchDirectoryPeopleResponse
+   * @throws \Google\Service\Exception
    */
   public function searchDirectoryPeople($optParams = [])
   {
@@ -393,6 +404,7 @@ class People extends \Google\Service\Resource
    * occupations * organizations * phoneNumbers * relations * sipAddresses * urls
    * * userDefined
    * @return Person
+   * @throws \Google\Service\Exception
    */
   public function updateContact($resourceName, Person $postBody, $optParams = [])
   {
@@ -409,6 +421,7 @@ class People extends \Google\Service\Resource
    * @param UpdateContactPhotoRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UpdateContactPhotoResponse
+   * @throws \Google\Service\Exception
    */
   public function updateContactPhoto($resourceName, UpdateContactPhotoRequest $postBody, $optParams = [])
   {

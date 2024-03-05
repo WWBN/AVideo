@@ -19,9 +19,13 @@ namespace Google\Service\Firestore;
 
 class GoogleFirestoreAdminV1ListDatabasesResponse extends \Google\Collection
 {
-  protected $collection_key = 'databases';
+  protected $collection_key = 'unreachable';
   protected $databasesType = GoogleFirestoreAdminV1Database::class;
   protected $databasesDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $unreachable;
 
   /**
    * @param GoogleFirestoreAdminV1Database[]
@@ -36,6 +40,20 @@ class GoogleFirestoreAdminV1ListDatabasesResponse extends \Google\Collection
   public function getDatabases()
   {
     return $this->databases;
+  }
+  /**
+   * @param string[]
+   */
+  public function setUnreachable($unreachable)
+  {
+    $this->unreachable = $unreachable;
+  }
+  /**
+   * @return string[]
+   */
+  public function getUnreachable()
+  {
+    return $this->unreachable;
   }
 }
 

@@ -53,6 +53,7 @@ class ProjectsLocationsPrivateConnectionsRoutes extends \Google\Service\Resource
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string routeId Required. The Route identifier.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Route $postBody, $optParams = [])
   {
@@ -78,6 +79,7 @@ class ProjectsLocationsPrivateConnectionsRoutes extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -91,6 +93,7 @@ class ProjectsLocationsPrivateConnectionsRoutes extends \Google\Service\Resource
    * @param string $name Required. The name of the Route resource to get.
    * @param array $optParams Optional parameters.
    * @return Route
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -118,6 +121,7 @@ class ProjectsLocationsPrivateConnectionsRoutes extends \Google\Service\Resource
    * other parameters provided to `ListRoutes` must match the call that provided
    * the page token.
    * @return ListRoutesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsPrivateConnectionsRoutes($parent, $optParams = [])
   {

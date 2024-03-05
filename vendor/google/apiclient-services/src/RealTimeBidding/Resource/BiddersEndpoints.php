@@ -37,6 +37,7 @@ class BiddersEndpoints extends \Google\Service\Resource
    * `bidders/{bidderAccountId}/endpoints/{endpointId}`
    * @param array $optParams Optional parameters.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -58,6 +59,7 @@ class BiddersEndpoints extends \Google\Service\Resource
    * should return. This value is received from a previous `ListEndpoints` call in
    * ListEndpointsResponse.nextPageToken.
    * @return ListEndpointsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersEndpoints($parent, $optParams = [])
   {
@@ -77,6 +79,7 @@ class BiddersEndpoints extends \Google\Service\Resource
    *
    * @opt_param string updateMask Field mask to use for partial in-place updates.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Endpoint $postBody, $optParams = [])
   {

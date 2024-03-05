@@ -36,6 +36,10 @@ class GoogleAppsCardV1Card extends \Google\Collection
   public $name;
   protected $peekCardHeaderType = GoogleAppsCardV1CardHeader::class;
   protected $peekCardHeaderDataType = '';
+  /**
+   * @var string
+   */
+  public $sectionDividerStyle;
   protected $sectionsType = GoogleAppsCardV1Section::class;
   protected $sectionsDataType = 'array';
 
@@ -122,6 +126,20 @@ class GoogleAppsCardV1Card extends \Google\Collection
   public function getPeekCardHeader()
   {
     return $this->peekCardHeader;
+  }
+  /**
+   * @param string
+   */
+  public function setSectionDividerStyle($sectionDividerStyle)
+  {
+    $this->sectionDividerStyle = $sectionDividerStyle;
+  }
+  /**
+   * @return string
+   */
+  public function getSectionDividerStyle()
+  {
+    return $this->sectionDividerStyle;
   }
   /**
    * @param GoogleAppsCardV1Section[]

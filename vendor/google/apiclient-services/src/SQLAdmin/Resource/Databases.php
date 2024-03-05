@@ -40,6 +40,7 @@ class Databases extends \Google\Service\Resource
    * @param string $database Name of the database to be deleted in the instance.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($project, $instance, $database, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Databases extends \Google\Service\Resource
    * @param string $database Name of the database in the instance.
    * @param array $optParams Optional parameters.
    * @return Database
+   * @throws \Google\Service\Exception
    */
   public function get($project, $instance, $database, $optParams = [])
   {
@@ -75,6 +77,7 @@ class Databases extends \Google\Service\Resource
    * @param Database $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function insert($project, $instance, Database $postBody, $optParams = [])
   {
@@ -91,6 +94,7 @@ class Databases extends \Google\Service\Resource
    * project ID.
    * @param array $optParams Optional parameters.
    * @return DatabasesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDatabases($project, $instance, $optParams = [])
   {
@@ -109,6 +113,7 @@ class Databases extends \Google\Service\Resource
    * @param Database $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($project, $instance, $database, Database $postBody, $optParams = [])
   {
@@ -127,6 +132,7 @@ class Databases extends \Google\Service\Resource
    * @param Database $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function update($project, $instance, $database, Database $postBody, $optParams = [])
   {

@@ -22,10 +22,6 @@ class RepositoryWebrefEntityScores extends \Google\Model
   /**
    * @var float
    */
-  public $allCapsProb;
-  /**
-   * @var float
-   */
   public $alphaEntityIdf;
   /**
    * @var float
@@ -39,25 +35,7 @@ class RepositoryWebrefEntityScores extends \Google\Model
    * @var float
    */
   public $nameCapitalizationProb;
-  /**
-   * @var float
-   */
-  public $personProb;
 
-  /**
-   * @param float
-   */
-  public function setAllCapsProb($allCapsProb)
-  {
-    $this->allCapsProb = $allCapsProb;
-  }
-  /**
-   * @return float
-   */
-  public function getAllCapsProb()
-  {
-    return $this->allCapsProb;
-  }
   /**
    * @param float
    */
@@ -113,20 +91,6 @@ class RepositoryWebrefEntityScores extends \Google\Model
   public function getNameCapitalizationProb()
   {
     return $this->nameCapitalizationProb;
-  }
-  /**
-   * @param float
-   */
-  public function setPersonProb($personProb)
-  {
-    $this->personProb = $personProb;
-  }
-  /**
-   * @return float
-   */
-  public function getPersonProb()
-  {
-    return $this->personProb;
   }
 }
 

@@ -43,6 +43,7 @@ class ProjectsLocationsEvaluationsExecutionsResults extends \Google\Service\Reso
    * @opt_param string pageToken A token identifying a page of results the server
    * should return.
    * @return ListExecutionResultsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsEvaluationsExecutionsResults($parent, $optParams = [])
   {

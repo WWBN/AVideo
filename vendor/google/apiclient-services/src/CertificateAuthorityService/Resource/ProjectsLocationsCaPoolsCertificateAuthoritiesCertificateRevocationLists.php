@@ -42,6 +42,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * get.
    * @param array $optParams Optional parameters.
    * @return CertificateRevocationList
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -73,6 +74,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -100,6 +102,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * @opt_param string pageToken Optional. Pagination token, returned earlier via
    * ListCertificateRevocationListsResponse.next_page_token.
    * @return ListCertificateRevocationListsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists($parent, $optParams = [])
   {
@@ -131,6 +134,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * @opt_param string updateMask Required. A list of fields to be updated in this
    * request.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, CertificateRevocationList $postBody, $optParams = [])
   {
@@ -150,6 +154,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -172,6 +177,7 @@ class ProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists e
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

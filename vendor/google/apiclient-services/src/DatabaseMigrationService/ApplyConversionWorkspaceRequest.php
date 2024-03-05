@@ -20,14 +20,36 @@ namespace Google\Service\DatabaseMigrationService;
 class ApplyConversionWorkspaceRequest extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $autoCommit;
+  /**
    * @var string
    */
   public $connectionProfile;
+  /**
+   * @var bool
+   */
+  public $dryRun;
   /**
    * @var string
    */
   public $filter;
 
+  /**
+   * @param bool
+   */
+  public function setAutoCommit($autoCommit)
+  {
+    $this->autoCommit = $autoCommit;
+  }
+  /**
+   * @return bool
+   */
+  public function getAutoCommit()
+  {
+    return $this->autoCommit;
+  }
   /**
    * @param string
    */
@@ -41,6 +63,20 @@ class ApplyConversionWorkspaceRequest extends \Google\Model
   public function getConnectionProfile()
   {
     return $this->connectionProfile;
+  }
+  /**
+   * @param bool
+   */
+  public function setDryRun($dryRun)
+  {
+    $this->dryRun = $dryRun;
+  }
+  /**
+   * @return bool
+   */
+  public function getDryRun()
+  {
+    return $this->dryRun;
   }
   /**
    * @param string

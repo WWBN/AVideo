@@ -25,6 +25,10 @@ class GoogleCloudBillingBudgetsV1NotificationsRule extends \Google\Collection
    */
   public $disableDefaultIamRecipients;
   /**
+   * @var bool
+   */
+  public $enableProjectLevelRecipients;
+  /**
    * @var string[]
    */
   public $monitoringNotificationChannels;
@@ -50,6 +54,20 @@ class GoogleCloudBillingBudgetsV1NotificationsRule extends \Google\Collection
   public function getDisableDefaultIamRecipients()
   {
     return $this->disableDefaultIamRecipients;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableProjectLevelRecipients($enableProjectLevelRecipients)
+  {
+    $this->enableProjectLevelRecipients = $enableProjectLevelRecipients;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableProjectLevelRecipients()
+  {
+    return $this->enableProjectLevelRecipients;
   }
   /**
    * @param string[]

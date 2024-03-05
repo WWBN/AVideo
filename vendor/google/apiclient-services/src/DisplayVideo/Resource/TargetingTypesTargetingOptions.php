@@ -58,6 +58,7 @@ class TargetingTypesTargetingOptions extends \Google\Service\Resource
    * @opt_param string advertiserId Required. The Advertiser this request is being
    * made in the context of.
    * @return TargetingOption
+   * @throws \Google\Service\Exception
    */
   public function get($targetingType, $targetingOptionId, $optParams = [])
   {
@@ -117,6 +118,7 @@ class TargetingTypesTargetingOptions extends \Google\Service\Resource
    * the previous call to `ListTargetingOptions` method. If not specified, the
    * first page of results will be returned.
    * @return ListTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listTargetingTypesTargetingOptions($targetingType, $optParams = [])
   {
@@ -134,6 +136,7 @@ class TargetingTypesTargetingOptions extends \Google\Service\Resource
    * @param SearchTargetingOptionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($targetingType, SearchTargetingOptionsRequest $postBody, $optParams = [])
   {

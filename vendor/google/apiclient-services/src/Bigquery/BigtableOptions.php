@@ -29,6 +29,10 @@ class BigtableOptions extends \Google\Collection
   /**
    * @var bool
    */
+  public $outputColumnFamiliesAsJson;
+  /**
+   * @var bool
+   */
   public $readRowkeyAsString;
 
   /**
@@ -58,6 +62,20 @@ class BigtableOptions extends \Google\Collection
   public function getIgnoreUnspecifiedColumnFamilies()
   {
     return $this->ignoreUnspecifiedColumnFamilies;
+  }
+  /**
+   * @param bool
+   */
+  public function setOutputColumnFamiliesAsJson($outputColumnFamiliesAsJson)
+  {
+    $this->outputColumnFamiliesAsJson = $outputColumnFamiliesAsJson;
+  }
+  /**
+   * @return bool
+   */
+  public function getOutputColumnFamiliesAsJson()
+  {
+    return $this->outputColumnFamiliesAsJson;
   }
   /**
    * @param bool

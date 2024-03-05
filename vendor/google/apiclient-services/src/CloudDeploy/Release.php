@@ -36,8 +36,14 @@ class Release extends \Google\Collection
    * @var string
    */
   public $createTime;
+  protected $customTargetTypeSnapshotsType = CustomTargetType::class;
+  protected $customTargetTypeSnapshotsDataType = 'array';
   protected $deliveryPipelineSnapshotType = DeliveryPipeline::class;
   protected $deliveryPipelineSnapshotDataType = '';
+  /**
+   * @var string[]
+   */
+  public $deployParameters;
   /**
    * @var string
    */
@@ -160,6 +166,20 @@ class Release extends \Google\Collection
     return $this->createTime;
   }
   /**
+   * @param CustomTargetType[]
+   */
+  public function setCustomTargetTypeSnapshots($customTargetTypeSnapshots)
+  {
+    $this->customTargetTypeSnapshots = $customTargetTypeSnapshots;
+  }
+  /**
+   * @return CustomTargetType[]
+   */
+  public function getCustomTargetTypeSnapshots()
+  {
+    return $this->customTargetTypeSnapshots;
+  }
+  /**
    * @param DeliveryPipeline
    */
   public function setDeliveryPipelineSnapshot(DeliveryPipeline $deliveryPipelineSnapshot)
@@ -172,6 +192,20 @@ class Release extends \Google\Collection
   public function getDeliveryPipelineSnapshot()
   {
     return $this->deliveryPipelineSnapshot;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDeployParameters($deployParameters)
+  {
+    $this->deployParameters = $deployParameters;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDeployParameters()
+  {
+    return $this->deployParameters;
   }
   /**
    * @param string

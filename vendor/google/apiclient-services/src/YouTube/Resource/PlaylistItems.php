@@ -46,6 +46,7 @@ class PlaylistItems extends \Google\Service\Resource
    * without having to provide authentication credentials for each individual
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -73,6 +74,7 @@ class PlaylistItems extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return PlaylistItem
+   * @throws \Google\Service\Exception
    */
   public function insert($part, PlaylistItem $postBody, $optParams = [])
   {
@@ -116,6 +118,7 @@ class PlaylistItems extends \Google\Service\Resource
    * @opt_param string videoId Return the playlist items associated with the given
    * video ID.
    * @return PlaylistItemListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlaylistItems($part, $optParams = [])
   {
@@ -153,6 +156,7 @@ class PlaylistItems extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return PlaylistItem
+   * @throws \Google\Service\Exception
    */
   public function update($part, PlaylistItem $postBody, $optParams = [])
   {

@@ -578,6 +578,16 @@ class Datastream extends \Google\Service
                   'type' => 'boolean',
                 ],
               ],
+            ],'run' => [
+              'path' => 'v1/{+name}:run',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

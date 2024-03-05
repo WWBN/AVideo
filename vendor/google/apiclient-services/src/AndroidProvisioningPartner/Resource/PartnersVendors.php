@@ -40,6 +40,7 @@ class PartnersVendors extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results returned by
    * the server.
    * @return ListVendorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPartnersVendors($parent, $optParams = [])
   {

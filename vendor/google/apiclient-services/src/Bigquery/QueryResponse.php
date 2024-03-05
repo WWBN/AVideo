@@ -32,6 +32,8 @@ class QueryResponse extends \Google\Collection
    * @var bool
    */
   public $jobComplete;
+  protected $jobCreationReasonType = JobCreationReason::class;
+  protected $jobCreationReasonDataType = '';
   protected $jobReferenceType = JobReference::class;
   protected $jobReferenceDataType = '';
   /**
@@ -46,6 +48,10 @@ class QueryResponse extends \Google\Collection
    * @var string
    */
   public $pageToken;
+  /**
+   * @var string
+   */
+  public $queryId;
   protected $rowsType = TableRow::class;
   protected $rowsDataType = 'array';
   protected $schemaType = TableSchema::class;
@@ -118,6 +124,20 @@ class QueryResponse extends \Google\Collection
     return $this->jobComplete;
   }
   /**
+   * @param JobCreationReason
+   */
+  public function setJobCreationReason(JobCreationReason $jobCreationReason)
+  {
+    $this->jobCreationReason = $jobCreationReason;
+  }
+  /**
+   * @return JobCreationReason
+   */
+  public function getJobCreationReason()
+  {
+    return $this->jobCreationReason;
+  }
+  /**
    * @param JobReference
    */
   public function setJobReference(JobReference $jobReference)
@@ -172,6 +192,20 @@ class QueryResponse extends \Google\Collection
   public function getPageToken()
   {
     return $this->pageToken;
+  }
+  /**
+   * @param string
+   */
+  public function setQueryId($queryId)
+  {
+    $this->queryId = $queryId;
+  }
+  /**
+   * @return string
+   */
+  public function getQueryId()
+  {
+    return $this->queryId;
   }
   /**
    * @param TableRow[]

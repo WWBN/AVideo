@@ -37,6 +37,7 @@ class Accounts extends \Google\Service\Resource
    * @param string $id Account ID.
    * @param array $optParams Optional parameters.
    * @return Account
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -66,6 +67,7 @@ class Accounts extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return AccountsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccounts($profileId, $optParams = [])
   {
@@ -78,10 +80,11 @@ class Accounts extends \Google\Service\Resource
    * (accounts.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id Account ID.
+   * @param string $id Required. Account ID.
    * @param Account $postBody
    * @param array $optParams Optional parameters.
    * @return Account
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, Account $postBody, $optParams = [])
   {
@@ -96,6 +99,7 @@ class Accounts extends \Google\Service\Resource
    * @param Account $postBody
    * @param array $optParams Optional parameters.
    * @return Account
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, Account $postBody, $optParams = [])
   {

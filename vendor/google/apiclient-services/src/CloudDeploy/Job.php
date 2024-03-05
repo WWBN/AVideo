@@ -33,6 +33,10 @@ class Job extends \Google\Model
    * @var string
    */
   public $jobRun;
+  protected $postdeployJobType = PostdeployJob::class;
+  protected $postdeployJobDataType = '';
+  protected $predeployJobType = PredeployJob::class;
+  protected $predeployJobDataType = '';
   /**
    * @var string
    */
@@ -113,6 +117,34 @@ class Job extends \Google\Model
   public function getJobRun()
   {
     return $this->jobRun;
+  }
+  /**
+   * @param PostdeployJob
+   */
+  public function setPostdeployJob(PostdeployJob $postdeployJob)
+  {
+    $this->postdeployJob = $postdeployJob;
+  }
+  /**
+   * @return PostdeployJob
+   */
+  public function getPostdeployJob()
+  {
+    return $this->postdeployJob;
+  }
+  /**
+   * @param PredeployJob
+   */
+  public function setPredeployJob(PredeployJob $predeployJob)
+  {
+    $this->predeployJob = $predeployJob;
+  }
+  /**
+   * @return PredeployJob
+   */
+  public function getPredeployJob()
+  {
+    return $this->predeployJob;
   }
   /**
    * @param string

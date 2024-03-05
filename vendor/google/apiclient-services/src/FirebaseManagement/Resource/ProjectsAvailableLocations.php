@@ -30,14 +30,16 @@ use Google\Service\FirebaseManagement\ListAvailableLocationsResponse;
 class ProjectsAvailableLocations extends \Google\Service\Resource
 {
   /**
-   * Lists the valid Google Cloud Platform (GCP) resource locations for the
-   * specified Project (including a FirebaseProject). One of these locations can
-   * be selected as the Project's [_default_ GCP resource
-   * location](https://firebase.google.com/docs/projects/locations), which is the
-   * geographical location where the Project's resources, such as Cloud Firestore,
-   * will be provisioned by default. However, if the default GCP resource location
-   * has already been set for the Project, then this setting cannot be changed.
-   * This call checks for any possible [location
+   * **DEPRECATED.** _Instead, use the applicable resource-specific REST API (or
+   * associated documentation, as needed) to determine valid locations for each
+   * resource used in your Project._ Lists the valid Google Cloud Platform (GCP)
+   * resource locations for the specified Project (including a FirebaseProject).
+   * One of these locations can be selected as the Project's [_default_ GCP
+   * resource location](https://firebase.google.com/docs/projects/locations),
+   * which is the geographical location where the Project's resources, such as
+   * Cloud Firestore, will be provisioned by default. However, if the default GCP
+   * resource location has already been set for the Project, then this setting
+   * cannot be changed. This call checks for any possible [location
    * restrictions](https://cloud.google.com/resource-manager/docs/organization-
    * policy/defining-locations) for the specified Project and, thus, might return
    * a subset of all possible GCP resource locations. To list all GCP resource
@@ -65,6 +67,7 @@ class ProjectsAvailableLocations extends \Google\Service\Resource
    * `ListAvailableLocations` indicating where in the list of locations to resume
    * listing.
    * @return ListAvailableLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAvailableLocations($parent, $optParams = [])
   {

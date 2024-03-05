@@ -43,6 +43,7 @@ class ProjectsLocationsProcessesRuns extends \Google\Service\Resource
    * to 36 ASCII characters. A random UUID is recommended. This request is
    * idempotent only if a `request_id` is provided.
    * @return GoogleCloudDatacatalogLineageV1Run
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatacatalogLineageV1Run $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsProcessesRuns extends \Google\Service\Resource
    * @opt_param bool allowMissing If set to true and the run is not found, the
    * request succeeds but the server doesn't perform any actions.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsLocationsProcessesRuns extends \Google\Service\Resource
    * @param string $name Required. The name of the run to get.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatacatalogLineageV1Run
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -95,6 +98,7 @@ class ProjectsLocationsProcessesRuns extends \Google\Service\Resource
    * parameters specified in this call must match the parameters of the call that
    * provided the page token.
    * @return GoogleCloudDatacatalogLineageV1ListRunsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProcessesRuns($parent, $optParams = [])
   {
@@ -117,6 +121,7 @@ class ProjectsLocationsProcessesRuns extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. Currently not
    * used. The whole message is updated.
    * @return GoogleCloudDatacatalogLineageV1Run
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDatacatalogLineageV1Run $postBody, $optParams = [])
   {

@@ -20,6 +20,8 @@ namespace Google\Service\VMMigrationService;
 class CloneJob extends \Google\Collection
 {
   protected $collection_key = 'steps';
+  protected $computeEngineDisksTargetDetailsType = ComputeEngineDisksTargetDetails::class;
+  protected $computeEngineDisksTargetDetailsDataType = '';
   protected $computeEngineTargetDetailsType = ComputeEngineTargetDetails::class;
   protected $computeEngineTargetDetailsDataType = '';
   /**
@@ -47,6 +49,20 @@ class CloneJob extends \Google\Collection
   protected $stepsType = CloneStep::class;
   protected $stepsDataType = 'array';
 
+  /**
+   * @param ComputeEngineDisksTargetDetails
+   */
+  public function setComputeEngineDisksTargetDetails(ComputeEngineDisksTargetDetails $computeEngineDisksTargetDetails)
+  {
+    $this->computeEngineDisksTargetDetails = $computeEngineDisksTargetDetails;
+  }
+  /**
+   * @return ComputeEngineDisksTargetDetails
+   */
+  public function getComputeEngineDisksTargetDetails()
+  {
+    return $this->computeEngineDisksTargetDetails;
+  }
   /**
    * @param ComputeEngineTargetDetails
    */

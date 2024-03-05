@@ -20,9 +20,17 @@ namespace Google\Service\CloudDataplex;
 class GoogleCloudDataplexV1DataScanEventDataQualityResult extends \Google\Model
 {
   /**
+   * @var float[]
+   */
+  public $columnScore;
+  /**
    * @var bool[]
    */
   public $dimensionPassed;
+  /**
+   * @var float[]
+   */
+  public $dimensionScore;
   /**
    * @var bool
    */
@@ -31,7 +39,25 @@ class GoogleCloudDataplexV1DataScanEventDataQualityResult extends \Google\Model
    * @var string
    */
   public $rowCount;
+  /**
+   * @var float
+   */
+  public $score;
 
+  /**
+   * @param float[]
+   */
+  public function setColumnScore($columnScore)
+  {
+    $this->columnScore = $columnScore;
+  }
+  /**
+   * @return float[]
+   */
+  public function getColumnScore()
+  {
+    return $this->columnScore;
+  }
   /**
    * @param bool[]
    */
@@ -45,6 +71,20 @@ class GoogleCloudDataplexV1DataScanEventDataQualityResult extends \Google\Model
   public function getDimensionPassed()
   {
     return $this->dimensionPassed;
+  }
+  /**
+   * @param float[]
+   */
+  public function setDimensionScore($dimensionScore)
+  {
+    $this->dimensionScore = $dimensionScore;
+  }
+  /**
+   * @return float[]
+   */
+  public function getDimensionScore()
+  {
+    return $this->dimensionScore;
   }
   /**
    * @param bool
@@ -73,6 +113,20 @@ class GoogleCloudDataplexV1DataScanEventDataQualityResult extends \Google\Model
   public function getRowCount()
   {
     return $this->rowCount;
+  }
+  /**
+   * @param float
+   */
+  public function setScore($score)
+  {
+    $this->score = $score;
+  }
+  /**
+   * @return float
+   */
+  public function getScore()
+  {
+    return $this->score;
   }
 }
 

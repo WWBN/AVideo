@@ -37,6 +37,7 @@ class ProjectsDatasetsEvaluations extends \Google\Service\Resource
    * "projects/{project_id}/datasets/ {dataset_id}/evaluations/{evaluation_id}'
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1Evaluation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

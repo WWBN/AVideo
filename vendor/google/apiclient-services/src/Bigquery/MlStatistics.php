@@ -20,13 +20,37 @@ namespace Google\Service\Bigquery;
 class MlStatistics extends \Google\Collection
 {
   protected $collection_key = 'iterationResults';
+  protected $hparamTrialsType = HparamTuningTrial::class;
+  protected $hparamTrialsDataType = 'array';
   protected $iterationResultsType = IterationResult::class;
   protected $iterationResultsDataType = 'array';
   /**
    * @var string
    */
   public $maxIterations;
+  /**
+   * @var string
+   */
+  public $modelType;
+  /**
+   * @var string
+   */
+  public $trainingType;
 
+  /**
+   * @param HparamTuningTrial[]
+   */
+  public function setHparamTrials($hparamTrials)
+  {
+    $this->hparamTrials = $hparamTrials;
+  }
+  /**
+   * @return HparamTuningTrial[]
+   */
+  public function getHparamTrials()
+  {
+    return $this->hparamTrials;
+  }
   /**
    * @param IterationResult[]
    */
@@ -54,6 +78,34 @@ class MlStatistics extends \Google\Collection
   public function getMaxIterations()
   {
     return $this->maxIterations;
+  }
+  /**
+   * @param string
+   */
+  public function setModelType($modelType)
+  {
+    $this->modelType = $modelType;
+  }
+  /**
+   * @return string
+   */
+  public function getModelType()
+  {
+    return $this->modelType;
+  }
+  /**
+   * @param string
+   */
+  public function setTrainingType($trainingType)
+  {
+    $this->trainingType = $trainingType;
+  }
+  /**
+   * @return string
+   */
+  public function getTrainingType()
+  {
+    return $this->trainingType;
   }
 }
 

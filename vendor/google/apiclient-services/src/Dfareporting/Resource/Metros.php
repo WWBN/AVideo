@@ -35,6 +35,7 @@ class Metros extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return MetrosListResponse
+   * @throws \Google\Service\Exception
    */
   public function listMetros($profileId, $optParams = [])
   {

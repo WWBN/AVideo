@@ -34,6 +34,10 @@ class WorkflowInvocation extends \Google\Model
   /**
    * @var string
    */
+  public $resolvedCompilationResult;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
@@ -95,6 +99,20 @@ class WorkflowInvocation extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setResolvedCompilationResult($resolvedCompilationResult)
+  {
+    $this->resolvedCompilationResult = $resolvedCompilationResult;
+  }
+  /**
+   * @return string
+   */
+  public function getResolvedCompilationResult()
+  {
+    return $this->resolvedCompilationResult;
   }
   /**
    * @param string

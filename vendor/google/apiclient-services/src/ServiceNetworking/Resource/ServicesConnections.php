@@ -47,6 +47,7 @@ class ServicesConnections extends \Google\Service\Resource
    * @param Connection $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Connection $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ServicesConnections extends \Google\Service\Resource
    * @param DeleteConnectionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function deleteConnection($name, DeleteConnectionRequest $postBody, $optParams = [])
   {
@@ -92,6 +94,7 @@ class ServicesConnections extends \Google\Service\Resource
    * number, such as in `12345` that includes the VPC service consumer's VPC
    * network. {network} is the name of the service consumer's VPC network.
    * @return ListConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listServicesConnections($parent, $optParams = [])
   {
@@ -118,6 +121,7 @@ class ServicesConnections extends \Google\Service\Resource
    * @opt_param string updateMask The update mask. If this is omitted, it defaults
    * to "*". You can only update the listed peering ranges.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Connection $postBody, $optParams = [])
   {

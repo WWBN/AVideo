@@ -37,6 +37,7 @@ class Bidders extends \Google\Service\Resource
    * `bidders/{bidderAccountId}`
    * @param array $optParams Optional parameters.
    * @return Bidder
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Bidders extends \Google\Service\Resource
    * should return. This value is received from a previous `ListBidders` call in
    * ListBiddersResponse.nextPageToken.
    * @return ListBiddersResponse
+   * @throws \Google\Service\Exception
    */
   public function listBidders($optParams = [])
   {

@@ -40,6 +40,7 @@ class TransferJobs extends \Google\Service\Resource
    * @param TransferJob $postBody
    * @param array $optParams Optional parameters.
    * @return TransferJob
+   * @throws \Google\Service\Exception
    */
   public function create(TransferJob $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class TransferJobs extends \Google\Service\Resource
    * owns the job.
    * @param array $optParams Optional parameters.
    * @return StoragetransferEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($jobName, $projectId, $optParams = [])
   {
@@ -71,6 +73,7 @@ class TransferJobs extends \Google\Service\Resource
    * owns the job.
    * @param array $optParams Optional parameters.
    * @return TransferJob
+   * @throws \Google\Service\Exception
    */
   public function get($jobName, $projectId, $optParams = [])
   {
@@ -93,6 +96,7 @@ class TransferJobs extends \Google\Service\Resource
    * @opt_param int pageSize The list page size. The max allowed value is 256.
    * @opt_param string pageToken The list page token.
    * @return ListTransferJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listTransferJobs($filter, $optParams = [])
   {
@@ -110,6 +114,7 @@ class TransferJobs extends \Google\Service\Resource
    * @param UpdateTransferJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TransferJob
+   * @throws \Google\Service\Exception
    */
   public function patch($jobName, UpdateTransferJobRequest $postBody, $optParams = [])
   {
@@ -126,6 +131,7 @@ class TransferJobs extends \Google\Service\Resource
    * @param RunTransferJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function run($jobName, RunTransferJobRequest $postBody, $optParams = [])
   {

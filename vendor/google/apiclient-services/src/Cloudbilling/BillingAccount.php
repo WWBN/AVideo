@@ -35,6 +35,10 @@ class BillingAccount extends \Google\Model
    * @var bool
    */
   public $open;
+  /**
+   * @var string
+   */
+  public $parent;
 
   /**
    * @param string
@@ -91,6 +95,20 @@ class BillingAccount extends \Google\Model
   public function getOpen()
   {
     return $this->open;
+  }
+  /**
+   * @param string
+   */
+  public function setParent($parent)
+  {
+    $this->parent = $parent;
+  }
+  /**
+   * @return string
+   */
+  public function getParent()
+  {
+    return $this->parent;
   }
 }
 

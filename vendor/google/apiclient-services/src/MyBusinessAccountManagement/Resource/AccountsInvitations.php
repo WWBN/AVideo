@@ -40,6 +40,7 @@ class AccountsInvitations extends \Google\Service\Resource
    * @param AcceptInvitationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return MybusinessaccountmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function accept($name, AcceptInvitationRequest $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class AccountsInvitations extends \Google\Service\Resource
    * @param DeclineInvitationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return MybusinessaccountmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function decline($name, DeclineInvitationRequest $postBody, $optParams = [])
   {
@@ -73,6 +75,7 @@ class AccountsInvitations extends \Google\Service\Resource
    * @opt_param string filter Optional. Filtering the response is supported via
    * the Invitation.target_type field.
    * @return ListInvitationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsInvitations($parent, $optParams = [])
   {

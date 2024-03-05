@@ -19,6 +19,10 @@ namespace Google\Service\WorkloadManager;
 
 class Insight extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $instanceId;
   protected $sapDiscoveryType = SapDiscovery::class;
   protected $sapDiscoveryDataType = '';
   protected $sapValidationType = SapValidation::class;
@@ -30,6 +34,20 @@ class Insight extends \Google\Model
   protected $sqlserverValidationType = SqlserverValidation::class;
   protected $sqlserverValidationDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setInstanceId($instanceId)
+  {
+    $this->instanceId = $instanceId;
+  }
+  /**
+   * @return string
+   */
+  public function getInstanceId()
+  {
+    return $this->instanceId;
+  }
   /**
    * @param SapDiscovery
    */

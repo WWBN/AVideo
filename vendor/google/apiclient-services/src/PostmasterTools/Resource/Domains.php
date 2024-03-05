@@ -39,6 +39,7 @@ class Domains extends \Google\Service\Resource
    * name.
    * @param array $optParams Optional parameters.
    * @return Domain
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -61,6 +62,7 @@ class Domains extends \Google\Service\Resource
    * ListDomainsResponse.next_page_token returned from the previous call to
    * `ListDomains` method.
    * @return ListDomainsResponse
+   * @throws \Google\Service\Exception
    */
   public function listDomains($optParams = [])
   {

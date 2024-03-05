@@ -22,12 +22,32 @@ class NetworkConfig extends \Google\Model
   /**
    * @var string
    */
+  public $connectionType;
+  /**
+   * @var string
+   */
   public $ipAllocation;
   /**
    * @var string
    */
   public $network;
+  protected $privateServiceConnectConfigType = PrivateServiceConnectConfig::class;
+  protected $privateServiceConnectConfigDataType = '';
 
+  /**
+   * @param string
+   */
+  public function setConnectionType($connectionType)
+  {
+    $this->connectionType = $connectionType;
+  }
+  /**
+   * @return string
+   */
+  public function getConnectionType()
+  {
+    return $this->connectionType;
+  }
   /**
    * @param string
    */
@@ -55,6 +75,20 @@ class NetworkConfig extends \Google\Model
   public function getNetwork()
   {
     return $this->network;
+  }
+  /**
+   * @param PrivateServiceConnectConfig
+   */
+  public function setPrivateServiceConnectConfig(PrivateServiceConnectConfig $privateServiceConnectConfig)
+  {
+    $this->privateServiceConnectConfig = $privateServiceConnectConfig;
+  }
+  /**
+   * @return PrivateServiceConnectConfig
+   */
+  public function getPrivateServiceConnectConfig()
+  {
+    return $this->privateServiceConnectConfig;
   }
 }
 

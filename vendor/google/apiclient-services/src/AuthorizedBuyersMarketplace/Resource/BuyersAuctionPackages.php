@@ -41,6 +41,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * `buyers/{accountId}/auctionPackages/{auctionPackageId}`
    * @param array $optParams Optional parameters.
    * @return AuctionPackage
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -61,6 +62,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * @opt_param string pageToken The page token as returned.
    * ListAuctionPackagesResponse.nextPageToken
    * @return ListAuctionPackagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listBuyersAuctionPackages($parent, $optParams = [])
   {
@@ -79,6 +81,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * @param SubscribeAuctionPackageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AuctionPackage
+   * @throws \Google\Service\Exception
    */
   public function subscribe($name, SubscribeAuctionPackageRequest $postBody, $optParams = [])
   {
@@ -98,6 +101,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * @param SubscribeClientsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AuctionPackage
+   * @throws \Google\Service\Exception
    */
   public function subscribeClients($auctionPackage, SubscribeClientsRequest $postBody, $optParams = [])
   {
@@ -115,6 +119,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * @param UnsubscribeAuctionPackageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AuctionPackage
+   * @throws \Google\Service\Exception
    */
   public function unsubscribe($name, UnsubscribeAuctionPackageRequest $postBody, $optParams = [])
   {
@@ -132,6 +137,7 @@ class BuyersAuctionPackages extends \Google\Service\Resource
    * @param UnsubscribeClientsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AuctionPackage
+   * @throws \Google\Service\Exception
    */
   public function unsubscribeClients($auctionPackage, UnsubscribeClientsRequest $postBody, $optParams = [])
   {

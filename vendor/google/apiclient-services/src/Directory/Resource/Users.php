@@ -39,6 +39,7 @@ class Users extends \Google\Service\Resource
    * @param string $userKey Identifies the user in the API request. The value can
    * be the user's primary email address, alias email address, or unique user ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($userKey, $optParams = [])
   {
@@ -62,6 +63,7 @@ class Users extends \Google\Service\Resource
    * non-administrator](/admin-sdk/directory/v1/guides/manage-
    * users#retrieve_users_non_admin).
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function get($userKey, $optParams = [])
   {
@@ -70,11 +72,21 @@ class Users extends \Google\Service\Resource
     return $this->call('get', [$params], User::class);
   }
   /**
-   * Creates a user. (users.insert)
+   * Creates a user. Mutate calls immediately following user creation might
+   * sometimes fail as the user isn't fully created due to propagation delay in
+   * our backends. Check the error details for the "User creation is not complete"
+   * message to see if this is the case. Retrying the calls after some time can
+   * help in this case. (users.insert)
    *
    * @param User $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool resolveConflictAccount Optional. If set to `true`, the option
+   * selected for [handling unmanaged user
+   * accounts](https://support.google.com/a/answer/11112794) will apply. Default:
+   * `false`
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function insert(User $postBody, $optParams = [])
   {
@@ -120,6 +132,7 @@ class Users extends \Google\Service\Resource
    * non-administrator](/admin-sdk/directory/v1/guides/manage-
    * users#retrieve_users_non_admin).
    * @return UsersModel
+   * @throws \Google\Service\Exception
    */
   public function listUsers($optParams = [])
   {
@@ -134,6 +147,7 @@ class Users extends \Google\Service\Resource
    * be the user's primary email address, alias email address, or unique user ID.
    * @param UserMakeAdmin $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function makeAdmin($userKey, UserMakeAdmin $postBody, $optParams = [])
   {
@@ -155,6 +169,7 @@ class Users extends \Google\Service\Resource
    * @param User $postBody
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function patch($userKey, User $postBody, $optParams = [])
   {
@@ -170,6 +185,7 @@ class Users extends \Google\Service\Resource
    * value can be the user's primary email address, alias email address, or unique
    * user ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function signOut($userKey, $optParams = [])
   {
@@ -183,6 +199,7 @@ class Users extends \Google\Service\Resource
    * @param string $userKey The immutable id of the user
    * @param UserUndelete $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function undelete($userKey, UserUndelete $postBody, $optParams = [])
   {
@@ -205,6 +222,7 @@ class Users extends \Google\Service\Resource
    * @param User $postBody
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function update($userKey, User $postBody, $optParams = [])
   {
@@ -244,6 +262,7 @@ class Users extends \Google\Service\Resource
    * non-administrator](/admin-sdk/directory/v1/guides/manage-
    * users#retrieve_users_non_admin).
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function watch(Channel $postBody, $optParams = [])
   {

@@ -42,6 +42,7 @@ class FoldersApprovalRequests extends \Google\Service\Resource
    * @param ApproveApprovalRequestMessage $postBody
    * @param array $optParams Optional parameters.
    * @return ApprovalRequest
+   * @throws \Google\Service\Exception
    */
   public function approve($name, ApproveApprovalRequestMessage $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class FoldersApprovalRequests extends \Google\Service\Resource
    * @param DismissApprovalRequestMessage $postBody
    * @param array $optParams Optional parameters.
    * @return ApprovalRequest
+   * @throws \Google\Service\Exception
    */
   public function dismiss($name, DismissApprovalRequestMessage $postBody, $optParams = [])
   {
@@ -75,6 +77,7 @@ class FoldersApprovalRequests extends \Google\Service\Resource
    * "{projects|folders|organizations}/{id}/approvalRequests/{approval_request}"
    * @param array $optParams Optional parameters.
    * @return ApprovalRequest
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -93,6 +96,7 @@ class FoldersApprovalRequests extends \Google\Service\Resource
    * @param InvalidateApprovalRequestMessage $postBody
    * @param array $optParams Optional parameters.
    * @return ApprovalRequest
+   * @throws \Google\Service\Exception
    */
   public function invalidate($name, InvalidateApprovalRequestMessage $postBody, $optParams = [])
   {
@@ -122,6 +126,7 @@ class FoldersApprovalRequests extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying the page of results to
    * return.
    * @return ListApprovalRequestsResponse
+   * @throws \Google\Service\Exception
    */
   public function listFoldersApprovalRequests($parent, $optParams = [])
   {

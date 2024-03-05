@@ -41,6 +41,7 @@ class Personalizedstream extends \Google\Service\Resource
    * filtered out.
    * @opt_param string source String to identify the originator of this request.
    * @return Discoveryclusters
+   * @throws \Google\Service\Exception
    */
   public function get($optParams = [])
   {

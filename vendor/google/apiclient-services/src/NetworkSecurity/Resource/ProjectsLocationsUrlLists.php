@@ -44,6 +44,7 @@ class ProjectsLocationsUrlLists extends \Google\Service\Resource
    * letters, numbers, hyphens, and underscores, and should not start with a
    * number. E.g. "url_list".
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, UrlList $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsLocationsUrlLists extends \Google\Service\Resource
    * format `projects/locations/{location}/urlLists`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsLocationsUrlLists extends \Google\Service\Resource
    * format `projects/locations/{location}/urlLists`.
    * @param array $optParams Optional parameters.
    * @return UrlList
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -93,6 +96,7 @@ class ProjectsLocationsUrlLists extends \Google\Service\Resource
    * `ListUrlListsResponse` Indicates that this is a continuation of a prior
    * `ListUrlLists` call, and that the system should return the next page of data.
    * @return ListUrlListsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsUrlLists($parent, $optParams = [])
   {
@@ -115,6 +119,7 @@ class ProjectsLocationsUrlLists extends \Google\Service\Resource
    * request. A field will be overwritten if it is in the mask. If the user does
    * not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, UrlList $postBody, $optParams = [])
   {

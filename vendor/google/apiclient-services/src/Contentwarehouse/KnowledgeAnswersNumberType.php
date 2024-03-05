@@ -20,6 +20,8 @@ namespace Google\Service\Contentwarehouse;
 class KnowledgeAnswersNumberType extends \Google\Collection
 {
   protected $collection_key = 'subType';
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   /**
    * @var bool
    */
@@ -33,6 +35,20 @@ class KnowledgeAnswersNumberType extends \Google\Collection
    */
   public $subType;
 
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
+  }
   /**
    * @param bool
    */

@@ -35,6 +35,9 @@ use Google\Client;
  */
 class Games extends \Google\Service
 {
+  /** View and manage your Google Play Developer account. */
+  const ANDROIDPUBLISHER =
+      "https://www.googleapis.com/auth/androidpublisher";
   /** See, create, and delete its own configuration data in your Google Drive. */
   const DRIVE_APPDATA =
       "https://www.googleapis.com/auth/drive.appdata";
@@ -49,6 +52,7 @@ class Games extends \Google\Service
   public $leaderboards;
   public $metagame;
   public $players;
+  public $recall;
   public $revisions;
   public $scores;
   public $snapshots;
@@ -441,6 +445,38 @@ class Games extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],
+          ]
+        ]
+    );
+    $this->recall = new Games\Resource\Recall(
+        $this,
+        $this->serviceName,
+        'recall',
+        [
+          'methods' => [
+            'linkPersona' => [
+              'path' => 'games/v1/recall:linkPersona',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'resetPersona' => [
+              'path' => 'games/v1/recall:resetPersona',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'retrieveTokens' => [
+              'path' => 'games/v1/recall/tokens/{sessionId}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'sessionId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'unlinkPersona' => [
+              'path' => 'games/v1/recall:unlinkPersona',
+              'httpMethod' => 'POST',
+              'parameters' => [],
             ],
           ]
         ]

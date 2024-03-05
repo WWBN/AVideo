@@ -38,6 +38,7 @@ class CustomersTelemetryUsers extends \Google\Service\Resource
    *
    * @opt_param string readMask Read mask to specify which fields to return.
    * @return GoogleChromeManagementV1TelemetryUser
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -59,6 +60,7 @@ class CustomersTelemetryUsers extends \Google\Service\Resource
    * @opt_param string pageToken Token to specify next page in the list.
    * @opt_param string readMask Read mask to specify which fields to return.
    * @return GoogleChromeManagementV1ListTelemetryUsersResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersTelemetryUsers($parent, $optParams = [])
   {

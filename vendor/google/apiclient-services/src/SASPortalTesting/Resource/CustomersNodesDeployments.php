@@ -38,6 +38,7 @@ class CustomersNodesDeployments extends \Google\Service\Resource
    * @param SasPortalDeployment $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDeployment
+   * @throws \Google\Service\Exception
    */
   public function create($parent, SasPortalDeployment $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class CustomersNodesDeployments extends \Google\Service\Resource
    * @opt_param string pageToken A pagination token returned from a previous call
    * to ListDeployments that indicates where this listing should continue from.
    * @return SasPortalListDeploymentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersNodesDeployments($parent, $optParams = [])
   {

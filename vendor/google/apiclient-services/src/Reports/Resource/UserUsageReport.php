@@ -41,7 +41,7 @@ class UserUsageReport extends \Google\Service\Resource
    * address. Must not be a deleted user. For a deleted user, call `users.list` in
    * Directory API with `showDeleted=true`, then use the returned `ID` as the
    * `userKey`.
-   * @param string $date Represents the date the usage occurred, based on GMT-7:00
+   * @param string $date Represents the date the usage occurred, based on UTC-8:00
    * (Pacific Standard Time). The timestamp is in the [ISO 8601
    * format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`.
    * @param array $optParams Optional parameters.
@@ -58,12 +58,12 @@ class UserUsageReport extends \Google\Service\Resource
    * in the request's query string (%3C%3E): GET
    * https://www.googleapis.com/admin/reports/v1/usage/users/all/dates/2013-03-03
    * ?parameters=accounts:last_login_time
-   * =accounts:last_login_time%3C%3E2010-10-28T10:26:35.000Z The relational
-   * operators include: - `==` - 'equal to'. - `<>` - 'not equal to'. It is URL-
-   * encoded (%3C%3E). - `<` - 'less than'. It is URL-encoded (%3C). - `<=` -
-   * 'less than or equal to'. It is URL-encoded (%3C=). - `>` - 'greater than'. It
-   * is URL-encoded (%3E). - `>=` - 'greater than or equal to'. It is URL-encoded
-   * (%3E=).
+   * &filters=accounts:last_login_time%3C%3E2010-10-28T10:26:35.000Z The
+   * relational operators include: - `==` - 'equal to'. - `<>` - 'not equal to'.
+   * It is URL-encoded (%3C%3E). - `<` - 'less than'. It is URL-encoded (%3C). -
+   * `<=` - 'less than or equal to'. It is URL-encoded (%3C=). - `>` - 'greater
+   * than'. It is URL-encoded (%3E). - `>=` - 'greater than or equal to'. It is
+   * URL-encoded (%3E=).
    * @opt_param string groupIdFilter Comma separated group ids (obfuscated) on
    * which user activities are filtered, i.e. the response will contain activities
    * for only those users that are a part of at least one of the group ids
@@ -96,6 +96,7 @@ class UserUsageReport extends \Google\Service\Resource
    * An example of an invalid request parameter is one that does not belong to the
    * application. If no parameters are requested, all parameters are returned.
    * @return UsageReports
+   * @throws \Google\Service\Exception
    */
   public function get($userKey, $date, $optParams = [])
   {

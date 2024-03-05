@@ -48,6 +48,8 @@ class GoogleCloudApigeeV1ApiProduct extends \Google\Collection
   public $environments;
   protected $graphqlOperationGroupType = GoogleCloudApigeeV1GraphQLOperationGroup::class;
   protected $graphqlOperationGroupDataType = '';
+  protected $grpcOperationGroupType = GoogleCloudApigeeV1GrpcOperationGroup::class;
+  protected $grpcOperationGroupDataType = '';
   /**
    * @var string
    */
@@ -194,6 +196,20 @@ class GoogleCloudApigeeV1ApiProduct extends \Google\Collection
   public function getGraphqlOperationGroup()
   {
     return $this->graphqlOperationGroup;
+  }
+  /**
+   * @param GoogleCloudApigeeV1GrpcOperationGroup
+   */
+  public function setGrpcOperationGroup(GoogleCloudApigeeV1GrpcOperationGroup $grpcOperationGroup)
+  {
+    $this->grpcOperationGroup = $grpcOperationGroup;
+  }
+  /**
+   * @return GoogleCloudApigeeV1GrpcOperationGroup
+   */
+  public function getGrpcOperationGroup()
+  {
+    return $this->grpcOperationGroup;
   }
   /**
    * @param string

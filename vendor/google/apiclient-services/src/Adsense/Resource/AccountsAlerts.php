@@ -42,6 +42,7 @@ class AccountsAlerts extends \Google\Service\Resource
    * language is specified as an [IETF BCP-47 language
    * code](https://en.wikipedia.org/wiki/IETF_language_tag).
    * @return ListAlertsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsAlerts($parent, $optParams = [])
   {

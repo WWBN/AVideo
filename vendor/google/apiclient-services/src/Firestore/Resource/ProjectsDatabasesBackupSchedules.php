@@ -42,6 +42,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
    * @param GoogleFirestoreAdminV1BackupSchedule $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1BackupSchedule
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleFirestoreAdminV1BackupSchedule $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
    * `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}`
    * @param array $optParams Optional parameters.
    * @return FirestoreEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
    * `projects/{project}/databases/{database}/backupSchedules/{backup_schedule}`
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1BackupSchedule
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -84,6 +87,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
    * `projects/{project}/databases/{database}`.
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1ListBackupSchedulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatabasesBackupSchedules($parent, $optParams = [])
   {
@@ -103,6 +107,7 @@ class ProjectsDatabasesBackupSchedules extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return GoogleFirestoreAdminV1BackupSchedule
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirestoreAdminV1BackupSchedule $postBody, $optParams = [])
   {

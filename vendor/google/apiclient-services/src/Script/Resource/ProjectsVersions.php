@@ -38,6 +38,7 @@ class ProjectsVersions extends \Google\Service\Resource
    * @param Version $postBody
    * @param array $optParams Optional parameters.
    * @return Version
+   * @throws \Google\Service\Exception
    */
   public function create($scriptId, Version $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class ProjectsVersions extends \Google\Service\Resource
    * @param int $versionNumber The version number.
    * @param array $optParams Optional parameters.
    * @return Version
+   * @throws \Google\Service\Exception
    */
   public function get($scriptId, $versionNumber, $optParams = [])
   {
@@ -71,6 +73,7 @@ class ProjectsVersions extends \Google\Service\Resource
    * on the next page. This should be set to the value of `nextPageToken` from a
    * previous response.
    * @return ListVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsVersions($scriptId, $optParams = [])
   {

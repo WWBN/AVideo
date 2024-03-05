@@ -42,6 +42,7 @@ class MylibraryBookshelves extends \Google\Service\Resource
    * library.
    * @opt_param string source String to identify the originator of this request.
    * @return BooksEmpty
+   * @throws \Google\Service\Exception
    */
   public function addVolume($shelf, $volumeId, $optParams = [])
   {
@@ -57,6 +58,7 @@ class MylibraryBookshelves extends \Google\Service\Resource
    *
    * @opt_param string source String to identify the originator of this request.
    * @return BooksEmpty
+   * @throws \Google\Service\Exception
    */
   public function clearVolumes($shelf, $optParams = [])
   {
@@ -73,6 +75,7 @@ class MylibraryBookshelves extends \Google\Service\Resource
    *
    * @opt_param string source String to identify the originator of this request.
    * @return Bookshelf
+   * @throws \Google\Service\Exception
    */
   public function get($shelf, $optParams = [])
   {
@@ -87,7 +90,8 @@ class MylibraryBookshelves extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string source String to identify the originator of this request.
-   * @return Bookshelves
+   * @return BookshelvesModel
+   * @throws \Google\Service\Exception
    */
   public function listMylibraryBookshelves($optParams = [])
   {
@@ -107,6 +111,7 @@ class MylibraryBookshelves extends \Google\Service\Resource
    *
    * @opt_param string source String to identify the originator of this request.
    * @return BooksEmpty
+   * @throws \Google\Service\Exception
    */
   public function moveVolume($shelf, $volumeId, $volumePosition, $optParams = [])
   {
@@ -125,6 +130,7 @@ class MylibraryBookshelves extends \Google\Service\Resource
    * library.
    * @opt_param string source String to identify the originator of this request.
    * @return BooksEmpty
+   * @throws \Google\Service\Exception
    */
   public function removeVolume($shelf, $volumeId, $optParams = [])
   {

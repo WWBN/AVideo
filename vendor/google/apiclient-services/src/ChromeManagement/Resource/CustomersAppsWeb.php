@@ -40,6 +40,7 @@ class CustomersAppsWeb extends \Google\Service\Resource
    * Google Drive Android app's latest version.
    * @param array $optParams Optional parameters.
    * @return GoogleChromeManagementV1AppDetails
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

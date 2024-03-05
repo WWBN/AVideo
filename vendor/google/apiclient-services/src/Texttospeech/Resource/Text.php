@@ -37,6 +37,7 @@ class Text extends \Google\Service\Resource
    * @param SynthesizeSpeechRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SynthesizeSpeechResponse
+   * @throws \Google\Service\Exception
    */
   public function synthesize(SynthesizeSpeechRequest $postBody, $optParams = [])
   {

@@ -20,10 +20,10 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for CloudWorkstations (v1beta).
+ * Service definition for CloudWorkstations (v1).
  *
  * <p>
-</p>
+ * Allows administrators to create managed developer environments in the cloud.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -38,6 +38,7 @@ class CloudWorkstations extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $projects_locations;
   public $projects_locations_operations;
   public $projects_locations_workstationClusters;
   public $projects_locations_workstationClusters_workstationConfigs;
@@ -56,37 +57,17 @@ class CloudWorkstations extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://workstations.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1beta';
+    $this->version = 'v1';
     $this->serviceName = 'workstations';
 
-    $this->projects_locations_operations = new CloudWorkstations\Resource\ProjectsLocationsOperations(
+    $this->projects_locations = new CloudWorkstations\Resource\ProjectsLocations(
         $this,
         $this->serviceName,
-        'operations',
+        'locations',
         [
           'methods' => [
-            'cancel' => [
-              'path' => 'v1beta/{+name}:cancel',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v1beta/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1beta/{+name}',
+            'get' => [
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -96,7 +77,69 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+name}/operations',
+              'path' => 'v1/{+name}/locations',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_operations = new CloudWorkstations\Resource\ProjectsLocationsOperations(
+        $this,
+        $this->serviceName,
+        'operations',
+        [
+          'methods' => [
+            'cancel' => [
+              'path' => 'v1/{+name}:cancel',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+name}/operations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -128,7 +171,7 @@ class CloudWorkstations extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1beta/{+parent}/workstationClusters',
+              'path' => 'v1/{+parent}/workstationClusters',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -146,7 +189,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -168,7 +211,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -178,7 +221,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+parent}/workstationClusters',
+              'path' => 'v1/{+parent}/workstationClusters',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -196,7 +239,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -228,7 +271,7 @@ class CloudWorkstations extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1beta/{+parent}/workstationConfigs',
+              'path' => 'v1/{+parent}/workstationConfigs',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -246,7 +289,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -268,7 +311,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -278,7 +321,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'getIamPolicy' => [
-              'path' => 'v1beta/{+resource}:getIamPolicy',
+              'path' => 'v1/{+resource}:getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => [
                 'resource' => [
@@ -292,7 +335,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+parent}/workstationConfigs',
+              'path' => 'v1/{+parent}/workstationConfigs',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -310,7 +353,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'listUsable' => [
-              'path' => 'v1beta/{+parent}/workstationConfigs:listUsable',
+              'path' => 'v1/{+parent}/workstationConfigs:listUsable',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -328,7 +371,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -350,7 +393,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'setIamPolicy' => [
-              'path' => 'v1beta/{+resource}:setIamPolicy',
+              'path' => 'v1/{+resource}:setIamPolicy',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
@@ -360,7 +403,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'testIamPermissions' => [
-              'path' => 'v1beta/{+resource}:testIamPermissions',
+              'path' => 'v1/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
@@ -380,7 +423,7 @@ class CloudWorkstations extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1beta/{+parent}/workstations',
+              'path' => 'v1/{+parent}/workstations',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -398,7 +441,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -416,7 +459,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'generateAccessToken' => [
-              'path' => 'v1beta/{+workstation}:generateAccessToken',
+              'path' => 'v1/{+workstation}:generateAccessToken',
               'httpMethod' => 'POST',
               'parameters' => [
                 'workstation' => [
@@ -426,7 +469,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -436,7 +479,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'getIamPolicy' => [
-              'path' => 'v1beta/{+resource}:getIamPolicy',
+              'path' => 'v1/{+resource}:getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => [
                 'resource' => [
@@ -450,7 +493,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta/{+parent}/workstations',
+              'path' => 'v1/{+parent}/workstations',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -468,7 +511,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'listUsable' => [
-              'path' => 'v1beta/{+parent}/workstations:listUsable',
+              'path' => 'v1/{+parent}/workstations:listUsable',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -486,7 +529,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1beta/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -508,7 +551,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'setIamPolicy' => [
-              'path' => 'v1beta/{+resource}:setIamPolicy',
+              'path' => 'v1/{+resource}:setIamPolicy',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
@@ -518,7 +561,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'start' => [
-              'path' => 'v1beta/{+name}:start',
+              'path' => 'v1/{+name}:start',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -528,7 +571,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'stop' => [
-              'path' => 'v1beta/{+name}:stop',
+              'path' => 'v1/{+name}:stop',
               'httpMethod' => 'POST',
               'parameters' => [
                 'name' => [
@@ -538,7 +581,7 @@ class CloudWorkstations extends \Google\Service
                 ],
               ],
             ],'testIamPermissions' => [
-              'path' => 'v1beta/{+resource}:testIamPermissions',
+              'path' => 'v1/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [

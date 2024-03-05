@@ -12,6 +12,9 @@
 namespace Carbon;
 
 use Closure;
+use DateTimeImmutable;
+use DateTimeZone;
+use Psr\Clock\ClockInterface;
 
 /**
  * A factory to generate CarbonImmutable instances with common settings.
@@ -111,7 +114,6 @@ use Closure;
  * @method CarbonImmutable                                    maxValue()                                                                                                                   Create a Carbon instance for the greatest supported date.
  * @method CarbonImmutable                                    minValue()                                                                                                                   Create a Carbon instance for the lowest supported date.
  * @method void                                               mixin($mixin)                                                                                                                Mix another object into the class.
- * @method CarbonImmutable                                    now($tz = null)                                                                                                              Get a Carbon instance for the current date and time.
  * @method CarbonImmutable                                    parse($time = null, $tz = null)                                                                                              Create a carbon instance from a string.
  *                                                                                                                                                                                         This is an alias for the constructor that allows better fluent syntax
  *                                                                                                                                                                                         as it allows you to do Carbon::parse('Monday next week')->fn() rather
@@ -229,7 +231,7 @@ use Closure;
  *                                                                                                                                                                                                     You should rather use the ->settings() method.
  *                                                                                                                                                                                                     Or you can use method variants: addYearsWithOverflow/addYearsNoOverflow, same variants
  *                                                                                                                                                                                                     are available for quarters, years, decade, centuries, millennia (singular and plural forms).
- * @method mixed                                              withTestNow($testNow = null, $callback = null)                                                                               Temporarily sets a static date to be used within the callback.
+ * @method mixed                                              withTestNow($testNow, $callback)                                                                                             Temporarily sets a static date to be used within the callback.
  *                                                                                                                                                                                         Using setTestNow to set the date, executing the callback, then
  *                                                                                                                                                                                         clearing the test instance.
  *                                                                                                                                                                                         /!\ Use this method for unit tests only.
@@ -237,7 +239,21 @@ use Closure;
  *
  * </autodoc>
  */
-class FactoryImmutable extends Factory
+class FactoryImmutable extends Factory implements ClockInterface
 {
     protected $className = CarbonImmutable::class;
+
+    /**
+     * Get a Carbon instance for the current date and time.
+     *
+     * @param DateTimeZone|string|int|null $tz
+     *
+     * @return CarbonImmutable
+     */
+    public function now($tz = null): DateTimeImmutable
+    {
+        $className = $this->className;
+
+        return new $className(null, $tz);
+    }
 }

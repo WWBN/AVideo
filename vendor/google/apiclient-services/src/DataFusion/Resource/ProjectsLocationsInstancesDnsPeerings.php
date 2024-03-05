@@ -41,6 +41,7 @@ class ProjectsLocationsInstancesDnsPeerings extends \Google\Service\Resource
    *
    * @opt_param string dnsPeeringId Required. The name of the peering to create.
    * @return DnsPeering
+   * @throws \Google\Service\Exception
    */
   public function create($parent, DnsPeering $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsInstancesDnsPeerings extends \Google\Service\Resource
    * ngs/{dns_peering}
    * @param array $optParams Optional parameters.
    * @return DatafusionEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsLocationsInstancesDnsPeerings extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListDnsPeerings` must match the
    * call that provided the page token.
    * @return ListDnsPeeringsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstancesDnsPeerings($parent, $optParams = [])
   {

@@ -40,6 +40,7 @@ class I18nRegions extends \Google\Service\Resource
    *
    * @opt_param string hl
    * @return I18nRegionListResponse
+   * @throws \Google\Service\Exception
    */
   public function listI18nRegions($part, $optParams = [])
   {

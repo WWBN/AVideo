@@ -39,6 +39,7 @@ class ProjectsLocationsProcessorsHumanReviewConfig extends \Google\Service\Resou
    * @param GoogleCloudDocumentaiV1ReviewDocumentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function reviewDocument($humanReviewConfig, GoogleCloudDocumentaiV1ReviewDocumentRequest $postBody, $optParams = [])
   {

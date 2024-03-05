@@ -54,7 +54,7 @@ class Appengine extends \Google\Service
   public $apps_services;
   public $apps_services_versions;
   public $apps_services_versions_instances;
-  public $projects_locations_applications;
+  public $projects_locations_applications_authorizedDomains;
 
   /**
    * Constructs the internal representation of the Appengine service.
@@ -81,12 +81,7 @@ class Appengine extends \Google\Service
             'create' => [
               'path' => 'v1/apps',
               'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
+              'parameters' => [],
             ],'get' => [
               'path' => 'v1/apps/{appsId}',
               'httpMethod' => 'GET',
@@ -95,6 +90,24 @@ class Appengine extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'includeExtraData' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'listRuntimes' => [
+              'path' => 'v1/apps/{appsId}:listRuntimes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'appsId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'environment' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'patch' => [
@@ -848,29 +861,14 @@ class Appengine extends \Google\Service
           ]
         ]
     );
-    $this->projects_locations_applications = new Appengine\Resource\ProjectsLocationsApplications(
+    $this->projects_locations_applications_authorizedDomains = new Appengine\Resource\ProjectsLocationsApplicationsAuthorizedDomains(
         $this,
         $this->serviceName,
-        'applications',
+        'authorizedDomains',
         [
           'methods' => [
-            'create' => [
-              'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'projectsId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'locationsId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}',
+            'list' => [
+              'path' => 'v1/projects/{projectsId}/locations/{locationsId}/applications/{applicationsId}/authorizedDomains',
               'httpMethod' => 'GET',
               'parameters' => [
                 'projectsId' => [
@@ -887,6 +885,14 @@ class Appengine extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

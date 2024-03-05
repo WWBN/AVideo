@@ -23,14 +23,20 @@ class GoogleCloudContentwarehouseV1GcsIngestPipeline extends \Google\Model
    * @var string
    */
   public $inputPath;
+  protected $pipelineConfigType = GoogleCloudContentwarehouseV1IngestPipelineConfig::class;
+  protected $pipelineConfigDataType = '';
   /**
    * @var string
    */
-  public $processorResultsFolderPath;
+  public $processorType;
   /**
    * @var string
    */
   public $schemaName;
+  /**
+   * @var bool
+   */
+  public $skipIngestedDocuments;
 
   /**
    * @param string
@@ -47,18 +53,32 @@ class GoogleCloudContentwarehouseV1GcsIngestPipeline extends \Google\Model
     return $this->inputPath;
   }
   /**
+   * @param GoogleCloudContentwarehouseV1IngestPipelineConfig
+   */
+  public function setPipelineConfig(GoogleCloudContentwarehouseV1IngestPipelineConfig $pipelineConfig)
+  {
+    $this->pipelineConfig = $pipelineConfig;
+  }
+  /**
+   * @return GoogleCloudContentwarehouseV1IngestPipelineConfig
+   */
+  public function getPipelineConfig()
+  {
+    return $this->pipelineConfig;
+  }
+  /**
    * @param string
    */
-  public function setProcessorResultsFolderPath($processorResultsFolderPath)
+  public function setProcessorType($processorType)
   {
-    $this->processorResultsFolderPath = $processorResultsFolderPath;
+    $this->processorType = $processorType;
   }
   /**
    * @return string
    */
-  public function getProcessorResultsFolderPath()
+  public function getProcessorType()
   {
-    return $this->processorResultsFolderPath;
+    return $this->processorType;
   }
   /**
    * @param string
@@ -73,6 +93,20 @@ class GoogleCloudContentwarehouseV1GcsIngestPipeline extends \Google\Model
   public function getSchemaName()
   {
     return $this->schemaName;
+  }
+  /**
+   * @param bool
+   */
+  public function setSkipIngestedDocuments($skipIngestedDocuments)
+  {
+    $this->skipIngestedDocuments = $skipIngestedDocuments;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipIngestedDocuments()
+  {
+    return $this->skipIngestedDocuments;
   }
 }
 

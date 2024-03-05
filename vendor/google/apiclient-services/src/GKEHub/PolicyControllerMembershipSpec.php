@@ -19,7 +19,7 @@ namespace Google\Service\GKEHub;
 
 class PolicyControllerMembershipSpec extends \Google\Model
 {
-  protected $policyControllerHubConfigType = PolicyControllerPolicyControllerHubConfig::class;
+  protected $policyControllerHubConfigType = PolicyControllerHubConfig::class;
   protected $policyControllerHubConfigDataType = '';
   /**
    * @var string
@@ -27,14 +27,14 @@ class PolicyControllerMembershipSpec extends \Google\Model
   public $version;
 
   /**
-   * @param PolicyControllerPolicyControllerHubConfig
+   * @param PolicyControllerHubConfig
    */
-  public function setPolicyControllerHubConfig(PolicyControllerPolicyControllerHubConfig $policyControllerHubConfig)
+  public function setPolicyControllerHubConfig(PolicyControllerHubConfig $policyControllerHubConfig)
   {
     $this->policyControllerHubConfig = $policyControllerHubConfig;
   }
   /**
-   * @return PolicyControllerPolicyControllerHubConfig
+   * @return PolicyControllerHubConfig
    */
   public function getPolicyControllerHubConfig()
   {

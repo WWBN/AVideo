@@ -43,6 +43,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * config, which will become the final component of the workflow config's
    * resource name.
    * @return WorkflowConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, WorkflowConfig $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * @param string $name Required. The workflow config's name.
    * @param array $optParams Optional parameters.
    * @return DataformEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * @param string $name Required. The workflow config's name.
    * @param array $optParams Optional parameters.
    * @return WorkflowConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * When paginating, all other parameters provided to `ListWorkflowConfigs` must
    * match the call that provided the page token.
    * @return ListWorkflowConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesWorkflowConfigs($parent, $optParams = [])
   {
@@ -109,6 +113,7 @@ class ProjectsLocationsRepositoriesWorkflowConfigs extends \Google\Service\Resou
    * @opt_param string updateMask Optional. Specifies the fields to be updated in
    * the workflow config. If left unset, all fields will be updated.
    * @return WorkflowConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, WorkflowConfig $postBody, $optParams = [])
   {

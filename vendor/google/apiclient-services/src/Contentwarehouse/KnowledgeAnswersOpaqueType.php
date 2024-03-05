@@ -35,6 +35,8 @@ class KnowledgeAnswersOpaqueType extends \Google\Model
   protected $complexQueriesRewriteTypeDataType = '';
   protected $componentReferenceTypeType = KnowledgeAnswersOpaqueComponentReferenceIndexType::class;
   protected $componentReferenceTypeDataType = '';
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   protected $deviceIdTypeType = KnowledgeAnswersOpaqueDeviceIdType::class;
   protected $deviceIdTypeDataType = '';
   protected $deviceTypeType = KnowledgeAnswersOpaqueDeviceType::class;
@@ -191,6 +193,20 @@ class KnowledgeAnswersOpaqueType extends \Google\Model
   public function getComponentReferenceType()
   {
     return $this->componentReferenceType;
+  }
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
   }
   /**
    * @param KnowledgeAnswersOpaqueDeviceIdType

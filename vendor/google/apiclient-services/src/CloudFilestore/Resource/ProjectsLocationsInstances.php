@@ -48,6 +48,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @opt_param string instanceId Required. The name of the instance to create.
    * The name must be unique for the specified project and location.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Instance $postBody, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * be deleted. (Otherwise, the request will only work if the instance has no
    * snapshots.)
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location}/instances/{instance_id}`.
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +108,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value to use if there are
    * additional results to retrieve for this list request.
    * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstances($parent, $optParams = [])
   {
@@ -124,6 +128,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * be supplied in this field. The elements of the repeated paths field may only
    * include these fields: * "description" * "file_shares" * "labels"
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Instance $postBody, $optParams = [])
   {
@@ -143,6 +148,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param RestoreInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function restore($name, RestoreInstanceRequest $postBody, $optParams = [])
   {
@@ -155,11 +161,12 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * (instances.revert)
    *
    * @param string $name Required.
-   * projects/{project_id}/locations/{location_id}/instances/{instance_id}. The
+   * `projects/{project_id}/locations/{location_id}/instances/{instance_id}`. The
    * resource name of the instance, in the format
    * @param RevertInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function revert($name, RevertInstanceRequest $postBody, $optParams = [])
   {

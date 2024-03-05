@@ -53,6 +53,8 @@ class Cloudchannel extends \Google\Service
   public $accounts_offers;
   public $accounts_reportJobs;
   public $accounts_reports;
+  public $accounts_skuGroups;
+  public $accounts_skuGroups_billableSkus;
   public $operations;
   public $products;
   public $products_skus;
@@ -452,11 +454,19 @@ class Cloudchannel extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'changeOfferPurchase.billingAccount' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'changeOfferPurchase.entitlement' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
                 'changeOfferPurchase.newSku' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'createEntitlementPurchase.billingAccount' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -892,6 +902,62 @@ class Cloudchannel extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_skuGroups = new Cloudchannel\Resource\AccountsSkuGroups(
+        $this,
+        $this->serviceName,
+        'skuGroups',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/skuGroups',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->accounts_skuGroups_billableSkus = new Cloudchannel\Resource\AccountsSkuGroupsBillableSkus(
+        $this,
+        $this->serviceName,
+        'billableSkus',
+        [
+          'methods' => [
+            'list' => [
+              'path' => 'v1/{+parent}/billableSkus',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],

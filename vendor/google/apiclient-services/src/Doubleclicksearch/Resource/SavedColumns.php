@@ -37,6 +37,7 @@ class SavedColumns extends \Google\Service\Resource
    * @param string $advertiserId DS ID of the advertiser.
    * @param array $optParams Optional parameters.
    * @return SavedColumnList
+   * @throws \Google\Service\Exception
    */
   public function listSavedColumns($agencyId, $advertiserId, $optParams = [])
   {

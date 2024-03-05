@@ -42,6 +42,7 @@ class ProjectsLocationsAgentsEnvironmentsContinuousTestResults extends \Google\S
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListContinuousTestResultsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsEnvironmentsContinuousTestResults($parent, $optParams = [])
   {

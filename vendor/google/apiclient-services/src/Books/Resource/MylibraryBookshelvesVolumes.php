@@ -46,7 +46,8 @@ class MylibraryBookshelvesVolumes extends \Google\Service\Resource
    * @opt_param string source String to identify the originator of this request.
    * @opt_param string startIndex Index of the first element to return (starts at
    * 0)
-   * @return Volumes
+   * @return VolumesModel
+   * @throws \Google\Service\Exception
    */
   public function listMylibraryBookshelvesVolumes($shelf, $optParams = [])
   {

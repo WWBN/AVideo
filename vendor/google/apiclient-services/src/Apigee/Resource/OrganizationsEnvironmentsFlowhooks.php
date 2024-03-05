@@ -38,6 +38,7 @@ class OrganizationsEnvironmentsFlowhooks extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1FlowHook $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1FlowHook
+   * @throws \Google\Service\Exception
    */
   public function attachSharedFlowToFlowHook($name, GoogleCloudApigeeV1FlowHook $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class OrganizationsEnvironmentsFlowhooks extends \Google\Service\Resource
    * `organizations/{org}/environments/{env}/flowhooks/{flowhook}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1FlowHook
+   * @throws \Google\Service\Exception
    */
   public function detachSharedFlowFromFlowHook($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class OrganizationsEnvironmentsFlowhooks extends \Google\Service\Resource
    * `organizations/{org}/environments/{env}/flowhooks/{flowhook}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1FlowHook
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

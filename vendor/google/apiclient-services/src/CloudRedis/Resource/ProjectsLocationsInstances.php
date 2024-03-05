@@ -60,6 +60,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * be between 1-40 characters. * Must end with a number or a letter. * Must be
    * unique within the customer project / location
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Instance $postBody, $optParams = [])
   {
@@ -76,6 +77,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * `location_id` refers to a GCP region.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -95,6 +97,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param ExportInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function export($name, ExportInstanceRequest $postBody, $optParams = [])
   {
@@ -113,6 +116,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param FailoverInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function failover($name, FailoverInstanceRequest $postBody, $optParams = [])
   {
@@ -128,6 +132,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * `location_id` refers to a GCP region.
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -145,6 +150,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * `location_id` refers to a GCP region.
    * @param array $optParams Optional parameters.
    * @return InstanceAuthString
+   * @throws \Google\Service\Exception
    */
   public function getAuthString($name, $optParams = [])
   {
@@ -166,6 +172,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param ImportInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function import($name, ImportInstanceRequest $postBody, $optParams = [])
   {
@@ -193,6 +200,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @opt_param string pageToken The `next_page_token` value returned from a
    * previous ListInstances request, if any.
    * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstances($parent, $optParams = [])
   {
@@ -222,6 +230,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * may only include these fields from Instance: * `displayName` * `labels` *
    * `memorySizeGb` * `redisConfig` * `replica_count`
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Instance $postBody, $optParams = [])
   {
@@ -239,6 +248,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param RescheduleMaintenanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function rescheduleMaintenance($name, RescheduleMaintenanceRequest $postBody, $optParams = [])
   {
@@ -256,6 +266,7 @@ class ProjectsLocationsInstances extends \Google\Service\Resource
    * @param UpgradeInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function upgrade($name, UpgradeInstanceRequest $postBody, $optParams = [])
   {

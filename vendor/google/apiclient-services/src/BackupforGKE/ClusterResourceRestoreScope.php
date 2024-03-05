@@ -20,9 +20,61 @@ namespace Google\Service\BackupforGKE;
 class ClusterResourceRestoreScope extends \Google\Collection
 {
   protected $collection_key = 'selectedGroupKinds';
+  /**
+   * @var bool
+   */
+  public $allGroupKinds;
+  protected $excludedGroupKindsType = GroupKind::class;
+  protected $excludedGroupKindsDataType = 'array';
+  /**
+   * @var bool
+   */
+  public $noGroupKinds;
   protected $selectedGroupKindsType = GroupKind::class;
   protected $selectedGroupKindsDataType = 'array';
 
+  /**
+   * @param bool
+   */
+  public function setAllGroupKinds($allGroupKinds)
+  {
+    $this->allGroupKinds = $allGroupKinds;
+  }
+  /**
+   * @return bool
+   */
+  public function getAllGroupKinds()
+  {
+    return $this->allGroupKinds;
+  }
+  /**
+   * @param GroupKind[]
+   */
+  public function setExcludedGroupKinds($excludedGroupKinds)
+  {
+    $this->excludedGroupKinds = $excludedGroupKinds;
+  }
+  /**
+   * @return GroupKind[]
+   */
+  public function getExcludedGroupKinds()
+  {
+    return $this->excludedGroupKinds;
+  }
+  /**
+   * @param bool
+   */
+  public function setNoGroupKinds($noGroupKinds)
+  {
+    $this->noGroupKinds = $noGroupKinds;
+  }
+  /**
+   * @return bool
+   */
+  public function getNoGroupKinds()
+  {
+    return $this->noGroupKinds;
+  }
   /**
    * @param GroupKind[]
    */

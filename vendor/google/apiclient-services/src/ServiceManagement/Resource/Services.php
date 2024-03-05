@@ -49,6 +49,7 @@ class Services extends \Google\Service\Resource
    * @param ManagedService $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(ManagedService $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class Services extends \Google\Service\Resource
    * requirements. For example: `example.googleapis.com`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($serviceName, $optParams = [])
   {
@@ -88,6 +90,7 @@ class Services extends \Google\Service\Resource
    * @param GenerateConfigReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GenerateConfigReportResponse
+   * @throws \Google\Service\Exception
    */
   public function generateConfigReport(GenerateConfigReportRequest $postBody, $optParams = [])
   {
@@ -104,6 +107,7 @@ class Services extends \Google\Service\Resource
    * `example.googleapis.com`.
    * @param array $optParams Optional parameters.
    * @return ManagedService
+   * @throws \Google\Service\Exception
    */
   public function get($serviceName, $optParams = [])
   {
@@ -126,6 +130,7 @@ class Services extends \Google\Service\Resource
    * @opt_param string view Specifies which parts of the Service Config should be
    * returned in the response.
    * @return Service
+   * @throws \Google\Service\Exception
    */
   public function getConfig($serviceName, $optParams = [])
   {
@@ -144,6 +149,7 @@ class Services extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -168,6 +174,7 @@ class Services extends \Google\Service\Resource
    * @opt_param string producerProjectId Include services produced by the
    * specified project.
    * @return ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listServices($optParams = [])
   {
@@ -187,6 +194,7 @@ class Services extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -208,6 +216,7 @@ class Services extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -226,6 +235,7 @@ class Services extends \Google\Service\Resource
    * requirements. For example: `example.googleapis.com`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function undelete($serviceName, $optParams = [])
   {

@@ -21,6 +21,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1SourceProvenance extends \Googl
 {
   protected $fileHashesType = ContaineranalysisGoogleDevtoolsCloudbuildV1FileHashes::class;
   protected $fileHashesDataType = 'map';
+  protected $resolvedConnectedRepositoryType = ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository::class;
+  protected $resolvedConnectedRepositoryDataType = '';
+  protected $resolvedGitSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource::class;
+  protected $resolvedGitSourceDataType = '';
   protected $resolvedRepoSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource::class;
   protected $resolvedRepoSourceDataType = '';
   protected $resolvedStorageSourceType = ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource::class;
@@ -41,6 +45,34 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1SourceProvenance extends \Googl
   public function getFileHashes()
   {
     return $this->fileHashes;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository
+   */
+  public function setResolvedConnectedRepository(ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository $resolvedConnectedRepository)
+  {
+    $this->resolvedConnectedRepository = $resolvedConnectedRepository;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1ConnectedRepository
+   */
+  public function getResolvedConnectedRepository()
+  {
+    return $this->resolvedConnectedRepository;
+  }
+  /**
+   * @param ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource
+   */
+  public function setResolvedGitSource(ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource $resolvedGitSource)
+  {
+    $this->resolvedGitSource = $resolvedGitSource;
+  }
+  /**
+   * @return ContaineranalysisGoogleDevtoolsCloudbuildV1GitSource
+   */
+  public function getResolvedGitSource()
+  {
+    return $this->resolvedGitSource;
   }
   /**
    * @param ContaineranalysisGoogleDevtoolsCloudbuildV1RepoSource

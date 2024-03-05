@@ -47,6 +47,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @opt_param string ekmConnectionId Required. It must be unique within a
    * location and match the regular expression `[a-zA-Z0-9_-]{1,63}`.
    * @return EkmConnection
+   * @throws \Google\Service\Exception
    */
   public function create($parent, EkmConnection $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @param string $name Required. The name of the EkmConnection to get.
    * @param array $optParams Optional parameters.
    * @return EkmConnection
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +92,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -119,6 +122,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Optional pagination token, returned
    * earlier via ListEkmConnectionsResponse.next_page_token.
    * @return ListEkmConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsEkmConnections($parent, $optParams = [])
   {
@@ -137,6 +141,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @opt_param string updateMask Required. List of fields to be updated in this
    * request.
    * @return EkmConnection
+   * @throws \Google\Service\Exception
    */
   public function patch($name, EkmConnection $postBody, $optParams = [])
   {
@@ -156,6 +161,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -178,6 +184,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -196,6 +203,7 @@ class ProjectsLocationsEkmConnections extends \Google\Service\Resource
    * @param string $name Required. The name of the EkmConnection to verify.
    * @param array $optParams Optional parameters.
    * @return VerifyConnectivityResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyConnectivity($name, $optParams = [])
   {

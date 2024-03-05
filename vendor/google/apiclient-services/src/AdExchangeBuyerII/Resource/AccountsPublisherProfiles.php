@@ -37,6 +37,7 @@ class AccountsPublisherProfiles extends \Google\Service\Resource
    * @param string $publisherProfileId The id for the publisher profile to get.
    * @param array $optParams Optional parameters.
    * @return PublisherProfile
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $publisherProfileId, $optParams = [])
   {
@@ -55,6 +56,7 @@ class AccountsPublisherProfiles extends \Google\Service\Resource
    * @opt_param string pageToken The page token as return from
    * ListPublisherProfilesResponse.
    * @return ListPublisherProfilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsPublisherProfiles($accountId, $optParams = [])
   {

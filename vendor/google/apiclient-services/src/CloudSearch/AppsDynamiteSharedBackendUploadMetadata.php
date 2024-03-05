@@ -52,6 +52,8 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Collection
    * @var bool
    */
   public $isClientSideTranscodedVideo;
+  protected $migratedFromHangoutsMetadataType = AppsDynamiteSharedBackendUploadMetadataMigratedFromHangoutsMetadata::class;
+  protected $migratedFromHangoutsMetadataDataType = '';
   protected $originalDimensionType = AppsDynamiteSharedDimension::class;
   protected $originalDimensionDataType = '';
   protected $quoteReplyMessageIdType = MessageId::class;
@@ -206,6 +208,20 @@ class AppsDynamiteSharedBackendUploadMetadata extends \Google\Collection
   public function getIsClientSideTranscodedVideo()
   {
     return $this->isClientSideTranscodedVideo;
+  }
+  /**
+   * @param AppsDynamiteSharedBackendUploadMetadataMigratedFromHangoutsMetadata
+   */
+  public function setMigratedFromHangoutsMetadata(AppsDynamiteSharedBackendUploadMetadataMigratedFromHangoutsMetadata $migratedFromHangoutsMetadata)
+  {
+    $this->migratedFromHangoutsMetadata = $migratedFromHangoutsMetadata;
+  }
+  /**
+   * @return AppsDynamiteSharedBackendUploadMetadataMigratedFromHangoutsMetadata
+   */
+  public function getMigratedFromHangoutsMetadata()
+  {
+    return $this->migratedFromHangoutsMetadata;
   }
   /**
    * @param AppsDynamiteSharedDimension

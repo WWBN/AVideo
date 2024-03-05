@@ -62,6 +62,7 @@ class LiveStreams extends \Google\Service\Resource
    * perform actions on behalf of the channel specified in the parameter value,
    * without having to provide authentication credentials for each separate
    * channel.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -107,6 +108,7 @@ class LiveStreams extends \Google\Service\Resource
    * without having to provide authentication credentials for each separate
    * channel.
    * @return LiveStream
+   * @throws \Google\Service\Exception
    */
   public function insert($part, LiveStream $postBody, $optParams = [])
   {
@@ -160,6 +162,7 @@ class LiveStreams extends \Google\Service\Resource
    * nextPageToken and prevPageToken properties identify other pages that could be
    * retrieved.
    * @return LiveStreamListResponse
+   * @throws \Google\Service\Exception
    */
   public function listLiveStreams($part, $optParams = [])
   {
@@ -208,6 +211,7 @@ class LiveStreams extends \Google\Service\Resource
    * without having to provide authentication credentials for each separate
    * channel.
    * @return LiveStream
+   * @throws \Google\Service\Exception
    */
   public function update($part, LiveStream $postBody, $optParams = [])
   {

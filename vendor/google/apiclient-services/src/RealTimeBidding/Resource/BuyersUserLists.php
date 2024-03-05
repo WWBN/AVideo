@@ -34,7 +34,7 @@ use Google\Service\RealTimeBidding\UserList;
 class BuyersUserLists extends \Google\Service\Resource
 {
   /**
-   * Change the status of a user list to CLOSED. This prevents new users from
+   * Changes the status of a user list to CLOSED. This prevents new users from
    * being added to the user list. (userLists.close)
    *
    * @param string $name Required. The name of the user list to close. See
@@ -42,6 +42,7 @@ class BuyersUserLists extends \Google\Service\Resource
    * @param CloseUserListRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UserList
+   * @throws \Google\Service\Exception
    */
   public function close($name, CloseUserListRequest $postBody, $optParams = [])
   {
@@ -50,16 +51,17 @@ class BuyersUserLists extends \Google\Service\Resource
     return $this->call('close', [$params], UserList::class);
   }
   /**
-   * Create a new user list. (userLists.create)
+   * Creates a new user list. (userLists.create)
    *
    * @param string $parent Required. The name of the parent buyer of the user list
-   * to be retrieved that must follow the pattern `buyers/{buyerAccountId}`, where
-   * `{buyerAccountId}` represents the account ID of the buyer who owns user
-   * lists. For a bidder accessing user lists on behalf of a child seat buyer ,
+   * to be retrieved, which must follow the pattern `buyers/{buyerAccountId}`,
+   * where `{buyerAccountId}` represents the account ID of the buyer who owns the
+   * user list. For a bidder accessing user lists on behalf of a child seat buyer,
    * `{buyerAccountId}` should represent the account ID of the child seat buyer.
    * @param UserList $postBody
    * @param array $optParams Optional parameters.
    * @return UserList
+   * @throws \Google\Service\Exception
    */
   public function create($parent, UserList $postBody, $optParams = [])
   {
@@ -74,6 +76,7 @@ class BuyersUserLists extends \Google\Service\Resource
    * UserList.name.
    * @param array $optParams Optional parameters.
    * @return UserList
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -82,20 +85,24 @@ class BuyersUserLists extends \Google\Service\Resource
     return $this->call('get', [$params], UserList::class);
   }
   /**
-   * Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript
-   * code that can be placed on a web page. When a user visits a page containing a
-   * remarketing tag, Google adds the user to a user list.
+   * This has been sunset as of October 2023, and will return an error response if
+   * called. For more information, see the release notes:
+   * https://developers.google.com/authorized-buyers/apis/relnotes#real-time-
+   * bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of
+   * JavaScript code that can be placed on a web page. When a user visits a page
+   * containing a remarketing tag, Google adds the user to a user list.
    * (userLists.getRemarketingTag)
    *
-   * @param string $name Required. To fetch remarketing tag for an account, name
-   * must follow the pattern `buyers/{accountId}` where `{accountId}` represents
-   * ID of a buyer that owns the remarketing tag. For a bidder accessing
-   * remarketing tag on behalf of a child seat buyer, `{accountId}` should
-   * represent the ID of the child seat buyer. To fetch remarketing tag for a
-   * specific user list, name must follow the pattern
+   * @param string $name Required. To fetch the remarketing tag for an account,
+   * the name must follow the pattern `buyers/{accountId}`, where `{accountId}`
+   * represents the ID of the buyer that owns the remarketing tag. For a bidder
+   * accessing the remarketing tag on behalf of a child seat buyer, `{accountId}`
+   * should represent the ID of the child seat buyer. To fetch the remarketing tag
+   * for a specific user list, the name must follow the pattern
    * `buyers/{accountId}/userLists/{userListId}`. See UserList.name.
    * @param array $optParams Optional parameters.
    * @return GetRemarketingTagResponse
+   * @throws \Google\Service\Exception
    */
   public function getRemarketingTag($name, $optParams = [])
   {
@@ -115,9 +122,10 @@ class BuyersUserLists extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize The number of results to return per page.
-   * @opt_param string pageToken Continuation page token (as received from a
-   * previous response).
+   * @opt_param string pageToken Continuation page token as received from a
+   * previous response.
    * @return ListUserListsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBuyersUserLists($parent, $optParams = [])
   {
@@ -126,7 +134,7 @@ class BuyersUserLists extends \Google\Service\Resource
     return $this->call('list', [$params], ListUserListsResponse::class);
   }
   /**
-   * Change the status of a user list to OPEN. This allows new users to be added
+   * Changes the status of a user list to OPEN. This allows new users to be added
    * to the user list. (userLists.open)
    *
    * @param string $name Required. The name of the user list to open. See
@@ -134,6 +142,7 @@ class BuyersUserLists extends \Google\Service\Resource
    * @param OpenUserListRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UserList
+   * @throws \Google\Service\Exception
    */
   public function open($name, OpenUserListRequest $postBody, $optParams = [])
   {
@@ -142,7 +151,7 @@ class BuyersUserLists extends \Google\Service\Resource
     return $this->call('open', [$params], UserList::class);
   }
   /**
-   * Update the given user list. Only user lists with URLRestrictions can be
+   * Updates the given user list. Only user lists with URLRestrictions can be
    * updated. (userLists.update)
    *
    * @param string $name Output only. Name of the user list that must follow the
@@ -154,6 +163,7 @@ class BuyersUserLists extends \Google\Service\Resource
    * @param UserList $postBody
    * @param array $optParams Optional parameters.
    * @return UserList
+   * @throws \Google\Service\Exception
    */
   public function update($name, UserList $postBody, $optParams = [])
   {

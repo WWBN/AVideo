@@ -44,6 +44,7 @@ class ProjectsLocationsCatalogsCompletionData extends \Google\Service\Resource
    * @param GoogleCloudRetailV2ImportCompletionDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudRetailV2ImportCompletionDataRequest $postBody, $optParams = [])
   {

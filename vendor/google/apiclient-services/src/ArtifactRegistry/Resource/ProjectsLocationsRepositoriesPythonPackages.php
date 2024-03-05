@@ -36,6 +36,7 @@ class ProjectsLocationsRepositoriesPythonPackages extends \Google\Service\Resour
    * @param string $name Required. The name of the python package.
    * @param array $optParams Optional parameters.
    * @return PythonPackage
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsRepositoriesPythonPackages extends \Google\Service\Resour
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @return ListPythonPackagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesPythonPackages($parent, $optParams = [])
   {

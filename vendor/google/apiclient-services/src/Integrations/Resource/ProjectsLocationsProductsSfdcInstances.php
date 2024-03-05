@@ -40,6 +40,7 @@ class ProjectsLocationsProductsSfdcInstances extends \Google\Service\Resource
    * @param GoogleCloudIntegrationsV1alphaSfdcInstance $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaSfdcInstance
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudIntegrationsV1alphaSfdcInstance $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ProjectsLocationsProductsSfdcInstances extends \Google\Service\Resource
    * SfdcInstance.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocationsProductsSfdcInstances extends \Google\Service\Resource
    * SfdcInstance.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaSfdcInstance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -86,13 +89,14 @@ class ProjectsLocationsProductsSfdcInstances extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Filtering as supported in
-   * https://developers.google.com/authorized-buyers/apis/guides/v2/list-filters.
+   * https://developers.google.com/authorized-buyers/apis/guides/list-filters.
    * @opt_param int pageSize The size of entries in the response. If unspecified,
    * defaults to 100.
    * @opt_param string pageToken The token returned in the previous response.
    * @opt_param string readMask The mask which specifies fields that need to be
    * returned in the SfdcInstance's response.
    * @return GoogleCloudIntegrationsV1alphaListSfdcInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProductsSfdcInstances($parent, $optParams = [])
   {
@@ -112,6 +116,7 @@ class ProjectsLocationsProductsSfdcInstances extends \Google\Service\Resource
    * @opt_param string updateMask Field mask specifying the fields in the above
    * SfdcInstance that have been modified and need to be updated.
    * @return GoogleCloudIntegrationsV1alphaSfdcInstance
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudIntegrationsV1alphaSfdcInstance $postBody, $optParams = [])
   {

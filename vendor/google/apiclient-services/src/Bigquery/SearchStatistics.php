@@ -19,9 +19,9 @@ namespace Google\Service\Bigquery;
 
 class SearchStatistics extends \Google\Collection
 {
-  protected $collection_key = 'indexUnusedReason';
-  protected $indexUnusedReasonType = IndexUnusedReason::class;
-  protected $indexUnusedReasonDataType = 'array';
+  protected $collection_key = 'indexUnusedReasons';
+  protected $indexUnusedReasonsType = IndexUnusedReason::class;
+  protected $indexUnusedReasonsDataType = 'array';
   /**
    * @var string
    */
@@ -30,16 +30,16 @@ class SearchStatistics extends \Google\Collection
   /**
    * @param IndexUnusedReason[]
    */
-  public function setIndexUnusedReason($indexUnusedReason)
+  public function setIndexUnusedReasons($indexUnusedReasons)
   {
-    $this->indexUnusedReason = $indexUnusedReason;
+    $this->indexUnusedReasons = $indexUnusedReasons;
   }
   /**
    * @return IndexUnusedReason[]
    */
-  public function getIndexUnusedReason()
+  public function getIndexUnusedReasons()
   {
-    return $this->indexUnusedReason;
+    return $this->indexUnusedReasons;
   }
   /**
    * @param string

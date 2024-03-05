@@ -45,6 +45,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResponsePolicyRule
+   * @throws \Google\Service\Exception
    */
   public function create($project, $responsePolicy, ResponsePolicyRule $postBody, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * @opt_param string clientOperationId For mutating operation requests only. An
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
+   * @throws \Google\Service\Exception
    */
   public function delete($project, $responsePolicy, $responsePolicyRule, $optParams = [])
   {
@@ -88,6 +90,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResponsePolicyRule
+   * @throws \Google\Service\Exception
    */
   public function get($project, $responsePolicy, $responsePolicyRule, $optParams = [])
   {
@@ -110,6 +113,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * request that was truncated. Use this parameter to continue a previous list
    * request.
    * @return ResponsePolicyRulesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listResponsePolicyRules($project, $responsePolicy, $optParams = [])
   {
@@ -133,6 +137,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResponsePolicyRulesPatchResponse
+   * @throws \Google\Service\Exception
    */
   public function patch($project, $responsePolicy, $responsePolicyRule, ResponsePolicyRule $postBody, $optParams = [])
   {
@@ -155,6 +160,7 @@ class ResponsePolicyRules extends \Google\Service\Resource
    * optional identifier specified by the client. Must be unique for operation
    * resources in the Operations collection.
    * @return ResponsePolicyRulesUpdateResponse
+   * @throws \Google\Service\Exception
    */
   public function update($project, $responsePolicy, $responsePolicyRule, ResponsePolicyRule $postBody, $optParams = [])
   {

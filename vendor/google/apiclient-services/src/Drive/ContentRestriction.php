@@ -22,6 +22,10 @@ class ContentRestriction extends \Google\Model
   /**
    * @var bool
    */
+  public $ownerRestricted;
+  /**
+   * @var bool
+   */
   public $readOnly;
   /**
    * @var string
@@ -34,10 +38,28 @@ class ContentRestriction extends \Google\Model
    */
   public $restrictionTime;
   /**
+   * @var bool
+   */
+  public $systemRestricted;
+  /**
    * @var string
    */
   public $type;
 
+  /**
+   * @param bool
+   */
+  public function setOwnerRestricted($ownerRestricted)
+  {
+    $this->ownerRestricted = $ownerRestricted;
+  }
+  /**
+   * @return bool
+   */
+  public function getOwnerRestricted()
+  {
+    return $this->ownerRestricted;
+  }
   /**
    * @param bool
    */
@@ -93,6 +115,20 @@ class ContentRestriction extends \Google\Model
   public function getRestrictionTime()
   {
     return $this->restrictionTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setSystemRestricted($systemRestricted)
+  {
+    $this->systemRestricted = $systemRestricted;
+  }
+  /**
+   * @return bool
+   */
+  public function getSystemRestricted()
+  {
+    return $this->systemRestricted;
   }
   /**
    * @param string

@@ -43,6 +43,7 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * @opt_param string dnsAuthorizationId Required. A user-provided name of the
    * dns authorization.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, DnsAuthorization $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * be in the format `projects/locations/dnsAuthorizations`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * Must be in the format `projects/locations/dnsAuthorizations`.
    * @param array $optParams Optional parameters.
    * @return DnsAuthorization
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * prior `ListDnsAuthorizations` call, and that the system should return the
    * next page of data.
    * @return ListDnsAuthorizationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDnsAuthorizations($parent, $optParams = [])
   {
@@ -116,9 +120,11 @@ class ProjectsLocationsDnsAuthorizations extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The update mask applies to the
-   * resource. For the `FieldMask` definition, see https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#fieldmask.
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, DnsAuthorization $postBody, $optParams = [])
   {

@@ -46,6 +46,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @opt_param string gatewayId Required. Identifier to assign to the Gateway.
    * Must be unique within scope of the parent resource.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ApigatewayGateway $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * `projects/locations/gateways`
    * @param array $optParams Optional parameters.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * `projects/locations/gateways`
    * @param array $optParams Optional parameters.
    * @return ApigatewayGateway
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -104,6 +107,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return ApigatewayPolicy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -124,6 +128,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return ApigatewayListGatewaysResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsGateways($parent, $optParams = [])
   {
@@ -145,6 +150,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * will be overwritten if it is in the mask. If the user does not provide a mask
    * then all fields will be overwritten.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ApigatewayGateway $postBody, $optParams = [])
   {
@@ -164,6 +170,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @param ApigatewaySetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApigatewayPolicy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, ApigatewaySetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -185,6 +192,7 @@ class ProjectsLocationsGateways extends \Google\Service\Resource
    * @param ApigatewayTestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApigatewayTestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, ApigatewayTestIamPermissionsRequest $postBody, $optParams = [])
   {

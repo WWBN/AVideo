@@ -40,6 +40,7 @@ class AccountsCreativesDealAssociations extends \Google\Service\Resource
    * @param AddDealAssociationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Adexchangebuyer2Empty
+   * @throws \Google\Service\Exception
    */
   public function add($accountId, $creativeId, AddDealAssociationRequest $postBody, $optParams = [])
   {
@@ -72,6 +73,7 @@ class AccountsCreativesDealAssociations extends \Google\Service\Resource
    * openAuctionStatus:{approved, conditionally_approved, disapproved,
    * not_checked} Example: 'dealsId=12345 AND dealsStatus:disapproved'
    * @return ListDealAssociationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsCreativesDealAssociations($accountId, $creativeId, $optParams = [])
   {
@@ -88,6 +90,7 @@ class AccountsCreativesDealAssociations extends \Google\Service\Resource
    * @param RemoveDealAssociationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Adexchangebuyer2Empty
+   * @throws \Google\Service\Exception
    */
   public function remove($accountId, $creativeId, RemoveDealAssociationRequest $postBody, $optParams = [])
   {

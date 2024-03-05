@@ -23,6 +23,10 @@ class VmwareControlPlaneVsphereConfig extends \Google\Model
    * @var string
    */
   public $datastore;
+  /**
+   * @var string
+   */
+  public $storagePolicyName;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class VmwareControlPlaneVsphereConfig extends \Google\Model
   public function getDatastore()
   {
     return $this->datastore;
+  }
+  /**
+   * @param string
+   */
+  public function setStoragePolicyName($storagePolicyName)
+  {
+    $this->storagePolicyName = $storagePolicyName;
+  }
+  /**
+   * @return string
+   */
+  public function getStoragePolicyName()
+  {
+    return $this->storagePolicyName;
   }
 }
 

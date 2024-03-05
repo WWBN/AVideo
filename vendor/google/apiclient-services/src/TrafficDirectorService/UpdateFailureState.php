@@ -31,6 +31,10 @@ class UpdateFailureState extends \Google\Model
    * @var string
    */
   public $lastUpdateAttempt;
+  /**
+   * @var string
+   */
+  public $versionInfo;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class UpdateFailureState extends \Google\Model
   public function getLastUpdateAttempt()
   {
     return $this->lastUpdateAttempt;
+  }
+  /**
+   * @param string
+   */
+  public function setVersionInfo($versionInfo)
+  {
+    $this->versionInfo = $versionInfo;
+  }
+  /**
+   * @return string
+   */
+  public function getVersionInfo()
+  {
+    return $this->versionInfo;
   }
 }
 

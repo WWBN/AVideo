@@ -36,6 +36,7 @@ class Resellernotify extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return ResellernotifyGetwatchdetailsResponse
+   * @throws \Google\Service\Exception
    */
   public function getwatchdetails($optParams = [])
   {
@@ -51,6 +52,7 @@ class Resellernotify extends \Google\Service\Resource
    * @opt_param string serviceAccountEmailAddress The service account which will
    * own the created Cloud-PubSub topic.
    * @return ResellernotifyResource
+   * @throws \Google\Service\Exception
    */
   public function register($optParams = [])
   {
@@ -67,6 +69,7 @@ class Resellernotify extends \Google\Service\Resource
    * @opt_param string serviceAccountEmailAddress The service account which owns
    * the Cloud-PubSub topic.
    * @return ResellernotifyResource
+   * @throws \Google\Service\Exception
    */
   public function unregister($optParams = [])
   {

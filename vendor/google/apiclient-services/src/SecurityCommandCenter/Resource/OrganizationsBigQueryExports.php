@@ -45,6 +45,7 @@ class OrganizationsBigQueryExports extends \Google\Service\Resource
    * letters, numbers, and hyphens, must start with a letter, must end with either
    * a letter or a number, and must be 63 characters or less.
    * @return GoogleCloudSecuritycenterV1BigQueryExport
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudSecuritycenterV1BigQueryExport $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class OrganizationsBigQueryExports extends \Google\Service\Resource
    * projects/{project}/bigQueryExports/{export_id}
    * @param array $optParams Optional parameters.
    * @return SecuritycenterEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class OrganizationsBigQueryExports extends \Google\Service\Resource
    * projects/{project}/bigQueryExports/{export_id}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1BigQueryExport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +108,7 @@ class OrganizationsBigQueryExports extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListBigQueryExports` must
    * match the call that provided the page token.
    * @return ListBigQueryExportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsBigQueryExports($parent, $optParams = [])
   {
@@ -127,6 +131,7 @@ class OrganizationsBigQueryExports extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to be updated. If empty all
    * mutable fields will be updated.
    * @return GoogleCloudSecuritycenterV1BigQueryExport
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudSecuritycenterV1BigQueryExport $postBody, $optParams = [])
   {

@@ -42,6 +42,8 @@ class BinaryAuthorization extends \Google\Service
 
   public $projects;
   public $projects_attestors;
+  public $projects_platforms_gke_policies;
+  public $projects_platforms_policies;
   public $projects_policy;
   public $systempolicy;
 
@@ -198,6 +200,98 @@ class BinaryAuthorization extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'attestor' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_platforms_gke_policies = new BinaryAuthorization\Resource\ProjectsPlatformsGkePolicies(
+        $this,
+        $this->serviceName,
+        'policies',
+        [
+          'methods' => [
+            'evaluate' => [
+              'path' => 'v1/{+name}:evaluate',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_platforms_policies = new BinaryAuthorization\Resource\ProjectsPlatformsPolicies(
+        $this,
+        $this->serviceName,
+        'policies',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1/{+parent}/policies',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'policyId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/policies',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'replacePlatformPolicy' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PUT',
+              'parameters' => [
+                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

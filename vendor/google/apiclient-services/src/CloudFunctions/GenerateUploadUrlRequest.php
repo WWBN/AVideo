@@ -22,8 +22,26 @@ class GenerateUploadUrlRequest extends \Google\Model
   /**
    * @var string
    */
+  public $environment;
+  /**
+   * @var string
+   */
   public $kmsKeyName;
 
+  /**
+   * @param string
+   */
+  public function setEnvironment($environment)
+  {
+    $this->environment = $environment;
+  }
+  /**
+   * @return string
+   */
+  public function getEnvironment()
+  {
+    return $this->environment;
+  }
   /**
    * @param string
    */

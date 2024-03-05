@@ -34,7 +34,11 @@ class Elections extends \Google\Service\Resource
    * List of available elections to query. (elections.electionQuery)
    *
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param bool productionDataOnly Whether to include data that has not been
+   * allowlisted yet
    * @return ElectionsQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function electionQuery($optParams = [])
   {
@@ -57,11 +61,16 @@ class Elections extends \Google\Service\Resource
    * response field.
    * @opt_param bool officialOnly If set to true, only data from official state
    * sources will be returned.
+   * @opt_param bool productionDataOnly Whether to include data that has not been
+   * vetted yet. Should only be made available to internal IPs or trusted
+   * partners. This is a non-discoverable parameter in the One Platform API
+   * config.
    * @opt_param bool returnAllAvailableData If set to true, the query will return
    * the success code and include any partial information when it is unable to
    * determine a matching address or unable to determine the election for
    * electionId=0 queries.
    * @return VoterInfoResponse
+   * @throws \Google\Service\Exception
    */
   public function voterInfoQuery($address, $optParams = [])
   {

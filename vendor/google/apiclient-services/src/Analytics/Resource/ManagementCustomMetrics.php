@@ -39,6 +39,7 @@ class ManagementCustomMetrics extends \Google\Service\Resource
    * @param string $customMetricId The ID of the custom metric to retrieve.
    * @param array $optParams Optional parameters.
    * @return CustomMetric
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $webPropertyId, $customMetricId, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ManagementCustomMetrics extends \Google\Service\Resource
    * @param CustomMetric $postBody
    * @param array $optParams Optional parameters.
    * @return CustomMetric
+   * @throws \Google\Service\Exception
    */
   public function insert($accountId, $webPropertyId, CustomMetric $postBody, $optParams = [])
   {
@@ -76,6 +78,7 @@ class ManagementCustomMetrics extends \Google\Service\Resource
    * @opt_param int start-index An index of the first entity to retrieve. Use this
    * parameter as a pagination mechanism along with the max-results parameter.
    * @return CustomMetrics
+   * @throws \Google\Service\Exception
    */
   public function listManagementCustomMetrics($accountId, $webPropertyId, $optParams = [])
   {
@@ -98,6 +101,7 @@ class ManagementCustomMetrics extends \Google\Service\Resource
    * warnings related to the custom metric being linked to a custom data source /
    * data set.
    * @return CustomMetric
+   * @throws \Google\Service\Exception
    */
   public function patch($accountId, $webPropertyId, $customMetricId, CustomMetric $postBody, $optParams = [])
   {
@@ -119,6 +123,7 @@ class ManagementCustomMetrics extends \Google\Service\Resource
    * warnings related to the custom metric being linked to a custom data source /
    * data set.
    * @return CustomMetric
+   * @throws \Google\Service\Exception
    */
   public function update($accountId, $webPropertyId, $customMetricId, CustomMetric $postBody, $optParams = [])
   {

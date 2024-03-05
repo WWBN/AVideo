@@ -36,8 +36,8 @@ class Assets extends \Google\Service\Resource
    * @param string $parent Required. Name of the organization, folder, or project
    * the assets belong to. Format: "organizations/[organization-number]" (such as
    * "organizations/123"), "projects/[project-id]" (such as "projects/my-project-
-   * id"), "projects/[project-number]" (such as "projects/12345"), or "folders
-   * /[folder-number]" (such as "folders/12345").
+   * id"), "projects/[project-number]" (such as "projects/12345"), or
+   * "folders/[folder-number]" (such as "folders/12345").
    * @param array $optParams Optional parameters.
    *
    * @opt_param string assetTypes A list of asset types to take a snapshot for.
@@ -50,8 +50,9 @@ class Assets extends \Google\Service\Resource
    * expression syntax. If the regular expression does not match any supported
    * asset type, an INVALID_ARGUMENT error will be returned. If specified, only
    * matching assets will be returned, otherwise, it will snapshot all asset
-   * types. See [Introduction to Cloud Asset Inventory](https://cloud.google.com
-   * /asset-inventory/docs/overview) for all supported asset types.
+   * types. See [Introduction to Cloud Asset
+   * Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all
+   * supported asset types.
    * @opt_param string contentType Asset content type. If not specified, no
    * content but the asset name will be returned.
    * @opt_param int pageSize The maximum number of assets to be returned in a
@@ -78,6 +79,7 @@ class Assets extends \Google\Service\Resource
    * Inventory](https://cloud.google.com/asset-inventory/docs/overview) for all
    * supported asset types and relationship types.
    * @return ListAssetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAssets($parent, $optParams = [])
   {

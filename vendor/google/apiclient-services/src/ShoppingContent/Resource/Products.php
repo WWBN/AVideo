@@ -39,6 +39,7 @@ class Products extends \Google\Service\Resource
    * @param ProductsCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ProductsCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(ProductsCustomBatchRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Products extends \Google\Service\Resource
    * @opt_param string feedId The Content API Supplemental Feed ID. If present
    * then product deletion applies to the data in a supplemental feed. If absent,
    * entire product will be deleted.
+   * @throws \Google\Service\Exception
    */
   public function delete($merchantId, $productId, $optParams = [])
   {
@@ -72,6 +74,7 @@ class Products extends \Google\Service\Resource
    * @param string $productId The REST ID of the product.
    * @param array $optParams Optional parameters.
    * @return Product
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $productId, $optParams = [])
   {
@@ -92,6 +95,7 @@ class Products extends \Google\Service\Resource
    * @opt_param string feedId The Content API Supplemental Feed ID. If present
    * then product insertion applies to the data in a supplemental feed.
    * @return Product
+   * @throws \Google\Service\Exception
    */
   public function insert($merchantId, Product $postBody, $optParams = [])
   {
@@ -109,9 +113,10 @@ class Products extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string maxResults The maximum number of products to return in the
-   * response, used for paging.
+   * response, used for paging. The default value is 25. The maximum value is 250.
    * @opt_param string pageToken The token returned by the previous request.
    * @return ProductsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listProducts($merchantId, $optParams = [])
   {
@@ -136,6 +141,7 @@ class Products extends \Google\Service\Resource
    * level product attributes can be updated. If not defined, product attributes
    * with set values will be updated and other attributes will stay unchanged.
    * @return Product
+   * @throws \Google\Service\Exception
    */
   public function update($merchantId, $productId, Product $postBody, $optParams = [])
   {

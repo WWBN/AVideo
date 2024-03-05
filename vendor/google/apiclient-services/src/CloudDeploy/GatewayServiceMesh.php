@@ -30,7 +30,15 @@ class GatewayServiceMesh extends \Google\Model
   /**
    * @var string
    */
+  public $routeUpdateWaitTime;
+  /**
+   * @var string
+   */
   public $service;
+  /**
+   * @var string
+   */
+  public $stableCutbackDuration;
 
   /**
    * @param string
@@ -63,6 +71,20 @@ class GatewayServiceMesh extends \Google\Model
   /**
    * @param string
    */
+  public function setRouteUpdateWaitTime($routeUpdateWaitTime)
+  {
+    $this->routeUpdateWaitTime = $routeUpdateWaitTime;
+  }
+  /**
+   * @return string
+   */
+  public function getRouteUpdateWaitTime()
+  {
+    return $this->routeUpdateWaitTime;
+  }
+  /**
+   * @param string
+   */
   public function setService($service)
   {
     $this->service = $service;
@@ -73,6 +95,20 @@ class GatewayServiceMesh extends \Google\Model
   public function getService()
   {
     return $this->service;
+  }
+  /**
+   * @param string
+   */
+  public function setStableCutbackDuration($stableCutbackDuration)
+  {
+    $this->stableCutbackDuration = $stableCutbackDuration;
+  }
+  /**
+   * @return string
+   */
+  public function getStableCutbackDuration()
+  {
+    return $this->stableCutbackDuration;
   }
 }
 

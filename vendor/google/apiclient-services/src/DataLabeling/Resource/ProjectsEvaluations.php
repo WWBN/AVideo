@@ -59,6 +59,7 @@ class ProjectsEvaluations extends \Google\Service\Resource
    * response to a previous search request. If you don't specify this field, the
    * API call requests the first page of the search.
    * @return GoogleCloudDatalabelingV1beta1SearchEvaluationsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($parent, $optParams = [])
   {

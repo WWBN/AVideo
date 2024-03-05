@@ -40,6 +40,7 @@ class LocationsVerifications extends \Google\Service\Resource
    * @param CompleteVerificationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CompleteVerificationResponse
+   * @throws \Google\Service\Exception
    */
   public function complete($name, CompleteVerificationRequest $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class LocationsVerifications extends \Google\Service\Resource
    * @opt_param string pageToken If specified, returns the next page of
    * verifications.
    * @return ListVerificationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listLocationsVerifications($parent, $optParams = [])
   {

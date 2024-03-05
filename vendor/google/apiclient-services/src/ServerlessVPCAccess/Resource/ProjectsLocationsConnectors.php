@@ -35,7 +35,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    * Creates a Serverless VPC Access connector, returns an operation.
    * (connectors.create)
    *
-   * @param string $parent Required. The project and location in which the
+   * @param string $parent Required. The project ID and location in which the
    * configuration should be created, specified in the format
    * `projects/locations`.
    * @param Connector $postBody
@@ -43,6 +43,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    *
    * @opt_param string connectorId Required. The ID to use for this connector.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Connector $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    * delete.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    * get.
    * @param array $optParams Optional parameters.
    * @return Connector
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,6 +94,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    * @opt_param int pageSize Maximum number of functions to return per call.
    * @opt_param string pageToken Continuation token.
    * @return ListConnectorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConnectors($parent, $optParams = [])
   {
@@ -110,6 +114,7 @@ class ProjectsLocationsConnectors extends \Google\Service\Resource
    * @opt_param string updateMask The fields to update on the entry group. If
    * absent or empty, all modifiable fields are updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Connector $postBody, $optParams = [])
   {

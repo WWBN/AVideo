@@ -42,6 +42,7 @@ class AdvertisersChannels extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that owns the created
    * channel.
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, Channel $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class AdvertisersChannels extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that owns the fetched
    * channel.
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $channelId, $optParams = [])
   {
@@ -80,8 +82,8 @@ class AdvertisersChannels extends \Google\Service\Resource
    * All fields must use the `HAS (:)` operator. Supported fields: * `displayName`
    * Examples: * All channels for which the display name contains "google":
    * `displayName : "google"`. The length of this field should be no more than 500
-   * characters. Reference our [filter `LIST` requests](/display-video/api/guides
-   * /how-tos/filters) guide for more information.
+   * characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `displayName` (default) * `channelId` The default sorting order is
    * ascending. To specify descending order for a field, a suffix " desc" should
@@ -95,6 +97,7 @@ class AdvertisersChannels extends \Google\Service\Resource
    * of results will be returned.
    * @opt_param string partnerId The ID of the partner that owns the channels.
    * @return ListChannelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersChannels($advertiserId, $optParams = [])
   {
@@ -118,6 +121,7 @@ class AdvertisersChannels extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return Channel
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $channelId, Channel $postBody, $optParams = [])
   {

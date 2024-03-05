@@ -42,6 +42,7 @@ class ProjectsTracesSpans extends \Google\Service\Resource
    * @param Span $postBody
    * @param array $optParams Optional parameters.
    * @return Span
+   * @throws \Google\Service\Exception
    */
   public function createSpan($name, Span $postBody, $optParams = [])
   {

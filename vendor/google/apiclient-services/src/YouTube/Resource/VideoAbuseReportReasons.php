@@ -40,6 +40,7 @@ class VideoAbuseReportReasons extends \Google\Service\Resource
    *
    * @opt_param string hl
    * @return VideoAbuseReportReasonListResponse
+   * @throws \Google\Service\Exception
    */
   public function listVideoAbuseReportReasons($part, $optParams = [])
   {

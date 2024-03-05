@@ -42,6 +42,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
    * @opt_param string httpRouteId Required. Short name of the HttpRoute resource
    * to be created.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, HttpRoute $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
    * the format `projects/locations/global/httpRoutes`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
    * format `projects/locations/global/httpRoutes`.
    * @param array $optParams Optional parameters.
    * @return HttpRoute
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
    * `ListHttpRoutes` call, and that the system should return the next page of
    * data.
    * @return ListHttpRoutesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsHttpRoutes($parent, $optParams = [])
   {
@@ -113,6 +117,7 @@ class ProjectsLocationsHttpRoutes extends \Google\Service\Resource
    * request. A field will be overwritten if it is in the mask. If the user does
    * not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, HttpRoute $postBody, $optParams = [])
   {

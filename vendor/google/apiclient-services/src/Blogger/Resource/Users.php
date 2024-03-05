@@ -35,6 +35,7 @@ class Users extends \Google\Service\Resource
    * @param string $userId
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $optParams = [])
   {

@@ -38,6 +38,7 @@ class VitalsExcessivewakeuprate extends \Google\Service\Resource
    * apps/{app}/excessiveWakeupRateMetricSet
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1ExcessiveWakeupRateMetricSet
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class VitalsExcessivewakeuprate extends \Google\Service\Resource
    * @param GooglePlayDeveloperReportingV1beta1QueryExcessiveWakeupRateMetricSetRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePlayDeveloperReportingV1beta1QueryExcessiveWakeupRateMetricSetResponse
+   * @throws \Google\Service\Exception
    */
   public function query($name, GooglePlayDeveloperReportingV1beta1QueryExcessiveWakeupRateMetricSetRequest $postBody, $optParams = [])
   {

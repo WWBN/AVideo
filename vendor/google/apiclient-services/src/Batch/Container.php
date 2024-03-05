@@ -29,6 +29,10 @@ class Container extends \Google\Collection
    */
   public $commands;
   /**
+   * @var bool
+   */
+  public $enableImageStreaming;
+  /**
    * @var string
    */
   public $entrypoint;
@@ -80,6 +84,20 @@ class Container extends \Google\Collection
   public function getCommands()
   {
     return $this->commands;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableImageStreaming($enableImageStreaming)
+  {
+    $this->enableImageStreaming = $enableImageStreaming;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableImageStreaming()
+  {
+    return $this->enableImageStreaming;
   }
   /**
    * @param string

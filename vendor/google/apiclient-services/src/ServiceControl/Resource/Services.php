@@ -47,8 +47,8 @@ class Services extends \Google\Service\Resource
    * caller must call the Check method multiple times. This method requires the
    * `servicemanagement.services.check` permission on the specified service. For
    * more information, see [Service Control API Access
-   * Control](https://cloud.google.com/service-infrastructure/docs/service-control
-   * /access-control). (services.check)
+   * Control](https://cloud.google.com/service-infrastructure/docs/service-
+   * control/access-control). (services.check)
    *
    * @param string $serviceName The service name as specified in its service
    * configuration. For example, `"pubsub.googleapis.com"`. See
@@ -58,6 +58,7 @@ class Services extends \Google\Service\Resource
    * @param CheckRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CheckResponse
+   * @throws \Google\Service\Exception
    */
   public function check($serviceName, CheckRequest $postBody, $optParams = [])
   {
@@ -71,14 +72,14 @@ class Services extends \Google\Service\Resource
    * [Service Infrastructure](https://cloud.google.com/service-infrastructure). It
    * reports a list of operations that have occurred on a service. It must be
    * called after the operations have been executed. For more information, see
-   * [Telemetry Reporting](https://cloud.google.com/service-infrastructure/docs
-   * /telemetry-reporting). NOTE: The telemetry reporting has a hard limit of 1000
-   * operations and 1MB per Report call. It is recommended to have no more than
-   * 100 operations per call. This method requires the
+   * [Telemetry Reporting](https://cloud.google.com/service-
+   * infrastructure/docs/telemetry-reporting). NOTE: The telemetry reporting has a
+   * hard limit of 1000 operations and 1MB per Report call. It is recommended to
+   * have no more than 100 operations per call. This method requires the
    * `servicemanagement.services.report` permission on the specified service. For
    * more information, see [Service Control API Access
-   * Control](https://cloud.google.com/service-infrastructure/docs/service-control
-   * /access-control). (services.report)
+   * Control](https://cloud.google.com/service-infrastructure/docs/service-
+   * control/access-control). (services.report)
    *
    * @param string $serviceName The service name as specified in its service
    * configuration. For example, `"pubsub.googleapis.com"`. See
@@ -88,6 +89,7 @@ class Services extends \Google\Service\Resource
    * @param ReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ReportResponse
+   * @throws \Google\Service\Exception
    */
   public function report($serviceName, ReportRequest $postBody, $optParams = [])
   {

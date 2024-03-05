@@ -40,6 +40,7 @@ class Grouplicenseusers extends \Google\Service\Resource
    * e.g. "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
    * @return GroupLicenseUsersListResponse
+   * @throws \Google\Service\Exception
    */
   public function listGrouplicenseusers($enterpriseId, $groupLicenseId, $optParams = [])
   {

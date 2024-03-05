@@ -46,6 +46,7 @@ class ProjectsLocationsGatewaySecurityPolicies extends \Google\Service\Resource
    * characters long, containing only letters, numbers, hyphens, and underscores,
    * and should not start with a number. E.g. "gateway_security_policy1".
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GatewaySecurityPolicy $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsGatewaySecurityPolicies extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/gatewaySecurityPolicies`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -76,6 +78,7 @@ class ProjectsLocationsGatewaySecurityPolicies extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/gatewaySecurityPolicies`.
    * @param array $optParams Optional parameters.
    * @return GatewaySecurityPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsLocationsGatewaySecurityPolicies extends \Google\Service\Resource
    * of a prior 'ListGatewaySecurityPolicies' call, and that the system should
    * return the next page of data.
    * @return ListGatewaySecurityPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsGatewaySecurityPolicies($parent, $optParams = [])
   {
@@ -123,6 +127,7 @@ class ProjectsLocationsGatewaySecurityPolicies extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. If the user
    * does not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GatewaySecurityPolicy $postBody, $optParams = [])
   {

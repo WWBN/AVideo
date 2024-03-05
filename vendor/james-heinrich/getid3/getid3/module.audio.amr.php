@@ -62,7 +62,7 @@ class getid3_amr extends getid3_handler
 		} while (strlen($buffer) > 0);
 
 		$info['playtime_seconds'] = array_sum($thisfile_amr['frame_mode_count']) * 0.020; // each frame contain 160 samples and is 20 milliseconds long
-		$info['audio']['bitrate'] = (8 * ($info['avdataend'] - $info['avdataoffset'])) / $info['playtime_seconds']; // bitrate could be calculated from average bitrate by distributation of frame types. That would give effective audio bitrate, this gives overall file bitrate which will be a little bit higher since every frame will waste 8 bits for header, plus a few bits for octet padding
+		$info['audio']['bitrate'] = getid3_lib::SafeDiv(8 * ($info['avdataend'] - $info['avdataoffset']), $info['playtime_seconds']); // bitrate could be calculated from average bitrate by distributation of frame types. That would give effective audio bitrate, this gives overall file bitrate which will be a little bit higher since every frame will waste 8 bits for header, plus a few bits for octet padding
 		$info['bitrate'] = $info['audio']['bitrate'];
 
 		return true;

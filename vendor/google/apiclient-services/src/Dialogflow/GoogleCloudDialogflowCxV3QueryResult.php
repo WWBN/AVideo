@@ -20,6 +20,12 @@ namespace Google\Service\Dialogflow;
 class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
 {
   protected $collection_key = 'webhookStatuses';
+  protected $advancedSettingsType = GoogleCloudDialogflowCxV3AdvancedSettings::class;
+  protected $advancedSettingsDataType = '';
+  /**
+   * @var bool
+   */
+  public $allowAnswerFeedback;
   protected $currentPageType = GoogleCloudDialogflowCxV3Page::class;
   protected $currentPageDataType = '';
   /**
@@ -71,6 +77,34 @@ class GoogleCloudDialogflowCxV3QueryResult extends \Google\Collection
   protected $webhookStatusesType = GoogleRpcStatus::class;
   protected $webhookStatusesDataType = 'array';
 
+  /**
+   * @param GoogleCloudDialogflowCxV3AdvancedSettings
+   */
+  public function setAdvancedSettings(GoogleCloudDialogflowCxV3AdvancedSettings $advancedSettings)
+  {
+    $this->advancedSettings = $advancedSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AdvancedSettings
+   */
+  public function getAdvancedSettings()
+  {
+    return $this->advancedSettings;
+  }
+  /**
+   * @param bool
+   */
+  public function setAllowAnswerFeedback($allowAnswerFeedback)
+  {
+    $this->allowAnswerFeedback = $allowAnswerFeedback;
+  }
+  /**
+   * @return bool
+   */
+  public function getAllowAnswerFeedback()
+  {
+    return $this->allowAnswerFeedback;
+  }
   /**
    * @param GoogleCloudDialogflowCxV3Page
    */

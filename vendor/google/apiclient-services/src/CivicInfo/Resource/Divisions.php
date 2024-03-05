@@ -41,6 +41,7 @@ class Divisions extends \Google\Service\Resource
    * the Apache Lucene library are supported. See
    * http://lucene.apache.org/core/2_9_4/queryparsersyntax.html
    * @return DivisionSearchResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

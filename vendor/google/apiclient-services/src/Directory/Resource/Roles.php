@@ -36,6 +36,7 @@ class Roles extends \Google\Service\Resource
    * @param string $customer Immutable ID of the Google Workspace account.
    * @param string $roleId Immutable ID of the role.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($customer, $roleId, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Roles extends \Google\Service\Resource
    * @param string $roleId Immutable ID of the role.
    * @param array $optParams Optional parameters.
    * @return Role
+   * @throws \Google\Service\Exception
    */
   public function get($customer, $roleId, $optParams = [])
   {
@@ -70,6 +72,7 @@ class Roles extends \Google\Service\Resource
    * @param Role $postBody
    * @param array $optParams Optional parameters.
    * @return Role
+   * @throws \Google\Service\Exception
    */
   public function insert($customer, Role $postBody, $optParams = [])
   {
@@ -92,6 +95,7 @@ class Roles extends \Google\Service\Resource
    * @opt_param int maxResults Maximum number of results to return.
    * @opt_param string pageToken Token to specify the next page in the list.
    * @return RolesModel
+   * @throws \Google\Service\Exception
    */
   public function listRoles($customer, $optParams = [])
   {
@@ -107,6 +111,7 @@ class Roles extends \Google\Service\Resource
    * @param Role $postBody
    * @param array $optParams Optional parameters.
    * @return Role
+   * @throws \Google\Service\Exception
    */
   public function patch($customer, $roleId, Role $postBody, $optParams = [])
   {
@@ -122,6 +127,7 @@ class Roles extends \Google\Service\Resource
    * @param Role $postBody
    * @param array $optParams Optional parameters.
    * @return Role
+   * @throws \Google\Service\Exception
    */
   public function update($customer, $roleId, Role $postBody, $optParams = [])
   {

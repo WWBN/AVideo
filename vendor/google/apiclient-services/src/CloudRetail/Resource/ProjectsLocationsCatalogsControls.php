@@ -44,6 +44,7 @@ class ProjectsLocationsCatalogsControls extends \Google\Service\Resource
    * will become the final component of the Control's resource name. This value
    * should be 4-63 characters, and valid characters are /a-z-_/.
    * @return GoogleCloudRetailV2Control
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudRetailV2Control $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsCatalogsControls extends \Google\Service\Resource
    * id}/controls/{control_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class ProjectsLocationsCatalogsControls extends \Google\Service\Resource
    * id}/controls/{control_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2Control
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsLocationsCatalogsControls extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListControls` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudRetailV2ListControlsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogsControls($parent, $optParams = [])
   {
@@ -120,6 +124,7 @@ class ProjectsLocationsCatalogsControls extends \Google\Service\Resource
    * to update. The following are NOT supported: * Control.name If not set or
    * empty, all supported fields are updated.
    * @return GoogleCloudRetailV2Control
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudRetailV2Control $postBody, $optParams = [])
   {

@@ -42,6 +42,7 @@ class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleCloudDataplexV1Entity
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDataplexV1Entity $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource
    * @opt_param string etag Required. The etag associated with the entity, which
    * can be retrieved with a GetEntity request.
    * @return DataplexEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -78,6 +80,7 @@ class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource
    * @opt_param string view Optional. Used to select the subset of entity
    * information to return. Defaults to BASIC.
    * @return GoogleCloudDataplexV1Entity
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -110,6 +113,7 @@ class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource
    * @opt_param string view Required. Specify the entity view to make a partial
    * list request.
    * @return GoogleCloudDataplexV1ListEntitiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsLakesZonesEntities($parent, $optParams = [])
   {
@@ -130,6 +134,7 @@ class ProjectsLocationsLakesZonesEntities extends \Google\Service\Resource
    * @opt_param bool validateOnly Optional. Only validate the request, but do not
    * perform mutations. The default is false.
    * @return GoogleCloudDataplexV1Entity
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudDataplexV1Entity $postBody, $optParams = [])
   {

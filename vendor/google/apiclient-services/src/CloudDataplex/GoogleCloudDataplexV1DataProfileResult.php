@@ -19,6 +19,8 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1DataProfileResult extends \Google\Model
 {
+  protected $postScanActionsResultType = GoogleCloudDataplexV1DataProfileResultPostScanActionsResult::class;
+  protected $postScanActionsResultDataType = '';
   protected $profileType = GoogleCloudDataplexV1DataProfileResultProfile::class;
   protected $profileDataType = '';
   /**
@@ -28,6 +30,20 @@ class GoogleCloudDataplexV1DataProfileResult extends \Google\Model
   protected $scannedDataType = GoogleCloudDataplexV1ScannedData::class;
   protected $scannedDataDataType = '';
 
+  /**
+   * @param GoogleCloudDataplexV1DataProfileResultPostScanActionsResult
+   */
+  public function setPostScanActionsResult(GoogleCloudDataplexV1DataProfileResultPostScanActionsResult $postScanActionsResult)
+  {
+    $this->postScanActionsResult = $postScanActionsResult;
+  }
+  /**
+   * @return GoogleCloudDataplexV1DataProfileResultPostScanActionsResult
+   */
+  public function getPostScanActionsResult()
+  {
+    return $this->postScanActionsResult;
+  }
   /**
    * @param GoogleCloudDataplexV1DataProfileResultProfile
    */

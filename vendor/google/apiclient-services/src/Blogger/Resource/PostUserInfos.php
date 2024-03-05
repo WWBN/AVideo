@@ -40,6 +40,7 @@ class PostUserInfos extends \Google\Service\Resource
    *
    * @opt_param string maxComments
    * @return PostUserInfo
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $blogId, $postId, $optParams = [])
   {
@@ -64,6 +65,7 @@ class PostUserInfos extends \Google\Service\Resource
    * @opt_param string status
    * @opt_param string view
    * @return PostUserInfosList
+   * @throws \Google\Service\Exception
    */
   public function listPostUserInfos($userId, $blogId, $optParams = [])
   {

@@ -40,6 +40,7 @@ class I18nLanguages extends \Google\Service\Resource
    *
    * @opt_param string hl
    * @return I18nLanguageListResponse
+   * @throws \Google\Service\Exception
    */
   public function listI18nLanguages($part, $optParams = [])
   {

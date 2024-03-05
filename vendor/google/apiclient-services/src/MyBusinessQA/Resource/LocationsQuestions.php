@@ -39,6 +39,7 @@ class LocationsQuestions extends \Google\Service\Resource
    * @param Question $postBody
    * @param array $optParams Optional parameters.
    * @return Question
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Question $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class LocationsQuestions extends \Google\Service\Resource
    * @param string $name Required. The name of the question to delete.
    * @param array $optParams Optional parameters.
    * @return MybusinessqandaEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class LocationsQuestions extends \Google\Service\Resource
    * @opt_param string pageToken Optional. If specified, the next page of
    * questions is retrieved.
    * @return ListQuestionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listLocationsQuestions($parent, $optParams = [])
   {
@@ -100,6 +103,7 @@ class LocationsQuestions extends \Google\Service\Resource
    * @opt_param string updateMask Required. The specific fields to update. Only
    * question text can be updated.
    * @return Question
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Question $postBody, $optParams = [])
   {

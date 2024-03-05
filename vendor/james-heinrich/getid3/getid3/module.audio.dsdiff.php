@@ -195,9 +195,13 @@ class getid3_dsdiff extends getid3_handler
 						$this->fseek(1, SEEK_CUR);
 					}
 
-					if ($commentkey = (($thisChunk['name'] == 'DIAR') ? 'artist' : (($thisChunk['name'] == 'DITI') ? 'title' : ''))) {
-						@$info['dsdiff']['comments'][$commentkey][] = $thisChunk['description'];
-					}
+					$commentKeys = array(
+						'DIAR' => 'artist',
+						'DITI' => 'title'
+					);
+					$commentkey = $commentKeys[$thisChunk['name']];
+
+					$info['dsdiff']['comments'][$commentkey][] = $thisChunk['description'];
 					break;
 				case 'EMID': // Edited Master ID chunk
 					if ($thisChunk['size']) {

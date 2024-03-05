@@ -19,26 +19,24 @@ namespace Google\Service\Document;
 
 class GoogleCloudDocumentaiUiv1beta3AutoLabelDocumentsMetadataIndividualAutoLabelStatus extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $gcsUri;
+  protected $documentIdType = GoogleCloudDocumentaiUiv1beta3DocumentId::class;
+  protected $documentIdDataType = '';
   protected $statusType = GoogleRpcStatus::class;
   protected $statusDataType = '';
 
   /**
-   * @param string
+   * @param GoogleCloudDocumentaiUiv1beta3DocumentId
    */
-  public function setGcsUri($gcsUri)
+  public function setDocumentId(GoogleCloudDocumentaiUiv1beta3DocumentId $documentId)
   {
-    $this->gcsUri = $gcsUri;
+    $this->documentId = $documentId;
   }
   /**
-   * @return string
+   * @return GoogleCloudDocumentaiUiv1beta3DocumentId
    */
-  public function getGcsUri()
+  public function getDocumentId()
   {
-    return $this->gcsUri;
+    return $this->documentId;
   }
   /**
    * @param GoogleRpcStatus

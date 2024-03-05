@@ -63,6 +63,10 @@ class TargetPool extends \Google\Collection
   /**
    * @var string
    */
+  public $securityPolicy;
+  /**
+   * @var string
+   */
   public $selfLink;
   /**
    * @var string
@@ -208,6 +212,20 @@ class TargetPool extends \Google\Collection
   public function getRegion()
   {
     return $this->region;
+  }
+  /**
+   * @param string
+   */
+  public function setSecurityPolicy($securityPolicy)
+  {
+    $this->securityPolicy = $securityPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getSecurityPolicy()
+  {
+    return $this->securityPolicy;
   }
   /**
    * @param string

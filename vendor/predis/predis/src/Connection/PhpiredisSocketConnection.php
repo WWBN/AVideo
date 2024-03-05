@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,6 +12,8 @@
 
 namespace Predis\Connection;
 
+use Closure;
+use InvalidArgumentException;
 use Predis\Command\CommandInterface;
 use Predis\NotSupportedException;
 use Predis\Response\Error as ErrorResponse;
@@ -40,9 +43,8 @@ use Predis\Response\Status as StatusResponse;
  *  - timeout: timeout to perform the connection (default is 5 seconds).
  *  - read_write_timeout: timeout of read / write operations.
  *
- * @link http://github.com/nrk/phpiredis
- *
- * @author Daniele Alessandri <suppakilla@gmail.com>
+ * @see http://github.com/nrk/phpiredis
+ * @deprecated 2.1.2
  */
 class PhpiredisSocketConnection extends AbstractConnection
 {
@@ -101,7 +103,7 @@ class PhpiredisSocketConnection extends AbstractConnection
                 break;
 
             default:
-                throw new \InvalidArgumentException("Invalid scheme: '$parameters->scheme'.");
+                throw new InvalidArgumentException("Invalid scheme: '$parameters->scheme'.");
         }
 
         if (isset($parameters->persistent)) {
@@ -141,7 +143,7 @@ class PhpiredisSocketConnection extends AbstractConnection
     /**
      * Returns the handler used by the protocol reader for inline responses.
      *
-     * @return \Closure
+     * @return Closure
      */
     protected function getStatusHandler()
     {
@@ -159,7 +161,7 @@ class PhpiredisSocketConnection extends AbstractConnection
     /**
      * Returns the handler used by the protocol reader for error responses.
      *
-     * @return \Closure
+     * @return Closure
      */
     protected function getErrorHandler()
     {
@@ -260,10 +262,10 @@ class PhpiredisSocketConnection extends AbstractConnection
             $timeoutSec = floor($rwtimeout);
             $timeoutUsec = ($rwtimeout - $timeoutSec) * 1000000;
 
-            $timeout = array(
+            $timeout = [
                 'sec' => $timeoutSec,
                 'usec' => $timeoutUsec,
-            );
+            ];
 
             if (!socket_set_option($socket, SOL_SOCKET, SO_SNDTIMEO, $timeout)) {
                 $this->emitSocketError();
@@ -282,7 +284,7 @@ class PhpiredisSocketConnection extends AbstractConnection
      * @param string              $address    IP address (DNS-resolved from hostname)
      * @param ParametersInterface $parameters Parameters used to initialize the connection.
      *
-     * @return string
+     * @return void
      */
     private function connectWithTimeout($socket, $address, ParametersInterface $parameters)
     {
@@ -299,7 +301,7 @@ class PhpiredisSocketConnection extends AbstractConnection
         socket_set_block($socket);
 
         $null = null;
-        $selectable = array($socket);
+        $selectable = [$socket];
 
         $timeout = (isset($parameters->timeout) ? (float) $parameters->timeout : 5.0);
         $timeoutSecs = floor($timeout);
@@ -330,7 +332,7 @@ class PhpiredisSocketConnection extends AbstractConnection
                 $response = $this->executeCommand($command);
 
                 if ($response instanceof ErrorResponseInterface) {
-                    $this->onConnectionError("`{$command->getId()}` failed: $response", 0);
+                    $this->onConnectionError("`{$command->getId()}` failed: {$response->getMessage()}", 0);
                 }
             }
         }

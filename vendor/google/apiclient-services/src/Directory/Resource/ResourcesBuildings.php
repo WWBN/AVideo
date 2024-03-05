@@ -38,6 +38,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * alias to represent your account's customer ID.
    * @param string $buildingId The id of the building to delete.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($customer, $buildingId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * @param string $buildingId The unique ID of the building to retrieve.
    * @param array $optParams Optional parameters.
    * @return Building
+   * @throws \Google\Service\Exception
    */
   public function get($customer, $buildingId, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * @opt_param string coordinatesSource Source from which Building.coordinates
    * are derived.
    * @return Building
+   * @throws \Google\Service\Exception
    */
   public function insert($customer, Building $postBody, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * @opt_param int maxResults Maximum number of results to return.
    * @opt_param string pageToken Token to specify the next page in the list.
    * @return Buildings
+   * @throws \Google\Service\Exception
    */
   public function listResourcesBuildings($customer, $optParams = [])
   {
@@ -112,6 +116,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * @opt_param string coordinatesSource Source from which Building.coordinates
    * are derived.
    * @return Building
+   * @throws \Google\Service\Exception
    */
   public function patch($customer, $buildingId, Building $postBody, $optParams = [])
   {
@@ -132,6 +137,7 @@ class ResourcesBuildings extends \Google\Service\Resource
    * @opt_param string coordinatesSource Source from which Building.coordinates
    * are derived.
    * @return Building
+   * @throws \Google\Service\Exception
    */
   public function update($customer, $buildingId, Building $postBody, $optParams = [])
   {

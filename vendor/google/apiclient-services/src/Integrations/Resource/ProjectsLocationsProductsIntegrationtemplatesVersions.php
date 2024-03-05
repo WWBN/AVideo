@@ -39,6 +39,7 @@ class ProjectsLocationsProductsIntegrationtemplatesVersions extends \Google\Serv
    * @param GoogleCloudIntegrationsV1alphaIntegrationTemplateVersion $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaIntegrationTemplateVersion
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudIntegrationsV1alphaIntegrationTemplateVersion $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsProductsIntegrationtemplatesVersions extends \Google\Serv
    * tegrationtemplate}/versions/{version}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaIntegrationTemplateVersion
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsLocationsProductsIntegrationtemplatesVersions extends \Google\Serv
    * `ListIntegrationTemplateVersions` must match the call that provided the page
    * token.
    * @return GoogleCloudIntegrationsV1alphaListIntegrationTemplateVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProductsIntegrationtemplatesVersions($parent, $optParams = [])
   {

@@ -53,6 +53,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * characters must be a dash, lowercase letter, or digit, except the last
    * character, which cannot be a dash.
    * @return Service
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Service $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param string $name Required. The name of the service to delete.
    * @param array $optParams Optional parameters.
    * @return ServicedirectoryEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param string $name Required. The name of the service to get.
    * @param array $optParams Optional parameters.
    * @return Service
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -139,6 +143,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous List request, if any.
    * @return ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsNamespacesServices($parent, $optParams = [])
   {
@@ -157,6 +162,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @opt_param string updateMask Required. List of fields to be updated in this
    * request.
    * @return Service
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Service $postBody, $optParams = [])
   {
@@ -172,6 +178,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param ResolveServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ResolveServiceResponse
+   * @throws \Google\Service\Exception
    */
   public function resolve($name, ResolveServiceRequest $postBody, $optParams = [])
   {
@@ -190,6 +197,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -208,6 +216,7 @@ class ProjectsLocationsNamespacesServices extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

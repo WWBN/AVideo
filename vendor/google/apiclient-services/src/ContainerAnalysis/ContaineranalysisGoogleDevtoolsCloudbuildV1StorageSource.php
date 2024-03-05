@@ -31,6 +31,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource extends \Google\M
    * @var string
    */
   public $object;
+  /**
+   * @var string
+   */
+  public $sourceFetcher;
 
   /**
    * @param string
@@ -73,6 +77,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1StorageSource extends \Google\M
   public function getObject()
   {
     return $this->object;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceFetcher($sourceFetcher)
+  {
+    $this->sourceFetcher = $sourceFetcher;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceFetcher()
+  {
+    return $this->sourceFetcher;
   }
 }
 

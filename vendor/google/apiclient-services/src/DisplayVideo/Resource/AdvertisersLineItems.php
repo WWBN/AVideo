@@ -46,8 +46,9 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * assigned targeting options provided in
    * BulkEditAssignedTargetingOptionsRequest.create_requests. Requests to this
    * endpoint cannot be made concurrently with the following requests updating the
-   * same line item: * BulkUpdate * UpdateLineItem *
-   * CreateLineItemAssignedTargetingOption * DeleteLineItemAssignedTargetingOption
+   * same line item: * lineItems.bulkUpdate * lineItems.patch *
+   * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube &
+   * Partners line items cannot be created or updated using the API.
    * (lineItems.bulkEditAssignedTargetingOptions)
    *
    * @param string $advertiserId Required. The ID of the advertiser the line items
@@ -55,6 +56,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @param BulkEditAssignedTargetingOptionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkEditAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkEditAssignedTargetingOptions($advertiserId, BulkEditAssignedTargetingOptionsRequest $postBody, $optParams = [])
   {
@@ -100,6 +102,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * previous call to the `BulkListAssignedTargetingOptions` method. If not
    * specified, the first page of results will be returned.
    * @return BulkListAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkListAssignedTargetingOptions($advertiserId, $optParams = [])
   {
@@ -111,7 +114,8 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * Updates multiple line items. Requests to this endpoint cannot be made
    * concurrently with the following requests updating the same line item: *
    * BulkEditAssignedTargetingOptions * UpdateLineItem *
-   * CreateLineItemAssignedTargetingOption * DeleteLineItemAssignedTargetingOption
+   * assignedTargetingOptions.create * assignedTargetingOptions.delete YouTube &
+   * Partners line items cannot be created or updated using the API.
    * (lineItems.bulkUpdate)
    *
    * @param string $advertiserId Required. The ID of the advertiser this line item
@@ -119,6 +123,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @param BulkUpdateLineItemsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkUpdateLineItemsResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkUpdate($advertiserId, BulkUpdateLineItemsRequest $postBody, $optParams = [])
   {
@@ -128,6 +133,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
   }
   /**
    * Creates a new line item. Returns the newly created line item if successful.
+   * YouTube & Partners line items cannot be created or updated using the API.
    * (lineItems.create)
    *
    * @param string $advertiserId Output only. The unique ID of the advertiser the
@@ -135,6 +141,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @param LineItem $postBody
    * @param array $optParams Optional parameters.
    * @return LineItem
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, LineItem $postBody, $optParams = [])
   {
@@ -145,13 +152,15 @@ class AdvertisersLineItems extends \Google\Service\Resource
   /**
    * Deletes a line item. Returns error code `NOT_FOUND` if the line item does not
    * exist. The line item should be archived first, i.e. set entity_status to
-   * `ENTITY_STATUS_ARCHIVED`, to be able to delete it. (lineItems.delete)
+   * `ENTITY_STATUS_ARCHIVED`, to be able to delete it. YouTube & Partners line
+   * items cannot be created or updated using the API. (lineItems.delete)
    *
    * @param string $advertiserId The ID of the advertiser this line item belongs
    * to.
    * @param string $lineItemId The ID of the line item to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $lineItemId, $optParams = [])
   {
@@ -161,7 +170,11 @@ class AdvertisersLineItems extends \Google\Service\Resource
   }
   /**
    * Duplicates a line item. Returns the ID of the created line item if
-   * successful. (lineItems.duplicate)
+   * successful. YouTube & Partners line items cannot be created or updated using
+   * the API. **This method regularly experiences high latency.** We recommend
+   * [increasing your default timeout](/display-video/api/guides/best-
+   * practices/timeouts#client_library_timeout) to avoid errors.
+   * (lineItems.duplicate)
    *
    * @param string $advertiserId Required. The ID of the advertiser this line item
    * belongs to.
@@ -169,6 +182,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @param DuplicateLineItemRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DuplicateLineItemResponse
+   * @throws \Google\Service\Exception
    */
   public function duplicate($advertiserId, $lineItemId, DuplicateLineItemRequest $postBody, $optParams = [])
   {
@@ -181,14 +195,15 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * the insertion order and an `ENTITY_STATUS_DRAFT` entity_status. Returns the
    * newly created line item if successful. There are default values based on the
    * three fields: * The insertion order's insertion_order_type * The insertion
-   * order's automation_type * The given line_item_type
-   * (lineItems.generateDefault)
+   * order's automation_type * The given line_item_type YouTube & Partners line
+   * items cannot be created or updated using the API. (lineItems.generateDefault)
    *
    * @param string $advertiserId Required. The ID of the advertiser this line item
    * belongs to.
    * @param GenerateDefaultLineItemRequest $postBody
    * @param array $optParams Optional parameters.
    * @return LineItem
+   * @throws \Google\Service\Exception
    */
   public function generateDefault($advertiserId, GenerateDefaultLineItemRequest $postBody, $optParams = [])
   {
@@ -204,6 +219,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @param string $lineItemId Required. The ID of the line item to fetch.
    * @param array $optParams Optional parameters.
    * @return LineItem
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $lineItemId, $optParams = [])
   {
@@ -225,37 +241,25 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * syntax: * Filter expressions are made up of one or more restrictions. *
    * Restrictions can be combined by `AND` or `OR` logical operators. A sequence
    * of restrictions implicitly uses `AND`. * A restriction has the form of
-   * `{field} {operator} {value}`. * The `flight.dateRange.endDate` field must use
-   * the `LESS THAN (<)` operator. * The `updateTime` field must use the `GREATER
-   * THAN OR EQUAL TO (>=)` or `LESS THAN OR EQUAL TO (<=)` operators. * The
-   * `warningMessages` field must use the `HAS (:)` operator. * All other fields
-   * must use the `EQUALS (=)` operator. Supported fields: * `campaignId` *
-   * `displayName` * `entityStatus` * `flight.dateRange.endDate` (input formatted
-   * as `YYYY-MM-DD`) **Deprecated. Not available after June 8, 2023** *
-   * `flight.triggerId` * `insertionOrderId` * `lineItemId` * `lineItemType` *
-   * `targetedChannelId` * `targetedNegativeKeywordListId` * `updateTime` (input
-   * in ISO 8601 format, or `YYYY-MM-DDTHH:MM:SSZ`) * `warningMessages` Examples:
-   * * All line items under an insertion order: `insertionOrderId="1234"` * All
-   * `ENTITY_STATUS_ACTIVE` or `ENTITY_STATUS_PAUSED` and
-   * `LINE_ITEM_TYPE_DISPLAY_DEFAULT` line items under an advertiser:
-   * `(entityStatus="ENTITY_STATUS_ACTIVE" OR entityStatus="ENTITY_STATUS_PAUSED")
-   * AND lineItemType="LINE_ITEM_TYPE_DISPLAY_DEFAULT"` * All line items whose
-   * flight dates end before March 28, 2019:
-   * `flight.dateRange.endDate<"2019-03-28"` * All line items that have
-   * `NO_VALID_CREATIVE` in `warningMessages`:
-   * `warningMessages:"NO_VALID_CREATIVE"` * All line items with an update time
-   * less than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
+   * `{field} {operator} {value}`. * The `updateTime` field must use the `GREATER
+   * THAN OR EQUAL TO (>=)` or `LESS THAN OR EQUAL TO (<=)` operators. * All other
+   * fields must use the `EQUALS (=)` operator. Supported fields: * `campaignId` *
+   * `displayName` * `entityStatus` * `insertionOrderId` * `lineItemId` *
+   * `lineItemType` * `updateTime` (input in ISO 8601 format, or `YYYY-MM-
+   * DDTHH:MM:SSZ`) Examples: * All line items under an insertion order:
+   * `insertionOrderId="1234"` * All `ENTITY_STATUS_ACTIVE` or
+   * `ENTITY_STATUS_PAUSED` and `LINE_ITEM_TYPE_DISPLAY_DEFAULT` line items under
+   * an advertiser: `(entityStatus="ENTITY_STATUS_ACTIVE" OR
+   * entityStatus="ENTITY_STATUS_PAUSED") AND
+   * lineItemType="LINE_ITEM_TYPE_DISPLAY_DEFAULT"` * All line items with an
+   * update time less than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
    * `updateTime<="2020-11-04T18:54:47Z"` * All line items with an update time
    * greater than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
-   * `updateTime>="2020-11-04T18:54:47Z"` * All line items that are using both the
-   * specified channel and specified negative keyword list in their targeting:
-   * `targetedNegativeKeywordListId=789 AND targetedChannelId=12345` The length of
-   * this field should be no more than 500 characters. Reference our [filter
-   * `LIST` requests](/display-video/api/guides/how-tos/filters) guide for more
-   * information.
+   * `updateTime>="2020-11-04T18:54:47Z"` The length of this field should be no
+   * more than 500 characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
-   * are: * `displayName` (default) * `entityStatus` * `flight.dateRange.endDate`
-   * **Deprecated. Not available after June 8, 2023** * `updateTime` The default
+   * are: * `displayName` (default) * `entityStatus` * `updateTime` The default
    * sorting order is ascending. To specify descending order for a field, a suffix
    * "desc" should be added to the field name. Example: `displayName desc`.
    * @opt_param int pageSize Requested page size. Must be between `1` and `200`.
@@ -266,6 +270,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * the previous call to `ListLineItems` method. If not specified, the first page
    * of results will be returned.
    * @return ListLineItemsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersLineItems($advertiserId, $optParams = [])
   {
@@ -277,8 +282,12 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * Updates an existing line item. Returns the updated line item if successful.
    * Requests to this endpoint cannot be made concurrently with the following
    * requests updating the same line item: * BulkEditAssignedTargetingOptions *
-   * BulkUpdateLineItems * CreateLineItemAssignedTargetingOption *
-   * DeleteLineItemAssignedTargetingOption (lineItems.patch)
+   * BulkUpdateLineItems * assignedTargetingOptions.create *
+   * assignedTargetingOptions.delete YouTube & Partners line items cannot be
+   * created or updated using the API. **This method regularly experiences high
+   * latency.** We recommend [increasing your default timeout](/display-
+   * video/api/guides/best-practices/timeouts#client_library_timeout) to avoid
+   * errors. (lineItems.patch)
    *
    * @param string $advertiserId Output only. The unique ID of the advertiser the
    * line item belongs to.
@@ -290,6 +299,7 @@ class AdvertisersLineItems extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return LineItem
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $lineItemId, LineItem $postBody, $optParams = [])
   {

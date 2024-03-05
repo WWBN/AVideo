@@ -43,6 +43,7 @@ class ProjectsLocationsConnectionsRuntimeEntitySchemas extends \Google\Service\R
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return GoogleCloudIntegrationsV1alphaListRuntimeEntitySchemasResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConnectionsRuntimeEntitySchemas($parent, $optParams = [])
   {

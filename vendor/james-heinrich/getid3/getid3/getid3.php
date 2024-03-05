@@ -387,7 +387,7 @@ class getID3
 	 */
 	protected $startup_warning = '';
 
-	const VERSION           = '1.9.22-202207161647';
+	const VERSION           = '1.9.23-202310190849';
 	const FREAD_BUFFER_SIZE = 32768;
 
 	const ATTACHMENTS_NONE   = false;
@@ -436,17 +436,17 @@ class getID3
 			$this->startup_error .= 'WARNING: php.ini contains "mbstring.func_overload = '.ini_get('mbstring.func_overload').'", getID3 cannot run with this setting (bitmask 2 (string functions) cannot be set). Recommended to disable entirely.'."\n";
 		}
 
-		// check for magic quotes in PHP < 7.4.0 (when these functions became deprecated)
-		if (version_compare(PHP_VERSION, '7.4.0', '<')) {
+		// check for magic quotes in PHP < 5.4.0 (when these options were removed and getters always return false)
+		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
 			// Check for magic_quotes_runtime
 			if (function_exists('get_magic_quotes_runtime')) {
-				if (get_magic_quotes_runtime()) {
+				if (get_magic_quotes_runtime()) { // @phpstan-ignore-line
 					$this->startup_error .= 'magic_quotes_runtime must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_runtime(0) and set_magic_quotes_runtime(1).'."\n";
 				}
 			}
 			// Check for magic_quotes_gpc
 			if (function_exists('get_magic_quotes_gpc')) {
-				if (get_magic_quotes_gpc()) {
+				if (get_magic_quotes_gpc()) { // @phpstan-ignore-line
 					$this->startup_error .= 'magic_quotes_gpc must be disabled before running getID3(). Surround getid3 block by set_magic_quotes_gpc(0) and set_magic_quotes_gpc(1).'."\n";
 				}
 			}
@@ -1464,6 +1464,16 @@ class getID3
 							'fail_ape'  => 'ERROR',
 						),
 
+				// XZ   - data         - XZ compressed data
+				'7zip'  => array(
+							'pattern'   => '^7z\\xBC\\xAF\\x27\\x1C',
+							'group'     => 'archive',
+							'module'    => '7zip',
+							'mime_type' => 'application/x-7z-compressed',
+							'fail_id3'  => 'ERROR',
+							'fail_ape'  => 'ERROR',
+						),
+
 
 				// Misc other formats
 
@@ -1977,7 +1987,7 @@ class getID3
 		}
 		$BitrateUncompressed = $this->info['video']['resolution_x'] * $this->info['video']['resolution_y'] * $this->info['video']['bits_per_sample'] * $FrameRate;
 
-		$this->info['video']['compression_ratio'] = $BitrateCompressed / $BitrateUncompressed;
+		$this->info['video']['compression_ratio'] = getid3_lib::SafeDiv($BitrateCompressed, $BitrateUncompressed, 1);
 		return true;
 	}
 
@@ -2183,6 +2193,8 @@ abstract class getid3_handler
 	}
 
 	/**
+	 * @phpstan-impure
+	 *
 	 * @return int|bool
 	 */
 	protected function ftell() {
@@ -2194,6 +2206,8 @@ abstract class getid3_handler
 
 	/**
 	 * @param int $bytes
+	 *
+	 * @phpstan-impure
 	 *
 	 * @return string|false
 	 *
@@ -2240,6 +2254,8 @@ abstract class getid3_handler
 	 * @param int $bytes
 	 * @param int $whence
 	 *
+	 * @phpstan-impure
+	 *
 	 * @return int
 	 *
 	 * @throws getid3_exception
@@ -2281,6 +2297,8 @@ abstract class getid3_handler
 	}
 
 	/**
+	 * @phpstan-impure
+	 *
 	 * @return string|false
 	 *
 	 * @throws getid3_exception
@@ -2336,6 +2354,8 @@ abstract class getid3_handler
 	}
 
 	/**
+	 * @phpstan-impure
+	 *
 	 * @return bool
 	 */
 	protected function feof() {

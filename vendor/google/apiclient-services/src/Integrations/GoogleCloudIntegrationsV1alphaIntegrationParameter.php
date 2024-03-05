@@ -20,6 +20,10 @@ namespace Google\Service\Integrations;
 class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $containsLargeData;
+  /**
    * @var string
    */
   public $dataType;
@@ -46,6 +50,10 @@ class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
    */
   public $key;
   /**
+   * @var bool
+   */
+  public $masked;
+  /**
    * @var string
    */
   public $producer;
@@ -54,6 +62,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
    */
   public $searchable;
 
+  /**
+   * @param bool
+   */
+  public function setContainsLargeData($containsLargeData)
+  {
+    $this->containsLargeData = $containsLargeData;
+  }
+  /**
+   * @return bool
+   */
+  public function getContainsLargeData()
+  {
+    return $this->containsLargeData;
+  }
   /**
    * @param string
    */
@@ -151,6 +173,20 @@ class GoogleCloudIntegrationsV1alphaIntegrationParameter extends \Google\Model
   public function getKey()
   {
     return $this->key;
+  }
+  /**
+   * @param bool
+   */
+  public function setMasked($masked)
+  {
+    $this->masked = $masked;
+  }
+  /**
+   * @return bool
+   */
+  public function getMasked()
+  {
+    return $this->masked;
   }
   /**
    * @param string

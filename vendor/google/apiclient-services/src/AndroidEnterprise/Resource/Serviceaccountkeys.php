@@ -40,6 +40,7 @@ class Serviceaccountkeys extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param string $keyId The ID of the key.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($enterpriseId, $keyId, $optParams = [])
   {
@@ -59,6 +60,7 @@ class Serviceaccountkeys extends \Google\Service\Resource
    * @param ServiceAccountKey $postBody
    * @param array $optParams Optional parameters.
    * @return ServiceAccountKey
+   * @throws \Google\Service\Exception
    */
   public function insert($enterpriseId, ServiceAccountKey $postBody, $optParams = [])
   {
@@ -76,6 +78,7 @@ class Serviceaccountkeys extends \Google\Service\Resource
    * @param string $enterpriseId The ID of the enterprise.
    * @param array $optParams Optional parameters.
    * @return ServiceAccountKeysListResponse
+   * @throws \Google\Service\Exception
    */
   public function listServiceaccountkeys($enterpriseId, $optParams = [])
   {

@@ -37,6 +37,7 @@ class Players extends \Google\Service\Resource
    * @param string $playerId A player ID. A value of `me` may be used in place of
    * the authenticated player's ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function hide($applicationId, $playerId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class Players extends \Google\Service\Resource
    * @param string $playerId A player ID. A value of `me` may be used in place of
    * the authenticated player's ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function unhide($applicationId, $playerId, $optParams = [])
   {

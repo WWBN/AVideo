@@ -106,7 +106,79 @@ class AIPlatformNotebooks extends \Google\Service
         'instances',
         [
           'methods' => [
-            'getIamPolicy' => [
+            'checkUpgradability' => [
+              'path' => 'v2/{+notebookInstance}:checkUpgradability',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'notebookInstance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
+              'path' => 'v2/{+parent}/instances',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'instanceId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'diagnose' => [
+              'path' => 'v2/{+name}:diagnose',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getConfig' => [
+              'path' => 'v2/{+name}/instances:getConfig',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getIamPolicy' => [
               'path' => 'v2/{+resource}:getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -120,6 +192,90 @@ class AIPlatformNotebooks extends \Google\Service
                   'type' => 'integer',
                 ],
               ],
+            ],'list' => [
+              'path' => 'v2/{+parent}/instances',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'patch' => [
+              'path' => 'v2/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'reportInfoSystem' => [
+              'path' => 'v2/{+name}:reportInfoSystem',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'reset' => [
+              'path' => 'v2/{+name}:reset',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'resizeDisk' => [
+              'path' => 'v2/{+notebookInstance}:resizeDisk',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'notebookInstance' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'rollback' => [
+              'path' => 'v2/{+name}:rollback',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'setIamPolicy' => [
               'path' => 'v2/{+resource}:setIamPolicy',
               'httpMethod' => 'POST',
@@ -130,11 +286,51 @@ class AIPlatformNotebooks extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'start' => [
+              'path' => 'v2/{+name}:start',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'stop' => [
+              'path' => 'v2/{+name}:stop',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'testIamPermissions' => [
               'path' => 'v2/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'upgrade' => [
+              'path' => 'v2/{+name}:upgrade',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'upgradeSystem' => [
+              'path' => 'v2/{+name}:upgradeSystem',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

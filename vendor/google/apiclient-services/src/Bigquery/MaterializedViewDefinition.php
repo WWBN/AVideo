@@ -19,9 +19,6 @@ namespace Google\Service\Bigquery;
 
 class MaterializedViewDefinition extends \Google\Model
 {
-  protected $internal_gapi_mappings = [
-        "allowNonIncrementalDefinition" => "allow_non_incremental_definition",
-  ];
   /**
    * @var bool
    */

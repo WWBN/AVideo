@@ -29,6 +29,8 @@ class ValueMatcher extends \Google\Model
   protected $listMatchDataType = '';
   protected $nullMatchType = NullMatch::class;
   protected $nullMatchDataType = '';
+  protected $orMatchType = OrMatcher::class;
+  protected $orMatchDataType = '';
   /**
    * @var bool
    */
@@ -91,6 +93,20 @@ class ValueMatcher extends \Google\Model
   public function getNullMatch()
   {
     return $this->nullMatch;
+  }
+  /**
+   * @param OrMatcher
+   */
+  public function setOrMatch(OrMatcher $orMatch)
+  {
+    $this->orMatch = $orMatch;
+  }
+  /**
+   * @return OrMatcher
+   */
+  public function getOrMatch()
+  {
+    return $this->orMatch;
   }
   /**
    * @param bool

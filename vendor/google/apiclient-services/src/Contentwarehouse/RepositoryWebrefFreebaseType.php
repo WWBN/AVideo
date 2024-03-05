@@ -31,6 +31,10 @@ class RepositoryWebrefFreebaseType extends \Google\Collection
   /**
    * @var string
    */
+  public $typeFprint;
+  /**
+   * @var string
+   */
   public $typeMid;
   /**
    * @var string
@@ -64,6 +68,20 @@ class RepositoryWebrefFreebaseType extends \Google\Collection
   public function getScore()
   {
     return $this->score;
+  }
+  /**
+   * @param string
+   */
+  public function setTypeFprint($typeFprint)
+  {
+    $this->typeFprint = $typeFprint;
+  }
+  /**
+   * @return string
+   */
+  public function getTypeFprint()
+  {
+    return $this->typeFprint;
   }
   /**
    * @param string

@@ -43,6 +43,7 @@ class ServicesDnsZones extends \Google\Service\Resource
    * @param AddDnsZoneRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function add($parent, AddDnsZoneRequest $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ServicesDnsZones extends \Google\Service\Resource
    * @param RemoveDnsZoneRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function remove($parent, RemoveDnsZoneRequest $postBody, $optParams = [])
   {

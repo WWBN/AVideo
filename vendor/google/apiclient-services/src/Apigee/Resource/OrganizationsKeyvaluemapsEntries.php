@@ -44,6 +44,7 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1KeyValueEntry $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1KeyValueEntry $postBody, $optParams = [])
   {
@@ -66,6 +67,7 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -86,6 +88,7 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * `organizations/{organization}/keyvaluemaps/{keyvaluemap}/entries/{entry}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1KeyValueEntry
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -111,12 +114,34 @@ class OrganizationsKeyvaluemapsEntries extends \Google\Service\Resource
    * valid key value entry returned from a previous call that can be used to
    * retrieve the next page.
    * @return GoogleCloudApigeeV1ListKeyValueEntriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsKeyvaluemapsEntries($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], GoogleCloudApigeeV1ListKeyValueEntriesResponse::class);
+  }
+  /**
+   * Update key value entry scoped to an organization, environment, or API proxy
+   * for an existing key. (entries.update)
+   *
+   * @param string $name Required. Scope as indicated by the URI in which to
+   * create the key value map entry. Use **one** of the following structures in
+   * your request: *
+   * `organizations/{organization}/apis/{api}/keyvaluemaps/{keyvaluemap}`. * `orga
+   * nizations/{organization}/environments/{environment}/keyvaluemaps/{keyvaluemap
+   * }` * `organizations/{organization}/keyvaluemaps/{keyvaluemap}`.
+   * @param GoogleCloudApigeeV1KeyValueEntry $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudApigeeV1KeyValueEntry
+   * @throws \Google\Service\Exception
+   */
+  public function update($name, GoogleCloudApigeeV1KeyValueEntry $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('update', [$params], GoogleCloudApigeeV1KeyValueEntry::class);
   }
 }
 

@@ -46,6 +46,7 @@ class DnsKeys extends \Google\Service\Resource
    * to compute and display for key signing keys. If omitted, the recommended
    * digest type is computed and displayed.
    * @return DnsKey
+   * @throws \Google\Service\Exception
    */
   public function get($project, $managedZone, $dnsKeyId, $optParams = [])
   {
@@ -70,6 +71,7 @@ class DnsKeys extends \Google\Service\Resource
    * request that was truncated. Use this parameter to continue a previous list
    * request.
    * @return DnsKeysListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDnsKeys($project, $managedZone, $optParams = [])
   {

@@ -19,11 +19,31 @@ namespace Google\Service\CloudDataplex;
 
 class GoogleCloudDataplexV1DataQualityDimensionResult extends \Google\Model
 {
+  protected $dimensionType = GoogleCloudDataplexV1DataQualityDimension::class;
+  protected $dimensionDataType = '';
   /**
    * @var bool
    */
   public $passed;
+  /**
+   * @var float
+   */
+  public $score;
 
+  /**
+   * @param GoogleCloudDataplexV1DataQualityDimension
+   */
+  public function setDimension(GoogleCloudDataplexV1DataQualityDimension $dimension)
+  {
+    $this->dimension = $dimension;
+  }
+  /**
+   * @return GoogleCloudDataplexV1DataQualityDimension
+   */
+  public function getDimension()
+  {
+    return $this->dimension;
+  }
   /**
    * @param bool
    */
@@ -37,6 +57,20 @@ class GoogleCloudDataplexV1DataQualityDimensionResult extends \Google\Model
   public function getPassed()
   {
     return $this->passed;
+  }
+  /**
+   * @param float
+   */
+  public function setScore($score)
+  {
+    $this->score = $score;
+  }
+  /**
+   * @return float
+   */
+  public function getScore()
+  {
+    return $this->score;
   }
 }
 

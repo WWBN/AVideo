@@ -40,6 +40,7 @@ class Projects extends \Google\Service\Resource
    * billing information is retrieved. For example, `projects/tokyo-rain-123`.
    * @param array $optParams Optional parameters.
    * @return ProjectBillingInfo
+   * @throws \Google\Service\Exception
    */
   public function getBillingInfo($name, $optParams = [])
   {
@@ -58,27 +59,29 @@ class Projects extends \Google\Service\Resource
    * the transaction history of the Google Cloud Console might be billed to the
    * new billing account, even if the charge occurred before the new billing
    * account was assigned to the project. The current authenticated user must have
-   * ownership privileges for both the [project](https://cloud.google.com/docs
-   * /permissions-overview#h.bgs0oxofvnoo ) and the [billing
-   * account](https://cloud.google.com/billing/docs/how-to/billing-access). You
-   * can disable billing on the project by setting the `billing_account_name`
-   * field to empty. This action disassociates the current billing account from
-   * the project. Any billable activity of your in-use services will stop, and
-   * your application could stop functioning as expected. Any unbilled charges to
-   * date will be billed to the previously associated account. The current
-   * authenticated user must be either an owner of the project or an owner of the
-   * billing account for the project. Note that associating a project with a
-   * *closed* billing account will have much the same effect as disabling billing
-   * on the project: any paid resources used by the project will be shut down.
-   * Thus, unless you wish to disable billing, you should always call this method
-   * with the name of an *open* billing account. (projects.updateBillingInfo)
+   * ownership privileges for both the
+   * [project](https://cloud.google.com/docs/permissions-overview#h.bgs0oxofvnoo )
+   * and the [billing account](https://cloud.google.com/billing/docs/how-
+   * to/billing-access). You can disable billing on the project by setting the
+   * `billing_account_name` field to empty. This action disassociates the current
+   * billing account from the project. Any billable activity of your in-use
+   * services will stop, and your application could stop functioning as expected.
+   * Any unbilled charges to date will be billed to the previously associated
+   * account. The current authenticated user must be either an owner of the
+   * project or an owner of the billing account for the project. Note that
+   * associating a project with a *closed* billing account will have much the same
+   * effect as disabling billing on the project: any paid resources used by the
+   * project will be shut down. Thus, unless you wish to disable billing, you
+   * should always call this method with the name of an *open* billing account.
+   * (projects.updateBillingInfo)
    *
    * @param string $name Required. The resource name of the project associated
-   * with the billing information that you want to update. For example, `projects
-   * /tokyo-rain-123`.
+   * with the billing information that you want to update. For example,
+   * `projects/tokyo-rain-123`.
    * @param ProjectBillingInfo $postBody
    * @param array $optParams Optional parameters.
    * @return ProjectBillingInfo
+   * @throws \Google\Service\Exception
    */
   public function updateBillingInfo($name, ProjectBillingInfo $postBody, $optParams = [])
   {

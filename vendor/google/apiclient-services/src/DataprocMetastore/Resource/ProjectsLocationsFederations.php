@@ -60,6 +60,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero
    * UUID (00000000-0000-0000-0000-000000000000) is not supported.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Federation $postBody, $optParams = [])
   {
@@ -85,6 +86,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * (https://en.wikipedia.org/wiki/Universally_unique_identifier#Format) A zero
    * UUID (00000000-0000-0000-0000-000000000000) is not supported.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -100,6 +102,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * ions/{location_id}/federations/{federation_id}.
    * @param array $optParams Optional parameters.
    * @return Federation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -129,6 +132,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * IAM policies, see the IAM documentation
    * (https://cloud.google.com/iam/help/conditions/resource-policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -160,6 +164,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * other parameters provided to ListFederationServices must match the call that
    * provided the page token.
    * @return ListFederationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsFederations($parent, $optParams = [])
   {
@@ -190,6 +195,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * Fields specified in the update_mask are relative to the resource (not to the
    * full request). A field is overwritten if it is in the mask.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Federation $postBody, $optParams = [])
   {
@@ -209,6 +215,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -231,6 +238,7 @@ class ProjectsLocationsFederations extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

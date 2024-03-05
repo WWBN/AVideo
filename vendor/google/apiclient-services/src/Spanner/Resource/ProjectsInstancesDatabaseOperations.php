@@ -74,6 +74,7 @@ class ProjectsInstancesDatabaseOperations extends \Google\Service\Resource
    * next_page_token from a previous ListDatabaseOperationsResponse to the same
    * `parent` and with the same `filter`.
    * @return ListDatabaseOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesDatabaseOperations($parent, $optParams = [])
   {

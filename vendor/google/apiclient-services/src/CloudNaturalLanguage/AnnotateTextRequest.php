@@ -25,7 +25,7 @@ class AnnotateTextRequest extends \Google\Model
    * @var string
    */
   public $encodingType;
-  protected $featuresType = Features::class;
+  protected $featuresType = AnnotateTextRequestFeatures::class;
   protected $featuresDataType = '';
 
   /**
@@ -57,14 +57,14 @@ class AnnotateTextRequest extends \Google\Model
     return $this->encodingType;
   }
   /**
-   * @param Features
+   * @param AnnotateTextRequestFeatures
    */
-  public function setFeatures(Features $features)
+  public function setFeatures(AnnotateTextRequestFeatures $features)
   {
     $this->features = $features;
   }
   /**
-   * @return Features
+   * @return AnnotateTextRequestFeatures
    */
   public function getFeatures()
   {

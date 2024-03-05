@@ -20,7 +20,6 @@ namespace Google\Service\Bigquery\Resource;
 use Google\Service\Bigquery\GetIamPolicyRequest;
 use Google\Service\Bigquery\ListRowAccessPoliciesResponse;
 use Google\Service\Bigquery\Policy;
-use Google\Service\Bigquery\SetIamPolicyRequest;
 use Google\Service\Bigquery\TestIamPermissionsRequest;
 use Google\Service\Bigquery\TestIamPermissionsResponse;
 
@@ -46,6 +45,7 @@ class RowAccessPolicies extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -70,31 +70,13 @@ class RowAccessPolicies extends \Google\Service\Resource
    * @opt_param string pageToken Page token, returned by a previous call, to
    * request the next page of results.
    * @return ListRowAccessPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listRowAccessPolicies($projectId, $datasetId, $tableId, $optParams = [])
   {
     $params = ['projectId' => $projectId, 'datasetId' => $datasetId, 'tableId' => $tableId];
     $params = array_merge($params, $optParams);
     return $this->call('list', [$params], ListRowAccessPoliciesResponse::class);
-  }
-  /**
-   * Sets the access control policy on the specified resource. Replaces any
-   * existing policy. Can return `NOT_FOUND`, `INVALID_ARGUMENT`, and
-   * `PERMISSION_DENIED` errors. (rowAccessPolicies.setIamPolicy)
-   *
-   * @param string $resource REQUIRED: The resource for which the policy is being
-   * specified. See [Resource
-   * names](https://cloud.google.com/apis/design/resource_names) for the
-   * appropriate value for this field.
-   * @param SetIamPolicyRequest $postBody
-   * @param array $optParams Optional parameters.
-   * @return Policy
-   */
-  public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
-  {
-    $params = ['resource' => $resource, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('setIamPolicy', [$params], Policy::class);
   }
   /**
    * Returns permissions that a caller has on the specified resource. If the
@@ -111,6 +93,7 @@ class RowAccessPolicies extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

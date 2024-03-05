@@ -19,11 +19,15 @@ namespace Google\Service\Compute;
 
 class Interconnect extends \Google\Collection
 {
-  protected $collection_key = 'interconnectAttachments';
+  protected $collection_key = 'requestedFeatures';
   /**
    * @var bool
    */
   public $adminEnabled;
+  /**
+   * @var string[]
+   */
+  public $availableFeatures;
   protected $circuitInfosType = InterconnectCircuitInfo::class;
   protected $circuitInfosDataType = 'array';
   /**
@@ -80,6 +84,12 @@ class Interconnect extends \Google\Collection
    * @var string
    */
   public $location;
+  protected $macsecType = InterconnectMacsec::class;
+  protected $macsecDataType = '';
+  /**
+   * @var bool
+   */
+  public $macsecEnabled;
   /**
    * @var string
    */
@@ -104,6 +114,10 @@ class Interconnect extends \Google\Collection
    * @var string
    */
   public $remoteLocation;
+  /**
+   * @var string[]
+   */
+  public $requestedFeatures;
   /**
    * @var int
    */
@@ -134,6 +148,20 @@ class Interconnect extends \Google\Collection
   public function getAdminEnabled()
   {
     return $this->adminEnabled;
+  }
+  /**
+   * @param string[]
+   */
+  public function setAvailableFeatures($availableFeatures)
+  {
+    $this->availableFeatures = $availableFeatures;
+  }
+  /**
+   * @return string[]
+   */
+  public function getAvailableFeatures()
+  {
+    return $this->availableFeatures;
   }
   /**
    * @param InterconnectCircuitInfo[]
@@ -346,6 +374,34 @@ class Interconnect extends \Google\Collection
     return $this->location;
   }
   /**
+   * @param InterconnectMacsec
+   */
+  public function setMacsec(InterconnectMacsec $macsec)
+  {
+    $this->macsec = $macsec;
+  }
+  /**
+   * @return InterconnectMacsec
+   */
+  public function getMacsec()
+  {
+    return $this->macsec;
+  }
+  /**
+   * @param bool
+   */
+  public function setMacsecEnabled($macsecEnabled)
+  {
+    $this->macsecEnabled = $macsecEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getMacsecEnabled()
+  {
+    return $this->macsecEnabled;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -428,6 +484,20 @@ class Interconnect extends \Google\Collection
   public function getRemoteLocation()
   {
     return $this->remoteLocation;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRequestedFeatures($requestedFeatures)
+  {
+    $this->requestedFeatures = $requestedFeatures;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRequestedFeatures()
+  {
+    return $this->requestedFeatures;
   }
   /**
    * @param int

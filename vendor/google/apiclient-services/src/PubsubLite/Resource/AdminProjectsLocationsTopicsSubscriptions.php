@@ -45,6 +45,7 @@ class AdminProjectsLocationsTopicsSubscriptions extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListTopicSubscriptions`
    * must match the call that provided the page token.
    * @return ListTopicSubscriptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdminProjectsLocationsTopicsSubscriptions($name, $optParams = [])
   {

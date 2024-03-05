@@ -50,6 +50,7 @@ class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource
    * character long and at most 128 characters long. Field IDs must also be unique
    * within their template.
    * @return GoogleCloudDatacatalogV1TagTemplateField
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatacatalogV1TagTemplateField $postBody, $optParams = [])
   {
@@ -61,8 +62,8 @@ class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource
    * Deletes a field in a tag template and all uses of this field from the tags
    * based on this template. You must enable the Data Catalog API in the project
    * identified by the `name` parameter. For more information, see [Data Catalog
-   * resource project](https://cloud.google.com/data-catalog/docs/concepts
-   * /resource-project). (fields.delete)
+   * resource project](https://cloud.google.com/data-
+   * catalog/docs/concepts/resource-project). (fields.delete)
    *
    * @param string $name Required. The name of the tag template field to delete.
    * @param array $optParams Optional parameters.
@@ -70,6 +71,7 @@ class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource
    * @opt_param bool force Required. If true, deletes this field from any tags
    * that use it. Currently, `true` is the only supported value.
    * @return DatacatalogEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -98,6 +100,7 @@ class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource
    * added, existing enum values cannot be deleted or renamed. Additionally,
    * updating a template field from optional to required is *not* allowed.
    * @return GoogleCloudDatacatalogV1TagTemplateField
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDatacatalogV1TagTemplateField $postBody, $optParams = [])
   {
@@ -115,6 +118,7 @@ class ProjectsLocationsTagTemplatesFields extends \Google\Service\Resource
    * @param GoogleCloudDatacatalogV1RenameTagTemplateFieldRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatacatalogV1TagTemplateField
+   * @throws \Google\Service\Exception
    */
   public function rename($name, GoogleCloudDatacatalogV1RenameTagTemplateFieldRequest $postBody, $optParams = [])
   {

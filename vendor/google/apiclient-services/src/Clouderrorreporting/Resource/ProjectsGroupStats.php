@@ -45,6 +45,11 @@ class ProjectsGroupStats extends \Google\Service\Resource
    * @opt_param string alignmentTime Optional. Time where the timed counts shall
    * be aligned if rounded alignment is chosen. Default is 00:00 UTC.
    * @opt_param string groupId Optional. List all ErrorGroupStats with these IDs.
+   * The `group_id` is a unique identifier for a particular error group. The
+   * identifier is derived from key parts of the error-log content and is treated
+   * as Service Data. For information about how Service Data is handled, see
+   * [Google Cloud Privacy Notice] (https://cloud.google.com/terms/cloud-privacy-
+   * notice).
    * @opt_param string order Optional. The sort order in which the results are
    * returned. Default is `COUNT_DESC`.
    * @opt_param int pageSize Optional. The maximum number of results to return per
@@ -66,6 +71,7 @@ class ProjectsGroupStats extends \Google\Service\Resource
    * @opt_param string timedCountDuration Optional. The preferred duration for a
    * single returned TimedCount. If not set, no timed counts are returned.
    * @return ListGroupStatsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsGroupStats($projectName, $optParams = [])
   {

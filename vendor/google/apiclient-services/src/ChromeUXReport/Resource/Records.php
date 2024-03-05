@@ -41,6 +41,7 @@ class Records extends \Google\Service\Resource
    * @param QueryHistoryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return QueryHistoryResponse
+   * @throws \Google\Service\Exception
    */
   public function queryHistoryRecord(QueryHistoryRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Records extends \Google\Service\Resource
    * @param QueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return QueryResponse
+   * @throws \Google\Service\Exception
    */
   public function queryRecord(QueryRequest $postBody, $optParams = [])
   {

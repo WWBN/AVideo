@@ -21,6 +21,10 @@ class Conversion extends \Google\Collection
 {
   protected $collection_key = 'userIdentifiers';
   /**
+   * @var string
+   */
+  public $adUserDataConsent;
+  /**
    * @var bool
    */
   public $childDirectedTreatment;
@@ -94,6 +98,20 @@ class Conversion extends \Google\Collection
   protected $userIdentifiersDataType = 'array';
   public $value;
 
+  /**
+   * @param string
+   */
+  public function setAdUserDataConsent($adUserDataConsent)
+  {
+    $this->adUserDataConsent = $adUserDataConsent;
+  }
+  /**
+   * @return string
+   */
+  public function getAdUserDataConsent()
+  {
+    return $this->adUserDataConsent;
+  }
   /**
    * @param bool
    */

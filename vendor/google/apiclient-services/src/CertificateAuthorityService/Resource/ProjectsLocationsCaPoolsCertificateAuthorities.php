@@ -47,6 +47,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @param ActivateCertificateAuthorityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function activate($name, ActivateCertificateAuthorityRequest $postBody, $optParams = [])
   {
@@ -77,6 +78,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CertificateAuthority $postBody, $optParams = [])
   {
@@ -114,6 +116,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * grace period where undeletion would have been allowed. If you proceed, there
    * will be no way to recover this CA.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -129,6 +132,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @param DisableCertificateAuthorityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function disable($name, DisableCertificateAuthorityRequest $postBody, $optParams = [])
   {
@@ -144,6 +148,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @param EnableCertificateAuthorityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enable($name, EnableCertificateAuthorityRequest $postBody, $optParams = [])
   {
@@ -163,6 +168,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * in the format `projects/locations/caPools/certificateAuthorities`.
    * @param array $optParams Optional parameters.
    * @return FetchCertificateAuthorityCsrResponse
+   * @throws \Google\Service\Exception
    */
   public function fetch($name, $optParams = [])
   {
@@ -176,6 +182,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @param string $name Required. The name of the CertificateAuthority to get.
    * @param array $optParams Optional parameters.
    * @return CertificateAuthority
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -202,6 +209,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @opt_param string pageToken Optional. Pagination token, returned earlier via
    * ListCertificateAuthoritiesResponse.next_page_token.
    * @return ListCertificateAuthoritiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCaPoolsCertificateAuthorities($parent, $optParams = [])
   {
@@ -232,6 +240,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @opt_param string updateMask Required. A list of fields to be updated in this
    * request.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, CertificateAuthority $postBody, $optParams = [])
   {
@@ -248,6 +257,7 @@ class ProjectsLocationsCaPoolsCertificateAuthorities extends \Google\Service\Res
    * @param UndeleteCertificateAuthorityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function undelete($name, UndeleteCertificateAuthorityRequest $postBody, $optParams = [])
   {

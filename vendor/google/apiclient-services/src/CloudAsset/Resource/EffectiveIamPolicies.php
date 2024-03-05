@@ -37,19 +37,21 @@ class EffectiveIamPolicies extends \Google\Service\Resource
    * be returned. This can only be an organization number (such as
    * "organizations/123"), a folder number (such as "folders/123"), a project ID
    * (such as "projects/my-project-id"), or a project number (such as
-   * "projects/12345"). To know how to get organization id, visit [here
+   * "projects/12345"). To know how to get organization ID, visit [here
    * ](https://cloud.google.com/resource-manager/docs/creating-managing-
    * organization#retrieving_your_organization_id). To know how to get folder or
-   * project id, visit [here ](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-folders#viewing_or_listing_folders_and_projects).
+   * project ID, visit [here ](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-
+   * folders#viewing_or_listing_folders_and_projects).
    * @param array $optParams Optional parameters.
    *
    * @opt_param string names Required. The names refer to the
-   * [full_resource_names] (https://cloud.google.com/asset-inventory/docs
-   * /resource-name-format) of [searchable asset types](https://cloud.google.com
-   * /asset-inventory/docs/supported-asset-types#searchable_asset_types). A
+   * [full_resource_names] (https://cloud.google.com/asset-
+   * inventory/docs/resource-name-format) of the asset types [supported by search
+   * APIs](https://cloud.google.com/asset-inventory/docs/supported-asset-types). A
    * maximum of 20 resources' effective policies can be retrieved in a batch.
    * @return BatchGetEffectiveIamPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($scope, $optParams = [])
   {

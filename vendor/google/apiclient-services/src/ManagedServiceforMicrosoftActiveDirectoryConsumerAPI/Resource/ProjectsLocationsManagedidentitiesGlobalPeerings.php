@@ -47,6 +47,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * peering. It should follow the regex format
    * "^(?:[a-z](?:[-a-z0-9]{0,61}[a-z0-9])?)$"
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Peering $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * `projects/{project_id}/locations/global/peerings/{peering_id}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * `projects/{project_id}/locations/global/peerings/{peering_id}`
    * @param array $optParams Optional parameters.
    * @return Peering
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +108,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -134,6 +138,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous List request, if any.
    * @return ListPeeringsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsManagedidentitiesGlobalPeerings($parent, $optParams = [])
   {
@@ -154,6 +159,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * path must be supplied in this field. The elements of the repeated paths field
    * may only include these fields from Peering: * `labels`
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Peering $postBody, $optParams = [])
   {
@@ -173,6 +179,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -194,6 +201,7 @@ class ProjectsLocationsManagedidentitiesGlobalPeerings extends \Google\Service\R
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

@@ -27,6 +27,26 @@ class GoogleCloudSecuritycenterV1ExternalSystem extends \Google\Collection
   /**
    * @var string
    */
+  public $caseCloseTime;
+  /**
+   * @var string
+   */
+  public $caseCreateTime;
+  /**
+   * @var string
+   */
+  public $casePriority;
+  /**
+   * @var string
+   */
+  public $caseSla;
+  /**
+   * @var string
+   */
+  public $caseUri;
+  /**
+   * @var string
+   */
   public $externalSystemUpdateTime;
   /**
    * @var string
@@ -40,6 +60,8 @@ class GoogleCloudSecuritycenterV1ExternalSystem extends \Google\Collection
    * @var string
    */
   public $status;
+  protected $ticketInfoType = TicketInfo::class;
+  protected $ticketInfoDataType = '';
 
   /**
    * @param string[]
@@ -54,6 +76,76 @@ class GoogleCloudSecuritycenterV1ExternalSystem extends \Google\Collection
   public function getAssignees()
   {
     return $this->assignees;
+  }
+  /**
+   * @param string
+   */
+  public function setCaseCloseTime($caseCloseTime)
+  {
+    $this->caseCloseTime = $caseCloseTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCaseCloseTime()
+  {
+    return $this->caseCloseTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCaseCreateTime($caseCreateTime)
+  {
+    $this->caseCreateTime = $caseCreateTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCaseCreateTime()
+  {
+    return $this->caseCreateTime;
+  }
+  /**
+   * @param string
+   */
+  public function setCasePriority($casePriority)
+  {
+    $this->casePriority = $casePriority;
+  }
+  /**
+   * @return string
+   */
+  public function getCasePriority()
+  {
+    return $this->casePriority;
+  }
+  /**
+   * @param string
+   */
+  public function setCaseSla($caseSla)
+  {
+    $this->caseSla = $caseSla;
+  }
+  /**
+   * @return string
+   */
+  public function getCaseSla()
+  {
+    return $this->caseSla;
+  }
+  /**
+   * @param string
+   */
+  public function setCaseUri($caseUri)
+  {
+    $this->caseUri = $caseUri;
+  }
+  /**
+   * @return string
+   */
+  public function getCaseUri()
+  {
+    return $this->caseUri;
   }
   /**
    * @param string
@@ -110,6 +202,20 @@ class GoogleCloudSecuritycenterV1ExternalSystem extends \Google\Collection
   public function getStatus()
   {
     return $this->status;
+  }
+  /**
+   * @param TicketInfo
+   */
+  public function setTicketInfo(TicketInfo $ticketInfo)
+  {
+    $this->ticketInfo = $ticketInfo;
+  }
+  /**
+   * @return TicketInfo
+   */
+  public function getTicketInfo()
+  {
+    return $this->ticketInfo;
   }
 }
 

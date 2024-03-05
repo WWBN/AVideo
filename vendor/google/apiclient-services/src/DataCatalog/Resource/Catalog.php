@@ -46,6 +46,7 @@ class Catalog extends \Google\Service\Resource
    * @param GoogleCloudDatacatalogV1SearchCatalogRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatacatalogV1SearchCatalogResponse
+   * @throws \Google\Service\Exception
    */
   public function search(GoogleCloudDatacatalogV1SearchCatalogRequest $postBody, $optParams = [])
   {

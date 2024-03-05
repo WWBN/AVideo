@@ -57,6 +57,7 @@ class Services extends \Google\Service\Resource
    * in the result set. For example, `tenant_resources.tag=xyz AND
    * tenant_resources.resource=projects/123456`
    * @return SearchTenancyUnitsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($parent, $optParams = [])
   {

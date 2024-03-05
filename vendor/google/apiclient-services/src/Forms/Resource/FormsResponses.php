@@ -37,6 +37,7 @@ class FormsResponses extends \Google\Service\Resource
    * @param string $responseId Required. The response ID within the form.
    * @param array $optParams Optional parameters.
    * @return FormResponse
+   * @throws \Google\Service\Exception
    */
   public function get($formId, $responseId, $optParams = [])
   {
@@ -64,6 +65,7 @@ class FormsResponses extends \Google\Service\Resource
    * response. If this field is set, the form and the values of the filter must be
    * the same as for the original request.
    * @return ListFormResponsesResponse
+   * @throws \Google\Service\Exception
    */
   public function listFormsResponses($formId, $optParams = [])
   {

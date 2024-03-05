@@ -43,6 +43,7 @@ class EditsApks extends \Google\Service\Resource
    * @param ApksAddExternallyHostedRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApksAddExternallyHostedResponse
+   * @throws \Google\Service\Exception
    */
   public function addexternallyhosted($packageName, $editId, ApksAddExternallyHostedRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class EditsApks extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return ApksListResponse
+   * @throws \Google\Service\Exception
    */
   public function listEditsApks($packageName, $editId, $optParams = [])
   {
@@ -71,6 +73,7 @@ class EditsApks extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return Apk
+   * @throws \Google\Service\Exception
    */
   public function upload($packageName, $editId, $optParams = [])
   {

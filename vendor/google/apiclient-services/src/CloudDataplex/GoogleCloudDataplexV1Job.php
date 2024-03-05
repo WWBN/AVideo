@@ -23,6 +23,12 @@ class GoogleCloudDataplexV1Job extends \Google\Model
    * @var string
    */
   public $endTime;
+  protected $executionSpecType = GoogleCloudDataplexV1TaskExecutionSpec::class;
+  protected $executionSpecDataType = '';
+  /**
+   * @var string[]
+   */
+  public $labels;
   /**
    * @var string
    */
@@ -54,6 +60,10 @@ class GoogleCloudDataplexV1Job extends \Google\Model
   /**
    * @var string
    */
+  public $trigger;
+  /**
+   * @var string
+   */
   public $uid;
 
   /**
@@ -69,6 +79,34 @@ class GoogleCloudDataplexV1Job extends \Google\Model
   public function getEndTime()
   {
     return $this->endTime;
+  }
+  /**
+   * @param GoogleCloudDataplexV1TaskExecutionSpec
+   */
+  public function setExecutionSpec(GoogleCloudDataplexV1TaskExecutionSpec $executionSpec)
+  {
+    $this->executionSpec = $executionSpec;
+  }
+  /**
+   * @return GoogleCloudDataplexV1TaskExecutionSpec
+   */
+  public function getExecutionSpec()
+  {
+    return $this->executionSpec;
+  }
+  /**
+   * @param string[]
+   */
+  public function setLabels($labels)
+  {
+    $this->labels = $labels;
+  }
+  /**
+   * @return string[]
+   */
+  public function getLabels()
+  {
+    return $this->labels;
   }
   /**
    * @param string
@@ -167,6 +205,20 @@ class GoogleCloudDataplexV1Job extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string
+   */
+  public function setTrigger($trigger)
+  {
+    $this->trigger = $trigger;
+  }
+  /**
+   * @return string
+   */
+  public function getTrigger()
+  {
+    return $this->trigger;
   }
   /**
    * @param string

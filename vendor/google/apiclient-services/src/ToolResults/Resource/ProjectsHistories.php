@@ -44,6 +44,7 @@ class ProjectsHistories extends \Google\Service\Resource
    * @opt_param string requestId A unique request ID for server to detect
    * duplicated requests. For example, a UUID. Optional, but strongly recommended.
    * @return History
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, History $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsHistories extends \Google\Service\Resource
    * @param string $historyId A History id. Required.
    * @param array $optParams Optional parameters.
    * @return History
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $historyId, $optParams = [])
   {
@@ -87,6 +89,7 @@ class ProjectsHistories extends \Google\Service\Resource
    * @opt_param string pageToken A continuation token to resume the query at the
    * next item. Optional.
    * @return ListHistoriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistories($projectId, $optParams = [])
   {

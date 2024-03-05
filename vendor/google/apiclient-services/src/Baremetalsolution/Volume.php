@@ -105,15 +105,7 @@ class Volume extends \Google\Collection
   /**
    * @var string
    */
-  public $snapshotSchedulePolicy;
-  /**
-   * @var string
-   */
   public $state;
-  /**
-   * @var string
-   */
-  public $storageAggregatePool;
   /**
    * @var string
    */
@@ -420,20 +412,6 @@ class Volume extends \Google\Collection
   /**
    * @param string
    */
-  public function setSnapshotSchedulePolicy($snapshotSchedulePolicy)
-  {
-    $this->snapshotSchedulePolicy = $snapshotSchedulePolicy;
-  }
-  /**
-   * @return string
-   */
-  public function getSnapshotSchedulePolicy()
-  {
-    return $this->snapshotSchedulePolicy;
-  }
-  /**
-   * @param string
-   */
   public function setState($state)
   {
     $this->state = $state;
@@ -444,20 +422,6 @@ class Volume extends \Google\Collection
   public function getState()
   {
     return $this->state;
-  }
-  /**
-   * @param string
-   */
-  public function setStorageAggregatePool($storageAggregatePool)
-  {
-    $this->storageAggregatePool = $storageAggregatePool;
-  }
-  /**
-   * @return string
-   */
-  public function getStorageAggregatePool()
-  {
-    return $this->storageAggregatePool;
   }
   /**
    * @param string

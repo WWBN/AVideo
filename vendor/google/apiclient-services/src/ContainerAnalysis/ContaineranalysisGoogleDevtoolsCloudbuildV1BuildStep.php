@@ -33,6 +33,10 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildStep extends \Google\Colle
    */
   public $args;
   /**
+   * @var bool
+   */
+  public $automapSubstitutions;
+  /**
    * @var string
    */
   public $dir;
@@ -124,6 +128,20 @@ class ContaineranalysisGoogleDevtoolsCloudbuildV1BuildStep extends \Google\Colle
   public function getArgs()
   {
     return $this->args;
+  }
+  /**
+   * @param bool
+   */
+  public function setAutomapSubstitutions($automapSubstitutions)
+  {
+    $this->automapSubstitutions = $automapSubstitutions;
+  }
+  /**
+   * @return bool
+   */
+  public function getAutomapSubstitutions()
+  {
+    return $this->automapSubstitutions;
   }
   /**
    * @param string

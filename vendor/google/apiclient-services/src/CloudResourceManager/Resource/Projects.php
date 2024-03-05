@@ -49,6 +49,7 @@ class Projects extends \Google\Service\Resource
    * @param Project $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(Project $postBody, $optParams = [])
   {
@@ -76,6 +77,7 @@ class Projects extends \Google\Service\Resource
    * `projects/415104041262`).
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -92,6 +94,7 @@ class Projects extends \Google\Service\Resource
    * `projects/415104041262`).
    * @param array $optParams Optional parameters.
    * @return Project
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -111,6 +114,7 @@ class Projects extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -143,6 +147,7 @@ class Projects extends \Google\Service\Resource
    * `DELETE_REQUESTED` state should also be returned. Normally only `ACTIVE`
    * projects are returned.
    * @return ListProjectsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjects($optParams = [])
   {
@@ -165,6 +170,7 @@ class Projects extends \Google\Service\Resource
    * @param MoveProjectRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function move($name, MoveProjectRequest $postBody, $optParams = [])
   {
@@ -188,6 +194,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param string updateMask Optional. An update mask to selectively update
    * fields.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Project $postBody, $optParams = [])
   {
@@ -196,7 +203,7 @@ class Projects extends \Google\Service\Resource
     return $this->call('patch', [$params], Operation::class);
   }
   /**
-   * Search for projects that the caller has both `resourcemanager.projects.get`
+   * Search for projects that the caller has the `resourcemanager.projects.get`
    * permission on, and also satisfy the specified query. This method returns
    * projects in an unspecified order. This method is eventually consistent with
    * project mutations; this means that a newly created project may not appear in
@@ -235,6 +242,7 @@ class Projects extends \Google\Service\Resource
    * no query is specified, the call will return projects for which the user has
    * the `resourcemanager.projects.get` permission.
    * @return SearchProjectsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {
@@ -278,6 +286,7 @@ class Projects extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -297,6 +306,7 @@ class Projects extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -316,6 +326,7 @@ class Projects extends \Google\Service\Resource
    * @param UndeleteProjectRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function undelete($name, UndeleteProjectRequest $postBody, $optParams = [])
   {

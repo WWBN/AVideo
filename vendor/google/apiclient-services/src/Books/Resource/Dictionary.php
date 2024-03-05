@@ -36,6 +36,7 @@ class Dictionary extends \Google\Service\Resource
    * @param string $cpksver The device/version ID from which to request the data.
    * @param array $optParams Optional parameters.
    * @return Metadata
+   * @throws \Google\Service\Exception
    */
   public function listOfflineMetadata($cpksver, $optParams = [])
   {

@@ -39,6 +39,7 @@ class Projects extends \Google\Service\Resource
    * project-123`.
    * @param array $optParams Optional parameters.
    * @return DeleteEventsResponse
+   * @throws \Google\Service\Exception
    */
   public function deleteEvents($projectName, $optParams = [])
   {

@@ -41,6 +41,7 @@ class ManagementAccountSummaries extends \Google\Service\Resource
    * @opt_param int start-index An index of the first entity to retrieve. Use this
    * parameter as a pagination mechanism along with the max-results parameter.
    * @return AccountSummaries
+   * @throws \Google\Service\Exception
    */
   public function listManagementAccountSummaries($optParams = [])
   {

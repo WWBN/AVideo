@@ -20,11 +20,27 @@ namespace Google\Service\Container;
 class AdditionalPodRangesConfig extends \Google\Collection
 {
   protected $collection_key = 'podRangeNames';
+  protected $podRangeInfoType = RangeInfo::class;
+  protected $podRangeInfoDataType = 'array';
   /**
    * @var string[]
    */
   public $podRangeNames;
 
+  /**
+   * @param RangeInfo[]
+   */
+  public function setPodRangeInfo($podRangeInfo)
+  {
+    $this->podRangeInfo = $podRangeInfo;
+  }
+  /**
+   * @return RangeInfo[]
+   */
+  public function getPodRangeInfo()
+  {
+    return $this->podRangeInfo;
+  }
   /**
    * @param string[]
    */

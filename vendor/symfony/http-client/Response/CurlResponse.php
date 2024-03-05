@@ -40,7 +40,7 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
      *
      * @internal
      */
-    public function __construct(CurlClientState $multi, $ch, array $options = null, LoggerInterface $logger = null, string $method = 'GET', callable $resolveRedirect = null, int $curlVersion = null)
+    public function __construct(CurlClientState $multi, $ch, ?array $options = null, ?LoggerInterface $logger = null, string $method = 'GET', ?callable $resolveRedirect = null, ?int $curlVersion = null)
     {
         $this->multi = $multi;
 
@@ -95,7 +95,6 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
         $this->info['pause_handler'] = static function (float $duration) use ($ch, $multi, $execCounter) {
             if (0 < $duration) {
                 if ($execCounter === $multi->execCounter) {
-                    $multi->execCounter = !\is_float($execCounter) ? 1 + $execCounter : \PHP_INT_MIN;
                     curl_multi_remove_handle($multi->handle, $ch);
                 }
 
@@ -193,7 +192,7 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
     /**
      * {@inheritdoc}
      */
-    public function getInfo(string $type = null)
+    public function getInfo(?string $type = null)
     {
         if (!$info = $this->finalInfo) {
             $info = array_merge($this->info, curl_getinfo($this->handle));
@@ -274,7 +273,7 @@ final class CurlResponse implements ResponseInterface, StreamableInterface
      *
      * @param CurlClientState $multi
      */
-    private static function perform(ClientState $multi, array &$responses = null): void
+    private static function perform(ClientState $multi, ?array &$responses = null): void
     {
         if ($multi->performing) {
             if ($responses) {

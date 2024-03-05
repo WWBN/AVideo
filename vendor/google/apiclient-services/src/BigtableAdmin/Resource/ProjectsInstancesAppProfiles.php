@@ -47,6 +47,7 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
    * @opt_param bool ignoreWarnings If true, ignore safety checks when creating
    * the app profile.
    * @return AppProfile
+   * @throws \Google\Service\Exception
    */
   public function create($parent, AppProfile $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
    * @opt_param bool ignoreWarnings Required. If true, ignore safety checks when
    * deleting the app profile.
    * @return BigtableadminEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
    * `projects/{project}/instances/{instance}/appProfiles/{app_profile}`.
    * @param array $optParams Optional parameters.
    * @return AppProfile
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -107,6 +110,7 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
    * @opt_param string pageToken The value of `next_page_token` returned by a
    * previous call.
    * @return ListAppProfilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesAppProfiles($parent, $optParams = [])
   {
@@ -127,6 +131,7 @@ class ProjectsInstancesAppProfiles extends \Google\Service\Resource
    * @opt_param string updateMask Required. The subset of app profile fields which
    * should be replaced. If unset, all fields will be replaced.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, AppProfile $postBody, $optParams = [])
   {

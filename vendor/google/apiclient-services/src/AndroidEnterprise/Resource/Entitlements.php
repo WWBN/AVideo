@@ -40,6 +40,7 @@ class Entitlements extends \Google\Service\Resource
    * @param string $entitlementId The ID of the entitlement (a product ID), e.g.
    * "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($enterpriseId, $userId, $entitlementId, $optParams = [])
   {
@@ -58,6 +59,7 @@ class Entitlements extends \Google\Service\Resource
    * "app:com.google.android.gm".
    * @param array $optParams Optional parameters.
    * @return Entitlement
+   * @throws \Google\Service\Exception
    */
   public function get($enterpriseId, $userId, $entitlementId, $optParams = [])
   {
@@ -74,6 +76,7 @@ class Entitlements extends \Google\Service\Resource
    * @param string $userId The ID of the user.
    * @param array $optParams Optional parameters.
    * @return EntitlementsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listEntitlements($enterpriseId, $userId, $optParams = [])
   {
@@ -98,6 +101,7 @@ class Entitlements extends \Google\Service\Resource
    * not prevent this operation from returning successfully, as long as the
    * entitlement was successfully assigned to the user.
    * @return Entitlement
+   * @throws \Google\Service\Exception
    */
   public function update($enterpriseId, $userId, $entitlementId, Entitlement $postBody, $optParams = [])
   {

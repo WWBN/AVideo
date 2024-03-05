@@ -47,6 +47,7 @@ class Services extends \Google\Service\Resource
    * @param BatchEnableServicesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function batchEnable($parent, BatchEnableServicesRequest $postBody, $optParams = [])
   {
@@ -69,6 +70,7 @@ class Services extends \Google\Service\Resource
    * the project number. A single request can get a maximum of 30 services at a
    * time.
    * @return BatchGetServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -90,6 +92,7 @@ class Services extends \Google\Service\Resource
    * @param DisableServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function disable($name, DisableServiceRequest $postBody, $optParams = [])
   {
@@ -109,6 +112,7 @@ class Services extends \Google\Service\Resource
    * @param EnableServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enable($name, EnableServiceRequest $postBody, $optParams = [])
   {
@@ -126,6 +130,7 @@ class Services extends \Google\Service\Resource
    * project number.
    * @param array $optParams Optional parameters.
    * @return GoogleApiServiceusageV1Service
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -156,6 +161,7 @@ class Services extends \Google\Service\Resource
    * @opt_param string pageToken Token identifying which result to start with,
    * which is returned by a previous list call.
    * @return ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listServices($parent, $optParams = [])
   {

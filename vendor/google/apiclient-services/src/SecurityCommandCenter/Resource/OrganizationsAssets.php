@@ -44,6 +44,7 @@ class OrganizationsAssets extends \Google\Service\Resource
    * @param GroupAssetsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GroupAssetsResponse
+   * @throws \Google\Service\Exception
    */
   public function group($parent, GroupAssetsRequest $postBody, $optParams = [])
   {
@@ -140,6 +141,7 @@ class OrganizationsAssets extends \Google\Service\Resource
    * their values are those at that specific time. Absence of this field will
    * default to the API's version of NOW.
    * @return ListAssetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsAssets($parent, $optParams = [])
   {
@@ -158,6 +160,7 @@ class OrganizationsAssets extends \Google\Service\Resource
    * @param RunAssetDiscoveryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function runDiscovery($parent, RunAssetDiscoveryRequest $postBody, $optParams = [])
   {
@@ -185,6 +188,7 @@ class OrganizationsAssets extends \Google\Service\Resource
    * set to "marks", all marks will be replaced. Individual marks can be updated
    * using "marks.".
    * @return SecurityMarks
+   * @throws \Google\Service\Exception
    */
   public function updateSecurityMarks($name, SecurityMarks $postBody, $optParams = [])
   {

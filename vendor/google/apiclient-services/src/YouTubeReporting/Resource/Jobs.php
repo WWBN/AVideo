@@ -41,6 +41,7 @@ class Jobs extends \Google\Service\Resource
    * which behalf the user is acting on. If not set, the user is acting for
    * himself (his own channel).
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function create(Job $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class Jobs extends \Google\Service\Resource
    * which behalf the user is acting on. If not set, the user is acting for
    * himself (his own channel).
    * @return YoutubereportingEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($jobId, $optParams = [])
   {
@@ -75,6 +77,7 @@ class Jobs extends \Google\Service\Resource
    * which behalf the user is acting on. If not set, the user is acting for
    * himself (his own channel).
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function get($jobId, $optParams = [])
   {
@@ -100,6 +103,7 @@ class Jobs extends \Google\Service\Resource
    * ListReportTypesResponse.next_page_token returned in response to the previous
    * call to the `ListJobs` method.
    * @return ListJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listJobs($optParams = [])
   {

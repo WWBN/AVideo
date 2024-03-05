@@ -44,6 +44,7 @@ class FoldersNotificationConfigs extends \Google\Service\Resource
    * within the parent scope. It must be between 1 and 128 characters and contain
    * alphanumeric characters, underscores, or hyphens only.
    * @return NotificationConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, NotificationConfig $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class FoldersNotificationConfigs extends \Google\Service\Resource
    * "projects/[project_id]/notificationConfigs/[config_id]".
    * @param array $optParams Optional parameters.
    * @return SecuritycenterEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -76,6 +78,7 @@ class FoldersNotificationConfigs extends \Google\Service\Resource
    * "projects/[project_id]/notificationConfigs/[config_id]".
    * @param array $optParams Optional parameters.
    * @return NotificationConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class FoldersNotificationConfigs extends \Google\Service\Resource
    * prior `ListNotificationConfigs` call, and that the system should return the
    * next page of data.
    * @return ListNotificationConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listFoldersNotificationConfigs($parent, $optParams = [])
   {
@@ -124,6 +128,7 @@ class FoldersNotificationConfigs extends \Google\Service\Resource
    * @opt_param string updateMask The FieldMask to use when updating the
    * notification config. If empty all mutable fields will be updated.
    * @return NotificationConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, NotificationConfig $postBody, $optParams = [])
   {

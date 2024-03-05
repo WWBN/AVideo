@@ -24,6 +24,10 @@ class GoogleCloudDataplexV1DataTaxonomy extends \Google\Model
    */
   public $attributeCount;
   /**
+   * @var int
+   */
+  public $classCount;
+  /**
    * @var string
    */
   public $createTime;
@@ -69,6 +73,20 @@ class GoogleCloudDataplexV1DataTaxonomy extends \Google\Model
   public function getAttributeCount()
   {
     return $this->attributeCount;
+  }
+  /**
+   * @param int
+   */
+  public function setClassCount($classCount)
+  {
+    $this->classCount = $classCount;
+  }
+  /**
+   * @return int
+   */
+  public function getClassCount()
+  {
+    return $this->classCount;
   }
   /**
    * @param string

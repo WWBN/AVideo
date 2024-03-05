@@ -39,6 +39,7 @@ class Locations extends \Google\Service\Resource
    * @opt_param string readMask Required. The specific fields to return. Use "*"
    * to include all fields. Repeated field items cannot be individually specified.
    * @return Lodging
+   * @throws \Google\Service\Exception
    */
   public function getLodging($name, $optParams = [])
   {
@@ -58,6 +59,7 @@ class Locations extends \Google\Service\Resource
    * to update all fields, which may include unsetting empty fields in the
    * request. Repeated field items cannot be individually updated.
    * @return Lodging
+   * @throws \Google\Service\Exception
    */
   public function updateLodging($name, Lodging $postBody, $optParams = [])
   {

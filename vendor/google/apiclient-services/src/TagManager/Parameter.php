@@ -21,6 +21,10 @@ class Parameter extends \Google\Collection
 {
   protected $collection_key = 'map';
   /**
+   * @var bool
+   */
+  public $isWeakReference;
+  /**
    * @var string
    */
   public $key;
@@ -37,6 +41,20 @@ class Parameter extends \Google\Collection
    */
   public $value;
 
+  /**
+   * @param bool
+   */
+  public function setIsWeakReference($isWeakReference)
+  {
+    $this->isWeakReference = $isWeakReference;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsWeakReference()
+  {
+    return $this->isWeakReference;
+  }
   /**
    * @param string
    */

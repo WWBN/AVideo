@@ -40,6 +40,7 @@ class Projects extends \Google\Service\Resource
    * the format `projects/policy`.
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getPolicy($name, $optParams = [])
   {
@@ -50,15 +51,16 @@ class Projects extends \Google\Service\Resource
   /**
    * Creates or updates a project's policy, and returns a copy of the new policy.
    * A policy is always updated as a whole, to avoid race conditions with
-   * concurrent policy enforcement (or management!) requests. Returns NOT_FOUND if
-   * the project does not exist, INVALID_ARGUMENT if the request is malformed.
-   * (projects.updatePolicy)
+   * concurrent policy enforcement (or management!) requests. Returns `NOT_FOUND`
+   * if the project does not exist, `INVALID_ARGUMENT` if the request is
+   * malformed. (projects.updatePolicy)
    *
    * @param string $name Output only. The resource name, in the format
    * `projects/policy`. There is at most one policy per project.
    * @param Policy $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function updatePolicy($name, Policy $postBody, $optParams = [])
   {

@@ -41,6 +41,7 @@ class UserProfiles extends \Google\Service\Resource
    * user
    * @param array $optParams Optional parameters.
    * @return UserProfile
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $optParams = [])
   {

@@ -43,6 +43,7 @@ class ProjectsLocationsRepositoriesGoogetArtifacts extends \Google\Service\Resou
    * @param ImportGoogetArtifactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, ImportGoogetArtifactsRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsRepositoriesGoogetArtifacts extends \Google\Service\Resou
    * @param UploadGoogetArtifactRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UploadGoogetArtifactMediaResponse
+   * @throws \Google\Service\Exception
    */
   public function upload($parent, UploadGoogetArtifactRequest $postBody, $optParams = [])
   {

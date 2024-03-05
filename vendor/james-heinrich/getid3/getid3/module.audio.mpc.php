@@ -137,7 +137,7 @@ class getid3_mpc extends getid3_handler
 					$info['audio']['channels']    = $thisPacket['channels'];
 					$info['audio']['sample_rate'] = $thisPacket['sample_frequency'];
 					$info['playtime_seconds'] = $thisPacket['sample_count'] / $thisPacket['sample_frequency'];
-					$info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
+					$info['audio']['bitrate'] = getid3_lib::SafeDiv(($info['avdataend'] - $info['avdataoffset']) * 8, $info['playtime_seconds']);
 					break;
 
 				case 'RG': // Replay Gain
@@ -282,7 +282,7 @@ class getid3_mpc extends getid3_handler
 		$info['audio']['sample_rate'] = $thisfile_mpc_header['sample_rate'];
 		$thisfile_mpc_header['samples']       = ((($thisfile_mpc_header['frame_count'] - 1) * 1152) + $thisfile_mpc_header['last_frame_length']) * $info['audio']['channels'];
 
-		$info['playtime_seconds']     = ($thisfile_mpc_header['samples'] / $info['audio']['channels']) / $info['audio']['sample_rate'];
+		$info['playtime_seconds']     = getid3_lib::SafeDiv($thisfile_mpc_header['samples'], $info['audio']['channels'] * $info['audio']['sample_rate']);
 		if ($info['playtime_seconds'] == 0) {
 			$this->error('Corrupt MPC file: playtime_seconds == zero');
 			return false;

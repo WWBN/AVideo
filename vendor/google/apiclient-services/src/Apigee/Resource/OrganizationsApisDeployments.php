@@ -38,6 +38,7 @@ class OrganizationsApisDeployments extends \Google\Service\Resource
    * `organizations/{org}/apis/{api}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListDeploymentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsApisDeployments($parent, $optParams = [])
   {

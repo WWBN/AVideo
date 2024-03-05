@@ -63,6 +63,7 @@ class OrganizationsApis extends \Google\Service\Resource
    * @opt_param bool validate Ignored. All uploads are validated regardless of the
    * value of this field. Maintained for compatibility with Apigee Edge API.
    * @return GoogleCloudApigeeV1ApiProxyRevision
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleApiHttpBody $postBody, $optParams = [])
   {
@@ -79,6 +80,7 @@ class OrganizationsApis extends \Google\Service\Resource
    * `organizations/{org}/apis/{api}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxy
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -93,6 +95,7 @@ class OrganizationsApis extends \Google\Service\Resource
    * `organizations/{org}/apis/{api}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -114,6 +117,7 @@ class OrganizationsApis extends \Google\Service\Resource
    * @opt_param bool includeRevisions Flag that specifies whether to include a
    * list of revisions in the response.
    * @return GoogleCloudApigeeV1ListApiProxiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsApis($parent, $optParams = [])
   {
@@ -131,6 +135,7 @@ class OrganizationsApis extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The list of fields to update.
    * @return GoogleCloudApigeeV1ApiProxy
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudApigeeV1ApiProxy $postBody, $optParams = [])
   {

@@ -55,6 +55,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, InternalRange $postBody, $optParams = [])
   {
@@ -80,6 +81,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -93,6 +95,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
    * @param string $name Required. Name of the InternalRange to get.
    * @param array $optParams Optional parameters.
    * @return InternalRange
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -114,6 +117,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
    * returned.
    * @opt_param string pageToken The page token.
    * @return ListInternalRangesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInternalRanges($parent, $optParams = [])
   {
@@ -147,6 +151,7 @@ class ProjectsLocationsInternalRanges extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. If the user
    * does not provide a mask then all fields will be overwritten.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, InternalRange $postBody, $optParams = [])
   {

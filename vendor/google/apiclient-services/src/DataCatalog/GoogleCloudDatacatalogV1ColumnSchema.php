@@ -50,6 +50,8 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
    * @var int
    */
   public $ordinalPosition;
+  protected $rangeElementTypeType = GoogleCloudDatacatalogV1ColumnSchemaFieldElementType::class;
+  protected $rangeElementTypeDataType = '';
   protected $subcolumnsType = GoogleCloudDatacatalogV1ColumnSchema::class;
   protected $subcolumnsDataType = 'array';
   /**
@@ -168,6 +170,20 @@ class GoogleCloudDatacatalogV1ColumnSchema extends \Google\Collection
   public function getOrdinalPosition()
   {
     return $this->ordinalPosition;
+  }
+  /**
+   * @param GoogleCloudDatacatalogV1ColumnSchemaFieldElementType
+   */
+  public function setRangeElementType(GoogleCloudDatacatalogV1ColumnSchemaFieldElementType $rangeElementType)
+  {
+    $this->rangeElementType = $rangeElementType;
+  }
+  /**
+   * @return GoogleCloudDatacatalogV1ColumnSchemaFieldElementType
+   */
+  public function getRangeElementType()
+  {
+    return $this->rangeElementType;
   }
   /**
    * @param GoogleCloudDatacatalogV1ColumnSchema[]

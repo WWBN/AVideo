@@ -33,6 +33,14 @@ class DiagnoseClusterRequest extends \Google\Collection
   /**
    * @var string
    */
+  public $tarballAccess;
+  /**
+   * @var string
+   */
+  public $tarballGcsDir;
+  /**
+   * @var string
+   */
   public $yarnApplicationId;
   /**
    * @var string[]
@@ -80,6 +88,34 @@ class DiagnoseClusterRequest extends \Google\Collection
   public function getJobs()
   {
     return $this->jobs;
+  }
+  /**
+   * @param string
+   */
+  public function setTarballAccess($tarballAccess)
+  {
+    $this->tarballAccess = $tarballAccess;
+  }
+  /**
+   * @return string
+   */
+  public function getTarballAccess()
+  {
+    return $this->tarballAccess;
+  }
+  /**
+   * @param string
+   */
+  public function setTarballGcsDir($tarballGcsDir)
+  {
+    $this->tarballGcsDir = $tarballGcsDir;
+  }
+  /**
+   * @return string
+   */
+  public function getTarballGcsDir()
+  {
+    return $this->tarballGcsDir;
   }
   /**
    * @param string

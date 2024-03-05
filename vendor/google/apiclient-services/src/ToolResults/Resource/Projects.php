@@ -37,6 +37,7 @@ class Projects extends \Google\Service\Resource
    * @param string $projectId A Project id. Required.
    * @param array $optParams Optional parameters.
    * @return ProjectSettings
+   * @throws \Google\Service\Exception
    */
   public function getSettings($projectId, $optParams = [])
   {
@@ -68,6 +69,7 @@ class Projects extends \Google\Service\Resource
    * @param string $projectId A Project id. Required.
    * @param array $optParams Optional parameters.
    * @return ProjectSettings
+   * @throws \Google\Service\Exception
    */
   public function initializeSettings($projectId, $optParams = [])
   {

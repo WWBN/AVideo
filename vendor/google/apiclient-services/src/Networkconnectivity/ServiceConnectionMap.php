@@ -35,6 +35,10 @@ class ServiceConnectionMap extends \Google\Collection
   /**
    * @var string
    */
+  public $etag;
+  /**
+   * @var string
+   */
   public $infrastructure;
   /**
    * @var string[]
@@ -118,6 +122,20 @@ class ServiceConnectionMap extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setEtag($etag)
+  {
+    $this->etag = $etag;
+  }
+  /**
+   * @return string
+   */
+  public function getEtag()
+  {
+    return $this->etag;
   }
   /**
    * @param string

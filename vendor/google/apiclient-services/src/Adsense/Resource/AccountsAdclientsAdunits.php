@@ -46,6 +46,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * @param AdUnit $postBody
    * @param array $optParams Optional parameters.
    * @return AdUnit
+   * @throws \Google\Service\Exception
    */
   public function create($parent, AdUnit $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * accounts/{account}/adclients/{adclient}/adunits/{adunit}
    * @param array $optParams Optional parameters.
    * @return AdUnit
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * Format: accounts/{account}/adclients/{adclient}/adunits/{adunit}
    * @param array $optParams Optional parameters.
    * @return AdUnitAdCode
+   * @throws \Google\Service\Exception
    */
   public function getAdcode($name, $optParams = [])
   {
@@ -101,6 +104,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListAdUnits` must match the
    * call that provided the page token.
    * @return ListAdUnitsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsAdclientsAdunits($parent, $optParams = [])
   {
@@ -126,6 +130,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * page. When paginating, all other parameters provided to
    * `ListLinkedCustomChannels` must match the call that provided the page token.
    * @return ListLinkedCustomChannelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listLinkedCustomChannels($parent, $optParams = [])
   {
@@ -147,6 +152,7 @@ class AccountsAdclientsAdunits extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. If empty, a full
    * update is performed.
    * @return AdUnit
+   * @throws \Google\Service\Exception
    */
   public function patch($name, AdUnit $postBody, $optParams = [])
   {

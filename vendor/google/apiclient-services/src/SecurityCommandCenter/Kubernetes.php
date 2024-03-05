@@ -28,6 +28,8 @@ class Kubernetes extends \Google\Collection
   protected $nodePoolsDataType = 'array';
   protected $nodesType = Node::class;
   protected $nodesDataType = 'array';
+  protected $objectsType = SecuritycenterObject::class;
+  protected $objectsDataType = 'array';
   protected $podsType = Pod::class;
   protected $podsDataType = 'array';
   protected $rolesType = Role::class;
@@ -88,6 +90,20 @@ class Kubernetes extends \Google\Collection
   public function getNodes()
   {
     return $this->nodes;
+  }
+  /**
+   * @param SecuritycenterObject[]
+   */
+  public function setObjects($objects)
+  {
+    $this->objects = $objects;
+  }
+  /**
+   * @return SecuritycenterObject[]
+   */
+  public function getObjects()
+  {
+    return $this->objects;
   }
   /**
    * @param Pod[]

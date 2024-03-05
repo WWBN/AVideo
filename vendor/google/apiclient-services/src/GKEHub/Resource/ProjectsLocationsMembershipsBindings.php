@@ -43,6 +43,7 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    * @opt_param string membershipBindingId Required. The ID to use for the
    * MembershipBinding.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, MembershipBinding $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    * format `projects/locations/memberships/bindings`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    * format `projects/locations/memberships/bindings`.
    * @param array $optParams Optional parameters.
    * @return MembershipBinding
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -86,6 +89,9 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    * `projects/locations/memberships`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Lists MembershipBindings that match the
+   * filter expression, following the syntax outlined in
+   * https://google.aip.dev/160.
    * @opt_param int pageSize Optional. When requesting a 'page' of resources,
    * `page_size` specifies number of resources to return. If unspecified or set to
    * 0, all resources will be returned.
@@ -93,6 +99,7 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    * `ListMembershipBindings` which specifies the position in the list from where
    * to continue listing the resources.
    * @return ListMembershipBindingsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsMembershipsBindings($parent, $optParams = [])
   {
@@ -111,6 +118,7 @@ class ProjectsLocationsMembershipsBindings extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, MembershipBinding $postBody, $optParams = [])
   {

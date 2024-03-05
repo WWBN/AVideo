@@ -39,6 +39,7 @@ class ProjectsAppsReleasesFeedbackReports extends \Google\Service\Resource
    * ts/{feedback_report}
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -54,6 +55,7 @@ class ProjectsAppsReleasesFeedbackReports extends \Google\Service\Resource
    * ts/{feedback_report}
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppdistroV1FeedbackReport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsAppsReleasesFeedbackReports extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListFeedbackReports` must
    * match the call that provided the page token.
    * @return GoogleFirebaseAppdistroV1ListFeedbackReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAppsReleasesFeedbackReports($parent, $optParams = [])
   {

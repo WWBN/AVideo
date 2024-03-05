@@ -46,6 +46,7 @@ class AdminProjectsLocationsReservationsTopics extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListReservationTopics`
    * must match the call that provided the page token.
    * @return ListReservationTopicsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdminProjectsLocationsReservationsTopics($name, $optParams = [])
   {

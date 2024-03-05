@@ -65,6 +65,10 @@ class Node extends \Google\Collection
    */
   public $metadata;
   /**
+   * @var bool
+   */
+  public $multisliceNode;
+  /**
    * @var string
    */
   public $name;
@@ -72,6 +76,10 @@ class Node extends \Google\Collection
   protected $networkConfigDataType = '';
   protected $networkEndpointsType = NetworkEndpoint::class;
   protected $networkEndpointsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $queuedResource;
   /**
    * @var string
    */
@@ -262,6 +270,20 @@ class Node extends \Google\Collection
     return $this->metadata;
   }
   /**
+   * @param bool
+   */
+  public function setMultisliceNode($multisliceNode)
+  {
+    $this->multisliceNode = $multisliceNode;
+  }
+  /**
+   * @return bool
+   */
+  public function getMultisliceNode()
+  {
+    return $this->multisliceNode;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -302,6 +324,20 @@ class Node extends \Google\Collection
   public function getNetworkEndpoints()
   {
     return $this->networkEndpoints;
+  }
+  /**
+   * @param string
+   */
+  public function setQueuedResource($queuedResource)
+  {
+    $this->queuedResource = $queuedResource;
+  }
+  /**
+   * @return string
+   */
+  public function getQueuedResource()
+  {
+    return $this->queuedResource;
   }
   /**
    * @param string

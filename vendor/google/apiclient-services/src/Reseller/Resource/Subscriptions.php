@@ -52,6 +52,7 @@ class Subscriptions extends \Google\Service\Resource
    * method.
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function activate($customerId, $subscriptionId, $optParams = [])
   {
@@ -82,6 +83,7 @@ class Subscriptions extends \Google\Service\Resource
    * @param ChangePlanRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function changePlan($customerId, $subscriptionId, ChangePlanRequest $postBody, $optParams = [])
   {
@@ -110,6 +112,7 @@ class Subscriptions extends \Google\Service\Resource
    * @param RenewalSettings $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function changeRenewalSettings($customerId, $subscriptionId, RenewalSettings $postBody, $optParams = [])
   {
@@ -138,6 +141,7 @@ class Subscriptions extends \Google\Service\Resource
    * @param Seats $postBody
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function changeSeats($customerId, $subscriptionId, Seats $postBody, $optParams = [])
   {
@@ -163,6 +167,7 @@ class Subscriptions extends \Google\Service\Resource
    * @param string $deletionType The `deletionType` query string enables the
    * cancellation, downgrade, or suspension of a subscription.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($customerId, $subscriptionId, $deletionType, $optParams = [])
   {
@@ -191,6 +196,7 @@ class Subscriptions extends \Google\Service\Resource
    * method.
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function get($customerId, $subscriptionId, $optParams = [])
   {
@@ -221,13 +227,25 @@ class Subscriptions extends \Google\Service\Resource
    * @param Subscription $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string action The intented insert action. The usage of this field
+   * is governed by certain policies which are being developed & tested currently.
+   * Hence, these might not work as intended. Once this is fully tested &
+   * available to consume, we will share more information about its usage,
+   * limitations and policy documentation.
    * @opt_param string customerAuthToken The `customerAuthToken` query string is
    * required when creating a resold account that transfers a direct customer's
    * subscription or transfers another reseller customer's subscription to your
    * reseller management. This is a hexadecimal authentication token needed to
    * complete the subscription transfer. For more information, see the
    * administrator help center.
+   * @opt_param string sourceSkuId The sku_id of the existing subscription to be
+   * upgraded or downgraded. This is required when action is SWITCH. The usage of
+   * this field is governed by certain policies which are being developed & tested
+   * currently. Hence, these might not work as intended. Once this is fully tested
+   * & available to consume, we will share more information about its usage,
+   * limitations and policy documentation.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function insert($customerId, Subscription $postBody, $optParams = [])
   {
@@ -239,8 +257,8 @@ class Subscriptions extends \Google\Service\Resource
    * Lists of subscriptions managed by the reseller. The list can be all
    * subscriptions, all of a customer's subscriptions, or all of a customer's
    * transferable subscriptions. Optionally, this method can filter the response
-   * by a `customerNamePrefix`. For more information, see [manage subscriptions
-   * ](/admin-sdk/reseller/v1/how-tos/manage_subscriptions).
+   * by a `customerNamePrefix`. For more information, see [manage
+   * subscriptions](/admin-sdk/reseller/v1/how-tos/manage_subscriptions).
    * (subscriptions.listSubscriptions)
    *
    * @param array $optParams Optional parameters.
@@ -269,6 +287,7 @@ class Subscriptions extends \Google\Service\Resource
    * you to the next page. The default is 20.
    * @opt_param string pageToken Token to specify next page in the list
    * @return SubscriptionsModel
+   * @throws \Google\Service\Exception
    */
   public function listSubscriptions($optParams = [])
   {
@@ -296,6 +315,7 @@ class Subscriptions extends \Google\Service\Resource
    * method.
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function startPaidService($customerId, $subscriptionId, $optParams = [])
   {
@@ -328,6 +348,7 @@ class Subscriptions extends \Google\Service\Resource
    * method.
    * @param array $optParams Optional parameters.
    * @return Subscription
+   * @throws \Google\Service\Exception
    */
   public function suspend($customerId, $subscriptionId, $optParams = [])
   {

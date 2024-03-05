@@ -17,14 +17,17 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class RepositoryWebrefSimplifiedCompositeDoc extends \Google\Model
+class RepositoryWebrefSimplifiedCompositeDoc extends \Google\Collection
 {
+  protected $collection_key = 'forwardingDups';
   protected $anchorsType = RepositoryWebrefSimplifiedAnchors::class;
   protected $anchorsDataType = '';
   protected $cdocContainerType = Proto2BridgeMessageSet::class;
   protected $cdocContainerDataType = '';
   protected $documentMentionSpansType = RepositoryWebrefRefconDocumentMentionSpans::class;
   protected $documentMentionSpansDataType = '';
+  protected $forwardingDupsType = RepositoryWebrefSimplifiedForwardingDup::class;
+  protected $forwardingDupsDataType = 'array';
   protected $matchingMetadataType = RepositoryWebrefPreprocessingUrlMatchingMetadata::class;
   protected $matchingMetadataDataType = '';
   protected $refconDocumentMetadataType = RepositoryWebrefRefconRefconDocumentMetadata::class;
@@ -37,8 +40,8 @@ class RepositoryWebrefSimplifiedCompositeDoc extends \Google\Model
    * @var string
    */
   public $url;
-  protected $webrefOutlinksType = Proto2BridgeMessageSet::class;
-  protected $webrefOutlinksDataType = '';
+  protected $webrefOutlinkInfosType = RepositoryWebrefWebrefOutlinkInfos::class;
+  protected $webrefOutlinkInfosDataType = '';
 
   /**
    * @param RepositoryWebrefSimplifiedAnchors
@@ -81,6 +84,20 @@ class RepositoryWebrefSimplifiedCompositeDoc extends \Google\Model
   public function getDocumentMentionSpans()
   {
     return $this->documentMentionSpans;
+  }
+  /**
+   * @param RepositoryWebrefSimplifiedForwardingDup[]
+   */
+  public function setForwardingDups($forwardingDups)
+  {
+    $this->forwardingDups = $forwardingDups;
+  }
+  /**
+   * @return RepositoryWebrefSimplifiedForwardingDup[]
+   */
+  public function getForwardingDups()
+  {
+    return $this->forwardingDups;
   }
   /**
    * @param RepositoryWebrefPreprocessingUrlMatchingMetadata
@@ -139,18 +156,18 @@ class RepositoryWebrefSimplifiedCompositeDoc extends \Google\Model
     return $this->url;
   }
   /**
-   * @param Proto2BridgeMessageSet
+   * @param RepositoryWebrefWebrefOutlinkInfos
    */
-  public function setWebrefOutlinks(Proto2BridgeMessageSet $webrefOutlinks)
+  public function setWebrefOutlinkInfos(RepositoryWebrefWebrefOutlinkInfos $webrefOutlinkInfos)
   {
-    $this->webrefOutlinks = $webrefOutlinks;
+    $this->webrefOutlinkInfos = $webrefOutlinkInfos;
   }
   /**
-   * @return Proto2BridgeMessageSet
+   * @return RepositoryWebrefWebrefOutlinkInfos
    */
-  public function getWebrefOutlinks()
+  public function getWebrefOutlinkInfos()
   {
-    return $this->webrefOutlinks;
+    return $this->webrefOutlinkInfos;
   }
 }
 

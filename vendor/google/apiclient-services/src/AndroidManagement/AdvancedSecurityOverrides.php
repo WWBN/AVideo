@@ -33,6 +33,10 @@ class AdvancedSecurityOverrides extends \Google\Collection
    */
   public $googlePlayProtectVerifyApps;
   /**
+   * @var string
+   */
+  public $mtePolicy;
+  /**
    * @var string[]
    */
   public $personalAppsThatCanReadWorkNotifications;
@@ -82,6 +86,20 @@ class AdvancedSecurityOverrides extends \Google\Collection
   public function getGooglePlayProtectVerifyApps()
   {
     return $this->googlePlayProtectVerifyApps;
+  }
+  /**
+   * @param string
+   */
+  public function setMtePolicy($mtePolicy)
+  {
+    $this->mtePolicy = $mtePolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getMtePolicy()
+  {
+    return $this->mtePolicy;
   }
   /**
    * @param string[]

@@ -54,6 +54,10 @@ class TargetInstance extends \Google\Model
   /**
    * @var string
    */
+  public $securityPolicy;
+  /**
+   * @var string
+   */
   public $selfLink;
   /**
    * @var string
@@ -171,6 +175,20 @@ class TargetInstance extends \Google\Model
   public function getNetwork()
   {
     return $this->network;
+  }
+  /**
+   * @param string
+   */
+  public function setSecurityPolicy($securityPolicy)
+  {
+    $this->securityPolicy = $securityPolicy;
+  }
+  /**
+   * @return string
+   */
+  public function getSecurityPolicy()
+  {
+    return $this->securityPolicy;
   }
   /**
    * @param string

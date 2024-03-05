@@ -72,6 +72,7 @@ class BiddersCreatives extends \Google\Service\Resource
    * the entire creative resource (including the declared fields and the creative
    * content) specify the view as "FULL".
    * @return ListCreativesResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersCreatives($parent, $optParams = [])
   {
@@ -93,6 +94,7 @@ class BiddersCreatives extends \Google\Service\Resource
    * @param WatchCreativesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return WatchCreativesResponse
+   * @throws \Google\Service\Exception
    */
   public function watch($parent, WatchCreativesRequest $postBody, $optParams = [])
   {

@@ -40,6 +40,7 @@ class AcmeChallengeSets extends \Google\Service\Resource
    * Punycode.
    * @param array $optParams Optional parameters.
    * @return AcmeChallengeSet
+   * @throws \Google\Service\Exception
    */
   public function get($rootDomain, $optParams = [])
   {
@@ -59,6 +60,7 @@ class AcmeChallengeSets extends \Google\Service\Resource
    * @param RotateChallengesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AcmeChallengeSet
+   * @throws \Google\Service\Exception
    */
   public function rotateChallenges($rootDomain, RotateChallengesRequest $postBody, $optParams = [])
   {

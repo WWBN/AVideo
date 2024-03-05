@@ -49,6 +49,8 @@ class LiveChatMessageSnippet extends \Google\Model
   protected $messageRetractedDetailsDataType = '';
   protected $newSponsorDetailsType = LiveChatNewSponsorDetails::class;
   protected $newSponsorDetailsDataType = '';
+  protected $pollDetailsType = LiveChatPollDetails::class;
+  protected $pollDetailsDataType = '';
   /**
    * @var string
    */
@@ -219,6 +221,20 @@ class LiveChatMessageSnippet extends \Google\Model
   public function getNewSponsorDetails()
   {
     return $this->newSponsorDetails;
+  }
+  /**
+   * @param LiveChatPollDetails
+   */
+  public function setPollDetails(LiveChatPollDetails $pollDetails)
+  {
+    $this->pollDetails = $pollDetails;
+  }
+  /**
+   * @return LiveChatPollDetails
+   */
+  public function getPollDetails()
+  {
+    return $this->pollDetails;
   }
   /**
    * @param string

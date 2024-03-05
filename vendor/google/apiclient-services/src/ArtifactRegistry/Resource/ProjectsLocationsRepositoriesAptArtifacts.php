@@ -43,6 +43,7 @@ class ProjectsLocationsRepositoriesAptArtifacts extends \Google\Service\Resource
    * @param ImportAptArtifactsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, ImportAptArtifactsRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsRepositoriesAptArtifacts extends \Google\Service\Resource
    * @param UploadAptArtifactRequest $postBody
    * @param array $optParams Optional parameters.
    * @return UploadAptArtifactMediaResponse
+   * @throws \Google\Service\Exception
    */
   public function upload($parent, UploadAptArtifactRequest $postBody, $optParams = [])
   {

@@ -60,6 +60,10 @@ class BotInfo extends \Google\Collection
    * @var string[]
    */
   public $supportedUses;
+  /**
+   * @var string
+   */
+  public $uninstallCapability;
 
   /**
    * @param string
@@ -214,6 +218,20 @@ class BotInfo extends \Google\Collection
   public function getSupportedUses()
   {
     return $this->supportedUses;
+  }
+  /**
+   * @param string
+   */
+  public function setUninstallCapability($uninstallCapability)
+  {
+    $this->uninstallCapability = $uninstallCapability;
+  }
+  /**
+   * @return string
+   */
+  public function getUninstallCapability()
+  {
+    return $this->uninstallCapability;
   }
 }
 

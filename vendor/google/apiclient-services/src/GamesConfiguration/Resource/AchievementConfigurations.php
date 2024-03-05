@@ -36,6 +36,7 @@ class AchievementConfigurations extends \Google\Service\Resource
    *
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($achievementId, $optParams = [])
   {
@@ -50,6 +51,7 @@ class AchievementConfigurations extends \Google\Service\Resource
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
    * @return AchievementConfiguration
+   * @throws \Google\Service\Exception
    */
   public function get($achievementId, $optParams = [])
   {
@@ -66,6 +68,7 @@ class AchievementConfigurations extends \Google\Service\Resource
    * @param AchievementConfiguration $postBody
    * @param array $optParams Optional parameters.
    * @return AchievementConfiguration
+   * @throws \Google\Service\Exception
    */
   public function insert($applicationId, AchievementConfiguration $postBody, $optParams = [])
   {
@@ -86,6 +89,7 @@ class AchievementConfigurations extends \Google\Service\Resource
    * of resources returned may be less than the specified `maxResults`.
    * @opt_param string pageToken The token returned by the previous request.
    * @return AchievementConfigurationListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAchievementConfigurations($applicationId, $optParams = [])
   {
@@ -101,6 +105,7 @@ class AchievementConfigurations extends \Google\Service\Resource
    * @param AchievementConfiguration $postBody
    * @param array $optParams Optional parameters.
    * @return AchievementConfiguration
+   * @throws \Google\Service\Exception
    */
   public function update($achievementId, AchievementConfiguration $postBody, $optParams = [])
   {

@@ -34,7 +34,7 @@ class ProjectsRelatedaccountgroups extends \Google\Service\Resource
    * (relatedaccountgroups.listProjectsRelatedaccountgroups)
    *
    * @param string $parent Required. The name of the project to list related
-   * account groups from, in the format "projects/{project}".
+   * account groups from, in the format `projects/{project}`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param int pageSize Optional. The maximum number of groups to return. The
@@ -46,6 +46,7 @@ class ProjectsRelatedaccountgroups extends \Google\Service\Resource
    * page. When paginating, all other parameters provided to
    * `ListRelatedAccountGroups` must match the call that provided the page token.
    * @return GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsRelatedaccountgroups($parent, $optParams = [])
   {

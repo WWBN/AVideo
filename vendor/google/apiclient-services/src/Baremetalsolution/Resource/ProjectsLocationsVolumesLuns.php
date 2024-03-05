@@ -40,6 +40,7 @@ class ProjectsLocationsVolumesLuns extends \Google\Service\Resource
    * @param EvictLunRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function evict($name, EvictLunRequest $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class ProjectsLocationsVolumesLuns extends \Google\Service\Resource
    * @param string $name Required. Name of the resource.
    * @param array $optParams Optional parameters.
    * @return Lun
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocationsVolumesLuns extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results from the
    * server.
    * @return ListLunsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVolumesLuns($parent, $optParams = [])
   {

@@ -42,6 +42,7 @@ class BuyersClients extends \Google\Service\Resource
    * @param ActivateClientRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Client
+   * @throws \Google\Service\Exception
    */
   public function activate($name, ActivateClientRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class BuyersClients extends \Google\Service\Resource
    * @param Client $postBody
    * @param array $optParams Optional parameters.
    * @return Client
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Client $postBody, $optParams = [])
   {
@@ -74,6 +76,7 @@ class BuyersClients extends \Google\Service\Resource
    * @param DeactivateClientRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Client
+   * @throws \Google\Service\Exception
    */
   public function deactivate($name, DeactivateClientRequest $postBody, $optParams = [])
   {
@@ -88,6 +91,7 @@ class BuyersClients extends \Google\Service\Resource
    * `buyers/{accountId}/clients/{clientAccountId}`
    * @param array $optParams Optional parameters.
    * @return Client
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -103,7 +107,7 @@ class BuyersClients extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Query string using the [Filtering
-   * Syntax](https://developers.google.com/authorized-buyers/apis/guides/v2/list-
+   * Syntax](https://developers.google.com/authorized-buyers/apis/guides/list-
    * filters) Supported fields for filtering are: * partnerClientId Use this field
    * to filter the clients by the partnerClientId. For example, if the
    * partnerClientId of the client is "1234", the value of this field should be
@@ -116,6 +120,7 @@ class BuyersClients extends \Google\Service\Resource
    * ListClientsResponse.nextPageToken returned from the previous call to the list
    * method.
    * @return ListClientsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBuyersClients($parent, $optParams = [])
   {
@@ -142,6 +147,7 @@ class BuyersClients extends \Google\Service\Resource
    * or set to default value. Output only fields will be ignored regardless of the
    * value of updateMask.
    * @return Client
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Client $postBody, $optParams = [])
   {

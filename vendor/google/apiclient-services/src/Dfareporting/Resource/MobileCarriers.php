@@ -37,6 +37,7 @@ class MobileCarriers extends \Google\Service\Resource
    * @param string $id Mobile carrier ID.
    * @param array $optParams Optional parameters.
    * @return MobileCarrier
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class MobileCarriers extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return MobileCarriersListResponse
+   * @throws \Google\Service\Exception
    */
   public function listMobileCarriers($profileId, $optParams = [])
   {

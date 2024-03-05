@@ -34,14 +34,15 @@ class Voices extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string languageCode Optional. Recommended. [BCP-47](https://www
-   * .rfc-editor.org/rfc/bcp/bcp47.txt) language tag. If not specified, the API
-   * will return all supported voices. If specified, the ListVoices call will only
-   * return voices that can be used to synthesize this language_code. For example,
-   * if you specify `"en-NZ"`, all `"en-NZ"` voices will be returned. If you
-   * specify `"no"`, both `"no-"` (Norwegian) and `"nb-"` (Norwegian Bokmal)
-   * voices will be returned.
+   * @opt_param string languageCode Optional. Recommended.
+   * [BCP-47](https://www.rfc-editor.org/rfc/bcp/bcp47.txt) language tag. If not
+   * specified, the API will return all supported voices. If specified, the
+   * ListVoices call will only return voices that can be used to synthesize this
+   * language_code. For example, if you specify `"en-NZ"`, all `"en-NZ"` voices
+   * will be returned. If you specify `"no"`, both `"no-"` (Norwegian) and `"nb-"`
+   * (Norwegian Bokmal) voices will be returned.
    * @return ListVoicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listVoices($optParams = [])
   {

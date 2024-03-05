@@ -31,10 +31,12 @@ use Google\Service\FirebaseManagement\Operation;
 class ProjectsDefaultLocation extends \Google\Service\Resource
 {
   /**
-   * Sets the default Google Cloud Platform (GCP) resource location for the
-   * specified FirebaseProject. This method creates an App Engine application with
-   * a [default Cloud Storage bucket](https://cloud.google.com/appengine/docs/stan
-   * dard/python/googlecloudstorageclient/setting-up-cloud-
+   * **DEPRECATED.** _Instead, use the applicable resource-specific REST API to
+   * set the location for each resource used in your Project._ Sets the default
+   * Google Cloud Platform (GCP) resource location for the specified
+   * FirebaseProject. This method creates an App Engine application with a
+   * [default Cloud Storage bucket](https://cloud.google.com/appengine/docs/standa
+   * rd/python/googlecloudstorageclient/setting-up-cloud-
    * storage#activating_a_cloud_storage_bucket), located in the specified
    * [`locationId`](#body.request_body.FIELDS.location_id). This location must be
    * one of the available [GCP resource
@@ -68,6 +70,7 @@ class ProjectsDefaultLocation extends \Google\Service\Resource
    * @param FinalizeDefaultLocationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function finalize($parent, FinalizeDefaultLocationRequest $postBody, $optParams = [])
   {

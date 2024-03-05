@@ -41,6 +41,7 @@ class ProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules extends \Goo
    * tyHealthAnalyticsSettings/effectiveCustomModules/{customModule}"
    * @param array $optParams Optional parameters.
    * @return GoogleCloudSecuritycenterV1EffectiveSecurityHealthAnalyticsCustomModule
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules extends \Goo
    * @opt_param string pageToken The value returned by the last call indicating a
    * continuation
    * @return ListEffectiveSecurityHealthAnalyticsCustomModulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules($parent, $optParams = [])
   {

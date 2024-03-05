@@ -27,6 +27,10 @@ class NetworkAttachmentConnectedEndpoint extends \Google\Collection
   /**
    * @var string
    */
+  public $ipv6Address;
+  /**
+   * @var string
+   */
   public $projectIdOrNum;
   /**
    * @var string[]
@@ -40,6 +44,10 @@ class NetworkAttachmentConnectedEndpoint extends \Google\Collection
    * @var string
    */
   public $subnetwork;
+  /**
+   * @var string
+   */
+  public $subnetworkCidrRange;
 
   /**
    * @param string
@@ -54,6 +62,20 @@ class NetworkAttachmentConnectedEndpoint extends \Google\Collection
   public function getIpAddress()
   {
     return $this->ipAddress;
+  }
+  /**
+   * @param string
+   */
+  public function setIpv6Address($ipv6Address)
+  {
+    $this->ipv6Address = $ipv6Address;
+  }
+  /**
+   * @return string
+   */
+  public function getIpv6Address()
+  {
+    return $this->ipv6Address;
   }
   /**
    * @param string
@@ -110,6 +132,20 @@ class NetworkAttachmentConnectedEndpoint extends \Google\Collection
   public function getSubnetwork()
   {
     return $this->subnetwork;
+  }
+  /**
+   * @param string
+   */
+  public function setSubnetworkCidrRange($subnetworkCidrRange)
+  {
+    $this->subnetworkCidrRange = $subnetworkCidrRange;
+  }
+  /**
+   * @return string
+   */
+  public function getSubnetworkCidrRange()
+  {
+    return $this->subnetworkCidrRange;
   }
 }
 

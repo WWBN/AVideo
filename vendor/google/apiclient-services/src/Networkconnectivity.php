@@ -40,6 +40,9 @@ class Networkconnectivity extends \Google\Service
 
   public $projects_locations;
   public $projects_locations_global_hubs;
+  public $projects_locations_global_hubs_groups;
+  public $projects_locations_global_hubs_routeTables;
+  public $projects_locations_global_hubs_routeTables_routes;
   public $projects_locations_global_policyBasedRoutes;
   public $projects_locations_internalRanges;
   public $projects_locations_operations;
@@ -113,7 +116,17 @@ class Networkconnectivity extends \Google\Service
         'hubs',
         [
           'methods' => [
-            'create' => [
+            'acceptSpoke' => [
+              'path' => 'v1/{+name}:acceptSpoke',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'create' => [
               'path' => 'v1/{+parent}/hubs',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -195,6 +208,41 @@ class Networkconnectivity extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'listSpokes' => [
+              'path' => 'v1/{+name}:listSpokes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'spokeLocations' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'patch' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
@@ -209,6 +257,96 @@ class Networkconnectivity extends \Google\Service
                   'type' => 'string',
                 ],
                 'updateMask' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'rejectSpoke' => [
+              'path' => 'v1/{+name}:rejectSpoke',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'setIamPolicy' => [
+              'path' => 'v1/{+resource}:setIamPolicy',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'testIamPermissions' => [
+              'path' => 'v1/{+resource}:testIamPermissions',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_global_hubs_groups = new Networkconnectivity\Resource\ProjectsLocationsNetworkconnectivityGlobalHubsGroups(
+        $this,
+        $this->serviceName,
+        'groups',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getIamPolicy' => [
+              'path' => 'v1/{+resource}:getIamPolicy',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'resource' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'options.requestedPolicyVersion' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/groups',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],
@@ -237,13 +375,147 @@ class Networkconnectivity extends \Google\Service
           ]
         ]
     );
+    $this->projects_locations_global_hubs_routeTables = new Networkconnectivity\Resource\ProjectsLocationsNetworkconnectivityGlobalHubsRouteTables(
+        $this,
+        $this->serviceName,
+        'routeTables',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/routeTables',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_global_hubs_routeTables_routes = new Networkconnectivity\Resource\ProjectsLocationsNetworkconnectivityGlobalHubsRouteTablesRoutes(
+        $this,
+        $this->serviceName,
+        'routes',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/routes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->projects_locations_global_policyBasedRoutes = new Networkconnectivity\Resource\ProjectsLocationsNetworkconnectivityGlobalPolicyBasedRoutes(
         $this,
         $this->serviceName,
         'policyBasedRoutes',
         [
           'methods' => [
-            'getIamPolicy' => [
+            'create' => [
+              'path' => 'v1/{+parent}/policyBasedRoutes',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'policyBasedRouteId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'requestId' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'getIamPolicy' => [
               'path' => 'v1/{+resource}:getIamPolicy',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -255,6 +527,32 @@ class Networkconnectivity extends \Google\Service
                 'options.requestedPolicyVersion' => [
                   'location' => 'query',
                   'type' => 'integer',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/policyBasedRoutes',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],'setIamPolicy' => [
@@ -445,25 +743,7 @@ class Networkconnectivity extends \Google\Service
         'serviceClasses',
         [
           'methods' => [
-            'create' => [
-              'path' => 'v1/{+parent}/serviceClasses',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'parent' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'requestId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'serviceClassId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'delete' => [
+            'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
@@ -471,6 +751,10 @@ class Networkconnectivity extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'etag' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'requestId' => [
                   'location' => 'query',
@@ -602,6 +886,10 @@ class Networkconnectivity extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'etag' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'requestId' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -732,6 +1020,10 @@ class Networkconnectivity extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
+                'etag' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
                 'requestId' => [
                   'location' => 'query',
                   'type' => 'string',
@@ -861,6 +1153,10 @@ class Networkconnectivity extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+                'etag' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'requestId' => [
                   'location' => 'query',

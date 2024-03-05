@@ -51,6 +51,10 @@ class VmwareAdminVCenterConfig extends \Google\Model
    * @var string
    */
   public $resourcePool;
+  /**
+   * @var string
+   */
+  public $storagePolicyName;
 
   /**
    * @param string
@@ -163,6 +167,20 @@ class VmwareAdminVCenterConfig extends \Google\Model
   public function getResourcePool()
   {
     return $this->resourcePool;
+  }
+  /**
+   * @param string
+   */
+  public function setStoragePolicyName($storagePolicyName)
+  {
+    $this->storagePolicyName = $storagePolicyName;
+  }
+  /**
+   * @return string
+   */
+  public function getStoragePolicyName()
+  {
+    return $this->storagePolicyName;
   }
 }
 

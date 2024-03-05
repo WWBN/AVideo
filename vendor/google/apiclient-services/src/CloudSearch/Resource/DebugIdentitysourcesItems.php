@@ -46,6 +46,7 @@ class DebugIdentitysourcesItems extends \Google\Service\Resource
    * previous List request, if any.
    * @opt_param string userResourceName
    * @return ListItemNamesForUnmappedIdentityResponse
+   * @throws \Google\Service\Exception
    */
   public function listForunmappedidentity($parent, $optParams = [])
   {

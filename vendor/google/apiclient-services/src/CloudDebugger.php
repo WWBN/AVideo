@@ -24,7 +24,7 @@ use Google\Client;
  *
  * <p>
  * Examines the call stack and variables of a running application without
- * stopping or slowing it down.</p>
+ * stopping or slowing it down. (Deprecated)</p>
  *
  * <p>
  * For more information about this service, see the API

@@ -47,6 +47,7 @@ class DataRealtime extends \Google\Service\Resource
    * @opt_param string sort A comma-separated list of dimensions or metrics that
    * determine the sort order for real time data.
    * @return RealtimeData
+   * @throws \Google\Service\Exception
    */
   public function get($ids, $metrics, $optParams = [])
   {

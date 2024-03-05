@@ -19,11 +19,27 @@ namespace Google\Service\Dataflow;
 
 class DebugOptions extends \Google\Model
 {
+  protected $dataSamplingType = DataSamplingConfig::class;
+  protected $dataSamplingDataType = '';
   /**
    * @var bool
    */
   public $enableHotKeyLogging;
 
+  /**
+   * @param DataSamplingConfig
+   */
+  public function setDataSampling(DataSamplingConfig $dataSampling)
+  {
+    $this->dataSampling = $dataSampling;
+  }
+  /**
+   * @return DataSamplingConfig
+   */
+  public function getDataSampling()
+  {
+    return $this->dataSampling;
+  }
   /**
    * @param bool
    */

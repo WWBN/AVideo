@@ -36,6 +36,7 @@ class Activity extends \Google\Service\Resource
    * @param QueryDriveActivityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return QueryDriveActivityResponse
+   * @throws \Google\Service\Exception
    */
   public function query(QueryDriveActivityRequest $postBody, $optParams = [])
   {

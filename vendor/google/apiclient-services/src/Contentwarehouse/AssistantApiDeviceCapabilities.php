@@ -22,6 +22,10 @@ class AssistantApiDeviceCapabilities extends \Google\Collection
   protected $collection_key = 'supportedLocale';
   protected $androidIntentCapabilitiesType = AssistantApiAndroidIntentCapabilities::class;
   protected $androidIntentCapabilitiesDataType = '';
+  /**
+   * @var string
+   */
+  public $assistantCapability;
   protected $audioInputType = AssistantApiAudioInput::class;
   protected $audioInputDataType = '';
   protected $audioOutputType = AssistantApiAudioOutput::class;
@@ -42,6 +46,8 @@ class AssistantApiDeviceCapabilities extends \Google\Collection
   protected $communicationUiCapabilitiesDataType = '';
   protected $contactLookupCapabilitiesType = AssistantApiContactLookupCapabilities::class;
   protected $contactLookupCapabilitiesDataType = '';
+  protected $dataValidateCapabilitiesType = AssistantApiDataValidateCapabilities::class;
+  protected $dataValidateCapabilitiesDataType = '';
   protected $deviceIdType = AssistantApiCoreTypesDeviceId::class;
   protected $deviceIdDataType = '';
   /**
@@ -116,6 +122,20 @@ class AssistantApiDeviceCapabilities extends \Google\Collection
   public function getAndroidIntentCapabilities()
   {
     return $this->androidIntentCapabilities;
+  }
+  /**
+   * @param string
+   */
+  public function setAssistantCapability($assistantCapability)
+  {
+    $this->assistantCapability = $assistantCapability;
+  }
+  /**
+   * @return string
+   */
+  public function getAssistantCapability()
+  {
+    return $this->assistantCapability;
   }
   /**
    * @param AssistantApiAudioInput
@@ -242,6 +262,20 @@ class AssistantApiDeviceCapabilities extends \Google\Collection
   public function getContactLookupCapabilities()
   {
     return $this->contactLookupCapabilities;
+  }
+  /**
+   * @param AssistantApiDataValidateCapabilities
+   */
+  public function setDataValidateCapabilities(AssistantApiDataValidateCapabilities $dataValidateCapabilities)
+  {
+    $this->dataValidateCapabilities = $dataValidateCapabilities;
+  }
+  /**
+   * @return AssistantApiDataValidateCapabilities
+   */
+  public function getDataValidateCapabilities()
+  {
+    return $this->dataValidateCapabilities;
   }
   /**
    * @param AssistantApiCoreTypesDeviceId

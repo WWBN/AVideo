@@ -39,6 +39,7 @@ class Accountstatuses extends \Google\Service\Resource
    * @param AccountstatusesCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AccountstatusesCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(AccountstatusesCustomBatchRequest $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class Accountstatuses extends \Google\Service\Resource
    * destinations are returned, otherwise only issues for the Shopping
    * destination.
    * @return AccountStatus
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $accountId, $optParams = [])
   {
@@ -84,6 +86,7 @@ class Accountstatuses extends \Google\Service\Resource
    * sensitive) will be returned.
    * @opt_param string pageToken The token returned by the previous request.
    * @return AccountstatusesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountstatuses($merchantId, $optParams = [])
   {

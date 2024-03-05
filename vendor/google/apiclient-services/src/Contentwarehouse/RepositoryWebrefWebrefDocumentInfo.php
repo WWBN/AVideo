@@ -24,8 +24,6 @@ class RepositoryWebrefWebrefDocumentInfo extends \Google\Collection
   protected $documentMetadataDataType = '';
   protected $extensionsType = Proto2BridgeMessageSet::class;
   protected $extensionsDataType = '';
-  protected $outlinkInfosType = RepositoryWebrefWebrefOutlinkInfos::class;
-  protected $outlinkInfosDataType = '';
   /**
    * @var string[]
    */
@@ -58,20 +56,6 @@ class RepositoryWebrefWebrefDocumentInfo extends \Google\Collection
   public function getExtensions()
   {
     return $this->extensions;
-  }
-  /**
-   * @param RepositoryWebrefWebrefOutlinkInfos
-   */
-  public function setOutlinkInfos(RepositoryWebrefWebrefOutlinkInfos $outlinkInfos)
-  {
-    $this->outlinkInfos = $outlinkInfos;
-  }
-  /**
-   * @return RepositoryWebrefWebrefOutlinkInfos
-   */
-  public function getOutlinkInfos()
-  {
-    return $this->outlinkInfos;
   }
   /**
    * @param string[]

@@ -38,6 +38,10 @@ class EndpointInfo extends \Google\Model
   /**
    * @var string
    */
+  public $sourceAgentUri;
+  /**
+   * @var string
+   */
   public $sourceIp;
   /**
    * @var string
@@ -103,6 +107,20 @@ class EndpointInfo extends \Google\Model
   public function getProtocol()
   {
     return $this->protocol;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceAgentUri($sourceAgentUri)
+  {
+    $this->sourceAgentUri = $sourceAgentUri;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceAgentUri()
+  {
+    return $this->sourceAgentUri;
   }
   /**
    * @param string

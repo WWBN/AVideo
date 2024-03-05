@@ -40,6 +40,7 @@ class LabelsLocks extends \Google\Service\Resource
    * 100. Max: 200.
    * @opt_param string pageToken The token of the page to return.
    * @return GoogleAppsDriveLabelsV2ListLabelLocksResponse
+   * @throws \Google\Service\Exception
    */
   public function listLabelsLocks($parent, $optParams = [])
   {

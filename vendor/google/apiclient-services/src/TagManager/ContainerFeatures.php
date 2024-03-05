@@ -50,6 +50,10 @@ class ContainerFeatures extends \Google\Model
   /**
    * @var bool
    */
+  public $supportTransformations;
+  /**
+   * @var bool
+   */
   public $supportTriggers;
   /**
    * @var bool
@@ -169,6 +173,20 @@ class ContainerFeatures extends \Google\Model
   public function getSupportTemplates()
   {
     return $this->supportTemplates;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportTransformations($supportTransformations)
+  {
+    $this->supportTransformations = $supportTransformations;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportTransformations()
+  {
+    return $this->supportTransformations;
   }
   /**
    * @param bool

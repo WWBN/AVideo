@@ -17,8 +17,9 @@
 
 namespace Google\Service\Contentwarehouse;
 
-class KnowledgeAnswersValueType extends \Google\Model
+class KnowledgeAnswersValueType extends \Google\Collection
 {
+  protected $collection_key = 'viewSpecificNumberTypes';
   protected $anyTypeType = KnowledgeAnswersAnyType::class;
   protected $anyTypeDataType = '';
   protected $attributeTypeType = KnowledgeAnswersAttributeType::class;
@@ -63,6 +64,8 @@ class KnowledgeAnswersValueType extends \Google\Model
   protected $timezoneTypeDataType = '';
   protected $trackingNumberTypeType = KnowledgeAnswersTrackingNumberType::class;
   protected $trackingNumberTypeDataType = '';
+  protected $viewSpecificNumberTypesType = KnowledgeAnswersNumberType::class;
+  protected $viewSpecificNumberTypesDataType = 'array';
 
   /**
    * @param KnowledgeAnswersAnyType
@@ -357,6 +360,20 @@ class KnowledgeAnswersValueType extends \Google\Model
   public function getTrackingNumberType()
   {
     return $this->trackingNumberType;
+  }
+  /**
+   * @param KnowledgeAnswersNumberType[]
+   */
+  public function setViewSpecificNumberTypes($viewSpecificNumberTypes)
+  {
+    $this->viewSpecificNumberTypes = $viewSpecificNumberTypes;
+  }
+  /**
+   * @return KnowledgeAnswersNumberType[]
+   */
+  public function getViewSpecificNumberTypes()
+  {
+    return $this->viewSpecificNumberTypes;
   }
 }
 

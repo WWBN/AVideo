@@ -43,6 +43,7 @@ class Cloudloading extends \Google\Service\Resource
    * drive_document_id is set.
    * @opt_param string upload_client_token Scotty upload token.
    * @return BooksCloudloadingResource
+   * @throws \Google\Service\Exception
    */
   public function addBook($optParams = [])
   {
@@ -56,6 +57,7 @@ class Cloudloading extends \Google\Service\Resource
    * @param string $volumeId The id of the book to be removed.
    * @param array $optParams Optional parameters.
    * @return BooksEmpty
+   * @throws \Google\Service\Exception
    */
   public function deleteBook($volumeId, $optParams = [])
   {
@@ -69,6 +71,7 @@ class Cloudloading extends \Google\Service\Resource
    * @param BooksCloudloadingResource $postBody
    * @param array $optParams Optional parameters.
    * @return BooksCloudloadingResource
+   * @throws \Google\Service\Exception
    */
   public function updateBook(BooksCloudloadingResource $postBody, $optParams = [])
   {

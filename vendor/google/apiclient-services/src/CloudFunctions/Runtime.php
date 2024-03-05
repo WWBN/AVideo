@@ -20,6 +20,10 @@ namespace Google\Service\CloudFunctions;
 class Runtime extends \Google\Collection
 {
   protected $collection_key = 'warnings';
+  protected $decommissionDateType = Date::class;
+  protected $decommissionDateDataType = '';
+  protected $deprecationDateType = Date::class;
+  protected $deprecationDateDataType = '';
   /**
    * @var string
    */
@@ -41,6 +45,34 @@ class Runtime extends \Google\Collection
    */
   public $warnings;
 
+  /**
+   * @param Date
+   */
+  public function setDecommissionDate(Date $decommissionDate)
+  {
+    $this->decommissionDate = $decommissionDate;
+  }
+  /**
+   * @return Date
+   */
+  public function getDecommissionDate()
+  {
+    return $this->decommissionDate;
+  }
+  /**
+   * @param Date
+   */
+  public function setDeprecationDate(Date $deprecationDate)
+  {
+    $this->deprecationDate = $deprecationDate;
+  }
+  /**
+   * @return Date
+   */
+  public function getDeprecationDate()
+  {
+    return $this->deprecationDate;
+  }
   /**
    * @param string
    */

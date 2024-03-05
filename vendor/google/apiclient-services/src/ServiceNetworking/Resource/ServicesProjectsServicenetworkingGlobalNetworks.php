@@ -20,6 +20,7 @@ namespace Google\Service\ServiceNetworking\Resource;
 use Google\Service\ServiceNetworking\ConsumerConfig;
 use Google\Service\ServiceNetworking\Operation;
 use Google\Service\ServiceNetworking\UpdateConsumerConfigRequest;
+use Google\Service\ServiceNetworking\VpcServiceControls;
 
 /**
  * The "networks" collection of methods.
@@ -51,12 +52,36 @@ class ServicesProjectsServicenetworkingGlobalNetworks extends \Google\Service\Re
    * consumer network, and reserved ranges inside the service networking network.
    * By default, this is false
    * @return ConsumerConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], ConsumerConfig::class);
+  }
+  /**
+   * Consumers use this method to find out the state of VPC Service Controls. The
+   * controls could be enabled or disabled for a connection.
+   * (networks.getVpcServiceControls)
+   *
+   * @param string $name Required. Name of the VPC Service Controls config to
+   * retrieve in the format:
+   * `services/{service}/projects/{project}/global/networks/{network}`. {service}
+   * is the peering service that is managing connectivity for the service
+   * producer's organization. For Google services that support this functionality,
+   * this value is `servicenetworking.googleapis.com`. {project} is a project
+   * number e.g. `12345` that contains the service consumer's VPC network.
+   * {network} is the name of the service consumer's VPC network.
+   * @param array $optParams Optional parameters.
+   * @return VpcServiceControls
+   * @throws \Google\Service\Exception
+   */
+  public function getVpcServiceControls($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getVpcServiceControls', [$params], VpcServiceControls::class);
   }
   /**
    * Service producers use this method to update the configuration of their
@@ -74,6 +99,7 @@ class ServicesProjectsServicenetworkingGlobalNetworks extends \Google\Service\Re
    * @param UpdateConsumerConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function updateConsumerConfig($parent, UpdateConsumerConfigRequest $postBody, $optParams = [])
   {

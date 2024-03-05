@@ -22,8 +22,26 @@ class ExternalTransactionAddress extends \Google\Model
   /**
    * @var string
    */
+  public $administrativeArea;
+  /**
+   * @var string
+   */
   public $regionCode;
 
+  /**
+   * @param string
+   */
+  public function setAdministrativeArea($administrativeArea)
+  {
+    $this->administrativeArea = $administrativeArea;
+  }
+  /**
+   * @return string
+   */
+  public function getAdministrativeArea()
+  {
+    return $this->administrativeArea;
+  }
   /**
    * @param string
    */

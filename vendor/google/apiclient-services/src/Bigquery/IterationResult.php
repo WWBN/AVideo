@@ -17,8 +17,13 @@
 
 namespace Google\Service\Bigquery;
 
-class IterationResult extends \Google\Model
+class IterationResult extends \Google\Collection
 {
+  protected $collection_key = 'principalComponentInfos';
+  protected $arimaResultType = ArimaResult::class;
+  protected $arimaResultDataType = '';
+  protected $clusterInfosType = ClusterInfo::class;
+  protected $clusterInfosDataType = 'array';
   /**
    * @var string
    */
@@ -29,8 +34,38 @@ class IterationResult extends \Google\Model
    */
   public $index;
   public $learnRate;
+  protected $principalComponentInfosType = PrincipalComponentInfo::class;
+  protected $principalComponentInfosDataType = 'array';
   public $trainingLoss;
 
+  /**
+   * @param ArimaResult
+   */
+  public function setArimaResult(ArimaResult $arimaResult)
+  {
+    $this->arimaResult = $arimaResult;
+  }
+  /**
+   * @return ArimaResult
+   */
+  public function getArimaResult()
+  {
+    return $this->arimaResult;
+  }
+  /**
+   * @param ClusterInfo[]
+   */
+  public function setClusterInfos($clusterInfos)
+  {
+    $this->clusterInfos = $clusterInfos;
+  }
+  /**
+   * @return ClusterInfo[]
+   */
+  public function getClusterInfos()
+  {
+    return $this->clusterInfos;
+  }
   /**
    * @param string
    */
@@ -74,6 +109,20 @@ class IterationResult extends \Google\Model
   public function getLearnRate()
   {
     return $this->learnRate;
+  }
+  /**
+   * @param PrincipalComponentInfo[]
+   */
+  public function setPrincipalComponentInfos($principalComponentInfos)
+  {
+    $this->principalComponentInfos = $principalComponentInfos;
+  }
+  /**
+   * @return PrincipalComponentInfo[]
+   */
+  public function getPrincipalComponentInfos()
+  {
+    return $this->principalComponentInfos;
   }
   public function setTrainingLoss($trainingLoss)
   {

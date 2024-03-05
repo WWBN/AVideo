@@ -40,9 +40,10 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1EnvironmentGroup $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string name ID of the environment group. Overrides any ID in the
-   * environment_group resource.
+   * @opt_param string name Optional. ID of the environment group. Overrides any
+   * ID in the environment_group resource.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1EnvironmentGroup $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * format: `organizations/{org}/envgroups/{envgroup}`.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * format: `organizations/{org}/envgroups/{envgroup}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1EnvironmentGroup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,6 +94,7 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * specific deployments receiving traffic will be included in the IngressConfig
    * response's RoutingRules.
    * @return GoogleCloudApigeeV1EnvironmentGroupConfig
+   * @throws \Google\Service\Exception
    */
   public function getDeployedIngressConfig($name, $optParams = [])
   {
@@ -110,6 +114,7 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * @opt_param string pageToken Page token, returned from a previous
    * ListEnvironmentGroups call, that you can use to retrieve the next page.
    * @return GoogleCloudApigeeV1ListEnvironmentGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvgroups($parent, $optParams = [])
   {
@@ -125,8 +130,9 @@ class OrganizationsEnvgroups extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1EnvironmentGroup $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask List of fields to be updated.
+   * @opt_param string updateMask Optional. List of fields to be updated.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudApigeeV1EnvironmentGroup $postBody, $optParams = [])
   {

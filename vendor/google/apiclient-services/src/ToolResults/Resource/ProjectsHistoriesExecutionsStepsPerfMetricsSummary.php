@@ -41,6 +41,7 @@ class ProjectsHistoriesExecutionsStepsPerfMetricsSummary extends \Google\Service
    * @param PerfMetricsSummary $postBody
    * @param array $optParams Optional parameters.
    * @return PerfMetricsSummary
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, $historyId, $executionId, $stepId, PerfMetricsSummary $postBody, $optParams = [])
   {

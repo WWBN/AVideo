@@ -46,6 +46,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * @opt_param string apiConfigId Required. Identifier to assign to the API
    * Config. Must be unique within scope of the parent resource.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ApigatewayApiConfig $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * `projects/locations/global/apis/configs`
    * @param array $optParams Optional parameters.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * @opt_param string view Specifies which fields of the API Config are returned
    * in the response. Defaults to `BASIC` view.
    * @return ApigatewayApiConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -107,6 +110,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return ApigatewayPolicy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -127,6 +131,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * @opt_param int pageSize Page size.
    * @opt_param string pageToken Page token.
    * @return ApigatewayListApiConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsApisConfigs($parent, $optParams = [])
   {
@@ -148,6 +153,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * will be overwritten if it is in the mask. If the user does not provide a mask
    * then all fields will be overwritten.
    * @return ApigatewayOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ApigatewayApiConfig $postBody, $optParams = [])
   {
@@ -167,6 +173,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * @param ApigatewaySetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApigatewayPolicy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, ApigatewaySetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -188,6 +195,7 @@ class ProjectsLocationsApisConfigs extends \Google\Service\Resource
    * @param ApigatewayTestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApigatewayTestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, ApigatewayTestIamPermissionsRequest $postBody, $optParams = [])
   {

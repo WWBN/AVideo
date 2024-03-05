@@ -48,6 +48,8 @@ class Device extends \Google\Collection
   protected $disabledReasonDataType = '';
   protected $displaysType = Display::class;
   protected $displaysDataType = 'array';
+  protected $dpcMigrationInfoType = DpcMigrationInfo::class;
+  protected $dpcMigrationInfoDataType = '';
   /**
    * @var string
    */
@@ -268,6 +270,20 @@ class Device extends \Google\Collection
   public function getDisplays()
   {
     return $this->displays;
+  }
+  /**
+   * @param DpcMigrationInfo
+   */
+  public function setDpcMigrationInfo(DpcMigrationInfo $dpcMigrationInfo)
+  {
+    $this->dpcMigrationInfo = $dpcMigrationInfo;
+  }
+  /**
+   * @return DpcMigrationInfo
+   */
+  public function getDpcMigrationInfo()
+  {
+    return $this->dpcMigrationInfo;
   }
   /**
    * @param string

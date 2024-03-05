@@ -46,6 +46,7 @@ class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resou
    * lowercase letter, and all following characters must be a dash, lowercase
    * letter, or digit, except the last character, which cannot be a dash.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Endpoint $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resou
    * @param string $name Required. The name of the endpoint to delete.
    * @param array $optParams Optional parameters.
    * @return ServicedirectoryEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resou
    * @param string $name Required. The name of the endpoint to get.
    * @param array $optParams Optional parameters.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resou
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous List request, if any.
    * @return ListEndpointsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsNamespacesServicesEndpoints($parent, $optParams = [])
   {
@@ -134,6 +138,7 @@ class ProjectsLocationsNamespacesServicesEndpoints extends \Google\Service\Resou
    * @opt_param string updateMask Required. List of fields to be updated in this
    * request.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Endpoint $postBody, $optParams = [])
   {

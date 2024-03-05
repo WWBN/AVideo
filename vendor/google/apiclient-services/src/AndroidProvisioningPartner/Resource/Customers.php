@@ -39,6 +39,7 @@ class Customers extends \Google\Service\Resource
    * @opt_param string pageToken A token specifying which result page to return.
    * This field has custom validations in ListCustomersRequestValidator
    * @return CustomerListCustomersResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomers($optParams = [])
   {

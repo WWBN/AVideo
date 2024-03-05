@@ -48,6 +48,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * client within the parent scope. It must be alphanumeric and less than or
    * equal to 32 characters and greater than 0 characters in length.
    * @return Finding
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Finding $postBody, $optParams = [])
   {
@@ -72,6 +73,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * @param GroupFindingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GroupFindingsResponse
+   * @throws \Google\Service\Exception
    */
   public function group($parent, GroupFindingsRequest $postBody, $optParams = [])
   {
@@ -163,6 +165,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * their values are those at that specific time. Absence of this field will
    * default to the API's version of NOW.
    * @return ListFindingsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsSourcesFindings($parent, $optParams = [])
   {
@@ -188,6 +191,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * and replacing source_properties. Individual source_properties can be
    * added/updated by using "source_properties." in the field mask.
    * @return Finding
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Finding $postBody, $optParams = [])
   {
@@ -207,6 +211,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * @param SetMuteRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Finding
+   * @throws \Google\Service\Exception
    */
   public function setMute($name, SetMuteRequest $postBody, $optParams = [])
   {
@@ -226,6 +231,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * @param SetFindingStateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Finding
+   * @throws \Google\Service\Exception
    */
   public function setState($name, SetFindingStateRequest $postBody, $optParams = [])
   {
@@ -253,6 +259,7 @@ class OrganizationsSourcesFindings extends \Google\Service\Resource
    * set to "marks", all marks will be replaced. Individual marks can be updated
    * using "marks.".
    * @return SecurityMarks
+   * @throws \Google\Service\Exception
    */
   public function updateSecurityMarks($name, SecurityMarks $postBody, $optParams = [])
   {

@@ -49,6 +49,7 @@ class GroupItems extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return EmptyResponse
+   * @throws \Google\Service\Exception
    */
   public function delete($optParams = [])
   {
@@ -73,6 +74,7 @@ class GroupItems extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return GroupItem
+   * @throws \Google\Service\Exception
    */
   public function insert(GroupItem $postBody, $optParams = [])
   {
@@ -99,6 +101,7 @@ class GroupItems extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return ListGroupItemsResponse
+   * @throws \Google\Service\Exception
    */
   public function listGroupItems($optParams = [])
   {

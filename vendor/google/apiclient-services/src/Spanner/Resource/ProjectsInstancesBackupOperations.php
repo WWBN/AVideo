@@ -92,6 +92,7 @@ class ProjectsInstancesBackupOperations extends \Google\Service\Resource
    * next_page_token from a previous ListBackupOperationsResponse to the same
    * `parent` and with the same `filter`.
    * @return ListBackupOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesBackupOperations($parent, $optParams = [])
   {

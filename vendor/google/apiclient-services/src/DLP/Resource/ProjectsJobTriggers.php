@@ -44,6 +44,7 @@ class ProjectsJobTriggers extends \Google\Service\Resource
    * @param GooglePrivacyDlpV2ActivateJobTriggerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2DlpJob
+   * @throws \Google\Service\Exception
    */
   public function activate($name, GooglePrivacyDlpV2ActivateJobTriggerRequest $postBody, $optParams = [])
   {
@@ -54,21 +55,22 @@ class ProjectsJobTriggers extends \Google\Service\Resource
   /**
    * Creates a job trigger to run DLP actions such as scanning storage for
    * sensitive information on a set schedule. See
-   * https://cloud.google.com/dlp/docs/creating-job-triggers to learn more.
-   * (jobTriggers.create)
+   * https://cloud.google.com/sensitive-data-protection/docs/creating-job-triggers
+   * to learn more. (jobTriggers.create)
    *
    * @param string $parent Required. Parent resource name. The format of this
    * value varies depending on whether you have [specified a processing
-   * location](https://cloud.google.com/dlp/docs/specifying-location): + Projects
-   * scope, location specified: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Projects scope, no location specified (defaults to global):
-   * `projects/`PROJECT_ID The following example `parent` string specifies a
-   * parent project with the identifier `example-project`, and specifies the
-   * `europe-west3` location for processing data: parent=projects/example-
-   * project/locations/europe-west3
+   * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
+   * location): + Projects scope, location specified:
+   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * specified (defaults to global): `projects/`PROJECT_ID The following example
+   * `parent` string specifies a parent project with the identifier `example-
+   * project`, and specifies the `europe-west3` location for processing data:
+   * parent=projects/example-project/locations/europe-west3
    * @param GooglePrivacyDlpV2CreateJobTriggerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2JobTrigger
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GooglePrivacyDlpV2CreateJobTriggerRequest $postBody, $optParams = [])
   {
@@ -77,13 +79,14 @@ class ProjectsJobTriggers extends \Google\Service\Resource
     return $this->call('create', [$params], GooglePrivacyDlpV2JobTrigger::class);
   }
   /**
-   * Deletes a job trigger. See https://cloud.google.com/dlp/docs/creating-job-
-   * triggers to learn more. (jobTriggers.delete)
+   * Deletes a job trigger. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-job-triggers to learn more. (jobTriggers.delete)
    *
    * @param string $name Required. Resource name of the project and the
    * triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -92,13 +95,14 @@ class ProjectsJobTriggers extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
-   * Gets a job trigger. See https://cloud.google.com/dlp/docs/creating-job-
-   * triggers to learn more. (jobTriggers.get)
+   * Gets a job trigger. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-job-triggers to learn more. (jobTriggers.get)
    *
    * @param string $name Required. Resource name of the project and the
    * triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`.
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2JobTrigger
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -107,18 +111,19 @@ class ProjectsJobTriggers extends \Google\Service\Resource
     return $this->call('get', [$params], GooglePrivacyDlpV2JobTrigger::class);
   }
   /**
-   * Lists job triggers. See https://cloud.google.com/dlp/docs/creating-job-
-   * triggers to learn more. (jobTriggers.listProjectsJobTriggers)
+   * Lists job triggers. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-job-triggers to learn more.
+   * (jobTriggers.listProjectsJobTriggers)
    *
    * @param string $parent Required. Parent resource name. The format of this
    * value varies depending on whether you have [specified a processing
-   * location](https://cloud.google.com/dlp/docs/specifying-location): + Projects
-   * scope, location specified: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Projects scope, no location specified (defaults to global):
-   * `projects/`PROJECT_ID The following example `parent` string specifies a
-   * parent project with the identifier `example-project`, and specifies the
-   * `europe-west3` location for processing data: parent=projects/example-
-   * project/locations/europe-west3
+   * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
+   * location): + Projects scope, location specified:
+   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * specified (defaults to global): `projects/`PROJECT_ID The following example
+   * `parent` string specifies a parent project with the identifier `example-
+   * project`, and specifies the `europe-west3` location for processing data:
+   * parent=projects/example-project/locations/europe-west3
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Allows filtering. Supported syntax: * Filter
@@ -138,8 +143,8 @@ class ProjectsJobTriggers extends \Google\Service\Resource
    * 500 characters.
    * @opt_param string locationId Deprecated. This field has no effect.
    * @opt_param string orderBy Comma separated list of triggeredJob fields to
-   * order by, followed by `asc` or `desc` postfix. This list is case-insensitive,
-   * default sorting order is ascending, redundant space characters are
+   * order by, followed by `asc` or `desc` postfix. This list is case insensitive.
+   * The default sorting order is ascending. Redundant space characters are
    * insignificant. Example: `name asc,update_time, create_time desc` Supported
    * fields are: - `create_time`: corresponds to the time the JobTrigger was
    * created. - `update_time`: corresponds to the time the JobTrigger was last
@@ -147,13 +152,15 @@ class ProjectsJobTriggers extends \Google\Service\Resource
    * - `name`: corresponds to the JobTrigger's name. - `display_name`: corresponds
    * to the JobTrigger's display name. - `status`: corresponds to JobTrigger's
    * status.
-   * @opt_param int pageSize Size of the page, can be limited by a server.
-   * @opt_param string pageToken Page token to continue retrieval. Comes from
+   * @opt_param int pageSize Size of the page. This value can be limited by a
+   * server.
+   * @opt_param string pageToken Page token to continue retrieval. Comes from the
    * previous call to ListJobTriggers. `order_by` field must not change for
    * subsequent calls.
    * @opt_param string type The type of jobs. Will use `DlpJobType.INSPECT` if not
    * set.
    * @return GooglePrivacyDlpV2ListJobTriggersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsJobTriggers($parent, $optParams = [])
   {
@@ -162,14 +169,15 @@ class ProjectsJobTriggers extends \Google\Service\Resource
     return $this->call('list', [$params], GooglePrivacyDlpV2ListJobTriggersResponse::class);
   }
   /**
-   * Updates a job trigger. See https://cloud.google.com/dlp/docs/creating-job-
-   * triggers to learn more. (jobTriggers.patch)
+   * Updates a job trigger. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-job-triggers to learn more. (jobTriggers.patch)
    *
    * @param string $name Required. Resource name of the project and the
    * triggeredJob, for example `projects/dlp-test-project/jobTriggers/53234423`.
    * @param GooglePrivacyDlpV2UpdateJobTriggerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2JobTrigger
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GooglePrivacyDlpV2UpdateJobTriggerRequest $postBody, $optParams = [])
   {

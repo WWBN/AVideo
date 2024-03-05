@@ -75,6 +75,7 @@ class ProjectsInstanceConfigOperations extends \Google\Service\Resource
    * next_page_token from a previous ListInstanceConfigOperationsResponse to the
    * same `parent` and with the same `filter`.
    * @return ListInstanceConfigOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstanceConfigOperations($parent, $optParams = [])
   {

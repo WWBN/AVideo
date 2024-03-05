@@ -45,6 +45,10 @@ class AddSubnetworkRequest extends \Google\Collection
    */
   public $description;
   /**
+   * @var string
+   */
+  public $internalRange;
+  /**
    * @var int
    */
   public $ipPrefixLength;
@@ -174,6 +178,20 @@ class AddSubnetworkRequest extends \Google\Collection
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param string
+   */
+  public function setInternalRange($internalRange)
+  {
+    $this->internalRange = $internalRange;
+  }
+  /**
+   * @return string
+   */
+  public function getInternalRange()
+  {
+    return $this->internalRange;
   }
   /**
    * @param int

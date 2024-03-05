@@ -47,6 +47,10 @@ class Stream extends \Google\Collection
   /**
    * @var string
    */
+  public $lastRecoveryTime;
+  /**
+   * @var string
+   */
   public $name;
   protected $sourceConfigType = SourceConfig::class;
   protected $sourceConfigDataType = '';
@@ -170,6 +174,20 @@ class Stream extends \Google\Collection
   public function getLabels()
   {
     return $this->labels;
+  }
+  /**
+   * @param string
+   */
+  public function setLastRecoveryTime($lastRecoveryTime)
+  {
+    $this->lastRecoveryTime = $lastRecoveryTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastRecoveryTime()
+  {
+    return $this->lastRecoveryTime;
   }
   /**
    * @param string

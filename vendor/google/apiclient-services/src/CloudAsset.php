@@ -342,10 +342,6 @@ class CloudAsset extends \Google\Service
                   'location' => 'query',
                   'type' => 'boolean',
                 ],
-                'analysisQuery.options.includeDenyPolicyAnalysis' => [
-                  'location' => 'query',
-                  'type' => 'boolean',
-                ],
                 'analysisQuery.options.outputGroupEdges' => [
                   'location' => 'query',
                   'type' => 'boolean',

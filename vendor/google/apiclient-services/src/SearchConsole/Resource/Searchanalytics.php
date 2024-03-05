@@ -43,6 +43,7 @@ class Searchanalytics extends \Google\Service\Resource
    * @param SearchAnalyticsQueryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchAnalyticsQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function query($siteUrl, SearchAnalyticsQueryRequest $postBody, $optParams = [])
   {

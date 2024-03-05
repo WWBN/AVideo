@@ -40,6 +40,7 @@ class ProjectsLocationsSynonymSets extends \Google\Service\Resource
    * @param GoogleCloudContentwarehouseV1SynonymSet $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContentwarehouseV1SynonymSet
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudContentwarehouseV1SynonymSet $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsSynonymSets extends \Google\Service\Resource
    * projects/{project_number}/locations/{location}/synonymSets/{context}.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsLocationsSynonymSets extends \Google\Service\Resource
    * projects/{project_number}/locations/{location}/synonymSets/{context}.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContentwarehouseV1SynonymSet
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,6 +97,7 @@ class ProjectsLocationsSynonymSets extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListSynonymSets` must match the
    * call that provided the page token.
    * @return GoogleCloudContentwarehouseV1ListSynonymSetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSynonymSets($parent, $optParams = [])
   {
@@ -111,6 +115,7 @@ class ProjectsLocationsSynonymSets extends \Google\Service\Resource
    * @param GoogleCloudContentwarehouseV1SynonymSet $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContentwarehouseV1SynonymSet
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudContentwarehouseV1SynonymSet $postBody, $optParams = [])
   {

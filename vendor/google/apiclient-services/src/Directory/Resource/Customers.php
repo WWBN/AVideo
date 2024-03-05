@@ -34,7 +34,8 @@ class Customers extends \Google\Service\Resource
    *
    * @param string $customerKey Id of the customer to be retrieved
    * @param array $optParams Optional parameters.
-   * @return Customer
+   * @return CustomerModel
+   * @throws \Google\Service\Exception
    */
   public function get($customerKey, $optParams = [])
   {
@@ -49,6 +50,7 @@ class Customers extends \Google\Service\Resource
    * @param CustomerModel $postBody
    * @param array $optParams Optional parameters.
    * @return CustomerModel
+   * @throws \Google\Service\Exception
    */
   public function patch($customerKey, CustomerModel $postBody, $optParams = [])
   {
@@ -63,6 +65,7 @@ class Customers extends \Google\Service\Resource
    * @param CustomerModel $postBody
    * @param array $optParams Optional parameters.
    * @return CustomerModel
+   * @throws \Google\Service\Exception
    */
   public function update($customerKey, CustomerModel $postBody, $optParams = [])
   {

@@ -25,8 +25,10 @@ class GoogleCloudContentwarehouseV1RunPipelineRequest extends \Google\Model
   protected $gcsIngestPipelineDataType = '';
   protected $gcsIngestWithDocAiProcessorsPipelineType = GoogleCloudContentwarehouseV1GcsIngestWithDocAiProcessorsPipeline::class;
   protected $gcsIngestWithDocAiProcessorsPipelineDataType = '';
-  protected $processWithDocAiPipelineType = GoogleCloudContentwarehouseV1ProcessWithDocAi::class;
+  protected $processWithDocAiPipelineType = GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline::class;
   protected $processWithDocAiPipelineDataType = '';
+  protected $requestMetadataType = GoogleCloudContentwarehouseV1RequestMetadata::class;
+  protected $requestMetadataDataType = '';
 
   /**
    * @param GoogleCloudContentwarehouseV1ExportToCdwPipeline
@@ -71,18 +73,32 @@ class GoogleCloudContentwarehouseV1RunPipelineRequest extends \Google\Model
     return $this->gcsIngestWithDocAiProcessorsPipeline;
   }
   /**
-   * @param GoogleCloudContentwarehouseV1ProcessWithDocAi
+   * @param GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline
    */
-  public function setProcessWithDocAiPipeline(GoogleCloudContentwarehouseV1ProcessWithDocAi $processWithDocAiPipeline)
+  public function setProcessWithDocAiPipeline(GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline $processWithDocAiPipeline)
   {
     $this->processWithDocAiPipeline = $processWithDocAiPipeline;
   }
   /**
-   * @return GoogleCloudContentwarehouseV1ProcessWithDocAi
+   * @return GoogleCloudContentwarehouseV1ProcessWithDocAiPipeline
    */
   public function getProcessWithDocAiPipeline()
   {
     return $this->processWithDocAiPipeline;
+  }
+  /**
+   * @param GoogleCloudContentwarehouseV1RequestMetadata
+   */
+  public function setRequestMetadata(GoogleCloudContentwarehouseV1RequestMetadata $requestMetadata)
+  {
+    $this->requestMetadata = $requestMetadata;
+  }
+  /**
+   * @return GoogleCloudContentwarehouseV1RequestMetadata
+   */
+  public function getRequestMetadata()
+  {
+    return $this->requestMetadata;
   }
 }
 

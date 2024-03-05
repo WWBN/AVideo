@@ -37,6 +37,7 @@ class Adclients extends \Google\Service\Resource
    * @param string $adClientId Ad client to get.
    * @param array $optParams Optional parameters.
    * @return AdClient
+   * @throws \Google\Service\Exception
    */
   public function get($adClientId, $optParams = [])
   {
@@ -55,6 +56,7 @@ class Adclients extends \Google\Service\Resource
    * clients. To retrieve the next page, set this parameter to the value of
    * "nextPageToken" from the previous response.
    * @return AdClientsModel
+   * @throws \Google\Service\Exception
    */
   public function listAdclients($optParams = [])
   {

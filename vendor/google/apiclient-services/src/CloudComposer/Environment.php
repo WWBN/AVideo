@@ -34,9 +34,15 @@ class Environment extends \Google\Model
    */
   public $name;
   /**
+   * @var bool
+   */
+  public $satisfiesPzs;
+  /**
    * @var string
    */
   public $state;
+  protected $storageConfigType = StorageConfig::class;
+  protected $storageConfigDataType = '';
   /**
    * @var string
    */
@@ -103,6 +109,20 @@ class Environment extends \Google\Model
     return $this->name;
   }
   /**
+   * @param bool
+   */
+  public function setSatisfiesPzs($satisfiesPzs)
+  {
+    $this->satisfiesPzs = $satisfiesPzs;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzs()
+  {
+    return $this->satisfiesPzs;
+  }
+  /**
    * @param string
    */
   public function setState($state)
@@ -115,6 +135,20 @@ class Environment extends \Google\Model
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param StorageConfig
+   */
+  public function setStorageConfig(StorageConfig $storageConfig)
+  {
+    $this->storageConfig = $storageConfig;
+  }
+  /**
+   * @return StorageConfig
+   */
+  public function getStorageConfig()
+  {
+    return $this->storageConfig;
   }
   /**
    * @param string

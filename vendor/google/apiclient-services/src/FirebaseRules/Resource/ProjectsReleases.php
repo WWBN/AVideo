@@ -54,6 +54,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * @param Release $postBody
    * @param array $optParams Optional parameters.
    * @return Release
+   * @throws \Google\Service\Exception
    */
   public function create($name, Release $postBody, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * Format: `projects/{project_id}/releases/{release_id}`
    * @param array $optParams Optional parameters.
    * @return FirebaserulesEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -82,6 +84,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * `projects/{project_id}/releases/{release_id}`
    * @param array $optParams Optional parameters.
    * @return Release
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -100,6 +103,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * @opt_param string executableVersion The requested runtime executable version.
    * Defaults to FIREBASE_RULES_EXECUTABLE_V1.
    * @return GetReleaseExecutableResponse
+   * @throws \Google\Service\Exception
    */
   public function getExecutable($name, $optParams = [])
   {
@@ -138,6 +142,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * @opt_param string pageToken Next page token for the next batch of `Release`
    * instances.
    * @return ListReleasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsReleases($name, $optParams = [])
   {
@@ -155,6 +160,7 @@ class ProjectsReleases extends \Google\Service\Resource
    * @param UpdateReleaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Release
+   * @throws \Google\Service\Exception
    */
   public function patch($name, UpdateReleaseRequest $postBody, $optParams = [])
   {

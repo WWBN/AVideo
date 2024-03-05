@@ -41,6 +41,7 @@ class Locations extends \Google\Service\Resource
    * @param TransferLocationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return MybusinessaccountmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function transfer($name, TransferLocationRequest $postBody, $optParams = [])
   {

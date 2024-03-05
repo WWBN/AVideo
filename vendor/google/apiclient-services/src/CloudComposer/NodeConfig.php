@@ -21,6 +21,14 @@ class NodeConfig extends \Google\Collection
 {
   protected $collection_key = 'tags';
   /**
+   * @var string
+   */
+  public $composerInternalIpv4CidrBlock;
+  /**
+   * @var string
+   */
+  public $composerNetworkAttachment;
+  /**
    * @var int
    */
   public $diskSizeGb;
@@ -59,6 +67,34 @@ class NodeConfig extends \Google\Collection
    */
   public $tags;
 
+  /**
+   * @param string
+   */
+  public function setComposerInternalIpv4CidrBlock($composerInternalIpv4CidrBlock)
+  {
+    $this->composerInternalIpv4CidrBlock = $composerInternalIpv4CidrBlock;
+  }
+  /**
+   * @return string
+   */
+  public function getComposerInternalIpv4CidrBlock()
+  {
+    return $this->composerInternalIpv4CidrBlock;
+  }
+  /**
+   * @param string
+   */
+  public function setComposerNetworkAttachment($composerNetworkAttachment)
+  {
+    $this->composerNetworkAttachment = $composerNetworkAttachment;
+  }
+  /**
+   * @return string
+   */
+  public function getComposerNetworkAttachment()
+  {
+    return $this->composerNetworkAttachment;
+  }
   /**
    * @param int
    */

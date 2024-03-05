@@ -58,6 +58,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Flow
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3Flow $postBody, $optParams = [])
   {
@@ -79,6 +80,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * well as any transitions to the flow (i.e. Target flow in event handlers or
    * Target flow in transition routes that point to this flow will be cleared).
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -90,8 +92,9 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * Exports the specified flow to a binary file. This method is a [long-running
    * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
    * operation). The returned `Operation` type has the following method-specific
-   * fields: - `metadata`: An empty [Struct message](https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#struct) - `response`:
+   * fields: - `metadata`: An empty [Struct
+   * message](https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#struct) - `response`:
    * ExportFlowResponse Note that resources (e.g. intents, entities, webhooks)
    * that the flow references will also be exported. (flows.export)
    *
@@ -100,6 +103,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @param GoogleCloudDialogflowCxV3ExportFlowRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function export($name, GoogleCloudDialogflowCxV3ExportFlowRequest $postBody, $optParams = [])
   {
@@ -125,6 +129,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Flow
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -143,6 +148,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @opt_param string languageCode If not specified, the agent's default language
    * is used.
    * @return GoogleCloudDialogflowCxV3FlowValidationResult
+   * @throws \Google\Service\Exception
    */
   public function getValidationResult($name, $optParams = [])
   {
@@ -155,8 +161,9 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * method is a [long-running
    * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
    * operation). The returned `Operation` type has the following method-specific
-   * fields: - `metadata`: An empty [Struct message](https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#struct) - `response`:
+   * fields: - `metadata`: An empty [Struct
+   * message](https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#struct) - `response`:
    * ImportFlowResponse Note: You should always train a flow prior to sending it
    * queries. See the [training
    * documentation](https://cloud.google.com/dialogflow/cx/docs/concept/training).
@@ -167,6 +174,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @param GoogleCloudDialogflowCxV3ImportFlowRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudDialogflowCxV3ImportFlowRequest $postBody, $optParams = [])
   {
@@ -197,6 +205,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListFlowsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsFlows($parent, $optParams = [])
   {
@@ -227,6 +236,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @opt_param string updateMask The mask to control which fields get updated. If
    * the mask is not present, all fields will be updated.
    * @return GoogleCloudDialogflowCxV3Flow
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3Flow $postBody, $optParams = [])
   {
@@ -239,9 +249,10 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * trained. This method is a [long-running
    * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
    * operation). The returned `Operation` type has the following method-specific
-   * fields: - `metadata`: An empty [Struct message](https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#struct) - `response`: An
-   * [Empty message](https://developers.google.com/protocol-
+   * fields: - `metadata`: An empty [Struct
+   * message](https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#struct) - `response`: An [Empty
+   * message](https://developers.google.com/protocol-
    * buffers/docs/reference/google.protobuf#empty) Note: You should always train a
    * flow prior to sending it queries. See the [training
    * documentation](https://cloud.google.com/dialogflow/cx/docs/concept/training).
@@ -252,6 +263,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @param GoogleCloudDialogflowCxV3TrainFlowRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function train($name, GoogleCloudDialogflowCxV3TrainFlowRequest $postBody, $optParams = [])
   {
@@ -269,6 +281,7 @@ class ProjectsLocationsAgentsFlows extends \Google\Service\Resource
    * @param GoogleCloudDialogflowCxV3ValidateFlowRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3FlowValidationResult
+   * @throws \Google\Service\Exception
    */
   public function validate($name, GoogleCloudDialogflowCxV3ValidateFlowRequest $postBody, $optParams = [])
   {

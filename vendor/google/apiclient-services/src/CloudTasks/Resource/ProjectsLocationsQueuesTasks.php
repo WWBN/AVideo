@@ -17,6 +17,8 @@
 
 namespace Google\Service\CloudTasks\Resource;
 
+use Google\Service\CloudTasks\BufferTaskRequest;
+use Google\Service\CloudTasks\BufferTaskResponse;
 use Google\Service\CloudTasks\CloudtasksEmpty;
 use Google\Service\CloudTasks\CreateTaskRequest;
 use Google\Service\CloudTasks\ListTasksResponse;
@@ -34,6 +36,31 @@ use Google\Service\CloudTasks\Task;
 class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
 {
   /**
+   * Creates and buffers a new task without the need to explicitly define a Task
+   * message. The queue must have HTTP target. To create the task with a custom
+   * ID, use the following format and set TASK_ID to your desired ID: projects/PRO
+   * JECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID:buffer To create
+   * the task with an automatically generated ID, use the following format:
+   * projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks:buffer.
+   * (tasks.buffer)
+   *
+   * @param string $queue Required. The parent queue name. For example:
+   * projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID` The queue must
+   * already exist.
+   * @param string $taskId Optional. Task ID for the task being created. If not
+   * provided, Cloud Tasks generates an ID for the task.
+   * @param BufferTaskRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return BufferTaskResponse
+   * @throws \Google\Service\Exception
+   */
+  public function buffer($queue, $taskId, BufferTaskRequest $postBody, $optParams = [])
+  {
+    $params = ['queue' => $queue, 'taskId' => $taskId, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('buffer', [$params], BufferTaskResponse::class);
+  }
+  /**
    * Creates a task and adds it to a queue. Tasks cannot be updated after
    * creation; there is no UpdateTask command. * The maximum task size is 100KB.
    * (tasks.create)
@@ -44,6 +71,7 @@ class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
    * @param CreateTaskRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CreateTaskRequest $postBody, $optParams = [])
   {
@@ -60,6 +88,7 @@ class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
    * `projects/PROJECT_ID/locations/LOCATION_ID/queues/QUEUE_ID/tasks/TASK_ID`
    * @param array $optParams Optional parameters.
    * @return CloudtasksEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -82,6 +111,7 @@ class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
    * requires `cloudtasks.tasks.fullView` [Google
    * IAM](https://cloud.google.com/iam/) permission on the Task resource.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,6 +146,7 @@ class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
    * requires `cloudtasks.tasks.fullView` [Google
    * IAM](https://cloud.google.com/iam/) permission on the Task resource.
    * @return ListTasksResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsQueuesTasks($parent, $optParams = [])
   {
@@ -142,6 +173,7 @@ class ProjectsLocationsQueuesTasks extends \Google\Service\Resource
    * @param RunTaskRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Task
+   * @throws \Google\Service\Exception
    */
   public function run($name, RunTaskRequest $postBody, $optParams = [])
   {

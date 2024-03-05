@@ -23,6 +23,14 @@ class IndexingVideosAsrTranscriptRepairAnnotation extends \Google\Model
    * @var string
    */
   public $gibberishResult;
+  /**
+   * @var int
+   */
+  public $numGibberishSegments;
+  /**
+   * @var int
+   */
+  public $numSegmentsClassified;
 
   /**
    * @param string
@@ -37,6 +45,34 @@ class IndexingVideosAsrTranscriptRepairAnnotation extends \Google\Model
   public function getGibberishResult()
   {
     return $this->gibberishResult;
+  }
+  /**
+   * @param int
+   */
+  public function setNumGibberishSegments($numGibberishSegments)
+  {
+    $this->numGibberishSegments = $numGibberishSegments;
+  }
+  /**
+   * @return int
+   */
+  public function getNumGibberishSegments()
+  {
+    return $this->numGibberishSegments;
+  }
+  /**
+   * @param int
+   */
+  public function setNumSegmentsClassified($numSegmentsClassified)
+  {
+    $this->numSegmentsClassified = $numSegmentsClassified;
+  }
+  /**
+   * @return int
+   */
+  public function getNumSegmentsClassified()
+  {
+    return $this->numSegmentsClassified;
   }
 }
 

@@ -25,7 +25,7 @@ For Google Cloud Platform APIs such as [Datastore][cloud-datastore], [Cloud Stor
 [cloud-compute]: https://github.com/googleapis/google-cloud-php-compute
 
 ## Requirements ##
-* [PHP 5.6.0 or higher](https://www.php.net/)
+* [PHP 7.4 or higher](https://www.php.net/)
 
 ## Developer Documentation ##
 
@@ -44,7 +44,16 @@ composer installed.
 Once composer is installed, execute the following command in your project root to install this library:
 
 ```sh
-composer require google/apiclient:^2.12.1
+composer require google/apiclient:^2.15.0
+```
+
+If you're facing a timeout error then either increase the timeout for composer by adding the env flag as `COMPOSER_PROCESS_TIMEOUT=600 composer install` or you can put this in the `config` section of the composer schema:
+```
+{
+    "config": {
+        "process-timeout": 600
+    }
+}
 ```
 
 Finally, be sure to include the autoloader:
@@ -65,7 +74,7 @@ you want to keep in `composer.json`:
 ```json
 {
     "require": {
-        "google/apiclient": "^2.12.1"
+        "google/apiclient": "^2.15.0"
     },
     "scripts": {
         "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
@@ -245,9 +254,10 @@ The classes used to call the API in [google-api-php-client-services](https://git
 
 A JSON request to the [Datastore API](https://developers.google.com/apis-explorer/#p/datastore/v1beta3/datastore.projects.runQuery) would look like this:
 
-```json
+```
 POST https://datastore.googleapis.com/v1beta3/projects/YOUR_PROJECT_ID:runQuery?key=YOUR_API_KEY
-
+```
+```json
 {
     "query": {
         "kind": [{

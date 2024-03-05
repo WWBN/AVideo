@@ -46,6 +46,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * @param Announcement $postBody
    * @param array $optParams Optional parameters.
    * @return Announcement
+   * @throws \Google\Service\Exception
    */
   public function create($courseId, Announcement $postBody, $optParams = [])
   {
@@ -71,6 +72,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * is a Classroom-assigned identifier.
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($courseId, $id, $optParams = [])
   {
@@ -90,6 +92,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * @param string $id Identifier of the announcement.
    * @param array $optParams Optional parameters.
    * @return Announcement
+   * @throws \Google\Service\Exception
    */
   public function get($courseId, $id, $optParams = [])
   {
@@ -126,6 +129,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * list request must be otherwise identical to the one that resulted in this
    * token.
    * @return ListAnnouncementsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCoursesAnnouncements($courseId, $optParams = [])
   {
@@ -148,6 +152,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * @param ModifyAnnouncementAssigneesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Announcement
+   * @throws \Google\Service\Exception
    */
   public function modifyAssignees($courseId, $id, ModifyAnnouncementAssigneesRequest $postBody, $optParams = [])
   {
@@ -178,6 +183,7 @@ class CoursesAnnouncements extends \Google\Service\Resource
    * `INVALID_ARGUMENT` error is returned. The following fields may be specified
    * by teachers: * `text` * `state` * `scheduled_time`
    * @return Announcement
+   * @throws \Google\Service\Exception
    */
   public function patch($courseId, $id, Announcement $postBody, $optParams = [])
   {

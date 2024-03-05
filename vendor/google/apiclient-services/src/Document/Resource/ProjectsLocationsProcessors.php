@@ -49,6 +49,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1BatchProcessRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function batchProcess($name, GoogleCloudDocumentaiV1BatchProcessRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1Processor $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDocumentaiV1Processor
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDocumentaiV1Processor $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param string $name Required. The processor resource name to be deleted.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -94,6 +97,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1DisableProcessorRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function disable($name, GoogleCloudDocumentaiV1DisableProcessorRequest $postBody, $optParams = [])
   {
@@ -108,6 +112,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1EnableProcessorRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function enable($name, GoogleCloudDocumentaiV1EnableProcessorRequest $postBody, $optParams = [])
   {
@@ -121,6 +126,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param string $name Required. The processor resource name.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDocumentaiV1Processor
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -143,6 +149,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @opt_param string pageToken We will return the processors sorted by creation
    * time. The page token will point to the next processor.
    * @return GoogleCloudDocumentaiV1ListProcessorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProcessors($parent, $optParams = [])
   {
@@ -162,6 +169,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1ProcessRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDocumentaiV1ProcessResponse
+   * @throws \Google\Service\Exception
    */
   public function process($name, GoogleCloudDocumentaiV1ProcessRequest $postBody, $optParams = [])
   {
@@ -179,6 +187,7 @@ class ProjectsLocationsProcessors extends \Google\Service\Resource
    * @param GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function setDefaultProcessorVersion($processor, GoogleCloudDocumentaiV1SetDefaultProcessorVersionRequest $postBody, $optParams = [])
   {

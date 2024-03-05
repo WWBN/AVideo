@@ -79,6 +79,7 @@ class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource
    * 5dMsYf4CZS6w50r7hyzqyrwDoyNxkLnd2PdcHT/sym1QmflsjEs7pejtnohO6N2H
    * wQW6M0H7Zt8claGRla4fKkg= -----END CERTIFICATE-----
    * @return GoogleCloudIntegrationsV1alphaAuthConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudIntegrationsV1alphaAuthConfig $postBody, $optParams = [])
   {
@@ -93,6 +94,7 @@ class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource
    * AuthConfig.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -109,6 +111,7 @@ class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource
    * AuthConfig.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaAuthConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -126,13 +129,14 @@ class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Filtering as supported in
-   * https://developers.google.com/authorized-buyers/apis/guides/v2/list-filters.
+   * https://developers.google.com/authorized-buyers/apis/guides/list-filters.
    * @opt_param int pageSize The size of entries in the response. If unspecified,
    * defaults to 100.
    * @opt_param string pageToken The token returned in the previous response.
    * @opt_param string readMask The mask which specifies fields that need to be
    * returned in the AuthConfig's response.
    * @return GoogleCloudIntegrationsV1alphaListAuthConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProductsAuthConfigs($parent, $optParams = [])
   {
@@ -191,6 +195,7 @@ class ProjectsLocationsProductsAuthConfigs extends \Google\Service\Resource
    * @opt_param string updateMask Field mask specifying the fields in the above
    * AuthConfig that have been modified and need to be updated.
    * @return GoogleCloudIntegrationsV1alphaAuthConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudIntegrationsV1alphaAuthConfig $postBody, $optParams = [])
   {

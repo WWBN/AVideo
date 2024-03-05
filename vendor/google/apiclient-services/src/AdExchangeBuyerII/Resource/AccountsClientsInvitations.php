@@ -41,6 +41,7 @@ class AccountsClientsInvitations extends \Google\Service\Resource
    * @param ClientUserInvitation $postBody
    * @param array $optParams Optional parameters.
    * @return ClientUserInvitation
+   * @throws \Google\Service\Exception
    */
   public function create($accountId, $clientAccountId, ClientUserInvitation $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class AccountsClientsInvitations extends \Google\Service\Resource
    * retrieve. (required)
    * @param array $optParams Optional parameters.
    * @return ClientUserInvitation
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $clientAccountId, $invitationId, $optParams = [])
   {
@@ -85,6 +87,7 @@ class AccountsClientsInvitations extends \Google\Service\Resource
    * ListClientUserInvitationsResponse.nextPageToken returned from the previous
    * call to the clients.invitations.list method.
    * @return ListClientUserInvitationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsClientsInvitations($accountId, $clientAccountId, $optParams = [])
   {

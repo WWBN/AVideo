@@ -44,7 +44,7 @@ class BiddersFinalizedDeals extends \Google\Service\Resource
    *
    * @opt_param string filter Optional query string using the [Cloud API list
    * filtering syntax](https://developers.google.com/authorized-
-   * buyers/apis/guides/v2/list-filters) Supported columns for filtering are: *
+   * buyers/apis/guides/list-filters) Supported columns for filtering are: *
    * deal.displayName * deal.dealType * deal.createTime * deal.updateTime *
    * deal.flightStartTime * deal.flightEndTime * dealServingStatus
    * @opt_param string orderBy An optional query string to sort finalized deals
@@ -64,6 +64,7 @@ class BiddersFinalizedDeals extends \Google\Service\Resource
    * @opt_param string pageToken The page token as returned from
    * ListFinalizedDealsResponse.
    * @return ListFinalizedDealsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersFinalizedDeals($parent, $optParams = [])
   {

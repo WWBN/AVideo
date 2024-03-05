@@ -19,12 +19,30 @@ namespace Google\Service\Texttospeech;
 
 class GoogleCloudTexttospeechV1SynthesizeLongAudioMetadata extends \Google\Model
 {
+  /**
+   * @var string
+   */
+  public $lastUpdateTime;
   public $progressPercentage;
   /**
    * @var string
    */
   public $startTime;
 
+  /**
+   * @param string
+   */
+  public function setLastUpdateTime($lastUpdateTime)
+  {
+    $this->lastUpdateTime = $lastUpdateTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastUpdateTime()
+  {
+    return $this->lastUpdateTime;
+  }
   public function setProgressPercentage($progressPercentage)
   {
     $this->progressPercentage = $progressPercentage;

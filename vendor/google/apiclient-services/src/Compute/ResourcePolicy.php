@@ -27,6 +27,8 @@ class ResourcePolicy extends \Google\Model
    * @var string
    */
   public $description;
+  protected $diskConsistencyGroupPolicyType = ResourcePolicyDiskConsistencyGroupPolicy::class;
+  protected $diskConsistencyGroupPolicyDataType = '';
   protected $groupPlacementPolicyType = ResourcePolicyGroupPlacementPolicy::class;
   protected $groupPlacementPolicyDataType = '';
   /**
@@ -87,6 +89,20 @@ class ResourcePolicy extends \Google\Model
   public function getDescription()
   {
     return $this->description;
+  }
+  /**
+   * @param ResourcePolicyDiskConsistencyGroupPolicy
+   */
+  public function setDiskConsistencyGroupPolicy(ResourcePolicyDiskConsistencyGroupPolicy $diskConsistencyGroupPolicy)
+  {
+    $this->diskConsistencyGroupPolicy = $diskConsistencyGroupPolicy;
+  }
+  /**
+   * @return ResourcePolicyDiskConsistencyGroupPolicy
+   */
+  public function getDiskConsistencyGroupPolicy()
+  {
+    return $this->diskConsistencyGroupPolicy;
   }
   /**
    * @param ResourcePolicyGroupPlacementPolicy

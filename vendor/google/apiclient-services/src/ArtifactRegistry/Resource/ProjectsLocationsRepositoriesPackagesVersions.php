@@ -17,6 +17,7 @@
 
 namespace Google\Service\ArtifactRegistry\Resource;
 
+use Google\Service\ArtifactRegistry\BatchDeleteVersionsRequest;
 use Google\Service\ArtifactRegistry\ListVersionsResponse;
 use Google\Service\ArtifactRegistry\Operation;
 use Google\Service\ArtifactRegistry\Version;
@@ -32,6 +33,23 @@ use Google\Service\ArtifactRegistry\Version;
 class ProjectsLocationsRepositoriesPackagesVersions extends \Google\Service\Resource
 {
   /**
+   * Deletes multiple versions across a repository. The returned operation will
+   * complete once the versions have been deleted. (versions.batchDelete)
+   *
+   * @param string $parent The name of the repository holding all requested
+   * versions.
+   * @param BatchDeleteVersionsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return Operation
+   * @throws \Google\Service\Exception
+   */
+  public function batchDelete($parent, BatchDeleteVersionsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('batchDelete', [$params], Operation::class);
+  }
+  /**
    * Deletes a version and all of its content. The returned operation will
    * complete once the version has been deleted. (versions.delete)
    *
@@ -42,6 +60,7 @@ class ProjectsLocationsRepositoriesPackagesVersions extends \Google\Service\Reso
    * deleted. If force=true, the version and any tags pointing to the version are
    * deleted.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -57,6 +76,7 @@ class ProjectsLocationsRepositoriesPackagesVersions extends \Google\Service\Reso
    *
    * @opt_param string view The view that should be returned in the response.
    * @return Version
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -78,6 +98,7 @@ class ProjectsLocationsRepositoriesPackagesVersions extends \Google\Service\Reso
    * previous list request, if any.
    * @opt_param string view The view that should be returned in the response.
    * @return ListVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesPackagesVersions($parent, $optParams = [])
   {

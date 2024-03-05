@@ -17,8 +17,9 @@
 
 namespace Google\Service\TrafficDirectorService;
 
-class Extension extends \Google\Model
+class Extension extends \Google\Collection
 {
+  protected $collection_key = 'typeUrls';
   /**
    * @var string
    */
@@ -35,6 +36,10 @@ class Extension extends \Google\Model
    * @var string
    */
   public $typeDescriptor;
+  /**
+   * @var string[]
+   */
+  public $typeUrls;
   protected $versionType = BuildVersion::class;
   protected $versionDataType = '';
 
@@ -93,6 +98,20 @@ class Extension extends \Google\Model
   public function getTypeDescriptor()
   {
     return $this->typeDescriptor;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTypeUrls($typeUrls)
+  {
+    $this->typeUrls = $typeUrls;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTypeUrls()
+  {
+    return $this->typeUrls;
   }
   /**
    * @param BuildVersion

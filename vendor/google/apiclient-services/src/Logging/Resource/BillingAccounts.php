@@ -32,7 +32,7 @@ class BillingAccounts extends \Google\Service\Resource
 {
   /**
    * Gets the Logging CMEK settings for the given resource.Note: CMEK for the Log
-   * Router can be configured for Google Cloud projects, folders, organizations
+   * Router can be configured for Google Cloud projects, folders, organizations,
    * and billing accounts. Once configured for an organization, it applies to all
    * projects and folders in the Google Cloud organization.See Enabling CMEK for
    * Log Router (https://cloud.google.com/logging/docs/routing/managed-encryption)
@@ -44,11 +44,12 @@ class BillingAccounts extends \Google\Service\Resource
    * "billingAccounts/[BILLING_ACCOUNT_ID]/cmekSettings"
    * "folders/[FOLDER_ID]/cmekSettings" For
    * example:"organizations/12345/cmekSettings"Note: CMEK for the Log Router can
-   * be configured for Google Cloud projects, folders, organizations and billing
+   * be configured for Google Cloud projects, folders, organizations, and billing
    * accounts. Once configured for an organization, it applies to all projects and
    * folders in the Google Cloud organization.
    * @param array $optParams Optional parameters.
    * @return CmekSettings
+   * @throws \Google\Service\Exception
    */
   public function getCmekSettings($name, $optParams = [])
   {
@@ -57,25 +58,21 @@ class BillingAccounts extends \Google\Service\Resource
     return $this->call('getCmekSettings', [$params], CmekSettings::class);
   }
   /**
-   * Gets the Log Router settings for the given resource.Note: Settings for the
-   * Log Router can be get for Google Cloud projects, folders, organizations and
-   * billing accounts. Currently it can only be configured for organizations. Once
-   * configured for an organization, it applies to all projects and folders in the
-   * Google Cloud organization.See Enabling CMEK for Log Router
-   * (https://cloud.google.com/logging/docs/routing/managed-encryption) for more
-   * information. (billingAccounts.getSettings)
+   * Gets the settings for the given resource.Note: Settings can be retrieved for
+   * Google Cloud projects, folders, organizations, and billing accounts.See View
+   * default resource settings for Logging
+   * (https://cloud.google.com/logging/docs/default-settings#view-org-settings)
+   * for more information. (billingAccounts.getSettings)
    *
    * @param string $name Required. The resource for which to retrieve settings.
    * "projects/[PROJECT_ID]/settings" "organizations/[ORGANIZATION_ID]/settings"
    * "billingAccounts/[BILLING_ACCOUNT_ID]/settings"
    * "folders/[FOLDER_ID]/settings" For
-   * example:"organizations/12345/settings"Note: Settings for the Log Router can
-   * be get for Google Cloud projects, folders, organizations and billing
-   * accounts. Currently it can only be configured for organizations. Once
-   * configured for an organization, it applies to all projects and folders in the
-   * Google Cloud organization.
+   * example:"organizations/12345/settings"Note: Settings can be retrieved for
+   * Google Cloud projects, folders, organizations, and billing accounts.
    * @param array $optParams Optional parameters.
    * @return Settings
+   * @throws \Google\Service\Exception
    */
   public function getSettings($name, $optParams = [])
   {

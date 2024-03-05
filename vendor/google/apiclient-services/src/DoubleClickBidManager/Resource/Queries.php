@@ -38,6 +38,7 @@ class Queries extends \Google\Service\Resource
    * @param Query $postBody
    * @param array $optParams Optional parameters.
    * @return Query
+   * @throws \Google\Service\Exception
    */
   public function create(Query $postBody, $optParams = [])
   {
@@ -50,6 +51,7 @@ class Queries extends \Google\Service\Resource
    *
    * @param string $queryId Required. ID of query to delete.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($queryId, $optParams = [])
   {
@@ -63,6 +65,7 @@ class Queries extends \Google\Service\Resource
    * @param string $queryId Required. ID of query to retrieve.
    * @param array $optParams Optional parameters.
    * @return Query
+   * @throws \Google\Service\Exception
    */
   public function get($queryId, $optParams = [])
   {
@@ -84,6 +87,7 @@ class Queries extends \Google\Service\Resource
    * @opt_param string pageToken A page token, received from a previous list call.
    * Provide this to retrieve the subsequent page of queries.
    * @return ListQueriesResponse
+   * @throws \Google\Service\Exception
    */
   public function listQueries($optParams = [])
   {
@@ -102,6 +106,7 @@ class Queries extends \Google\Service\Resource
    * When true, this method will not return until the query has finished running.
    * When false or not specified, this method will return immediately.
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function run($queryId, RunQueryRequest $postBody, $optParams = [])
   {

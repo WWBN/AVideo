@@ -22,6 +22,8 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   protected $collection_key = 'supportedLanguageCodes';
   protected $advancedSettingsType = GoogleCloudDialogflowCxV3AdvancedSettings::class;
   protected $advancedSettingsDataType = '';
+  protected $answerFeedbackSettingsType = GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings::class;
+  protected $answerFeedbackSettingsDataType = '';
   /**
    * @var string
    */
@@ -46,6 +48,10 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
    * @var bool
    */
   public $enableStackdriverLogging;
+  protected $genAppBuilderSettingsType = GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings::class;
+  protected $genAppBuilderSettingsDataType = '';
+  protected $gitIntegrationSettingsType = GoogleCloudDialogflowCxV3AgentGitIntegrationSettings::class;
+  protected $gitIntegrationSettingsDataType = '';
   /**
    * @var bool
    */
@@ -88,6 +94,20 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   public function getAdvancedSettings()
   {
     return $this->advancedSettings;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings
+   */
+  public function setAnswerFeedbackSettings(GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings $answerFeedbackSettings)
+  {
+    $this->answerFeedbackSettings = $answerFeedbackSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AgentAnswerFeedbackSettings
+   */
+  public function getAnswerFeedbackSettings()
+  {
+    return $this->answerFeedbackSettings;
   }
   /**
    * @param string
@@ -172,6 +192,34 @@ class GoogleCloudDialogflowCxV3Agent extends \Google\Collection
   public function getEnableStackdriverLogging()
   {
     return $this->enableStackdriverLogging;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings
+   */
+  public function setGenAppBuilderSettings(GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings $genAppBuilderSettings)
+  {
+    $this->genAppBuilderSettings = $genAppBuilderSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AgentGenAppBuilderSettings
+   */
+  public function getGenAppBuilderSettings()
+  {
+    return $this->genAppBuilderSettings;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3AgentGitIntegrationSettings
+   */
+  public function setGitIntegrationSettings(GoogleCloudDialogflowCxV3AgentGitIntegrationSettings $gitIntegrationSettings)
+  {
+    $this->gitIntegrationSettings = $gitIntegrationSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AgentGitIntegrationSettings
+   */
+  public function getGitIntegrationSettings()
+  {
+    return $this->gitIntegrationSettings;
   }
   /**
    * @param bool

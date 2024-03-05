@@ -36,6 +36,7 @@ class ProjectsLocationsRepositoriesFiles extends \Google\Service\Resource
    * @param string $name Required. The name of the file to retrieve.
    * @param array $optParams Optional parameters.
    * @return GoogleDevtoolsArtifactregistryV1File
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsLocationsRepositoriesFiles extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @return ListFilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesFiles($parent, $optParams = [])
   {

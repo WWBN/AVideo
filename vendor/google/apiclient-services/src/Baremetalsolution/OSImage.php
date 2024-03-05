@@ -36,8 +36,10 @@ class OSImage extends \Google\Collection
    * @var string
    */
   public $name;
-  protected $supportedNetworkTemplatesType = ServerNetworkTemplate::class;
-  protected $supportedNetworkTemplatesDataType = 'array';
+  /**
+   * @var string[]
+   */
+  public $supportedNetworkTemplates;
 
   /**
    * @param string[]
@@ -96,14 +98,14 @@ class OSImage extends \Google\Collection
     return $this->name;
   }
   /**
-   * @param ServerNetworkTemplate[]
+   * @param string[]
    */
   public function setSupportedNetworkTemplates($supportedNetworkTemplates)
   {
     $this->supportedNetworkTemplates = $supportedNetworkTemplates;
   }
   /**
-   * @return ServerNetworkTemplate[]
+   * @return string[]
    */
   public function getSupportedNetworkTemplates()
   {

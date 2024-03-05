@@ -45,6 +45,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
    * view". Identifiers are limited to 100 characters and can include only
    * letters, digits, underscores, hyphens, and periods.
    * @return LogView
+   * @throws \Google\Service\Exception
    */
   public function create($parent, LogView $postBody, $optParams = [])
   {
@@ -63,6 +64,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
    * bucket/views/my-view"
    * @param array $optParams Optional parameters.
    * @return LoggingEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,7 +73,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
     return $this->call('delete', [$params], LoggingEmpty::class);
   }
   /**
-   * Gets a view on a log bucket.. (views.get)
+   * Gets a view on a log bucket. (views.get)
    *
    * @param string $name Required. The resource name of the policy: "projects/[PRO
    * JECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_ID]" For
@@ -79,6 +81,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
    * view"
    * @param array $optParams Optional parameters.
    * @return LogView
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -101,6 +104,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
    * the value of nextPageToken from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
    * @return ListViewsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBillingAccountsLocationsBucketsViews($parent, $optParams = [])
   {
@@ -109,11 +113,11 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
     return $this->call('list', [$params], ListViewsResponse::class);
   }
   /**
-   * Updates a view on a log bucket. This method replaces the following fields in
-   * the existing view with values from the new view: filter. If an UNAVAILABLE
-   * error is returned, this indicates that system is not in a state where it can
-   * update the view. If this occurs, please try again in a few minutes.
-   * (views.patch)
+   * Updates a view on a log bucket. This method replaces the value of the filter
+   * field from the existing view with the corresponding value from the new view.
+   * If an UNAVAILABLE error is returned, this indicates that system is not in a
+   * state where it can update the view. If this occurs, please try again in a few
+   * minutes. (views.patch)
    *
    * @param string $name Required. The full resource name of the view to update "p
    * rojects/[PROJECT_ID]/locations/[LOCATION_ID]/buckets/[BUCKET_ID]/views/[VIEW_
@@ -129,6 +133,7 @@ class BillingAccountsLocationsBucketsViews extends \Google\Service\Resource
    * buffers/docs/reference/google.protobuf#google.protobuf.FieldMaskFor example:
    * updateMask=filter
    * @return LogView
+   * @throws \Google\Service\Exception
    */
   public function patch($name, LogView $postBody, $optParams = [])
   {

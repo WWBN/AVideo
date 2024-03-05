@@ -20,10 +20,32 @@ namespace Google\Service\Contactcenterinsights;
 class GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationConfig extends \Google\Model
 {
   /**
+   * @var int
+   */
+  public $agentChannel;
+  /**
    * @var string
    */
   public $agentId;
+  /**
+   * @var int
+   */
+  public $customerChannel;
 
+  /**
+   * @param int
+   */
+  public function setAgentChannel($agentChannel)
+  {
+    $this->agentChannel = $agentChannel;
+  }
+  /**
+   * @return int
+   */
+  public function getAgentChannel()
+  {
+    return $this->agentChannel;
+  }
   /**
    * @param string
    */
@@ -37,6 +59,20 @@ class GoogleCloudContactcenterinsightsV1IngestConversationsRequestConversationCo
   public function getAgentId()
   {
     return $this->agentId;
+  }
+  /**
+   * @param int
+   */
+  public function setCustomerChannel($customerChannel)
+  {
+    $this->customerChannel = $customerChannel;
+  }
+  /**
+   * @return int
+   */
+  public function getCustomerChannel()
+  {
+    return $this->customerChannel;
   }
 }
 

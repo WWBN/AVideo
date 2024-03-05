@@ -46,6 +46,7 @@ class InventorySourceGroups extends \Google\Service\Resource
    * advertisers to which this group is explicitly shared will have read access to
    * this group.
    * @return InventorySourceGroup
+   * @throws \Google\Service\Exception
    */
   public function create(InventorySourceGroup $postBody, $optParams = [])
   {
@@ -66,6 +67,7 @@ class InventorySourceGroups extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that owns the inventory
    * source group. Only this partner has write access to this group.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($inventorySourceGroupId, $optParams = [])
   {
@@ -88,6 +90,7 @@ class InventorySourceGroups extends \Google\Service\Resource
    * inventory source group. A partner cannot access an advertiser-owned inventory
    * source group.
    * @return InventorySourceGroup
+   * @throws \Google\Service\Exception
    */
   public function get($inventorySourceGroupId, $optParams = [])
   {
@@ -128,6 +131,7 @@ class InventorySourceGroups extends \Google\Service\Resource
    * inventory source group. A partner cannot access advertiser-owned inventory
    * source groups.
    * @return ListInventorySourceGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listInventorySourceGroups($optParams = [])
   {
@@ -152,6 +156,7 @@ class InventorySourceGroups extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return InventorySourceGroup
+   * @throws \Google\Service\Exception
    */
   public function patch($inventorySourceGroupId, InventorySourceGroup $postBody, $optParams = [])
   {

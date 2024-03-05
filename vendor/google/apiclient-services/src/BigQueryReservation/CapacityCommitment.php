@@ -36,6 +36,10 @@ class CapacityCommitment extends \Google\Model
   /**
    * @var bool
    */
+  public $isFlatRate;
+  /**
+   * @var bool
+   */
   public $multiRegionAuxiliary;
   /**
    * @var string
@@ -113,6 +117,20 @@ class CapacityCommitment extends \Google\Model
   public function getFailureStatus()
   {
     return $this->failureStatus;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsFlatRate($isFlatRate)
+  {
+    $this->isFlatRate = $isFlatRate;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsFlatRate()
+  {
+    return $this->isFlatRate;
   }
   /**
    * @param bool

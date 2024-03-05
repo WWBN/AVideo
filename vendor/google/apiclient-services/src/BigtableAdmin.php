@@ -94,27 +94,7 @@ class BigtableAdmin extends \Google\Service
         'operations',
         [
           'methods' => [
-            'cancel' => [
-              'path' => 'v2/{+name}:cancel',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
+            'get' => [
               'path' => 'v2/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -774,17 +754,7 @@ class BigtableAdmin extends \Google\Service
         'locations',
         [
           'methods' => [
-            'get' => [
-              'path' => 'v2/{+name}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
+            'list' => [
               'path' => 'v2/{+name}/locations',
               'httpMethod' => 'GET',
               'parameters' => [

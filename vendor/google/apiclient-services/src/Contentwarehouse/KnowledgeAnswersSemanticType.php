@@ -24,6 +24,8 @@ class KnowledgeAnswersSemanticType extends \Google\Collection
    * @var bool
    */
   public $allowAll;
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   /**
    * @var bool
    */
@@ -32,6 +34,8 @@ class KnowledgeAnswersSemanticType extends \Google\Collection
    * @var string[]
    */
   public $name;
+  protected $nameContractsType = NlpMeaningSemanticTypeNameComponentSpecificContracts::class;
+  protected $nameContractsDataType = 'array';
   protected $nameRemodelingsType = NlpMeaningSemanticTypeNameMeaningRemodelings::class;
   protected $nameRemodelingsDataType = 'array';
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
@@ -50,6 +54,20 @@ class KnowledgeAnswersSemanticType extends \Google\Collection
   public function getAllowAll()
   {
     return $this->allowAll;
+  }
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
   }
   /**
    * @param bool
@@ -78,6 +96,20 @@ class KnowledgeAnswersSemanticType extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param NlpMeaningSemanticTypeNameComponentSpecificContracts[]
+   */
+  public function setNameContracts($nameContracts)
+  {
+    $this->nameContracts = $nameContracts;
+  }
+  /**
+   * @return NlpMeaningSemanticTypeNameComponentSpecificContracts[]
+   */
+  public function getNameContracts()
+  {
+    return $this->nameContracts;
   }
   /**
    * @param NlpMeaningSemanticTypeNameMeaningRemodelings[]

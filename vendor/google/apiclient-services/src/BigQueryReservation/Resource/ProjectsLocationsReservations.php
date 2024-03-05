@@ -43,6 +43,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
    * lower case alphanumeric characters or dashes. It must start with a letter and
    * must not end with a dash. Its maximum length is 64 characters.
    * @return Reservation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Reservation $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
    * E.g., `projects/myproject/locations/US/reservations/team1-prod`
    * @param array $optParams Optional parameters.
    * @return BigqueryreservationEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
    * E.g., `projects/myproject/locations/US/reservations/team1-prod`
    * @param array $optParams Optional parameters.
    * @return Reservation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,6 +94,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous List request, if any.
    * @return ListReservationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsReservations($parent, $optParams = [])
   {
@@ -111,6 +115,7 @@ class ProjectsLocationsReservations extends \Google\Service\Resource
    * @opt_param string updateMask Standard field mask for the set of fields to be
    * updated.
    * @return Reservation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Reservation $postBody, $optParams = [])
   {

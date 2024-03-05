@@ -21,6 +21,8 @@ class Partner extends \Google\Model
 {
   protected $adServerConfigType = PartnerAdServerConfig::class;
   protected $adServerConfigDataType = '';
+  protected $billingConfigType = PartnerBillingConfig::class;
+  protected $billingConfigDataType = '';
   protected $dataAccessConfigType = PartnerDataAccessConfig::class;
   protected $dataAccessConfigDataType = '';
   /**
@@ -61,6 +63,20 @@ class Partner extends \Google\Model
   public function getAdServerConfig()
   {
     return $this->adServerConfig;
+  }
+  /**
+   * @param PartnerBillingConfig
+   */
+  public function setBillingConfig(PartnerBillingConfig $billingConfig)
+  {
+    $this->billingConfig = $billingConfig;
+  }
+  /**
+   * @return PartnerBillingConfig
+   */
+  public function getBillingConfig()
+  {
+    return $this->billingConfig;
   }
   /**
    * @param PartnerDataAccessConfig

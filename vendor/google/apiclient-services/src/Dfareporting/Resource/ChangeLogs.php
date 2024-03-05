@@ -37,6 +37,7 @@ class ChangeLogs extends \Google\Service\Resource
    * @param string $id Change log ID.
    * @param array $optParams Optional parameters.
    * @return ChangeLog
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -76,6 +77,7 @@ class ChangeLogs extends \Google\Service\Resource
    * @opt_param string userProfileIds Select only change logs with these user
    * profile IDs.
    * @return ChangeLogsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listChangeLogs($profileId, $optParams = [])
   {

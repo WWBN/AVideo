@@ -48,6 +48,7 @@ class BiddersAccountsFilterSets extends \Google\Service\Resource
    * persisted indefinitely. By default, filter sets are not transient. If
    * transient, it will be available for at least 1 hour after creation.
    * @return FilterSet
+   * @throws \Google\Service\Exception
    */
   public function create($ownerName, FilterSet $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class BiddersAccountsFilterSets extends \Google\Service\Resource
    * `bidders/123/accounts/456/filterSets/abc`
    * @param array $optParams Optional parameters.
    * @return Adexchangebuyer2Empty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -86,6 +88,7 @@ class BiddersAccountsFilterSets extends \Google\Service\Resource
    * `bidders/123/accounts/456/filterSets/abc`
    * @param array $optParams Optional parameters.
    * @return FilterSet
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -113,6 +116,7 @@ class BiddersAccountsFilterSets extends \Google\Service\Resource
    * ListFilterSetsResponse.nextPageToken returned from the previous call to the
    * accounts.filterSets.list method.
    * @return ListFilterSetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersAccountsFilterSets($ownerName, $optParams = [])
   {

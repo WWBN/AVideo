@@ -24,10 +24,6 @@ class OperationMetadata extends \Google\Model
    */
   public $apiVersion;
   /**
-   * @var bool
-   */
-  public $cancelRequested;
-  /**
    * @var string
    */
   public $createTime;
@@ -36,9 +32,13 @@ class OperationMetadata extends \Google\Model
    */
   public $endTime;
   /**
+   * @var bool
+   */
+  public $requestedCancellation;
+  /**
    * @var string
    */
-  public $statusDetail;
+  public $statusMessage;
   /**
    * @var string
    */
@@ -61,20 +61,6 @@ class OperationMetadata extends \Google\Model
   public function getApiVersion()
   {
     return $this->apiVersion;
-  }
-  /**
-   * @param bool
-   */
-  public function setCancelRequested($cancelRequested)
-  {
-    $this->cancelRequested = $cancelRequested;
-  }
-  /**
-   * @return bool
-   */
-  public function getCancelRequested()
-  {
-    return $this->cancelRequested;
   }
   /**
    * @param string
@@ -105,18 +91,32 @@ class OperationMetadata extends \Google\Model
     return $this->endTime;
   }
   /**
+   * @param bool
+   */
+  public function setRequestedCancellation($requestedCancellation)
+  {
+    $this->requestedCancellation = $requestedCancellation;
+  }
+  /**
+   * @return bool
+   */
+  public function getRequestedCancellation()
+  {
+    return $this->requestedCancellation;
+  }
+  /**
    * @param string
    */
-  public function setStatusDetail($statusDetail)
+  public function setStatusMessage($statusMessage)
   {
-    $this->statusDetail = $statusDetail;
+    $this->statusMessage = $statusMessage;
   }
   /**
    * @return string
    */
-  public function getStatusDetail()
+  public function getStatusMessage()
   {
-    return $this->statusDetail;
+    return $this->statusMessage;
   }
   /**
    * @param string

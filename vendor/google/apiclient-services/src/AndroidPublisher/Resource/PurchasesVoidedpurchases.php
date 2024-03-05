@@ -65,6 +65,7 @@ class PurchasesVoidedpurchases extends \Google\Service\Resource
    * subscription orders with the same PurchaseToken, because subscription renewal
    * orders share the same PurchaseToken.
    * @return VoidedPurchasesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPurchasesVoidedpurchases($packageName, $optParams = [])
   {

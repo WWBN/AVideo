@@ -37,6 +37,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Required. The name of the location.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * of results. You get the token from the `next_page_token` field of the
    * response from the previous call.
    * @return GoogleCloudMlV1ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($parent, $optParams = [])
   {

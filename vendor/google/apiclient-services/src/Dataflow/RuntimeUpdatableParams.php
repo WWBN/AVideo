@@ -27,6 +27,7 @@ class RuntimeUpdatableParams extends \Google\Model
    * @var int
    */
   public $minNumWorkers;
+  public $workerUtilizationHint;
 
   /**
    * @param int
@@ -55,6 +56,14 @@ class RuntimeUpdatableParams extends \Google\Model
   public function getMinNumWorkers()
   {
     return $this->minNumWorkers;
+  }
+  public function setWorkerUtilizationHint($workerUtilizationHint)
+  {
+    $this->workerUtilizationHint = $workerUtilizationHint;
+  }
+  public function getWorkerUtilizationHint()
+  {
+    return $this->workerUtilizationHint;
   }
 }
 

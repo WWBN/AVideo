@@ -33,6 +33,10 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   /**
    * @var string[]
    */
+  public $documentNameFilter;
+  /**
+   * @var string[]
+   */
   public $documentSchemaNames;
   protected $fileTypeFilterType = GoogleCloudContentwarehouseV1FileTypeFilter::class;
   protected $fileTypeFilterDataType = '';
@@ -98,6 +102,20 @@ class GoogleCloudContentwarehouseV1DocumentQuery extends \Google\Collection
   public function getDocumentCreatorFilter()
   {
     return $this->documentCreatorFilter;
+  }
+  /**
+   * @param string[]
+   */
+  public function setDocumentNameFilter($documentNameFilter)
+  {
+    $this->documentNameFilter = $documentNameFilter;
+  }
+  /**
+   * @return string[]
+   */
+  public function getDocumentNameFilter()
+  {
+    return $this->documentNameFilter;
   }
   /**
    * @param string[]

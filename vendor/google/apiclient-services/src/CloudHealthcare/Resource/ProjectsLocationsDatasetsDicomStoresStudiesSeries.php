@@ -36,17 +36,18 @@ class ProjectsLocationsDatasetsDicomStoresStudiesSeries extends \Google\Service\
    * transaction. The method returns an Operation which will be marked successful
    * when the deletion is complete. Warning: Instances cannot be inserted into a
    * series that is being deleted by an operation until the operation completes.
-   * For samples that show how to call DeleteSeries, see [Deleting a study,
-   * series, or instance](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#deleting_a_study_series_or_instance). (series.delete)
+   * For samples that show how to call DeleteSeries, see [Delete a study, series,
+   * or instance](https://cloud.google.com/healthcare/docs/how-
+   * tos/dicomweb#delete-dicom). (series.delete)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the DeleteSeries request. For
-   * example, `studies/{study_uid}/series/{series_uid}`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the DeleteSeries request.
+   * For example, `studies/{study_uid}/series/{series_uid}`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($parent, $dicomWebPath, $optParams = [])
   {
@@ -62,17 +63,19 @@ class ProjectsLocationsDatasetsDicomStoresStudiesSeries extends \Google\Service\
    * RetrieveSeriesMetadata, see [Metadata
    * resources](https://cloud.google.com/healthcare/docs/dicom#metadata_resources)
    * in the Cloud Healthcare API conformance statement. For samples that show how
-   * to call RetrieveSeriesMetadata, see [Retrieving
-   * metadata](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#retrieving_metadata). (series.retrieveMetadata)
+   * to call RetrieveSeriesMetadata, see [Retrieve
+   * metadata](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#retrieve-
+   * metadata). (series.retrieveMetadata)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the RetrieveSeriesMetadata DICOMweb
-   * request. For example, `studies/{study_uid}/series/{series_uid}/metadata`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the RetrieveSeriesMetadata
+   * DICOMweb request. For example,
+   * `studies/{study_uid}/series/{series_uid}/metadata`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function retrieveMetadata($parent, $dicomWebPath, $optParams = [])
   {
@@ -87,16 +90,17 @@ class ProjectsLocationsDatasetsDicomStoresStudiesSeries extends \Google\Service\
    * RetrieveSeries, see [DICOM study/series/instances](https://cloud.google.com/h
    * ealthcare/docs/dicom#dicom_studyseriesinstances) in the Cloud Healthcare API
    * conformance statement. For samples that show how to call RetrieveSeries, see
-   * [Retrieving DICOM data](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#retrieving_dicom_data). (series.retrieveSeries)
+   * [Retrieve DICOM data](https://cloud.google.com/healthcare/docs/how-
+   * tos/dicomweb#retrieve-dicom). (series.retrieveSeries)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the RetrieveSeries DICOMweb request.
-   * For example, `studies/{study_uid}/series/{series_uid}`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the RetrieveSeries DICOMweb
+   * request. For example, `studies/{study_uid}/series/{series_uid}`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function retrieveSeries($parent, $dicomWebPath, $optParams = [])
   {
@@ -110,19 +114,19 @@ class ProjectsLocationsDatasetsDicomStoresStudiesSeries extends \Google\Service\
    * html#sect_10.6). For details on the implementation of SearchForInstances, see
    * [Search transaction](https://cloud.google.com/healthcare/docs/dicom#search_tr
    * ansaction) in the Cloud Healthcare API conformance statement. For samples
-   * that show how to call SearchForInstances, see [Searching for studies, series,
-   * instances, and frames](https://cloud.google.com/healthcare/docs/how-
-   * tos/dicomweb#searching_for_studies_series_instances_and_frames).
-   * (series.searchForInstances)
+   * that show how to call SearchForInstances, see [Search for DICOM
+   * data](https://cloud.google.com/healthcare/docs/how-tos/dicomweb#search-
+   * dicom). (series.searchForInstances)
    *
-   * @param string $parent The name of the DICOM store that is being accessed. For
-   * example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}
-   * /dicomStores/{dicom_store_id}`.
-   * @param string $dicomWebPath The path of the SearchForInstancesRequest
-   * DICOMweb request. For example, `instances`, `series/{series_uid}/instances`,
-   * or `studies/{study_uid}/instances`.
+   * @param string $parent Required. The name of the DICOM store that is being
+   * accessed. For example, `projects/{project_id}/locations/{location_id}/dataset
+   * s/{dataset_id}/dicomStores/{dicom_store_id}`.
+   * @param string $dicomWebPath Required. The path of the
+   * SearchForInstancesRequest DICOMweb request. For example, `instances`,
+   * `series/{series_uid}/instances`, or `studies/{study_uid}/instances`.
    * @param array $optParams Optional parameters.
    * @return HttpBody
+   * @throws \Google\Service\Exception
    */
   public function searchForInstances($parent, $dicomWebPath, $optParams = [])
   {

@@ -38,6 +38,10 @@ class Disk extends \Google\Collection
   public $description;
   protected $diskEncryptionKeyType = CustomerEncryptionKey::class;
   protected $diskEncryptionKeyDataType = '';
+  /**
+   * @var bool
+   */
+  public $enableConfidentialCompute;
   protected $guestOsFeaturesType = GuestOsFeature::class;
   protected $guestOsFeaturesDataType = 'array';
   /**
@@ -115,6 +119,10 @@ class Disk extends \Google\Collection
   /**
    * @var bool
    */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
   public $satisfiesPzs;
   /**
    * @var string
@@ -150,6 +158,14 @@ class Disk extends \Google\Collection
    * @var string
    */
   public $sourceImageId;
+  /**
+   * @var string
+   */
+  public $sourceInstantSnapshot;
+  /**
+   * @var string
+   */
+  public $sourceInstantSnapshotId;
   /**
    * @var string
    */
@@ -264,6 +280,20 @@ class Disk extends \Google\Collection
   public function getDiskEncryptionKey()
   {
     return $this->diskEncryptionKey;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableConfidentialCompute($enableConfidentialCompute)
+  {
+    $this->enableConfidentialCompute = $enableConfidentialCompute;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableConfidentialCompute()
+  {
+    return $this->enableConfidentialCompute;
   }
   /**
    * @param GuestOsFeature[]
@@ -548,6 +578,20 @@ class Disk extends \Google\Collection
   /**
    * @param bool
    */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
+  }
+  /**
+   * @param bool
+   */
   public function setSatisfiesPzs($satisfiesPzs)
   {
     $this->satisfiesPzs = $satisfiesPzs;
@@ -684,6 +728,34 @@ class Disk extends \Google\Collection
   public function getSourceImageId()
   {
     return $this->sourceImageId;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceInstantSnapshot($sourceInstantSnapshot)
+  {
+    $this->sourceInstantSnapshot = $sourceInstantSnapshot;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceInstantSnapshot()
+  {
+    return $this->sourceInstantSnapshot;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceInstantSnapshotId($sourceInstantSnapshotId)
+  {
+    $this->sourceInstantSnapshotId = $sourceInstantSnapshotId;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceInstantSnapshotId()
+  {
+    return $this->sourceInstantSnapshotId;
   }
   /**
    * @param string

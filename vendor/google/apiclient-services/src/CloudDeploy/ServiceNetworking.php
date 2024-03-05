@@ -24,6 +24,10 @@ class ServiceNetworking extends \Google\Model
    */
   public $deployment;
   /**
+   * @var bool
+   */
+  public $disablePodOverprovisioning;
+  /**
    * @var string
    */
   public $service;
@@ -41,6 +45,20 @@ class ServiceNetworking extends \Google\Model
   public function getDeployment()
   {
     return $this->deployment;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisablePodOverprovisioning($disablePodOverprovisioning)
+  {
+    $this->disablePodOverprovisioning = $disablePodOverprovisioning;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisablePodOverprovisioning()
+  {
+    return $this->disablePodOverprovisioning;
   }
   /**
    * @param string

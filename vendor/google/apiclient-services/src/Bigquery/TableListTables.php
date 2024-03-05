@@ -47,6 +47,10 @@ class TableListTables extends \Google\Model
   public $labels;
   protected $rangePartitioningType = RangePartitioning::class;
   protected $rangePartitioningDataType = '';
+  /**
+   * @var bool
+   */
+  public $requirePartitionFilter;
   protected $tableReferenceType = TableReference::class;
   protected $tableReferenceDataType = '';
   protected $timePartitioningType = TimePartitioning::class;
@@ -169,6 +173,20 @@ class TableListTables extends \Google\Model
   public function getRangePartitioning()
   {
     return $this->rangePartitioning;
+  }
+  /**
+   * @param bool
+   */
+  public function setRequirePartitionFilter($requirePartitionFilter)
+  {
+    $this->requirePartitionFilter = $requirePartitionFilter;
+  }
+  /**
+   * @return bool
+   */
+  public function getRequirePartitionFilter()
+  {
+    return $this->requirePartitionFilter;
   }
   /**
    * @param TableReference

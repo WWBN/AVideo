@@ -24,6 +24,8 @@ class DeviceIntegrity extends \Google\Collection
    * @var string[]
    */
   public $deviceRecognitionVerdict;
+  protected $recentDeviceActivityType = RecentDeviceActivity::class;
+  protected $recentDeviceActivityDataType = '';
 
   /**
    * @param string[]
@@ -38,6 +40,20 @@ class DeviceIntegrity extends \Google\Collection
   public function getDeviceRecognitionVerdict()
   {
     return $this->deviceRecognitionVerdict;
+  }
+  /**
+   * @param RecentDeviceActivity
+   */
+  public function setRecentDeviceActivity(RecentDeviceActivity $recentDeviceActivity)
+  {
+    $this->recentDeviceActivity = $recentDeviceActivity;
+  }
+  /**
+   * @return RecentDeviceActivity
+   */
+  public function getRecentDeviceActivity()
+  {
+    return $this->recentDeviceActivity;
   }
 }
 

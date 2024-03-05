@@ -46,6 +46,7 @@ class AppsDomainMappings extends \Google\Service\Resource
    * override any existing mappings for this domain. By default, overrides are
    * rejected.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($appsId, DomainMapping $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class AppsDomainMappings extends \Google\Service\Resource
    * `appsId`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($appsId, $domainMappingsId, $optParams = [])
   {
@@ -80,6 +82,7 @@ class AppsDomainMappings extends \Google\Service\Resource
    * `appsId`.
    * @param array $optParams Optional parameters.
    * @return DomainMapping
+   * @throws \Google\Service\Exception
    */
   public function get($appsId, $domainMappingsId, $optParams = [])
   {
@@ -99,6 +102,7 @@ class AppsDomainMappings extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListDomainMappingsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAppsDomainMappings($appsId, $optParams = [])
   {
@@ -122,6 +126,7 @@ class AppsDomainMappings extends \Google\Service\Resource
    * @opt_param string updateMask Required. Standard field mask for the set of
    * fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($appsId, $domainMappingsId, DomainMapping $postBody, $optParams = [])
   {

@@ -18,7 +18,10 @@
 namespace Google\Service\Dialogflow\Resource;
 
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3EntityType;
+use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ExportEntityTypesRequest;
+use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ImportEntityTypesRequest;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListEntityTypesResponse;
+use Google\Service\Dialogflow\GoogleLongrunningOperation;
 use Google\Service\Dialogflow\GoogleProtobufEmpty;
 
 /**
@@ -50,6 +53,7 @@ class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3EntityType
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3EntityType $postBody, $optParams = [])
   {
@@ -75,12 +79,29 @@ class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource
    * the entity type will be changed to '@sys.any' and intent parameter of the
    * entity type will be removed).
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Exports the selected entity types. (entityTypes.export)
+   *
+   * @param string $parent Required. The name of the parent agent to export entity
+   * types. Format: `projects//locations//agents/`.
+   * @param GoogleCloudDialogflowCxV3ExportEntityTypesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function export($parent, GoogleCloudDialogflowCxV3ExportEntityTypesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('export', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Retrieves the specified entity type. (entityTypes.get)
@@ -97,12 +118,29 @@ class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3EntityType
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudDialogflowCxV3EntityType::class);
+  }
+  /**
+   * Imports the specified entitytypes into the agent. (entityTypes.import)
+   *
+   * @param string $parent Required. The agent to import the entity types into.
+   * Format: `projects//locations//agents/`.
+   * @param GoogleCloudDialogflowCxV3ImportEntityTypesRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function import($parent, GoogleCloudDialogflowCxV3ImportEntityTypesRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('import', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Returns the list of all entity types in the specified agent.
@@ -124,6 +162,7 @@ class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListEntityTypesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsEntityTypes($parent, $optParams = [])
   {
@@ -152,6 +191,7 @@ class ProjectsLocationsAgentsEntityTypes extends \Google\Service\Resource
    * be used.
    * @opt_param string updateMask The mask to control which fields get updated.
    * @return GoogleCloudDialogflowCxV3EntityType
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3EntityType $postBody, $optParams = [])
   {

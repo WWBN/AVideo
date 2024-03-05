@@ -19,6 +19,8 @@ namespace Google\Service\Contentwarehouse;
 
 class ImageRepositoryFrameIdentifier extends \Google\Model
 {
+  protected $multiThumbnailVariantType = ImageRepositoryFrameIdentifierMultiThumbnailVariant::class;
+  protected $multiThumbnailVariantDataType = '';
   protected $previewFrameZeroVariantType = ImageRepositoryFrameIdentifierPreviewFrameZeroVariant::class;
   protected $previewFrameZeroVariantDataType = '';
   protected $thumbnailVariantType = ImageRepositoryFrameIdentifierThumbnailVariant::class;
@@ -28,6 +30,20 @@ class ImageRepositoryFrameIdentifier extends \Google\Model
    */
   public $timestampMs;
 
+  /**
+   * @param ImageRepositoryFrameIdentifierMultiThumbnailVariant
+   */
+  public function setMultiThumbnailVariant(ImageRepositoryFrameIdentifierMultiThumbnailVariant $multiThumbnailVariant)
+  {
+    $this->multiThumbnailVariant = $multiThumbnailVariant;
+  }
+  /**
+   * @return ImageRepositoryFrameIdentifierMultiThumbnailVariant
+   */
+  public function getMultiThumbnailVariant()
+  {
+    return $this->multiThumbnailVariant;
+  }
   /**
    * @param ImageRepositoryFrameIdentifierPreviewFrameZeroVariant
    */

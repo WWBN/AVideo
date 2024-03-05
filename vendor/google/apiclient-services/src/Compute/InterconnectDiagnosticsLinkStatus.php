@@ -32,6 +32,8 @@ class InterconnectDiagnosticsLinkStatus extends \Google\Collection
   public $googleDemarc;
   protected $lacpStatusType = InterconnectDiagnosticsLinkLACPStatus::class;
   protected $lacpStatusDataType = '';
+  protected $macsecType = InterconnectDiagnosticsMacsecStatus::class;
+  protected $macsecDataType = '';
   /**
    * @var string
    */
@@ -96,6 +98,20 @@ class InterconnectDiagnosticsLinkStatus extends \Google\Collection
   public function getLacpStatus()
   {
     return $this->lacpStatus;
+  }
+  /**
+   * @param InterconnectDiagnosticsMacsecStatus
+   */
+  public function setMacsec(InterconnectDiagnosticsMacsecStatus $macsec)
+  {
+    $this->macsec = $macsec;
+  }
+  /**
+   * @return InterconnectDiagnosticsMacsecStatus
+   */
+  public function getMacsec()
+  {
+    return $this->macsec;
   }
   /**
    * @param string

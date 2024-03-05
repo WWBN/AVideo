@@ -23,6 +23,8 @@ class GoogleCloudRecaptchaenterpriseV1FirewallAction extends \Google\Model
   protected $allowDataType = '';
   protected $blockType = GoogleCloudRecaptchaenterpriseV1FirewallActionBlockAction::class;
   protected $blockDataType = '';
+  protected $includeRecaptchaScriptType = GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction::class;
+  protected $includeRecaptchaScriptDataType = '';
   protected $redirectType = GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction::class;
   protected $redirectDataType = '';
   protected $setHeaderType = GoogleCloudRecaptchaenterpriseV1FirewallActionSetHeaderAction::class;
@@ -57,6 +59,20 @@ class GoogleCloudRecaptchaenterpriseV1FirewallAction extends \Google\Model
   public function getBlock()
   {
     return $this->block;
+  }
+  /**
+   * @param GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction
+   */
+  public function setIncludeRecaptchaScript(GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction $includeRecaptchaScript)
+  {
+    $this->includeRecaptchaScript = $includeRecaptchaScript;
+  }
+  /**
+   * @return GoogleCloudRecaptchaenterpriseV1FirewallActionIncludeRecaptchaScriptAction
+   */
+  public function getIncludeRecaptchaScript()
+  {
+    return $this->includeRecaptchaScript;
   }
   /**
    * @param GoogleCloudRecaptchaenterpriseV1FirewallActionRedirectAction

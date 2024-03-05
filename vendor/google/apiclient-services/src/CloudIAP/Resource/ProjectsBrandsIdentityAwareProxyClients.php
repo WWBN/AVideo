@@ -43,6 +43,7 @@ class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource
    * @param IdentityAwareProxyClient $postBody
    * @param array $optParams Optional parameters.
    * @return IdentityAwareProxyClient
+   * @throws \Google\Service\Exception
    */
   public function create($parent, IdentityAwareProxyClient $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource
    * /identityAwareProxyClients/{client_id}.
    * @param array $optParams Optional parameters.
    * @return IapEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource
    * /identityAwareProxyClients/{client_id}.
    * @param array $optParams Optional parameters.
    * @return IdentityAwareProxyClient
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -102,6 +105,7 @@ class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource
    * `ListIdentityAwareProxyClients` must match the call that provided the page
    * token.
    * @return ListIdentityAwareProxyClientsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsBrandsIdentityAwareProxyClients($parent, $optParams = [])
   {
@@ -120,6 +124,7 @@ class ProjectsBrandsIdentityAwareProxyClients extends \Google\Service\Resource
    * @param ResetIdentityAwareProxyClientSecretRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IdentityAwareProxyClient
+   * @throws \Google\Service\Exception
    */
   public function resetSecret($name, ResetIdentityAwareProxyClientSecretRequest $postBody, $optParams = [])
   {

@@ -38,6 +38,7 @@ class AbuseReports extends \Google\Service\Resource
    * @param AbuseReport $postBody
    * @param array $optParams Optional parameters.
    * @return AbuseReport
+   * @throws \Google\Service\Exception
    */
   public function insert($part, AbuseReport $postBody, $optParams = [])
   {

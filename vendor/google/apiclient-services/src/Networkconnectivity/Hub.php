@@ -36,8 +36,14 @@ class Hub extends \Google\Collection
    * @var string
    */
   public $name;
+  /**
+   * @var string[]
+   */
+  public $routeTables;
   protected $routingVpcsType = RoutingVPC::class;
   protected $routingVpcsDataType = 'array';
+  protected $spokeSummaryType = SpokeSummary::class;
+  protected $spokeSummaryDataType = '';
   /**
    * @var string
    */
@@ -108,6 +114,20 @@ class Hub extends \Google\Collection
     return $this->name;
   }
   /**
+   * @param string[]
+   */
+  public function setRouteTables($routeTables)
+  {
+    $this->routeTables = $routeTables;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRouteTables()
+  {
+    return $this->routeTables;
+  }
+  /**
    * @param RoutingVPC[]
    */
   public function setRoutingVpcs($routingVpcs)
@@ -120,6 +140,20 @@ class Hub extends \Google\Collection
   public function getRoutingVpcs()
   {
     return $this->routingVpcs;
+  }
+  /**
+   * @param SpokeSummary
+   */
+  public function setSpokeSummary(SpokeSummary $spokeSummary)
+  {
+    $this->spokeSummary = $spokeSummary;
+  }
+  /**
+   * @return SpokeSummary
+   */
+  public function getSpokeSummary()
+  {
+    return $this->spokeSummary;
   }
   /**
    * @param string

@@ -100,10 +100,14 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
    * @var bool
    */
   public $isNimbleAnnotation;
-  protected $locationType = GeostorePointProto::class;
   protected $locationDataType = '';
+  public $locationClassificationScore;
   protected $locationMarkersSignalsType = KnowledgeAnswersIntentQueryLocationMarkersSignals::class;
   protected $locationMarkersSignalsDataType = '';
+  /**
+   * @var string
+   */
+  public $locationType;
   protected $mediaEntitySignalsType = KnowledgeAnswersIntentQueryMediaEntitySignals::class;
   protected $mediaEntitySignalsDataType = '';
   protected $mergedImpliedEntityType = KnowledgeAnswersIntentQueryImpliedEntity::class;
@@ -162,12 +166,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   protected $saftSignalsDataType = '';
   protected $shoppingIdsType = KnowledgeAnswersIntentQueryShoppingIds::class;
   protected $shoppingIdsDataType = '';
+  /**
+   * @var string
+   */
+  public $source;
   protected $supportTransferRulesType = LogsSemanticInterpretationIntentQuerySupportTransferRule::class;
   protected $supportTransferRulesDataType = 'array';
   protected $supportTransferSignalsType = KnowledgeAnswersIntentQuerySupportTransferSignals::class;
   protected $supportTransferSignalsDataType = '';
   protected $ungroundedValueTypeType = KnowledgeAnswersValueType::class;
   protected $ungroundedValueTypeDataType = '';
+  /**
+   * @var string
+   */
+  public $valueSource;
   /**
    * @var string
    */
@@ -527,6 +539,14 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   {
     return $this->location;
   }
+  public function setLocationClassificationScore($locationClassificationScore)
+  {
+    $this->locationClassificationScore = $locationClassificationScore;
+  }
+  public function getLocationClassificationScore()
+  {
+    return $this->locationClassificationScore;
+  }
   /**
    * @param KnowledgeAnswersIntentQueryLocationMarkersSignals
    */
@@ -540,6 +560,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public function getLocationMarkersSignals()
   {
     return $this->locationMarkersSignals;
+  }
+  /**
+   * @param string
+   */
+  public function setLocationType($locationType)
+  {
+    $this->locationType = $locationType;
+  }
+  /**
+   * @return string
+   */
+  public function getLocationType()
+  {
+    return $this->locationType;
   }
   /**
    * @param KnowledgeAnswersIntentQueryMediaEntitySignals
@@ -836,6 +870,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
     return $this->shoppingIds;
   }
   /**
+   * @param string
+   */
+  public function setSource($source)
+  {
+    $this->source = $source;
+  }
+  /**
+   * @return string
+   */
+  public function getSource()
+  {
+    return $this->source;
+  }
+  /**
    * @param LogsSemanticInterpretationIntentQuerySupportTransferRule[]
    */
   public function setSupportTransferRules($supportTransferRules)
@@ -876,6 +924,20 @@ class KnowledgeAnswersIntentQueryArgumentSignals extends \Google\Collection
   public function getUngroundedValueType()
   {
     return $this->ungroundedValueType;
+  }
+  /**
+   * @param string
+   */
+  public function setValueSource($valueSource)
+  {
+    $this->valueSource = $valueSource;
+  }
+  /**
+   * @return string
+   */
+  public function getValueSource()
+  {
+    return $this->valueSource;
   }
   /**
    * @param string

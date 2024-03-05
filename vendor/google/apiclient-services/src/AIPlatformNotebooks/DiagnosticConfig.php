@@ -22,37 +22,65 @@ class DiagnosticConfig extends \Google\Model
   /**
    * @var bool
    */
-  public $copyHomeFilesFlagEnabled;
+  public $enableCopyHomeFilesFlag;
+  /**
+   * @var bool
+   */
+  public $enablePacketCaptureFlag;
+  /**
+   * @var bool
+   */
+  public $enableRepairFlag;
   /**
    * @var string
    */
   public $gcsBucket;
   /**
-   * @var bool
-   */
-  public $packetCaptureFlagEnabled;
-  /**
    * @var string
    */
   public $relativePath;
-  /**
-   * @var bool
-   */
-  public $repairFlagEnabled;
 
   /**
    * @param bool
    */
-  public function setCopyHomeFilesFlagEnabled($copyHomeFilesFlagEnabled)
+  public function setEnableCopyHomeFilesFlag($enableCopyHomeFilesFlag)
   {
-    $this->copyHomeFilesFlagEnabled = $copyHomeFilesFlagEnabled;
+    $this->enableCopyHomeFilesFlag = $enableCopyHomeFilesFlag;
   }
   /**
    * @return bool
    */
-  public function getCopyHomeFilesFlagEnabled()
+  public function getEnableCopyHomeFilesFlag()
   {
-    return $this->copyHomeFilesFlagEnabled;
+    return $this->enableCopyHomeFilesFlag;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnablePacketCaptureFlag($enablePacketCaptureFlag)
+  {
+    $this->enablePacketCaptureFlag = $enablePacketCaptureFlag;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnablePacketCaptureFlag()
+  {
+    return $this->enablePacketCaptureFlag;
+  }
+  /**
+   * @param bool
+   */
+  public function setEnableRepairFlag($enableRepairFlag)
+  {
+    $this->enableRepairFlag = $enableRepairFlag;
+  }
+  /**
+   * @return bool
+   */
+  public function getEnableRepairFlag()
+  {
+    return $this->enableRepairFlag;
   }
   /**
    * @param string
@@ -69,20 +97,6 @@ class DiagnosticConfig extends \Google\Model
     return $this->gcsBucket;
   }
   /**
-   * @param bool
-   */
-  public function setPacketCaptureFlagEnabled($packetCaptureFlagEnabled)
-  {
-    $this->packetCaptureFlagEnabled = $packetCaptureFlagEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getPacketCaptureFlagEnabled()
-  {
-    return $this->packetCaptureFlagEnabled;
-  }
-  /**
    * @param string
    */
   public function setRelativePath($relativePath)
@@ -95,20 +109,6 @@ class DiagnosticConfig extends \Google\Model
   public function getRelativePath()
   {
     return $this->relativePath;
-  }
-  /**
-   * @param bool
-   */
-  public function setRepairFlagEnabled($repairFlagEnabled)
-  {
-    $this->repairFlagEnabled = $repairFlagEnabled;
-  }
-  /**
-   * @return bool
-   */
-  public function getRepairFlagEnabled()
-  {
-    return $this->repairFlagEnabled;
   }
 }
 

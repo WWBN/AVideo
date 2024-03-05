@@ -44,6 +44,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * @param GoogleCloudApigeeV1ArchiveDeployment $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1ArchiveDeployment $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -76,6 +78,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * @param GoogleCloudApigeeV1GenerateDownloadUrlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1GenerateDownloadUrlResponse
+   * @throws \Google\Service\Exception
    */
   public function generateDownloadUrl($name, GoogleCloudApigeeV1GenerateDownloadUrlRequest $postBody, $optParams = [])
   {
@@ -102,6 +105,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * @param GoogleCloudApigeeV1GenerateUploadUrlRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1GenerateUploadUrlResponse
+   * @throws \Google\Service\Exception
    */
   public function generateUploadUrl($parent, GoogleCloudApigeeV1GenerateUploadUrlRequest $postBody, $optParams = [])
   {
@@ -116,6 +120,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * format: `organizations/{org}/environments/{env}/archiveDeployments/{id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ArchiveDeployment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -139,6 +144,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    * @opt_param string pageToken Optional. Page token, returned from a previous
    * ListArchiveDeployments call, that you can use to retrieve the next page.
    * @return GoogleCloudApigeeV1ListArchiveDeploymentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvironmentsArchiveDeployments($parent, $optParams = [])
   {
@@ -157,6 +163,7 @@ class OrganizationsEnvironmentsArchiveDeployments extends \Google\Service\Resour
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return GoogleCloudApigeeV1ArchiveDeployment
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudApigeeV1ArchiveDeployment $postBody, $optParams = [])
   {

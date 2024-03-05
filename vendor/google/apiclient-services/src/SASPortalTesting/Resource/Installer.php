@@ -39,6 +39,7 @@ class Installer extends \Google\Service\Resource
    * @param SasPortalGenerateSecretRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalGenerateSecretResponse
+   * @throws \Google\Service\Exception
    */
   public function generateSecret(SasPortalGenerateSecretRequest $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Installer extends \Google\Service\Resource
    * @param SasPortalValidateInstallerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalValidateInstallerResponse
+   * @throws \Google\Service\Exception
    */
   public function validate(SasPortalValidateInstallerRequest $postBody, $optParams = [])
   {

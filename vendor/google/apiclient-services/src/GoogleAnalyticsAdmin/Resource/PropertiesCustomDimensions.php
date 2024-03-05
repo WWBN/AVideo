@@ -40,6 +40,7 @@ class PropertiesCustomDimensions extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaArchiveCustomDimensionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function archive($name, GoogleAnalyticsAdminV1betaArchiveCustomDimensionRequest $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class PropertiesCustomDimensions extends \Google\Service\Resource
    * @param GoogleAnalyticsAdminV1betaCustomDimension $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaCustomDimension
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleAnalyticsAdminV1betaCustomDimension $postBody, $optParams = [])
   {
@@ -68,6 +70,7 @@ class PropertiesCustomDimensions extends \Google\Service\Resource
    * format: properties/1234/customDimensions/5678
    * @param array $optParams Optional parameters.
    * @return GoogleAnalyticsAdminV1betaCustomDimension
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class PropertiesCustomDimensions extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListCustomDimensions` must
    * match the call that provided the page token.
    * @return GoogleAnalyticsAdminV1betaListCustomDimensionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPropertiesCustomDimensions($parent, $optParams = [])
   {
@@ -109,6 +113,7 @@ class PropertiesCustomDimensions extends \Google\Service\Resource
    * Omitted fields will not be updated. To replace the entire entity, use one
    * path with the string "*" to match all fields.
    * @return GoogleAnalyticsAdminV1betaCustomDimension
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleAnalyticsAdminV1betaCustomDimension $postBody, $optParams = [])
   {

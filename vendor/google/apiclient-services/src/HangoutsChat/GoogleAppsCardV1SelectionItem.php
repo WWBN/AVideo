@@ -20,9 +20,17 @@ namespace Google\Service\HangoutsChat;
 class GoogleAppsCardV1SelectionItem extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $bottomText;
+  /**
    * @var bool
    */
   public $selected;
+  /**
+   * @var string
+   */
+  public $startIconUri;
   /**
    * @var string
    */
@@ -32,6 +40,20 @@ class GoogleAppsCardV1SelectionItem extends \Google\Model
    */
   public $value;
 
+  /**
+   * @param string
+   */
+  public function setBottomText($bottomText)
+  {
+    $this->bottomText = $bottomText;
+  }
+  /**
+   * @return string
+   */
+  public function getBottomText()
+  {
+    return $this->bottomText;
+  }
   /**
    * @param bool
    */
@@ -45,6 +67,20 @@ class GoogleAppsCardV1SelectionItem extends \Google\Model
   public function getSelected()
   {
     return $this->selected;
+  }
+  /**
+   * @param string
+   */
+  public function setStartIconUri($startIconUri)
+  {
+    $this->startIconUri = $startIconUri;
+  }
+  /**
+   * @return string
+   */
+  public function getStartIconUri()
+  {
+    return $this->startIconUri;
   }
   /**
    * @param string

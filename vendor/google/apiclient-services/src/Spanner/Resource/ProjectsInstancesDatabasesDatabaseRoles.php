@@ -44,6 +44,7 @@ class ProjectsInstancesDatabasesDatabaseRoles extends \Google\Service\Resource
    * @opt_param string pageToken If non-empty, `page_token` should contain a
    * next_page_token from a previous ListDatabaseRolesResponse.
    * @return ListDatabaseRolesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesDatabasesDatabaseRoles($parent, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsInstancesDatabasesDatabaseRoles extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

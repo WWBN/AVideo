@@ -41,6 +41,7 @@ class Media extends \Google\Service\Resource
    * MIME type must be one specified in the attachment.mime_type. Required when
    * downloading attachment media and ignored otherwise.
    * @return Attachment
+   * @throws \Google\Service\Exception
    */
   public function download($name, $optParams = [])
   {

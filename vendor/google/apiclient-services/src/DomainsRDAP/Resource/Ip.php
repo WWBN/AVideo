@@ -37,6 +37,7 @@ class Ip extends \Google\Service\Resource
    * @param string $ipId1
    * @param array $optParams Optional parameters.
    * @return RdapResponse
+   * @throws \Google\Service\Exception
    */
   public function get($ipId, $ipId1, $optParams = [])
   {

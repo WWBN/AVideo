@@ -39,6 +39,7 @@ class Media extends \Google\Service\Resource
    * ReadRequest.resource_name.
    * @param array $optParams Optional parameters.
    * @return GoogleBytestreamMedia
+   * @throws \Google\Service\Exception
    */
   public function download($resourceName, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Media extends \Google\Service\Resource
    * @param GoogleBytestreamMedia $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleBytestreamMedia
+   * @throws \Google\Service\Exception
    */
   public function upload($resourceName, GoogleBytestreamMedia $postBody, $optParams = [])
   {

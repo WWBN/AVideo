@@ -20,6 +20,10 @@ namespace Google\Service\MigrationCenterAPI;
 class Settings extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $disableCloudLogging;
+  /**
    * @var string
    */
   public $name;
@@ -28,6 +32,20 @@ class Settings extends \Google\Model
    */
   public $preferenceSet;
 
+  /**
+   * @param bool
+   */
+  public function setDisableCloudLogging($disableCloudLogging)
+  {
+    $this->disableCloudLogging = $disableCloudLogging;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableCloudLogging()
+  {
+    return $this->disableCloudLogging;
+  }
   /**
    * @param string
    */

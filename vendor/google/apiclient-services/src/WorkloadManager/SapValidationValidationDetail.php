@@ -24,6 +24,10 @@ class SapValidationValidationDetail extends \Google\Model
    */
   public $details;
   /**
+   * @var bool
+   */
+  public $isPresent;
+  /**
    * @var string
    */
   public $sapValidationType;
@@ -41,6 +45,20 @@ class SapValidationValidationDetail extends \Google\Model
   public function getDetails()
   {
     return $this->details;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsPresent($isPresent)
+  {
+    $this->isPresent = $isPresent;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsPresent()
+  {
+    return $this->isPresent;
   }
   /**
    * @param string

@@ -212,6 +212,16 @@ class CloudMemorystoreforMemcached extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'upgrade' => [
+              'path' => 'v1/{+name}:upgrade',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

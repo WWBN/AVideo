@@ -53,6 +53,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * @param CopyBackupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function copy($parent, CopyBackupRequest $postBody, $optParams = [])
   {
@@ -88,6 +89,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * encryption_type is `CUSTOMER_MANAGED_ENCRYPTION`. Values are of the form
    * `projects//locations//keyRings//cryptoKeys/`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Backup $postBody, $optParams = [])
   {
@@ -102,6 +104,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * form `projects//instances//backups/`.
    * @param array $optParams Optional parameters.
    * @return SpannerEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * `projects//instances//backups/`.
    * @param array $optParams Optional parameters.
    * @return Backup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -136,6 +140,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -179,6 +184,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * next_page_token from a previous ListBackupsResponse to the same `parent` and
    * with the same `filter`.
    * @return ListBackupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesBackups($parent, $optParams = [])
   {
@@ -206,6 +212,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * must always be specified; this prevents any future fields from being erased
    * accidentally by clients that do not know about them.
    * @return Backup
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Backup $postBody, $optParams = [])
   {
@@ -225,6 +232,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -248,6 +256,7 @@ class ProjectsInstancesBackups extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

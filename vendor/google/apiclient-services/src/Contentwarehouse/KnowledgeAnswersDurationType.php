@@ -19,11 +19,27 @@ namespace Google\Service\Contentwarehouse;
 
 class KnowledgeAnswersDurationType extends \Google\Model
 {
+  protected $componentSpecificContractsType = NlpMeaningComponentSpecificContracts::class;
+  protected $componentSpecificContractsDataType = '';
   protected $rangeConstraintType = KnowledgeAnswersRangeConstraint::class;
   protected $rangeConstraintDataType = '';
   protected $remodelingsType = NlpMeaningMeaningRemodelings::class;
   protected $remodelingsDataType = '';
 
+  /**
+   * @param NlpMeaningComponentSpecificContracts
+   */
+  public function setComponentSpecificContracts(NlpMeaningComponentSpecificContracts $componentSpecificContracts)
+  {
+    $this->componentSpecificContracts = $componentSpecificContracts;
+  }
+  /**
+   * @return NlpMeaningComponentSpecificContracts
+   */
+  public function getComponentSpecificContracts()
+  {
+    return $this->componentSpecificContracts;
+  }
   /**
    * @param KnowledgeAnswersRangeConstraint
    */

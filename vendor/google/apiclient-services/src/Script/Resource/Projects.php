@@ -39,6 +39,7 @@ class Projects extends \Google\Service\Resource
    * @param CreateProjectRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Project
+   * @throws \Google\Service\Exception
    */
   public function create(CreateProjectRequest $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class Projects extends \Google\Service\Resource
    * @param string $scriptId The script project's Drive ID.
    * @param array $optParams Optional parameters.
    * @return Project
+   * @throws \Google\Service\Exception
    */
   public function get($scriptId, $optParams = [])
   {
@@ -69,6 +71,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param int versionNumber The version number of the project to retrieve.
    * If not provided, the project's HEAD version is returned.
    * @return Content
+   * @throws \Google\Service\Exception
    */
   public function getContent($scriptId, $optParams = [])
   {
@@ -89,6 +92,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param string metricsGranularity Required field indicating what
    * granularity of metrics are returned.
    * @return Metrics
+   * @throws \Google\Service\Exception
    */
   public function getMetrics($scriptId, $optParams = [])
   {
@@ -107,6 +111,7 @@ class Projects extends \Google\Service\Resource
    * @param Content $postBody
    * @param array $optParams Optional parameters.
    * @return Content
+   * @throws \Google\Service\Exception
    */
   public function updateContent($scriptId, Content $postBody, $optParams = [])
   {

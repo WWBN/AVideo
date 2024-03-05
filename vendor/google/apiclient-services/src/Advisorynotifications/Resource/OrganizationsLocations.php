@@ -17,6 +17,8 @@
 
 namespace Google\Service\Advisorynotifications\Resource;
 
+use Google\Service\Advisorynotifications\GoogleCloudAdvisorynotificationsV1Settings;
+
 /**
  * The "locations" collection of methods.
  * Typical usage is:
@@ -27,6 +29,37 @@ namespace Google\Service\Advisorynotifications\Resource;
  */
 class OrganizationsLocations extends \Google\Service\Resource
 {
+  /**
+   * Get notification settings. (locations.getSettings)
+   *
+   * @param string $name Required. The resource name of the settings to retrieve.
+   * Format: organizations/{organization}/locations/{location}/settings.
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAdvisorynotificationsV1Settings
+   * @throws \Google\Service\Exception
+   */
+  public function getSettings($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('getSettings', [$params], GoogleCloudAdvisorynotificationsV1Settings::class);
+  }
+  /**
+   * Update notification settings. (locations.updateSettings)
+   *
+   * @param string $name Identifier. The resource name of the settings to
+   * retrieve. Format: organizations/{organization}/locations/{location}/settings.
+   * @param GoogleCloudAdvisorynotificationsV1Settings $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleCloudAdvisorynotificationsV1Settings
+   * @throws \Google\Service\Exception
+   */
+  public function updateSettings($name, GoogleCloudAdvisorynotificationsV1Settings $postBody, $optParams = [])
+  {
+    $params = ['name' => $name, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('updateSettings', [$params], GoogleCloudAdvisorynotificationsV1Settings::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -50,6 +50,7 @@ class Documents extends \Google\Service\Resource
    * @param BatchUpdateDocumentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateDocumentResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdate($documentId, BatchUpdateDocumentRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class Documents extends \Google\Service\Resource
    * @param Document $postBody
    * @param array $optParams Optional parameters.
    * @return Document
+   * @throws \Google\Service\Exception
    */
   public function create(Document $postBody, $optParams = [])
   {
@@ -83,6 +85,7 @@ class Documents extends \Google\Service\Resource
    * accepted or rejected. If one is not specified, DEFAULT_FOR_CURRENT_ACCESS is
    * used.
    * @return Document
+   * @throws \Google\Service\Exception
    */
   public function get($documentId, $optParams = [])
   {

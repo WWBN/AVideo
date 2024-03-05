@@ -40,6 +40,7 @@ class ProjectsLocationsExternalAccountKeys extends \Google\Service\Resource
    * @param ExternalAccountKey $postBody
    * @param array $optParams Optional parameters.
    * @return ExternalAccountKey
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ExternalAccountKey $postBody, $optParams = [])
   {

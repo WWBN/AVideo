@@ -31,14 +31,26 @@ use Google\Service\CloudSupport\ListCommentsResponse;
 class CasesComments extends \Google\Service\Resource
 {
   /**
-   * Add a new comment to the specified Case. The comment object must have the
-   * following fields set: body. (comments.create)
+   * Add a new comment to a case. The comment must have the following fields set:
+   * `body`. EXAMPLES: cURL: ```shell case="projects/some-project/cases/43591344"
+   * curl \ --request POST \ --header "Authorization: Bearer $(gcloud auth print-
+   * access-token)" \ --header 'Content-Type: application/json' \ --data '{
+   * "body": "This is a test comment." }' \
+   * "https://cloudsupport.googleapis.com/v2/$case/comments" ``` Python: ```python
+   * import googleapiclient.discovery api_version = "v2" supportApiService =
+   * googleapiclient.discovery.build( serviceName="cloudsupport",
+   * version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.co
+   * m/$discovery/rest?version={api_version}", ) request = (
+   * supportApiService.cases() .comments() .create( parent="projects/some-
+   * project/cases/43595344", body={"body": "This is a test comment."}, ) )
+   * print(request.execute()) ``` (comments.create)
    *
-   * @param string $parent Required. The resource name of Case to which this
-   * comment should be added.
+   * @param string $parent Required. The name of the case to which the comment
+   * should be added.
    * @param Comment $postBody
    * @param array $optParams Optional parameters.
    * @return Comment
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Comment $postBody, $optParams = [])
   {
@@ -47,18 +59,28 @@ class CasesComments extends \Google\Service\Resource
     return $this->call('create', [$params], Comment::class);
   }
   /**
-   * Retrieve all Comments associated with the Case object.
+   * List all the comments associated with a case. EXAMPLES: cURL: ```shell
+   * case="projects/some-project/cases/43595344" curl \ --header "Authorization:
+   * Bearer $(gcloud auth print-access-token)" \
+   * "https://cloudsupport.googleapis.com/v2/$case/comments" ``` Python: ```python
+   * import googleapiclient.discovery api_version = "v2" supportApiService =
+   * googleapiclient.discovery.build( serviceName="cloudsupport",
+   * version=api_version, discoveryServiceUrl=f"https://cloudsupport.googleapis.co
+   * m/$discovery/rest?version={api_version}", ) request = (
+   * supportApiService.cases() .comments() .list(parent="projects/some-
+   * project/cases/43595344") ) print(request.execute()) ```
    * (comments.listCasesComments)
    *
-   * @param string $parent Required. The resource name of Case object for which
-   * comments should be listed.
+   * @param string $parent Required. The name of the case for which to list
+   * comments.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize The maximum number of comments fetched with each
-   * request. Defaults to 10.
+   * @opt_param int pageSize The maximum number of comments to fetch. Defaults to
+   * 10.
    * @opt_param string pageToken A token identifying the page of results to
-   * return. If unspecified, the first page is retrieved.
+   * return. If unspecified, the first page is returned.
    * @return ListCommentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCasesComments($parent, $optParams = [])
   {

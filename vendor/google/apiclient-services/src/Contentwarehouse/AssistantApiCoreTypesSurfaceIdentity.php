@@ -24,6 +24,10 @@ class AssistantApiCoreTypesSurfaceIdentity extends \Google\Model
   /**
    * @var string
    */
+  public $legacySurfaceType;
+  /**
+   * @var string
+   */
   public $surfaceType;
   /**
    * @var string
@@ -45,6 +49,20 @@ class AssistantApiCoreTypesSurfaceIdentity extends \Google\Model
   public function getDeviceId()
   {
     return $this->deviceId;
+  }
+  /**
+   * @param string
+   */
+  public function setLegacySurfaceType($legacySurfaceType)
+  {
+    $this->legacySurfaceType = $legacySurfaceType;
+  }
+  /**
+   * @return string
+   */
+  public function getLegacySurfaceType()
+  {
+    return $this->legacySurfaceType;
   }
   /**
    * @param string

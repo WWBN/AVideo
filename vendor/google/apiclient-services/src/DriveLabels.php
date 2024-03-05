@@ -34,7 +34,18 @@ use Google\Client;
  */
 class DriveLabels extends \Google\Service
 {
-
+  /** See, edit, create, and delete all Google Drive labels in your organization, and see your organization's label-related admin policies. */
+  const DRIVE_ADMIN_LABELS =
+      "https://www.googleapis.com/auth/drive.admin.labels";
+  /** See all Google Drive labels and label-related admin policies in your organization. */
+  const DRIVE_ADMIN_LABELS_READONLY =
+      "https://www.googleapis.com/auth/drive.admin.labels.readonly";
+  /** See, edit, create, and delete your Google Drive labels. */
+  const DRIVE_LABELS =
+      "https://www.googleapis.com/auth/drive.labels";
+  /** See your Google Drive labels. */
+  const DRIVE_LABELS_READONLY =
+      "https://www.googleapis.com/auth/drive.labels.readonly";
 
   public $labels;
   public $labels_locks;

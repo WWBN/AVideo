@@ -72,6 +72,7 @@ class OrganizationsOptimizedHostStats extends \Google\Service\Resource
    * set this value to `true` if you are using `sortby` with `sort=DESC`.
    * @opt_param string tzo Timezone offset value.
    * @return GoogleCloudApigeeV1OptimizedStats
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

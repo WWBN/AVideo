@@ -20,27 +20,11 @@ namespace Google\Service\Contentwarehouse;
 class AppsPeopleOzExternalMergedpeopleapiConnectionReminder extends \Google\Collection
 {
   protected $collection_key = 'prompt';
-  protected $contactPromptSettingsType = SocialGraphApiProtoContactPromptSettings::class;
-  protected $contactPromptSettingsDataType = '';
   protected $metadataType = AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata::class;
   protected $metadataDataType = '';
   protected $promptType = SocialGraphApiProtoPrompt::class;
   protected $promptDataType = 'array';
 
-  /**
-   * @param SocialGraphApiProtoContactPromptSettings
-   */
-  public function setContactPromptSettings(SocialGraphApiProtoContactPromptSettings $contactPromptSettings)
-  {
-    $this->contactPromptSettings = $contactPromptSettings;
-  }
-  /**
-   * @return SocialGraphApiProtoContactPromptSettings
-   */
-  public function getContactPromptSettings()
-  {
-    return $this->contactPromptSettings;
-  }
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiPersonFieldMetadata
    */

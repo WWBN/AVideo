@@ -37,6 +37,7 @@ class CustomersDpcs extends \Google\Service\Resource
    * configurations. An API resource name in the format `customers/[CUSTOMER_ID]`.
    * @param array $optParams Optional parameters.
    * @return CustomerListDpcsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersDpcs($parent, $optParams = [])
   {

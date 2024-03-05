@@ -32,6 +32,8 @@ class Attributes extends \Google\Collection
   public $brand;
   protected $capacityType = Capacity::class;
   protected $capacityDataType = '';
+  protected $certificationType = GoogleShoppingManufacturersV1ProductCertification::class;
+  protected $certificationDataType = 'array';
   /**
    * @var string
    */
@@ -158,6 +160,10 @@ class Attributes extends \Google\Collection
    * @var string[]
    */
   public $videoLink;
+  /**
+   * @var string
+   */
+  public $virtualModelLink;
 
   /**
    * @param Image[]
@@ -214,6 +220,20 @@ class Attributes extends \Google\Collection
   public function getCapacity()
   {
     return $this->capacity;
+  }
+  /**
+   * @param GoogleShoppingManufacturersV1ProductCertification[]
+   */
+  public function setCertification($certification)
+  {
+    $this->certification = $certification;
+  }
+  /**
+   * @return GoogleShoppingManufacturersV1ProductCertification[]
+   */
+  public function getCertification()
+  {
+    return $this->certification;
   }
   /**
    * @param string
@@ -704,6 +724,20 @@ class Attributes extends \Google\Collection
   public function getVideoLink()
   {
     return $this->videoLink;
+  }
+  /**
+   * @param string
+   */
+  public function setVirtualModelLink($virtualModelLink)
+  {
+    $this->virtualModelLink = $virtualModelLink;
+  }
+  /**
+   * @return string
+   */
+  public function getVirtualModelLink()
+  {
+    return $this->virtualModelLink;
   }
 }
 

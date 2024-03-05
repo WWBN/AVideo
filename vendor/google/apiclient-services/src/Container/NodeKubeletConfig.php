@@ -32,6 +32,10 @@ class NodeKubeletConfig extends \Google\Model
    */
   public $cpuManagerPolicy;
   /**
+   * @var bool
+   */
+  public $insecureKubeletReadonlyPortEnabled;
+  /**
    * @var string
    */
   public $podPidsLimit;
@@ -77,6 +81,20 @@ class NodeKubeletConfig extends \Google\Model
   public function getCpuManagerPolicy()
   {
     return $this->cpuManagerPolicy;
+  }
+  /**
+   * @param bool
+   */
+  public function setInsecureKubeletReadonlyPortEnabled($insecureKubeletReadonlyPortEnabled)
+  {
+    $this->insecureKubeletReadonlyPortEnabled = $insecureKubeletReadonlyPortEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getInsecureKubeletReadonlyPortEnabled()
+  {
+    return $this->insecureKubeletReadonlyPortEnabled;
   }
   /**
    * @param string

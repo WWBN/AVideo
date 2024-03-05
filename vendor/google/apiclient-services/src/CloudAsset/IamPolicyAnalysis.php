@@ -24,8 +24,6 @@ class IamPolicyAnalysis extends \Google\Collection
   protected $analysisQueryDataType = '';
   protected $analysisResultsType = IamPolicyAnalysisResult::class;
   protected $analysisResultsDataType = 'array';
-  protected $deniedAccessesType = DeniedAccess::class;
-  protected $deniedAccessesDataType = 'array';
   /**
    * @var bool
    */
@@ -60,20 +58,6 @@ class IamPolicyAnalysis extends \Google\Collection
   public function getAnalysisResults()
   {
     return $this->analysisResults;
-  }
-  /**
-   * @param DeniedAccess[]
-   */
-  public function setDeniedAccesses($deniedAccesses)
-  {
-    $this->deniedAccesses = $deniedAccesses;
-  }
-  /**
-   * @return DeniedAccess[]
-   */
-  public function getDeniedAccesses()
-  {
-    return $this->deniedAccesses;
   }
   /**
    * @param bool

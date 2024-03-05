@@ -44,6 +44,7 @@ class ProjectsLocationsGatewaySecurityPoliciesRules extends \Google\Service\Reso
    * which will become the final component of the rule's resource name. This value
    * should be 4-63 characters, and valid characters are /a-z-/.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GatewaySecurityPolicyRule $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsGatewaySecurityPoliciesRules extends \Google\Service\Reso
    * ySecurityPolicies/{gatewaySecurityPolicy}/rules`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsLocationsGatewaySecurityPoliciesRules extends \Google\Service\Reso
    * projects/{project}/location/{location}/gatewaySecurityPolicies/rules
    * @param array $optParams Optional parameters.
    * @return GatewaySecurityPolicyRule
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -98,6 +101,7 @@ class ProjectsLocationsGatewaySecurityPoliciesRules extends \Google\Service\Reso
    * continuation of a prior 'ListGatewaySecurityPolicyRules' call, and that the
    * system should return the next page of data.
    * @return ListGatewaySecurityPolicyRulesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsGatewaySecurityPoliciesRules($parent, $optParams = [])
   {
@@ -121,6 +125,7 @@ class ProjectsLocationsGatewaySecurityPoliciesRules extends \Google\Service\Reso
    * full request. A field will be overwritten if it is in the mask. If the user
    * does not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GatewaySecurityPolicyRule $postBody, $optParams = [])
   {

@@ -51,6 +51,10 @@ class ProvisioningConfig extends \Google\Collection
   /**
    * @var string
    */
+  public $pod;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
@@ -182,6 +186,20 @@ class ProvisioningConfig extends \Google\Collection
   public function getNetworks()
   {
     return $this->networks;
+  }
+  /**
+   * @param string
+   */
+  public function setPod($pod)
+  {
+    $this->pod = $pod;
+  }
+  /**
+   * @return string
+   */
+  public function getPod()
+  {
+    return $this->pod;
   }
   /**
    * @param string

@@ -31,7 +31,7 @@ use Google\Service\OSConfig\OSPolicyAssignmentReport;
 class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Service\Resource
 {
   /**
-   * Get the OS policy asssignment report for the specified Compute Engine VM
+   * Get the OS policy assignment report for the specified Compute Engine VM
    * instance. (reports.get)
    *
    * @param string $name Required. API resource name for OS policy assignment
@@ -42,6 +42,7 @@ class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Servi
    * `{assignment_id}`, the OSPolicyAssignment id must be provided.
    * @param array $optParams Optional parameters.
    * @return OSPolicyAssignmentReport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -50,7 +51,7 @@ class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Servi
     return $this->call('get', [$params], OSPolicyAssignmentReport::class);
   }
   /**
-   * List OS policy asssignment reports for all Compute Engine VM instances in the
+   * List OS policy assignment reports for all Compute Engine VM instances in the
    * specified zone.
    * (reports.listProjectsLocationsInstancesOsPolicyAssignmentsReports)
    *
@@ -65,12 +66,11 @@ class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Servi
    * OSPolicyAssignments in the project/location. Either {instance} or
    * {assignment} must be `-`. For example: `projects/{project}/locations/{locatio
    * n}/instances/{instance}/osPolicyAssignments/-/reports` returns all reports
-   * for the instance
-   * `projects/{project}/locations/{location}/instances/-/osPolicyAssignments
-   * /{assignment-id}/reports` returns all the reports for the given assignment
-   * across all instances. `projects/{project}/locations/{location}/instances/-/os
-   * PolicyAssignments/-/reports` returns all the reports for all assignments
-   * across all instances.
+   * for the instance `projects/{project}/locations/{location}/instances/-
+   * /osPolicyAssignments/{assignment-id}/reports` returns all the reports for the
+   * given assignment across all instances. `projects/{project}/locations/{locatio
+   * n}/instances/-/osPolicyAssignments/-/reports` returns all the reports for all
+   * assignments across all instances.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter If provided, this field specifies the criteria that
@@ -81,6 +81,7 @@ class ProjectsLocationsInstancesOsPolicyAssignmentsReports extends \Google\Servi
    * to the `ListOSPolicyAssignmentReports` method that indicates where this
    * listing should continue from.
    * @return ListOSPolicyAssignmentReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInstancesOsPolicyAssignmentsReports($parent, $optParams = [])
   {

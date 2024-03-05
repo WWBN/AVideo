@@ -57,6 +57,10 @@ class AssistantApiCoreTypesMessageNotification extends \Google\Collection
    */
   public $messageRecipientType;
   /**
+   * @var int
+   */
+  public $messageWordCount;
+  /**
    * @var string
    */
   public $mimeType;
@@ -218,6 +222,20 @@ class AssistantApiCoreTypesMessageNotification extends \Google\Collection
   public function getMessageRecipientType()
   {
     return $this->messageRecipientType;
+  }
+  /**
+   * @param int
+   */
+  public function setMessageWordCount($messageWordCount)
+  {
+    $this->messageWordCount = $messageWordCount;
+  }
+  /**
+   * @return int
+   */
+  public function getMessageWordCount()
+  {
+    return $this->messageWordCount;
   }
   /**
    * @param string

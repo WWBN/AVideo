@@ -55,6 +55,7 @@ class ServicesSkus extends \Google\Service\Resource
    * America/Los_Angeles timezone. Time range as a whole is optional. If not
    * specified, the latest pricing will be returned (up to 12 hours old at most).
    * @return ListSkusResponse
+   * @throws \Google\Service\Exception
    */
   public function listServicesSkus($parent, $optParams = [])
   {

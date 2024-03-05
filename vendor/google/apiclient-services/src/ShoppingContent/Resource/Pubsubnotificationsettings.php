@@ -37,6 +37,7 @@ class Pubsubnotificationsettings extends \Google\Service\Resource
    * notification settings.
    * @param array $optParams Optional parameters.
    * @return PubsubNotificationSettingsModel
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Pubsubnotificationsettings extends \Google\Service\Resource
    * @param PubsubNotificationSettingsModel $postBody
    * @param array $optParams Optional parameters.
    * @return PubsubNotificationSettingsModel
+   * @throws \Google\Service\Exception
    */
   public function update($merchantId, PubsubNotificationSettingsModel $postBody, $optParams = [])
   {

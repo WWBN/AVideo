@@ -24,6 +24,8 @@ class GoogleCloudDialogflowCxV3InputAudioConfig extends \Google\Collection
    * @var string
    */
   public $audioEncoding;
+  protected $bargeInConfigType = GoogleCloudDialogflowCxV3BargeInConfig::class;
+  protected $bargeInConfigDataType = '';
   /**
    * @var bool
    */
@@ -36,6 +38,10 @@ class GoogleCloudDialogflowCxV3InputAudioConfig extends \Google\Collection
    * @var string
    */
   public $modelVariant;
+  /**
+   * @var bool
+   */
+  public $optOutConformerModelMigration;
   /**
    * @var string[]
    */
@@ -62,6 +68,20 @@ class GoogleCloudDialogflowCxV3InputAudioConfig extends \Google\Collection
   public function getAudioEncoding()
   {
     return $this->audioEncoding;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3BargeInConfig
+   */
+  public function setBargeInConfig(GoogleCloudDialogflowCxV3BargeInConfig $bargeInConfig)
+  {
+    $this->bargeInConfig = $bargeInConfig;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3BargeInConfig
+   */
+  public function getBargeInConfig()
+  {
+    return $this->bargeInConfig;
   }
   /**
    * @param bool
@@ -104,6 +124,20 @@ class GoogleCloudDialogflowCxV3InputAudioConfig extends \Google\Collection
   public function getModelVariant()
   {
     return $this->modelVariant;
+  }
+  /**
+   * @param bool
+   */
+  public function setOptOutConformerModelMigration($optOutConformerModelMigration)
+  {
+    $this->optOutConformerModelMigration = $optOutConformerModelMigration;
+  }
+  /**
+   * @return bool
+   */
+  public function getOptOutConformerModelMigration()
+  {
+    return $this->optOutConformerModelMigration;
   }
   /**
    * @param string[]

@@ -26,6 +26,10 @@ class Certification extends \Google\Model
   /**
    * @var string
    */
+  public $code;
+  /**
+   * @var string
+   */
   public $link;
   /**
    * @var string
@@ -57,6 +61,20 @@ class Certification extends \Google\Model
   public function getAuthority()
   {
     return $this->authority;
+  }
+  /**
+   * @param string
+   */
+  public function setCode($code)
+  {
+    $this->code = $code;
+  }
+  /**
+   * @return string
+   */
+  public function getCode()
+  {
+    return $this->code;
   }
   /**
    * @param string

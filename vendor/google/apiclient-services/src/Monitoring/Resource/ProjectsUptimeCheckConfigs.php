@@ -40,6 +40,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * @param UptimeCheckConfig $postBody
    * @param array $optParams Optional parameters.
    * @return UptimeCheckConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, UptimeCheckConfig $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID]
    * @param array $optParams Optional parameters.
    * @return MonitoringEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID]
    * @param array $optParams Optional parameters.
    * @return UptimeCheckConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -103,6 +106,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * this field causes the method to return more results from the previous method
    * call.
    * @return ListUptimeCheckConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsUptimeCheckConfigs($parent, $optParams = [])
   {
@@ -116,7 +120,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * configuration by specifying the fields to be updated via updateMask. Returns
    * the updated configuration. (uptimeCheckConfigs.patch)
    *
-   * @param string $name A unique resource name for this Uptime check
+   * @param string $name Identifier. A unique resource name for this Uptime check
    * configuration. The format is:
    * projects/[PROJECT_ID_OR_NUMBER]/uptimeCheckConfigs/[UPTIME_CHECK_ID]
    * [PROJECT_ID_OR_NUMBER] is the Workspace host project associated with the
@@ -131,6 +135,7 @@ class ProjectsUptimeCheckConfigs extends \Google\Service\Resource
    * configuration. If this field is empty, then the current configuration is
    * completely replaced with the new configuration.
    * @return UptimeCheckConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, UptimeCheckConfig $postBody, $optParams = [])
   {

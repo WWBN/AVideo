@@ -40,6 +40,7 @@ class UsersSettingsSendAsSmimeInfo extends \Google\Service\Resource
    * header for mail sent using this alias.
    * @param string $id The immutable ID for the SmimeInfo.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($userId, $sendAsEmail, $id, $optParams = [])
   {
@@ -58,6 +59,7 @@ class UsersSettingsSendAsSmimeInfo extends \Google\Service\Resource
    * @param string $id The immutable ID for the SmimeInfo.
    * @param array $optParams Optional parameters.
    * @return SmimeInfo
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $sendAsEmail, $id, $optParams = [])
   {
@@ -76,6 +78,7 @@ class UsersSettingsSendAsSmimeInfo extends \Google\Service\Resource
    * @param SmimeInfo $postBody
    * @param array $optParams Optional parameters.
    * @return SmimeInfo
+   * @throws \Google\Service\Exception
    */
   public function insert($userId, $sendAsEmail, SmimeInfo $postBody, $optParams = [])
   {
@@ -93,6 +96,7 @@ class UsersSettingsSendAsSmimeInfo extends \Google\Service\Resource
    * header for mail sent using this alias.
    * @param array $optParams Optional parameters.
    * @return ListSmimeInfoResponse
+   * @throws \Google\Service\Exception
    */
   public function listUsersSettingsSendAsSmimeInfo($userId, $sendAsEmail, $optParams = [])
   {
@@ -110,6 +114,7 @@ class UsersSettingsSendAsSmimeInfo extends \Google\Service\Resource
    * header for mail sent using this alias.
    * @param string $id The immutable ID for the SmimeInfo.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function setDefault($userId, $sendAsEmail, $id, $optParams = [])
   {

@@ -36,6 +36,14 @@ class GoogleCloudContentwarehouseV1DocumentReference extends \Google\Model
    */
   public $documentIsFolder;
   /**
+   * @var bool
+   */
+  public $documentIsLegalHoldFolder;
+  /**
+   * @var bool
+   */
+  public $documentIsRetentionFolder;
+  /**
    * @var string
    */
   public $documentName;
@@ -103,6 +111,34 @@ class GoogleCloudContentwarehouseV1DocumentReference extends \Google\Model
   public function getDocumentIsFolder()
   {
     return $this->documentIsFolder;
+  }
+  /**
+   * @param bool
+   */
+  public function setDocumentIsLegalHoldFolder($documentIsLegalHoldFolder)
+  {
+    $this->documentIsLegalHoldFolder = $documentIsLegalHoldFolder;
+  }
+  /**
+   * @return bool
+   */
+  public function getDocumentIsLegalHoldFolder()
+  {
+    return $this->documentIsLegalHoldFolder;
+  }
+  /**
+   * @param bool
+   */
+  public function setDocumentIsRetentionFolder($documentIsRetentionFolder)
+  {
+    $this->documentIsRetentionFolder = $documentIsRetentionFolder;
+  }
+  /**
+   * @return bool
+   */
+  public function getDocumentIsRetentionFolder()
+  {
+    return $this->documentIsRetentionFolder;
   }
   /**
    * @param string

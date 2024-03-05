@@ -17,8 +17,9 @@
 
 namespace Google\Service\NetworkSecurity;
 
-class TlsInspectionPolicy extends \Google\Model
+class TlsInspectionPolicy extends \Google\Collection
 {
+  protected $collection_key = 'customTlsFeatures';
   /**
    * @var string
    */
@@ -28,13 +29,33 @@ class TlsInspectionPolicy extends \Google\Model
    */
   public $createTime;
   /**
+   * @var string[]
+   */
+  public $customTlsFeatures;
+  /**
    * @var string
    */
   public $description;
   /**
+   * @var bool
+   */
+  public $excludePublicCaSet;
+  /**
+   * @var string
+   */
+  public $minTlsVersion;
+  /**
    * @var string
    */
   public $name;
+  /**
+   * @var string
+   */
+  public $tlsFeatureProfile;
+  /**
+   * @var string
+   */
+  public $trustConfig;
   /**
    * @var string
    */
@@ -69,6 +90,20 @@ class TlsInspectionPolicy extends \Google\Model
     return $this->createTime;
   }
   /**
+   * @param string[]
+   */
+  public function setCustomTlsFeatures($customTlsFeatures)
+  {
+    $this->customTlsFeatures = $customTlsFeatures;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomTlsFeatures()
+  {
+    return $this->customTlsFeatures;
+  }
+  /**
    * @param string
    */
   public function setDescription($description)
@@ -83,6 +118,34 @@ class TlsInspectionPolicy extends \Google\Model
     return $this->description;
   }
   /**
+   * @param bool
+   */
+  public function setExcludePublicCaSet($excludePublicCaSet)
+  {
+    $this->excludePublicCaSet = $excludePublicCaSet;
+  }
+  /**
+   * @return bool
+   */
+  public function getExcludePublicCaSet()
+  {
+    return $this->excludePublicCaSet;
+  }
+  /**
+   * @param string
+   */
+  public function setMinTlsVersion($minTlsVersion)
+  {
+    $this->minTlsVersion = $minTlsVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getMinTlsVersion()
+  {
+    return $this->minTlsVersion;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -95,6 +158,34 @@ class TlsInspectionPolicy extends \Google\Model
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setTlsFeatureProfile($tlsFeatureProfile)
+  {
+    $this->tlsFeatureProfile = $tlsFeatureProfile;
+  }
+  /**
+   * @return string
+   */
+  public function getTlsFeatureProfile()
+  {
+    return $this->tlsFeatureProfile;
+  }
+  /**
+   * @param string
+   */
+  public function setTrustConfig($trustConfig)
+  {
+    $this->trustConfig = $trustConfig;
+  }
+  /**
+   * @return string
+   */
+  public function getTrustConfig()
+  {
+    return $this->trustConfig;
   }
   /**
    * @param string

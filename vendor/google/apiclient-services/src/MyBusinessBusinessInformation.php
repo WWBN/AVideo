@@ -278,27 +278,7 @@ class MyBusinessBusinessInformation extends \Google\Service
         'locations',
         [
           'methods' => [
-            'associate' => [
-              'path' => 'v1/{+name}:associate',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'clearLocationAssociation' => [
-              'path' => 'v1/{+name}:clearLocationAssociation',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'delete' => [
+            'delete' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [

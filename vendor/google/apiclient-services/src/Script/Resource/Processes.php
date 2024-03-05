@@ -66,6 +66,7 @@ class Processes extends \Google\Service\Resource
    * limit returned processes to those having one of the specified user access
    * levels.
    * @return ListUserProcessesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProcesses($optParams = [])
   {
@@ -105,6 +106,7 @@ class Processes extends \Google\Service\Resource
    * limit returned processes to those having one of the specified user access
    * levels.
    * @return ListScriptProcessesResponse
+   * @throws \Google\Service\Exception
    */
   public function listScriptProcesses($optParams = [])
   {

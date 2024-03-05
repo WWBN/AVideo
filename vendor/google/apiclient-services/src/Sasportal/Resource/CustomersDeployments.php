@@ -41,6 +41,7 @@ class CustomersDeployments extends \Google\Service\Resource
    * @param SasPortalDeployment $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDeployment
+   * @throws \Google\Service\Exception
    */
   public function create($parent, SasPortalDeployment $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class CustomersDeployments extends \Google\Service\Resource
    * @param string $name Required. The name of the deployment.
    * @param array $optParams Optional parameters.
    * @return SasPortalEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -67,6 +69,7 @@ class CustomersDeployments extends \Google\Service\Resource
    * @param string $name Required. The name of the deployment.
    * @param array $optParams Optional parameters.
    * @return SasPortalDeployment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -89,6 +92,7 @@ class CustomersDeployments extends \Google\Service\Resource
    * @opt_param string pageToken A pagination token returned from a previous call
    * to ListDeployments that indicates where this listing should continue from.
    * @return SasPortalListDeploymentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersDeployments($parent, $optParams = [])
   {
@@ -103,6 +107,7 @@ class CustomersDeployments extends \Google\Service\Resource
    * @param SasPortalMoveDeploymentRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalOperation
+   * @throws \Google\Service\Exception
    */
   public function move($name, SasPortalMoveDeploymentRequest $postBody, $optParams = [])
   {
@@ -119,6 +124,7 @@ class CustomersDeployments extends \Google\Service\Resource
    *
    * @opt_param string updateMask Fields to be updated.
    * @return SasPortalDeployment
+   * @throws \Google\Service\Exception
    */
   public function patch($name, SasPortalDeployment $postBody, $optParams = [])
   {

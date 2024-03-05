@@ -52,6 +52,7 @@ class PlaceActionTypeMetadata extends \Google\Service\Resource
    * `placeActionTypeMetadata.list` returns more results than can fit into the
    * requested page size.
    * @return ListPlaceActionTypeMetadataResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlaceActionTypeMetadata($optParams = [])
   {

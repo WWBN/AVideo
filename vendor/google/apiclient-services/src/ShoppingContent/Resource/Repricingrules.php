@@ -88,8 +88,8 @@ class Repricingrules extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string countryCode [CLDR country
-   * code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) (e.g.
-   * "US"), used as a filter on repricing rules.
+   * code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) (for
+   * example, "US"), used as a filter on repricing rules.
    * @opt_param string languageCode The two-letter ISO 639-1 language code
    * associated with the repricing rule, used as a filter.
    * @opt_param int pageSize The maximum number of repricing rules to return. The

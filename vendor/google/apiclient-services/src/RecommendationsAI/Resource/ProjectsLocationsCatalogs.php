@@ -43,6 +43,7 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListCatalogs` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudRecommendationengineV1beta1ListCatalogsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogs($parent, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsLocationsCatalogs extends \Google\Service\Resource
    * catalog_item_level_config field. Currently only fields that can be updated
    * are catalog_item_level_config.
    * @return GoogleCloudRecommendationengineV1beta1Catalog
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudRecommendationengineV1beta1Catalog $postBody, $optParams = [])
   {

@@ -37,6 +37,7 @@ class ProjectsApps extends \Google\Service\Resource
    * Format: `projects/{project_number}/apps/{app_id}/aabInfo`
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppdistroV1AabInfo
+   * @throws \Google\Service\Exception
    */
   public function getAabInfo($name, $optParams = [])
   {

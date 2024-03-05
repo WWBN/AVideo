@@ -38,6 +38,7 @@ class Orders extends \Google\Service\Resource
    * @param string $id Order ID.
    * @param array $optParams Optional parameters.
    * @return Order
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $projectId, $id, $optParams = [])
   {
@@ -68,6 +69,7 @@ class Orders extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return OrdersListResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrders($profileId, $projectId, $optParams = [])
   {

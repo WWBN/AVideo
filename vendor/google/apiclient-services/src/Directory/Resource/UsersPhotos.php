@@ -35,6 +35,7 @@ class UsersPhotos extends \Google\Service\Resource
    * @param string $userKey Identifies the user in the API request. The value can
    * be the user's primary email address, alias email address, or unique user ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($userKey, $optParams = [])
   {
@@ -49,6 +50,7 @@ class UsersPhotos extends \Google\Service\Resource
    * be the user's primary email address, alias email address, or unique user ID.
    * @param array $optParams Optional parameters.
    * @return UserPhoto
+   * @throws \Google\Service\Exception
    */
   public function get($userKey, $optParams = [])
   {
@@ -65,6 +67,7 @@ class UsersPhotos extends \Google\Service\Resource
    * @param UserPhoto $postBody
    * @param array $optParams Optional parameters.
    * @return UserPhoto
+   * @throws \Google\Service\Exception
    */
   public function patch($userKey, UserPhoto $postBody, $optParams = [])
   {
@@ -80,6 +83,7 @@ class UsersPhotos extends \Google\Service\Resource
    * @param UserPhoto $postBody
    * @param array $optParams Optional parameters.
    * @return UserPhoto
+   * @throws \Google\Service\Exception
    */
   public function update($userKey, UserPhoto $postBody, $optParams = [])
   {

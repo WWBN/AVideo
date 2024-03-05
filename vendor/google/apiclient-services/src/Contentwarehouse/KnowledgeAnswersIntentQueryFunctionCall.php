@@ -26,6 +26,8 @@ class KnowledgeAnswersIntentQueryFunctionCall extends \Google\Collection
    * @var string
    */
   public $catalogVersion;
+  protected $conceptInfoType = KnowledgeAnswersIntentQueryConceptInfo::class;
+  protected $conceptInfoDataType = '';
   protected $contextualSensitivityType = KnowledgeAnswersSensitivitySensitivity::class;
   protected $contextualSensitivityDataType = 'array';
   protected $enabledRemodelingsType = NlpMeaningMeaningRemodelingControl::class;
@@ -76,6 +78,20 @@ class KnowledgeAnswersIntentQueryFunctionCall extends \Google\Collection
   public function getCatalogVersion()
   {
     return $this->catalogVersion;
+  }
+  /**
+   * @param KnowledgeAnswersIntentQueryConceptInfo
+   */
+  public function setConceptInfo(KnowledgeAnswersIntentQueryConceptInfo $conceptInfo)
+  {
+    $this->conceptInfo = $conceptInfo;
+  }
+  /**
+   * @return KnowledgeAnswersIntentQueryConceptInfo
+   */
+  public function getConceptInfo()
+  {
+    return $this->conceptInfo;
   }
   /**
    * @param KnowledgeAnswersSensitivitySensitivity[]

@@ -22,6 +22,10 @@ class GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsReques
   /**
    * @var string
    */
+  public $accountId;
+  /**
+   * @var string
+   */
   public $hashedAccountId;
   /**
    * @var int
@@ -32,6 +36,20 @@ class GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsReques
    */
   public $pageToken;
 
+  /**
+   * @param string
+   */
+  public function setAccountId($accountId)
+  {
+    $this->accountId = $accountId;
+  }
+  /**
+   * @return string
+   */
+  public function getAccountId()
+  {
+    return $this->accountId;
+  }
   /**
    * @param string
    */

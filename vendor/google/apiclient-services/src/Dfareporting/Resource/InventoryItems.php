@@ -38,6 +38,7 @@ class InventoryItems extends \Google\Service\Resource
    * @param string $id Inventory item ID.
    * @param array $optParams Optional parameters.
    * @return InventoryItem
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $projectId, $id, $optParams = [])
   {
@@ -66,6 +67,7 @@ class InventoryItems extends \Google\Service\Resource
    * @opt_param string sortOrder Order of sorted results.
    * @opt_param string type Select only inventory items with this type.
    * @return InventoryItemsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listInventoryItems($profileId, $projectId, $optParams = [])
   {

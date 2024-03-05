@@ -19,14 +19,28 @@ namespace Google\Service\DisplayVideo;
 
 class BulkListAdGroupAssignedTargetingOptionsResponse extends \Google\Collection
 {
-  protected $collection_key = 'youtubeAdGroupAssignedTargetingOptions';
+  protected $collection_key = 'adGroupAssignedTargetingOptions';
+  protected $adGroupAssignedTargetingOptionsType = AdGroupAssignedTargetingOption::class;
+  protected $adGroupAssignedTargetingOptionsDataType = 'array';
   /**
    * @var string
    */
   public $nextPageToken;
-  protected $youtubeAdGroupAssignedTargetingOptionsType = YoutubeAdGroupAssignedTargetingOption::class;
-  protected $youtubeAdGroupAssignedTargetingOptionsDataType = 'array';
 
+  /**
+   * @param AdGroupAssignedTargetingOption[]
+   */
+  public function setAdGroupAssignedTargetingOptions($adGroupAssignedTargetingOptions)
+  {
+    $this->adGroupAssignedTargetingOptions = $adGroupAssignedTargetingOptions;
+  }
+  /**
+   * @return AdGroupAssignedTargetingOption[]
+   */
+  public function getAdGroupAssignedTargetingOptions()
+  {
+    return $this->adGroupAssignedTargetingOptions;
+  }
   /**
    * @param string
    */
@@ -40,20 +54,6 @@ class BulkListAdGroupAssignedTargetingOptionsResponse extends \Google\Collection
   public function getNextPageToken()
   {
     return $this->nextPageToken;
-  }
-  /**
-   * @param YoutubeAdGroupAssignedTargetingOption[]
-   */
-  public function setYoutubeAdGroupAssignedTargetingOptions($youtubeAdGroupAssignedTargetingOptions)
-  {
-    $this->youtubeAdGroupAssignedTargetingOptions = $youtubeAdGroupAssignedTargetingOptions;
-  }
-  /**
-   * @return YoutubeAdGroupAssignedTargetingOption[]
-   */
-  public function getYoutubeAdGroupAssignedTargetingOptions()
-  {
-    return $this->youtubeAdGroupAssignedTargetingOptions;
   }
 }
 

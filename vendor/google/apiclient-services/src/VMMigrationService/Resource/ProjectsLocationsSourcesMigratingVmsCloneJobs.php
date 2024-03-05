@@ -39,6 +39,7 @@ class ProjectsLocationsSourcesMigratingVmsCloneJobs extends \Google\Service\Reso
    * @param CancelCloneJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, CancelCloneJobRequest $postBody, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ProjectsLocationsSourcesMigratingVmsCloneJobs extends \Google\Service\Reso
    * exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CloneJob $postBody, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsLocationsSourcesMigratingVmsCloneJobs extends \Google\Service\Reso
    * @param string $name Required. The name of the CloneJob.
    * @param array $optParams Optional parameters.
    * @return CloneJob
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -87,8 +90,8 @@ class ProjectsLocationsSourcesMigratingVmsCloneJobs extends \Google\Service\Reso
     return $this->call('get', [$params], CloneJob::class);
   }
   /**
-   * Lists CloneJobs of a given migrating VM.
-   * (cloneJobs.listProjectsLocationsSourcesMigratingVmsCloneJobs)
+   * Lists the CloneJobs of a migrating VM. Only 25 most recent CloneJobs are
+   * listed. (cloneJobs.listProjectsLocationsSourcesMigratingVmsCloneJobs)
    *
    * @param string $parent Required. The parent, which owns this collection of
    * source VMs.
@@ -105,6 +108,7 @@ class ProjectsLocationsSourcesMigratingVmsCloneJobs extends \Google\Service\Reso
    * paginating, all other parameters provided to `ListCloneJobs` must match the
    * call that provided the page token.
    * @return ListCloneJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSourcesMigratingVmsCloneJobs($parent, $optParams = [])
   {

@@ -39,6 +39,7 @@ class FoldersLocationsReplays extends \Google\Service\Resource
    * @param GoogleCloudPolicysimulatorV1Replay $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudPolicysimulatorV1Replay $postBody, $optParams = [])
   {
@@ -54,10 +55,11 @@ class FoldersLocationsReplays extends \Google\Service\Resource
    * following format: `{projects|folders|organizations}/{resource-
    * id}/locations/global/replays/{replay-id}`, where `{resource-id}` is the ID of
    * the project, folder, or organization that owns the `Replay`. Example:
-   * `projects/my-example-project/locations/global/replays/506a5f7f-38ce-4d7d-
-   * 8e03-479ce1833c36`
+   * `projects/my-example-
+   * project/locations/global/replays/506a5f7f-38ce-4d7d-8e03-479ce1833c36`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudPolicysimulatorV1Replay
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

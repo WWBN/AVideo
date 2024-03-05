@@ -31,7 +31,13 @@ class MuxStream extends \Google\Collection
   /**
    * @var string
    */
+  public $encryptionId;
+  /**
+   * @var string
+   */
   public $fileName;
+  protected $fmp4Type = Fmp4Config::class;
+  protected $fmp4DataType = '';
   /**
    * @var string
    */
@@ -70,6 +76,20 @@ class MuxStream extends \Google\Collection
   /**
    * @param string
    */
+  public function setEncryptionId($encryptionId)
+  {
+    $this->encryptionId = $encryptionId;
+  }
+  /**
+   * @return string
+   */
+  public function getEncryptionId()
+  {
+    return $this->encryptionId;
+  }
+  /**
+   * @param string
+   */
   public function setFileName($fileName)
   {
     $this->fileName = $fileName;
@@ -80,6 +100,20 @@ class MuxStream extends \Google\Collection
   public function getFileName()
   {
     return $this->fileName;
+  }
+  /**
+   * @param Fmp4Config
+   */
+  public function setFmp4(Fmp4Config $fmp4)
+  {
+    $this->fmp4 = $fmp4;
+  }
+  /**
+   * @return Fmp4Config
+   */
+  public function getFmp4()
+  {
+    return $this->fmp4;
   }
   /**
    * @param string

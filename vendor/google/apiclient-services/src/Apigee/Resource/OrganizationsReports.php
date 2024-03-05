@@ -46,6 +46,7 @@ class OrganizationsReports extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1CustomReport $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1CustomReport
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1CustomReport $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class OrganizationsReports extends \Google\Service\Resource
    * `organizations/{organization_id}/reports/{report_name}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeleteCustomReportResponse
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class OrganizationsReports extends \Google\Service\Resource
    * `organizations/{organization_id}/reports/{report_name}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1CustomReport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,6 +94,7 @@ class OrganizationsReports extends \Google\Service\Resource
    * @opt_param bool expand Set to 'true' to get expanded details about each
    * custom report.
    * @return GoogleCloudApigeeV1ListCustomReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsReports($parent, $optParams = [])
   {
@@ -106,6 +110,7 @@ class OrganizationsReports extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1CustomReport $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1CustomReport
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudApigeeV1CustomReport $postBody, $optParams = [])
   {

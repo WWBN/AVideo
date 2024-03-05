@@ -23,6 +23,8 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataIndividualImportStatu
    * @var string
    */
   public $inputGcsSource;
+  protected $outputDocumentIdType = GoogleCloudDocumentaiUiv1beta3DocumentId::class;
+  protected $outputDocumentIdDataType = '';
   /**
    * @var string
    */
@@ -43,6 +45,20 @@ class GoogleCloudDocumentaiUiv1beta3ImportDocumentsMetadataIndividualImportStatu
   public function getInputGcsSource()
   {
     return $this->inputGcsSource;
+  }
+  /**
+   * @param GoogleCloudDocumentaiUiv1beta3DocumentId
+   */
+  public function setOutputDocumentId(GoogleCloudDocumentaiUiv1beta3DocumentId $outputDocumentId)
+  {
+    $this->outputDocumentId = $outputDocumentId;
+  }
+  /**
+   * @return GoogleCloudDocumentaiUiv1beta3DocumentId
+   */
+  public function getOutputDocumentId()
+  {
+    return $this->outputDocumentId;
   }
   /**
    * @param string

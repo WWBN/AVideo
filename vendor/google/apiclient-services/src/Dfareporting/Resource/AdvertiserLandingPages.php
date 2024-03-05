@@ -37,6 +37,7 @@ class AdvertiserLandingPages extends \Google\Service\Resource
    * @param string $id Landing page ID.
    * @param array $optParams Optional parameters.
    * @return LandingPage
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class AdvertiserLandingPages extends \Google\Service\Resource
    * @param LandingPage $postBody
    * @param array $optParams Optional parameters.
    * @return LandingPage
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, LandingPage $postBody, $optParams = [])
   {
@@ -87,6 +89,7 @@ class AdvertiserLandingPages extends \Google\Service\Resource
    * @opt_param string subaccountId Select only landing pages that belong to this
    * subaccount.
    * @return AdvertiserLandingPagesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertiserLandingPages($profileId, $optParams = [])
   {
@@ -95,14 +98,15 @@ class AdvertiserLandingPages extends \Google\Service\Resource
     return $this->call('list', [$params], AdvertiserLandingPagesListResponse::class);
   }
   /**
-   * Updates an existing advertiser landing page. This method supports patch
-   * semantics. (advertiserLandingPages.patch)
+   * Updates an existing advertiser. This method supports patch semantics.
+   * (advertiserLandingPages.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id LandingPage ID.
+   * @param string $id Required. Landing Page ID.
    * @param LandingPage $postBody
    * @param array $optParams Optional parameters.
    * @return LandingPage
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, LandingPage $postBody, $optParams = [])
   {
@@ -117,6 +121,7 @@ class AdvertiserLandingPages extends \Google\Service\Resource
    * @param LandingPage $postBody
    * @param array $optParams Optional parameters.
    * @return LandingPage
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, LandingPage $postBody, $optParams = [])
   {

@@ -53,6 +53,10 @@ class ApplicationReport extends \Google\Collection
    */
   public $state;
   /**
+   * @var string
+   */
+  public $userFacingType;
+  /**
    * @var int
    */
   public $versionCode;
@@ -186,6 +190,20 @@ class ApplicationReport extends \Google\Collection
   public function getState()
   {
     return $this->state;
+  }
+  /**
+   * @param string
+   */
+  public function setUserFacingType($userFacingType)
+  {
+    $this->userFacingType = $userFacingType;
+  }
+  /**
+   * @return string
+   */
+  public function getUserFacingType()
+  {
+    return $this->userFacingType;
   }
   /**
    * @param int

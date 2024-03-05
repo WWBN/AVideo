@@ -109,6 +109,10 @@ class GoogleCloudRunV2Task extends \Google\Collection
   /**
    * @var string
    */
+  public $scheduledTime;
+  /**
+   * @var string
+   */
   public $serviceAccount;
   /**
    * @var string
@@ -452,6 +456,20 @@ class GoogleCloudRunV2Task extends \Google\Collection
   public function getSatisfiesPzs()
   {
     return $this->satisfiesPzs;
+  }
+  /**
+   * @param string
+   */
+  public function setScheduledTime($scheduledTime)
+  {
+    $this->scheduledTime = $scheduledTime;
+  }
+  /**
+   * @return string
+   */
+  public function getScheduledTime()
+  {
+    return $this->scheduledTime;
   }
   /**
    * @param string

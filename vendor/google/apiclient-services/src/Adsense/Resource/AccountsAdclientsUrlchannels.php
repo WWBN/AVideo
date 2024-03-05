@@ -37,6 +37,7 @@ class AccountsAdclientsUrlchannels extends \Google\Service\Resource
    * Format: accounts/{account}/adclients/{adclient}/urlchannels/{urlchannel}
    * @param array $optParams Optional parameters.
    * @return UrlChannel
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -60,6 +61,7 @@ class AccountsAdclientsUrlchannels extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListUrlChannels` must match the
    * call that provided the page token.
    * @return ListUrlChannelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsAdclientsUrlchannels($parent, $optParams = [])
   {

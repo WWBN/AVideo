@@ -26,10 +26,6 @@ class ClassifierPornQueryClassifierOutput extends \Google\Model
   /**
    * @var string
    */
-  public $csaiRegexpHighConfidenceClassification;
-  /**
-   * @var string
-   */
   public $debug;
   /**
    * @var bool
@@ -53,20 +49,6 @@ class ClassifierPornQueryClassifierOutput extends \Google\Model
   public function getCsaiClassification()
   {
     return $this->csaiClassification;
-  }
-  /**
-   * @param string
-   */
-  public function setCsaiRegexpHighConfidenceClassification($csaiRegexpHighConfidenceClassification)
-  {
-    $this->csaiRegexpHighConfidenceClassification = $csaiRegexpHighConfidenceClassification;
-  }
-  /**
-   * @return string
-   */
-  public function getCsaiRegexpHighConfidenceClassification()
-  {
-    return $this->csaiRegexpHighConfidenceClassification;
   }
   /**
    * @param string

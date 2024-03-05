@@ -30,6 +30,8 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
    * @var string
    */
   public $conceptEntityMid;
+  protected $conceptSignalsType = KnowledgeAnswersIntentQueryConceptSignals::class;
+  protected $conceptSignalsDataType = '';
   /**
    * @var string
    */
@@ -81,6 +83,10 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   /**
    * @var bool
    */
+  public $isRefinedMeaning;
+  /**
+   * @var bool
+   */
   public $isUiCompositionIntent;
   protected $localSignalsType = KnowledgeAnswersIntentQueryLocalSignals::class;
   protected $localSignalsDataType = '';
@@ -122,6 +128,10 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   protected $shoppingIdsDataType = '';
   protected $signalsFallbackIntentsType = KnowledgeAnswersIntentQuerySignalComputationFallbackIntent::class;
   protected $signalsFallbackIntentsDataType = 'array';
+  /**
+   * @var bool
+   */
+  public $usesPrefulfillmentRanker;
 
   /**
    * @param string
@@ -164,6 +174,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public function getConceptEntityMid()
   {
     return $this->conceptEntityMid;
+  }
+  /**
+   * @param KnowledgeAnswersIntentQueryConceptSignals
+   */
+  public function setConceptSignals(KnowledgeAnswersIntentQueryConceptSignals $conceptSignals)
+  {
+    $this->conceptSignals = $conceptSignals;
+  }
+  /**
+   * @return KnowledgeAnswersIntentQueryConceptSignals
+   */
+  public function getConceptSignals()
+  {
+    return $this->conceptSignals;
   }
   /**
    * @param string
@@ -360,6 +384,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public function getIsNeuralCategoricalInterpretation()
   {
     return $this->isNeuralCategoricalInterpretation;
+  }
+  /**
+   * @param bool
+   */
+  public function setIsRefinedMeaning($isRefinedMeaning)
+  {
+    $this->isRefinedMeaning = $isRefinedMeaning;
+  }
+  /**
+   * @return bool
+   */
+  public function getIsRefinedMeaning()
+  {
+    return $this->isRefinedMeaning;
   }
   /**
    * @param bool
@@ -570,6 +608,20 @@ class KnowledgeAnswersIntentQueryFunctionCallSignals extends \Google\Collection
   public function getSignalsFallbackIntents()
   {
     return $this->signalsFallbackIntents;
+  }
+  /**
+   * @param bool
+   */
+  public function setUsesPrefulfillmentRanker($usesPrefulfillmentRanker)
+  {
+    $this->usesPrefulfillmentRanker = $usesPrefulfillmentRanker;
+  }
+  /**
+   * @return bool
+   */
+  public function getUsesPrefulfillmentRanker()
+  {
+    return $this->usesPrefulfillmentRanker;
   }
 }
 

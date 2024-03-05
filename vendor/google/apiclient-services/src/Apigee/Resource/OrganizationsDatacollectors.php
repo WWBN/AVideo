@@ -43,6 +43,7 @@ class OrganizationsDatacollectors extends \Google\Service\Resource
    * in the data collector resource. Must be a string beginning with `dc_` that
    * contains only letters, numbers, and underscores.
    * @return GoogleCloudApigeeV1DataCollector
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1DataCollector $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class OrganizationsDatacollectors extends \Google\Service\Resource
    * format: `organizations/{org}/datacollectors/{data_collector_id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class OrganizationsDatacollectors extends \Google\Service\Resource
    * format: `organizations/{org}/datacollectors/{data_collector_id}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DataCollector
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class OrganizationsDatacollectors extends \Google\Service\Resource
    * @opt_param string pageToken Page token, returned from a previous
    * ListDataCollectors call, that you can use to retrieve the next page.
    * @return GoogleCloudApigeeV1ListDataCollectorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsDatacollectors($parent, $optParams = [])
   {
@@ -107,6 +111,7 @@ class OrganizationsDatacollectors extends \Google\Service\Resource
    *
    * @opt_param string updateMask List of fields to be updated.
    * @return GoogleCloudApigeeV1DataCollector
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudApigeeV1DataCollector $postBody, $optParams = [])
   {

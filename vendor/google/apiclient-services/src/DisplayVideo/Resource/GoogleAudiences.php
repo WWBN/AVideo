@@ -42,6 +42,7 @@ class GoogleAudiences extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that has access to the
    * fetched Google audience.
    * @return GoogleAudience
+   * @throws \Google\Service\Exception
    */
   public function get($googleAudienceId, $optParams = [])
   {
@@ -79,6 +80,7 @@ class GoogleAudiences extends \Google\Service\Resource
    * @opt_param string partnerId The ID of the partner that has access to the
    * fetched Google audiences.
    * @return ListGoogleAudiencesResponse
+   * @throws \Google\Service\Exception
    */
   public function listGoogleAudiences($optParams = [])
   {

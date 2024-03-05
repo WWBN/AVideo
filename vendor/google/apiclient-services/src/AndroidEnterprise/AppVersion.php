@@ -25,6 +25,10 @@ class AppVersion extends \Google\Collection
    */
   public $isProduction;
   /**
+   * @var int
+   */
+  public $targetSdkVersion;
+  /**
    * @var string
    */
   public $track;
@@ -54,6 +58,20 @@ class AppVersion extends \Google\Collection
   public function getIsProduction()
   {
     return $this->isProduction;
+  }
+  /**
+   * @param int
+   */
+  public function setTargetSdkVersion($targetSdkVersion)
+  {
+    $this->targetSdkVersion = $targetSdkVersion;
+  }
+  /**
+   * @return int
+   */
+  public function getTargetSdkVersion()
+  {
+    return $this->targetSdkVersion;
   }
   /**
    * @param string

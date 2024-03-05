@@ -120,9 +120,9 @@ class getid3_avr extends getid3_handler
 		$info['audio']['bits_per_sample'] = $info['avr']['bits_per_sample'];
 		$info['audio']['sample_rate']     = $info['avr']['sample_rate'];
 		$info['audio']['channels']        = ($info['avr']['flags']['stereo'] ? 2 : 1);
-		$info['playtime_seconds']         = ($info['avr']['sample_length'] / $info['audio']['channels']) / $info['avr']['sample_rate'];
-		$info['audio']['bitrate']         = ($info['avr']['sample_length'] * (($info['avr']['bits_per_sample'] == 8) ? 8 : 16)) / $info['playtime_seconds'];
-
+		$bits_per_sample                  = ($info['avr']['bits_per_sample'] == 8) ? 8 : 16;
+		$info['audio']['bitrate']         = $bits_per_sample * $info['audio']['channels'] * $info['avr']['sample_rate'];
+		$info['playtime_seconds']         = getid3_lib::SafeDiv($info['avr']['sample_length'] * $bits_per_sample, $info['audio']['bitrate']);
 
 		return true;
 	}

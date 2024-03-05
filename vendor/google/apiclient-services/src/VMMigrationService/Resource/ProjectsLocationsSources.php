@@ -52,6 +52,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * (00000000-0000-0000-0000-000000000000).
    * @opt_param string sourceId Required. The source identifier.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Source $postBody, $optParams = [])
   {
@@ -77,6 +78,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -107,6 +109,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * paginating, all other parameters provided to `FetchInventory` must match the
    * call that provided the page token.
    * @return FetchInventoryResponse
+   * @throws \Google\Service\Exception
    */
   public function fetchInventory($source, $optParams = [])
   {
@@ -120,6 +123,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * @param string $name Required. The Source name.
    * @param array $optParams Optional parameters.
    * @return Source
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -146,6 +150,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListSources` must match the
    * call that provided the page token.
    * @return ListSourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSources($parent, $optParams = [])
   {
@@ -177,6 +182,7 @@ class ProjectsLocationsSources extends \Google\Service\Resource
    * be overwritten if it is in the mask. If the user does not provide a mask then
    * all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Source $postBody, $optParams = [])
   {

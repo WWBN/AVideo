@@ -53,6 +53,10 @@ class GoogleCloudDialogflowCxV3SecuritySettings extends \Google\Collection
    */
   public $redactionStrategy;
   /**
+   * @var string
+   */
+  public $retentionStrategy;
+  /**
    * @var int
    */
   public $retentionWindowDays;
@@ -182,6 +186,20 @@ class GoogleCloudDialogflowCxV3SecuritySettings extends \Google\Collection
   public function getRedactionStrategy()
   {
     return $this->redactionStrategy;
+  }
+  /**
+   * @param string
+   */
+  public function setRetentionStrategy($retentionStrategy)
+  {
+    $this->retentionStrategy = $retentionStrategy;
+  }
+  /**
+   * @return string
+   */
+  public function getRetentionStrategy()
+  {
+    return $this->retentionStrategy;
   }
   /**
    * @param int

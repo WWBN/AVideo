@@ -40,6 +40,7 @@ class AccountsMediationReport extends \Google\Service\Resource
    * @param GenerateMediationReportRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GenerateMediationReportResponse
+   * @throws \Google\Service\Exception
    */
   public function generate($parent, GenerateMediationReportRequest $postBody, $optParams = [])
   {

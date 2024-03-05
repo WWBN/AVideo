@@ -39,6 +39,7 @@ class CustomLists extends \Google\Service\Resource
    * @opt_param string advertiserId The ID of the DV360 advertiser that has access
    * to the fetched custom lists.
    * @return CustomList
+   * @throws \Google\Service\Exception
    */
   public function get($customListId, $optParams = [])
   {
@@ -60,8 +61,8 @@ class CustomLists extends \Google\Service\Resource
    * All fields must use the `HAS (:)` operator. Supported fields: * `displayName`
    * Examples: * All custom lists for which the display name contains "Google":
    * `displayName:"Google"`. The length of this field should be no more than 500
-   * characters. Reference our [filter `LIST` requests](/display-video/api/guides
-   * /how-tos/filters) guide for more information.
+   * characters. Reference our [filter `LIST` requests](/display-
+   * video/api/guides/how-tos/filters) guide for more information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `customListId` (default) * `displayName` The default sorting order is
    * ascending. To specify descending order for a field, a suffix "desc" should be
@@ -74,6 +75,7 @@ class CustomLists extends \Google\Service\Resource
    * the previous call to `ListCustomLists` method. If not specified, the first
    * page of results will be returned.
    * @return ListCustomListsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomLists($optParams = [])
   {

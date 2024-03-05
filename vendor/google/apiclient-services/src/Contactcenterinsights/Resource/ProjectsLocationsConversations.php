@@ -18,6 +18,7 @@
 namespace Google\Service\Contactcenterinsights\Resource;
 
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest;
+use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1CalculateStatsResponse;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1Conversation;
 use Google\Service\Contactcenterinsights\GoogleCloudContactcenterinsightsV1IngestConversationsRequest;
@@ -44,12 +45,30 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @param GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function bulkAnalyze($parent, GoogleCloudContactcenterinsightsV1BulkAnalyzeConversationsRequest $postBody, $optParams = [])
   {
     $params = ['parent' => $parent, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('bulkAnalyze', [$params], GoogleLongrunningOperation::class);
+  }
+  /**
+   * Deletes multiple conversations in a single request.
+   * (conversations.bulkDelete)
+   *
+   * @param string $parent Required. The parent resource to delete conversations
+   * from. Format: projects/{project}/locations/{location}
+   * @param GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function bulkDelete($parent, GoogleCloudContactcenterinsightsV1BulkDeleteConversationsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('bulkDelete', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Gets conversation statistics. (conversations.calculateStats)
@@ -61,6 +80,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * This field is useful for getting statistics about conversations with specific
    * properties.
    * @return GoogleCloudContactcenterinsightsV1CalculateStatsResponse
+   * @throws \Google\Service\Exception
    */
   public function calculateStats($location, $optParams = [])
   {
@@ -81,6 +101,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * 4-64 characters and must match the regular expression `^[a-z0-9-]{4,64}$`.
    * Valid characters are `a-z-`
    * @return GoogleCloudContactcenterinsightsV1Conversation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudContactcenterinsightsV1Conversation $postBody, $optParams = [])
   {
@@ -98,6 +119,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * will also be deleted. Otherwise, the request will only succeed if the
    * conversation has no analyses.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -114,6 +136,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @opt_param string view The level of details of the conversation. Default is
    * `FULL`.
    * @return GoogleCloudContactcenterinsightsV1Conversation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -129,6 +152,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @param GoogleCloudContactcenterinsightsV1IngestConversationsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function ingest($parent, GoogleCloudContactcenterinsightsV1IngestConversationsRequest $postBody, $optParams = [])
   {
@@ -144,6 +168,13 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    *
    * @opt_param string filter A filter to reduce results to a specific subset.
    * Useful for querying conversations with specific properties.
+   * @opt_param string orderBy Optional. The attribute by which to order
+   * conversations in the response. If empty, conversations will be ordered by
+   * descending creation time. Supported values are one of the following: *
+   * create_time * customer_satisfaction_rating * duration * latest_analysis *
+   * start_time * turn_count The default sort order is ascending. To specify
+   * order, append `asc` or `desc`, i.e. `create_time desc`. See
+   * https://google.aip.dev/132#ordering for more details.
    * @opt_param int pageSize The maximum number of conversations to return in the
    * response. A valid page size ranges from 0 to 1,000 inclusive. If the page
    * size is zero or unspecified, a default page size of 100 will be chosen. Note
@@ -155,6 +186,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @opt_param string view The level of details of the conversation. Default is
    * `BASIC`.
    * @return GoogleCloudContactcenterinsightsV1ListConversationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConversations($parent, $optParams = [])
   {
@@ -172,6 +204,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return GoogleCloudContactcenterinsightsV1Conversation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudContactcenterinsightsV1Conversation $postBody, $optParams = [])
   {
@@ -188,6 +221,7 @@ class ProjectsLocationsConversations extends \Google\Service\Resource
    * @param GoogleCloudContactcenterinsightsV1UploadConversationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function upload($parent, GoogleCloudContactcenterinsightsV1UploadConversationRequest $postBody, $optParams = [])
   {

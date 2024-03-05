@@ -44,6 +44,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * become the final component of the topic's name. This value is structured
    * like: `my-topic-name`.
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Topic $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * @param string $name Required. The name of the topic to delete.
    * @param array $optParams Optional parameters.
    * @return PubsubliteEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * return.
    * @param array $optParams Optional parameters.
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -86,6 +89,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * return.
    * @param array $optParams Optional parameters.
    * @return TopicPartitions
+   * @throws \Google\Service\Exception
    */
   public function getPartitions($name, $optParams = [])
   {
@@ -109,6 +113,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListTopics` must match the call
    * that provided the page token.
    * @return ListTopicsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdminProjectsLocationsTopics($parent, $optParams = [])
   {
@@ -127,6 +132,7 @@ class AdminProjectsLocationsTopics extends \Google\Service\Resource
    * @opt_param string updateMask Required. A mask specifying the topic fields to
    * change.
    * @return Topic
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Topic $postBody, $optParams = [])
   {

@@ -22,6 +22,10 @@ class StringMatcher extends \Google\Model
   /**
    * @var string
    */
+  public $contains;
+  /**
+   * @var string
+   */
   public $exact;
   /**
    * @var bool
@@ -31,10 +35,6 @@ class StringMatcher extends \Google\Model
    * @var string
    */
   public $prefix;
-  /**
-   * @var string
-   */
-  public $regex;
   protected $safeRegexType = RegexMatcher::class;
   protected $safeRegexDataType = '';
   /**
@@ -42,6 +42,20 @@ class StringMatcher extends \Google\Model
    */
   public $suffix;
 
+  /**
+   * @param string
+   */
+  public function setContains($contains)
+  {
+    $this->contains = $contains;
+  }
+  /**
+   * @return string
+   */
+  public function getContains()
+  {
+    return $this->contains;
+  }
   /**
    * @param string
    */
@@ -83,20 +97,6 @@ class StringMatcher extends \Google\Model
   public function getPrefix()
   {
     return $this->prefix;
-  }
-  /**
-   * @param string
-   */
-  public function setRegex($regex)
-  {
-    $this->regex = $regex;
-  }
-  /**
-   * @return string
-   */
-  public function getRegex()
-  {
-    return $this->regex;
   }
   /**
    * @param RegexMatcher

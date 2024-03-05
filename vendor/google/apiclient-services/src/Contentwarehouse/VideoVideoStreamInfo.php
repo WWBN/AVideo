@@ -165,6 +165,10 @@ class VideoVideoStreamInfo extends \Google\Collection
   /**
    * @var bool
    */
+  public $parsedByInHouseParsers;
+  /**
+   * @var bool
+   */
   public $partialFile;
   /**
    * @var string
@@ -815,6 +819,20 @@ class VideoVideoStreamInfo extends \Google\Collection
   public function getParsedByFfmpeg()
   {
     return $this->parsedByFfmpeg;
+  }
+  /**
+   * @param bool
+   */
+  public function setParsedByInHouseParsers($parsedByInHouseParsers)
+  {
+    $this->parsedByInHouseParsers = $parsedByInHouseParsers;
+  }
+  /**
+   * @return bool
+   */
+  public function getParsedByInHouseParsers()
+  {
+    return $this->parsedByInHouseParsers;
   }
   /**
    * @param bool

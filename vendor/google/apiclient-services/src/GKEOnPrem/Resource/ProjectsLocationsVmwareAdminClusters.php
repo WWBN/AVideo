@@ -48,6 +48,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * @param EnrollVmwareAdminClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enroll($parent, EnrollVmwareAdminClusterRequest $postBody, $optParams = [])
   {
@@ -62,7 +63,13 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * returned. Format: "projects/{project}/locations/{location}/vmwareAdminCluster
    * s/{vmware_admin_cluster}"
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view View for VMware admin cluster. When `BASIC` is
+   * specified, only the cluster resource name and membership are returned. The
+   * default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL', which
+   * returns the complete cluster configuration details.
    * @return VmwareAdminCluster
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,6 +101,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -119,6 +127,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * The default/unset value `CLUSTER_VIEW_UNSPECIFIED` is the same as `FULL',
    * which returns the complete admin cluster configuration details.
    * @return ListVmwareAdminClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVmwareAdminClusters($parent, $optParams = [])
   {
@@ -144,6 +153,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, VmwareAdminCluster $postBody, $optParams = [])
   {
@@ -163,6 +173,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -185,6 +196,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -213,6 +225,7 @@ class ProjectsLocationsVmwareAdminClusters extends \Google\Service\Resource
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function unenroll($name, $optParams = [])
   {

@@ -44,6 +44,7 @@ class OrganizationsEnvironmentsSecurityReports extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1SecurityReportQuery $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityReport
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1SecurityReportQuery $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class OrganizationsEnvironmentsSecurityReports extends \Google\Service\Resource
    * the form `organizations/{org}/environments/{env}/securityReports/{reportId}`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityReport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -71,14 +73,16 @@ class OrganizationsEnvironmentsSecurityReports extends \Google\Service\Resource
    * After the query is completed, use this API to retrieve the results as file.
    * If the request succeeds, and there is a non-zero result set, the result is
    * downloaded to the client as a zipped JSON file. The name of the downloaded
-   * file will be: OfflineQueryResult-.zip Example: `OfflineQueryResult-
-   * 9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip` (securityReports.getResult)
+   * file will be: OfflineQueryResult-.zip Example:
+   * `OfflineQueryResult-9cfc0d85-0f30-46d6-ae6f-318d0cb961bd.zip`
+   * (securityReports.getResult)
    *
    * @param string $name Required. Name of the security report result to get. Must
    * be of the form
    * `organizations/{org}/environments/{env}/securityReports/{reportId}/result`.
    * @param array $optParams Optional parameters.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function getResult($name, $optParams = [])
   {
@@ -95,6 +99,7 @@ class OrganizationsEnvironmentsSecurityReports extends \Google\Service\Resource
    * reportId}/resultView`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityReportResultView
+   * @throws \Google\Service\Exception
    */
   public function getResultView($name, $optParams = [])
   {
@@ -126,6 +131,7 @@ class OrganizationsEnvironmentsSecurityReports extends \Google\Service\Resource
    * created before this date time. Time must be in ISO date-time format like
    * '2011-12-03T10:16:30Z'.
    * @return GoogleCloudApigeeV1ListSecurityReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvironmentsSecurityReports($parent, $optParams = [])
   {

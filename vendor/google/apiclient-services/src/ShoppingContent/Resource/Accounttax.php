@@ -39,6 +39,7 @@ class Accounttax extends \Google\Service\Resource
    * @param AccounttaxCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AccounttaxCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(AccounttaxCustomBatchRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Accounttax extends \Google\Service\Resource
    * account tax settings.
    * @param array $optParams Optional parameters.
    * @return AccountTaxModel
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $accountId, $optParams = [])
   {
@@ -75,6 +77,7 @@ class Accounttax extends \Google\Service\Resource
    * the response, used for paging.
    * @opt_param string pageToken The token returned by the previous request.
    * @return AccounttaxListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccounttax($merchantId, $optParams = [])
   {
@@ -94,6 +97,7 @@ class Accounttax extends \Google\Service\Resource
    * @param AccountTaxModel $postBody
    * @param array $optParams Optional parameters.
    * @return AccountTaxModel
+   * @throws \Google\Service\Exception
    */
   public function update($merchantId, $accountId, AccountTaxModel $postBody, $optParams = [])
   {

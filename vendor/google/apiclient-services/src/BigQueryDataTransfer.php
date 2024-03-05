@@ -188,6 +188,16 @@ class BigQueryDataTransfer extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'unenrollDataSources' => [
+              'path' => 'v1/{+name}:unenrollDataSources',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],
           ]
         ]

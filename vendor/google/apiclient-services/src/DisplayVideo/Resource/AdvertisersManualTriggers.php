@@ -35,10 +35,10 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   /**
    * Activates a manual trigger. Each activation of the manual trigger must be at
    * least 5 minutes apart, otherwise an error will be returned. **Warning:** Line
-   * Items using manual triggers will stop serving in Display & Video 360 on **May
-   * 17, 2023**. Read our [feature deprecation announcement](/display-
-   * video/api/deprecations#features.manual_triggers) for more information.
-   * (manualTriggers.activate)
+   * Items using manual triggers no longer serve in Display & Video 360. This
+   * method will sunset on August 1, 2023. Read our [feature deprecation
+   * announcement](/display-video/api/deprecations#features.manual_triggers) for
+   * more information. (manualTriggers.activate)
    *
    * @param string $advertiserId Required. The ID of the advertiser that the
    * manual trigger belongs.
@@ -55,10 +55,11 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   }
   /**
    * Creates a new manual trigger. Returns the newly created manual trigger if
-   * successful. **Warning:** Line Items using manual triggers will stop serving
-   * in Display & Video 360 on **May 17, 2023**. Read our [feature deprecation
-   * announcement](/display-video/api/deprecations#features.manual_triggers) for
-   * more information. (manualTriggers.create)
+   * successful. **Warning:** Line Items using manual triggers no longer serve in
+   * Display & Video 360. This method will sunset on August 1, 2023. Read our
+   * [feature deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
+   * (manualTriggers.create)
    *
    * @param string $advertiserId Required. Immutable. The unique ID of the
    * advertiser that the manual trigger belongs to.
@@ -74,8 +75,8 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   }
   /**
    * Deactivates a manual trigger. **Warning:** Line Items using manual triggers
-   * will stop serving in Display & Video 360 on **May 17, 2023**. Read our
-   * [feature deprecation announcement](/display-
+   * no longer serve in Display & Video 360. This method will sunset on August 1,
+   * 2023. Read our [feature deprecation announcement](/display-
    * video/api/deprecations#features.manual_triggers) for more information.
    * (manualTriggers.deactivate)
    *
@@ -94,9 +95,9 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
     return $this->call('deactivate', [$params], ManualTrigger::class);
   }
   /**
-   * Gets a manual trigger. **Warning:** Line Items using manual triggers will
-   * stop serving in Display & Video 360 on **May 17, 2023**. Read our [feature
-   * deprecation announcement](/display-
+   * Gets a manual trigger. **Warning:** Line Items using manual triggers no
+   * longer serve in Display & Video 360. This method will sunset on August 1,
+   * 2023. Read our [feature deprecation announcement](/display-
    * video/api/deprecations#features.manual_triggers) for more information.
    * (manualTriggers.get)
    *
@@ -115,9 +116,9 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   /**
    * Lists manual triggers that are accessible to the current user for a given
    * advertiser ID. The order is defined by the order_by parameter. A single
-   * advertiser_id is required. **Warning:** Line Items using manual triggers will
-   * stop serving in Display & Video 360 on **May 17, 2023**. Read our [feature
-   * deprecation announcement](/display-
+   * advertiser_id is required. **Warning:** Line Items using manual triggers no
+   * longer serve in Display & Video 360. This method will sunset on August 1,
+   * 2023. Read our [feature deprecation announcement](/display-
    * video/api/deprecations#features.manual_triggers) for more information.
    * (manualTriggers.listAdvertisersManualTriggers)
    *
@@ -155,10 +156,11 @@ class AdvertisersManualTriggers extends \Google\Service\Resource
   }
   /**
    * Updates a manual trigger. Returns the updated manual trigger if successful.
-   * **Warning:** Line Items using manual triggers will stop serving in Display &
-   * Video 360 on **May 17, 2023**. Read our [feature deprecation announcement
-   * ](/display-video/api/deprecations#features.manual_triggers) for more
-   * information. (manualTriggers.patch)
+   * **Warning:** Line Items using manual triggers no longer serve in Display &
+   * Video 360. This method will sunset on August 1, 2023. Read our [feature
+   * deprecation announcement](/display-
+   * video/api/deprecations#features.manual_triggers) for more information.
+   * (manualTriggers.patch)
    *
    * @param string $advertiserId Required. Immutable. The unique ID of the
    * advertiser that the manual trigger belongs to.

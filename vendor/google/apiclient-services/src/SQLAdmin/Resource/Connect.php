@@ -43,6 +43,7 @@ class Connect extends \Google\Service\Resource
    * @param GenerateEphemeralCertRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GenerateEphemeralCertResponse
+   * @throws \Google\Service\Exception
    */
   public function generateEphemeralCert($project, $instance, GenerateEphemeralCertRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class Connect extends \Google\Service\Resource
    * @opt_param string readTime Optional. Optional snapshot read timestamp to
    * trade freshness for performance.
    * @return ConnectSettings
+   * @throws \Google\Service\Exception
    */
   public function get($project, $instance, $optParams = [])
   {

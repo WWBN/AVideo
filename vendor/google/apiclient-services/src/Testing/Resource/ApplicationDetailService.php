@@ -36,7 +36,12 @@ class ApplicationDetailService extends \Google\Service\Resource
    *
    * @param FileReference $postBody
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string bundleLocation.gcsPath A path to a file in Google Cloud
+   * Storage. Example: gs://build-app-1414623860166/app%40debug-unaligned.apk
+   * These paths are expected to be url encoded (percent encoding)
    * @return GetApkDetailsResponse
+   * @throws \Google\Service\Exception
    */
   public function getApkDetails(FileReference $postBody, $optParams = [])
   {

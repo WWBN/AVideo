@@ -45,6 +45,7 @@ class ProjectsLocationsLakesActions extends \Google\Service\Resource
    * paginating, all other parameters provided to ListLakeActions must match the
    * call that provided the page token.
    * @return GoogleCloudDataplexV1ListActionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsLakesActions($parent, $optParams = [])
   {

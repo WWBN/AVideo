@@ -47,6 +47,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * regular expression: [a-zA-Z0-9:/\\!@#$%^&{}\[\]()+\-=,.~'` ]{1,255}
    * @opt_param string type Required. Resource file type. {{ resource_file_type }}
    * @return GoogleCloudApigeeV1ResourceFile
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleApiHttpBody $postBody, $optParams = [])
   {
@@ -56,8 +57,8 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
   }
   /**
    * Deletes a resource file. For more information about resource files, see
-   * [Resource files](https://cloud.google.com/apigee/docs/api-platform/develop
-   * /resource-files). (resourcefiles.delete)
+   * [Resource files](https://cloud.google.com/apigee/docs/api-
+   * platform/develop/resource-files). (resourcefiles.delete)
    *
    * @param string $parent Required. Name of the environment in the following
    * format: `organizations/{org}/environments/{env}`.
@@ -66,6 +67,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * the regular expression: [a-zA-Z0-9:/\\!@#$%^&{}\[\]()+\-=,.~'` ]{1,255}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ResourceFile
+   * @throws \Google\Service\Exception
    */
   public function delete($parent, $type, $name, $optParams = [])
   {
@@ -85,6 +87,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * expression: [a-zA-Z0-9:/\\!@#$%^&{}\[\]()+\-=,.~'` ]{1,255}
    * @param array $optParams Optional parameters.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function get($parent, $type, $name, $optParams = [])
   {
@@ -106,6 +109,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * @opt_param string type Optional. Type of resource files to list. {{
    * resource_file_type }}
    * @return GoogleCloudApigeeV1ListEnvironmentResourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvironmentsResourcefiles($parent, $optParams = [])
   {
@@ -126,6 +130,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * resource_file_type }}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ListEnvironmentResourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnvironmentResources($parent, $type, $optParams = [])
   {
@@ -147,6 +152,7 @@ class OrganizationsEnvironmentsResourcefiles extends \Google\Service\Resource
    * @param GoogleApiHttpBody $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ResourceFile
+   * @throws \Google\Service\Exception
    */
   public function update($parent, $type, $name, GoogleApiHttpBody $postBody, $optParams = [])
   {

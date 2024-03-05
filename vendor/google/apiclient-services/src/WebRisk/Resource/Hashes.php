@@ -45,6 +45,7 @@ class Hashes extends \Google\Service\Resource
    * @opt_param string threatTypes Required. The ThreatLists to search in.
    * Multiple ThreatLists may be specified.
    * @return GoogleCloudWebriskV1SearchHashesResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

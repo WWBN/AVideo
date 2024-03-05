@@ -19,6 +19,25 @@ namespace Google\Service\DatabaseMigrationService;
 
 class StartMigrationJobRequest extends \Google\Model
 {
+  /**
+   * @var bool
+   */
+  public $skipValidation;
+
+  /**
+   * @param bool
+   */
+  public function setSkipValidation($skipValidation)
+  {
+    $this->skipValidation = $skipValidation;
+  }
+  /**
+   * @return bool
+   */
+  public function getSkipValidation()
+  {
+    return $this->skipValidation;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

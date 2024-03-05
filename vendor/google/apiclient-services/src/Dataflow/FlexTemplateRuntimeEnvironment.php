@@ -99,6 +99,10 @@ class FlexTemplateRuntimeEnvironment extends \Google\Collection
   /**
    * @var string
    */
+  public $streamingMode;
+  /**
+   * @var string
+   */
   public $subnetwork;
   /**
    * @var string
@@ -382,6 +386,20 @@ class FlexTemplateRuntimeEnvironment extends \Google\Collection
   public function getStagingLocation()
   {
     return $this->stagingLocation;
+  }
+  /**
+   * @param string
+   */
+  public function setStreamingMode($streamingMode)
+  {
+    $this->streamingMode = $streamingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getStreamingMode()
+  {
+    return $this->streamingMode;
   }
   /**
    * @param string

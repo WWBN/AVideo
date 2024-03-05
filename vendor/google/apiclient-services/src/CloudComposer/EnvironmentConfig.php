@@ -31,6 +31,8 @@ class EnvironmentConfig extends \Google\Model
    * @var string
    */
   public $dagGcsPrefix;
+  protected $dataRetentionConfigType = DataRetentionConfig::class;
+  protected $dataRetentionConfigDataType = '';
   protected $databaseConfigType = DatabaseConfig::class;
   protected $databaseConfigDataType = '';
   protected $encryptionConfigType = EncryptionConfig::class;
@@ -57,6 +59,10 @@ class EnvironmentConfig extends \Google\Model
   protected $privateEnvironmentConfigDataType = '';
   protected $recoveryConfigType = RecoveryConfig::class;
   protected $recoveryConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $resilienceMode;
   protected $softwareConfigType = SoftwareConfig::class;
   protected $softwareConfigDataType = '';
   protected $webServerConfigType = WebServerConfig::class;
@@ -107,6 +113,20 @@ class EnvironmentConfig extends \Google\Model
   public function getDagGcsPrefix()
   {
     return $this->dagGcsPrefix;
+  }
+  /**
+   * @param DataRetentionConfig
+   */
+  public function setDataRetentionConfig(DataRetentionConfig $dataRetentionConfig)
+  {
+    $this->dataRetentionConfig = $dataRetentionConfig;
+  }
+  /**
+   * @return DataRetentionConfig
+   */
+  public function getDataRetentionConfig()
+  {
+    return $this->dataRetentionConfig;
   }
   /**
    * @param DatabaseConfig
@@ -247,6 +267,20 @@ class EnvironmentConfig extends \Google\Model
   public function getRecoveryConfig()
   {
     return $this->recoveryConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setResilienceMode($resilienceMode)
+  {
+    $this->resilienceMode = $resilienceMode;
+  }
+  /**
+   * @return string
+   */
+  public function getResilienceMode()
+  {
+    return $this->resilienceMode;
   }
   /**
    * @param SoftwareConfig

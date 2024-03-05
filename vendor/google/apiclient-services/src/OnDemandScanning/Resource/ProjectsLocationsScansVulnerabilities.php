@@ -42,6 +42,7 @@ class ProjectsLocationsScansVulnerabilities extends \Google\Service\Resource
    * @opt_param string pageToken The page token, resulting from a previous call to
    * ListVulnerabilities.
    * @return ListVulnerabilitiesResponseV1
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsScansVulnerabilities($parent, $optParams = [])
   {

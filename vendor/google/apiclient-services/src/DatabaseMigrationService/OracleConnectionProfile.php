@@ -43,6 +43,8 @@ class OracleConnectionProfile extends \Google\Model
   public $port;
   protected $privateConnectivityType = PrivateConnectivity::class;
   protected $privateConnectivityDataType = '';
+  protected $sslType = SslConfig::class;
+  protected $sslDataType = '';
   protected $staticServiceIpConnectivityType = StaticServiceIpConnectivity::class;
   protected $staticServiceIpConnectivityDataType = '';
   /**
@@ -147,6 +149,20 @@ class OracleConnectionProfile extends \Google\Model
   public function getPrivateConnectivity()
   {
     return $this->privateConnectivity;
+  }
+  /**
+   * @param SslConfig
+   */
+  public function setSsl(SslConfig $ssl)
+  {
+    $this->ssl = $ssl;
+  }
+  /**
+   * @return SslConfig
+   */
+  public function getSsl()
+  {
+    return $this->ssl;
   }
   /**
    * @param StaticServiceIpConnectivity

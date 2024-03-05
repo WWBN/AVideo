@@ -35,11 +35,12 @@ class ProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns extends \Google\
   /**
    * Gets details of a single JobRun. (jobRuns.get)
    *
-   * @param string $name Required. Name of the `JobRun`. Format must be projects/{
-   * project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/relea
-   * ses/{release_name}/rollouts/{rollout_name}/jobRuns/{job_run_name}.
+   * @param string $name Required. Name of the `JobRun`. Format must be `projects/
+   * {project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/rele
+   * ases/{release_name}/rollouts/{rollout_name}/jobRuns/{job_run_name}`.
    * @param array $optParams Optional parameters.
    * @return JobRun
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns extends \Google\
    * paginating, all other provided parameters match the call that provided the
    * page token.
    * @return ListJobRunsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns($parent, $optParams = [])
   {
@@ -78,12 +80,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns extends \Google\
   /**
    * Terminates a Job Run in a given project and location. (jobRuns.terminate)
    *
-   * @param string $name Required. Name of the `JobRun`. Format must be
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}/jobRuns/{jobRun}.
+   * @param string $name Required. Name of the `JobRun`. Format must be `projects/
+   * {project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/
+   * {release}/rollouts/{rollout}/jobRuns/{jobRun}`.
    * @param TerminateJobRunRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TerminateJobRunResponse
+   * @throws \Google\Service\Exception
    */
   public function terminate($name, TerminateJobRunRequest $postBody, $optParams = [])
   {

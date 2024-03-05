@@ -1,7 +1,7 @@
 <?php
 
 $videos_id = getVideos_id();
-
+$isModeYouTube = 1;
 $trascription = Ai_responses::getTranscriptionVtt($videos_id);
 if (empty($trascription)) {
 ?>
@@ -113,7 +113,7 @@ $bookmark = AVideoPlugin::isEnabledByName('Bookmark');
                                     <i class="fa-solid fa-minus"></i>
                                 </button>
                                 <div id="collapseBody<?= $key ?>" class="collapse"> <!-- Make sure this ID matches the button's data-target -->
-                                    <p><?= htmlspecialchars($value->shortDescription) ?></p>
+                                    <p><?= htmlspecialchars($value->textTranscription) ?></p>
                                 </div>
                             </div>
                             <div class="panel-footer">

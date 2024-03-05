@@ -31,6 +31,8 @@ class LiaCountrySettings extends \Google\Model
   public $hostedLocalStorefrontActive;
   protected $inventoryType = LiaInventorySettings::class;
   protected $inventoryDataType = '';
+  protected $omnichannelExperienceType = LiaOmnichannelExperience::class;
+  protected $omnichannelExperienceDataType = '';
   protected $onDisplayToOrderType = LiaOnDisplayToOrderSettings::class;
   protected $onDisplayToOrderDataType = '';
   protected $posDataProviderType = LiaPosDataProvider::class;
@@ -95,6 +97,20 @@ class LiaCountrySettings extends \Google\Model
   public function getInventory()
   {
     return $this->inventory;
+  }
+  /**
+   * @param LiaOmnichannelExperience
+   */
+  public function setOmnichannelExperience(LiaOmnichannelExperience $omnichannelExperience)
+  {
+    $this->omnichannelExperience = $omnichannelExperience;
+  }
+  /**
+   * @return LiaOmnichannelExperience
+   */
+  public function getOmnichannelExperience()
+  {
+    return $this->omnichannelExperience;
   }
   /**
    * @param LiaOnDisplayToOrderSettings

@@ -36,6 +36,7 @@ class UserRoles extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param string $id User role ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class UserRoles extends \Google\Service\Resource
    * @param string $id User role ID.
    * @param array $optParams Optional parameters.
    * @return UserRole
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -64,6 +66,7 @@ class UserRoles extends \Google\Service\Resource
    * @param UserRole $postBody
    * @param array $optParams Optional parameters.
    * @return UserRole
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, UserRole $postBody, $optParams = [])
   {
@@ -96,6 +99,7 @@ class UserRoles extends \Google\Service\Resource
    * @opt_param string subaccountId Select only user roles that belong to this
    * subaccount.
    * @return UserRolesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listUserRoles($profileId, $optParams = [])
   {
@@ -108,10 +112,11 @@ class UserRoles extends \Google\Service\Resource
    * (userRoles.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id UserRole ID.
+   * @param string $id Required. UserRole ID.
    * @param UserRole $postBody
    * @param array $optParams Optional parameters.
    * @return UserRole
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, UserRole $postBody, $optParams = [])
   {
@@ -126,6 +131,7 @@ class UserRoles extends \Google\Service\Resource
    * @param UserRole $postBody
    * @param array $optParams Optional parameters.
    * @return UserRole
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, UserRole $postBody, $optParams = [])
   {

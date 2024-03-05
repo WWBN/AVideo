@@ -44,6 +44,10 @@ class CloudStorageConfig extends \Google\Model
   /**
    * @var string
    */
+  public $serviceAccountEmail;
+  /**
+   * @var string
+   */
   public $state;
   protected $textConfigType = TextConfig::class;
   protected $textConfigDataType = '';
@@ -131,6 +135,20 @@ class CloudStorageConfig extends \Google\Model
   public function getMaxDuration()
   {
     return $this->maxDuration;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccountEmail($serviceAccountEmail)
+  {
+    $this->serviceAccountEmail = $serviceAccountEmail;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccountEmail()
+  {
+    return $this->serviceAccountEmail;
   }
   /**
    * @param string

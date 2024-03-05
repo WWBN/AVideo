@@ -20,10 +20,28 @@ namespace Google\Service\Firebaseappcheck;
 class GoogleFirebaseAppcheckV1ExchangePlayIntegrityTokenRequest extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $limitedUse;
+  /**
    * @var string
    */
   public $playIntegrityToken;
 
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
+  }
   /**
    * @param string
    */

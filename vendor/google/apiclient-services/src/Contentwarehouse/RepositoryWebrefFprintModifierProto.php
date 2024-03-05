@@ -20,14 +20,6 @@ namespace Google\Service\Contentwarehouse;
 class RepositoryWebrefFprintModifierProto extends \Google\Model
 {
   /**
-   * @var string
-   */
-  public $capitalization;
-  /**
-   * @var string
-   */
-  public $enclosing;
-  /**
    * @var int
    */
   public $language;
@@ -35,59 +27,7 @@ class RepositoryWebrefFprintModifierProto extends \Google\Model
    * @var string
    */
   public $namespaceType;
-  /**
-   * @var string
-   */
-  public $punctuation;
-  /**
-   * @var string
-   */
-  public $sentence;
-  /**
-   * @var string
-   */
-  public $sourceType;
-  /**
-   * @var string
-   */
-  public $stemming;
-  /**
-   * @var string
-   */
-  public $style;
-  /**
-   * @var string
-   */
-  public $tokenType;
 
-  /**
-   * @param string
-   */
-  public function setCapitalization($capitalization)
-  {
-    $this->capitalization = $capitalization;
-  }
-  /**
-   * @return string
-   */
-  public function getCapitalization()
-  {
-    return $this->capitalization;
-  }
-  /**
-   * @param string
-   */
-  public function setEnclosing($enclosing)
-  {
-    $this->enclosing = $enclosing;
-  }
-  /**
-   * @return string
-   */
-  public function getEnclosing()
-  {
-    return $this->enclosing;
-  }
   /**
    * @param int
    */
@@ -115,90 +55,6 @@ class RepositoryWebrefFprintModifierProto extends \Google\Model
   public function getNamespaceType()
   {
     return $this->namespaceType;
-  }
-  /**
-   * @param string
-   */
-  public function setPunctuation($punctuation)
-  {
-    $this->punctuation = $punctuation;
-  }
-  /**
-   * @return string
-   */
-  public function getPunctuation()
-  {
-    return $this->punctuation;
-  }
-  /**
-   * @param string
-   */
-  public function setSentence($sentence)
-  {
-    $this->sentence = $sentence;
-  }
-  /**
-   * @return string
-   */
-  public function getSentence()
-  {
-    return $this->sentence;
-  }
-  /**
-   * @param string
-   */
-  public function setSourceType($sourceType)
-  {
-    $this->sourceType = $sourceType;
-  }
-  /**
-   * @return string
-   */
-  public function getSourceType()
-  {
-    return $this->sourceType;
-  }
-  /**
-   * @param string
-   */
-  public function setStemming($stemming)
-  {
-    $this->stemming = $stemming;
-  }
-  /**
-   * @return string
-   */
-  public function getStemming()
-  {
-    return $this->stemming;
-  }
-  /**
-   * @param string
-   */
-  public function setStyle($style)
-  {
-    $this->style = $style;
-  }
-  /**
-   * @return string
-   */
-  public function getStyle()
-  {
-    return $this->style;
-  }
-  /**
-   * @param string
-   */
-  public function setTokenType($tokenType)
-  {
-    $this->tokenType = $tokenType;
-  }
-  /**
-   * @return string
-   */
-  public function getTokenType()
-  {
-    return $this->tokenType;
   }
 }
 

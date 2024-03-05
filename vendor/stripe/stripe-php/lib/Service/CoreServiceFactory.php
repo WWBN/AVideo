@@ -23,6 +23,7 @@ namespace Stripe\Service;
  * @property CouponService $coupons
  * @property CreditNoteService $creditNotes
  * @property CustomerService $customers
+ * @property CustomerSessionService $customerSessions
  * @property DisputeService $disputes
  * @property EphemeralKeyService $ephemeralKeys
  * @property EventService $events
@@ -60,6 +61,7 @@ namespace Stripe\Service;
  * @property SubscriptionScheduleService $subscriptionSchedules
  * @property Tax\TaxServiceFactory $tax
  * @property TaxCodeService $taxCodes
+ * @property TaxIdService $taxIds
  * @property TaxRateService $taxRates
  * @property Terminal\TerminalServiceFactory $terminal
  * @property TestHelpers\TestHelpersServiceFactory $testHelpers
@@ -94,6 +96,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'coupons' => CouponService::class,
         'creditNotes' => CreditNoteService::class,
         'customers' => CustomerService::class,
+        'customerSessions' => CustomerSessionService::class,
         'disputes' => DisputeService::class,
         'ephemeralKeys' => EphemeralKeyService::class,
         'events' => EventService::class,
@@ -131,6 +134,7 @@ class CoreServiceFactory extends \Stripe\Service\AbstractServiceFactory
         'subscriptionSchedules' => SubscriptionScheduleService::class,
         'tax' => Tax\TaxServiceFactory::class,
         'taxCodes' => TaxCodeService::class,
+        'taxIds' => TaxIdService::class,
         'taxRates' => TaxRateService::class,
         'terminal' => Terminal\TerminalServiceFactory::class,
         'testHelpers' => TestHelpers\TestHelpersServiceFactory::class,

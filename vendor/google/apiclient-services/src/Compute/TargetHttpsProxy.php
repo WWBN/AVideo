@@ -41,6 +41,10 @@ class TargetHttpsProxy extends \Google\Collection
    */
   public $fingerprint;
   /**
+   * @var int
+   */
+  public $httpKeepAliveTimeoutSec;
+  /**
    * @var string
    */
   public $id;
@@ -154,6 +158,20 @@ class TargetHttpsProxy extends \Google\Collection
   public function getFingerprint()
   {
     return $this->fingerprint;
+  }
+  /**
+   * @param int
+   */
+  public function setHttpKeepAliveTimeoutSec($httpKeepAliveTimeoutSec)
+  {
+    $this->httpKeepAliveTimeoutSec = $httpKeepAliveTimeoutSec;
+  }
+  /**
+   * @return int
+   */
+  public function getHttpKeepAliveTimeoutSec()
+  {
+    return $this->httpKeepAliveTimeoutSec;
   }
   /**
    * @param string

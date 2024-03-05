@@ -45,6 +45,7 @@ class CustomersPoliciesOrgunits extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchInherit($customer, GoogleChromePolicyVersionsV1BatchInheritOrgUnitPoliciesRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class CustomersPoliciesOrgunits extends \Google\Service\Resource
    * @param GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchModify($customer, GoogleChromePolicyVersionsV1BatchModifyOrgUnitPoliciesRequest $postBody, $optParams = [])
   {

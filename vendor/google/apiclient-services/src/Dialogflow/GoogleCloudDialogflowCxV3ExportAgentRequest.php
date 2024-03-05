@@ -31,6 +31,12 @@ class GoogleCloudDialogflowCxV3ExportAgentRequest extends \Google\Model
    * @var string
    */
   public $environment;
+  protected $gitDestinationType = GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination::class;
+  protected $gitDestinationDataType = '';
+  /**
+   * @var bool
+   */
+  public $includeBigqueryExportSettings;
 
   /**
    * @param string
@@ -73,6 +79,34 @@ class GoogleCloudDialogflowCxV3ExportAgentRequest extends \Google\Model
   public function getEnvironment()
   {
     return $this->environment;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination
+   */
+  public function setGitDestination(GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination $gitDestination)
+  {
+    $this->gitDestination = $gitDestination;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3ExportAgentRequestGitDestination
+   */
+  public function getGitDestination()
+  {
+    return $this->gitDestination;
+  }
+  /**
+   * @param bool
+   */
+  public function setIncludeBigqueryExportSettings($includeBigqueryExportSettings)
+  {
+    $this->includeBigqueryExportSettings = $includeBigqueryExportSettings;
+  }
+  /**
+   * @return bool
+   */
+  public function getIncludeBigqueryExportSettings()
+  {
+    return $this->includeBigqueryExportSettings;
   }
 }
 

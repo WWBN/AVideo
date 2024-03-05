@@ -39,6 +39,7 @@ class Revisions extends \Google\Service\Resource
    * @param string $fileId The ID of the file.
    * @param string $revisionId The ID of the revision.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($fileId, $revisionId, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Revisions extends \Google\Service\Resource
    * of downloading known malware or other abusive files. This is only applicable
    * when alt=media.
    * @return Revision
+   * @throws \Google\Service\Exception
    */
   public function get($fileId, $revisionId, $optParams = [])
   {
@@ -75,6 +77,7 @@ class Revisions extends \Google\Service\Resource
    * on the next page. This should be set to the value of 'nextPageToken' from the
    * previous response.
    * @return RevisionList
+   * @throws \Google\Service\Exception
    */
   public function listRevisions($fileId, $optParams = [])
   {
@@ -90,6 +93,7 @@ class Revisions extends \Google\Service\Resource
    * @param Revision $postBody
    * @param array $optParams Optional parameters.
    * @return Revision
+   * @throws \Google\Service\Exception
    */
   public function update($fileId, $revisionId, Revision $postBody, $optParams = [])
   {

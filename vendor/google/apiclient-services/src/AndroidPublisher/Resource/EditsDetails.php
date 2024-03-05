@@ -36,6 +36,7 @@ class EditsDetails extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return AppDetails
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $editId, $optParams = [])
   {
@@ -51,6 +52,7 @@ class EditsDetails extends \Google\Service\Resource
    * @param AppDetails $postBody
    * @param array $optParams Optional parameters.
    * @return AppDetails
+   * @throws \Google\Service\Exception
    */
   public function patch($packageName, $editId, AppDetails $postBody, $optParams = [])
   {
@@ -66,6 +68,7 @@ class EditsDetails extends \Google\Service\Resource
    * @param AppDetails $postBody
    * @param array $optParams Optional parameters.
    * @return AppDetails
+   * @throws \Google\Service\Exception
    */
   public function update($packageName, $editId, AppDetails $postBody, $optParams = [])
   {

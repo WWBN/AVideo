@@ -46,6 +46,7 @@ class ProjectsLocationsOperations extends \Google\Service\Resource
    * @param CancelOperationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CloudbuildEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, CancelOperationRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

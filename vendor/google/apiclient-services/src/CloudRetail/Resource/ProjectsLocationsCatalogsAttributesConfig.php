@@ -43,6 +43,7 @@ class ProjectsLocationsCatalogsAttributesConfig extends \Google\Service\Resource
    * @param GoogleCloudRetailV2AddCatalogAttributeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2AttributesConfig
+   * @throws \Google\Service\Exception
    */
   public function addCatalogAttribute($attributesConfig, GoogleCloudRetailV2AddCatalogAttributeRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsCatalogsAttributesConfig extends \Google\Service\Resource
    * @param GoogleCloudRetailV2RemoveCatalogAttributeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2AttributesConfig
+   * @throws \Google\Service\Exception
    */
   public function removeCatalogAttribute($attributesConfig, GoogleCloudRetailV2RemoveCatalogAttributeRequest $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsCatalogsAttributesConfig extends \Google\Service\Resource
    * @param GoogleCloudRetailV2ReplaceCatalogAttributeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2AttributesConfig
+   * @throws \Google\Service\Exception
    */
   public function replaceCatalogAttribute($attributesConfig, GoogleCloudRetailV2ReplaceCatalogAttributeRequest $postBody, $optParams = [])
   {

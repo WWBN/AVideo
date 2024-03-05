@@ -39,6 +39,7 @@ class ReportsCompatibleFields extends \Google\Service\Resource
    * @param Report $postBody
    * @param array $optParams Optional parameters.
    * @return CompatibleFields
+   * @throws \Google\Service\Exception
    */
   public function query($profileId, Report $postBody, $optParams = [])
   {

@@ -26,6 +26,10 @@ class GoogleCloudOrgpolicyV2Policy extends \Google\Model
   /**
    * @var string
    */
+  public $etag;
+  /**
+   * @var string
+   */
   public $name;
   protected $specType = GoogleCloudOrgpolicyV2PolicySpec::class;
   protected $specDataType = '';
@@ -57,6 +61,20 @@ class GoogleCloudOrgpolicyV2Policy extends \Google\Model
   public function getDryRunSpec()
   {
     return $this->dryRunSpec;
+  }
+  /**
+   * @param string
+   */
+  public function setEtag($etag)
+  {
+    $this->etag = $etag;
+  }
+  /**
+   * @return string
+   */
+  public function getEtag()
+  {
+    return $this->etag;
   }
   /**
    * @param string

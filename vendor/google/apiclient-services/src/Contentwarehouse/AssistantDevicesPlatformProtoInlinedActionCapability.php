@@ -35,6 +35,8 @@ class AssistantDevicesPlatformProtoInlinedActionCapability extends \Google\Model
   public $supportsMultiResponse;
   protected $timerType = AssistantDevicesPlatformProtoTimerCapability::class;
   protected $timerDataType = '';
+  protected $ttsOutputType = AssistantDevicesPlatformProtoTtsOutputCapability::class;
+  protected $ttsOutputDataType = '';
 
   /**
    * @param AssistantDevicesPlatformProtoAlarmCapability
@@ -119,6 +121,20 @@ class AssistantDevicesPlatformProtoInlinedActionCapability extends \Google\Model
   public function getTimer()
   {
     return $this->timer;
+  }
+  /**
+   * @param AssistantDevicesPlatformProtoTtsOutputCapability
+   */
+  public function setTtsOutput(AssistantDevicesPlatformProtoTtsOutputCapability $ttsOutput)
+  {
+    $this->ttsOutput = $ttsOutput;
+  }
+  /**
+   * @return AssistantDevicesPlatformProtoTtsOutputCapability
+   */
+  public function getTtsOutput()
+  {
+    return $this->ttsOutput;
   }
 }
 

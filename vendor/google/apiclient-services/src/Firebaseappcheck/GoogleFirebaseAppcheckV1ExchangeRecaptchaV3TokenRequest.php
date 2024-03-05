@@ -20,10 +20,28 @@ namespace Google\Service\Firebaseappcheck;
 class GoogleFirebaseAppcheckV1ExchangeRecaptchaV3TokenRequest extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $limitedUse;
+  /**
    * @var string
    */
   public $recaptchaV3Token;
 
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
+  }
   /**
    * @param string
    */

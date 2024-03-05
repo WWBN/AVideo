@@ -49,6 +49,10 @@ class JobRun extends \Google\Model
    * @var string
    */
   public $phaseId;
+  protected $postdeployJobRunType = PostdeployJobRun::class;
+  protected $postdeployJobRunDataType = '';
+  protected $predeployJobRunType = PredeployJobRun::class;
+  protected $predeployJobRunDataType = '';
   /**
    * @var string
    */
@@ -189,6 +193,34 @@ class JobRun extends \Google\Model
   public function getPhaseId()
   {
     return $this->phaseId;
+  }
+  /**
+   * @param PostdeployJobRun
+   */
+  public function setPostdeployJobRun(PostdeployJobRun $postdeployJobRun)
+  {
+    $this->postdeployJobRun = $postdeployJobRun;
+  }
+  /**
+   * @return PostdeployJobRun
+   */
+  public function getPostdeployJobRun()
+  {
+    return $this->postdeployJobRun;
+  }
+  /**
+   * @param PredeployJobRun
+   */
+  public function setPredeployJobRun(PredeployJobRun $predeployJobRun)
+  {
+    $this->predeployJobRun = $predeployJobRun;
+  }
+  /**
+   * @return PredeployJobRun
+   */
+  public function getPredeployJobRun()
+  {
+    return $this->predeployJobRun;
   }
   /**
    * @param string

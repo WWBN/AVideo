@@ -28,8 +28,8 @@ namespace Google\Service\AndroidPublisher\Resource;
 class Orders extends \Google\Service\Resource
 {
   /**
-   * Refunds a user's subscription or in-app purchase order. Orders older than 1
-   * year cannot be refunded. (orders.refund)
+   * Refunds a user's subscription or in-app purchase order. Orders older than 3
+   * years cannot be refunded. (orders.refund)
    *
    * @param string $packageName The package name of the application for which this
    * subscription or in-app item was purchased (for example, 'com.some.thing').
@@ -42,6 +42,7 @@ class Orders extends \Google\Service\Resource
    * the item is a recurring subscription, all future payments will also be
    * terminated. Consumed in-app items need to be handled by developer's app.
    * (optional).
+   * @throws \Google\Service\Exception
    */
   public function refund($packageName, $orderId, $optParams = [])
   {

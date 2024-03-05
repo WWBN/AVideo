@@ -43,6 +43,7 @@ class ProjectsLocationsCertificateMaps extends \Google\Service\Resource
    * @opt_param string certificateMapId Required. A user-provided name of the
    * certificate map.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CertificateMap $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsCertificateMaps extends \Google\Service\Resource
    * be in the format `projects/locations/certificateMaps`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocationsCertificateMaps extends \Google\Service\Resource
    * be in the format `projects/locations/certificateMaps`.
    * @param array $optParams Optional parameters.
    * @return CertificateMap
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -101,6 +104,7 @@ class ProjectsLocationsCertificateMaps extends \Google\Service\Resource
    * prior `ListCertificateMaps` call, and that the system should return the next
    * page of data.
    * @return ListCertificateMapsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCertificateMaps($parent, $optParams = [])
   {
@@ -118,9 +122,11 @@ class ProjectsLocationsCertificateMaps extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The update mask applies to the
-   * resource. For the `FieldMask` definition, see https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#fieldmask.
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, CertificateMap $postBody, $optParams = [])
   {

@@ -37,6 +37,7 @@ class ProjectsLocationsAgentsChangelogs extends \Google\Service\Resource
    * `projects//locations//agents//changelogs/`.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDialogflowCxV3Changelog
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsLocationsAgentsChangelogs extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListChangelogsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsChangelogs($parent, $optParams = [])
   {

@@ -21,12 +21,16 @@ class MembershipFeatureState extends \Google\Model
 {
   protected $appdevexperienceType = AppDevExperienceFeatureState::class;
   protected $appdevexperienceDataType = '';
+  protected $clusterupgradeType = ClusterUpgradeMembershipState::class;
+  protected $clusterupgradeDataType = '';
   protected $configmanagementType = ConfigManagementMembershipState::class;
   protected $configmanagementDataType = '';
   protected $fleetobservabilityType = FleetObservabilityMembershipState::class;
   protected $fleetobservabilityDataType = '';
   protected $identityserviceType = IdentityServiceMembershipState::class;
   protected $identityserviceDataType = '';
+  protected $policycontrollerType = PolicyControllerMembershipState::class;
+  protected $policycontrollerDataType = '';
   protected $servicemeshType = ServiceMeshMembershipState::class;
   protected $servicemeshDataType = '';
   protected $stateType = FeatureState::class;
@@ -45,6 +49,20 @@ class MembershipFeatureState extends \Google\Model
   public function getAppdevexperience()
   {
     return $this->appdevexperience;
+  }
+  /**
+   * @param ClusterUpgradeMembershipState
+   */
+  public function setClusterupgrade(ClusterUpgradeMembershipState $clusterupgrade)
+  {
+    $this->clusterupgrade = $clusterupgrade;
+  }
+  /**
+   * @return ClusterUpgradeMembershipState
+   */
+  public function getClusterupgrade()
+  {
+    return $this->clusterupgrade;
   }
   /**
    * @param ConfigManagementMembershipState
@@ -87,6 +105,20 @@ class MembershipFeatureState extends \Google\Model
   public function getIdentityservice()
   {
     return $this->identityservice;
+  }
+  /**
+   * @param PolicyControllerMembershipState
+   */
+  public function setPolicycontroller(PolicyControllerMembershipState $policycontroller)
+  {
+    $this->policycontroller = $policycontroller;
+  }
+  /**
+   * @return PolicyControllerMembershipState
+   */
+  public function getPolicycontroller()
+  {
+    return $this->policycontroller;
   }
   /**
    * @param ServiceMeshMembershipState

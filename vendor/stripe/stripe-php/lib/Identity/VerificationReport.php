@@ -19,13 +19,14 @@ namespace Stripe\Identity;
  *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
+ * @property null|string $client_reference_id A string to reference this user. This can be a customer ID, a session ID, or similar, and can be used to reconcile this verification with your internal systems.
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property null|\Stripe\StripeObject $document Result from a document check
  * @property null|\Stripe\StripeObject $id_number Result from an id_number check
  * @property bool $livemode Has the value <code>true</code> if the object exists in live mode or the value <code>false</code> if the object exists in test mode.
  * @property null|\Stripe\StripeObject $options
  * @property null|\Stripe\StripeObject $selfie Result from a selfie check
- * @property null|string $type Type of report.
+ * @property string $type Type of report.
  * @property null|string $verification_session ID of the VerificationSession that created this report.
  */
 class VerificationReport extends \Stripe\ApiResource

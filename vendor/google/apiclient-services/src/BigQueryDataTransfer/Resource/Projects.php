@@ -45,6 +45,7 @@ class Projects extends \Google\Service\Resource
    * @param EnrollDataSourcesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BigquerydatatransferEmpty
+   * @throws \Google\Service\Exception
    */
   public function enrollDataSources($name, EnrollDataSourcesRequest $postBody, $optParams = [])
   {

@@ -44,6 +44,7 @@ class TablesRows extends \Google\Service\Resource
    * @param BatchCreateRowsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchCreateRowsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchCreate($parent, BatchCreateRowsRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class TablesRows extends \Google\Service\Resource
    * @param BatchDeleteRowsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Area120tablesEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchDelete($parent, BatchDeleteRowsRequest $postBody, $optParams = [])
   {
@@ -74,6 +76,7 @@ class TablesRows extends \Google\Service\Resource
    * @param BatchUpdateRowsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateRowsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdate($parent, BatchUpdateRowsRequest $postBody, $optParams = [])
   {
@@ -92,6 +95,7 @@ class TablesRows extends \Google\Service\Resource
    * @opt_param string view Optional. Column key to use for values in the row.
    * Defaults to user entered name.
    * @return Row
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Row $postBody, $optParams = [])
   {
@@ -106,6 +110,7 @@ class TablesRows extends \Google\Service\Resource
    * tables/{table}/rows/{row}
    * @param array $optParams Optional parameters.
    * @return Area120tablesEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -124,6 +129,7 @@ class TablesRows extends \Google\Service\Resource
    * @opt_param string view Optional. Column key to use for values in the row.
    * Defaults to user entered name.
    * @return Row
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -153,6 +159,7 @@ class TablesRows extends \Google\Service\Resource
    * @opt_param string view Optional. Column key to use for values in the row.
    * Defaults to user entered name.
    * @return ListRowsResponse
+   * @throws \Google\Service\Exception
    */
   public function listTablesRows($parent, $optParams = [])
   {
@@ -172,6 +179,7 @@ class TablesRows extends \Google\Service\Resource
    * @opt_param string view Optional. Column key to use for values in the row.
    * Defaults to user entered name.
    * @return Row
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Row $postBody, $optParams = [])
   {

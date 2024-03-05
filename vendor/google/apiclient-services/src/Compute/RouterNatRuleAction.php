@@ -19,7 +19,7 @@ namespace Google\Service\Compute;
 
 class RouterNatRuleAction extends \Google\Collection
 {
-  protected $collection_key = 'sourceNatDrainIps';
+  protected $collection_key = 'sourceNatDrainRanges';
   /**
    * @var string[]
    */
@@ -27,7 +27,15 @@ class RouterNatRuleAction extends \Google\Collection
   /**
    * @var string[]
    */
+  public $sourceNatActiveRanges;
+  /**
+   * @var string[]
+   */
   public $sourceNatDrainIps;
+  /**
+   * @var string[]
+   */
+  public $sourceNatDrainRanges;
 
   /**
    * @param string[]
@@ -46,6 +54,20 @@ class RouterNatRuleAction extends \Google\Collection
   /**
    * @param string[]
    */
+  public function setSourceNatActiveRanges($sourceNatActiveRanges)
+  {
+    $this->sourceNatActiveRanges = $sourceNatActiveRanges;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSourceNatActiveRanges()
+  {
+    return $this->sourceNatActiveRanges;
+  }
+  /**
+   * @param string[]
+   */
   public function setSourceNatDrainIps($sourceNatDrainIps)
   {
     $this->sourceNatDrainIps = $sourceNatDrainIps;
@@ -56,6 +78,20 @@ class RouterNatRuleAction extends \Google\Collection
   public function getSourceNatDrainIps()
   {
     return $this->sourceNatDrainIps;
+  }
+  /**
+   * @param string[]
+   */
+  public function setSourceNatDrainRanges($sourceNatDrainRanges)
+  {
+    $this->sourceNatDrainRanges = $sourceNatDrainRanges;
+  }
+  /**
+   * @return string[]
+   */
+  public function getSourceNatDrainRanges()
+  {
+    return $this->sourceNatDrainRanges;
   }
 }
 

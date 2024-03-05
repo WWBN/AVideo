@@ -48,6 +48,7 @@ class ServicesRollouts extends \Google\Service\Resource
    * @param Rollout $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($serviceName, Rollout $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ServicesRollouts extends \Google\Service\Resource
    * @param string $rolloutId Required. The id of the rollout resource.
    * @param array $optParams Optional parameters.
    * @return Rollout
+   * @throws \Google\Service\Exception
    */
   public function get($serviceName, $rolloutId, $optParams = [])
   {
@@ -88,6 +90,7 @@ class ServicesRollouts extends \Google\Service\Resource
    * list. Page size is 50 if not specified. Maximum value is 100.
    * @opt_param string pageToken The token of the page to retrieve.
    * @return ListServiceRolloutsResponse
+   * @throws \Google\Service\Exception
    */
   public function listServicesRollouts($serviceName, $optParams = [])
   {

@@ -23,8 +23,12 @@ class PushConfig extends \Google\Model
    * @var string[]
    */
   public $attributes;
+  protected $noWrapperType = NoWrapper::class;
+  protected $noWrapperDataType = '';
   protected $oidcTokenType = OidcToken::class;
   protected $oidcTokenDataType = '';
+  protected $pubsubWrapperType = PubsubWrapper::class;
+  protected $pubsubWrapperDataType = '';
   /**
    * @var string
    */
@@ -45,6 +49,20 @@ class PushConfig extends \Google\Model
     return $this->attributes;
   }
   /**
+   * @param NoWrapper
+   */
+  public function setNoWrapper(NoWrapper $noWrapper)
+  {
+    $this->noWrapper = $noWrapper;
+  }
+  /**
+   * @return NoWrapper
+   */
+  public function getNoWrapper()
+  {
+    return $this->noWrapper;
+  }
+  /**
    * @param OidcToken
    */
   public function setOidcToken(OidcToken $oidcToken)
@@ -57,6 +75,20 @@ class PushConfig extends \Google\Model
   public function getOidcToken()
   {
     return $this->oidcToken;
+  }
+  /**
+   * @param PubsubWrapper
+   */
+  public function setPubsubWrapper(PubsubWrapper $pubsubWrapper)
+  {
+    $this->pubsubWrapper = $pubsubWrapper;
+  }
+  /**
+   * @return PubsubWrapper
+   */
+  public function getPubsubWrapper()
+  {
+    return $this->pubsubWrapper;
   }
   /**
    * @param string

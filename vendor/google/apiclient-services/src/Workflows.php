@@ -223,6 +223,24 @@ class Workflows extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'listRevisions' => [
+              'path' => 'v1/{+name}:listRevisions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],'patch' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',

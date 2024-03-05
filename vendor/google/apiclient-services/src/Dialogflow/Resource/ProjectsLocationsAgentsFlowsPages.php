@@ -58,6 +58,7 @@ class ProjectsLocationsAgentsFlowsPages extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Page
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3Page $postBody, $optParams = [])
   {
@@ -82,6 +83,7 @@ class ProjectsLocationsAgentsFlowsPages extends \Google\Service\Resource
    * well as any transitions to the page (i.e. Target page in event handlers or
    * Target page in transition routes that point to this page will be cleared).
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -112,6 +114,7 @@ class ProjectsLocationsAgentsFlowsPages extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Page
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -147,6 +150,7 @@ class ProjectsLocationsAgentsFlowsPages extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListPagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsFlowsPages($parent, $optParams = [])
   {
@@ -184,6 +188,7 @@ class ProjectsLocationsAgentsFlowsPages extends \Google\Service\Resource
    * @opt_param string updateMask The mask to control which fields get updated. If
    * the mask is not present, all fields will be updated.
    * @return GoogleCloudDialogflowCxV3Page
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3Page $postBody, $optParams = [])
   {

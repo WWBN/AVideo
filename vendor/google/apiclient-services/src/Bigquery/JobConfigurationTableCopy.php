@@ -27,7 +27,7 @@ class JobConfigurationTableCopy extends \Google\Collection
   protected $destinationEncryptionConfigurationType = EncryptionConfiguration::class;
   protected $destinationEncryptionConfigurationDataType = '';
   /**
-   * @var array
+   * @var string
    */
   public $destinationExpirationTime;
   protected $destinationTableType = TableReference::class;
@@ -74,14 +74,14 @@ class JobConfigurationTableCopy extends \Google\Collection
     return $this->destinationEncryptionConfiguration;
   }
   /**
-   * @param array
+   * @param string
    */
   public function setDestinationExpirationTime($destinationExpirationTime)
   {
     $this->destinationExpirationTime = $destinationExpirationTime;
   }
   /**
-   * @return array
+   * @return string
    */
   public function getDestinationExpirationTime()
   {

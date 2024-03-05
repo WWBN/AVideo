@@ -62,6 +62,7 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * @param AssignedTargetingOption $postBody
    * @param array $optParams Optional parameters.
    * @return AssignedTargetingOption
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, $insertionOrderId, $targetingType, AssignedTargetingOption $postBody, $optParams = [])
   {
@@ -100,6 +101,7 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * targeting option to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $insertionOrderId, $targetingType, $assignedTargetingOptionId, $optParams = [])
   {
@@ -148,6 +150,7 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * targeting option being requested.
    * @param array $optParams Optional parameters.
    * @return AssignedTargetingOption
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $insertionOrderId, $targetingType, $assignedTargetingOptionId, $optParams = [])
   {
@@ -219,6 +222,7 @@ class AdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions extends \
    * the previous call to `ListInsertionOrderAssignedTargetingOptions` method. If
    * not specified, the first page of results will be returned.
    * @return ListInsertionOrderAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersInsertionOrdersTargetingTypesAssignedTargetingOptions($advertiserId, $insertionOrderId, $targetingType, $optParams = [])
   {

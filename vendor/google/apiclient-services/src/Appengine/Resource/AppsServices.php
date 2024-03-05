@@ -39,6 +39,7 @@ class AppsServices extends \Google\Service\Resource
    * @param string $servicesId Part of `name`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($appsId, $servicesId, $optParams = [])
   {
@@ -54,6 +55,7 @@ class AppsServices extends \Google\Service\Resource
    * @param string $servicesId Part of `name`. See documentation of `appsId`.
    * @param array $optParams Optional parameters.
    * @return Service
+   * @throws \Google\Service\Exception
    */
   public function get($appsId, $servicesId, $optParams = [])
   {
@@ -72,6 +74,7 @@ class AppsServices extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAppsServices($appsId, $optParams = [])
   {
@@ -105,6 +108,7 @@ class AppsServices extends \Google\Service\Resource
    * @opt_param string updateMask Required. Standard field mask for the set of
    * fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($appsId, $servicesId, Service $postBody, $optParams = [])
   {

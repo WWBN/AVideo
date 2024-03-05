@@ -62,6 +62,8 @@ class Instance extends \Google\Collection
    * @var string
    */
   public $id;
+  protected $instanceEncryptionKeyType = CustomerEncryptionKey::class;
+  protected $instanceEncryptionKeyDataType = '';
   /**
    * @var string
    */
@@ -122,6 +124,10 @@ class Instance extends \Google\Collection
   public $resourcePolicies;
   protected $resourceStatusType = ResourceStatus::class;
   protected $resourceStatusDataType = '';
+  /**
+   * @var bool
+   */
+  public $satisfiesPzi;
   /**
    * @var bool
    */
@@ -344,6 +350,20 @@ class Instance extends \Google\Collection
   public function getId()
   {
     return $this->id;
+  }
+  /**
+   * @param CustomerEncryptionKey
+   */
+  public function setInstanceEncryptionKey(CustomerEncryptionKey $instanceEncryptionKey)
+  {
+    $this->instanceEncryptionKey = $instanceEncryptionKey;
+  }
+  /**
+   * @return CustomerEncryptionKey
+   */
+  public function getInstanceEncryptionKey()
+  {
+    return $this->instanceEncryptionKey;
   }
   /**
    * @param string
@@ -596,6 +616,20 @@ class Instance extends \Google\Collection
   public function getResourceStatus()
   {
     return $this->resourceStatus;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
   }
   /**
    * @param bool

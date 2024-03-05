@@ -113,6 +113,10 @@ class CloudBillingBudget extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'scope' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
               ],
             ],'patch' => [
               'path' => 'v1/{+name}',

@@ -41,6 +41,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param string location The location that contains this snapshot.
    * @opt_param string snapshotId The ID of the snapshot.
    * @return DeleteSnapshotResponse
+   * @throws \Google\Service\Exception
    */
   public function deleteSnapshots($projectId, $optParams = [])
   {
@@ -55,6 +56,7 @@ class Projects extends \Google\Service\Resource
    * @param SendWorkerMessagesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SendWorkerMessagesResponse
+   * @throws \Google\Service\Exception
    */
   public function workerMessages($projectId, SendWorkerMessagesRequest $postBody, $optParams = [])
   {

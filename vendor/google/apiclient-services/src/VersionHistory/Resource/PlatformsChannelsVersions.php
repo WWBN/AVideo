@@ -63,6 +63,7 @@ class PlatformsChannelsVersions extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListVersions` call. Provide this to retrieve the subsequent page.
    * @return ListVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlatformsChannelsVersions($parent, $optParams = [])
   {

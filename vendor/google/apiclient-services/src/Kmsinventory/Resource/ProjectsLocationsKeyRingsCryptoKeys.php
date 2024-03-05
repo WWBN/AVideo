@@ -39,6 +39,7 @@ class ProjectsLocationsKeyRingsCryptoKeys extends \Google\Service\Resource
    * @param string $name Required. The resource name of the CryptoKey.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudKmsInventoryV1ProtectedResourcesSummary
+   * @throws \Google\Service\Exception
    */
   public function getProtectedResourcesSummary($name, $optParams = [])
   {

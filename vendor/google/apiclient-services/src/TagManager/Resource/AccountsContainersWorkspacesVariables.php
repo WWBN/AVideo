@@ -39,6 +39,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * @param Variable $postBody
    * @param array $optParams Optional parameters.
    * @return Variable
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Variable $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * unt_id}/containers/{container_id}/workspaces/{workspace_id}/variables/{variab
    * le_id}
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($path, $optParams = [])
   {
@@ -68,6 +70,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * le_id}
    * @param array $optParams Optional parameters.
    * @return Variable
+   * @throws \Google\Service\Exception
    */
   public function get($path, $optParams = [])
   {
@@ -86,6 +89,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListVariablesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsContainersWorkspacesVariables($parent, $optParams = [])
   {
@@ -104,6 +108,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the variable in storage.
    * @return RevertVariableResponse
+   * @throws \Google\Service\Exception
    */
   public function revert($path, $optParams = [])
   {
@@ -123,6 +128,7 @@ class AccountsContainersWorkspacesVariables extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the variable in storage.
    * @return Variable
+   * @throws \Google\Service\Exception
    */
   public function update($path, Variable $postBody, $optParams = [])
   {

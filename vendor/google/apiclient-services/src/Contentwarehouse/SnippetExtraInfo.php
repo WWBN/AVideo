@@ -33,7 +33,15 @@ class SnippetExtraInfo extends \Google\Collection
   /**
    * @var bool
    */
+  public $disableNg3Scoring;
+  /**
+   * @var bool
+   */
   public $disableQueryFeatures;
+  /**
+   * @var bool
+   */
+  public $forceLeadingTextOrMeta;
   /**
    * @var int
    */
@@ -86,6 +94,20 @@ class SnippetExtraInfo extends \Google\Collection
   /**
    * @param bool
    */
+  public function setDisableNg3Scoring($disableNg3Scoring)
+  {
+    $this->disableNg3Scoring = $disableNg3Scoring;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableNg3Scoring()
+  {
+    return $this->disableNg3Scoring;
+  }
+  /**
+   * @param bool
+   */
   public function setDisableQueryFeatures($disableQueryFeatures)
   {
     $this->disableQueryFeatures = $disableQueryFeatures;
@@ -96,6 +118,20 @@ class SnippetExtraInfo extends \Google\Collection
   public function getDisableQueryFeatures()
   {
     return $this->disableQueryFeatures;
+  }
+  /**
+   * @param bool
+   */
+  public function setForceLeadingTextOrMeta($forceLeadingTextOrMeta)
+  {
+    $this->forceLeadingTextOrMeta = $forceLeadingTextOrMeta;
+  }
+  /**
+   * @return bool
+   */
+  public function getForceLeadingTextOrMeta()
+  {
+    return $this->forceLeadingTextOrMeta;
   }
   /**
    * @param int

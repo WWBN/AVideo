@@ -40,6 +40,7 @@ class CustomersSearchAds360 extends \Google\Service\Resource
    * @param GoogleAdsSearchads360V0ServicesSearchSearchAds360Request $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAdsSearchads360V0ServicesSearchSearchAds360Response
+   * @throws \Google\Service\Exception
    */
   public function search($customerId, GoogleAdsSearchads360V0ServicesSearchSearchAds360Request $postBody, $optParams = [])
   {

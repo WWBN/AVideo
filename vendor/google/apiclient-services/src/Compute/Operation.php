@@ -54,6 +54,8 @@ class Operation extends \Google\Collection
    * @var string
    */
   public $insertTime;
+  protected $instancesBulkInsertOperationMetadataType = InstancesBulkInsertOperationMetadata::class;
+  protected $instancesBulkInsertOperationMetadataDataType = '';
   /**
    * @var string
    */
@@ -82,6 +84,8 @@ class Operation extends \Google\Collection
    * @var string
    */
   public $selfLink;
+  protected $setCommonInstanceMetadataOperationMetadataType = SetCommonInstanceMetadataOperationMetadata::class;
+  protected $setCommonInstanceMetadataOperationMetadataDataType = '';
   /**
    * @var string
    */
@@ -240,6 +244,20 @@ class Operation extends \Google\Collection
     return $this->insertTime;
   }
   /**
+   * @param InstancesBulkInsertOperationMetadata
+   */
+  public function setInstancesBulkInsertOperationMetadata(InstancesBulkInsertOperationMetadata $instancesBulkInsertOperationMetadata)
+  {
+    $this->instancesBulkInsertOperationMetadata = $instancesBulkInsertOperationMetadata;
+  }
+  /**
+   * @return InstancesBulkInsertOperationMetadata
+   */
+  public function getInstancesBulkInsertOperationMetadata()
+  {
+    return $this->instancesBulkInsertOperationMetadata;
+  }
+  /**
    * @param string
    */
   public function setKind($kind)
@@ -336,6 +354,20 @@ class Operation extends \Google\Collection
   public function getSelfLink()
   {
     return $this->selfLink;
+  }
+  /**
+   * @param SetCommonInstanceMetadataOperationMetadata
+   */
+  public function setSetCommonInstanceMetadataOperationMetadata(SetCommonInstanceMetadataOperationMetadata $setCommonInstanceMetadataOperationMetadata)
+  {
+    $this->setCommonInstanceMetadataOperationMetadata = $setCommonInstanceMetadataOperationMetadata;
+  }
+  /**
+   * @return SetCommonInstanceMetadataOperationMetadata
+   */
+  public function getSetCommonInstanceMetadataOperationMetadata()
+  {
+    return $this->setCommonInstanceMetadataOperationMetadata;
   }
   /**
    * @param string

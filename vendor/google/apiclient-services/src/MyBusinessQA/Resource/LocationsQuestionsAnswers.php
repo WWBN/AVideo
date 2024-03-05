@@ -40,6 +40,7 @@ class LocationsQuestionsAnswers extends \Google\Service\Resource
    * for.
    * @param array $optParams Optional parameters.
    * @return MybusinessqandaEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -64,6 +65,7 @@ class LocationsQuestionsAnswers extends \Google\Service\Resource
    * @opt_param string pageToken Optional. If specified, the next page of answers
    * is retrieved.
    * @return ListAnswersResponse
+   * @throws \Google\Service\Exception
    */
   public function listLocationsQuestionsAnswers($parent, $optParams = [])
   {
@@ -81,6 +83,7 @@ class LocationsQuestionsAnswers extends \Google\Service\Resource
    * @param UpsertAnswerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Answer
+   * @throws \Google\Service\Exception
    */
   public function upsert($parent, UpsertAnswerRequest $postBody, $optParams = [])
   {

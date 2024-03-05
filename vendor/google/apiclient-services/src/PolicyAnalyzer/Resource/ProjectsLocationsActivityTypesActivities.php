@@ -55,6 +55,7 @@ class ProjectsLocationsActivityTypesActivities extends \Google\Service\Resource
    * the value of `nextPageToken` from the previous response. The values of other
    * method parameters should be identical to those in the previous call.
    * @return GoogleCloudPolicyanalyzerV1QueryActivityResponse
+   * @throws \Google\Service\Exception
    */
   public function query($parent, $optParams = [])
   {

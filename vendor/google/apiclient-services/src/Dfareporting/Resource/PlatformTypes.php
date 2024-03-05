@@ -37,6 +37,7 @@ class PlatformTypes extends \Google\Service\Resource
    * @param string $id Platform type ID.
    * @param array $optParams Optional parameters.
    * @return PlatformType
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class PlatformTypes extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return PlatformTypesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlatformTypes($profileId, $optParams = [])
   {

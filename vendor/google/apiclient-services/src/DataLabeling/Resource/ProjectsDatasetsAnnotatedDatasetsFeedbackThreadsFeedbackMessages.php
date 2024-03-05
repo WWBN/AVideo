@@ -41,6 +41,7 @@ class ProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages extends \
    * @param GoogleCloudDatalabelingV1beta1FeedbackMessage $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatalabelingV1beta1FeedbackMessage $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages extends \
    * es/{feedback_message_id}'.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages extends \
    * Threads/{feedback_thread_id}/feedbackMessages/{feedback_message_id}'.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1FeedbackMessage
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -95,6 +98,7 @@ class ProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages extends \
    * ListFeedbackMessages.next_page_token of the previous
    * [DataLabelingService.ListFeedbackMessages] call. Return first page if empty.
    * @return GoogleCloudDatalabelingV1beta1ListFeedbackMessagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatasetsAnnotatedDatasetsFeedbackThreadsFeedbackMessages($parent, $optParams = [])
   {

@@ -20,6 +20,10 @@ namespace Google\Service\Contentwarehouse;
 class SocialGraphApiProtoLimitedProfileSettings extends \Google\Model
 {
   /**
+   * @var bool
+   */
+  public $androidMessages;
+  /**
    * @var string
    */
   public $disableReason;
@@ -44,6 +48,20 @@ class SocialGraphApiProtoLimitedProfileSettings extends \Google\Model
   protected $profilePictureSettingsType = SocialGraphApiProtoLimitedProfilePictureSettings::class;
   protected $profilePictureSettingsDataType = '';
 
+  /**
+   * @param bool
+   */
+  public function setAndroidMessages($androidMessages)
+  {
+    $this->androidMessages = $androidMessages;
+  }
+  /**
+   * @return bool
+   */
+  public function getAndroidMessages()
+  {
+    return $this->androidMessages;
+  }
   /**
    * @param string
    */

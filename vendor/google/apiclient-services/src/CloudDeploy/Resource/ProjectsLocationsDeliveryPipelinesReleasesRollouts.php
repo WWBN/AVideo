@@ -44,12 +44,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Advances a Rollout in a given project and location. (rollouts.advance)
    *
-   * @param string $name Required. Name of the Rollout. Format is
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}.
+   * @param string $name Required. Name of the Rollout. Format is `projects/{proje
+   * ct}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{relea
+   * se}/rollouts/{rollout}`.
    * @param AdvanceRolloutRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AdvanceRolloutResponse
+   * @throws \Google\Service\Exception
    */
   public function advance($name, AdvanceRolloutRequest $postBody, $optParams = [])
   {
@@ -60,12 +61,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Approves a Rollout. (rollouts.approve)
    *
-   * @param string $name Required. Name of the Rollout. Format is
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}.
+   * @param string $name Required. Name of the Rollout. Format is `projects/{proje
+   * ct}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{relea
+   * se}/rollouts/{rollout}`.
    * @param ApproveRolloutRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ApproveRolloutResponse
+   * @throws \Google\Service\Exception
    */
   public function approve($name, ApproveRolloutRequest $postBody, $optParams = [])
   {
@@ -76,12 +78,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Cancels a Rollout in a given project and location. (rollouts.cancel)
    *
-   * @param string $name Required. Name of the Rollout. Format is
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}.
+   * @param string $name Required. Name of the Rollout. Format is `projects/{proje
+   * ct}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{relea
+   * se}/rollouts/{rollout}`.
    * @param CancelRolloutRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CancelRolloutResponse
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, CancelRolloutRequest $postBody, $optParams = [])
   {
@@ -93,16 +96,16 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * Creates a new Rollout in a given project and location. (rollouts.create)
    *
    * @param string $parent Required. The parent collection in which the `Rollout`
-   * should be created. Format should be projects/{project_id}/locations/{location
-   * _name}/deliveryPipelines/{pipeline_name}/releases/{release_name}.
+   * should be created. Format should be `projects/{project_id}/locations/{locatio
+   * n_name}/deliveryPipelines/{pipeline_name}/releases/{release_name}`.
    * @param Rollout $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string requestId Optional. A request ID to identify requests.
    * Specify a unique request ID so that if you must retry your request, the
-   * server will know to ignore the request if it has already been completed. The
-   * server will guarantee that for at least 60 minutes since the first request.
-   * For example, consider a situation where you make an initial request and the
+   * server knows to ignore the request if it has already been completed. The
+   * server guarantees that for at least 60 minutes after the first request. For
+   * example, consider a situation where you make an initial request and the
    * request times out. If you make the request again with the same request ID,
    * the server can check if original operation with the same request ID was
    * received, and if so, will ignore the second request. This prevents clients
@@ -116,6 +119,7 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * validated and the user is provided with an expected result, but no actual
    * change is made.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Rollout $postBody, $optParams = [])
   {
@@ -126,11 +130,12 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Gets details of a single Rollout. (rollouts.get)
    *
-   * @param string $name Required. Name of the `Rollout`. Format must be projects/
-   * {project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/rele
-   * ases/{release_name}/rollouts/{rollout_name}.
+   * @param string $name Required. Name of the `Rollout`. Format must be `projects
+   * /{project_id}/locations/{location_name}/deliveryPipelines/{pipeline_name}/rel
+   * eases/{release_name}/rollouts/{rollout_name}`.
    * @param array $optParams Optional parameters.
    * @return Rollout
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -141,12 +146,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Ignores the specified Job in a Rollout. (rollouts.ignoreJob)
    *
-   * @param string $rollout Required. Name of the Rollout. Format is
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}.
+   * @param string $rollout Required. Name of the Rollout. Format is `projects/{pr
+   * oject}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{re
+   * lease}/rollouts/{rollout}`.
    * @param IgnoreJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return IgnoreJobResponse
+   * @throws \Google\Service\Exception
    */
   public function ignoreJob($rollout, IgnoreJobRequest $postBody, $optParams = [])
   {
@@ -175,6 +181,7 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
    * paginating, all other provided parameters match the call that provided the
    * page token.
    * @return ListRolloutsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsDeliveryPipelinesReleasesRollouts($parent, $optParams = [])
   {
@@ -185,12 +192,13 @@ class ProjectsLocationsDeliveryPipelinesReleasesRollouts extends \Google\Service
   /**
    * Retries the specified Job in a Rollout. (rollouts.retryJob)
    *
-   * @param string $rollout Required. Name of the Rollout. Format is
-   * projects/{project}/locations/{location}/deliveryPipelines/{deliveryPipeline}/
-   * releases/{release}/rollouts/{rollout}.
+   * @param string $rollout Required. Name of the Rollout. Format is `projects/{pr
+   * oject}/locations/{location}/deliveryPipelines/{deliveryPipeline}/releases/{re
+   * lease}/rollouts/{rollout}`.
    * @param RetryJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RetryJobResponse
+   * @throws \Google\Service\Exception
    */
   public function retryJob($rollout, RetryJobRequest $postBody, $optParams = [])
   {

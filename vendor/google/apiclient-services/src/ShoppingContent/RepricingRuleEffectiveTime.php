@@ -20,6 +20,10 @@ namespace Google\Service\ShoppingContent;
 class RepricingRuleEffectiveTime extends \Google\Collection
 {
   protected $collection_key = 'fixedTimePeriods';
+  /**
+   * @var RepricingRuleEffectiveTimeFixedTimePeriod[]
+   */
+  public $fixedTimePeriods;
   protected $fixedTimePeriodsType = RepricingRuleEffectiveTimeFixedTimePeriod::class;
   protected $fixedTimePeriodsDataType = 'array';
 

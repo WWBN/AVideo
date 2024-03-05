@@ -26,6 +26,8 @@ class JobConfig extends \Google\Collection
   protected $editListDataType = 'array';
   protected $elementaryStreamsType = ElementaryStream::class;
   protected $elementaryStreamsDataType = 'array';
+  protected $encryptionsType = Encryption::class;
+  protected $encryptionsDataType = 'array';
   protected $inputsType = Input::class;
   protected $inputsDataType = 'array';
   protected $manifestsType = Manifest::class;
@@ -82,6 +84,20 @@ class JobConfig extends \Google\Collection
   public function getElementaryStreams()
   {
     return $this->elementaryStreams;
+  }
+  /**
+   * @param Encryption[]
+   */
+  public function setEncryptions($encryptions)
+  {
+    $this->encryptions = $encryptions;
+  }
+  /**
+   * @return Encryption[]
+   */
+  public function getEncryptions()
+  {
+    return $this->encryptions;
   }
   /**
    * @param Input[]

@@ -72,6 +72,10 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
    * @var string
    */
   public $url;
+  /**
+   * @var int
+   */
+  public $voterTokenCount;
 
   /**
    * @param QualityNavboostCrapsAgingData
@@ -344,6 +348,20 @@ class QualityNavboostCrapsCrapsData extends \Google\Collection
   public function getUrl()
   {
     return $this->url;
+  }
+  /**
+   * @param int
+   */
+  public function setVoterTokenCount($voterTokenCount)
+  {
+    $this->voterTokenCount = $voterTokenCount;
+  }
+  /**
+   * @return int
+   */
+  public function getVoterTokenCount()
+  {
+    return $this->voterTokenCount;
   }
 }
 

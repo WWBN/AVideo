@@ -43,6 +43,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param SasPortalDevice $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function create($parent, SasPortalDevice $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param SasPortalCreateSignedDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function createSigned($parent, SasPortalCreateSignedDeviceRequest $postBody, $optParams = [])
   {
@@ -70,6 +72,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param string $name Required. The name of the device.
    * @param array $optParams Optional parameters.
    * @return SasPortalEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +86,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param string $name Required. The name of the device.
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +109,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @opt_param string pageToken A pagination token returned from a previous call
    * to ListDevices that indicates where this listing should continue from.
    * @return SasPortalListDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersDevices($parent, $optParams = [])
   {
@@ -119,6 +124,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param SasPortalMoveDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalOperation
+   * @throws \Google\Service\Exception
    */
   public function move($name, SasPortalMoveDeviceRequest $postBody, $optParams = [])
   {
@@ -135,6 +141,7 @@ class CustomersDevices extends \Google\Service\Resource
    *
    * @opt_param string updateMask Fields to be updated.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function patch($name, SasPortalDevice $postBody, $optParams = [])
   {
@@ -149,6 +156,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param SasPortalSignDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalEmpty
+   * @throws \Google\Service\Exception
    */
   public function signDevice($name, SasPortalSignDeviceRequest $postBody, $optParams = [])
   {
@@ -163,6 +171,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param SasPortalUpdateSignedDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SasPortalDevice
+   * @throws \Google\Service\Exception
    */
   public function updateSigned($name, SasPortalUpdateSignedDeviceRequest $postBody, $optParams = [])
   {

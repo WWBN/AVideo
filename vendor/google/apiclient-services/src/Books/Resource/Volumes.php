@@ -45,6 +45,7 @@ class Volumes extends \Google\Service\Resource
    * @opt_param string source string to identify the originator of this request.
    * @opt_param bool user_library_consistent_read
    * @return Volume
+   * @throws \Google\Service\Exception
    */
   public function get($volumeId, $optParams = [])
   {
@@ -78,6 +79,7 @@ class Volumes extends \Google\Service\Resource
    * @opt_param string startIndex Index of the first result to return (starts at
    * 0)
    * @return VolumesModel
+   * @throws \Google\Service\Exception
    */
   public function listVolumes($q, $optParams = [])
   {

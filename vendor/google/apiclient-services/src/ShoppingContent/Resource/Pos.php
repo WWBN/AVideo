@@ -42,6 +42,7 @@ class Pos extends \Google\Service\Resource
    * @param PosCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PosCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(PosCustomBatchRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Pos extends \Google\Service\Resource
    * @param string $targetMerchantId The ID of the target merchant.
    * @param string $storeCode A store code that is unique per merchant.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($merchantId, $targetMerchantId, $storeCode, $optParams = [])
   {
@@ -71,6 +73,7 @@ class Pos extends \Google\Service\Resource
    * @param string $storeCode A store code that is unique per merchant.
    * @param array $optParams Optional parameters.
    * @return PosStore
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $targetMerchantId, $storeCode, $optParams = [])
   {
@@ -86,6 +89,7 @@ class Pos extends \Google\Service\Resource
    * @param PosStore $postBody
    * @param array $optParams Optional parameters.
    * @return PosStore
+   * @throws \Google\Service\Exception
    */
   public function insert($merchantId, $targetMerchantId, PosStore $postBody, $optParams = [])
   {
@@ -101,6 +105,7 @@ class Pos extends \Google\Service\Resource
    * @param PosInventoryRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PosInventoryResponse
+   * @throws \Google\Service\Exception
    */
   public function inventory($merchantId, $targetMerchantId, PosInventoryRequest $postBody, $optParams = [])
   {
@@ -115,6 +120,7 @@ class Pos extends \Google\Service\Resource
    * @param string $targetMerchantId The ID of the target merchant.
    * @param array $optParams Optional parameters.
    * @return PosListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPos($merchantId, $targetMerchantId, $optParams = [])
   {
@@ -130,6 +136,7 @@ class Pos extends \Google\Service\Resource
    * @param PosSaleRequest $postBody
    * @param array $optParams Optional parameters.
    * @return PosSaleResponse
+   * @throws \Google\Service\Exception
    */
   public function sale($merchantId, $targetMerchantId, PosSaleRequest $postBody, $optParams = [])
   {

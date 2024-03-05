@@ -43,7 +43,7 @@ class getid3_hpk extends getid3_handler
 			$info['hpk']['header']['fragmented_filesystem_offset'] = getid3_lib::LittleEndian2Int(substr($HPKheader, 28, 4));
 			$info['hpk']['header']['fragmented_filesystem_length'] = getid3_lib::LittleEndian2Int(substr($HPKheader, 32, 4));
 
-			$info['hpk']['header']['filesystem_entries'] = $info['hpk']['header']['fragmented_filesystem_length'] / ($info['hpk']['header']['fragments_per_file'] * 8);
+			$info['hpk']['header']['filesystem_entries'] = getid3_lib::SafeDiv($info['hpk']['header']['fragmented_filesystem_length'], $info['hpk']['header']['fragments_per_file'] * 8);
 			$this->fseek($info['hpk']['header']['fragmented_filesystem_offset']);
 			for ($i = 0; $i < $info['hpk']['header']['filesystem_entries']; $i++) {
 				$offset = getid3_lib::LittleEndian2Int($this->fread(4));

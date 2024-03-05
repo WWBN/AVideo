@@ -1,5 +1,36 @@
 # Changelog
 
+## [2.15.3](https://github.com/googleapis/google-api-php-client/compare/v2.15.2...v2.15.3) (2024-01-04)
+
+
+### Bug Fixes
+
+* Guzzle dependency version ([#2546](https://github.com/googleapis/google-api-php-client/issues/2546)) ([c270f28](https://github.com/googleapis/google-api-php-client/commit/c270f28b00594a151a887edd3cfd205594a1256a))
+
+## [2.15.2](https://github.com/googleapis/google-api-php-client/compare/v2.15.1...v2.15.2) (2024-01-03)
+
+
+### Bug Fixes
+
+* Disallow vulnerable guzzle versions ([#2536](https://github.com/googleapis/google-api-php-client/issues/2536)) ([d1830ed](https://github.com/googleapis/google-api-php-client/commit/d1830ede17114a4951ab9e60b3b9bcd9393b8668))
+* Php 8.3 deprecated get_class method call without argument ([#2509](https://github.com/googleapis/google-api-php-client/issues/2509)) ([8c66021](https://github.com/googleapis/google-api-php-client/commit/8c6602119b631e1a9da4dbe219af18d51c8dab8e))
+* Phpseclib security vulnerability ([#2524](https://github.com/googleapis/google-api-php-client/issues/2524)) ([73705c2](https://github.com/googleapis/google-api-php-client/commit/73705c2a65bfc01fa6d7717b7f401b8288fe0587))
+
+## [2.15.1](https://github.com/googleapis/google-api-php-client/compare/v2.15.0...v2.15.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* Upgrade min phpseclib version ([#2499](https://github.com/googleapis/google-api-php-client/issues/2499)) ([8e7fae2](https://github.com/googleapis/google-api-php-client/commit/8e7fae2b79cfc1b72026347abf6314d91442a018))
+
+## [2.15.0](https://github.com/googleapis/google-api-php-client/compare/v2.14.0...v2.15.0) (2023-05-18)
+
+
+### Features
+
+* Add pkce support and upgrade examples ([#2438](https://github.com/googleapis/google-api-php-client/issues/2438)) ([bded223](https://github.com/googleapis/google-api-php-client/commit/bded223ece445a6130cde82417b20180b1d6698a))
+* Drop support for 7.3 and below ([#2431](https://github.com/googleapis/google-api-php-client/issues/2431)) ([c765b37](https://github.com/googleapis/google-api-php-client/commit/c765b379e95ab272b6a87aa802d9f5507eaeb2e7))
+
 ## [2.14.0](https://github.com/googleapis/google-api-php-client/compare/v2.13.2...v2.14.0) (2023-05-11)
 
 

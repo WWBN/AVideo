@@ -37,6 +37,8 @@ class UsageLogEvent extends \Google\Model
   protected $cryptoSelfTestCompletedEventDataType = '';
   protected $dnsEventType = DnsEvent::class;
   protected $dnsEventDataType = '';
+  protected $enrollmentCompleteEventType = EnrollmentCompleteEvent::class;
+  protected $enrollmentCompleteEventDataType = '';
   /**
    * @var string
    */
@@ -73,6 +75,10 @@ class UsageLogEvent extends \Google\Model
   protected $loggingStartedEventDataType = '';
   protected $loggingStoppedEventType = LoggingStoppedEvent::class;
   protected $loggingStoppedEventDataType = '';
+  protected $lostModeLocationEventType = LostModeLocationEvent::class;
+  protected $lostModeLocationEventDataType = '';
+  protected $lostModeOutgoingPhoneCallEventType = LostModeOutgoingPhoneCallEvent::class;
+  protected $lostModeOutgoingPhoneCallEventDataType = '';
   protected $mediaMountEventType = MediaMountEvent::class;
   protected $mediaMountEventDataType = '';
   protected $mediaUnmountEventType = MediaUnmountEvent::class;
@@ -83,6 +89,8 @@ class UsageLogEvent extends \Google\Model
   protected $osStartupEventDataType = '';
   protected $remoteLockEventType = RemoteLockEvent::class;
   protected $remoteLockEventDataType = '';
+  protected $stopLostModeUserAttemptEventType = StopLostModeUserAttemptEvent::class;
+  protected $stopLostModeUserAttemptEventDataType = '';
   protected $wipeFailureEventType = WipeFailureEvent::class;
   protected $wipeFailureEventDataType = '';
 
@@ -211,6 +219,20 @@ class UsageLogEvent extends \Google\Model
   public function getDnsEvent()
   {
     return $this->dnsEvent;
+  }
+  /**
+   * @param EnrollmentCompleteEvent
+   */
+  public function setEnrollmentCompleteEvent(EnrollmentCompleteEvent $enrollmentCompleteEvent)
+  {
+    $this->enrollmentCompleteEvent = $enrollmentCompleteEvent;
+  }
+  /**
+   * @return EnrollmentCompleteEvent
+   */
+  public function getEnrollmentCompleteEvent()
+  {
+    return $this->enrollmentCompleteEvent;
   }
   /**
    * @param string
@@ -423,6 +445,34 @@ class UsageLogEvent extends \Google\Model
     return $this->loggingStoppedEvent;
   }
   /**
+   * @param LostModeLocationEvent
+   */
+  public function setLostModeLocationEvent(LostModeLocationEvent $lostModeLocationEvent)
+  {
+    $this->lostModeLocationEvent = $lostModeLocationEvent;
+  }
+  /**
+   * @return LostModeLocationEvent
+   */
+  public function getLostModeLocationEvent()
+  {
+    return $this->lostModeLocationEvent;
+  }
+  /**
+   * @param LostModeOutgoingPhoneCallEvent
+   */
+  public function setLostModeOutgoingPhoneCallEvent(LostModeOutgoingPhoneCallEvent $lostModeOutgoingPhoneCallEvent)
+  {
+    $this->lostModeOutgoingPhoneCallEvent = $lostModeOutgoingPhoneCallEvent;
+  }
+  /**
+   * @return LostModeOutgoingPhoneCallEvent
+   */
+  public function getLostModeOutgoingPhoneCallEvent()
+  {
+    return $this->lostModeOutgoingPhoneCallEvent;
+  }
+  /**
    * @param MediaMountEvent
    */
   public function setMediaMountEvent(MediaMountEvent $mediaMountEvent)
@@ -491,6 +541,20 @@ class UsageLogEvent extends \Google\Model
   public function getRemoteLockEvent()
   {
     return $this->remoteLockEvent;
+  }
+  /**
+   * @param StopLostModeUserAttemptEvent
+   */
+  public function setStopLostModeUserAttemptEvent(StopLostModeUserAttemptEvent $stopLostModeUserAttemptEvent)
+  {
+    $this->stopLostModeUserAttemptEvent = $stopLostModeUserAttemptEvent;
+  }
+  /**
+   * @return StopLostModeUserAttemptEvent
+   */
+  public function getStopLostModeUserAttemptEvent()
+  {
+    return $this->stopLostModeUserAttemptEvent;
   }
   /**
    * @param WipeFailureEvent

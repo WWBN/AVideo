@@ -46,6 +46,7 @@ class ProjectsCryptoKeys extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Pass this into a subsequent request in
    * order to receive the next page of results.
    * @return GoogleCloudKmsInventoryV1ListCryptoKeysResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsCryptoKeys($parent, $optParams = [])
   {

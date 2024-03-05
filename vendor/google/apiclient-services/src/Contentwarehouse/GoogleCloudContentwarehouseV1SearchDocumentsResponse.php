@@ -31,6 +31,10 @@ class GoogleCloudContentwarehouseV1SearchDocumentsResponse extends \Google\Colle
    */
   public $nextPageToken;
   /**
+   * @var string
+   */
+  public $questionAnswer;
+  /**
    * @var int
    */
   public $totalSize;
@@ -90,6 +94,20 @@ class GoogleCloudContentwarehouseV1SearchDocumentsResponse extends \Google\Colle
   public function getNextPageToken()
   {
     return $this->nextPageToken;
+  }
+  /**
+   * @param string
+   */
+  public function setQuestionAnswer($questionAnswer)
+  {
+    $this->questionAnswer = $questionAnswer;
+  }
+  /**
+   * @return string
+   */
+  public function getQuestionAnswer()
+  {
+    return $this->questionAnswer;
   }
   /**
    * @param int

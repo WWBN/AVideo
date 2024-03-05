@@ -23,6 +23,8 @@ class GoogleCloudDialogflowCxV3ImportFlowRequest extends \Google\Model
    * @var string
    */
   public $flowContent;
+  protected $flowImportStrategyType = GoogleCloudDialogflowCxV3FlowImportStrategy::class;
+  protected $flowImportStrategyDataType = '';
   /**
    * @var string
    */
@@ -45,6 +47,20 @@ class GoogleCloudDialogflowCxV3ImportFlowRequest extends \Google\Model
   public function getFlowContent()
   {
     return $this->flowContent;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3FlowImportStrategy
+   */
+  public function setFlowImportStrategy(GoogleCloudDialogflowCxV3FlowImportStrategy $flowImportStrategy)
+  {
+    $this->flowImportStrategy = $flowImportStrategy;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3FlowImportStrategy
+   */
+  public function getFlowImportStrategy()
+  {
+    return $this->flowImportStrategy;
   }
   /**
    * @param string

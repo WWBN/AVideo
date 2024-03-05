@@ -19,13 +19,31 @@ namespace Google\Service\CloudComposer;
 
 class WorkloadsConfig extends \Google\Model
 {
+  protected $dagProcessorType = DagProcessorResource::class;
+  protected $dagProcessorDataType = '';
   protected $schedulerType = SchedulerResource::class;
   protected $schedulerDataType = '';
+  protected $triggererType = TriggererResource::class;
+  protected $triggererDataType = '';
   protected $webServerType = WebServerResource::class;
   protected $webServerDataType = '';
   protected $workerType = WorkerResource::class;
   protected $workerDataType = '';
 
+  /**
+   * @param DagProcessorResource
+   */
+  public function setDagProcessor(DagProcessorResource $dagProcessor)
+  {
+    $this->dagProcessor = $dagProcessor;
+  }
+  /**
+   * @return DagProcessorResource
+   */
+  public function getDagProcessor()
+  {
+    return $this->dagProcessor;
+  }
   /**
    * @param SchedulerResource
    */
@@ -39,6 +57,20 @@ class WorkloadsConfig extends \Google\Model
   public function getScheduler()
   {
     return $this->scheduler;
+  }
+  /**
+   * @param TriggererResource
+   */
+  public function setTriggerer(TriggererResource $triggerer)
+  {
+    $this->triggerer = $triggerer;
+  }
+  /**
+   * @return TriggererResource
+   */
+  public function getTriggerer()
+  {
+    return $this->triggerer;
   }
   /**
    * @param WebServerResource

@@ -20,9 +20,27 @@ namespace Google\Service\BigtableAdmin;
 class ModifyColumnFamiliesRequest extends \Google\Collection
 {
   protected $collection_key = 'modifications';
+  /**
+   * @var bool
+   */
+  public $ignoreWarnings;
   protected $modificationsType = Modification::class;
   protected $modificationsDataType = 'array';
 
+  /**
+   * @param bool
+   */
+  public function setIgnoreWarnings($ignoreWarnings)
+  {
+    $this->ignoreWarnings = $ignoreWarnings;
+  }
+  /**
+   * @return bool
+   */
+  public function getIgnoreWarnings()
+  {
+    return $this->ignoreWarnings;
+  }
   /**
    * @param Modification[]
    */

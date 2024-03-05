@@ -49,6 +49,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    * new cluster within its instance, e.g., just `mycluster` rather than
    * `projects/myproject/instances/myinstance/clusters/mycluster`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Cluster $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    * `projects/{project}/instances/{instance}/clusters/{cluster}`.
    * @param array $optParams Optional parameters.
    * @return BigtableadminEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    * `projects/{project}/instances/{instance}/clusters/{cluster}`.
    * @param array $optParams Optional parameters.
    * @return Cluster
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    *
    * @opt_param string pageToken DEPRECATED: This field is unused and ignored.
    * @return ListClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstancesClusters($parent, $optParams = [])
   {
@@ -125,6 +129,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    * @opt_param string updateMask Required. The subset of Cluster fields which
    * should be replaced.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function partialUpdateCluster($name, Cluster $postBody, $optParams = [])
   {
@@ -142,6 +147,7 @@ class ProjectsInstancesClusters extends \Google\Service\Resource
    * @param Cluster $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function update($name, Cluster $postBody, $optParams = [])
   {

@@ -36,6 +36,7 @@ class ProjectsLocationsRepositoriesNpmPackages extends \Google\Service\Resource
    * @param string $name Required. The name of the npm package.
    * @param array $optParams Optional parameters.
    * @return NpmPackage
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsRepositoriesNpmPackages extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @return ListNpmPackagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesNpmPackages($parent, $optParams = [])
   {

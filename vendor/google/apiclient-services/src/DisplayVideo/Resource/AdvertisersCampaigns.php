@@ -41,6 +41,7 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * @param Campaign $postBody
    * @param array $optParams Optional parameters.
    * @return Campaign
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, Campaign $postBody, $optParams = [])
   {
@@ -51,13 +52,18 @@ class AdvertisersCampaigns extends \Google\Service\Resource
   /**
    * Permanently deletes a campaign. A deleted campaign cannot be recovered. The
    * campaign should be archived first, i.e. set entity_status to
-   * `ENTITY_STATUS_ARCHIVED`, to be able to delete it. (campaigns.delete)
+   * `ENTITY_STATUS_ARCHIVED`, to be able to delete it. **This method regularly
+   * experiences high latency.** We recommend [increasing your default
+   * timeout](/display-video/api/guides/best-
+   * practices/timeouts#client_library_timeout) to avoid errors.
+   * (campaigns.delete)
    *
    * @param string $advertiserId The ID of the advertiser this campaign belongs
    * to.
    * @param string $campaignId The ID of the campaign we need to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $campaignId, $optParams = [])
   {
@@ -73,6 +79,7 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * @param string $campaignId Required. The ID of the campaign to fetch.
    * @param array $optParams Optional parameters.
    * @return Campaign
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $campaignId, $optParams = [])
   {
@@ -118,6 +125,7 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * the previous call to `ListCampaigns` method. If not specified, the first page
    * of results will be returned.
    * @return ListCampaignsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersCampaigns($advertiserId, $optParams = [])
   {
@@ -161,6 +169,7 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * previous call to `BulkListCampaignAssignedTargetingOptions` method. If not
    * specified, the first page of results will be returned.
    * @return BulkListCampaignAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAssignedTargetingOptions($advertiserId, $campaignId, $optParams = [])
   {
@@ -182,6 +191,7 @@ class AdvertisersCampaigns extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return Campaign
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $campaignId, Campaign $postBody, $optParams = [])
   {

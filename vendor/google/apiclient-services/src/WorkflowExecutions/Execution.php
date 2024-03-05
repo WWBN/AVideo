@@ -30,6 +30,14 @@ class Execution extends \Google\Model
   /**
    * @var string
    */
+  public $createTime;
+  /**
+   * @var bool
+   */
+  public $disableConcurrencyQuotaOverflowBuffering;
+  /**
+   * @var string
+   */
   public $duration;
   /**
    * @var string
@@ -93,6 +101,34 @@ class Execution extends \Google\Model
   public function getCallLogLevel()
   {
     return $this->callLogLevel;
+  }
+  /**
+   * @param string
+   */
+  public function setCreateTime($createTime)
+  {
+    $this->createTime = $createTime;
+  }
+  /**
+   * @return string
+   */
+  public function getCreateTime()
+  {
+    return $this->createTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableConcurrencyQuotaOverflowBuffering($disableConcurrencyQuotaOverflowBuffering)
+  {
+    $this->disableConcurrencyQuotaOverflowBuffering = $disableConcurrencyQuotaOverflowBuffering;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableConcurrencyQuotaOverflowBuffering()
+  {
+    return $this->disableConcurrencyQuotaOverflowBuffering;
   }
   /**
    * @param string

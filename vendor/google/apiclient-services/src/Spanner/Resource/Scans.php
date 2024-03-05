@@ -47,6 +47,7 @@ class Scans extends \Google\Service\Resource
    * in the response. Note, only the SUMMARY view (the default) is currently
    * supported for ListScans.
    * @return ListScansResponse
+   * @throws \Google\Service\Exception
    */
   public function listScans($parent, $optParams = [])
   {

@@ -44,9 +44,17 @@ class MysqlColumn extends \Google\Model
    */
   public $ordinalPosition;
   /**
+   * @var int
+   */
+  public $precision;
+  /**
    * @var bool
    */
   public $primaryKey;
+  /**
+   * @var int
+   */
+  public $scale;
 
   /**
    * @param string
@@ -133,6 +141,20 @@ class MysqlColumn extends \Google\Model
     return $this->ordinalPosition;
   }
   /**
+   * @param int
+   */
+  public function setPrecision($precision)
+  {
+    $this->precision = $precision;
+  }
+  /**
+   * @return int
+   */
+  public function getPrecision()
+  {
+    return $this->precision;
+  }
+  /**
    * @param bool
    */
   public function setPrimaryKey($primaryKey)
@@ -145,6 +167,20 @@ class MysqlColumn extends \Google\Model
   public function getPrimaryKey()
   {
     return $this->primaryKey;
+  }
+  /**
+   * @param int
+   */
+  public function setScale($scale)
+  {
+    $this->scale = $scale;
+  }
+  /**
+   * @return int
+   */
+  public function getScale()
+  {
+    return $this->scale;
   }
 }
 

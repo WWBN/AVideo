@@ -27,6 +27,8 @@ class NlpSemanticParsingLocalLocationConstraint extends \Google\Model
   protected $cuisineDataType = '';
   protected $evcsConnectorConstraintType = NlpSemanticParsingLocalEvChargingStationConnectorConstraint::class;
   protected $evcsConnectorConstraintDataType = '';
+  protected $evcsPaymentConstraintType = NlpSemanticParsingLocalEvChargingStationPaymentConstraint::class;
+  protected $evcsPaymentConstraintDataType = '';
   protected $evcsSpeedConstraintType = NlpSemanticParsingLocalEvChargingStationSpeedConstraint::class;
   protected $evcsSpeedConstraintDataType = '';
   protected $gcidConstraintType = NlpSemanticParsingLocalGcidConstraint::class;
@@ -137,6 +139,20 @@ class NlpSemanticParsingLocalLocationConstraint extends \Google\Model
   public function getEvcsConnectorConstraint()
   {
     return $this->evcsConnectorConstraint;
+  }
+  /**
+   * @param NlpSemanticParsingLocalEvChargingStationPaymentConstraint
+   */
+  public function setEvcsPaymentConstraint(NlpSemanticParsingLocalEvChargingStationPaymentConstraint $evcsPaymentConstraint)
+  {
+    $this->evcsPaymentConstraint = $evcsPaymentConstraint;
+  }
+  /**
+   * @return NlpSemanticParsingLocalEvChargingStationPaymentConstraint
+   */
+  public function getEvcsPaymentConstraint()
+  {
+    return $this->evcsPaymentConstraint;
   }
   /**
    * @param NlpSemanticParsingLocalEvChargingStationSpeedConstraint

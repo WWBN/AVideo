@@ -35,6 +35,7 @@ class Projects extends \Google\Service\Resource
    * @param string $name Required. The name of the projectSettings resource.
    * @param array $optParams Optional parameters.
    * @return ProjectSettings
+   * @throws \Google\Service\Exception
    */
   public function getProjectSettings($name, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Projects extends \Google\Service\Resource
    *
    * @opt_param string updateMask Field mask to support partial updates.
    * @return ProjectSettings
+   * @throws \Google\Service\Exception
    */
   public function updateProjectSettings($name, ProjectSettings $postBody, $optParams = [])
   {

@@ -35,6 +35,10 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
    */
   public $executionEnvironment;
   /**
+   * @var bool
+   */
+  public $healthCheckDisabled;
+  /**
    * @var string[]
    */
   public $labels;
@@ -120,6 +124,20 @@ class GoogleCloudRunV2RevisionTemplate extends \Google\Collection
   public function getExecutionEnvironment()
   {
     return $this->executionEnvironment;
+  }
+  /**
+   * @param bool
+   */
+  public function setHealthCheckDisabled($healthCheckDisabled)
+  {
+    $this->healthCheckDisabled = $healthCheckDisabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getHealthCheckDisabled()
+  {
+    return $this->healthCheckDisabled;
   }
   /**
    * @param string[]

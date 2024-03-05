@@ -40,6 +40,7 @@ class ProjectsLocationsAppsScriptProjects extends \Google\Service\Resource
    * @param GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectResponse
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudIntegrationsV1alphaCreateAppsScriptProjectRequest $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsAppsScriptProjects extends \Google\Service\Resource
    * @param GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectResponse
+   * @throws \Google\Service\Exception
    */
   public function link($parent, GoogleCloudIntegrationsV1alphaLinkAppsScriptProjectRequest $postBody, $optParams = [])
   {

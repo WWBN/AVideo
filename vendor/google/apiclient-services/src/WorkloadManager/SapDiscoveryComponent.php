@@ -20,14 +20,14 @@ namespace Google\Service\WorkloadManager;
 class SapDiscoveryComponent extends \Google\Collection
 {
   protected $collection_key = 'resources';
+  protected $applicationPropertiesType = SapDiscoveryComponentApplicationProperties::class;
+  protected $applicationPropertiesDataType = '';
+  protected $databasePropertiesType = SapDiscoveryComponentDatabaseProperties::class;
+  protected $databasePropertiesDataType = '';
   /**
-   * @var string
+   * @var string[]
    */
-  public $applicationType;
-  /**
-   * @var string
-   */
-  public $databaseType;
+  public $haHosts;
   /**
    * @var string
    */
@@ -38,34 +38,52 @@ class SapDiscoveryComponent extends \Google\Collection
    * @var string
    */
   public $sid;
+  /**
+   * @var string
+   */
+  public $topologyType;
 
   /**
-   * @param string
+   * @param SapDiscoveryComponentApplicationProperties
    */
-  public function setApplicationType($applicationType)
+  public function setApplicationProperties(SapDiscoveryComponentApplicationProperties $applicationProperties)
   {
-    $this->applicationType = $applicationType;
+    $this->applicationProperties = $applicationProperties;
   }
   /**
-   * @return string
+   * @return SapDiscoveryComponentApplicationProperties
    */
-  public function getApplicationType()
+  public function getApplicationProperties()
   {
-    return $this->applicationType;
+    return $this->applicationProperties;
   }
   /**
-   * @param string
+   * @param SapDiscoveryComponentDatabaseProperties
    */
-  public function setDatabaseType($databaseType)
+  public function setDatabaseProperties(SapDiscoveryComponentDatabaseProperties $databaseProperties)
   {
-    $this->databaseType = $databaseType;
+    $this->databaseProperties = $databaseProperties;
   }
   /**
-   * @return string
+   * @return SapDiscoveryComponentDatabaseProperties
    */
-  public function getDatabaseType()
+  public function getDatabaseProperties()
   {
-    return $this->databaseType;
+    return $this->databaseProperties;
+  }
+  /**
+   * @param string[]
+   */
+  public function setHaHosts($haHosts)
+  {
+    $this->haHosts = $haHosts;
+  }
+  /**
+   * @return string[]
+   */
+  public function getHaHosts()
+  {
+    return $this->haHosts;
   }
   /**
    * @param string
@@ -108,6 +126,20 @@ class SapDiscoveryComponent extends \Google\Collection
   public function getSid()
   {
     return $this->sid;
+  }
+  /**
+   * @param string
+   */
+  public function setTopologyType($topologyType)
+  {
+    $this->topologyType = $topologyType;
+  }
+  /**
+   * @return string
+   */
+  public function getTopologyType()
+  {
+    return $this->topologyType;
   }
 }
 

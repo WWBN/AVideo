@@ -46,6 +46,7 @@ class ProjectsAppsPlayIntegrityConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/playIntegrityConfig ``` A maximum of
    * 100 objects can be retrieved in a batch.
    * @return GoogleFirebaseAppcheckV1BatchGetPlayIntegrityConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsAppsPlayIntegrityConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/playIntegrityConfig ```
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1PlayIntegrityConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -82,6 +84,7 @@ class ProjectsAppsPlayIntegrityConfig extends \Google\Service\Resource
    * @opt_param string updateMask Required. A comma-separated list of names of
    * fields in the PlayIntegrityConfig Gets to update. Example: `token_ttl`.
    * @return GoogleFirebaseAppcheckV1PlayIntegrityConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppcheckV1PlayIntegrityConfig $postBody, $optParams = [])
   {

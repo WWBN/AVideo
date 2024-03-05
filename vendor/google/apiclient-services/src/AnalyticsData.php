@@ -23,7 +23,13 @@ use Google\Client;
  * Service definition for AnalyticsData (v1beta).
  *
  * <p>
- * Accesses report data in Google Analytics.</p>
+ * Accesses report data in Google Analytics. Warning: Creating multiple Customer
+ * Applications, Accounts, or Projects to simulate or act as a single Customer
+ * Application, Account, or Project (respectively) or to circumvent Service-
+ * specific usage limits or quotas is a direct violation of Google Cloud
+ * Platform Terms of Service as well as Google APIs Terms of Service. These
+ * actions can result in immediate termination of your GCP project(s) without
+ * any warning.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -42,6 +48,7 @@ class AnalyticsData extends \Google\Service
       "https://www.googleapis.com/auth/analytics.readonly";
 
   public $properties;
+  public $properties_audienceExports;
 
   /**
    * Constructs the internal representation of the AnalyticsData service.
@@ -130,6 +137,64 @@ class AnalyticsData extends \Google\Service
               'httpMethod' => 'POST',
               'parameters' => [
                 'property' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->properties_audienceExports = new AnalyticsData\Resource\PropertiesAudienceExports(
+        $this,
+        $this->serviceName,
+        'audienceExports',
+        [
+          'methods' => [
+            'create' => [
+              'path' => 'v1beta/{+parent}/audienceExports',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => 'v1beta/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1beta/{+parent}/audienceExports',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'query' => [
+              'path' => 'v1beta/{+name}:query',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

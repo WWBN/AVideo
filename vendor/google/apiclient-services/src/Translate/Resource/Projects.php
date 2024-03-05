@@ -19,6 +19,8 @@ namespace Google\Service\Translate\Resource;
 
 use Google\Service\Translate\DetectLanguageRequest;
 use Google\Service\Translate\DetectLanguageResponse;
+use Google\Service\Translate\RomanizeTextRequest;
+use Google\Service\Translate\RomanizeTextResponse;
 use Google\Service\Translate\SupportedLanguages;
 use Google\Service\Translate\TranslateTextRequest;
 use Google\Service\Translate\TranslateTextResponse;
@@ -39,13 +41,14 @@ class Projects extends \Google\Service\Resource
    * @param string $parent Required. Project or location to make a call. Must
    * refer to a caller's project. Format: `projects/{project-number-or-
    * id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global
-   * calls, use `projects/{project-number-or-id}/locations/global` or `projects
-   * /{project-number-or-id}`. Only models within the same region (has same
-   * location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is
+   * calls, use `projects/{project-number-or-id}/locations/global` or
+   * `projects/{project-number-or-id}`. Only models within the same region (has
+   * same location-id) can be used. Otherwise an INVALID_ARGUMENT (400) error is
    * returned.
    * @param DetectLanguageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DetectLanguageResponse
+   * @throws \Google\Service\Exception
    */
   public function detectLanguage($parent, DetectLanguageRequest $postBody, $optParams = [])
   {
@@ -70,18 +73,40 @@ class Projects extends \Google\Service\Resource
    * localized, human readable names of supported languages. If missing, then
    * display names are not returned in a response.
    * @opt_param string model Optional. Get supported languages of this model. The
-   * format depends on model type: - AutoML Translation models: `projects
-   * /{project-number-or-id}/locations/{location-id}/models/{model-id}` - General
-   * (built-in) models: `projects/{project-number-or-id}/locations/{location-
-   * id}/models/general/nmt`, Returns languages supported by the specified model.
-   * If missing, we get supported languages of Google general NMT model.
+   * format depends on model type: - AutoML Translation models:
+   * `projects/{project-number-or-id}/locations/{location-id}/models/{model-id}` -
+   * General (built-in) models: `projects/{project-number-or-
+   * id}/locations/{location-id}/models/general/nmt`, Returns languages supported
+   * by the specified model. If missing, we get supported languages of Google
+   * general NMT model.
    * @return SupportedLanguages
+   * @throws \Google\Service\Exception
    */
   public function getSupportedLanguages($parent, $optParams = [])
   {
     $params = ['parent' => $parent];
     $params = array_merge($params, $optParams);
     return $this->call('getSupportedLanguages', [$params], SupportedLanguages::class);
+  }
+  /**
+   * Romanize input text written in non-Latin scripts to Latin text.
+   * (projects.romanizeText)
+   *
+   * @param string $parent Required. Project or location to make a call. Must
+   * refer to a caller's project. Format: `projects/{project-number-or-
+   * id}/locations/{location-id}` or `projects/{project-number-or-id}`. For global
+   * calls, use `projects/{project-number-or-id}/locations/global` or
+   * `projects/{project-number-or-id}`.
+   * @param RomanizeTextRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return RomanizeTextResponse
+   * @throws \Google\Service\Exception
+   */
+  public function romanizeText($parent, RomanizeTextRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('romanizeText', [$params], RomanizeTextResponse::class);
   }
   /**
    * Translates input text and returns translated text. (projects.translateText)
@@ -97,6 +122,7 @@ class Projects extends \Google\Service\Resource
    * @param TranslateTextRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TranslateTextResponse
+   * @throws \Google\Service\Exception
    */
   public function translateText($parent, TranslateTextRequest $postBody, $optParams = [])
   {

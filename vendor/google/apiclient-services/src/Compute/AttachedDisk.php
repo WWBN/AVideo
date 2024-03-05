@@ -70,6 +70,10 @@ class AttachedDisk extends \Google\Collection
    * @var string
    */
   public $mode;
+  /**
+   * @var string
+   */
+  public $savedState;
   protected $shieldedInstanceInitialStateType = InitialStateConfig::class;
   protected $shieldedInstanceInitialStateDataType = '';
   /**
@@ -276,6 +280,20 @@ class AttachedDisk extends \Google\Collection
   public function getMode()
   {
     return $this->mode;
+  }
+  /**
+   * @param string
+   */
+  public function setSavedState($savedState)
+  {
+    $this->savedState = $savedState;
+  }
+  /**
+   * @return string
+   */
+  public function getSavedState()
+  {
+    return $this->savedState;
   }
   /**
    * @param InitialStateConfig

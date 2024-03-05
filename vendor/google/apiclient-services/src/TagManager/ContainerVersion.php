@@ -70,6 +70,8 @@ class ContainerVersion extends \Google\Collection
    * @var string
    */
   public $tagManagerUrl;
+  protected $transformationType = Transformation::class;
+  protected $transformationDataType = 'array';
   protected $triggerType = Trigger::class;
   protected $triggerDataType = 'array';
   protected $variableType = Variable::class;
@@ -300,6 +302,20 @@ class ContainerVersion extends \Google\Collection
   public function getTagManagerUrl()
   {
     return $this->tagManagerUrl;
+  }
+  /**
+   * @param Transformation[]
+   */
+  public function setTransformation($transformation)
+  {
+    $this->transformation = $transformation;
+  }
+  /**
+   * @return Transformation[]
+   */
+  public function getTransformation()
+  {
+    return $this->transformation;
   }
   /**
    * @param Trigger[]

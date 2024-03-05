@@ -42,6 +42,7 @@ class ProjectsLocationsDocumentsDocumentLinks extends \Google\Service\Resource
    * @param GoogleCloudContentwarehouseV1CreateDocumentLinkRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContentwarehouseV1DocumentLink
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudContentwarehouseV1CreateDocumentLinkRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsDocumentsDocumentLinks extends \Google\Service\Resource
    * @param GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, GoogleCloudContentwarehouseV1DeleteDocumentLinkRequest $postBody, $optParams = [])
   {

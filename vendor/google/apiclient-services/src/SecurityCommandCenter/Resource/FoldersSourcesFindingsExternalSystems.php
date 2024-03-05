@@ -42,6 +42,7 @@ class FoldersSourcesFindingsExternalSystems extends \Google\Service\Resource
    * @opt_param string updateMask The FieldMask to use when updating the external
    * system resource. If empty all mutable fields will be updated.
    * @return GoogleCloudSecuritycenterV1ExternalSystem
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudSecuritycenterV1ExternalSystem $postBody, $optParams = [])
   {

@@ -26,6 +26,10 @@ class RegionalPriceMigrationConfig extends \Google\Model
   /**
    * @var string
    */
+  public $priceIncreaseType;
+  /**
+   * @var string
+   */
   public $regionCode;
 
   /**
@@ -41,6 +45,20 @@ class RegionalPriceMigrationConfig extends \Google\Model
   public function getOldestAllowedPriceVersionTime()
   {
     return $this->oldestAllowedPriceVersionTime;
+  }
+  /**
+   * @param string
+   */
+  public function setPriceIncreaseType($priceIncreaseType)
+  {
+    $this->priceIncreaseType = $priceIncreaseType;
+  }
+  /**
+   * @return string
+   */
+  public function getPriceIncreaseType()
+  {
+    return $this->priceIncreaseType;
   }
   /**
    * @param string

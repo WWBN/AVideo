@@ -17,12 +17,25 @@
 
 namespace Google\Service\CloudDeploy;
 
-class CloudRunConfig extends \Google\Model
+class CloudRunConfig extends \Google\Collection
 {
+  protected $collection_key = 'stableRevisionTags';
   /**
    * @var bool
    */
   public $automaticTrafficControl;
+  /**
+   * @var string[]
+   */
+  public $canaryRevisionTags;
+  /**
+   * @var string[]
+   */
+  public $priorRevisionTags;
+  /**
+   * @var string[]
+   */
+  public $stableRevisionTags;
 
   /**
    * @param bool
@@ -37,6 +50,48 @@ class CloudRunConfig extends \Google\Model
   public function getAutomaticTrafficControl()
   {
     return $this->automaticTrafficControl;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCanaryRevisionTags($canaryRevisionTags)
+  {
+    $this->canaryRevisionTags = $canaryRevisionTags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCanaryRevisionTags()
+  {
+    return $this->canaryRevisionTags;
+  }
+  /**
+   * @param string[]
+   */
+  public function setPriorRevisionTags($priorRevisionTags)
+  {
+    $this->priorRevisionTags = $priorRevisionTags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getPriorRevisionTags()
+  {
+    return $this->priorRevisionTags;
+  }
+  /**
+   * @param string[]
+   */
+  public function setStableRevisionTags($stableRevisionTags)
+  {
+    $this->stableRevisionTags = $stableRevisionTags;
+  }
+  /**
+   * @return string[]
+   */
+  public function getStableRevisionTags()
+  {
+    return $this->stableRevisionTags;
   }
 }
 

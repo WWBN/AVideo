@@ -48,6 +48,7 @@ class Videos extends \Google\Service\Resource
    * without having to provide authentication credentials for each individual
    * channel. The actual CMS account that the user authenticates with must be
    * linked to the specified YouTube content owner.
+   * @throws \Google\Service\Exception
    */
   public function delete($id, $optParams = [])
   {
@@ -73,6 +74,7 @@ class Videos extends \Google\Service\Resource
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
    * @return VideoGetRatingResponse
+   * @throws \Google\Service\Exception
    */
   public function getRating($id, $optParams = [])
   {
@@ -125,6 +127,7 @@ class Videos extends \Google\Service\Resource
    * channel.
    * @opt_param bool stabilize Should stabilize be applied to the upload.
    * @return Video
+   * @throws \Google\Service\Exception
    */
   public function insert($part, Video $postBody, $optParams = [])
   {
@@ -182,6 +185,7 @@ class Videos extends \Google\Service\Resource
    * @opt_param string videoCategoryId Use chart that is specific to the specified
    * video category
    * @return VideoListResponse
+   * @throws \Google\Service\Exception
    */
   public function listVideos($part, $optParams = [])
   {
@@ -196,6 +200,7 @@ class Videos extends \Google\Service\Resource
    * @param string $id
    * @param string $rating
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function rate($id, $rating, $optParams = [])
   {
@@ -219,6 +224,7 @@ class Videos extends \Google\Service\Resource
    * without having to provide authentication credentials for each individual
    * channel. The CMS account that the user authenticates with must be linked to
    * the specified YouTube content owner.
+   * @throws \Google\Service\Exception
    */
   public function reportAbuse(VideoAbuseReport $postBody, $optParams = [])
   {
@@ -259,6 +265,7 @@ class Videos extends \Google\Service\Resource
    * channel. The actual CMS account that the user authenticates with must be
    * linked to the specified YouTube content owner.
    * @return Video
+   * @throws \Google\Service\Exception
    */
   public function update($part, Video $postBody, $optParams = [])
   {

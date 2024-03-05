@@ -36,6 +36,7 @@ class ManagementClientId extends \Google\Service\Resource
    * @param HashClientIdRequest $postBody
    * @param array $optParams Optional parameters.
    * @return HashClientIdResponse
+   * @throws \Google\Service\Exception
    */
   public function hashClientId(HashClientIdRequest $postBody, $optParams = [])
   {

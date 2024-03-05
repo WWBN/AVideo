@@ -23,6 +23,10 @@ class DatabaseConfig extends \Google\Model
    * @var string
    */
   public $machineType;
+  /**
+   * @var string
+   */
+  public $zone;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class DatabaseConfig extends \Google\Model
   public function getMachineType()
   {
     return $this->machineType;
+  }
+  /**
+   * @param string
+   */
+  public function setZone($zone)
+  {
+    $this->zone = $zone;
+  }
+  /**
+   * @return string
+   */
+  public function getZone()
+  {
+    return $this->zone;
   }
 }
 

@@ -37,6 +37,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -50,6 +51,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Required. The name of the config to get.
    * @param array $optParams Optional parameters.
    * @return GoogleChannelConfig
+   * @throws \Google\Service\Exception
    */
   public function getGoogleChannelConfig($name, $optParams = [])
   {
@@ -73,6 +75,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * provided are updated. If no field mask is provided, all provided fields in
    * the request are updated. To update all fields, provide a field mask of "*".
    * @return GoogleChannelConfig
+   * @throws \Google\Service\Exception
    */
   public function updateGoogleChannelConfig($name, GoogleChannelConfig $postBody, $optParams = [])
   {

@@ -38,6 +38,7 @@ class Forms extends \Google\Service\Resource
    * @param BatchUpdateFormRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUpdateFormResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUpdate($formId, BatchUpdateFormRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Forms extends \Google\Service\Resource
    * @param Form $postBody
    * @param array $optParams Optional parameters.
    * @return Form
+   * @throws \Google\Service\Exception
    */
   public function create(Form $postBody, $optParams = [])
   {
@@ -70,6 +72,7 @@ class Forms extends \Google\Service\Resource
    * @param string $formId Required. The form ID.
    * @param array $optParams Optional parameters.
    * @return Form
+   * @throws \Google\Service\Exception
    */
   public function get($formId, $optParams = [])
   {

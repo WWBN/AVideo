@@ -19,60 +19,42 @@ namespace Google\Service\GKEHub;
 
 class PolicyControllerMembershipState extends \Google\Model
 {
-  /**
-   * @var string
-   */
-  public $clusterName;
-  protected $membershipSpecType = PolicyControllerMembershipSpec::class;
-  protected $membershipSpecDataType = '';
-  protected $policyControllerHubStateType = PolicyControllerPolicyControllerHubState::class;
-  protected $policyControllerHubStateDataType = '';
+  protected $componentStatesType = PolicyControllerOnClusterState::class;
+  protected $componentStatesDataType = 'map';
+  protected $policyContentStateType = PolicyControllerPolicyContentState::class;
+  protected $policyContentStateDataType = '';
   /**
    * @var string
    */
   public $state;
 
   /**
-   * @param string
+   * @param PolicyControllerOnClusterState[]
    */
-  public function setClusterName($clusterName)
+  public function setComponentStates($componentStates)
   {
-    $this->clusterName = $clusterName;
+    $this->componentStates = $componentStates;
   }
   /**
-   * @return string
+   * @return PolicyControllerOnClusterState[]
    */
-  public function getClusterName()
+  public function getComponentStates()
   {
-    return $this->clusterName;
+    return $this->componentStates;
   }
   /**
-   * @param PolicyControllerMembershipSpec
+   * @param PolicyControllerPolicyContentState
    */
-  public function setMembershipSpec(PolicyControllerMembershipSpec $membershipSpec)
+  public function setPolicyContentState(PolicyControllerPolicyContentState $policyContentState)
   {
-    $this->membershipSpec = $membershipSpec;
+    $this->policyContentState = $policyContentState;
   }
   /**
-   * @return PolicyControllerMembershipSpec
+   * @return PolicyControllerPolicyContentState
    */
-  public function getMembershipSpec()
+  public function getPolicyContentState()
   {
-    return $this->membershipSpec;
-  }
-  /**
-   * @param PolicyControllerPolicyControllerHubState
-   */
-  public function setPolicyControllerHubState(PolicyControllerPolicyControllerHubState $policyControllerHubState)
-  {
-    $this->policyControllerHubState = $policyControllerHubState;
-  }
-  /**
-   * @return PolicyControllerPolicyControllerHubState
-   */
-  public function getPolicyControllerHubState()
-  {
-    return $this->policyControllerHubState;
+    return $this->policyContentState;
   }
   /**
    * @param string

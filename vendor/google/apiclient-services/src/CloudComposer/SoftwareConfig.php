@@ -23,6 +23,8 @@ class SoftwareConfig extends \Google\Model
    * @var string[]
    */
   public $airflowConfigOverrides;
+  protected $cloudDataLineageIntegrationType = CloudDataLineageIntegration::class;
+  protected $cloudDataLineageIntegrationDataType = '';
   /**
    * @var string[]
    */
@@ -43,6 +45,10 @@ class SoftwareConfig extends \Google\Model
    * @var int
    */
   public $schedulerCount;
+  /**
+   * @var string
+   */
+  public $webServerPluginsMode;
 
   /**
    * @param string[]
@@ -57,6 +63,20 @@ class SoftwareConfig extends \Google\Model
   public function getAirflowConfigOverrides()
   {
     return $this->airflowConfigOverrides;
+  }
+  /**
+   * @param CloudDataLineageIntegration
+   */
+  public function setCloudDataLineageIntegration(CloudDataLineageIntegration $cloudDataLineageIntegration)
+  {
+    $this->cloudDataLineageIntegration = $cloudDataLineageIntegration;
+  }
+  /**
+   * @return CloudDataLineageIntegration
+   */
+  public function getCloudDataLineageIntegration()
+  {
+    return $this->cloudDataLineageIntegration;
   }
   /**
    * @param string[]
@@ -127,6 +147,20 @@ class SoftwareConfig extends \Google\Model
   public function getSchedulerCount()
   {
     return $this->schedulerCount;
+  }
+  /**
+   * @param string
+   */
+  public function setWebServerPluginsMode($webServerPluginsMode)
+  {
+    $this->webServerPluginsMode = $webServerPluginsMode;
+  }
+  /**
+   * @return string
+   */
+  public function getWebServerPluginsMode()
+  {
+    return $this->webServerPluginsMode;
   }
 }
 

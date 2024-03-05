@@ -49,6 +49,7 @@ class Devices extends \Google\Service\Resource
    * @param GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function cancelWipe($name, GoogleAppsCloudidentityDevicesV1CancelWipeDeviceRequest $postBody, $optParams = [])
   {
@@ -72,6 +73,7 @@ class Devices extends \Google\Service\Resource
    * organization, use `customers/{customer}`, where customer is the customer to
    * whom the device belongs.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(GoogleAppsCloudidentityDevicesV1Device $postBody, $optParams = [])
   {
@@ -95,6 +97,7 @@ class Devices extends \Google\Service\Resource
    * organization, use `customers/{customer}`, where customer is the customer to
    * whom the device belongs.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -119,6 +122,7 @@ class Devices extends \Google\Service\Resource
    * organization, use `customers/{customer}`, where customer is the customer to
    * whom the device belongs.
    * @return GoogleAppsCloudidentityDevicesV1Device
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -156,6 +160,7 @@ class Devices extends \Google\Service\Resource
    * call that provided the page token.
    * @opt_param string view Optional. The view to use for the List request.
    * @return GoogleAppsCloudidentityDevicesV1ListDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listDevices($optParams = [])
   {
@@ -174,6 +179,7 @@ class Devices extends \Google\Service\Resource
    * @param GoogleAppsCloudidentityDevicesV1WipeDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function wipe($name, GoogleAppsCloudidentityDevicesV1WipeDeviceRequest $postBody, $optParams = [])
   {

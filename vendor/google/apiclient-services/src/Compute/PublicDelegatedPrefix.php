@@ -23,6 +23,10 @@ class PublicDelegatedPrefix extends \Google\Collection
   /**
    * @var string
    */
+  public $byoipApiVersion;
+  /**
+   * @var string
+   */
   public $creationTimestamp;
   /**
    * @var string
@@ -71,6 +75,20 @@ class PublicDelegatedPrefix extends \Google\Collection
    */
   public $status;
 
+  /**
+   * @param string
+   */
+  public function setByoipApiVersion($byoipApiVersion)
+  {
+    $this->byoipApiVersion = $byoipApiVersion;
+  }
+  /**
+   * @return string
+   */
+  public function getByoipApiVersion()
+  {
+    return $this->byoipApiVersion;
+  }
   /**
    * @param string
    */

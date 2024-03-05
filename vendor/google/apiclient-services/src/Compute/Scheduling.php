@@ -28,6 +28,8 @@ class Scheduling extends \Google\Collection
    * @var string
    */
   public $instanceTerminationAction;
+  protected $localSsdRecoveryTimeoutType = Duration::class;
+  protected $localSsdRecoveryTimeoutDataType = '';
   /**
    * @var string
    */
@@ -78,6 +80,20 @@ class Scheduling extends \Google\Collection
   public function getInstanceTerminationAction()
   {
     return $this->instanceTerminationAction;
+  }
+  /**
+   * @param Duration
+   */
+  public function setLocalSsdRecoveryTimeout(Duration $localSsdRecoveryTimeout)
+  {
+    $this->localSsdRecoveryTimeout = $localSsdRecoveryTimeout;
+  }
+  /**
+   * @return Duration
+   */
+  public function getLocalSsdRecoveryTimeout()
+  {
+    return $this->localSsdRecoveryTimeout;
   }
   /**
    * @param string

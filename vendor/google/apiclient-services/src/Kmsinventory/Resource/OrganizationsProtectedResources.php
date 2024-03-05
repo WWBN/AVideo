@@ -47,7 +47,18 @@ class OrganizationsProtectedResources extends \Google\Service\Resource
    * the subsequent page. When paginating, all other parameters provided to
    * KeyTrackingService.SearchProtectedResources must match the call that provided
    * the page token.
+   * @opt_param string resourceTypes Optional. A list of resource types that this
+   * request searches for. If empty, it will search all the [trackable resource
+   * types](https://cloud.google.com/kms/docs/view-key-usage#tracked-resource-
+   * types). Regular expressions are also supported. For example: *
+   * `compute.googleapis.com.*` snapshots resources whose type starts with
+   * `compute.googleapis.com`. * `.*Image` snapshots resources whose type ends
+   * with `Image`. * `.*Image.*` snapshots resources whose type contains `Image`.
+   * See [RE2](https://github.com/google/re2/wiki/Syntax) for all supported
+   * regular expression syntax. If the regular expression does not match any
+   * supported resource type, an INVALID_ARGUMENT error will be returned.
    * @return GoogleCloudKmsInventoryV1SearchProtectedResourcesResponse
+   * @throws \Google\Service\Exception
    */
   public function search($scope, $optParams = [])
   {

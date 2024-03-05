@@ -19,6 +19,41 @@ namespace Google\Service\DatabaseMigrationService;
 
 class VerifyMigrationJobRequest extends \Google\Model
 {
+  protected $migrationJobType = MigrationJob::class;
+  protected $migrationJobDataType = '';
+  /**
+   * @var string
+   */
+  public $updateMask;
+
+  /**
+   * @param MigrationJob
+   */
+  public function setMigrationJob(MigrationJob $migrationJob)
+  {
+    $this->migrationJob = $migrationJob;
+  }
+  /**
+   * @return MigrationJob
+   */
+  public function getMigrationJob()
+  {
+    return $this->migrationJob;
+  }
+  /**
+   * @param string
+   */
+  public function setUpdateMask($updateMask)
+  {
+    $this->updateMask = $updateMask;
+  }
+  /**
+   * @return string
+   */
+  public function getUpdateMask()
+  {
+    return $this->updateMask;
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

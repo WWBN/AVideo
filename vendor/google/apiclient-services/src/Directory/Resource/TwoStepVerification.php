@@ -33,6 +33,7 @@ class TwoStepVerification extends \Google\Service\Resource
    * @param string $userKey Identifies the user in the API request. The value can
    * be the user's primary email address, alias email address, or unique user ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function turnOff($userKey, $optParams = [])
   {

@@ -26,6 +26,10 @@ class ManagedGroupConfig extends \Google\Model
   /**
    * @var string
    */
+  public $instanceGroupManagerUri;
+  /**
+   * @var string
+   */
   public $instanceTemplateName;
 
   /**
@@ -41,6 +45,20 @@ class ManagedGroupConfig extends \Google\Model
   public function getInstanceGroupManagerName()
   {
     return $this->instanceGroupManagerName;
+  }
+  /**
+   * @param string
+   */
+  public function setInstanceGroupManagerUri($instanceGroupManagerUri)
+  {
+    $this->instanceGroupManagerUri = $instanceGroupManagerUri;
+  }
+  /**
+   * @return string
+   */
+  public function getInstanceGroupManagerUri()
+  {
+    return $this->instanceGroupManagerUri;
   }
   /**
    * @param string

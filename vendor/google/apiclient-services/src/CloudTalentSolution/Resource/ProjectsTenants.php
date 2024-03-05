@@ -58,6 +58,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * @opt_param string type The completion topic. The default is
    * CompletionType.COMBINED.
    * @return CompleteQueryResponse
+   * @throws \Google\Service\Exception
    */
   public function completeQuery($tenant, $optParams = [])
   {
@@ -74,6 +75,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * @param Tenant $postBody
    * @param array $optParams Optional parameters.
    * @return Tenant
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Tenant $postBody, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * "projects/foo/tenants/bar".
    * @param array $optParams Optional parameters.
    * @return JobsEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -104,6 +107,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * example, "projects/foo/tenants/bar".
    * @param array $optParams Optional parameters.
    * @return Tenant
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -124,6 +128,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * @opt_param string pageToken The starting indicator from which to return
    * results.
    * @return ListTenantsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsTenants($parent, $optParams = [])
   {
@@ -147,6 +152,7 @@ class ProjectsTenants extends \Google\Service\Resource
    * the tenant fields to be updated. Only top level fields of Tenant are
    * supported.
    * @return Tenant
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Tenant $postBody, $optParams = [])
   {

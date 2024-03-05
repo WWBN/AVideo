@@ -43,6 +43,7 @@ class ProjectsLocationsProcessesRunsLineageEvents extends \Google\Service\Resour
    * to 36 ASCII characters. A random UUID is recommended. This request is
    * idempotent only if a `request_id` is provided.
    * @return GoogleCloudDatacatalogLineageV1LineageEvent
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatacatalogLineageV1LineageEvent $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsProcessesRunsLineageEvents extends \Google\Service\Resour
    * @opt_param bool allowMissing If set to true and the lineage event is not
    * found, the request succeeds but the server doesn't perform any actions.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsLocationsProcessesRunsLineageEvents extends \Google\Service\Resour
    * @param string $name Required. The name of the lineage event to get.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatacatalogLineageV1LineageEvent
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -96,6 +99,7 @@ class ProjectsLocationsProcessesRunsLineageEvents extends \Google\Service\Resour
    * all other parameters specified in this call must match the parameters of the
    * call that provided the page token.
    * @return GoogleCloudDatacatalogLineageV1ListLineageEventsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProcessesRunsLineageEvents($parent, $optParams = [])
   {

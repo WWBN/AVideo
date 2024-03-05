@@ -20,6 +20,8 @@ namespace Google\Service\Spanner;
 class Instance extends \Google\Collection
 {
   protected $collection_key = 'endpointUris';
+  protected $autoscalingConfigType = AutoscalingConfig::class;
+  protected $autoscalingConfigDataType = '';
   /**
    * @var string
    */
@@ -67,6 +69,20 @@ class Instance extends \Google\Collection
    */
   public $updateTime;
 
+  /**
+   * @param AutoscalingConfig
+   */
+  public function setAutoscalingConfig(AutoscalingConfig $autoscalingConfig)
+  {
+    $this->autoscalingConfig = $autoscalingConfig;
+  }
+  /**
+   * @return AutoscalingConfig
+   */
+  public function getAutoscalingConfig()
+  {
+    return $this->autoscalingConfig;
+  }
   /**
    * @param string
    */

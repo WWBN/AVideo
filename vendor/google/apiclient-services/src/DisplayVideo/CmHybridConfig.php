@@ -25,6 +25,10 @@ class CmHybridConfig extends \Google\Collection
    */
   public $cmAccountId;
   /**
+   * @var string[]
+   */
+  public $cmAdvertiserIds;
+  /**
    * @var string
    */
   public $cmFloodlightConfigId;
@@ -58,6 +62,20 @@ class CmHybridConfig extends \Google\Collection
   public function getCmAccountId()
   {
     return $this->cmAccountId;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCmAdvertiserIds($cmAdvertiserIds)
+  {
+    $this->cmAdvertiserIds = $cmAdvertiserIds;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCmAdvertiserIds()
+  {
+    return $this->cmAdvertiserIds;
   }
   /**
    * @param string

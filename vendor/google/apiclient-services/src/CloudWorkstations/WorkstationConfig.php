@@ -19,7 +19,7 @@ namespace Google\Service\CloudWorkstations;
 
 class WorkstationConfig extends \Google\Collection
 {
-  protected $collection_key = 'readinessChecks';
+  protected $collection_key = 'replicaZones';
   /**
    * @var string[]
    */
@@ -40,6 +40,10 @@ class WorkstationConfig extends \Google\Collection
    * @var string
    */
   public $deleteTime;
+  /**
+   * @var bool
+   */
+  public $disableTcpConnections;
   /**
    * @var string
    */
@@ -76,6 +80,10 @@ class WorkstationConfig extends \Google\Collection
    * @var bool
    */
   public $reconciling;
+  /**
+   * @var string[]
+   */
+  public $replicaZones;
   /**
    * @var string
    */
@@ -172,6 +180,20 @@ class WorkstationConfig extends \Google\Collection
   public function getDeleteTime()
   {
     return $this->deleteTime;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisableTcpConnections($disableTcpConnections)
+  {
+    $this->disableTcpConnections = $disableTcpConnections;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisableTcpConnections()
+  {
+    return $this->disableTcpConnections;
   }
   /**
    * @param string
@@ -326,6 +348,20 @@ class WorkstationConfig extends \Google\Collection
   public function getReconciling()
   {
     return $this->reconciling;
+  }
+  /**
+   * @param string[]
+   */
+  public function setReplicaZones($replicaZones)
+  {
+    $this->replicaZones = $replicaZones;
+  }
+  /**
+   * @return string[]
+   */
+  public function getReplicaZones()
+  {
+    return $this->replicaZones;
   }
   /**
    * @param string

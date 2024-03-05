@@ -102,6 +102,10 @@ class Message extends \Google\Collection
    * @var string
    */
   public $messageState;
+  /**
+   * @var int
+   */
+  public $numberOfUnicodeEmojis;
   protected $originAppSuggestionsType = AppsDynamiteSharedOriginAppSuggestion::class;
   protected $originAppSuggestionsDataType = 'array';
   protected $personalLabelsType = PersonalLabelTag::class;
@@ -520,6 +524,20 @@ class Message extends \Google\Collection
   public function getMessageState()
   {
     return $this->messageState;
+  }
+  /**
+   * @param int
+   */
+  public function setNumberOfUnicodeEmojis($numberOfUnicodeEmojis)
+  {
+    $this->numberOfUnicodeEmojis = $numberOfUnicodeEmojis;
+  }
+  /**
+   * @return int
+   */
+  public function getNumberOfUnicodeEmojis()
+  {
+    return $this->numberOfUnicodeEmojis;
   }
   /**
    * @param AppsDynamiteSharedOriginAppSuggestion[]

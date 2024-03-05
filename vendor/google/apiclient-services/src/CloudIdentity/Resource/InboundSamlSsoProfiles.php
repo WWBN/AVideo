@@ -38,6 +38,7 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    * @param InboundSamlSsoProfile $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(InboundSamlSsoProfile $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    * `inboundSamlSsoProfiles/{sso_profile_id}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    * `inboundSamlSsoProfiles/{sso_profile_id}`
    * @param array $optParams Optional parameters.
    * @return InboundSamlSsoProfile
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -100,6 +103,7 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    * `ListInboundSamlSsoProfiles` must match the call that provided the page
    * token.
    * @return ListInboundSamlSsoProfilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listInboundSamlSsoProfiles($optParams = [])
   {
@@ -118,6 +122,7 @@ class InboundSamlSsoProfiles extends \Google\Service\Resource
    *
    * @opt_param string updateMask Required. The list of fields to be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, InboundSamlSsoProfile $postBody, $optParams = [])
   {

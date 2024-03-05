@@ -39,6 +39,7 @@ class Playdeveloperreporting extends \Google\Service
       "https://www.googleapis.com/auth/playdeveloperreporting";
 
   public $anomalies;
+  public $apps;
   public $vitals_anrrate;
   public $vitals_crashrate;
   public $vitals_errors_counts;
@@ -85,6 +86,39 @@ class Playdeveloperreporting extends \Google\Service
                   'location' => 'query',
                   'type' => 'string',
                 ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->apps = new Playdeveloperreporting\Resource\Apps(
+        $this,
+        $this->serviceName,
+        'apps',
+        [
+          'methods' => [
+            'fetchReleaseFilterOptions' => [
+              'path' => 'v1beta1/{+name}:fetchReleaseFilterOptions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'search' => [
+              'path' => 'v1beta1/apps:search',
+              'httpMethod' => 'GET',
+              'parameters' => [
                 'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
@@ -286,6 +320,10 @@ class Playdeveloperreporting extends \Google\Service
                 'interval.startTime.year' => [
                   'location' => 'query',
                   'type' => 'integer',
+                ],
+                'orderBy' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
                 'pageSize' => [
                   'location' => 'query',

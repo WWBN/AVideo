@@ -20,6 +20,8 @@ namespace Google\Service\Networkconnectivity;
 class ConsumerPscConnection extends \Google\Model
 {
   protected $errorDataType = '';
+  protected $errorInfoType = GoogleRpcErrorInfo::class;
+  protected $errorInfoDataType = '';
   /**
    * @var string
    */
@@ -51,6 +53,10 @@ class ConsumerPscConnection extends \Google\Model
   /**
    * @var string
    */
+  public $selectedSubnetwork;
+  /**
+   * @var string
+   */
   public $serviceAttachmentUri;
   /**
    * @var string
@@ -70,6 +76,20 @@ class ConsumerPscConnection extends \Google\Model
   public function getError()
   {
     return $this->error;
+  }
+  /**
+   * @param GoogleRpcErrorInfo
+   */
+  public function setErrorInfo(GoogleRpcErrorInfo $errorInfo)
+  {
+    $this->errorInfo = $errorInfo;
+  }
+  /**
+   * @return GoogleRpcErrorInfo
+   */
+  public function getErrorInfo()
+  {
+    return $this->errorInfo;
   }
   /**
    * @param string
@@ -168,6 +188,20 @@ class ConsumerPscConnection extends \Google\Model
   public function getPscConnectionId()
   {
     return $this->pscConnectionId;
+  }
+  /**
+   * @param string
+   */
+  public function setSelectedSubnetwork($selectedSubnetwork)
+  {
+    $this->selectedSubnetwork = $selectedSubnetwork;
+  }
+  /**
+   * @return string
+   */
+  public function getSelectedSubnetwork()
+  {
+    return $this->selectedSubnetwork;
   }
   /**
    * @param string

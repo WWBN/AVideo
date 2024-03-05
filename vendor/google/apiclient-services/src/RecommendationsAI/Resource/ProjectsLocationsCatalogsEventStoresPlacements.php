@@ -40,6 +40,7 @@ class ProjectsLocationsCatalogsEventStoresPlacements extends \Google\Service\Res
    * @param GoogleCloudRecommendationengineV1beta1PredictRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecommendationengineV1beta1PredictResponse
+   * @throws \Google\Service\Exception
    */
   public function predict($name, GoogleCloudRecommendationengineV1beta1PredictRequest $postBody, $optParams = [])
   {

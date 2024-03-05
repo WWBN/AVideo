@@ -22,7 +22,15 @@ class GoogleAppsCloudidentityDevicesV1AndroidAttributes extends \Google\Model
   /**
    * @var bool
    */
+  public $ctsProfileMatch;
+  /**
+   * @var bool
+   */
   public $enabledUnknownSources;
+  /**
+   * @var bool
+   */
+  public $hasPotentiallyHarmfulApps;
   /**
    * @var bool
    */
@@ -35,7 +43,29 @@ class GoogleAppsCloudidentityDevicesV1AndroidAttributes extends \Google\Model
    * @var bool
    */
   public $supportsWorkProfile;
+  /**
+   * @var bool
+   */
+  public $verifiedBoot;
+  /**
+   * @var bool
+   */
+  public $verifyAppsEnabled;
 
+  /**
+   * @param bool
+   */
+  public function setCtsProfileMatch($ctsProfileMatch)
+  {
+    $this->ctsProfileMatch = $ctsProfileMatch;
+  }
+  /**
+   * @return bool
+   */
+  public function getCtsProfileMatch()
+  {
+    return $this->ctsProfileMatch;
+  }
   /**
    * @param bool
    */
@@ -49,6 +79,20 @@ class GoogleAppsCloudidentityDevicesV1AndroidAttributes extends \Google\Model
   public function getEnabledUnknownSources()
   {
     return $this->enabledUnknownSources;
+  }
+  /**
+   * @param bool
+   */
+  public function setHasPotentiallyHarmfulApps($hasPotentiallyHarmfulApps)
+  {
+    $this->hasPotentiallyHarmfulApps = $hasPotentiallyHarmfulApps;
+  }
+  /**
+   * @return bool
+   */
+  public function getHasPotentiallyHarmfulApps()
+  {
+    return $this->hasPotentiallyHarmfulApps;
   }
   /**
    * @param bool
@@ -91,6 +135,34 @@ class GoogleAppsCloudidentityDevicesV1AndroidAttributes extends \Google\Model
   public function getSupportsWorkProfile()
   {
     return $this->supportsWorkProfile;
+  }
+  /**
+   * @param bool
+   */
+  public function setVerifiedBoot($verifiedBoot)
+  {
+    $this->verifiedBoot = $verifiedBoot;
+  }
+  /**
+   * @return bool
+   */
+  public function getVerifiedBoot()
+  {
+    return $this->verifiedBoot;
+  }
+  /**
+   * @param bool
+   */
+  public function setVerifyAppsEnabled($verifyAppsEnabled)
+  {
+    $this->verifyAppsEnabled = $verifyAppsEnabled;
+  }
+  /**
+   * @return bool
+   */
+  public function getVerifyAppsEnabled()
+  {
+    return $this->verifyAppsEnabled;
   }
 }
 

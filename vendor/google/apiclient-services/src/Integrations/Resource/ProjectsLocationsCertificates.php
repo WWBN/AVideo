@@ -36,6 +36,7 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * projects/{project}/locations/{location}/certificates/{certificate}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudIntegrationsV1alphaCertificate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {

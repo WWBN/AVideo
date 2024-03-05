@@ -46,6 +46,7 @@ class EffectiveTags extends \Google\Service\Resource
    * which you want to list the effective tags. E.g.
    * "//cloudresourcemanager.googleapis.com/projects/123"
    * @return ListEffectiveTagsResponse
+   * @throws \Google\Service\Exception
    */
   public function listEffectiveTags($optParams = [])
   {

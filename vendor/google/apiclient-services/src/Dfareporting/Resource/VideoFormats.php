@@ -37,6 +37,7 @@ class VideoFormats extends \Google\Service\Resource
    * @param int $id Video format ID.
    * @param array $optParams Optional parameters.
    * @return VideoFormat
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class VideoFormats extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return VideoFormatsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listVideoFormats($profileId, $optParams = [])
   {

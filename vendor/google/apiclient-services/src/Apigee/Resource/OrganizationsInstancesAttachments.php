@@ -40,6 +40,7 @@ class OrganizationsInstancesAttachments extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1InstanceAttachment $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1InstanceAttachment $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class OrganizationsInstancesAttachments extends \Google\Service\Resource
    * `organizations/{org}/instances/{instance}/attachments/{attachment}`.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class OrganizationsInstancesAttachments extends \Google\Service\Resource
    * `organizations/{org}/instances/{instance}/attachments/{attachment}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1InstanceAttachment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -93,6 +96,7 @@ class OrganizationsInstancesAttachments extends \Google\Service\Resource
    * ListInstanceAttachments call, that you can use to retrieve the next page of
    * content.
    * @return GoogleCloudApigeeV1ListInstanceAttachmentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsInstancesAttachments($parent, $optParams = [])
   {

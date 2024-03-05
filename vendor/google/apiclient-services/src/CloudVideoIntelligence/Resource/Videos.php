@@ -39,6 +39,7 @@ class Videos extends \Google\Service\Resource
    * @param GoogleCloudVideointelligenceV1AnnotateVideoRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function annotate(GoogleCloudVideointelligenceV1AnnotateVideoRequest $postBody, $optParams = [])
   {

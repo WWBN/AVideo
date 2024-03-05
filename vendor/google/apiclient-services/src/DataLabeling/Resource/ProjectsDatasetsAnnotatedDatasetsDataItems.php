@@ -38,6 +38,7 @@ class ProjectsDatasetsAnnotatedDatasetsDataItems extends \Google\Service\Resourc
    * projects/{project_id}/datasets/{dataset_id}/dataItems/{data_item_id}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1DataItem
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsDatasetsAnnotatedDatasetsDataItems extends \Google\Service\Resourc
    * ListDataItemsResponse.next_page_token of the previous
    * [DataLabelingService.ListDataItems] call. Return first page if empty.
    * @return GoogleCloudDatalabelingV1beta1ListDataItemsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatasetsAnnotatedDatasetsDataItems($parent, $optParams = [])
   {

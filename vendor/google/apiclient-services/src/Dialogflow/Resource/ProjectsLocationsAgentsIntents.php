@@ -17,8 +17,11 @@
 
 namespace Google\Service\Dialogflow\Resource;
 
+use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ExportIntentsRequest;
+use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ImportIntentsRequest;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3Intent;
 use Google\Service\Dialogflow\GoogleCloudDialogflowCxV3ListIntentsResponse;
+use Google\Service\Dialogflow\GoogleLongrunningOperation;
 use Google\Service\Dialogflow\GoogleProtobufEmpty;
 
 /**
@@ -49,6 +52,7 @@ class ProjectsLocationsAgentsIntents extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Intent
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDialogflowCxV3Intent $postBody, $optParams = [])
   {
@@ -66,12 +70,33 @@ class ProjectsLocationsAgentsIntents extends \Google\Service\Resource
    * `projects//locations//agents//intents/`.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
+  }
+  /**
+   * Exports the selected intents. This method is a [long-running
+   * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
+   * operation). The returned `Operation` type has the following method-specific
+   * fields: - `metadata`: ExportIntentsMetadata - `response`:
+   * ExportIntentsResponse (intents.export)
+   *
+   * @param string $parent Required. The name of the parent agent to export
+   * intents. Format: `projects//locations//agents/`.
+   * @param GoogleCloudDialogflowCxV3ExportIntentsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function export($parent, GoogleCloudDialogflowCxV3ExportIntentsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('export', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Retrieves the specified intent. (intents.get)
@@ -88,12 +113,33 @@ class ProjectsLocationsAgentsIntents extends \Google\Service\Resource
    * are supported. Note: languages must be enabled in the agent before they can
    * be used.
    * @return GoogleCloudDialogflowCxV3Intent
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('get', [$params], GoogleCloudDialogflowCxV3Intent::class);
+  }
+  /**
+   * Imports the specified intents into the agent. This method is a [long-running
+   * operation](https://cloud.google.com/dialogflow/cx/docs/how/long-running-
+   * operation). The returned `Operation` type has the following method-specific
+   * fields: - `metadata`: ImportIntentsMetadata - `response`:
+   * ImportIntentsResponse (intents.import)
+   *
+   * @param string $parent Required. The agent to import the intents into. Format:
+   * `projects//locations//agents/`.
+   * @param GoogleCloudDialogflowCxV3ImportIntentsRequest $postBody
+   * @param array $optParams Optional parameters.
+   * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
+   */
+  public function import($parent, GoogleCloudDialogflowCxV3ImportIntentsRequest $postBody, $optParams = [])
+  {
+    $params = ['parent' => $parent, 'postBody' => $postBody];
+    $params = array_merge($params, $optParams);
+    return $this->call('import', [$params], GoogleLongrunningOperation::class);
   }
   /**
    * Returns the list of all intents in the specified agent.
@@ -117,6 +163,7 @@ class ProjectsLocationsAgentsIntents extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request.
    * @return GoogleCloudDialogflowCxV3ListIntentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAgentsIntents($parent, $optParams = [])
   {
@@ -145,6 +192,7 @@ class ProjectsLocationsAgentsIntents extends \Google\Service\Resource
    * @opt_param string updateMask The mask to control which fields get updated. If
    * the mask is not present, all fields will be updated.
    * @return GoogleCloudDialogflowCxV3Intent
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDialogflowCxV3Intent $postBody, $optParams = [])
   {

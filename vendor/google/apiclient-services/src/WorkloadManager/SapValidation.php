@@ -20,9 +20,31 @@ namespace Google\Service\WorkloadManager;
 class SapValidation extends \Google\Collection
 {
   protected $collection_key = 'validationDetails';
+  /**
+   * @var string
+   */
+  public $projectId;
   protected $validationDetailsType = SapValidationValidationDetail::class;
   protected $validationDetailsDataType = 'array';
+  /**
+   * @var string
+   */
+  public $zone;
 
+  /**
+   * @param string
+   */
+  public function setProjectId($projectId)
+  {
+    $this->projectId = $projectId;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectId()
+  {
+    return $this->projectId;
+  }
   /**
    * @param SapValidationValidationDetail[]
    */
@@ -36,6 +58,20 @@ class SapValidation extends \Google\Collection
   public function getValidationDetails()
   {
     return $this->validationDetails;
+  }
+  /**
+   * @param string
+   */
+  public function setZone($zone)
+  {
+    $this->zone = $zone;
+  }
+  /**
+   * @return string
+   */
+  public function getZone()
+  {
+    return $this->zone;
   }
 }
 

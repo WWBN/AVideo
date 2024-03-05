@@ -49,6 +49,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * dashes - start with a lower-case letter - end with a lower-case letter or
    * number - be unique within the set of BackupPlans in this location
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, BackupPlan $postBody, $optParams = [])
   {
@@ -63,9 +64,11 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * `projects/locations/backupPlans`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string etag If provided, this value must match the current value
-   * of the target BackupPlan's etag field or the request is rejected.
+   * @opt_param string etag Optional. If provided, this value must match the
+   * current value of the target BackupPlan's etag field or the request is
+   * rejected.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +83,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * `projects/locations/backupPlans`
    * @param array $optParams Optional parameters.
    * @return BackupPlan
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -110,6 +114,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -125,19 +130,21 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * list. Format: `projects/locations`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Field match expression used to filter the results.
-   * @opt_param string orderBy Field by which to sort the results.
-   * @opt_param int pageSize The target number of results to return in a single
-   * response. If not specified, a default value will be chosen by the service.
-   * Note that the response may inclue a partial list and a caller should only
-   * rely on the response's next_page_token to determine if there are more
-   * instances left to be queried.
-   * @opt_param string pageToken The value of next_page_token received from a
-   * previous `ListBackupPlans` call. Provide this to retrieve the subsequent page
-   * in a multi-page list of results. When paginating, all other parameters
-   * provided to `ListBackupPlans` must match the call that provided the page
-   * token.
+   * @opt_param string filter Optional. Field match expression used to filter the
+   * results.
+   * @opt_param string orderBy Optional. Field by which to sort the results.
+   * @opt_param int pageSize Optional. The target number of results to return in a
+   * single response. If not specified, a default value will be chosen by the
+   * service. Note that the response may include a partial list and a caller
+   * should only rely on the response's next_page_token to determine if there are
+   * more instances left to be queried.
+   * @opt_param string pageToken Optional. The value of next_page_token received
+   * from a previous `ListBackupPlans` call. Provide this to retrieve the
+   * subsequent page in a multi-page list of results. When paginating, all other
+   * parameters provided to `ListBackupPlans` must match the call that provided
+   * the page token.
    * @return ListBackupPlansResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsBackupPlans($parent, $optParams = [])
   {
@@ -153,8 +160,8 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * @param BackupPlan $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask This is used to specify the fields to be
-   * overwritten in the BackupPlan targeted for update. The values for each of
+   * @opt_param string updateMask Optional. This is used to specify the fields to
+   * be overwritten in the BackupPlan targeted for update. The values for each of
    * these updated fields will be taken from the `backup_plan` provided with this
    * request. Field names are relative to the root of the resource (e.g.,
    * `description`, `backup_config.include_volume_data`, etc.) If no `update_mask`
@@ -162,6 +169,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * BackupPlan resource. Note that OUTPUT_ONLY and IMMUTABLE fields in
    * `backup_plan` are ignored and are not used to update the target BackupPlan.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, BackupPlan $postBody, $optParams = [])
   {
@@ -181,6 +189,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -203,6 +212,7 @@ class ProjectsLocationsBackupPlans extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

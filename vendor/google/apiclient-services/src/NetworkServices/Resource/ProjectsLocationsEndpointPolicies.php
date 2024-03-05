@@ -47,6 +47,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * @opt_param string endpointPolicyId Required. Short name of the EndpointPolicy
    * resource to be created. E.g. "CustomECS".
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, EndpointPolicy $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * in the format `projects/locations/global/endpointPolicies`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * the format `projects/locations/global/endpointPolicies`.
    * @param array $optParams Optional parameters.
    * @return EndpointPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -106,6 +109,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -129,6 +133,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * prior `ListEndpointPolicies` call, and that the system should return the next
    * page of data.
    * @return ListEndpointPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsEndpointPolicies($parent, $optParams = [])
   {
@@ -151,6 +156,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. If the user
    * does not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, EndpointPolicy $postBody, $optParams = [])
   {
@@ -170,6 +176,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -192,6 +199,7 @@ class ProjectsLocationsEndpointPolicies extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

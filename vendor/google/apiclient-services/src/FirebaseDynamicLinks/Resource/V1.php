@@ -46,6 +46,7 @@ class V1 extends \Google\Service\Resource
    * @opt_param string sdkVersion Google SDK version. Version takes the form
    * "$major.$minor.$patch"
    * @return DynamicLinkStats
+   * @throws \Google\Service\Exception
    */
   public function getLinkStats($dynamicLink, $optParams = [])
   {
@@ -60,6 +61,7 @@ class V1 extends \Google\Service\Resource
    * @param GetIosPostInstallAttributionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GetIosPostInstallAttributionResponse
+   * @throws \Google\Service\Exception
    */
   public function installAttribution(GetIosPostInstallAttributionRequest $postBody, $optParams = [])
   {
@@ -74,6 +76,7 @@ class V1 extends \Google\Service\Resource
    * @param GetIosReopenAttributionRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GetIosReopenAttributionResponse
+   * @throws \Google\Service\Exception
    */
   public function reopenAttribution(GetIosReopenAttributionRequest $postBody, $optParams = [])
   {

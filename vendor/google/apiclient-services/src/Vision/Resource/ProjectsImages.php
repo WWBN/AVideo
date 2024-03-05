@@ -43,6 +43,7 @@ class ProjectsImages extends \Google\Service\Resource
    * @param BatchAnnotateImagesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchAnnotateImagesResponse
+   * @throws \Google\Service\Exception
    */
   public function annotate($parent, BatchAnnotateImagesRequest $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsImages extends \Google\Service\Resource
    * @param AsyncBatchAnnotateImagesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function asyncBatchAnnotate($parent, AsyncBatchAnnotateImagesRequest $postBody, $optParams = [])
   {

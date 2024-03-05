@@ -22,6 +22,10 @@ class ReplicaConfiguration extends \Google\Model
   /**
    * @var bool
    */
+  public $cascadableReplica;
+  /**
+   * @var bool
+   */
   public $failoverTarget;
   /**
    * @var string
@@ -30,6 +34,20 @@ class ReplicaConfiguration extends \Google\Model
   protected $mysqlReplicaConfigurationType = MySqlReplicaConfiguration::class;
   protected $mysqlReplicaConfigurationDataType = '';
 
+  /**
+   * @param bool
+   */
+  public function setCascadableReplica($cascadableReplica)
+  {
+    $this->cascadableReplica = $cascadableReplica;
+  }
+  /**
+   * @return bool
+   */
+  public function getCascadableReplica()
+  {
+    return $this->cascadableReplica;
+  }
   /**
    * @param bool
    */

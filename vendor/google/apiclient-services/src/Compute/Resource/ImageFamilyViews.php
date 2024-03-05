@@ -38,6 +38,7 @@ class ImageFamilyViews extends \Google\Service\Resource
    * @param string $family Name of the image family to search for.
    * @param array $optParams Optional parameters.
    * @return ImageFamilyView
+   * @throws \Google\Service\Exception
    */
   public function get($project, $zone, $family, $optParams = [])
   {

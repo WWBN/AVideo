@@ -36,10 +36,11 @@ class ProjectsRelatedaccountgroupmemberships extends \Google\Service\Resource
    *
    * @param string $project Required. The name of the project to search related
    * account group memberships from. Specify the project name in the following
-   * format: "projects/{project}".
+   * format: `projects/{project}`.
    * @param GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($project, GoogleCloudRecaptchaenterpriseV1SearchRelatedAccountGroupMembershipsRequest $postBody, $optParams = [])
   {

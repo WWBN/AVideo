@@ -37,6 +37,7 @@ class DirectorySites extends \Google\Service\Resource
    * @param string $id Directory site ID.
    * @param array $optParams Optional parameters.
    * @return DirectorySite
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class DirectorySites extends \Google\Service\Resource
    * @param DirectorySite $postBody
    * @param array $optParams Optional parameters.
    * @return DirectorySite
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, DirectorySite $postBody, $optParams = [])
   {
@@ -89,6 +91,7 @@ class DirectorySites extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return DirectorySitesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDirectorySites($profileId, $optParams = [])
   {

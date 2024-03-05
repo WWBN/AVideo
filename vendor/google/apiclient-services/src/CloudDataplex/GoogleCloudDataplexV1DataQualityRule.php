@@ -26,11 +26,19 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   /**
    * @var string
    */
+  public $description;
+  /**
+   * @var string
+   */
   public $dimension;
   /**
    * @var bool
    */
   public $ignoreNull;
+  /**
+   * @var string
+   */
+  public $name;
   protected $nonNullExpectationType = GoogleCloudDataplexV1DataQualityRuleNonNullExpectation::class;
   protected $nonNullExpectationDataType = '';
   protected $rangeExpectationType = GoogleCloudDataplexV1DataQualityRuleRangeExpectation::class;
@@ -66,6 +74,20 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   /**
    * @param string
    */
+  public function setDescription($description)
+  {
+    $this->description = $description;
+  }
+  /**
+   * @return string
+   */
+  public function getDescription()
+  {
+    return $this->description;
+  }
+  /**
+   * @param string
+   */
   public function setDimension($dimension)
   {
     $this->dimension = $dimension;
@@ -90,6 +112,20 @@ class GoogleCloudDataplexV1DataQualityRule extends \Google\Model
   public function getIgnoreNull()
   {
     return $this->ignoreNull;
+  }
+  /**
+   * @param string
+   */
+  public function setName($name)
+  {
+    $this->name = $name;
+  }
+  /**
+   * @return string
+   */
+  public function getName()
+  {
+    return $this->name;
   }
   /**
    * @param GoogleCloudDataplexV1DataQualityRuleNonNullExpectation

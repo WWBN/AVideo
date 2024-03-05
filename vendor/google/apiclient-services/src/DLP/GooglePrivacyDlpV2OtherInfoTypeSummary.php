@@ -23,6 +23,10 @@ class GooglePrivacyDlpV2OtherInfoTypeSummary extends \Google\Model
    * @var int
    */
   public $estimatedPrevalence;
+  /**
+   * @var bool
+   */
+  public $excludedFromAnalysis;
   protected $infoTypeType = GooglePrivacyDlpV2InfoType::class;
   protected $infoTypeDataType = '';
 
@@ -39,6 +43,20 @@ class GooglePrivacyDlpV2OtherInfoTypeSummary extends \Google\Model
   public function getEstimatedPrevalence()
   {
     return $this->estimatedPrevalence;
+  }
+  /**
+   * @param bool
+   */
+  public function setExcludedFromAnalysis($excludedFromAnalysis)
+  {
+    $this->excludedFromAnalysis = $excludedFromAnalysis;
+  }
+  /**
+   * @return bool
+   */
+  public function getExcludedFromAnalysis()
+  {
+    return $this->excludedFromAnalysis;
   }
   /**
    * @param GooglePrivacyDlpV2InfoType

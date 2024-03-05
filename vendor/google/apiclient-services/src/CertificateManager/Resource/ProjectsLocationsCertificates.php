@@ -43,6 +43,7 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * @opt_param string certificateId Required. A user-provided name of the
    * certificate.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Certificate $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * the format `projects/locations/certificates`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * in the format `projects/locations/certificates`.
    * @param array $optParams Optional parameters.
    * @return Certificate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -97,6 +100,7 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * `ListCertificates` call, and that the system should return the next page of
    * data.
    * @return ListCertificatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCertificates($parent, $optParams = [])
   {
@@ -113,9 +117,11 @@ class ProjectsLocationsCertificates extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask Required. The update mask applies to the
-   * resource. For the `FieldMask` definition, see https://developers.google.com
-   * /protocol-buffers/docs/reference/google.protobuf#fieldmask.
+   * resource. For the `FieldMask` definition, see
+   * https://developers.google.com/protocol-
+   * buffers/docs/reference/google.protobuf#fieldmask.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Certificate $postBody, $optParams = [])
   {

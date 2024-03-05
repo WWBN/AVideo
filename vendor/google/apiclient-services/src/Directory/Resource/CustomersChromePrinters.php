@@ -45,6 +45,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * @param BatchCreatePrintersRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchCreatePrintersResponse
+   * @throws \Google\Service\Exception
    */
   public function batchCreatePrinters($parent, BatchCreatePrintersRequest $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * @param BatchDeletePrintersRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchDeletePrintersResponse
+   * @throws \Google\Service\Exception
    */
   public function batchDeletePrinters($parent, BatchDeletePrintersRequest $postBody, $optParams = [])
   {
@@ -75,6 +77,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * @param Printer $postBody
    * @param array $optParams Optional parameters.
    * @return Printer
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Printer $postBody, $optParams = [])
   {
@@ -89,6 +92,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * customers/{customer_id}/chrome/printers/{printer_id}
    * @param array $optParams Optional parameters.
    * @return AdminEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -103,6 +107,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * customers/{customer_id}/chrome/printers/{printer_id}
    * @param array $optParams Optional parameters.
    * @return Printer
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -134,6 +139,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * may return fewer than this value.
    * @opt_param string pageToken A page token, received from a previous call.
    * @return ListPrintersResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersChromePrinters($parent, $optParams = [])
   {
@@ -155,6 +161,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * may return fewer than this value.
    * @opt_param string pageToken A page token, received from a previous call.
    * @return ListPrinterModelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPrinterModels($parent, $optParams = [])
   {
@@ -178,6 +185,7 @@ class CustomersChromePrinters extends \Google\Service\Resource
    * the fields are read only and cannot be updated. Values for not specified
    * fields will be patched.
    * @return Printer
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Printer $postBody, $optParams = [])
   {

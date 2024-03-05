@@ -40,6 +40,7 @@ class Assetlinks extends \Google\Service\Resource
    * @param BulkCheckRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkCheckResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkCheck(BulkCheckRequest $postBody, $optParams = [])
   {
@@ -64,8 +65,9 @@ class Assetlinks extends \Google\Service\Resource
    * `https://`), the API cannot verify its statements securely, and it is not
    * possible to ensure that the website's statements have not been altered by a
    * third party. For more information, see the [Digital Asset Links technical
-   * design specification](https://github.com/google/digitalassetlinks/blob/master
-   * /well-known/details.md). (assetlinks.check)
+   * design
+   * specification](https://github.com/google/digitalassetlinks/blob/master/well-
+   * known/details.md). (assetlinks.check)
    *
    * @param array $optParams Optional parameters.
    *
@@ -143,6 +145,7 @@ class Assetlinks extends \Google\Service\Resource
    * * `https://google.com/` (hostname does not match) *
    * `https://www.google.com:444/` (port does not match) REQUIRED
    * @return CheckResponse
+   * @throws \Google\Service\Exception
    */
   public function check($optParams = [])
   {

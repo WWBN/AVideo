@@ -20,6 +20,8 @@ namespace Google\Service\Compute;
 class InstanceGroupManager extends \Google\Collection
 {
   protected $collection_key = 'versions';
+  protected $allInstancesConfigType = InstanceGroupManagerAllInstancesConfig::class;
+  protected $allInstancesConfigDataType = '';
   protected $autoHealingPoliciesType = InstanceGroupManagerAutoHealingPolicy::class;
   protected $autoHealingPoliciesDataType = 'array';
   /**
@@ -50,6 +52,8 @@ class InstanceGroupManager extends \Google\Collection
    * @var string
    */
   public $instanceGroup;
+  protected $instanceLifecyclePolicyType = InstanceGroupManagerInstanceLifecyclePolicy::class;
+  protected $instanceLifecyclePolicyDataType = '';
   /**
    * @var string
    */
@@ -97,6 +101,20 @@ class InstanceGroupManager extends \Google\Collection
    */
   public $zone;
 
+  /**
+   * @param InstanceGroupManagerAllInstancesConfig
+   */
+  public function setAllInstancesConfig(InstanceGroupManagerAllInstancesConfig $allInstancesConfig)
+  {
+    $this->allInstancesConfig = $allInstancesConfig;
+  }
+  /**
+   * @return InstanceGroupManagerAllInstancesConfig
+   */
+  public function getAllInstancesConfig()
+  {
+    return $this->allInstancesConfig;
+  }
   /**
    * @param InstanceGroupManagerAutoHealingPolicy[]
    */
@@ -222,6 +240,20 @@ class InstanceGroupManager extends \Google\Collection
   public function getInstanceGroup()
   {
     return $this->instanceGroup;
+  }
+  /**
+   * @param InstanceGroupManagerInstanceLifecyclePolicy
+   */
+  public function setInstanceLifecyclePolicy(InstanceGroupManagerInstanceLifecyclePolicy $instanceLifecyclePolicy)
+  {
+    $this->instanceLifecyclePolicy = $instanceLifecyclePolicy;
+  }
+  /**
+   * @return InstanceGroupManagerInstanceLifecyclePolicy
+   */
+  public function getInstanceLifecyclePolicy()
+  {
+    return $this->instanceLifecyclePolicy;
   }
   /**
    * @param string

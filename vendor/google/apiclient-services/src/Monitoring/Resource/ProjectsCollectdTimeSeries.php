@@ -41,6 +41,7 @@ class ProjectsCollectdTimeSeries extends \Google\Service\Resource
    * @param CreateCollectdTimeSeriesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CreateCollectdTimeSeriesResponse
+   * @throws \Google\Service\Exception
    */
   public function create($name, CreateCollectdTimeSeriesRequest $postBody, $optParams = [])
   {

@@ -55,6 +55,7 @@ class Activities extends \Google\Service\Resource
    * @opt_param string publishedBefore
    * @opt_param string regionCode
    * @return ActivityListResponse
+   * @throws \Google\Service\Exception
    */
   public function listActivities($part, $optParams = [])
   {

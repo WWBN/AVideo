@@ -44,6 +44,7 @@ class BiddersPublisherConnections extends \Google\Service\Resource
    * @param BatchApprovePublisherConnectionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchApprovePublisherConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchApprove($parent, BatchApprovePublisherConnectionsRequest $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class BiddersPublisherConnections extends \Google\Service\Resource
    * @param BatchRejectPublisherConnectionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchRejectPublisherConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchReject($parent, BatchRejectPublisherConnectionsRequest $postBody, $optParams = [])
   {
@@ -78,6 +80,7 @@ class BiddersPublisherConnections extends \Google\Service\Resource
    * publisher ID. See publisherConnection.name.
    * @param array $optParams Optional parameters.
    * @return PublisherConnection
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -113,6 +116,7 @@ class BiddersPublisherConnections extends \Google\Service\Resource
    * ListPublisherConnectionsResponse.nextPageToken returned from the previous
    * call to the 'ListPublisherConnections' method.
    * @return ListPublisherConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersPublisherConnections($parent, $optParams = [])
   {

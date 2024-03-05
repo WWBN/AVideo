@@ -469,7 +469,7 @@ function table_var_dump($variable, $wrap_in_td=false, $encoding='') {
 	global $FileSystemEncoding;
 	$encoding = ($encoding ? $encoding : $FileSystemEncoding);
 	$returnstring = '';
-	switch (gettype($variable)) {
+	switch (strtolower(gettype($variable))) {
 		case 'array':
 			$returnstring .= ($wrap_in_td ? '<td>' : '');
 			$returnstring .= '<table class="dump" cellspacing="0" cellpadding="2">';

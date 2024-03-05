@@ -23,8 +23,6 @@ class RepositoryWebrefOysterType extends \Google\Model
    * @var int
    */
   public $featureType;
-  protected $gconceptsType = GeostoreOntologyRawGConceptInstanceContainerProto::class;
-  protected $gconceptsDataType = '';
 
   /**
    * @param int
@@ -39,20 +37,6 @@ class RepositoryWebrefOysterType extends \Google\Model
   public function getFeatureType()
   {
     return $this->featureType;
-  }
-  /**
-   * @param GeostoreOntologyRawGConceptInstanceContainerProto
-   */
-  public function setGconcepts(GeostoreOntologyRawGConceptInstanceContainerProto $gconcepts)
-  {
-    $this->gconcepts = $gconcepts;
-  }
-  /**
-   * @return GeostoreOntologyRawGConceptInstanceContainerProto
-   */
-  public function getGconcepts()
-  {
-    return $this->gconcepts;
   }
 }
 

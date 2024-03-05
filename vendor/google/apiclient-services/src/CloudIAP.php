@@ -303,6 +303,20 @@ class CloudIAP extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'validateAttributeExpression' => [
+              'path' => 'v1/{+name}:validateAttributeExpression',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'expression' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
             ],
           ]
         ]

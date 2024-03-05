@@ -41,6 +41,7 @@ class AccountsClientsUsers extends \Google\Service\Resource
    * (required)
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function get($accountId, $clientAccountId, $userId, $optParams = [])
   {
@@ -68,6 +69,7 @@ class AccountsClientsUsers extends \Google\Service\Resource
    * ListClientUsersResponse.nextPageToken returned from the previous call to the
    * accounts.clients.users.list method.
    * @return ListClientUsersResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsClientsUsers($accountId, $clientAccountId, $optParams = [])
   {
@@ -88,6 +90,7 @@ class AccountsClientsUsers extends \Google\Service\Resource
    * @param ClientUser $postBody
    * @param array $optParams Optional parameters.
    * @return ClientUser
+   * @throws \Google\Service\Exception
    */
   public function update($accountId, $clientAccountId, $userId, ClientUser $postBody, $optParams = [])
   {

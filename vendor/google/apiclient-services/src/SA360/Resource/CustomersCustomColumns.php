@@ -37,6 +37,7 @@ class CustomersCustomColumns extends \Google\Service\Resource
    * to fetch.
    * @param array $optParams Optional parameters.
    * @return GoogleAdsSearchads360V0ResourcesCustomColumn
+   * @throws \Google\Service\Exception
    */
   public function get($resourceName, $optParams = [])
   {
@@ -52,6 +53,7 @@ class CustomersCustomColumns extends \Google\Service\Resource
    * CustomColumn list operation to.
    * @param array $optParams Optional parameters.
    * @return GoogleAdsSearchads360V0ServicesListCustomColumnsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersCustomColumns($customerId, $optParams = [])
   {

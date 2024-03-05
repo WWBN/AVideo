@@ -31,6 +31,10 @@ class Runnable extends \Google\Model
   protected $barrierDataType = '';
   protected $containerType = Container::class;
   protected $containerDataType = '';
+  /**
+   * @var string
+   */
+  public $displayName;
   protected $environmentType = Environment::class;
   protected $environmentDataType = '';
   /**
@@ -103,6 +107,20 @@ class Runnable extends \Google\Model
   public function getContainer()
   {
     return $this->container;
+  }
+  /**
+   * @param string
+   */
+  public function setDisplayName($displayName)
+  {
+    $this->displayName = $displayName;
+  }
+  /**
+   * @return string
+   */
+  public function getDisplayName()
+  {
+    return $this->displayName;
   }
   /**
    * @param Environment

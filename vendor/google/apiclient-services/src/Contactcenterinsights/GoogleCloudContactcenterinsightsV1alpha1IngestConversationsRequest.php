@@ -27,6 +27,10 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
    * @var string
    */
   public $parent;
+  protected $redactionConfigType = GoogleCloudContactcenterinsightsV1alpha1RedactionConfig::class;
+  protected $redactionConfigDataType = '';
+  protected $speechConfigType = GoogleCloudContactcenterinsightsV1alpha1SpeechConfig::class;
+  protected $speechConfigDataType = '';
   protected $transcriptObjectConfigType = GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig::class;
   protected $transcriptObjectConfigDataType = '';
 
@@ -71,6 +75,34 @@ class GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequest extends
   public function getParent()
   {
     return $this->parent;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1alpha1RedactionConfig
+   */
+  public function setRedactionConfig(GoogleCloudContactcenterinsightsV1alpha1RedactionConfig $redactionConfig)
+  {
+    $this->redactionConfig = $redactionConfig;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1alpha1RedactionConfig
+   */
+  public function getRedactionConfig()
+  {
+    return $this->redactionConfig;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1alpha1SpeechConfig
+   */
+  public function setSpeechConfig(GoogleCloudContactcenterinsightsV1alpha1SpeechConfig $speechConfig)
+  {
+    $this->speechConfig = $speechConfig;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1alpha1SpeechConfig
+   */
+  public function getSpeechConfig()
+  {
+    return $this->speechConfig;
   }
   /**
    * @param GoogleCloudContactcenterinsightsV1alpha1IngestConversationsRequestTranscriptObjectConfig

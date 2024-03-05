@@ -41,6 +41,7 @@ class ProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations extends 
    * @param GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRecommendationengineV1beta1PredictionApiKeyRegistration
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudRecommendationengineV1beta1CreatePredictionApiKeyRegistrationRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations extends 
    * s/default_event_store/predictionApiKeyRegistrations/`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,6 +81,7 @@ class ProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations extends 
    * @opt_param string pageToken Optional. The previous
    * `ListPredictionApiKeyRegistration.nextPageToken`.
    * @return GoogleCloudRecommendationengineV1beta1ListPredictionApiKeyRegistrationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations($parent, $optParams = [])
   {

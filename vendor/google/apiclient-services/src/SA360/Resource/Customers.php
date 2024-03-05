@@ -17,6 +17,8 @@
 
 namespace Google\Service\SA360\Resource;
 
+use Google\Service\SA360\GoogleAdsSearchads360V0ServicesListAccessibleCustomersResponse;
+
 /**
  * The "customers" collection of methods.
  * Typical usage is:
@@ -27,6 +29,22 @@ namespace Google\Service\SA360\Resource;
  */
 class Customers extends \Google\Service\Resource
 {
+  /**
+   * Returns resource names of customers directly accessible by the user
+   * authenticating the call. List of thrown errors: [AuthenticationError]()
+   * [AuthorizationError]() [HeaderError]() [InternalError]() [QuotaError]()
+   * [RequestError]() (customers.listAccessibleCustomers)
+   *
+   * @param array $optParams Optional parameters.
+   * @return GoogleAdsSearchads360V0ServicesListAccessibleCustomersResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listAccessibleCustomers($optParams = [])
+  {
+    $params = [];
+    $params = array_merge($params, $optParams);
+    return $this->call('listAccessibleCustomers', [$params], GoogleAdsSearchads360V0ServicesListAccessibleCustomersResponse::class);
+  }
 }
 
 // Adding a class alias for backwards compatibility with the previous class name.

@@ -37,6 +37,7 @@ class CursorProjectsLocationsSubscriptions extends \Google\Service\Resource
    * @param CommitCursorRequest $postBody
    * @param array $optParams Optional parameters.
    * @return CommitCursorResponse
+   * @throws \Google\Service\Exception
    */
   public function commitCursor($subscription, CommitCursorRequest $postBody, $optParams = [])
   {

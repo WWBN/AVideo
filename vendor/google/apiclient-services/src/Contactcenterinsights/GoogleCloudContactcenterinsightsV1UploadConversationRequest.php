@@ -31,6 +31,8 @@ class GoogleCloudContactcenterinsightsV1UploadConversationRequest extends \Googl
   public $parent;
   protected $redactionConfigType = GoogleCloudContactcenterinsightsV1RedactionConfig::class;
   protected $redactionConfigDataType = '';
+  protected $speechConfigType = GoogleCloudContactcenterinsightsV1SpeechConfig::class;
+  protected $speechConfigDataType = '';
 
   /**
    * @param GoogleCloudContactcenterinsightsV1Conversation
@@ -87,6 +89,20 @@ class GoogleCloudContactcenterinsightsV1UploadConversationRequest extends \Googl
   public function getRedactionConfig()
   {
     return $this->redactionConfig;
+  }
+  /**
+   * @param GoogleCloudContactcenterinsightsV1SpeechConfig
+   */
+  public function setSpeechConfig(GoogleCloudContactcenterinsightsV1SpeechConfig $speechConfig)
+  {
+    $this->speechConfig = $speechConfig;
+  }
+  /**
+   * @return GoogleCloudContactcenterinsightsV1SpeechConfig
+   */
+  public function getSpeechConfig()
+  {
+    return $this->speechConfig;
   }
 }
 

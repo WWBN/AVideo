@@ -49,9 +49,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Sets the addons for a specific cluster. (clusters.addons)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -61,6 +61,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetAddonsConfigRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addons($projectId, $zone, $clusterId, SetAddonsConfigRequest $postBody, $optParams = [])
   {
@@ -72,9 +73,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Completes master IP rotation. (clusters.completeIpRotation)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -84,6 +85,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param CompleteIPRotationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function completeIpRotation($projectId, $zone, $clusterId, CompleteIPRotationRequest $postBody, $optParams = [])
   {
@@ -102,9 +104,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * the cluster is using. (clusters.create)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the parent field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the parent field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the parent
@@ -112,6 +114,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param CreateClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($projectId, $zone, CreateClusterRequest $postBody, $optParams = [])
   {
@@ -127,9 +130,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * present when the cluster was initially created. (clusters.delete)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -141,6 +144,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @opt_param string name The name (project, location, cluster) of the cluster
    * to delete. Specified in the format `projects/locations/clusters`.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($projectId, $zone, $clusterId, $optParams = [])
   {
@@ -152,9 +156,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Gets the details of a specific cluster. (clusters.get)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -166,6 +170,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @opt_param string name The name (project, location, cluster) of the cluster
    * to retrieve. Specified in the format `projects/locations/clusters`.
    * @return Cluster
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $zone, $clusterId, $optParams = [])
   {
@@ -178,9 +183,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * (clusters.legacyAbac)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -190,6 +195,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLegacyAbacRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function legacyAbac($projectId, $zone, $clusterId, SetLegacyAbacRequest $postBody, $optParams = [])
   {
@@ -202,9 +208,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * zones. (clusters.listProjectsZonesClusters)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the parent field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the parent field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides, or "-" for all zones. This field has been deprecated and
@@ -215,6 +221,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * will be listed. Specified in the format `projects/locations`. Location "-"
    * matches all zones and all regions.
    * @return ListClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsZonesClusters($projectId, $zone, $optParams = [])
   {
@@ -229,9 +236,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * (clusters.locations)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -241,6 +248,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLocationsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function locations($projectId, $zone, $clusterId, SetLocationsRequest $postBody, $optParams = [])
   {
@@ -252,9 +260,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Sets the logging service for a specific cluster. (clusters.logging)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -264,6 +272,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLoggingServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function logging($projectId, $zone, $clusterId, SetLoggingServiceRequest $postBody, $optParams = [])
   {
@@ -275,9 +284,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Updates the master for a specific cluster. (clusters.master)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -287,6 +296,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param UpdateMasterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function master($projectId, $zone, $clusterId, UpdateMasterRequest $postBody, $optParams = [])
   {
@@ -298,9 +308,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Sets the monitoring service for a specific cluster. (clusters.monitoring)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -310,6 +320,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMonitoringServiceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function monitoring($projectId, $zone, $clusterId, SetMonitoringServiceRequest $postBody, $optParams = [])
   {
@@ -321,9 +332,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Sets labels on a cluster. (clusters.resourceLabels)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -333,6 +344,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetLabelsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function resourceLabels($projectId, $zone, $clusterId, SetLabelsRequest $postBody, $optParams = [])
   {
@@ -353,6 +365,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMaintenancePolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setMaintenancePolicy($projectId, $zone, $clusterId, SetMaintenancePolicyRequest $postBody, $optParams = [])
   {
@@ -366,9 +379,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * password. (clusters.setMasterAuth)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -378,6 +391,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetMasterAuthRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setMasterAuth($projectId, $zone, $clusterId, SetMasterAuthRequest $postBody, $optParams = [])
   {
@@ -389,9 +403,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Enables or disables Network Policy for a cluster. (clusters.setNetworkPolicy)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -401,6 +415,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param SetNetworkPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function setNetworkPolicy($projectId, $zone, $clusterId, SetNetworkPolicyRequest $postBody, $optParams = [])
   {
@@ -412,9 +427,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Starts master IP rotation. (clusters.startIpRotation)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -424,6 +439,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param StartIPRotationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function startIpRotation($projectId, $zone, $clusterId, StartIPRotationRequest $postBody, $optParams = [])
   {
@@ -435,9 +451,9 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * Updates the settings of a specific cluster. (clusters.update)
    *
    * @param string $projectId Deprecated. The Google Developers Console [project
-   * ID or project number](https://cloud.google.com/resource-manager/docs
-   * /creating-managing-projects). This field has been deprecated and replaced by
-   * the name field.
+   * ID or project number](https://cloud.google.com/resource-
+   * manager/docs/creating-managing-projects). This field has been deprecated and
+   * replaced by the name field.
    * @param string $zone Deprecated. The name of the Google Compute Engine
    * [zone](https://cloud.google.com/compute/docs/zones#available) in which the
    * cluster resides. This field has been deprecated and replaced by the name
@@ -447,6 +463,7 @@ class ProjectsZonesClusters extends \Google\Service\Resource
    * @param UpdateClusterRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function update($projectId, $zone, $clusterId, UpdateClusterRequest $postBody, $optParams = [])
   {

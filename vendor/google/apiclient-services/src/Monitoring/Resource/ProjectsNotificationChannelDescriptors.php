@@ -40,6 +40,7 @@ class ProjectsNotificationChannelDescriptors extends \Google\Service\Resource
    * projects/[PROJECT_ID_OR_NUMBER]/notificationChannelDescriptors/[CHANNEL_TYPE]
    * @param array $optParams Optional parameters.
    * @return NotificationChannelDescriptor
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +69,7 @@ class ProjectsNotificationChannelDescriptors extends \Google\Service\Resource
    * returned as the next_page_token in a previous response to request the next
    * set of results.
    * @return ListNotificationChannelDescriptorsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsNotificationChannelDescriptors($name, $optParams = [])
   {

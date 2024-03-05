@@ -70,17 +70,7 @@ class BackupforGKE extends \Google\Service
         'locations',
         [
           'methods' => [
-            'deleteOperations' => [
-              'path' => 'v1/{+name}/operations',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'name' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
+            'get' => [
               'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
@@ -453,6 +443,16 @@ class BackupforGKE extends \Google\Service
             'cancel' => [
               'path' => 'v1/{+name}:cancel',
               'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'delete' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
                   'location' => 'path',

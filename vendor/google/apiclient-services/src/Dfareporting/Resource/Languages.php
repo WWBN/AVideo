@@ -35,6 +35,7 @@ class Languages extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return LanguagesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listLanguages($profileId, $optParams = [])
   {

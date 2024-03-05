@@ -38,6 +38,7 @@ class UsersSshPublicKeys extends \Google\Service\Resource
    * @param SshPublicKey $postBody
    * @param array $optParams Optional parameters.
    * @return SshPublicKey
+   * @throws \Google\Service\Exception
    */
   public function create($parent, SshPublicKey $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class UsersSshPublicKeys extends \Google\Service\Resource
    * the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`.
    * @param array $optParams Optional parameters.
    * @return OsloginEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class UsersSshPublicKeys extends \Google\Service\Resource
    * the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`.
    * @param array $optParams Optional parameters.
    * @return SshPublicKey
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -88,6 +91,7 @@ class UsersSshPublicKeys extends \Google\Service\Resource
    * @opt_param string updateMask Mask to control which fields get updated.
    * Updates all if not present.
    * @return SshPublicKey
+   * @throws \Google\Service\Exception
    */
   public function patch($name, SshPublicKey $postBody, $optParams = [])
   {

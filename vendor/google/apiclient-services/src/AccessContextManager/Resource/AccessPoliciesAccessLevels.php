@@ -45,6 +45,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * @param AccessLevel $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, AccessLevel $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * `accessPolicies/{policy_id}/accessLevels/{access_level_id}`
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -82,6 +84,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * Levels are returned as `CustomLevels`. In the CEL case, `BasicLevels` are
    * translated to equivalent `CustomLevels`.
    * @return AccessLevel
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -106,6 +109,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * @opt_param string pageToken Next page token for the next batch of Access
    * Level instances. Defaults to the first page of results.
    * @return ListAccessLevelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccessPoliciesAccessLevels($parent, $optParams = [])
   {
@@ -130,6 +134,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * @opt_param string updateMask Required. Mask to control which fields get
    * updated. Must be non-empty.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, AccessLevel $postBody, $optParams = [])
   {
@@ -153,6 +158,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * @param ReplaceAccessLevelsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function replaceAll($parent, ReplaceAccessLevelsRequest $postBody, $optParams = [])
   {
@@ -173,6 +179,7 @@ class AccessPoliciesAccessLevels extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

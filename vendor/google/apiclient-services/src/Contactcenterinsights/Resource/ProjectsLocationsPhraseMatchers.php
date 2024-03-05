@@ -40,6 +40,7 @@ class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource
    * @param GoogleCloudContactcenterinsightsV1PhraseMatcher $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContactcenterinsightsV1PhraseMatcher
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudContactcenterinsightsV1PhraseMatcher $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource
    * @param string $name Required. The name of the phrase matcher to delete.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -66,6 +68,7 @@ class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource
    * @param string $name Required. The name of the phrase matcher to get.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudContactcenterinsightsV1PhraseMatcher
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource
    * continuation of a prior `ListPhraseMatchers` call and that the system should
    * return the next page of data.
    * @return GoogleCloudContactcenterinsightsV1ListPhraseMatchersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsPhraseMatchers($parent, $optParams = [])
   {
@@ -107,6 +111,7 @@ class ProjectsLocationsPhraseMatchers extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return GoogleCloudContactcenterinsightsV1PhraseMatcher
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudContactcenterinsightsV1PhraseMatcher $postBody, $optParams = [])
   {

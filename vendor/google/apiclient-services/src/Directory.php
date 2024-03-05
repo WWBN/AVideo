@@ -378,7 +378,17 @@ class Directory extends \Google\Service
         'chromeos',
         [
           'methods' => [
-            'issueCommand' => [
+            'batchChangeStatus' => [
+              'path' => 'admin/directory/v1/customer/{customerId}/devices/chromeos:batchChangeStatus',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'customerId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'issueCommand' => [
               'path' => 'admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}:issueCommand',
               'httpMethod' => 'POST',
               'parameters' => [
@@ -2001,7 +2011,12 @@ class Directory extends \Google\Service
             ],'insert' => [
               'path' => 'admin/directory/v1/users',
               'httpMethod' => 'POST',
-              'parameters' => [],
+              'parameters' => [
+                'resolveConflictAccount' => [
+                  'location' => 'query',
+                  'type' => 'boolean',
+                ],
+              ],
             ],'list' => [
               'path' => 'admin/directory/v1/users',
               'httpMethod' => 'GET',

@@ -43,6 +43,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
    * config, which will become the final component of the release config's
    * resource name.
    * @return ReleaseConfig
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ReleaseConfig $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
    * @param string $name Required. The release config's name.
    * @param array $optParams Optional parameters.
    * @return DataformEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
    * @param string $name Required. The release config's name.
    * @param array $optParams Optional parameters.
    * @return ReleaseConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
    * paginating, all other parameters provided to `ListReleaseConfigs` must match
    * the call that provided the page token.
    * @return ListReleaseConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesReleaseConfigs($parent, $optParams = [])
   {
@@ -109,6 +113,7 @@ class ProjectsLocationsRepositoriesReleaseConfigs extends \Google\Service\Resour
    * @opt_param string updateMask Optional. Specifies the fields to be updated in
    * the release config. If left unset, all fields will be updated.
    * @return ReleaseConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ReleaseConfig $postBody, $optParams = [])
   {

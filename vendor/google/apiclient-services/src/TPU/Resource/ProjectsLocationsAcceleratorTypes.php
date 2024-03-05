@@ -36,6 +36,7 @@ class ProjectsLocationsAcceleratorTypes extends \Google\Service\Resource
    * @param string $name Required. The resource name.
    * @param array $optParams Optional parameters.
    * @return AcceleratorType
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsAcceleratorTypes extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous List request, if any.
    * @return ListAcceleratorTypesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAcceleratorTypes($parent, $optParams = [])
   {

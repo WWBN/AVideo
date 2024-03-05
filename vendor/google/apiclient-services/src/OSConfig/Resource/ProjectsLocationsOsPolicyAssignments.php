@@ -53,6 +53,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * letter. * Must be between 1-63 characters. * Must end with a number or a
    * letter. * Must be unique within the project.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, OSPolicyAssignment $postBody, $optParams = [])
   {
@@ -74,6 +75,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * deleted
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -92,6 +94,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * cy_assignment}@{revisionId}`
    * @param array $optParams Optional parameters.
    * @return OSPolicyAssignment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -112,6 +115,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * to `ListOSPolicyAssignments` that indicates where this listing should
    * continue from.
    * @return ListOSPolicyAssignmentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsOsPolicyAssignments($parent, $optParams = [])
   {
@@ -132,6 +136,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * to `ListOSPolicyAssignmentRevisions` that indicates where this listing should
    * continue from.
    * @return ListOSPolicyAssignmentRevisionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listRevisions($name, $optParams = [])
   {
@@ -157,6 +162,7 @@ class ProjectsLocationsOsPolicyAssignments extends \Google\Service\Resource
    * @opt_param string updateMask Optional. Field mask that controls which fields
    * of the assignment should be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, OSPolicyAssignment $postBody, $optParams = [])
   {

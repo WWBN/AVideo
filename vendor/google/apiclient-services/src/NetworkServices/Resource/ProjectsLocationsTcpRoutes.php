@@ -40,8 +40,9 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string tcpRouteId Required. Short name of the TcpRoute resource to
-   * be created. E.g. TODO(Add an example).
+   * be created.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, TcpRoute $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * the format `projects/locations/global/tcpRoutes`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * format `projects/locations/global/tcpRoutes`.
    * @param array $optParams Optional parameters.
    * @return TcpRoute
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * `ListTcpRoutes` call, and that the system should return the next page of
    * data.
    * @return ListTcpRoutesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsTcpRoutes($parent, $optParams = [])
   {
@@ -113,6 +117,7 @@ class ProjectsLocationsTcpRoutes extends \Google\Service\Resource
    * request. A field will be overwritten if it is in the mask. If the user does
    * not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, TcpRoute $postBody, $optParams = [])
   {

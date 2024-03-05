@@ -41,6 +41,7 @@ class ManagementAccounts extends \Google\Service\Resource
    * this parameter as a pagination mechanism along with the max-results
    * parameter.
    * @return Accounts
+   * @throws \Google\Service\Exception
    */
   public function listManagementAccounts($optParams = [])
   {

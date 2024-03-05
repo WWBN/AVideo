@@ -52,6 +52,7 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * @param GoogleCloudDatacatalogV1Tag $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatacatalogV1Tag
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatacatalogV1Tag $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * @param string $name Required. The name of the tag to delete.
    * @param array $optParams Optional parameters.
    * @return DatacatalogEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -86,6 +88,7 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * @opt_param string pageToken Pagination token that specifies the next page to
    * return. If empty, the first page is returned.
    * @return GoogleCloudDatacatalogV1ListTagsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsEntryGroupsEntriesTags($parent, $optParams = [])
   {
@@ -108,6 +111,7 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * overwritten. If such fields are non-required and omitted in the request body,
    * their values are emptied.
    * @return GoogleCloudDatacatalogV1Tag
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDatacatalogV1Tag $postBody, $optParams = [])
   {
@@ -127,6 +131,7 @@ class ProjectsLocationsEntryGroupsEntriesTags extends \Google\Service\Resource
    * @param GoogleCloudDatacatalogV1ReconcileTagsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function reconcile($parent, GoogleCloudDatacatalogV1ReconcileTagsRequest $postBody, $optParams = [])
   {

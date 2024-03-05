@@ -38,7 +38,9 @@ class Advisorynotifications extends \Google\Service
   const CLOUD_PLATFORM =
       "https://www.googleapis.com/auth/cloud-platform";
 
+  public $organizations_locations;
   public $organizations_locations_notifications;
+  public $projects_locations_notifications;
 
   /**
    * Constructs the internal representation of the Advisorynotifications
@@ -57,7 +59,87 @@ class Advisorynotifications extends \Google\Service
     $this->version = 'v1';
     $this->serviceName = 'advisorynotifications';
 
+    $this->organizations_locations = new Advisorynotifications\Resource\OrganizationsLocations(
+        $this,
+        $this->serviceName,
+        'locations',
+        [
+          'methods' => [
+            'getSettings' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'updateSettings' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'PATCH',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->organizations_locations_notifications = new Advisorynotifications\Resource\OrganizationsLocationsNotifications(
+        $this,
+        $this->serviceName,
+        'notifications',
+        [
+          'methods' => [
+            'get' => [
+              'path' => 'v1/{+name}',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'list' => [
+              'path' => 'v1/{+parent}/notifications',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'parent' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'view' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->projects_locations_notifications = new Advisorynotifications\Resource\ProjectsLocationsNotifications(
         $this,
         $this->serviceName,
         'notifications',

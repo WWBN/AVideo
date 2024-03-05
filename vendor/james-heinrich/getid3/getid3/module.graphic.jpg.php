@@ -185,7 +185,7 @@ class getid3_jpg extends getid3_handler
 	 * @return mixed
 	 */
 	public function CastAsAppropriate($value) {
-		if (is_array($value)) {
+		if (is_array($value) || is_null($value)) {
 			return $value;
 		} elseif (preg_match('#^[0-9]+/[0-9]+$#', $value)) {
 			return getid3_lib::DecimalizeFraction($value);

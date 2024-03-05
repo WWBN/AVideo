@@ -43,6 +43,7 @@ class ProjectsRulesets extends \Google\Service\Resource
    * @param Ruleset $postBody
    * @param array $optParams Optional parameters.
    * @return Ruleset
+   * @throws \Google\Service\Exception
    */
   public function create($name, Ruleset $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsRulesets extends \Google\Service\Resource
    * Format: `projects/{project_id}/rulesets/{ruleset_id}`
    * @param array $optParams Optional parameters.
    * @return FirebaserulesEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsRulesets extends \Google\Service\Resource
    * `projects/{project_id}/rulesets/{ruleset_id}`
    * @param array $optParams Optional parameters.
    * @return Ruleset
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -100,6 +103,7 @@ class ProjectsRulesets extends \Google\Service\Resource
    * @opt_param string pageToken Next page token for loading the next batch of
    * `Ruleset` instances.
    * @return ListRulesetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsRulesets($name, $optParams = [])
   {

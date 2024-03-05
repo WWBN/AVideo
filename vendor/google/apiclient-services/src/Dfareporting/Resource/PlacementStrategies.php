@@ -36,6 +36,7 @@ class PlacementStrategies extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param string $id Placement strategy ID.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($profileId, $id, $optParams = [])
   {
@@ -50,6 +51,7 @@ class PlacementStrategies extends \Google\Service\Resource
    * @param string $id Placement strategy ID.
    * @param array $optParams Optional parameters.
    * @return PlacementStrategy
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -64,6 +66,7 @@ class PlacementStrategies extends \Google\Service\Resource
    * @param PlacementStrategy $postBody
    * @param array $optParams Optional parameters.
    * @return PlacementStrategy
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, PlacementStrategy $postBody, $optParams = [])
   {
@@ -93,6 +96,7 @@ class PlacementStrategies extends \Google\Service\Resource
    * @opt_param string sortField Field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return PlacementStrategiesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlacementStrategies($profileId, $optParams = [])
   {
@@ -105,10 +109,11 @@ class PlacementStrategies extends \Google\Service\Resource
    * (placementStrategies.patch)
    *
    * @param string $profileId User profile ID associated with this request.
-   * @param string $id PlacementStrategy ID.
+   * @param string $id Required. PlacementStrategy ID.
    * @param PlacementStrategy $postBody
    * @param array $optParams Optional parameters.
    * @return PlacementStrategy
+   * @throws \Google\Service\Exception
    */
   public function patch($profileId, $id, PlacementStrategy $postBody, $optParams = [])
   {
@@ -123,6 +128,7 @@ class PlacementStrategies extends \Google\Service\Resource
    * @param PlacementStrategy $postBody
    * @param array $optParams Optional parameters.
    * @return PlacementStrategy
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, PlacementStrategy $postBody, $optParams = [])
   {

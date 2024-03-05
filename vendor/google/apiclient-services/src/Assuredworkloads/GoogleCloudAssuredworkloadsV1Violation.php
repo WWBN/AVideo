@@ -17,8 +17,9 @@
 
 namespace Google\Service\Assuredworkloads;
 
-class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
+class GoogleCloudAssuredworkloadsV1Violation extends \Google\Collection
 {
+  protected $collection_key = 'exceptionContexts';
   /**
    * @var bool
    */
@@ -27,6 +28,10 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
    * @var string
    */
   public $acknowledgementTime;
+  /**
+   * @var string
+   */
+  public $associatedOrgPolicyViolationId;
   /**
    * @var string
    */
@@ -47,6 +52,8 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
    * @var string
    */
   public $exceptionAuditLogLink;
+  protected $exceptionContextsType = GoogleCloudAssuredworkloadsV1ViolationExceptionContext::class;
+  protected $exceptionContextsDataType = 'array';
   /**
    * @var string
    */
@@ -59,6 +66,10 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
    * @var string
    */
   public $orgPolicyConstraint;
+  /**
+   * @var string
+   */
+  public $parentProjectNumber;
   protected $remediationType = GoogleCloudAssuredworkloadsV1ViolationRemediation::class;
   protected $remediationDataType = '';
   /**
@@ -68,11 +79,23 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
   /**
    * @var string
    */
+  public $resourceName;
+  /**
+   * @var string
+   */
+  public $resourceType;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
    */
   public $updateTime;
+  /**
+   * @var string
+   */
+  public $violationType;
 
   /**
    * @param bool
@@ -101,6 +124,20 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
   public function getAcknowledgementTime()
   {
     return $this->acknowledgementTime;
+  }
+  /**
+   * @param string
+   */
+  public function setAssociatedOrgPolicyViolationId($associatedOrgPolicyViolationId)
+  {
+    $this->associatedOrgPolicyViolationId = $associatedOrgPolicyViolationId;
+  }
+  /**
+   * @return string
+   */
+  public function getAssociatedOrgPolicyViolationId()
+  {
+    return $this->associatedOrgPolicyViolationId;
   }
   /**
    * @param string
@@ -173,6 +210,20 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
     return $this->exceptionAuditLogLink;
   }
   /**
+   * @param GoogleCloudAssuredworkloadsV1ViolationExceptionContext[]
+   */
+  public function setExceptionContexts($exceptionContexts)
+  {
+    $this->exceptionContexts = $exceptionContexts;
+  }
+  /**
+   * @return GoogleCloudAssuredworkloadsV1ViolationExceptionContext[]
+   */
+  public function getExceptionContexts()
+  {
+    return $this->exceptionContexts;
+  }
+  /**
    * @param string
    */
   public function setName($name)
@@ -215,6 +266,20 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
     return $this->orgPolicyConstraint;
   }
   /**
+   * @param string
+   */
+  public function setParentProjectNumber($parentProjectNumber)
+  {
+    $this->parentProjectNumber = $parentProjectNumber;
+  }
+  /**
+   * @return string
+   */
+  public function getParentProjectNumber()
+  {
+    return $this->parentProjectNumber;
+  }
+  /**
    * @param GoogleCloudAssuredworkloadsV1ViolationRemediation
    */
   public function setRemediation(GoogleCloudAssuredworkloadsV1ViolationRemediation $remediation)
@@ -245,6 +310,34 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
   /**
    * @param string
    */
+  public function setResourceName($resourceName)
+  {
+    $this->resourceName = $resourceName;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceName()
+  {
+    return $this->resourceName;
+  }
+  /**
+   * @param string
+   */
+  public function setResourceType($resourceType)
+  {
+    $this->resourceType = $resourceType;
+  }
+  /**
+   * @return string
+   */
+  public function getResourceType()
+  {
+    return $this->resourceType;
+  }
+  /**
+   * @param string
+   */
   public function setState($state)
   {
     $this->state = $state;
@@ -269,6 +362,20 @@ class GoogleCloudAssuredworkloadsV1Violation extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param string
+   */
+  public function setViolationType($violationType)
+  {
+    $this->violationType = $violationType;
+  }
+  /**
+   * @return string
+   */
+  public function getViolationType()
+  {
+    return $this->violationType;
   }
 }
 

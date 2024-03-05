@@ -47,6 +47,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param BatchCreateJobsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function batchCreate($parent, BatchCreateJobsRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param BatchDeleteJobsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function batchDelete($parent, BatchDeleteJobsRequest $postBody, $optParams = [])
   {
@@ -82,6 +84,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param BatchUpdateJobsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function batchUpdate($parent, BatchUpdateJobsRequest $postBody, $optParams = [])
   {
@@ -100,6 +103,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param Job $postBody
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Job $postBody, $optParams = [])
   {
@@ -116,6 +120,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * example, "projects/foo/tenants/bar/jobs/baz".
    * @param array $optParams Optional parameters.
    * @return JobsEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -132,6 +137,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * example, "projects/foo/tenants/bar/jobs/baz".
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -166,6 +172,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * is 100 if empty or a number < 1 is specified.
    * @opt_param string pageToken The starting point of a query result.
    * @return ListJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsTenantsJobs($parent, $optParams = [])
   {
@@ -190,6 +197,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * updated. Otherwise all the fields are updated. A field mask to restrict the
    * fields that are updated. Only top level fields of Job are supported.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Job $postBody, $optParams = [])
   {
@@ -208,6 +216,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param SearchJobsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function search($parent, SearchJobsRequest $postBody, $optParams = [])
   {
@@ -230,6 +239,7 @@ class ProjectsTenantsJobs extends \Google\Service\Resource
    * @param SearchJobsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function searchForAlert($parent, SearchJobsRequest $postBody, $optParams = [])
   {

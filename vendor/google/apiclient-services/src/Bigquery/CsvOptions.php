@@ -19,9 +19,6 @@ namespace Google\Service\Bigquery;
 
 class CsvOptions extends \Google\Model
 {
-  protected $internal_gapi_mappings = [
-        "nullMarker" => "null_marker",
-  ];
   /**
    * @var bool
    */

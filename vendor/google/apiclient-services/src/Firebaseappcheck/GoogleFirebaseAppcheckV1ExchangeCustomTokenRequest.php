@@ -23,6 +23,10 @@ class GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest extends \Google\Model
    * @var string
    */
   public $customToken;
+  /**
+   * @var bool
+   */
+  public $limitedUse;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleFirebaseAppcheckV1ExchangeCustomTokenRequest extends \Google\Model
   public function getCustomToken()
   {
     return $this->customToken;
+  }
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
   }
 }
 

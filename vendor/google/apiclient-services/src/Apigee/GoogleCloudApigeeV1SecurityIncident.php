@@ -39,7 +39,15 @@ class GoogleCloudApigeeV1SecurityIncident extends \Google\Collection
   /**
    * @var string
    */
+  public $lastObservabilityChangeTime;
+  /**
+   * @var string
+   */
   public $name;
+  /**
+   * @var string
+   */
+  public $observability;
   /**
    * @var string
    */
@@ -108,6 +116,20 @@ class GoogleCloudApigeeV1SecurityIncident extends \Google\Collection
   /**
    * @param string
    */
+  public function setLastObservabilityChangeTime($lastObservabilityChangeTime)
+  {
+    $this->lastObservabilityChangeTime = $lastObservabilityChangeTime;
+  }
+  /**
+   * @return string
+   */
+  public function getLastObservabilityChangeTime()
+  {
+    return $this->lastObservabilityChangeTime;
+  }
+  /**
+   * @param string
+   */
   public function setName($name)
   {
     $this->name = $name;
@@ -118,6 +140,20 @@ class GoogleCloudApigeeV1SecurityIncident extends \Google\Collection
   public function getName()
   {
     return $this->name;
+  }
+  /**
+   * @param string
+   */
+  public function setObservability($observability)
+  {
+    $this->observability = $observability;
+  }
+  /**
+   * @return string
+   */
+  public function getObservability()
+  {
+    return $this->observability;
   }
   /**
    * @param string

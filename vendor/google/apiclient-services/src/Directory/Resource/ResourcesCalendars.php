@@ -39,6 +39,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * @param string $calendarResourceId The unique ID of the calendar resource to
    * delete.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($customer, $calendarResourceId, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * retrieve.
    * @param array $optParams Optional parameters.
    * @return CalendarResource
+   * @throws \Google\Service\Exception
    */
   public function get($customer, $calendarResourceId, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * @param CalendarResource $postBody
    * @param array $optParams Optional parameters.
    * @return CalendarResource
+   * @throws \Google\Service\Exception
    */
   public function insert($customer, CalendarResource $postBody, $optParams = [])
   {
@@ -108,6 +111,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * `resourceCategory`. For example `buildingId=US-NYC-9TH AND
    * featureInstances.feature.name:Phone`.
    * @return CalendarResources
+   * @throws \Google\Service\Exception
    */
   public function listResourcesCalendars($customer, $optParams = [])
   {
@@ -126,6 +130,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * @param CalendarResource $postBody
    * @param array $optParams Optional parameters.
    * @return CalendarResource
+   * @throws \Google\Service\Exception
    */
   public function patch($customer, $calendarResourceId, CalendarResource $postBody, $optParams = [])
   {
@@ -146,6 +151,7 @@ class ResourcesCalendars extends \Google\Service\Resource
    * @param CalendarResource $postBody
    * @param array $optParams Optional parameters.
    * @return CalendarResource
+   * @throws \Google\Service\Exception
    */
   public function update($customer, $calendarResourceId, CalendarResource $postBody, $optParams = [])
   {

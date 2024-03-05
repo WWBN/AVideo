@@ -48,6 +48,7 @@ class Users extends \Google\Service\Resource
    * @param BulkEditAssignedUserRolesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BulkEditAssignedUserRolesResponse
+   * @throws \Google\Service\Exception
    */
   public function bulkEditAssignedUserRoles($userId, BulkEditAssignedUserRolesRequest $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class Users extends \Google\Service\Resource
    * @param User $postBody
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function create(User $postBody, $optParams = [])
   {
@@ -81,6 +83,7 @@ class Users extends \Google\Service\Resource
    * @param string $userId Required. The ID of the user to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($userId, $optParams = [])
   {
@@ -97,6 +100,7 @@ class Users extends \Google\Service\Resource
    * @param string $userId Required. The ID of the user to fetch.
    * @param array $optParams Optional parameters.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $optParams = [])
   {
@@ -150,6 +154,7 @@ class Users extends \Google\Service\Resource
    * the previous call to `ListUsers` method. If not specified, the first page of
    * results will be returned.
    * @return ListUsersResponse
+   * @throws \Google\Service\Exception
    */
   public function listUsers($optParams = [])
   {
@@ -172,6 +177,7 @@ class Users extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return User
+   * @throws \Google\Service\Exception
    */
   public function patch($userId, User $postBody, $optParams = [])
   {

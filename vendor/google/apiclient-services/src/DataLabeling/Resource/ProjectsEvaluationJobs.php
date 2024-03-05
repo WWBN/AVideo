@@ -42,6 +42,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1EvaluationJob
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatalabelingV1beta1CreateEvaluationJobRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * deleted. Format: "projects/{project_id}/evaluationJobs/{evaluation_job_id}"
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * "projects/{project_id} /evaluationJobs/{evaluation_job_id}"
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1EvaluationJob
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * response to the previous request. The request returns the first page if this
    * is empty.
    * @return GoogleCloudDatalabelingV1beta1ListEvaluationJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsEvaluationJobs($parent, $optParams = [])
   {
@@ -126,6 +130,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * `evaluationJobConfig.exampleSamplePercentage` You can provide more than one
    * of these fields by separating them with commas.
    * @return GoogleCloudDatalabelingV1beta1EvaluationJob
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudDatalabelingV1beta1EvaluationJob $postBody, $optParams = [])
   {
@@ -142,6 +147,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function pause($name, GoogleCloudDatalabelingV1beta1PauseEvaluationJobRequest $postBody, $optParams = [])
   {
@@ -159,6 +165,7 @@ class ProjectsEvaluationJobs extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function resume($name, GoogleCloudDatalabelingV1beta1ResumeEvaluationJobRequest $postBody, $optParams = [])
   {

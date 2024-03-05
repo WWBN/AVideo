@@ -47,7 +47,7 @@ namespace Stripe;
  * @property int $amount_paid The amount, in cents (or local equivalent), that was paid.
  * @property int $amount_remaining The difference between amount_due and amount_paid, in cents (or local equivalent).
  * @property int $amount_shipping This is the sum of all the shipping amounts.
- * @property null|string|\Stripe\StripeObject $application ID of the Connect Application that created the invoice.
+ * @property null|string|\Stripe\Application $application ID of the Connect Application that created the invoice.
  * @property null|int $application_fee_amount The fee in cents (or local equivalent) that will be applied to the invoice and transferred to the application owner's Stripe account when the invoice is paid.
  * @property int $attempt_count Number of payment attempts made for this invoice, from the perspective of the payment retry schedule. Any payment attempt counts as the first attempt, and subsequently only automatic retries increment the attempt count. In other words, manual payment attempts after the first attempt do not affect the retry schedule.
  * @property bool $attempted Whether an attempt has been made to pay the invoice. An invoice is not attempted until 1 hour after the <code>invoice.created</code> webhook, for example, so you might not want to display that invoice as unpaid to your users.
@@ -80,6 +80,7 @@ namespace Stripe;
  * @property null|\Stripe\StripeObject $from_invoice Details of the invoice that was cloned. See the <a href="https://stripe.com/docs/invoicing/invoice-revisions">revision documentation</a> for more details.
  * @property null|string $hosted_invoice_url The URL for the hosted invoice page, which allows customers to view and pay an invoice. If the invoice has not been finalized yet, this will be null.
  * @property null|string $invoice_pdf The link to download the PDF for the invoice. If the invoice has not been finalized yet, this will be null.
+ * @property \Stripe\StripeObject $issuer
  * @property null|\Stripe\StripeObject $last_finalization_error The error encountered during the previous attempt to finalize the invoice. This field is cleared when the invoice is successfully finalized.
  * @property null|string|\Stripe\Invoice $latest_revision The ID of the most recent non-draft revision of this invoice
  * @property \Stripe\Collection<\Stripe\InvoiceLineItem> $lines The individual line items that make up the invoice. <code>lines</code> is sorted as follows: (1) pending invoice items (including prorations) in reverse chronological order, (2) subscription items in reverse chronological order, and (3) invoice items added after invoice creation in chronological order.
@@ -292,7 +293,7 @@ class Invoice extends ApiResource
     {
         $url = '/v1/invoices/search';
 
-        return self::_searchResource($url, $params, $opts);
+        return static::_requestPage($url, \Stripe\SearchResult::class, $params, $opts);
     }
 
     const PATH_LINES = '/lines';

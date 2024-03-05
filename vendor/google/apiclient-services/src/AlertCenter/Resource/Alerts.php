@@ -43,6 +43,7 @@ class Alerts extends \Google\Service\Resource
    * @param BatchDeleteAlertsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchDeleteAlertsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchDelete(BatchDeleteAlertsRequest $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Alerts extends \Google\Service\Resource
    * @param BatchUndeleteAlertsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return BatchUndeleteAlertsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchUndelete(BatchUndeleteAlertsRequest $postBody, $optParams = [])
   {
@@ -79,6 +81,7 @@ class Alerts extends \Google\Service\Resource
    * Inferred from the caller identity if not provided. [Find your customer
    * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return AlertcenterEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($alertId, $optParams = [])
   {
@@ -99,6 +102,7 @@ class Alerts extends \Google\Service\Resource
    * Inferred from the caller identity if not provided. [Find your customer
    * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return Alert
+   * @throws \Google\Service\Exception
    */
   public function get($alertId, $optParams = [])
   {
@@ -120,6 +124,7 @@ class Alerts extends \Google\Service\Resource
    * Inferred from the caller identity if not provided. [Find your customer
    * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @return AlertMetadata
+   * @throws \Google\Service\Exception
    */
   public function getMetadata($alertId, $optParams = [])
   {
@@ -138,8 +143,9 @@ class Alerts extends \Google\Service\Resource
    * Inferred from the caller identity if not provided. [Find your customer
    * ID](https://support.google.com/cloudidentity/answer/10070793).
    * @opt_param string filter Optional. A query string for filtering alert
-   * results. For more details, see [Query filters](https://developers.google.com
-   * /admin-sdk/alertcenter/guides/query-filters) and [Supported query filter
+   * results. For more details, see [Query
+   * filters](https://developers.google.com/admin-sdk/alertcenter/guides/query-
+   * filters) and [Supported query filter
    * fields](https://developers.google.com/admin-sdk/alertcenter/reference/filter-
    * fields#alerts.list).
    * @opt_param string orderBy Optional. The sort order of the list results. If
@@ -155,6 +161,7 @@ class Alerts extends \Google\Service\Resource
    * an iteration, pass in the value from the previous ListAlertsResponse's
    * next_page_token field.
    * @return ListAlertsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAlerts($optParams = [])
   {
@@ -173,6 +180,7 @@ class Alerts extends \Google\Service\Resource
    * @param UndeleteAlertRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Alert
+   * @throws \Google\Service\Exception
    */
   public function undelete($alertId, UndeleteAlertRequest $postBody, $optParams = [])
   {

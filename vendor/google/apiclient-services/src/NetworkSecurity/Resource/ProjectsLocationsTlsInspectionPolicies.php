@@ -46,6 +46,7 @@ class ProjectsLocationsTlsInspectionPolicies extends \Google\Service\Resource
    * characters long, containing only letters, numbers, hyphens, and underscores,
    * and should not start with a number. E.g. "tls_inspection_policy1".
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, TlsInspectionPolicy $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsLocationsTlsInspectionPolicies extends \Google\Service\Resource
    * will also be deleted. (Otherwise, the request will only work if the
    * TlsInspectionPolicy has no rules.)
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsLocationsTlsInspectionPolicies extends \Google\Service\Resource
    * es/{tls_inspection_policy}`.
    * @param array $optParams Optional parameters.
    * @return TlsInspectionPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -103,6 +106,7 @@ class ProjectsLocationsTlsInspectionPolicies extends \Google\Service\Resource
    * a prior 'ListTlsInspectionPolicies' call, and that the system should return
    * the next page of data.
    * @return ListTlsInspectionPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsTlsInspectionPolicies($parent, $optParams = [])
   {
@@ -127,6 +131,7 @@ class ProjectsLocationsTlsInspectionPolicies extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. If the user
    * does not provide a mask then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, TlsInspectionPolicy $postBody, $optParams = [])
   {

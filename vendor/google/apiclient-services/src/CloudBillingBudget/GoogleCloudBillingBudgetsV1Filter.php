@@ -45,6 +45,10 @@ class GoogleCloudBillingBudgetsV1Filter extends \Google\Collection
   /**
    * @var string[]
    */
+  public $resourceAncestors;
+  /**
+   * @var string[]
+   */
   public $services;
   /**
    * @var string[]
@@ -134,6 +138,20 @@ class GoogleCloudBillingBudgetsV1Filter extends \Google\Collection
   public function getProjects()
   {
     return $this->projects;
+  }
+  /**
+   * @param string[]
+   */
+  public function setResourceAncestors($resourceAncestors)
+  {
+    $this->resourceAncestors = $resourceAncestors;
+  }
+  /**
+   * @return string[]
+   */
+  public function getResourceAncestors()
+  {
+    return $this->resourceAncestors;
   }
   /**
    * @param string[]

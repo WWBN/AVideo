@@ -19,6 +19,8 @@ namespace Google\Service\CloudFunctions;
 
 class BuildConfig extends \Google\Model
 {
+  protected $automaticUpdatePolicyType = AutomaticUpdatePolicy::class;
+  protected $automaticUpdatePolicyDataType = '';
   /**
    * @var string
    */
@@ -39,10 +41,16 @@ class BuildConfig extends \Google\Model
    * @var string[]
    */
   public $environmentVariables;
+  protected $onDeployUpdatePolicyType = OnDeployUpdatePolicy::class;
+  protected $onDeployUpdatePolicyDataType = '';
   /**
    * @var string
    */
   public $runtime;
+  /**
+   * @var string
+   */
+  public $serviceAccount;
   protected $sourceType = Source::class;
   protected $sourceDataType = '';
   protected $sourceProvenanceType = SourceProvenance::class;
@@ -50,8 +58,26 @@ class BuildConfig extends \Google\Model
   /**
    * @var string
    */
+  public $sourceToken;
+  /**
+   * @var string
+   */
   public $workerPool;
 
+  /**
+   * @param AutomaticUpdatePolicy
+   */
+  public function setAutomaticUpdatePolicy(AutomaticUpdatePolicy $automaticUpdatePolicy)
+  {
+    $this->automaticUpdatePolicy = $automaticUpdatePolicy;
+  }
+  /**
+   * @return AutomaticUpdatePolicy
+   */
+  public function getAutomaticUpdatePolicy()
+  {
+    return $this->automaticUpdatePolicy;
+  }
   /**
    * @param string
    */
@@ -123,6 +149,20 @@ class BuildConfig extends \Google\Model
     return $this->environmentVariables;
   }
   /**
+   * @param OnDeployUpdatePolicy
+   */
+  public function setOnDeployUpdatePolicy(OnDeployUpdatePolicy $onDeployUpdatePolicy)
+  {
+    $this->onDeployUpdatePolicy = $onDeployUpdatePolicy;
+  }
+  /**
+   * @return OnDeployUpdatePolicy
+   */
+  public function getOnDeployUpdatePolicy()
+  {
+    return $this->onDeployUpdatePolicy;
+  }
+  /**
    * @param string
    */
   public function setRuntime($runtime)
@@ -135,6 +175,20 @@ class BuildConfig extends \Google\Model
   public function getRuntime()
   {
     return $this->runtime;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccount($serviceAccount)
+  {
+    $this->serviceAccount = $serviceAccount;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccount()
+  {
+    return $this->serviceAccount;
   }
   /**
    * @param Source
@@ -163,6 +217,20 @@ class BuildConfig extends \Google\Model
   public function getSourceProvenance()
   {
     return $this->sourceProvenance;
+  }
+  /**
+   * @param string
+   */
+  public function setSourceToken($sourceToken)
+  {
+    $this->sourceToken = $sourceToken;
+  }
+  /**
+   * @return string
+   */
+  public function getSourceToken()
+  {
+    return $this->sourceToken;
   }
   /**
    * @param string

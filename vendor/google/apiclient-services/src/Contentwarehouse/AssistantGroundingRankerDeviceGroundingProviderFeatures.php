@@ -21,6 +21,12 @@ class AssistantGroundingRankerDeviceGroundingProviderFeatures extends \Google\Mo
 {
   protected $deviceIdType = AssistantApiCoreTypesGovernedDeviceId::class;
   protected $deviceIdDataType = '';
+  protected $deviceTargetingFeaturesType = AssistantGroundingRankerDeviceTargetingFeatures::class;
+  protected $deviceTargetingFeaturesDataType = '';
+  protected $deviceTargetingLabelsType = AssistantGroundingRankerDeviceTargetingLabels::class;
+  protected $deviceTargetingLabelsDataType = '';
+  protected $surfaceIdentityType = AssistantApiCoreTypesGovernedSurfaceIdentity::class;
+  protected $surfaceIdentityDataType = '';
 
   /**
    * @param AssistantApiCoreTypesGovernedDeviceId
@@ -35,6 +41,48 @@ class AssistantGroundingRankerDeviceGroundingProviderFeatures extends \Google\Mo
   public function getDeviceId()
   {
     return $this->deviceId;
+  }
+  /**
+   * @param AssistantGroundingRankerDeviceTargetingFeatures
+   */
+  public function setDeviceTargetingFeatures(AssistantGroundingRankerDeviceTargetingFeatures $deviceTargetingFeatures)
+  {
+    $this->deviceTargetingFeatures = $deviceTargetingFeatures;
+  }
+  /**
+   * @return AssistantGroundingRankerDeviceTargetingFeatures
+   */
+  public function getDeviceTargetingFeatures()
+  {
+    return $this->deviceTargetingFeatures;
+  }
+  /**
+   * @param AssistantGroundingRankerDeviceTargetingLabels
+   */
+  public function setDeviceTargetingLabels(AssistantGroundingRankerDeviceTargetingLabels $deviceTargetingLabels)
+  {
+    $this->deviceTargetingLabels = $deviceTargetingLabels;
+  }
+  /**
+   * @return AssistantGroundingRankerDeviceTargetingLabels
+   */
+  public function getDeviceTargetingLabels()
+  {
+    return $this->deviceTargetingLabels;
+  }
+  /**
+   * @param AssistantApiCoreTypesGovernedSurfaceIdentity
+   */
+  public function setSurfaceIdentity(AssistantApiCoreTypesGovernedSurfaceIdentity $surfaceIdentity)
+  {
+    $this->surfaceIdentity = $surfaceIdentity;
+  }
+  /**
+   * @return AssistantApiCoreTypesGovernedSurfaceIdentity
+   */
+  public function getSurfaceIdentity()
+  {
+    return $this->surfaceIdentity;
   }
 }
 

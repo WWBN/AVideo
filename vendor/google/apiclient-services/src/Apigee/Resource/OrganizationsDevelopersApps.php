@@ -41,6 +41,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Attributes $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Attributes
+   * @throws \Google\Service\Exception
    */
   public function attributes($name, GoogleCloudApigeeV1Attributes $postBody, $optParams = [])
   {
@@ -61,6 +62,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1DeveloperApp $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeveloperApp
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1DeveloperApp $postBody, $optParams = [])
   {
@@ -79,6 +81,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * `organizations/{org}/developers/{developer_email}/apps/{app}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeveloperApp
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -120,6 +123,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    *
    * @opt_param string action Action. Valid values are `approve` or `revoke`.
    * @return GoogleCloudApigeeV1DeveloperApp
+   * @throws \Google\Service\Exception
    */
   public function generateKeyPairOrUpdateDeveloperAppStatus($name, GoogleCloudApigeeV1DeveloperApp $postBody, $optParams = [])
   {
@@ -144,6 +148,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * have been approved for access by a developer app in the specified Apigee
    * organization.
    * @return GoogleCloudApigeeV1DeveloperApp
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -177,6 +182,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * apps 50-99 by entering the name of the 50th developer app. The developer app
    * name is case sensitive.
    * @return GoogleCloudApigeeV1ListDeveloperAppsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsDevelopersApps($parent, $optParams = [])
   {
@@ -202,6 +208,7 @@ class OrganizationsDevelopersApps extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1DeveloperApp $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1DeveloperApp
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudApigeeV1DeveloperApp $postBody, $optParams = [])
   {

@@ -51,6 +51,10 @@ class Instance extends \Google\Collection
   /**
    * @var bool
    */
+  public $satisfiesPzi;
+  /**
+   * @var bool
+   */
   public $satisfiesPzs;
   /**
    * @var string
@@ -180,6 +184,20 @@ class Instance extends \Google\Collection
   public function getNetworks()
   {
     return $this->networks;
+  }
+  /**
+   * @param bool
+   */
+  public function setSatisfiesPzi($satisfiesPzi)
+  {
+    $this->satisfiesPzi = $satisfiesPzi;
+  }
+  /**
+   * @return bool
+   */
+  public function getSatisfiesPzi()
+  {
+    return $this->satisfiesPzi;
   }
   /**
    * @param bool

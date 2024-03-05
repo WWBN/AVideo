@@ -74,6 +74,7 @@ class Projects extends \Google\Service\Resource
    * @param AddFirebaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addFirebase($project, AddFirebaseRequest $postBody, $optParams = [])
   {
@@ -127,6 +128,7 @@ class Projects extends \Google\Service\Resource
    * @param AddGoogleAnalyticsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addGoogleAnalytics($parent, AddGoogleAnalyticsRequest $postBody, $optParams = [])
   {
@@ -143,6 +145,7 @@ class Projects extends \Google\Service\Resource
    * PROJECT_IDENTIFIER values.
    * @param array $optParams Optional parameters.
    * @return FirebaseProject
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -163,6 +166,7 @@ class Projects extends \Google\Service\Resource
    * PROJECT_IDENTIFIER values.
    * @param array $optParams Optional parameters.
    * @return AdminSdkConfig
+   * @throws \Google\Service\Exception
    */
   public function getAdminSdkConfig($name, $optParams = [])
   {
@@ -182,6 +186,7 @@ class Projects extends \Google\Service\Resource
    * PROJECT_IDENTIFIER values.
    * @param array $optParams Optional parameters.
    * @return AnalyticsDetails
+   * @throws \Google\Service\Exception
    */
   public function getAnalyticsDetails($name, $optParams = [])
   {
@@ -212,6 +217,7 @@ class Projects extends \Google\Service\Resource
    * DELETED state should be returned in the response. If not specified, only
    * `ACTIVE` Projects will be returned.
    * @return ListFirebaseProjectsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjects($optParams = [])
   {
@@ -242,6 +248,7 @@ class Projects extends \Google\Service\Resource
    * [`projects.undelete`](https://cloud.google.com/resource-
    * manager/reference/rest/v1/projects/undelete)
    * @return FirebaseProject
+   * @throws \Google\Service\Exception
    */
   public function patch($name, FirebaseProject $postBody, $optParams = [])
   {
@@ -270,6 +277,7 @@ class Projects extends \Google\Service\Resource
    * @param RemoveAnalyticsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return FirebaseEmpty
+   * @throws \Google\Service\Exception
    */
   public function removeAnalytics($parent, RemoveAnalyticsRequest $postBody, $optParams = [])
   {
@@ -318,6 +326,7 @@ class Projects extends \Google\Service\Resource
    * @opt_param bool showDeleted Controls whether Apps in the DELETED state should
    * be returned. If not specified, only `ACTIVE` Apps will be returned.
    * @return SearchFirebaseAppsResponse
+   * @throws \Google\Service\Exception
    */
   public function searchApps($parent, $optParams = [])
   {

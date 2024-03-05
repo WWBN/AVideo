@@ -38,6 +38,7 @@ class ProjectsLocationsCollectionsDataStoresOperations extends \Google\Service\R
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsLocationsCollectionsDataStoresOperations extends \Google\Service\R
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return GoogleLongrunningListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCollectionsDataStoresOperations($name, $optParams = [])
   {

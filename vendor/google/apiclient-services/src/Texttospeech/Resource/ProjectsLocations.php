@@ -38,6 +38,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param SynthesizeLongAudioRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function synthesizeLongAudio($parent, SynthesizeLongAudioRequest $postBody, $optParams = [])
   {

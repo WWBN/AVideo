@@ -36,6 +36,7 @@ class MetadataColumns extends \Google\Service\Resource
    * corresponds to the Core Reporting API
    * @param array $optParams Optional parameters.
    * @return Columns
+   * @throws \Google\Service\Exception
    */
   public function listMetadataColumns($reportType, $optParams = [])
   {

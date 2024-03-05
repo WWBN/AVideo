@@ -39,6 +39,7 @@ class SearchAds360Fields extends \Google\Service\Resource
    * @param string $resourceName Required. The resource name of the field to get.
    * @param array $optParams Optional parameters.
    * @return GoogleAdsSearchads360V0ResourcesSearchAds360Field
+   * @throws \Google\Service\Exception
    */
   public function get($resourceName, $optParams = [])
   {
@@ -55,6 +56,7 @@ class SearchAds360Fields extends \Google\Service\Resource
    * @param GoogleAdsSearchads360V0ServicesSearchSearchAds360FieldsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleAdsSearchads360V0ServicesSearchSearchAds360FieldsResponse
+   * @throws \Google\Service\Exception
    */
   public function search(GoogleAdsSearchads360V0ServicesSearchSearchAds360FieldsRequest $postBody, $optParams = [])
   {

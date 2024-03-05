@@ -46,6 +46,7 @@ class DebugIdentitysourcesUnmappedids extends \Google\Service\Resource
    * previous List request, if any.
    * @opt_param string resolutionStatusCode Limit users selection to this status.
    * @return ListUnmappedIdentitiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listDebugIdentitysourcesUnmappedids($parent, $optParams = [])
   {

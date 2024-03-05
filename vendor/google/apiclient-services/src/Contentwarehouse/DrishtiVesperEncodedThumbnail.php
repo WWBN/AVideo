@@ -20,6 +20,14 @@ namespace Google\Service\Contentwarehouse;
 class DrishtiVesperEncodedThumbnail extends \Google\Model
 {
   /**
+   * @var string
+   */
+  public $byteSize;
+  /**
+   * @var string
+   */
+  public $crc32c;
+  /**
    * @var int
    */
   public $encodingQuality;
@@ -34,6 +42,10 @@ class DrishtiVesperEncodedThumbnail extends \Google\Model
   /**
    * @var string
    */
+  public $imageBlobId;
+  /**
+   * @var string
+   */
   public $imageBytes;
   /**
    * @var string
@@ -44,6 +56,34 @@ class DrishtiVesperEncodedThumbnail extends \Google\Model
    */
   public $width;
 
+  /**
+   * @param string
+   */
+  public function setByteSize($byteSize)
+  {
+    $this->byteSize = $byteSize;
+  }
+  /**
+   * @return string
+   */
+  public function getByteSize()
+  {
+    return $this->byteSize;
+  }
+  /**
+   * @param string
+   */
+  public function setCrc32c($crc32c)
+  {
+    $this->crc32c = $crc32c;
+  }
+  /**
+   * @return string
+   */
+  public function getCrc32c()
+  {
+    return $this->crc32c;
+  }
   /**
    * @param int
    */
@@ -85,6 +125,20 @@ class DrishtiVesperEncodedThumbnail extends \Google\Model
   public function getHeight()
   {
     return $this->height;
+  }
+  /**
+   * @param string
+   */
+  public function setImageBlobId($imageBlobId)
+  {
+    $this->imageBlobId = $imageBlobId;
+  }
+  /**
+   * @return string
+   */
+  public function getImageBlobId()
+  {
+    return $this->imageBlobId;
   }
   /**
    * @param string

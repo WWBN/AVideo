@@ -19,7 +19,7 @@ namespace Google\Service\Testing;
 
 class TestSetup extends \Google\Collection
 {
-  protected $collection_key = 'filesToPush';
+  protected $collection_key = 'initialSetupApks';
   protected $accountType = Account::class;
   protected $accountDataType = '';
   protected $additionalApksType = Apk::class;
@@ -36,6 +36,8 @@ class TestSetup extends \Google\Collection
   protected $environmentVariablesDataType = 'array';
   protected $filesToPushType = DeviceFile::class;
   protected $filesToPushDataType = 'array';
+  protected $initialSetupApksType = Apk::class;
+  protected $initialSetupApksDataType = 'array';
   /**
    * @var string
    */
@@ -126,6 +128,20 @@ class TestSetup extends \Google\Collection
   public function getFilesToPush()
   {
     return $this->filesToPush;
+  }
+  /**
+   * @param Apk[]
+   */
+  public function setInitialSetupApks($initialSetupApks)
+  {
+    $this->initialSetupApks = $initialSetupApks;
+  }
+  /**
+   * @return Apk[]
+   */
+  public function getInitialSetupApks()
+  {
+    return $this->initialSetupApks;
   }
   /**
    * @param string

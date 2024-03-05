@@ -17,12 +17,17 @@
 
 namespace Google\Service\ServiceUsage;
 
-class RemoveEnableRulesResponse extends \Google\Model
+class RemoveEnableRulesResponse extends \Google\Collection
 {
+  protected $collection_key = 'removedValues';
   /**
    * @var string
    */
   public $parent;
+  /**
+   * @var string[]
+   */
+  public $removedValues;
 
   /**
    * @param string
@@ -37,6 +42,20 @@ class RemoveEnableRulesResponse extends \Google\Model
   public function getParent()
   {
     return $this->parent;
+  }
+  /**
+   * @param string[]
+   */
+  public function setRemovedValues($removedValues)
+  {
+    $this->removedValues = $removedValues;
+  }
+  /**
+   * @return string[]
+   */
+  public function getRemovedValues()
+  {
+    return $this->removedValues;
   }
 }
 

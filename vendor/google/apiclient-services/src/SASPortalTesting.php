@@ -107,6 +107,18 @@ class SASPortalTesting extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'listGcpProjectDeployments' => [
+              'path' => 'v1alpha1/customers:listGcpProjectDeployments',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],'listLegacyOrganizations' => [
+              'path' => 'v1alpha1/customers:listLegacyOrganizations',
+              'httpMethod' => 'GET',
+              'parameters' => [],
+            ],'migrateOrganization' => [
+              'path' => 'v1alpha1/customers:migrateOrganization',
+              'httpMethod' => 'POST',
+              'parameters' => [],
             ],'patch' => [
               'path' => 'v1alpha1/{+name}',
               'httpMethod' => 'PATCH',
@@ -123,6 +135,10 @@ class SASPortalTesting extends \Google\Service
               ],
             ],'provisionDeployment' => [
               'path' => 'v1alpha1/customers:provisionDeployment',
+              'httpMethod' => 'POST',
+              'parameters' => [],
+            ],'setupSasAnalytics' => [
+              'path' => 'v1alpha1/customers:setupSasAnalytics',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],

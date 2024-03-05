@@ -27,6 +27,10 @@ class EnterpriseCrmFrontendsEventbusProtoParameterEntry extends \Google\Model
    * @var string
    */
   public $key;
+  /**
+   * @var bool
+   */
+  public $masked;
   protected $valueType = EnterpriseCrmFrontendsEventbusProtoParameterValueType::class;
   protected $valueDataType = '';
 
@@ -57,6 +61,20 @@ class EnterpriseCrmFrontendsEventbusProtoParameterEntry extends \Google\Model
   public function getKey()
   {
     return $this->key;
+  }
+  /**
+   * @param bool
+   */
+  public function setMasked($masked)
+  {
+    $this->masked = $masked;
+  }
+  /**
+   * @return bool
+   */
+  public function getMasked()
+  {
+    return $this->masked;
   }
   /**
    * @param EnterpriseCrmFrontendsEventbusProtoParameterValueType

@@ -58,6 +58,7 @@ class ProjectsJobsMessages extends \Google\Service\Resource
    * timestamps >= start_time. The default is the job creation time (i.e.
    * beginning of messages).
    * @return ListJobMessagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsJobsMessages($projectId, $jobId, $optParams = [])
   {

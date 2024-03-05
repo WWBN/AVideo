@@ -42,6 +42,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @param EvictVolumeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function evict($name, EvictVolumeRequest $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @param string $name Required. Name of the resource.
    * @param array $optParams Optional parameters.
    * @return Volume
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -76,6 +78,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results from the
    * server.
    * @return ListVolumesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVolumes($parent, $optParams = [])
   {
@@ -96,6 +99,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @opt_param string updateMask The list of fields to update. The only currently
    * supported fields are: 'labels'
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Volume $postBody, $optParams = [])
   {
@@ -112,6 +116,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @param RenameVolumeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Volume
+   * @throws \Google\Service\Exception
    */
   public function rename($name, RenameVolumeRequest $postBody, $optParams = [])
   {
@@ -126,6 +131,7 @@ class ProjectsLocationsVolumes extends \Google\Service\Resource
    * @param ResizeVolumeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function resize($volume, ResizeVolumeRequest $postBody, $optParams = [])
   {

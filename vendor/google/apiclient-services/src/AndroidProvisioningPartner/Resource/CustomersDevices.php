@@ -45,6 +45,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param CustomerApplyConfigurationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AndroiddeviceprovisioningEmpty
+   * @throws \Google\Service\Exception
    */
   public function applyConfiguration($parent, CustomerApplyConfigurationRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class CustomersDevices extends \Google\Service\Resource
    * format `customers/[CUSTOMER_ID]/devices/[DEVICE_ID]`.
    * @param array $optParams Optional parameters.
    * @return Device
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class CustomersDevices extends \Google\Service\Resource
    * results. Must be between 1 and 100 inclusive.
    * @opt_param string pageToken A token specifying which result page to return.
    * @return CustomerListDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersDevices($parent, $optParams = [])
   {
@@ -92,6 +95,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param CustomerRemoveConfigurationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AndroiddeviceprovisioningEmpty
+   * @throws \Google\Service\Exception
    */
   public function removeConfiguration($parent, CustomerRemoveConfigurationRequest $postBody, $optParams = [])
   {
@@ -109,6 +113,7 @@ class CustomersDevices extends \Google\Service\Resource
    * @param CustomerUnclaimDeviceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return AndroiddeviceprovisioningEmpty
+   * @throws \Google\Service\Exception
    */
   public function unclaim($parent, CustomerUnclaimDeviceRequest $postBody, $optParams = [])
   {

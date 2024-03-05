@@ -33,6 +33,8 @@ class TestSpecification extends \Google\Model
    * @var bool
    */
   public $disableVideoRecording;
+  protected $iosRoboTestType = IosRoboTest::class;
+  protected $iosRoboTestDataType = '';
   protected $iosTestLoopType = IosTestLoop::class;
   protected $iosTestLoopDataType = '';
   protected $iosTestSetupType = IosTestSetup::class;
@@ -115,6 +117,20 @@ class TestSpecification extends \Google\Model
   public function getDisableVideoRecording()
   {
     return $this->disableVideoRecording;
+  }
+  /**
+   * @param IosRoboTest
+   */
+  public function setIosRoboTest(IosRoboTest $iosRoboTest)
+  {
+    $this->iosRoboTest = $iosRoboTest;
+  }
+  /**
+   * @return IosRoboTest
+   */
+  public function getIosRoboTest()
+  {
+    return $this->iosRoboTest;
   }
   /**
    * @param IosTestLoop

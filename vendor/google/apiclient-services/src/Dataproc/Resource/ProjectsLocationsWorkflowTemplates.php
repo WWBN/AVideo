@@ -50,6 +50,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param WorkflowTemplate $postBody
    * @param array $optParams Optional parameters.
    * @return WorkflowTemplate
+   * @throws \Google\Service\Exception
    */
   public function create($parent, WorkflowTemplate $postBody, $optParams = [])
   {
@@ -75,6 +76,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * If specified, will only delete the template if the current server version
    * matches specified version.
    * @return DataprocEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -100,6 +102,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * retrieve. Only previously instantiated versions can be retrieved.If
    * unspecified, retrieves the current version.
    * @return WorkflowTemplate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -119,6 +122,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -149,6 +153,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param InstantiateWorkflowTemplateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function instantiate($name, InstantiateWorkflowTemplateRequest $postBody, $optParams = [])
   {
@@ -188,6 +193,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function instantiateInline($parent, WorkflowTemplate $postBody, $optParams = [])
   {
@@ -212,6 +218,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The page token, returned by a previous
    * call, to request the next page of results.
    * @return ListWorkflowTemplatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsWorkflowTemplates($parent, $optParams = [])
   {
@@ -231,6 +238,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -253,6 +261,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -275,6 +284,7 @@ class ProjectsLocationsWorkflowTemplates extends \Google\Service\Resource
    * @param WorkflowTemplate $postBody
    * @param array $optParams Optional parameters.
    * @return WorkflowTemplate
+   * @throws \Google\Service\Exception
    */
   public function update($name, WorkflowTemplate $postBody, $optParams = [])
   {

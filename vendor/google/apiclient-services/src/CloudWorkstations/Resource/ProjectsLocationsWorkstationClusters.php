@@ -38,11 +38,12 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param WorkstationCluster $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool validateOnly If set, validate the request and preview the
-   * review, but do not actually apply it.
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not actually apply it.
    * @opt_param string workstationClusterId Required. ID to use for the
    * workstation cluster.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, WorkstationCluster $postBody, $optParams = [])
   {
@@ -56,14 +57,17 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param string $name Required. Name of the workstation cluster to delete.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string etag If set, the request will be rejected if the latest
-   * version of the workstation cluster on the server does not have this ETag.
-   * @opt_param bool force If set, any workstation configurations and workstations
-   * in the workstation cluster are also deleted. Otherwise, the request only
-   * works if the workstation cluster has no configurations or workstations.
-   * @opt_param bool validateOnly If set, validate the request and preview the
-   * review, but do not apply it.
+   * @opt_param string etag Optional. If set, the request will be rejected if the
+   * latest version of the workstation cluster on the server does not have this
+   * ETag.
+   * @opt_param bool force Optional. If set, any workstation configurations and
+   * workstations in the workstation cluster are also deleted. Otherwise, the
+   * request only works if the workstation cluster has no configurations or
+   * workstations.
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not apply it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -77,6 +81,7 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param string $name Required. Name of the requested resource.
    * @param array $optParams Optional parameters.
    * @return WorkstationCluster
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,10 +96,11 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
    * @param string $parent Required. Parent resource name.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param int pageSize Maximum number of items to return.
-   * @opt_param string pageToken next_page_token value returned from a previous
-   * List request, if any.
+   * @opt_param int pageSize Optional. Maximum number of items to return.
+   * @opt_param string pageToken Optional. next_page_token value returned from a
+   * previous List request, if any.
    * @return ListWorkstationClustersResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsWorkstationClusters($parent, $optParams = [])
   {
@@ -105,18 +111,19 @@ class ProjectsLocationsWorkstationClusters extends \Google\Service\Resource
   /**
    * Updates an existing workstation cluster. (workstationClusters.patch)
    *
-   * @param string $name Full name of this resource.
+   * @param string $name Identifier. Full name of this workstation cluster.
    * @param WorkstationCluster $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool allowMissing If set, and the workstation cluster is not
-   * found, a new workstation cluster will be created. In this situation,
+   * @opt_param bool allowMissing Optional. If set, and the workstation cluster is
+   * not found, a new workstation cluster will be created. In this situation,
    * update_mask is ignored.
    * @opt_param string updateMask Required. Mask that specifies which fields in
    * the workstation cluster should be updated.
-   * @opt_param bool validateOnly If set, validate the request and preview the
-   * review, but do not actually apply it.
+   * @opt_param bool validateOnly Optional. If set, validate the request and
+   * preview the review, but do not actually apply it.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, WorkstationCluster $postBody, $optParams = [])
   {

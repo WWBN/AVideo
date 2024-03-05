@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,6 +12,7 @@
 
 namespace Predis\Configuration\Option;
 
+use InvalidArgumentException;
 use Predis\Command\FactoryInterface;
 use Predis\Command\RawFactory;
 use Predis\Command\RedisFactory;
@@ -19,8 +21,6 @@ use Predis\Configuration\OptionsInterface;
 
 /**
  * Configures a connection factory to be used by the client.
- *
- * @author Daniele Alessandri <suppakilla@gmail.com>
  */
 class Commands implements OptionInterface
 {
@@ -37,10 +37,10 @@ class Commands implements OptionInterface
             return $value;
         } elseif (is_array($value)) {
             return $this->createFactoryByArray($options, $value);
-        } elseif(is_string($value)) {
+        } elseif (is_string($value)) {
             return $this->createFactoryByString($options, $value);
         } else {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 '%s expects a valid command factory',
                 static::class
             ));
@@ -76,6 +76,7 @@ class Commands implements OptionInterface
 
         return $commands;
     }
+
     /**
      * Creates a new command factory from a descriptive string.
      *
@@ -103,7 +104,7 @@ class Commands implements OptionInterface
                 return $this->createRawFactory($options);
 
             default:
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     '%s does not recognize `%s` as a supported configuration string',
                     static::class,
                     $value
@@ -121,7 +122,7 @@ class Commands implements OptionInterface
         $commands = new RawFactory();
 
         if (isset($options->prefix)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 '%s does not support key prefixing', RawFactory::class
             ));
         }

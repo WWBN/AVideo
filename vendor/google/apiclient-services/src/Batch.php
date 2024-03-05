@@ -23,7 +23,7 @@ use Google\Client;
  * Service definition for Batch (v1).
  *
  * <p>
- * An API to manage the running of batch jobs on Google Cloud Platform.</p>
+ * An API to manage the running of batch resources on Google Cloud Platform.</p>
  *
  * <p>
  * For more information about this service, see the API
@@ -164,6 +164,10 @@ class Batch extends \Google\Service
                   'required' => true,
                 ],
                 'filter' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'orderBy' => [
                   'location' => 'query',
                   'type' => 'string',
                 ],

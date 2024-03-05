@@ -126,8 +126,8 @@ class getid3_lpac extends getid3_handler
 			}
 		}
 
-		$info['playtime_seconds'] = $info['lpac']['total_samples'] / $info['audio']['sample_rate'];
-		$info['audio']['bitrate'] = (($info['avdataend'] - $info['avdataoffset']) * 8) / $info['playtime_seconds'];
+		$info['playtime_seconds'] = getid3_lib::SafeDiv($info['lpac']['total_samples'], $info['audio']['sample_rate']);
+		$info['audio']['bitrate'] = getid3_lib::SafeDiv(($info['avdataend'] - $info['avdataoffset']) * 8, $info['playtime_seconds']);
 
 		return true;
 	}

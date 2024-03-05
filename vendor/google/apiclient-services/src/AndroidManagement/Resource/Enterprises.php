@@ -41,11 +41,11 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param bool agreementAccepted Whether the enterprise admin has seen and
    * agreed to the managed Google Play Agreement
    * (https://www.android.com/enterprise/terms/). Do not set this field for any
-   * customer-managed enterprise (https://developers.google.com/android/management
-   * /create-enterprise#customer-managed_enterprises). Set this to field to true
-   * for all EMM-managed enterprises
-   * (https://developers.google.com/android/management/create-enterprise#emm-
-   * managed_enterprises).
+   * customer-managed enterprise
+   * (https://developers.google.com/android/management/create-enterprise#customer-
+   * managed_enterprises). Set this to field to true for all EMM-managed
+   * enterprises (https://developers.google.com/android/management/create-
+   * enterprise#emm-managed_enterprises).
    * @opt_param string enterpriseToken The enterprise token appended to the
    * callback URL. Set this when creating a customer-managed enterprise
    * (https://developers.google.com/android/management/create-enterprise#customer-
@@ -61,6 +61,7 @@ class Enterprises extends \Google\Service\Resource
    * enterprise (https://developers.google.com/android/management/create-
    * enterprise#emm-managed_enterprises).
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function create(Enterprise $postBody, $optParams = [])
   {
@@ -69,13 +70,16 @@ class Enterprises extends \Google\Service\Resource
     return $this->call('create', [$params], Enterprise::class);
   }
   /**
-   * Deletes an enterprise. Only available for EMM-managed enterprises.
-   * (enterprises.delete)
+   * Permanently deletes an enterprise and all accounts and data associated with
+   * it. Warning: this will result in a cascaded deletion of all AM API devices
+   * associated with the deleted enterprise. Only available for EMM-managed
+   * enterprises. (enterprises.delete)
    *
    * @param string $name The name of the enterprise in the form
    * enterprises/{enterpriseId}.
    * @param array $optParams Optional parameters.
    * @return AndroidmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -90,6 +94,7 @@ class Enterprises extends \Google\Service\Resource
    * enterprises/{enterpriseId}.
    * @param array $optParams Optional parameters.
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -112,6 +117,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string view Specifies which Enterprise fields to return. This
    * method only supports BASIC.
    * @return ListEnterprisesResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnterprises($optParams = [])
   {
@@ -130,6 +136,7 @@ class Enterprises extends \Google\Service\Resource
    * @opt_param string updateMask The field mask indicating the fields to update.
    * If not set, all modifiable fields will be modified.
    * @return Enterprise
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Enterprise $postBody, $optParams = [])
   {

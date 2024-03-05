@@ -55,6 +55,7 @@ class Claims extends \Google\Service\Resource
    * @opt_param string reviewPublisherSiteFilter The review publisher site to
    * filter results by, e.g. nytimes.com.
    * @return GoogleFactcheckingFactchecktoolsV1alpha1FactCheckedClaimSearchResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {

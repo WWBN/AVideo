@@ -45,28 +45,13 @@ class EnterprisesDevicesOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource to be cancelled.
    * @param array $optParams Optional parameters.
    * @return AndroidmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, $optParams = [])
   {
     $params = ['name' => $name];
     $params = array_merge($params, $optParams);
     return $this->call('cancel', [$params], AndroidmanagementEmpty::class);
-  }
-  /**
-   * Deletes a long-running operation. This method indicates that the client is no
-   * longer interested in the operation result. It does not cancel the operation.
-   * If the server doesn't support this method, it returns
-   * google.rpc.Code.UNIMPLEMENTED. (operations.delete)
-   *
-   * @param string $name The name of the operation resource to be deleted.
-   * @param array $optParams Optional parameters.
-   * @return AndroidmanagementEmpty
-   */
-  public function delete($name, $optParams = [])
-  {
-    $params = ['name' => $name];
-    $params = array_merge($params, $optParams);
-    return $this->call('delete', [$params], AndroidmanagementEmpty::class);
   }
   /**
    * Gets the latest state of a long-running operation. Clients can use this
@@ -76,6 +61,7 @@ class EnterprisesDevicesOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -95,6 +81,7 @@ class EnterprisesDevicesOperations extends \Google\Service\Resource
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnterprisesDevicesOperations($name, $optParams = [])
   {

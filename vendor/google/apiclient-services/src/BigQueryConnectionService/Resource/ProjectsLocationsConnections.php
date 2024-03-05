@@ -19,7 +19,6 @@ namespace Google\Service\BigQueryConnectionService\Resource;
 
 use Google\Service\BigQueryConnectionService\BigqueryconnectionEmpty;
 use Google\Service\BigQueryConnectionService\Connection;
-use Google\Service\BigQueryConnectionService\ConnectionCredential;
 use Google\Service\BigQueryConnectionService\GetIamPolicyRequest;
 use Google\Service\BigQueryConnectionService\ListConnectionsResponse;
 use Google\Service\BigQueryConnectionService\Policy;
@@ -48,6 +47,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @opt_param string connectionId Optional. Connection id that should be
    * assigned to the created connection.
    * @return Connection
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Connection $postBody, $optParams = [])
   {
@@ -62,6 +62,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location_id}/connections/{connection_id}`
    * @param array $optParams Optional parameters.
    * @return BigqueryconnectionEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -76,6 +77,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location_id}/connections/{connection_id}`
    * @param array $optParams Optional parameters.
    * @return Connection
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -94,6 +96,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -109,9 +112,10 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * `projects/{project_id}/locations/{location_id}`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string maxResults Required. Maximum number of results per page.
+   * @opt_param int pageSize Required. Page size.
    * @opt_param string pageToken Page token.
    * @return ListConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConnections($parent, $optParams = [])
   {
@@ -132,6 +136,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @opt_param string updateMask Required. Update mask for the connection fields
    * to be updated.
    * @return Connection
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Connection $postBody, $optParams = [])
   {
@@ -151,6 +156,7 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -173,28 +179,13 @@ class ProjectsLocationsConnections extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
     $params = ['resource' => $resource, 'postBody' => $postBody];
     $params = array_merge($params, $optParams);
     return $this->call('testIamPermissions', [$params], TestIamPermissionsResponse::class);
-  }
-  /**
-   * Sets the credential for the specified connection.
-   * (connections.updateCredential)
-   *
-   * @param string $name Required. Name of the connection, for example: `projects/
-   * {project_id}/locations/{location_id}/connections/{connection_id}/credential`
-   * @param ConnectionCredential $postBody
-   * @param array $optParams Optional parameters.
-   * @return BigqueryconnectionEmpty
-   */
-  public function updateCredential($name, ConnectionCredential $postBody, $optParams = [])
-  {
-    $params = ['name' => $name, 'postBody' => $postBody];
-    $params = array_merge($params, $optParams);
-    return $this->call('updateCredential', [$params], BigqueryconnectionEmpty::class);
   }
 }
 

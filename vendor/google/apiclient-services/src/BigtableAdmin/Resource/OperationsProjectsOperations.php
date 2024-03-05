@@ -41,6 +41,7 @@ class OperationsProjectsOperations extends \Google\Service\Resource
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOperationsProjectsOperations($name, $optParams = [])
   {

@@ -50,6 +50,12 @@ class Entries extends \Google\Service\Resource
    * Full names are case-sensitive. For example: * `//bigquery.googleapis.com/proj
    * ects/{PROJECT_ID}/datasets/{DATASET_ID}/tables/{TABLE_ID}` *
    * `//pubsub.googleapis.com/projects/{PROJECT_ID}/topics/{TOPIC_ID}`
+   * @opt_param string location Location where the lookup should be performed.
+   * Required to lookup entry that is not a part of `DPMS` or `DATAPLEX`
+   * `integrated_system` using its `fully_qualified_name`. Ignored in other cases.
+   * @opt_param string project Project where the lookup should be performed.
+   * Required to lookup entry that is not a part of `DPMS` or `DATAPLEX`
+   * `integrated_system` using its `fully_qualified_name`. Ignored in other cases.
    * @opt_param string sqlResource The SQL name of the entry. SQL names are case-
    * sensitive. Examples: * `pubsub.topic.{PROJECT_ID}.{TOPIC_ID}` *
    * `pubsub.topic.{PROJECT_ID}.`\``{TOPIC.ID.SEPARATED.WITH.DOTS}`\` *
@@ -59,6 +65,7 @@ class Entries extends \Google\Service\Resource
    * Identifiers (`*_ID`) should comply with the [Lexical structure in Standard
    * SQL] (https://cloud.google.com/bigquery/docs/reference/standard-sql/lexical).
    * @return GoogleCloudDatacatalogV1Entry
+   * @throws \Google\Service\Exception
    */
   public function lookup($optParams = [])
   {

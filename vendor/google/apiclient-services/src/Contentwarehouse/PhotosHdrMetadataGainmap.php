@@ -26,6 +26,10 @@ class PhotosHdrMetadataGainmap extends \Google\Model
   /**
    * @var bool
    */
+  public $appleHdr;
+  /**
+   * @var bool
+   */
   public $googleHdr;
 
   /**
@@ -41,6 +45,20 @@ class PhotosHdrMetadataGainmap extends \Google\Model
   public function getAdobeHdr()
   {
     return $this->adobeHdr;
+  }
+  /**
+   * @param bool
+   */
+  public function setAppleHdr($appleHdr)
+  {
+    $this->appleHdr = $appleHdr;
+  }
+  /**
+   * @return bool
+   */
+  public function getAppleHdr()
+  {
+    return $this->appleHdr;
   }
   /**
    * @param bool

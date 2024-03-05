@@ -48,6 +48,7 @@ class BillingAccountsProjects extends \Google\Service\Resource
    * `ListProjectBillingInfo` call. If unspecified, the first page of results is
    * returned.
    * @return ListProjectBillingInfoResponse
+   * @throws \Google\Service\Exception
    */
   public function listBillingAccountsProjects($name, $optParams = [])
   {

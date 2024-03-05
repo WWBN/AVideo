@@ -34,9 +34,9 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
 {
   /**
    * Writes a single user event from the browser. This uses a GET request to due
-   * to browser restriction of POST-ing to a 3rd party domain. This method is used
-   * only by the Discovery Engine API JavaScript pixel and Google Tag Manager.
-   * Users should not call this method directly. (userEvents.collect)
+   * to browser restriction of POST-ing to a third-party domain. This method is
+   * used only by the Discovery Engine API JavaScript pixel and Google Tag
+   * Manager. Users should not call this method directly. (userEvents.collect)
    *
    * @param string $parent Required. The parent DataStore resource name, such as `
    * projects/{project}/locations/{location}/collections/{collection}/dataStores/{
@@ -48,11 +48,12 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * to reduce the payload bytes.
    * @opt_param string uri The URL including cgi-parameters but excluding the hash
    * fragment with a length limit of 5,000 characters. This is often more useful
-   * than the referer URL, because many browsers only send the domain for 3rd
+   * than the referer URL, because many browsers only send the domain for third-
    * party requests.
    * @opt_param string userEvent Required. URL encoded UserEvent proto with a
    * length limit of 2,000,000 characters.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function collect($parent, $optParams = [])
   {
@@ -73,6 +74,7 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * @param GoogleCloudDiscoveryengineV1betaImportUserEventsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudDiscoveryengineV1betaImportUserEventsRequest $postBody, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ProjectsLocationsDataStoresUserEvents extends \Google\Service\Resource
    * @param GoogleCloudDiscoveryengineV1betaUserEvent $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDiscoveryengineV1betaUserEvent
+   * @throws \Google\Service\Exception
    */
   public function write($parent, GoogleCloudDiscoveryengineV1betaUserEvent $postBody, $optParams = [])
   {

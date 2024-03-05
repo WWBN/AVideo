@@ -42,6 +42,7 @@ class Privileges extends \Google\Service\Resource
    * `customer` or the `domain` parameter.
    * @param array $optParams Optional parameters.
    * @return PrivilegesModel
+   * @throws \Google\Service\Exception
    */
   public function listPrivileges($customer, $optParams = [])
   {

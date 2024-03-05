@@ -46,6 +46,7 @@ class ProjectsAppsRecaptchaEnterpriseConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ``` A
    * maximum of 100 objects can be retrieved in a batch.
    * @return GoogleFirebaseAppcheckV1BatchGetRecaptchaEnterpriseConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsAppsRecaptchaEnterpriseConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/recaptchaEnterpriseConfig ```
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -84,6 +86,7 @@ class ProjectsAppsRecaptchaEnterpriseConfig extends \Google\Service\Resource
    * @opt_param string updateMask Required. A comma-separated list of names of
    * fields in the RecaptchaEnterpriseConfig to update. Example: `site_key`.
    * @return GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppcheckV1RecaptchaEnterpriseConfig $postBody, $optParams = [])
   {

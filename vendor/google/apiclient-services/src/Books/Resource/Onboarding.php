@@ -38,6 +38,7 @@ class Onboarding extends \Google\Service\Resource
    * @opt_param string locale ISO-639-1 language and ISO-3166-1 country code.
    * Default is en-US if unset.
    * @return Category
+   * @throws \Google\Service\Exception
    */
   public function listCategories($optParams = [])
   {
@@ -62,6 +63,7 @@ class Onboarding extends \Google\Service\Resource
    * @opt_param string pageToken The value of the nextToken from the previous
    * page.
    * @return Volume2
+   * @throws \Google\Service\Exception
    */
   public function listCategoryVolumes($optParams = [])
   {

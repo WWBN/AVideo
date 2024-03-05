@@ -21,10 +21,32 @@ class GoogleCloudPaymentsResellerSubscriptionV1YoutubePayload extends \Google\Co
 {
   protected $collection_key = 'partnerEligibilityIds';
   /**
+   * @var string
+   */
+  public $accessEndTime;
+  /**
    * @var string[]
    */
   public $partnerEligibilityIds;
+  /**
+   * @var string
+   */
+  public $partnerPlanType;
 
+  /**
+   * @param string
+   */
+  public function setAccessEndTime($accessEndTime)
+  {
+    $this->accessEndTime = $accessEndTime;
+  }
+  /**
+   * @return string
+   */
+  public function getAccessEndTime()
+  {
+    return $this->accessEndTime;
+  }
   /**
    * @param string[]
    */
@@ -38,6 +60,20 @@ class GoogleCloudPaymentsResellerSubscriptionV1YoutubePayload extends \Google\Co
   public function getPartnerEligibilityIds()
   {
     return $this->partnerEligibilityIds;
+  }
+  /**
+   * @param string
+   */
+  public function setPartnerPlanType($partnerPlanType)
+  {
+    $this->partnerPlanType = $partnerPlanType;
+  }
+  /**
+   * @return string
+   */
+  public function getPartnerPlanType()
+  {
+    return $this->partnerPlanType;
   }
 }
 

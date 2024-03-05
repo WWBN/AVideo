@@ -21,6 +21,8 @@ class Queue extends \Google\Model
 {
   protected $appEngineRoutingOverrideType = AppEngineRouting::class;
   protected $appEngineRoutingOverrideDataType = '';
+  protected $httpTargetType = HttpTarget::class;
+  protected $httpTargetDataType = '';
   /**
    * @var string
    */
@@ -53,6 +55,20 @@ class Queue extends \Google\Model
   public function getAppEngineRoutingOverride()
   {
     return $this->appEngineRoutingOverride;
+  }
+  /**
+   * @param HttpTarget
+   */
+  public function setHttpTarget(HttpTarget $httpTarget)
+  {
+    $this->httpTarget = $httpTarget;
+  }
+  /**
+   * @return HttpTarget
+   */
+  public function getHttpTarget()
+  {
+    return $this->httpTarget;
   }
   /**
    * @param string

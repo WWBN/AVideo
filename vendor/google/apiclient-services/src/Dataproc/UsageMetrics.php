@@ -22,12 +22,48 @@ class UsageMetrics extends \Google\Model
   /**
    * @var string
    */
+  public $acceleratorType;
+  /**
+   * @var string
+   */
+  public $milliAcceleratorSeconds;
+  /**
+   * @var string
+   */
   public $milliDcuSeconds;
   /**
    * @var string
    */
   public $shuffleStorageGbSeconds;
 
+  /**
+   * @param string
+   */
+  public function setAcceleratorType($acceleratorType)
+  {
+    $this->acceleratorType = $acceleratorType;
+  }
+  /**
+   * @return string
+   */
+  public function getAcceleratorType()
+  {
+    return $this->acceleratorType;
+  }
+  /**
+   * @param string
+   */
+  public function setMilliAcceleratorSeconds($milliAcceleratorSeconds)
+  {
+    $this->milliAcceleratorSeconds = $milliAcceleratorSeconds;
+  }
+  /**
+   * @return string
+   */
+  public function getMilliAcceleratorSeconds()
+  {
+    return $this->milliAcceleratorSeconds;
+  }
   /**
    * @param string
    */

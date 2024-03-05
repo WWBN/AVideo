@@ -20,6 +20,8 @@ namespace Google\Service\Dialogflow;
 class GoogleCloudDialogflowCxV3Flow extends \Google\Collection
 {
   protected $collection_key = 'transitionRoutes';
+  protected $advancedSettingsType = GoogleCloudDialogflowCxV3AdvancedSettings::class;
+  protected $advancedSettingsDataType = '';
   /**
    * @var string
    */
@@ -30,6 +32,8 @@ class GoogleCloudDialogflowCxV3Flow extends \Google\Collection
   public $displayName;
   protected $eventHandlersType = GoogleCloudDialogflowCxV3EventHandler::class;
   protected $eventHandlersDataType = 'array';
+  protected $knowledgeConnectorSettingsType = GoogleCloudDialogflowCxV3KnowledgeConnectorSettings::class;
+  protected $knowledgeConnectorSettingsDataType = '';
   /**
    * @var string
    */
@@ -43,6 +47,20 @@ class GoogleCloudDialogflowCxV3Flow extends \Google\Collection
   protected $transitionRoutesType = GoogleCloudDialogflowCxV3TransitionRoute::class;
   protected $transitionRoutesDataType = 'array';
 
+  /**
+   * @param GoogleCloudDialogflowCxV3AdvancedSettings
+   */
+  public function setAdvancedSettings(GoogleCloudDialogflowCxV3AdvancedSettings $advancedSettings)
+  {
+    $this->advancedSettings = $advancedSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3AdvancedSettings
+   */
+  public function getAdvancedSettings()
+  {
+    return $this->advancedSettings;
+  }
   /**
    * @param string
    */
@@ -84,6 +102,20 @@ class GoogleCloudDialogflowCxV3Flow extends \Google\Collection
   public function getEventHandlers()
   {
     return $this->eventHandlers;
+  }
+  /**
+   * @param GoogleCloudDialogflowCxV3KnowledgeConnectorSettings
+   */
+  public function setKnowledgeConnectorSettings(GoogleCloudDialogflowCxV3KnowledgeConnectorSettings $knowledgeConnectorSettings)
+  {
+    $this->knowledgeConnectorSettings = $knowledgeConnectorSettings;
+  }
+  /**
+   * @return GoogleCloudDialogflowCxV3KnowledgeConnectorSettings
+   */
+  public function getKnowledgeConnectorSettings()
+  {
+    return $this->knowledgeConnectorSettings;
   }
   /**
    * @param string

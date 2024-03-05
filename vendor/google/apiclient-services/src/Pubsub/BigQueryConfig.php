@@ -26,11 +26,19 @@ class BigQueryConfig extends \Google\Model
   /**
    * @var string
    */
+  public $serviceAccountEmail;
+  /**
+   * @var string
+   */
   public $state;
   /**
    * @var string
    */
   public $table;
+  /**
+   * @var bool
+   */
+  public $useTableSchema;
   /**
    * @var bool
    */
@@ -53,6 +61,20 @@ class BigQueryConfig extends \Google\Model
   public function getDropUnknownFields()
   {
     return $this->dropUnknownFields;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceAccountEmail($serviceAccountEmail)
+  {
+    $this->serviceAccountEmail = $serviceAccountEmail;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceAccountEmail()
+  {
+    return $this->serviceAccountEmail;
   }
   /**
    * @param string
@@ -81,6 +103,20 @@ class BigQueryConfig extends \Google\Model
   public function getTable()
   {
     return $this->table;
+  }
+  /**
+   * @param bool
+   */
+  public function setUseTableSchema($useTableSchema)
+  {
+    $this->useTableSchema = $useTableSchema;
+  }
+  /**
+   * @return bool
+   */
+  public function getUseTableSchema()
+  {
+    return $this->useTableSchema;
   }
   /**
    * @param bool

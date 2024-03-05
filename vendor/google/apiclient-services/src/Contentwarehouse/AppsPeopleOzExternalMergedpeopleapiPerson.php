@@ -52,6 +52,8 @@ class AppsPeopleOzExternalMergedpeopleapiPerson extends \Google\Collection
   protected $contactEditContextInfoDataType = 'array';
   protected $contactGroupMembershipType = AppsPeopleOzExternalMergedpeopleapiContactGroupMembership::class;
   protected $contactGroupMembershipDataType = 'array';
+  protected $contactPromptSettingsInfoType = AppsPeopleOzExternalMergedpeopleapiContactPromptSettingsInfo::class;
+  protected $contactPromptSettingsInfoDataType = 'array';
   protected $contactStateInfoType = AppsPeopleOzExternalMergedpeopleapiContactStateInfo::class;
   protected $contactStateInfoDataType = 'array';
   protected $coverPhotoType = AppsPeopleOzExternalMergedpeopleapiCoverPhoto::class;
@@ -388,6 +390,20 @@ class AppsPeopleOzExternalMergedpeopleapiPerson extends \Google\Collection
   public function getContactGroupMembership()
   {
     return $this->contactGroupMembership;
+  }
+  /**
+   * @param AppsPeopleOzExternalMergedpeopleapiContactPromptSettingsInfo[]
+   */
+  public function setContactPromptSettingsInfo($contactPromptSettingsInfo)
+  {
+    $this->contactPromptSettingsInfo = $contactPromptSettingsInfo;
+  }
+  /**
+   * @return AppsPeopleOzExternalMergedpeopleapiContactPromptSettingsInfo[]
+   */
+  public function getContactPromptSettingsInfo()
+  {
+    return $this->contactPromptSettingsInfo;
   }
   /**
    * @param AppsPeopleOzExternalMergedpeopleapiContactStateInfo[]

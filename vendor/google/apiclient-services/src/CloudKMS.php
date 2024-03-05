@@ -684,6 +684,26 @@ class CloudKMS extends \Google\Service
                   'type' => 'string',
                 ],
               ],
+            ],'rawDecrypt' => [
+              'path' => 'v1/{+name}:rawDecrypt',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'rawEncrypt' => [
+              'path' => 'v1/{+name}:rawEncrypt',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'name' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'restore' => [
               'path' => 'v1/{+name}:restore',
               'httpMethod' => 'POST',

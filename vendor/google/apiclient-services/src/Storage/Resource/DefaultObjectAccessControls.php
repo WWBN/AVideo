@@ -42,6 +42,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    *
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
+   * @throws \Google\Service\Exception
    */
   public function delete($bucket, $entity, $optParams = [])
   {
@@ -62,6 +63,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return ObjectAccessControl
+   * @throws \Google\Service\Exception
    */
   public function get($bucket, $entity, $optParams = [])
   {
@@ -80,6 +82,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return ObjectAccessControl
+   * @throws \Google\Service\Exception
    */
   public function insert($bucket, ObjectAccessControl $postBody, $optParams = [])
   {
@@ -101,7 +104,8 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * value.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
-   * @return ObjectAccessControls
+   * @return ObjectAccessControlsModel
+   * @throws \Google\Service\Exception
    */
   public function listDefaultObjectAccessControls($bucket, $optParams = [])
   {
@@ -123,6 +127,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return ObjectAccessControl
+   * @throws \Google\Service\Exception
    */
   public function patch($bucket, $entity, ObjectAccessControl $postBody, $optParams = [])
   {
@@ -144,6 +149,7 @@ class DefaultObjectAccessControls extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return ObjectAccessControl
+   * @throws \Google\Service\Exception
    */
   public function update($bucket, $entity, ObjectAccessControl $postBody, $optParams = [])
   {

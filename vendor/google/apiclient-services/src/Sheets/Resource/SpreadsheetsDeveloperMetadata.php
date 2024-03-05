@@ -41,6 +41,7 @@ class SpreadsheetsDeveloperMetadata extends \Google\Service\Resource
    * @param int $metadataId The ID of the developer metadata to retrieve.
    * @param array $optParams Optional parameters.
    * @return DeveloperMetadata
+   * @throws \Google\Service\Exception
    */
   public function get($spreadsheetId, $metadataId, $optParams = [])
   {
@@ -61,6 +62,7 @@ class SpreadsheetsDeveloperMetadata extends \Google\Service\Resource
    * @param SearchDeveloperMetadataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SearchDeveloperMetadataResponse
+   * @throws \Google\Service\Exception
    */
   public function search($spreadsheetId, SearchDeveloperMetadataRequest $postBody, $optParams = [])
   {

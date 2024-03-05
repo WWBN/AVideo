@@ -42,9 +42,9 @@ class EntityUsageReports extends \Google\Service\Resource
    * for all users, or any other value for an app-specific entity. For details on
    * how to obtain the `entityKey` for a particular `entityType`, see the Entities
    * Usage parameters reference guides.
-   * @param string $date Represents the date the usage occurred. The timestamp is
-   * in the ISO 8601 format, yyyy-mm-dd. We recommend you use your account's time
-   * zone for this.
+   * @param string $date Represents the date the usage occurred, based on UTC-8:00
+   * (Pacific Standard Time). The timestamp is in the [ISO 8601
+   * format](https://en.wikipedia.org/wiki/ISO_8601), `yyyy-mm-dd`.
    * @param array $optParams Optional parameters.
    *
    * @opt_param string customerId The unique ID of the customer to retrieve data
@@ -59,12 +59,12 @@ class EntityUsageReports extends \Google\Service\Resource
    * is URL-encoded in the request's query string (%3C%3E): GET https://www.google
    * apis.com/admin/reports/v1/usage/gplus_communities/all/dates/2017-12-01
    * ?parameters=gplus:community_name,gplus:num_total_members
-   * =gplus:num_total_members%3C%3E0 The relational operators include: - `==` -
-   * 'equal to'. - `<>` - 'not equal to'. It is URL-encoded (%3C%3E). - `<` -
-   * 'less than'. It is URL-encoded (%3C). - `<=` - 'less than or equal to'. It is
-   * URL-encoded (%3C=). - `>` - 'greater than'. It is URL-encoded (%3E). - `>=` -
-   * 'greater than or equal to'. It is URL-encoded (%3E=). Filters can only be
-   * applied to numeric parameters.
+   * &filters=gplus:num_total_members%3C%3E0 The relational operators include: -
+   * `==` - 'equal to'. - `<>` - 'not equal to'. It is URL-encoded (%3C%3E). - `<`
+   * - 'less than'. It is URL-encoded (%3C). - `<=` - 'less than or equal to'. It
+   * is URL-encoded (%3C=). - `>` - 'greater than'. It is URL-encoded (%3E). -
+   * `>=` - 'greater than or equal to'. It is URL-encoded (%3E=). Filters can only
+   * be applied to numeric parameters.
    * @opt_param string maxResults Determines how many activity records are shown
    * on each response page. For example, if the request sets `maxResults=1` and
    * the report has two activities, the report has two pages. The response's
@@ -87,6 +87,7 @@ class EntityUsageReports extends \Google\Service\Resource
    * parameter is one that does not belong to the application. If no parameters
    * are requested, all parameters are returned.
    * @return UsageReports
+   * @throws \Google\Service\Exception
    */
   public function get($entityType, $entityKey, $date, $optParams = [])
   {

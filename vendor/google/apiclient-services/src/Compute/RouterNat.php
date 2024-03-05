@@ -21,6 +21,10 @@ class RouterNat extends \Google\Collection
 {
   protected $collection_key = 'subnetworks';
   /**
+   * @var string
+   */
+  public $autoNetworkTier;
+  /**
    * @var string[]
    */
   public $drainNatIps;
@@ -83,10 +87,28 @@ class RouterNat extends \Google\Collection
    */
   public $tcpTransitoryIdleTimeoutSec;
   /**
+   * @var string
+   */
+  public $type;
+  /**
    * @var int
    */
   public $udpIdleTimeoutSec;
 
+  /**
+   * @param string
+   */
+  public function setAutoNetworkTier($autoNetworkTier)
+  {
+    $this->autoNetworkTier = $autoNetworkTier;
+  }
+  /**
+   * @return string
+   */
+  public function getAutoNetworkTier()
+  {
+    return $this->autoNetworkTier;
+  }
   /**
    * @param string[]
    */
@@ -324,6 +346,20 @@ class RouterNat extends \Google\Collection
   public function getTcpTransitoryIdleTimeoutSec()
   {
     return $this->tcpTransitoryIdleTimeoutSec;
+  }
+  /**
+   * @param string
+   */
+  public function setType($type)
+  {
+    $this->type = $type;
+  }
+  /**
+   * @return string
+   */
+  public function getType()
+  {
+    return $this->type;
   }
   /**
    * @param int

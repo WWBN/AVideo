@@ -38,6 +38,7 @@ class Flags extends \Google\Service\Resource
    * retrieve flags for. By default, this method returns flags for all database
    * types and versions.
    * @return FlagsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listFlags($optParams = [])
   {

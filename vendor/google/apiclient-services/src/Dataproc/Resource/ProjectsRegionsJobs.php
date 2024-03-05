@@ -54,6 +54,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param CancelJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function cancel($projectId, $region, $jobId, CancelJobRequest $postBody, $optParams = [])
   {
@@ -72,6 +73,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param string $jobId Required. The job ID.
    * @param array $optParams Optional parameters.
    * @return DataprocEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($projectId, $region, $jobId, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param string $jobId Required. The job ID.
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $region, $jobId, $optParams = [])
   {
@@ -107,6 +110,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -140,6 +144,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The page token, returned by a previous
    * call, to request the next page of results.
    * @return ListJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsRegionsJobs($projectId, $region, $optParams = [])
   {
@@ -164,6 +169,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * body would specify the new value. *Note:* Currently, labels is the only field
    * that can be updated.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function patch($projectId, $region, $jobId, Job $postBody, $optParams = [])
   {
@@ -183,6 +189,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -200,6 +207,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param SubmitJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Job
+   * @throws \Google\Service\Exception
    */
   public function submit($projectId, $region, SubmitJobRequest $postBody, $optParams = [])
   {
@@ -217,6 +225,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param SubmitJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function submitAsOperation($projectId, $region, SubmitJobRequest $postBody, $optParams = [])
   {
@@ -238,6 +247,7 @@ class ProjectsRegionsJobs extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

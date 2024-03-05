@@ -40,6 +40,7 @@ class YoutubeV3 extends \Google\Service\Resource
    * must at least include the snippet part in the parameter value since that part
    * contains all of the properties that the API request can update.
    * @return CommentThread
+   * @throws \Google\Service\Exception
    */
   public function updateCommentThreads(CommentThread $postBody, $optParams = [])
   {

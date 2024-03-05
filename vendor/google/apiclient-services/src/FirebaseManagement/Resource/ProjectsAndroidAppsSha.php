@@ -44,6 +44,7 @@ class ProjectsAndroidAppsSha extends \Google\Service\Resource
    * @param ShaCertificate $postBody
    * @param array $optParams Optional parameters.
    * @return ShaCertificate
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ShaCertificate $postBody, $optParams = [])
   {
@@ -65,6 +66,7 @@ class ProjectsAndroidAppsSha extends \Google\Service\Resource
    * [`CreateShaCertificate`](../projects.androidApps.sha/create).
    * @param array $optParams Optional parameters.
    * @return FirebaseEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -85,6 +87,7 @@ class ProjectsAndroidAppsSha extends \Google\Service\Resource
    * for details about PROJECT_IDENTIFIER and APP_ID values.
    * @param array $optParams Optional parameters.
    * @return ListShaCertificatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAndroidAppsSha($parent, $optParams = [])
   {

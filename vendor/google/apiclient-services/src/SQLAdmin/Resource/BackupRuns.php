@@ -42,6 +42,7 @@ class BackupRuns extends \Google\Service\Resource
    * api/rest/v1/backupRuns/list) method.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($project, $instance, $id, $optParams = [])
   {
@@ -59,6 +60,7 @@ class BackupRuns extends \Google\Service\Resource
    * @param string $id The ID of this backup run.
    * @param array $optParams Optional parameters.
    * @return BackupRun
+   * @throws \Google\Service\Exception
    */
   public function get($project, $instance, $id, $optParams = [])
   {
@@ -75,6 +77,7 @@ class BackupRuns extends \Google\Service\Resource
    * @param BackupRun $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function insert($project, $instance, BackupRun $postBody, $optParams = [])
   {
@@ -96,6 +99,7 @@ class BackupRuns extends \Google\Service\Resource
    * @opt_param string pageToken A previously-returned page token representing
    * part of the larger set of results to view.
    * @return BackupRunsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listBackupRuns($project, $instance, $optParams = [])
   {

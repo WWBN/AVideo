@@ -54,6 +54,7 @@ class CoursesStudents extends \Google\Service\Resource
    * user; it may be omitted if the requesting user has administrative permissions
    * to create students for any user.
    * @return Student
+   * @throws \Google\Service\Exception
    */
   public function create($courseId, Student $postBody, $optParams = [])
   {
@@ -76,6 +77,7 @@ class CoursesStudents extends \Google\Service\Resource
    * user
    * @param array $optParams Optional parameters.
    * @return ClassroomEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($courseId, $userId, $optParams = [])
   {
@@ -98,6 +100,7 @@ class CoursesStudents extends \Google\Service\Resource
    * user
    * @param array $optParams Optional parameters.
    * @return Student
+   * @throws \Google\Service\Exception
    */
   public function get($courseId, $userId, $optParams = [])
   {
@@ -123,6 +126,7 @@ class CoursesStudents extends \Google\Service\Resource
    * list request must be otherwise identical to the one that resulted in this
    * token.
    * @return ListStudentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listCoursesStudents($courseId, $optParams = [])
   {

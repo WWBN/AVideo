@@ -268,6 +268,8 @@ class TrawlerFetchReplyData extends \Google\Collection
    * @var string
    */
   public $trafficType;
+  protected $webioInfoType = TrawlerFetchReplyDataWebIOInfo::class;
+  protected $webioInfoDataType = '';
 
   /**
    * @param string
@@ -1080,6 +1082,20 @@ class TrawlerFetchReplyData extends \Google\Collection
   public function getTrafficType()
   {
     return $this->trafficType;
+  }
+  /**
+   * @param TrawlerFetchReplyDataWebIOInfo
+   */
+  public function setWebioInfo(TrawlerFetchReplyDataWebIOInfo $webioInfo)
+  {
+    $this->webioInfo = $webioInfo;
+  }
+  /**
+   * @return TrawlerFetchReplyDataWebIOInfo
+   */
+  public function getWebioInfo()
+  {
+    return $this->webioInfo;
   }
 }
 

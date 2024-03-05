@@ -47,6 +47,7 @@ class LocationsOperations extends \Google\Service\Resource
    * @param CancelOperationRequest $postBody
    * @param array $optParams Optional parameters.
    * @return LoggingEmpty
+   * @throws \Google\Service\Exception
    */
   public function cancel($name, CancelOperationRequest $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class LocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class LocationsOperations extends \Google\Service\Resource
    * @opt_param int pageSize The standard list page size.
    * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listLocationsOperations($name, $optParams = [])
   {

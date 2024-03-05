@@ -26,6 +26,10 @@ class PasswordValidationPolicy extends \Google\Model
   /**
    * @var bool
    */
+  public $disallowCompromisedCredentials;
+  /**
+   * @var bool
+   */
   public $disallowUsernameSubstring;
   /**
    * @var bool
@@ -57,6 +61,20 @@ class PasswordValidationPolicy extends \Google\Model
   public function getComplexity()
   {
     return $this->complexity;
+  }
+  /**
+   * @param bool
+   */
+  public function setDisallowCompromisedCredentials($disallowCompromisedCredentials)
+  {
+    $this->disallowCompromisedCredentials = $disallowCompromisedCredentials;
+  }
+  /**
+   * @return bool
+   */
+  public function getDisallowCompromisedCredentials()
+  {
+    return $this->disallowCompromisedCredentials;
   }
   /**
    * @param bool

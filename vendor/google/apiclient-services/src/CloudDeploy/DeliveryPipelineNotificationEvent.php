@@ -30,6 +30,10 @@ class DeliveryPipelineNotificationEvent extends \Google\Model
   /**
    * @var string
    */
+  public $pipelineUid;
+  /**
+   * @var string
+   */
   public $type;
 
   /**
@@ -59,6 +63,20 @@ class DeliveryPipelineNotificationEvent extends \Google\Model
   public function getMessage()
   {
     return $this->message;
+  }
+  /**
+   * @param string
+   */
+  public function setPipelineUid($pipelineUid)
+  {
+    $this->pipelineUid = $pipelineUid;
+  }
+  /**
+   * @return string
+   */
+  public function getPipelineUid()
+  {
+    return $this->pipelineUid;
   }
   /**
    * @param string

@@ -43,6 +43,7 @@ class OrganizationsSecurityProfilesEnvironments extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1ComputeEnvironmentScoresRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ComputeEnvironmentScoresResponse
+   * @throws \Google\Service\Exception
    */
   public function computeEnvironmentScores($profileEnvironment, GoogleCloudApigeeV1ComputeEnvironmentScoresRequest $postBody, $optParams = [])
   {
@@ -60,6 +61,7 @@ class OrganizationsSecurityProfilesEnvironments extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1SecurityProfileEnvironmentAssociation $postBody, $optParams = [])
   {
@@ -77,6 +79,7 @@ class OrganizationsSecurityProfilesEnvironments extends \Google\Service\Resource
    * organizations/{org}/securityProfiles/{profile}/environments/{env}
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {

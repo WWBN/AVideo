@@ -19,6 +19,10 @@ namespace Google\Service\ShoppingContent;
 
 class RepricingRuleRestriction extends \Google\Model
 {
+  /**
+   * @var RepricingRuleRestrictionBoundary
+   */
+  public $floor;
   protected $floorType = RepricingRuleRestrictionBoundary::class;
   protected $floorDataType = '';
   /**

@@ -39,6 +39,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * @param Zone $postBody
    * @param array $optParams Optional parameters.
    * @return Zone
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Zone $postBody, $optParams = [])
   {
@@ -52,6 +53,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * @param string $path GTM Zone's API relative path. Example: accounts/{account_
    * id}/containers/{container_id}/workspaces/{workspace_id}/zones/{zone_id}
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($path, $optParams = [])
   {
@@ -66,6 +68,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * id}/containers/{container_id}/workspaces/{workspace_id}/zones/{zone_id}
    * @param array $optParams Optional parameters.
    * @return Zone
+   * @throws \Google\Service\Exception
    */
   public function get($path, $optParams = [])
   {
@@ -84,6 +87,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListZonesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsContainersWorkspacesZones($parent, $optParams = [])
   {
@@ -101,6 +105,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the zone in storage.
    * @return RevertZoneResponse
+   * @throws \Google\Service\Exception
    */
   public function revert($path, $optParams = [])
   {
@@ -119,6 +124,7 @@ class AccountsContainersWorkspacesZones extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the zone in storage.
    * @return Zone
+   * @throws \Google\Service\Exception
    */
   public function update($path, Zone $postBody, $optParams = [])
   {

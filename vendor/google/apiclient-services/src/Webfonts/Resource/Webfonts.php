@@ -43,6 +43,7 @@ class Webfonts extends \Google\Service\Resource
    * @opt_param string subset Filters by Webfont.subset, if subset is found in
    * Webfont.subsets. If not set, returns all families.
    * @return WebfontList
+   * @throws \Google\Service\Exception
    */
   public function listWebfonts($optParams = [])
   {

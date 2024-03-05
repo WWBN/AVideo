@@ -21,6 +21,8 @@ class Query extends \Google\Model
 {
   protected $accountInfoType = AccountInfo::class;
   protected $accountInfoDataType = '';
+  protected $calendarOptionsType = CalendarOptions::class;
+  protected $calendarOptionsDataType = '';
   /**
    * @var string
    */
@@ -85,6 +87,20 @@ class Query extends \Google\Model
   public function getAccountInfo()
   {
     return $this->accountInfo;
+  }
+  /**
+   * @param CalendarOptions
+   */
+  public function setCalendarOptions(CalendarOptions $calendarOptions)
+  {
+    $this->calendarOptions = $calendarOptions;
+  }
+  /**
+   * @return CalendarOptions
+   */
+  public function getCalendarOptions()
+  {
+    return $this->calendarOptions;
   }
   /**
    * @param string

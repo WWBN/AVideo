@@ -40,6 +40,7 @@ class AccountsLanguagesProductCertifications extends \Google\Service\Resource
    * accounts/{account}/languages/{language_code}/productCertifications/{id}
    * @param array $optParams Optional parameters.
    * @return ManufacturersEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -56,6 +57,7 @@ class AccountsLanguagesProductCertifications extends \Google\Service\Resource
    * accounts/{account}/languages/{language_code}/productCertifications/{id}
    * @param array $optParams Optional parameters.
    * @return ProductCertification
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -82,6 +84,7 @@ class AccountsLanguagesProductCertifications extends \Google\Service\Resource
    * `ListProductCertifications` must match the call that provided the page token.
    * Required if requesting the second or higher page.
    * @return ListProductCertificationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsLanguagesProductCertifications($parent, $optParams = [])
   {
@@ -108,6 +111,7 @@ class AccountsLanguagesProductCertifications extends \Google\Service\Resource
    * Therefore, it can be either ignored or set to "*". Setting any other values
    * will returns UNIMPLEMENTED error.
    * @return ProductCertification
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ProductCertification $postBody, $optParams = [])
   {

@@ -22,6 +22,12 @@ class DynamicRouteConfig extends \Google\Model
   /**
    * @var string
    */
+  public $clientStatus;
+  protected $errorStateType = UpdateFailureState::class;
+  protected $errorStateDataType = '';
+  /**
+   * @var string
+   */
   public $lastUpdated;
   /**
    * @var array[]
@@ -32,6 +38,34 @@ class DynamicRouteConfig extends \Google\Model
    */
   public $versionInfo;
 
+  /**
+   * @param string
+   */
+  public function setClientStatus($clientStatus)
+  {
+    $this->clientStatus = $clientStatus;
+  }
+  /**
+   * @return string
+   */
+  public function getClientStatus()
+  {
+    return $this->clientStatus;
+  }
+  /**
+   * @param UpdateFailureState
+   */
+  public function setErrorState(UpdateFailureState $errorState)
+  {
+    $this->errorState = $errorState;
+  }
+  /**
+   * @return UpdateFailureState
+   */
+  public function getErrorState()
+  {
+    return $this->errorState;
+  }
   /**
    * @param string
    */

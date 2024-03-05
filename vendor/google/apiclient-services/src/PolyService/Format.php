@@ -20,14 +20,26 @@ namespace Google\Service\PolyService;
 class Format extends \Google\Collection
 {
   protected $collection_key = 'resources';
+  /**
+   * @var FormatComplexity
+   */
+  public $formatComplexity;
   protected $formatComplexityType = FormatComplexity::class;
   protected $formatComplexityDataType = '';
   /**
    * @var string
    */
   public $formatType;
+  /**
+   * @var PolyFile[]
+   */
+  public $resources;
   protected $resourcesType = PolyFile::class;
   protected $resourcesDataType = 'array';
+  /**
+   * @var PolyFile
+   */
+  public $root;
   protected $rootType = PolyFile::class;
   protected $rootDataType = '';
 

@@ -41,6 +41,7 @@ class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Res
    * @param AssignedTargetingOption $postBody
    * @param array $optParams Optional parameters.
    * @return AssignedTargetingOption
+   * @throws \Google\Service\Exception
    */
   public function create($partnerId, $targetingType, AssignedTargetingOption $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Res
    * targeting option to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($partnerId, $targetingType, $assignedTargetingOptionId, $optParams = [])
   {
@@ -78,6 +80,7 @@ class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Res
    * option being requested.
    * @param array $optParams Optional parameters.
    * @return AssignedTargetingOption
+   * @throws \Google\Service\Exception
    */
   public function get($partnerId, $targetingType, $assignedTargetingOptionId, $optParams = [])
   {
@@ -102,8 +105,9 @@ class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Res
    * use the `EQUALS (=)` operator. Supported fields: *
    * `assignedTargetingOptionId` Examples: * `AssignedTargetingOption` resource
    * with ID 123456: `assignedTargetingOptionId="123456"` The length of this field
-   * should be no more than 500 characters. Reference our [filter `LIST` requests
-   * ](/display-video/api/guides/how-tos/filters) guide for more information.
+   * should be no more than 500 characters. Reference our [filter `LIST`
+   * requests](/display-video/api/guides/how-tos/filters) guide for more
+   * information.
    * @opt_param string orderBy Field by which to sort the list. Acceptable values
    * are: * `assignedTargetingOptionId` (default) The default sorting order is
    * ascending. To specify descending order for a field, a suffix "desc" should be
@@ -116,6 +120,7 @@ class PartnersTargetingTypesAssignedTargetingOptions extends \Google\Service\Res
    * the previous call to `ListPartnerAssignedTargetingOptions` method. If not
    * specified, the first page of results will be returned.
    * @return ListPartnerAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPartnersTargetingTypesAssignedTargetingOptions($partnerId, $targetingType, $optParams = [])
   {

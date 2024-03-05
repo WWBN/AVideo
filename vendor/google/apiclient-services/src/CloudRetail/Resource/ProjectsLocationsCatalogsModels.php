@@ -47,6 +47,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @opt_param bool dryRun Optional. Whether to run a dry run to validate the
    * request (without actually creating the model).
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudRetailV2Model $postBody, $optParams = [])
   {
@@ -62,6 +63,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * id}/models/{model_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -77,6 +79,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * {model_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2Model
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -97,6 +100,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A page token, received from a previous
    * `ListModels` call. Provide this to retrieve the subsequent page.
    * @return GoogleCloudRetailV2ListModelsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCatalogsModels($parent, $optParams = [])
   {
@@ -119,6 +123,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @opt_param string updateMask Optional. Indicates which fields in the provided
    * 'model' to update. If not set, by default updates all fields.
    * @return GoogleCloudRetailV2Model
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudRetailV2Model $postBody, $optParams = [])
   {
@@ -135,6 +140,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @param GoogleCloudRetailV2PauseModelRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2Model
+   * @throws \Google\Service\Exception
    */
   public function pause($name, GoogleCloudRetailV2PauseModelRequest $postBody, $optParams = [])
   {
@@ -151,6 +157,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @param GoogleCloudRetailV2ResumeModelRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRetailV2Model
+   * @throws \Google\Service\Exception
    */
   public function resume($name, GoogleCloudRetailV2ResumeModelRequest $postBody, $optParams = [])
   {
@@ -167,6 +174,7 @@ class ProjectsLocationsCatalogsModels extends \Google\Service\Resource
    * @param GoogleCloudRetailV2TuneModelRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function tune($name, GoogleCloudRetailV2TuneModelRequest $postBody, $optParams = [])
   {

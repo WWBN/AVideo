@@ -26,6 +26,10 @@ class KnowledgeAnswersSensitivityStoragePolicy extends \Google\Model
   /**
    * @var bool
    */
+  public $encryptFieldCandidateValueTerm;
+  /**
+   * @var bool
+   */
   public $encryptQueryAnnotationData;
   /**
    * @var bool
@@ -45,6 +49,20 @@ class KnowledgeAnswersSensitivityStoragePolicy extends \Google\Model
   public function getEncryptArgumentValue()
   {
     return $this->encryptArgumentValue;
+  }
+  /**
+   * @param bool
+   */
+  public function setEncryptFieldCandidateValueTerm($encryptFieldCandidateValueTerm)
+  {
+    $this->encryptFieldCandidateValueTerm = $encryptFieldCandidateValueTerm;
+  }
+  /**
+   * @return bool
+   */
+  public function getEncryptFieldCandidateValueTerm()
+  {
+    return $this->encryptFieldCandidateValueTerm;
   }
   /**
    * @param bool

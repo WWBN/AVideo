@@ -20,14 +20,14 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for BigQueryConnectionService (v1beta1).
+ * Service definition for BigQueryConnectionService (v1).
  *
  * <p>
  * Allows users to manage BigQuery connections to external data sources.</p>
  *
  * <p>
  * For more information about this service, see the API
- * <a href="https://cloud.google.com/bigquery/" target="_blank">Documentation</a>
+ * <a href="https://cloud.google.com/bigquery/docs/connections-api-intro" target="_blank">Documentation</a>
  * </p>
  *
  * @author Google, Inc.
@@ -57,7 +57,7 @@ class BigQueryConnectionService extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://bigqueryconnection.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v1beta1';
+    $this->version = 'v1';
     $this->serviceName = 'bigqueryconnection';
 
     $this->projects_locations_connections = new BigQueryConnectionService\Resource\ProjectsLocationsConnections(
@@ -67,7 +67,7 @@ class BigQueryConnectionService extends \Google\Service
         [
           'methods' => [
             'create' => [
-              'path' => 'v1beta1/{+parent}/connections',
+              'path' => 'v1/{+parent}/connections',
               'httpMethod' => 'POST',
               'parameters' => [
                 'parent' => [
@@ -81,7 +81,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'delete' => [
-              'path' => 'v1beta1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'DELETE',
               'parameters' => [
                 'name' => [
@@ -91,7 +91,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'get' => [
-              'path' => 'v1beta1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'GET',
               'parameters' => [
                 'name' => [
@@ -101,7 +101,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'getIamPolicy' => [
-              'path' => 'v1beta1/{+resource}:getIamPolicy',
+              'path' => 'v1/{+resource}:getIamPolicy',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
@@ -111,7 +111,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'list' => [
-              'path' => 'v1beta1/{+parent}/connections',
+              'path' => 'v1/{+parent}/connections',
               'httpMethod' => 'GET',
               'parameters' => [
                 'parent' => [
@@ -119,7 +119,7 @@ class BigQueryConnectionService extends \Google\Service
                   'type' => 'string',
                   'required' => true,
                 ],
-                'maxResults' => [
+                'pageSize' => [
                   'location' => 'query',
                   'type' => 'integer',
                 ],
@@ -129,7 +129,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'patch' => [
-              'path' => 'v1beta1/{+name}',
+              'path' => 'v1/{+name}',
               'httpMethod' => 'PATCH',
               'parameters' => [
                 'name' => [
@@ -143,7 +143,7 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'setIamPolicy' => [
-              'path' => 'v1beta1/{+resource}:setIamPolicy',
+              'path' => 'v1/{+resource}:setIamPolicy',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
@@ -153,20 +153,10 @@ class BigQueryConnectionService extends \Google\Service
                 ],
               ],
             ],'testIamPermissions' => [
-              'path' => 'v1beta1/{+resource}:testIamPermissions',
+              'path' => 'v1/{+resource}:testIamPermissions',
               'httpMethod' => 'POST',
               'parameters' => [
                 'resource' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'updateCredential' => [
-              'path' => 'v1beta1/{+name}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'name' => [
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,

@@ -41,6 +41,7 @@ class Liens extends \Google\Service\Resource
    * @param Lien $postBody
    * @param array $optParams Optional parameters.
    * @return Lien
+   * @throws \Google\Service\Exception
    */
   public function create(Lien $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Liens extends \Google\Service\Resource
    * @param string $name Required. The name/identifier of the Lien to delete.
    * @param array $optParams Optional parameters.
    * @return CloudresourcemanagerEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class Liens extends \Google\Service\Resource
    * @param string $name Required. The name/identifier of the Lien.
    * @param array $optParams Optional parameters.
    * @return Lien
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -97,6 +100,7 @@ class Liens extends \Google\Service\Resource
    * parent depends on the meta api implementation. This field could be a project
    * or other sub project resources.
    * @return ListLiensResponse
+   * @throws \Google\Service\Exception
    */
   public function listLiens($optParams = [])
   {

@@ -40,6 +40,8 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
    */
   public $commentClassificationBuckets;
   public $commentClassificationRanking;
+  protected $commentModeratedRestrictionsType = YoutubeCommentsApiCommentModeratedRestriction::class;
+  protected $commentModeratedRestrictionsDataType = 'array';
   /**
    * @var string
    */
@@ -122,6 +124,7 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
    * @var bool[]
    */
   public $lowQualityDecisions;
+  public $lowQualityScores;
   /**
    * @var int
    */
@@ -323,6 +326,20 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public function getCommentClassificationRanking()
   {
     return $this->commentClassificationRanking;
+  }
+  /**
+   * @param YoutubeCommentsApiCommentModeratedRestriction[]
+   */
+  public function setCommentModeratedRestrictions($commentModeratedRestrictions)
+  {
+    $this->commentModeratedRestrictions = $commentModeratedRestrictions;
+  }
+  /**
+   * @return YoutubeCommentsApiCommentModeratedRestriction[]
+   */
+  public function getCommentModeratedRestrictions()
+  {
+    return $this->commentModeratedRestrictions;
   }
   /**
    * @param string
@@ -633,6 +650,14 @@ class YoutubeCommentsClusteringMiniStanza extends \Google\Collection
   public function getLowQualityDecisions()
   {
     return $this->lowQualityDecisions;
+  }
+  public function setLowQualityScores($lowQualityScores)
+  {
+    $this->lowQualityScores = $lowQualityScores;
+  }
+  public function getLowQualityScores()
+  {
+    return $this->lowQualityScores;
   }
   /**
    * @param int

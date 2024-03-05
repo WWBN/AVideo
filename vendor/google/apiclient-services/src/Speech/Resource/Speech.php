@@ -43,6 +43,7 @@ class Speech extends \Google\Service\Resource
    * @param LongRunningRecognizeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function longrunningrecognize(LongRunningRecognizeRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Speech extends \Google\Service\Resource
    * @param RecognizeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return RecognizeResponse
+   * @throws \Google\Service\Exception
    */
   public function recognize(RecognizeRequest $postBody, $optParams = [])
   {

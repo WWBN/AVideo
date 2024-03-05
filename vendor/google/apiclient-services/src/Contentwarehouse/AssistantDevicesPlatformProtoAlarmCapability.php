@@ -30,6 +30,10 @@ class AssistantDevicesPlatformProtoAlarmCapability extends \Google\Model
   /**
    * @var bool
    */
+  public $supportsGenericMutations;
+  /**
+   * @var bool
+   */
   public $supportsStopAction;
 
   /**
@@ -59,6 +63,20 @@ class AssistantDevicesPlatformProtoAlarmCapability extends \Google\Model
   public function getRestrictAlarmsToNextDay()
   {
     return $this->restrictAlarmsToNextDay;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportsGenericMutations($supportsGenericMutations)
+  {
+    $this->supportsGenericMutations = $supportsGenericMutations;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsGenericMutations()
+  {
+    return $this->supportsGenericMutations;
   }
   /**
    * @param bool

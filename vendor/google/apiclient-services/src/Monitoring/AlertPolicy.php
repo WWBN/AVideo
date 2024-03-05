@@ -51,6 +51,10 @@ class AlertPolicy extends \Google\Collection
    */
   public $notificationChannels;
   /**
+   * @var string
+   */
+  public $severity;
+  /**
    * @var string[]
    */
   public $userLabels;
@@ -196,6 +200,20 @@ class AlertPolicy extends \Google\Collection
   public function getNotificationChannels()
   {
     return $this->notificationChannels;
+  }
+  /**
+   * @param string
+   */
+  public function setSeverity($severity)
+  {
+    $this->severity = $severity;
+  }
+  /**
+   * @return string
+   */
+  public function getSeverity()
+  {
+    return $this->severity;
   }
   /**
    * @param string[]

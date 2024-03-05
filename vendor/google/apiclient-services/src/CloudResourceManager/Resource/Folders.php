@@ -62,6 +62,7 @@ class Folders extends \Google\Service\Resource
    * @param Folder $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create(Folder $postBody, $optParams = [])
   {
@@ -82,6 +83,7 @@ class Folders extends \Google\Service\Resource
    * Must be of the form `folders/{folder_id}`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -99,6 +101,7 @@ class Folders extends \Google\Service\Resource
    * Must be of the form `folders/{folder_id}`.
    * @param array $optParams Optional parameters.
    * @return Folder
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -120,6 +123,7 @@ class Folders extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -152,6 +156,7 @@ class Folders extends \Google\Service\Resource
    * @opt_param bool showDeleted Optional. Controls whether folders in the
    * DELETE_REQUESTED state should be returned. Defaults to false.
    * @return ListFoldersResponse
+   * @throws \Google\Service\Exception
    */
   public function listFolders($optParams = [])
   {
@@ -179,6 +184,7 @@ class Folders extends \Google\Service\Resource
    * @param MoveFolderRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function move($name, MoveFolderRequest $postBody, $optParams = [])
   {
@@ -207,6 +213,7 @@ class Folders extends \Google\Service\Resource
    * @opt_param string updateMask Required. Fields to be updated. Only the
    * `display_name` can be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Folder $postBody, $optParams = [])
   {
@@ -248,6 +255,7 @@ class Folders extends \Google\Service\Resource
    * `displayName=\\"Test String\\"` returns Folder resources with display names
    * that include both "Test" and "String".
    * @return SearchFoldersResponse
+   * @throws \Google\Service\Exception
    */
   public function search($optParams = [])
   {
@@ -268,6 +276,7 @@ class Folders extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -288,6 +297,7 @@ class Folders extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -310,6 +320,7 @@ class Folders extends \Google\Service\Resource
    * @param UndeleteFolderRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function undelete($name, UndeleteFolderRequest $postBody, $optParams = [])
   {

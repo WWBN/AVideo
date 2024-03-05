@@ -63,6 +63,8 @@ class BareMetalNodePool extends \Google\Model
    * @var string
    */
   public $updateTime;
+  protected $upgradePolicyType = BareMetalNodePoolUpgradePolicy::class;
+  protected $upgradePolicyDataType = '';
 
   /**
    * @param string[]
@@ -231,6 +233,20 @@ class BareMetalNodePool extends \Google\Model
   public function getUpdateTime()
   {
     return $this->updateTime;
+  }
+  /**
+   * @param BareMetalNodePoolUpgradePolicy
+   */
+  public function setUpgradePolicy(BareMetalNodePoolUpgradePolicy $upgradePolicy)
+  {
+    $this->upgradePolicy = $upgradePolicy;
+  }
+  /**
+   * @return BareMetalNodePoolUpgradePolicy
+   */
+  public function getUpgradePolicy()
+  {
+    return $this->upgradePolicy;
   }
 }
 

@@ -50,6 +50,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param CreateInstanceRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CreateInstanceRequest $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * Values are of the form `projects/{project}/instances/{instance}`.
    * @param array $optParams Optional parameters.
    * @return BigtableadminEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -78,6 +80,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * Values are of the form `projects/{project}/instances/{instance}`.
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -97,6 +100,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -114,6 +118,7 @@ class ProjectsInstances extends \Google\Service\Resource
    *
    * @opt_param string pageToken DEPRECATED: This field is unused and ignored.
    * @return ListInstancesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsInstances($parent, $optParams = [])
   {
@@ -134,6 +139,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @opt_param string updateMask Required. The subset of Instance fields which
    * should be replaced. Must be explicitly set.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function partialUpdateInstance($name, Instance $postBody, $optParams = [])
   {
@@ -152,6 +158,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -170,6 +177,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -187,6 +195,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param Instance $postBody
    * @param array $optParams Optional parameters.
    * @return Instance
+   * @throws \Google\Service\Exception
    */
   public function update($name, Instance $postBody, $optParams = [])
   {

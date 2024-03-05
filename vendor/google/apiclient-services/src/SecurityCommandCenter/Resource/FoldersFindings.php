@@ -41,6 +41,7 @@ class FoldersFindings extends \Google\Service\Resource
    * @param BulkMuteFindingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function bulkMute($parent, BulkMuteFindingsRequest $postBody, $optParams = [])
   {

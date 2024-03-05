@@ -73,6 +73,10 @@ class GoogleAppsCloudidentityDevicesV1Device extends \Google\Collection
   /**
    * @var string
    */
+  public $hostname;
+  /**
+   * @var string
+   */
   public $imei;
   /**
    * @var string
@@ -316,6 +320,20 @@ class GoogleAppsCloudidentityDevicesV1Device extends \Google\Collection
   public function getEncryptionState()
   {
     return $this->encryptionState;
+  }
+  /**
+   * @param string
+   */
+  public function setHostname($hostname)
+  {
+    $this->hostname = $hostname;
+  }
+  /**
+   * @return string
+   */
+  public function getHostname()
+  {
+    return $this->hostname;
   }
   /**
    * @param string

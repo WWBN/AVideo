@@ -54,6 +54,8 @@ class UptimeCheckConfig extends \Google\Collection
    * @var string[]
    */
   public $selectedRegions;
+  protected $syntheticMonitorType = SyntheticMonitorTarget::class;
+  protected $syntheticMonitorDataType = '';
   protected $tcpCheckType = TcpCheck::class;
   protected $tcpCheckDataType = '';
   /**
@@ -218,6 +220,20 @@ class UptimeCheckConfig extends \Google\Collection
   public function getSelectedRegions()
   {
     return $this->selectedRegions;
+  }
+  /**
+   * @param SyntheticMonitorTarget
+   */
+  public function setSyntheticMonitor(SyntheticMonitorTarget $syntheticMonitor)
+  {
+    $this->syntheticMonitor = $syntheticMonitor;
+  }
+  /**
+   * @return SyntheticMonitorTarget
+   */
+  public function getSyntheticMonitor()
+  {
+    return $this->syntheticMonitor;
   }
   /**
    * @param TcpCheck

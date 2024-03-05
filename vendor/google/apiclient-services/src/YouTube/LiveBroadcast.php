@@ -33,6 +33,8 @@ class LiveBroadcast extends \Google\Model
    * @var string
    */
   public $kind;
+  protected $monetizationDetailsType = LiveBroadcastMonetizationDetails::class;
+  protected $monetizationDetailsDataType = '';
   protected $snippetType = LiveBroadcastSnippet::class;
   protected $snippetDataType = '';
   protected $statisticsType = LiveBroadcastStatistics::class;
@@ -95,6 +97,20 @@ class LiveBroadcast extends \Google\Model
   public function getKind()
   {
     return $this->kind;
+  }
+  /**
+   * @param LiveBroadcastMonetizationDetails
+   */
+  public function setMonetizationDetails(LiveBroadcastMonetizationDetails $monetizationDetails)
+  {
+    $this->monetizationDetails = $monetizationDetails;
+  }
+  /**
+   * @return LiveBroadcastMonetizationDetails
+   */
+  public function getMonetizationDetails()
+  {
+    return $this->monetizationDetails;
   }
   /**
    * @param LiveBroadcastSnippet

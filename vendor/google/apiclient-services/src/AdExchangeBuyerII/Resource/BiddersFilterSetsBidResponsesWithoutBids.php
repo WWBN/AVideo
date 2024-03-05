@@ -51,6 +51,7 @@ class BiddersFilterSetsBidResponsesWithoutBids extends \Google\Service\Resource
    * ListBidResponsesWithoutBidsResponse.nextPageToken returned from the previous
    * call to the bidResponsesWithoutBids.list method.
    * @return ListBidResponsesWithoutBidsResponse
+   * @throws \Google\Service\Exception
    */
   public function listBiddersFilterSetsBidResponsesWithoutBids($filterSetName, $optParams = [])
   {

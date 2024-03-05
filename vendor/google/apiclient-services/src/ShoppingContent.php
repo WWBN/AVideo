@@ -49,12 +49,13 @@ class ShoppingContent extends \Google\Service
   public $collectionstatuses;
   public $conversionsources;
   public $csses;
-  public $customers;
   public $datafeeds;
   public $datafeedstatuses;
   public $freelistingsprogram;
+  public $freelistingsprogram_checkoutsettings;
   public $liasettings;
   public $localinventory;
+  public $merchantsupport;
   public $orderinvoices;
   public $orderreports;
   public $orderreturns;
@@ -65,7 +66,6 @@ class ShoppingContent extends \Google\Service
   public $productdeliverytime;
   public $products;
   public $productstatuses;
-  public $productstatuses_repricingreports;
   public $promotions;
   public $pubsubnotificationsettings;
   public $quotas;
@@ -73,8 +73,6 @@ class ShoppingContent extends \Google\Service
   public $regionalinventory;
   public $regions;
   public $reports;
-  public $repricingrules;
-  public $repricingrules_repricingreports;
   public $returnaddress;
   public $returnpolicy;
   public $returnpolicyonline;
@@ -962,26 +960,6 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
-    $this->customers = new ShoppingContent\Resource\Customers(
-        $this,
-        $this->serviceName,
-        'customers',
-        [
-          'methods' => [
-            'create' => [
-              'path' => '{merchantId}/customers',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
     $this->datafeeds = new ShoppingContent\Resource\Datafeeds(
         $this,
         $this->serviceName,
@@ -1173,6 +1151,46 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
+    $this->freelistingsprogram_checkoutsettings = new ShoppingContent\Resource\FreelistingsprogramCheckoutsettings(
+        $this,
+        $this->serviceName,
+        'checkoutsettings',
+        [
+          'methods' => [
+            'delete' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
+              'httpMethod' => 'DELETE',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'get' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],'insert' => [
+              'path' => '{merchantId}/freelistingsprogram/checkoutsettings',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
     $this->liasettings = new ShoppingContent\Resource\Liasettings(
         $this,
         $this->serviceName,
@@ -1310,6 +1328,34 @@ class ShoppingContent extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'setomnichannelexperience' => [
+              'path' => '{merchantId}/liasettings/{accountId}/setomnichannelexperience',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'accountId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'country' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'lsfType' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pickupTypes' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                  'repeated' => true,
+                ],
+              ],
             ],'setposdataprovider' => [
               'path' => '{merchantId}/liasettings/{accountId}/setposdataprovider',
               'httpMethod' => 'POST',
@@ -1380,6 +1426,57 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],
+          ]
+        ]
+    );
+    $this->merchantsupport = new ShoppingContent\Resource\Merchantsupport(
+        $this,
+        $this->serviceName,
+        'merchantsupport',
+        [
+          'methods' => [
+            'renderaccountissues' => [
+              'path' => '{merchantId}/merchantsupport/renderaccountissues',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeZone' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+              ],
+            ],'renderproductissues' => [
+              'path' => '{merchantId}/merchantsupport/renderproductissues/{productId}',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'productId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'timeZone' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -2345,51 +2442,6 @@ class ShoppingContent extends \Google\Service
           ]
         ]
     );
-    $this->productstatuses_repricingreports = new ShoppingContent\Resource\ProductstatusesRepricingreports(
-        $this,
-        $this->serviceName,
-        'repricingreports',
-        [
-          'methods' => [
-            'list' => [
-              'path' => '{merchantId}/productstatuses/{productId}/repricingreports',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'productId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'endDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'ruleId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'startDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
     $this->promotions = new ShoppingContent\Resource\Promotions(
         $this,
         $this->serviceName,
@@ -2419,6 +2471,32 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
+                ],
+              ],
+            ],'list' => [
+              'path' => '{merchantId}/promotions',
+              'httpMethod' => 'GET',
+              'parameters' => [
+                'merchantId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+                'countryCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'languageCode' => [
+                  'location' => 'query',
+                  'type' => 'string',
+                ],
+                'pageSize' => [
+                  'location' => 'query',
+                  'type' => 'integer',
+                ],
+                'pageToken' => [
+                  'location' => 'query',
+                  'type' => 'string',
                 ],
               ],
             ],
@@ -2656,142 +2734,6 @@ class ShoppingContent extends \Google\Service
                   'location' => 'path',
                   'type' => 'string',
                   'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->repricingrules = new ShoppingContent\Resource\Repricingrules(
-        $this,
-        $this->serviceName,
-        'repricingrules',
-        [
-          'methods' => [
-            'create' => [
-              'path' => '{merchantId}/repricingrules',
-              'httpMethod' => 'POST',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ruleId' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'delete' => [
-              'path' => '{merchantId}/repricingrules/{ruleId}',
-              'httpMethod' => 'DELETE',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ruleId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'get' => [
-              'path' => '{merchantId}/repricingrules/{ruleId}',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ruleId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],'list' => [
-              'path' => '{merchantId}/repricingrules',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'countryCode' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'languageCode' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-              ],
-            ],'patch' => [
-              'path' => '{merchantId}/repricingrules/{ruleId}',
-              'httpMethod' => 'PATCH',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ruleId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-              ],
-            ],
-          ]
-        ]
-    );
-    $this->repricingrules_repricingreports = new ShoppingContent\Resource\RepricingrulesRepricingreports(
-        $this,
-        $this->serviceName,
-        'repricingreports',
-        [
-          'methods' => [
-            'list' => [
-              'path' => '{merchantId}/repricingrules/{ruleId}/repricingreports',
-              'httpMethod' => 'GET',
-              'parameters' => [
-                'merchantId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'ruleId' => [
-                  'location' => 'path',
-                  'type' => 'string',
-                  'required' => true,
-                ],
-                'endDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'pageSize' => [
-                  'location' => 'query',
-                  'type' => 'integer',
-                ],
-                'pageToken' => [
-                  'location' => 'query',
-                  'type' => 'string',
-                ],
-                'startDate' => [
-                  'location' => 'query',
-                  'type' => 'string',
                 ],
               ],
             ],

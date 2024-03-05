@@ -44,6 +44,7 @@ class Buckets extends \Google\Service\Resource
    * its metageneration does not match this value.
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
+   * @throws \Google\Service\Exception
    */
   public function delete($bucket, $optParams = [])
   {
@@ -67,6 +68,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function get($bucket, $optParams = [])
   {
@@ -86,6 +88,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($bucket, $optParams = [])
   {
@@ -100,6 +103,8 @@ class Buckets extends \Google\Service\Resource
    * @param Bucket $postBody
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool enableObjectRetention When set to true, object retention is
+   * enabled for this bucket.
    * @opt_param string predefinedAcl Apply a predefined set of access controls to
    * this bucket.
    * @opt_param string predefinedDefaultObjectAcl Apply a predefined set of
@@ -109,6 +114,7 @@ class Buckets extends \Google\Service\Resource
    * it defaults to full.
    * @opt_param string userProject The project to be billed for this request.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function insert($project, Bucket $postBody, $optParams = [])
   {
@@ -132,6 +138,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string projection Set of properties to return. Defaults to noAcl.
    * @opt_param string userProject The project to be billed for this request.
    * @return BucketsModel
+   * @throws \Google\Service\Exception
    */
   public function listBuckets($project, $optParams = [])
   {
@@ -150,6 +157,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function lockRetentionPolicy($bucket, $ifMetagenerationMatch, $optParams = [])
   {
@@ -180,6 +188,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function patch($bucket, Bucket $postBody, $optParams = [])
   {
@@ -197,6 +206,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($bucket, Policy $postBody, $optParams = [])
   {
@@ -215,6 +225,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($bucket, $permissions, $optParams = [])
   {
@@ -245,6 +256,7 @@ class Buckets extends \Google\Service\Resource
    * @opt_param string userProject The project to be billed for this request.
    * Required for Requester Pays buckets.
    * @return Bucket
+   * @throws \Google\Service\Exception
    */
   public function update($bucket, Bucket $postBody, $optParams = [])
   {

@@ -45,6 +45,7 @@ class ProjectsHistoriesExecutionsStepsTestCases extends \Google\Service\Resource
    * @param string $testCaseId A Test Case id. Required.
    * @param array $optParams Optional parameters.
    * @return TestCase
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $historyId, $executionId, $stepId, $testCaseId, $optParams = [])
   {
@@ -73,6 +74,7 @@ class ProjectsHistoriesExecutionsStepsTestCases extends \Google\Service\Resource
    * @opt_param string pageToken A continuation token to resume the query at the
    * next item. Optional.
    * @return ListTestCasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistoriesExecutionsStepsTestCases($projectId, $historyId, $executionId, $stepId, $optParams = [])
   {

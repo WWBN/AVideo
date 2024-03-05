@@ -49,6 +49,7 @@ class ProjectsAlertPolicies extends \Google\Service\Resource
    * @param AlertPolicy $postBody
    * @param array $optParams Optional parameters.
    * @return AlertPolicy
+   * @throws \Google\Service\Exception
    */
   public function create($name, AlertPolicy $postBody, $optParams = [])
   {
@@ -67,6 +68,7 @@ class ProjectsAlertPolicies extends \Google\Service\Resource
    * information, see AlertPolicy.
    * @param array $optParams Optional parameters.
    * @return MonitoringEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsAlertPolicies extends \Google\Service\Resource
    * projects/[PROJECT_ID_OR_NUMBER]/alertPolicies/[ALERT_POLICY_ID]
    * @param array $optParams Optional parameters.
    * @return AlertPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsAlertPolicies extends \Google\Service\Resource
    * this field causes the method to return more results from the previous method
    * call.
    * @return ListAlertPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsAlertPolicies($name, $optParams = [])
   {
@@ -158,6 +162,7 @@ class ProjectsAlertPolicies extends \Google\Service\Resource
    * with that [CONDITION_ID]. If the supplied condition omits the name field,
    * then a new [CONDITION_ID] is created.
    * @return AlertPolicy
+   * @throws \Google\Service\Exception
    */
   public function patch($name, AlertPolicy $postBody, $optParams = [])
   {

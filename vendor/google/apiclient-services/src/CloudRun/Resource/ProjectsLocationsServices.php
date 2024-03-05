@@ -53,6 +53,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * and default values populated, without persisting the request or creating any
    * resources.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudRunV2Service $postBody, $optParams = [])
   {
@@ -74,6 +75,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @opt_param bool validateOnly Indicates that the request should be validated
    * without actually deleting any resources.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * can be project id or number.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudRunV2Service
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -120,6 +123,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -142,6 +146,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @opt_param bool showDeleted If true, returns deleted (but unexpired)
    * resources along with active ones.
    * @return GoogleCloudRunV2ListServicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsServices($parent, $optParams = [])
   {
@@ -166,6 +171,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * and default values populated, without persisting the request or updating any
    * resources.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudRunV2Service $postBody, $optParams = [])
   {
@@ -184,6 +190,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @param GoogleIamV1SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, GoogleIamV1SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -202,6 +209,7 @@ class ProjectsLocationsServices extends \Google\Service\Resource
    * @param GoogleIamV1TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleIamV1TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, GoogleIamV1TestIamPermissionsRequest $postBody, $optParams = [])
   {

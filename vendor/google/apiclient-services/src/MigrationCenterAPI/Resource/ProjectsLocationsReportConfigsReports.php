@@ -55,6 +55,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Report $postBody, $optParams = [])
   {
@@ -80,6 +81,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -96,6 +98,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * @opt_param string view Determines what information to retrieve for the
    * Report.
    * @return Report
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -121,6 +124,7 @@ class ProjectsLocationsReportConfigsReports extends \Google\Service\Resource
    * @opt_param string view Determines what information to retrieve for each
    * Report.
    * @return ListReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsReportConfigsReports($parent, $optParams = [])
   {

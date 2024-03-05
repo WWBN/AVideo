@@ -46,6 +46,7 @@ class ProjectsLocationsVersions extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value to use if there are
    * additional results to retrieve for this list request.
    * @return ListAvailableVersionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVersions($parent, $optParams = [])
   {

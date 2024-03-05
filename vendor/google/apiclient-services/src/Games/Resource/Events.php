@@ -45,6 +45,7 @@ class Events extends \Google\Service\Resource
    * return may be less than the specified maxResults.
    * @opt_param string pageToken The token returned by the previous request.
    * @return PlayerEventListResponse
+   * @throws \Google\Service\Exception
    */
   public function listByPlayer($optParams = [])
   {
@@ -65,6 +66,7 @@ class Events extends \Google\Service\Resource
    * event definitions to return may be less than the specified `maxResults`.
    * @opt_param string pageToken The token returned by the previous request.
    * @return EventDefinitionListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDefinitions($optParams = [])
   {
@@ -82,6 +84,7 @@ class Events extends \Google\Service\Resource
    * @opt_param string language The preferred language to use for strings returned
    * by this method.
    * @return EventUpdateResponse
+   * @throws \Google\Service\Exception
    */
   public function record(EventRecordRequest $postBody, $optParams = [])
   {

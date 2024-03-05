@@ -19,7 +19,7 @@ namespace Google\Service\Recommender;
 
 class GoogleCloudRecommenderV1Recommendation extends \Google\Collection
 {
-  protected $collection_key = 'associatedInsights';
+  protected $collection_key = 'targetResources';
   protected $additionalImpactType = GoogleCloudRecommenderV1Impact::class;
   protected $additionalImpactDataType = 'array';
   protected $associatedInsightsType = GoogleCloudRecommenderV1RecommendationInsightReference::class;
@@ -54,6 +54,10 @@ class GoogleCloudRecommenderV1Recommendation extends \Google\Collection
   public $recommenderSubtype;
   protected $stateInfoType = GoogleCloudRecommenderV1RecommendationStateInfo::class;
   protected $stateInfoDataType = '';
+  /**
+   * @var string[]
+   */
+  public $targetResources;
   /**
    * @var string
    */
@@ -212,6 +216,20 @@ class GoogleCloudRecommenderV1Recommendation extends \Google\Collection
   public function getStateInfo()
   {
     return $this->stateInfo;
+  }
+  /**
+   * @param string[]
+   */
+  public function setTargetResources($targetResources)
+  {
+    $this->targetResources = $targetResources;
+  }
+  /**
+   * @return string[]
+   */
+  public function getTargetResources()
+  {
+    return $this->targetResources;
   }
   /**
    * @param string

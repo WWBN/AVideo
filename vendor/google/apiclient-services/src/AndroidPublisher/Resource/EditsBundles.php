@@ -38,6 +38,7 @@ class EditsBundles extends \Google\Service\Resource
    * @param string $editId Identifier of the edit.
    * @param array $optParams Optional parameters.
    * @return BundlesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listEditsBundles($packageName, $editId, $optParams = [])
   {
@@ -63,6 +64,7 @@ class EditsBundles extends \Google\Service\Resource
    * generating deliverables (APKs). Contains id of the DTC or "LATEST" for last
    * uploaded DTC.
    * @return Bundle
+   * @throws \Google\Service\Exception
    */
   public function upload($packageName, $editId, $optParams = [])
   {

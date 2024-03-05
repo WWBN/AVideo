@@ -49,6 +49,7 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * start with a lower-case letter - end with a lower-case letter or number - be
    * unique within the set of Restores in this RestorePlan.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Restore $postBody, $optParams = [])
   {
@@ -63,12 +64,13 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * `projects/locations/restorePlans/restores`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string etag If provided, this value must match the current value
-   * of the target Restore's etag field or the request is rejected.
-   * @opt_param bool force If set to true, any VolumeRestores below this restore
-   * will also be deleted. Otherwise, the request will only succeed if the restore
-   * has no VolumeRestores.
+   * @opt_param string etag Optional. If provided, this value must match the
+   * current value of the target Restore's etag field or the request is rejected.
+   * @opt_param bool force Optional. If set to true, any VolumeRestores below this
+   * restore will also be deleted. Otherwise, the request will only succeed if the
+   * restore has no VolumeRestores.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +85,7 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * `projects/locations/restorePlans/restores`
    * @param array $optParams Optional parameters.
    * @return Restore
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -113,6 +116,7 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -128,18 +132,20 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * list. Format: `projects/locations/restorePlans`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Field match expression used to filter the results.
-   * @opt_param string orderBy Field by which to sort the results.
-   * @opt_param int pageSize The target number of results to return in a single
-   * response. If not specified, a default value will be chosen by the service.
-   * Note that the response may inclue a partial list and a caller should only
-   * rely on the response's next_page_token to determine if there are more
-   * instances left to be queried.
-   * @opt_param string pageToken The value of next_page_token received from a
-   * previous `ListRestores` call. Provide this to retrieve the subsequent page in
-   * a multi-page list of results. When paginating, all other parameters provided
-   * to `ListRestores` must match the call that provided the page token.
+   * @opt_param string filter Optional. Field match expression used to filter the
+   * results.
+   * @opt_param string orderBy Optional. Field by which to sort the results.
+   * @opt_param int pageSize Optional. The target number of results to return in a
+   * single response. If not specified, a default value will be chosen by the
+   * service. Note that the response may include a partial list and a caller
+   * should only rely on the response's next_page_token to determine if there are
+   * more instances left to be queried.
+   * @opt_param string pageToken Optional. The value of next_page_token received
+   * from a previous `ListRestores` call. Provide this to retrieve the subsequent
+   * page in a multi-page list of results. When paginating, all other parameters
+   * provided to `ListRestores` must match the call that provided the page token.
    * @return ListRestoresResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRestorePlansRestores($parent, $optParams = [])
   {
@@ -155,14 +161,15 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * @param Restore $postBody
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string updateMask This is used to specify the fields to be
-   * overwritten in the Restore targeted for update. The values for each of these
-   * updated fields will be taken from the `restore` provided with this request.
-   * Field names are relative to the root of the resource. If no `update_mask` is
-   * provided, all fields in `restore` will be written to the target Restore
-   * resource. Note that OUTPUT_ONLY and IMMUTABLE fields in `restore` are ignored
-   * and are not used to update the target Restore.
+   * @opt_param string updateMask Optional. This is used to specify the fields to
+   * be overwritten in the Restore targeted for update. The values for each of
+   * these updated fields will be taken from the `restore` provided with this
+   * request. Field names are relative to the root of the resource. If no
+   * `update_mask` is provided, all fields in `restore` will be written to the
+   * target Restore resource. Note that OUTPUT_ONLY and IMMUTABLE fields in
+   * `restore` are ignored and are not used to update the target Restore.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Restore $postBody, $optParams = [])
   {
@@ -182,6 +189,7 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -203,6 +211,7 @@ class ProjectsLocationsRestorePlansRestores extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

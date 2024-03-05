@@ -49,6 +49,7 @@ class Groups extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return EmptyResponse
+   * @throws \Google\Service\Exception
    */
   public function delete($optParams = [])
   {
@@ -73,6 +74,7 @@ class Groups extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return Group
+   * @throws \Google\Service\Exception
    */
   public function insert(Group $postBody, $optParams = [])
   {
@@ -110,6 +112,7 @@ class Groups extends \Google\Service\Resource
    * page in the result set that should be returned. In an API response, the
    * `nextPageToken` property identifies the next page that can be retrieved.
    * @return ListGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listGroups($optParams = [])
   {
@@ -135,6 +138,7 @@ class Groups extends \Google\Service\Resource
    * channel. The account that the user authenticates with must be linked to the
    * specified YouTube content owner.
    * @return Group
+   * @throws \Google\Service\Exception
    */
   public function update(Group $postBody, $optParams = [])
   {

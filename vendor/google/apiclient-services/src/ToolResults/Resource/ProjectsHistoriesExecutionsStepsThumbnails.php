@@ -49,6 +49,7 @@ class ProjectsHistoriesExecutionsStepsThumbnails extends \Google\Service\Resourc
    * @opt_param string pageToken A continuation token to resume the query at the
    * next item. Optional.
    * @return ListStepThumbnailsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsHistoriesExecutionsStepsThumbnails($projectId, $historyId, $executionId, $stepId, $optParams = [])
   {

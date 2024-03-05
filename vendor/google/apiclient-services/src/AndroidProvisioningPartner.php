@@ -353,6 +353,16 @@ class AndroidProvisioningPartner extends \Google\Service
                   'required' => true,
                 ],
               ],
+            ],'getSimLockState' => [
+              'path' => 'v1/partners/{+partnerId}/devices:getSimLockState',
+              'httpMethod' => 'POST',
+              'parameters' => [
+                'partnerId' => [
+                  'location' => 'path',
+                  'type' => 'string',
+                  'required' => true,
+                ],
+              ],
             ],'metadata' => [
               'path' => 'v1/partners/{+metadataOwnerId}/devices/{+deviceId}/metadata',
               'httpMethod' => 'POST',

@@ -54,6 +54,7 @@ class ProjectsLocationsSourcesUtilizationReports extends \Google\Service\Resourc
    * value maximum length is 63 characters, and valid characters are /a-z-/. It
    * must start with an english letter and must not end with a hyphen.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, UtilizationReport $postBody, $optParams = [])
   {
@@ -79,6 +80,7 @@ class ProjectsLocationsSourcesUtilizationReports extends \Google\Service\Resourc
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -95,6 +97,7 @@ class ProjectsLocationsSourcesUtilizationReports extends \Google\Service\Resourc
    * @opt_param string view Optional. The level of details of the report. Defaults
    * to FULL
    * @return UtilizationReport
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -122,6 +125,7 @@ class ProjectsLocationsSourcesUtilizationReports extends \Google\Service\Resourc
    * @opt_param string view Optional. The level of details of each report.
    * Defaults to BASIC.
    * @return ListUtilizationReportsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsSourcesUtilizationReports($parent, $optParams = [])
   {

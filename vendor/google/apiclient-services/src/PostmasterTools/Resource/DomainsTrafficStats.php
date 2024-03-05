@@ -39,6 +39,7 @@ class DomainsTrafficStats extends \Google\Service\Resource
    * domains/mymail.mydomain.com/trafficStats/20160807.
    * @param array $optParams Optional parameters.
    * @return TrafficStats
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -79,6 +80,7 @@ class DomainsTrafficStats extends \Google\Service\Resource
    * @opt_param int startDate.year Year of the date. Must be from 1 to 9999, or 0
    * to specify a date without a year.
    * @return ListTrafficStatsResponse
+   * @throws \Google\Service\Exception
    */
   public function listDomainsTrafficStats($parent, $optParams = [])
   {

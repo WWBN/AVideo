@@ -38,6 +38,7 @@ class Routines extends \Google\Service\Resource
    * @param string $datasetId Required. Dataset ID of the routine to delete
    * @param string $routineId Required. Routine ID of the routine to delete
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($projectId, $datasetId, $routineId, $optParams = [])
   {
@@ -56,6 +57,7 @@ class Routines extends \Google\Service\Resource
    * @opt_param string readMask If set, only the Routine fields in the field mask
    * are returned in the response. If unset, all Routine fields are returned.
    * @return Routine
+   * @throws \Google\Service\Exception
    */
   public function get($projectId, $datasetId, $routineId, $optParams = [])
   {
@@ -71,6 +73,7 @@ class Routines extends \Google\Service\Resource
    * @param Routine $postBody
    * @param array $optParams Optional parameters.
    * @return Routine
+   * @throws \Google\Service\Exception
    */
   public function insert($projectId, $datasetId, Routine $postBody, $optParams = [])
   {
@@ -87,9 +90,9 @@ class Routines extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter If set, then only the Routines matching this filter
-   * are returned. The current supported form is either "routine_type:" or
-   * "routineType:", where is a RoutineType enum. Example:
-   * "routineType:SCALAR_FUNCTION".
+   * are returned. The supported format is `routineType:{RoutineType}`, where
+   * `{RoutineType}` is a RoutineType enum. For example:
+   * `routineType:SCALAR_FUNCTION`.
    * @opt_param string maxResults The maximum number of results to return in a
    * single response page. Leverage the page tokens to iterate through the entire
    * collection.
@@ -101,6 +104,7 @@ class Routines extends \Google\Service\Resource
    * project_id, dataset_id, routine_id, routine_type, creation_time,
    * last_modified_time, and language.
    * @return ListRoutinesResponse
+   * @throws \Google\Service\Exception
    */
   public function listRoutines($projectId, $datasetId, $optParams = [])
   {
@@ -118,6 +122,7 @@ class Routines extends \Google\Service\Resource
    * @param Routine $postBody
    * @param array $optParams Optional parameters.
    * @return Routine
+   * @throws \Google\Service\Exception
    */
   public function update($projectId, $datasetId, $routineId, Routine $postBody, $optParams = [])
   {

@@ -84,6 +84,8 @@ class RecognitionConfig extends \Google\Collection
   public $sampleRateHertz;
   protected $speechContextsType = SpeechContext::class;
   protected $speechContextsDataType = 'array';
+  protected $transcriptNormalizationType = TranscriptNormalization::class;
+  protected $transcriptNormalizationDataType = '';
   /**
    * @var bool
    */
@@ -340,6 +342,20 @@ class RecognitionConfig extends \Google\Collection
   public function getSpeechContexts()
   {
     return $this->speechContexts;
+  }
+  /**
+   * @param TranscriptNormalization
+   */
+  public function setTranscriptNormalization(TranscriptNormalization $transcriptNormalization)
+  {
+    $this->transcriptNormalization = $transcriptNormalization;
+  }
+  /**
+   * @return TranscriptNormalization
+   */
+  public function getTranscriptNormalization()
+  {
+    return $this->transcriptNormalization;
   }
   /**
    * @param bool

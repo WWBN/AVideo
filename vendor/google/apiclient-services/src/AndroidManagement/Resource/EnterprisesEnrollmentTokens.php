@@ -44,6 +44,7 @@ class EnterprisesEnrollmentTokens extends \Google\Service\Resource
    * @param EnrollmentToken $postBody
    * @param array $optParams Optional parameters.
    * @return EnrollmentToken
+   * @throws \Google\Service\Exception
    */
   public function create($parent, EnrollmentToken $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class EnterprisesEnrollmentTokens extends \Google\Service\Resource
    * enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}.
    * @param array $optParams Optional parameters.
    * @return AndroidmanagementEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -78,6 +80,7 @@ class EnterprisesEnrollmentTokens extends \Google\Service\Resource
    * enterprises/{enterpriseId}/enrollmentTokens/{enrollmentTokenId}.
    * @param array $optParams Optional parameters.
    * @return EnrollmentToken
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -103,6 +106,7 @@ class EnterprisesEnrollmentTokens extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results returned by
    * the server.
    * @return ListEnrollmentTokensResponse
+   * @throws \Google\Service\Exception
    */
   public function listEnterprisesEnrollmentTokens($parent, $optParams = [])
   {

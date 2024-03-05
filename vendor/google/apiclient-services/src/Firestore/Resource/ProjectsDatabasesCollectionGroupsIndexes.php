@@ -42,6 +42,7 @@ class ProjectsDatabasesCollectionGroupsIndexes extends \Google\Service\Resource
    * @param GoogleFirestoreAdminV1Index $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleFirestoreAdminV1Index $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class ProjectsDatabasesCollectionGroupsIndexes extends \Google\Service\Resource
    * ases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}`
    * @param array $optParams Optional parameters.
    * @return FirestoreEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsDatabasesCollectionGroupsIndexes extends \Google\Service\Resource
    * ases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1Index
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -90,6 +93,7 @@ class ProjectsDatabasesCollectionGroupsIndexes extends \Google\Service\Resource
    * @opt_param string pageToken A page token, returned from a previous call to
    * FirestoreAdmin.ListIndexes, that may be used to get the next page of results.
    * @return GoogleFirestoreAdminV1ListIndexesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatabasesCollectionGroupsIndexes($parent, $optParams = [])
   {

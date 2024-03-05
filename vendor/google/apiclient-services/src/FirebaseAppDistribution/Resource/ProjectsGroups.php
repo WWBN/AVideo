@@ -42,6 +42,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * @param GoogleFirebaseAppdistroV1BatchJoinGroupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchJoin($group, GoogleFirebaseAppdistroV1BatchJoinGroupRequest $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * @param GoogleFirebaseAppdistroV1BatchLeaveGroupRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function batchLeave($group, GoogleFirebaseAppdistroV1BatchLeaveGroupRequest $postBody, $optParams = [])
   {
@@ -80,6 +82,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * valid characters are `/a-z-/`. If not set, it will be generated based on the
    * display name.
    * @return GoogleFirebaseAppdistroV1Group
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleFirebaseAppdistroV1Group $postBody, $optParams = [])
   {
@@ -94,6 +97,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * `projects/{project_number}/groups/{group_alias}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -108,6 +112,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * Format: `projects/{project_number}/groups/{group_alias}`
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppdistroV1Group
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -131,6 +136,7 @@ class ProjectsGroups extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListGroups` must match the call
    * that provided the page token.
    * @return GoogleFirebaseAppdistroV1ListGroupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsGroups($parent, $optParams = [])
   {
@@ -148,6 +154,7 @@ class ProjectsGroups extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to update.
    * @return GoogleFirebaseAppdistroV1Group
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppdistroV1Group $postBody, $optParams = [])
   {

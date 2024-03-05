@@ -38,6 +38,7 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/backups/{backup}`.
    * @param array $optParams Optional parameters.
    * @return FirestoreEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -52,6 +53,7 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * `projects/{project}/locations/{location}/backups/{backup}`.
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1Backup
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class ProjectsLocationsBackups extends \Google\Service\Resource
    * from a single location or from all locations.
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1ListBackupsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsBackups($parent, $optParams = [])
   {

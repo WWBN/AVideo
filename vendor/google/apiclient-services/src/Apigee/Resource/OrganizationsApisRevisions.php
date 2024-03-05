@@ -39,6 +39,7 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * `organizations/{org}/apis/{api}/revisions/{rev}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1ApiProxyRevision
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -63,6 +64,7 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * configuration revision. Set to `bundle` to download the API proxy
    * configuration revision as a zip file.
    * @return GoogleApiHttpBody
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -86,6 +88,7 @@ class OrganizationsApisRevisions extends \Google\Service\Resource
    * @opt_param bool validate Ignored. All uploads are validated regardless of the
    * value of this field. Maintained for compatibility with Apigee Edge API.
    * @return GoogleCloudApigeeV1ApiProxyRevision
+   * @throws \Google\Service\Exception
    */
   public function updateApiProxyRevision($name, GoogleApiHttpBody $postBody, $optParams = [])
   {

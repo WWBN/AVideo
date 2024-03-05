@@ -37,6 +37,7 @@ class Sizes extends \Google\Service\Resource
    * @param string $id Size ID.
    * @param array $optParams Optional parameters.
    * @return Size
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class Sizes extends \Google\Service\Resource
    * @param Size $postBody
    * @param array $optParams Optional parameters.
    * @return Size
+   * @throws \Google\Service\Exception
    */
   public function insert($profileId, Size $postBody, $optParams = [])
   {
@@ -72,6 +74,7 @@ class Sizes extends \Google\Service\Resource
    * @opt_param string ids Select only sizes with these IDs.
    * @opt_param int width Select only sizes with this width.
    * @return SizesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listSizes($profileId, $optParams = [])
   {

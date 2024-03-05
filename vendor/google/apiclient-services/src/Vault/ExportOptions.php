@@ -19,6 +19,8 @@ namespace Google\Service\Vault;
 
 class ExportOptions extends \Google\Model
 {
+  protected $calendarOptionsType = CalendarExportOptions::class;
+  protected $calendarOptionsDataType = '';
   protected $driveOptionsType = DriveExportOptions::class;
   protected $driveOptionsDataType = '';
   protected $groupsOptionsType = GroupsExportOptions::class;
@@ -34,6 +36,20 @@ class ExportOptions extends \Google\Model
   protected $voiceOptionsType = VoiceExportOptions::class;
   protected $voiceOptionsDataType = '';
 
+  /**
+   * @param CalendarExportOptions
+   */
+  public function setCalendarOptions(CalendarExportOptions $calendarOptions)
+  {
+    $this->calendarOptions = $calendarOptions;
+  }
+  /**
+   * @return CalendarExportOptions
+   */
+  public function getCalendarOptions()
+  {
+    return $this->calendarOptions;
+  }
   /**
    * @param DriveExportOptions
    */

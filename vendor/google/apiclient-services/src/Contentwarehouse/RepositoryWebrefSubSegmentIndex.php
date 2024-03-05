@@ -27,6 +27,8 @@ class RepositoryWebrefSubSegmentIndex extends \Google\Model
   protected $imageQueryIndexDataType = '';
   protected $jgnIndexType = RepositoryWebrefJuggernautIndices::class;
   protected $jgnIndexDataType = '';
+  protected $metaTagIndexType = RepositoryWebrefMetaTagIndices::class;
+  protected $metaTagIndexDataType = '';
   protected $queryIndexType = RepositoryWebrefQueryIndices::class;
   protected $queryIndexDataType = '';
 
@@ -85,6 +87,20 @@ class RepositoryWebrefSubSegmentIndex extends \Google\Model
   public function getJgnIndex()
   {
     return $this->jgnIndex;
+  }
+  /**
+   * @param RepositoryWebrefMetaTagIndices
+   */
+  public function setMetaTagIndex(RepositoryWebrefMetaTagIndices $metaTagIndex)
+  {
+    $this->metaTagIndex = $metaTagIndex;
+  }
+  /**
+   * @return RepositoryWebrefMetaTagIndices
+   */
+  public function getMetaTagIndex()
+  {
+    return $this->metaTagIndex;
   }
   /**
    * @param RepositoryWebrefQueryIndices

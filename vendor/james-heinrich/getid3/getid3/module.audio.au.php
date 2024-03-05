@@ -69,8 +69,8 @@ class getid3_au extends getid3_handler
 			$this->warning('Possible truncated file - expecting "'.$thisfile_au['data_size'].'" bytes of audio data, only found '.($info['avdataend'] - $info['avdataoffset']).' bytes"');
 		}
 
-		$info['playtime_seconds'] = $thisfile_au['data_size'] / ($thisfile_au['sample_rate'] * $thisfile_au['channels'] * ($thisfile_au['used_bits_per_sample'] / 8));
-		$info['audio']['bitrate'] = ($thisfile_au['data_size'] * 8) / $info['playtime_seconds'];
+		$info['audio']['bitrate'] = $thisfile_au['sample_rate'] * $thisfile_au['channels'] * $thisfile_au['used_bits_per_sample'];
+		$info['playtime_seconds'] = getid3_lib::SafeDiv($thisfile_au['data_size'], $info['audio']['bitrate'] / 8);
 
 		return true;
 	}

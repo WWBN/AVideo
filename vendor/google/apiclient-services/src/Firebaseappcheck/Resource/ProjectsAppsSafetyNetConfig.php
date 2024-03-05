@@ -45,6 +45,7 @@ class ProjectsAppsSafetyNetConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/safetyNetConfig ``` A maximum of 100
    * objects can be retrieved in a batch.
    * @return GoogleFirebaseAppcheckV1BatchGetSafetyNetConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function batchGet($parent, $optParams = [])
   {
@@ -60,6 +61,7 @@ class ProjectsAppsSafetyNetConfig extends \Google\Service\Resource
    * projects/{project_number}/apps/{app_id}/safetyNetConfig ```
    * @param array $optParams Optional parameters.
    * @return GoogleFirebaseAppcheckV1SafetyNetConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -81,6 +83,7 @@ class ProjectsAppsSafetyNetConfig extends \Google\Service\Resource
    * @opt_param string updateMask Required. A comma-separated list of names of
    * fields in the SafetyNetConfig Gets to update. Example: `token_ttl`.
    * @return GoogleFirebaseAppcheckV1SafetyNetConfig
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirebaseAppcheckV1SafetyNetConfig $postBody, $optParams = [])
   {

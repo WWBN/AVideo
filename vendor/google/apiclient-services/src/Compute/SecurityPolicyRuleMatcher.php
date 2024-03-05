@@ -23,6 +23,8 @@ class SecurityPolicyRuleMatcher extends \Google\Model
   protected $configDataType = '';
   protected $exprType = Expr::class;
   protected $exprDataType = '';
+  protected $exprOptionsType = SecurityPolicyRuleMatcherExprOptions::class;
+  protected $exprOptionsDataType = '';
   /**
    * @var string
    */
@@ -55,6 +57,20 @@ class SecurityPolicyRuleMatcher extends \Google\Model
   public function getExpr()
   {
     return $this->expr;
+  }
+  /**
+   * @param SecurityPolicyRuleMatcherExprOptions
+   */
+  public function setExprOptions(SecurityPolicyRuleMatcherExprOptions $exprOptions)
+  {
+    $this->exprOptions = $exprOptions;
+  }
+  /**
+   * @return SecurityPolicyRuleMatcherExprOptions
+   */
+  public function getExprOptions()
+  {
+    return $this->exprOptions;
   }
   /**
    * @param string

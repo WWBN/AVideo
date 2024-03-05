@@ -53,6 +53,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ImportJob $postBody, $optParams = [])
   {
@@ -81,6 +82,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -97,6 +99,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * @opt_param string view Optional. The level of details of the import job.
    * Default value is FULL.
    * @return ImportJob
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -120,6 +123,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * @opt_param string view Optional. The level of details of each import job.
    * Default value is BASIC.
    * @return ListImportJobsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsImportJobs($parent, $optParams = [])
   {
@@ -151,6 +155,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * full request. A field will be overwritten if it is in the mask. A single *
    * value in the mask lets you to overwrite all fields.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ImportJob $postBody, $optParams = [])
   {
@@ -165,6 +170,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * @param RunImportJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function run($name, RunImportJobRequest $postBody, $optParams = [])
   {
@@ -179,6 +185,7 @@ class ProjectsLocationsImportJobs extends \Google\Service\Resource
    * @param ValidateImportJobRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function validate($name, ValidateImportJobRequest $postBody, $optParams = [])
   {

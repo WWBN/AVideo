@@ -41,6 +41,10 @@ class GooglePrivacyDlpV2DlpJob extends \Google\Collection
   /**
    * @var string
    */
+  public $lastModified;
+  /**
+   * @var string
+   */
   public $name;
   protected $riskDetailsType = GooglePrivacyDlpV2AnalyzeDataSourceRiskDetails::class;
   protected $riskDetailsDataType = '';
@@ -140,6 +144,20 @@ class GooglePrivacyDlpV2DlpJob extends \Google\Collection
   public function getJobTriggerName()
   {
     return $this->jobTriggerName;
+  }
+  /**
+   * @param string
+   */
+  public function setLastModified($lastModified)
+  {
+    $this->lastModified = $lastModified;
+  }
+  /**
+   * @return string
+   */
+  public function getLastModified()
+  {
+    return $this->lastModified;
   }
   /**
    * @param string

@@ -44,11 +44,20 @@ class StreamEncryption
         }
     }
 
+    /**
+     * @param Connection $stream
+     * @return \React\Promise\PromiseInterface<Connection>
+     */
     public function enable(Connection $stream)
     {
         return $this->toggle($stream, true);
     }
 
+    /**
+     * @param Connection $stream
+     * @param bool $toggle
+     * @return \React\Promise\PromiseInterface<Connection>
+     */
     public function toggle(Connection $stream, $toggle)
     {
         // pause actual stream instance to continue operation on raw stream socket
@@ -98,6 +107,14 @@ class StreamEncryption
         });
     }
 
+    /**
+     * @internal
+     * @param resource $socket
+     * @param Deferred<null> $deferred
+     * @param bool $toggle
+     * @param int $method
+     * @return void
+     */
     public function toggleCrypto($socket, Deferred $deferred, $toggle, $method)
     {
         $error = null;

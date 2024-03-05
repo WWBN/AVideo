@@ -24,10 +24,16 @@ class AssistantGroundingRankerPodcastGroundingProviderFeatures extends \Google\M
    */
   public $isExclusive;
   /**
+   * @var int
+   */
+  public $podcastListenersCount;
+  public $popularityScore;
+  /**
    * @var float
    */
   public $scubedNg3ModelScore;
   public $scubedTstarScore;
+  public $youtubeConfidenceScore;
 
   /**
    * @param bool
@@ -42,6 +48,28 @@ class AssistantGroundingRankerPodcastGroundingProviderFeatures extends \Google\M
   public function getIsExclusive()
   {
     return $this->isExclusive;
+  }
+  /**
+   * @param int
+   */
+  public function setPodcastListenersCount($podcastListenersCount)
+  {
+    $this->podcastListenersCount = $podcastListenersCount;
+  }
+  /**
+   * @return int
+   */
+  public function getPodcastListenersCount()
+  {
+    return $this->podcastListenersCount;
+  }
+  public function setPopularityScore($popularityScore)
+  {
+    $this->popularityScore = $popularityScore;
+  }
+  public function getPopularityScore()
+  {
+    return $this->popularityScore;
   }
   /**
    * @param float
@@ -64,6 +92,14 @@ class AssistantGroundingRankerPodcastGroundingProviderFeatures extends \Google\M
   public function getScubedTstarScore()
   {
     return $this->scubedTstarScore;
+  }
+  public function setYoutubeConfidenceScore($youtubeConfidenceScore)
+  {
+    $this->youtubeConfidenceScore = $youtubeConfidenceScore;
+  }
+  public function getYoutubeConfidenceScore()
+  {
+    return $this->youtubeConfidenceScore;
   }
 }
 

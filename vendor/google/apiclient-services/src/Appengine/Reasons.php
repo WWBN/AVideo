@@ -34,6 +34,10 @@ class Reasons extends \Google\Model
   /**
    * @var string
    */
+  public $serviceActivation;
+  /**
+   * @var string
+   */
   public $serviceManagement;
 
   /**
@@ -77,6 +81,20 @@ class Reasons extends \Google\Model
   public function getDataGovernance()
   {
     return $this->dataGovernance;
+  }
+  /**
+   * @param string
+   */
+  public function setServiceActivation($serviceActivation)
+  {
+    $this->serviceActivation = $serviceActivation;
+  }
+  /**
+   * @return string
+   */
+  public function getServiceActivation()
+  {
+    return $this->serviceActivation;
   }
   /**
    * @param string

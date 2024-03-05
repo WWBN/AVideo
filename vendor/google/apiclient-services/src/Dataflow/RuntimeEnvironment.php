@@ -33,6 +33,10 @@ class RuntimeEnvironment extends \Google\Collection
    */
   public $bypassTempDirValidation;
   /**
+   * @var int
+   */
+  public $diskSizeGb;
+  /**
    * @var bool
    */
   public $enableStreamingEngine;
@@ -64,6 +68,10 @@ class RuntimeEnvironment extends \Google\Collection
    * @var string
    */
   public $serviceAccountEmail;
+  /**
+   * @var string
+   */
+  public $streamingMode;
   /**
    * @var string
    */
@@ -126,6 +134,20 @@ class RuntimeEnvironment extends \Google\Collection
   public function getBypassTempDirValidation()
   {
     return $this->bypassTempDirValidation;
+  }
+  /**
+   * @param int
+   */
+  public function setDiskSizeGb($diskSizeGb)
+  {
+    $this->diskSizeGb = $diskSizeGb;
+  }
+  /**
+   * @return int
+   */
+  public function getDiskSizeGb()
+  {
+    return $this->diskSizeGb;
   }
   /**
    * @param bool
@@ -238,6 +260,20 @@ class RuntimeEnvironment extends \Google\Collection
   public function getServiceAccountEmail()
   {
     return $this->serviceAccountEmail;
+  }
+  /**
+   * @param string
+   */
+  public function setStreamingMode($streamingMode)
+  {
+    $this->streamingMode = $streamingMode;
+  }
+  /**
+   * @return string
+   */
+  public function getStreamingMode()
+  {
+    return $this->streamingMode;
   }
   /**
    * @param string

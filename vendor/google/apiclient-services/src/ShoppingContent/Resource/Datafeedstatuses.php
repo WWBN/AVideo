@@ -39,6 +39,7 @@ class Datafeedstatuses extends \Google\Service\Resource
    * @param DatafeedstatusesCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return DatafeedstatusesCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(DatafeedstatusesCustomBatchRequest $postBody, $optParams = [])
   {
@@ -69,6 +70,7 @@ class Datafeedstatuses extends \Google\Service\Resource
    * this parameter is required for feeds targeting multiple countries and
    * languages, since a feed may have a different status for each target.
    * @return DatafeedStatus
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $datafeedId, $optParams = [])
   {
@@ -88,6 +90,7 @@ class Datafeedstatuses extends \Google\Service\Resource
    * response, used for paging.
    * @opt_param string pageToken The token returned by the previous request.
    * @return DatafeedstatusesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listDatafeedstatuses($merchantId, $optParams = [])
   {

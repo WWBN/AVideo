@@ -28,6 +28,8 @@ class ReadRequest extends \Google\Collection
    * @var bool
    */
   public $dataBoostEnabled;
+  protected $directedReadOptionsType = DirectedReadOptions::class;
+  protected $directedReadOptionsDataType = '';
   /**
    * @var string
    */
@@ -82,6 +84,20 @@ class ReadRequest extends \Google\Collection
   public function getDataBoostEnabled()
   {
     return $this->dataBoostEnabled;
+  }
+  /**
+   * @param DirectedReadOptions
+   */
+  public function setDirectedReadOptions(DirectedReadOptions $directedReadOptions)
+  {
+    $this->directedReadOptions = $directedReadOptions;
+  }
+  /**
+   * @return DirectedReadOptions
+   */
+  public function getDirectedReadOptions()
+  {
+    return $this->directedReadOptions;
   }
   /**
    * @param string

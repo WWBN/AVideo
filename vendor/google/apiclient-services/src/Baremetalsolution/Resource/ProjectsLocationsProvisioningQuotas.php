@@ -44,6 +44,7 @@ class ProjectsLocationsProvisioningQuotas extends \Google\Service\Resource
    * @opt_param string pageToken A token identifying a page of results from the
    * server.
    * @return ListProvisioningQuotasResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsProvisioningQuotas($parent, $optParams = [])
   {

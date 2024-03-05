@@ -42,6 +42,7 @@ class EditsExpansionfiles extends \Google\Service\Resource
    * which is being read or modified.
    * @param array $optParams Optional parameters.
    * @return ExpansionFile
+   * @throws \Google\Service\Exception
    */
   public function get($packageName, $editId, $apkVersionCode, $expansionFileType, $optParams = [])
   {
@@ -63,6 +64,7 @@ class EditsExpansionfiles extends \Google\Service\Resource
    * @param ExpansionFile $postBody
    * @param array $optParams Optional parameters.
    * @return ExpansionFile
+   * @throws \Google\Service\Exception
    */
   public function patch($packageName, $editId, $apkVersionCode, $expansionFileType, ExpansionFile $postBody, $optParams = [])
   {
@@ -84,6 +86,7 @@ class EditsExpansionfiles extends \Google\Service\Resource
    * @param ExpansionFile $postBody
    * @param array $optParams Optional parameters.
    * @return ExpansionFile
+   * @throws \Google\Service\Exception
    */
   public function update($packageName, $editId, $apkVersionCode, $expansionFileType, ExpansionFile $postBody, $optParams = [])
   {
@@ -103,6 +106,7 @@ class EditsExpansionfiles extends \Google\Service\Resource
    * configuration which is being updated.
    * @param array $optParams Optional parameters.
    * @return ExpansionFilesUploadResponse
+   * @throws \Google\Service\Exception
    */
   public function upload($packageName, $editId, $apkVersionCode, $expansionFileType, $optParams = [])
   {

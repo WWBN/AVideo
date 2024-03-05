@@ -30,6 +30,18 @@ class TemplateMetadata extends \Google\Collection
   public $name;
   protected $parametersType = ParameterMetadata::class;
   protected $parametersDataType = 'array';
+  /**
+   * @var bool
+   */
+  public $streaming;
+  /**
+   * @var bool
+   */
+  public $supportsAtLeastOnce;
+  /**
+   * @var bool
+   */
+  public $supportsExactlyOnce;
 
   /**
    * @param string
@@ -72,6 +84,48 @@ class TemplateMetadata extends \Google\Collection
   public function getParameters()
   {
     return $this->parameters;
+  }
+  /**
+   * @param bool
+   */
+  public function setStreaming($streaming)
+  {
+    $this->streaming = $streaming;
+  }
+  /**
+   * @return bool
+   */
+  public function getStreaming()
+  {
+    return $this->streaming;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportsAtLeastOnce($supportsAtLeastOnce)
+  {
+    $this->supportsAtLeastOnce = $supportsAtLeastOnce;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsAtLeastOnce()
+  {
+    return $this->supportsAtLeastOnce;
+  }
+  /**
+   * @param bool
+   */
+  public function setSupportsExactlyOnce($supportsExactlyOnce)
+  {
+    $this->supportsExactlyOnce = $supportsExactlyOnce;
+  }
+  /**
+   * @return bool
+   */
+  public function getSupportsExactlyOnce()
+  {
+    return $this->supportsExactlyOnce;
   }
 }
 

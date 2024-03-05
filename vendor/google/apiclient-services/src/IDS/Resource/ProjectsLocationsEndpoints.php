@@ -59,6 +59,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Endpoint $postBody, $optParams = [])
   {
@@ -84,6 +85,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -98,6 +100,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * projects/{project}/locations/{location}/endpoints/{endpoint}
    * @param array $optParams Optional parameters.
    * @return Endpoint
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -128,6 +131,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -154,6 +158,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListEndpoints` must match the
    * call that provided the page token.
    * @return ListEndpointsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsEndpoints($parent, $optParams = [])
   {
@@ -185,6 +190,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * will be overwritten if it is in the mask. If the user does not provide a mask
    * then all fields will be overwritten.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Endpoint $postBody, $optParams = [])
   {
@@ -204,6 +210,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -226,6 +233,7 @@ class ProjectsLocationsEndpoints extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

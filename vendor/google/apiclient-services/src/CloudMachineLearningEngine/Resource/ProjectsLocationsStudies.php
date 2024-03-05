@@ -42,6 +42,7 @@ class ProjectsLocationsStudies extends \Google\Service\Resource
    * @opt_param string studyId Required. The ID to use for the study, which will
    * become the final component of the study's resource name.
    * @return GoogleCloudMlV1Study
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudMlV1Study $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocationsStudies extends \Google\Service\Resource
    * @param string $name Required. The study name.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class ProjectsLocationsStudies extends \Google\Service\Resource
    * @param string $name Required. The study name.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Study
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -83,6 +86,7 @@ class ProjectsLocationsStudies extends \Google\Service\Resource
    * belongs to. Format: projects/{project}/locations/{location}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1ListStudiesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsStudies($parent, $optParams = [])
   {

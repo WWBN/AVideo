@@ -42,6 +42,7 @@ class LayersVolumeAnnotations extends \Google\Service\Resource
    * language and ISO-3166-1 country code. Ex: 'en_US'.
    * @opt_param string source String to identify the originator of this request.
    * @return Volumeannotation
+   * @throws \Google\Service\Exception
    */
   public function get($volumeId, $layerId, $annotationId, $optParams = [])
   {
@@ -78,6 +79,7 @@ class LayersVolumeAnnotations extends \Google\Service\Resource
    * @opt_param string volumeAnnotationsVersion The version of the volume
    * annotations that you are requesting.
    * @return Volumeannotations
+   * @throws \Google\Service\Exception
    */
   public function listLayersVolumeAnnotations($volumeId, $layerId, $contentVersion, $optParams = [])
   {

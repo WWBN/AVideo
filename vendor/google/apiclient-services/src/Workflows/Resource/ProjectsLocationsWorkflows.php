@@ -17,6 +17,7 @@
 
 namespace Google\Service\Workflows\Resource;
 
+use Google\Service\Workflows\ListWorkflowRevisionsResponse;
 use Google\Service\Workflows\ListWorkflowsResponse;
 use Google\Service\Workflows\Operation;
 use Google\Service\Workflows\Workflow;
@@ -47,6 +48,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * between 1-64 characters. * Must end with a number or a letter. * Must be
    * unique within the customer project and location.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Workflow $postBody, $optParams = [])
   {
@@ -62,6 +64,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * projects/{project}/locations/{location}/workflows/{workflow}
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -83,6 +86,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * decimal revision number. They are followed by a hyphen and three hexadecimal
    * characters.
    * @return Workflow
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +103,8 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string filter Filter to restrict results to specific workflows.
+   * For details, see AIP-160. For example, if you are using the Google APIs
+   * Explorer: `state="SUCCEEDED"` or `createTime>"2023-08-01" AND state="FAILED"`
    * @opt_param string orderBy Comma-separated list of fields that specify the
    * order of the results. Default sorting order for a field is ascending. To
    * specify descending order for a field, append a "desc" suffix. If not
@@ -113,6 +119,7 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
    * paginating, all other parameters provided to `ListWorkflows` must match the
    * call that provided the page token.
    * @return ListWorkflowsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsWorkflows($parent, $optParams = [])
   {
@@ -121,19 +128,42 @@ class ProjectsLocationsWorkflows extends \Google\Service\Resource
     return $this->call('list', [$params], ListWorkflowsResponse::class);
   }
   /**
+   * Lists revisions for a given workflow. (workflows.listRevisions)
+   *
+   * @param string $name Required. Workflow for which the revisions should be
+   * listed. Format: projects/{project}/locations/{location}/workflows/{workflow}
+   * @param array $optParams Optional parameters.
+   *
+   * @opt_param int pageSize The maximum number of revisions to return per page.
+   * If a value is not specified, a default value of 20 is used. The maximum
+   * permitted value is 100. Values greater than 100 are coerced down to 100.
+   * @opt_param string pageToken The page token, received from a previous
+   * ListWorkflowRevisions call. Provide this to retrieve the subsequent page.
+   * @return ListWorkflowRevisionsResponse
+   * @throws \Google\Service\Exception
+   */
+  public function listRevisions($name, $optParams = [])
+  {
+    $params = ['name' => $name];
+    $params = array_merge($params, $optParams);
+    return $this->call('listRevisions', [$params], ListWorkflowRevisionsResponse::class);
+  }
+  /**
    * Updates an existing workflow. Running this method has no impact on already
    * running executions of the workflow. A new revision of the workflow might be
    * created as a result of a successful update operation. In that case, the new
    * revision is used in new workflow executions. (workflows.patch)
    *
    * @param string $name The resource name of the workflow. Format:
-   * projects/{project}/locations/{location}/workflows/{workflow}
+   * projects/{project}/locations/{location}/workflows/{workflow}. This is a
+   * workflow-wide field and is not tied to a specific revision.
    * @param Workflow $postBody
    * @param array $optParams Optional parameters.
    *
    * @opt_param string updateMask List of fields to be updated. If not present,
    * the entire workflow will be updated.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Workflow $postBody, $optParams = [])
   {

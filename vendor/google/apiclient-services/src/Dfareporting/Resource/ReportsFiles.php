@@ -39,6 +39,7 @@ class ReportsFiles extends \Google\Service\Resource
    * @param string $fileId The ID of the report file.
    * @param array $optParams Optional parameters.
    * @return DfareportingFile
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $reportId, $fileId, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ReportsFiles extends \Google\Service\Resource
    * @opt_param string sortField The field by which to sort the list.
    * @opt_param string sortOrder Order of sorted results.
    * @return FileList
+   * @throws \Google\Service\Exception
    */
   public function listReportsFiles($profileId, $reportId, $optParams = [])
   {

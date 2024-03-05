@@ -43,6 +43,7 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * @opt_param string certificateIssuanceConfigId Required. A user-provided name
    * of the certificate config.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CertificateIssuanceConfig $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * `projects/locations/certificateIssuanceConfigs`.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -75,6 +77,7 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * `projects/locations/certificateIssuanceConfigs`.
    * @param array $optParams Optional parameters.
    * @return CertificateIssuanceConfig
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -102,6 +105,7 @@ class ProjectsLocationsCertificateIssuanceConfigs extends \Google\Service\Resour
    * continuation of a prior `ListCertificateIssuanceConfigs` call, and that the
    * system should return the next page of data.
    * @return ListCertificateIssuanceConfigsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsCertificateIssuanceConfigs($parent, $optParams = [])
   {

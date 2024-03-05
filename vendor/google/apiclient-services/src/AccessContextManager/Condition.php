@@ -19,7 +19,7 @@ namespace Google\Service\AccessContextManager;
 
 class Condition extends \Google\Collection
 {
-  protected $collection_key = 'requiredAccessLevels';
+  protected $collection_key = 'vpcNetworkSources';
   protected $devicePolicyType = DevicePolicy::class;
   protected $devicePolicyDataType = '';
   /**
@@ -42,6 +42,8 @@ class Condition extends \Google\Collection
    * @var string[]
    */
   public $requiredAccessLevels;
+  protected $vpcNetworkSourcesType = VpcNetworkSource::class;
+  protected $vpcNetworkSourcesDataType = 'array';
 
   /**
    * @param DevicePolicy
@@ -126,6 +128,20 @@ class Condition extends \Google\Collection
   public function getRequiredAccessLevels()
   {
     return $this->requiredAccessLevels;
+  }
+  /**
+   * @param VpcNetworkSource[]
+   */
+  public function setVpcNetworkSources($vpcNetworkSources)
+  {
+    $this->vpcNetworkSources = $vpcNetworkSources;
+  }
+  /**
+   * @return VpcNetworkSource[]
+   */
+  public function getVpcNetworkSources()
+  {
+    return $this->vpcNetworkSources;
   }
 }
 

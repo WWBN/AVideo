@@ -41,6 +41,7 @@ class ProjectsTenantsCompanies extends \Google\Service\Resource
    * @param Company $postBody
    * @param array $optParams Optional parameters.
    * @return Company
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Company $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsTenantsCompanies extends \Google\Service\Resource
    * example, "projects/foo/tenants/bar/companies/baz".
    * @param array $optParams Optional parameters.
    * @return JobsEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -74,6 +76,7 @@ class ProjectsTenantsCompanies extends \Google\Service\Resource
    * example, "projects/api-test-project/tenants/foo/companies/bar".
    * @param array $optParams Optional parameters.
    * @return Company
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,6 +102,7 @@ class ProjectsTenantsCompanies extends \Google\Service\Resource
    * have open jobs. Defaults to false. If true, at most page_size of companies
    * are fetched, among which only those with open jobs are returned.
    * @return ListCompaniesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsTenantsCompanies($parent, $optParams = [])
   {
@@ -122,6 +126,7 @@ class ProjectsTenantsCompanies extends \Google\Service\Resource
    * the company fields to be updated. Only top level fields of Company are
    * supported.
    * @return Company
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Company $postBody, $optParams = [])
   {

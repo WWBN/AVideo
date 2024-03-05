@@ -32,15 +32,14 @@ class ProjectsLocationsClustersWellKnown extends \Google\Service\Resource
   /**
    * Gets the OIDC discovery document for the cluster. See the [OpenID Connect
    * Discovery 1.0 specification](https://openid.net/specs/openid-connect-
-   * discovery-1_0.html) for details. This API is not yet intended for general
-   * use, and is not available for all clusters. (well-
-   * known.getOpenidConfiguration)
+   * discovery-1_0.html) for details. (well-known.getOpenidConfiguration)
    *
    * @param string $parent The cluster (project, location, cluster name) to get
    * the discovery document for. Specified in the format
    * `projects/locations/clusters`.
    * @param array $optParams Optional parameters.
    * @return GetOpenIDConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function getOpenidConfiguration($parent, $optParams = [])
   {

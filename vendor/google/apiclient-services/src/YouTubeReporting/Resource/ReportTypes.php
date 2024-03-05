@@ -48,6 +48,7 @@ class ReportTypes extends \Google\Service\Resource
    * ListReportTypesResponse.next_page_token returned in response to the previous
    * call to the `ListReportTypes` method.
    * @return ListReportTypesResponse
+   * @throws \Google\Service\Exception
    */
   public function listReportTypes($optParams = [])
   {

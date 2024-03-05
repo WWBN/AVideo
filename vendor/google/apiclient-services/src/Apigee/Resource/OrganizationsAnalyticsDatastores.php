@@ -40,6 +40,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Datastore $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Datastore
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1Datastore $postBody, $optParams = [])
   {
@@ -54,6 +55,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * Must be of the form `organizations/{org}/analytics/datastores/{datastoreId}`
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * be of the form `organizations/{org}/analytics/datastores/{datastoreId}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Datastore
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -85,6 +88,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * @opt_param string targetType Optional. TargetType is used to fetch all
    * Datastores that match the type
    * @return GoogleCloudApigeeV1ListDatastoresResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsAnalyticsDatastores($parent, $optParams = [])
   {
@@ -102,6 +106,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Datastore $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1TestDatastoreResponse
+   * @throws \Google\Service\Exception
    */
   public function test($parent, GoogleCloudApigeeV1Datastore $postBody, $optParams = [])
   {
@@ -117,6 +122,7 @@ class OrganizationsAnalyticsDatastores extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1Datastore $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1Datastore
+   * @throws \Google\Service\Exception
    */
   public function update($name, GoogleCloudApigeeV1Datastore $postBody, $optParams = [])
   {

@@ -38,6 +38,7 @@ class UsersMessagesAttachments extends \Google\Service\Resource
    * @param string $id The ID of the attachment.
    * @param array $optParams Optional parameters.
    * @return MessagePartBody
+   * @throws \Google\Service\Exception
    */
   public function get($userId, $messageId, $id, $optParams = [])
   {

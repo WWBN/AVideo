@@ -44,6 +44,7 @@ class ProjectsPolicies extends \Google\Service\Resource
    * @param GoogleCloudOrgpolicyV2Policy $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2Policy
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudOrgpolicyV2Policy $postBody, $optParams = [])
   {
@@ -59,7 +60,12 @@ class ProjectsPolicies extends \Google\Service\Resource
    * @param string $name Required. Name of the policy to delete. See the policy
    * entry for naming rules.
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string etag Optional. The current etag of policy. If an etag is
+   * provided and does not match the current etag of the policy, deletion will be
+   * blocked and an ABORTED error will be returned.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,10 +78,11 @@ class ProjectsPolicies extends \Google\Service\Resource
    * is returned. The `etag` value can be used with `UpdatePolicy()` to update a
    * policy during read-modify-write. (policies.get)
    *
-   * @param string $name Required. Resource name of the policy. See `Policy` for
+   * @param string $name Required. Resource name of the policy. See Policy for
    * naming requirements.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2Policy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -91,10 +98,11 @@ class ProjectsPolicies extends \Google\Service\Resource
    * hierarchy with 'under:' prefix will not be expanded.
    * (policies.getEffectivePolicy)
    *
-   * @param string $name Required. The effective policy to compute. See `Policy`
-   * for naming rules.
+   * @param string $name Required. The effective policy to compute. See Policy for
+   * naming requirements.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudOrgpolicyV2Policy
+   * @throws \Google\Service\Exception
    */
   public function getEffectivePolicy($name, $optParams = [])
   {
@@ -120,6 +128,7 @@ class ProjectsPolicies extends \Google\Service\Resource
    * is currently unsupported and will be ignored. The server may at any point
    * start using this field.
    * @return GoogleCloudOrgpolicyV2ListPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsPolicies($parent, $optParams = [])
   {
@@ -136,12 +145,12 @@ class ProjectsPolicies extends \Google\Service\Resource
    * (policies.patch)
    *
    * @param string $name Immutable. The resource name of the policy. Must be one
-   * of the following forms, where constraint_name is the name of the constraint
+   * of the following forms, where `constraint_name` is the name of the constraint
    * which this policy configures: *
    * `projects/{project_number}/policies/{constraint_name}` *
    * `folders/{folder_id}/policies/{constraint_name}` *
    * `organizations/{organization_id}/policies/{constraint_name}` For example,
-   * "projects/123/policies/compute.disableSerialPortAccess". Note:
+   * `projects/123/policies/compute.disableSerialPortAccess`. Note:
    * `projects/{project_id}/policies/{constraint_name}` is also an acceptable name
    * for API requests, but responses will return the name using the equivalent
    * project number.
@@ -152,6 +161,7 @@ class ProjectsPolicies extends \Google\Service\Resource
    * overwritten in the policy by the set. The fields specified in the update_mask
    * are relative to the policy, not the full request.
    * @return GoogleCloudOrgpolicyV2Policy
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudOrgpolicyV2Policy $postBody, $optParams = [])
   {

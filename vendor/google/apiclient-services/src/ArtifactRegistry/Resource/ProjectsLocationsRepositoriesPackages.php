@@ -38,6 +38,7 @@ class ProjectsLocationsRepositoriesPackages extends \Google\Service\Resource
    * @param string $name Required. The name of the package to delete.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -51,6 +52,7 @@ class ProjectsLocationsRepositoriesPackages extends \Google\Service\Resource
    * @param string $name Required. The name of the package to retrieve.
    * @param array $optParams Optional parameters.
    * @return Package
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -70,6 +72,7 @@ class ProjectsLocationsRepositoriesPackages extends \Google\Service\Resource
    * @opt_param string pageToken The next_page_token value returned from a
    * previous list request, if any.
    * @return ListPackagesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesPackages($parent, $optParams = [])
   {

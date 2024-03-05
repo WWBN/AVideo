@@ -46,6 +46,7 @@ class Players extends \Google\Service\Resource
    * id. The call returns a 'not found' result when the token is present and
    * invalid. Empty value is ignored. See also GlobalPlayerIdConsistencyTokenProto
    * @return Player
+   * @throws \Google\Service\Exception
    */
   public function get($playerId, $optParams = [])
   {
@@ -64,6 +65,7 @@ class Players extends \Google\Service\Resource
    * @opt_param string applicationIds Required. The application IDs from the
    * Google Play developer console for the games to return scoped ids for.
    * @return GetMultipleApplicationPlayerIdsResponse
+   * @throws \Google\Service\Exception
    */
   public function getMultipleApplicationPlayerIds($optParams = [])
   {
@@ -77,6 +79,7 @@ class Players extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return ScopedPlayerIds
+   * @throws \Google\Service\Exception
    */
   public function getScopedPlayerIds($optParams = [])
   {
@@ -98,6 +101,7 @@ class Players extends \Google\Service\Resource
    * resources returned may be less than the specified `maxResults`.
    * @opt_param string pageToken The token returned by the previous request.
    * @return PlayerListResponse
+   * @throws \Google\Service\Exception
    */
   public function listPlayers($collection, $optParams = [])
   {

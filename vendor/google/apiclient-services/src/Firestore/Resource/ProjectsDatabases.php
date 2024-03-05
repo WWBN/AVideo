@@ -43,9 +43,13 @@ class ProjectsDatabases extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param string databaseId Required. The ID to use for the database, which
-   * will become the final component of the database's resource name. The value
-   * must be set to "(default)".
+   * will become the final component of the database's resource name. This value
+   * should be 4-63 characters. Valid characters are /a-z-/ with first character a
+   * letter and the last a letter or a number. Must not be UUID-like
+   * /[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}/. "(default)" database id is also
+   * valid.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleFirestoreAdminV1Database $postBody, $optParams = [])
   {
@@ -60,14 +64,11 @@ class ProjectsDatabases extends \Google\Service\Resource
    * `projects/{project_id}/databases/{database_id}`
    * @param array $optParams Optional parameters.
    *
-   * @opt_param bool allowMissing If set to true and the Database is not found,
-   * the request will succeed but no action will be taken.
    * @opt_param string etag The current etag of the Database. If an etag is
    * provided and does not match the current etag of the database, deletion will
    * be blocked and a FAILED_PRECONDITION error will be returned.
-   * @opt_param bool validateOnly If set, validate the request and preview the
-   * response, but do not actually delete the database.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -92,6 +93,7 @@ class ProjectsDatabases extends \Google\Service\Resource
    * @param GoogleFirestoreAdminV1ExportDocumentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function exportDocuments($name, GoogleFirestoreAdminV1ExportDocumentsRequest $postBody, $optParams = [])
   {
@@ -106,6 +108,7 @@ class ProjectsDatabases extends \Google\Service\Resource
    * `projects/{project_id}/databases/{database_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1Database
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -126,6 +129,7 @@ class ProjectsDatabases extends \Google\Service\Resource
    * @param GoogleFirestoreAdminV1ImportDocumentsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function importDocuments($name, GoogleFirestoreAdminV1ImportDocumentsRequest $postBody, $optParams = [])
   {
@@ -140,6 +144,7 @@ class ProjectsDatabases extends \Google\Service\Resource
    * `projects/{project_id}`
    * @param array $optParams Optional parameters.
    * @return GoogleFirestoreAdminV1ListDatabasesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatabases($parent, $optParams = [])
   {
@@ -157,6 +162,7 @@ class ProjectsDatabases extends \Google\Service\Resource
    *
    * @opt_param string updateMask The list of fields to be updated.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleFirestoreAdminV1Database $postBody, $optParams = [])
   {
@@ -165,7 +171,7 @@ class ProjectsDatabases extends \Google\Service\Resource
     return $this->call('patch', [$params], GoogleLongrunningOperation::class);
   }
   /**
-   * Create a new database by restore from an existing backup. The new database
+   * Creates a new database by restoring from an existing backup. The new database
    * must be in the same cloud region or multi-region location as the existing
    * backup. This behaves similar to FirestoreAdmin.CreateDatabase except instead
    * of creating a new empty database, a new database is created with the database
@@ -173,15 +179,14 @@ class ProjectsDatabases extends \Google\Service\Resource
    * running operation can be used to track the progress of the restore, with the
    * Operation's metadata field type being the RestoreDatabaseMetadata. The
    * response type is the Database if the restore was successful. The new database
-   * is not readable or writeable until the LRO has completed. Cancelling the
-   * returned operation will stop the restore and delete the in-progress database,
-   * if the restore is still active. (databases.restore)
+   * is not readable or writeable until the LRO has completed. (databases.restore)
    *
    * @param string $parent Required. The project to restore the database in.
    * Format is `projects/{project_id}`.
    * @param GoogleFirestoreAdminV1RestoreDatabaseRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function restore($parent, GoogleFirestoreAdminV1RestoreDatabaseRequest $postBody, $optParams = [])
   {

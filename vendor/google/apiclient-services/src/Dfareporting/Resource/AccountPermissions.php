@@ -37,6 +37,7 @@ class AccountPermissions extends \Google\Service\Resource
    * @param string $id Account permission ID.
    * @param array $optParams Optional parameters.
    * @return AccountPermission
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -51,6 +52,7 @@ class AccountPermissions extends \Google\Service\Resource
    * @param string $profileId User profile ID associated with this request.
    * @param array $optParams Optional parameters.
    * @return AccountPermissionsListResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountPermissions($profileId, $optParams = [])
   {

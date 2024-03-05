@@ -38,6 +38,7 @@ class ProjectsLocationsManagedidentitiesGlobalDomainsSqlIntegrations extends \Go
    * `
    * @param array $optParams Optional parameters.
    * @return SqlIntegration
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -66,6 +67,7 @@ class ProjectsLocationsManagedidentitiesGlobalDomainsSqlIntegrations extends \Go
    * @opt_param string pageToken Optional. The next_page_token value returned from
    * a previous List request, if any.
    * @return ListSqlIntegrationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsManagedidentitiesGlobalDomainsSqlIntegrations($parent, $optParams = [])
   {

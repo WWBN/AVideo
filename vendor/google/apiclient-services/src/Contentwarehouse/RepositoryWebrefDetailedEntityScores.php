@@ -28,10 +28,6 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
    */
   public $docScore;
   /**
-   * @var float
-   */
-  public $geoTopicNormalizedScore;
-  /**
    * @var bool
    */
   public $isAuthor;
@@ -46,11 +42,11 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   /**
    * @var float
    */
-  public $localEntityLocationConfidence;
-  /**
-   * @var float
-   */
   public $normalizedTopicality;
+  /**
+   * @var string
+   */
+  public $profileUrl;
   protected $referencePageScoresType = RepositoryWebrefReferencePageScores::class;
   protected $referencePageScoresDataType = '';
   /**
@@ -85,20 +81,6 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   public function getDocScore()
   {
     return $this->docScore;
-  }
-  /**
-   * @param float
-   */
-  public function setGeoTopicNormalizedScore($geoTopicNormalizedScore)
-  {
-    $this->geoTopicNormalizedScore = $geoTopicNormalizedScore;
-  }
-  /**
-   * @return float
-   */
-  public function getGeoTopicNormalizedScore()
-  {
-    return $this->geoTopicNormalizedScore;
   }
   /**
    * @param bool
@@ -145,20 +127,6 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   /**
    * @param float
    */
-  public function setLocalEntityLocationConfidence($localEntityLocationConfidence)
-  {
-    $this->localEntityLocationConfidence = $localEntityLocationConfidence;
-  }
-  /**
-   * @return float
-   */
-  public function getLocalEntityLocationConfidence()
-  {
-    return $this->localEntityLocationConfidence;
-  }
-  /**
-   * @param float
-   */
   public function setNormalizedTopicality($normalizedTopicality)
   {
     $this->normalizedTopicality = $normalizedTopicality;
@@ -169,6 +137,20 @@ class RepositoryWebrefDetailedEntityScores extends \Google\Model
   public function getNormalizedTopicality()
   {
     return $this->normalizedTopicality;
+  }
+  /**
+   * @param string
+   */
+  public function setProfileUrl($profileUrl)
+  {
+    $this->profileUrl = $profileUrl;
+  }
+  /**
+   * @return string
+   */
+  public function getProfileUrl()
+  {
+    return $this->profileUrl;
   }
   /**
    * @param RepositoryWebrefReferencePageScores

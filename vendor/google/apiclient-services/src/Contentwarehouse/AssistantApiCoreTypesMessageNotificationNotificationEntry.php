@@ -20,6 +20,10 @@ namespace Google\Service\Contentwarehouse;
 class AssistantApiCoreTypesMessageNotificationNotificationEntry extends \Google\Model
 {
   /**
+   * @var int
+   */
+  public $charCount;
+  /**
    * @var string
    */
   public $dataUri;
@@ -37,7 +41,25 @@ class AssistantApiCoreTypesMessageNotificationNotificationEntry extends \Google\
   public $postTime;
   protected $senderType = AssistantApiCoreTypesMessageNotificationPerson::class;
   protected $senderDataType = '';
+  /**
+   * @var int
+   */
+  public $wordCount;
 
+  /**
+   * @param int
+   */
+  public function setCharCount($charCount)
+  {
+    $this->charCount = $charCount;
+  }
+  /**
+   * @return int
+   */
+  public function getCharCount()
+  {
+    return $this->charCount;
+  }
   /**
    * @param string
    */
@@ -107,6 +129,20 @@ class AssistantApiCoreTypesMessageNotificationNotificationEntry extends \Google\
   public function getSender()
   {
     return $this->sender;
+  }
+  /**
+   * @param int
+   */
+  public function setWordCount($wordCount)
+  {
+    $this->wordCount = $wordCount;
+  }
+  /**
+   * @return int
+   */
+  public function getWordCount()
+  {
+    return $this->wordCount;
   }
 }
 

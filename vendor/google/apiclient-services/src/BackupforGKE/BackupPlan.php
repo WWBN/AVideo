@@ -60,6 +60,14 @@ class BackupPlan extends \Google\Model
   /**
    * @var string
    */
+  public $state;
+  /**
+   * @var string
+   */
+  public $stateReason;
+  /**
+   * @var string
+   */
   public $uid;
   /**
    * @var string
@@ -219,6 +227,34 @@ class BackupPlan extends \Google\Model
   public function getRetentionPolicy()
   {
     return $this->retentionPolicy;
+  }
+  /**
+   * @param string
+   */
+  public function setState($state)
+  {
+    $this->state = $state;
+  }
+  /**
+   * @return string
+   */
+  public function getState()
+  {
+    return $this->state;
+  }
+  /**
+   * @param string
+   */
+  public function setStateReason($stateReason)
+  {
+    $this->stateReason = $stateReason;
+  }
+  /**
+   * @return string
+   */
+  public function getStateReason()
+  {
+    return $this->stateReason;
   }
   /**
    * @param string

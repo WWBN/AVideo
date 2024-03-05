@@ -39,6 +39,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * @param CustomTemplate $postBody
    * @param array $optParams Optional parameters.
    * @return CustomTemplate
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CustomTemplate $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * s/{account_id}/containers/{container_id}/workspaces/{workspace_id}/templates/
    * {template_id}
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function delete($path, $optParams = [])
   {
@@ -68,6 +70,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * {template_id}
    * @param array $optParams Optional parameters.
    * @return CustomTemplate
+   * @throws \Google\Service\Exception
    */
   public function get($path, $optParams = [])
   {
@@ -86,6 +89,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * @opt_param string pageToken Continuation token for fetching the next page of
    * results.
    * @return ListTemplatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsContainersWorkspacesTemplates($parent, $optParams = [])
   {
@@ -104,6 +108,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the template in storage.
    * @return RevertTemplateResponse
+   * @throws \Google\Service\Exception
    */
   public function revert($path, $optParams = [])
   {
@@ -123,6 +128,7 @@ class AccountsContainersWorkspacesTemplates extends \Google\Service\Resource
    * @opt_param string fingerprint When provided, this fingerprint must match the
    * fingerprint of the templates in storage.
    * @return CustomTemplate
+   * @throws \Google\Service\Exception
    */
   public function update($path, CustomTemplate $postBody, $optParams = [])
   {

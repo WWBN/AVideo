@@ -39,6 +39,7 @@ class CustomersTelemetryDevices extends \Google\Service\Resource
    * @opt_param string readMask Required. Read mask to specify which fields to
    * return.
    * @return GoogleChromeManagementV1TelemetryDevice
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -66,6 +67,7 @@ class CustomersTelemetryDevices extends \Google\Service\Resource
    * @opt_param string readMask Required. Read mask to specify which fields to
    * return.
    * @return GoogleChromeManagementV1ListTelemetryDevicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listCustomersTelemetryDevices($parent, $optParams = [])
   {

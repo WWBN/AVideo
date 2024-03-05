@@ -25,6 +25,8 @@ class VmwareLoadBalancerConfig extends \Google\Model
   protected $manualLbConfigDataType = '';
   protected $metalLbConfigType = VmwareMetalLbConfig::class;
   protected $metalLbConfigDataType = '';
+  protected $seesawConfigType = VmwareSeesawConfig::class;
+  protected $seesawConfigDataType = '';
   protected $vipConfigType = VmwareVipConfig::class;
   protected $vipConfigDataType = '';
 
@@ -69,6 +71,20 @@ class VmwareLoadBalancerConfig extends \Google\Model
   public function getMetalLbConfig()
   {
     return $this->metalLbConfig;
+  }
+  /**
+   * @param VmwareSeesawConfig
+   */
+  public function setSeesawConfig(VmwareSeesawConfig $seesawConfig)
+  {
+    $this->seesawConfig = $seesawConfig;
+  }
+  /**
+   * @return VmwareSeesawConfig
+   */
+  public function getSeesawConfig()
+  {
+    return $this->seesawConfig;
   }
   /**
    * @param VmwareVipConfig

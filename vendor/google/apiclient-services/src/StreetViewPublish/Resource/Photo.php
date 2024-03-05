@@ -48,6 +48,7 @@ class Photo extends \Google\Service\Resource
    * @param PhotoModel $postBody
    * @param array $optParams Optional parameters.
    * @return PhotoModel
+   * @throws \Google\Service\Exception
    */
   public function create(PhotoModel $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class Photo extends \Google\Service\Resource
    * @param string $photoId Required. ID of the Photo.
    * @param array $optParams Optional parameters.
    * @return StreetviewpublishEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($photoId, $optParams = [])
   {
@@ -89,6 +91,7 @@ class Photo extends \Google\Service\Resource
    * @opt_param string view Required. Specifies if a download URL for the photo
    * bytes should be returned in the Photo response.
    * @return PhotoModel
+   * @throws \Google\Service\Exception
    */
   public function get($photoId, $optParams = [])
   {
@@ -102,10 +105,10 @@ class Photo extends \Google\Service\Resource
    * addition to the photo requirements shown in
    * https://support.google.com/maps/answer/7012050?ref_topic=6275604, the photo
    * must meet the following requirements: * Photo Sphere XMP metadata must be
-   * included in the photo metadata. See https://developers.google.com/streetview
-   * /spherical-metadata for the required fields. * The pixel size of the photo
-   * must meet the size requirements listed in
-   * https://support.google.com/maps/answer/7012050?ref_topic=6275604, and the
+   * included in the photo metadata. See
+   * https://developers.google.com/streetview/spherical-metadata for the required
+   * fields. * The pixel size of the photo must meet the size requirements listed
+   * in https://support.google.com/maps/answer/7012050?ref_topic=6275604, and the
    * photo must be a full 360 horizontally. After the upload completes, the method
    * uses UploadRef with CreatePhoto to create the Photo object entry.
    * (photo.startUpload)
@@ -113,6 +116,7 @@ class Photo extends \Google\Service\Resource
    * @param StreetviewpublishEmpty $postBody
    * @param array $optParams Optional parameters.
    * @return UploadRef
+   * @throws \Google\Service\Exception
    */
   public function startUpload(StreetviewpublishEmpty $postBody, $optParams = [])
   {
@@ -146,6 +150,7 @@ class Photo extends \Google\Service\Resource
    * contents. For example, if updateMask contains `connections` and
    * `UpdatePhotoRequest.photo.connections` is empty, all connections are removed.
    * @return PhotoModel
+   * @throws \Google\Service\Exception
    */
   public function update($id, PhotoModel $postBody, $optParams = [])
   {

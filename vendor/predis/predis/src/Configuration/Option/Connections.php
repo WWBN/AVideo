@@ -3,7 +3,8 @@
 /*
  * This file is part of the Predis package.
  *
- * (c) Daniele Alessandri <suppakilla@gmail.com>
+ * (c) 2009-2020 Daniele Alessandri
+ * (c) 2021-2023 Till Krüss
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,12 +12,14 @@
 
 namespace Predis\Configuration\Option;
 
+use InvalidArgumentException;
 use Predis\Configuration\OptionInterface;
 use Predis\Configuration\OptionsInterface;
 use Predis\Connection\Factory;
 use Predis\Connection\FactoryInterface;
-use Predis\Connection\PhpiredisStreamConnection;
 use Predis\Connection\PhpiredisSocketConnection;
+use Predis\Connection\PhpiredisStreamConnection;
+use Predis\Connection\RelayConnection;
 
 /**
  * Configures a new connection factory instance.
@@ -24,8 +27,6 @@ use Predis\Connection\PhpiredisSocketConnection;
  * The client uses the connection factory to create the underlying connections
  * to single redis nodes in a single-server configuration or in replication and
  * cluster configurations.
- *
- * @author Daniele Alessandri <suppakilla@gmail.com>
  */
 class Connections implements OptionInterface
 {
@@ -45,7 +46,7 @@ class Connections implements OptionInterface
         } elseif (is_string($value)) {
             return $this->createFactoryByString($options, $value);
         } else {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 '%s expects a valid connection factory', static::class
             ));
         }
@@ -57,7 +58,7 @@ class Connections implements OptionInterface
      * The factory instance is configured according to the supplied named array
      * mapping URI schemes (passed as keys) to the FCQN of classes implementing
      * Predis\Connection\NodeConnectionInterface, or callable objects acting as
-     * lazy initalizers and returning new instances of classes implementing
+     * lazy initializers and returning new instances of classes implementing
      * Predis\Connection\NodeConnectionInterface.
      *
      * @param OptionsInterface $options Client options
@@ -89,6 +90,7 @@ class Connections implements OptionInterface
      * - "phpiredis-stream" maps tcp, redis, unix to PhpiredisStreamConnection
      * - "phpiredis-socket" maps tcp, redis, unix to PhpiredisSocketConnection
      * - "phpiredis" is an alias of "phpiredis-stream"
+     * - "relay" maps tcp, redis, unix, tls, rediss to RelayConnection
      *
      * @param OptionsInterface $options Client options
      * @param string           $value   Descriptive string identifying the desired configuration
@@ -102,7 +104,7 @@ class Connections implements OptionInterface
          */
         $factory = $this->getDefault($options);
 
-        switch(strtolower($value)) {
+        switch (strtolower($value)) {
             case 'phpiredis':
             case 'phpiredis-stream':
                 $factory->define('tcp', PhpiredisStreamConnection::class);
@@ -116,11 +118,17 @@ class Connections implements OptionInterface
                 $factory->define('unix', PhpiredisSocketConnection::class);
                 break;
 
+            case 'relay':
+                $factory->define('tcp', RelayConnection::class);
+                $factory->define('redis', RelayConnection::class);
+                $factory->define('unix', RelayConnection::class);
+                break;
+
             case 'default':
                 return $factory;
 
             default:
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     '%s does not recognize `%s` as a supported configuration string', static::class, $value
                 ));
         }

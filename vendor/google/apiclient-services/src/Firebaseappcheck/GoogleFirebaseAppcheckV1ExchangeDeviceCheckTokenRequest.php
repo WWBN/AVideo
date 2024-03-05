@@ -23,6 +23,10 @@ class GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest extends \Google\Mo
    * @var string
    */
   public $deviceToken;
+  /**
+   * @var bool
+   */
+  public $limitedUse;
 
   /**
    * @param string
@@ -37,6 +41,20 @@ class GoogleFirebaseAppcheckV1ExchangeDeviceCheckTokenRequest extends \Google\Mo
   public function getDeviceToken()
   {
     return $this->deviceToken;
+  }
+  /**
+   * @param bool
+   */
+  public function setLimitedUse($limitedUse)
+  {
+    $this->limitedUse = $limitedUse;
+  }
+  /**
+   * @return bool
+   */
+  public function getLimitedUse()
+  {
+    return $this->limitedUse;
   }
 }
 

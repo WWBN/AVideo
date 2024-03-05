@@ -38,6 +38,7 @@ class ProjectsLocationsScans extends \Google\Service\Resource
    * @param AnalyzePackagesRequestV1 $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function analyzePackages($parent, AnalyzePackagesRequestV1 $postBody, $optParams = [])
   {

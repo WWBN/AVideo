@@ -41,6 +41,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * @param InsertionOrder $postBody
    * @param array $optParams Optional parameters.
    * @return InsertionOrder
+   * @throws \Google\Service\Exception
    */
   public function create($advertiserId, InsertionOrder $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * @param string $insertionOrderId The ID of the insertion order to delete.
    * @param array $optParams Optional parameters.
    * @return DisplayvideoEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($advertiserId, $insertionOrderId, $optParams = [])
   {
@@ -76,6 +78,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * fetch.
    * @param array $optParams Optional parameters.
    * @return InsertionOrder
+   * @throws \Google\Service\Exception
    */
   public function get($advertiserId, $insertionOrderId, $optParams = [])
   {
@@ -97,17 +100,14 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * Supported syntax: * Filter expressions are made up of one or more
    * restrictions. * Restrictions can be combined by `AND` or `OR` logical
    * operators. A sequence of restrictions implicitly uses `AND`. * A restriction
-   * has the form of `{field} {operator} {value}`. * The
-   * `budget.budget_segments.date_range.end_date` field must use the `LESS THAN
-   * (<)` operator. * The `updateTime` field must use the `GREATER THAN OR EQUAL
-   * TO (>=)` or `LESS THAN OR EQUAL TO (<=)` operators. * All other fields must
-   * use the `EQUALS (=)` operator. Supported fields: * `campaignId` *
-   * `displayName` * `entityStatus` * `budget.budget_segments.date_range.end_date`
-   * (input in the form of `YYYY-MM-DD`) **Deprecated. Not available after June 8,
-   * 2023** * `updateTime` (input in ISO 8601 format, or `YYYY-MM-DDTHH:MM:SSZ`)
-   * Examples: * All insertion orders under a campaign: `campaignId="1234"` * All
-   * `ENTITY_STATUS_ACTIVE` or `ENTITY_STATUS_PAUSED` insertion orders under an
-   * advertiser: `(entityStatus="ENTITY_STATUS_ACTIVE" OR
+   * has the form of `{field} {operator} {value}`. * The `updateTime` field must
+   * use the `GREATER THAN OR EQUAL TO (>=)` or `LESS THAN OR EQUAL TO (<=)`
+   * operators. * All other fields must use the `EQUALS (=)` operator. Supported
+   * fields: * `campaignId` * `displayName` * `entityStatus` * `updateTime` (input
+   * in ISO 8601 format, or `YYYY-MM-DDTHH:MM:SSZ`) Examples: * All insertion
+   * orders under a campaign: `campaignId="1234"` * All `ENTITY_STATUS_ACTIVE` or
+   * `ENTITY_STATUS_PAUSED` insertion orders under an advertiser:
+   * `(entityStatus="ENTITY_STATUS_ACTIVE" OR
    * entityStatus="ENTITY_STATUS_PAUSED")` * All insertion orders with an update
    * time less than or equal to 2020-11-04T18:54:47Z (format of ISO 8601):
    * `updateTime<="2020-11-04T18:54:47Z"` * All insertion orders with an update
@@ -127,6 +127,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * the previous call to `ListInsertionOrders` method. If not specified, the
    * first page of results will be returned.
    * @return ListInsertionOrdersResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersInsertionOrders($advertiserId, $optParams = [])
   {
@@ -170,6 +171,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * previous call to `BulkListInsertionOrderAssignedTargetingOptions` method. If
    * not specified, the first page of results will be returned.
    * @return BulkListInsertionOrderAssignedTargetingOptionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAssignedTargetingOptions($advertiserId, $insertionOrderId, $optParams = [])
   {
@@ -191,6 +193,7 @@ class AdvertisersInsertionOrders extends \Google\Service\Resource
    * @opt_param string updateMask Required. The mask to control which fields to
    * update.
    * @return InsertionOrder
+   * @throws \Google\Service\Exception
    */
   public function patch($advertiserId, $insertionOrderId, InsertionOrder $postBody, $optParams = [])
   {

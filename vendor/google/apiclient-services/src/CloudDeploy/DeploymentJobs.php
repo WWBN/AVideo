@@ -21,6 +21,10 @@ class DeploymentJobs extends \Google\Model
 {
   protected $deployJobType = Job::class;
   protected $deployJobDataType = '';
+  protected $postdeployJobType = Job::class;
+  protected $postdeployJobDataType = '';
+  protected $predeployJobType = Job::class;
+  protected $predeployJobDataType = '';
   protected $verifyJobType = Job::class;
   protected $verifyJobDataType = '';
 
@@ -37,6 +41,34 @@ class DeploymentJobs extends \Google\Model
   public function getDeployJob()
   {
     return $this->deployJob;
+  }
+  /**
+   * @param Job
+   */
+  public function setPostdeployJob(Job $postdeployJob)
+  {
+    $this->postdeployJob = $postdeployJob;
+  }
+  /**
+   * @return Job
+   */
+  public function getPostdeployJob()
+  {
+    return $this->postdeployJob;
+  }
+  /**
+   * @param Job
+   */
+  public function setPredeployJob(Job $predeployJob)
+  {
+    $this->predeployJob = $predeployJob;
+  }
+  /**
+   * @return Job
+   */
+  public function getPredeployJob()
+  {
+    return $this->predeployJob;
   }
   /**
    * @param Job

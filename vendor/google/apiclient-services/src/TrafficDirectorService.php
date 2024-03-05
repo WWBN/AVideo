@@ -20,7 +20,7 @@ namespace Google\Service;
 use Google\Client;
 
 /**
- * Service definition for TrafficDirectorService (v2).
+ * Service definition for TrafficDirectorService (v3).
  *
  * <p>
 </p>
@@ -54,7 +54,7 @@ class TrafficDirectorService extends \Google\Service
     $this->rootUrl = $rootUrl ?: 'https://trafficdirector.googleapis.com/';
     $this->servicePath = '';
     $this->batchPath = 'batch';
-    $this->version = 'v2';
+    $this->version = 'v3';
     $this->serviceName = 'trafficdirector';
 
     $this->discovery = new TrafficDirectorService\Resource\Discovery(
@@ -64,7 +64,7 @@ class TrafficDirectorService extends \Google\Service
         [
           'methods' => [
             'client_status' => [
-              'path' => 'v2/discovery:client_status',
+              'path' => 'v3/discovery:client_status',
               'httpMethod' => 'POST',
               'parameters' => [],
             ],

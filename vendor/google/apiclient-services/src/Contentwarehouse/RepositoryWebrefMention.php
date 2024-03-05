@@ -74,10 +74,6 @@ class RepositoryWebrefMention extends \Google\Collection
   public $matchingText;
   protected $nameMetadataType = RepositoryWebrefConceptNameMetadata::class;
   protected $nameMetadataDataType = '';
-  /**
-   * @var float
-   */
-  public $nonLocationalScore;
   protected $perMentionLightweightTokenType = RepositoryWebrefLightweightTokensPerMentionLightweightToken::class;
   protected $perMentionLightweightTokenDataType = '';
   protected $personalizationContextOutputsType = RepositoryWebrefPersonalizationContextOutputs::class;
@@ -98,14 +94,6 @@ class RepositoryWebrefMention extends \Google\Collection
   protected $stuffDataType = '';
   protected $subsegmentIndexType = RepositoryWebrefSubSegmentIndex::class;
   protected $subsegmentIndexDataType = '';
-  /**
-   * @var int
-   */
-  public $timeOffsetConfidence;
-  /**
-   * @var int
-   */
-  public $timeOffsetMs;
   /**
    * @var float
    */
@@ -350,20 +338,6 @@ class RepositoryWebrefMention extends \Google\Collection
     return $this->nameMetadata;
   }
   /**
-   * @param float
-   */
-  public function setNonLocationalScore($nonLocationalScore)
-  {
-    $this->nonLocationalScore = $nonLocationalScore;
-  }
-  /**
-   * @return float
-   */
-  public function getNonLocationalScore()
-  {
-    return $this->nonLocationalScore;
-  }
-  /**
    * @param RepositoryWebrefLightweightTokensPerMentionLightweightToken
    */
   public function setPerMentionLightweightToken(RepositoryWebrefLightweightTokensPerMentionLightweightToken $perMentionLightweightToken)
@@ -460,34 +434,6 @@ class RepositoryWebrefMention extends \Google\Collection
   public function getSubsegmentIndex()
   {
     return $this->subsegmentIndex;
-  }
-  /**
-   * @param int
-   */
-  public function setTimeOffsetConfidence($timeOffsetConfidence)
-  {
-    $this->timeOffsetConfidence = $timeOffsetConfidence;
-  }
-  /**
-   * @return int
-   */
-  public function getTimeOffsetConfidence()
-  {
-    return $this->timeOffsetConfidence;
-  }
-  /**
-   * @param int
-   */
-  public function setTimeOffsetMs($timeOffsetMs)
-  {
-    $this->timeOffsetMs = $timeOffsetMs;
-  }
-  /**
-   * @return int
-   */
-  public function getTimeOffsetMs()
-  {
-    return $this->timeOffsetMs;
   }
   /**
    * @param float

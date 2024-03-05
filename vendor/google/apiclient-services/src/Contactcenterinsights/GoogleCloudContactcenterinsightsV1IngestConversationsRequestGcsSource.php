@@ -17,13 +17,40 @@
 
 namespace Google\Service\Contactcenterinsights;
 
-class GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource extends \Google\Model
+class GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource extends \Google\Collection
 {
+  protected $collection_key = 'customMetadataKeys';
+  /**
+   * @var string
+   */
+  public $bucketObjectType;
   /**
    * @var string
    */
   public $bucketUri;
+  /**
+   * @var string[]
+   */
+  public $customMetadataKeys;
+  /**
+   * @var string
+   */
+  public $metadataBucketUri;
 
+  /**
+   * @param string
+   */
+  public function setBucketObjectType($bucketObjectType)
+  {
+    $this->bucketObjectType = $bucketObjectType;
+  }
+  /**
+   * @return string
+   */
+  public function getBucketObjectType()
+  {
+    return $this->bucketObjectType;
+  }
   /**
    * @param string
    */
@@ -37,6 +64,34 @@ class GoogleCloudContactcenterinsightsV1IngestConversationsRequestGcsSource exte
   public function getBucketUri()
   {
     return $this->bucketUri;
+  }
+  /**
+   * @param string[]
+   */
+  public function setCustomMetadataKeys($customMetadataKeys)
+  {
+    $this->customMetadataKeys = $customMetadataKeys;
+  }
+  /**
+   * @return string[]
+   */
+  public function getCustomMetadataKeys()
+  {
+    return $this->customMetadataKeys;
+  }
+  /**
+   * @param string
+   */
+  public function setMetadataBucketUri($metadataBucketUri)
+  {
+    $this->metadataBucketUri = $metadataBucketUri;
+  }
+  /**
+   * @return string
+   */
+  public function getMetadataBucketUri()
+  {
+    return $this->metadataBucketUri;
   }
 }
 

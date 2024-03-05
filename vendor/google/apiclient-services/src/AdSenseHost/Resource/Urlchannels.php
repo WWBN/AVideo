@@ -37,6 +37,7 @@ class Urlchannels extends \Google\Service\Resource
    * @param string $urlChannelId URL channel to delete.
    * @param array $optParams Optional parameters.
    * @return UrlChannel
+   * @throws \Google\Service\Exception
    */
   public function delete($adClientId, $urlChannelId, $optParams = [])
   {
@@ -52,6 +53,7 @@ class Urlchannels extends \Google\Service\Resource
    * @param UrlChannel $postBody
    * @param array $optParams Optional parameters.
    * @return UrlChannel
+   * @throws \Google\Service\Exception
    */
   public function insert($adClientId, UrlChannel $postBody, $optParams = [])
   {
@@ -72,6 +74,7 @@ class Urlchannels extends \Google\Service\Resource
    * channels. To retrieve the next page, set this parameter to the value of
    * "nextPageToken" from the previous response.
    * @return UrlChannelsModel
+   * @throws \Google\Service\Exception
    */
   public function listUrlchannels($adClientId, $optParams = [])
   {

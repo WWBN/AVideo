@@ -36,24 +36,26 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
   /**
    * Creates an InspectTemplate for reusing frequently used configuration for
    * inspecting content, images, and storage. See
-   * https://cloud.google.com/dlp/docs/creating-templates to learn more.
-   * (inspectTemplates.create)
+   * https://cloud.google.com/sensitive-data-protection/docs/creating-templates to
+   * learn more. (inspectTemplates.create)
    *
    * @param string $parent Required. Parent resource name. The format of this
    * value varies depending on the scope of the request (project or organization)
    * and whether you have [specified a processing
-   * location](https://cloud.google.com/dlp/docs/specifying-location): + Projects
-   * scope, location specified: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Projects scope, no location specified (defaults to global):
-   * `projects/`PROJECT_ID + Organizations scope, location specified:
-   * `organizations/`ORG_ID`/locations/`LOCATION_ID + Organizations scope, no
-   * location specified (defaults to global): `organizations/`ORG_ID The following
-   * example `parent` string specifies a parent project with the identifier
-   * `example-project`, and specifies the `europe-west3` location for processing
-   * data: parent=projects/example-project/locations/europe-west3
+   * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
+   * location): + Projects scope, location specified:
+   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * specified (defaults to global): `projects/`PROJECT_ID + Organizations scope,
+   * location specified: `organizations/`ORG_ID`/locations/`LOCATION_ID +
+   * Organizations scope, no location specified (defaults to global):
+   * `organizations/`ORG_ID The following example `parent` string specifies a
+   * parent project with the identifier `example-project`, and specifies the
+   * `europe-west3` location for processing data: parent=projects/example-
+   * project/locations/europe-west3
    * @param GooglePrivacyDlpV2CreateInspectTemplateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2InspectTemplate
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GooglePrivacyDlpV2CreateInspectTemplateRequest $postBody, $optParams = [])
   {
@@ -62,8 +64,8 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
     return $this->call('create', [$params], GooglePrivacyDlpV2InspectTemplate::class);
   }
   /**
-   * Deletes an InspectTemplate. See https://cloud.google.com/dlp/docs/creating-
-   * templates to learn more. (inspectTemplates.delete)
+   * Deletes an InspectTemplate. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-templates to learn more. (inspectTemplates.delete)
    *
    * @param string $name Required. Resource name of the organization and
    * inspectTemplate to be deleted, for example
@@ -71,6 +73,7 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
    * id/inspectTemplates/432452342.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -79,8 +82,8 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
     return $this->call('delete', [$params], GoogleProtobufEmpty::class);
   }
   /**
-   * Gets an InspectTemplate. See https://cloud.google.com/dlp/docs/creating-
-   * templates to learn more. (inspectTemplates.get)
+   * Gets an InspectTemplate. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-templates to learn more. (inspectTemplates.get)
    *
    * @param string $name Required. Resource name of the organization and
    * inspectTemplate to be read, for example
@@ -88,6 +91,7 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
    * id/inspectTemplates/432452342.
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2InspectTemplate
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -96,38 +100,40 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
     return $this->call('get', [$params], GooglePrivacyDlpV2InspectTemplate::class);
   }
   /**
-   * Lists InspectTemplates. See https://cloud.google.com/dlp/docs/creating-
-   * templates to learn more.
+   * Lists InspectTemplates. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-templates to learn more.
    * (inspectTemplates.listProjectsLocationsInspectTemplates)
    *
    * @param string $parent Required. Parent resource name. The format of this
    * value varies depending on the scope of the request (project or organization)
    * and whether you have [specified a processing
-   * location](https://cloud.google.com/dlp/docs/specifying-location): + Projects
-   * scope, location specified: `projects/`PROJECT_ID`/locations/`LOCATION_ID +
-   * Projects scope, no location specified (defaults to global):
-   * `projects/`PROJECT_ID + Organizations scope, location specified:
-   * `organizations/`ORG_ID`/locations/`LOCATION_ID + Organizations scope, no
-   * location specified (defaults to global): `organizations/`ORG_ID The following
-   * example `parent` string specifies a parent project with the identifier
-   * `example-project`, and specifies the `europe-west3` location for processing
-   * data: parent=projects/example-project/locations/europe-west3
+   * location](https://cloud.google.com/sensitive-data-protection/docs/specifying-
+   * location): + Projects scope, location specified:
+   * `projects/`PROJECT_ID`/locations/`LOCATION_ID + Projects scope, no location
+   * specified (defaults to global): `projects/`PROJECT_ID + Organizations scope,
+   * location specified: `organizations/`ORG_ID`/locations/`LOCATION_ID +
+   * Organizations scope, no location specified (defaults to global):
+   * `organizations/`ORG_ID The following example `parent` string specifies a
+   * parent project with the identifier `example-project`, and specifies the
+   * `europe-west3` location for processing data: parent=projects/example-
+   * project/locations/europe-west3
    * @param array $optParams Optional parameters.
    *
    * @opt_param string locationId Deprecated. This field has no effect.
    * @opt_param string orderBy Comma separated list of fields to order by,
-   * followed by `asc` or `desc` postfix. This list is case-insensitive, default
-   * sorting order is ascending, redundant space characters are insignificant.
-   * Example: `name asc,update_time, create_time desc` Supported fields are: -
-   * `create_time`: corresponds to the time the template was created. -
-   * `update_time`: corresponds to the time the template was last updated. -
-   * `name`: corresponds to the template's name. - `display_name`: corresponds to
-   * the template's display name.
-   * @opt_param int pageSize Size of the page, can be limited by the server. If
-   * zero server returns a page of max size 100.
-   * @opt_param string pageToken Page token to continue retrieval. Comes from
+   * followed by `asc` or `desc` postfix. This list is case insensitive. The
+   * default sorting order is ascending. Redundant space characters are
+   * insignificant. Example: `name asc,update_time, create_time desc` Supported
+   * fields are: - `create_time`: corresponds to the time the template was
+   * created. - `update_time`: corresponds to the time the template was last
+   * updated. - `name`: corresponds to the template's name. - `display_name`:
+   * corresponds to the template's display name.
+   * @opt_param int pageSize Size of the page. This value can be limited by the
+   * server. If zero server returns a page of max size 100.
+   * @opt_param string pageToken Page token to continue retrieval. Comes from the
    * previous call to `ListInspectTemplates`.
    * @return GooglePrivacyDlpV2ListInspectTemplatesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsInspectTemplates($parent, $optParams = [])
   {
@@ -136,8 +142,8 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
     return $this->call('list', [$params], GooglePrivacyDlpV2ListInspectTemplatesResponse::class);
   }
   /**
-   * Updates the InspectTemplate. See https://cloud.google.com/dlp/docs/creating-
-   * templates to learn more. (inspectTemplates.patch)
+   * Updates the InspectTemplate. See https://cloud.google.com/sensitive-data-
+   * protection/docs/creating-templates to learn more. (inspectTemplates.patch)
    *
    * @param string $name Required. Resource name of organization and
    * inspectTemplate to be updated, for example
@@ -146,6 +152,7 @@ class ProjectsLocationsInspectTemplates extends \Google\Service\Resource
    * @param GooglePrivacyDlpV2UpdateInspectTemplateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GooglePrivacyDlpV2InspectTemplate
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GooglePrivacyDlpV2UpdateInspectTemplateRequest $postBody, $optParams = [])
   {

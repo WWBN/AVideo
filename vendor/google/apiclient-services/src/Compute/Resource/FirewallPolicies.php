@@ -61,6 +61,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addAssociation($firewallPolicy, FirewallPolicyAssociation $postBody, $optParams = [])
   {
@@ -86,6 +87,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function addRule($firewallPolicy, FirewallPolicyRule $postBody, $optParams = [])
   {
@@ -112,6 +114,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param string sourceFirewallPolicy The firewall policy from which to copy
    * rules.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function cloneRules($firewallPolicy, $optParams = [])
   {
@@ -136,6 +139,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($firewallPolicy, $optParams = [])
   {
@@ -149,6 +153,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @param string $firewallPolicy Name of the firewall policy to get.
    * @param array $optParams Optional parameters.
    * @return FirewallPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($firewallPolicy, $optParams = [])
   {
@@ -167,6 +172,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param string name The name of the association to get from the firewall
    * policy.
    * @return FirewallPolicyAssociation
+   * @throws \Google\Service\Exception
    */
   public function getAssociation($firewallPolicy, $optParams = [])
   {
@@ -183,6 +189,7 @@ class FirewallPolicies extends \Google\Service\Resource
    *
    * @opt_param int optionsRequestedPolicyVersion Requested IAM Policy version.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -200,6 +207,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param int priority The priority of the rule to get from the firewall
    * policy.
    * @return FirewallPolicyRule
+   * @throws \Google\Service\Exception
    */
   public function getRule($firewallPolicy, $optParams = [])
   {
@@ -228,6 +236,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function insert(FirewallPolicy $postBody, $optParams = [])
   {
@@ -244,34 +253,35 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param string filter A filter expression that filters resources listed in
    * the response. Most Compute resources support two types of filter expressions:
    * expressions that support regular expressions and expressions that follow API
-   * improvement proposal AIP-160. If you want to use AIP-160, your expression
-   * must specify the field name, an operator, and the value that you want to use
-   * for filtering. The value must be a string, a number, or a boolean. The
-   * operator must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example,
-   * if you are filtering Compute Engine instances, you can exclude instances
-   * named `example-instance` by specifying `name != example-instance`. The `:`
-   * operator can be used with string fields to match substrings. For non-string
-   * fields it is equivalent to the `=` operator. The `:*` comparison can be used
-   * to test whether a key has been defined. For example, to find all objects with
-   * `owner` label use: ``` labels.owner:* ``` You can also filter nested fields.
-   * For example, you could specify `scheduling.automaticRestart = false` to
-   * include instances only if they are not scheduled for automatic restarts. You
-   * can use filtering on nested fields to filter based on resource labels. To
-   * filter on multiple expressions, provide each separate expression within
-   * parentheses. For example: ``` (scheduling.automaticRestart = true)
-   * (cpuPlatform = "Intel Skylake") ``` By default, each expression is an `AND`
-   * expression. However, you can include `AND` and `OR` expressions explicitly.
-   * For example: ``` (cpuPlatform = "Intel Skylake") OR (cpuPlatform = "Intel
-   * Broadwell") AND (scheduling.automaticRestart = true) ``` If you want to use a
-   * regular expression, use the `eq` (equal) or `ne` (not equal) operator against
-   * a single un-parenthesized expression with or without quotes or against
-   * multiple parenthesized expressions. Examples: `fieldname eq unquoted literal`
+   * improvement proposal AIP-160. These two types of filter expressions cannot be
+   * mixed in one request. If you want to use AIP-160, your expression must
+   * specify the field name, an operator, and the value that you want to use for
+   * filtering. The value must be a string, a number, or a boolean. The operator
+   * must be either `=`, `!=`, `>`, `<`, `<=`, `>=` or `:`. For example, if you
+   * are filtering Compute Engine instances, you can exclude instances named
+   * `example-instance` by specifying `name != example-instance`. The `:*`
+   * comparison can be used to test whether a key has been defined. For example,
+   * to find all objects with `owner` label use: ``` labels.owner:* ``` You can
+   * also filter nested fields. For example, you could specify
+   * `scheduling.automaticRestart = false` to include instances only if they are
+   * not scheduled for automatic restarts. You can use filtering on nested fields
+   * to filter based on resource labels. To filter on multiple expressions,
+   * provide each separate expression within parentheses. For example: ```
+   * (scheduling.automaticRestart = true) (cpuPlatform = "Intel Skylake") ``` By
+   * default, each expression is an `AND` expression. However, you can include
+   * `AND` and `OR` expressions explicitly. For example: ``` (cpuPlatform = "Intel
+   * Skylake") OR (cpuPlatform = "Intel Broadwell") AND
+   * (scheduling.automaticRestart = true) ``` If you want to use a regular
+   * expression, use the `eq` (equal) or `ne` (not equal) operator against a
+   * single un-parenthesized expression with or without quotes or against multiple
+   * parenthesized expressions. Examples: `fieldname eq unquoted literal`
    * `fieldname eq 'single quoted literal'` `fieldname eq "double quoted literal"`
    * `(fieldname1 eq literal) (fieldname2 ne "literal")` The literal value is
    * interpreted as a regular expression using Google RE2 library syntax. The
    * literal value must match the entire field. For example, to filter for
    * instances that do not end with name "instance", you would use `name ne
-   * .*instance`.
+   * .*instance`. You cannot combine constraints on multiple fields using regular
+   * expressions.
    * @opt_param string maxResults The maximum number of results per page that
    * should be returned. If the number of available results is larger than
    * `maxResults`, Compute Engine returns a `nextPageToken` that can be used to
@@ -293,8 +303,11 @@ class FirewallPolicies extends \Google\Service\Resource
    * "organizations/[ORGANIZATION_ID]" if the parent is an organization.
    * @opt_param bool returnPartialSuccess Opt-in for partial success behavior
    * which provides partial results in case of failure. The default value is
-   * false.
+   * false. For example, when partial success behavior is enabled, aggregatedList
+   * for a single zone scope either returns all resources in the zone or no
+   * resources, with an error code.
    * @return FirewallPolicyList
+   * @throws \Google\Service\Exception
    */
   public function listFirewallPolicies($optParams = [])
   {
@@ -311,6 +324,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @opt_param string targetResource The target resource to list associations. It
    * is an organization, or a folder.
    * @return FirewallPoliciesListAssociationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listAssociations($optParams = [])
   {
@@ -338,6 +352,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function move($firewallPolicy, $optParams = [])
   {
@@ -364,6 +379,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($firewallPolicy, FirewallPolicy $postBody, $optParams = [])
   {
@@ -390,6 +406,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patchRule($firewallPolicy, FirewallPolicyRule $postBody, $optParams = [])
   {
@@ -416,6 +433,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function removeAssociation($firewallPolicy, $optParams = [])
   {
@@ -442,6 +460,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * valid UUID with the exception that zero UUID is not supported (
    * 00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function removeRule($firewallPolicy, $optParams = [])
   {
@@ -457,6 +476,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @param GlobalOrganizationSetPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, GlobalOrganizationSetPolicyRequest $postBody, $optParams = [])
   {
@@ -472,6 +492,7 @@ class FirewallPolicies extends \Google\Service\Resource
    * @param TestPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestPermissionsRequest $postBody, $optParams = [])
   {

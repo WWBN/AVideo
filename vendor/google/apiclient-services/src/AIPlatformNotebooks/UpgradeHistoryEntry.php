@@ -46,10 +46,6 @@ class UpgradeHistoryEntry extends \Google\Model
   /**
    * @var string
    */
-  public $targetImage;
-  /**
-   * @var string
-   */
   public $targetVersion;
   /**
    * @var string
@@ -143,20 +139,6 @@ class UpgradeHistoryEntry extends \Google\Model
   public function getState()
   {
     return $this->state;
-  }
-  /**
-   * @param string
-   */
-  public function setTargetImage($targetImage)
-  {
-    $this->targetImage = $targetImage;
-  }
-  /**
-   * @return string
-   */
-  public function getTargetImage()
-  {
-    return $this->targetImage;
   }
   /**
    * @param string

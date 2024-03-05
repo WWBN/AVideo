@@ -49,6 +49,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @param AutoscalingPolicy $postBody
    * @param array $optParams Optional parameters.
    * @return AutoscalingPolicy
+   * @throws \Google\Service\Exception
    */
   public function create($parent, AutoscalingPolicy $postBody, $optParams = [])
   {
@@ -70,6 +71,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}
    * @param array $optParams Optional parameters.
    * @return DataprocEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -90,6 +92,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * projects/{project_id}/locations/{location}/autoscalingPolicies/{policy_id}
    * @param array $optParams Optional parameters.
    * @return AutoscalingPolicy
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -109,6 +112,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @param GetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, GetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -134,6 +138,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The page token, returned by a previous
    * call, to request the next page of results.
    * @return ListAutoscalingPoliciesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsAutoscalingPolicies($parent, $optParams = [])
   {
@@ -153,6 +158,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -175,6 +181,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -197,6 +204,7 @@ class ProjectsLocationsAutoscalingPolicies extends \Google\Service\Resource
    * @param AutoscalingPolicy $postBody
    * @param array $optParams Optional parameters.
    * @return AutoscalingPolicy
+   * @throws \Google\Service\Exception
    */
   public function update($name, AutoscalingPolicy $postBody, $optParams = [])
   {

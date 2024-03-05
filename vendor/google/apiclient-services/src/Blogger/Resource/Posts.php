@@ -38,6 +38,7 @@ class Posts extends \Google\Service\Resource
    * @param array $optParams Optional parameters.
    *
    * @opt_param bool useTrash Move to Trash if possible
+   * @throws \Google\Service\Exception
    */
   public function delete($blogId, $postId, $optParams = [])
   {
@@ -57,6 +58,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param string maxComments
    * @opt_param string view
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function get($blogId, $postId, $optParams = [])
   {
@@ -74,6 +76,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param string maxComments
    * @opt_param string view
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function getByPath($blogId, $path, $optParams = [])
   {
@@ -92,6 +95,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param bool fetchImages
    * @opt_param bool isDraft
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function insert($blogId, Post $postBody, $optParams = [])
   {
@@ -117,6 +121,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param string status
    * @opt_param string view
    * @return PostList
+   * @throws \Google\Service\Exception
    */
   public function listPosts($blogId, $optParams = [])
   {
@@ -138,6 +143,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param bool publish
    * @opt_param bool revert
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function patch($blogId, $postId, Post $postBody, $optParams = [])
   {
@@ -154,6 +160,7 @@ class Posts extends \Google\Service\Resource
    *
    * @opt_param string publishDate
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function publish($blogId, $postId, $optParams = [])
   {
@@ -168,6 +175,7 @@ class Posts extends \Google\Service\Resource
    * @param string $postId
    * @param array $optParams Optional parameters.
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function revert($blogId, $postId, $optParams = [])
   {
@@ -186,6 +194,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param bool fetchBodies
    * @opt_param string orderBy
    * @return PostList
+   * @throws \Google\Service\Exception
    */
   public function search($blogId, $q, $optParams = [])
   {
@@ -207,6 +216,7 @@ class Posts extends \Google\Service\Resource
    * @opt_param bool publish
    * @opt_param bool revert
    * @return Post
+   * @throws \Google\Service\Exception
    */
   public function update($blogId, $postId, Post $postBody, $optParams = [])
   {

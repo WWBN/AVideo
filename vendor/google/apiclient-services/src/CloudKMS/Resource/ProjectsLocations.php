@@ -42,6 +42,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param GenerateRandomBytesRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GenerateRandomBytesResponse
+   * @throws \Google\Service\Exception
    */
   public function generateRandomBytes($location, GenerateRandomBytesRequest $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Resource name for the location.
    * @param array $optParams Optional parameters.
    * @return Location
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -69,6 +71,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @param string $name Required. The name of the EkmConfig to get.
    * @param array $optParams Optional parameters.
    * @return EkmConfig
+   * @throws \Google\Service\Exception
    */
   public function getEkmConfig($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string pageToken A page token received from the `next_page_token`
    * field in the response. Send that page token to receive the subsequent page.
    * @return ListLocationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocations($name, $optParams = [])
   {
@@ -111,6 +115,7 @@ class ProjectsLocations extends \Google\Service\Resource
    * @opt_param string updateMask Required. List of fields to be updated in this
    * request.
    * @return EkmConfig
+   * @throws \Google\Service\Exception
    */
   public function updateEkmConfig($name, EkmConfig $postBody, $optParams = [])
   {

@@ -39,6 +39,7 @@ class ProjectsLocationsInsights extends \Google\Service\Resource
    * @param WriteInsightRequest $postBody
    * @param array $optParams Optional parameters.
    * @return WriteInsightResponse
+   * @throws \Google\Service\Exception
    */
   public function writeInsight($location, WriteInsightRequest $postBody, $optParams = [])
   {

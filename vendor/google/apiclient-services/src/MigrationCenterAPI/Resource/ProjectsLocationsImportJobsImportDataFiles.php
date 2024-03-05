@@ -51,6 +51,7 @@ class ProjectsLocationsImportJobsImportDataFiles extends \Google\Service\Resourc
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ImportDataFile $postBody, $optParams = [])
   {
@@ -76,6 +77,7 @@ class ProjectsLocationsImportJobsImportDataFiles extends \Google\Service\Resourc
    * be a valid UUID with the exception that zero UUID is not supported
    * (00000000-0000-0000-0000-000000000000).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -89,6 +91,7 @@ class ProjectsLocationsImportJobsImportDataFiles extends \Google\Service\Resourc
    * @param string $name Required. Name of the ImportDataFile.
    * @param array $optParams Optional parameters.
    * @return ImportDataFile
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsLocationsImportJobsImportDataFiles extends \Google\Service\Resourc
    * When paginating, all other parameters provided to `ListImportDataFiles` must
    * match the call that provided the page token.
    * @return ListImportDataFilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsImportJobsImportDataFiles($parent, $optParams = [])
   {

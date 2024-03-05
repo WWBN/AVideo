@@ -53,6 +53,7 @@ class Attributes extends \Google\Service\Resource
    * when this field is set to true, disregarding parent and category_name fields.
    * language_code and region_code are required when show_all is set to true.
    * @return ListAttributeMetadataResponse
+   * @throws \Google\Service\Exception
    */
   public function listAttributes($optParams = [])
   {

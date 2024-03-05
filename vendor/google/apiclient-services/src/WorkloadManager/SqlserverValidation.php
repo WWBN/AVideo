@@ -24,6 +24,14 @@ class SqlserverValidation extends \Google\Collection
    * @var string
    */
   public $agentVersion;
+  /**
+   * @var string
+   */
+  public $instance;
+  /**
+   * @var string
+   */
+  public $projectId;
   protected $validationDetailsType = SqlserverValidationValidationDetail::class;
   protected $validationDetailsDataType = 'array';
 
@@ -40,6 +48,34 @@ class SqlserverValidation extends \Google\Collection
   public function getAgentVersion()
   {
     return $this->agentVersion;
+  }
+  /**
+   * @param string
+   */
+  public function setInstance($instance)
+  {
+    $this->instance = $instance;
+  }
+  /**
+   * @return string
+   */
+  public function getInstance()
+  {
+    return $this->instance;
+  }
+  /**
+   * @param string
+   */
+  public function setProjectId($projectId)
+  {
+    $this->projectId = $projectId;
+  }
+  /**
+   * @return string
+   */
+  public function getProjectId()
+  {
+    return $this->projectId;
   }
   /**
    * @param SqlserverValidationValidationDetail[]

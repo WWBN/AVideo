@@ -54,6 +54,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * to be a UUID (or UUID-like: anything matching
    * /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i).
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, VmwareNodePool $postBody, $optParams = [])
   {
@@ -84,6 +85,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * @opt_param bool validateOnly If set, only validate the request, but do not
    * actually delete the node pool.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -99,6 +101,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * @param EnrollVmwareNodePoolRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function enroll($parent, EnrollVmwareNodePoolRequest $postBody, $optParams = [])
   {
@@ -113,7 +116,13 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * /{project}/locations/{location}/vmwareClusters/{cluster}/vmwareNodePools/{nod
    * epool}
    * @param array $optParams Optional parameters.
+   *
+   * @opt_param string view View for VMware node pool. When `BASIC` is specified,
+   * only the node pool resource name is returned. The default/unset value
+   * `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the
+   * complete node pool configuration details.
    * @return VmwareNodePool
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -145,6 +154,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -169,7 +179,12 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * `ListVmwareNodePools` call. Provide this to retrieve the subsequent page.
    * When paginating, all other parameters provided to `ListVmwareNodePools` must
    * match the call that provided the page token.
+   * @opt_param string view View for VMware node pools. When `BASIC` is specified,
+   * only the node pool resource name is returned. The default/unset value
+   * `NODE_POOL_VIEW_UNSPECIFIED` is the same as `FULL', which returns the
+   * complete node pool configuration details.
    * @return ListVmwareNodePoolsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsVmwareClustersVmwareNodePools($parent, $optParams = [])
   {
@@ -194,6 +209,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * @opt_param bool validateOnly Validate the request without actually doing any
    * updates.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, VmwareNodePool $postBody, $optParams = [])
   {
@@ -213,6 +229,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -235,6 +252,7 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {
@@ -250,12 +268,16 @@ class ProjectsLocationsVmwareClustersVmwareNodePools extends \Google\Service\Res
    * ols/{nodepool}
    * @param array $optParams Optional parameters.
    *
+   * @opt_param bool allowMissing If set to true, and the VMware node pool is not
+   * found, the request will succeed but no action will be taken on the server and
+   * return a completed LRO.
    * @opt_param string etag The current etag of the VMware node pool. If an etag
    * is provided and does not match the current etag of node pool, deletion will
    * be blocked and an ABORTED error will be returned.
    * @opt_param bool validateOnly If set, only validate the request, but do not
    * actually unenroll the node pool.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function unenroll($name, $optParams = [])
   {

@@ -39,6 +39,7 @@ class Achievements extends \Google\Service\Resource
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
    * @return AchievementResetResponse
+   * @throws \Google\Service\Exception
    */
   public function reset($achievementId, $optParams = [])
   {
@@ -53,6 +54,7 @@ class Achievements extends \Google\Service\Resource
    *
    * @param array $optParams Optional parameters.
    * @return AchievementResetAllResponse
+   * @throws \Google\Service\Exception
    */
   public function resetAll($optParams = [])
   {
@@ -66,6 +68,7 @@ class Achievements extends \Google\Service\Resource
    * (achievements.resetAllForAllPlayers)
    *
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetAllForAllPlayers($optParams = [])
   {
@@ -80,6 +83,7 @@ class Achievements extends \Google\Service\Resource
    *
    * @param string $achievementId The ID of the achievement used by this method.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetForAllPlayers($achievementId, $optParams = [])
   {
@@ -94,6 +98,7 @@ class Achievements extends \Google\Service\Resource
    *
    * @param AchievementResetMultipleForAllRequest $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetMultipleForAllPlayers(AchievementResetMultipleForAllRequest $postBody, $optParams = [])
   {

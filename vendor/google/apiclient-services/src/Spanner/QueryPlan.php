@@ -22,6 +22,8 @@ class QueryPlan extends \Google\Collection
   protected $collection_key = 'planNodes';
   protected $planNodesType = PlanNode::class;
   protected $planNodesDataType = 'array';
+  protected $queryAdviceType = QueryAdvisorResult::class;
+  protected $queryAdviceDataType = '';
 
   /**
    * @param PlanNode[]
@@ -36,6 +38,20 @@ class QueryPlan extends \Google\Collection
   public function getPlanNodes()
   {
     return $this->planNodes;
+  }
+  /**
+   * @param QueryAdvisorResult
+   */
+  public function setQueryAdvice(QueryAdvisorResult $queryAdvice)
+  {
+    $this->queryAdvice = $queryAdvice;
+  }
+  /**
+   * @return QueryAdvisorResult
+   */
+  public function getQueryAdvice()
+  {
+    return $this->queryAdvice;
   }
 }
 

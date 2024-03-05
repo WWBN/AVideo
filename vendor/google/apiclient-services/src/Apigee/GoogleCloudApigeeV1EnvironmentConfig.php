@@ -20,6 +20,8 @@ namespace Google\Service\Apigee;
 class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
 {
   protected $collection_key = 'targets';
+  protected $addonsConfigType = GoogleCloudApigeeV1RuntimeAddonsConfig::class;
+  protected $addonsConfigDataType = '';
   /**
    * @var string
    */
@@ -89,6 +91,20 @@ class GoogleCloudApigeeV1EnvironmentConfig extends \Google\Collection
    */
   public $uid;
 
+  /**
+   * @param GoogleCloudApigeeV1RuntimeAddonsConfig
+   */
+  public function setAddonsConfig(GoogleCloudApigeeV1RuntimeAddonsConfig $addonsConfig)
+  {
+    $this->addonsConfig = $addonsConfig;
+  }
+  /**
+   * @return GoogleCloudApigeeV1RuntimeAddonsConfig
+   */
+  public function getAddonsConfig()
+  {
+    return $this->addonsConfig;
+  }
   /**
    * @param string
    */

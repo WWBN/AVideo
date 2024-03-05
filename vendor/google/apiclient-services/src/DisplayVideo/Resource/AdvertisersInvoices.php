@@ -53,6 +53,7 @@ class AdvertisersInvoices extends \Google\Service\Resource
    * the previous call to `ListInvoices` method. If not specified, the first page
    * of results will be returned.
    * @return ListInvoicesResponse
+   * @throws \Google\Service\Exception
    */
   public function listAdvertisersInvoices($advertiserId, $optParams = [])
   {
@@ -72,6 +73,7 @@ class AdvertisersInvoices extends \Google\Service\Resource
    * set, the request will return existing currency settings for the advertiser.
    * Must be in the format YYYYMM.
    * @return LookupInvoiceCurrencyResponse
+   * @throws \Google\Service\Exception
    */
   public function lookupInvoiceCurrency($advertiserId, $optParams = [])
   {

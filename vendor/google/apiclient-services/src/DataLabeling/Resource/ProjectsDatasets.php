@@ -43,6 +43,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1CreateDatasetRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1Dataset
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudDatalabelingV1beta1CreateDatasetRequest $postBody, $optParams = [])
   {
@@ -57,6 +58,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * projects/{project_id}/datasets/{dataset_id}
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -72,6 +74,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1ExportDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function exportData($name, GoogleCloudDatalabelingV1beta1ExportDataRequest $postBody, $optParams = [])
   {
@@ -86,6 +89,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * projects/{project_id}/datasets/{dataset_id}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudDatalabelingV1beta1Dataset
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -105,6 +109,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1ImportDataRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function importData($name, GoogleCloudDatalabelingV1beta1ImportDataRequest $postBody, $optParams = [])
   {
@@ -129,6 +134,7 @@ class ProjectsDatasets extends \Google\Service\Resource
    * ListDatasetsResponse.next_page_token of the previous
    * [DataLabelingService.ListDatasets] call. Returns the first page if empty.
    * @return GoogleCloudDatalabelingV1beta1ListDatasetsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsDatasets($parent, $optParams = [])
   {

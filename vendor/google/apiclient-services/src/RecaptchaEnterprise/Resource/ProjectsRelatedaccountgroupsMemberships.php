@@ -47,6 +47,7 @@ class ProjectsRelatedaccountgroupsMemberships extends \Google\Service\Resource
    * parameters provided to `ListRelatedAccountGroupMemberships` must match the
    * call that provided the page token.
    * @return GoogleCloudRecaptchaenterpriseV1ListRelatedAccountGroupMembershipsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsRelatedaccountgroupsMemberships($parent, $optParams = [])
   {

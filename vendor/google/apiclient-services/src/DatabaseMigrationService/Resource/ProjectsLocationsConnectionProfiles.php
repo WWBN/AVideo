@@ -58,6 +58,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * but don't create any resources. The default is false. Only supported for
    * Oracle connection profiles.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, ConnectionProfile $postBody, $optParams = [])
   {
@@ -82,6 +83,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * contain only letters (a-z, A-Z), numbers (0-9), underscores (_), and hyphens
    * (-). The maximum length is 40 characters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -95,6 +97,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @param string $name Required. Name of the connection profile resource to get.
    * @param array $optParams Optional parameters.
    * @return ConnectionProfile
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -126,6 +129,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -161,6 +165,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * When paginating, all other parameters provided to `ListConnectionProfiles`
    * must match the call that provided the page token.
    * @return ListConnectionProfilesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsConnectionProfiles($parent, $optParams = [])
   {
@@ -192,6 +197,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * but don't update any resources. The default is false. Only supported for
    * Oracle connection profiles.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function patch($name, ConnectionProfile $postBody, $optParams = [])
   {
@@ -211,6 +217,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -233,6 +240,7 @@ class ProjectsLocationsConnectionProfiles extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

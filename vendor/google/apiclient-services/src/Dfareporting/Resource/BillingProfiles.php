@@ -37,6 +37,7 @@ class BillingProfiles extends \Google\Service\Resource
    * @param string $id Billing Profile ID.
    * @param array $optParams Optional parameters.
    * @return BillingProfile
+   * @throws \Google\Service\Exception
    */
   public function get($profileId, $id, $optParams = [])
   {
@@ -72,6 +73,7 @@ class BillingProfiles extends \Google\Service\Resource
    * specified subaccount.When only_suggestion is true, only a single
    * subaccount_id is supported.
    * @return BillingProfilesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listBillingProfiles($profileId, $optParams = [])
   {
@@ -86,6 +88,7 @@ class BillingProfiles extends \Google\Service\Resource
    * @param BillingProfile $postBody
    * @param array $optParams Optional parameters.
    * @return BillingProfile
+   * @throws \Google\Service\Exception
    */
   public function update($profileId, BillingProfile $postBody, $optParams = [])
   {

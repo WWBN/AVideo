@@ -41,6 +41,7 @@ class ProjectsSnoozes extends \Google\Service\Resource
    * @param Snooze $postBody
    * @param array $optParams Optional parameters.
    * @return Snooze
+   * @throws \Google\Service\Exception
    */
   public function create($parent, Snooze $postBody, $optParams = [])
   {
@@ -55,6 +56,7 @@ class ProjectsSnoozes extends \Google\Service\Resource
    * is: projects/[PROJECT_ID_OR_NUMBER]/snoozes/[SNOOZE_ID]
    * @param array $optParams Optional parameters.
    * @return Snooze
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -84,6 +86,7 @@ class ProjectsSnoozes extends \Google\Service\Resource
    * @opt_param string pageToken Optional. The next_page_token from a previous
    * call to ListSnoozesRequest to get the next page of results.
    * @return ListSnoozesResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsSnoozes($parent, $optParams = [])
   {
@@ -113,6 +116,7 @@ class ProjectsSnoozes extends \Google\Service\Resource
    * updated. Before attempting an update, users should consult the documentation
    * for UpdateSnoozeRequest, which talks about which fields can be updated.
    * @return Snooze
+   * @throws \Google\Service\Exception
    */
   public function patch($name, Snooze $postBody, $optParams = [])
   {

@@ -19,7 +19,7 @@ namespace Google\Service\CloudAsset;
 
 class GoogleIdentityAccesscontextmanagerV1Condition extends \Google\Collection
 {
-  protected $collection_key = 'requiredAccessLevels';
+  protected $collection_key = 'vpcNetworkSources';
   protected $devicePolicyType = GoogleIdentityAccesscontextmanagerV1DevicePolicy::class;
   protected $devicePolicyDataType = '';
   /**
@@ -42,6 +42,8 @@ class GoogleIdentityAccesscontextmanagerV1Condition extends \Google\Collection
    * @var string[]
    */
   public $requiredAccessLevels;
+  protected $vpcNetworkSourcesType = GoogleIdentityAccesscontextmanagerV1VpcNetworkSource::class;
+  protected $vpcNetworkSourcesDataType = 'array';
 
   /**
    * @param GoogleIdentityAccesscontextmanagerV1DevicePolicy
@@ -126,6 +128,20 @@ class GoogleIdentityAccesscontextmanagerV1Condition extends \Google\Collection
   public function getRequiredAccessLevels()
   {
     return $this->requiredAccessLevels;
+  }
+  /**
+   * @param GoogleIdentityAccesscontextmanagerV1VpcNetworkSource[]
+   */
+  public function setVpcNetworkSources($vpcNetworkSources)
+  {
+    $this->vpcNetworkSources = $vpcNetworkSources;
+  }
+  /**
+   * @return GoogleIdentityAccesscontextmanagerV1VpcNetworkSource[]
+   */
+  public function getVpcNetworkSources()
+  {
+    return $this->vpcNetworkSources;
   }
 }
 

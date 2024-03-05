@@ -20,6 +20,7 @@ namespace Google\Service\SQLAdmin\Resource;
 use Google\Service\SQLAdmin\Operation;
 use Google\Service\SQLAdmin\PerformDiskShrinkContext;
 use Google\Service\SQLAdmin\SqlInstancesGetDiskShrinkConfigResponse;
+use Google\Service\SQLAdmin\SqlInstancesGetLatestRecoveryTimeResponse;
 use Google\Service\SQLAdmin\SqlInstancesRescheduleMaintenanceRequestBody;
 use Google\Service\SQLAdmin\SqlInstancesResetReplicaSizeRequest;
 use Google\Service\SQLAdmin\SqlInstancesStartExternalSyncRequest;
@@ -44,12 +45,30 @@ class ProjectsInstances extends \Google\Service\Resource
    * project ID.
    * @param array $optParams Optional parameters.
    * @return SqlInstancesGetDiskShrinkConfigResponse
+   * @throws \Google\Service\Exception
    */
   public function getDiskShrinkConfig($project, $instance, $optParams = [])
   {
     $params = ['project' => $project, 'instance' => $instance];
     $params = array_merge($params, $optParams);
     return $this->call('getDiskShrinkConfig', [$params], SqlInstancesGetDiskShrinkConfigResponse::class);
+  }
+  /**
+   * Get Latest Recovery Time for a given instance.
+   * (instances.getLatestRecoveryTime)
+   *
+   * @param string $project Project ID of the project that contains the instance.
+   * @param string $instance Cloud SQL instance ID. This does not include the
+   * project ID.
+   * @param array $optParams Optional parameters.
+   * @return SqlInstancesGetLatestRecoveryTimeResponse
+   * @throws \Google\Service\Exception
+   */
+  public function getLatestRecoveryTime($project, $instance, $optParams = [])
+  {
+    $params = ['project' => $project, 'instance' => $instance];
+    $params = array_merge($params, $optParams);
+    return $this->call('getLatestRecoveryTime', [$params], SqlInstancesGetLatestRecoveryTimeResponse::class);
   }
   /**
    * Perform Disk Shrink on primary instance. (instances.performDiskShrink)
@@ -60,6 +79,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param PerformDiskShrinkContext $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function performDiskShrink($project, $instance, PerformDiskShrinkContext $postBody, $optParams = [])
   {
@@ -77,6 +97,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesRescheduleMaintenanceRequestBody $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function rescheduleMaintenance($project, $instance, SqlInstancesRescheduleMaintenanceRequestBody $postBody, $optParams = [])
   {
@@ -93,6 +114,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesResetReplicaSizeRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function resetReplicaSize($project, $instance, SqlInstancesResetReplicaSizeRequest $postBody, $optParams = [])
   {
@@ -109,6 +131,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesStartExternalSyncRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function startExternalSync($project, $instance, SqlInstancesStartExternalSyncRequest $postBody, $optParams = [])
   {
@@ -126,6 +149,7 @@ class ProjectsInstances extends \Google\Service\Resource
    * @param SqlInstancesVerifyExternalSyncSettingsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return SqlInstancesVerifyExternalSyncSettingsResponse
+   * @throws \Google\Service\Exception
    */
   public function verifyExternalSyncSettings($project, $instance, SqlInstancesVerifyExternalSyncSettingsRequest $postBody, $optParams = [])
   {

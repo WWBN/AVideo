@@ -22,8 +22,26 @@ class RollbackInstanceRequest extends \Google\Model
   /**
    * @var string
    */
+  public $revisionId;
+  /**
+   * @var string
+   */
   public $targetSnapshot;
 
+  /**
+   * @param string
+   */
+  public function setRevisionId($revisionId)
+  {
+    $this->revisionId = $revisionId;
+  }
+  /**
+   * @return string
+   */
+  public function getRevisionId()
+  {
+    return $this->revisionId;
+  }
   /**
    * @param string
    */

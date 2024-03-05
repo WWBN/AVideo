@@ -21,8 +21,18 @@ class GooglePrivacyDlpV2DataProfileConfigSnapshot extends \Google\Model
 {
   protected $dataProfileJobType = GooglePrivacyDlpV2DataProfileJobConfig::class;
   protected $dataProfileJobDataType = '';
+  protected $discoveryConfigType = GooglePrivacyDlpV2DiscoveryConfig::class;
+  protected $discoveryConfigDataType = '';
   protected $inspectConfigType = GooglePrivacyDlpV2InspectConfig::class;
   protected $inspectConfigDataType = '';
+  /**
+   * @var string
+   */
+  public $inspectTemplateModifiedTime;
+  /**
+   * @var string
+   */
+  public $inspectTemplateName;
 
   /**
    * @param GooglePrivacyDlpV2DataProfileJobConfig
@@ -39,6 +49,20 @@ class GooglePrivacyDlpV2DataProfileConfigSnapshot extends \Google\Model
     return $this->dataProfileJob;
   }
   /**
+   * @param GooglePrivacyDlpV2DiscoveryConfig
+   */
+  public function setDiscoveryConfig(GooglePrivacyDlpV2DiscoveryConfig $discoveryConfig)
+  {
+    $this->discoveryConfig = $discoveryConfig;
+  }
+  /**
+   * @return GooglePrivacyDlpV2DiscoveryConfig
+   */
+  public function getDiscoveryConfig()
+  {
+    return $this->discoveryConfig;
+  }
+  /**
    * @param GooglePrivacyDlpV2InspectConfig
    */
   public function setInspectConfig(GooglePrivacyDlpV2InspectConfig $inspectConfig)
@@ -51,6 +75,34 @@ class GooglePrivacyDlpV2DataProfileConfigSnapshot extends \Google\Model
   public function getInspectConfig()
   {
     return $this->inspectConfig;
+  }
+  /**
+   * @param string
+   */
+  public function setInspectTemplateModifiedTime($inspectTemplateModifiedTime)
+  {
+    $this->inspectTemplateModifiedTime = $inspectTemplateModifiedTime;
+  }
+  /**
+   * @return string
+   */
+  public function getInspectTemplateModifiedTime()
+  {
+    return $this->inspectTemplateModifiedTime;
+  }
+  /**
+   * @param string
+   */
+  public function setInspectTemplateName($inspectTemplateName)
+  {
+    $this->inspectTemplateName = $inspectTemplateName;
+  }
+  /**
+   * @return string
+   */
+  public function getInspectTemplateName()
+  {
+    return $this->inspectTemplateName;
   }
 }
 

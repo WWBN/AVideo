@@ -36,6 +36,7 @@ class Entity extends \Google\Service\Resource
    * @param string $entityId
    * @param array $optParams Optional parameters.
    * @return RdapResponse
+   * @throws \Google\Service\Exception
    */
   public function get($entityId, $optParams = [])
   {

@@ -45,6 +45,7 @@ class UsersDataSourcesDataPointChanges extends \Google\Service\Resource
    * through large result sets. To get the next page of results, set this
    * parameter to the value of nextPageToken from the previous response.
    * @return ListDataPointChangesResponse
+   * @throws \Google\Service\Exception
    */
   public function listUsersDataSourcesDataPointChanges($userId, $dataSourceId, $optParams = [])
   {

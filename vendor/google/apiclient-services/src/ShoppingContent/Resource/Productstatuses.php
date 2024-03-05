@@ -39,6 +39,7 @@ class Productstatuses extends \Google\Service\Resource
    * @param ProductstatusesCustomBatchRequest $postBody
    * @param array $optParams Optional parameters.
    * @return ProductstatusesCustomBatchResponse
+   * @throws \Google\Service\Exception
    */
   public function custombatch(ProductstatusesCustomBatchRequest $postBody, $optParams = [])
   {
@@ -59,6 +60,7 @@ class Productstatuses extends \Google\Service\Resource
    * destinations are returned, otherwise only issues for the Shopping
    * destination.
    * @return ProductStatus
+   * @throws \Google\Service\Exception
    */
   public function get($merchantId, $productId, $optParams = [])
   {
@@ -78,9 +80,11 @@ class Productstatuses extends \Google\Service\Resource
    * destinations are returned, otherwise only issues for the Shopping
    * destination.
    * @opt_param string maxResults The maximum number of product statuses to return
-   * in the response, used for paging.
+   * in the response, used for paging. The default value is 25. The maximum value
+   * is 250.
    * @opt_param string pageToken The token returned by the previous request.
    * @return ProductstatusesListResponse
+   * @throws \Google\Service\Exception
    */
   public function listProductstatuses($merchantId, $optParams = [])
   {

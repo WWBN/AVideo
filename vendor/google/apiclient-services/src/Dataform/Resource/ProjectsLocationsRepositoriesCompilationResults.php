@@ -40,6 +40,7 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * @param CompilationResult $postBody
    * @param array $optParams Optional parameters.
    * @return CompilationResult
+   * @throws \Google\Service\Exception
    */
   public function create($parent, CompilationResult $postBody, $optParams = [])
   {
@@ -53,6 +54,7 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * @param string $name Required. The compilation result's name.
    * @param array $optParams Optional parameters.
    * @return CompilationResult
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -68,6 +70,7 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * results. Must be in the format `projects/locations/repositories`.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string filter Optional. Filter for the returned list.
    * @opt_param int pageSize Optional. Maximum number of compilation results to
    * return. The server may return fewer items than requested. If unspecified, the
    * server will pick an appropriate default.
@@ -76,6 +79,7 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * When paginating, all other parameters provided to `ListCompilationResults`
    * must match the call that provided the page token.
    * @return ListCompilationResultsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsRepositoriesCompilationResults($parent, $optParams = [])
   {
@@ -101,6 +105,7 @@ class ProjectsLocationsRepositoriesCompilationResults extends \Google\Service\Re
    * `QueryCompilationResultActions` must match the call that provided the page
    * token.
    * @return QueryCompilationResultActionsResponse
+   * @throws \Google\Service\Exception
    */
   public function query($name, $optParams = [])
   {

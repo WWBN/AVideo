@@ -55,6 +55,10 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
    */
   public $inlineRawDocument;
   /**
+   * @var bool
+   */
+  public $legalHold;
+  /**
    * @var string
    */
   public $name;
@@ -222,6 +226,20 @@ class GoogleCloudContentwarehouseV1Document extends \Google\Collection
   public function getInlineRawDocument()
   {
     return $this->inlineRawDocument;
+  }
+  /**
+   * @param bool
+   */
+  public function setLegalHold($legalHold)
+  {
+    $this->legalHold = $legalHold;
+  }
+  /**
+   * @return bool
+   */
+  public function getLegalHold()
+  {
+    return $this->legalHold;
   }
   /**
    * @param string

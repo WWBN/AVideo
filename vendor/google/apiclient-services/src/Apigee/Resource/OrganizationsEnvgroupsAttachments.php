@@ -41,6 +41,7 @@ class OrganizationsEnvgroupsAttachments extends \Google\Service\Resource
    * @param GoogleCloudApigeeV1EnvironmentGroupAttachment $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudApigeeV1EnvironmentGroupAttachment $postBody, $optParams = [])
   {
@@ -56,6 +57,7 @@ class OrganizationsEnvgroupsAttachments extends \Google\Service\Resource
    * `organizations/{org}/envgroups/{envgroup}/attachments/{attachment}`.
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -71,6 +73,7 @@ class OrganizationsEnvgroupsAttachments extends \Google\Service\Resource
    * `organizations/{org}/envgroups/{envgroup}/attachments/{attachment}`
    * @param array $optParams Optional parameters.
    * @return GoogleCloudApigeeV1EnvironmentGroupAttachment
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -92,6 +95,7 @@ class OrganizationsEnvgroupsAttachments extends \Google\Service\Resource
    * ListEnvironmentGroupAttachments call, that you can use to retrieve the next
    * page.
    * @return GoogleCloudApigeeV1ListEnvironmentGroupAttachmentsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOrganizationsEnvgroupsAttachments($parent, $optParams = [])
   {

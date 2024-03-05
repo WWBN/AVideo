@@ -35,6 +35,7 @@ class Archive extends \Google\Service\Resource
    * @param string $groupId The group ID
    * @param array $optParams Optional parameters.
    * @return Groups
+   * @throws \Google\Service\Exception
    */
   public function insert($groupId, $optParams = [])
   {

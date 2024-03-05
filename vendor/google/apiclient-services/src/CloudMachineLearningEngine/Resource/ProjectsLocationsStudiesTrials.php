@@ -48,6 +48,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1AddTrialMeasurementRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Trial
+   * @throws \Google\Service\Exception
    */
   public function addMeasurement($name, GoogleCloudMlV1AddTrialMeasurementRequest $postBody, $optParams = [])
   {
@@ -64,6 +65,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1CheckTrialEarlyStoppingStateRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function checkEarlyStoppingState($name, GoogleCloudMlV1CheckTrialEarlyStoppingStateRequest $postBody, $optParams = [])
   {
@@ -78,6 +80,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1CompleteTrialRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Trial
+   * @throws \Google\Service\Exception
    */
   public function complete($name, GoogleCloudMlV1CompleteTrialRequest $postBody, $optParams = [])
   {
@@ -93,6 +96,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1Trial $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Trial
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudMlV1Trial $postBody, $optParams = [])
   {
@@ -106,6 +110,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param string $name Required. The trial name.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -119,6 +124,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param string $name Required. The trial name.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Trial
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -134,6 +140,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * to.
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1ListTrialsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsStudiesTrials($parent, $optParams = [])
   {
@@ -152,6 +159,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1ListOptimalTrialsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1ListOptimalTrialsResponse
+   * @throws \Google\Service\Exception
    */
   public function listOptimalTrials($parent, GoogleCloudMlV1ListOptimalTrialsRequest $postBody, $optParams = [])
   {
@@ -166,6 +174,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1StopTrialRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudMlV1Trial
+   * @throws \Google\Service\Exception
    */
   public function stop($name, GoogleCloudMlV1StopTrialRequest $postBody, $optParams = [])
   {
@@ -184,6 +193,7 @@ class ProjectsLocationsStudiesTrials extends \Google\Service\Resource
    * @param GoogleCloudMlV1SuggestTrialsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function suggest($parent, GoogleCloudMlV1SuggestTrialsRequest $postBody, $optParams = [])
   {

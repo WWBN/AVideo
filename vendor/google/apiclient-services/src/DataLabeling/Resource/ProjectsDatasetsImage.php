@@ -39,6 +39,7 @@ class ProjectsDatasetsImage extends \Google\Service\Resource
    * @param GoogleCloudDatalabelingV1beta1LabelImageRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function label($parent, GoogleCloudDatalabelingV1beta1LabelImageRequest $postBody, $optParams = [])
   {

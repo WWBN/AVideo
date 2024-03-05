@@ -41,6 +41,7 @@ class ProjectsLocationsTransferConfigsRuns extends \Google\Service\Resource
    * id}`
    * @param array $optParams Optional parameters.
    * @return BigquerydatatransferEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsLocationsTransferConfigsRuns extends \Google\Service\Resource
    * id}`
    * @param array $optParams Optional parameters.
    * @return TransferRun
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -85,6 +87,7 @@ class ProjectsLocationsTransferConfigsRuns extends \Google\Service\Resource
    * @opt_param string states When specified, only transfer runs with requested
    * states are returned.
    * @return ListTransferRunsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsTransferConfigsRuns($parent, $optParams = [])
   {

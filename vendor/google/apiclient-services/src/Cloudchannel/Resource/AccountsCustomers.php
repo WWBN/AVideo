@@ -41,17 +41,20 @@ class AccountsCustomers extends \Google\Service\Resource
 {
   /**
    * Creates a new Customer resource under the reseller or distributor account.
-   * Possible error codes: * PERMISSION_DENIED: The reseller account making the
-   * request is different from the reseller account in the API request. *
-   * INVALID_ARGUMENT: * Required request parameters are missing or invalid. *
-   * Domain field value doesn't match the primary email domain. Return value: The
-   * newly created Customer resource. (customers.create)
+   * Possible error codes: * PERMISSION_DENIED: * The reseller account making the
+   * request is different from the reseller account in the API request. * You are
+   * not authorized to create a customer. See
+   * https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT:
+   * * Required request parameters are missing or invalid. * Domain field value
+   * doesn't match the primary email domain. Return value: The newly created
+   * Customer resource. (customers.create)
    *
    * @param string $parent Required. The resource name of reseller account in
    * which to create the customer. Parent uses the format: accounts/{account_id}
    * @param GoogleCloudChannelV1Customer $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1Customer
+   * @throws \Google\Service\Exception
    */
   public function create($parent, GoogleCloudChannelV1Customer $postBody, $optParams = [])
   {
@@ -69,6 +72,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @param string $name Required. The resource name of the customer to delete.
    * @param array $optParams Optional parameters.
    * @return GoogleProtobufEmpty
+   * @throws \Google\Service\Exception
    */
   public function delete($name, $optParams = [])
   {
@@ -88,6 +92,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * Name uses the format: accounts/{account_id}/customers/{customer_id}
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1Customer
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -99,13 +104,14 @@ class AccountsCustomers extends \Google\Service\Resource
    * Imports a Customer from the Cloud Identity associated with the provided Cloud
    * Identity ID or domain before a TransferEntitlements call. If a linked
    * Customer already exists and overwrite_if_exists is true, it will update that
-   * Customer's data. Possible error codes: * PERMISSION_DENIED: The reseller
+   * Customer's data. Possible error codes: * PERMISSION_DENIED: * The reseller
    * account making the request is different from the reseller account in the API
-   * request. * NOT_FOUND: Cloud Identity doesn't exist or was deleted. *
-   * INVALID_ARGUMENT: Required parameters are missing, or the auth_token is
-   * expired or invalid. * ALREADY_EXISTS: A customer already exists and has
-   * conflicting critical fields. Requires an overwrite. Return value: The
-   * Customer. (customers.import)
+   * request. * You are not authorized to import the customer. See
+   * https://support.google.com/channelservices/answer/9759265 * NOT_FOUND: Cloud
+   * Identity doesn't exist or was deleted. * INVALID_ARGUMENT: Required
+   * parameters are missing, or the auth_token is expired or invalid. *
+   * ALREADY_EXISTS: A customer already exists and has conflicting critical
+   * fields. Requires an overwrite. Return value: The Customer. (customers.import)
    *
    * @param string $parent Required. The resource name of the reseller's account.
    * Parent takes the format: accounts/{account_id} or
@@ -113,6 +119,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @param GoogleCloudChannelV1ImportCustomerRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleCloudChannelV1Customer
+   * @throws \Google\Service\Exception
    */
   public function import($parent, GoogleCloudChannelV1ImportCustomerRequest $postBody, $optParams = [])
   {
@@ -143,6 +150,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * ListCustomersResponse.next_page_token of the previous
    * CloudChannelService.ListCustomers call.
    * @return GoogleCloudChannelV1ListCustomersResponse
+   * @throws \Google\Service\Exception
    */
   public function listAccountsCustomers($parent, $optParams = [])
   {
@@ -153,20 +161,31 @@ class AccountsCustomers extends \Google\Service\Resource
   /**
    * Lists the following: * Offers that you can purchase for a customer. * Offers
    * that you can change for an entitlement. Possible error codes: *
-   * PERMISSION_DENIED: The customer doesn't belong to the reseller *
-   * INVALID_ARGUMENT: Required request parameters are missing or invalid.
+   * PERMISSION_DENIED: * The customer doesn't belong to the reseller * The
+   * reseller is not authorized to transact on this Product. See
+   * https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT:
+   * Required request parameters are missing or invalid.
    * (customers.listPurchasableOffers)
    *
    * @param string $customer Required. The resource name of the customer to list
    * Offers for. Format: accounts/{account_id}/customers/{customer_id}.
    * @param array $optParams Optional parameters.
    *
+   * @opt_param string changeOfferPurchase.billingAccount Optional. Resource name
+   * of the new target Billing Account. Provide this Billing Account when setting
+   * up billing for a trial subscription. Format:
+   * accounts/{account_id}/billingAccounts/{billing_account_id}. This field is
+   * only relevant for multi-currency accounts. It should be left empty for single
+   * currency accounts.
    * @opt_param string changeOfferPurchase.entitlement Required. Resource name of
    * the entitlement. Format:
    * accounts/{account_id}/customers/{customer_id}/entitlements/{entitlement_id}
    * @opt_param string changeOfferPurchase.newSku Optional. Resource name of the
    * new target SKU. Provide this SKU when upgrading or downgrading an
    * entitlement. Format: products/{product_id}/skus/{sku_id}
+   * @opt_param string createEntitlementPurchase.billingAccount Optional. Billing
+   * account that the result should be restricted to. Format:
+   * accounts/{account_id}/billingAccounts/{billing_account_id}.
    * @opt_param string createEntitlementPurchase.sku Required. SKU that the result
    * should be restricted to. Format: products/{product_id}/skus/{sku_id}.
    * @opt_param string languageCode Optional. The BCP-47 language code. For
@@ -178,6 +197,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A token for a page of results other
    * than the first page.
    * @return GoogleCloudChannelV1ListPurchasableOffersResponse
+   * @throws \Google\Service\Exception
    */
   public function listPurchasableOffers($customer, $optParams = [])
   {
@@ -213,6 +233,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @opt_param string pageToken Optional. A token for a page of results other
    * than the first page.
    * @return GoogleCloudChannelV1ListPurchasableSkusResponse
+   * @throws \Google\Service\Exception
    */
   public function listPurchasableSkus($customer, $optParams = [])
   {
@@ -236,6 +257,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @opt_param string updateMask The update mask that applies to the resource.
    * Optional.
    * @return GoogleCloudChannelV1Customer
+   * @throws \Google\Service\Exception
    */
   public function patch($name, GoogleCloudChannelV1Customer $postBody, $optParams = [])
   {
@@ -246,23 +268,25 @@ class AccountsCustomers extends \Google\Service\Resource
   /**
    * Creates a Cloud Identity for the given customer using the customer's
    * information, or the information provided here. Possible error codes: *
-   * PERMISSION_DENIED: The customer doesn't belong to the reseller. *
-   * INVALID_ARGUMENT: Required request parameters are missing or invalid. *
-   * NOT_FOUND: The customer was not found. * ALREADY_EXISTS: The customer's
-   * primary email already exists. Retry after changing the customer's primary
-   * contact email. * INTERNAL: Any non-user error related to a technical issue in
-   * the backend. Contact Cloud Channel support. * UNKNOWN: Any non-user error
-   * related to a technical issue in the backend. Contact Cloud Channel support.
-   * Return value: The ID of a long-running operation. To get the results of the
-   * operation, call the GetOperation method of CloudChannelOperationsService. The
-   * Operation metadata contains an instance of OperationMetadata.
-   * (customers.provisionCloudIdentity)
+   * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * You are
+   * not authorized to provision cloud identity id. See
+   * https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT:
+   * Required request parameters are missing or invalid. * NOT_FOUND: The customer
+   * was not found. * ALREADY_EXISTS: The customer's primary email already exists.
+   * Retry after changing the customer's primary contact email. * INTERNAL: Any
+   * non-user error related to a technical issue in the backend. Contact Cloud
+   * Channel support. * UNKNOWN: Any non-user error related to a technical issue
+   * in the backend. Contact Cloud Channel support. Return value: The ID of a
+   * long-running operation. To get the results of the operation, call the
+   * GetOperation method of CloudChannelOperationsService. The Operation metadata
+   * contains an instance of OperationMetadata. (customers.provisionCloudIdentity)
    *
    * @param string $customer Required. Resource name of the customer. Format:
    * accounts/{account_id}/customers/{customer_id}
    * @param GoogleCloudChannelV1ProvisionCloudIdentityRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function provisionCloudIdentity($customer, GoogleCloudChannelV1ProvisionCloudIdentityRequest $postBody, $optParams = [])
   {
@@ -288,6 +312,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * accounts for. At least one SKU is required. Format:
    * products/{product_id}/skus/{sku_id}.
    * @return GoogleCloudChannelV1QueryEligibleBillingAccountsResponse
+   * @throws \Google\Service\Exception
    */
   public function queryEligibleBillingAccounts($customer, $optParams = [])
   {
@@ -297,23 +322,24 @@ class AccountsCustomers extends \Google\Service\Resource
   }
   /**
    * Transfers customer entitlements to new reseller. Possible error codes: *
-   * PERMISSION_DENIED: The customer doesn't belong to the reseller. *
-   * INVALID_ARGUMENT: Required request parameters are missing or invalid. *
-   * NOT_FOUND: The customer or offer resource was not found. * ALREADY_EXISTS:
-   * The SKU was already transferred for the customer. * CONDITION_NOT_MET or
-   * FAILED_PRECONDITION: * The SKU requires domain verification to transfer, but
-   * the domain is not verified. * An Add-On SKU (example, Vault or Drive) is
-   * missing the pre-requisite SKU (example, G Suite Basic). * (Developer accounts
-   * only) Reseller and resold domain must meet the following naming requirements:
-   * * Domain names must start with goog-test. * Domain names must include the
-   * reseller domain. * Specify all transferring entitlements. * INTERNAL: Any
-   * non-user error related to a technical issue in the backend. Contact Cloud
-   * Channel support. * UNKNOWN: Any non-user error related to a technical issue
-   * in the backend. Contact Cloud Channel support. Return value: The ID of a
-   * long-running operation. To get the results of the operation, call the
-   * GetOperation method of CloudChannelOperationsService. The Operation metadata
-   * will contain an instance of OperationMetadata.
-   * (customers.transferEntitlements)
+   * PERMISSION_DENIED: * The customer doesn't belong to the reseller. * The
+   * reseller is not authorized to transact on this Product. See
+   * https://support.google.com/channelservices/answer/9759265 * INVALID_ARGUMENT:
+   * Required request parameters are missing or invalid. * NOT_FOUND: The customer
+   * or offer resource was not found. * ALREADY_EXISTS: The SKU was already
+   * transferred for the customer. * CONDITION_NOT_MET or FAILED_PRECONDITION: *
+   * The SKU requires domain verification to transfer, but the domain is not
+   * verified. * An Add-On SKU (example, Vault or Drive) is missing the pre-
+   * requisite SKU (example, G Suite Basic). * (Developer accounts only) Reseller
+   * and resold domain must meet the following naming requirements: * Domain names
+   * must start with goog-test. * Domain names must include the reseller domain. *
+   * Specify all transferring entitlements. * INTERNAL: Any non-user error related
+   * to a technical issue in the backend. Contact Cloud Channel support. *
+   * UNKNOWN: Any non-user error related to a technical issue in the backend.
+   * Contact Cloud Channel support. Return value: The ID of a long-running
+   * operation. To get the results of the operation, call the GetOperation method
+   * of CloudChannelOperationsService. The Operation metadata will contain an
+   * instance of OperationMetadata. (customers.transferEntitlements)
    *
    * @param string $parent Required. The resource name of the reseller's customer
    * account that will receive transferred entitlements. Parent uses the format:
@@ -321,6 +347,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @param GoogleCloudChannelV1TransferEntitlementsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function transferEntitlements($parent, GoogleCloudChannelV1TransferEntitlementsRequest $postBody, $optParams = [])
   {
@@ -354,6 +381,7 @@ class AccountsCustomers extends \Google\Service\Resource
    * @param GoogleCloudChannelV1TransferEntitlementsToGoogleRequest $postBody
    * @param array $optParams Optional parameters.
    * @return GoogleLongrunningOperation
+   * @throws \Google\Service\Exception
    */
   public function transferEntitlementsToGoogle($parent, GoogleCloudChannelV1TransferEntitlementsToGoogleRequest $postBody, $optParams = [])
   {

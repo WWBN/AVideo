@@ -38,6 +38,7 @@ class Buyers extends \Google\Service\Resource
    * `buyers/{buyerId}`
    * @param array $optParams Optional parameters.
    * @return Buyer
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -46,20 +47,24 @@ class Buyers extends \Google\Service\Resource
     return $this->call('get', [$params], Buyer::class);
   }
   /**
-   * Gets remarketing tag for a buyer. A remarketing tag is a piece of JavaScript
-   * code that can be placed on a web page. When a user visits a page containing a
-   * remarketing tag, Google adds the user to a user list.
+   * This has been sunset as of October 2023, and will return an error response if
+   * called. For more information, see the release notes:
+   * https://developers.google.com/authorized-buyers/apis/relnotes#real-time-
+   * bidding-api Gets remarketing tag for a buyer. A remarketing tag is a piece of
+   * JavaScript code that can be placed on a web page. When a user visits a page
+   * containing a remarketing tag, Google adds the user to a user list.
    * (buyers.getRemarketingTag)
    *
-   * @param string $name Required. To fetch remarketing tag for an account, name
-   * must follow the pattern `buyers/{accountId}` where `{accountId}` represents
-   * ID of a buyer that owns the remarketing tag. For a bidder accessing
-   * remarketing tag on behalf of a child seat buyer, `{accountId}` should
-   * represent the ID of the child seat buyer. To fetch remarketing tag for a
-   * specific user list, name must follow the pattern
+   * @param string $name Required. To fetch the remarketing tag for an account,
+   * the name must follow the pattern `buyers/{accountId}`, where `{accountId}`
+   * represents the ID of the buyer that owns the remarketing tag. For a bidder
+   * accessing the remarketing tag on behalf of a child seat buyer, `{accountId}`
+   * should represent the ID of the child seat buyer. To fetch the remarketing tag
+   * for a specific user list, the name must follow the pattern
    * `buyers/{accountId}/userLists/{userListId}`. See UserList.name.
    * @param array $optParams Optional parameters.
    * @return GetRemarketingTagResponse
+   * @throws \Google\Service\Exception
    */
   public function getRemarketingTag($name, $optParams = [])
   {
@@ -80,6 +85,7 @@ class Buyers extends \Google\Service\Resource
    * should return. This value is received from a previous `ListBuyers` call in
    * ListBuyersResponse.nextPageToken.
    * @return ListBuyersResponse
+   * @throws \Google\Service\Exception
    */
   public function listBuyers($optParams = [])
   {

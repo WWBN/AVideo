@@ -38,6 +38,7 @@ class ProjectsLocationsOperations extends \Google\Service\Resource
    * @param string $name The name of the operation resource.
    * @param array $optParams Optional parameters.
    * @return Operation
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -50,21 +51,14 @@ class ProjectsLocationsOperations extends \Google\Service\Resource
    * server doesn't support this method, it returns `UNIMPLEMENTED`.
    * (operations.listProjectsLocationsOperations)
    *
-   * @param string $name Must not be set.
+   * @param string $name The name of the operation's parent resource.
    * @param array $optParams Optional parameters.
    *
-   * @opt_param string filter Required. A filter for matching the requested
-   * operations. The supported formats of *filter* are: To query for a specific
-   * function: project:*,location:*,function:* To query for all of the latest
-   * operations for a project: project:*,latest:true
-   * @opt_param int pageSize The maximum number of records that should be
-   * returned. Requested page size cannot exceed 100. If not set, the default page
-   * size is 100. Pagination is only supported when querying for a specific
-   * function.
-   * @opt_param string pageToken Token identifying which result to start with,
-   * which is returned by a previous list call. Pagination is only supported when
-   * querying for a specific function.
+   * @opt_param string filter The standard list filter.
+   * @opt_param int pageSize The standard list page size.
+   * @opt_param string pageToken The standard list page token.
    * @return ListOperationsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsOperations($name, $optParams = [])
   {

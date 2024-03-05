@@ -59,7 +59,7 @@ final class UnixServer extends EventEmitter implements ServerInterface
         } elseif (\substr($path, 0, 7) !== 'unix://') {
             throw new \InvalidArgumentException(
                 'Given URI "' . $path . '" is invalid (EINVAL)',
-                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : 22
+                \defined('SOCKET_EINVAL') ? \SOCKET_EINVAL : (\defined('PCNTL_EINVAL') ? \PCNTL_EINVAL : 22)
             );
         }
 

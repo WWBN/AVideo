@@ -36,6 +36,8 @@ class ComputeEngineTargetDefaults extends \Google\Collection
    * @var string
    */
   public $diskType;
+  protected $encryptionType = Encryption::class;
+  protected $encryptionDataType = '';
   /**
    * @var string
    */
@@ -156,6 +158,20 @@ class ComputeEngineTargetDefaults extends \Google\Collection
   public function getDiskType()
   {
     return $this->diskType;
+  }
+  /**
+   * @param Encryption
+   */
+  public function setEncryption(Encryption $encryption)
+  {
+    $this->encryption = $encryption;
+  }
+  /**
+   * @return Encryption
+   */
+  public function getEncryption()
+  {
+    return $this->encryption;
   }
   /**
    * @param string

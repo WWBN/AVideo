@@ -45,6 +45,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * @opt_param string keyRingId Required. It must be unique within a location and
    * match the regular expression `[a-zA-Z0-9_-]{1,63}`
    * @return KeyRing
+   * @throws \Google\Service\Exception
    */
   public function create($parent, KeyRing $postBody, $optParams = [])
   {
@@ -58,6 +59,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * @param string $name Required. The name of the KeyRing to get.
    * @param array $optParams Optional parameters.
    * @return KeyRing
+   * @throws \Google\Service\Exception
    */
   public function get($name, $optParams = [])
   {
@@ -88,6 +90,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * documentation](https://cloud.google.com/iam/help/conditions/resource-
    * policies).
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function getIamPolicy($resource, $optParams = [])
   {
@@ -116,6 +119,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * @opt_param string pageToken Optional. Optional pagination token, returned
    * earlier via ListKeyRingsResponse.next_page_token.
    * @return ListKeyRingsResponse
+   * @throws \Google\Service\Exception
    */
   public function listProjectsLocationsKeyRings($parent, $optParams = [])
   {
@@ -135,6 +139,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * @param SetIamPolicyRequest $postBody
    * @param array $optParams Optional parameters.
    * @return Policy
+   * @throws \Google\Service\Exception
    */
   public function setIamPolicy($resource, SetIamPolicyRequest $postBody, $optParams = [])
   {
@@ -156,6 +161,7 @@ class ProjectsLocationsKeyRings extends \Google\Service\Resource
    * @param TestIamPermissionsRequest $postBody
    * @param array $optParams Optional parameters.
    * @return TestIamPermissionsResponse
+   * @throws \Google\Service\Exception
    */
   public function testIamPermissions($resource, TestIamPermissionsRequest $postBody, $optParams = [])
   {

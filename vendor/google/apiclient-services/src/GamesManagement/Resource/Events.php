@@ -36,6 +36,7 @@ class Events extends \Google\Service\Resource
    *
    * @param string $eventId The ID of the event.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function reset($eventId, $optParams = [])
   {
@@ -49,6 +50,7 @@ class Events extends \Google\Service\Resource
    * your application. (events.resetAll)
    *
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetAll($optParams = [])
   {
@@ -61,6 +63,7 @@ class Events extends \Google\Service\Resource
    * user accounts for your developer console. (events.resetAllForAllPlayers)
    *
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetAllForAllPlayers($optParams = [])
   {
@@ -75,6 +78,7 @@ class Events extends \Google\Service\Resource
    *
    * @param string $eventId The ID of the event.
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetForAllPlayers($eventId, $optParams = [])
   {
@@ -89,6 +93,7 @@ class Events extends \Google\Service\Resource
    *
    * @param EventsResetMultipleForAllRequest $postBody
    * @param array $optParams Optional parameters.
+   * @throws \Google\Service\Exception
    */
   public function resetMultipleForAllPlayers(EventsResetMultipleForAllRequest $postBody, $optParams = [])
   {

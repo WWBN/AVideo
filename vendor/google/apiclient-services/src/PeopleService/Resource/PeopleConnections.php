@@ -83,6 +83,7 @@ class PeopleConnections extends \Google\Service\Resource
    * to `people.connections.list` must match the first call that provided the sync
    * token. More details about sync behavior at `people.connections.list`.
    * @return ListConnectionsResponse
+   * @throws \Google\Service\Exception
    */
   public function listPeopleConnections($resourceName, $optParams = [])
   {
