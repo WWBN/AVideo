@@ -107,13 +107,7 @@ abstract class ObjectYPT implements ObjectInterface
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = [];
-        if ($res !== false) {
-            foreach ($fullData as $row) {
-                $rows[] = $row;
-            }
-        }
-        return $rows;
+        return $fullData;
     }
 
     public static function getAllActive()
@@ -128,13 +122,7 @@ abstract class ObjectYPT implements ObjectInterface
         $res = sqlDAL::readSql($sql);
         $fullData = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
-        $rows = [];
-        if ($res !== false) {
-            foreach ($fullData as $row) {
-                $rows[] = $row;
-            }
-        }
-        return $rows;
+        return $fullData;
     }
 
     public static function getTotal()
@@ -299,6 +287,7 @@ abstract class ObjectYPT implements ObjectInterface
             _error_log("Save error, table " . static::getTableName() . " MySQL Error", AVideoLog::$ERROR);
             return false;
         }
+        //_error_log("Save ".static::getTableName().' '.json_encode($fieldsName));
         $formats = '';
         $values = [];
         if (!empty($this->id)) {
@@ -475,6 +464,7 @@ abstract class ObjectYPT implements ObjectInterface
             'ai_responses',
             'ai_metatags_responses',
             'ai_transcribe_responses',
+            'ai_responses_json',
             'playlists_schedules'
         ];
         return in_array(static::getTableName(), $ignoreArray);

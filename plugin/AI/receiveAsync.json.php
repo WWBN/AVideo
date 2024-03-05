@@ -33,7 +33,7 @@ $jsonDecoded->msg = '';
 $jsonDecoded->type = $_REQUEST['type'];
 $jsonDecoded->token = $token;
 
-_error_log('Start line=' . __LINE__);
+_error_log('Start line=' . __LINE__ . ' type=' . $_REQUEST['type']);
 
 switch ($_REQUEST['type']) {
     case AI::$typeTranslation:
@@ -84,7 +84,7 @@ switch ($_REQUEST['type']) {
             $o->setPrice_completion_tokens($_REQUEST['price_completion_tokens']);
             $o->setAi_responses_id($token->ai_responses_id);
             $jsonDecoded->Ai_metatags_responses = $o->save();
-            
+
             $jsonDecoded->error = false;
         }
         break;
@@ -108,13 +108,33 @@ switch ($_REQUEST['type']) {
                 _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
                 //$jsonDecoded->lines[] = __LINE__;
                 $paths = Ai_transcribe_responses::getVTTPaths($token->videos_id, $_REQUEST['response']['language']);
-                if(!empty($paths['path'])){
-                    $jsonDecoded->vttsaved = file_put_contents($paths['path'],$_REQUEST['response']['vtt']);
-                }else{
-                    _error_log("VTTFile Path is empty videos_id={$token->videos_id}, language={$_REQUEST['response']['language']} ".json_encode($paths));
+                if (!empty($paths['path'])) {
+                    $jsonDecoded->vttsaved = file_put_contents($paths['path'], $_REQUEST['response']['vtt']);
+                } else {
+                    _error_log("VTTFile Path is empty videos_id={$token->videos_id}, language={$_REQUEST['response']['language']} " . json_encode($paths));
                 }
             }
             $jsonDecoded->error = false;
+        }
+        break;
+    case AI::$typeShorts:
+        _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (!empty($_REQUEST['response']) && !empty($_REQUEST['response']['shorts'])) {
+            _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__ . json_encode($_REQUEST['response']));
+            $shorts = $_REQUEST['response']['shorts'];
+            if (!empty($shorts)) {
+                $o = new Ai_responses_json(0);
+                $o->setResponse($shorts);
+                $o->setAi_type(AI::$typeShorts);
+                $o->setAi_responses_id($token->ai_responses_id);
+                $jsonDecoded->shorts = $shorts;
+                $jsonDecoded->Ai_responses_json = $o->save();
+                $jsonDecoded->error = empty($jsonDecoded->Ai_responses_json);
+            }else{
+                _error_log('AI: shorts ERROR' . basename(__FILE__) . ' line=' . __LINE__);
+            }
+        }else{
+            _error_log('AI: ERROR ' . basename(__FILE__) . ' line=' . __LINE__ . json_encode($_REQUEST));
         }
         break;
 
@@ -123,12 +143,17 @@ switch ($_REQUEST['type']) {
         $jsonDecoded->msg = 'Type not found';
         break;
 }
-if($jsonDecoded->vttsaved){
+
+if ($jsonDecoded->error) {
+    error_log($global['lastQuery'] . ' Error : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
+}
+
+if ($jsonDecoded->vttsaved) {
     Video::clearCache($token->videos_id);
 }
 
 _error_log('You received a new translation ' . json_encode(debug_backtrace()));
-sendSocketMessageToUsers_id(['type'=>$_REQUEST['type']], $token->users_id, 'aiSocketMessage');
+sendSocketMessageToUsers_id(['type' => $_REQUEST['type']], $token->users_id, 'aiSocketMessage');
 
 $r = json_encode($jsonDecoded);
 _error_log($r);

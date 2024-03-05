@@ -4147,6 +4147,7 @@ if (!class_exists('Video')) {
                 return $__getPaths[$videoFilename];
             }
             $cleanVideoFilename = self::getCleanFilenameFromFile($videoFilename);
+            //var_dump('--'.$cleanVideoFilename, '++'.$videoFilename);
             $videosDir = self::getStoragePath();
 
             $path = addLastSlash("{$videosDir}{$cleanVideoFilename}");
@@ -4193,6 +4194,7 @@ if (!class_exists('Video')) {
             if (!empty($parts[1]) && $parts[1] == 'index.m3u8') {
                 $videoFilename = $parts[1];
             }
+            //var_dump('--'.$videoFilename, $paths);
             return "{$paths['url']}{$videoFilename}";
         }
 
@@ -4336,6 +4338,10 @@ if (!class_exists('Video')) {
             $path_parts = pathinfo($filename);
             if (!empty($path_parts['extension'])) {
                 if ($path_parts['extension'] == 'vtt' || $path_parts['extension'] == 'srt') {
+                    $search = ['.Chapters'];
+                    foreach ($search as $value) {
+                        $path_parts['filename'] = str_ireplace($value, '', $path_parts['filename']);
+                    }
                     $p = explode('.', $path_parts['filename']);
                     if (count($p) > 1) {
                         array_pop($p);

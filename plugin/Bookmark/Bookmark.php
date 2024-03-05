@@ -191,6 +191,7 @@ function getVTTChapterTracks($fileName, $returnArray = false)
             if (file_exists($defaultFile)) {
                 $path_parts = pathinfo($defaultFile);
                 $src = Video::getURLToFile($path_parts['basename']);
+                //var_dump($src, $path_parts['basename'], $defaultFile);exit;
                 $obj = new stdClass();
                 $obj->srclang = 'en';
                 $obj->src = $src;

@@ -154,6 +154,7 @@ class Ai_responses extends ObjectYPT
     {
         global $global;
         $sql = "SELECT
+                j.*,
                 m.*,
                 m.id as ai_metatags_responses_id,
                 t.*,
@@ -166,10 +167,13 @@ class Ai_responses extends ObjectYPT
                 ai_metatags_responses AS m ON r.id = m.ai_responses_id
             LEFT JOIN
                 ai_transcribe_responses AS t ON r.id = t.ai_responses_id
+            LEFT JOIN
+                ai_responses_json AS j ON r.id = j.ai_responses_id
             WHERE
                 r.videos_id = ?
             UNION
             SELECT
+                j.*,
                 m.*,
                 m.id as ai_metatags_responses_id,
                 t.*,
@@ -182,6 +186,8 @@ class Ai_responses extends ObjectYPT
                 ai_metatags_responses AS m ON r.id = m.ai_responses_id
             RIGHT JOIN
                 ai_transcribe_responses AS t ON r.id = t.ai_responses_id
+            RIGHT JOIN
+                ai_responses_json AS j ON r.id = j.ai_responses_id
             WHERE
                 r.videos_id = ?";
 

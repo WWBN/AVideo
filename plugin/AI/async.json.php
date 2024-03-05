@@ -41,12 +41,15 @@ switch ($_REQUEST['type']) {
         $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang'], $_REQUEST['langName']);
         $param['lang'] = $_REQUEST['lang'];
         break;
+    case AI::$typeShorts:
+        _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
+        $obj = AI::getVideoShortsMetadata($videos_id);
+        break;
     default:
         _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
         forbiddenPage("Undefined type {$_REQUEST['type']}");
         break;
 }
-
 if ($obj->error) {
     _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
     forbiddenPage('Something happen: ' . $obj->msg);
@@ -69,7 +72,7 @@ if (empty($content)) {
     $obj = new stdClass();
     $obj->error = true;
     $obj->msg = "Could not post to {$aiURLProgress} => {$content}";
-    
+
     die(json_encode($obj));
 }
 $jsonProgressDecoded = json_decode($content);
@@ -77,7 +80,7 @@ if (empty($jsonProgressDecoded)) {
     $obj = new stdClass();
     $obj->error = true;
     $obj->msg = "Could not decode => {$content}";
-    
+
     die(json_encode($obj));
 }
 _error_log('AI: ' . basename(__FILE__) . ' line=' . __LINE__);
@@ -86,7 +89,7 @@ if (empty($jsonProgressDecoded->canRequestNew)) {
     $obj->error = true;
     $obj->msg = $jsonProgressDecoded->msg;
     $obj->jsonProgressDecoded = $jsonProgressDecoded;
-    if(empty($obj->msg)){
+    if (empty($obj->msg)) {
         $obj->msg =  "A process for Video ID {$videos_id} is currently active and in progress.";;
     }
 

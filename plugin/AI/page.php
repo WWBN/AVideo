@@ -4,7 +4,9 @@ require_once '../../videos/configuration.php';
 $videos_id = getVideos_id();
 
 // each 60 of video will take about 5 minutes to complete
-
+if (!User::isLogged()) {
+    forbiddenPage('You must login first');
+}
 if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
 }
@@ -96,7 +98,7 @@ $_page = new Page(['Video Metatags']);
                 <div class="panel-heading">
                     <ul class="nav nav-tabs">
                         <li class="active">
-                            <a data-toggle="tab" href="#pTranscription">
+                            <a data-toggle="tab" href="#pTranscription" id="pTranscriptionLink">
                                 <i class="fas fa-microphone-alt"></i>
                                 <?php echo __("Transcription"); ?>
                             </a>
@@ -116,7 +118,7 @@ $_page = new Page(['Video Metatags']);
                         <li>
                             <a data-toggle="tab" href="#pUsage">
                                 <i class="fas fa-receipt"></i>
-                                <?php echo __("Usage"); ?>
+                                <?php echo __("Usage and details"); ?>
                             </a>
                         </li>
                         <li>

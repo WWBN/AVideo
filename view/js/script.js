@@ -470,11 +470,13 @@ async function mouseEffect() {
             var gif = $(this).find(".thumbsGIF");
             var jpg = $(this).find(".thumbsJPG");
             try {
-                gif.lazy({ effect: 'fadeIn',
-                afterLoad: function (element) {
-                    element.removeClass('lazyload');
-                    element.addClass('lazyloadLoaded');
-                } });
+                gif.lazy({
+                    effect: 'fadeIn',
+                    afterLoad: function (element) {
+                        element.removeClass('lazyload');
+                        element.addClass('lazyloadLoaded');
+                    }
+                });
                 setTimeout(function () {
                     gif.height(jpg.height());
                     gif.width(jpg.width());
@@ -793,6 +795,36 @@ async function showMuteTooltip() {
         $('#mainVideo .vjs-volume-panel[data-toggle="tooltip"]').tooltip('hide');
     }, 5000);
 }
+
+function playVideoSegment(startTime, endTime) {
+    // Ensure only one 'timeupdate' event listener is active
+    // Remove the previous listener if exists
+    if (typeof player._timeUpdateHandler === 'function') {
+        player.off('timeupdate', player._timeUpdateHandler);
+    }
+
+    // Define a new 'timeupdate' handler
+    player._timeUpdateHandler = function () {
+        if (player.currentTime() >= endTime) {
+            console.log('playVideoSegment endTime', endTime);
+            player.pause();
+
+            // Optionally, remove the listener to prevent potential memory leaks
+            player.off('timeupdate', player._timeUpdateHandler);
+            player._timeUpdateHandler = null;
+        }
+    };
+
+    // Attach the new 'timeupdate' event listener
+    player.on('timeupdate', player._timeUpdateHandler);
+    forceCurrentTime = startTime;
+    console.log('playVideoSegment startTime', startTime);
+    // Start playing the video at the specified start time
+    player.currentTime(startTime);
+    player.play();
+}
+
+
 
 function playerPlayIfAutoPlay(currentTime) {
     console.log("playerPlayIfAutoPlay: forceCurrentTime:", currentTime);
@@ -1253,7 +1285,7 @@ function avideoAlertOnceForceConfirm(title, msg, type) {
 }
 
 function _avideoToast(msg, icon) {
-    if(empty(msg)){
+    if (empty(msg)) {
         msg = '';
     }
     try {
@@ -1271,7 +1303,7 @@ function _avideoToast(msg, icon) {
         }
         $.toast(options);
     } catch (error) {
-        
+
     }
 }
 
@@ -1363,10 +1395,10 @@ function avideoModalIframeClose() {
             try {
                 swal.close();
             } catch (e) {
-    
+
             }
         }
-    }    
+    }
     try {
         if (inIframe()) {
             window.parent.swal.close();
@@ -1385,7 +1417,7 @@ function closeFullscreenVideo() {
 }
 
 // Listen for messages from child frames
-window.addEventListener('message', function(event) {
+window.addEventListener('message', function (event) {
     if (event.data === 'closeFullscreen') {
         // Call the function to close fullscreen video
         closeFullscreenVideo();
@@ -1604,7 +1636,7 @@ function avideoModalIframeWithClassName(url, className, updateURL) {
     }, 1000);
 }
 
-function avideoPushState(url) {    
+function avideoPushState(url) {
     if (!validURL(url)) {
         return false;
     }
@@ -1614,9 +1646,9 @@ function avideoPushState(url) {
         parent.updatePageSRC(url);
     }
     // Then we set up the popstate event listener
-    window.onpopstate = function(event) {
+    window.onpopstate = function (event) {
         avideoModalIframeClose();
-      };
+    };
 }
 
 function checkIframeLoaded(id) {
@@ -2827,7 +2859,7 @@ $(document).ready(function () {
     setInterval(function () {// check for the carousel
         checkDescriptionArea();
     }, 3000);
-    if(typeof Cookies != 'undefined'){
+    if (typeof Cookies != 'undefined') {
         Cookies.set('timezone', timezone, {
             path: '/',
             expires: 365
@@ -3883,7 +3915,7 @@ function openFullscreenVideo(url, urlBar) {
         'border': 'none',
         'background-color': 'black'
     });
-    
+
     avideoPushState(urlBar);
     // Append the iframe to the body
     fullscreenIframe.appendTo('body');
@@ -3930,7 +3962,7 @@ function addCloseButton(elementToAppend) {
             if (window.self !== window.top) {
                 console.log('close parent iframe');
                 //window.parent.closeFullscreenVideo();
-                window.parent.postMessage('closeFullscreen', '*'); 
+                window.parent.postMessage('closeFullscreen', '*');
             } else {
                 console.log('close history.back');
                 window.history.back();
@@ -4070,4 +4102,29 @@ function humanFileSize(bytes) {
     }
 
     return (bytes / 1000).toFixed(2) + ' KB';
+}
+
+function durationToSeconds(duration) {
+    // Split the duration by the colon
+    const parts = duration.split(':');
+
+    // Calculate hours, minutes, and seconds
+    let hours = 0, minutes = 0, seconds = 0;
+
+    // Based on the parts length, calculate the duration in seconds
+    if (parts.length === 3) {
+        hours = parseInt(parts[0], 10);
+        minutes = parseInt(parts[1], 10);
+        seconds = parseInt(parts[2], 10);
+    } else if (parts.length === 2) {
+        // If the duration is in MM:SS format
+        minutes = parseInt(parts[0], 10);
+        seconds = parseInt(parts[1], 10);
+    } else if (parts.length === 1) {
+        // If the duration is in SS format
+        seconds = parseInt(parts[0], 10);
+    }
+
+    // Convert everything to seconds
+    return (hours * 3600) + (minutes * 60) + seconds;
 }

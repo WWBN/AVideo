@@ -32,6 +32,10 @@ foreach ($obj->response as $key => $value) {
         $obj->response[$key]['type'] = __('Translation').'/'.__('Transcription')." {$value['language']}";
     }else if(!empty($value['ai_metatags_responses_id'])){
         $obj->response[$key]['type'] = __('Basic')." Metatags";
+    }else if(!empty($value['ai_type'])){
+        if($value['ai_type'] !== AI::$typeShorts){
+            $obj->response[$key]['type'] = __('Shorts');
+        }
     }
 }
 
