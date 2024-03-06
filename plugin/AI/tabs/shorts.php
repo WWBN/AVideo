@@ -98,22 +98,25 @@ $bookmark = AVideoPlugin::isEnabledByName('Bookmark');
                                     </strong>
                                 </h3>
                                 <div class="clearfix"></div>
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <input id="startTimeInSeconds<?= $key ?>" class="form-control" value="<?= secondsToDuration($value->startTimeInSeconds) ?>" />
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input id="endTimeInSeconds<?= $key ?>" class="form-control" value="<?= secondsToDuration($value->endTimeInSeconds) ?>" />
-                                    </div>
-                                </div>
                             </div>
                             <div class="panel-body">
-                                <button type="button" class="pull-right btn btn-default btn-xs showMoreButton collapsed" data-toggle="collapse" data-target="#collapseBody<?= $key ?>" aria-expanded="false">
-                                    <i class="fa-solid fa-plus"></i>
-                                    <i class="fa-solid fa-minus"></i>
-                                </button>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <input id="startTimeInSeconds<?= $key ?>" class="form-control" value="<?= secondsToDuration($value->startTimeInSeconds) ?>" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input id="endTimeInSeconds<?= $key ?>" class="form-control" value="<?= secondsToDuration($value->endTimeInSeconds) ?>" />
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button type="button" class="btn btn-default btn-block showMoreButton collapsed" data-toggle="collapse" data-target="#collapseBody<?= $key ?>" aria-expanded="false">
+                                            <i class="fa-solid fa-plus"></i>
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr>
                                 <div id="collapseBody<?= $key ?>" class="collapse"> <!-- Make sure this ID matches the button's data-target -->
-                                    <p><?= htmlspecialchars($value->textTranscription) ?></p>
+                                    <p><?= htmlspecialchars($value->shortDescription) ?></p>
                                 </div>
                             </div>
                             <div class="panel-footer">
@@ -168,15 +171,15 @@ echo AVideoPlugin::afterVideoJS();
 <script>
     function playVideoSegmentFromIndex(index) {
         var startTimeInSeconds = durationToSeconds($('#startTimeInSeconds' + index).val());
-        var endTimeInSeconds = durationToSeconds($('#endTimeInSeconds' + index).val());        
+        var endTimeInSeconds = durationToSeconds($('#endTimeInSeconds' + index).val());
         playVideoSegment(startTimeInSeconds, endTimeInSeconds);
     }
 
     function bookmarkFromIndex(index) {
-        var startTimeInSeconds = durationToSeconds($('#startTimeInSeconds' + index).val());        
-        var url = webSiteRootURL+"plugin/Bookmark/page/bookmarkSave.json.php";
+        var startTimeInSeconds = durationToSeconds($('#startTimeInSeconds' + index).val());
+        var url = webSiteRootURL + "plugin/Bookmark/page/bookmarkSave.json.php";
         avideoAjax(url, {
-            name: $('#cutVideoForm'+index+' textarea[name="title"]').text(),
+            name: $('#cutVideoForm' + index + ' textarea[name="title"]').text(),
             timeInSeconds: startTimeInSeconds,
             videos_id: <?= $videos_id ?>
         });
@@ -185,10 +188,10 @@ echo AVideoPlugin::afterVideoJS();
     function submitVideoForm(index) {
         modal.showPleaseWait();
         var startTimeInSeconds = durationToSeconds($('#startTimeInSeconds' + index).val());
-        var endTimeInSeconds = durationToSeconds($('#endTimeInSeconds' + index).val());     
+        var endTimeInSeconds = durationToSeconds($('#endTimeInSeconds' + index).val());
 
-        $('#cutVideoForm'+index+' textarea[name="startTimeInSeconds"]').text(startTimeInSeconds);
-        $('#cutVideoForm'+index+' textarea[name="endTimeInSeconds"]').text(endTimeInSeconds);
+        $('#cutVideoForm' + index + ' textarea[name="startTimeInSeconds"]').text(startTimeInSeconds);
+        $('#cutVideoForm' + index + ' textarea[name="endTimeInSeconds"]').text(endTimeInSeconds);
 
         var formData = $('#cutVideoForm' + index).serialize(); // Serialize the form data
 
