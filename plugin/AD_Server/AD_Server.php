@@ -337,7 +337,7 @@ class AD_Server extends PluginAbstract {
             if($obj->prerollLive){
                 $vmaps[] = new VMAP("start", new VAST(1));
             }
-        }else{
+        }else if(is_array($selectedOptions)){
             if (!empty($obj->start) && in_array(1, $selectedOptions)) {
                 $vmaps[] = new VMAP("start", new VAST(1));
             }
