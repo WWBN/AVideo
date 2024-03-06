@@ -209,7 +209,11 @@ class AD_Server extends PluginAbstract {
         if (!empty($_REQUEST['vmaps'])) {
             $vmaps = _json_decode(base64_decode($_REQUEST['vmaps']));
         } else {
-            $video_length = self::getVideoLength();
+            if(!empty($_REQUEST['video_length'])){
+                $video_length = intval($_REQUEST['video_length']);
+            }else{
+                $video_length = self::getVideoLength();
+            }
             $ad_server = AVideoPlugin::loadPlugin('AD_Server');
             $vmaps = $ad_server->getVMAPs($video_length);
         }
@@ -270,18 +274,13 @@ class AD_Server extends PluginAbstract {
     }
 
     private function getRandomPositions() {
-        if (empty($_GET['vmap_id'])) {
-            return array();
-        }
         $obj = $this->getDataObject();
         $oldId = session_id();
-        if (session_status() !== PHP_SESSION_NONE) {
+        if (!empty($_GET['vmap_id'])) {
             _session_write_close();
+            session_id($_GET['vmap_id']);
         }
-        session_id($_GET['vmap_id']);
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        _session_start();
         $options = [];
 
         if (!empty($obj->start)) {
