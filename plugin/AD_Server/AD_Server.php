@@ -230,9 +230,11 @@ class AD_Server extends PluginAbstract {
         if (!$this->canLoadAds()) {
             return "<!-- AD_Server canNOTLoadAds -->";
         }
+        /*
         if (empty($_GET['vmap_id'])) {
             return "<!-- AD_Server empty vmap_id -->";
         }
+        */
         global $global;
         $vmap_id = $_GET['vmap_id'] ?? '';
         $vmaps = self::getVMAPSFromRequest();
