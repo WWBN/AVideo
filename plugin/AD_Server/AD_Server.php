@@ -271,7 +271,7 @@ class AD_Server extends PluginAbstract {
 
     private function getRandomPositions() {
         if (empty($_GET['vmap_id'])) {
-            return "";
+            return array();
         }
         $obj = $this->getDataObject();
         $oldId = session_id();
