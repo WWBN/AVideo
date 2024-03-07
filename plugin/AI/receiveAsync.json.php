@@ -124,7 +124,7 @@ switch ($_REQUEST['type']) {
             $shorts = $_REQUEST['response']['shorts'];
             if (!empty($shorts)) {
                 $o = new Ai_responses_json(0);
-                $o->setResponse($shorts);
+                $o->setResponse($_REQUEST['response']);
                 $o->setAi_type(AI::$typeShorts);
                 $o->setAi_responses_id($token->ai_responses_id);
                 $jsonDecoded->shorts = $shorts;

@@ -11,12 +11,6 @@ Styles for ad plugins.
   background-color: #ffe400;
 }
 
-// Show the videojs loading spinner during ad loading
-.vjs-ad-loading .vjs-loading-spinner {
-  display: block;
-  visibility: visible;
-}
-
 // Hide the captions button during ad playback
 .vjs-ad-playing .vjs-captions-button {
     display: none;
@@ -27,25 +21,33 @@ Styles for ad plugins.
     display: none;
 }
 
-/* Following is copied from https://github.com/videojs/video.js/blob/master/src/css/components/_loading.scss
- this is needed to animate the spinner when ads, specifically VPAIDs, are loading.
- Long term solution is to add show/hide methods to the loading spinner component and move to displaying it via the methods rather than CSS.
+/* 
+ The following copies and expands from videojs loading spinner rules
+ https://github.com/videojs/video.js/blob/master/src/css/components/_loading.scss
+
+ This is needed to show and animate the spinner when ads, specifically VPAIDs, are loading.
+
+ Though we can't easily hook into the loading spinner component's show/hide methods
+ due to .vjs-hidden behavior, the long term solution may be to create a shared sass @mixin
+ for common spinner element and descendent rules and include them here
 */
-.vjs-ad-loading .vjs-loading-spinner:before,
-.vjs-ad-loading .vjs-loading-spinner:after {
-  -webkit-animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
-  animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
-}
 
-.vjs-ad-loading .vjs-loading-spinner:before
-{
-  border-top-color: rgb(255,255,255);
-}
+// Show the videojs loading spinner during ad loading
+.vjs-ad-loading {
+  .vjs-loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: vjs-spinner-show 0s linear 0.3s forwards;
 
-.vjs-ad-loading .vjs-loading-spinner:after {
-  border-top-color: rgb(255,255,255);
-  -webkit-animation-delay: 0.44s;
-  animation-delay: 0.44s;
+    &:before, &:after {
+      animation: vjs-spinner-spin 1.1s cubic-bezier(0.6, 0.2, 0, 0.8) infinite, vjs-spinner-fade 1.1s linear infinite;
+    }
+
+    &:after {
+      animation-delay: 0.44s;
+    }
+  }
 }
 
 /*

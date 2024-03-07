@@ -20,7 +20,7 @@ function start(player) {
   }
 
   // Mute the player behind the ad
-  if (player.ads.shouldPlayContentBehindAd(player)) {
+  if (player.ads.shouldPlayContentBehindAd(player) && !player.ads.settings.stitchedAds) {
     player.ads.preAdVolume_ = player.volume();
     player.volume(0);
   }
@@ -82,7 +82,9 @@ function end(player, callback) {
 
   // Reset the volume to pre-ad levels
   } else {
-    player.volume(player.ads.preAdVolume_);
+    if (player.ads.preAdVolume_) {
+      player.volume(player.ads.preAdVolume_);
+    }
     callback();
   }
 

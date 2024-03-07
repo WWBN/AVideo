@@ -177,7 +177,7 @@ export interface BubbleDataPoint extends Point {
   /**
    * Bubble radius in pixels (not scaled).
    */
-  r: number;
+  r?: number;
 }
 
 export type BubbleController = DatasetController
@@ -3268,11 +3268,11 @@ export type LinearScaleOptions = CartesianScaleOptions & {
    */
   beginAtZero: boolean;
   /**
-   * Adjustment used when calculating the maximum data value.
+   * Adjustment used when calculating the minimum data value.
    */
   suggestedMin?: number;
   /**
-   * Adjustment used when calculating the minimum data value.
+   * Adjustment used when calculating the maximum data value.
    */
   suggestedMax?: number;
   /**

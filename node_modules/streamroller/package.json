@@ -1,0 +1,85 @@
+{
+  "name": "streamroller",
+  "version": "3.1.5",
+  "description": "file streams that roll over when size limits, or dates are reached",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "CHANGELOG.md"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "codecheck": "eslint \"lib/*.js\" \"test/*.js\"",
+    "prepublishOnly": "npm test",
+    "pretest": "npm run codecheck",
+    "clean": "rm -rf node_modules/",
+    "test": "nyc --check-coverage mocha",
+    "html-report": "nyc report --reporter=html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/log4js-node/streamroller.git"
+  },
+  "keywords": [
+    "stream",
+    "rolling"
+  ],
+  "author": "Gareth Jones <gareth.nomiddlename@gmail.com>, Huang Yichao <ihuangyichao@outlook.com>",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "gitHead": "ece35d7d86c87c04ff09e8604accae81cf36a0ce",
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.3",
+    "@commitlint/config-conventional": "^17.4.3",
+    "@types/node": "^18.13.0",
+    "eslint": "^8.34.0",
+    "husky": "^8.0.3",
+    "mocha": "^10.2.0",
+    "nyc": "^15.1.0",
+    "proxyquire": "^2.1.3",
+    "should": "^13.2.3"
+  },
+  "dependencies": {
+    "date-format": "^4.0.14",
+    "debug": "^4.3.4",
+    "fs-extra": "^8.1.0"
+  },
+  "engines": {
+    "node": ">=8.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": false,
+      "node": true,
+      "es6": true,
+      "mocha": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2018
+    },
+    "extends": "eslint:recommended",
+    "rules": {
+      "no-console": "off"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
+    }
+  },
+  "nyc": {
+    "include": [
+      "lib/**"
+    ],
+    "branches": 100,
+    "lines": 100,
+    "functions": 100
+  }
+}

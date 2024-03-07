@@ -552,7 +552,13 @@ class AI extends PluginAbstract
                 $ai->save();
                 if ($ai->getAi_scheduler_type() === Ai_scheduler::$typeCutVideo) {
                     $obj = _json_decode($ai->getJson());
-                    _error_log('AI:videoCut start '.$ai->getJson());
+                    if(preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->endTimeInSeconds)){
+                        $obj->endTimeInSeconds = durationToSeconds($obj->endTimeInSeconds);
+                    }
+                    if(preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->startTimeInSeconds)){
+                        $obj->startTimeInSeconds = durationToSeconds($obj->startTimeInSeconds);
+                    }
+                    _error_log('AI:videoCut start '.$ai->getJson() . "{$obj->startTimeInSeconds} => {$obj->endTimeInSeconds}");
                     $vid = Video::getVideoLight($obj->videos_id);
                     $sources = getVideosURLOnly($vid['filename'], false);
                     $source = end($sources);

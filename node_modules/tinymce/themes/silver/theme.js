@@ -1,5 +1,5 @@
 /**
- * TinyMCE version 6.8.2 (2023-12-11)
+ * TinyMCE version 6.8.3 (2024-02-08)
  */
 
 (function () {
@@ -21154,7 +21154,7 @@
     });
 
     const promotionMessage = '\u26A1\ufe0fUpgrade';
-    const promotionLink = 'https://www.tiny.cloud/tinymce-self-hosted-premium-features/?utm_source=TinyMCE&utm_medium=SPAP&utm_campaign=SPAP&utm_id=editorreferral';
+    const promotionLink = 'https://www.tiny.cloud/tinymce-self-hosted-premium-features/?utm_campaign=self_hosted_upgrade_promo&utm_source=tiny&utm_medium=referral';
     const renderPromotion = spec => {
       return {
         uid: spec.uid,
@@ -23138,8 +23138,8 @@
       return styleSheetLoader.loadRawCss(key, css);
     };
     const loadUiSkins = async (editor, skinUrl) => {
-      const skinUrl_ = getSkinUrlOption(editor).getOr('default');
-      const skinUiCss = 'ui/' + skinUrl_ + '/skin.css';
+      const skinResourceIdentifier = getSkinUrlOption(editor).getOr('default');
+      const skinUiCss = 'ui/' + skinResourceIdentifier + '/skin.css';
       const css = tinymce.Resource.get(skinUiCss);
       if (isString(css)) {
         return Promise.resolve(loadRawCss(editor, skinUiCss, css, editor.ui.styleSheetLoader));
@@ -23151,7 +23151,8 @@
     const loadShadowDomUiSkins = async (editor, skinUrl) => {
       const isInShadowRoot$1 = isInShadowRoot(SugarElement.fromDom(editor.getElement()));
       if (isInShadowRoot$1) {
-        const shadowDomSkinCss = skinUrl + '/skin.shadowdom.css';
+        const skinResourceIdentifier = getSkinUrlOption(editor).getOr('default');
+        const shadowDomSkinCss = 'ui/' + skinResourceIdentifier + '/skin.shadowdom.css';
         const css = tinymce.Resource.get(shadowDomSkinCss);
         if (isString(css)) {
           loadRawCss(editor, shadowDomSkinCss, css, global$7.DOM.styleSheetLoader);
@@ -23164,9 +23165,9 @@
     };
     const loadUrlSkin = async (isInline, editor) => {
       getSkinUrlOption(editor).fold(() => {
-        const skinUrl_ = getSkinUrl(editor);
-        if (skinUrl_) {
-          editor.contentCSS.push(skinUrl_ + (isInline ? '/content.inline' : '/content') + '.min.css');
+        const skinResourceIdentifier = getSkinUrl(editor);
+        if (skinResourceIdentifier) {
+          editor.contentCSS.push(skinResourceIdentifier + (isInline ? '/content.inline' : '/content') + '.min.css');
         }
       }, skinUrl => {
         const skinContentCss = 'ui/' + skinUrl + (isInline ? '/content.inline' : '/content') + '.css';
@@ -23174,9 +23175,9 @@
         if (isString(css)) {
           loadRawCss(editor, skinContentCss, css, editor.ui.styleSheetLoader);
         } else {
-          const skinUrl_ = getSkinUrl(editor);
-          if (skinUrl_) {
-            editor.contentCSS.push(skinUrl_ + (isInline ? '/content.inline' : '/content') + '.min.css');
+          const skinResourceIdentifier = getSkinUrl(editor);
+          if (skinResourceIdentifier) {
+            editor.contentCSS.push(skinResourceIdentifier + (isInline ? '/content.inline' : '/content') + '.min.css');
           }
         }
       });
@@ -23199,7 +23200,7 @@
       editor.translate(value)
     ]);
 
-    const generateSelectItems = (_editor, backstage, spec) => {
+    const generateSelectItems = (backstage, spec) => {
       const generateItem = (rawItem, response, invalid, value) => {
         const translatedText = backstage.shared.providers.translate(rawItem.title);
         if (rawItem.type === 'separator') {
@@ -23262,7 +23263,7 @@
       const dataset = spec.dataset;
       const getStyleItems = dataset.type === 'basic' ? () => map$2(dataset.data, d => processBasic(d, spec.isSelectedFor, spec.getPreviewFor)) : dataset.getData;
       return {
-        items: generateSelectItems(editor, backstage, spec),
+        items: generateSelectItems(backstage, spec),
         getStyleItems
       };
     };
@@ -27697,7 +27698,7 @@
               dom: {
                 tag: 'a',
                 attributes: {
-                  'href': 'https://www.tiny.cloud/powered-by-tiny?utm_campaign=editor_referral&utm_medium=poweredby&utm_source=tinymce&utm_content=v6',
+                  'href': 'https://www.tiny.cloud/powered-by-tiny?utm_campaign=poweredby&utm_source=tiny&utm_medium=referral&utm_content=v6',
                   'rel': 'noopener',
                   'target': '_blank',
                   'aria-label': global$8.translate([

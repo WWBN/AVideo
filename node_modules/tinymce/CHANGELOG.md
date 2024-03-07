@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 6.8.3 - 2024-02-08
+
+### Changed
+- Update outbound TinyMCE website links. #TINY-10491
+
+### Fixed
+- The floating toolbar would not be fully visible when the editor was placed inside a scrollable container. #TINY-10335
+- ShadowDOM skin was not loaded properly when used with js bundling feature. #TINY-10451
+
 ## 6.8.2 - 2023-12-11
 
 ### Fixed
