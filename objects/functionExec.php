@@ -191,7 +191,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation);
         @unlink($localFileLock);
     } elseif (file_exists($localFileLock)) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock");
+        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock log=$logFile");
         return false;
     } else {
         _error_log("convertVideoFileWithFFMPEG: creating file: localFileLock: {$localFileLock} toFileLocation: {$toFileLocation}");
