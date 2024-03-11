@@ -626,6 +626,7 @@ class AI extends PluginAbstract
                 break;
         }
         if(empty($price)){
+            _error_log("AI:asyncVideosId there is no price set for it");
             return true;
         }
 
@@ -652,7 +653,7 @@ class AI extends PluginAbstract
     {
         global $global;
 
-        if(self::chargeUser($type, $users_id, $videos_id)){
+        if(!self::chargeUser($type, $users_id, $videos_id)){
             _error_log("AI:asyncVideosId error the user $users_id has no balance to pay the service $type for videos_id $videos_id ");
             $obj = new stdClass();
             $obj->error = true;
