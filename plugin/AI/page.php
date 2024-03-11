@@ -10,7 +10,12 @@ if (!User::isLogged()) {
 if (empty($videos_id)) {
     forbiddenPage('Videos ID is required');
 }
-if (!AVideoPlugin::isEnabledByName('AI')) {
+
+$objWallet = AVideoPlugin::getObjectData('YPTWallet');
+
+$objAI = AVideoPlugin::getObjectDataIfEnabled('AI');
+
+if (empty($objAI)) {
     forbiddenPage('AI plugin is disabled');
 }
 //$rows = Ai_responses::getTranscriptions($videos_id);var_dump($rows);exit;
@@ -19,6 +24,40 @@ if (!AVideoPlugin::isEnabledByName('AI')) {
 if (!Video::canEdit($videos_id)) {
     forbiddenPage('You cannot edit this video');
 }
+
+$priceForBasic = $objAI->priceForBasic;
+$priceForTranscription = $objAI->priceForTranscription;
+$priceForTranslation = $objAI->priceForTranslation;
+$priceForShorts = $objAI->priceForShorts;
+$priceForAll = $priceForTranscription + $priceForBasic + $priceForShorts;
+
+$priceForBasicText = YPTWallet::formatCurrency($priceForBasic);
+$priceForTranscriptionText = YPTWallet::formatCurrency($priceForTranscription);
+$priceForTranslationText = YPTWallet::formatCurrency($priceForTranslation);
+$priceForShortsText = YPTWallet::formatCurrency($priceForShorts);
+$priceForAllText = YPTWallet::formatCurrency($priceForAll);
+/*
+if (User::isAdmin()) {
+    $_1hour = 60 * 60;
+    $pricesJson = url_get_contents_with_cache('https://youphp.tube/marketplace/AI/prices.json.php', $_1hour * 6);
+    //$pricesJ = json_decode($pricesJson);
+    $pricesJ = ($pricesJson);
+    $adminPriceForBasic = $pricesJ->priceForBasic;
+    $adminPriceForTranscription = $pricesJ->priceForTranscription;
+    $adminPriceForTranslation = $pricesJ->priceForTranslation;
+    $adminPriceForShorts = $pricesJ->priceForShorts;
+    $adminPriceForAll = $adminPriceForTranscription + $adminPriceForBasic + $adminPriceForShorts;
+
+    $adminPriceForBasicText = YPTWallet::formatCurrency($adminPriceForBasic);
+    $adminPriceForTranscriptionText = YPTWallet::formatCurrency($adminPriceForTranscription);
+    $adminPriceForTranslationText = YPTWallet::formatCurrency($adminPriceForTranslation);
+    $adminPriceForShortsText = YPTWallet::formatCurrency($adminPriceForShorts);
+    $adminPriceForAllText = YPTWallet::formatCurrency($adminPriceForAll);
+}
+*/
+
+
+
 $video = new Video('', '', $videos_id);
 $_page = new Page(['Video Metatags']);
 ?>
@@ -95,7 +134,16 @@ $_page = new Page(['Video Metatags']);
         </div>
         <div class="col-sm-12 col-md-9 col-lg-10">
             <div class="panel panel-default">
-                <div class="panel-heading">
+                <div class="panel-heading clearfix">
+                    <button class="btn btn-primary pull-right" onclick="createAllAI();" data-toggle="tooltip" data-placement="bottom" title="Transcription + basic + Shorts">
+                        <i class="fa-solid fa-check-double"></i>
+                        <?php echo __("Create all"); ?>
+                        <?php
+                        if(!empty($priceForAll)){
+                            echo "<br><span class=\"label label-primary\">{$priceForAllText}</span>";
+                        }
+                        ?>
+                    </button>
                     <ul class="nav nav-tabs">
                         <li class="active">
                             <a data-toggle="tab" href="#pTranscription" id="pTranscriptionLink">
@@ -115,18 +163,24 @@ $_page = new Page(['Video Metatags']);
                                 <?php echo __("Shorts"); ?>
                             </a>
                         </li>
-                        <li>
-                            <a data-toggle="tab" href="#pUsage">
-                                <i class="fas fa-receipt"></i>
-                                <?php echo __("Usage and details"); ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a data-toggle="tab" href="#pPP">
-                                <i class="fas fa-file-contract"></i>
-                                <?php echo __("Prices, Privacy Policy"); ?>
-                            </a>
-                        </li>
+                        <?php
+                        if (User::isAdmin()) {
+                        ?>
+                            <li>
+                                <a data-toggle="tab" href="#pUsage">
+                                    <i class="fas fa-receipt"></i>
+                                    <?php echo __("Usage and details"); ?>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" href="#pPP">
+                                    <i class="fas fa-file-contract"></i>
+                                    <?php echo __("Prices, Privacy Policy"); ?>
+                                </a>
+                            </li>
+                        <?php
+                        }
+                        ?>
                     </ul>
                 </div>
                 <div class="panel-body">
@@ -146,23 +200,43 @@ $_page = new Page(['Video Metatags']);
                             include $global['systemRootPath'] . 'plugin/AI/tabs/shorts.php';
                             ?>
                         </div>
-                        <div id="pUsage" class="tab-pane fade ">
-                            <?php
-                            include $global['systemRootPath'] . 'plugin/AI/tabs/usage.php';
-                            ?>
-                        </div>
-                        <div id="pPP" class="tab-pane fade ">
-                            <iframe src="https://youphp.tube/marketplace/AI/privacyPolicy.php"></iframe>
-                        </div>
+                        <?php
+                        if (User::isAdmin()) {
+                        ?>
+                            <div id="pUsage" class="tab-pane fade ">
+                                <?php
+                                include $global['systemRootPath'] . 'plugin/AI/tabs/usage.php';
+                                ?>
+                            </div>
+                            <div id="pPP" class="tab-pane fade ">
+                                <iframe src="https://youphp.tube/marketplace/AI/privacyPolicy.php"></iframe>
+                            </div>
+                        <?php
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 <script>
     var modalContinueAISuggestions = getPleaseWait();
+
+    function createAllAI() {
+        modal.showPleaseWait();
+        $.ajax({
+            url: webSiteRootURL + 'plugin/AI/createAll.json..php',
+            data: {
+                videos_id: <?php echo $videos_id; ?>
+            },
+            type: 'post',
+            complete: function(resp) {
+                avideoResponse(resp);
+                modal.hidePleaseWait();
+            }
+        });
+    }
 
     function simpleTextHash(text) {
         if (typeof text === 'string' || text instanceof String) {

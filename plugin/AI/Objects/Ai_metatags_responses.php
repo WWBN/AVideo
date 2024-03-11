@@ -152,5 +152,18 @@ class Ai_metatags_responses extends ObjectYPT {
         return intval($this->ai_responses_id);
     }  
 
+    static function getAllFromVideosId($videos_id){
+        global $global;
+        $sql = "SELECT ar.*, amr.*
+        FROM ai_metatags_responses amr
+        LEFT JOIN ai_responses ar ON amr.ai_responses_id = ar.id
+        WHERE ar.videos_id = ?";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql, 'i', array($videos_id));
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
         
+        return $fullData;
+    }
 }

@@ -247,6 +247,9 @@ class PlayerSkins extends PluginAbstract
         if (isWebRTC() || !empty($global['isForbidden'])) {
             return '';
         }
+        if(is_object($video)){
+            $video = Video::getVideoLight($video->getId());
+        }
         $obj = $this->getDataObject();
         $css = "";
         $js = "";
@@ -322,7 +325,7 @@ class PlayerSkins extends PluginAbstract
 }"
                     . "</style>";
             }
-
+            
             if ($obj->showShareSocial && CustomizeUser::canShareVideosFromVideo(@$video['id'])) {
                 $css .= "<link href=\"" . getURL('plugin/PlayerSkins/shareButton.css') . "\" rel=\"stylesheet\" type=\"text/css\"/>";
             }

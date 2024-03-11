@@ -5,10 +5,17 @@ require_once dirname(__FILE__) . '/../../../videos/configuration.php';
 class Ai_scheduler extends ObjectYPT {
 
     static $statusActive = 'a';
+    static $statusProcessingTranscription = 't';
+    static $statusProcessingTranslation = 'r';
+    static $statusProcessingShort = 's';
+    static $statusProcessingBasic = 'b';
+
     static $statusInactive = 'i';
     static $statusExecuted = 'e';
+    static $statusError = 'x';
 
     static $typeCutVideo = 'cutVideo';
+    static $typeProcessAll = 'processAll';
 
 
     protected $id,$json,$status,$ai_scheduler_type,$created_php_time,$modified_php_time;
@@ -33,6 +40,7 @@ class Ai_scheduler extends ObjectYPT {
     } 
  
     function setStatus($status) {
+        _error_log('AI::setStatus '._json_encode(debug_backtrace()));
         $this->status = $status;
     } 
  
@@ -74,4 +82,16 @@ class Ai_scheduler extends ObjectYPT {
     }  
 
         
+    public static function getAllToExecute()
+    {
+        global $global;
+        $sql = "SELECT * FROM  ai_scheduler WHERE status NOT IN ('".Ai_scheduler::$statusInactive."','".Ai_scheduler::$statusExecuted."','".Ai_scheduler::$statusError."') ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        return $fullData;
+    }
+
 }

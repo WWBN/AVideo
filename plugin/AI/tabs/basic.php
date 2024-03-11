@@ -23,6 +23,11 @@
     <div class="panel-footer">
         <button class="btn btn-success btn-block" onclick="generateAIIdeas()">
             <i class="fa-solid fa-lightbulb"></i> <?php echo __('Generate Basic Ideas') ?>
+            <?php
+            if(!empty($priceForBasic)){
+                echo "<br><span class=\"label label-success\">{$priceForBasicText}</span>";
+            }
+            ?>
         </button>
     </div>
 </div>

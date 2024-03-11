@@ -2228,7 +2228,7 @@ function readFileCroppie(input, crop) {
 
         reader.readAsDataURL($(input)[0].files[0]);
     } else {
-        avideoAlert("Sorry - you're browser doesn't support the FileReader API");
+        avideoAlertError("Sorry - you're browser doesn't support the FileReader API");
     }
 }
 
@@ -2894,12 +2894,12 @@ $(document).ready(function () {
             url: webSiteRootURL + 'objects/configurationGenerateSiteMap.json.php',
             success: function (response) {
                 if (!response.error) {
-                    avideoAlert("Congratulations!", "File created!", "success");
+                    avideoAlertSuccess(__("File created!"));
                 } else {
                     if (response.msg) {
-                        avideoAlert("Sorry!", response.msg, "error");
+                        avideoAlertError(response.msg);
                     } else {
-                        avideoAlert("Sorry!", "File NOT created!", "error");
+                        avideoAlertError("File NOT created!");
                     }
                 }
                 modal.hidePleaseWait();

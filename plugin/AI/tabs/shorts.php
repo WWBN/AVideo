@@ -68,7 +68,7 @@ $bookmark = AVideoPlugin::isEnabledByName('Bookmark');
 
 <style>
     #shortsPlayer.panel {
-        height: 100vh;
+        height: calc(100vh - 150px);
         /* Make the panel take the full viewport height */
         display: flex;
         flex-direction: column;
@@ -256,6 +256,11 @@ $bookmark = AVideoPlugin::isEnabledByName('Bookmark');
         <div class="panel-footer">
             <button class="btn btn-success btn-block" onclick="suggestShorts()">
                 <i class="fa-solid fa-lightbulb"></i> <?php echo __('Get shorts suggestions') ?>
+                <?php
+                if (!empty($priceForShorts)) {
+                    echo "<br><span class=\"label label-success\">{$priceForShortsText}</span>";
+                }
+                ?>
             </button>
         </div>
     <?php
@@ -337,8 +342,8 @@ echo AVideoPlugin::afterVideoJS();
             var isExpanded = $(this).attr('aria-expanded') === 'true';
             $(this).attr('aria-expanded', !isExpanded);
         });
-        
-  $('.maskTime').mask('00:00:00');
+
+        $('.maskTime').mask('00:00:00');
     });
     <?php
     if (empty($doNotGetShorts)) {

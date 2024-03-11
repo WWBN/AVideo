@@ -55,7 +55,7 @@ if (!empty($_REQUEST['users_id'])) {
     $users = User::getAllUsersFromUsergroup($_REQUEST['user_groups_id'], canSearchUsers() ? true : false, ['name', 'email', 'user', 'channelName', 'about'], @$_GET['status']);
     $total = User::getTotalUsersFromUsergroup($_REQUEST['user_groups_id'], canSearchUsers() ? true : false, @$_GET['status']);
 }
-
+//var_dump($user);exit;
 //echo examineJSONError($users);exit;
 if (empty($users)) {
     $json = '[]';

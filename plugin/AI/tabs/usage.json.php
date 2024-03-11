@@ -33,8 +33,10 @@ foreach ($obj->response as $key => $value) {
     }else if(!empty($value['ai_metatags_responses_id'])){
         $obj->response[$key]['type'] = __('Basic')." Metatags";
     }else if(!empty($value['ai_type'])){
-        if($value['ai_type'] !== AI::$typeShorts){
+        if($value['ai_type'] === AI::$typeShorts){
             $obj->response[$key]['type'] = __('Shorts');
+        }else{
+            $obj->response[$key]['type'] = "ERROR: {$value['ai_type']} ";
         }
     }
 }

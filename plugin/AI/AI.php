@@ -55,7 +55,13 @@ class AI extends PluginAbstract
 
     static function getMetadataURL()
     {
-        self::$isTest = ($_SERVER["SERVER_NAME"] == "vlu.me");
+        global $global;
+        if (!empty($_SERVER["SERVER_NAME"])) {
+            $domain = $_SERVER["SERVER_NAME"];
+        } else {
+            $domain = parse_url($global['webSiteRootURL'], PHP_URL_HOST);
+        }
+        self::$isTest = ($domain == "vlu.me");
         return self::$isTest ? self::$url_test : self::$url;
     }
 
@@ -68,6 +74,7 @@ class AI extends PluginAbstract
     {
         $desc = "Optimize video visibility with AI-driven meta-tag suggestions and automatic transcription for enhanced SEO performance.";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AI-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
+        $help .= "<br><small><a href='https://youphp.tube/marketplace/AI/privacyPolicy.php' target='_blank'><i class='fa-solid fa-barcode'></i> AI Services Pricing</a></small>";
 
         //$desc .= $this->isReadyLabel(array('YPTWallet'));
         return $desc . $help;
@@ -92,6 +99,14 @@ class AI extends PluginAbstract
     {
         $obj = new stdClass();
         $obj->AccessToken = "";
+        $obj->priceForBasic = 0;
+        self::addDataObjectHelper('priceForBasic', 'Price for Basic Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        $obj->priceForTranscription = 0;
+        self::addDataObjectHelper('priceForTranscription', 'Price for Transcription Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        $obj->priceForTranslation = 0;
+        self::addDataObjectHelper('priceForTranslation', 'Price for Translation Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        $obj->priceForShorts = 0;
+        self::addDataObjectHelper('priceForShorts', 'Price for Shorts Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -123,7 +138,7 @@ class AI extends PluginAbstract
             return $obj;
         }
 
-        if (!Video::canEdit($videos_id)) {
+        if (!isCommandLineInterface() && !Video::canEdit($videos_id)) {
             $obj->msg = 'you cannot edit this video';
             return $obj;
         }
@@ -199,7 +214,7 @@ class AI extends PluginAbstract
             return $obj;
         }
 
-        if (!Video::canEdit($videos_id)) {
+        if (!isCommandLineInterface() && !Video::canEdit($videos_id)) {
             $obj->msg = 'you cannot edit this video';
             return $obj;
         }
@@ -242,7 +257,7 @@ class AI extends PluginAbstract
             return $obj;
         }
 
-        if (!Video::canEdit($videos_id)) {
+        if (!isCommandLineInterface() && !Video::canEdit($videos_id)) {
             $obj->msg = 'you cannot edit this video';
             return $obj;
         }
@@ -542,57 +557,371 @@ class AI extends PluginAbstract
     }
 
 
+    function executeCutVideo($row)
+    {
+        $ai = new Ai_scheduler($row['id']);
+        $ai->setStatus(Ai_scheduler::$statusExecuted);
+        $ai->save();
+        $obj = _json_decode($ai->getJson());
+        if (preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->endTimeInSeconds)) {
+            $obj->endTimeInSeconds = durationToSeconds($obj->endTimeInSeconds);
+        }
+        if (preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->startTimeInSeconds)) {
+            $obj->startTimeInSeconds = durationToSeconds($obj->startTimeInSeconds);
+        }
+        _error_log('AI:videoCut start ' . $ai->getJson() . "{$obj->startTimeInSeconds} => {$obj->endTimeInSeconds}");
+        $vid = Video::getVideoLight($obj->videos_id);
+        $sources = getVideosURLOnly($vid['filename'], false);
+        $source = end($sources);
+        if (!empty($source)) {
+            _error_log('AI:videoCut source found  ' . $source["url"]);
+            $duration_in_seconds = $obj->endTimeInSeconds - $obj->startTimeInSeconds;
+            $date = date('YMDHis');
+            $videoFileName = "cut{$obj->videos_id}_{$date}_{$obj->startTimeInSeconds}{$obj->endTimeInSeconds}";
+            $video = new Video($obj->title, $videoFileName);
+            $video->setDescription($obj->description);
+            $video->setUsers_id($obj->users_id);
+            $video->setDuration_in_seconds($duration_in_seconds);
+            $video->setDuration(secondsToDuration($duration_in_seconds));
+            $newVideos_id = $video->save(false, true);
+            if (!empty($newVideos_id)) {
+                _error_log('AI:videoCut new video saved videos_id=' . $newVideos_id);
+                $outputFile = Video::getPathToFile("{$videoFileName}.mp4");
+                cutVideoWithFFmpeg($source['url'], $obj->startTimeInSeconds, $obj->endTimeInSeconds, $outputFile);
+
+                $video = new Video('', '', $newVideos_id);
+                if (file_exists($outputFile)) {
+                    $video->setAutoStatus(Video::$statusActive);
+                    AVideoPlugin::onUploadIsDone($newVideos_id);
+                    AVideoPlugin::afterNewVideo($newVideos_id);
+                    _error_log('AI:videoCut create file success  ' . $outputFile);
+                    $url = Video::getURL($newVideos_id);
+                    $obj->socketResponse = sendSocketSuccessMessageToUsers_id("<a href='$url'>Video cutted</a>", $obj->users_id);
+                } else {
+                    $video->delete(true);
+                    _error_log('AI:videoCut error on create file  ' . $outputFile);
+                }
+            }
+            //cutVideoWithFFmpeg($source['url'], $startTimeInSeconds, $endTimeInSeconds, $outputFile);
+        }
+    }
+
+    static function chargeUser($type, $users_id, $videos_id)
+    {
+        $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
+        if(empty($objWallet)){
+            return true;
+        }
+        $price = 0;
+        $obj = AVideoPlugin::getObjectData('AI');
+        
+        switch ($type) {
+            case AI::$typeBasic:
+                $price = $obj->priceForBasic;
+                break;
+            case AI::$typeTranscription:
+                $price = $obj->priceForTranscription;
+                break;
+            case AI::$typeTranslation:
+                $price = $obj->priceForTranslation;
+                break;
+            case AI::$typeShorts:
+                $price = $obj->priceForShorts;
+                break;
+        }
+
+        if(empty($price)){
+            return true;
+        }
+        $description = "AI-powered [{$type}] for videos id {$videos_id}";
+        return YPTWallet::transferBalanceToSiteOwner($users_id, $price, $description);
+    }
+
+    static function asyncVideosIdAndSendSocketMessage($videos_id, $type, $users_id){
+        $objResp = AI::asyncVideosId($videos_id, $type, $users_id);
+        if($objResp->error){
+            sendSocketErrorMessageToUsers_id($objResp->msg,$users_id);
+        }else{
+            sendSocketSuccessMessageToUsers_id($objResp->msg,$users_id);
+        }
+    }
+
+    static function asyncVideosId($videos_id, $type, $users_id)
+    {
+        global $global;
+
+        if(self::chargeUser($type, $users_id, $videos_id)){
+            _error_log("AI:asyncVideosId error the user $users_id has no balance to pay the service $type for videos_id $videos_id ");
+            $obj = new stdClass();
+            $obj->error = true;
+            $obj->msg = "Transaction failed: Insufficient funds. 
+            You currently do not have enough balance in your account to cover the AI-powered video $type service. 
+            Please add funds to proceed. Thank you.";
+            return $obj;
+        }
+
+        ini_set('max_execution_time', 600);
+        _error_log("AI:asyncVideosId start $videos_id, $type");
+        $param = array();
+        switch ($type) {
+            case AI::$typeBasic:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoBasicMetadata($videos_id);
+                break;
+            case AI::$typeTranscription:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoTranscriptionMetadata($videos_id, @$_REQUEST['language']);
+                break;
+            case AI::$typeTranslation:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoTranslationMetadata($videos_id, $_REQUEST['lang'], $_REQUEST['langName']);
+                $param['lang'] = $_REQUEST['lang'];
+                break;
+            case AI::$typeShorts:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = AI::getVideoShortsMetadata($videos_id);
+                break;
+            default:
+                _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+                $obj = new stdClass();
+                $obj->error = true;
+                $obj->msg = "Undefined type {$type}";
+                return $obj;
+                break;
+        }
+        if ($obj->error) {
+            $obj2 = new stdClass();
+            $obj2->error = true;
+            $obj2->msg = 'Something happen: ' . $obj->msg;
+            _error_log('AI:asyncVideosId ERROR ' . basename(__FILE__) . ' line=' . __LINE__ . ' ' . json_encode($obj));
+            return $obj2;
+        }
+
+        $objAI = AVideoPlugin::getDataObjectIfEnabled('AI');
+
+        $json = $obj->response;
+        $json['AccessToken'] = $objAI->AccessToken;
+        $json['isTest'] = AI::$isTest ? 1 : 0;
+        $json['webSiteRootURL'] = $global['webSiteRootURL'];
+        $json['PlatformId'] = getPlatformId();
+        $json['videos_id'] = $videos_id;
+        $json['type'] =  $type;
+
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+        $aiURLProgress = AI::getMetadataURL();
+        $aiURLProgress = "{$aiURLProgress}progress.json.php";
+
+        $content = postVariables($aiURLProgress, $json, false, 600);
+
+        if (empty($content)) {
+            $obj = new stdClass();
+            $obj->error = true;
+            $obj->msg = "Could not post to {$aiURLProgress} => {$content}";
+            return $obj;
+        }
+        $jsonProgressDecoded = json_decode($content);
+
+        if (empty($jsonProgressDecoded)) {
+            $obj = new stdClass();
+            $obj->error = true;
+            $obj->msg = "Could not decode => {$content}";
+            return $obj;
+        }
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (empty($jsonProgressDecoded->canRequestNew)) {
+            $obj = new stdClass();
+            $obj->error = true;
+            $obj->msg = $jsonProgressDecoded->msg;
+            $obj->jsonProgressDecoded = $jsonProgressDecoded;
+            if (empty($obj->msg)) {
+                $obj->msg =  "A process for Video ID {$videos_id} is currently active and in progress.";;
+            }
+            return $obj;
+        }
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+
+        $o = new Ai_responses(0);
+        $o->setVideos_id($videos_id);
+        $Ai_responses_id = $o->save();
+        $json['token'] = AI::getTokenForVideo($videos_id, $Ai_responses_id, $param);
+
+        $aiURL = AI::getMetadataURL();
+        $aiURL = "{$aiURL}async.json.php";
+        $content = postVariables($aiURL, $json, false, 600);
+        $jsonDecoded = json_decode($content);
+
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (empty($content)) {
+            $obj = new stdClass();
+            $obj->error = true;
+            $obj->msg = "Oops! Our system took a bit longer than expected to process your request. 
+            Please try again in a few moments. We apologize for any inconvenience and appreciate your patience.";
+            return $obj;
+        }
+
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+        if (empty($jsonDecoded)) {
+            $jsonDecoded = new stdClass();
+            $jsonDecoded->error = true;
+            $jsonDecoded->msg = "Some how we got an error in the response";
+            $jsonDecoded->content = $content;
+            return $obj;
+        }
+
+        _error_log('AI:asyncVideosId ' . basename(__FILE__) . ' line=' . __LINE__);
+        $jsonDecoded->aiURL = $aiURL;
+
+        $o = new Ai_responses($Ai_responses_id);
+        $o->setElapsedTime($jsonDecoded->elapsedTime);
+        $o->setPrice($jsonDecoded->payment->howmuch);
+        $jsonDecoded->Ai_responses = $o->save();
+
+        return $jsonDecoded;
+    }
+
+    static function AIAlreadyHave($videos_id, $type)
+    {
+        //_error_log("AI::AIAlreadyHave($videos_id, $type)");
+        switch ($type) {
+            case AI::$typeBasic:
+                $rows = Ai_metatags_responses::getAllFromVideosId($videos_id);
+                return !empty($rows);
+                break;
+            case AI::$typeTranslation:
+            case AI::$typeTranscription:
+                $trascription = Ai_responses::getTranscriptionVtt($videos_id);
+                return !empty($trascription);
+                break;
+            case AI::$typeShorts:
+                $rows = Ai_responses_json::getAllFromAIType(AI::$typeShorts, $videos_id);
+                $responses = array();
+                foreach ($rows as $key => $value) {
+                    if (!empty($value['response'])) {
+                        $response = json_decode($value['response']);
+                        foreach ($response->shorts as $key2 => $shorts) {
+                            foreach ($shorts as $key3 => $short) {
+                                if ($short->endTimeInSeconds - $short->startTimeInSeconds < 30) {
+                                    continue;
+                                }
+                                $responses[] = $short;
+                            }
+                        }
+                    }
+                }
+                return !empty($responses);
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+
+    static function processTranscription($row)
+    {
+        $ai = new Ai_scheduler($row['id']);
+        $obj = _json_decode($ai->getJson());
+        $mp3s = AI::getLowerMP3($obj->videos_id);
+        if (empty($mp3s['isValid'])) {
+            _error_log('AI::processTranscription error mp3 is invalid ' . json_encode($mp3s));
+            return false;
+        }
+        if (!AI::AIAlreadyHave($obj->videos_id, AI::$typeTranscription)) {
+            if ($ai->getStatus() === Ai_scheduler::$statusProcessingTranscription) {
+                _error_log('AI::processTranscription is processing transcription');
+            } else {
+                _error_log('AI::processTranscription start now');
+                $ai->setStatus(Ai_scheduler::$statusProcessingTranscription);
+                $ai->save();
+                AI::asyncVideosIdAndSendSocketMessage($obj->videos_id, AI::$typeTranscription, $obj->users_id);
+            }
+            return false;
+        } else {
+            _error_log('AI::processTranscription exists ');
+            return true;
+        }
+    }
+
+    static function processShorts($row)
+    {
+        if (!self::processTranscription($row)) {
+            _error_log('AI::processShorts processTranscription is required');
+            return false;
+        }
+        $ai = new Ai_scheduler($row['id']);
+        $obj = _json_decode($ai->getJson());
+        if (!AI::AIAlreadyHave($obj->videos_id, AI::$typeShorts)) {
+            if ($ai->getStatus() === Ai_scheduler::$statusProcessingShort) {
+                _error_log('AI::processShorts is processing Short');
+            } else {
+                _error_log('AI::processShorts start now');
+                $ai->setStatus(Ai_scheduler::$statusProcessingShort);
+                $ai->save();
+                AI::asyncVideosIdAndSendSocketMessage($obj->videos_id, AI::$typeShorts, $obj->users_id);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    static function processBasic($row)
+    {
+        if (!self::processTranscription($row)) {
+            _error_log('AI::processBasic processTranscription is required');
+            return false;
+        }
+        $ai = new Ai_scheduler($row['id']);
+        $obj = _json_decode($ai->getJson());
+        if (!AI::AIAlreadyHave($obj->videos_id, AI::$typeBasic)) {
+            if ($ai->getStatus() === Ai_scheduler::$statusProcessingBasic) {
+                _error_log('AI::processBasic is processing Basic');
+            } else {
+                _error_log('AI::processBasic start now');
+                $ai->setStatus(Ai_scheduler::$statusProcessingBasic);
+                $ai->save();
+                AI::asyncVideosIdAndSendSocketMessage($obj->videos_id, AI::$typeBasic, $obj->users_id);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    static function processAll($row)
+    {
+        $isComplete = false;
+        $p1 = self::processTranscription($row);
+        if ($p1) {
+            $p2 = self::processBasic($row);
+            if ($p2) {
+                $p3 = self::processShorts($row);
+                if ($p3) {
+                    $isComplete = true;
+                }
+            }
+        }
+
+        if ($isComplete) {
+            $ai = new Ai_scheduler($row['id']);
+            $ai->setStatus(Ai_scheduler::$statusExecuted);
+            $ai->save();
+        }
+    }
+
     function executeEveryMinute()
     {
-        $rows = Ai_scheduler::getAllActive();
+        $rows = Ai_scheduler::getAllToExecute();
         if (!empty($rows) && is_array($rows)) {
             foreach ($rows as $row) {
                 $ai = new Ai_scheduler($row['id']);
-                $ai->setStatus(Ai_scheduler::$statusExecuted);
-                $ai->save();
                 if ($ai->getAi_scheduler_type() === Ai_scheduler::$typeCutVideo) {
-                    $obj = _json_decode($ai->getJson());
-                    if(preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->endTimeInSeconds)){
-                        $obj->endTimeInSeconds = durationToSeconds($obj->endTimeInSeconds);
-                    }
-                    if(preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->startTimeInSeconds)){
-                        $obj->startTimeInSeconds = durationToSeconds($obj->startTimeInSeconds);
-                    }
-                    _error_log('AI:videoCut start '.$ai->getJson() . "{$obj->startTimeInSeconds} => {$obj->endTimeInSeconds}");
-                    $vid = Video::getVideoLight($obj->videos_id);
-                    $sources = getVideosURLOnly($vid['filename'], false);
-                    $source = end($sources);
-                    if (!empty($source)) {
-                        _error_log('AI:videoCut source found  '.$source["url"]);
-                        $duration_in_seconds = $obj->endTimeInSeconds - $obj->startTimeInSeconds;
-                        $date = date('YMDHis');
-                        $videoFileName = "cut{$obj->videos_id}_{$date}_{$obj->startTimeInSeconds}{$obj->endTimeInSeconds}";
-                        $video = new Video($obj->title, $videoFileName);
-                        $video->setDescription($obj->description);
-                        $video->setUsers_id($obj->users_id);
-                        $video->setDuration_in_seconds($duration_in_seconds);
-                        $video->setDuration(secondsToDuration($duration_in_seconds));
-                        $newVideos_id = $video->save(false, true);
-                        if (!empty($newVideos_id)) {
-                            _error_log('AI:videoCut new video saved videos_id='.$newVideos_id);
-                            $outputFile = Video::getPathToFile("{$videoFileName}.mp4");
-                            cutVideoWithFFmpeg($source['url'], $obj->startTimeInSeconds, $obj->endTimeInSeconds, $outputFile);
-                            
-                            $video = new Video('', '', $newVideos_id);
-                            if(file_exists($outputFile)){
-                                $video->setAutoStatus(Video::$statusActive);
-                                AVideoPlugin::onUploadIsDone($newVideos_id);
-                                AVideoPlugin::afterNewVideo($newVideos_id);
-                                _error_log('AI:videoCut create file success  '.$outputFile);
-                                $url = Video::getURL($newVideos_id);
-                                $obj->socketResponse = sendSocketSuccessMessageToUsers_id("<a href='$url'>Video cutted</a>", $obj->users_id);
-                            }else{
-                                $video->delete(true);
-                                _error_log('AI:videoCut error on create file  '.$outputFile);
-                            }
-                        }
-                        //cutVideoWithFFmpeg($source['url'], $startTimeInSeconds, $endTimeInSeconds, $outputFile);
-                    }
+                    $this->executeCutVideo($row);
+                } else if ($ai->getAi_scheduler_type() === Ai_scheduler::$typeProcessAll) {
+                    AI::processAll($row);
+                } else {
+                    $ai->setStatus(Ai_scheduler::$statusError);
+                    $ai->save();
                 }
             }
         }

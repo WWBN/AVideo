@@ -18,8 +18,8 @@ $columnCallbackFunctions = ['text'];
             <?php echo __('Translate from transcription file'); ?>
         </h1>
         <small>
-            If your preferred language isn't available in our transcription/language selection menu, don't worry! 
-            You can still get your translations in the language you need. Simply choose your desired language from below. 
+            If your preferred language isn't available in our transcription/language selection menu, don't worry!
+            You can still get your translations in the language you need. Simply choose your desired language from below.
             We'll handle the translation directly from one subtitle file.
         </small>
     </div>
@@ -40,6 +40,11 @@ $columnCallbackFunctions = ['text'];
         ?>
             <button class="btn btn-success btn-block" onclick="generateAITranslations()">
                 <i class="fa-solid fa-language"></i> <?php echo __('Generate Translations') ?>
+                <?php
+                if (!empty($priceForTranslation)) {
+                    echo "<br><span class=\"label label-success\">{$priceForTranslationText}</span>";
+                }
+                ?>
             </button>
         <?php
         }

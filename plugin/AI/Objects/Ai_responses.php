@@ -319,6 +319,7 @@ class Ai_responses extends ObjectYPT
     {
         $rows = self::getValidTranscriptions($videos_id);
         if(!empty($rows)){
+            //_error_log("AI::getTranscriptionVtt($videos_id) ".json_encode($rows['vtt']));
             return $rows['vtt'];
         }
         return '';

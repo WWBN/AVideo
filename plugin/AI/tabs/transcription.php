@@ -92,6 +92,11 @@ $columnCallbackFunctions = ['text'];
                             <div class="col-sm-9">
                                 <button class="btn btn-success btn-block" onclick="generateAITranscription()">
                                     <i class="fas fa-microphone-alt"></i> <?php echo __('Generate Transcription') ?>
+                                    <?php
+                                    if (!empty($priceForTranscription)) {
+                                        echo "<br><span class=\"label label-success\">{$priceForTranscriptionText}</span>";
+                                    }
+                                    ?>
                                 </button>
                             </div>
                             <hr>
