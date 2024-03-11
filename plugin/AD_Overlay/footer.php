@@ -24,9 +24,11 @@
 
 
 <script>
+    
+    var modalAdsUser = getPleaseWait();
     var ad_overlay_users_id
     function adsUser(users_id){
-        modal.showPleaseWait();
+        modalAdsUser.showPleaseWait();
         $('.adsStatus').hide();
         $( "#addOverlayCode" ).text('');
         ad_overlay_users_id = users_id;
@@ -40,7 +42,7 @@
                 }else{
                     $('.adsStatus.label-danger').fadeIn();
                 }
-                modal.hidePleaseWait();
+                modalAdsUser.hidePleaseWait();
             }
         });
     }

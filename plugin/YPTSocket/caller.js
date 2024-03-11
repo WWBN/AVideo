@@ -27,7 +27,7 @@ function callNow(to_users_id, to_identification) {
     setTimeout(function () {
         if (!isUserOnline(to_users_id)) {
             avideoToastError('User is not online anymore');
-            console.log('User is not online anymore', users_id_online);
+            console.log('User is not online anymore',to_users_id, users_id_online);
             return false;
         } else {
             avideoToastSuccess('Calling ...');
