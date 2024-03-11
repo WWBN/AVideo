@@ -242,6 +242,9 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     } else {
         $progressFile = $logFile;
     }
+    if(empty($progressFile)){
+        $progressFile = "{$toFileLocation}.log";
+    }
     $command = removeUserAgentIfNotURL($command);
     $command .= " > {$progressFile}";
     _session_write_close();
