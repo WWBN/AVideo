@@ -72,6 +72,13 @@ class AD_Overlay_Code extends ObjectYPT {
         global $global;
         //$data = preg_replace('/[\x00-\x1F\x7F]/u', '', $data);
         // normalize $data because of get_magic_quotes_gpc
+        
+        if (!function_exists('get_magic_quotes_gpc')) {
+            function get_magic_quotes_gpc(){
+                return false;
+            }
+        }
+
         $dataNeedsStripSlashes = get_magic_quotes_gpc();
         if ($dataNeedsStripSlashes) {
             $data = stripslashes($data);
