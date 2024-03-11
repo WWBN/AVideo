@@ -187,7 +187,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
 {
     $localFileLock = $toFileLocation. ".lock";
     $ageInSeconds = time() - @filemtime($localFileLock);
-    if ($ageInSeconds > 60) {
+    if ($ageInSeconds > 300) {
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation);
         @unlink($localFileLock);
     } elseif (file_exists($localFileLock)) {
