@@ -243,6 +243,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
         $progressFile = $logFile;
     }
     $command = removeUserAgentIfNotURL($command);
+    $command .= " > {$progressFile}";
     _session_write_close();
     _mysql_close();
     _error_log("convertVideoFileWithFFMPEG try[{$try}]: " . $command . ' ' . json_encode(debug_backtrace()));
