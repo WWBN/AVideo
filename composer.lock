@@ -432,21 +432,22 @@
         },
         {
             "name": "bunnycdn/storage",
-            "version": "2.0.0",
+            "version": "2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage.git",
-                "reference": "4f57caf033bca2255c1d75d369061902e2a32da5"
+                "reference": "8711f951d548d9927139af8710da920487c99cb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BunnyWay/BunnyCDN.PHP.Storage/zipball/4f57caf033bca2255c1d75d369061902e2a32da5",
-                "reference": "4f57caf033bca2255c1d75d369061902e2a32da5",
+                "url": "https://api.github.com/repos/BunnyWay/BunnyCDN.PHP.Storage/zipball/8711f951d548d9927139af8710da920487c99cb9",
+                "reference": "8711f951d548d9927139af8710da920487c99cb9",
                 "shasum": ""
             },
             "require": {
-                "ext-curl": "*",
-                "php": ">=8.0.0"
+                "guzzlehttp/guzzle": "^7.8",
+                "php": ">=8.0.0",
+                "psr/http-message": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -474,9 +475,9 @@
             ],
             "support": {
                 "issues": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/issues",
-                "source": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/tree/2.0.0"
+                "source": "https://github.com/BunnyWay/BunnyCDN.PHP.Storage/tree/2.1.0"
             },
-            "time": "2023-12-14T13:40:23+00:00"
+            "time": "2024-02-23T13:46:27+00:00"
         },
         {
             "name": "carbonphp/carbon-doctrine-types",
