@@ -608,10 +608,6 @@ class AI extends PluginAbstract
 
     static function chargeUser($type, $users_id, $videos_id)
     {
-        $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
-        if(empty($objWallet)){
-            return true;
-        }
         $price = 0;
         $obj = AVideoPlugin::getObjectData('AI');
         
@@ -629,10 +625,16 @@ class AI extends PluginAbstract
                 $price = $obj->priceForShorts;
                 break;
         }
-
         if(empty($price)){
             return true;
         }
+
+        $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
+        if(empty($objWallet)){
+            _error_log("AI:asyncVideosId the wallet is disabled");
+            return true;
+        }
+
         $description = "AI-powered [{$type}] for videos id {$videos_id}";
         return YPTWallet::transferBalanceToSiteOwner($users_id, $price, $description);
     }
