@@ -185,8 +185,7 @@ function getDirSize($dir, $forceNew = false)
 
 function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile = '', $try = 0)
 {
-    $parts = explode('?', $fromFileLocation);
-    $localFileLock = getCacheDir() . 'convertVideoFileWithFFMPEG_' . md5($parts[0]) . ".lock";
+    $localFileLock = $toFileLocation. ".lock";
     $ageInSeconds = time() - @filemtime($localFileLock);
     if ($ageInSeconds > 60) {
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation);
