@@ -34,7 +34,7 @@
     "tinymce": "^6.8.3",
     "tinymce-langs": "^1.0.0",
     "video.js": "^8.10.0",
-    "videojs-contrib-ads": "^7.3.5",
+    "videojs-contrib-ads": "^7.4.0",
     "videojs-contrib-quality-levels": "^4.0.0",
     "videojs-font": "^4.1.0",
     "videojs-ima": "^2.3.0",
