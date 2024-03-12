@@ -107,6 +107,11 @@ class AI extends PluginAbstract
         self::addDataObjectHelper('priceForTranslation', 'Price for Translation Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
         $obj->priceForShorts = 0;
         self::addDataObjectHelper('priceForShorts', 'Price for Shorts Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
+        
+        
+        $obj->autoProcessAll = false;
+        self::addDataObjectHelper('autoProcessAll', 'Auto Process All', "This will create the transcription + basic + shorts");
+        
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -556,7 +561,6 @@ class AI extends PluginAbstract
         </div>';
     }
 
-
     function executeCutVideo($row)
     {
         $ai = new Ai_scheduler($row['id']);
@@ -819,7 +823,6 @@ class AI extends PluginAbstract
         }
     }
 
-
     static function processTranscription($row)
     {
         $ai = new Ai_scheduler($row['id']);
@@ -928,5 +931,20 @@ class AI extends PluginAbstract
                 }
             }
         }
+    }
+
+    public function afterNewVideo($videos_id)
+    {
+        $obj = $this->getDataObject();
+        $obj2 = new stdClass();
+        $obj2->videos_id = $videos_id;
+        $obj2->error = true;
+        $obj2->msg = '';
+        if (!empty($obj->autoProcessAll)) {
+            $users_id = Video::getOwner($videos_id);
+            $obj2 = Ai_scheduler::saveToProcessAll($videos_id, $users_id);
+        }
+
+        return false;
     }
 }

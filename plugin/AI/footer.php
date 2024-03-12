@@ -17,11 +17,17 @@
                     loadAITranscriptions();
                 }
                 break;
+            case '<?php echo AI::$typeShorts; ?>':
+                if (typeof loadAIShorts == 'function') {
+                    loadAIShorts();
+                }
+                break;
             default:
                 break;
         }
         if (typeof loadAIUsage == 'function') {
             loadAIUsage();
         }
+        avideoToastSuccess('AI '+json.type+" received");
     }
 </script>

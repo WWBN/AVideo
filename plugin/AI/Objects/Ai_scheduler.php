@@ -93,5 +93,54 @@ class Ai_scheduler extends ObjectYPT {
         sqlDAL::close($res);
         return $fullData;
     }
+    
+    public static function isAlreadyScheduled($videos_id, $type, $status)
+    {
+        $row = self::getFromVideoAndStatus($videos_id, $type, $status);
+        return !empty($row);
+    }
+
+    public static function getFromVideoAndStatus($videos_id, $type, $status)
+    {
+        global $global;
+        $sql = "SELECT * FROM  ai_scheduler WHERE ai_scheduler_type = '$type' AND status = '{$status}' ";
+
+        $sql .= self::getSqlFromPost();
+        $res = sqlDAL::readSql($sql);
+        $fullData = sqlDAL::fetchAllAssoc($res);
+        sqlDAL::close($res);
+        foreach ($fullData as $key => $value) {
+            $obj = _json_decode($value['json']);
+            if($obj->videos_id == $videos_id){
+                return $value;
+            }
+        }
+        return false;
+    }
+
+    public static function saveToProcessAll($videos_id, $users_id)
+    {
+        $obj2 = new stdClass();
+        $obj2->videos_id = $videos_id;
+        $obj2->users_id = $users_id;
+        $obj2->error = true;
+        $obj2->msg = '';
+        if(!Ai_scheduler::isAlreadyScheduled($videos_id, Ai_scheduler::$typeProcessAll, Ai_scheduler::$statusActive)){
+            $ai = new Ai_scheduler(0);
+            $ai->setAi_scheduler_type(Ai_scheduler::$typeProcessAll);
+            $ai->setJson($obj2);
+            $ai->setStatus(Ai_scheduler::$statusActive);
+            $obj2->schedulerSaved = $ai->save();
+            $obj2->error = empty($obj2->schedulerSaved);
+            if($obj2->error){
+                $obj2->msg = _('Error');
+            }else{
+                $obj2->msg = _('Your video has been successfully scheduled for AI processing! You will receive notifications regarding the progress and completion.');
+            }
+        }else{
+            $obj2->msg = _('This video is already scheduled to process');
+        }
+        return $obj2;
+    }
 
 }
