@@ -10213,6 +10213,10 @@ function checkFileModified($filePath) {
 }
 
 function calculateCenterCrop($originalWidth, $originalHeight, $aspectRatio) {
+    if( $aspectRatio == Video::ASPECT_RATIO_ORIGINAL){
+        return ['newWidth' => $originalWidth, 'newHeight' => $originalHeight, 'x' => 0, 'y' => 0];
+    }
+
     // Define aspect ratio dimensions
     $aspectRatioDimensions = [
         Video::ASPECT_RATIO_SQUARE => ['width' => 1, 'height' => 1],

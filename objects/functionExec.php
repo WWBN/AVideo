@@ -23,30 +23,37 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
 
     make_path($outputFile);
 
-    // Use ffprobe to get video dimensions
-    $ffprobeCommand = get_ffprobe()." -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 {$inputFile}";
-    $ffprobeCommand = removeUserAgentIfNotURL($ffprobeCommand);
-    
-    _error_log("cutAndAdaptVideoWithFFmpeg start shell_exec($ffprobeCommand)");
-    $videoDimensions = shell_exec($ffprobeCommand);
-    _error_log("cutAndAdaptVideoWithFFmpeg response ($videoDimensions)");
-    list($width, $height) = explode('x', trim($videoDimensions));
-
-    $cropParams = calculateCenterCrop($width, $height, $aspectRatio);
-
-    // Calculate crop dimensions
-    $cropDimension = "{$cropParams['newWidth']}:{$cropParams['newHeight']}:{$cropParams['x']}:{$cropParams['y']}";
-
     // Escape arguments to ensure command is safe to execute
     $escapedInputFile = escapeshellarg($inputFile);
     $escapedOutputFile = escapeshellarg($outputFile);
     $escapedStartTime = escapeshellarg($startTimeInSeconds);
     $escapedEndTime = escapeshellarg($endTimeInSeconds);
-    $escapedCropDimension = escapeshellarg($cropDimension);
 
-    // Construct the FFmpeg command
-    $cmd = get_ffmpeg() . " -ss {$escapedStartTime} -to {$escapedEndTime} -i {$escapedInputFile} -vf \"crop={$escapedCropDimension}\" -c:a copy {$escapedOutputFile}";
-
+    if($aspectRatio === Video::ASPECT_RATIO_ORIGINAL){
+        _error_log("cutAndAdaptVideoWithFFmpeg Original ratio");
+        // Construct the FFmpeg command
+        $cmd = get_ffmpeg() . " -ss {$escapedStartTime} -to {$escapedEndTime} -i {$escapedInputFile} -c:a copy {$escapedOutputFile}";
+    }else{
+        // Use ffprobe to get video dimensions
+        $ffprobeCommand = get_ffprobe()." -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 {$inputFile}";
+        $ffprobeCommand = removeUserAgentIfNotURL($ffprobeCommand);
+        
+        _error_log("cutAndAdaptVideoWithFFmpeg start shell_exec($ffprobeCommand)");
+        $videoDimensions = shell_exec($ffprobeCommand);
+        _error_log("cutAndAdaptVideoWithFFmpeg response ($videoDimensions)");
+        list($width, $height) = explode('x', trim($videoDimensions));
+    
+        $cropParams = calculateCenterCrop($width, $height, $aspectRatio);
+    
+        // Calculate crop dimensions
+        $cropDimension = "{$cropParams['newWidth']}:{$cropParams['newHeight']}:{$cropParams['x']}:{$cropParams['y']}";
+    
+        $escapedCropDimension = escapeshellarg($cropDimension);
+    
+        // Construct the FFmpeg command
+        $cmd = get_ffmpeg() . " -ss {$escapedStartTime} -to {$escapedEndTime} -i {$escapedInputFile} -vf \"crop={$escapedCropDimension}\" -c:a copy {$escapedOutputFile}";
+    
+    }
     $cmd = removeUserAgentIfNotURL($cmd);
     // Execute the command
     _error_log('cutAndAdaptVideoWithFFmpeg start ' . $cmd);

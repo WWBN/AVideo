@@ -36,7 +36,7 @@ $obj->startTimeInSeconds = $_REQUEST['startTimeInSeconds'];
 $obj->endTimeInSeconds = $_REQUEST['endTimeInSeconds'];
 $obj->users_id = User::getId();
 $obj->description = $_REQUEST['description'];
-$obj->aspectRatio = empty($_REQUEST['aspectRatio'])? Video::ASPECT_RATIO_HORIZONTAL:$_REQUEST['aspectRatio'];
+$obj->aspectRatio = empty($_REQUEST['aspectRatio'])? Video::ASPECT_RATIO_ORIGINAL:$_REQUEST['aspectRatio'];
 //$obj->title = $obj->aspectRatio.' '.$_REQUEST['title'];
 $obj->title = $_REQUEST['title'];
 
