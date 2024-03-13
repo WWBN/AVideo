@@ -7107,7 +7107,7 @@ function get_ffprobe() {
 
     function removeUserAgentIfNotURL($cmd)
 {
-    if (!preg_match('/ -i [\'"]?https?:/', $cmd)) {
+    if (!preg_match('/ -i [\'"]?https?:/i', $cmd) && !preg_match('/ffprobe.*[\'"]?https?:/i', $cmd)) {
         $cmd = preg_replace('/-user_agent "[^"]+"/', '', $cmd);
     }
     return $cmd;
@@ -10211,6 +10211,46 @@ function checkFileModified($filePath) {
         return false;
     }
 }
+
+function calculateCenterCrop($originalWidth, $originalHeight, $aspectRatio) {
+    // Define aspect ratio dimensions
+    $aspectRatioDimensions = [
+        Video::ASPECT_RATIO_SQUARE => ['width' => 1, 'height' => 1],
+        Video::ASPECT_RATIO_VERTICAL => ['width' => 9, 'height' => 16],
+        Video::ASPECT_RATIO_HORIZONTAL => ['width' => 16, 'height' => 9],
+    ];
+
+    // Validate aspect ratio parameter
+    if (!array_key_exists($aspectRatio, $aspectRatioDimensions)) {
+        return false; // Invalid aspect ratio
+    }
+
+    // Get aspect ratio dimensions
+    $targetWidth = $aspectRatioDimensions[$aspectRatio]['width'];
+    $targetHeight = $aspectRatioDimensions[$aspectRatio]['height'];
+
+    // Calculate scaling factors for width and height
+    $scaleWidth = $originalHeight * $targetWidth / $targetHeight;
+    $scaleHeight = $originalWidth * $targetHeight / $targetWidth;
+
+    // Determine new width, height, x, and y for center cropping
+    if ($scaleWidth > $originalWidth) {
+        // Use scaled height
+        $newWidth = $originalWidth;
+        $newHeight = $scaleHeight;
+        $x = 0;
+        $y = ($originalHeight - $scaleHeight) / 2;
+    } else {
+        // Use scaled width
+        $newWidth = $scaleWidth;
+        $newHeight = $originalHeight;
+        $x = ($originalWidth - $scaleWidth) / 2;
+        $y = 0;
+    }
+
+    return ['newWidth' => $newWidth, 'newHeight' => $newHeight, 'x' => $x, 'y' => $y];
+}
+
 
 require_once __DIR__.'/functionSecurity.php';
 require_once __DIR__.'/functionMySQL.php';

@@ -71,7 +71,7 @@ echo AVideoPlugin::afterVideoJS();
         });
     }
 
-    function submitVideoForm(index) {
+    function submitVideoForm(index, aspectRatio) {
         modal.showPleaseWait();
         var startTimeInSeconds = durationToSeconds($('#startTimeInSeconds' + index).val());
         var endTimeInSeconds = durationToSeconds($('#endTimeInSeconds' + index).val());
@@ -88,7 +88,7 @@ echo AVideoPlugin::afterVideoJS();
 
         // Perform the AJAX request
         $.ajax({
-            url: webSiteRootURL + 'plugin/AI/cutVideo.json.php', // Replace with your server endpoint
+            url: webSiteRootURL + 'plugin/AI/cutVideo.json.php?aspectRatio='+aspectRatio, // Replace with your server endpoint
             type: 'POST',
             data: formData,
             success: function(response) {

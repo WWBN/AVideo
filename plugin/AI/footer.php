@@ -28,6 +28,6 @@
         if (typeof loadAIUsage == 'function') {
             loadAIUsage();
         }
-        avideoToastSuccess('AI '+json.type+" received");
+        avideoToastSuccess('AI ' + json.type + ' received');
     }
 </script>

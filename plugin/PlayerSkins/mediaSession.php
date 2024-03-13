@@ -100,7 +100,7 @@ if (empty($MediaMetadata)) {
         } else if (mediaId) {
             videos_id = mediaId;
             console.log('updateMediaSessionMetadata mediaId', mediaId);
-        } else if (isLive) {
+        } else if (typeof isLive !== 'undefined' && isLive) {
             key = isLive.key;
             live_servers_id = isLive.live_servers_id;
             live_schedule_id = isLive.live_schedule_id;

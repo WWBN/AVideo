@@ -573,6 +573,11 @@ class AI extends PluginAbstract
         if (preg_match('/[0-9]{2}:[0-9]{2}:[0-9]{2}/i', $obj->startTimeInSeconds)) {
             $obj->startTimeInSeconds = durationToSeconds($obj->startTimeInSeconds);
         }
+        $aspectRatio = Video::ASPECT_RATIO_HORIZONTAL;
+        if(!empty($obj->aspectRatio)){
+            $aspectRatio = $obj->aspectRatio;
+        }
+
         _error_log('AI:videoCut start ' . $ai->getJson() . "{$obj->startTimeInSeconds} => {$obj->endTimeInSeconds}");
         $vid = Video::getVideoLight($obj->videos_id);
         $sources = getVideosURLOnly($vid['filename'], false);
@@ -591,7 +596,7 @@ class AI extends PluginAbstract
             if (!empty($newVideos_id)) {
                 _error_log('AI:videoCut new video saved videos_id=' . $newVideos_id);
                 $outputFile = Video::getPathToFile("{$videoFileName}.mp4");
-                cutVideoWithFFmpeg($source['url'], $obj->startTimeInSeconds, $obj->endTimeInSeconds, $outputFile);
+                cutVideoWithFFmpeg($source['url'], $obj->startTimeInSeconds, $obj->endTimeInSeconds, $outputFile, $aspectRatio);
 
                 $video = new Video('', '', $newVideos_id);
                 if (file_exists($outputFile)) {

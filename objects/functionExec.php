@@ -1,35 +1,68 @@
 <?php
 
-function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, $outputFile)
+
+function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, $outputFile, $aspectRatio)
 {
     // Ensure start and end times are numeric
     $startTimeInSeconds = (int)$startTimeInSeconds;
     $endTimeInSeconds = (int)$endTimeInSeconds;
+
+    // Define aspect ratio dimensions
+    $aspectRatioDimensions = [
+        Video::ASPECT_RATIO_ORIGINAL,
+        Video::ASPECT_RATIO_SQUARE,
+        Video::ASPECT_RATIO_VERTICAL,
+        Video::ASPECT_RATIO_HORIZONTAL,
+    ];
+
+    // Validate aspect ratio parameter
+    if (!in_array($aspectRatio, $aspectRatioDimensions)) {
+        _error_log('cutVideoWithFFmpeg: Invalid aspect ratio parameter');
+        return false;
+    }
+
     make_path($outputFile);
+
+    // Use ffprobe to get video dimensions
+    $ffprobeCommand = get_ffprobe()." -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 {$inputFile}";
+    $ffprobeCommand = removeUserAgentIfNotURL($ffprobeCommand);
+    
+    _error_log("cutAndAdaptVideoWithFFmpeg start shell_exec($ffprobeCommand)");
+    $videoDimensions = shell_exec($ffprobeCommand);
+    _error_log("cutAndAdaptVideoWithFFmpeg response ($videoDimensions)");
+    list($width, $height) = explode('x', trim($videoDimensions));
+
+    $cropParams = calculateCenterCrop($width, $height, $aspectRatio);
+
+    // Calculate crop dimensions
+    $cropDimension = "{$cropParams['newWidth']}:{$cropParams['newHeight']}:{$cropParams['x']}:{$cropParams['y']}";
+
     // Escape arguments to ensure command is safe to execute
     $escapedInputFile = escapeshellarg($inputFile);
     $escapedOutputFile = escapeshellarg($outputFile);
     $escapedStartTime = escapeshellarg($startTimeInSeconds);
     $escapedEndTime = escapeshellarg($endTimeInSeconds);
+    $escapedCropDimension = escapeshellarg($cropDimension);
 
     // Construct the FFmpeg command
-    $cmd = get_ffmpeg() . " -ss {$escapedStartTime} -to {$escapedEndTime} -i {$escapedInputFile} -c copy {$escapedOutputFile}";
+    $cmd = get_ffmpeg() . " -ss {$escapedStartTime} -to {$escapedEndTime} -i {$escapedInputFile} -vf \"crop={$escapedCropDimension}\" -c:a copy {$escapedOutputFile}";
 
     $cmd = removeUserAgentIfNotURL($cmd);
     // Execute the command
-    _error_log('cutVideoWithFFmpeg start ' . $cmd);
+    _error_log('cutAndAdaptVideoWithFFmpeg start ' . $cmd);
 
     exec($cmd, $output, $returnVar);
 
     // Check if the command was executed successfully
     if ($returnVar === 0) {
-        _error_log('cutVideoWithFFmpeg success ' . $outputFile);
+        _error_log('cutAndAdaptVideoWithFFmpeg success ' . $outputFile);
         return true; // Command executed successfully
     } else {
-        _error_log('cutVideoWithFFmpeg error ');
+        _error_log('cutAndAdaptVideoWithFFmpeg error ');
         return false; // Command failed
     }
 }
+
 
 function getDurationFromFile($file)
 {

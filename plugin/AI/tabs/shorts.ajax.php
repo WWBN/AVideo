@@ -59,7 +59,10 @@ function getShortsButtons($key)
     global $bookmark;
     $buttons = array();
     $buttons[] = '<button class="btn btn-primary" onclick="playVideoSegmentFromIndex(' . $key . ');" data-toggle="tooltip" title="' . __('Play') . '" type="button"><i class="fa-solid fa-play"></i></button>';
-    $buttons[] = '<button class="btn btn-success" onclick="submitVideoForm(' . $key . ');" data-toggle="tooltip" title="' . __('Save Cut') . '" type="button"><i class="fa-solid fa-scissors"></i></button>';
+    $buttons[] = '<button class="btn btn-success" onclick="submitVideoForm(' . $key . ', \''.Video::ASPECT_RATIO_ORIGINAL.'\');" data-toggle="tooltip" title="' . __('Save Cut Original') . '" type="button"><i class="fa-solid fa-scissors"></i></button>';
+    $buttons[] = '<button class="btn btn-success" onclick="submitVideoForm(' . $key . ', \''.Video::ASPECT_RATIO_HORIZONTAL.'\');" data-toggle="tooltip" title="' . __('Save Cut Horizontal') . '" type="button"><i class="fa-solid fa-desktop"></i></button>';
+    $buttons[] = '<button class="btn btn-success" onclick="submitVideoForm(' . $key . ', \''.Video::ASPECT_RATIO_VERTICAL.'\');" data-toggle="tooltip" title="' . __('Save Cut Vertical') . '" type="button"><i class="fa-solid fa-mobile-screen-button"></i></button>';
+    $buttons[] = '<button class="btn btn-success" onclick="submitVideoForm(' . $key . ', \''.Video::ASPECT_RATIO_SQUARE.'\');" data-toggle="tooltip" title="' . __('Save Cut Square') . '" type="button"><i class="fa-regular fa-square-full"></i></button>';
     if ($bookmark) {
         $buttons[] = '<button class="btn btn-warning" onclick="bookmarkFromIndex(' . $key . ');" data-toggle="tooltip" title="' . __('Bookmark') . '" type="button"><i class="fa-solid fa-bookmark"></i></button>';
     }

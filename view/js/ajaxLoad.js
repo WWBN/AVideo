@@ -1,30 +1,59 @@
 /*experimental load page*/
 // 1. Query a URL and process its contents
+// Modified queryAndProcessURL function to execute replaceInlineJS after all scripts are loaded
 function queryAndProcessURL(url) {
-    var urlA = addQueryStringParameter(url, 'avideoIframe', 1);
-    $.ajax({
-        url: urlA,
-        type: 'GET',
-        success: function (response) {
-            // Assuming response is the full HTML of the page
-            const tempDiv = $('<div></div>').html(response);
+    if ($('#_avideoPageContent').length) {
+        $('body').addClass('_avideoPageContentLoading');
+        console.log('a.ajaxLoad _avideoPageContent is present locally');
+        var urlA = addQueryStringParameter(url, 'avideoIframe', 1);
+        $.ajax({
+            url: urlA,
+            type: 'GET',
+            success: function (response) {
+                // Assuming response is the full HTML of the page
+                const tempDiv = $('<div></div>').html(response);
 
-            // 2. Add new CSS files
-            addNewCSSFiles(tempDiv);
+                if (!tempDiv.find('#_avideoPageContent').length) {
+                    console.log('a.ajaxLoad _avideoPageContent NOT is present remotely');
+                    document.location = url;
+                } else {
+                    console.log('a.ajaxLoad _avideoPageContent is present remotely');
 
-            // 3. Replace .principalContainer HTML
-            replacePrincipalContainer(tempDiv);
+                    // When all scripts are loaded, execute replaceInlineJS
+                    addNewScriptFiles(tempDiv).done(function () {
+                        // Only execute replaceInlineJS if replacePrincipalContainer was successful
+                        const replaceResult = replacePrincipalContainer(tempDiv);
+                        if(replaceResult){
+                            // Add new CSS files
+                            addNewCSSFiles(tempDiv);
+        
+                            // Change the page title
+                            changePageTitle(tempDiv);
+        
+                            // Replace all <meta> tags
+                            replaceMetaTags(tempDiv);
 
-            // 7. Change the page title
-            changePageTitle(tempDiv);
+                            replaceInlineJS(tempDiv);
+                            
+                            makeAjaxLoad();
+                            // Change the current URL (using the History API for SPA behavior)
+                            history.pushState({}, '', url);
+                        }else{
+                            console.log('a.ajaxLoad replacePrincipalContainer fail');
+                            document.location = url;
+                        }
+                        
+                        $('body').removeClass('_avideoPageContentLoading');
+                    });
 
-            // 8. Replace all <meta> tags
-            replaceMetaTags(tempDiv);
-
-            // 9. Change the current URL (using the History API for SPA behavior)
-            history.pushState({}, '', url);
-        }
-    });
+                }
+                
+            }
+        });
+    } else {
+        console.log('a.ajaxLoad _avideoPageContent is NOT present locally');
+        document.location = url;
+    }
 }
 
 // Add new CSS files that are not already present
@@ -41,46 +70,47 @@ function addNewCSSFiles(tempDiv) {
 
 // Replace the .principalContainer HTML or the entire body's content
 function replacePrincipalContainer(tempDiv) {
-    // Clone the #mainNavBar to re-insert it later
-    var mainNavBarClone = $('#mainNavBar').clone();
+    // Check if #_avideoPageContent exists in the tempDiv
+    const newPrincipalContainer = tempDiv.find('#_avideoPageContent').html();
 
-    // Check for .principalContainer in the response
-    const newPrincipalContainer = tempDiv.find('.principalContainer').html();
     if (newPrincipalContainer) {
-        console.log('replacePrincipalContainer principalContainer');
-        $('.principalContainer').html(newPrincipalContainer);
-    } else {
-        // If no .principalContainer, replace the body's content directly
-        console.log('replacePrincipalContainer with direct response');
-        document.body.innerHTML = tempDiv.find('body').html(); // Use .html() on tempDiv directly
+        // Replace the content of #_avideoPageContent with newPrincipalContainer
+        $('#_avideoPageContent').html(newPrincipalContainer);
+        
+        // Clone body classes from tempDiv and replace existing body classes
+        // const tempBodyClasses = tempDiv.find('body').attr('class');
+        //$('body').attr('class', tempBodyClasses);
 
-        // Prepend the cloned #mainNavBar to the body or to a specific container within the body
-        //$('body').prepend(mainNavBarClone);
+        // Continue with additional operations
+        // 4. Add new script files
+        addNewScriptFiles(tempDiv);
+    
+        // 5. Replace inline CSS
+        replaceInlineCSS(tempDiv);
+    
+        // 6. Replace inline JS
+        replaceInlineJS(tempDiv);
+        return true;
     }
-
-    // Continue with additional operations
-    // 4. Add new script files
-    //addNewScriptFiles(tempDiv);
-
-    // 5. Replace inline CSS
-    //replaceInlineCSS(tempDiv);
-
-    // 6. Replace inline JS
-    //replaceInlineJS(tempDiv);
+    return false;
 }
 
-
-
-// Add new script files that are not already present
 function addNewScriptFiles(tempDiv) {
+    const promises = [];
     $('script[src]').each(function () {
         const currentSrc = $(this).attr('src');
         tempDiv.find('script[src]').each(function () {
             if (currentSrc !== $(this).attr('src') && !$('body').find(`script[src="${$(this).attr('src')}"]`).length) {
+                // Load script asynchronously and push the promise to the promises array
+                const promise = $.getScript($(this).attr('src'));
+                promises.push(promise);
                 $('body').append($(this).clone());
             }
         });
     });
+
+    // Return a promise that resolves when all scripts are loaded
+    return $.when.apply($, promises);
 }
 
 // Replace inline CSS
@@ -108,3 +138,19 @@ function replaceMetaTags(tempDiv) {
         $('head').append($(this).clone());
     });
 }
+
+function makeAjaxLoad(){
+    // Bind function to all <a> tags with class .ajaxLoad
+    $('a.ajaxLoad').each(function () {
+        $(this).on('click', function (event) {
+            event.preventDefault(); // Prevent default click action
+            console.log('a.ajaxLoad clicked');
+            var url = $(this).attr('href');
+            queryAndProcessURL(url);
+        });
+    });
+}
+
+$(function () {
+    makeAjaxLoad();
+});

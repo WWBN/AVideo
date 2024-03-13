@@ -143,6 +143,11 @@ if (!class_exists('Video')) {
         public static $urlTypeShort = 'URLShort';
         private $categoryWasChanged = false;
 
+        const ASPECT_RATIO_ORIGINAL = '';
+        const ASPECT_RATIO_SQUARE = '1:1';
+        const ASPECT_RATIO_VERTICAL = '9:16';
+        const ASPECT_RATIO_HORIZONTAL = '16:9';
+
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false)
         {
             global $global;
@@ -6479,7 +6484,7 @@ if (!class_exists('Video')) {
             $a = '<a videos_id="' . $videos_id . '"
                                        href="' . $href . '"
                                        embed="' . $embed . '"
-                                       title="' . $title . '" alternativeLink="' . $alternativeLink . '">';
+                                       title="' . $title . '" alternativeLink="' . $alternativeLink . '" class="ajaxLoad">';
             if ($addLink) {
                 $img = $a . $img . '</a>';
             }

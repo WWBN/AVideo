@@ -31,15 +31,23 @@ function expand() {
     });
     isCompressed = false;
 }
+
+function isCompressedVar(){
+    if(typeof isCompressed === 'undefined'){
+        return false;
+    }
+    return !empty(isCompressed);
+}
+
 function toogleEC() {
-    if (!empty(isCompressed)) {
+    if (isCompressedVar()) {
         expand();
     } else {
         compress();
     }
 }
-$(document).ready(function () {
-    if (!empty(isCompressed)) {
+$(function () {
+    if (isCompressedVar()) {
         compress();
     } else {
         expand();

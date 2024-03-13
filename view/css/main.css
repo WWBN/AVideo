@@ -18,6 +18,21 @@ body.fullscreen {
     overflow: hidden;
 }
 
+#_avideoPageContentLoading{
+    display: none;
+}
+
+body._avideoPageContentLoading #_avideoPageContentLoading{
+    display: unset;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    width: 100vw;
+    height: 5px;
+}
+
 .nopadding {
     padding: 0 !important;
     margin: 0 !important;
@@ -2036,13 +2051,3 @@ body.ypt-is-compressed #videoCol {
 .loadInfiniteScrollButton:disabled .fas.fa-angle-double-down {
     display: none;
 }
-
-/*
-#_avideoPageLoader{
-    display: none !important;
-}
-
-#_avideoPageContent{
-    display: unset !important;
-}
-*/
