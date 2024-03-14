@@ -1043,6 +1043,21 @@ class PlayLists extends PluginAbstract
         require_once $file;
     }
 
+    static function thereIsARebroadcastPlaying($key, $playlist_id=0){
+        $parts = Rebroadcaster::isKeyARebroadcast($key);
+        if(!empty($playlist_id)){
+            if($playlist_id != $parts['index']){
+                return false;
+            }
+        }
+        $stats = getStatsNotifications();
+        foreach ($stats["applications"] as $key => $value) {
+            if(preg_match("/{$parts['cleankey']}-RB-([0-9]+)-{$parts['index']}/i", $value['key'])){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public function on_publish_done($live_transmitions_history_id, $users_id, $key, $live_servers_id)
     {
@@ -1051,20 +1066,24 @@ class PlayLists extends PluginAbstract
         _error_log("on_publish_done key={$key} live_transmitions_history_id={$live_transmitions_history_id} ");
         $isPlayListScheduled = Playlists_schedules::iskeyPlayListScheduled($key);
         if (!empty($isPlayListScheduled['playlists_schedules'])) {
-            $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
-            if ($pls->getFinish_datetime() > time()) {
-                $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
-                $pl = new PlayList($ps->playlists_id);
-                $title = $pl->getName() . ' [' . $ps->msg . ']';
-                Rebroadcaster::rebroadcastVideo(
-                    $ps->current_videos_id,
-                    $pl->getUsers_id(),
-                    Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']),
-                    $title
-                );
-            } else {
-                _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
-                self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
+            if(!self::thereIsARebroadcastPlaying($key)){
+                $pls = new Playlists_schedules($isPlayListScheduled['playlists_schedules']);
+                if ($pls->getFinish_datetime() > time()) {
+                    $ps = Playlists_schedules::getPlaying($isPlayListScheduled['playlists_schedules']);
+                    $pl = new PlayList($ps->playlists_id);
+                    $title = $pl->getName() . ' [' . $ps->msg . ']';
+                    Rebroadcaster::rebroadcastVideo(
+                        $ps->current_videos_id,
+                        $pl->getUsers_id(),
+                        Playlists_schedules::getPlayListScheduledIndex($isPlayListScheduled['playlists_schedules']),
+                        $title
+                    );
+                } else {
+                    _error_log("on_publish_done is complete {$pls->getFinish_datetime()} < " . time() . " | " . date('Y/m/d H:i:s', $pls->getFinish_datetime()) . ' < ' . date('Y/m/d H:i:s', time()));
+                    self::setScheduleStatus($key, Playlists_schedules::STATUS_COMPLETE);
+                }
+            }else{
+                _error_log("on_publish_done  Playlists::thereIsARebroadcastPlaying($key) ");
             }
         } else {
             _error_log("on_publish_done is complete isPlayListScheduled=" . json_encode($isPlayListScheduled));
