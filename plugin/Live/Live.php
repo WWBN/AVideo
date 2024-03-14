@@ -4197,7 +4197,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 if (empty($value['stats_url'])) {
                     continue;
                 }
-                $live_servers_ids[] = array($value['id']);
+                $live_servers_ids[] = $value['id'];
             }
         }
 
