@@ -55,6 +55,16 @@ class AI extends PluginAbstract
     static $url = 'https://ai.ypt.me/';
     static $url_test = 'http://192.168.0.2:81/AI/';
 
+    public function getTags()
+    {
+        return [
+            PluginTags::$MONETIZATION,
+            PluginTags::$FREE,
+            PluginTags::$RECOMMENDED,
+            PluginTags::$PLAYER,
+        ];
+    }
+
     static function getMetadataURL()
     {
         global $global;
