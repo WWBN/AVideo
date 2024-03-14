@@ -218,10 +218,12 @@ class LiveTransmition extends ObjectYPT {
         if ($res != false) {
             $user = $data;
             if (empty($user)) {
+                _error_log('LiveTransmition::getFromDbByUserName user not found '.$userName);
                 return false;
             }
             return static::getFromDbByUser($user['id']);
         } else {
+            _error_log('LiveTransmition::getFromDbByUserName sql error '.$sql);
             return false;
         }
     }
