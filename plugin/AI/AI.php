@@ -75,6 +75,7 @@ class AI extends PluginAbstract
     public function getDescription()
     {
         $desc = "Optimize video visibility with AI-driven meta-tag suggestions and automatic transcription for enhanced SEO performance.";
+        $desc .= "<br>You can overprice AI request prices and generate income from users who utilize these AI services.";
         $help = "<br><small><a href='https://github.com/WWBN/AVideo/wiki/AI-Plugin' target='_blank'><i class='fas fa-question-circle'></i> Help</a></small>";
         $help .= "<br><small><a href='https://youphp.tube/marketplace/AI/privacyPolicy.php' target='_blank'><i class='fa-solid fa-barcode'></i> AI Services Pricing</a></small>";
 

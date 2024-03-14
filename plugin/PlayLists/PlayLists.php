@@ -1043,13 +1043,8 @@ class PlayLists extends PluginAbstract
         require_once $file;
     }
 
-    static function thereIsARebroadcastPlaying($key, $playlist_id=0){
+    static function thereIsARebroadcastPlaying($key){
         $parts = Rebroadcaster::isKeyARebroadcast($key);
-        if(!empty($playlist_id)){
-            if($playlist_id != $parts['index']){
-                return false;
-            }
-        }
         $stats = getStatsNotifications();
         foreach ($stats["applications"] as $key => $value) {
             if(preg_match("/{$parts['cleankey']}-RB-([0-9]+)-{$parts['index']}/i", $value['key'])){
