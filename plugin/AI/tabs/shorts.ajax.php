@@ -6,6 +6,11 @@ $objAI = AVideoPlugin::getObjectDataIfEnabled('AI');
 if (empty($objAI)) {
     forbiddenPage('AI plugin is disabled');
 }
+
+if(!AI::canUseAI()){
+    forbiddenPage('You cannot use AI');
+}
+
 $videos_id = getVideos_id();
 $isModeYouTube = 1;
 $trascription = Ai_responses::getTranscriptionVtt($videos_id);

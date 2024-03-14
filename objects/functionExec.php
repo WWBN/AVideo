@@ -42,7 +42,8 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
         $videoDimensions = shell_exec($ffprobeCommand);
         _error_log("cutAndAdaptVideoWithFFmpeg response ($videoDimensions)");
         list($width, $height) = explode('x', trim($videoDimensions));
-    
+        $width = intval($width);
+        $height = intval($height);
         $cropParams = calculateCenterCrop($width, $height, $aspectRatio);
     
         // Calculate crop dimensions

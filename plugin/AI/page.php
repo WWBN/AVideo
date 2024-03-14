@@ -18,6 +18,11 @@ $objAI = AVideoPlugin::getObjectDataIfEnabled('AI');
 if (empty($objAI)) {
     forbiddenPage('AI plugin is disabled');
 }
+
+if(!AI::canUseAI()){
+    forbiddenPage('You cannot use AI');
+}
+
 //$rows = Ai_responses::getTranscriptions($videos_id);var_dump($rows);exit;
 //var_dump(Ai_responses::hasTranscriptions($videos_id));exit;
 

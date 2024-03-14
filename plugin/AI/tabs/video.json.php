@@ -12,6 +12,11 @@ if (!AVideoPlugin::isEnabledByName('AI')) {
     forbiddenPage('AI plugin is disabled');
 }
 
+if(!AI::canUseAI()){
+    forbiddenPage('You cannot use AI');
+}
+
+
 setRowCount(100);
 $video = new Video('', '', $videos_id);
 $obj = new stdClass();

@@ -11,6 +11,8 @@ require_once $global['systemRootPath'] . 'plugin/AI/Objects/Ai_scheduler.php';
 class AI extends PluginAbstract
 {
 
+    const PERMISSION_CAN_USE_AI_SUGGESTIONS = 0;
+
     static $typeTranslation = 'translation';
     static $typeTranscription = 'transcription';
     static $typeBasic = 'basic';
@@ -107,11 +109,11 @@ class AI extends PluginAbstract
         self::addDataObjectHelper('priceForTranslation', 'Price for Translation Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
         $obj->priceForShorts = 0;
         self::addDataObjectHelper('priceForShorts', 'Price for Shorts Service', "Enter the charge amount for AI processing. Insufficient wallet balance will prevent processing. Successful charges apply to both your and the admin's CDN wallet on the marketplace.");
-        
-        
+
+
         $obj->autoProcessAll = false;
         self::addDataObjectHelper('autoProcessAll', 'Auto Process All', "This will create the transcription + basic + shorts");
-        
+
         /*
           $obj->textSample = "text";
           $obj->checkboxSample = true;
@@ -463,10 +465,12 @@ class AI extends PluginAbstract
     {
         $obj = $this->getDataObject();
         $btn = '';
-        $btn .= '<button type="button" ' .
-            ' class="btn btn-default btn-light btn-sm btn-xs btn-block" ' .
-            ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videos_id=\'+row.id+\'\\\');" >' .
-            ' <i class="fas fa-robot"></i> ' . __("AI-Powered") . '</button>';
+        if (AI::canUseAI()) {
+            $btn .= '<button type="button" ' .
+                ' class="btn btn-default btn-light btn-sm btn-xs btn-block" ' .
+                ' onclick="avideoModalIframe(webSiteRootURL+\\\'plugin/AI/page.php?videos_id=\'+row.id+\'\\\');" >' .
+                ' <i class="fas fa-robot"></i> ' . __("AI-Powered") . '</button>';
+        }
 
         return $btn;
     }
@@ -574,7 +578,7 @@ class AI extends PluginAbstract
             $obj->startTimeInSeconds = durationToSeconds($obj->startTimeInSeconds);
         }
         $aspectRatio = Video::ASPECT_RATIO_HORIZONTAL;
-        if(!empty($obj->aspectRatio)){
+        if (!empty($obj->aspectRatio)) {
             $aspectRatio = $obj->aspectRatio;
         }
 
@@ -619,7 +623,7 @@ class AI extends PluginAbstract
     {
         $price = 0;
         $obj = AVideoPlugin::getObjectData('AI');
-        
+
         switch ($type) {
             case AI::$typeBasic:
                 $price = $obj->priceForBasic;
@@ -634,13 +638,13 @@ class AI extends PluginAbstract
                 $price = $obj->priceForShorts;
                 break;
         }
-        if(empty($price)){
+        if (empty($price)) {
             _error_log("AI:asyncVideosId there is no price set for it");
             return true;
         }
 
         $objWallet = AVideoPlugin::getObjectDataIfEnabled('YPTWallet');
-        if(empty($objWallet)){
+        if (empty($objWallet)) {
             _error_log("AI:asyncVideosId the wallet is disabled");
             return true;
         }
@@ -649,12 +653,13 @@ class AI extends PluginAbstract
         return YPTWallet::transferBalanceToSiteOwner($users_id, $price, $description);
     }
 
-    static function asyncVideosIdAndSendSocketMessage($videos_id, $type, $users_id){
+    static function asyncVideosIdAndSendSocketMessage($videos_id, $type, $users_id)
+    {
         $objResp = AI::asyncVideosId($videos_id, $type, $users_id);
-        if($objResp->error){
-            sendSocketErrorMessageToUsers_id($objResp->msg,$users_id);
-        }else{
-            sendSocketSuccessMessageToUsers_id($objResp->msg,$users_id);
+        if ($objResp->error) {
+            sendSocketErrorMessageToUsers_id($objResp->msg, $users_id);
+        } else {
+            sendSocketSuccessMessageToUsers_id($objResp->msg, $users_id);
         }
     }
 
@@ -662,7 +667,7 @@ class AI extends PluginAbstract
     {
         global $global;
 
-        if(!self::chargeUser($type, $users_id, $videos_id)){
+        if (!self::chargeUser($type, $users_id, $videos_id)) {
             _error_log("AI:asyncVideosId error the user $users_id has no balance to pay the service $type for videos_id $videos_id ");
             $obj = new stdClass();
             $obj->error = true;
@@ -951,5 +956,22 @@ class AI extends PluginAbstract
         }
 
         return false;
+    }
+
+    function getPermissionsOptions()
+    {
+        $permissions = array();
+
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_USE_AI_SUGGESTIONS, __("Can use AI Suggestions"), __("Can use AI Suggestions"), 'AI');
+        return $permissions;
+    }
+
+    static function canUseAI()
+    {
+        if (User::isAdmin() || isCommandLineInterface()) {
+            return true;
+        }
+
+        return Permissions::hasPermission(self::PERMISSION_CAN_USE_AI_SUGGESTIONS, 'AI');;
     }
 }
