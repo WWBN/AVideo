@@ -638,15 +638,6 @@ class Live extends PluginAbstract
         );
     }
 
-    function executeEveryHour()
-    {
-        global $global;
-        $obj = $this->getDataObject();
-        if (!empty($obj->autoFishLiveEveryHour)) {
-            exec('php ' . $global['systemRootPath'] . 'plugin/Live/view/finishAll.json.php');
-        }
-    }
-
     public function getEmptyDataObject()
     {
         global $global;
@@ -1546,7 +1537,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("Live::getStatsObject[$live_servers_id] 2: return cached result");
                 return $getStatsObject[$live_servers_id];
             }
-            $result = $cacheHandler->getCache($name, maxLifetime() + 60);
+            $result = $cacheHandler->getCache($name, maxLifetime() + 90);
 
             if (!empty($result)) {
                 //_error_log("Live::getStatsObject[$live_servers_id] 3: return cached result $name [lifetime=" . (maxLifetime() + 60) . "]");
@@ -1560,60 +1551,45 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
         $o = AVideoPlugin::getDataObject('Live');
         if (empty($o->requestStatsTimout)) {
-            $o->requestStatsTimout = 2;
+            $o->requestStatsTimout = 10;
         }
+        $xml = $this->createCacheStatsObject($live_servers_id,$o->requestStatsTimout);
+        $getStatsObject[$live_servers_id] = $xml;
+        $cacheHandler->setCache($xml);
+        //var_dump(__LINE__, $xml);
+        $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
+        return $xml;
+    }
+
+    public function createCacheStatsObject($live_servers_id = 0, $requestStatsTimout = 15)
+    {
+        if (!function_exists('simplexml_load_file')) {
+            _error_log("Live::getStatsObject: You need to install the simplexml_load_file function to be able to see the Live stats", AVideoLog::$ERROR);
+            return false;
+        }
+        global $global;
+        if (!isset($global['isStatsAccessible'])) {
+            $global['isStatsAccessible'] = array();
+        }
+        $name = "live_servers_id_{$live_servers_id}_getStatsObject";
+        $cacheHandler = new LiveCacheHandler();
+        $cacheHandler->setSuffix($name);        
         ini_set('allow_url_fopen ', 'ON');
         if (isDocker()) {
             $url = getDockerStatsURL();
         } else {
             $url = $this->getStatsURL($live_servers_id);
         }
-        if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
-            _error_log("Live::getStatsObject[$live_servers_id] RTMP Server ($url) is NOT responding we will wait less from now on => live_servers_id = ($live_servers_id) ");
-            // if the server already fail, do not wait mutch for it next time, just wait 0.5 seconds
-            $o->requestStatsTimout = $_SESSION['getStatsObjectRequestStatsTimout'][$url];
-        }
-        //_error_log_debug("Live::getStatsObject ($url) ({$o->requestStatsTimout}) ");
-
-
-        $waitFile = getTmpDir() . md5($name);
-        if (file_exists($waitFile) && filemtime($waitFile) > time() - 10 && $tries < 10) {
-            _error_log("Live::getStatsObject[$live_servers_id]: there is a request in progeress, please wait {$waitFile}");
-            sleep(1);
-            return self::getStatsObject($live_servers_id, $force_recreate, $tries + 1);
-        }
-        //_error_log("Live::getStatsObject[$live_servers_id]: Creating a waitfile {$waitFile}");
-        file_put_contents($waitFile, time());
-        $data = $this->get_data($url, $o->requestStatsTimout);
-        unlink($waitFile);
+        $data = $this->get_data($url,  $requestStatsTimout);
         if (empty($data)) {
-            _session_start();
-            $global['isStatsAccessible'][$live_servers_id] = 0;
-            if (empty($_SESSION['getStatsObjectRequestStatsTimout'])) {
-                $_SESSION['getStatsObjectRequestStatsTimout'] = [];
-            }
-            $_SESSION['getStatsObjectRequestStatsTimout'][$url] = $o->requestStatsTimout - 1;
-            if ($_SESSION['getStatsObjectRequestStatsTimout'][$url] < 1) {
-                $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 2;
-            }
-            _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE, timeout=({$o->requestStatsTimout}) we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
+            _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE requestStatsTimout={$requestStatsTimout} we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
-        } else {
-            $global['isStatsAccessible'][$live_servers_id] = 1;
-            if (!empty($_SESSION['getStatsObjectRequestStatsTimout'][$url])) {
-                _error_log("Live::getStatsObject RTMP Server ($url) is respond again => live_servers_id = ($live_servers_id) ");
-                // the server respont again, wait the default time
-                _session_start();
-                $_SESSION['getStatsObjectRequestStatsTimout'][$url] = 0;
-                unset($_SESSION['getStatsObjectRequestStatsTimout'][$url]);
-            }
-        }
+        } 
         $xml = simplexml_load_string($data);
         $xml = json_encode($xml);
         $xml = _json_decode($xml);
         $getStatsObject[$live_servers_id] = $xml;
         $cacheHandler->setCache($xml);
-        //var_dump(__LINE__, $xml);
         $global['isStatsAccessible'][$live_servers_id] = !empty($xml);
         return $xml;
     }
@@ -1638,7 +1614,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             return false;
         }
 
-        _error_log_debug("Live::getStatsObject get_data($url, $timeout) ");
+        //_error_log_debug("Live::getStatsObject get_data($url, $timeout) ");
         return url_get_contents($url, '', $timeout);
     }
 
@@ -4207,6 +4183,40 @@ Click <a href=\"{link}\">here</a> to join our live.";
     public function getUserNotificationButton()
     {
         self::_getUserNotificationButton();
+    }
+
+    function executeEveryMinute()
+    {
+        $start = microtime(true);
+        $live_servers_ids = array(0);
+        $objLive = AVideoPlugin::getDataObject("Live");
+        if (!empty($objLive->useLiveServers)) {
+            $live_servers_ids = array();
+            $rows = Live_servers::getAllActive();
+            foreach ($rows as $value) {
+                if (empty($value['stats_url'])) {
+                    continue;
+                }
+                $live_servers_ids[] = array($value['id']);
+            }
+        }
+
+        foreach ($live_servers_ids as $live_servers_id) {
+            //_error_log("Live::executeEveryMinute live_servers_id=$live_servers_id");
+            $this->createCacheStatsObject($live_servers_id);
+        }
+        Live::checkAllFromStats();
+        $end = microtime(true) - $start;
+        //_error_log("Live::executeEveryMinute complete in {$end} seconds");
+    }
+    
+    function executeEveryHour()
+    {
+        global $global;
+        $obj = $this->getDataObject();
+        if (!empty($obj->autoFishLiveEveryHour)) {
+            exec('php ' . $global['systemRootPath'] . 'plugin/Live/view/finishAll.json.php');
+        }
     }
 }
 
