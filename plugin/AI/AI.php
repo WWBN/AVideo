@@ -973,7 +973,7 @@ class AI extends PluginAbstract
     {
         $permissions = array();
 
-        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_USE_AI_SUGGESTIONS, __("Can use AI Suggestions"), __("Can use AI Suggestions"), 'AI');
+        $permissions[] = new PluginPermissionOption(self::PERMISSION_CAN_USE_AI_SUGGESTIONS, __("Can use AI Suggestions"), "Members of the designated user group will have access to AI suggestions and requests. Monetization options are available, as outlined here: <a href='https://github.com/WWBN/AVideo/wiki/AI-Plugin#monetization-and-pricing' target='_blank'>AI Plugin Monetization and Pricing</a>.", 'AI');
         return $permissions;
     }
 
