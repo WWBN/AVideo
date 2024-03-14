@@ -90,7 +90,7 @@ class MonetizeUsers extends PluginAbstract {
                 $users_id = 0;
                 $when_to = '';
                 $rows = VideosStatistics::getVideosToReward($percentage_watched, $only_logged_users, $users_id);
-                _error_log("Checking rewardMinimumViewPercentage {$percentage_watched}% ");
+                //_error_log("Checking rewardMinimumViewPercentage {$percentage_watched}% ");
                 //var_dump($percentage_watched);
                 $ids_array = array();
                 foreach ($rows as $value) {
