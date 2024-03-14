@@ -192,14 +192,19 @@ class LiveTransmition extends ObjectYPT {
 
     public static function getFromRequest() {
         if (!empty($_REQUEST['live_transmitions_id'])) {
+            _error_log('LiveTransmition::getFromRequest line'.__LINE__);
             return LiveTransmition::getFromDb($_REQUEST['live_transmitions_id']);
         } else if (!empty($_REQUEST['live_schedule'])) {
+            _error_log('LiveTransmition::getFromRequest line'.__LINE__);
             return LiveTransmition::getFromDbBySchedule($_REQUEST['live_schedule']);
         } elseif (!empty($_REQUEST['u'])) {
+            _error_log('LiveTransmition::getFromRequest line'.__LINE__);
             return LiveTransmition::getFromDbByUserName($_REQUEST['u']);
         } elseif (!empty($_REQUEST['c'])) {
+            _error_log('LiveTransmition::getFromRequest line'.__LINE__);
             return LiveTransmition::getFromDbByChannelName($_REQUEST['c']);
         }
+        _error_log('LiveTransmition::getFromRequest line'.__LINE__);
         return false;
     }
 
