@@ -87,7 +87,7 @@ foreach ($rows as $value) {
     $found = false; // Flag to indicate if the desired condition is met
 
     foreach ($json as $liveServers) {
-        if (empty($liveServers['error'])) {
+        if (empty($liveServers['error']) && !is_bool($liveServers)) {
             foreach ($liveServers['applications'] as $apps) {
                 if (preg_match("/.*{$forceIndex}$/", $apps['key'])) {
                     $found = true;
