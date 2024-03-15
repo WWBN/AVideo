@@ -538,7 +538,7 @@ class LiveTransmitionHistory extends ObjectYPT
         if (empty($live_transmitions_history_id)) {
             return false;
         }
-        _error_log('updateModifiedTime: ' . json_encode(debug_backtrace()));
+        //_error_log('updateModifiedTime: ' . json_encode(debug_backtrace()));
         $sql = "UPDATE " . static::getTableName() . " SET modified = now() WHERE id = {$live_transmitions_history_id} ";
 
         $insert_row = sqlDAL::writeSql($sql);
