@@ -16,6 +16,14 @@ class Subscribe extends ObjectYPT{
     protected $notify;
     protected $subscriber_users_id;
 
+    /**
+     * Undocumented function
+     *
+     * @param int $id
+     * @param string $email
+     * @param int $user_id the channel owner
+     * @param int $subscriber_users_id the user that will subscribe
+     */
     public function __construct($id, $email = "", $user_id = "", $subscriber_users_id = "")
     {
         if (!empty($id)) {

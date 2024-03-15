@@ -402,6 +402,9 @@ class CustomizeUser extends PluginAbstract
         $obj->enableChannelCalls = true;
         self::addDataObjectHelper('enableChannelCalls', 'Enable Meeting Calls from channels', 'This feature requires the meet plugin enabled');
 
+        $obj->onSignUpSubscribeToChannelsIds = '[]';
+        self::addDataObjectHelper('onSignUpSubscribeToChannelsIds', 'On Sign Up Subscribe To Channels Ids', 'This field is an json array with ids of users that will be auto-subscribed');
+        
         return $obj;
     }
 
@@ -661,6 +664,16 @@ class CustomizeUser extends PluginAbstract
     {
         global $global;
         $obj = $this->getDataObject();
+        if(!empty($obj->onSignUpSubscribeToChannelsIds)){
+            $json = _json_decode($obj->onSignUpSubscribeToChannelsIds);
+            if(!empty($json) && is_array($json)){
+                foreach ($json as $channel_owner_users_id) {
+                    $subsc = new Subscribe(0, '', $channel_owner_users_id, $users_id);
+                    $subsc->setNotify(1);
+                    $subsc->save();
+                }
+            }
+        }
     }
 
     public function getWatchActionButton($videos_id)

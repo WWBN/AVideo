@@ -123,7 +123,7 @@ class AI extends PluginAbstract
 
 
         $obj->autoProcessAll = false;
-        self::addDataObjectHelper('autoProcessAll', 'Auto Process All', "This will create the transcription + basic + shorts");
+        self::addDataObjectHelper('autoProcessAll', 'Auto Process All', "This will create the transcription + basic + shorts automatically for all new videos");
 
         /*
           $obj->textSample = "text";
