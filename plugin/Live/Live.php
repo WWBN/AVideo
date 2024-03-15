@@ -1927,7 +1927,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $rows = Live_servers::getAllActive();
             TimeLogEnd($timeName, __LINE__);
 
-            _error_log("Live::getStats Live_servers::getAllActive total=" . count($rows));
+            //_error_log("Live::getStats Live_servers::getAllActive total=" . count($rows));
             $liveServers = [];
             foreach ($rows as $key => $row) {
                 if (!empty($row['playerServer'])) {
@@ -2810,7 +2810,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 //_error_log("isLiveAndIsReadyFromKey::key: {$key} isset");
                 return $_isLiveAndIsReadyFromKey[$name];
             }
-            $cache = $cacheHandler->getCache($name, 60);
+            $cache = $cacheHandler->getCache($name, 90);
         } else {
             $cacheHandler->setSuffix($name);
         }
@@ -2819,7 +2819,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         if (!empty($json) && is_object($json)) {
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} getCache");
+            //_error_log("isLiveAndIsReadyFromKey::key: {$key} getCache");
             $_isLiveAndIsReadyFromKey[$name] = $json->result;
         } else {
             $json = new stdClass();
