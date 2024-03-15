@@ -2807,7 +2807,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $cacheHandler = new LiveCacheHandler();
         if (empty($force_recreate)) {
             if (isset($_isLiveAndIsReadyFromKey[$name])) {
-                _error_log("isLiveAndIsReadyFromKey::key: {$key} isset");
+                //_error_log("isLiveAndIsReadyFromKey::key: {$key} isset");
                 return $_isLiveAndIsReadyFromKey[$name];
             }
             $cache = $cacheHandler->getCache($name, 60);
