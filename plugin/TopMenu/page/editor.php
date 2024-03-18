@@ -239,7 +239,8 @@ $groups = UserGroups::getAllUsersGroups();
                                                     <label for="text">text:</label>
                                                     <textarea type="text" class="form-control" id="pageText"></textarea>
                                                     <?php
-                                                    echo getTinyMCE("pageText");
+                                                    //getTinyMCE($id, $simpleMode = false, $allowAttributes = false, $allowCSS = false, $allowAllTags = false)
+                                                    echo getTinyMCE("pageText", false, true, true, true);
                                                     ?>
                                                 </div>
                                             </div>

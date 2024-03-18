@@ -96,6 +96,11 @@ class Category
         $this->parentId = $parentId;
     }
 
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
     public function setDescription($description)
     {
         $this->description = $description;

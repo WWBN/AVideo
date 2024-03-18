@@ -71,7 +71,6 @@ function cutVideoWithFFmpeg($inputFile, $startTimeInSeconds, $endTimeInSeconds, 
     }
 }
 
-
 function getDurationFromFile($file)
 {
     global $config, $getDurationFromFile;
@@ -429,4 +428,61 @@ function killProcess($pid)
         exec("kill -9 $pid");
     }
     return true;
+}
+
+
+function canExecutePgrep() {
+    // Check if we can successfully pgrep the init or systemd process
+    $test = shell_exec('pgrep -f init || pgrep -f systemd');
+    return !empty($test); // Return true if we can execute pgrep, false otherwise
+}
+
+function getProcessPids($processName) {
+    if (!canExecutePgrep()) {
+        return null; // If we can't execute pgrep, return null
+    }
+
+    // Using pgrep with -a to get both PID and the full command line
+    $output = shell_exec('pgrep -af ' . escapeshellarg($processName));
+
+    if (empty($output)) {
+        return array();
+    }
+
+    // Split the string into an array based on newline and filter out any empty values
+    $lines = array_filter(explode("\n", $output));
+
+    $pids = [];
+    foreach ($lines as $line) {
+        // Skip the line containing sh -c pgrep
+        if (strpos($line, 'pgrep') !== false) {
+            continue;
+        }
+        //_error_log("getProcessPids($processName) $line");
+        // Extract PID from the start of the line
+        list($pid, ) = explode(' ', trim($line), 2);
+        $pids[] = $pid;
+    }
+
+    return $pids;
+}
+
+function getCommandByPid($pid) {
+    $cmdlineFile = "/proc/{$pid}/cmdline";
+
+    // Check if the cmdline file exists for the given PID
+    if (!file_exists($cmdlineFile)) {
+        return false;  // or return an error message or throw an exception
+    }
+
+    // Read the content and break it into an array using null characters as the delimiter
+    $cmd = file_get_contents($cmdlineFile);
+    $cmdArray = explode("\0", $cmd);
+
+    // Remove any empty elements from the array
+    $cmdArray = array_filter($cmdArray, function($value) {
+        return $value !== '';
+    });
+
+    return $cmdArray;
 }

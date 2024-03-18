@@ -130,3 +130,11 @@ function _error_log($message, $type = 0, $doNotRepeat = false)
 function isSchedulerRun(){
     return preg_match('/Scheduler\/run\.php$/', $_SERVER['SCRIPT_NAME']);
 }
+
+
+function _dieAndLogObject($obj, $prefix = "")
+{
+    $objString = json_encode($obj);
+    _error_log($prefix . $objString);
+    die($objString);
+}

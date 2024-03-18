@@ -24,6 +24,9 @@ class IP2Location extends ObjectYPT {
         // japan 2.16.40.123
         // USA 	2.16.13.123
         //$ip = '2.16.40.123';
+        if(!isset($_SESSION['IP2Location']) || !is_array($_SESSION['IP2Location'])){
+            $_SESSION['IP2Location'] = array();
+        }
         if (empty($_SESSION['IP2Location'][$ip]['country_code'])) {
             $_SESSION['IP2Location'][$ip] = false;
             if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {

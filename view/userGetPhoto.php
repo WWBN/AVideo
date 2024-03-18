@@ -8,8 +8,9 @@ if (empty($_REQUEST['users_id'])) {
     header('Content-Type: image/jpeg');
     $img = 'img/placeholders/user.png';
 } else {
+    $users_id = intval($_REQUEST['users_id']);
     header('Content-Type: image/png');
-    $img = "../videos/userPhoto/photo{$_REQUEST['users_id']}.png";
+    $img = "../videos/userPhoto/photo{$users_id}.png";
 }
 
 if (!file_exists($img)) {

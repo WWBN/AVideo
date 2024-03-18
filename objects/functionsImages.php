@@ -1009,3 +1009,78 @@ function convertImage($originalImage, $outputImage, $quality, $useExif = false)
 
     return $response;
 }
+
+function base64DataToImage($imgBase64)
+{
+    $img = $imgBase64;
+    $img = str_replace('data:image/png;base64,', '', $img);
+    $img = str_replace(' ', '+', $img);
+    return base64_decode($img);
+}
+
+function saveBase64DataToPNGImage($imgBase64, $filePath)
+{
+    $fileData = base64DataToImage($imgBase64);
+    if (empty($fileData)) {
+        return false;
+    }
+    return _file_put_contents($filePath, $fileData);
+}
+
+
+function createWebPIfNotExists($path)
+{
+    if (version_compare(PHP_VERSION, '8.0.0') < 0 || !file_exists($path)) {
+        return $path;
+    }
+    $extension = pathinfo($path, PATHINFO_EXTENSION);
+    if ($extension !== 'jpg') {
+        return $path;
+    }
+    $nextGenPath = str_replace('.jpg', '_jpg.webp', $path);
+
+    if (!file_exists($nextGenPath)) {
+        convertImage($path, $nextGenPath, 90);
+    }
+    return $nextGenPath;
+}
+
+
+function getCroppie(
+    $buttonTitle,
+    $callBackJSFunction,
+    $resultWidth = 0,
+    $resultHeight = 0,
+    $viewportWidth = 0,
+    $boundary = 25,
+    $viewportHeight = 0,
+    $enforceBoundary = true
+) {
+    global $global;
+    require_once $global['systemRootPath'] . 'objects/functionCroppie.php';
+    return getCroppieElement(
+        $buttonTitle,
+        $callBackJSFunction,
+        $resultWidth ,
+        $resultHeight ,
+        $viewportWidth,
+        $boundary ,
+        $viewportHeight,
+        $enforceBoundary );
+}
+
+function saveCroppieImage($destination, $postIndex = "imgBase64")
+{
+    global $global;
+    require_once $global['systemRootPath'] . 'objects/functionCroppie.php';
+    return saveCroppieImageElement($destination, $postIndex);
+}
+
+
+function isImageNotFound($imgURL){
+    if(empty($imgURL)){
+        return true;
+    }
+    
+    return ImagesPlaceHolders::isDefaultImage($imgURL);
+}
