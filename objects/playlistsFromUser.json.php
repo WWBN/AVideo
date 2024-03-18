@@ -15,7 +15,7 @@ require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
 _error_log('playlistsFromUserVideos getAllFromUser '.$_GET['users_id']);
-setDefaultSort('created', 'DESC');
+//setDefaultSort('created', 'DESC');
 //setRowCount(50);
 //_session_write_close();
 $row = PlayList::getAllFromUser($_GET['users_id'], false);

@@ -11,10 +11,11 @@ if (empty($_REQUEST['users_id'])) {
     forbiddenPage('You need a user');
 }
 
-//setRowCount(100);
+setRowCount(100);
 require_once $global['systemRootPath'] . 'videos/configuration.php';
 require_once './playlist.php';
 header('Content-Type: application/json');
+//setDefaultSort('created', 'DESC');
 //mysqlBeginTransaction();
 if (is_array($_REQUEST['videos_id'])) {
     $rows = [];
