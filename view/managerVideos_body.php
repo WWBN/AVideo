@@ -2240,7 +2240,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 data: {
                     "users_id": <?php echo User::getId(); ?>,
                     "videos_id": videos_ids_list,
-                    "rowCount": 20
+                    "rowCount": videos_ids_list.length * 2
                 },
                 type: 'post',
                 success: function(response) {
