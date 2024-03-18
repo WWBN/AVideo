@@ -182,7 +182,7 @@ require_once $global['systemRootPath'] . 'objects/video.php';
                         }
                         if (CustomizeAdvanced::showDirectUploadButton()) {
                         ?>
-                            <button class="btn btn-sm btn-xs btn-default" onclick="newVideo();" id="uploadMp4" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
+                            <button class="btn btn-sm btn-xs btn-default" onclick="newDirectUploadVideo();" id="uploadMp4" data-toggle="tooltip" title="<?php echo __("Upload files without encode"), ' ', implode(', ', CustomizeAdvanced::directUploadFiletypes()); ?>">
                                 <span class="fa fa-upload"></span>
                                 <span class="hidden-md hidden-sm hidden-xs"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></span>
                             </button>
@@ -813,6 +813,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
     }
 
     function editVideo(row) {
+        resetVideoForm();
         if (!row.id) {
             row.id = videos_id;
         }
@@ -833,26 +834,18 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         } catch (e) {
 
         }
-
-        $('.uploadFile').hide();
         $('.nav-tabs a[href="#pmetadata"]').tab('show');
-        waitToSubmit = true;
-        $('#postersImage, #videoIsAdControl, .titles, #videoExtraDetails').slideDown();
+        $('body').addClass('edit_' + row.type);
+        $('body').addClass('is_editing');
         if (row.type === 'article') {
             isArticle = 1;
-            $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
-            $('.nav-tabs a[href="#pmetadata"]').tab('show');
             reloadFileInput();
-            $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
-            $('#postersImage').slideDown();
         } else {
             isArticle = 0;
             if ((row.type === 'embed') || (row.type === 'linkVideo') || (row.type === 'linkAudio')) {
                 $('#videoLink').val(row.videoLink);
                 $('#epg_link').val(row.epg_link);
                 $('#videoLinkType').val(row.type);
-            } else {
-                $('#videoLinkContent').slideUp();
             }
         }
 
@@ -962,16 +955,10 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         }
 
         $('#public').trigger("change");
-        $('#videoIsAd').prop('checked', false);
-        $('#videoIsAd').trigger("change");
         reloadFileInput(row);
         $('#input-jpg, #input-gif,#input-pjpg, #input-pgif, #input-webp').on('fileuploaded', function(event, data, previewId, index) {
             $("#grid").bootgrid("reload");
         })
-        waitToSubmit = true;
-        setTimeout(function() {
-            waitToSubmit = false;
-        }, 3000);
         $('#videoFormModal').modal();
         videoUploaded = true;
     }
@@ -1096,6 +1083,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         });
     }
 
+    var modalSaveVideo;
     function saveVideo(closeModal) {
         if (waitToSubmit) {
             return false;
@@ -1112,13 +1100,17 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         if (isPublic) {
             selectedVideoGroups = [];
         }
-        modal.showPleaseWait();
+        if(typeof modalSaveVideo === 'undefined'){
+            modalSaveVideo = getPleaseWait();
+        }
+        modalSaveVideo.showPleaseWait();
         var externalOptionsObject = {};
         $('.externalOptions').each(function(i, obj) {
             var name = $(this).attr('id');
             eval('externalOptionsObject.' + name + '="' + $(this).val() + '"');
         });
         var externalOptions = JSON.stringify(externalOptionsObject);
+        console.trace();
         $.ajax({
             url: webSiteRootURL + 'objects/videoAddNew.json.php',
             data: {
@@ -1179,7 +1171,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                         avideoAlert("<?php echo __("Sorry!"); ?>", "<?php echo __("Your video has NOT been saved!"); ?>", "error");
                     }
                 }
-                modal.hidePleaseWait();
+                modalSaveVideo.hidePleaseWait();
                 setTimeout(function() {
                     waitToSubmit = false;
                 }, 3000);
@@ -1188,45 +1180,53 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         return false;
     }
 
+    function resetVideoEditClasses() {
+        <?php
+        foreach (Video::$typeOptions as $videoType) {
+            echo "$('body').removeClass('edit_{$videoType}');";
+        }
+        ?>
+        
+        $('body').removeClass('edit_directUpload');
+        $('body').removeClass('is_editing');
+    }
+
     function resetVideoForm() {
         isArticle = 0;
+        videos_id = 0;
+        waitToSubmit = false;
+        resetVideoEditClasses();
         $('#fileUploadVideos_id').val(0);
-        $('.nav-tabs a[href="#pmedia"], #pmedia').show();
-        $("#pmedia").css("display", "");
-        $("#pmedia").attr("style", "");
-        $('.nav-tabs a[href="#pmedia"]').tab('show');
-        $('#postersImage, #videoIsAdControl, .titles, #videoExtraDetails').slideDown();
-        $('#videoLinkContent').slideUp();
         $('#inputVideoId').val(0);
         $('#inputTitle').val("");
         $('#inputTrailer').val("");
-        $('#videoStartSeconds').val("");
+        $('#videoStartSeconds').val('00:00:00');
         $('#inputVideoPassword').val("");
         $('#inputCleanTitle').val("");
         $('#created').val("");
         $('#inputDescription').val("");
-        $('#videoLinkType').val("");
+        $('#videoLinkType').val('');
         $('#videoLink').val('');
         $('#epg_link').val('');
-        <?php
-        if (empty($advancedCustom->disableHTMLDescription)) {
-        ?>
-            tinymce.get('inputDescription').setContent("");
-        <?php }
-        ?>
-        $('#inputCategory').val("");
+
+        
+        $('#inputShortSummary').val('');
+        $('#inputMetaDescription').val('');
+        $('#redirectVideoURL').val('');
+        $('#redirectVideoCode').val('0');
+        $('#releaseDate').val('now');
+        $('#releaseDateTime').val('');
+        
+
+        if (typeof tinymce === 'object') {
+            tinymce.get('inputDescription').setContent('');
+        }
+        $('#inputCategory').val($('#inputCategory option:first').val());
         $('#inputRrating').val("");
         $('#madeForKids').prop('checked', false);
         $('#removeAutoplay').trigger('click');
-        <?php
-        echo AVideoPlugin::getManagerVideosReset();
-        ?>
         var photoURL = '<?php echo User::getPhoto(); ?>';
         $("#inputUserOwner-img").attr("src", photoURL);
-        $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
-        $('#inputUserOwner_id').val(<?php echo User::getId(); ?>).trigger('change');
-        $('#users_id_company').val(0).trigger('change');
-        <?php echo $updateUserAutocomplete; ?>
         $('#views_count').val(0);
         $('.videoGroups').prop('checked', false);
         $('#can_download').prop('checked', false);
@@ -1234,74 +1234,71 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#only_for_paid').prop('checked', false);
         $('#public').prop('checked', true);
         $('#public').trigger("change");
-        $('#videoIsAd').prop('checked', false);
-        $('#videoIsAd').trigger("change");
         reloadFileInput();
         $('#input-jpg, #input-gif,#input-pjpg, #input-pgif').on('fileuploaded', function(event, data, previewId, index) {
             $("#grid").bootgrid("reload");
         });
         videos_id = 0;
-    }
 
-    function newVideo() {
-        $('.uploadFile').show();
-        videos_id = 0;
-        resetVideoForm();
-        waitToSubmit = false;
-        $('#inputTitle').val("Video automatically booked");
-        saveVideo(false);
-        waitToSubmit = true;
-        setTimeout(function() {
-            waitToSubmit = false;
-        }, 3000);
-        reloadFileInput({});
-        $('#videoFormModal').modal();
-    }
+        $('#inputUserOwner').val('<?php echo User::getUserName(); ?>');
+        $('#inputUserOwner_id').val(<?php echo User::getId(); ?>).trigger('change');
+        $('#users_id_company').val(0).trigger('change');
+        <?php echo $updateUserAutocomplete; ?>
 
-
-    function resetArticleForm() {
-        isArticle = 1;
-        $('#inputVideoId').val("");
-        $('#inputTitle').val("");
-        $('#inputTrailer').val("");
-        $('#videoStartSeconds').val("");
-        $('#inputVideoPassword').val("");
-        $('#inputCleanTitle').val("");
-        $('#inputDescription').val("");
-        $('#created').val("");
-        <?php
-        if (empty($advancedCustom->disableHTMLDescription)) {
-        ?>
-            tinymce.get('inputDescription').setContent("");
-        <?php }
-        ?>
-        $('#inputCategory').val($('#inputCategory option:first').val());
-        $('#inputRrating').val("");
-        $('#madeForKids').prop('checked', false);
-        $('.videoGroups').prop('checked', false);
-        $('#can_download').prop('checked', false);
-        $('#only_for_paid').prop('checked', false);
-        $('#can_share').prop('checked', false);
-        $('#public').prop('checked', true);
-        $('#public').trigger("change");
-        $('#videoIsAd').prop('checked', false);
-        $('#videoIsAd').trigger("change");
-        $('.nav-tabs a[href="#pmedia"], #pmedia').hide();
-        $('.nav-tabs a[href="#pmetadata"]').tab('show');
-        reloadFileInput();
-        $('#videoIsAdControl, #videoExtraDetails, #videoLinkContent').slideUp();
-        $('#postersImage').slideDown();
-        $('#videoLink').val('');
-        $('#epg_link').val('');
-        $('#videoStartSecond').val('00:00:00');
-        $('#videoLinkType').val("article");
         <?php
         echo AVideoPlugin::getManagerVideosReset();
         ?>
-
         setTimeout(function() {
             waitToSubmit = false;
         }, 2000);
+
+    }
+
+    function resetArticleForm() {
+        resetVideoForm();
+        isArticle = 1;
+        videos_id = 0;
+        saveVideo(false);
+        reloadFileInput({});
+        $('.nav-tabs a[href="#pmetadata"]').tab('show');
+        $('#videoLinkType').val("article");
+        $('#videoFormModal').modal();
+    }
+
+    function newVideo() {
+        resetVideoForm();
+        isArticle = 0;
+        videos_id = 0;
+        saveVideo(false);
+        reloadFileInput({});
+        $('body').addClass('edit_video');
+        $('#inputTitle').val("Video automatically booked");
+        $('#videoFormModal').modal();
+    }
+
+    function newDirectUploadVideo() {
+        newVideo();
+        $('body').addClass('edit_directUpload');
+        $('.nav-tabs a[href="#pmedia"]').tab('show');
+    }
+
+    function newArticle() {
+        resetArticleForm();
+        $('body').addClass('edit_article');
+        $('#inputTitle').val("Article automatically booked");
+    }
+
+
+    function newVideoLink() {
+        resetVideoForm();
+        isArticle = 0;
+        videos_id = 0;
+        $('#videoLinkType').val("linkVideo");
+        saveVideo(false);
+        reloadFileInput({});
+        $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
+        $('.nav-tabs a[href="#pmetadata"]').tab('show');
+        $('body').addClass('edit_linkVideo');
         $('#videoFormModal').modal();
     }
 
@@ -1337,21 +1334,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         return empty(image1) ? image2 : image1;
     }
 
-    function newArticle() {
-        $('.uploadFile').show();
-        videos_id = 0;
-        resetArticleForm();
-        waitToSubmit = false;
-        $('#inputTitle').val("Article automatically booked");
-        saveVideo(false);
-        waitToSubmit = true;
-        setTimeout(function() {
-            waitToSubmit = false;
-        }, 3000);
-        reloadFileInput({});
-        $('#videoLinkType').val("article");
-        $('#videoFormModal').modal();
-    }
 
     function getEmbedCode(id) {
         copyToClipboard($('#embedInput' + id).val());
@@ -1545,49 +1527,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         ?>
 
         $('#linkExternalVideo').click(function() {
-            isArticle = 0;
-            videos_id = 0;
-            $('#fileUploadVideos_id').val("");
-            $('#inputVideoId').val("");
-            $('#inputTitle').val("");
-            $('#inputTrailer').val("");
-            $('#videoStartSeconds').val("");
-            $('#inputVideoPassword').val("");
-            $('#inputCleanTitle').val("");
-            $('#inputDescription').val("");
-            $('#created').val("");
-            <?php
-            if (empty($advancedCustom->disableHTMLDescription)) {
-            ?>
-                tinymce.get('inputDescription').setContent("");
-            <?php }
-            ?>
-            $('#inputCategory').val($('#inputCategory option:first').val());
-            $('#inputRrating').val("");
-            $('#madeForKids').prop('checked', false);
-            $('.videoGroups').prop('checked', false);
-            $('#can_download').prop('checked', false);
-            $('#only_for_paid').prop('checked', false);
-            $('#can_share').prop('checked', false);
-            $('#public').prop('checked', true);
-            $('#public').trigger("change");
-            $('#videoIsAd').prop('checked', false);
-            $('#videoIsAd').trigger("change");
-            $('#input-jpg, #input-gif, #input-pjpg, #input-pgif').fileinput('destroy');
-            $('#postersImage, #videoIsAdControl, .titles').slideUp();
-            $('#videoLinkContent').slideDown();
-            $('#videoLink').val('');
-            $('#epg_link').val('');
-            $('#videoStartSecond').val('00:00:00');
-            $('#videoLinkType').val("linkVideo");
-            <?php
-            echo AVideoPlugin::getManagerVideosReset();
-            ?>
-
-            setTimeout(function() {
-                waitToSubmit = false;
-            }, 2000);
-            $('#videoFormModal').modal();
+            newVideoLink();
         });
         $("#checkBtn").click(function() {
             var chk = $("#chk").hasClass('fa-check-square');
@@ -1684,13 +1624,6 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 $('.non-public').slideUp();
             } else {
                 $('.non-public').slideDown();
-            }
-        });
-        $('#videoIsAd').change(function() {
-            if (!$('#videoIsAd').is(':checked')) {
-                $('.videoIsAdContent').slideUp();
-            } else {
-                $('.videoIsAdContent').slideDown();
             }
         });
         $('#removeAutoplay').click(function() {

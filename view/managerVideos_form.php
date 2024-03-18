@@ -28,13 +28,18 @@
             <div id="postersImage">
                 <div class="panel panel-default">
                     <div class="panel-heading tabbable-line">
+                        <div class="pull-right">
+                            <div class="label label-success showIfIsVideo">Video</div>
+                            <div class="label label-warning showIfIsArticle">Article</div>
+                            <div class="label label-primary showIfIsEmbedLink">Link/Embed</div>
+                        </div>
                         <ul class="nav nav-tabs">
-                            <li class="active uploadFile"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></a></li>
-                            <li><a data-toggle="tab" href="#pimages"><i class="far fa-image"></i> <?php echo __("Images"); ?></a></li>
-                            <li><a data-toggle="tab" href="#pmetadata"><i class="fas fa-info-circle"></i> <?php echo __("Meta Data"); ?></a></li>
-                            <li><a data-toggle="tab" href="#pSEO"><i class="fab fa-searchengin"></i> SEO</a></li>
-                            <li><a data-toggle="tab" href="#pPrivacy"><i class="fas fa-user-lock"></i> <?php echo __("Privacy"); ?></a></li>
-                            <li><a data-toggle="tab" href="#padvanced"><i class="fas fa-cog"></i> <?php echo __("Advanced"); ?></a></li>
+                            <li class="active uploadFile hideIfIsArticle hideIfIsEmbedLink hideIfIsEditing"><a data-toggle="tab" href="#pmedia"><?php echo empty($advancedCustom->uploadMP4ButtonLabel) ? __("Direct upload") : __($advancedCustom->uploadMP4ButtonLabel); ?></a></li>
+                            <li class=" hideIfIsEmbedLink"><a data-toggle="tab" href="#pimages"><i class="far fa-image"></i> <?php echo __("Images"); ?></a></li>
+                            <li class=""><a data-toggle="tab" href="#pmetadata"><i class="fas fa-info-circle"></i> <?php echo __("Meta Data"); ?></a></li>
+                            <li class=""><a data-toggle="tab" href="#pSEO"><i class="fab fa-searchengin"></i> SEO</a></li>
+                            <li class=""><a data-toggle="tab" href="#pPrivacy"><i class="fas fa-user-lock"></i> <?php echo __("Privacy"); ?></a></li>
+                            <li class=""><a data-toggle="tab" href="#padvanced"><i class="fas fa-cog"></i> <?php echo __("Advanced"); ?></a></li>
                             <?php
                             echo AVideoPlugin::getManagerVideosTab();
                             ?>
@@ -42,7 +47,7 @@
                     </div>
                     <div class="panel-body">
                         <div class="tab-content">
-                            <div id="pmedia" class="tab-pane fade in active">
+                            <div id="pmedia" class="tab-pane fade in active hideIfIsArticle hideIfIsEmbedLink hideIfIsArticle hideIfIsEditing">
                                 <form id="upload" method="post" action="<?php echo $global['webSiteRootURL'] . "view/mini-upload-form/upload.php"; ?>" enctype="multipart/form-data">
                                     <div id="drop">
                                         <a><?php echo __("Browse"); ?></a>
@@ -54,7 +59,7 @@
                                     </ul>
                                 </form>
                             </div>
-                            <div id="pimages" class="tab-pane fade">
+                            <div id="pimages" class="tab-pane fade hideIfIsEmbedLink">
                                 <div class="panel panel-default">
                                     <div class="panel-heading tabbable-line">
                                         <ul class="nav nav-tabs">
@@ -89,6 +94,22 @@
                             <div id="pmetadata" class="tab-pane fade">
                                 <input type="hidden" id="inputVideoId">
                                 <input type="hidden" id="videoLinkType">
+                                <div id="videoLinkContent" class="showIfIsEmbedLink">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <label class="control-label" for="videoLink"><?php echo __("Video Link"); ?></label>
+                                            <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <label class="control-label" for="epg_link"><?php echo __("EPG XML Link"); ?> </label>
+                                            <input type="url" id="epg_link" class="form-control" placeholder="<?php echo __("EPG XML Link"); ?>">
+                                            <small>
+                                                <i class="far fa-question-circle"></i>
+                                                You MUST use a <a href="http://wiki.xmltv.org/index.php/XMLTVFormat" target="_blank">XMLTV File format</a>
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="titles">
                                     <div class="row">
                                         <?php
@@ -129,9 +150,9 @@
                                 </div>
                                 <label class="control-label" for="inputDescription"><?php echo __("Description"); ?></label>
                                 <textarea id="inputDescription" class="form-control" placeholder="<?php echo __("Description"); ?>" required></textarea>
-                            </div>
 
-                            <div id="pSEO" class="tab-pane fade">
+                            </div>
+                            <div id="pSEO" class="tab-pane fade ">
                                 <div class="row">
                                     <div class="col-md-12 titles">
                                         <label class="control-label" for="inputCleanTitle"><?php echo __("Clean Title"); ?></label>
@@ -142,7 +163,7 @@
                                 echo AVideoPlugin::getManagerVideosEditField('SEO');
                                 ?>
                             </div>
-                            <div id="pPrivacy" class="tab-pane fade">
+                            <div id="pPrivacy" class="tab-pane fade ">
                                 <?php
                                 echo AVideoPlugin::getManagerVideosEditField('Privacy');
                                 ?>
@@ -231,7 +252,7 @@
                                 </div>
 
                             </div>
-                            <div id="padvanced" class="tab-pane fade">
+                            <div id="padvanced" class="tab-pane fade ">
 
                                 <?php
                                 echo AVideoPlugin::getManagerVideosEditField('Advanced');
@@ -273,7 +294,7 @@
                                 </div>
 
                                 <hr>
-                                <div class="row" id="videoExtraDetails">
+                                <div class="row hideIfIsArticle hideIfIsEmbedLink" id="videoExtraDetails">
 
                                     <div class="col-md-6">
 
@@ -368,22 +389,6 @@
                     </div>
                 </div>
 
-            </div>
-            <div id="videoLinkContent">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <label class="control-label" for="videoLink"><?php echo __("Video Link"); ?></label>
-                        <input type="text" id="videoLink" class="form-control" placeholder="<?php echo __("Video Link"); ?> http://www.your-embed-link.com/video" required>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="control-label" for="epg_link"><?php echo __("EPG XML Link"); ?> </label>
-                        <input type="url" id="epg_link" class="form-control" placeholder="<?php echo __("EPG XML Link"); ?>">
-                        <small>
-                            <i class="far fa-question-circle"></i>
-                            You MUST use a <a href="http://wiki.xmltv.org/index.php/XMLTVFormat" target="_blank">XMLTV File format</a>
-                        </small>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="modal-footer">

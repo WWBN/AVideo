@@ -35,15 +35,23 @@ class ImageGallery extends PluginAbstract
         return $obj;
     }
 
-    static function dieIfIsInvalid($videos_id)
+    static function isInvalidType($videos_id)
     {
         if (empty($videos_id)) {
-            forbiddenPage('Videos ID is required');
+            return true;
         }
         $video = new Video('', '', $videos_id);
 
-        if ($video->getType() != Video::$videoTypeImage && $video->getType() != Video::$videoTypeGallery) {
-            forbiddenPage('Video type is invalid');
+        if ($video->getType() != Video::$videoTypeImage && $video->getType() != Video::$videoTypeGallery) {           
+            return true;
+        }
+        return false;
+    }
+
+    static function dieIfIsInvalid($videos_id)
+    {
+        if (self::isInvalidType($videos_id)) {
+            forbiddenPage('Videos ID is required');
         }
     }
 
@@ -140,11 +148,11 @@ class ImageGallery extends PluginAbstract
 
     
     public static function getManagerVideosTab(){
-        return '<li id="pImageGalleryLI"><a data-toggle="tab" href="#pImageGallery"><i class="fa-regular fa-images"></i> ' . __("Image Gallery") . '</a></li>';
+        return '<li id="pImageGalleryLI" class="showIfIsImage"><a data-toggle="tab" href="#pImageGallery"><i class="fa-regular fa-images"></i> ' . __("Image Gallery") . '</a></li>';
     }
 
     public static function getManagerVideosBody(){
-        return '<div id="pImageGallery" class="tab-pane fade"><iframe  style="width: 100%; height: 65vh;" src="about:blank" allowfullscreen></iframe></div>';
+        return '<div id="pImageGallery" class="tab-pane fade showIfIsImage"><iframe  style="width: 100%; height: 65vh;" src="about:blank" allowfullscreen></iframe></div>';
     }
 
     public static function getManagerVideosEdit() {

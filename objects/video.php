@@ -464,7 +464,11 @@ if (!class_exists('Video')) {
             $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
 
             if (empty($this->status) || empty(self::$statusDesc[$this->status])) {
-                $this->status = Video::$statusEncoding;
+                if($this->type != self::$videoTypeVideo){
+                    $this->status = Video::$statusActive;
+                }else{
+                    $this->status = Video::$statusEncoding;
+                }
             }
 
             if (empty($this->type) || !in_array($this->type, self::$typeOptions)) {
@@ -612,7 +616,7 @@ if (!class_exists('Video')) {
              */
             //var_dump($this->title, $insert_row);exit;
             if ($insert_row) {
-                _error_log("Video::save ([{$this->sites_id}] {$this->title}) Saved id = {$insert_row} {$this->duration} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
+                _error_log("Video::save ([{$this->sites_id}] {$this->title}) Saved id = {$insert_row} status=([{$this->status}]) {$this->duration} " . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                 //Category::clearCacheCount();
                 if (empty($this->id)) {
                     $this->id = $insert_row;
@@ -6601,30 +6605,41 @@ if (!class_exists('Video')) {
 
         public static function checkIfIsBroken($videos_id)
         {
-            global $checkIfIsBroken;
+            global $checkIfIsBroken, $_checkIfIsBrokenList;
             if (!isset($checkIfIsBroken)) {
                 $checkIfIsBroken = 0;
             }
+            if (!isset($_checkIfIsBrokenList)) {
+                $_checkIfIsBrokenList = array();
+            }
+            if(isset($_checkIfIsBrokenList[$videos_id])){
+                return $_checkIfIsBrokenList[$videos_id];
+            } 
             if ($checkIfIsBroken > 10) {
                 _error_log("Video::checkIfIsBroken($videos_id) maximum check reached ");
-                return false;
+                $_checkIfIsBrokenList[$videos_id] = false;
+                return $_checkIfIsBrokenList[$videos_id];
             }
             $video = new Video('', '', $videos_id);
             if (!empty($video->getSerie_playlists_id())) {
-                return false;
+                $_checkIfIsBrokenList[$videos_id] = false;
+                return $_checkIfIsBrokenList[$videos_id];
             }
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
-                if ($video->getType() == 'audio' || $video->getType() == 'video') {
+                if ($video->getType() == Video::$videoTypeAudio|| $video->getType() == Video::$videoTypeVideo) {
                     $checkIfIsBroken++;
                     if (self::isMediaFileMissing($video->getFilename())) {
                         _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename() . ' status=[' . $video->getStatus() . ']' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
                         $video->setStatus(Video::$statusBrokenMissingFiles);
                         Video::clearCache($videos_id);
-                        return true;
+                        $_checkIfIsBrokenList[$videos_id] = true;
+                        return $_checkIfIsBrokenList[$videos_id];
                     }
                 }
             }
-            return $video->getStatus() == Video::$statusBrokenMissingFiles;
+            
+            $_checkIfIsBrokenList[$videos_id] = $video->getStatus() == Video::$statusBrokenMissingFiles;
+            return $_checkIfIsBrokenList[$videos_id];
         }
 
         public static function isMediaFileMissing($filename, $cacheCleared = false)
