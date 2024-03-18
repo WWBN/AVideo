@@ -237,3 +237,10 @@ function lockForUpdate($tableName, $condition)
         return false;
     }
 }
+
+function setDefaultSort($defaultSortColumn, $defaultSortOrder)
+{
+    if (empty($_REQUEST['sort']) && empty($_GET['sort']) && empty($_POST['sort']) && empty($_GET['order'][0]['dir'])) {
+        $_POST['sort'][$defaultSortColumn] = $defaultSortOrder;
+    }
+}

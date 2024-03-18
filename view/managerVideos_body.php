@@ -2239,7 +2239,8 @@ if (empty($advancedCustom->disableHTMLDescription)) {
                 url: webSiteRootURL + 'objects/playlistsFromUserVideos.json.php',
                 data: {
                     "users_id": <?php echo User::getId(); ?>,
-                    "videos_id": videos_ids_list
+                    "videos_id": videos_ids_list,
+                    "rowCount": 10
                 },
                 type: 'post',
                 success: function(response) {

@@ -6623,13 +6623,6 @@ function isOnDeveloperMode()
     return (!empty($global['developer_mode']) || (!empty($global['developer_mode_admin_only']) && User::isAdmin()));
 }
 
-function setDefaultSort($defaultSortColumn, $defaultSortOrder)
-{
-    if (empty($_REQUEST['sort']) && empty($_GET['sort']) && empty($_POST['sort']) && empty($_GET['order'][0]['dir'])) {
-        $_POST['sort'][$defaultSortColumn] = $defaultSortOrder;
-    }
-}
-
 function getWordOrIcon($word, $class = '')
 {
     $word = trim($word);
