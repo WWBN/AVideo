@@ -119,7 +119,7 @@ class YPTWallet extends PluginAbstract
         $obj->transfer_funds_text = "<h1>Transfer money for other users</h1>Transfer funds from your account to another user account";
         $obj->transfer_funds_success_success = "<h1>Thank you,<br> Your funds has been transfered<h1>";
         $obj->transfer_funds_success_fail = "<h1>Sorry,<br> Your funds transfer request has been fail<h1>";
-        $obj->withdraw_funds_text = "<h1>Withdraw money from your</h1>Transfer funds from your account to your credit card or bank account";
+        $obj->withdraw_funds_text = "Please initiate a withdrawal from your account by entering the destination account details in the provided information text area.";
         $obj->withdraw_funds_success_success = "<h1>Thank you,<br> Your request was submited<h1>";
         $obj->withdraw_funds_success_fail = "<h1>Sorry,<br> Your funds withdraw request has been fail<h1>";
         $obj->virtual_currency = "HEART";  // we will show this currency on the wallet but we will not make transactions on the payment gateway with it
@@ -137,6 +137,7 @@ class YPTWallet extends PluginAbstract
         $obj->showWalletOnTopMenu = true;
         $obj->CryptoWalletName = "Bitcoin Wallet Address";
         $obj->CryptoWalletEnabled = false;
+        $obj->hideTransferFunds = false;
         $obj->hideConfiguration = false;
         $obj->enableAutomaticAddFundsPage = true;
         // add funds
@@ -152,8 +153,10 @@ class YPTWallet extends PluginAbstract
         $obj->manualWithdrawFundsMenuTitle = "Withdraw Funds";
         $obj->manualWithdrawFundsPageButton = "Request Withdraw";
         $obj->manualWithdrawFundsNotifyEmail = "yourEmail@yourDomain.com";
-        $obj->manualWithdrawFundsminimum = 1;
-        $obj->manualWithdrawFundsmaximum = 100;
+        
+        //$obj->manualWithdrawFundsminimum = 1;
+        //$obj->manualWithdrawFundsmaximum = 100;
+        
         $obj->manualWithdrawFundsTransferToUserId = 1;
 
         $plugins = self::getAvailablePlugins();

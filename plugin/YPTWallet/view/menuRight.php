@@ -64,12 +64,18 @@ $balance = $plugin->getBalance(User::getId());
                 <?php
             }
             ?>
+            <?php
+            if (empty($obj->hideTransferFunds)) {
+                ?>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/transferFunds.php">
                     <i class="fas fa-exchange-alt" aria-hidden="true"></i>
                     <?php echo __("Transfer Funds"); ?>
                 </a>
             </li>
+                <?php
+            }
+            ?>
             <li class="dropdown-submenu">
                 <a tabindex="-1" href="<?php echo $global['webSiteRootURL']; ?>plugin/YPTWallet/view/history.php">
                     <i class="fa fa-history" aria-hidden="true"></i>

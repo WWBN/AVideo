@@ -45,3 +45,25 @@
 .vjs-has-started.vjs-paused .vjs-big-play-button{
     display: none !important;
 }
+
+
+@media all and (max-width: 900px) {
+    div.vjs-control-bar{
+        font-size: 0.9em !important;
+    }
+}
+@media all and (max-width: 800px) {
+    div.vjs-control-bar{
+        font-size: 0.85em !important;
+    }
+}
+@media all and (max-width: 700px) {
+    div.vjs-control-bar{
+        font-size: 0.8em !important;
+    }
+}
+@media all and (max-width: 600px) {
+    div.vjs-control-bar{
+        font-size: 0.7em !important;
+    }
+}

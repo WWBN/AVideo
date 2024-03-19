@@ -70,3 +70,6 @@ span.selection > span.select2-selection--single{
 .is_advanced {
     color: #FFF;
 }
+footer {
+    background-color: #111 !important;
+}
