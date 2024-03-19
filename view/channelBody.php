@@ -33,22 +33,28 @@ $ownerCanUplaodVideos = $user->getCanUpload() || $user->getIsAdmin();
 //var_dump($ownerCanUplaodVideos, $user_id, $user);exit;
 $type = '';
 if ($ownerCanUplaodVideos && $advancedCustomUser->showArticlesTab && AVideoPlugin::isEnabledByName('Articles')) {
-    $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'article');
+    $uploadedTotalArticles = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, Video::$videoTypeArticle);
     if (!empty($uploadedTotalArticles)) {
-        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'article');
+        $uploadedArticles = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, Video::$videoTypeArticle);
     }
     $type = 'notArticle';
 }
 if ($ownerCanUplaodVideos && $advancedCustomUser->showAudioTab) {
-    $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, 'audio');
+    $uploadedTotalAudio = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, Video::$videoTypeAudio);
     if (!empty($uploadedTotalAudio)) {
-        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, 'audio');
+        $uploadedAudio = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, Video::$videoTypeAudio);
     }
     //var_dump($uploadedAudio);exit;
     if (empty($type)) {
         $type = 'notAudio';
     } else {
         $type = 'notArticleOrAudio';
+    }
+}
+if ($ownerCanUplaodVideos && $advancedCustomUser->showImageTab) {
+    $uploadedTotalImages = Video::getTotalVideos($status, $user_id, !isToHidePrivateVideos(), $showUnlisted, true, false, Video::$videoTypeImage);
+    if (!empty($uploadedTotalImages)) {
+        $uploadedImages = Video::getAllVideos($status, $user_id, !isToHidePrivateVideos(), [], false, $showUnlisted, true, false, null, Video::$videoTypeImage);
     }
 }
 //var_dump($uploadedArticles);exit;
@@ -198,7 +204,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                              -moz-background-size: cover;
                              -o-background-size: cover;
                              background-size: cover;">
-                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo str_replace('"', '', $user->_getName()) ; ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
+                            <img src="<?php echo User::getPhoto($user_id); ?>" alt="<?php echo str_replace('"', '', $user->_getName()); ?>" class="img img-responsive img-thumbnail" style="max-width: 100px;" />
                         </div>
                     </a>
                 <?php
@@ -349,6 +355,17 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                 </li>
                                 <?php
                             }
+                            if (!empty($uploadedTotalImages)) {
+                            ?>
+                                <li class="nav-item <?php echo getChannelTabClass(true, false); ?>">
+                                    <a class="nav-link " href="#channelImages" data-toggle="tab" aria-expanded="false">
+                                    <i class="fa-solid fa-images"></i>
+                                    <span class="labelUpperCase"><?php echo __("Images"); ?></span> 
+                                    <span class="badge"><?php echo $uploadedTotalImages; ?></span>
+                                    </a>
+                                </li>
+                                <?php
+                            }
                             if ($showChannelProgramsTab) {
                                 $totalPrograms = PlayList::getAllFromUserLight($user_id, true, false, 0, true, true);
                                 if ($totalPrograms) {
@@ -420,7 +437,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                             if ($isMyChannel) {
                                             ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                                    <i class="fa-solid fa-film"></i> 
+                                                    <i class="fa-solid fa-film"></i>
                                                     <i class="fa-solid fa-headphones"></i>
                                                     <?php echo __("My videos"); ?>
                                                 </a>
@@ -509,7 +526,7 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                             if ($isMyChannel) {
                                             ?>
                                                 <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
-                                                    <i class="far fa-newspaper"></i>
+                                                    <i class="fa-solid fa-headphones"></i>
                                                     <?php echo __("Audio"); ?>
                                                 </a>
                                             <?php
@@ -524,6 +541,44 @@ function getChannelTabClass($isTabButton, $isVideoTab = false)
                                                 <?php
                                                 TimeLogEnd($timeLog, __LINE__);
                                                 createGallerySection($uploadedAudio, false);
+                                                TimeLogEnd($timeLog, __LINE__);
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="panel-footer">
+                                            <?php echo getPagination($totalPages, "{$global['webSiteRootURL']}channel/{$_GET['channelName']}?current=_pageNum_"); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            if (!empty($uploadedTotalImages)) {
+                            ?>
+
+                                <div class="tab-pane <?php echo getChannelTabClass(false, false); ?>" id="channelImages">
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <?php
+                                            if ($isMyChannel) {
+                                            ?>
+                                                <a href="<?php echo $global['webSiteRootURL']; ?>mvideos" class="btn btn-success ">
+                                                    <i class="fa-solid fa-images"></i>
+                                                    <?php echo __("Images"); ?>
+                                                </a>
+                                            <?php
+                                            } else {
+                                                echo __("Images");
+                                            }
+                                            echo AVideoPlugin::getChannelButton();
+                                            ?>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <?php
+                                                TimeLogEnd($timeLog, __LINE__);
+                                                createGallerySection($uploadedImages, false);
                                                 TimeLogEnd($timeLog, __LINE__);
                                                 ?>
                                             </div>

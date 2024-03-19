@@ -159,7 +159,9 @@ function createGallerySection($videos, $showChannel = true, $ignoreAds = false, 
     $obj = AVideoPlugin::getObjectData("Gallery");
     $zindex = 1000;
     $program = AVideoPlugin::loadPluginIfEnabled('PlayLists');
-
+    if(!is_array($videos)){
+        return '';
+    }
     $videoCount = count($videos);
     $screenColsLarge = 0;
     $screenColsMedium = 0;
