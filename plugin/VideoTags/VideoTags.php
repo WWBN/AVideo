@@ -137,11 +137,11 @@ class VideoTags extends PluginAbstract {
         return $array;
     }
 
-    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = "viewable") {
+    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = Video::SORT_TYPE_VIEWABLE) {
         return TagsHasVideos::getAllVideosIdFromTagsId($tags_id, $limit, $status);
     }
     
-    static function getTotalVideosFromTagsId($tags_id, $status = "viewable") {
+    static function getTotalVideosFromTagsId($tags_id, $status = Video::SORT_TYPE_VIEWABLE) {
         return TagsHasVideos::getTotalVideosFromTagsId($tags_id, $status);
     }
 

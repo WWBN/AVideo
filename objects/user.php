@@ -3094,10 +3094,15 @@ if (typeof gtag !== \"function\") {
     public static function getAddChannelToGalleryButton($users_id)
     {
         $gallery = AVideoPlugin::isEnabledByName('Gallery');
-        if (empty($gallery)) {
-            return '';
+        if (!empty($gallery)) {
+            return Gallery::getAddChannelToGalleryButton($users_id);
+        }else{
+            $gallery = AVideoPlugin::isEnabledByName('YouPHPFlix2');
+            if (!empty($gallery)) {
+                return YouPHPFlix2::getAddChannelToYouPHPFlix2Button($users_id);
+            }
         }
-        return Gallery::getAddChannelToGalleryButton($users_id);
+        return '';
     }
 
     public static function getBlockUserButton($users_id)
@@ -3421,7 +3426,7 @@ if (typeof gtag !== \"function\") {
         $_POST['current'] = 1;
         $_REQUEST['rowCount'] = $objGallery->screenColsLarge;
         $_POST['sort']['created'] = "DESC";
-        $uploadedVideos = Video::getAllVideos("viewable", $users_id);
+        $uploadedVideos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $users_id);
         $_POST['current'] = $current;
         $_REQUEST['rowCount'] = $rowCount;
         $_POST['sort'] = $sort;

@@ -60,7 +60,7 @@ if (!empty($video['next_videos_id'])) {
     $catName = @$_REQUEST['catName'];
     $cat = new Category($video['categories_id']);
     $_REQUEST['catName'] = $cat->getClean_name();
-    $next_video = Video::getVideo('', 'viewable', false, true);
+    $next_video = Video::getVideo('', Video::SORT_TYPE_VIEWABLE, false, true);
     $_REQUEST['catName'] = $catName;
     if (!empty($next_video['id'])) {
         $obj->nextURL = Video::getURLFriendly($next_video['id']);

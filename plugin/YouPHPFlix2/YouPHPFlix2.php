@@ -41,20 +41,26 @@ class YouPHPFlix2 extends PluginAbstract
         $obj->hidePrivateVideos = false;
         $obj->pageDots = true;
         $obj->Suggested = true;
+        $obj->SuggestedCustomTitle = 'Suggested';
         $obj->SuggestedAutoPlay = true;
         $obj->PlayList = true;
         $obj->PlayListAutoPlay = true;
         $obj->Channels = true;
         $obj->ChannelsAutoPlay = true;
         $obj->Trending = true;
+        $obj->TrendingCustomTitle = 'Trending';
         $obj->TrendingAutoPlay = true;
         $obj->DateAdded = true;
+        $obj->DateAddedCustomTitle = 'Date added (newest)';
         $obj->DateAddedAutoPlay = true;
         $obj->MostPopular = true;
+        $obj->MostPopularCustomTitle = "Most popular";
         $obj->MostPopularAutoPlay = true;
         $obj->MostWatched = true;
+        $obj->MostWatchedCustomTitle = 'Most watched';
         $obj->MostWatchedAutoPlay = true;
         $obj->SortByName = false;
+        $obj->SortByNameCustomTitle = 'Alphabetical';
         $obj->SortByNameAutoPlay = true;
         $obj->Categories = true;
         $obj->CategoriesAutoPlay = true;
@@ -149,6 +155,9 @@ class YouPHPFlix2 extends PluginAbstract
         } else {
             $js .= '<script>var playVideoOnFullscreen = false;</script>';
         }
+        if(!empty($global['channelToYouPHPFlix2'])){
+            $js .= '<script src="' . getURL('plugin/YouPHPFlix2/view/js/addChannel.js') . '"></script>';
+        }
         $js .= '<script src="' . getURL('plugin/YouPHPFlix2/view/js/fullscreen.js') . '"></script>';
         return $js;
     }
@@ -199,7 +208,7 @@ class YouPHPFlix2 extends PluginAbstract
             if ($obj->PlayList) {
                 $plObj = AVideoPlugin::getDataObjectIfEnabled('PlayLists');
                 if (!empty($plObj)) {
-                    $programs = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
+                    $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
                     cleanSearchVar();
                     if (!empty($programs)) {
                         $countSections++;
@@ -288,5 +297,46 @@ class YouPHPFlix2 extends PluginAbstract
             $object->response->responseCacheTime = $finish;
         }
         return $object;
+    }
+
+    
+    public static function getAddChannelToYouPHPFlix2Button($users_id)
+    {
+        global $global, $config;
+        $filePath = $global['systemRootPath'] . 'plugin/YouPHPFlix2/buttonChannelToYouPHPFlix2.php';
+        $varsArray = array('users_id' => $users_id);
+        $button = getIncludeFileContent($filePath, $varsArray);
+        return $button;
+    }
+
+    public static function setAddChannelToYouPHPFlix2($users_id, $add)
+    {
+        global $global, $config;
+        $users_id = intval($users_id);
+        $add = intval($add);
+
+        $obj = AVideoPlugin::getObjectData('YouPHPFlix2');
+
+        $parameterName = "Channel_{$users_id}_";
+
+        if (!empty($add)) {
+            $obj->{$parameterName} = true;
+            $obj->{"{$parameterName}CustomTitle"} = User::getNameIdentificationById($users_id);
+            $obj->{"{$parameterName}Autoplay"} = true;
+        } else {
+            unset($obj->{$parameterName});
+            unset($obj->{"{$parameterName}CustomTitle"});
+            unset($obj->{"{$parameterName}Autoplay"});
+        }
+        return AVideoPlugin::setObjectData('YouPHPFlix2', $obj);
+    }
+
+    public static function isChannelToYouPHPFlix2($users_id)
+    {
+        $obj = AVideoPlugin::getObjectData('YouPHPFlix2');
+
+        $parameterName = "Channel_{$users_id}_";
+
+        return !empty($obj->{$parameterName});
     }
 }

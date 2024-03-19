@@ -30,12 +30,12 @@ $status = '';
 if (!empty($_REQUEST['status'])) {
     if (!empty(Video::$statusDesc[$_REQUEST['status']])) {
         $status = $_REQUEST['status'];
-    } else if($_REQUEST['status'] == 'passwordProtected'){
-        $status = 'passwordProtected';
+    } else if($_REQUEST['status'] == Video::SORT_TYPE_PASSWORDPROTECTED){
+        $status = Video::SORT_TYPE_PASSWORDPROTECTED;
     }
 }
 TimeLogEnd($timeLogName, __LINE__, $TimeLogLimit);
-//getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+//getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
 $videos = Video::getAllVideos($status, $showOnlyLoggedUserVideos, true, [], false, $showUnlisted, $activeUsersOnly, false, null, @$_REQUEST['type']);
 resetCurrentPage();
 //var_dump($videos);exit;

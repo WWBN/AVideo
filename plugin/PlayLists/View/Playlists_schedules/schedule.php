@@ -21,7 +21,7 @@ if (!User::canStream()) {
 $pl = new PlayList($_REQUEST['program_id']);
 //var_dump($pl->getName());exit;
 //$videosArrayId = PlayList::getVideosIdFromPlaylist($_REQUEST['program_id']);
-//$videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+//$videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
 //var_dump( $videosP);exit;
 $_page = new Page(array('Schedule Playlist'));
 $_page->setExtraStyles(

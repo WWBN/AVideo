@@ -24,14 +24,14 @@ $percent = 90;
             $dataFlickirty->autoPlay = 10000;
         }
 
-        //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos, array(), false, false, true, true);
+        //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false)
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, true);
         if (!empty($videos)) {
     ?>
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                                                            echo __("Suggested");
+                                                                            echo __($obj->SuggestedCustomTitle);
                                                                             ?>
                 </h2>
                 <!-- Date Added -->
@@ -43,9 +43,27 @@ $percent = 90;
             <?php
         }
     }
-
+    $channels = $users_id_array = array();
+    require_once $global['systemRootPath'] . 'objects/Channel.php';
     if ($obj->Channels) {
-        require_once $global['systemRootPath'] . 'objects/Channel.php';
+        $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
+        $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
+    }
+    
+    foreach ($obj as $key => $value) {
+        if ($value === true && preg_match('/Channel_([0-9]+)_$/', $key, $matches)) {
+            $users_id = intval($matches[1]);
+            if (in_array($users_id, $users_id_array)) {
+                continue;
+            }
+            $users_id_array[] = $users_id;
+        }
+    }
+    if (!empty($users_id_array)) {
+        $channels2 = Channel::getChannels(true, '', $users_id_array);
+        $channels = array_merge($channels, $channels2);
+    }
+    if (!empty($channels)) {
         $dataFlickirty = new stdClass();
         $dataFlickirty->wrapAround = true;
         $dataFlickirty->pageDots = !empty($obj->pageDots);
@@ -56,16 +74,13 @@ $percent = 90;
         if ($obj->ChannelsAutoPlay) {
             $dataFlickirty->autoPlay = 10000;
         }
-        $users_id_array = VideoStatistic::getUsersIDFromChannelsWithMoreViews();
-        $channels = Channel::getChannels(true, "u.id, '" . implode(",", $users_id_array) . "'");
-        if (!empty($channels)) {
-            $countChannels = 0;
+        $countChannels = 0;
             foreach ($channels as $channel) {
                 if ($countChannels > 5) {
                     break;
                 }
                 $_POST['sort']['created'] = "DESC";
-                $videos = Video::getAllVideos("viewable", $channel['id']);
+                $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $channel['id']);
                 unset($_POST['sort']['created']);
                 if (empty($videos)) {
                     continue;
@@ -73,7 +88,7 @@ $percent = 90;
                 $countChannels++;
                 $link = User::getChannelLinkFromChannelName($channel["channelName"]);
             ?>
-                <div class="row topicRow">
+                <div class="row topicRow channelRow channel_<?php echo $channel["id"]; ?>">
                     <h2>
                         <a href="<?php echo $link; ?>">
                             <img src="<?php echo User::getPhoto($channel["id"]); ?>" class="img img-responsive pull-left" style="max-width: 18px; max-height: 18px; margin-right: 5px;">
@@ -88,8 +103,8 @@ $percent = 90;
 
                 <?php
             }
-        }
     }
+
 
     $search = getSearchVar();
     if (empty($search)) {
@@ -133,7 +148,7 @@ $percent = 90;
                 }
             }
             if ($obj->PlayList) {
-                $programs = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
+                $programs = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos, array(), false, false, true, false, true);
                 cleanSearchVar();
                 if (!empty($programs)) {
                     foreach ($programs as $serie) {
@@ -195,14 +210,14 @@ $percent = 90;
 
         $_POST['sort']['trending'] = "";
 
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         unset($_POST['sort']['trending']);
         if (!empty($videos)) {
             ?>
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                                                            echo __("Trending");
+                                                                            echo __($obj->TrendingCustomTitle);
                                                                             ?>
                 </h2>
                 <!-- Date Added -->
@@ -229,13 +244,13 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['created'] = "DESC";
 
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         if (!empty($videos)) {
         ?>
             <div class="row topicRow">
                 <h2>
                     <i class="glyphicon glyphicon-sort-by-attributes"></i> <?php
-                                                                            echo __("Date added (newest)");
+                                                                            echo __($obj->DateAddedCustomTitle);
                                                                             ?>
                 </h2>
                 <!-- Date Added -->
@@ -265,12 +280,12 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['likes'] = "DESC";
         $_POST['sort']['v.created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         ?>
         <div class="row topicRow">
             <span class="md-col-12">&nbsp;</span>
             <h2>
-                <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __("Most popular"); ?>
+                <i class="glyphicon glyphicon-thumbs-up"></i> <?php echo __($obj->MostPopularCustomTitle); ?>
             </h2>
             <!-- Most Popular -->
             <?php
@@ -299,12 +314,12 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['views_count'] = "DESC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     ?>
         <span class="md-col-12">&nbsp;</span>
         <div class="row topicRow">
             <h2>
-                <i class="glyphicon glyphicon-eye-open"></i> <?php echo __("Most watched"); ?>
+                <i class="glyphicon glyphicon-eye-open"></i> <?php echo __($obj->MostWatchedCustomTitle); ?>
             </h2>
             <!-- Most watched -->
             <?php
@@ -331,12 +346,12 @@ $percent = 90;
         unset($_POST['sort']);
         $_POST['sort']['title'] = "ASC";
         $_POST['sort']['created'] = "DESC";
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     ?>
         <span class="md-col-12">&nbsp;</span>
         <div class="row topicRow">
             <h2>
-                <i class="fas fa-sort-alpha-down"></i> <?php echo __("Alphabetical"); ?>
+                <i class="fas fa-sort-alpha-down"></i> <?php echo __($obj->SortByNameCustomTitle); ?>
             </h2>
             <!-- Most watched -->
             <?php
@@ -407,6 +422,7 @@ $percent = 90;
         </script>
     <?php
     }
+
     unset($_POST['sort']);
     unset($_REQUEST['current']);
     unset($_REQUEST['rowCount']);

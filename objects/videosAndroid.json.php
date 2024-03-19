@@ -29,18 +29,18 @@ if (!empty($_GET['user']) && !empty($_GET['pass'])) {
 
 $objMob = AVideoPlugin::getObjectData("MobileManager");
 if (!empty($random)) {
-    $video = Video::getVideo("", "viewableNotUnlisted", true, false, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, true, false, true);
     if (empty($video)) {
-        $video = Video::getVideo("", "viewableNotUnlisted", true, true);
+        $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLENOTUNLISTED, true, true);
     }
     $videos = [$video];
     $total = 1;
 } elseif ($objMob->netflixStyle) {
-    $videos = Video::getAllVideos("viewableNotUnlisted", false, true);
-    $total = Video::getTotalVideos("viewableNotUnlisted", false, true);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, true);
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, true);
 } else {
-    $videos = Video::getAllVideos("viewable");
-    $total = Video::getTotalVideos("viewable");
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE);
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE);
 }
 
 foreach ($videos as $key => $value) {

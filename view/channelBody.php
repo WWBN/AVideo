@@ -25,7 +25,7 @@ if (empty($channelPassword) && !$isMyChannel) {
     $status = 'a';
     $showUnlisted = false;
 } else {
-    $status = 'viewable';
+    $status = Video::SORT_TYPE_VIEWABLE;
     $showUnlisted = true;
 }
 

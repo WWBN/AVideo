@@ -41,10 +41,10 @@ if ($obj->sortReverseable) {
     $orderString = str_replace("&&", "&", $orderString);
     $orderString = str_replace("//", "/", $orderString);
 }
-$video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, false, true);
+$video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, false, true);
 $debugLastGetVideoSQL = $lastGetVideoSQL;
 if (empty($video)) {
-    $video = Video::getVideo("", "viewable", !$obj->hidePrivateVideos, true);
+    $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, !$obj->hidePrivateVideos, true);
     $debugLastGetVideoSQL = $lastGetVideoSQL;
 }//var_dump(!empty($video), debug_backtrace());exit;
 $total = 0;

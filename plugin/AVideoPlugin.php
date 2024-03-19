@@ -509,6 +509,26 @@ class AVideoPlugin
         return false;
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param String $name
+     * @param String $parameterName
+     * @param [type] $parameterValue if it is null it will be removed
+     * @return void
+     */
+    public static function setParameter($name, $parameterName, $parameterValue = null)
+    {
+        $obj = AVideoPlugin::getObjectData($name);
+        if(!isset($parameterValue)){
+            unset($obj->{$parameterName});
+            return false;
+        }else{
+            $obj->{$parameterName} = $parameterValue;
+            return true;
+        }
+    }
+
     public static function setObjectDataParameter($name, $parameterName, $value)
     {
         $p = static::loadPlugin($name);

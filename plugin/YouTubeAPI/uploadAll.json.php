@@ -26,7 +26,7 @@ if(file_exists($progressFile)){
     unlink($progressFile);
 }
 $plugin = AVideoPlugin::loadPluginIfEnabled("YouTubeAPI");
-$videos = Video::getAllVideosLight("viewable", false, true, false);
+$videos = Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLE, false, true, false);
 
 $obj->msg = "Process start at ".  date("Y-m-d h:i:s"). " Total of ".count($videos)." Videos\n";
 

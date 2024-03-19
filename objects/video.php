@@ -148,6 +148,21 @@ if (!class_exists('Video')) {
         const ASPECT_RATIO_VERTICAL = '9:16';
         const ASPECT_RATIO_HORIZONTAL = '16:9';
 
+
+        const SORT_TYPE_SUGGESTED = 'suggested';
+        const SORT_TYPE_VIEWABLE = 'viewable';
+        const SORT_TYPE_VIEWABLENOTUNLISTED = 'viewableNotUnlisted';
+        const SORT_TYPE_PASSWORDPROTECTED = 'passwordProtected';
+        const SORT_TYPE_PUBLICONLY = 'publicOnly';
+        const SORT_TYPE_PRIVATEONLY = 'privateOnly';
+        const SORT_TYPE_TRENDING = 'trending';
+        const SORT_TYPE_MOSTWATCHED = 'mostWatched';
+        const SORT_TYPE_MOSTPOPULAR = 'mostPopular';
+        const SORT_TYPE_NAME = 'name';
+        const SORT_TYPE_SHORTS = 'shorts';
+        const SORT_TYPE_DATEADDED = 'dateadded';
+
+
         public function __construct($title = "", $filename = "", $id = 0, $refreshCache = false)
         {
             global $global;
@@ -464,9 +479,9 @@ if (!class_exists('Video')) {
             $this->clean_title = self::fixCleanTitle($this->clean_title, 1, $this->id);
 
             if (empty($this->status) || empty(self::$statusDesc[$this->status])) {
-                if($this->type != self::$videoTypeVideo){
+                if ($this->type != self::$videoTypeVideo) {
                     $this->status = Video::$statusActive;
-                }else{
+                } else {
                     $this->status = Video::$statusEncoding;
                 }
             }
@@ -1041,7 +1056,7 @@ if (!class_exists('Video')) {
         {
             $sql = "";
 
-            if ($status == "viewable") {
+            if ($status == Video::SORT_TYPE_VIEWABLE) {
                 if (User::isLogged()) {
                     $sql .= " AND ((v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
                     $sql .= " OR ((v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') ";
@@ -1056,18 +1071,101 @@ if (!class_exists('Video')) {
                     $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') )";
                     $sql .= " )";
                 }
-            } elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND ( v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
                 $sql .= " OR (v.`order` IS NOT NULL AND (v.status='" . Video::$statusUnlisted . "' OR v.status='" . Video::$statusUnlistedButSearchable . "') )";
                 $sql .= " )";
-            } elseif ($status == "publicOnly") {
+            } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
                 $sql .= " AND v.status IN ('" . Video::$statusActive . "', '" . Video::$statusActiveAndEncoding . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
-            } elseif ($status == "privateOnly") {
+            } elseif ($status == Video::SORT_TYPE_PRIVATEONLY) {
                 $sql .= " AND v.status IN ('" . Video::$statusActive . "', '" . Video::$statusActiveAndEncoding . "') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
-            } elseif (!empty($status)) {
+            } elseif ($status == Video::SORT_TYPE_SHORTS) {
+                $ShortsObj = AVideoPlugin::getDataObject("Shorts");
+                if (!empty($ShortsObj)) {
+                    $max_duration_in_seconds = intval($ShortsObj->shortMaxDurationInSeconds);
+                    if (empty($max_duration_in_seconds)) {
+                        $max_duration_in_seconds = 60;
+                    }
+                    $sql .= " AND duration_in_seconds IS NOT NULL AND duration_in_seconds <= {$max_duration_in_seconds} AND duration_in_seconds > 0 ";
+                }
+            } elseif (!empty($status) && strlen($status) == 1) {
                 $sql .= " AND v.status = '{$status}'";
             }
 
+            return $sql;
+        }
+
+
+        static function getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly)
+        {
+            $sql = '';
+            $sort = @$_POST['sort'];
+            switch ($sortType) {
+                case Video::SORT_TYPE_SUGGESTED:
+                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
+                    $sql .= " ORDER BY RAND() ";
+                    unset($_POST['sort']);
+                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                    if (strpos(mb_strtolower($sql), 'limit') === false) {
+                        $sql .= " LIMIT 60 ";
+                    }
+                    break;
+                case Video::SORT_TYPE_TRENDING:
+                    unset($_POST['sort']['trending'], $_GET['sort']['trending']);
+                    $rows = [];
+                    if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
+                        $rows = VideoStatistic::getVideosWithMoreViews(Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
+                    }
+                    //var_dump($_REQUEST['current'], $rows); 
+                    $ids = [];
+                    foreach ($rows as $row) {
+                        $ids[] = $row['id'];
+                    }
+
+                    //$daysLimit = getTrendingLimit();
+
+                    if (!empty($ids)) {
+                        $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
+                    } else {
+                        $sql .= " ORDER BY likes DESC ";
+                    }
+                    $sql .= ObjectYPT::getSqlLimit();
+                    break;
+                case Video::SORT_TYPE_MOSTPOPULAR:
+                    $_POST['sort']['likes'] = 'DESC';
+                case Video::SORT_TYPE_MOSTWATCHED:
+                    $_POST['sort']['views_count'] = 'DESC';
+                case Video::SORT_TYPE_NAME:
+                    $_POST['sort']['v.title'] = 'ASC';
+                case Video::SORT_TYPE_DATEADDED:
+                    $_POST['sort']['v.created'] = 'DESC';
+                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                    break;
+                default:
+                    if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
+                        $_POST['sort']['v.created'] = $_POST['sort']['created'];
+                        unset($_POST['sort']['created']);
+                    }
+                    $sort = $_POST['sort'];
+                    if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
+                        $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
+                        unset($_POST['sort']);
+                        $_POST['sort'] = array();
+                        if (strtoupper($created) === 'DESC') {
+                            $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
+                            $_POST['sort']['`order`'] = 'ASC';
+                        }
+
+                        $_POST['sort']['v.created'] = $created;
+                    }
+                    //var_dump($_POST['sort']);exit;
+                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
+                    unset($_POST['sort']);
+                    $_POST['sort'] = $sort;
+                    //var_dump($sql);exit;
+                    break;
+            }
+            $_POST['sort'] = $sort;
             return $sql;
         }
 
@@ -1094,20 +1192,20 @@ if (!class_exists('Video')) {
                     }
                 }
                 if (!empty($sqls)) {
-                    $sql .= ' AND (' . implode((empty($_REQUEST['doNotShowCats'])?' OR ':' AND '), $sqls).')';
+                    $sql .= ' AND (' . implode((empty($_REQUEST['doNotShowCats']) ? ' OR ' : ' AND '), $sqls) . ')';
                 }
             }
             return $sql;
         }
 
-        public static function getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
+        public static function getVideo($id = "", $status = Video::SORT_TYPE_VIEWABLE, $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
         {
             global $global, $config, $advancedCustom, $advancedCustomUser, $lastGetVideoSQL;
             if ($config->currentVersionLowerThen('5')) {
                 return false;
             }
             $status = str_replace("'", "", $status);
-            if ($status === 'suggested') {
+            if ($status === Video::SORT_TYPE_SUGGESTED) {
                 $suggestedOnly = true;
                 $status = '';
             }
@@ -1182,7 +1280,7 @@ if (!class_exists('Video')) {
             if (!empty($videosArrayId) && is_array($videosArrayId)) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
-            if ($status == "viewable") {
+            if ($status == Video::SORT_TYPE_VIEWABLE) {
                 $sql .= " AND ( ";
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 if (User::isAdmin()) {
@@ -1191,7 +1289,7 @@ if (!class_exists('Video')) {
                     $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
                 }
                 $sql .= " )";
-            } elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND ( ";
                 $sql .= " v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
                 if (User::isAdmin()) {
@@ -1200,7 +1298,7 @@ if (!class_exists('Video')) {
                     $sql .= " OR (v.status = '" . Video::$statusUnpublished . "' AND v.users_id = '" . User::getId() . "' )";
                 }
                 $sql .= " )";
-            } elseif (!empty($status)) {
+            } elseif (!empty($status) && strlen($status) == 1) {
                 $sql .= " AND v.status = '{$status}'";
             }
             //$sql .= self::getSQLByStatus($status, $showUnlisted);
@@ -1267,7 +1365,7 @@ if (!class_exists('Video')) {
                     $sql .= " AND v.clean_title = '{$videoName}' ";
                 } elseif (!empty($random)) {
                     $sql .= " AND v.id != {$random} ";
-                    //getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '') {
+                    //getTotalVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '') {
                     $numRows = self::getTotalVideos($status, false, $ignoreGroup, $showUnlisted, $activeUsersOnly, $suggestedOnly);
                     if ($numRows <= 2) {
                         $rand = 0;
@@ -1550,7 +1648,7 @@ if (!class_exists('Video')) {
          * @param string $videosArrayId an array with videos to return (for filter only)
          * @return array
          */
-        public static function getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
+        public static function getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [], $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $is_serie = null, $type = '', $max_duration_in_seconds = 0)
         {
             global $global, $config, $advancedCustom, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
@@ -1562,7 +1660,7 @@ if (!class_exists('Video')) {
              * @var array $global
              * @var object $global['mysqli']
              */
-            if (!empty($_POST['sort']['suggested'])) {
+            if (!empty($_POST['sort'][Video::SORT_TYPE_SUGGESTED])) {
                 $suggestedOnly = true;
             }
 
@@ -1588,10 +1686,10 @@ if (!class_exists('Video')) {
             }
             $passwordProtectedOnly = false;
             $status = str_replace("'", "", $status);
-            if ($status === 'suggested') {
+            if ($status === Video::SORT_TYPE_SUGGESTED) {
                 $suggestedOnly = true;
                 $status = '';
-            } else if ($status === 'passwordProtected') {
+            } else if ($status === Video::SORT_TYPE_PASSWORDPROTECTED) {
                 $passwordProtectedOnly = true;
                 $status = '';
             }
@@ -1757,59 +1855,15 @@ if (!class_exists('Video')) {
 
             $sql .= AVideoPlugin::getVideoWhereClause();
             if (empty($videosArrayId)) {
+                $sortType = Video::SORT_TYPE_VIEWABLE;
                 if ($suggestedOnly) {
-                    $sql .= " AND v.isSuggested = 1 AND v.status = '" . self::$statusActive . "' ";
-                    $sql .= " ORDER BY RAND() ";
-                    $sort = @$_POST['sort'];
-                    unset($_POST['sort']);
-                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                    if (strpos(mb_strtolower($sql), 'limit') === false) {
-                        $sql .= " LIMIT 60 ";
-                    }
-                    $_POST['sort'] = $sort;
-                } elseif (!isset($_POST['sort']['trending']) && !isset($_GET['sort']['trending'])) {
-                    if (!empty($_POST['sort']['created']) && !empty($_POST['sort']['likes'])) {
-                        $_POST['sort']['v.created'] = $_POST['sort']['created'];
-                        unset($_POST['sort']['created']);
-                    }
-                    $sort = $_POST['sort'];
-                    if (!empty($_POST['sort']['v.created']) || !empty($_POST['sort']['created'])) {
-                        $created = !empty($_POST['sort']['v.created']) ? $_POST['sort']['v.created'] : $_POST['sort']['created'];
-                        unset($_POST['sort']);
-                        $_POST['sort'] = array();
-                        if (strtoupper($created) === 'DESC') {
-                            $_POST['sort']['v.`order`'] = 'IS NOT NULL DESC';
-                            $_POST['sort']['`order`'] = 'ASC';
-                        }
-
-                        $_POST['sort']['v.created'] = $created;
-                    }
-                    //var_dump($_POST['sort']);exit;
-                    $sql .= BootGrid::getSqlFromPost([], empty($_POST['sort']['likes']) ? "v." : "", "", true);
-                    unset($_POST['sort']);
-                    $_POST['sort'] = $sort;
-                    //var_dump($sql);exit;
-                } else {
-                    unset($_POST['sort']['trending'], $_GET['sort']['trending']);
-                    $rows = [];
-                    if (!empty($_REQUEST['current']) && $_REQUEST['current'] == 1) {
-                        $rows = VideoStatistic::getVideosWithMoreViews($status, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
-                    }
-                    //var_dump($_REQUEST['current'], $rows); 
-                    $ids = [];
-                    foreach ($rows as $row) {
-                        $ids[] = $row['id'];
-                    }
-
-                    //$daysLimit = getTrendingLimit();
-
-                    if (!empty($ids)) {
-                        $sql .= " ORDER BY FIND_IN_SET(v.id, '" . implode(",", $ids) . "') DESC, likes DESC ";
-                    } else {
-                        $sql .= " ORDER BY likes DESC ";
-                    }
-                    $sql .= ObjectYPT::getSqlLimit();
+                    $sortType = Video::SORT_TYPE_SUGGESTED;
+                } elseif (isset($_POST['sort']['trending']) || isset($_GET['sort']['trending'])) {
+                    $sortType = Video::SORT_TYPE_TRENDING;
+                }else if(strlen($status) > 1){
+                    $sortType = $status;
                 }
+                $sql .= self::getSQLSort($sortType, $showOnlyLoggedUserVideos, $showUnlisted, $suggestedOnly);
             }
             if (strpos(mb_strtolower($sql), 'limit') === false) {
                 if (!empty($_GET['limitOnceToOne'])) {
@@ -1833,7 +1887,7 @@ if (!class_exists('Video')) {
 
             //var_dump($max_duration_in_seconds);echo $sql; //exit;
             //_error_log("getAllVideos($status, $showOnlyLoggedUserVideos , $ignoreGroup , ". json_encode($videosArrayId).")" . $sql);
-            //var_dump($sql);exit;
+            //var_dump($sql, $videosArrayId, $status, debug_backtrace());exit;
             //if(!empty($_REQUEST['test'])){var_dump($sql); }
             global $_lastGetAllSQL;
             $_lastGetAllSQL = $sql;
@@ -1940,16 +1994,18 @@ if (!class_exists('Video')) {
         }
 
 
-        static function hasPPV($videos_id){
-            if(AVideoPlugin::isEnabledByName('PayPerView')){
+        static function hasPPV($videos_id)
+        {
+            if (AVideoPlugin::isEnabledByName('PayPerView')) {
                 $plans = PayPerView::getAllPlansFromVideo($videos_id);
                 return !empty($plans);
             }
             return false;
         }
 
-        static function hasSubscription($videos_id){
-            if(AVideoPlugin::isEnabledByName('Subscription')){
+        static function hasSubscription($videos_id)
+        {
+            if (AVideoPlugin::isEnabledByName('Subscription')) {
                 return Subscription::isVideoOnSubscription($videos_id);
             }
             return false;
@@ -2313,14 +2369,14 @@ if (!class_exists('Video')) {
          * @param string $showOnlyLoggedUserVideos
          * @return array
          */
-        public static function getAllVideosLight($status = "viewable", $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0, $with_order_only = false)
+        public static function getAllVideosLight($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $showUnlisted = false, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0, $with_order_only = false)
         {
             global $global, $config;
             if ($config->currentVersionLowerThen('5')) {
                 return [];
             }
             $status = str_replace("'", "", $status);
-            if ($status === 'suggested') {
+            if ($status === Video::SORT_TYPE_SUGGESTED) {
                 $suggestedOnly = true;
                 $status = '';
             }
@@ -2350,7 +2406,7 @@ if (!class_exists('Video')) {
                 $sql .= " AND (v.users_id = '{$showOnlyLoggedUserVideos}' OR v.users_id_company = '{$showOnlyLoggedUserVideos}')";
             }
             /*
-            if ($status == "viewable") {
+            if ($status == Video::SORT_TYPE_VIEWABLE) {
                 if (User::isLogged()) {
                     $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') ";
                     $sql .= " OR (v.status='" . Video::$statusUnlisted . "' ";
@@ -2361,9 +2417,9 @@ if (!class_exists('Video')) {
                 } else {
                     $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
                 }
-            } elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-            } elseif ($status == "publicOnly") {
+            } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
                 $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
             } elseif (!empty($status)) {
                 $sql .= " AND v.status = '{$status}'";
@@ -2444,20 +2500,20 @@ if (!class_exists('Video')) {
             return $videos;
         }
 
-        public static function getTotalVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0)
+        public static function getTotalVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $showUnlisted = false, $activeUsersOnly = true, $suggestedOnly = false, $type = '', $max_duration_in_seconds = 0)
         {
             global $global, $config, $advancedCustomUser;
             if ($config->currentVersionLowerThen('11.7')) {
                 return false;
             }
-            if (!empty($_POST['sort']['suggested'])) {
+            if (!empty($_POST['sort'][Video::SORT_TYPE_SUGGESTED])) {
                 $suggestedOnly = true;
             }
             $status = str_replace("'", "", $status);
-            if ($status === 'suggested') {
+            if ($status === Video::SORT_TYPE_SUGGESTED) {
                 $suggestedOnly = true;
                 $status = '';
-            } else if ($status === 'passwordProtected') {
+            } else if ($status === Video::SORT_TYPE_PASSWORDPROTECTED) {
                 $passwordProtectedOnly = true;
                 $status = '';
             }
@@ -2492,15 +2548,15 @@ if (!class_exists('Video')) {
                 $sql .= " AND v.id IN ( '" . implode("', '", $videosArrayId) . "') ";
             }
 
-            if ($status == "viewable") {
+            if ($status == Video::SORT_TYPE_VIEWABLE) {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
-            } elseif ($status == "viewableNotUnlisted") {
+            } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-            } elseif ($status == "publicOnly") {
+            } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
                 $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
-            } elseif ($status == "privateOnly") {
+            } elseif ($status == Video::SORT_TYPE_PRIVATEONLY) {
                 $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
-            } elseif (!empty($status)) {
+            } elseif (!empty($status) && strlen($status) == 1) {
                 $sql .= " AND v.status = '{$status}'";
             }
             //$sql .= self::getSQLByStatus($status, $showUnlisted);
@@ -2692,7 +2748,7 @@ if (!class_exists('Video')) {
             return $newSearchFieldsNames;
         }
 
-        public static function getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [])
+        public static function getTotalVideosInfo($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = [])
         {
             $obj = new stdClass();
             $obj->likes = 0;
@@ -3630,7 +3686,7 @@ if (!class_exists('Video')) {
             return self::isOwner($videos_id, $users_id);
         }
 
-        public static function getRandom($excludeVideoId = false, $status = "viewable")
+        public static function getRandom($excludeVideoId = false, $status = Video::SORT_TYPE_VIEWABLE)
         {
             return static::getVideo("", $status, false, $excludeVideoId);
         }
@@ -4188,7 +4244,7 @@ if (!class_exists('Video')) {
                 $videoFilename = str_replace($paths['filename'], '', $videoFilename);
             }
             $newPath = addLastSlash($paths['path']) . "{$videoFilename}";
-            
+
             $newPath = str_replace('//', '/', $newPath);
             //var_dump($newPath);
             return $newPath;
@@ -5470,7 +5526,7 @@ if (!class_exists('Video')) {
 
             $videosListCache = new VideosListCacheHandler();
             $videosListCache->deleteCache();
-            
+
             ObjectYPT::setLastDeleteALLCacheTime();
             return true;
         }
@@ -6612,9 +6668,9 @@ if (!class_exists('Video')) {
             if (!isset($_checkIfIsBrokenList)) {
                 $_checkIfIsBrokenList = array();
             }
-            if(isset($_checkIfIsBrokenList[$videos_id])){
+            if (isset($_checkIfIsBrokenList[$videos_id])) {
                 return $_checkIfIsBrokenList[$videos_id];
-            } 
+            }
             if ($checkIfIsBroken > 10) {
                 _error_log("Video::checkIfIsBroken($videos_id) maximum check reached ");
                 $_checkIfIsBrokenList[$videos_id] = false;
@@ -6626,7 +6682,7 @@ if (!class_exists('Video')) {
                 return $_checkIfIsBrokenList[$videos_id];
             }
             if ($video->getStatus() == Video::$statusActive || $video->getStatus() == Video::$statusUnlisted || $video->getStatus() == Video::$statusUnlistedButSearchable) {
-                if ($video->getType() == Video::$videoTypeAudio|| $video->getType() == Video::$videoTypeVideo) {
+                if ($video->getType() == Video::$videoTypeAudio || $video->getType() == Video::$videoTypeVideo) {
                     $checkIfIsBroken++;
                     if (self::isMediaFileMissing($video->getFilename())) {
                         _error_log("Video::checkIfIsBroken($videos_id) true " . $video->getFilename() . ' status=[' . $video->getStatus() . ']' . json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
@@ -6637,7 +6693,7 @@ if (!class_exists('Video')) {
                     }
                 }
             }
-            
+
             $_checkIfIsBrokenList[$videos_id] = $video->getStatus() == Video::$statusBrokenMissingFiles;
             return $_checkIfIsBrokenList[$videos_id];
         }

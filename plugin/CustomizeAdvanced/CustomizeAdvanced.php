@@ -555,7 +555,7 @@ Disallow: *action=tagsearch*
         }
         
         $obj = $this->getDataObject();
-        $video = Video::getVideo($videos_id, "viewable", true);
+        $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, true);
         if (!empty($video['rrating']) && empty($_GET['rrating'])) {
             $suffix = strtoupper(str_replace("-", "", $video['rrating']));
             eval("\$show = \$obj->askRRatingConfirmationBeforePlay_$suffix;");

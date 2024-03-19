@@ -68,10 +68,10 @@ function createGallery($title, $sort, $rowCount, $getName, $mostWord, $lessWord,
         $_REQUEST['current'] = $_GET['page'];
         $_REQUEST['rowCount'] = $rowCount;
 
-        $videoStatus = 'viewableNotUnlisted';
+        $videoStatus = Video::SORT_TYPE_VIEWABLENOTUNLISTED;
 
         if ($getName == 'privateContentOrder') {
-            $videoStatus = 'privateOnly';
+            $videoStatus = Video::SORT_TYPE_PRIVATEONLY;
             $ignoreGroup = true;
         }
         $total = Video::getTotalVideos($videoStatus, false, $ignoreGroup);
@@ -559,7 +559,7 @@ function createGalleryLiveSectionVideo($video, $zindex, $screenColsLarge = 0, $s
 
 function createChannelItem($users_id, $photoURL = "", $identification = "", $rowCount = 12)
 {
-    $total = Video::getTotalVideos("viewable", $users_id);
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, $users_id);
     if (empty($total)) {
         return false;
     }
@@ -592,7 +592,7 @@ function createChannelItem($users_id, $photoURL = "", $identification = "", $row
             $_POST['sort']['created'] = "DESC";
             unsetCurrentPage();
             $_REQUEST['rowCount'] = $rowCount;
-            $videos = Video::getAllVideos("viewable", $users_id);
+            $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $users_id);
             createGallerySection($videos);
             ?>
         </div>
@@ -627,7 +627,7 @@ function getTrendingVideos($rowCount = 12, $screenColsLarge = 0, $screenColsMedi
     $_GET['sort']['trending'] = 1;
     $_REQUEST['current'] = getCurrentPage();
     $_REQUEST['rowCount'] = $rowCount;
-    $videos = Video::getAllVideos("viewableNotUnlisted");
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
     // need to add dechex because some times it return an negative value and make it fails on javascript playlists
     echo "<link href=\"" . getURL('plugin/Gallery/style.css') . "\" rel=\"stylesheet\" type=\"text/css\"/><div class='row gallery '>";
     $countCols = createGallerySection($videos, true, false, $screenColsLarge, $screenColsMedium, $screenColsSmall, $screenColsXSmall);

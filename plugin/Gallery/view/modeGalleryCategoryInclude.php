@@ -12,7 +12,7 @@ if (!empty($liveobj) && empty($liveobj->doNotShowLiveOnCategoryList)) {
 unset($_POST['sort']);
 $_POST['sort']['v.created'] = "DESC";
 $_POST['sort']['likes'] = "DESC";
-$videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+$videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
 //exit;
 if (empty($videos)) {
     echo '<!-- empty videos -->';

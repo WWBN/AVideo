@@ -31,7 +31,7 @@ $itemsPerPage = 4;
     <?php
     foreach ($tags as $value) {
         $_POST['disableAddTo'] = 0;
-        $totalVideos = VideoTags::getTotalVideosFromTagsId($value['tags_id'], 'viewableNotUnlisted');
+        $totalVideos = VideoTags::getTotalVideosFromTagsId($value['tags_id'], Video::SORT_TYPE_VIEWABLENOTUNLISTED);
         //var_dump($value['name'], $totalVideos);
         if (empty($totalVideos)) {
             continue;
@@ -52,7 +52,7 @@ $itemsPerPage = 4;
                 setRowCount($obj->SubscribedTagsRowCount);
                 $old_tags_id = @$_GET['tags_id'];
                 $_GET['tags_id'] = $value['tags_id'];
-                $videos = Video::getAllVideos("viewable");
+                $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE);
                 $_GET['tags_id'] = $old_tags_id;
                 createGallerySection($videos);
                 ?>

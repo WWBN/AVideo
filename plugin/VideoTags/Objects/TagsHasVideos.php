@@ -90,20 +90,20 @@ class TagsHasVideos extends ObjectYPT {
         return $rows;
     }
 
-    static function getTotalVideosFromTagsId($tags_id, $status = "viewable") {
+    static function getTotalVideosFromTagsId($tags_id, $status = Video::SORT_TYPE_VIEWABLE) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT count(thv.id) as total FROM  " . static::getTableName() . " thv LEFT JOIN videos v ON v.id = thv.videos_id  "
                 . " WHERE tags_id=? ";
-        if ($status == "viewable") {
+        if ($status == Video::SORT_TYPE_VIEWABLE) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
-        } elseif ($status == "viewableNotUnlisted") {
+        } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-        } elseif ($status == "publicOnly") {
+        } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
             $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
-        } elseif ($status == "privateOnly") {
+        } elseif ($status == Video::SORT_TYPE_PRIVATEONLY) {
             $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
         } elseif (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
@@ -117,20 +117,20 @@ class TagsHasVideos extends ObjectYPT {
         return intval($fullData['total']);
     }
     
-    static function getAllVideosFromTagsId($tags_id, $limit = 100, $status = "viewable") {
+    static function getAllVideosFromTagsId($tags_id, $limit = 100, $status = Video::SORT_TYPE_VIEWABLE) {
         global $global;
         if (!static::isTableInstalled()) {
             return false;
         }
         $sql = "SELECT v.*, thv.* FROM  " . static::getTableName() . " thv LEFT JOIN videos v ON v.id = thv.videos_id  "
                 . " WHERE thv.tags_id=? ";
-        if ($status == "viewable") {
+        if ($status == Video::SORT_TYPE_VIEWABLE) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(true)) . "')";
-        } elseif ($status == "viewableNotUnlisted") {
+        } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "')";
-        } elseif ($status == "publicOnly") {
+        } elseif ($status == Video::SORT_TYPE_PUBLICONLY) {
             $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) = 0";
-        } elseif ($status == "privateOnly") {
+        } elseif ($status == Video::SORT_TYPE_PRIVATEONLY) {
             $sql .= " AND v.status IN ('a', 'k') AND (SELECT count(id) FROM videos_group_view as gv WHERE gv.videos_id = v.id ) > 0";
         } elseif (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";
@@ -145,7 +145,7 @@ class TagsHasVideos extends ObjectYPT {
         return $fullData;
     }
 
-    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = "viewable") {
+    static function getAllVideosIdFromTagsId($tags_id, $limit = 100, $status = Video::SORT_TYPE_VIEWABLE) {
         global $global;
         $rows = self::getAllVideosFromTagsId($tags_id, $limit, $status);
         $ids = array();

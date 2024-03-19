@@ -283,7 +283,7 @@ class Subscribe extends ObjectYPT{
                 $_POST['current'] = 1;
                 $_REQUEST['rowCount'] = 6;
                 $_POST['sort']['created'] = "DESC";
-                $row['latestVideos'] = Video::getAllVideos("viewable", $row['users_id']);
+                $row['latestVideos'] = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, $row['users_id']);
                 foreach ($row['latestVideos'] as $key => $video) {
                     $images = Video::getImageFromFilename($video['filename'], $video['type']);
                     $row['latestVideos'][$key]['Thumbnail'] = $images->thumbsJpg;

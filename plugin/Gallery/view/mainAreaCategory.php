@@ -23,7 +23,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     $_POST['sort']['likes'] = "DESC";
     $_REQUEST['catName'] = $currentCat['clean_name'];
     $_REQUEST['doNotShowCatChilds'] = 1;
-    $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
     global $contentSearchFound;
     if (empty($contentSearchFound)) {
         $contentSearchFound = !empty($videos);
@@ -47,7 +47,7 @@ if (!empty($currentCat) && empty($_GET['showOnly'])) {
     foreach ($rows as $key => $value) {
         $_REQUEST['catName'] = $value['clean_name'];
         $_REQUEST['doNotShowCatChilds'] = 0;
-        $videos = Video::getAllVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         createCategorySection($videos);
     }
 }
@@ -95,7 +95,7 @@ function createCategorySection($videos)
     <div class="col-sm-12 gallerySection" >
         <?php
         $_REQUEST['catName'] = $videos[0]['clean_category'];
-        $total = Video::getTotalVideos("viewableNotUnlisted", false, !$obj->hidePrivateVideos);
+        $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, !$obj->hidePrivateVideos);
         $totalPages = ceil($total / getRowCount());
         //var_dump($totalPages, $page);
         $categoryURL = "{$global['webSiteRootURL']}cat/{$videos[0]['clean_category']}/page/";

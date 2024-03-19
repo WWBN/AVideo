@@ -1,4 +1,4 @@
-@import "../../../Gallery/style.css";
+/*@import "../../../YouPHPFlix2/style.css";*/
 body {
     padding-top: 50px;
 }
@@ -403,4 +403,12 @@ body.fullscreen{
 
 .rowSerie{
     display: inline-table;
+}
+
+.isChannelToYouPHPFlix2 .addChannelToYouPHPFlix2, .removeChannelFromYouPHPFlix2{
+    display: none;
+}
+
+.isChannelToYouPHPFlix2 .removeChannelFromYouPHPFlix2 {
+    display: inline-block;
 }

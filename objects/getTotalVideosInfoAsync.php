@@ -2,7 +2,7 @@
 require_once '../videos/configuration.php';
 require_once $global['systemRootPath'] . 'objects/video.php';
 
-//getTotalVideosInfo($status = "viewable", $showOnlyLoggedUserVideos = false,
+//getTotalVideosInfo($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false,
 //$ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false)
 _session_write_close();
 $status = $argv[1];

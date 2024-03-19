@@ -69,14 +69,14 @@ $_page->setExtraStyles(
         $videosArrayId = PlayList::getVideosIdFromPlaylist($program['id']);
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);
-        //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
+        //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         if (empty($videosArrayId) && ($program['status'] == "favorite" || $program['status'] == "watch_later")) {
             unset($programs[$key]);
             continue;
         } elseif (empty($videosArrayId)) {
             $videosP = [];
         } else {
-            $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+            $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
         } //var_dump($videosArrayId, $videosP);exit;
         @$timesC[__LINE__] += microtime(true) - $startC;
         $startC = microtime(true);

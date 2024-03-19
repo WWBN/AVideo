@@ -2335,7 +2335,7 @@ function siteMap()
     $xml .= '<!-- Videos -->';
     setRowCount($advancedCustom->siteMapRowsLimit * 10);
     $_POST['sort']['created'] = "DESC";
-    $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? "viewableNotUnlisted" : "publicOnly");
+    $rows = Video::getAllVideosLight(!empty($advancedCustom->showPrivateVideosOnSitemap) ? Video::SORT_TYPE_VIEWABLENOTUNLISTED : Video::SORT_TYPE_PUBLICONLY);
     if (empty($rows) || !is_array($rows)) {
         $rows = [];
     }

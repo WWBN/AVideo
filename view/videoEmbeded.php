@@ -24,7 +24,7 @@ if (!empty($evideo)) {
 } else {
     $videos_id = getVideos_id();
     if (!empty($videos_id)) {
-        $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
+        $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, false, false, false, true);
     } elseif (!empty($_GET['videoName'])) {
         $video = Video::getVideoFromCleanTitle($_GET['videoName']);
     }

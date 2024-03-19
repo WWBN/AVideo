@@ -92,7 +92,7 @@ class PlayList extends ObjectYPT
             return false;
         }
         $videosArrayId = PlayList::getVideosIdFromPlaylist($playlists_id);
-        $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+        $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
         //$videosP = PlayList::sortVideos($videosP, $videosArrayId);
         foreach ($videosP as $key => $value2) {
             if (empty($videosP[$key]['type'])) {
@@ -471,7 +471,7 @@ class PlayList extends ObjectYPT
     {
         global $global;
 
-        return Video::getAllVideosLight("viewableNotUnlisted", false, false, true, 'serie');
+        return Video::getAllVideosLight(Video::SORT_TYPE_VIEWABLENOTUNLISTED, false, false, true, 'serie');
     }
 
     public static function getVideosIndexFromPlaylistLight($playlists_id, $videos_id)

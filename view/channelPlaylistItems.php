@@ -79,14 +79,14 @@ unset($_POST['current']);
         $rowCount = $_POST['rowCount'];
         $_REQUEST['rowCount'] = 6;
 
-        //getAllVideos($status = "viewable", $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
+        //getAllVideos($status = Video::SORT_TYPE_VIEWABLE, $showOnlyLoggedUserVideos = false, $ignoreGroup = false, $videosArrayId = array(), $getStatistcs = false, $showUnlisted = false, $activeUsersOnly = true)
         if (empty($videosArrayId) && ($playlist['status'] == "favorite" || $playlist['status'] == "watch_later")) {
             unset($playlists[$key]);
             continue;
         } elseif (empty($videosArrayId)) {
             $videosP = [];
         } else {
-            $videosP = Video::getAllVideos("viewable", false, true, $videosArrayId, false, true);
+            $videosP = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true, $videosArrayId, false, true);
             //var_dump($videosArrayId);exit;
         } //var_dump($videosArrayId, $videosP); exit;
         $totalDuration = 0;

@@ -3509,7 +3509,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
             $sql .= " AND u.status = 'a' ";
         }
 
-        if ($status == "publicOnly") {
+        if ($status == Video::SORT_TYPE_PUBLICONLY) {
             $sql .= " AND v.public = 1 ";
         } elseif (!empty($status)) {
             $sql .= " AND v.`public` = '{$status}'";

@@ -15,7 +15,7 @@ ImageGallery::dieIfIsInvalid($videos_id);
 //$global['bypassSameDomainCheck'] = 1;
 User::loginFromRequestIfNotLogged();
 
-$video = Video::getVideo($videos_id, "viewable", false, false, false, true);
+$video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, false, false, false, true);
 Video::unsetAddView($video['id']);
 
 AVideoPlugin::getEmbed($video['id']);

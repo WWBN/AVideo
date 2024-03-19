@@ -64,12 +64,12 @@ $searchForVideosNow = preg_match('/videosList.php$/', $_SERVER['PHP_SELF']);
 
 //var_dump($_POST['sort']);
 if ($searchForVideosNow) {
-    $videos = Video::getAllVideos("viewableNotUnlisted");
+    $videos = Video::getAllVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
     if (empty($videos)) {
         //echo '<div id="videosList"></div>';
         exit;
     }
-    $total = Video::getTotalVideos("viewableNotUnlisted");
+    $total = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLENOTUNLISTED);
     $totalPages = ceil($total / getRowCount());
     if (empty($totalPages)) {
         $totalPages = 1;

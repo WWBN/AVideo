@@ -484,13 +484,13 @@ class VideoStatistic extends ObjectYPT {
                 $sql .= " AND v.users_id = '{$user['id']}' ";
             }
         }
-        if ($status == "viewable") {
+        if ($status == Video::SORT_TYPE_VIEWABLE) {
             if (User::isLogged()) {
                 $sql .= " AND (v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "') OR (v.status='u' AND v.users_id ='" . User::getId() . "'))";
             } else {
                 $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus($showUnlisted)) . "')";
             }
-        } elseif ($status == "viewableNotUnlisted") {
+        } elseif ($status == Video::SORT_TYPE_VIEWABLENOTUNLISTED) {
             $sql .= " AND v.status IN ('" . implode("','", Video::getViewableStatus(false)) . "') ";
         } elseif (!empty($status)) {
             $sql .= " AND v.status = '{$status}'";

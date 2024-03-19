@@ -9,7 +9,7 @@ require_once $global['systemRootPath'] . 'objects/user.php';
 
 class Channel
 {
-    public static function getChannels($activeOnly = true, $FIND_IN_SET = "")
+    public static function getChannels($activeOnly = true, $FIND_IN_SET = "", $users_id_array = array())
     {
         global $global;
         /**
@@ -26,8 +26,11 @@ class Channel
         if ($activeOnly) {
             $sql .= " AND u.status = 'a' ";
         }
+        if(!empty($users_id_array) && is_array($users_id_array)){
+            $sql .= " AND u.id IN(".implode(',',$users_id_array ).") ";
+        }
         $sql .= BootGrid::getSqlFromPost(['user', 'about', 'channelName', 'u.name', 'u.email'], "", "", false, $FIND_IN_SET);
-
+        //var_dump($sql);exit;
         $res = sqlDAL::readSql($sql);
         $fullResult = sqlDAL::fetchAllAssoc($res);
         sqlDAL::close($res);
@@ -38,7 +41,7 @@ class Channel
                 $subscribe[] = $row;
             }
         } else {
-            $subscribe = false;
+            $subscribe = array();
             die($sql . '\nError : (' . $global['mysqli']->errno . ') ' . $global['mysqli']->error);
         }
         return $subscribe;

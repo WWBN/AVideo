@@ -847,18 +847,18 @@ class API extends PluginAbstract
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
         if (!empty($parameters['videos_id'])) {
-            $status = "viewable";
+            $status = Video::SORT_TYPE_VIEWABLE;
             $ignoreGroup = false;
             if (self::isAPISecretValid()) {
                 $status = "";
                 $ignoreGroup = true;
             }
-            //              getVideo($id = "", $status = "viewable", $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
+            //              getVideo($id = "", $status = Video::SORT_TYPE_VIEWABLE, $ignoreGroup = false, $random = false, $suggestedOnly = false, $showUnlisted = false, $ignoreTags = false, $activeUsersOnly = true)
             $rows = [Video::getVideo($parameters['videos_id'], $status, $ignoreGroup, false, false, true)];
             $totalRows = empty($rows) ? 0 : 1;
         } elseif (self::isAPISecretValid()) {
-            $rows = Video::getAllVideos("viewable", false, true);
-            $totalRows = Video::getTotalVideos("viewable", false, true);
+            $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true);
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } elseif (!empty($parameters['clean_title'])) {
             $rows = Video::getVideoFromCleanTitle($parameters['clean_title']);
             $totalRows = empty($rows) ? 0 : 1;
@@ -1209,7 +1209,7 @@ class API extends PluginAbstract
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
         if (self::isAPISecretValid()) {
-            $totalRows = Video::getTotalVideos("viewable", false, true);
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } else {
             $totalRows = Video::getTotalVideos();
         }
@@ -1694,8 +1694,8 @@ class API extends PluginAbstract
         require_once $global['systemRootPath'] . 'objects/video.php';
         $obj = $this->startResponseObject($parameters);
         if (self::isAPISecretValid()) {
-            $rows = Video::getAllVideos("viewable", false, true);
-            $totalRows = Video::getTotalVideos("viewable", false, true);
+            $rows = Video::getAllVideos(Video::SORT_TYPE_VIEWABLE, false, true);
+            $totalRows = Video::getTotalVideos(Video::SORT_TYPE_VIEWABLE, false, true);
         } elseif (!empty($parameters['videos_id'])) {
             $rows = [Video::getVideo($parameters['videos_id'])];
             $totalRows = empty($rows) ? 0 : 1;

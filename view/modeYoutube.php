@@ -7,7 +7,7 @@ $isModeYouTube = 1;
 if (!isset($global['systemRootPath'])) {
     require_once '../videos/configuration.php';
 }
-//var_dump(Video::getVideo(73, "viewable", false, false, false, true));
+//var_dump(Video::getVideo(73, Video::SORT_TYPE_VIEWABLE, false, false, false, true));
 //var_dump(Video::userGroupAndVideoGroupMatch(User::getId(), 73));exit;
 //var_dump(Video::getUserGroups());
 $TimeLogLimitMY = 0.5;
@@ -124,18 +124,18 @@ if (!empty($evideo)) {
         }
 
         if (empty($video) && !empty($videos_id)) {
-            $video = Video::getVideo($videos_id, "viewable", false, false, false, true);
+            $video = Video::getVideo($videos_id, Video::SORT_TYPE_VIEWABLE, false, false, false, true);
             //var_dump($_GET, $video);exit;
             //var_dump('Line: '.__LINE__, $_REQUEST['v'], $video);exit;
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
-            $video = Video::getVideo("", "viewable", false, false, true, true);
+            $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, true, true);
         }
 
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {
-            $video = Video::getVideo("", "viewable", false, false, false, true);
+            $video = Video::getVideo("", Video::SORT_TYPE_VIEWABLE, false, false, false, true);
         }
         TimeLogEnd($timeLogNameMY, __LINE__, $TimeLogLimitMY);
         if (empty($video)) {

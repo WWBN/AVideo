@@ -333,7 +333,7 @@ class LiveLinks extends PluginAbstract {
             $sql .= " AND u.status = 'a' ";
         }
 
-        if ($status == "publicOnly") {
+        if ($status == Video::SORT_TYPE_PUBLICONLY) {
             $sql .= " AND v.`type` = 'public' ";
         } elseif (!empty($status)) {
             $sql .= " AND v.`status` = '{$status}'";
