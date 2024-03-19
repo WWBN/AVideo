@@ -78,10 +78,10 @@ class LiveTransmition extends ObjectYPT {
 
     public function setSaveTransmitionAutomatic() {
         if(isset($_REQUEST['saveTransmition'])){
-            $this->public = _empty($_POST['saveTransmition'])?0:1;
+            $this->saveTransmition = _empty($_POST['saveTransmition'])?0:1;
         }else{
             $objLive = AVideoPlugin::getDataObject("Live");
-            $this->public = ($objLive->saveLiveIsTheDefault?1:0);
+            $this->saveTransmition = ($objLive->saveLiveIsTheDefault?1:0);
         }
     }
 
@@ -189,6 +189,7 @@ class LiveTransmition extends ObjectYPT {
             $l->setPublicAutomatic();
             $l->setSaveTransmitionAutomatic();
             $l->save();
+            _error_log('LiveTransmition::createTransmitionIfNeed kust created for user_id='.$user_id);
             $row = static::getFromDbByUser($user_id, true);
             if(!empty($row)){
                 $row['just_created'] = true;

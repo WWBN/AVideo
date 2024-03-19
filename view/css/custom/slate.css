@@ -42,3 +42,6 @@ span.selection > span.select2-selection--single{
     background-color: #3a3f44;
     border-color: #3a3f44;
 }
+span.select2-selection__rendered{
+        color: #ffffff;
+}
