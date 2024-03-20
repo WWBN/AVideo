@@ -1218,7 +1218,7 @@ if (empty($advancedCustom->disableHTMLDescription)) {
         $('#releaseDateTime').val('');
         
 
-        if (typeof tinymce === 'object') {
+        if (typeof tinymce === 'object' && tinymce.get('inputDescription')) {
             tinymce.get('inputDescription').setContent('');
         }
         $('#inputCategory').val($('#inputCategory option:first').val());
