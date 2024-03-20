@@ -112,10 +112,7 @@ TimeLogStart($timeLog3);
 
 <?php
 TimeLogEnd($timeLog3, __LINE__);
-$startRowTime = microtime(true);
-$longLogs = array();
 foreach ($videos as $_index => $value) {
-    $startRowTime2 = microtime(true);
     $timeLog5Limit = 0.5;
     $timeLog5 = "{$timeLog3} second foreach {$value['clean_title']}";
     TimeLogStart($timeLog5);
@@ -157,19 +154,6 @@ foreach ($videos as $_index => $value) {
         TimeLogEnd($timeLog5, __LINE__, $timeLog5Limit);
     }
     
-    $endRowTime2 = microtime(true) - $startRowTime2;
-    if($endRowTime2>0.2){
-        $rowCount = count($videos);
-        $longLogs[] = "<!-- videos_id={$value['id']} $endRowTime2 seconds -->";
-    }
-}
-
-$endRowTime = microtime(true) - $startRowTime;
-
-if($endRowTime>1){
-    $rowCount = count($videos);
-    echo PHP_EOL."<!-- rowCount=$rowCount in $endRowTime seconds -->".PHP_EOL;
-    echo implode(PHP_EOL, $longLogs);
 }
 
 TimeLogEnd($timeLog3, __LINE__);

@@ -666,13 +666,13 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
-            self::YPTstart();
+            self::YPTstart(__FUNCTION__);
             $p = static::loadPlugin($value['dirName']);
 
             if (is_object($p)) {
                 $str .= $p->getNetflixActionButton($videos_id);
             }
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.2);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.2, __FUNCTION__);
         }
         return $str;
     }
