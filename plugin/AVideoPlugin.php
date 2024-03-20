@@ -7,7 +7,7 @@ class AVideoPlugin
     public static function YPTstart($uid = '')
     {
         global $global;
-        self::$uid;
+        self::$uid = $uid;
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
