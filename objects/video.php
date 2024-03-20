@@ -5651,7 +5651,19 @@ if (!class_exists('Video')) {
             if (empty($video['filename'])) {
                 return false;
             }
-            return self::getVideoType($video['filename']);
+
+            $cacheSuffix = "getVideoTypeFromId";
+            $videoCache = new VideoCacheHandler($video['filename']);
+            $cache = $videoCache->getCache($cacheSuffix, 0);
+            if(!empty($cache)){
+                return _json_decode($cache);
+            }
+            
+            $response =  self::getVideoType($video['filename']);
+            $videoCache->setCache($response);
+
+            return $response;
+
         }
 
         public static function getVideoType($filename)

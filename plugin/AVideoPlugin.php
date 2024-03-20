@@ -422,7 +422,7 @@ class AVideoPlugin
         if (!isset($_loadPluginIfEnabled)) {
             $_loadPluginIfEnabled = array();
         }
-
+        
         /**
          * @var array $global
          */
@@ -520,10 +520,10 @@ class AVideoPlugin
     public static function setParameter($name, $parameterName, $parameterValue = null)
     {
         $obj = AVideoPlugin::getObjectData($name);
-        if (!isset($parameterValue)) {
+        if(!isset($parameterValue)){
             unset($obj->{$parameterName});
             return false;
-        } else {
+        }else{
             $obj->{$parameterName} = $parameterValue;
             return true;
         }
@@ -666,18 +666,13 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
-            $timeLog6Limit = 0.3;
-            $timeLog6 = "getNetflixActionButton {$videos_id} {$value['dirName']}";
-            TimeLogStart($timeLog6);
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
-            TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
+
             if (is_object($p)) {
                 $str .= $p->getNetflixActionButton($videos_id);
             }
-            TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
-            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.1);
-            TimeLogEnd($timeLog6, __LINE__, $timeLog6Limit);
+            self::YPTend("{$value['dirName']}::" . __FUNCTION__, 0.2);
         }
         return $str;
     }
@@ -700,7 +695,7 @@ class AVideoPlugin
 
     public static function isEnabled($uuid)
     {
-        if (!class_exists('Plugin')) {
+        if(!class_exists('Plugin')){
             return false;
         }
         return !empty(Plugin::getEnabled($uuid));
@@ -779,7 +774,7 @@ class AVideoPlugin
                 //echo $value['dirName'].PHP_EOL;
                 //_error_log('AVideoPlugin::getStart: '.$value['dirName']);
                 $p->getStart();
-            } //var_dump("----- nada ",$_REQUEST['live_index'], __LINE__, "-----");exit;
+            }//var_dump("----- nada ",$_REQUEST['live_index'], __LINE__, "-----");exit;
             //self::YPTend("{$value['dirName']}::".__FUNCTION__);
         }
     }
@@ -1872,10 +1867,10 @@ class AVideoPlugin
         if (isset($_getVideoTags[$videos_id])) {
             $array = $_getVideoTags[$videos_id];
         } else {
-
-            $cacheSuffix = 'getVideoTags';
+            
+            $cacheSuffix = 'getVideoTags';            
             $videoCache = new VideoCacheHandler('', $videos_id);
-            $array = $videoCache->getCache($cacheSuffix, rand(86400, 864000));
+            $array = $videoCache->getCache($cacheSuffix,rand(86400, 864000));
 
             //$name = "getVideoTags{$videos_id}";
             //$array = ObjectYPT::getCache($name, 86400);
@@ -1896,7 +1891,7 @@ class AVideoPlugin
                     TimeLogEnd($TimeLog, __LINE__, $tolerance);
                 }
                 TimeLogEnd("AVideoPlugin::getVideoTags($videos_id)", __LINE__, $tolerance * 2);
-
+                
                 $videoCache->setCache($array);
                 //ObjectYPT::setCache($name, $array);
                 $_getVideoTags[$videos_id] = $array;
@@ -2874,18 +2869,18 @@ class AVideoPlugin
             ]
      * @return $file
      */
-    public static function modifyURL($file, $videos_id = 0)
+    public static function modifyURL($file, $videos_id=0)
     {
         global $global;
         if (empty($global)) {
             $global = [];
         }
         $plugins = Plugin::getAllEnabled();
-        if (empty($videos_id)) {
+        if(empty($videos_id)){
             $videos_id = 0;
-            if (!empty($file['filename'])) {
+            if(!empty($file['filename'])){
                 $videos_id = getVideos_IdFromFilename($file['filename']);
-            } else {
+            }else{
                 $videos_id = getVideos_id();
             }
         }
@@ -3057,8 +3052,8 @@ class AVideoPlugin
         }
         return $name;
     }
-
-
+    
+    
     public static function executeEveryMinute()
     {
         $plugins = Plugin::getAllEnabled();
@@ -3098,7 +3093,7 @@ class AVideoPlugin
             self::YPTend("{$value['dirName']}::" . __FUNCTION__);
         }
     }
-
+    
     public static function executeEveryMonth()
     {
         $plugins = Plugin::getAllEnabled();
