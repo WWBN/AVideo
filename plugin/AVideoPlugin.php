@@ -3,9 +3,11 @@ require_once $global['systemRootPath'] . 'objects/plugin.php';
 
 class AVideoPlugin
 {
+    static $uid;
     public static function YPTstart($uid = '')
     {
         global $global;
+        self::$uid;
         $time = microtime();
         $time = explode(' ', $time);
         $time = $time[1] + $time[0];
@@ -15,6 +17,9 @@ class AVideoPlugin
     public static function YPTend($pluginName, $timeLimit = 0, $uid = '')
     {
         global $global;
+        if(empty($uid)){
+            $uid = self::$uid;
+        }
         require_once $global['systemRootPath'] . 'objects/user.php';
         $time = microtime();
         $time = explode(' ', $time);
