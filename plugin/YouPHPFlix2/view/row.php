@@ -116,7 +116,7 @@ $startRowTime = microtime(true);
 $longLogs = array();
 foreach ($videos as $_index => $value) {
     $startRowTime2 = microtime(true);
-    $timeLog5Limit = 0.5;
+    $timeLog5Limit = 0.4;
     $timeLog5 = "{$timeLog3} second foreach {$value['clean_title']}";
     TimeLogStart($timeLog5);
 
