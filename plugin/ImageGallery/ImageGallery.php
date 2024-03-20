@@ -51,7 +51,8 @@ class ImageGallery extends PluginAbstract
     static function dieIfIsInvalid($videos_id)
     {
         if (self::isInvalidType($videos_id)) {
-            forbiddenPage('Videos ID is required');
+            $video = new Video('', '', $videos_id);
+            forbiddenPage('This media is not an image, type=['.$video->getType().']');
         }
     }
 
