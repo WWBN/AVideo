@@ -45,3 +45,7 @@ span.selection > span.select2-selection--single{
 span.select2-selection__rendered{
         color: #ffffff;
 }
+
+.bootgrid-table td.loading, .bootgrid-table td.no-results{
+    background-color: #272b30;
+}
