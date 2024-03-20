@@ -228,7 +228,7 @@ function convertVideoFileWithFFMPEG($fromFileLocation, $toFileLocation, $logFile
     $localFileLock = $toFileLocation. ".lock";
     $ageInSeconds = time() - @filemtime($localFileLock);
     if ($ageInSeconds > 300) {
-        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation);
+        _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} too long without change, unlock it " . $fromFileLocation. ' '.json_encode(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)));
         @unlink($localFileLock);
     } elseif (file_exists($localFileLock)) {
         _error_log("convertVideoFileWithFFMPEG: age: {$ageInSeconds} download from CDN There is a process running for {$fromFileLocation} localFileLock=$localFileLock log=$logFile");
