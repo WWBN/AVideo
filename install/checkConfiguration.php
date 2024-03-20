@@ -7,7 +7,7 @@ if (file_exists("../videos/configuration.php")) {
 
 $installationVersion = "14.2";
 
-require_once '../objects/functionSecurity.php';
+require_once '../objects/functionsSecurity.php';
 
 error_log("Installation: ".__LINE__." ". json_encode($_POST));
 header('Content-Type: application/json');
