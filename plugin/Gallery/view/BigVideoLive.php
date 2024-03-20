@@ -105,10 +105,12 @@ $urlLiveNow = addQueryStringParameter($urlLiveNow, 'muted', 1);
         if (makeFull) {
             $('#BigVideoLive').addClass('fullscreen');
             sendPlayerMessage('playerUnmute');
+            sendPlayerMessage('open');
         } else {
             $('#BigVideoLive').removeClass('fullscreen');
             sendPlayerMessage('userInactive');
             sendPlayerMessage('playerMute');
+            sendPlayerMessage('close');
         }
     }
     $(document).ready(function() {

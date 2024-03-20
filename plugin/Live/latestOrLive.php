@@ -170,8 +170,9 @@ $objectToReturnToParentIframe->posterURL = $poster;
             margin-top: 25px;
         }
 
-        .liveEmbed .liveOnlineLabel.label-danger{
-            display: none;
+        .liveEmbed .liveOnlineLabel.label-danger,        
+        body.is-closed #mainVideo > button.vjs-big-play-button{          
+            display: none !important;
         }
     </style>
     <link href="<?php echo getURL('node_modules/video.js/dist/video-js.min.css'); ?>" rel="stylesheet" type="text/css" />
@@ -264,6 +265,14 @@ $objectToReturnToParentIframe->posterURL = $poster;
                 case 'userInactive':
                     $('#mainVideo').removeClass('vjs-user-active');
                     $('#mainVideo').addClass('vjs-user-inactive');
+                    break;
+                case 'open':
+                    $('body').addClass('is-opened');
+                    $('body').removeClass('is-closed');
+                    break;
+                case 'close':
+                    $('body').addClass('is-closed');
+                    $('body').removeClass('is-opened');
                     break;
                 default:
                     break;
