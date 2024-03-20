@@ -666,8 +666,8 @@ class AVideoPlugin
         $plugins = Plugin::getAllEnabled();
         $str = "";
         foreach ($plugins as $value) {
-            $timeLog6Limit = 0.05;
-            $timeLog6 = "getNetflixActionButton {$videos_id}";
+            $timeLog6Limit = 0.3;
+            $timeLog6 = "getNetflixActionButton {$videos_id} {$value['dirName']}";
             TimeLogStart($timeLog6);
             self::YPTstart();
             $p = static::loadPlugin($value['dirName']);
