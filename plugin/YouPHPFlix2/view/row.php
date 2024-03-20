@@ -158,9 +158,9 @@ foreach ($videos as $_index => $value) {
     }
     
     $endRowTime2 = microtime(true) - $startRowTime2;
-    if($endRowTime2>0.5){
+    if($endRowTime2>0.2){
         $rowCount = count($videos);
-        $longLogs[] = "<!-- videos_id={$value['id']} -->";
+        $longLogs[] = "<!-- videos_id={$value['id']} $endRowTime2 seconds -->";
     }
 }
 
@@ -168,7 +168,7 @@ $endRowTime = microtime(true) - $startRowTime;
 
 if($endRowTime>1){
     $rowCount = count($videos);
-    echo PHP_EOL."<!-- rowCount=$rowCount -->".PHP_EOL;
+    echo PHP_EOL."<!-- rowCount=$rowCount in $endRowTime seconds -->".PHP_EOL;
     echo implode(PHP_EOL, $longLogs);
 }
 
