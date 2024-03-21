@@ -536,7 +536,7 @@ class Live extends PluginAbstract
         $newContentVideoListItem = str_replace($search, $replace, $global['getLiveApplicationModelArray']['contentListem']);
 
         $hasPPVLive = false;
-        if(AVideoPlugin::isEnabledByName('PayPerViewLive')){
+        if (AVideoPlugin::isEnabledByName('PayPerViewLive')) {
             $plans = PayPerViewLive::getAllPlansFromUser($users_id);
             $hasPPVLive = !empty($plans);
         }
@@ -1370,12 +1370,12 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $user = new User($users_id);
         $trasnmition = LiveTransmition::createTransmitionIfNeed($users_id);
-        if(empty($trasnmition)){
+        if (empty($trasnmition)) {
             _error_log("Live::getKeyFromUser error on create live transmission {$users_id} ");
             return false;
         }
-        if(empty($trasnmition['key'])){
-            _error_log("Live::getKeyFromUser error on get key ".json_encode($trasnmition));
+        if (empty($trasnmition['key'])) {
+            _error_log("Live::getKeyFromUser error on get key " . json_encode($trasnmition));
             return false;
         }
         return $trasnmition['key'];
@@ -1556,7 +1556,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($o->requestStatsTimout)) {
             $o->requestStatsTimout = 10;
         }
-        $xml = $this->createCacheStatsObject($live_servers_id,$o->requestStatsTimout);
+        $xml = $this->createCacheStatsObject($live_servers_id, $o->requestStatsTimout);
         $getStatsObject[$live_servers_id] = $xml;
         $cacheHandler->setCache($xml);
         //var_dump(__LINE__, $xml);
@@ -1576,7 +1576,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
         $name = "live_servers_id_{$live_servers_id}_getStatsObject";
         $cacheHandler = new LiveCacheHandler();
-        $cacheHandler->setSuffix($name);        
+        $cacheHandler->setSuffix($name);
         ini_set('allow_url_fopen ', 'ON');
         if (isDocker()) {
             $url = getDockerStatsURL();
@@ -1587,7 +1587,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($data)) {
             _error_log("Live::getStatsObject RTMP Server ($url) is OFFLINE requestStatsTimout={$requestStatsTimout} we could not connect on it => live_servers_id = ($live_servers_id) ", AVideoLog::$ERROR);
             $data = '<?xml version="1.0" encoding="utf-8" ?><?xml-stylesheet type="text/xsl" href="stat.xsl" ?><rtmp><server><application><name>The RTMP Server is Unavailable</name><live><nclients>0</nclients></live></application></server></rtmp>';
-        } 
+        }
         $xml = simplexml_load_string($data);
         $xml = json_encode($xml);
         $xml = _json_decode($xml);
@@ -1852,31 +1852,31 @@ Click <a href=\"{link}\">here</a> to join our live.";
 
     public static function checkAllFromStats($force_recreate = false)
     {
-        //self::finishAllFromStats($force_recreate);
+        self::finishAllFromStats();
         self::unfinishAllFromStats($force_recreate);
     }
 
-    public static function finishAllFromStats($force_recreate = false)
+    public static function finishAllFromStats()
     {
-        $stats = Live::getStatsApplications($force_recreate);
+        $obj = AVideoPlugin::getObjectData("Live");
+        if (empty($obj->useLiveServers)) {
+            LiveTransmitionHistory::getActiveLives(0, true);
+        } else {
+            $rows = Live_servers::getAllActive();
 
-        foreach ($stats as $key => $live) {
-            if (!empty($live['key'])) {
-                $row = LiveTransmitionHistory::getLatest($live['key'],$live['live_servers_id']);
-                if (empty($row['finished'])) {
-                    LiveTransmitionHistory::finishFromTransmitionHistoryId($row['id']);
-                }
+            foreach ($rows as $key => $live) {
+                LiveTransmitionHistory::getActiveLives($live['id'], true);
             }
         }
     }
 
     public static function unfinishAllFromStats($force_recreate = false)
-    {       
+    {
         $stats = Live::getStatsApplications($force_recreate);
 
         foreach ($stats as $key => $live) {
             if (!empty($live['key'])) {
-                $row = LiveTransmitionHistory::getLatest($live['key'],$live['live_servers_id']);
+                $row = LiveTransmitionHistory::getLatest($live['key'], $live['live_servers_id']);
                 if (!empty($row['finished'])) {
                     LiveTransmitionHistory::unfinishFromTransmitionHistoryId($row['id']);
                 }
@@ -1893,8 +1893,8 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 foreach ($server as $key2 => $live) {
                     if (!empty($live->key)) {
                         $applications[] = object_to_array($live);
-                    }else{
-                        if($key2=='applications' && is_array($live)){
+                    } else {
+                        if ($key2 == 'applications' && is_array($live)) {
                             foreach ($live as $key3 => $value3) {
                                 $applications[] = object_to_array($value3);
                             }
@@ -2396,7 +2396,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
                 $app['isPrivate'] = self::isPrivate($app['key']);
                 $app['isPasswordProtected'] = self::isPasswordProtected($app['key']);
                 $app['method'] = 'Live::_getStats';
-                $app['titleSet'] = $titleSet.' => '.$app['title'];
+                $app['titleSet'] = $titleSet . ' => ' . $app['title'];
                 //var_dump($app['isPrivate'],$app['key']);exit;
                 if (!self::isApplicationListed($app['key'])) {
                     $obj->hidden_applications[] = $app;
@@ -2436,15 +2436,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($row)) {
             return $description;
         }
-        if(AVideoPlugin::isEnabledByName('PlayLists')){
+        if (AVideoPlugin::isEnabledByName('PlayLists')) {
             $ps = Playlists_schedules::iskeyPlayListScheduled($key);
-            if(!empty($ps)){
+            if (!empty($ps)) {
                 return Playlists_schedules::getDynamicDescription($ps['playlists_schedules']);
             }
         }
-        if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+        if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             $rb = Rebroadcaster::isKeyARebroadcast($key);;
-            if(!empty($rb) && !empty($rb['videos_id'])){
+            if (!empty($rb) && !empty($rb['videos_id'])) {
                 $video = new Video('', '', $rb['videos_id']);
                 return $video->getDescription();
             }
@@ -2465,15 +2465,15 @@ Click <a href=\"{link}\">here</a> to join our live.";
         if (empty($row)) {
             return $title;
         }
-        if(AVideoPlugin::isEnabledByName('PlayLists')){
+        if (AVideoPlugin::isEnabledByName('PlayLists')) {
             $ps = Playlists_schedules::iskeyPlayListScheduled($key);
-            if(!empty($ps)){
+            if (!empty($ps)) {
                 return Playlists_schedules::getDynamicTitle($ps['playlists_schedules']);
             }
         }
-        if(AVideoPlugin::isEnabledByName('Rebroadcaster')){
+        if (AVideoPlugin::isEnabledByName('Rebroadcaster')) {
             $rb = Rebroadcaster::isKeyARebroadcast($key);;
-            if(!empty($rb) && !empty($rb['videos_id'])){
+            if (!empty($rb) && !empty($rb['videos_id'])) {
                 $video = new Video('', '', $rb['videos_id']);
                 return $video->getTitle();
             }
@@ -2667,7 +2667,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         return $latest['key'];
     }
 
-    public static function getLatest($active = false, $users_id=0, $categories_id=0)
+    public static function getLatest($active = false, $users_id = 0, $categories_id = 0)
     {
         $latest = LiveTransmitionHistory::getLatest('', null, $active, $users_id, $categories_id);
         if (empty($latest)) {
@@ -2841,7 +2841,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         } else {
             $json = new stdClass();
             $key = self::getLiveKeyFromRequest($key, $live_index);
-            _error_log("isLiveAndIsReadyFromKey::key: {$key} checking");
+            _error_log("isLiveAndIsReadyFromKey::key: {$key} checking live_servers_id={$live_servers_id}");
             $isLiveFromKey = self::isKeyLiveInStats($key, $live_servers_id, $live_index, $force_recreate);
             $_isLiveAndIsReadyFromKey[$name] = true;
             if (empty($isLiveFromKey)) {
@@ -3963,7 +3963,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         }
 
         $array['return_line'] = __LINE__;
-        if(empty($array['isLive'] )){
+        if (empty($array['isLive'])) {
             _error_log("Live::getInfo LiveTransmitionHistory::finishFromTransmitionHistoryId({$lth['id']}) isLiveAndIsReadyFromKey({$lth['key']}, {$live_servers_id}) [{$lth['id']}]");
             LiveTransmitionHistory::finishFromTransmitionHistoryId($lth['id']);
         }
@@ -4226,7 +4226,7 @@ Click <a href=\"{link}\">here</a> to join our live.";
         $end = microtime(true) - $start;
         //_error_log("Live::executeEveryMinute complete in {$end} seconds");
     }
-    
+
     function executeEveryHour()
     {
         global $global;
